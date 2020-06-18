@@ -15,6 +15,9 @@ class WfSubProcess(
         super.createTokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
         super.setCandidate(super.createTokenEntity)
+        super.createTokenEntity.assigneeId?.let {
+            createTokenDto.assigneeId = it
+        }
 
         // Set mapping component data.
         val element = wfTokenManagerService.getElement(createTokenDto.elementId)

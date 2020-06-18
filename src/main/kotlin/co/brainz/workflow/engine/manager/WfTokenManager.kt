@@ -23,10 +23,14 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      */
     fun createToken(tokenDto: WfTokenDto): WfTokenDto {
         this.assigneeId = tokenDto.assigneeId.toString()
+
         val token = wfTokenManagerService.makeTokenEntity(tokenDto)
+        token.assigneeId = this.assigneeId
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
+
         val createTokenDto = tokenDto.copy()
         createTokenDto.tokenId = this.createTokenEntity.tokenId
+        createTokenDto.assigneeId = this.createTokenEntity.assigneeId
         return this.createElementToken(createTokenDto)
     }
 
@@ -55,13 +59,22 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
-        this.createTokenEntity = wfTokenManagerService.saveToken(token)
-        val completedToken = tokenDto.copy()
-        completedToken.tokenId = token.tokenId
-        if (!token.instance.pTokenId.isNullOrEmpty()) {
-            completedToken.parentTokenId = token.instance.pTokenId
+
+        // 다른 프로세스로부터 발생된 문서의 현재 담당자를 조회하여 종료되는 토큰의 assignee을 업데이트한다
+        val childProcessAssignee = wfTokenManagerService.getCurrentAssigneeForChildProcess(token.tokenId)
+        childProcessAssignee?.let {
+            token.assigneeId = childProcessAssignee
         }
-        return this.completeElementToken(completedToken)
+        this.createTokenEntity = wfTokenManagerService.saveToken(token)
+
+        val completedTokenDto = tokenDto.copy()
+        completedTokenDto.tokenId = token.tokenId
+        completedTokenDto.assigneeId = this.createTokenEntity.assigneeId
+        if (!token.instance.pTokenId.isNullOrEmpty()) {
+            completedTokenDto.parentTokenId = token.instance.pTokenId
+        }
+
+        return this.completeElementToken(completedTokenDto)
     }
 
     /**

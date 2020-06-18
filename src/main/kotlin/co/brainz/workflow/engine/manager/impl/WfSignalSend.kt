@@ -15,6 +15,23 @@ class WfSignalSend(
         super.createTokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
         super.setCandidate(super.createTokenEntity)
+        super.createTokenEntity.assigneeId?.let {
+            createTokenDto.assigneeId = it
+        }
+
+        // 시그널 이벤트의 document 를 생성
+        val targetDocumentIds = mutableListOf<String>()
+        super.createTokenEntity.element.elementDataEntities.forEach {
+            if (it.attributeId == WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value) {
+                targetDocumentIds.add(it.attributeValue)
+            }
+        }
+        val makeDocumentTokens =
+            wfTokenManagerService.makeMappingTokenDto(super.createTokenEntity, targetDocumentIds)
+        makeDocumentTokens.forEach {
+            it.assigneeId = createTokenDto.assigneeId
+            WfEngine(wfTokenManagerService).startWorkflow(it)
+        }
 
         return createTokenDto
     }
@@ -27,19 +44,6 @@ class WfSignalSend(
     }
 
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
-        val targetDocumentIds = mutableListOf<String>()
-        super.createTokenEntity.element.elementDataEntities.forEach {
-            if (it.attributeId == WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value) {
-                targetDocumentIds.add(it.attributeValue)
-            }
-        }
-        val makeDocumentTokens =
-            wfTokenManagerService.makeMappingTokenDto(super.createTokenEntity, targetDocumentIds)
-        makeDocumentTokens.forEach {
-            it.assigneeId = completedToken.assigneeId
-            WfEngine(wfTokenManagerService).startWorkflow(it)
-        }
-
         return completedToken
     }
 }

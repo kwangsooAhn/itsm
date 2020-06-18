@@ -35,4 +35,9 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String>, WfInst
                 "ORDER BY i.instanceStartDt"
     )
     fun findAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto>
+
+    /**
+     * 부모 토큰아이디[parentTokenId] 를 가지는 인스턴스를 조회
+     */
+    fun findByPTokenId(parentTokenId: String): WfInstanceEntity?
 }

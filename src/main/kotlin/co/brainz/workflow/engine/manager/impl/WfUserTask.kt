@@ -13,6 +13,10 @@ class WfUserTask(
         super.createTokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
         super.setCandidate(super.createTokenEntity)
+        super.createTokenEntity.assigneeId?.let {
+            createTokenDto.assigneeId = it
+        }
+
 
         return createTokenDto
     }
@@ -27,8 +31,6 @@ class WfUserTask(
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
         super.createTokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(completedToken))
-        super.createTokenEntity.assigneeId = completedToken.assigneeId
-        wfTokenManagerService.saveToken(super.createTokenEntity)
 
         return completedToken
     }
