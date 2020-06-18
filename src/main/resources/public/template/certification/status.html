@@ -10,7 +10,7 @@
 <body>
 <div class="container">
     <div th:if="${validCode == 0 || validCode == 4}">
-        <p th:utext="#{authentication.msg.beforeEmailCheck, authentication.msg.emailCheck}"></p>
+        <p th:utext="#{authentication.msg.beforeEmailCheck}"></p>
     </div>
     <div th:if="${validCode == 1}">
         <p th:text="#{authentication.msg.authenticationCompleted}"></p>
