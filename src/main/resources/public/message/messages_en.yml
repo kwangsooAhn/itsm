@@ -161,7 +161,6 @@ user:
   searchPlaceholder: "ID / Name / Position / Department / Office Number / Mobile Number"
   FileSizeLimit: "File Size Limit : 200KB"
   FileExtensionAllowed: "File Extension Allowed : 200KB"
-
   msg:
     idNotExist: "Please enter your UserId"
     passwordNotExist: "Please enter your password"
@@ -173,8 +172,9 @@ user:
     emailWithUpdate: "Member information, including email information, has been modified."
     sameUserId: "The same ID exists.."
     sameEmail: "The same Email exists."
-    joinUser: "Joined."
+    joinUser: "Success to Join.<br/>Please check your email sent to finish authentication."
     joinUserFail: "Join failed."
+
 # FAQ
 faq:
   add: "Add"
@@ -246,7 +246,9 @@ login:
   sendLogin: "Login"
   gooleLogin: "Google Login"
   kakaoLogin: "Kakao Login"
+  requiredLogin: "Login required."
   gotoLoginPage: "Go to the login page"
+  gotoMainPage: "Go to the main page"
   userSignUp: "Sign Up"
   doSignUp: "Create account"
   loginNote: "Do you have an account?"
@@ -338,6 +340,7 @@ form:
     display: "Display"
     option: "Option"
     validate: "Validate"
+
 # Process
 process:
   label:
@@ -613,3 +616,17 @@ notification:
   msg:
     description: "Up to 50 displays."
     noNotificationData: "No notifications."
+
+#Authentication
+authentication:
+  label:
+    recallAuthentication: "Recall authentication mail"
+  msg:
+    beforeEmailCheck: "This account is available after authentication.<br/>Please check your email sent to finish authentication.<br/>If you have not received the authentication mail, please click below."
+    authenticationCompleted: "Authentication completed successfully."
+    alreadyAuthenticated: "Authentication is already complete."
+    wrongAuthenticationCode: "The authentication code is invalid."
+    expiredAuthentication: "Authentication mail has expired."
+    recallAuthentication: "Please re-request authentication mail after login."
+    resentAuthentication: "Authentication mail has been resent."
+    emailCheck: "Please check your email sent to finish authentication."
