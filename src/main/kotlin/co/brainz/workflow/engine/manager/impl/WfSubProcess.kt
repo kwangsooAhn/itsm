@@ -33,6 +33,8 @@ class WfSubProcess(
             WfEngine(wfTokenManagerService).startWorkflow(it)
         }
 
+        super.waitingToken(createTokenDto)
+
         return createTokenDto
     }
 
