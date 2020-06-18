@@ -46,7 +46,8 @@
     <div th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
         <div sec:authorize="isAuthenticated()">
             <form id="sendForm" method="get" onsubmit="return false">
-                <button id="btnSend" th:text="#{authentication.label.recallAuthentication}" th:formaction="@{/certification/certifiedMail}"></button>
+                <button id="btnSend" th:text="#{authentication.label.recallAuthentication}"
+                        th:formaction="@{/certification/certifiedMail}"></button>
             </form>
         </div>
         <div sec:authorize="isAnonymous()">
@@ -59,9 +60,12 @@
 <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
 <script type="text/javascript">
     /*<![CDATA[*/
-    window.addEventListener('load', function() {
-        document.getElementById("btnSend").addEventListener("click", function() { restSubmit("get","[[@{/certification/certifiedMail}]]"); });
+    window.addEventListener('load', function () {
+        document.getElementById("btnSend").addEventListener("click", function () {
+            restSubmit("get", "[[@{/certification/certifiedMail}]]");
+        });
     });
+
 
     function restSubmit(method, url) {
         const opt = {
