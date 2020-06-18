@@ -383,7 +383,7 @@
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
                             if (componentChild[fileuploadIndex].name !== 'delFileSeq') {
-                                if (componentValue === '' && componentValue.indexOf(',') === -1) {
+                                if (componentValue === '') {
                                     componentValue = componentChild[fileuploadIndex].value;
                                 } else {
                                     componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
