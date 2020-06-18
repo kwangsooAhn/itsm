@@ -521,14 +521,28 @@
                     let componentChild = getComponentTarget(componentElements[i]);
                     if (componentChild === null ||
                         checkComponents.indexOf(componentElements[i].getAttribute('data-type')) === -1) { continue; }
-                    if (componentChild.classList.contains('editor-container')) {
-                        Quill.find(componentChild).getModule('toolbar').container.addEventListener('focusout', function() {
-                            checkValidate(componentChild);
+                    if (componentChild.classList.contains('editor-container')) { // editor
+                        const quill = Quill.find(componentChild);
+                        let isCheck = false;
+                        quill.on('text-change', function(delta) {
+                            delta.ops.forEach(function (obj) {
+                                if (typeof obj.insert !== 'undefined' || typeof obj.delete !== 'undefined') {
+                                    isCheck = true;
+                                }
+                            });
                         });
+                        quill.on('selection-change', function(range, oldRange, source) {
+                            if (range) {
+                                isCheck = (source === 'user');
+                            } else if (range === null && isCheck) {
+                                checkValidate(componentChild);
+                            }
+                        });
+                    } else {
+                        componentChild.addEventListener('focusout', function() {
+                            checkValidate(this);
+                        }, false);
                     }
-                    componentChild.addEventListener('focusout', function() {
-                        checkValidate(this);
-                    }, false);
                 }
             }
         }
