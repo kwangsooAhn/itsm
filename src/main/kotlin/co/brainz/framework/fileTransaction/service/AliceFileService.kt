@@ -191,15 +191,38 @@ class AliceFileService(
         if (this.basePath == "") {
             this.basePath = environment.getProperty("catalina.base").toString()
         }
-
-        var dir: Path = Paths.get(basePath + File.separator + "processes")
+        var dir: Path = Paths.get(this.basePath + File.separator + "processes")
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
         val filePath = Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
-
         if (Files.notExists(filePath.parent)) {
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + filePath.toFile() + "]")
         }
         multipartFile.transferTo(filePath.toFile())
+
+        // TODO: 일단, 저장은 했는데.. 필요할까.. 고민..
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        val aliceFileLocEntity = AliceFileLocEntity(
+            fileSeq = 0,
+            fileOwner = aliceUserDto.userKey,
+            uploaded = true,
+            uploadedLocation = filePath.parent.toString(),
+            randomName = multipartFile.originalFilename,
+            originName = multipartFile.originalFilename,
+            fileSize = multipartFile.size,
+            sort = 0
+        )
+        aliceFileLocRepository.save(aliceFileLocEntity)
+    }
+
+    /**
+     * 프로세스 상태 파일 로드.
+     */
+    fun getProcessStatusFile(processId: String): File {
+        if (this.basePath == "") {
+            this.basePath = environment.getProperty("catalina.base").toString()
+        }
+        val filePath = Paths.get(this.basePath + File.separator + "processes" + File.separator + processId + ".xml")
+        return filePath.toFile()
     }
 
     /**

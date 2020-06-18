@@ -133,6 +133,7 @@ object RestTemplateConstants {
         GET_RELATED_INSTANCE("/rest/wf/folders", "GET"),
         GET_INSTANCE_COMMENTS("/rest/wf/instances/{instanceId}/comments", "GET"),
         GET_INSTANCE_TAGS("/rest/wf/instances/{instanceId}/tags", "GET"),
+        GET_INSTANCE_LATEST("/rest/wf/instances/{instanceId}/latest", "GET"),
         GET_INSTANCE_SEARCH("/rest/wf/instances/search", "GET")
     }
 
