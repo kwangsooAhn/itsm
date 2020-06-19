@@ -13,7 +13,9 @@
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
         <div class="print-btn">
-            <button type="button" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
+            <button type="button" onclick="openProcessStatusPopUp()"
+                    th:text="#{process.label.process}"></button>
+            <button type="button" th:onclick="aliceDocument.print('/tokens/[[${tokenId}]]')"
                     th:text="#{common.label.print}"></button>
         </div>
         <div class="drawing-board" id="document-container"></div>
@@ -155,6 +157,10 @@
 
         function openPopUp(tokenId) {
             window.open('/tokens/' + tokenId + '/view-pop', tokenId, 'width=1300, height=500');
+        }
+
+        function openProcessStatusPopUp() {
+            window.open('/processes/[[${instanceId}]]/status', 'process_status_[[${instanceId}]]', 'width=1300, height=500');
         }
 
         function onRelatedInstanceDelete(instanceId) {

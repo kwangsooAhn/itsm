@@ -184,6 +184,34 @@ class AliceFileService(
     }
 
     /**
+     * 프로세스 상태 표시를 위한 프로세스 XML 파일을 업로드한다.
+     */
+    @Transactional
+    fun uploadProcessFile(multipartFile: MultipartFile) {
+        if (this.basePath == "") {
+            this.basePath = environment.getProperty("catalina.base").toString()
+        }
+        var dir: Path = Paths.get(this.basePath + File.separator + "processes")
+        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
+        val filePath = Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
+        if (Files.notExists(filePath.parent)) {
+            throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + filePath.toFile() + "]")
+        }
+        multipartFile.transferTo(filePath.toFile())
+    }
+
+    /**
+     * 프로세스 상태 파일 로드.
+     */
+    fun getProcessStatusFile(processId: String): File {
+        if (this.basePath == "") {
+            this.basePath = environment.getProperty("catalina.base").toString()
+        }
+        val filePath = Paths.get(this.basePath + File.separator + "processes" + File.separator + processId + ".xml")
+        return filePath.toFile()
+    }
+
+    /**
      * 파일 목록을 가져온다.
      */
     fun getList(ownId: String, fileDataId: String): List<AliceFileOwnMapDto> {
@@ -296,7 +324,7 @@ class AliceFileService(
     fun uploadResources(multipartFile: MultipartFile, location: String, baseDir: String, fileName: String?) {
         this.basePath = ClassPathResource(baseDir).file.path.toString()
         val fileNameExtension = File(multipartFile.originalFilename).extension.toUpperCase()
-        var filePath: Path
+        val filePath: Path
         var dir = Paths.get(this.basePath, location)
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
 

@@ -37,16 +37,17 @@ class WfActionService(
     }
 
     fun actions(elementId: String): MutableList<RestTemplateActionDto> {
-        val currentElement = getElement(elementId)
-        val arrow = getArrowElements(elementId)[0]
-        val nextElementId = getNextElementId(arrow)
-        val nextElement = getElement(nextElementId)
-
         val actions: MutableList<RestTemplateActionDto> = mutableListOf()
-        actions.addAll(preActions())
-        actions.addAll(typeActions(arrow, nextElement))
-        actions.addAll(postActions(currentElement))
+        val currentElement = getElement(elementId)
+        if (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+            val arrow = getArrowElements(elementId)[0]
+            val nextElementId = getNextElementId(arrow)
+            val nextElement = getElement(nextElementId)
 
+            actions.addAll(preActions())
+            actions.addAll(typeActions(arrow, nextElement))
+            actions.addAll(postActions(currentElement))
+        }
         return actions
     }
 
