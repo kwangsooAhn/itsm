@@ -67,7 +67,7 @@
             const data = {
                 searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim()),
                 fromDt: i18n.systemDate(document.getElementById('fromDt').value),
-                toDt: i18n.systemDate(document.getElementById('toDt').value)
+                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days':1})
             };
             const urlParam = 'searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
 
