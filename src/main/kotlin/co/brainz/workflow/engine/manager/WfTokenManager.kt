@@ -1,5 +1,7 @@
 package co.brainz.workflow.engine.manager
 
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -89,6 +91,85 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             wfTokenManagerService.saveAllTokenData(tokenDataEntities)
         }
         wfTokenManagerService.saveToken(token)
+    }
+
+    /**
+     * Action - 반려
+     *
+     * 현재 토큰의 상태를 반려로 업데이트하고 반려할 대상 엘리먼트를 찾아서 신규 토큰을 생성한다
+     * 파라미터 [tokenDto] 에 tokenId 만 넘어오므로 현재 토큰 추가 조회가 필요하다
+     */
+    fun actionReject(tokenDto: WfTokenDto) {
+        // 현재 토큰을 조회하고
+        val currentToken = wfTokenManagerService.getToken(tokenDto.tokenId)
+
+        // 상태를 reject 로 업데이트
+        currentToken.tokenStatus = WfTokenConstants.Status.REJECT.code
+        currentToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+        wfTokenManagerService.saveToken(currentToken)
+
+        // 현재 엘리먼트 데이터의 reject-id 를 확인하여 반려할 엘리먼트를 조회한다.
+        val rejectElementId = currentToken.element.getElementDataValue(WfElementConstants.AttributeId.REJECT_ID.value)
+            ?: throw AliceException(AliceErrorConstants.ERR_00005, "Not found reject element data. check reject-id.")
+
+        // 인스턴스의 토큰 이력들 중 반려할 엘리먼트의 마지막 토큰 정보를 리턴한다.(반려가 여러번일 수 있음)
+        val rejectToken = currentToken.instance.tokens!!.filter {
+            it.element.elementId == rejectElementId
+        }.maxWith(Comparator { token1, token2 ->
+            when {
+                token1.tokenStartDt!! > token2.tokenStartDt -> 1
+                token1.tokenStartDt == token2.tokenStartDt -> 0
+                else -> -1
+            }
+        }) ?: throw AliceException(AliceErrorConstants.ERR_00005, "Not found reject element in tokens.")
+
+        val rejectDto = tokenDto.copy()
+        rejectDto.tokenId = ""
+        rejectDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
+        rejectDto.documentId = rejectToken.instance.document.documentId
+        rejectDto.instanceId = rejectToken.instance.instanceId
+        rejectDto.elementId = rejectToken.element.elementId
+        rejectDto.elementType = rejectToken.element.elementType
+
+        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).getTokenManager(rejectDto.elementType)
+        tokenManager.createToken(rejectDto)
+    }
+
+    /**
+     * Action - 회수
+     *
+     * [tokenDto] 의 tokenId 만 넘어오므로 현재 토큰 추가 조회가 필요함
+     */
+    fun actionWithdraw(tokenDto: WfTokenDto) {
+        // 현재 토큰과 엘리먼트를 조회하고
+        val currentToken = wfTokenManagerService.getToken(tokenDto.tokenId)
+
+        // 상태를 widthdraw 로 업데이트
+        currentToken.tokenStatus = WfTokenConstants.Status.WITHDRAW.code
+        currentToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+        wfTokenManagerService.saveToken(currentToken)
+
+        // 현재 토큰을 제외한 마지막 토큰중 엘리먼트가 userTask인 경우를 찾는다
+        val withDrawToken = currentToken.instance.tokens!!.filter {
+            it != currentToken && it.element.elementType == WfElementConstants.ElementType.USER_TASK.value
+        }.maxWith(Comparator { o1, o2 ->
+            when {
+                o1.tokenStartDt!! > o2.tokenStartDt -> 1
+                o1.tokenStartDt > o2.tokenStartDt -> 1
+                else -> -1
+            }
+        }) ?: throw AliceException(AliceErrorConstants.ERR_00005, "Not found reject element in tokens.")
+
+        val withDrawDto = tokenDto.copy()
+        withDrawDto.tokenId = ""
+        withDrawDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
+        withDrawDto.documentId = withDrawToken.instance.document.documentId
+        withDrawDto.instanceId = withDrawToken.instance.instanceId
+        withDrawDto.elementId = withDrawToken.element.elementId
+        withDrawDto.elementType = withDrawToken.element.elementType
+
+        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).getTokenManager(withDrawDto.elementType)
+        tokenManager.createToken(withDrawDto)
     }
 
     /**

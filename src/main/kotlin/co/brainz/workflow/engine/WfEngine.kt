@@ -48,6 +48,10 @@ class WfEngine(
         when (tokenDto.action) {
             WfElementConstants.Action.SAVE.value ->
                 this.getTokenManager(WfElementConstants.ElementType.USER_TASK.value).actionSave(tokenDto)
+            WfElementConstants.Action.REJECT.value ->
+                this.getTokenManager(WfElementConstants.ElementType.USER_TASK.value).actionReject(tokenDto)
+            WfElementConstants.Action.WITHDRAW.value ->
+                this.getTokenManager(WfElementConstants.ElementType.USER_TASK.value).actionWithdraw(tokenDto)
             else -> {
                 var progressTokenDto = tokenDto.copy()
                 do {
