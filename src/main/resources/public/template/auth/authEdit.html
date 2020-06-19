@@ -190,9 +190,9 @@
                         });
 
                         document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserKey;
-                        document.getElementById('spanCreateDt').innerHTML = aliceJs.convertToUserDatetimeFormat(responseJson.createDt, /*[[${#authentication.details.timeFormat}]]*/);
+                        document.getElementById('spanCreateDt').innerHTML = i18n.userDateTime(responseJson.createDt);
                         document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserKey;
-                        document.getElementById('spanUpdateDt').innerHTML = aliceJs.convertToUserDatetimeFormat(responseJson.updateDt, /*[[${#authentication.details.timeFormat}]]*/);
+                        document.getElementById('spanUpdateDt').innerHTML = i18n.userDateTime(responseJson.updateDt);
                         document.getElementById('txtAuthId').setAttribute('readonly','true');
                         document.getElementById('roleAuthMapCount').innerHTML = responseJson.roleAuthMapCount;
                         if (AUTH_DELETE) {
