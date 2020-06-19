@@ -25,12 +25,10 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         this.assigneeId = tokenDto.assigneeId.toString()
 
         val token = wfTokenManagerService.makeTokenEntity(tokenDto)
-        token.assigneeId = this.assigneeId
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
 
         val createTokenDto = tokenDto.copy()
         createTokenDto.tokenId = this.createTokenEntity.tokenId
-        createTokenDto.assigneeId = this.createTokenEntity.assigneeId
         return this.createElementToken(createTokenDto)
     }
 
@@ -59,12 +57,8 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
+        token.assigneeId = tokenDto.assigneeId
 
-        // 다른 프로세스로부터 발생된 문서의 현재 담당자를 조회하여 종료되는 토큰의 assignee을 업데이트한다
-        val childProcessAssignee = wfTokenManagerService.getCurrentAssigneeForChildProcess(token.tokenId)
-        childProcessAssignee?.let {
-            token.assigneeId = childProcessAssignee
-        }
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
 
         val completedTokenDto = tokenDto.copy()

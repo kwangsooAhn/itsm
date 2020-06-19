@@ -31,7 +31,6 @@ class WfUserTask(
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
         super.createTokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(completedToken))
-
         return completedToken
     }
 }
