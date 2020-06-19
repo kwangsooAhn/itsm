@@ -225,10 +225,7 @@ class WfTokenManagerService(
      */
     fun getCurrentAssigneeForChildProcess(parentTokenId: String): String? {
         val instance = wfInstanceRepository.findByPTokenId(parentTokenId) ?: return null
-        val token = wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(
-            instance,
-            WfTokenConstants.Status.RUNNING.code
-        )
+        val token = wfTokenRepository.findTopByInstanceOrderByTokenStartDtDesc(instance)
         return token?.assigneeId
     }
 
