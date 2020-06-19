@@ -60,7 +60,7 @@
         if (validateElement.length !== 0) {
             aliceJs.alert(i18n.get('common.msg.checkDocument'), function () {
                 if (validateElement[0].classList.contains('editor-container')) {
-                    validateElement[0].firstChild.focus();
+                    Quill.find(validateElement[0]).focus();
                 } else if (validateElement[0].id === 'radio' || validateElement[0].id === 'chkbox') {
                     validateElement[0].querySelector('input').focus();
                 } else {
@@ -383,7 +383,7 @@
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         for (let fileuploadIndex = 0; fileuploadIndex < componentChild.length; fileuploadIndex++) {
                             if (componentChild[fileuploadIndex].name !== 'delFileSeq') {
-                                if (componentValue === '' && componentValue.indexOf(",") === -1) {
+                                if (componentValue === '') {
                                     componentValue = componentChild[fileuploadIndex].value;
                                 } else {
                                     componentValue = componentValue + ',' + componentChild[fileuploadIndex].value;
@@ -421,7 +421,7 @@
         if (documentElements !== null && documentElements !== undefined) {
             tokenObject.documentId = documentElements.getAttribute('data-id');
         } else {
-            tokenObject.documentId = "";
+            tokenObject.documentId = '';
         }
 
         //tokenObject init (RestTemplateTokenDto)
@@ -521,9 +521,28 @@
                     let componentChild = getComponentTarget(componentElements[i]);
                     if (componentChild === null ||
                         checkComponents.indexOf(componentElements[i].getAttribute('data-type')) === -1) { continue; }
-                    componentChild.addEventListener('focusout', function() {
-                        checkValidate(this);
-                    }, false);
+                    if (componentChild.classList.contains('editor-container')) { // editor
+                        const quill = Quill.find(componentChild);
+                        let isCheck = false;
+                        quill.on('text-change', function(delta) {
+                            delta.ops.forEach(function (obj) {
+                                if (typeof obj.insert !== 'undefined' || typeof obj.delete !== 'undefined') {
+                                    isCheck = true;
+                                }
+                            });
+                        });
+                        quill.on('selection-change', function(range, oldRange, source) {
+                            if (range) {
+                                isCheck = (source === 'user');
+                            } else if (range === null && isCheck) {
+                                checkValidate(componentChild);
+                            }
+                        });
+                    } else {
+                        componentChild.addEventListener('focusout', function() {
+                            checkValidate(this);
+                        }, false);
+                    }
                 }
             }
         }
