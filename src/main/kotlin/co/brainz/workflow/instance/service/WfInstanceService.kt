@@ -253,8 +253,10 @@ class WfInstanceService(
     fun getInstanceLatestToken(instanceId: String): RestTemplateTokenDto {
         var tokenDto = RestTemplateTokenDto()
         wfInstanceRepository.findByInstanceId(instanceId)?.let { instance ->
-            wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instance)?.let { token ->
+            wfTokenRepository.findTopByInstanceOrderByTokenStartDtDesc(instance)?.let { token ->
                 tokenDto = wfTokenMapper.toTokenDto(token)
+                tokenDto.processId = token.element.processId
+                tokenDto.elementId = token.element.elementId
                 val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
                 token.tokenDataEntities.forEach { tokenData ->
                     tokenDataList.add(wfTokenMapper.toTokenDataDto(tokenData))

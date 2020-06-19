@@ -15,10 +15,9 @@ interface WfTokenRepository : JpaRepository<WfTokenEntity, String> {
     fun findTokenMstEntityByAssigneeIdAndTokenStatus(assignee: String, tokenStatus: String): List<WfTokenEntity>
 
     /**
-     * 인스턴스ID[instance] 로 마지막[tokenStatus] token  정보를 조회한다.
+     * 인스턴스ID[instance] 로 token 정보를 조회한다.
      */
-    fun findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(
-        instance: WfInstanceEntity,
-        tokenStatus: String = WfTokenConstants.Status.FINISH.code
+    fun findTopByInstanceOrderByTokenStartDtDesc(
+        instance: WfInstanceEntity
     ): WfTokenEntity?
 }
