@@ -49,6 +49,13 @@
         return luxon.DateTime.local().setZone(timezone).plus(offset).toFormat(dateFormat);
     }
 
+    function getDateTime(offset) {
+        if (offset === undefined) {
+            offset = { 'days' : 0 };
+        }
+        return luxon.DateTime.local().setZone(timezone).plus(offset).toFormat(dateTimeFormat);
+    }
+
     /**
      * 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
      *
@@ -101,7 +108,11 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserDateTime(beforeSystemDateTime) {
-        return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone).toFormat(dateTimeFormat);
+        if (beforeSystemDateTime === null || beforeSystemDateTime === '') {
+            return ''
+        } else {
+            return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone).toFormat(dateTimeFormat);
+        }
     }
 
     /**
@@ -113,7 +124,11 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserDate(beforeSystemDate) {
-        return luxon.DateTime.fromISO(beforeSystemDate).setZone(timezone).toFormat(dateFormat);
+        if (beforeSystemDate === null || beforeSystemDate === '') {
+            return ''
+        } else {
+            return luxon.DateTime.fromISO(beforeSystemDate).setZone(timezone).toFormat(dateFormat);
+        }
     }
 
     /**
@@ -126,7 +141,11 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserTime(beforeSystemTime) {
-        return luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat);
+        if (beforeSystemTime === null || beforeSystemTime === '') {
+            return ''
+        } else {
+            return luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat);
+        }
     }
 
     /**
@@ -187,6 +206,7 @@
     exports.initMessages = addMessages;
 
     exports.getDate = getDate;
+    exports.getDateTime = getDateTime;
     exports.systemDateTime = convertToSystemDateTime;
     exports.systemDate = convertToSystemDate;
     exports.systemTime = convertToSystemTime;

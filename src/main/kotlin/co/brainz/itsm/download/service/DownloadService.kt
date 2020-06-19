@@ -7,7 +7,6 @@ import co.brainz.itsm.download.dto.DownloadSearchDto
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
-import co.brainz.itsm.utility.ConvertParam
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.transaction.Transactional
@@ -17,8 +16,7 @@ import org.springframework.stereotype.Service
 @Service
 class DownloadService(
     private val downloadRepository: DownloadRepository,
-    private val aliceFileService: AliceFileService,
-    private val convertParam: ConvertParam
+    private val aliceFileService: AliceFileService
 ) {
 
     private val downloadMapper: DownloadMapper = Mappers.getMapper(DownloadMapper::class.java)

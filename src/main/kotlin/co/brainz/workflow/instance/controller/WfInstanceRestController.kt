@@ -24,7 +24,7 @@ class WfInstanceRestController(
      * Process Instance List.
      *
      * @param parameters
-     * @return List<InstanceViewDto>
+     * @return List<RestTemplateInstanceViewDto>
      */
     @GetMapping("")
     fun getProcessInstances(@RequestParam parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
@@ -35,7 +35,7 @@ class WfInstanceRestController(
      * Process Instance.
      *
      * @param instanceId
-     * @return WfInstanceViewDto
+     * @return RestTemplateInstanceViewDto
      */
     @GetMapping("/{instanceId}")
     fun getProcessInstance(@PathVariable instanceId: String): RestTemplateInstanceViewDto {

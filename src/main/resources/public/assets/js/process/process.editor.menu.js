@@ -1420,7 +1420,6 @@
                 url: '/rest/processes/' + processId + '/data',
                 contentType: 'application/json; charset=utf-8',
                 callbackFunc: function(xhr) {
-                    console.debug(JSON.parse(xhr.responseText));
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);
                     const elements = aliceProcessEditor.data.elements;
                     elements.forEach(function(element) {
