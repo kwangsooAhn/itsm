@@ -76,18 +76,18 @@ aliceJs.serialize = function (form) {
         if (field.type === 'select-multiple') {
             for (let n = 0; n < field.options.length; n++) {
                 if (!field.options[n].selected) continue;
-                serialized.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(field.options[n].value));
+                serialized.push(encodeURIComponent(field.name) + '=' + encodeURIComponent(field.options[n].value));
             }
         }
 
         // Convert field data to a query string
         else if ((field.type !== 'checkbox' && field.type !== 'radio') || field.checked) {
             if (field.classList.contains('alice-datetime')) {
-                serialized.push(encodeURIComponent(field.name) + "=" + i18n.systemDateTime(encodeURIComponent(field.value)));
+                serialized.push(encodeURIComponent(field.name) + '=' + i18n.systemDateTime(encodeURIComponent(field.value)));
             } else if (field.classList.contains('alice-date')) {
-                serialized.push(encodeURIComponent(field.name) + "=" + i18n.systemDate(encodeURIComponent(field.value)));
+                serialized.push(encodeURIComponent(field.name) + '=' + i18n.systemDate(encodeURIComponent(field.value)));
             } else {
-                serialized.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value));
+                serialized.push(encodeURIComponent(field.name) + '=' + encodeURIComponent(field.value));
             }
         }
     }

@@ -126,7 +126,7 @@ class WfInstanceService(
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
             LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
-            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
         )
     }
@@ -144,7 +144,7 @@ class WfInstanceService(
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
             LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
-            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
         )
     }
@@ -162,7 +162,7 @@ class WfInstanceService(
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
             LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
-            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
         )
     }
