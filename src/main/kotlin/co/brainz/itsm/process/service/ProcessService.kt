@@ -1,7 +1,9 @@
 package co.brainz.itsm.process.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.util.AliceTimezoneUtils
+import co.brainz.itsm.process.dto.ProcessStatusDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
@@ -11,17 +13,27 @@ import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import com.google.gson.Gson
 import java.time.LocalDateTime
+import javax.xml.parsers.DocumentBuilderFactory
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.env.Environment
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.LinkedMultiValueMap
+import org.w3c.dom.Element
+import org.w3c.dom.Node
+import org.w3c.dom.NodeList
 
 @Service
 @Transactional
-class ProcessService(private val restTemplate: RestTemplateProvider) {
+class ProcessService(
+    private val restTemplate: RestTemplateProvider,
+    private val aliceFileService: AliceFileService
+) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -137,5 +149,58 @@ class ProcessService(private val restTemplate: RestTemplateProvider) {
             )
         )
         return restTemplate.get(url)
+    }
+
+    /**
+     * 프로세스 상태.
+     */
+    fun getProcessStatus(instanceId: String): ProcessStatusDto {
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Instance.GET_INSTANCE_LATEST.url.replace(
+                restTemplate.getKeyRegex(),
+                instanceId
+            )
+        )
+        val resultString = restTemplate.get(url)
+        val processStatusDto = Gson().fromJson(resultString, ProcessStatusDto::class.java)
+        val xmlFile = aliceFileService.getProcessStatusFile(processStatusDto.processId)
+        if (xmlFile.exists()) {
+            val xmlDoc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(xmlFile)
+            xmlDoc.documentElement.normalize()
+
+            val imageNodeList: NodeList = xmlDoc.getElementsByTagName("image")
+            if (imageNodeList.length > 0) {
+                val imageNode: Node = imageNodeList.item(0)
+                if (imageNode.nodeType == Node.ELEMENT_NODE) {
+                    val element = imageNode as Element
+                    for (i in 0 until element.attributes.length) {
+                        val nodeValue = element.attributes.item(i).nodeValue
+                        when (element.attributes.item(i).nodeName) {
+                            "left" -> processStatusDto.left = nodeValue
+                            "top" -> processStatusDto.top = nodeValue
+                            "width" -> processStatusDto.width = nodeValue
+                            "height" -> processStatusDto.height = nodeValue
+                        }
+                    }
+                    processStatusDto.imageData = element.textContent
+                }
+
+                val elementList = mutableListOf<LinkedHashMap<String, String>>()
+                val elementNodeList: NodeList = xmlDoc.getElementsByTagName("element")
+                for (i in 0 until elementNodeList.length) {
+                    val elementNode: Node = elementNodeList.item(i)
+                    if (elementNode.nodeType == Node.ELEMENT_NODE) {
+                        val element = elementNode as Element
+                        val elementMap = LinkedHashMap<String, String>()
+                        for (j in 0 until element.attributes.length) {
+                            elementMap[element.attributes.item(j).nodeName] = element.attributes.item(j).nodeValue
+                        }
+                        elementList.add(elementMap)
+                    }
+                }
+                processStatusDto.elements = elementList
+            }
+        }
+        return processStatusDto
     }
 }

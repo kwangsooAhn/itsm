@@ -71,7 +71,7 @@ server:
     session:
       timeout: 60m
 # upload file directory (default: tomcat)
-file.upload.dir: D:\\fileUpload
+file.upload.dir: D:\\files
 
 # IP 접근 제한 기능 설정
 ip.access.control: true
@@ -88,4 +88,4 @@ spring:
     username: ENC(C4bWbxHAbRqyUnYZQNlsjA==) # itsm
     password: ENC(Nkoufw9FfHXYGOYykZFpqA==) # itsm123
     driver-class-name: ENC(Arw4J0ZjOrhA7dVeRVgnR7n1SbuwU+e2b1TUmlskxnRbd0/Zf/hRY5wf4PEk43DU) # net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-file.upload.dir: ./fileUpload
+file.upload.dir: ./files

@@ -19,5 +19,6 @@ data class RestTemplateTokenDto(
     val actions: List<RestTemplateActionDto>? = emptyList(),
     val action: String? = null,
     val numberingId: String? = null,
-    var parentTokenId: String? = null
+    var parentTokenId: String? = null,
+    var processId: String? = null
 ) : Serializable

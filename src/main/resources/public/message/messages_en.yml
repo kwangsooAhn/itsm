@@ -345,6 +345,7 @@ form:
 # Process
 process:
   label:
+    process: "Process"
     list: "Process List"
     name: "Process Name"
     edit: "Process Edit"
