@@ -2,6 +2,7 @@ package co.brainz.workflow.instance.repository
 
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
+import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
@@ -231,6 +232,12 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
     override fun findInstanceHistory(instanceId: String): List<RestTemplateInstanceHistoryDto> {
         val user = QAliceUserEntity.aliceUserEntity
+        val elementTypes = listOf (
+            InstanceConstants.ElementListForHistoryViewing.USER_TASK.value,
+            InstanceConstants.ElementListForHistoryViewing.COMMON_END_EVENT.value,
+            InstanceConstants.ElementListForHistoryViewing.SUB_PROCESS.value,
+            InstanceConstants.ElementListForHistoryViewing.SIGNAL_SEND.value
+        )
         return from(token)
             .select(
                 Projections.constructor(
@@ -246,7 +253,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             .innerJoin(token.instance)
             .innerJoin(token.element)
             .leftJoin(user).on(token.assigneeId.eq(user.userKey))
-            .where(token.instance.instanceId.eq(instanceId))
+            .where(token.instance.instanceId.eq(instanceId).and(token.element.elementType.`in`(elementTypes)))
             .orderBy(token.tokenStartDt.asc())
             .fetch()
     }
