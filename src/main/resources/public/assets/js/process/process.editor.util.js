@@ -436,9 +436,9 @@
      * download process image.
      */
     function downloadProcessImage() {
-        let viewBox = getSvgViewBox();
+        const viewBox = getSvgViewBox();
         let svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        let embedImages = loadProcessImage(viewBox, svgNode);
+        const embedImages = loadProcessImage(viewBox, svgNode);
         embedImages.then(() => {
             let svgString = getSVGString(svgNode);
             let canvas = document.createElement('canvas');
@@ -465,19 +465,19 @@
      * 발행 시 프로세스 이미지 데이터를 서버로 업로드한다.
      */
     function uploadProcessFile() {
-        let viewBox = getSvgViewBox();
+        const viewBox = getSvgViewBox();
         let svgNode = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-        let embedImages = loadProcessImage(viewBox, svgNode);
+        const embedImages = loadProcessImage(viewBox, svgNode);
         embedImages.then(() => {
             let svgString = getSVGString(svgNode);
             let xmlString = createProcessXMLString(viewBox, svgString);
             let formData = new FormData();
             let blob = new Blob(['<?xml version="1.0" encoding="UTF-8"?>' + xmlString], {type: 'text/plain'});
-            formData.append('file', blob,aliceProcessEditor.data.process.id + '.xml');
+            formData.append('file', blob, aliceProcessEditor.data.process.id + '.xml');
 
             let xhr = new XMLHttpRequest();
             xhr.open('POST', '/fileupload?target=process');
-            xhr.onerror = function () {
+            xhr.onerror = function() {
                 console.error('Process file upload failed!');
             };
             xhr.send(formData);
