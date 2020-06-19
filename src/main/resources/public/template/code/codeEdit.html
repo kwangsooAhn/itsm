@@ -128,9 +128,7 @@
                         document.getElementById('spanCreateUserName').innerHTML = responseJson.createUserName;
                         document.getElementById('spanCreateDt').innerHTML = i18n.userDateTime(responseJson.createDt);
                         document.getElementById('spanUpdateUserName').innerHTML = responseJson.updateUserName;
-                        if (responseJson.updateDt !== null) {
-                            document.getElementById('spanUpdateDt').innerHTML = i18n.userDateTime(responseJson.updateDt);
-                        }
+                        document.getElementById('spanUpdateDt').innerHTML = i18n.userDateTime(responseJson.updateDt);
                         if (!responseJson.enabled) {
                             document.getElementById('btnUpdate').disabled = true;
                             document.getElementById('btnDelete').disabled = true;
