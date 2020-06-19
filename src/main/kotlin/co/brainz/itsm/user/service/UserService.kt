@@ -29,6 +29,7 @@ import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 
@@ -54,7 +55,17 @@ class UserService(
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(searchValue: String): MutableList<UserDto> {
+    fun selectUserList(params: LinkedMultiValueMap<String, String>): MutableList<UserDto> {
+        //val codeList = codeService.selectCodeByParent(co.brainz.itsm.user.constants.UserConstants.PCODE.value)
+        //val aliceUserEntities = userRepository.findAll(UserSpecification(codeList, searchValue))
+        val aliceUserEntities = userRepository.findAll()
+        val userList: MutableList<UserDto> = mutableListOf()
+        aliceUserEntities.forEach {
+            userList.add(userMapper.toUserDto(it))
+        }
+        return userList
+    }
+    /*fun selectUserList(searchValue: String): MutableList<UserDto> {
         val codeList = codeService.selectCodeByParent(co.brainz.itsm.user.constants.UserConstants.PCODE.value)
         val aliceUserEntities = userRepository.findAll(UserSpecification(codeList, searchValue))
         val userList: MutableList<UserDto> = mutableListOf()
@@ -62,7 +73,7 @@ class UserService(
             userList.add(userMapper.toUserDto(it))
         }
         return userList
-    }
+    }*/
 
     /**
      * 사용자 ID로 해당 정보를 1건 조회한다.

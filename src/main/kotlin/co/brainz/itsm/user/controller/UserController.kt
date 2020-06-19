@@ -11,6 +11,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
+import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
@@ -28,7 +29,8 @@ class UserController(
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val userPage: String = "user/user"
-    private val userListPage: String = "user/userList"
+    private val userSearchPage: String = "user/userSearch"
+    private val userListPage: String = "user/userList2"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
 
@@ -37,15 +39,17 @@ class UserController(
      */
     @GetMapping("/search")
     fun getUserSearch(model: Model): String {
-        return userPage
+        return userSearchPage
     }
 
     /**
      * 사용자 조회 목록 화면을 호출한다.
      */
     @GetMapping("/list")
-    fun getUserList(searchValue: String, model: Model): String {
-        model.addAttribute("users", userService.selectUserList(searchValue))
+    fun getUserList(request: HttpServletRequest, model: Model): String {
+        val params = LinkedMultiValueMap<String, String>()
+        params["search"] = request.getParameter("search") ?: ""
+        model.addAttribute("userList", userService.selectUserList(params))
         return userListPage
     }
 
