@@ -31,6 +31,10 @@
         window.onload = function() {
             restSubmit('get', '/custom-codes/list', function(result) {
                 document.getElementById('customCodeList').innerHTML = result;
+                var customCodeDtEle = document.querySelectorAll('td[name=customCodeDt]');
+                for (let i = 0; i < customCodeDtEle.length; i++) {
+                    customCodeDtEle[i].textContent = i18n.userDateTime(customCodeDtEle[i].textContent);
+                }
             });
         };
 

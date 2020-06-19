@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <title th:text="#{process.label.process}"></title>
+    <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
+</head>
+<body style="margin: 0;">
+    <svg id="elementContainer"
+         style="position: absolute; top: 0; left: 0;"
+         th:width="${processStatus.width}"
+         th:height="${processStatus.height}"
+         th:viewBox="${processStatus.left + ' ' + processStatus.top + ' ' + processStatus.width + ' ' + processStatus.height}"></svg>
+</body>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        window.resizeTo(
+            window.outerWidth - window.innerWidth + Number(/*[[${processStatus.width}]]*/),
+            window.outerHeight - window.innerHeight + Math.ceil(Number(/*[[${processStatus.height}]]*/))
+        );
+        let statusGroup = d3.select('#elementContainer')
+            .style('background-image', 'url([[${processStatus.imageData}]])')
+            .append('g');
+        /*[# th:each="element : ${processStatus.elements}"]*/
+        /*[# th:if="${element.id == processStatus.elementId}"]*/
+        const type = /*[[${element.type}]]*/,
+              width = Number(/*[[${element.width}]]*/),
+              height = Number(/*[[${element.height}]]*/),
+              x = Number(/*[[${element["position-x"]}]]*/),
+              y = Number(/*[[${element["position-y"]}]]*/);
+        if (type === 'userTask' || type === 'subprocess') {
+            statusGroup.append('rect')
+                .attr('width', width)
+                .attr('height', height)
+                .attr('x', x)
+                .attr('y', y)
+                .attr('rx', 8)
+                .attr('ry', 8)
+                .style('stroke', '#ff0000')
+                .style('stroke-width', 2)
+                .style('fill', 'none');
+        }
+        /*[/]*/
+        /*[/]*/
+    };
+    /*]]>*/
+</script>
+</html>

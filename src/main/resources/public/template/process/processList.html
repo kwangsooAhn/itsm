@@ -31,7 +31,8 @@
                 <col width="16%">
                 <col width="28%">
                 <col width="10%">
-                <col width="22%">
+                <col width="15%">
+                <col width="7%">
                 <col width="7%">
                 <col width="7%">
                 <col width="5%">
@@ -48,12 +49,12 @@
                     </td>
                     <td th:text="${process.description}"></td>
                     <td th:text="${process.createUserName}"></td>
-                    <td th:if="${process.updateDt == null && process.updateUserKey == null}"
-                        th:with="dateformat=${#authentication.details.timeFormat}"
-                        th:text="|${#temporals.format(process.createDt,dateformat)} ${process.createUserName}|"></td>
-                    <td th:unless="${process.updateDt == null && process.updateUserKey == null}"
-                        th:with="dateformat=${#authentication.details.timeFormat}"
-                        th:text="|${#temporals.format(process.updateDt,dateformat)} ${process.updateUserName}|"></td>
+                    <td th:if="${process.updateDt == null && process.updateUserKey == null}" th:name="processDt"
+                        th:text="${process.createDt}"></td>
+                    <td th:if="${process.updateDt == null && process.updateUserKey == null}" th:text="${process.createUserName}"></td>
+                    <td th:unless="${process.updateDt == null && process.updateUserKey == null}" th:name="processDt"
+                        th:text="${process.updateDt}"></td>
+                    <td th:unless="${process.updateDt == null && process.updateUserKey == null}" th:text="${process.updateUserName}"></td>
                     <td th:text="#{${process.status}}"></td>
                     <td>
                         <button sec:authorize="hasAnyAuthority('process.create', 'process.update')"
