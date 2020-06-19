@@ -55,21 +55,15 @@
     <script th:src="@{/assets/js/document/document.js}"></script>
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
-        window.onload = function () {
-            const dateTimeFormat = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat;
-            const dateTime = aliceJs.changeDateFormat(
-                dateTimeFormat + ' 24',
-                dateTimeFormat + ' ' + aliceForm.options.hourType,
-                aliceJs.getTimeStamp(dateTimeFormat),
-                aliceForm.options.sessionInfo.lang
-            );
+        window.onload = function() {
             const printInfo = document.getElementById('printInfo');
             printInfo.innerHTML = aliceForm.options.sessionInfo.userName + ' ['
-                + aliceForm.options.sessionInfo.email + ']<br>' + dateTime;
+                + aliceForm.options.sessionInfo.email + ']<br>'
+                + i18n.printFormat(/*[[${time}]]*/'');
 
             aliceForm.initSync(aliceDocument.drawDocument, /*[[${data}]]*/);
 
-            setTimeout(function () {
+            setTimeout(function() {
                 window.print();
             }, 500);
         };

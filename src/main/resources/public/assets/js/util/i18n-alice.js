@@ -130,7 +130,7 @@
      *
      * @author Jung Hee chan
      * @since 2020-06-08
-     * @param {String}  targetTime 변환 대상 시간 데이터.
+     * @param {String}  beforeSystemTime 변환 대상 시간 데이터.
      * @return {String} 변환된 데이터.
      */
     function convertToUserTime(beforeSystemTime) {
@@ -139,6 +139,19 @@
         } else {
             return luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat);
         }
+    }
+
+    /**
+     * 서버에서 받은 ISO 8601 포맷의 데이터를 프린트 포맷으로 변경
+     *
+     * @author Lee So Hyun
+     * @since 2020-06-17
+     * @param {String} beforeSystemDateTime 변환 대상 날짜시간 데이터.
+     * @return {String} 변환된 데이터.
+     */
+    function convertToPrintFormat(beforeSystemDateTime) {
+        return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone)
+            .toFormat(dateTimeFormat.replace(/(mm)/g, '$1:ss') + ' (z)');
     }
 
     /**
@@ -192,6 +205,7 @@
     exports.userDateTime = convertToUserDateTime;
     exports.userDate = convertToUserDate;
     exports.userTime = convertToUserTime;
+    exports.printFormat = convertToPrintFormat;
     exports.get = getMessage; // 앞으로 msg로 사용하고 get은 다 msg로 수정하면 지우자.
     exports.msg = getMessage;
     Object.defineProperty(exports, '__esModule', {value: true});
