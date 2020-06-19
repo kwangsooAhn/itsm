@@ -234,7 +234,10 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         val user = QAliceUserEntity.aliceUserEntity
         val elementTypes = listOf (
             InstanceConstants.ElementListForHistoryViewing.USER_TASK.value,
+            InstanceConstants.ElementListForHistoryViewing.SCRIPT_TASK.value,
+            InstanceConstants.ElementListForHistoryViewing.MANUAL_TASK.value,
             InstanceConstants.ElementListForHistoryViewing.COMMON_END_EVENT.value,
+            InstanceConstants.ElementListForHistoryViewing.TIMER_START_EVENT.value,
             InstanceConstants.ElementListForHistoryViewing.SUB_PROCESS.value,
             InstanceConstants.ElementListForHistoryViewing.SIGNAL_SEND.value
         )
