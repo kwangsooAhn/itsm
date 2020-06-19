@@ -500,6 +500,8 @@
         processNode.setAttribute('description', aliceProcessEditor.data.process.description);
 
         let imageNode = xmlDoc.createElement('image');
+        imageNode.setAttribute('left', viewBox[0]);
+        imageNode.setAttribute('top', viewBox[1]);
         imageNode.setAttribute('width', viewBox[2]);
         imageNode.setAttribute('height', viewBox[3]);
         let cdata = xmlDoc.createCDATASection('data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgString))));
@@ -515,14 +517,7 @@
             elementNode.setAttribute('type', element.type);
             let keys = Object.keys(element.display);
             keys.forEach(function(key) {
-                let val = element.display[key];
-                if (key === 'position-x') {
-                    val = Number(val) - viewBox[0];
-                }
-                if (key === 'position-y') {
-                    val = Number(val) - viewBox[1];
-                }
-                elementNode.setAttribute(key, val);
+                elementNode.setAttribute(key, element.display[key]);
             });
             displayNode.appendChild(elementNode);
         });
@@ -739,8 +734,8 @@
             viewBox = [
                 d3.min(nodeLeftArray) - margin,
                 d3.min(nodeTopArray) - margin,
-                Math.abs(d3.max(nodeRightArray) - d3.min(nodeLeftArray)) + (margin * 2),
-                Math.abs(d3.max(nodeBottomArray) - d3.min(nodeTopArray)) + (margin * 2)
+                Math.abs(d3.max(nodeRightArray) - d3.min(nodeLeftArray)) + (margin * 3),
+                Math.abs(d3.max(nodeBottomArray) - d3.min(nodeTopArray)) + (margin * 3)
             ];
         }
         return viewBox;

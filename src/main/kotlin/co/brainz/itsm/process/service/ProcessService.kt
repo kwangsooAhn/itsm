@@ -174,10 +174,12 @@ class ProcessService(
                 if (imageNode.nodeType == Node.ELEMENT_NODE) {
                     val element = imageNode as Element
                     for (i in 0 until element.attributes.length) {
-                        if (element.attributes.item(i).nodeName == "width") {
-                            processStatusDto.width = element.attributes.item(i).nodeValue
-                        } else if (element.attributes.item(i).nodeName == "height") {
-                            processStatusDto.height = element.attributes.item(i).nodeValue
+                        val nodeValue = element.attributes.item(i).nodeValue
+                        when (element.attributes.item(i).nodeName) {
+                            "left" -> processStatusDto.left = nodeValue
+                            "top" -> processStatusDto.top = nodeValue
+                            "width" -> processStatusDto.width = nodeValue
+                            "height" -> processStatusDto.height = nodeValue
                         }
                     }
                     processStatusDto.imageData = element.textContent

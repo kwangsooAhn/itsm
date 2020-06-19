@@ -8,21 +8,23 @@
     <title th:text="#{process.label.process}"></title>
     <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
 </head>
-<body style="margin: 0">
-    <svg th:width="${processStatus.width}" th:height="${processStatus.height}">
-        <g>
-            <image th:href="${processStatus.imageData}"></image>
-        </g>
-    </svg>
+<body style="margin: 0;">
+    <svg id="elementContainer"
+         style="position: absolute; top: 0; left: 0;"
+         th:width="${processStatus.width}"
+         th:height="${processStatus.height}"
+         th:viewBox="${processStatus.left + ' ' + processStatus.top + ' ' + processStatus.width + ' ' + processStatus.height}"></svg>
 </body>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     window.onload = function() {
         window.resizeTo(
-            window.outerWidth - window.innerWidth + Number(/*[[${processStatus.width}]]*/) + 100,
-            window.outerHeight - window.innerHeight + Math.ceil(Number(/*[[${processStatus.height}]]*/)) + 100
+            window.outerWidth - window.innerWidth + Number(/*[[${processStatus.width}]]*/),
+            window.outerHeight - window.innerHeight + Math.ceil(Number(/*[[${processStatus.height}]]*/))
         );
-        let statusGroup = d3.select('svg').append('g');
+        let statusGroup = d3.select('#elementContainer')
+            .style('background-image', 'url([[${processStatus.imageData}]])')
+            .append('g');
         /*[# th:each="element : ${processStatus.elements}"]*/
         /*[# th:if="${element.id == processStatus.elementId}"]*/
         const type = /*[[${element.type}]]*/,
@@ -38,14 +40,6 @@
                 .attr('y', y)
                 .attr('rx', 8)
                 .attr('ry', 8)
-                .style('stroke', '#ff0000')
-                .style('stroke-width', 2)
-                .style('fill', 'none');
-        } else if (type === 'commonEnd') {
-            statusGroup.append('circle')
-                .attr('r', width / 2)
-                .attr('cx', width + x + (width / 2))
-                .attr('cy', width + y)
                 .style('stroke', '#ff0000')
                 .style('stroke-width', 2)
                 .style('fill', 'none');

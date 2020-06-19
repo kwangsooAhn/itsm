@@ -198,20 +198,6 @@ class AliceFileService(
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + filePath.toFile() + "]")
         }
         multipartFile.transferTo(filePath.toFile())
-
-        // TODO: 일단, 저장은 했는데.. 필요할까.. 고민..
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        val aliceFileLocEntity = AliceFileLocEntity(
-            fileSeq = 0,
-            fileOwner = aliceUserDto.userKey,
-            uploaded = true,
-            uploadedLocation = filePath.parent.toString(),
-            randomName = multipartFile.originalFilename,
-            originName = multipartFile.originalFilename,
-            fileSize = multipartFile.size,
-            sort = 0
-        )
-        aliceFileLocRepository.save(aliceFileLocEntity)
     }
 
     /**
