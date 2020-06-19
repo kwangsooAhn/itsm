@@ -49,6 +49,13 @@
         return luxon.DateTime.local().setZone(timezone).plus(offset).toFormat(dateFormat);
     }
 
+    function getDateTime(offset) {
+        if (offset === undefined) {
+            offset = { 'days' : 0 };
+        }
+        return luxon.DateTime.local().setZone(timezone).plus(offset).toFormat(dateTimeFormat);
+    }
+
     /**
      * 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
      *
@@ -199,6 +206,7 @@
     exports.initMessages = addMessages;
 
     exports.getDate = getDate;
+    exports.getDateTime = getDateTime;
     exports.systemDateTime = convertToSystemDateTime;
     exports.systemDate = convertToSystemDate;
     exports.systemTime = convertToSystemTime;
