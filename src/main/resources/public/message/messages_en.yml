@@ -308,6 +308,7 @@ form:
   lang:
     ko: "Korean"
   msg:
+    information: "There are no common editable component detail attributes."
     alert:
       nameNotExist: "Please enter a form name."
       number: "Please enter only numbers."

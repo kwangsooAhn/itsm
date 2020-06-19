@@ -73,7 +73,7 @@
             <label th:text="#{form.label.addAbove}"></label>
         </li>
         <li class="context-item-link" data-action="addEditboxDown">
-            <!-- TODO 위에 editbox 추가 아이콘 필요 -->
+            <!-- TODO 아래에 editbox 추가 아이콘 필요 -->
             <label th:text="#{form.label.addBelow}"></label>
         </li>
     </ul>
@@ -187,7 +187,7 @@
 </body>
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/process/workflow.util.js}"></script>
-    <script th:src="@{/assets/js/util/shortcut.js}"></script>
+    <script th:src="@{/assets/js/util/shortcut-alice.js}"></script>
     <script th:src="@{/assets/vendors/gModal/js/gModal.min.js}"></script>
     <script th:src="@{/assets/js/form/form.editor.context.js}"></script>
     <script th:src="@{/assets/js/form/form.editor.js}"></script>
