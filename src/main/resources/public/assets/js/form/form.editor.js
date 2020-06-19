@@ -538,6 +538,12 @@
                 focusElem = formPanel.lastElementChild
             }
         }
+        // 이력 재정렬
+        if (histories.length > 2) {
+            histories.sort(function (a, b) {
+                return a[0].display.order < b[0].display.order ? -1 : a[0].display.order > b[0].display.order ? 1 : 0;
+            });
+        }
 
         // 컴포넌트 없을 경우 editbox 컴포넌트 신규 추가한다.
         if (components.length === 0) {
