@@ -33,7 +33,7 @@ common:
     updateDate: "수정일시"
     attachFile: "첨부파일"
     notSelect: "선택 안 함"
-    lastUpdateDateAndUpdateUserName: "마지막 수정일시 및 수정자"
+    lastUpdateDate: "마지막 수정일시"
     tag: "태그"
     comment: "코멘트"
     print: "인쇄"
