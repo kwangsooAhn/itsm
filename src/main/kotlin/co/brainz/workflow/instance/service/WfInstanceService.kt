@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
+import java.time.format.DateTimeFormatter
 import java.time.LocalDateTime
 import java.time.ZoneId
 import org.mapstruct.factory.Mappers
@@ -124,9 +125,8 @@ class WfInstanceService(
             parameters["userKey"].toString(),
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
-            parameters["fromDt"].toString(),
-            parameters["toDt"].toString(),
-            parameters["dateFormat"].toString(),
+            LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
         )
     }
@@ -143,9 +143,8 @@ class WfInstanceService(
             parameters["userKey"].toString(),
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
-            parameters["fromDt"].toString(),
-            parameters["toDt"].toString(),
-            parameters["dateFormat"].toString(),
+            LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
         )
     }
@@ -162,9 +161,8 @@ class WfInstanceService(
             parameters["userKey"].toString(),
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
-            parameters["fromDt"].toString(),
-            parameters["toDt"].toString(),
-            parameters["dateFormat"].toString(),
+            LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
         )
     }

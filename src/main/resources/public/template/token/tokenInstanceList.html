@@ -29,10 +29,8 @@
         <td><input type="checkbox" th:id="${index.index}" th:name="chk" th:value="${instance.instanceId}"></td>
         <td th:text="${instance.documentNo}"></td>
         <td th:text="${instance.documentName}"></td>
-        <td th:with="dateformat=${#authentication.details.timeFormat}"
-            th:text="${#temporals.format(instance.instanceStartDt, dateformat)}"></td>
-        <td th:with="dateformat=${#authentication.details.timeFormat}"
-            th:text="${#temporals.format(instance.instanceEndDt, dateformat)}"></td>
+        <td th:name="instanceDt" th:text="${instance.instanceStartDt}"/>
+        <td th:name="instanceDt" th:text="${instance.instanceEndDt}"/>
         <td th:text="${instance.instanceCreateUserName}"></td>
     </tr>
     </tbody>
