@@ -515,27 +515,32 @@
         if (document.querySelectorAll('.component').length === 1 && firstElem &&
             firstElem.getAttribute('data-type') === aliceForm.options.defaultType) { return false; }
 
-        let histories = [];
-        // 선택된 컴포넌트가 1개라면, 삭제 후 바로 이전 컴포넌트에 focus가 이동한다. 단, 첫번째 컴포넌트일 경우 바로 아래 컴포넌트로 focus가 이동한다.
-        let focusElem = firstElem.previousElementSibling;
-        if (selectedComponentIds.length === 1 && focusElem === null && firstElem.getAttribute('data-index') === '1') {
-            focusElem = firstElem.nextElementSibling;
-        }
         // 컴포넌트 삭제
+        let histories = [];
+        let delIdx = [];
         for (let i = 0, len = selectedComponentIds.length; i < len; i++) {
-            document.getElementById(selectedComponentIds[i]).remove();
+            const delComp = document.getElementById(selectedComponentIds[i]);
+            delIdx.push(Number(delComp.getAttribute('data-index')));
+            delComp.remove();
             const compIdx = getComponentIndex(selectedComponentIds[i]);
             histories.push({0: JSON.parse(JSON.stringify(editor.data.components[compIdx])), 1: {}});
             editor.data.components.splice(compIdx, 1);
         }
-
-        // 선택된 컴포넌트가 2개 이상일 경우, 삭제 후  첫 번째 컴포넌트로 focus가 이동한다.
-        if (selectedComponentIds.length > 1) {
-            focusElem = document.querySelectorAll('.component')[0];
+        // 삭제 후 바로 이전 컴포넌트에 focus가 이동한다. 단, 첫번째 컴포넌트일 경우 삭제 후 첫번째 컴포넌트에 focus가 이동한다.
+        let focusElem = null;
+        let focusIdx = Math.min.apply(null, delIdx);
+        let components = document.querySelectorAll('.component');
+        if (focusIdx === 1) {
+            focusElem = components[0];
+        } else {
+            focusElem = components[focusIdx - 1];
+            if (focusElem === null) { //컴포넌트가 존재하지 않으면 마지막 컴포넌트를 선택한다.
+                focusElem = formPanel.lastElementChild
+            }
         }
 
-        //컴포넌트 없을 경우 editbox 컴포넌트 신규 추가.
-        if (document.querySelectorAll('.component').length === 0) {
+        // 컴포넌트 없을 경우 editbox 컴포넌트 신규 추가한다.
+        if (components.length === 0) {
             const editbox = component.draw(aliceForm.options.defaultType, formPanel);
             histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
             setComponentData(editbox.attr);
@@ -1027,7 +1032,6 @@
         }
 
         let selectedComponentTypes = [];
-        let isSameComponent = false;
         let isHideComponent = false;
         for (let i = 0, len = selectedComponentIds.length; i < len; i++) {
             let selectedElem = document.getElementById(selectedComponentIds[i]);
@@ -1042,8 +1046,6 @@
                 }
             }
         }
-        isSameComponent = (selectedComponentTypes.length === 1);
-        if (isSameComponent) { isHideComponent = false; }
 
         // 선택된 첫번째 컴포넌트의 속성을 출력한다.
         let compIdx = getComponentIndex(selectedComponentIds[0]);
@@ -1051,34 +1053,33 @@
 
         let componentData = editor.data.components[compIdx];
         let properties = initProperties(componentData);
+        const componentTemplate = document.getElementById('component-properties');
+        const componentElem = componentTemplate.content.cloneNode(true);
 
         // 1. 컴포넌트가 2개 이상이면 dataAttribute 속성은 보여주지 않는다.
-        // 2. 동일한 컴포넌트를 선택한 경우, dataAttribute 를 제외한 모든 속성이 출력된다.
-        if (selectedComponentIds.length > 1 && properties.hasOwnProperty('dataAttribute')) { delete properties.dataAttribute; }
-        // 3. 서로 다른 컴포넌트이면, label과 display의 column 속성만 보여진다.
-        if (selectedComponentIds.length > 1 && !isSameComponent && !isHideComponent) {
-            if (properties.hasOwnProperty('display')) {
+        // 2. 컴포넌트가 2개 이상이면, label과 display의 column 속성만 보여진다.
+        if (selectedComponentIds.length > 1) {
+            // 3. 서로 다른 컴포넌트이고, Divider, Image, Label가 포함되어 있다면 아무 속성도 출력하지 않는다.
+            if ((selectedComponentTypes.length > 1 && isHideComponent) || (selectedComponentTypes.length === 1 && selectedComponentTypes[0] === aliceForm.options.defaultType)) {
+                const infoElem = document.createElement('div');
+                infoElem.classList.add('property-group', 'info-msg');
+                const infoText = document.createTextNode(i18n.get('form.msg.information'));
+                infoElem.appendChild(infoText);
+                propertiesPanel.appendChild(infoElem);
+                return false;
+            }
+            if (properties.hasOwnProperty('dataAttribute')) { delete properties.dataAttribute; }
+            // 4. label, image, divider 는 display 속성을 모두 보여준다.
+            if (properties.hasOwnProperty('display') && !isHideComponent) {
                 properties.display = properties.display.filter(function (c) {
                     return c.id.includes('column');
                 });
             }
             if (properties.hasOwnProperty('option')) { delete properties.option;}
             if (properties.hasOwnProperty('validate')) { delete properties.validate; }
-        }
-        // 4. 서로 다른 컴포넌트이고, Divider, Image, Label가 포함되어 있다면 아무 속성도 출력하지 않는다.
-        if (selectedComponentIds.length > 1 && !isSameComponent && isHideComponent) {
-            const infoElem = document.createElement('div');
-            infoElem.classList.add('property-group', 'info-msg');
-            const infoText = document.createTextNode(i18n.get('form.msg.information'));
-            infoElem.appendChild(infoText);
-            propertiesPanel.appendChild(infoElem);
-            return false;
-        }
 
-        const componentTemplate = document.getElementById('component-properties');
-        const componentElem = componentTemplate.content.cloneNode(true);
-        // 5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
-        if (selectedComponentIds.length === 1) {
+        } else {
+            // 5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
             const componentTitleData = component.getTitle(componentData.type);
             const componentTitleElem = componentElem.querySelector('.property-title');
             componentTitleElem.textContent = componentTitleData.name;
@@ -1140,12 +1141,8 @@
                                             `<input type='checkbox' class='property-field-value' name='${fieldProp.id}' ${fieldProp.value ? 'checked' : ''}>`;
                                         break;
                                     case 'customcode':
-                                        let fieldCustomCodeOptions = ``;
-                                        if (selectedComponentIds.length > 1) {
-                                            fieldCustomCodeOptions += `<option value='' disabled selected style='display:none;'></option>`;
-                                        }
-                                        fieldCustomCodeOptions += customCodeList.map(function (code) {
-                                            return `<option value='${code.customCodeId}' ${fieldProp.value === code.customCodeId && selectedComponentIds.length === 1 ? "selected='selected'" : ""}>${code.customCodeName}</option>`;
+                                        const fieldCustomCodeOptions = customCodeList.map(function (code) {
+                                            return `<option value='${code.customCodeId}' ${fieldProp.value === code.customCodeId ? "selected='selected'" : ""}>${code.customCodeName}</option>`;
                                         }).join('');
                                         fieldTemplate +=
                                             `<select class='property-field-value' id='${fieldProp.id}'>${fieldCustomCodeOptions}</select>`;
@@ -1201,12 +1198,8 @@
                                             return `<div class='vertical-group'>
                                             <input type='radio' id='${opt.id}' name='${group}.${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""}/>
                                             <label for='${opt.id}'>${opt.name}</label>
-                                            ${opt.id !== 'none' ? "<br/><select>" + opt.items.map(function (item, idx) {
-                                                let defaultOption = ``;
-                                                if (selectedComponentIds.length > 1 && idx === 0) {
-                                                    defaultOption = `<option value='' disabled selected style='display:none;'></option>`;
-                                                }
-                                                return `${defaultOption}<option value='${item.id}' ${item.id === fieldValueArr[1] && selectedComponentIds.length === 1 ? "selected='selected'" : ""}>${item.name}</option>`
+                                            ${opt.id !== 'none' ? "<br/><select>" + opt.items.map(function (item) {
+                                                return `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`
                                             }).join('') + "</select>" : ""}
                                             </div>`;
                                         }).join('');
@@ -1231,24 +1224,16 @@
                                         break;
                                     case 'session':
                                         const propValueArr = fieldProp.value.split('|');
-                                        let fieldSessionOptions = ``;
-                                        if (selectedComponentIds.length > 1) {
-                                            fieldSessionOptions += `<option value='' disabled selected style='display:none;'></option>`;
-                                        }
-                                        fieldSessionOptions += fieldProp.option.map(function (opt) {
-                                            return `<option value='${opt.id}' ${propValueArr[0] === opt.id && selectedComponentIds === 1 ? "selected='selected'" : ""}>${opt.name}</option>`;
+                                        const fieldSessionOptions = fieldProp.option.map(function (opt) {
+                                            return `<option value='${opt.id}' ${propValueArr[0] === opt.id ? "selected='selected'" : ""}>${opt.name}</option>`;
                                         }).join('');
                                         fieldTemplate +=
                                             `<select class='property-field-value' id='toggle'>${fieldSessionOptions}</select>`;
 
                                         fieldTemplate += `<input type='text' class='${fieldProp.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? propValueArr[1] : ""}'/>`;
-                                        
-                                        let fieldSubOptions = ``;
-                                        if (selectedComponentIds.length > 1) {
-                                            fieldSubOptions += `<option value='' disabled selected style='display:none;'></option>`;
-                                        }
-                                        fieldSubOptions += fieldProp.option[1].items.map(function (opt) {
-                                            return `<option value='${opt.id}' ${propValueArr[1] === opt.id && selectedComponentIds === 1 ? "selected='selected'" : ""}>${opt.name}</option>`;
+
+                                        const fieldSubOptions = fieldProp.option[1].items.map(function (opt) {
+                                            return `<option value='${opt.id}' ${propValueArr[1] === opt.id ? "selected='selected'" : ""}>${opt.name}</option>`;
                                         }).join('');
                                         fieldTemplate +=
                                             `<select class='${fieldProp.type}' id='select' style='${propValueArr[0] === "select" ? "" : "display: none;"}'>${fieldSubOptions}</select>`;
