@@ -23,8 +23,10 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      */
     fun createToken(tokenDto: WfTokenDto): WfTokenDto {
         this.assigneeId = tokenDto.assigneeId.toString()
+
         val token = wfTokenManagerService.makeTokenEntity(tokenDto)
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
+
         val createTokenDto = tokenDto.copy()
         createTokenDto.tokenId = this.createTokenEntity.tokenId
         return this.createElementToken(createTokenDto)
@@ -55,13 +57,18 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
+        token.assigneeId = tokenDto.assigneeId
+
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
-        val completedToken = tokenDto.copy()
-        completedToken.tokenId = token.tokenId
+
+        val completedTokenDto = tokenDto.copy()
+        completedTokenDto.tokenId = token.tokenId
+        completedTokenDto.assigneeId = this.createTokenEntity.assigneeId
         if (!token.instance.pTokenId.isNullOrEmpty()) {
-            completedToken.parentTokenId = token.instance.pTokenId
+            completedTokenDto.parentTokenId = token.instance.pTokenId
         }
-        return this.completeElementToken(completedToken)
+
+        return this.completeElementToken(completedTokenDto)
     }
 
     /**
