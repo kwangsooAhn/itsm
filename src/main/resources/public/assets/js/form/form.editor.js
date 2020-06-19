@@ -539,7 +539,7 @@
             }
         }
         // 이력 재정렬
-        if (histories.length > 2) {
+        if (histories.length > 1) {
             histories.sort(function (a, b) {
                 return a[0].display.order < b[0].display.order ? -1 : a[0].display.order > b[0].display.order ? 1 : 0;
             });
