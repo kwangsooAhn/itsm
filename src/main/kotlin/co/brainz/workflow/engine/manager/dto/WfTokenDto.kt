@@ -15,7 +15,7 @@ data class WfTokenDto(
     var assigneeId: String? = null,
     var data: List<WfTokenDataDto>? = null,
     var fileDataIds: String? = null,
-    val action: String? = null,
+    var action: String? = null,
     val numberingId: String? = null,
     var parentTokenId: String? = null,
     var instanceCreateUser: AliceUserEntity? = null

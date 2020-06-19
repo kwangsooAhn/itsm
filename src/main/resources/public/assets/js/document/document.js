@@ -259,7 +259,7 @@
         //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
         const buttonCancelEle = document.createElement('button');
         buttonCancelEle.type = 'button';
-        buttonCancelEle.innerText = i18n.get('common.btn.cancel');
+        buttonCancelEle.innerText = i18n.get('common.btn.close');
         buttonCancelEle.addEventListener('click', function() {
             window.close();
         });

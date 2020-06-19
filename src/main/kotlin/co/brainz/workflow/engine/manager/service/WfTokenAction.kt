@@ -1,9 +1,13 @@
 package co.brainz.workflow.engine.manager.service
 
 import co.brainz.workflow.element.constants.WfElementConstants
+import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenDataEntity
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 class WfTokenAction(
     private val wfTokenManagerService: WfTokenManagerService
@@ -24,9 +28,7 @@ class WfTokenAction(
         // Save Token & Token Data
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.assigneeId = tokenDto.assigneeId
-        if (tokenDto.tokenStatus != null) {
-            token.tokenStatus = tokenDto.tokenStatus.toString()
-        }
+        token.tokenEndDt
         val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
         for (tokenDataDto in tokenDto.data!!) {
             val tokenDataEntity = WfTokenDataEntity(
@@ -46,8 +48,11 @@ class WfTokenAction(
      * Cancel.
      */
     private fun cancel(tokenDto: WfTokenDto) {
-        tokenDto.tokenStatus = WfTokenConstants.Status.CANCEL.code
-        this.save(tokenDto)
+        val token = wfTokenManagerService.getToken(tokenDto.tokenId)
+        token.tokenStatus = WfTokenConstants.Status.CANCEL.code
+        token.assigneeId = tokenDto.assigneeId
+        token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+        wfTokenManagerService.saveToken(token)
         wfTokenManagerService.completeInstance(tokenDto.instanceId)
     }
 
@@ -55,8 +60,24 @@ class WfTokenAction(
      * Terminate.
      */
     private fun terminate(tokenDto: WfTokenDto) {
-        tokenDto.tokenStatus = WfTokenConstants.Status.TERMINATE.code
-        this.save(tokenDto)
-        wfTokenManagerService.completeInstance(tokenDto.instanceId)
+        //token terminate
+        val token = wfTokenManagerService.getToken(tokenDto.tokenId)
+        token.tokenStatus = WfTokenConstants.Status.TERMINATE.code
+        token.assigneeId = tokenDto.assigneeId
+        token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+        wfTokenManagerService.saveToken(token)
+
+        //end token
+        val element = wfTokenManagerService.getEndElement(token.instance.document.process.processId)
+        val commonEndTokenDto = WfTokenDto(
+            tokenId = "",
+            tokenStatus = WfTokenConstants.Status.FINISH.code,
+            documentId = token.instance.document.documentId,
+            instanceId = token.instance.instanceId,
+            elementId = element.elementId,
+            elementType = element.elementType
+        )
+        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).getTokenManager(commonEndTokenDto.elementType)
+        WfEngine(wfTokenManagerService).progressWorkflow(tokenManager.createToken(commonEndTokenDto))
     }
 }

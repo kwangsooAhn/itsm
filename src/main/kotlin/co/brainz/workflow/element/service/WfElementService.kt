@@ -43,6 +43,16 @@ class WfElementService(
     }
 
     /**
+     * Get end element.
+     */
+    fun getEndElement(processId: String): WfElementEntity {
+        return wfElementRepository.findByProcessIdAndElementType(
+            processId,
+            WfElementConstants.ElementType.COMMON_END_EVENT.value
+        )
+    }
+
+    /**
      * 다음 엘리먼트 정보 가져오기
      *
      * @param restTemplateTokenDto 종료된 엘리먼트의 토큰

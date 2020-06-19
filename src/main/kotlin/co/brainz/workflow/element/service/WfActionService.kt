@@ -107,6 +107,13 @@ class WfActionService(
             }
         }
 
+        // TODO: 권한여부에 따른 버튼 출려 기능 구현 필요
+        //val isAdmin = true
+        //if (isAdmin) {
+        postActions.add(RestTemplateActionDto(name = "취소", value = WfElementConstants.Action.CANCEL.value))
+        postActions.add(RestTemplateActionDto(name = "종결", value = WfElementConstants.Action.TERMINATE.value))
+        //}
+
         return postActions
     }
 
