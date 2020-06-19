@@ -101,11 +101,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserDateTime(beforeSystemDateTime) {
-        if (beforeSystemDateTime === null || beforeSystemDateTime === '') {
-            return ''
-        } else {
-            return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone).toFormat(dateTimeFormat);
-        }
+        return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone).toFormat(dateTimeFormat);
     }
 
     /**
@@ -117,11 +113,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserDate(beforeSystemDate) {
-        if (beforeSystemDate === null || beforeSystemDate === '') {
-            return ''
-        } else {
-            return luxon.DateTime.fromISO(beforeSystemDate).setZone(timezone).toFormat(dateFormat);
-        }
+        return luxon.DateTime.fromISO(beforeSystemDate).setZone(timezone).toFormat(dateFormat);
     }
 
     /**
@@ -134,11 +126,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserTime(beforeSystemTime) {
-        if (beforeSystemTime === null || beforeSystemTime === '') {
-            return ''
-        } else {
-            return luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat);
-        }
+        return luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat);
     }
 
     /**
