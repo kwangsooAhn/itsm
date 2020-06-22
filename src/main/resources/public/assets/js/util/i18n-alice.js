@@ -144,7 +144,7 @@
         if (beforeSystemTime === null || beforeSystemTime === '') {
             return ''
         } else {
-            return luxon.DateTime.fromISO(beforeSystemTime,{zone: 'utc'}).toFormat(timeFormat);
+            return luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat);
         }
     }
 
