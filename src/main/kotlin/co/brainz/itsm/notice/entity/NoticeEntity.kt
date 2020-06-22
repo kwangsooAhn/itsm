@@ -3,14 +3,11 @@ package co.brainz.itsm.notice.entity
 import co.brainz.framework.auditor.AliceMetaEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.portal.dto.PortalDto
-import co.brainz.itsm.utility.LocalDateTimeAttributeConverter
-import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
 import javax.persistence.ColumnResult
 import javax.persistence.ConstructorResult
-import javax.persistence.Convert
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
