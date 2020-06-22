@@ -66,7 +66,7 @@
           "title": "Common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
-            {"id": "name", "name": "Name", "type": "inputbox", "default": "종료", "required": "N"}
+            {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         }
       ]
