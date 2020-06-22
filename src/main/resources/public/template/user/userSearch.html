@@ -12,7 +12,8 @@
         <!--<h1 th:text="#{form.label.list}"></h1>-->
         <h1>사용자 목록</h1>
         <div align="right">
-            <button type="button" onclick="openNewUserEdit();" sec:authorize="hasAuthority('user.create')"
+            <button type="button" th:onclick="'location.href=\'' + @{/users/new} + '\''"
+                    sec:authorize="hasAuthority('user.create')"
                     th:text="#{common.btn.register}"></button>
             <!--<input type="text" id="search" style="width: 270px" th:placeholder="사용자아이디, 사용자이름">-->
             <input type="text" id="search" style="width: 270px" />
@@ -42,23 +43,6 @@
                     formDtEle[i].textContent = i18n.userDateTime(formDtEle[i].textContent);
                 }*/
             }, showProgressbar);
-        }
-
-        function openNewUserEdit() {
-            window.open('/users/new', 'users_new', 'width=1000, height=940');
-        }
-
-        function openUserEdit(userKey) {
-            alert('edit ' + userKey);
-            const _width = 1000,
-                _height = 940;
-            //중앙 배치
-            const _left = Math.ceil((window.screen.width - _width) / 2);
-            const _top = Math.ceil((window.screen.height - _height) / 4);
-
-            let specs = 'left=' + _left + ',top=' + _top;
-            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/users/' + userKey + '/edit', 'userEdit', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
         function openUserView(userKey) {

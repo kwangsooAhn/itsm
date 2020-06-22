@@ -36,24 +36,23 @@
 <th:block layout:fragment="content">
     <div id="container" align="center">
         <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
-        <input type="hidden" id="oldPassword" name="oldPassword" th:value="${users?.password}"/>
         <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
         <form id="userEditSelfForm" method="post" onsubmit ="return false">
             <table style="text-align: left;">
                 <tbody id="tbody">
                     <tr>
-                        <th th:text="#{user.id}+'*'"/>
+                        <th th:text="#{user.id}+'*'"></th>
                         <td><input type="text" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/>
                     </tr>
                 </tbody>
                 <tbody id="passwordArea">
                     <tr>
-                        <th th:text="#{user.password}+'*'"/>
-                        <td><input type="password" id="password" name="password" maxlength="100" required="required"/>
+                        <th th:text="#{user.password}+'*'"></th>
+                        <td><input type="password" id="password" autocomplete="new-password" name="password" maxlength="100" required="required"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.rePassword}+'*'"/>
-                        <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"/>
+                        <th th:text="#{user.rePassword}+'*'"></th>
+                        <td><input type="password" id="rePassword" autocomplete="new-password" name="rePassword" maxlength="100" required="required"/>
                     </tr>
                 </tbody>
                 <tbody border="1">
@@ -62,72 +61,82 @@
                         <col width="480px">
                     </colgroup>
                     <tr>
-                        <th th:text="#{user.name}+'*'"/>
+                        <th th:text="#{user.name}+'*'"></th>
                         <td><input type="text" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.email}+'*'"/>
+                        <th th:text="#{user.email}+'*'"></th>
                         <td><input type="text" id="email" name="email" th:value="${users?.email}" maxlength="100" required="required"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.usageStatus}+'*'"/>
+                        <th th:text="#{user.usageStatus}+'*'"></th>
                         <td>
                             <label>
                                 <input id="usageStatusUse" name="type" type="radio"
-                                       th:checked="${users?.useYn == true}"
+                                       th:checked="${users?.useYn == null || users?.useYn == true}"
                                        th:text="#{user.usageStatusFlag.use}" />
                             </label>
                             <label>
-                                <input id="usageStatusUnuse" name="type" type="radio"
+                                <input id="usageStatusUnUse" name="type" type="radio"
                                        th:checked="${users?.useYn == false}"
                                        th:text="#{user.usageStatusFlag.unused}" />
                             </label>
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.position}"/>
+                        <th th:text="#{user.position}"></th>
                         <td><input type="text" id="position" name="position" th:value="${users?.position}" maxlength="100"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.department}"/>
+                        <th th:text="#{user.department}"></th>
                         <td><input type="text" id="department" name="department" th:value="${users?.department}" maxlength="100"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.officeNumber}"/>
+                        <th th:text="#{user.officeNumber}"></th>
                         <td><input type="text" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
                     </tr>
                     <tr>
-                        <th th:text="#{user.mobileNumber}"/>
+                        <th th:text="#{user.mobileNumber}"></th>
                         <td><input type="text" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
                     </tr>
                     <tr>
-                        <th th:text="#{user.timezone}+'*'"/>
-                        <td><select name="timezone" id="timezone"><option th:each="tzData: ${timezoneList}" th:value="${tzData.timezoneValue}"
-                                                                          th:text="${tzData.timezoneId}"></option></select></td>
-                    </tr>
-                    <tr>
-                        <th th:text="#{user.timeFormat}+'*'"/></th>
+                        <th th:text="#{user.timezone}+'*'"></th>
                         <td>
-                            <span th:text="#{user.date}"></span>
-                            <select name="date" id="date"><option th:each="dateData: ${dateList}" th:value="${dateData.codeValue}"
-                                                                  th:text="${dateData.codeValue}"></option></select>
-                            <span th:text="#{user.time}"></span>
-                            <select name="time" id="time"><option th:each="timeData: ${timeList}" th:value="${timeData.codeValue}"
-                                                                  th:text="${timeData.code}"></option></select>
+                            <select name="timezone" id="timezone">
+                                <option th:each="tzData: ${timezoneList}" th:value="${tzData.timezoneValue}" th:text="${tzData.timezoneId}"></option>
+                            </select>
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.lang}+'*'"/>
-                        <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}"
-                                                                  th:text="${itemData.codeValue}"></option></select></td>
+                        <th th:text="#{user.timeFormat}+'*'"></th>
+                        <td>
+                            <span th:text="#{user.date}"></span>
+                            <select name="date" id="date">
+                                <option th:each="dateData: ${dateList}" th:value="${dateData.codeValue}" th:text="${dateData.codeValue}"></option>
+                            </select>
+                            <span th:text="#{user.time}"></span>
+                            <select name="time" id="time">
+                                <option th:each="timeData: ${timeList}" th:value="${timeData.codeValue}" th:text="${timeData.code}"></option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.theme}+'*'"/>
-                        <td><select name="theme" id="theme"><option th:each="themeData: ${themeList}" th:value="${themeData.codeValue}"
-                                                                    th:text="${themeData.codeValue}"></option></select></td>
+                        <th th:text="#{user.lang}+'*'"></th>
+                        <td>
+                            <select name="lang" id="lang">
+                                <option th:each="itemData: ${langList}" th:value="${itemData.codeValue}" th:text="${itemData.codeValue}"></option>
+                            </select></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.avatar}"/>
+                        <th th:text="#{user.theme}+'*'"></th>
+                        <td>
+                            <select name="theme" id="theme">
+                                <option th:each="themeData: ${themeList}" th:value="${themeData.codeValue}" th:text="${themeData.codeValue}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.avatar}"></th>
                         <td>
                             <div id="dropZoneFiles"></div><br/><br/>
                             <div th:text="#{user.FileSizeLimit}"></div>
@@ -138,8 +147,7 @@
                         <th th:text="#{user.role}"></th>
                         <td>
                             <ui th:each="role : ${roles}">
-                                <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}"
-                                                                                                     th:checked="*{role.checked}">
+                                <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}" th:checked="*{role.checked}">
                                 <label th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
                             </ui>
                         </td>
@@ -147,8 +155,7 @@
                 </tbody>
             </table>
             <button style="margin-top: 25px;" th:if="!${users?.userKey}" th:onclick="restSubmit('post', [[@{/rest/users}]])" th:text="#{user.reg}"></button>
-            <button style="margin-top: 25px;" th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])"
-                                                                        th:text="#{user.editUserInfo}"></button>
+            <button style="margin-top: 25px;" th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])" th:text="#{user.editUserInfo}"></button>
         </form>
     </div>
     <br>
