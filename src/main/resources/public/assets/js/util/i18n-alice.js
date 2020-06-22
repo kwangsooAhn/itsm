@@ -68,7 +68,7 @@
         if (offset === undefined) {
             offset = { 'days' : 0 };
         }
-        return luxon.DateTime.fromFormat(beforeUserDateTime, dateTimeFormat).setZone('utc+0').plus(offset).toISO();
+        return luxon.DateTime.fromFormat(beforeUserDateTime, dateTimeFormat, {zone: timezone}).setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -83,7 +83,7 @@
         if (offset === undefined) {
             offset = { 'days' : 0 };
         }
-        return luxon.DateTime.fromFormat(beforeUserDate, dateFormat).setZone('utc+0').plus(offset).toISO();
+        return luxon.DateTime.fromFormat(beforeUserDate, dateFormat, {zone: timezone}).setZone('utc+0').plus(offset).toISO();
     }
 
     /**
