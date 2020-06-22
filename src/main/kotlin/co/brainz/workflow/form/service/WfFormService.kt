@@ -312,7 +312,7 @@ class WfFormService(
             objMapper.convertValue(component.dataAttribute, LinkedHashMap::class.java)
         if (common != null) {
             if (common.containsKey("mappingId")) {
-                mappingId = common["mappingId"] as String
+                mappingId = common["mappingId"].toString().trim()
             }
             if (common.containsKey("isTopic")) {
                 isTopic = common["isTopic"] as Boolean
