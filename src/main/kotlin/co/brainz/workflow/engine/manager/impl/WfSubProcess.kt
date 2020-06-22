@@ -15,6 +15,9 @@ class WfSubProcess(
         super.createTokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
         super.setCandidate(super.createTokenEntity)
+        super.createTokenEntity.assigneeId?.let {
+            createTokenDto.assigneeId = it
+        }
 
         // Set mapping component data.
         val element = wfTokenManagerService.getElement(createTokenDto.elementId)
@@ -46,6 +49,9 @@ class WfSubProcess(
     }
 
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
+        super.createTokenEntity.assigneeId =
+            wfTokenManagerService.getCurrentAssigneeForChildProcess(completedToken.tokenId) ?: completedToken.assigneeId
+        wfTokenManagerService.saveToken(super.createTokenEntity)
         return completedToken
     }
 }

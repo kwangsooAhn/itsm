@@ -1,11 +1,10 @@
 package co.brainz.itsm.notice.controller
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.user.service.UserService
-import co.brainz.itsm.utility.ConvertParam
+import java.time.format.DateTimeFormatter
 import java.time.LocalDateTime
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
@@ -20,8 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/notices")
 class NoticeController(
     private val userService: UserService,
-    private val noticeService: NoticeService,
-    private val convertParam: ConvertParam
+    private val noticeService: NoticeService
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -36,8 +34,6 @@ class NoticeController(
      */
     @GetMapping("/search")
     fun getNoticeSearch(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("currentDate", LocalDateTime.now())
-        model.addAttribute("minusCurrentDate", LocalDateTime.now().minusDays(CodeConstants.SEARCH_RANGE_VALUE))
         return noticeSearchPage
     }
 
@@ -47,8 +43,8 @@ class NoticeController(
     @GetMapping("/list")
     fun getNoticeList(noticeSearchDto: NoticeSearchDto, model: Model): String {
         val searchValue = noticeSearchDto.searchValue
-        val fromDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.fromDt, "fromDt")
-        val toDt = convertParam.convertToSearchLocalDateTime(noticeSearchDto.toDt, "toDt")
+        val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
+        val toDt = LocalDateTime.parse(noticeSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
 
         model.addAttribute("noticeList", noticeService.findNoticeSearch(searchValue, fromDt, toDt))
         model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue))
@@ -81,7 +77,6 @@ class NoticeController(
         val userId: String = SecurityContextHolder.getContext().authentication.principal as String
         val userDto: AliceUserEntity = userService.selectUser(userId)
 
-        model.addAttribute("addCurrentDate", LocalDateTime.now().plusDays(CodeConstants.SEARCH_RANGE_VALUE))
         model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeId))
         model.addAttribute("userName", userDto.userName)
         return noticeEditPage

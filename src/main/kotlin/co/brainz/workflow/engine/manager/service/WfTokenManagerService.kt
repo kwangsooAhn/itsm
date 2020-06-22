@@ -228,6 +228,15 @@ class WfTokenManagerService(
     }
 
     /**
+     * 상위 프로세스의 토큰아이디 [parentTokenId] 로 인스턴스를 조회 후 현재 진행중인 토큰의 처리담당자를 리턴한다
+     */
+    fun getCurrentAssigneeForChildProcess(parentTokenId: String): String? {
+        val instance = wfInstanceRepository.findByPTokenId(parentTokenId) ?: return null
+        val token = wfTokenRepository.findTopByInstanceOrderByTokenStartDtDesc(instance)
+        return token?.assigneeId
+    }
+
+    /**
      * Get tokenData by mappingId.
      *  - 토큰에 포함된 컴포넌트 중 mappingId 값이 존재하는 목록을 조회한 후 Map으로 저장 (key: componentId, value: mappingId)
      *  - 토큰 데이터 중 위의 컴포넌트 목록에 포함된 데이터를 Map형태로 저장 (key: mappingId, value: tokenData value)

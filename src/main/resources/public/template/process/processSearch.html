@@ -38,6 +38,10 @@
         function getProcessList(search, showProgressbar) {
             restSubmit('GET', '/processes/list?search=' + encodeURIComponent(search.trim()), function(result) {
                 document.getElementById('processList').innerHTML = result;
+                var processDtEle = document.querySelectorAll('td[name=processDt]');
+                for (let i = 0; i < processDtEle.length; i++) {
+                    processDtEle[i].textContent = i18n.userDateTime(processDtEle[i].textContent);
+                }
             }, showProgressbar);
         }
 
