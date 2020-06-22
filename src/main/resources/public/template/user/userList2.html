@@ -54,7 +54,7 @@
             <td>
                 <button sec:authorize="hasAuthority('user.update')"
                         th:text="#{common.btn.modify}"
-                        th:attr="onclick=|openUserEdit('${user.userKey}')|"></button>
+                        th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''"></button>
             </td>
         </tr>
         </tbody>

@@ -119,12 +119,12 @@ class UserService(
                 val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val targetEntity = updateDataInput(userUpdateDto)
                 val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-
-                if (targetEntity.password != userUpdateDto.password) {
-                    val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
-                    userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
+                if (userUpdateDto.password != null) {
+                    if (targetEntity.password != userUpdateDto.password) {
+                        val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
+                        userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
+                    }
                 }
-
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
                 aliceFileService.uploadAvatar(AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, userUpdateDto.userKey, userUpdateDto.avatarUUID)
@@ -197,6 +197,7 @@ class UserService(
         userUpdateDto.lang?.let { targetEntity.lang = userUpdateDto.lang!! }
         userUpdateDto.timeFormat?.let { targetEntity.timeFormat = userUpdateDto.timeFormat!! }
         userUpdateDto.theme?.let { targetEntity.theme = userUpdateDto.theme!! }
+        userUpdateDto.useYn?.let { targetEntity.useYn = userUpdateDto.useYn!! }
 
         return targetEntity
     }

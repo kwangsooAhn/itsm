@@ -161,6 +161,10 @@ user:
   searchPlaceholder: "아이디 / 이름 / 직책 / 부서 / 사무실 번호 / 핸드폰 번호"
   FileSizeLimit: "파일 크기 제한 : 200KB"
   FileExtensionAllowed: "파일 허용 확장자 : gif, jpeg, jpg, png"
+  usageStatus: "사용 여부"
+  usageStatusFlag:
+    use: "사용"
+    unused: "미사용"
   msg:
     idNotExist: "아이디를 입력해주세요."
     passwordNotExist: "비밀번호를 입력해주세요."
