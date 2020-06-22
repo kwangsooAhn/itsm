@@ -31,18 +31,25 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
      * 파일 추가시 임시폴더에 물리적으로 저장한다.
      */
     @PostMapping("/fileupload")
-    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile, request: HttpServletRequest): ResponseEntity<Map<String, Any>> {
+    fun uploadFile(
+        @RequestPart("file") multipartFile: MultipartFile,
+        request: HttpServletRequest
+    ): ResponseEntity<Map<String, Any>> {
         val response: ResponseEntity<Map<String, Any>>
         val map: MutableMap<String, Any> = mutableMapOf()
 
         when (request.getParameter("target") ?: null) {
             AliceUserConstants.AVATAR_ID -> {
-                var fileName = request.getParameter("fileName") ?: null
-                map["file"] = aliceFileService.uploadResources(multipartFile, AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, fileName)
+                val fileName = request.getParameter("fileName") ?: null
+                map["file"] = aliceFileService.uploadResources(
+                    multipartFile,
+                    AliceUserConstants.USER_AVATAR_IMAGE_DIR,
+                    AliceUserConstants.BASE_DIR,
+                    fileName
+                )
             }
-            null -> {
-                map["file"] = aliceFileService.uploadTemp(multipartFile)
-            }
+            "process" -> map["file"] = aliceFileService.uploadProcessFile(multipartFile)
+            null -> map["file"] = aliceFileService.uploadTemp(multipartFile)
         }
 
         val headers = HttpHeaders()

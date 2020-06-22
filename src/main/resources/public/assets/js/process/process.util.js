@@ -256,7 +256,7 @@
      */
     function createProcessXMLString(processData, version) {
         const xmlDoc = document.implementation.createDocument('', '', null);
-        let definitions = xmlDoc.createElement('definitions', );
+        let definitions = xmlDoc.createElement('definitions');
         let process = xmlDoc.createElement('process');
         process.setAttribute('workflow-version', version);
         process.setAttribute('id', processData.process.id);

@@ -18,6 +18,7 @@ class ProcessController(private val processService: ProcessService) {
     private val processEditPage: String = "process/processEdit"
     private val processDesignerEditPage: String = "process/processDesignerEdit"
     private val processImportPage: String = "process/processImport"
+    private val processStatusPage: String = "process/processStatus"
 
     /**
      * 프로세스 리스트 검색 호출 화면.
@@ -73,5 +74,15 @@ class ProcessController(private val processService: ProcessService) {
     @GetMapping("/import")
     fun getProcessImport(request: HttpServletRequest, model: Model): String {
         return processImportPage
+    }
+
+    /**
+     * 프로세스 상태 화면.
+     */
+    @GetMapping("/{instanceId}/status")
+    fun getProcessStatus(@PathVariable instanceId: String, model: Model): String {
+        val processStatusDto = processService.getProcessStatus(instanceId)
+        model.addAttribute("processStatus", processStatusDto)
+        return processStatusPage
     }
 }

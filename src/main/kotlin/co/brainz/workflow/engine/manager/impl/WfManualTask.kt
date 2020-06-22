@@ -13,6 +13,9 @@ class WfManualTask(
         super.createTokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
         super.setCandidate(super.createTokenEntity)
+        super.createTokenEntity.assigneeId?.let {
+            createTokenDto.assigneeId = it
+        }
 
         return createTokenDto
     }

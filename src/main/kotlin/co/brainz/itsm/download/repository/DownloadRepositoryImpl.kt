@@ -32,7 +32,8 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
             download.downloadTitle.containsIgnoreCase(search)
                 .or(fileLoc.originName.containsIgnoreCase(search))
                 .or(download.createUser.userName.containsIgnoreCase(search))
-                .and(download.createDt.between(fromDt, toDt))
+                .and(download.createDt.goe(fromDt))
+                .and(download.createDt.lt(toDt))
         ).orderBy(download.downloadSeq.desc())
 
         return query.fetch()

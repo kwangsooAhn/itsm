@@ -18,6 +18,7 @@
         hourFormat: 'HH:mm',
         timezone: 'Asia/Seoul',
         sessionInfo: {},
+        defaultType: 'editbox',
         columnWidth: 8.33  //폼 양식을 12등분 하였을 때, 1개의 너비
     };
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="form/formCore">
 <head>
     <meta charset="UTF-8">
     <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -22,9 +23,7 @@
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/document/document.js}"></script>
     <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
-    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
-    <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
@@ -38,6 +37,12 @@
         function getAllInstanceList(search, showProgressbar) {
             restSubmit('get', '/tokens/view-pop/list?searchValue=' + search.trim() + '&tokenId=' + '[[${tokenId}]]', function(result) {
                 document.getElementById('instanceList').innerHTML = result;
+                var instanceDtEle = document.querySelectorAll('td[name=instanceDt]');
+                for (let i = 0; i < instanceDtEle.length; i++) {
+                    if (instanceDtEle[i].textContent !== '') {
+                        instanceDtEle[i].textContent = i18n.userDateTime(instanceDtEle[i].textContent);
+                    }
+                }
             },null ,showProgressbar);
         }
 

@@ -12,12 +12,8 @@
         <form id="formSearch" method="get">
             <div class="pull-right" style="width: 1100px; margin: 10px 0;">
                 <input type="text" name="searchValue" id="searchValue" th:placeholder="#{notice.searchPlaceholder}"/>
-                <input type="text" id="fromDt" name="fromDt" readonly="readonly"
-                    th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                    th:value="${#temporals.format(minusCurrentDate, dateformat)}"/>
-                <input type="text" id="toDt" name="toDt" readonly="readonly"
-                    th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                    th:value="${#temporals.format(currentDate, dateformat)}"/>
+                <input type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                <input type="text" id="toDt" name="toDt" readonly="readonly"/>
                 <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;"
                     onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
             </div>
@@ -30,15 +26,12 @@
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script th:inline="javascript">
         /*<![CDATA[ */
-        const format = /*[[${#authentication.details.timeFormat}]]*/'';
-        const lang = /*[[${#authentication.details.lang}]]*/'';
-        let dateFormat = '';
-
         window.onload = function() {
-            dateFormat = format.split(' ')[0].toUpperCase();
             // initialization date picker
-            dateTimePicker.initDatePicker('fromDt', dateFormat, lang, setDatePicker);
-            dateTimePicker.initDatePicker('toDt', dateFormat, lang, setDatePicker);
+            document.getElementById('fromDt').value = i18n.getDate({'months':-1});
+            document.getElementById('toDt').value = i18n.getDate();
+            dateTimePicker.initDatePicker('fromDt', userFormat.dateFormat, userFormat.lang, setDatePicker);
+            dateTimePicker.initDatePicker('toDt', userFormat.dateFormat, userFormat.lang, setDatePicker);
             document.getElementById('searchValue').addEventListener('keyup', function () { getNoticeList(false); });
             getNoticeList(true);
         };
@@ -49,14 +42,14 @@
             }
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
-                if (moment(toDtValue, dateFormat).isBefore(moment(element.value, dateFormat))) {
+                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
                 } else {
                     getNoticeList(false);
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
-                if (moment(fromDtValue, dateFormat).isAfter(moment(element.value, dateFormat))) {
+                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
                 } else {
                     getNoticeList(false);
@@ -73,8 +66,8 @@
         function getNoticeList(showProgressbar) {
             const data = {
                 searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim()),
-                fromDt: aliceJs.convertToSystemDateFormat(document.getElementById('fromDt').value, dateFormat),
-                toDt: aliceJs.convertToSystemDateFormat(document.getElementById('toDt').value, dateFormat)
+                fromDt: i18n.systemDate(document.getElementById('fromDt').value),
+                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days':1})
             };
             const urlParam = 'searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
 
@@ -89,6 +82,10 @@
                 showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     document.getElementById('noticeList').innerHTML = response.responseText;
+                    var noticeList = document.querySelectorAll('td[name=createDt]');
+                    for (let i = 0; i < noticeList.length; i++) {
+                        noticeList[i].textContent = i18n.userDateTime(noticeList[i].textContent);
+                    }
                 }
             };
             aliceJs.sendXhr(opt);
