@@ -28,8 +28,8 @@
         /*<![CDATA[ */
         window.onload = function() {
             // initialization date picker
-            document.getElementById('fromDt').value = i18n.getDate({'months':-1});
-            document.getElementById('toDt').value = i18n.getDate();
+            document.getElementById('fromDt').value = i18n.userDate(i18n.getDate({'months':-1}));
+            document.getElementById('toDt').value = i18n.userDate(i18n.getDate());
             dateTimePicker.initDatePicker('fromDt', userFormat.dateFormat, userFormat.lang, setDatePicker);
             dateTimePicker.initDatePicker('toDt', userFormat.dateFormat, userFormat.lang, setDatePicker);
             document.getElementById('searchValue').addEventListener('keyup', function () { getNoticeList(false); });

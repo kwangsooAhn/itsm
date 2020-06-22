@@ -111,7 +111,7 @@
         if (beforeSystemDateTime === null || beforeSystemDateTime === '') {
             return ''
         } else {
-            return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone).toFormat(dateTimeFormat);
+            return luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(timezone).toFormat(dateTimeFormat);
         }
     }
 
@@ -127,7 +127,7 @@
         if (beforeSystemDate === null || beforeSystemDate === '') {
             return ''
         } else {
-            return luxon.DateTime.fromISO(beforeSystemDate).setZone(timezone).toFormat(dateFormat);
+            return luxon.DateTime.fromISO(beforeSystemDate, {zone: 'utc'}).setZone(timezone).toFormat(dateFormat);
         }
     }
 
@@ -144,7 +144,7 @@
         if (beforeSystemTime === null || beforeSystemTime === '') {
             return ''
         } else {
-            return luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat);
+            return luxon.DateTime.fromISO(beforeSystemTime,{zone: 'utc'}).toFormat(timeFormat);
         }
     }
 

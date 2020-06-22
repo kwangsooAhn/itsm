@@ -77,13 +77,9 @@ data class NoticeEntity(
     @Column(name = "pop_yn")
     var popYn: Boolean = true,
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    @Convert(converter = LocalDateTimeAttributeConverter::class)
     @Column(name = "pop_strt_dt")
     var popStrtDt: LocalDateTime? = null,
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    @Convert(converter = LocalDateTimeAttributeConverter::class)
     @Column(name = "pop_end_dt")
     var popEndDt: LocalDateTime? = null,
 
@@ -96,13 +92,9 @@ data class NoticeEntity(
     @Column(name = "top_notice_yn")
     var topNoticeYn: Boolean = true,
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    @Convert(converter = LocalDateTimeAttributeConverter::class)
     @Column(name = "top_notice_strt_dt")
     var topNoticeStrtDt: LocalDateTime? = null,
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
-    @Convert(converter = LocalDateTimeAttributeConverter::class)
     @Column(name = "top_notice_end_dt")
     var topNoticeEndDt: LocalDateTime? = null,
 
