@@ -135,9 +135,10 @@ class WfTokenManagerService(
                             notification.receivedUser = candidate.candidateValue
                         }
                         WfTokenConstants.AssigneeType.GROUPS.code -> {
-                            val users = aliceUserRoleMapRepository.findUserRoleMapByRoleId(candidate.candidateValue)
-                            users?.forEach {
-                                notification.receivedUser = it.user.userKey
+                            val userRoleMaps =
+                                aliceUserRoleMapRepository.findUserRoleMapByRoleId(candidate.candidateValue)
+                            userRoleMaps?.forEach { userRoleMap ->
+                                notification.receivedUser = userRoleMap.user.userKey
                             }
                         }
                     }
