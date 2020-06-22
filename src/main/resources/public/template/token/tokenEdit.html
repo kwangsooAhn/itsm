@@ -15,7 +15,7 @@
         <div class="print-btn">
             <button type="button" onclick="openProcessStatusPopUp()"
                     th:text="#{process.label.process}"></button>
-            <button type="button" th:onclick="aliceDocument.print('/tokens/[[${tokenId}]]')"
+            <button type="button" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
                     th:text="#{common.label.print}"></button>
         </div>
         <div class="drawing-board" id="document-container"></div>
