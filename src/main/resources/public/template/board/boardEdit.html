@@ -125,11 +125,11 @@
             boardUpdateDt.textContent = i18n.userDateTime(boardUpdateDt.textContent);
 
             if (attachYn) {
+                var ownId = '';
                 if (!replyYn) {
-                    fileUploader.init({extra: {formId: 'boardForm', ownId: boardId, dropZoneMaxFileSize: attachFileSize}});
-                } else {
-                    fileUploader.init({extra: {formId: 'boardForm', ownId: '', dropZoneMaxFileSize: attachFileSize}});
+                    ownId = boardId;
                 }
+                fileUploader.init({extra: {formId: 'boardForm', ownId: ownId, dropZoneMaxFileSize: attachFileSize}});
             }
             if (categoryYn && /*[[${boardInfo?.boardCategoryId}]]*/ !== '') {
                 document.getElementById('boardCategory').value = /*[[${boardInfo?.boardCategoryId}]]*/;
