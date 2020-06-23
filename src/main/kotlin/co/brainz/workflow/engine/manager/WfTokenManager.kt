@@ -86,28 +86,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     }
 
     /**
-     * Action - Save.
-     */
-    fun actionSave(tokenDto: WfTokenDto) {
-        // Save Token & Token Data
-        val token = wfTokenManagerService.getToken(tokenDto.tokenId)
-        token.assigneeId = tokenDto.assigneeId
-        val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-        for (tokenDataDto in tokenDto.data!!) {
-            val tokenDataEntity = WfTokenDataEntity(
-                token = token,
-                component = wfTokenManagerService.getComponent(tokenDataDto.componentId),
-                value = tokenDataDto.value
-            )
-            tokenDataEntities.add(tokenDataEntity)
-        }
-        if (tokenDataEntities.isNotEmpty()) {
-            wfTokenManagerService.saveAllTokenData(tokenDataEntities)
-        }
-        wfTokenManagerService.saveToken(token)
-    }
-
-    /**
      * Set Assignee + Candidate.
      */
     protected fun setCandidate(token: WfTokenEntity) {
