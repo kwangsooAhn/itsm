@@ -71,15 +71,13 @@
                 <td><label th:text="#{common.label.createUserName}"></label></td>
                 <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardAdmin?.createUser} ? ${boardAdmin.createUser.userName} : ''"></span></td>
                 <td><label th:text="#{common.label.createDate}"></label></td>
-                <td><span id="spanCreateDt" name="spanCreateDt"
-                          th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardAdmin?.createDt,dateformat)}"></span></td>
+                <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardAdmin?.createDt}"></span></td>
             </tr>
             <tr>
                 <td><label th:text="#{common.label.updateUserName}"></label></td>
                 <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardAdmin?.updateUser} ? ${boardAdmin.updateUser.userName} : ''"></span></td>
                 <td><label th:text="#{common.label.updateDate}"></label></td>
-                <td><span id="spanUpdateDt" name="spanUpdateDt"
-                          th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(boardAdmin?.updateDt,dateformat)}"></span></td>
+                <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardAdmin?.updateDt}"></span></td>
             </tr>
             </tbody>
         </table>
@@ -93,14 +91,20 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
+        const boardAdminCreateDt = document.getElementById('spanCreateDt');
+        const boardAdminUpdateDt = document.getElementById('spanUpdateDt');
+
         window.onload = function() {
+            boardAdminCreateDt.textContent = i18n.userDateTime(boardAdminCreateDt.textContent);
+            boardAdminUpdateDt.textContent = i18n.userDateTime(boardAdminUpdateDt.textContent);
+
             // 게시물 삭제 처리 시
             const boardAdminId = /*[[${boardAdmin.boardAdminId}]]*/;
             if (boardAdminId === null) {
                 aliceJs.alert(i18n.get('common.msg.delete.success'));
                 return history.go(-1);
             }
-        }
+        };
 
         //RESTFUL API
         function restSubmit(method, url, async) {

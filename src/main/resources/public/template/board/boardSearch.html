@@ -19,13 +19,9 @@
                 </select>
                 <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100"
                     th:placeholder="#{board.label.searchBoardPlaceholder}"/>
-                <input type="text" id="fromDt" readonly="readonly"
-                    th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                    th:value="${#temporals.format(fromDt, dateformat)}"/>
+                <input type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                 <span>~</span>
-                <input type="text" id="toDt" readonly="readonly"
-                    th:with="dateformat=${#strings.substring(#authentication.details.timeFormat, 0, 10)}"
-                    th:value="${#temporals.format(toDt, dateformat)}"/>
+                <input type="text" id="toDt" name="toDt" readonly="readonly"/>
                 <button sec:authorize="hasAuthority('board.create')"
                     style="float: right" th:onclick="openBoardAdd()" th:text="#{common.btn.register}" >
                 </button>
@@ -39,19 +35,17 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[*/
-        const format = /*[[${#authentication.details.timeFormat}]]*/'';
-        const lang = /*[[${#authentication.details.lang}]]*/'';
         const boardAdminId = /*[[${boardAdminId}]]*/;
-        let dateFormat = '';
 
         window.onload = function() {
-            dateFormat = format.split(' ')[0].toUpperCase();
             if (boardAdminId !== null) {
                 document.getElementById('boardAdmin').value = boardAdminId;
                 getBoardList();
             }
-            dateTimePicker.initDatePicker('fromDt', dateFormat, lang, setDatePicker);
-            dateTimePicker.initDatePicker('toDt', dateFormat, lang, setDatePicker);
+            document.getElementById('fromDt').value = i18n.getDate({'months':-1});
+            document.getElementById('toDt').value = i18n.getDate();
+            dateTimePicker.initDatePicker('fromDt', userFormat.dateFormat, userFormat.lang, setDatePicker);
+            dateTimePicker.initDatePicker('toDt', userFormat.dateFormat, userFormat.lang, setDatePicker);
             document.getElementById('boardAdmin').addEventListener('change', function() { getBoardList(); });
             document.getElementById('search').addEventListener('keyup', function() { getBoardList(); });
             getBoardList();
@@ -63,14 +57,14 @@
             }
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
-                if (moment(toDtValue, dateFormat).isBefore(moment(element.value, dateFormat))) {
+                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
                 } else {
                     getBoardList();
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
-                if (moment(fromDtValue, dateFormat).isAfter(moment(element.value, dateFormat))) {
+                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
                 } else {
                     getBoardList();
@@ -83,8 +77,8 @@
             const searchOpt = {
                 boardAdminId: document.getElementById('boardAdmin').value,
                 search: document.getElementById('search').value.trim(),
-                fromDt: aliceJs.convertToSystemDateFormat(document.getElementById('fromDt').value, dateFormat),
-                toDt: aliceJs.convertToSystemDateFormat(document.getElementById('toDt').value, dateFormat)
+                fromDt: i18n.systemDate(document.getElementById('fromDt').value),
+                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days':1})
             };
             const urlParam = 'boardAdminId=' + searchOpt.boardAdminId + '&search=' + searchOpt.search +
                 '&fromDt=' + searchOpt.fromDt + '&toDt=' + searchOpt.toDt;
@@ -103,6 +97,10 @@
                 url: url,
                 callbackFunc: function(response) {
                     document.getElementById('boardList').innerHTML = response.responseText;
+                    var boardDtEle = document.querySelectorAll('td[name=boardDt]');
+                    for (let i = 0; i < boardDtEle.length; i++) {
+                        boardDtEle[i].textContent = i18n.userDateTime(boardDtEle[i].textContent);
+                    }
                 },
                 showProgressbar: false
             };
