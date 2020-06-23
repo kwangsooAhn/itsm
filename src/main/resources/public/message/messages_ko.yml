@@ -279,7 +279,7 @@ form:
     import: "가져오기"
     export: "내보내기"
     preview: "미리보기"
-    saveExist: "저장하고 나가기"
+    saveExit: "저장하고 나가기"
     copy: "복사-바로아래"
     addAbove: "새로만들기-위"
     addBelow: "새로만들기-아래"
