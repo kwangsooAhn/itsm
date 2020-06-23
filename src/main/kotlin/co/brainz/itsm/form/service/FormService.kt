@@ -1,7 +1,6 @@
 package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.ComponentDetail
@@ -18,6 +17,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
+import java.time.ZoneId
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.ResponseEntity
@@ -35,16 +35,10 @@ class FormService(private val restTemplate: RestTemplateProvider) {
     fun findForms(params: LinkedMultiValueMap<String, String>): List<RestTemplateFormDto> {
         val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORMS.url, parameters = params)
         val responseBody = restTemplate.get(urlDto)
-        val forms: List<RestTemplateFormDto> = mapper.readValue(
+        return mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateFormDto::class.java)
         )
-        for (form in forms) {
-            form.createDt = form.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
-            form.updateDt = form.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
-        }
-
-        return forms
     }
 
     fun getFormData(formId: String): String {
@@ -61,8 +55,8 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateFormDto.status = RestTemplateConstants.FormStatus.EDIT.value
         restTemplateFormDto.createUserKey = aliceUserDto.userKey
-        restTemplateFormDto.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
-        restTemplateFormDto.updateDt = restTemplateFormDto.updateDt?.let { AliceTimezoneUtils().toGMT(it) }
+        restTemplateFormDto.createDt = LocalDateTime.now(ZoneId.of("UTC"))
+        restTemplateFormDto.updateDt = LocalDateTime.now(ZoneId.of("UTC"))
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM.url)
         val responseEntity = restTemplate.create(url, restTemplateFormDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
@@ -87,7 +81,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
     fun saveFormData(formId: String, formData: String): Boolean {
         val formComponentListDto = makeFormComponentListDto(formData)
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        formComponentListDto.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        formComponentListDto.updateDt = LocalDateTime.now(ZoneId.of("UTC"))
         formComponentListDto.updateUserKey = aliceUserDto.userKey
         val urlDto = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formId)
@@ -177,7 +171,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             name = map["name"] as String,
             desc = map["desc"] as String,
             status = map["status"] as String,
-            createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now()),
+            createDt = LocalDateTime.now(ZoneId.of("UTC")),
             createUserKey = aliceUserDto.userKey,
             updateDt = null,
             updateUserKey = null,

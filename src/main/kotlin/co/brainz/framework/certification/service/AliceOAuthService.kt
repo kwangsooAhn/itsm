@@ -12,6 +12,7 @@ import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.Optional
 import java.util.TimeZone
 import javax.transaction.Transactional
@@ -67,7 +68,7 @@ class OAuthService(
             password = "",
             userName = aliceOAuthDto.userName,
             email = aliceOAuthDto.email,
-            expiredDt = LocalDateTime.now().plusMonths(AliceUserConstants.USER_EXPIRED_VALUE),
+            expiredDt = LocalDateTime.now(ZoneId.of("UTC")).plusMonths(AliceUserConstants.USER_EXPIRED_VALUE),
             status = AliceUserConstants.Status.CERTIFIED.code,
             platform = aliceOAuthDto.platform,
             oauthKey = aliceOAuthDto.oauthKey,

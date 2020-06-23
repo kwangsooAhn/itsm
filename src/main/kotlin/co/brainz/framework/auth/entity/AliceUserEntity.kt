@@ -4,6 +4,7 @@ import co.brainz.framework.auditor.AliceMetaEntity
 import co.brainz.framework.constants.AliceUserConstants
 import java.io.Serializable
 import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
@@ -63,7 +64,7 @@ data class AliceUserEntity(
 
     @Column(name = "expired_dt")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    var expiredDt: LocalDateTime = LocalDateTime.now().plusMonths(3),
+    var expiredDt: LocalDateTime = LocalDateTime.now(ZoneId.of("UTC")).plusMonths(3),
 
     @Column(name = "oauth_key", length = 256)
     var oauthKey: String? = "",

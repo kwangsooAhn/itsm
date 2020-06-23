@@ -20,6 +20,7 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.security.PrivateKey
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.TimeZone
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -250,7 +251,7 @@ class AliceCertificationService(
             department = aliceSignUpDto.department,
             officeNumber = aliceSignUpDto.officeNumber,
             mobileNumber = aliceSignUpDto.mobileNumber,
-            expiredDt = LocalDateTime.now().plusMonths(AliceConstants.EXPIRED_MONTH_PERIOD.toLong()),
+            expiredDt = LocalDateTime.now(ZoneId.of("UTC")).plusMonths(AliceConstants.EXPIRED_MONTH_PERIOD.toLong()),
             status = AliceUserConstants.Status.SIGNUP.code,
             oauthKey = "",
             lang = AliceUserConstants.USER_LOCALE_LANG,

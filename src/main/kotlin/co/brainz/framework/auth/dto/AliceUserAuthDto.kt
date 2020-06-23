@@ -4,6 +4,7 @@ import co.brainz.framework.auth.entity.AliceMenuEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
 import java.io.Serializable
 import java.time.LocalDateTime
+import java.time.ZoneId
 import org.springframework.security.core.GrantedAuthority
 
 /**
@@ -21,7 +22,7 @@ data class AliceUserAuthDto(
     var mobileNumber: String = "",
     var useYn: Boolean = true,
     var tryLoginCount: Int = 0,
-    var expiredDt: LocalDateTime = LocalDateTime.now(),
+    var expiredDt: LocalDateTime = LocalDateTime.now(ZoneId.of("UTC")),
     var oauthKey: String? = "",
     var timezone: String = "",
     var lang: String = "",

@@ -8,6 +8,7 @@ import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import co.brainz.workflow.token.repository.WfTokenRepository
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.UUID
 import org.springframework.stereotype.Service
 
@@ -23,7 +24,7 @@ class WfFolderService(
                 folderId = UUID.randomUUID().toString().replace("-", ""),
                 instance = instance,
                 relatedType = WfFolderConstants.RelatedType.ORIGIN.code,
-                createDt = LocalDateTime.now()
+                createDt = LocalDateTime.now(ZoneId.of("UTC"))
             )
         )
     }
@@ -81,7 +82,7 @@ class WfFolderService(
                 instance = wfInstanceRepository.findByInstanceId(it.instanceId)!!,
                 relatedType = WfFolderConstants.RelatedType.REFERENCE.code,
                 createUserKey = it.createUserKey,
-                createDt = LocalDateTime.now()
+                createDt = LocalDateTime.now(ZoneId.of("UTC"))
             )
 
             wfFolderRepository.save(wfFolderEntity)

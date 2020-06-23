@@ -31,14 +31,6 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateRelatedInstanceDto::class.java)
         )
-
-        relatedInstance?.let {
-            for (instance in relatedInstance) {
-                instance.instanceStartDt = instance.instanceStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
-                instance.instanceEndDt = instance.instanceEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
-            }
-        }
-
         return relatedInstance
     }
 

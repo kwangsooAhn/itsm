@@ -2,7 +2,6 @@ package co.brainz.itsm.process.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
-import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.process.dto.ProcessStatusDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -15,10 +14,9 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.Gson
 import java.time.LocalDateTime
+import java.time.ZoneId
 import javax.xml.parsers.DocumentBuilderFactory
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.env.Environment
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -44,15 +42,10 @@ class ProcessService(
     fun getProcesses(params: LinkedMultiValueMap<String, String>): List<RestTemplateProcessViewDto> {
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESSES.url, parameters = params)
         val responseBody = restTemplate.get(url)
-        val wfProcessList: List<RestTemplateProcessViewDto> = mapper.readValue(
+        return mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateProcessViewDto::class.java)
         )
-        for (item in wfProcessList) {
-            item.createDt = item.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
-            item.updateDt = item.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
-        }
-        return wfProcessList
     }
 
     /**
@@ -74,7 +67,7 @@ class ProcessService(
     fun createProcess(restTemplateProcessDto: RestTemplateProcessDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessDto.createUserKey = aliceUserDto.userKey
-        restTemplateProcessDto.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateProcessDto.createDt = LocalDateTime.now(ZoneId.of("UTC"))
         restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS.url)
         val responseBody = restTemplate.create(url, restTemplateProcessDto)
@@ -92,7 +85,7 @@ class ProcessService(
      */
     fun updateProcessData(processId: String, restTemplateProcessElementDto: RestTemplateProcessElementDto): Boolean {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateProcessElementDto.process?.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateProcessElementDto.process?.updateDt = LocalDateTime.now(ZoneId.of("UTC"))
         restTemplateProcessElementDto.process?.updateUserKey = userDetails.userKey
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Process.PUT_PROCESS_DATA.url.replace(
@@ -109,7 +102,7 @@ class ProcessService(
      */
     fun saveAsProcess(restTemplateProcessElementDto: RestTemplateProcessElementDto): String {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateProcessElementDto.process?.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateProcessElementDto.process?.createDt = LocalDateTime.now(ZoneId.of("UTC"))
         restTemplateProcessElementDto.process?.createUserKey = userDetails.userKey
         restTemplateProcessElementDto.process?.updateDt = null
         restTemplateProcessElementDto.process?.updateUserKey = null

@@ -55,18 +55,4 @@ class AliceTimezoneUtils {
         }
         return localDateTime
     }
-
-    /**
-     * Timezone -> GMT.
-     *
-     * @param localDateTime
-     * @return localDateTime
-     */
-    fun toGMT(localDateTime: LocalDateTime): LocalDateTime {
-        val timezone = this.timezone()
-        if (timezone.isNotEmpty()) {
-            return localDateTime.atZone(ZoneId.of(timezone)).withZoneSameInstant(ZoneId.of("UTC")).toLocalDateTime()
-        }
-        return localDateTime
-    }
 }

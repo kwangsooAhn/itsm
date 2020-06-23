@@ -3,6 +3,7 @@ package co.brainz.itsm.notice.dto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
 import java.time.LocalDateTime
+import java.time.ZoneId
 
 data class NoticeDto(
     var noticeNo: String = "",
@@ -16,7 +17,7 @@ data class NoticeDto(
     var topNoticeYn: Boolean = true,
     var topNoticeStrtDt: LocalDateTime? = null,
     var topNoticeEndDt: LocalDateTime? = null,
-    var createDt: LocalDateTime = LocalDateTime.now(),
+    var createDt: LocalDateTime = LocalDateTime.now(ZoneId.of("UTC")),
     var createUserKey: String? = null,
     var updateDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
