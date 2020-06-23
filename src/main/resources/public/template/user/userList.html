@@ -42,7 +42,6 @@
         <tr th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
             <td><img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${user.userKey})}" width="30px" height="30px" border="1"
                      th:onerror="'this.onerror=null; this.src=\'' + @{/assets/media/image/avatar/profile_sample.jpg} + '\';'" alt="profile pic"/>
-                <!--<a th:href="@{/users/{userKey}/edit(userKey=${user.userKey})}"><span th:text="${user.userName}"></span></a>-->
                 <span th:text="${user.userName}"></span>
             </td>
             <td th:text="${user.userId}"></td>

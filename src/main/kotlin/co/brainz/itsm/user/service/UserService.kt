@@ -1,6 +1,5 @@
 package co.brainz.itsm.user.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapPk
@@ -12,7 +11,6 @@ import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
-import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.dto.UserDto
 import co.brainz.itsm.user.dto.UserListDto
@@ -25,7 +23,6 @@ import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.context.request.RequestContextHolder
@@ -39,7 +36,6 @@ class UserService(
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
     private val aliceFileService: AliceFileService,
-    private val codeService: CodeService,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val userRepository: UserRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
@@ -107,7 +103,6 @@ class UserService(
                 val privateKey =
                     attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val targetEntity = updateDataInput(userUpdateDto)
-                val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
                 if (userUpdateDto.password != null) {
                     if (targetEntity.password != userUpdateDto.password) {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
@@ -138,12 +133,15 @@ class UserService(
                     }
                 }
 
-                code = if (targetEntity.email == emailConfirmVal && userUpdateDto.userKey == aliceUserDto.userKey) {
-                    AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
-                } else if (userUpdateDto.userKey != aliceUserDto.userKey) {
-                    AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
-                } else {
-                    AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
+                code = when (targetEntity.email == emailConfirmVal) {
+                    true -> {
+                        when (userEditType) {
+                            AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
+                            AliceUserConstants.UserEditType.SELF_USER_EDIT.code -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
+                            else -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
+                        }
+                    }
+                    false -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
                 }
             }
         }

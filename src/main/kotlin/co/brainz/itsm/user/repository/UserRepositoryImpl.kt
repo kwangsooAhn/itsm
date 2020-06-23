@@ -9,10 +9,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
 
     override fun findAliceUserEntityList(search: String, category: String): List<AliceUserEntity> {
         val user = QAliceUserEntity.aliceUserEntity
-
         val query = from(user)
-            .innerJoin(user.createUser).fetchJoin()
-            .innerJoin(user.updateUser).fetchJoin()
             .where(user.userName.containsIgnoreCase(search).or(user.userId.containsIgnoreCase(search)))
         if (category != "all") {
             query.where(user.platform.eq(category))

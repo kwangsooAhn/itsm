@@ -35,7 +35,6 @@
 <th:block layout:fragment="content">
     <div id="container" align="center">
     <input type="hidden" id="userKey" name="userKey" th:value="${users.userKey}"/>
-    <input type="hidden" id="oldPassword" name="oldPassword" th:value="${users.password}"/>
     <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
         <form id="userEditSelfForm" method="post" onsubmit ="return false">
             <table style="text-align: left;">
@@ -236,7 +235,6 @@
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
 
         function restSubmit(method, url) {
-            const oldPassword = document.getElementById('oldPassword').value;
             var password = document.getElementById('password').value;
             var keyModule;
             var keyExponent;
@@ -251,16 +249,9 @@
             rsa = new RSAKey();
             rsa.setPublic(keyModule, keyExponent);
 
-            if (password === '') {
-                password = oldPassword;
-            } else {
-                password = rsa.encrypt(password);
-            }
-
             const data = {
                 userKey: document.getElementById('userKey').value,
                 userId: document.getElementById('userId').value,
-                password: password,
                 userName: document.getElementById('userName').value,
                 email: document.getElementById('email').value,
                 position: document.getElementById('position').value,
@@ -274,6 +265,9 @@
                 fileSeq: document.getElementsByName('fileSeq').value,
                 avatarUUID: document.getElementById('avatarUUID').value
             };
+            if (password !== '') {
+                data.password = rsa.encrypt(password);
+            }
 
             const opt = {
                 method: method,
