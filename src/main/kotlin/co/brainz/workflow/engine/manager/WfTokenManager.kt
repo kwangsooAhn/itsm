@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ */
+
 package co.brainz.workflow.engine.manager
 
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -13,6 +17,10 @@ import co.brainz.workflow.token.entity.WfTokenEntity
 import java.time.LocalDateTime
 import java.time.ZoneId
 
+/**
+ * 프로세스 진행간 생성되는 모든 토큰은 어떤 엘리먼트냐에 따라 동작이 달라진다.
+ * 이때 각 엘리먼트 종류별로 동작을 구현하는 TokenManager들의 가장 상위 클래스.
+ */
 abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) {
 
     lateinit var createTokenEntity: WfTokenEntity
@@ -29,7 +37,14 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
 
         val createTokenDto = tokenDto.copy()
         createTokenDto.tokenId = this.createTokenEntity.tokenId
-        return this.createElementToken(createTokenDto)
+
+        // TODO : Refactoring 필요.
+        // 각 tokenmanager들의 createElementToken함수에서 super.cretateTokenEntity에 뭔짓을 하는지 몰라서
+        // 일단 모든 처리가 끝난 이후에 알림을 체크하기 위해서 아래와 같이 임시로 newTokenDto로 구성.
+        // entity와 dto를 이중으로 관리하는 패턴이 좀 이상하다.
+        val newTokenDto = this.createElementToken(createTokenDto)
+        wfTokenManagerService.notificationCheck(createTokenEntity)
+        return newTokenDto
     }
 
     /**
@@ -104,12 +119,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             }
             else -> {
                 token.assigneeId = this.assigneeId
-                when (token.element.elementType) {
-                    WfElementConstants.ElementType.MANUAL_TASK.value -> {
-                        wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
-                    }
-                    else -> wfTokenManagerService.saveToken(token)
-                }
+                wfTokenManagerService.saveToken(token)
             }
         }
     }
@@ -157,7 +167,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             assigneeId = this.assigneeId
         }
         token.assigneeId = assigneeId
-        wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
+        wfTokenManagerService.saveToken(token)
     }
 
     /**
@@ -179,13 +189,11 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
                 )
                 wfCandidateEntities.add(wfCandidateEntity)
             }
-            wfTokenManagerService.saveNotification(
-                token,
-                wfTokenManagerService.saveAllCandidate(wfCandidateEntities)
-            )
+            wfTokenManagerService.saveAllCandidate(wfCandidateEntities)
+            token.candidate = wfCandidateEntities
         } else {
             token.assigneeId = this.assigneeId
-            wfTokenManagerService.saveNotification(wfTokenManagerService.saveToken(token))
+            wfTokenManagerService.saveToken(token)
         }
     }
 
