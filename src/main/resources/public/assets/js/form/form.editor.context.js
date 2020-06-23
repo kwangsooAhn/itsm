@@ -463,6 +463,13 @@
 
         dragComponent = e.target;
         if (dragComponent) {
+            let dragComponentIndex = editor.getSelectComponentIndex();
+            if (editor.selectedComponentIds.indexOf(dragComponent.id) === -1 || dragComponentIndex.length === 0) { // drag할 컴포넌트가 포함되지 않았다면 재선택
+                dragComponentIndex.push(Number(dragComponent.getAttribute('data-index')));
+                editor.selectedComponentIds.length = 0;
+                editor.selectedComponentIds.push(dragComponent.id);
+                editor.showComponentProperties();
+            }
             //맨 마지막에 추가되길 원할 경우 필요한 drag 영역
             lastComponent = document.createElement('component');
             lastComponent.classList.add('component');
@@ -470,9 +477,9 @@
             dragComponent.parentNode.appendChild(lastComponent);
             
             componentDragOn();
+
+            e.dataTransfer.effectAllowed = 'move';
         }
-        e.dataTransfer.effectAllowed = 'move';
-        e.dataTransfer.setData('text/html', e.target.outerHTML);
     }
 
     function onDragOverHandler(e) {
@@ -483,8 +490,12 @@
         if (targetComponent && dragComponent !== targetComponent) {
             let lastCompIndex = component.getLastIndex();
             if (lastCompIndex === Number(dragComponent.getAttribute('data-index')) 
-                && targetComponent === lastComponent) { //맨 마지막에 컴포넌트를 옮길 때 맨 아래 가이드 라인 미출력
+                && targetComponent === lastComponent) { // 맨 마지막에 컴포넌트를 옮길 때 맨 아래 가이드 라인 미출력
                 return false; 
+            }
+            // 연속된 컴포넌트를 선택하여 이동하고자 하는 경우, 선택한 컴포넌트에 마우스 오버시, 라인 미출력
+            if (editor.selectedComponentIds.length > 1 && editor.selectedComponentIds.indexOf(targetComponent.id) !== -1) {
+                return false;
             }
             
             targetComponent.classList.add('over');
@@ -505,29 +516,42 @@
             //같은 위치에 drag 하고자 하는 경우
             let dragIdx = Number(dragComponent.getAttribute('data-index'));
             if (targetComponent !== lastComponent && Number(targetComponent.getAttribute('data-index')) === (dragIdx + 1)) { return false; }
-            
-            let dragComponentHTML = e.dataTransfer.getData('text/html');
-            targetComponent.parentNode.removeChild(dragComponent);
-            targetComponent.insertAdjacentHTML('beforebegin', dragComponentHTML);
-            
-            dragComponent = targetComponent.previousSibling;
-            dragComponent.parentNode.removeChild(lastComponent);
+
+            //연속하여 선택된 컴포넌트 중 하나에 drag 하고자 하는 경우
+            if (editor.selectedComponentIds.length > 1 && editor.selectedComponentIds.indexOf(targetComponent.id) !== -1) { return false; }
+
+            let components = document.querySelectorAll('.selected');
+            let histories = [];
+            for (let i = 0, len = components.length; i < len; i++) {
+                let moveComponent =  components[i];
+                targetComponent.insertAdjacentHTML('beforebegin', moveComponent.outerHTML);
+                targetComponent.parentNode.removeChild(moveComponent);
+
+                const compIdx = editor.getComponentIndex(moveComponent.id);
+                histories.push({0: JSON.parse(JSON.stringify(editor.data.components[compIdx])), 1: {}});
+            }
+            targetComponent.parentNode.removeChild(lastComponent);
             lastComponent = null;
             //재정렬
             editor.reorderComponent();
             componentDragOff();
 
+            for (let i = 0, len = histories.length; i < len; i++) {
+                for (let j = 0, compLen = editor.data.components.length; j < compLen; j++) {
+                    if (histories[i][0].componentId === editor.data.components[j].componentId) {
+                        histories[i][1] = JSON.parse(JSON.stringify(editor.data.components[j]));
+                        break;
+                    }
+                }
+            }
             // add history
-            let dragComponentData = editor.data.components.filter(function(comp) { return comp.componentId === dragComponent.id; });
-            let beforeDragData = JSON.parse(JSON.stringify(dragComponentData[0]));
-            beforeDragData.display.order = dragIdx;
-            editor.history.saveHistory([{0: JSON.parse(JSON.stringify(beforeDragData)), 1: JSON.parse(JSON.stringify(dragComponentData[0]))}]);
+            editor.history.saveHistory(histories);
         }
     }
 
     function onDragLeaveHandler(e) {
         let targetComponent = clickInsideElement(e, 'component');
-        if (targetComponent && dragComponent !== targetComponent) {
+        if (targetComponent && dragComponent !== targetComponent && targetComponent.classList.contains('over')) {
             targetComponent.classList.remove('over');
         }
     }
