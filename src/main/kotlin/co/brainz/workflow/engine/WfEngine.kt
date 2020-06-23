@@ -56,7 +56,7 @@ class WfEngine(
                 do {
                     progressTokenDto = this.getTokenDto(progressTokenDto)
                     val tokenManager = this.getTokenManager(progressTokenDto.elementType)
-                    tokenManager.completeToken(progressTokenDto)
+                    progressTokenDto = tokenManager.completeToken(progressTokenDto)
                     progressTokenDto = tokenManager.createNextToken(progressTokenDto)
                 } while (progressTokenDto.isAutoComplete)
             }
