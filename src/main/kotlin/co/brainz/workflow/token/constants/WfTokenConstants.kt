@@ -8,7 +8,9 @@ object WfTokenConstants {
     enum class Status(val code: String) {
         RUNNING("running"),
         WAITING("waiting"),
-        FINISH("finish")
+        FINISH("finish"),
+        CANCEL("cancel"),
+        TERMINATE("terminate")
     }
 
     /**

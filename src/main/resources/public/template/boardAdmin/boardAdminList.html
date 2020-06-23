@@ -64,11 +64,9 @@
                 <td th:if="${boardAdmin.categoryYn} == false"></td>
                 <td style="text-align:center" th:text="${boardAdmin.boardBoardCount}"></td>
                 <td th:text="${boardAdmin.createUser.userName}"></td>
-                <td th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="${boardAdmin.createDt} ? ${#temporals.format(boardAdmin.createDt, dateformat)} : ${boardAdmin.createDt}"></td>
+                <td th:name="boardAdminDt" th:text="${boardAdmin.createDt}"></td>
                 <td th:text="${boardAdmin?.updateUser} ? ${boardAdmin.updateUser.userName} : ''"></td>
-                <td th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="${boardAdmin.updateDt} ? ${#temporals.format(boardAdmin.updateDt, dateformat)} : ''"></td>
+                <td th:name="boardAdminDt" th:text="${boardAdmin.updateDt}"></td>
                 <td>
                     <button sec:authorize="hasAuthority('board.admin.update')"  th:text="#{common.btn.modify}"
                             th:attr="onclick=|openBoardAdminEdit('${boardAdmin.boardAdminId}')|"></button>
