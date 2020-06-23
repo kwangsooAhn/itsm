@@ -91,7 +91,13 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
+        const boardAdminCreateDt = document.getElementById('spanCreateDt');
+        const boardAdminUpdateDt = document.getElementById('spanUpdateDt');
+
         window.onload = function() {
+            boardAdminCreateDt.textContent = i18n.userDateTime(boardAdminCreateDt.textContent);
+            boardAdminUpdateDt.textContent = i18n.userDateTime(boardAdminUpdateDt.textContent);
+
             // 게시물 삭제 처리 시
             const boardAdminId = /*[[${boardAdmin.boardAdminId}]]*/;
             if (boardAdminId === null) {
