@@ -95,6 +95,13 @@ class WfTokenManagerService(
     }
 
     /**
+     * Get end element.
+     */
+    fun getEndElement(processId: String): WfElementEntity {
+        return wfElementService.getEndElement(processId)
+    }
+
+    /**
      * Get next element.
      */
     fun getNextElement(wfTokenDto: WfTokenDto): WfElementEntity {
@@ -218,6 +225,15 @@ class WfTokenManagerService(
         }
 
         return tokenData
+    }
+
+    /**
+     * 상위 프로세스의 토큰아이디 [parentTokenId] 로 인스턴스를 조회 후 현재 진행중인 토큰의 처리담당자를 리턴한다
+     */
+    fun getCurrentAssigneeForChildProcess(parentTokenId: String): String? {
+        val instance = wfInstanceRepository.findByPTokenId(parentTokenId) ?: return null
+        val token = wfTokenRepository.findTopByInstanceOrderByTokenStartDtDesc(instance)
+        return token?.assigneeId
     }
 
     /**

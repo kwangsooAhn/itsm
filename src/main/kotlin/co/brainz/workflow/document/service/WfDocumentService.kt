@@ -85,7 +85,8 @@ class WfDocumentService(
             updateDt = document.updateDt,
             updateUserKey = document.updateUserKey,
             documentNumberingRuleId = document.numberingRule.numberingId,
-            documentColor = document.documentColor
+            documentColor = document.documentColor,
+            documentGroup = document.documentGroup
         )
     }
 
@@ -151,7 +152,8 @@ class WfDocumentService(
             documentStatus = restTemplateDocumentDto.documentStatus,
             numberingRule = aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
                 .get(),
-            documentColor = restTemplateDocumentDto.documentColor
+            documentColor = restTemplateDocumentDto.documentColor,
+            documentGroup = restTemplateDocumentDto.documentGroup
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
 
@@ -168,7 +170,8 @@ class WfDocumentService(
             createDt = dataEntity.createDt,
             createUserKey = dataEntity.createUserKey,
             documentNumberingRuleId = dataEntity.numberingRule.numberingId,
-            documentColor = dataEntity.documentColor
+            documentColor = dataEntity.documentColor,
+            documentGroup = dataEntity.documentGroup
         )
     }
 
@@ -194,6 +197,7 @@ class WfDocumentService(
         wfDocumentEntity.numberingRule =
             aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
         wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
+        wfDocumentEntity.documentGroup = restTemplateDocumentDto.documentGroup
         wfDocumentRepository.save(wfDocumentEntity)
 
         when (restTemplateDocumentDto.documentStatus) {
@@ -364,12 +368,16 @@ class WfDocumentService(
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (component in componentEntities) {
             val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-            for (display in displayList) {
-                if (display.componentId == component.componentId) {
-                    val displayMap = LinkedHashMap<String, Any>()
-                    displayMap["elementId"] = display.elementId
-                    displayMap["display"] = display.display
-                    displayValue.add(displayMap)
+            for (elementEntity in elementEntities) {
+                for (display in displayList) {
+                    if (display.componentId == component.componentId) {
+                        if (display.elementId == elementEntity["elementId"].toString()) {
+                            val displayMap = LinkedHashMap<String, Any>()
+                            displayMap["elementId"] = display.elementId
+                            displayMap["display"] = display.display
+                            displayValue.add(displayMap)
+                        }
+                    }
                 }
             }
             val componentMap = LinkedHashMap<String, Any>()

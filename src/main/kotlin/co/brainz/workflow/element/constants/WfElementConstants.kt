@@ -90,7 +90,9 @@ object WfElementConstants {
         SAVE("save"),
         REJECT("reject"),
         PROCESS("process"),
-        WITHDRAW("withdraw")
+        WITHDRAW("withdraw"),
+        CANCEL("cancel"),
+        TERMINATE("terminate")
     }
 
     enum class AttributeValue(val value: String) {

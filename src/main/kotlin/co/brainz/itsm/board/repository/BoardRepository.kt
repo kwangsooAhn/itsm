@@ -17,7 +17,7 @@ interface BoardRepository : JpaRepository<PortalBoardEntity, String> {
                 " AND (LOWER(b.boardTitle) LIKE LOWER(CONCAT('%', :search, '%')) " +
                 " OR LOWER(bc.boardCategoryName) LIKE LOWER(CONCAT('%', :search, '%')) " +
                 " OR LOWER(b.createUser.userName) LIKE LOWER(CONCAT('%', :search, '%'))) " +
-                " AND b.createDt BETWEEN :fromDt AND :toDt ORDER BY b.boardGroupId DESC, b.boardOrderSeq ASC"
+                " AND (b.createDt >= :fromDt AND b.createDt < :toDt) ORDER BY b.boardGroupId DESC, b.boardOrderSeq ASC"
     )
     fun findByBoardList(
         boardAdminId: String,

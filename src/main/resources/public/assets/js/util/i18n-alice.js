@@ -49,6 +49,13 @@
         return luxon.DateTime.local().setZone(timezone).plus(offset).toFormat(dateFormat);
     }
 
+    function getDateTime(offset) {
+        if (offset === undefined) {
+            offset = { 'days' : 0 };
+        }
+        return luxon.DateTime.local().setZone(timezone).plus(offset).toFormat(dateTimeFormat);
+    }
+
     /**
      * 서버로 전송하기 위해서 UTC+0, ISO8601으로 변환
      *
@@ -57,8 +64,11 @@
      * @param {String}  beforeUserDateTime 사용자가 입력한 날짜시간.
      * @return {String} 변환된 데이터.
      */
-    function convertToSystemDateTime(beforeUserDateTime) {
-        return luxon.DateTime.fromFormat(beforeUserDateTime, dateTimeFormat).setZone('utc+0').toISO();
+    function convertToSystemDateTime(beforeUserDateTime,offset) {
+        if (offset === undefined) {
+            offset = { 'days' : 0 };
+        }
+        return luxon.DateTime.fromFormat(beforeUserDateTime, dateTimeFormat).setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -69,8 +79,11 @@
      * @param {String}  beforeUserDate 변환 대상 날짜.
      * @return {String} 변환된 데이터.
      */
-    function convertToSystemDate(beforeUserDate) {
-        return luxon.DateTime.fromFormat(beforeUserDate, dateFormat).setZone('utc+0').toISO();
+    function convertToSystemDate(beforeUserDate,offset) {
+        if (offset === undefined) {
+            offset = { 'days' : 0 };
+        }
+        return luxon.DateTime.fromFormat(beforeUserDate, dateFormat).setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -95,7 +108,11 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserDateTime(beforeSystemDateTime) {
-        return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone).toFormat(dateTimeFormat);
+        if (beforeSystemDateTime === null || beforeSystemDateTime === '') {
+            return ''
+        } else {
+            return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone).toFormat(dateTimeFormat);
+        }
     }
 
     /**
@@ -107,7 +124,11 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserDate(beforeSystemDate) {
-        return luxon.DateTime.fromISO(beforeSystemDate).setZone(timezone).toFormat(dateFormat);
+        if (beforeSystemDate === null || beforeSystemDate === '') {
+            return ''
+        } else {
+            return luxon.DateTime.fromISO(beforeSystemDate).setZone(timezone).toFormat(dateFormat);
+        }
     }
 
     /**
@@ -116,11 +137,28 @@
      *
      * @author Jung Hee chan
      * @since 2020-06-08
-     * @param {String}  targetTime 변환 대상 시간 데이터.
+     * @param {String}  beforeSystemTime 변환 대상 시간 데이터.
      * @return {String} 변환된 데이터.
      */
     function convertToUserTime(beforeSystemTime) {
-        return luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat);
+        if (beforeSystemTime === null || beforeSystemTime === '') {
+            return ''
+        } else {
+            return luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat);
+        }
+    }
+
+    /**
+     * 서버에서 받은 ISO 8601 포맷의 데이터를 프린트 포맷으로 변경
+     *
+     * @author Lee So Hyun
+     * @since 2020-06-17
+     * @param {String} beforeSystemDateTime 변환 대상 날짜시간 데이터.
+     * @return {String} 변환된 데이터.
+     */
+    function convertToPrintFormat(beforeSystemDateTime) {
+        return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone)
+            .toFormat(dateTimeFormat.replace(/(mm)/g, '$1:ss') + ' (z)');
     }
 
     /**
@@ -168,12 +206,14 @@
     exports.initMessages = addMessages;
 
     exports.getDate = getDate;
+    exports.getDateTime = getDateTime;
     exports.systemDateTime = convertToSystemDateTime;
     exports.systemDate = convertToSystemDate;
     exports.systemTime = convertToSystemTime;
     exports.userDateTime = convertToUserDateTime;
     exports.userDate = convertToUserDate;
     exports.userTime = convertToUserTime;
+    exports.printFormat = convertToPrintFormat;
     exports.get = getMessage; // 앞으로 msg로 사용하고 get은 다 msg로 수정하면 지우자.
     exports.msg = getMessage;
     Object.defineProperty(exports, '__esModule', {value: true});

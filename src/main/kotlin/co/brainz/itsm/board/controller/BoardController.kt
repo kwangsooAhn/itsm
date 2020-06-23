@@ -4,7 +4,6 @@ import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.dto.BoardViewDto
 import co.brainz.itsm.board.service.BoardService
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
-import java.time.LocalDateTime
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -30,8 +29,6 @@ class BoardController(private val boardService: BoardService) {
     @GetMapping("/search")
     fun getBoardSearch(model: Model): String {
         model.addAttribute("boardAdminList", boardService.getBoardAdminList())
-        model.addAttribute("fromDt", LocalDateTime.now().minusMonths(1))
-        model.addAttribute("toDt", LocalDateTime.now())
         return boardSearchPage
     }
 
@@ -44,8 +41,6 @@ class BoardController(private val boardService: BoardService) {
     @GetMapping("/search/param")
     fun getBoardSearchParam(boardSearchDto: BoardSearchDto, model: Model): String {
         model.addAttribute("boardAdminList", boardService.getBoardAdminList())
-        model.addAttribute("fromDt", LocalDateTime.now().minusMonths(1))
-        model.addAttribute("toDt", LocalDateTime.now())
         model.addAttribute("boardAdminId", boardSearchDto.boardAdminId)
         return boardSearchPage
     }

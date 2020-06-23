@@ -31,7 +31,8 @@
                 <col width="15%">
                 <col width="33%">
                 <col width="12%">
-                <col width="23%">
+                <col width="16%">
+                <col width="7%">
                 <col width="7%">
                 <col width="5%">
                 <col width="5%">
@@ -47,12 +48,12 @@
                     </td>
                     <td th:text="${form.desc}"></td>
                     <td th:text="${form.createUserName}"></td>
-                    <td th:if="${form.updateDt == null && form.updateUserKey == null}"
-                        th:with="dateformat=${#authentication.details.timeFormat}"
-                        th:text="|${#temporals.format(form.createDt,dateformat)} ${form.createUserName}|"></td>
-                    <td th:unless="${form.updateDt == null && form.updateUserKey == null}"
-                        th:with="dateformat=${#authentication.details.timeFormat}"
-                        th:text="|${#temporals.format(form.updateDt,dateformat)} ${form.updateUserName}|"></td>
+                    <td th:if="${form.updateDt == null && form.updateUserKey == null}" th:name="formDt"
+                        th:text="${form.createDt}"></td>
+                    <td th:if="${form.updateDt == null && form.updateUserKey == null}" th:text="${form.createUserName}"></td>
+                    <td th:unless="${form.updateDt == null && form.updateUserKey == null}" th:name="formDt"
+                        th:text="${form.updateDt}"></td>
+                    <td th:unless="${form.updateDt == null && form.updateUserKey == null}" th:text="${form.updateUserName}"></td>
                     <td th:text="#{${form.status}}"></td>
                     <td>
                         <button sec:authorize="hasAuthority('form.update')"

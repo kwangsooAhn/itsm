@@ -33,7 +33,7 @@ common:
     updateDate: "수정일시"
     attachFile: "첨부파일"
     notSelect: "선택 안 함"
-    lastUpdateDateAndUpdateUserName: "마지막 수정일시 및 수정자"
+    lastUpdateDate: "마지막 수정일시"
     tag: "태그"
     comment: "코멘트"
     print: "인쇄"
@@ -77,7 +77,7 @@ menu:
   help.board: "게시판"
   setting.board.admin: "게시판 관리"
 
-# auth
+# Auth
 auth:
   label:
     manage: "권한 관리"
@@ -172,8 +172,9 @@ user:
     emailWithUpdate: "이메일 정보를 포함한 회원 정보가 수정되었습니다."
     sameUserId: "동일한 아이디가 존재합니다."
     sameEmail: "이미 사용중인 이메일입니다."
-    joinUser: "가입 되었습니다."
+    joinUser: "가입되었습니다.<br/>가입 시 등록한 메일에서 인증을 진행해주세요."
     joinUserFail: "가입 실패되었습니다."
+
 # FAQ
 faq:
   add: "추가"
@@ -245,7 +246,9 @@ login:
   sendLogin: "로그인"
   gooleLogin: "Google 아이디로 로그인"
   kakaoLogin: "Kakao 아이디로 로그인"
+  requiredLogin: "로그인이 필요합니다."
   gotoLoginPage: "로그인 페이지"
+  gotoMainPage: "메인화면으로 이동"
   userSignUp: "회원가입"
   doSignUp: "가입하기"
   loginNote: "계정이 있으신가요?"
@@ -305,6 +308,7 @@ form:
   lang:
     ko: "한국어"
   msg:
+    information: "공통 편집 가능한 컴포넌트 세부 속성이 존재하지 않습니다."
     alert:
       nameNotExist: "문서양식 이름을 입력해주세요."
       number: "숫자만 입력해주세요."
@@ -337,9 +341,11 @@ form:
     display: "Display"
     option: "Option"
     validate: "Validate"
+
 # Process
 process:
   label:
+    process: "프로세스"
     list: "프로세스 목록"
     name: "프로세스 이름"
     edit: "프로세스 편집"
@@ -436,6 +442,8 @@ document:
     searchDocumentStatus: "문서상태"
     searchProcessName: "프로세스"
     searchFormName: "문서양식"
+    group: "그룹"
+    all: "전체"
   display:
     editable: "수정가능"
     editableRequired: "수정가능(필수값)"
@@ -613,3 +621,17 @@ notification:
   msg:
     description: "최대 50개까지 표시됩니다."
     noNotificationData: "알림이 없습니다."
+
+#Authentication
+authentication:
+  label:
+    recallAuthentication: "인증메일 재요청"
+  msg:
+    beforeEmailCheck: "메일 인증 후 사용가능합니다.<br/>가입 시 등록한 메일에서 인증을 진행해주세요.<br/>만약 인증 메일이 수신되지 않았다면 아래 버튼을 클릭해주세요."
+    authenticationCompleted: "메일 인증이 완료되었습니다."
+    alreadyAuthenticated: "이미 인증이 완료되었습니다."
+    wrongAuthenticationCode: "인증코드가 잘못되었습니다."
+    expiredAuthentication: "인증메일이 만료되었습니다."
+    recallAuthentication: "로그인 후 인증메일을 재요청하세요."
+    resentAuthentication: "인증메일이 재발송되었습니다."
+    emailCheck: "가입 시 등록한 메일에서 인증을 진행해주세요."

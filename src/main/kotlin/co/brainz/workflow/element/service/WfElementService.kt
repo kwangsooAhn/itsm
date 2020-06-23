@@ -43,6 +43,16 @@ class WfElementService(
     }
 
     /**
+     * Get end element.
+     */
+    fun getEndElement(processId: String): WfElementEntity {
+        return wfElementRepository.findByProcessIdAndElementType(
+            processId,
+            WfElementConstants.ElementType.COMMON_END_EVENT.value
+        )
+    }
+
+    /**
      * 다음 엘리먼트 정보 가져오기
      *
      * @param restTemplateTokenDto 종료된 엘리먼트의 토큰
@@ -56,78 +66,92 @@ class WfElementService(
     }
 
     /**
-     * 컨넥터 엘리먼트를 조회.
-     * 종료된 엘리먼트의 다음 엘리먼트 지정을 위한 컨넥터를 찾아서 리턴한다.
+     * 파라미터로 전달 받은 토큰에 연결된 컨넥터를 조회해서 진행방향을 결정하고 결정된 컨넥터 엘리먼트를 반환.
      *
-     * @param restTemplateTokenDto 종료된 엘리먼트의 토큰
+     * @param tokenDto 진행방향을 결정하려는 토큰
      */
-    private fun getConnector(wfTokenDto: WfTokenDto): WfElementEntity {
-        val elementId = wfTokenDto.elementId
+    private fun getConnector(tokenDto: WfTokenDto): WfElementEntity {
+        val currentElementId = tokenDto.elementId
         var selectedConnector: WfElementEntity? = null
+        val connectorElements = wfElementRepository.findAllArrowConnectorElement(currentElementId)
 
-        // 컨넥터를 가져와서
-        val connectorElements = wfElementRepository.findAllArrowConnectorElement(elementId)
-
-        // 컨넥터가 하나를 초과하면
-        if (connectorElements.size > 1) {
+        if (connectorElements.size > 1) { // 분기되는 게이트웨이
             run main@{
+                val conditionItem = wfElementDataRepository.findByElementAndAttributeId(
+                    wfElementRepository.getOne(currentElementId),
+                    WfElementConstants.AttributeId.CONDITION_ITEM.value
+                ).attributeValue.trim()
+
+                val userValue = this.getMatchesRegex(conditionItem, tokenDto)
+
+                /* Temporary Code
+                 * 2020-06-20 Jung Hee Chan
+                 * action을 이용할지 component value를 이용할지에 따라 처리가 달라지는데 이건 별도의 Refactoring이 필요하다.
+                 * 기존에는 action-value인 경우에 대한 처리가 없었고 condition-value인 조건만 구현되어 있었음.
+                 * 여기서는 일감 결함처리를 위해서 action 처리를 추가하기 위해서 사용함.
+                 */
+                val attributeId: String
+                attributeId = if (conditionItem == ("#{action}")) {
+                    WfElementConstants.AttributeId.ACTION_VALUE.value
+                } else {
+                    WfElementConstants.AttributeId.CONDITION_VALUE.value
+                }
+
                 connectorElements.forEach connector@{ connectorElement ->
-
-                    // 컨넥터의 source element id 를 이용하여 gw 엘리먼트를 조회 후 condition-item을 가져온다.
-                    val gateWayElementId = wfElementDataRepository.findByElementAndAttributeId(
+                    val connectorCondition = wfElementDataRepository.findByElementAndAttributeId(
                         connectorElement,
-                        WfElementConstants.AttributeId.SOURCE_ID.value
+                        attributeId
                     ).attributeValue
-                    val conditionItem = wfElementDataRepository.findByElementAndAttributeId(
-                        wfElementRepository.getOne(gateWayElementId),
-                        WfElementConstants.AttributeId.CONDITION_ITEM.value
-                    ).attributeValue.trim()
-                    val item = this.getMatchesRegex(conditionItem, wfTokenDto)
 
-                    // 컨넥터의 condition-value를 가져와서 symbol, value 로 분리한다.
-                    val conditionValue = wfElementDataRepository.findByElementAndAttributeId(
-                        connectorElement,
-                        WfElementConstants.AttributeId.CONDITION_VALUE.value
-                    ).attributeValue
-                    val conditionValues = conditionValue.split("\\s+".toRegex())
-                    val symbol = conditionValues[0]
-                    val value = this.getMatchesRegex(conditionValues[1], wfTokenDto)
+                    /* Temporary Code
+                     * 2020-06-20 Jung Hee Chan
+                     * 이것도 action, component value의 사용여부에 따라 수식이 다르기 때문에 위의 내용과 함께 별도의 Refactoring이 필요하다.
+                     */
+                    val conditionOperator: String
+                    val conditionValue: String
+                    if (attributeId == WfElementConstants.AttributeId.ACTION_VALUE.value) {
+                        conditionOperator = "="
+                        conditionValue = this.getMatchesRegex(connectorCondition, tokenDto)
+                    } else {
+                        val parsedConnectorCondition = connectorCondition.split("\\s+".toRegex())
+                        conditionOperator = parsedConnectorCondition[0]
+                        conditionValue = this.getMatchesRegex(parsedConnectorCondition[1], tokenDto)
+                    }
 
-                    // symbol이 뭐냐에 따라 condition-item 과 condition-value가 일치하는 컨넥터 1개를 찾는다.
-                    when (symbol) {
+                    when (conditionOperator) {
                         "=" -> {
-                            if (item == value) {
+                            if (userValue == conditionValue) {
                                 selectedConnector = connectorElement
                                 return@main
                             }
                         }
                         "<=" -> {
-                            val val1 = item.toInt()
-                            val val2 = value.toInt()
+                            val val1 = userValue.toInt()
+                            val val2 = conditionValue.toInt()
                             if (val1 <= val2) {
                                 selectedConnector = connectorElement
                                 return@main
                             }
                         }
                         "<" -> {
-                            val val1 = item.toInt()
-                            val val2 = value.toInt()
+                            val val1 = userValue.toInt()
+                            val val2 = conditionValue.toInt()
                             if (val1 < val2) {
                                 selectedConnector = connectorElement
                                 return@main
                             }
                         }
                         ">=" -> {
-                            val val1 = item.toInt()
-                            val val2 = value.toInt()
+                            val val1 = userValue.toInt()
+                            val val2 = conditionValue.toInt()
                             if (val1 >= val2) {
                                 selectedConnector = connectorElement
                                 return@main
                             }
                         }
                         ">" -> {
-                            val val1 = item.toInt()
-                            val val2 = value.toInt()
+                            val val1 = userValue.toInt()
+                            val val2 = conditionValue.toInt()
                             if (val1 > val2) {
                                 selectedConnector = connectorElement
                                 return@main
@@ -175,7 +199,7 @@ class WfElementService(
                 val componentId = wfComponentEntity.componentId
                 wfTokenDto.data?.forEach { tokenData ->
                     if (tokenData.componentId == componentId) {
-                        value = tokenData.value
+                        value = tokenData.value.split("|")[0]
                     }
                 }
                 return value

@@ -27,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
+import java.time.format.DateTimeFormatter
 import java.time.LocalDateTime
 import java.time.ZoneId
 import org.mapstruct.factory.Mappers
@@ -53,10 +54,22 @@ class WfInstanceService(
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
         val queryResults = when (parameters["tokenType"].toString()) {
-            "token.type.requested" -> requestedInstances(parameters)
-            "token.type.progress" -> relatedInstances(RestTemplateConstants.InstanceStatus.RUNNING.value, parameters)
-            "token.type.completed" -> relatedInstances(RestTemplateConstants.InstanceStatus.FINISH.value, parameters)
-            else -> todoInstances(parameters)
+            WfInstanceConstants.SearchType.REQUESTED.code -> requestedInstances(parameters)
+            WfInstanceConstants.SearchType.PROGRESS.code -> relatedInstances(
+                WfInstanceConstants.getTargetStatusGroup(
+                    WfInstanceConstants.SearchType.PROGRESS
+                ), parameters
+            )
+            WfInstanceConstants.SearchType.COMPLETED.code -> relatedInstances(
+                WfInstanceConstants.getTargetStatusGroup(
+                    WfInstanceConstants.SearchType.COMPLETED
+                ), parameters
+            )
+            else -> todoInstances(
+                WfInstanceConstants.getTargetStatusGroup(
+                    WfInstanceConstants.SearchType.TODO
+                ), parameters
+            )
         }
 
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
@@ -112,9 +125,8 @@ class WfInstanceService(
             parameters["userKey"].toString(),
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
-            parameters["fromDt"].toString(),
-            parameters["toDt"].toString(),
-            parameters["dateFormat"].toString(),
+            LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
         )
     }
@@ -123,7 +135,7 @@ class WfInstanceService(
      * 진행중 / 완료된 문서 조회.
      */
     private fun relatedInstances(
-        status: String,
+        status: List<String>?,
         parameters: LinkedHashMap<String, Any>
     ): QueryResults<WfInstanceListViewDto> {
         return wfInstanceRepository.findRelationInstances(
@@ -131,9 +143,8 @@ class WfInstanceService(
             parameters["userKey"].toString(),
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
-            parameters["fromDt"].toString(),
-            parameters["toDt"].toString(),
-            parameters["dateFormat"].toString(),
+            LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
         )
     }
@@ -141,15 +152,17 @@ class WfInstanceService(
     /**
      * 처리할 문서 조회.
      */
-    private fun todoInstances(parameters: LinkedHashMap<String, Any>): QueryResults<WfInstanceListViewDto> {
+    private fun todoInstances(
+        status: List<String>?,
+        parameters: LinkedHashMap<String, Any>
+    ): QueryResults<WfInstanceListViewDto> {
         return wfInstanceRepository.findTodoInstances(
-            RestTemplateConstants.TokenStatus.RUNNING.value,
+            status,
             parameters["userKey"].toString(),
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
-            parameters["fromDt"].toString(),
-            parameters["toDt"].toString(),
-            parameters["dateFormat"].toString(),
+            LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
+            LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
         )
     }
@@ -238,8 +251,10 @@ class WfInstanceService(
     fun getInstanceLatestToken(instanceId: String): RestTemplateTokenDto {
         var tokenDto = RestTemplateTokenDto()
         wfInstanceRepository.findByInstanceId(instanceId)?.let { instance ->
-            wfTokenRepository.findTopByInstanceAndTokenStatusOrderByTokenStartDtDesc(instance)?.let { token ->
+            wfTokenRepository.findTopByInstanceOrderByTokenStartDtDesc(instance)?.let { token ->
                 tokenDto = wfTokenMapper.toTokenDto(token)
+                tokenDto.processId = token.element.processId
+                tokenDto.elementId = token.element.elementId
                 val tokenDataList = mutableListOf<RestTemplateTokenDataDto>()
                 token.tokenDataEntities.forEach { tokenData ->
                     tokenDataList.add(wfTokenMapper.toTokenDataDto(tokenData))

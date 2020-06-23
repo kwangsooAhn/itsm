@@ -3,17 +3,17 @@ package co.brainz.workflow.instance.repository
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import com.querydsl.core.QueryResults
+import java.time.LocalDateTime
 
 interface WfInstanceRepositoryCustom {
 
     fun findTodoInstances(
-        status: String,
+        status: List<String>?,
         userKey: String,
         documentId: String,
         searchValue: String,
-        fromDt: String,
-        toDt: String,
-        dateFormat: String,
+        fromDt: LocalDateTime,
+        toDt: LocalDateTime,
         offset: Long
     ): QueryResults<WfInstanceListViewDto>
 
@@ -21,20 +21,18 @@ interface WfInstanceRepositoryCustom {
         userKey: String,
         documentId: String,
         searchValue: String,
-        fromDt: String,
-        toDt: String,
-        dateFormat: String,
+        fromDt: LocalDateTime,
+        toDt: LocalDateTime,
         offset: Long
     ): QueryResults<WfInstanceListViewDto>
 
     fun findRelationInstances(
-        status: String,
+        status: List<String>?,
         userKey: String,
         documentId: String,
         searchValue: String,
-        fromDt: String,
-        toDt: String,
-        dateFormat: String,
+        fromDt: LocalDateTime,
+        toDt: LocalDateTime,
         offset: Long
     ): QueryResults<WfInstanceListViewDto>
 

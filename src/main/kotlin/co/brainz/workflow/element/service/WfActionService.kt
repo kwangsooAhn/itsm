@@ -37,16 +37,17 @@ class WfActionService(
     }
 
     fun actions(elementId: String): MutableList<RestTemplateActionDto> {
-        val currentElement = this.getElement(elementId)
-        val arrow = this.getArrowElements(elementId)[0]
-        val nextElementId = this.getNextElementId(arrow)
-        val nextElement = this.getElement(nextElementId)
-
         val actions: MutableList<RestTemplateActionDto> = mutableListOf()
-        actions.addAll(this.preActions())
-        actions.addAll(this.typeActions(arrow, nextElement))
-        actions.addAll(this.postActions(currentElement))
+        val currentElement = getElement(elementId)
+        if (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+            val arrow = getArrowElements(elementId)[0]
+            val nextElementId = getNextElementId(arrow)
+            val nextElement = getElement(nextElementId)
 
+            actions.addAll(preActions())
+            actions.addAll(typeActions(arrow, nextElement))
+            actions.addAll(postActions(currentElement))
+        }
         return actions
     }
 
@@ -109,6 +110,10 @@ class WfActionService(
                 postActions.add(RestTemplateActionDto(name = "반려", value = WfElementConstants.Action.REJECT.value))
             }
         }
+
+        // TODO: 권한여부에 따른 버튼 출려 기능 구현 필요
+        postActions.add(RestTemplateActionDto(name = "취소", value = WfElementConstants.Action.CANCEL.value))
+        postActions.add(RestTemplateActionDto(name = "종결", value = WfElementConstants.Action.TERMINATE.value))
 
         return postActions
     }

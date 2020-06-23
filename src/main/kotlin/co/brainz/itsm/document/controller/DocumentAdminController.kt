@@ -30,7 +30,8 @@ class DocumentAdminController(
      * @return String
      */
     @GetMapping("/search")
-    fun getDocumentMngSearch(): String {
+    fun getDocumentMngSearch(model: Model): String {
+        model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
         return documentAdminSearchPage
     }
 
@@ -43,6 +44,7 @@ class DocumentAdminController(
      */
     @GetMapping("/list")
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
+        model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
         model.addAttribute("documentList", documentService.getDocumentList(restTemplateDocumentSearchListDto))
         return documentAdminListPage
     }
@@ -59,6 +61,7 @@ class DocumentAdminController(
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
         model.addAttribute("numberingRuleList", numberingService.getNumberingRules())
+        model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
         return documentEditPage
     }
@@ -77,6 +80,7 @@ class DocumentAdminController(
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
         model.addAttribute("numberingRuleList", numberingService.getNumberingRules())
+        model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
         return documentEditPage
     }

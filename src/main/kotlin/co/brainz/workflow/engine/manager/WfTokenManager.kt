@@ -25,8 +25,10 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      */
     fun createToken(tokenDto: WfTokenDto): WfTokenDto {
         this.assigneeId = tokenDto.assigneeId.toString()
+
         val token = wfTokenManagerService.makeTokenEntity(tokenDto)
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
+
         val createTokenDto = tokenDto.copy()
         createTokenDto.tokenId = this.createTokenEntity.tokenId
         return this.createElementToken(createTokenDto)
@@ -57,13 +59,18 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
+        token.assigneeId = tokenDto.assigneeId
+
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
-        val completedToken = tokenDto.copy()
-        completedToken.tokenId = token.tokenId
+
+        val completedTokenDto = tokenDto.copy()
+        completedTokenDto.tokenId = token.tokenId
+        completedTokenDto.assigneeId = this.createTokenEntity.assigneeId
         if (!token.instance.pTokenId.isNullOrEmpty()) {
-            completedToken.parentTokenId = token.instance.pTokenId
+            completedTokenDto.parentTokenId = token.instance.pTokenId
         }
-        return this.completeElementToken(completedToken)
+
+        return this.completeElementToken(completedTokenDto)
     }
 
     /**
@@ -72,25 +79,12 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     abstract fun completeElementToken(completedToken: WfTokenDto): WfTokenDto
 
     /**
-     * Action - Save.
+     * 토큰을 대기(Waiting) 상태로 변환. (예:서브프로세스)
      */
-    fun actionSave(tokenDto: WfTokenDto) {
-        // Save Token & Token Data
+    fun waitingToken(tokenDto: WfTokenDto) {
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
-        token.assigneeId = tokenDto.assigneeId
-        val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-        for (tokenDataDto in tokenDto.data!!) {
-            val tokenDataEntity = WfTokenDataEntity(
-                token = token,
-                component = wfTokenManagerService.getComponent(tokenDataDto.componentId),
-                value = tokenDataDto.value
-            )
-            tokenDataEntities.add(tokenDataEntity)
-        }
-        if (tokenDataEntities.isNotEmpty()) {
-            wfTokenManagerService.saveAllTokenData(tokenDataEntities)
-        }
-        wfTokenManagerService.saveToken(token)
+        token.tokenStatus = RestTemplateConstants.TokenStatus.WAITING.value
+        this.createTokenEntity = wfTokenManagerService.saveToken(token)
     }
 
     /**

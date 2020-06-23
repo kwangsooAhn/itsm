@@ -29,7 +29,8 @@
             <col width="35%">
             <col width="15%">
             <col width="15%">
-            <col width="25%">
+            <col width="17%">
+            <col width="8%">
             <col width="5%">
             <col width="5%">
         </colgroup>
@@ -38,7 +39,8 @@
                 <th th:text="#{custom.code.label.customCodeName}"></th>
                 <th th:text="#{custom.code.label.type}"></th>
                 <th th:text="#{common.label.createUserName}"></th>
-                <th th:text="#{common.label.lastUpdateDateAndUpdateUserName}"></th>
+                <th th:text="#{common.label.lastUpdateDate}"></th>
+                <th th:text="#{common.label.updateUserName}"></th>
                 <th th:text="#{common.btn.modify}"></th>
                 <th th:text="#{common.btn.delete}"></th>
             </tr>
@@ -52,12 +54,12 @@
                        th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a></td>
                 <td th:text="#{|custom.code.label.type.${customCode.type}|}"></td>
                 <td th:text="${customCode.createUserName}"></td>
-                <td th:if="${customCode.updateDt == null && customCode.updateUserName == null}"
-                    th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="|${#temporals.format(customCode.createDt, dateformat)} ${customCode.createUserName}|"></td>
-                <td th:unless="${customCode.updateDt == null && customCode.updateUserName == null}"
-                    th:with="dateformat=${#authentication.details.timeFormat}"
-                    th:text="|${#temporals.format(customCode.updateDt, dateformat)} ${customCode.updateUserName}|"></td>
+                <td th:if="${customCode.updateDt == null && customCode.updateUserName == null}" th:name="customCodeDt"
+                    th:text="${customCode.createDt}"></td>
+                <td th:if="${customCode.updateDt == null && customCode.updateUserName == null}" th:text="${customCode.createUserName}"/>
+                <td th:unless="${customCode.updateDt == null && customCode.updateUserName == null}" th:name="customCodeDt"
+                    th:text="${customCode.updateDt}"></td>
+                <td th:unless="${customCode.updateDt == null && customCode.updateUserName == null}" th:text="${customCode.updateUserName}"/>
                 <td><button th:disabled="${!customCode.enabled}" th:text="#{common.btn.modify}"
                             th:onclick="'location.href=\'' + @{/custom-codes/{id}/edit(id=${customCode.customCodeId})} + '\''"
                             sec:authorize="hasAuthority('custom.code.update')"></button></td>
