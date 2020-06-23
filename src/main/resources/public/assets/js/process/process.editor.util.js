@@ -622,18 +622,18 @@
         shortcut.init();
 
         const shortcuts = [
-            { 'keys': 'ctrl+s', 'command': 'aliceProcessEditor.utils.save();' },               // 저장
-            { 'keys': 'ctrl+shift+s', 'command': 'aliceProcessEditor.utils.saveAs();' },       // 다른 이름으로 저장
-            { 'keys': 'ctrl+z', 'command': 'aliceProcessEditor.utils.undo();' },               // 작업 취소
-            { 'keys': 'ctrl+shift+z', 'command': 'aliceProcessEditor.utils.redo();' },         // 작업 재실행
-            { 'keys': 'ctrl+e', 'command': 'aliceProcessEditor.utils.simulation();' },         // 미리보기(시뮬레이션)
-            { 'keys': 'ctrl+d', 'command': 'aliceProcessEditor.utils.download();' },           // 이미지 다운로드
-            { 'keys': 'ctrl+x,delete', 'command': 'aliceProcessEditor.deleteElements();' },    // 엘리먼트 삭제
-            { 'keys': 'alt+e', 'command': 'aliceProcessEditor.utils.focus();' }                // 세부 속성 편집: 제일 처음으로 이동
+            { 'keys': 'ctrl+s', 'command': 'aliceProcessEditor.utils.save();', 'onProperties': true },             // 저장
+            { 'keys': 'ctrl+shift+s', 'command': 'aliceProcessEditor.utils.saveAs();', 'onProperties': true },     // 다른 이름으로 저장
+            { 'keys': 'ctrl+z', 'command': 'aliceProcessEditor.utils.undo();', 'onProperties': false },            // 작업 취소
+            { 'keys': 'ctrl+shift+z', 'command': 'aliceProcessEditor.utils.redo();', 'onProperties': false },      // 작업 재실행
+            { 'keys': 'ctrl+e', 'command': 'aliceProcessEditor.utils.simulation();', 'onProperties': false },      // 미리보기(시뮬레이션)
+            { 'keys': 'ctrl+d', 'command': 'aliceProcessEditor.utils.download();', 'onProperties': false },        // 이미지 다운로드
+            { 'keys': 'ctrl+x,delete', 'command': 'aliceProcessEditor.deleteElements();', 'onProperties': false }, // 엘리먼트 삭제
+            { 'keys': 'alt+e', 'command': 'aliceProcessEditor.utils.focus();', 'onProperties': false }             // 세부 속성 편집: 제일 처음으로 이동
         ];
 
         for (let i = 0; i < shortcuts.length; i++) {
-            shortcut.add(shortcuts[i].keys, shortcuts[i].command);
+            shortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].onProperties);
         }
     }
 

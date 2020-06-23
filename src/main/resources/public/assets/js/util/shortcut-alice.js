@@ -58,18 +58,21 @@
             let matches = 0;
             for (let i = 0; i < splitKey.length; i++) {
                 if (splitKey[i] === 'ctrl' || splitKey[i] === 'shift' || splitKey[i] === 'alt') {
-                    maskKey[splitKey[i]] = true;;
+                    maskKey[splitKey[i]] = true;
                     matches++;
                 } else if (splitKey[i] === keyValue) {
                     matches++;
                 }
             }
+            const target = e.target;
             if (type === 'down' && splitKey.length === matches &&
                     pressKey.ctrl === maskKey.ctrl &&
                     pressKey.shift === maskKey.shift &&
                     pressKey.alt === maskKey.alt &&
-                    !checkIsInput(e.target) && keyMap[key].command !== '') {
+                    (keyMap[key].onProperties || !checkIsInput(target)) &&
+                    keyMap[key].command !== '') {
                 e.preventDefault();
+                if (checkIsInput(target)) { target.blur(); } // focus out 처리
                 ( new Function('return ' + keyMap[key].command) )();
             }
         });
@@ -90,17 +93,19 @@
 
     /**
      * 단축키 등록
-     * @param key 단축키
+     * @param keys 단축키
      * @param callback 단축키 실행시 호출할 함수
+     * @param onProperties 속성창에서 단축키 실행 여부
      */
-    function add(keys, callback) {
+    function add(keys, callback, onProperties) {
         if (shortcutExists[keys] === true) { return false; } //중복키 방지
 
         let keyList = keys.toLowerCase().replace(/\s+/g, '').split(','); //여러개 입력된 경우
         for (let i = 0; i < keyList.length; i++) {
             keyMap[keyList[i]] = {
                 splitKey: keyList[i].split(keySeparator),
-                command: callback
+                command: callback,
+                onProperties: onProperties
             };
         }
         shortcutExists[keys] = true;
