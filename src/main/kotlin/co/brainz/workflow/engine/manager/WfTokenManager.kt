@@ -212,6 +212,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
                 wfCandidateEntities.add(wfCandidateEntity)
             }
             wfTokenManagerService.saveAllCandidate(wfCandidateEntities)
+            token.candidate = wfCandidateEntities
         } else {
             token.assigneeId = this.assigneeId
             wfTokenManagerService.saveToken(token)

@@ -49,5 +49,5 @@ data class WfTokenEntity(
     var tokenDataEntities: List<WfTokenDataEntity> = mutableListOf()
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "token")
-    val candidate: List<WfCandidateEntity>? = mutableListOf()
+    var candidate: List<WfCandidateEntity>? = mutableListOf()
 }
