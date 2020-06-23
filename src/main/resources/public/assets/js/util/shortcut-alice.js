@@ -69,7 +69,7 @@
                     pressKey.ctrl === maskKey.ctrl &&
                     pressKey.shift === maskKey.shift &&
                     pressKey.alt === maskKey.alt &&
-                    (keyMap[key].onProperties || !checkIsInput(target)) &&
+                    (keyMap[key].force || !checkIsInput(target)) &&
                     keyMap[key].command !== '') {
                 e.preventDefault();
                 if (checkIsInput(target)) { target.blur(); } // focus out 처리
@@ -95,9 +95,9 @@
      * 단축키 등록
      * @param keys 단축키
      * @param callback 단축키 실행시 호출할 함수
-     * @param onProperties 속성창에서 단축키 실행 여부
+     * @param force 속성창에서 단축키 실행 여부
      */
-    function add(keys, callback, onProperties) {
+    function add(keys, callback, force) {
         if (shortcutExists[keys] === true) { return false; } //중복키 방지
 
         let keyList = keys.toLowerCase().replace(/\s+/g, '').split(','); //여러개 입력된 경우
@@ -105,7 +105,7 @@
             keyMap[keyList[i]] = {
                 splitKey: keyList[i].split(keySeparator),
                 command: callback,
-                onProperties: onProperties
+                force: force
             };
         }
         shortcutExists[keys] = true;

@@ -43,23 +43,23 @@
         }
     };
     const shortcuts = [
-        { 'keys': 'ctrl+s', 'command': 'editor.save(false);', 'onProperties': true },                //폼 양식 저장
-        { 'keys': 'ctrl+shift+s', 'command': 'editor.saveAs();', 'onProperties': true },             //폼 양식 다른이름으로 저장
-        { 'keys': 'ctrl+z', 'command': 'editor.undo();', 'onProperties': false },                    //폼 편집 화면 작업 취소
-        { 'keys': 'ctrl+shift+z', 'command': 'editor.redo();', 'onProperties': false },              //폼 편집 화면 작업 재실행
-        { 'keys': 'ctrl+i', 'command': 'editor.importForm();', 'onProperties': false },              //폼 양식 가져오기
-        { 'keys': 'ctrl+b', 'command': 'editor.exportForm();', 'onProperties': false },              //폼 양식 내보내기
-        { 'keys': 'ctrl+e', 'command': 'editor.preview();', 'onProperties': false },                 //폼 양식 미리보기
-        { 'keys': 'ctrl+q', 'command': 'editor.save(true);', 'onProperties': false },                //폼 양식 저장하고 나가기
-        { 'keys': 'insert', 'command': 'editor.copyComponent();', 'onProperties': false },           //컴포넌트를 복사하여 바로 아래 추가
-        { 'keys': 'ctrl+x,delete', 'command': 'editor.deleteComponent();', 'onProperties': false },  //컴포넌트 삭제
-        { 'keys': 'ctrl+pageup', 'command': 'editor.addEditboxUp();', 'onProperties': false },       //위에 컴포넌트 새로 만들기
-        { 'keys': 'ctrl+pagedown', 'command': 'editor.addEditboxDown();', 'onProperties': false },   //아래 컴포넌트 새로 만들기
-        { 'keys': 'ctrl+home', 'command': 'editor.selectFirstComponent();', 'onProperties': false }, //첫번째 컴포넌트 선택
-        { 'keys': 'ctrl+end', 'command': 'editor.selectLastComponent();', 'onProperties': false },   //마지막 컴포넌트 선택
-        { 'keys': 'up', 'command': 'editor.selectUpComponent();', 'onProperties': false },           //바로위 컴포넌트 선택
-        { 'keys': 'down', 'command': 'editor.selectDownComponent();', 'onProperties': false },       //바로위 컴포넌트 선택
-        { 'keys': 'alt+e', 'command': 'editor.selectProperties();', 'onProperties': false }          //세부 속성 편집: 제일 처음으로 이동
+        { 'keys': 'ctrl+s', 'command': 'editor.save(false);', 'force': true },                //폼 양식 저장
+        { 'keys': 'ctrl+shift+s', 'command': 'editor.saveAs();', 'force': true },             //폼 양식 다른이름으로 저장
+        { 'keys': 'ctrl+z', 'command': 'editor.undo();', 'force': false },                    //폼 편집 화면 작업 취소
+        { 'keys': 'ctrl+shift+z', 'command': 'editor.redo();', 'force': false },              //폼 편집 화면 작업 재실행
+        { 'keys': 'ctrl+i', 'command': 'editor.importForm();', 'force': false },              //폼 양식 가져오기
+        { 'keys': 'ctrl+b', 'command': 'editor.exportForm();', 'force': false },              //폼 양식 내보내기
+        { 'keys': 'ctrl+e', 'command': 'editor.preview();', 'force': false },                 //폼 양식 미리보기
+        { 'keys': 'ctrl+q', 'command': 'editor.save(true);', 'force': false },                //폼 양식 저장하고 나가기
+        { 'keys': 'insert', 'command': 'editor.copyComponent();', 'force': false },           //컴포넌트를 복사하여 바로 아래 추가
+        { 'keys': 'ctrl+x,delete', 'command': 'editor.deleteComponent();', 'force': false },  //컴포넌트 삭제
+        { 'keys': 'ctrl+pageup', 'command': 'editor.addEditboxUp();', 'force': false },       //위에 컴포넌트 새로 만들기
+        { 'keys': 'ctrl+pagedown', 'command': 'editor.addEditboxDown();', 'force': false },   //아래 컴포넌트 새로 만들기
+        { 'keys': 'ctrl+home', 'command': 'editor.selectFirstComponent();', 'force': false }, //첫번째 컴포넌트 선택
+        { 'keys': 'ctrl+end', 'command': 'editor.selectLastComponent();', 'force': false },   //마지막 컴포넌트 선택
+        { 'keys': 'up', 'command': 'editor.selectUpComponent();', 'force': false },           //바로위 컴포넌트 선택
+        { 'keys': 'down', 'command': 'editor.selectDownComponent();', 'force': false },       //바로위 컴포넌트 선택
+        { 'keys': 'alt+e', 'command': 'editor.selectProperties();', 'force': false }          //세부 속성 편집: 제일 처음으로 이동
     ];
 
     let isEdited = false;
@@ -1606,7 +1606,7 @@
         //단축키 초기화 및 등록
         shortcut.init();
         for (let i = 0; i < shortcuts.length; i++) {
-            shortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].onProperties);
+            shortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].force);
         }
 
         //load custom-code list.
