@@ -9,10 +9,10 @@ object WfTokenConstants {
         RUNNING("running"),
         WAITING("waiting"),
         FINISH("finish"),
-        CANCEL("cancel"),
-        TERMINATE("terminate"),
+        WITHDRAW("withdraw"),
         REJECT("reject"),
-        WITHDRAW("withdraw")
+        CANCEL("cancel"),
+        TERMINATE("terminate")
     }
 
     /**
