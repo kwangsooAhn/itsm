@@ -5,9 +5,11 @@ class InstanceConstants {
      * Element type list for instance history viewing.
      */
     enum class ElementListForHistoryViewing(val value: String) {
-        USER_TASK("userTask"),
-        COMMON_START_EVENT("commonStart"),
         COMMON_END_EVENT("commonEnd"),
+        TIMER_START_EVENT("timerStart"),
+        USER_TASK("userTask"),
+        SCRIPT_TASK("scriptTask"),
+        MANUAL_TASK("manualTask"),
         SUB_PROCESS("subprocess"),
         SIGNAL_SEND("signalSend")
     }

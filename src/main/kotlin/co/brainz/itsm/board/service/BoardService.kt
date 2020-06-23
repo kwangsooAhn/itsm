@@ -18,7 +18,8 @@ import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
 import co.brainz.itsm.boardAdmin.repository.BoardCategoryRepository
-import co.brainz.itsm.utility.ConvertParam
+import java.time.format.DateTimeFormatter
+import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
@@ -29,8 +30,7 @@ class BoardService(
     private val boardCommentRepository: BoardCommentRepository,
     private val boardAdminRepository: BoardAdminRepository,
     private val boardCategoryRepository: BoardCategoryRepository,
-    private val aliceFileService: AliceFileService,
-    private val convertParam: ConvertParam
+    private val aliceFileService: AliceFileService
 ) {
 
     /**
@@ -52,8 +52,8 @@ class BoardService(
      */
     fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardDto> {
         val boardDtoList = mutableListOf<BoardDto>()
-        val fromDt = convertParam.convertToSearchLocalDateTime(boardSearchDto.fromDt, "fromDt")
-        val toDt = convertParam.convertToSearchLocalDateTime(boardSearchDto.toDt, "toDt")
+        val fromDt = LocalDateTime.parse(boardSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
+        val toDt = LocalDateTime.parse(boardSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
 
         boardRepository.findByBoardList(boardSearchDto.boardAdminId, boardSearchDto.search, fromDt, toDt)
             .forEach { PortalBoardEntity ->

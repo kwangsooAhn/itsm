@@ -95,6 +95,13 @@ class WfTokenManagerService(
     }
 
     /**
+     * Get end element.
+     */
+    fun getEndElement(processId: String): WfElementEntity {
+        return wfElementService.getEndElement(processId)
+    }
+
+    /**
      * Get next element.
      */
     fun getNextElement(wfTokenDto: WfTokenDto): WfElementEntity {
