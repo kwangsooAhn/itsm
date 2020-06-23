@@ -367,6 +367,7 @@ class WfDocumentService(
 
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (component in componentEntities) {
+            var isDisplay = false
             val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
             for (elementEntity in elementEntities) {
                 for (display in displayList) {
@@ -376,8 +377,17 @@ class WfDocumentService(
                             displayMap["elementId"] = display.elementId
                             displayMap["display"] = display.display
                             displayValue.add(displayMap)
+                            isDisplay = true
                         }
                     }
+                }
+                //강제적으로 compoent가 추가 되었을때 기본값 출력
+                if (!isDisplay) {
+                    val displayMap = LinkedHashMap<String, Any>()
+                    displayMap["elementId"] = elementEntity["elementId"].toString()
+                    displayMap["display"] = WfDocumentConstants.DisplayType.EDITABLE.value
+                    displayValue.add(displayMap)
+                    isDisplay = false
                 }
             }
             val componentMap = LinkedHashMap<String, Any>()
@@ -390,17 +400,6 @@ class WfDocumentService(
                 // 컴포넌트 라벨 속성이 없는 경우, 컴포넌트 타입을 화면에 표시한다.
                 component.componentType
             }
-
-            //강제적으로 compoent가 추가 되었을때 기본값 출력
-            if (displayValue.isNullOrEmpty()) {
-                for (elementEntity in elementEntities) {
-                    val displayMap = LinkedHashMap<String, Any>()
-                    displayMap["elementId"] = elementEntity["elementId"].toString()
-                    displayMap["display"] = WfDocumentConstants.DisplayType.EDITABLE.value
-                    displayValue.add(displayMap)
-                }
-            }
-
             componentMap["componentId"] = component.componentId
             componentMap["attributeValue"] = attributeValue
             componentMap["displayValue"] = displayValue
