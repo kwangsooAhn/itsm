@@ -53,7 +53,15 @@
                 timezone: userAuthInfo.timezone
             }));
         });
-        /*]]>*/
+        // 프린터 시간 출력하기 위해 임시로 생성
+        const timeFormat = userAuthInfo.timeFormat.split(' ');
+        i18n.init(JSON.stringify({
+            dateTimeFormat: userAuthInfo.timeFormat,
+            dateFormat: timeFormat[0],
+            timeFormat: timeFormat[1],
+            lang: userAuthInfo.lang,
+            timezone: userAuthInfo.timezone
+        }));
     </script>
 </head>
 <body>

@@ -16,7 +16,6 @@ import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
 import java.time.LocalDateTime
@@ -37,16 +36,15 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         userKey: String,
         documentId: String,
         searchValue: String,
-        fromDt: String,
-        toDt: String,
-        dateFormat: String,
+        fromDt: LocalDateTime,
+        toDt: LocalDateTime,
         offset: Long
     ): QueryResults<WfInstanceListViewDto> {
 
         val candidateSub = QWfCandidateEntity("candidateSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
 
-        val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt, dateFormat)
+        val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(token.tokenStatus.`in`(status))
         builder.and(
@@ -83,15 +81,14 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         userKey: String,
         documentId: String,
         searchValue: String,
-        fromDt: String,
-        toDt: String,
-        dateFormat: String,
+        fromDt: LocalDateTime,
+        toDt: LocalDateTime,
         offset: Long
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
 
-        val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt, dateFormat)
+        val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
         builder.and(instance.instanceCreateUser.userKey.eq(userKey))
         builder.and(
             token.tokenId.eq(
@@ -116,14 +113,13 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         userKey: String,
         documentId: String,
         searchValue: String,
-        fromDt: String,
-        toDt: String,
-        dateFormat: String,
+        fromDt: LocalDateTime,
+        toDt: LocalDateTime,
         offset: Long
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
-        val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt, dateFormat)
+        val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(
             token.tokenId.eq(
@@ -176,9 +172,8 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     private fun getInstancesWhereCondition(
         documentId: String,
         searchValue: String,
-        fromDt: String,
-        toDt: String,
-        dateFormat: String
+        fromDt: LocalDateTime,
+        toDt: LocalDateTime
     ): BooleanBuilder {
         val builder = BooleanBuilder()
         if (documentId.isNotEmpty()) {
@@ -219,13 +214,8 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     )
             )
         }
-        val from = Expressions.dateTemplate(
-            LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", fromDt, dateFormat
-        )
-        val to = Expressions.dateTemplate(
-            LocalDateTime::class.java, "TO_TIMESTAMP({0}, {1})", toDt, dateFormat
-        )
-        builder.and(instance.instanceStartDt.between(from, to))
+        builder.and(instance.instanceStartDt.goe(fromDt))
+        builder.and(instance.instanceStartDt.lt(toDt))
         return builder
     }
 
