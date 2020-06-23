@@ -19,7 +19,6 @@ import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserRepository
-import co.brainz.itsm.user.specification.UserSpecification
 import java.security.PrivateKey
 import java.util.Optional
 import org.mapstruct.factory.Mappers
@@ -29,7 +28,6 @@ import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.context.request.RequestContextHolder
 import org.springframework.web.context.request.ServletRequestAttributes
 
@@ -55,25 +53,15 @@ class UserService(
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(params: LinkedMultiValueMap<String, String>): MutableList<UserDto> {
-        //val codeList = codeService.selectCodeByParent(co.brainz.itsm.user.constants.UserConstants.PCODE.value)
-        //val aliceUserEntities = userRepository.findAll(UserSpecification(codeList, searchValue))
-        val aliceUserEntities = userRepository.findAll()
+    fun selectUserList(search: String, category: String): MutableList<UserDto> {
+        val aliceUserEntities =
+            userRepository.findAliceUserEntityList(search, category)
         val userList: MutableList<UserDto> = mutableListOf()
         aliceUserEntities.forEach {
             userList.add(userMapper.toUserDto(it))
         }
         return userList
     }
-    /*fun selectUserList(searchValue: String): MutableList<UserDto> {
-        val codeList = codeService.selectCodeByParent(co.brainz.itsm.user.constants.UserConstants.PCODE.value)
-        val aliceUserEntities = userRepository.findAll(UserSpecification(codeList, searchValue))
-        val userList: MutableList<UserDto> = mutableListOf()
-        aliceUserEntities.forEach {
-            userList.add(userMapper.toUserDto(it))
-        }
-        return userList
-    }*/
 
     /**
      * 사용자 ID로 해당 정보를 1건 조회한다.
@@ -116,7 +104,8 @@ class UserService(
                 val userEntity = userRepository.findByUserKey(userUpdateDto.userKey)
                 val emailConfirmVal = userEntity.email
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-                val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+                val privateKey =
+                    attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val targetEntity = updateDataInput(userUpdateDto)
                 val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
                 if (userUpdateDto.password != null) {
@@ -127,7 +116,12 @@ class UserService(
                 }
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
-                aliceFileService.uploadAvatar(AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, userUpdateDto.userKey, userUpdateDto.avatarUUID)
+                aliceFileService.uploadAvatar(
+                    AliceUserConstants.USER_AVATAR_IMAGE_DIR,
+                    AliceUserConstants.BASE_DIR,
+                    userUpdateDto.userKey,
+                    userUpdateDto.avatarUUID
+                )
 
                 if (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
                     userEntity.userRoleMapEntities.forEach {
@@ -135,7 +129,12 @@ class UserService(
                     }
 
                     userUpdateDto.roles!!.forEach {
-                        userRoleMapRepository.save(AliceUserRoleMapEntity(targetEntity, roleRepository.findByRoleId(it)))
+                        userRoleMapRepository.save(
+                            AliceUserRoleMapEntity(
+                                targetEntity,
+                                roleRepository.findByRoleId(it)
+                            )
+                        )
                     }
                 }
 
@@ -217,7 +216,13 @@ class UserService(
         val userList = userRepository.findByOrderByUserNameAsc()
         val userDtoList = mutableListOf<UserListDto>()
         for (userEntity in userList) {
-            userDtoList.add(UserListDto(userKey = userEntity.userKey, userId = userEntity.userId, userName = userEntity.userName))
+            userDtoList.add(
+                UserListDto(
+                    userKey = userEntity.userKey,
+                    userId = userEntity.userId,
+                    userName = userEntity.userName
+                )
+            )
         }
         return userDtoList
     }

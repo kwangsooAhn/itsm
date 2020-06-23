@@ -9,14 +9,18 @@
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
-        <!--<h1 th:text="#{form.label.list}"></h1>-->
-        <h1>사용자 목록</h1>
-        <div align="right">
-            <button type="button" th:onclick="'location.href=\'' + @{/users/new} + '\''"
-                    sec:authorize="hasAuthority('user.create')"
-                    th:text="#{common.btn.register}"></button>
-            <!--<input type="text" id="search" style="width: 270px" th:placeholder="사용자아이디, 사용자이름">-->
-            <input type="text" id="search" style="width: 270px" />
+        <div style="height: 90px;">
+            <h1>사용자 목록</h1>
+            <div style="margin-top: 10px">
+                <select id="category" style="width: 230px; height: 30px">
+                    <option value="all" th:text="#{user.label.all}"></option>
+                    <option th:each="category: ${categoryList}" th:value="${category.code}"
+                            th:text="#{${category.code}}"></option>
+                </select>
+                <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}" />
+                <button style="float: right" onclick="location.href='/users/new'"
+                        sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.register}" ></button>
+            </div>
         </div>
         <hr>
         <div id="userList" style="margin-top: 20px"></div>
@@ -27,45 +31,37 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            getUserList(document.getElementById('search').value, true);
+            document.getElementById('category').addEventListener('change', getUserList.bind(null, false), false);
+            document.getElementById('search').addEventListener('keyup', getUserList.bind(null, false), false);
+            getUserList(true);
         }
 
         document.getElementById('search').onkeyup = function() {
-            getUserList(this.value, false);
+            getUserList(false);
         };
 
         //폼 리스트 조회
-        function getUserList(search, showProgressbar) {
-            restSubmit('GET', '/users/list?search=' + search.trim(), function(result) {
-                document.getElementById('userList').innerHTML = result;
-                /*var formDtEle = document.querySelectorAll('td[name=formDt]');
-                for (let i = 0; i < formDtEle.length; i++) {
-                    formDtEle[i].textContent = i18n.userDateTime(formDtEle[i].textContent);
-                }*/
-            }, showProgressbar);
+        function getUserList(showProgressbar) {
+            const searchOpt = {
+                category: document.getElementById('category').value,
+                search: document.getElementById('search').value.trim()
+            }
+            const urlParam = 'category=' + searchOpt.category + '&search=' + searchOpt.search;
+            restSubmit('get', '/users/list?' + urlParam, showProgressbar);
         }
 
         function openUserView(userKey) {
             alert('view ' + userKey)
-            /*const _width = 1500,
-                _height = 920;
-            //중앙 배치
-            const _left = Math.ceil((window.screen.width - _width) / 2);
-            const _top = Math.ceil((window.screen.height - _height) / 4);
-
-            let specs = 'left=' + _left + ',top=' + _top;
-            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/forms/' + formId + '/view', 'form_' + formId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);*/
         }
 
         //REST API
-        function restSubmit(method, url, result, showProgressbar) {
+        function restSubmit(method, url, showProgressbar) {
             const opt = {
                 method: method,
                 url: url,
                 showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
-                    result(response.responseText);
+                    document.getElementById('userList').innerHTML = response.responseText;
                 }
             };
             aliceJs.sendXhr(opt);

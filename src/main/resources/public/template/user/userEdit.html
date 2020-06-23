@@ -156,6 +156,7 @@
             </table>
             <button style="margin-top: 25px;" th:if="!${users?.userKey}" th:onclick="restSubmit('post', [[@{/rest/users}]])" th:text="#{user.reg}"></button>
             <button style="margin-top: 25px;" th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])" th:text="#{user.editUserInfo}"></button>
+            <button th:text="#{common.btn.list}" onclick="location.href='/users/search'"></button>
         </form>
     </div>
     <br>

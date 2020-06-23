@@ -162,9 +162,20 @@ user:
   FileSizeLimit: "File Size Limit : 200KB"
   FileExtensionAllowed: "File Extension Allowed : 200KB"
   usageStatus: "Usage Status"
+  status:
+    signup: "SignUp"
+    certified: "Certified"
   usageStatusFlag:
     use: "Use"
     unused: "Unused"
+  platform:
+    alice: "Alice"
+    google: "Google"
+    kakao: "Kakao"
+  label:
+    all: All
+    list: User List
+    searchPlaceholder: User Name / User ID
   msg:
     idNotExist: "Please enter your UserId"
     passwordNotExist: "Please enter your password"

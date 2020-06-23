@@ -1,36 +1,63 @@
 <!DOCTYPE html>
-<html lang="ko"
-      xmlns:th="http://www.thymeleaf.org"
+<html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>사용자데이터</title>
+    <style>
+        table {
+            width: 100%;
+            border: 1px solid;
+            border-collapse: collapse;
+        }
+        table tr:nth-child(1) td {
+            border-top: 1px solid;
+        }
+        table td {
+            border-top: 1px solid #e7e7e7;
+            border-left: 1px solid;
+            text-align: center;
+            padding: 3px;
+            height: 40px;
+        }
+        table td:nth-child(1), table td:nth-child(2) {
+            text-align: left;
+        }
+    </style>
 </head>
 <body>
-<div sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(users)}">
+<div>
     <table class="table-hover">
-        <thead>
-        <tr>
-            <th th:text="#{user.key}">사용자키</th>
-            <th th:text="#{user.id}">아이디</th>
-            <th th:text="#{user.name}">이름</th>
-            <th th:text="#{user.department}">부서</th>
-            <th th:text="#{user.position}">직책</th>
-            <th th:text="#{user.officeNumber}">사무실 번호</th>
-            <th th:text="#{user.mobileNumber}">핸드폰 번호</th>
-        </tr>
-        </thead>
+        <colgroup>
+            <col width="15%">
+            <col width="15%">
+            <col width="5%">
+            <col width="5%">
+            <col width="5%">
+            <col width="5%">
+        </colgroup>
         <tbody>
-        <tr style="cursor: pointer" class="userRows" th:each="user : ${users}">
-            <td th:text="${user.userKey}">사용자키</td>
-            <td><label th:text="${user.userId}"></label><input type="hidden" name="userId" th:value="${user.userId}"></td>
-            <td><img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${user.userKey})}" width="50px" height="50px" border="1"
+        <tr th:if="${#arrays.isEmpty(userList)}">
+            <td colspan="7" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
+            <td><img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${user.userKey})}" width="30px" height="30px" border="1"
                      th:onerror="'this.onerror=null; this.src=\'' + @{/assets/media/image/avatar/profile_sample.jpg} + '\';'" alt="profile pic"/>
-                <a th:href="@{/users/{userKey}/edit(userKey=${user.userKey})}"><span th:text="${user.userName}">이름</span></a></td>
-            <td th:text="${user.department}">부서</td>
-            <td th:text="${user.position}">직책</td>
-            <td th:text="${user.officeNumber}">사무실 번호</td>
-            <td th:text="${user.mobileNumber}">핸드폰 번호</td>
+                <!--<a th:href="@{/users/{userKey}/edit(userKey=${user.userKey})}"><span th:text="${user.userName}"></span></a>-->
+                <span th:text="${user.userName}"></span>
+            </td>
+            <td th:text="${user.userId}"></td>
+            <td>
+                <img th:src="@{${'/assets/media/image/platform/' + user.platform + '.png'}}" width="30px" height="30px" border="1"
+                     th:onerror="'this.onerror=null; this.src=\'' + @{/assets/media/image/platform/user.platform.alice.png} + '\';'" alt="platform pic"/>
+            </td>
+            <td th:if="${user.useYn == true}" th:text="#{user.usageStatusFlag.use}"></td>
+            <td th:unless="${user.useYn == true}" th:text="#{user.usageStatusFlag.unused}"></td>
+            <td th:text="#{${user.status}}"></td>
+            <td>
+                <button sec:authorize="hasAuthority('user.update')"
+                        th:text="#{common.btn.modify}"
+                        th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''"></button>
+            </td>
         </tr>
         </tbody>
     </table>
