@@ -95,7 +95,7 @@
      * 단축키 등록
      * @param keys 단축키
      * @param callback 단축키 실행시 호출할 함수
-     * @param force 속성창에서 단축키 실행 여부
+     * @param force 단축키 강제 실행 여부
      */
     function add(keys, callback, force) {
         if (shortcutExists[keys] === true) { return false; } //중복키 방지
