@@ -360,7 +360,6 @@
                     if (originData.display.order !== changeData.display.order) {
                         targetElement.innerHTML = '';
                         targetElement.remove();
-                        reorderComponent();
                         const compOrder = Number(changeData.display.order) - 1;
                         let nextElement = formPanel.querySelectorAll('.component').item(compOrder);
                         nextElement.parentNode.insertBefore(element.domElem, nextElement);
@@ -373,7 +372,11 @@
                 }
             }
         };
-        restoreData.forEach(function(data) {
+        let historyData = JSON.parse(JSON.stringify(restoreData));
+        if (historyData.length > 1 && type === 'redo') {
+            historyData.reverse();
+        }
+        historyData.forEach(function(data) {
             let originData = data[1],
                 changeData = data[0];
             if (type === 'redo') {
