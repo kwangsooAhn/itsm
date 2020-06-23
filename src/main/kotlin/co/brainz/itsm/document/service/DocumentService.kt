@@ -1,7 +1,6 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.provider.RestTemplateProvider
