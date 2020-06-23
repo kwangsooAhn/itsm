@@ -81,7 +81,7 @@
             <td>
                 <select id="document_status" style="width:75%" th:disabled="!${documentId}">
                     <option th:each="status:${statusList}" th:value="${status.code}"
-                            th:text="${status.code}" th:selected="${status.code == 'document.status.use'}"></option>
+                            th:text="${status.codeValue}" th:selected="${status.code == 'document.status.use'}"></option>
                 </select>
             </td>
         </tr>
