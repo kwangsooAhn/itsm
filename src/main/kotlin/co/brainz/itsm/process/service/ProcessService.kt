@@ -17,8 +17,6 @@ import com.google.gson.Gson
 import java.time.LocalDateTime
 import javax.xml.parsers.DocumentBuilderFactory
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.env.Environment
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
