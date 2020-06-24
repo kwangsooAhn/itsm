@@ -42,6 +42,8 @@ class WfCommonEndEvent(
     }
 
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
+        super.createTokenEntity.tokenDataEntities =
+            wfTokenManagerService.saveAllTokenData(super.setTokenData(completedToken))
         wfTokenManagerService.completeInstance(completedToken.instanceId)
 
         return completedToken
