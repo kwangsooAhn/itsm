@@ -30,7 +30,7 @@ class WfEngine(
         tokenDto.elementId = element.elementId
 
         // Start Token Create
-        val tokenManager = this.getTokenManager(tokenDto.elementType)
+        val tokenManager = this.createTokenManager(tokenDto.elementType)
         var startTokenDto = tokenManager.createToken(tokenDto)
         startTokenDto = tokenManager.completeToken(startTokenDto)
 
@@ -47,15 +47,15 @@ class WfEngine(
         logger.debug("Process Token")
         when (tokenDto.action) {
             WfElementConstants.Action.SAVE.value ->
-                this.getTokenManager(WfElementConstants.ElementType.USER_TASK.value).actionSave(tokenDto)
+                this.createTokenManager(WfElementConstants.ElementType.USER_TASK.value).saveTokenAndTokenData(tokenDto)
             else -> {
                 var progressTokenDto = tokenDto.copy()
                 do {
                     progressTokenDto = this.getTokenDto(progressTokenDto)
-                    val tokenManager = this.getTokenManager(progressTokenDto.elementType)
+                    val tokenManager = this.createTokenManager(progressTokenDto.elementType)
                     progressTokenDto = tokenManager.completeToken(progressTokenDto)
                     progressTokenDto = tokenManager.createNextToken(progressTokenDto)
-                } while (progressTokenDto.isAutoComplete)
+                } while (tokenManager.isAutoComplete)
             }
         }
 
@@ -79,8 +79,8 @@ class WfEngine(
     /**
      * Get TokenManager.
      */
-    private fun getTokenManager(elementType: String): WfTokenManager {
-        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(elementType)
+    private fun createTokenManager(elementType: String): WfTokenManager {
+        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(elementType)
     }
 
     /**
