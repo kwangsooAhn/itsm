@@ -53,7 +53,8 @@ class WfTokenAction(
             elementId = element.elementId,
             elementType = element.elementType
         )
-        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).getTokenManager(commonEndTokenDto.elementType)
+        val tokenManager =
+            WfTokenManagerFactory(wfTokenManagerService).createTokenManager(commonEndTokenDto.elementType)
         WfEngine(wfTokenManagerService).progressWorkflow(tokenManager.createToken(commonEndTokenDto))
     }
 
