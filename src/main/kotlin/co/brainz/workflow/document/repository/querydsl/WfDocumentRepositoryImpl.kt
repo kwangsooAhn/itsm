@@ -1,5 +1,7 @@
 package co.brainz.workflow.document.repository.querydsl
 
+import co.brainz.itsm.document.constants.DocumentConstants
+import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
@@ -20,7 +22,11 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(RestTemplateDocumentS
             .where(
                 super.eq(document.documentGroup, searchDto.searchGroupName),
                 super.eq(document.documentType, searchDto.searchDocumentType),
-                super.eq(document.documentStatus, searchDto.searchDocumentStatus),
+                if (searchDto.searchDocumentType.equals(DocumentConstants.DocumentType.APPLICATION_FORM.value)) {
+                    super.eq(document.documentStatus, WfDocumentConstants.Status.USE.code)
+                } else {
+                    super.eq(document.documentStatus, searchDto.searchDocuments)
+                },
                 super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)
                     ?.or(super.likeIgnoreCase(document.documentDesc, searchDto.searchDocuments)),
                 super.likeIgnoreCase(document.process.processName, searchDto.searchProcessName),
