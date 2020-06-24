@@ -1,7 +1,6 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.itsm.form.service.FormService
 import co.brainz.itsm.process.service.ProcessService
 import co.brainz.workflow.provider.RestTemplateProvider
@@ -50,15 +49,10 @@ class DocumentService(
         val responseBody = restTemplate.get(url) // providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-        val restTemplateDocuments: List<RestTemplateDocumentDto> = mapper.readValue(
+        return mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateDocumentDto::class.java)
         )
-        for (document in restTemplateDocuments) {
-            document.createDt = document.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
-            document.updateDt = document.updateDt?.let { AliceTimezoneUtils().toTimezone(it) }
-        }
-        return restTemplateDocuments
     }
 
     /**
@@ -98,7 +92,7 @@ class DocumentService(
     fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
-        restTemplateDocumentDto.createDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateDocumentDto.createDt = LocalDateTime.now()
         // TODO: 최초 생성시 상태 값은 임시로 변경해야 한다. (추후 작업)
         restTemplateDocumentDto.documentStatus = RestTemplateConstants.DocumentStatus.USE.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENT.url)
@@ -123,7 +117,7 @@ class DocumentService(
         val documentId = restTemplateDocumentDto.documentId
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
-        restTemplateDocumentDto.updateDt = AliceTimezoneUtils().toGMT(LocalDateTime.now())
+        restTemplateDocumentDto.updateDt = LocalDateTime.now()
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(
                 restTemplate.getKeyRegex(),

@@ -1,7 +1,6 @@
 package co.brainz.itsm.folder.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
@@ -31,14 +30,6 @@ class FolderService(private val restTemplate: RestTemplateProvider) {
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateRelatedInstanceDto::class.java)
         )
-
-        relatedInstance?.let {
-            for (instance in relatedInstance) {
-                instance.instanceStartDt = instance.instanceStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
-                instance.instanceEndDt = instance.instanceEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
-            }
-        }
-
         return relatedInstance
     }
 
