@@ -1,12 +1,15 @@
 package co.brainz.itsm.user.controller
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
+import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
 import co.brainz.itsm.user.service.UserService
 import javax.servlet.http.HttpServletRequest
+import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -14,6 +17,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 /**
  * 사용자 관리 클래스
@@ -27,7 +31,9 @@ class UserController(
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val userPage: String = "user/user"
+    private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
+
+    private val userSearchPage: String = "user/userSearch"
     private val userListPage: String = "user/userList"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
@@ -37,15 +43,20 @@ class UserController(
      */
     @GetMapping("/search")
     fun getUserSearch(model: Model): String {
-        return userPage
+        model.addAttribute("categoryList", codeService.selectCodeByParent(AliceUserConstants.PLATFORM_CATEGORY_P_CODE))
+        return userSearchPage
     }
 
     /**
      * 사용자 조회 목록 화면을 호출한다.
      */
     @GetMapping("/list")
-    fun getUserList(searchValue: String, model: Model): String {
-        model.addAttribute("users", userService.selectUserList(searchValue))
+    fun getUserList(
+        @RequestParam(value = "search", defaultValue = "") search: String,
+        @RequestParam(value = "category", defaultValue = "") category: String,
+        model: Model
+    ): String {
+        model.addAttribute("userList", userService.selectUserList(search, category))
         return userListPage
     }
 
@@ -60,9 +71,10 @@ class UserController(
         model: Model
     ): String {
         var returnUrl = ""
-        val users = userService.selectUserKey(userKey)
+        val userEntity = userService.selectUserKey(userKey)
+        val users = userMapper.toUserDto(userEntity)
         val roleEntities = mutableSetOf<AliceRoleEntity>()
-        val timeFormat = users.timeFormat.split(' ')
+        val timeFormat = users.timeFormat!!.split(' ')
         val usersDate = timeFormat[0].toString()
         val usersTime = if (timeFormat.size == 3) {
             timeFormat[1] + ' ' + timeFormat[2]
@@ -76,7 +88,7 @@ class UserController(
         val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
         val timezoneList = userService.selectTimezoneList()
 
-        users.userRoleMapEntities.forEach { userRoleMap ->
+        userEntity.userRoleMapEntities.forEach { userRoleMap ->
             roleEntities.add(userRoleMap.role)
         }
 

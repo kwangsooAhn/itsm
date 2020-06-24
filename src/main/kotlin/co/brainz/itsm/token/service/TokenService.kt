@@ -1,7 +1,6 @@
 package co.brainz.itsm.token.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.util.AliceTimezoneUtils
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
@@ -78,14 +77,10 @@ class TokenService(
         val responseBody = restTemplate.get(url)
 
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val tokens: List<RestTemplateInstanceViewDto> = mapper.readValue(
+        return mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceViewDto::class.java)
         )
-        for (token in tokens) {
-            token.createDt = token.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
-        }
-        return tokens
     }
 
     /**

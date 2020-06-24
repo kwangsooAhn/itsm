@@ -62,7 +62,12 @@ class UserRestController(
 
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
         if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
-            aliceCertificationService.sendMail(aliceSignUpDto.userId, aliceSignUpDto.email, AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code, password)
+            aliceCertificationService.sendMail(
+                aliceSignUpDto.userId,
+                aliceSignUpDto.email,
+                AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code,
+                password
+            )
         }
         return result
     }
@@ -87,9 +92,19 @@ class UserRestController(
         val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
         when (result) {
             AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code -> {
-                aliceCertificationService.sendMail(user.userId, user.email!!, AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code, null)
+                aliceCertificationService.sendMail(
+                    user.userId,
+                    user.email!!,
+                    AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
+                    null
+                )
             }
-            else -> aliceCertificationService.sendMail(user.userId, user.email!!, AliceUserConstants.SendMailStatus.UPDATE_USER.code, null)
+            else -> aliceCertificationService.sendMail(
+                user.userId,
+                user.email!!,
+                AliceUserConstants.SendMailStatus.UPDATE_USER.code,
+                null
+            )
         }
         localeResolver.setLocale(request, response, Locale(user.lang))
         if (SecurityContextHolder.getContext().authentication != null) {
@@ -108,15 +123,16 @@ class UserRestController(
         var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(User.userKey))
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
 
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
+        val usernamePasswordAuthenticationToken =
+            UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->
             aliceUser.urls?.let { urls ->
                 aliceUser.menus?.let { menus ->
                     AliceUserDto(
-                            aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.position,
-                            aliceUser.department, aliceUser.officeNumber, aliceUser.mobileNumber, aliceUser.useYn,
-                            aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
-                            menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme
+                        aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.position,
+                        aliceUser.department, aliceUser.officeNumber, aliceUser.mobileNumber, aliceUser.useYn,
+                        aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
+                        menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme
                     )
                 }
             }

@@ -18,7 +18,6 @@ class WfUserTask(
             createTokenDto.assigneeId = it
         }
 
-
         return createTokenDto
     }
 

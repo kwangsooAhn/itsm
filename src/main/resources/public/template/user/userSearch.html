@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{menu.setting.user}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <div style="height: 90px;">
+            <h1 th:text="#{user.label.list}"></h1>
+            <div style="margin-top: 10px">
+                <select id="category" style="width: 230px; height: 30px">
+                    <option value="all" th:text="#{user.label.all}"></option>
+                    <option th:each="category: ${categoryList}" th:value="${category.code}"
+                            th:text="#{${category.code}}"></option>
+                </select>
+                <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}" />
+                <button style="float: right" onclick="location.href='/users/new'"
+                        sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.register}" ></button>
+            </div>
+        </div>
+        <hr>
+        <div id="userList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            document.getElementById('category').addEventListener('change', getUserList.bind(null, false), false);
+            document.getElementById('search').addEventListener('keyup', getUserList.bind(null, false), false);
+            getUserList(true);
+        }
+
+        document.getElementById('search').onkeyup = function() {
+            getUserList(false);
+        };
+
+        function getUserList(showProgressbar) {
+            const searchOpt = {
+                category: document.getElementById('category').value,
+                search: document.getElementById('search').value.trim()
+            }
+            const urlParam = 'category=' + searchOpt.category + '&search=' + searchOpt.search;
+            restSubmit('get', '/users/list?' + urlParam, showProgressbar);
+        }
+
+        function restSubmit(method, url, showProgressbar) {
+            const opt = {
+                method: method,
+                url: url,
+                showProgressbar: showProgressbar,
+                callbackFunc: function(response) {
+                    document.getElementById('userList').innerHTML = response.responseText;
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

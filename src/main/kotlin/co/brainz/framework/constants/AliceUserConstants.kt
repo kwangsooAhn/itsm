@@ -41,6 +41,11 @@ object AliceUserConstants {
     const val ADMIN_ID: String = "admin"
 
     /**
+     * Platform category p_code
+     */
+    const val PLATFORM_CATEGORY_P_CODE = "user.platform"
+
+    /**
      * 사용자 아바타  디렉터리
      */
     const val AVATAR_ID: String = "avatar"
@@ -104,7 +109,6 @@ object AliceUserConstants {
     enum class Platform(val code: String, val value: String) {
         ALICE("user.platform.alice", "alice"),
         GOOGLE("user.platform.google", "google"),
-        FACEBOOK("user.platform.facebook", "facebook"),
         KAKAO("user.platform.kakao", "kakao")
     }
 

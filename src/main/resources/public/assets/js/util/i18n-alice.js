@@ -68,7 +68,7 @@
         if (offset === undefined) {
             offset = { 'days' : 0 };
         }
-        return luxon.DateTime.fromFormat(beforeUserDateTime, dateTimeFormat).setZone('utc+0').plus(offset).toISO();
+        return luxon.DateTime.fromFormat(beforeUserDateTime, dateTimeFormat, {zone: timezone}).setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -83,7 +83,7 @@
         if (offset === undefined) {
             offset = { 'days' : 0 };
         }
-        return luxon.DateTime.fromFormat(beforeUserDate, dateFormat).setZone('utc+0').plus(offset).toISO();
+        return luxon.DateTime.fromFormat(beforeUserDate, dateFormat, {zone: timezone}).setZone('utc+0').plus(offset).toISO();
     }
 
     /**
@@ -111,7 +111,7 @@
         if (beforeSystemDateTime === null || beforeSystemDateTime === '') {
             return ''
         } else {
-            return luxon.DateTime.fromISO(beforeSystemDateTime).setZone(timezone).toFormat(dateTimeFormat);
+            return luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(timezone).toFormat(dateTimeFormat);
         }
     }
 
@@ -127,7 +127,7 @@
         if (beforeSystemDate === null || beforeSystemDate === '') {
             return ''
         } else {
-            return luxon.DateTime.fromISO(beforeSystemDate).setZone(timezone).toFormat(dateFormat);
+            return luxon.DateTime.fromISO(beforeSystemDate, {zone: 'utc'}).setZone(timezone).toFormat(dateFormat);
         }
     }
 

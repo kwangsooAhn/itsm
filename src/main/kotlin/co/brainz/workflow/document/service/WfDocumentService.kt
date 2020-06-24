@@ -367,6 +367,7 @@ class WfDocumentService(
 
         val components: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
         for (component in componentEntities) {
+            var isDisplay = false
             val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
             for (elementEntity in elementEntities) {
                 for (display in displayList) {
@@ -376,8 +377,17 @@ class WfDocumentService(
                             displayMap["elementId"] = display.elementId
                             displayMap["display"] = display.display
                             displayValue.add(displayMap)
+                            isDisplay = true
                         }
                     }
+                }
+                //강제적으로 compoent가 추가 되었을때 기본값 출력
+                if (!isDisplay) {
+                    val displayMap = LinkedHashMap<String, Any>()
+                    displayMap["elementId"] = elementEntity["elementId"].toString()
+                    displayMap["display"] = WfDocumentConstants.DisplayType.EDITABLE.value
+                    displayValue.add(displayMap)
+                    isDisplay = false
                 }
             }
             val componentMap = LinkedHashMap<String, Any>()
