@@ -1,7 +1,6 @@
 package co.brainz.workflow.token.repository
 
 import co.brainz.workflow.instance.entity.WfInstanceEntity
-import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenEntity
 import java.util.Optional
 import org.springframework.data.jpa.repository.JpaRepository
