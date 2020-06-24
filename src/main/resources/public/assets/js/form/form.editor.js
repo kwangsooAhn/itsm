@@ -360,7 +360,6 @@
                     if (originData.display.order !== changeData.display.order) {
                         targetElement.innerHTML = '';
                         targetElement.remove();
-                        reorderComponent();
                         const compOrder = Number(changeData.display.order) - 1;
                         let nextElement = formPanel.querySelectorAll('.component').item(compOrder);
                         nextElement.parentNode.insertBefore(element.domElem, nextElement);
@@ -373,7 +372,11 @@
                 }
             }
         };
-        restoreData.forEach(function(data) {
+        let historyData = JSON.parse(JSON.stringify(restoreData));
+        if (historyData.length > 1 && type === 'redo') {
+            historyData.reverse();
+        }
+        historyData.forEach(function(data) {
             let originData = data[1],
                 changeData = data[0];
             if (type === 'redo') {
@@ -563,6 +566,32 @@
         // 이력저장
         history.saveHistory(histories);
     }
+
+    /**
+     * 선택된 컴포넌트의 순서를 담은 배열을 반환
+     */
+    function getSelectComponentIndex() {
+        let rtn = [];
+        if (selectedComponentIds.length > 1) {
+            let i, len, compIdxs = [];
+            for (i = 0, len = selectedComponentIds.length; i < len; i++) {
+                const comp = document.getElementById(selectedComponentIds[i]);
+                compIdxs.push(Number(comp.getAttribute('data-index')));
+            }
+            compIdxs.sort(function(a, b) { // 오름차순 재정렬
+                return a - b;
+            });
+            rtn = compIdxs.slice();
+            for (i = 1, len = compIdxs.length; i < len; i++) {
+                if (compIdxs[i] - compIdxs[i - 1] > 1) { 
+                    rtn.length = 0;
+                    break;
+                }
+            }
+        }
+        return rtn;
+    }
+
     /**
      * 첫번째 컴포넌트 선택
      */
@@ -1657,6 +1686,7 @@
     exports.showComponentProperties = showComponentProperties;
     exports.hideComponentProperties = hideComponentProperties;
     exports.selectProperties = selectProperties;
+    exports.getSelectComponentIndex = getSelectComponentIndex;
     exports.history = history;
     exports.selectedComponentIds = selectedComponentIds;
 
