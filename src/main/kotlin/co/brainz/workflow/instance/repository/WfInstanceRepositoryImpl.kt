@@ -251,5 +251,3 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             .fetch()
     }
 }
-
-
