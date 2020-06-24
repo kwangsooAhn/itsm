@@ -100,10 +100,11 @@ class WfActionService(
      * @return MutableList<RestTemplateActionDto>
      */
     private fun postActions(element: WfElementEntity): MutableList<RestTemplateActionDto> {
+
         val postActions: MutableList<RestTemplateActionDto> = mutableListOf()
         // 현재 element 속성에 회수, 반려가 존재할 경우
         element.elementDataEntities.forEach {
-            if (it.attributeId == WfElementConstants.AttributeId.WITHDRAW.value && it.attributeValue.isNotEmpty()) {
+            if (it.attributeId == WfElementConstants.AttributeId.WITHDRAW.value && it.attributeValue == WfElementConstants.AttributeValue.WITHDRAW_ENABLE.value) {
                 postActions.add(RestTemplateActionDto(name = "회수", value = WfElementConstants.Action.WITHDRAW.value))
             }
             if (it.attributeId == WfElementConstants.AttributeId.REJECT_ID.value && it.attributeValue.isNotEmpty()) {
@@ -114,6 +115,8 @@ class WfActionService(
         // TODO: 권한여부에 따른 버튼 출려 기능 구현 필요
         postActions.add(RestTemplateActionDto(name = "취소", value = WfElementConstants.Action.CANCEL.value))
         postActions.add(RestTemplateActionDto(name = "종결", value = WfElementConstants.Action.TERMINATE.value))
+
+        logger.info("Make actions. {} ", postActions)
 
         return postActions
     }

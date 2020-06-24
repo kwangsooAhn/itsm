@@ -6,13 +6,13 @@ object WfTokenConstants {
      * Token Status.
      */
     enum class Status(val code: String) {
-        RUNNING("running"),
-        WAITING("waiting"),
-        FINISH("finish"),
-        WITHDRAW("withdraw"),
-        REJECT("reject"),
-        CANCEL("cancel"),
-        TERMINATE("terminate")
+        RUNNING("token.status.running"),
+        WAITING("token.status.waiting"),
+        FINISH("token.status.finish"),
+        WITHDRAW("token.status.withdraw"),
+        REJECT("token.status.reject"),
+        CANCEL("token.status.cancel"),
+        TERMINATE("token.status.terminate")
     }
 
     /**
