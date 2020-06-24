@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CodeRepository : JpaRepository<CodeEntity, String> {
-    fun findByPCode(pCode: CodeEntity): MutableList<CodeEntity>
+    fun findByPCodeOrderByCode(pCode: CodeEntity): MutableList<CodeEntity>
 
     /**
      * 코드 데이터 상세 정보 조회

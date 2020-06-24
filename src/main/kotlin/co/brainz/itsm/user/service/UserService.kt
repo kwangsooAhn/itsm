@@ -1,6 +1,5 @@
 package co.brainz.itsm.user.service
 
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapPk
@@ -12,21 +11,18 @@ import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
-import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.dto.UserDto
 import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserRepository
-import co.brainz.itsm.user.specification.UserSpecification
 import java.security.PrivateKey
 import java.util.Optional
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.dao.EmptyResultDataAccessException
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.context.request.RequestContextHolder
@@ -40,7 +36,6 @@ class UserService(
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
     private val aliceFileService: AliceFileService,
-    private val codeService: CodeService,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val userRepository: UserRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
@@ -54,9 +49,9 @@ class UserService(
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(searchValue: String): MutableList<UserDto> {
-        val codeList = codeService.selectCodeByParent(co.brainz.itsm.user.constants.UserConstants.PCODE.value)
-        val aliceUserEntities = userRepository.findAll(UserSpecification(codeList, searchValue))
+    fun selectUserList(search: String, category: String): MutableList<UserDto> {
+        val aliceUserEntities =
+            userRepository.findAliceUserEntityList(search, category)
         val userList: MutableList<UserDto> = mutableListOf()
         aliceUserEntities.forEach {
             userList.add(userMapper.toUserDto(it))
@@ -105,18 +100,23 @@ class UserService(
                 val userEntity = userRepository.findByUserKey(userUpdateDto.userKey)
                 val emailConfirmVal = userEntity.email
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-                val privateKey = attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+                val privateKey =
+                    attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val targetEntity = updateDataInput(userUpdateDto)
-                val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-
-                if (targetEntity.password != userUpdateDto.password) {
-                    val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
-                    userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
+                if (userUpdateDto.password != null) {
+                    if (targetEntity.password != userUpdateDto.password) {
+                        val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
+                        userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
+                    }
                 }
-
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
-                aliceFileService.uploadAvatar(AliceUserConstants.USER_AVATAR_IMAGE_DIR, AliceUserConstants.BASE_DIR, userUpdateDto.userKey, userUpdateDto.avatarUUID)
+                aliceFileService.uploadAvatar(
+                    AliceUserConstants.USER_AVATAR_IMAGE_DIR,
+                    AliceUserConstants.BASE_DIR,
+                    userUpdateDto.userKey,
+                    userUpdateDto.avatarUUID
+                )
 
                 if (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
                     userEntity.userRoleMapEntities.forEach {
@@ -124,16 +124,24 @@ class UserService(
                     }
 
                     userUpdateDto.roles!!.forEach {
-                        userRoleMapRepository.save(AliceUserRoleMapEntity(targetEntity, roleRepository.findByRoleId(it)))
+                        userRoleMapRepository.save(
+                            AliceUserRoleMapEntity(
+                                targetEntity,
+                                roleRepository.findByRoleId(it)
+                            )
+                        )
                     }
                 }
 
-                code = if (targetEntity.email == emailConfirmVal && userUpdateDto.userKey == aliceUserDto.userKey) {
-                    AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
-                } else if (userUpdateDto.userKey != aliceUserDto.userKey) {
-                    AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
-                } else {
-                    AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
+                code = when (targetEntity.email == emailConfirmVal) {
+                    true -> {
+                        when (userEditType) {
+                            AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
+                            AliceUserConstants.UserEditType.SELF_USER_EDIT.code -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
+                            else -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
+                        }
+                    }
+                    false -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code
                 }
             }
         }
@@ -186,6 +194,7 @@ class UserService(
         userUpdateDto.lang?.let { targetEntity.lang = userUpdateDto.lang!! }
         userUpdateDto.timeFormat?.let { targetEntity.timeFormat = userUpdateDto.timeFormat!! }
         userUpdateDto.theme?.let { targetEntity.theme = userUpdateDto.theme!! }
+        userUpdateDto.useYn?.let { targetEntity.useYn = userUpdateDto.useYn!! }
 
         return targetEntity
     }
@@ -205,7 +214,13 @@ class UserService(
         val userList = userRepository.findByOrderByUserNameAsc()
         val userDtoList = mutableListOf<UserListDto>()
         for (userEntity in userList) {
-            userDtoList.add(UserListDto(userKey = userEntity.userKey, userId = userEntity.userId, userName = userEntity.userName))
+            userDtoList.add(
+                UserListDto(
+                    userKey = userEntity.userKey,
+                    userId = userEntity.userId,
+                    userName = userEntity.userName
+                )
+            )
         }
         return userDtoList
     }

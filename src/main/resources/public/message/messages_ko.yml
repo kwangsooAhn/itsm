@@ -161,6 +161,21 @@ user:
   searchPlaceholder: "아이디 / 이름 / 직책 / 부서 / 사무실 번호 / 핸드폰 번호"
   FileSizeLimit: "파일 크기 제한 : 200KB"
   FileExtensionAllowed: "파일 허용 확장자 : gif, jpeg, jpg, png"
+  usageStatus: "사용 여부"
+  status:
+    signup: "등록"
+    certified: "인증완료"
+  usageStatusFlag:
+    use: "사용"
+    unused: "미사용"
+  platform:
+    alice: "Alice"
+    google: "Google"
+    kakao: "Kakao"
+  label:
+    all: 전체
+    list: 사용자 목록
+    searchPlaceholder: 사용자이름 / 사용자아이디
   msg:
     idNotExist: "아이디를 입력해주세요."
     passwordNotExist: "비밀번호를 입력해주세요."
