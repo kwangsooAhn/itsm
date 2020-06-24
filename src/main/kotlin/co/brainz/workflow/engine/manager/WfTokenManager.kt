@@ -258,19 +258,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     }
 
     /**
-     * Set autoComplete by elementType.
-     */
-    protected fun setAutoComplete(elementType: String): Boolean {
-        return when (elementType) {
-            WfElementConstants.ElementType.COMMON_END_EVENT.value,
-            WfElementConstants.ElementType.MANUAL_TASK.value,
-            WfElementConstants.ElementType.SIGNAL_SEND.value,
-            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> true
-            else -> false
-        }
-    }
-
-    /**
      * Set next element info.
      */
     protected fun setNextTokenDto(createNextTokenDto: WfTokenDto): WfTokenDto {
