@@ -157,7 +157,7 @@ class WfActionService(
             }
         }
         if (typeActions.isEmpty()) {
-            typeActions.add(RestTemplateActionDto(name = "처리", value = WfElementConstants.Action.PROCESS.value))
+            typeActions.add(RestTemplateActionDto(name = "처리", value = WfElementConstants.Action.PROGRESS.value))
         }
 
         return typeActions

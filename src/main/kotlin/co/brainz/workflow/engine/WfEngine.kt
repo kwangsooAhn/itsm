@@ -45,12 +45,9 @@ class WfEngine(
      * Progress workflow.
      */
     fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
-        logger.debug("Process Token")
+        logger.debug("Progress Token")
         when (tokenDto.action) {
-            WfElementConstants.Action.SAVE.value ->
-                this.createTokenManager(WfElementConstants.ElementType.USER_TASK.value).saveTokenAndTokenData(tokenDto)
-            else -> {
-            WfElementConstants.Action.PROCESS.value -> {
+            WfElementConstants.Action.PROGRESS.value -> {
                 var progressTokenDto = tokenDto.copy()
                 do {
                     progressTokenDto = this.getTokenDto(progressTokenDto)
