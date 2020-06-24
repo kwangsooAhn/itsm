@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
-import java.time.ZoneId
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -93,7 +92,7 @@ class DocumentService(
     fun createDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
-        restTemplateDocumentDto.createDt = LocalDateTime.now(ZoneId.of("UTC"))
+        restTemplateDocumentDto.createDt = LocalDateTime.now()
         // TODO: 최초 생성시 상태 값은 임시로 변경해야 한다. (추후 작업)
         restTemplateDocumentDto.documentStatus = RestTemplateConstants.DocumentStatus.USE.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENT.url)
@@ -118,7 +117,7 @@ class DocumentService(
         val documentId = restTemplateDocumentDto.documentId
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
-        restTemplateDocumentDto.updateDt = LocalDateTime.now(ZoneId.of("UTC"))
+        restTemplateDocumentDto.updateDt = LocalDateTime.now()
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(
                 restTemplate.getKeyRegex(),

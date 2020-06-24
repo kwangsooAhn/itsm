@@ -17,7 +17,6 @@ import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.time.LocalDateTime
-import java.time.ZoneId
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.ResponseEntity
@@ -55,8 +54,8 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateFormDto.status = RestTemplateConstants.FormStatus.EDIT.value
         restTemplateFormDto.createUserKey = aliceUserDto.userKey
-        restTemplateFormDto.createDt = LocalDateTime.now(ZoneId.of("UTC"))
-        restTemplateFormDto.updateDt = LocalDateTime.now(ZoneId.of("UTC"))
+        restTemplateFormDto.createDt = LocalDateTime.now()
+        restTemplateFormDto.updateDt = LocalDateTime.now()
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM.url)
         val responseEntity = restTemplate.create(url, restTemplateFormDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
@@ -81,7 +80,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
     fun saveFormData(formId: String, formData: String): Boolean {
         val formComponentListDto = makeFormComponentListDto(formData)
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        formComponentListDto.updateDt = LocalDateTime.now(ZoneId.of("UTC"))
+        formComponentListDto.updateDt = LocalDateTime.now()
         formComponentListDto.updateUserKey = aliceUserDto.userKey
         val urlDto = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Form.PUT_FORM_DATA.url.replace(restTemplate.getKeyRegex(), formId)
@@ -171,7 +170,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             name = map["name"] as String,
             desc = map["desc"] as String,
             status = map["status"] as String,
-            createDt = LocalDateTime.now(ZoneId.of("UTC")),
+            createDt = LocalDateTime.now(),
             createUserKey = aliceUserDto.userKey,
             updateDt = null,
             updateUserKey = null,

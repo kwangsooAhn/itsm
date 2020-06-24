@@ -14,7 +14,6 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.Gson
 import java.time.LocalDateTime
-import java.time.ZoneId
 import javax.xml.parsers.DocumentBuilderFactory
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
@@ -67,7 +66,7 @@ class ProcessService(
     fun createProcess(restTemplateProcessDto: RestTemplateProcessDto): String {
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateProcessDto.createUserKey = aliceUserDto.userKey
-        restTemplateProcessDto.createDt = LocalDateTime.now(ZoneId.of("UTC"))
+        restTemplateProcessDto.createDt = LocalDateTime.now()
         restTemplateProcessDto.processStatus = RestTemplateConstants.ProcessStatus.EDIT.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.POST_PROCESS.url)
         val responseBody = restTemplate.create(url, restTemplateProcessDto)
@@ -85,7 +84,7 @@ class ProcessService(
      */
     fun updateProcessData(processId: String, restTemplateProcessElementDto: RestTemplateProcessElementDto): Boolean {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateProcessElementDto.process?.updateDt = LocalDateTime.now(ZoneId.of("UTC"))
+        restTemplateProcessElementDto.process?.updateDt = LocalDateTime.now()
         restTemplateProcessElementDto.process?.updateUserKey = userDetails.userKey
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Process.PUT_PROCESS_DATA.url.replace(
@@ -102,7 +101,7 @@ class ProcessService(
      */
     fun saveAsProcess(restTemplateProcessElementDto: RestTemplateProcessElementDto): String {
         val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateProcessElementDto.process?.createDt = LocalDateTime.now(ZoneId.of("UTC"))
+        restTemplateProcessElementDto.process?.createDt = LocalDateTime.now()
         restTemplateProcessElementDto.process?.createUserKey = userDetails.userKey
         restTemplateProcessElementDto.process?.updateDt = null
         restTemplateProcessElementDto.process?.updateUserKey = null

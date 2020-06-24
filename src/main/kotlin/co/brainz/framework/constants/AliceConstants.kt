@@ -76,4 +76,9 @@ object AliceConstants {
      * Email 인증 키 자릿수.
      */
     const val EMAIL_CERTIFICATION_KEY_SIZE = 50
+
+    /**
+     * 기본 타임존
+     */
+    const val DEFAULT_TIMEZONE = "UTC"
 }

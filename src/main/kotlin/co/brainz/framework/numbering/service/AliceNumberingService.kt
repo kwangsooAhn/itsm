@@ -9,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.time.LocalDateTime
-import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
@@ -45,7 +44,7 @@ class AliceNumberingService(
     fun getNewNumbering(numberingId: String): String {
         val aliceNumberingRuleEntity = aliceNumberingRuleRepository.findById(numberingId)
         var newNumbering = ""
-        val currentDateTime = LocalDateTime.now(ZoneId.of("UTC"))
+        val currentDateTime = LocalDateTime.now()
         if (aliceNumberingRuleEntity.isPresent) {
             val latestValue = aliceNumberingRuleEntity.get().latestValue ?: ""
             var latestPatternValues: MutableList<String> = mutableListOf()
