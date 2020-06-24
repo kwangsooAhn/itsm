@@ -113,7 +113,8 @@ class WfElementService(
                         conditionOperator = "="
                         conditionValue = this.getMatchesRegex(connectorCondition, tokenDto)
                     } else {
-                        val parsedConnectorCondition = connectorCondition.split("\\s+".toRegex())
+                        val parsedConnectorCondition =
+                            connectorCondition.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
                         conditionOperator = parsedConnectorCondition[0]
                         conditionValue = this.getMatchesRegex(parsedConnectorCondition[1], tokenDto)
                     }
