@@ -38,8 +38,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
 
         val createTokenDto = tokenDto.copy()
         createTokenDto.tokenId = this.tokenEntity.tokenId
-        return this.createElementToken(createTokenDto)
-        createTokenDto.tokenId = this.tokenEntity.tokenId
 
         // TODO : Refactoring 필요.
         // 각 tokenmanager들의 createElementToken함수에서 super.cretateTokenEntity에 뭔짓을 하는지 몰라서
