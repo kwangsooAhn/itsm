@@ -3,10 +3,12 @@ package co.brainz.workflow.token.service
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.form.service.WfFormService
+import co.brainz.workflow.provider.dto.RestTemplateTokenAssigneesViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
+import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
 import org.slf4j.Logger
@@ -21,7 +23,8 @@ class WfTokenService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
     private val wfFormService: WfFormService,
-    private val wfActionService: WfActionService
+    private val wfActionService: WfActionService,
+    private val wfCandidateRepository: WfCandidateRepository
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -91,6 +94,37 @@ class WfTokenService(
             documentId = tokenEntity.instance.document.documentId,
             documentName = tokenEntity.instance.document.documentName,
             data = componentList
+        )
+    }
+
+    /**
+     * Token에 대한 Assignees.
+     *
+     * @param tokenId
+     * @return LinkedHashMap<String, Any>
+     */
+    fun getTokenAssignees(tokenId: String): RestTemplateTokenAssigneesViewDto {
+        var type = ""
+        val assignees = mutableListOf<String>()
+        val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId).get()
+        tokenEntity.element.elementDataEntities.forEach { elementData ->
+            if (elementData.attributeId == "assignee-type") {
+                type = elementData.attributeValue
+            }
+        }
+
+        if (type == WfTokenConstants.AssigneeType.ASSIGNEE.code) {
+            assignees.add(tokenEntity.assigneeId.toString())
+        } else if (type == WfTokenConstants.AssigneeType.USERS.code || type == WfTokenConstants.AssigneeType.GROUPS.code) {
+            wfCandidateRepository.findByTokenIdAndCandidateType(tokenEntity, type).forEach { candidate ->
+                assignees.add(candidate.candidateValue)
+            }
+        }
+
+        return RestTemplateTokenAssigneesViewDto(
+            tokenId = tokenId,
+            type = type,
+            assignees = assignees
         )
     }
 

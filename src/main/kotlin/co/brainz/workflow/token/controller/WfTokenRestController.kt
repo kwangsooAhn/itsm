@@ -5,6 +5,7 @@ import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
+import co.brainz.workflow.provider.dto.RestTemplateTokenAssigneesViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
@@ -60,6 +61,17 @@ class WfTokenRestController(
     @GetMapping("/{tokenId}/data")
     fun getTokenData(@PathVariable tokenId: String): RestTemplateTokenViewDto {
         return wfTokenService.getTokenData(tokenId)
+    }
+
+    /**
+     * 토큰 담당자 조회.
+     *
+     * @param tokenId
+     * @return RestTemplateTokenViewDto
+     */
+    @GetMapping("/{tokenId}/assignees")
+    fun getTokenAssignees(@PathVariable tokenId: String): RestTemplateTokenAssigneesViewDto {
+        return wfTokenService.getTokenAssignees(tokenId)
     }
 
     /**

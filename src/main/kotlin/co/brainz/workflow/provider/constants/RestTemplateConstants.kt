@@ -67,7 +67,8 @@ object RestTemplateConstants {
         PUT_TOKEN("/rest/wf/tokens/{tokenId}", "PUT"),
         GET_TOKEN("/rest/wf/tokens/{tokenId}", "GET"),
         GET_TOKENS("/rest/wf/tokens", "GET"),
-        GET_TOKEN_DATA("/rest/wf/tokens/{tokenId}/data", "GET")
+        GET_TOKEN_DATA("/rest/wf/tokens/{tokenId}/data", "GET"),
+        GET_TOKEN_ASSIGNEE("/rest/wf/tokens/{tokenId}/assignees", "GET")
     }
 
     /**
