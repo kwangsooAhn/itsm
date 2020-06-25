@@ -40,15 +40,13 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
                         JPAExpressions.select(comment.boardCommentId.count()).from(comment)
                             .where(board.boardId.eq(comment.commentBoard.boardId)), "replyCount"
                     ),
-                    ExpressionUtils.`as`(
-                        JPAExpressions.select(boardRead.boardId.count()).from(boardRead)
-                            .where(board.boardId.eq(boardRead.boardId)), "readCount"
-                    ),
+                    boardRead.boardReadCount.coalesce(0).`as`("readCount"),
                     board.createDt,
                     board.createUser
                 )
             )
             .leftJoin(category).on(board.boardCategoryId.eq(category.boardCategoryId))
+            .leftJoin(boardRead).on(board.boardId.eq(boardRead.boardId))
             .where(
                 board.boardAdmin.boardAdminId.eq(boardAdminId),
                 super.likeIgnoreCase(
@@ -58,6 +56,7 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
                 board.createDt.goe(fromDt),
                 board.createDt.lt(toDt)
             )
+            .orderBy(board.boardGroupId.desc(), board.boardOrderSeq.asc())
             .fetch()
     }
 }
