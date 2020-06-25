@@ -191,7 +191,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToPrintFormat(beforeSystemDateTime) {
-        return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemDateTime).setZone(options.timezone)
+        return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(options.timezone)
             .toFormat(options.dateTimeFormat.replace(/(mm)/g, '$1:ss') + ' (z)'));
     }
 
