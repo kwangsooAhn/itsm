@@ -38,8 +38,8 @@
         window.onload = function () {
             document.getElementById('fromDt').value = i18n.getDate({'months':-1});
             document.getElementById('toDt').value = i18n.getDate();
-            dateTimePicker.initDatePicker('fromDt', userFormat.dateFormat, userFormat.lang, setDatePicker);
-            dateTimePicker.initDatePicker('toDt', userFormat.dateFormat, userFormat.lang, setDatePicker);
+            dateTimePicker.initDatePicker('fromDt', i18n.options.dateFormat, i18n.options.lang, setDatePicker);
+            dateTimePicker.initDatePicker('toDt', i18n.options.dateFormat, i18n.options.lang, setDatePicker);
             document.getElementById('category').addEventListener('change', getDownloadList.bind(null, false), false);
             document.getElementById('search').addEventListener('keyup', getDownloadList.bind(null, false), false);
 

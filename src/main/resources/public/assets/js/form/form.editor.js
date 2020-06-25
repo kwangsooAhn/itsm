@@ -185,7 +185,6 @@
         data.components = data.components.filter(function(comp) {
             return !(comp.display.order === lastCompIndex && comp.type === aliceForm.options.defaultType);
         });
-
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/forms/' + data.formId + '/data',
@@ -265,8 +264,12 @@
             data.components = data.components.filter(function (comp) {
                 return !(comp.display.order === lastCompIndex && comp.type === aliceForm.options.defaultType);
             });
+            // datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
+            data.components = aliceForm.reformatCalendarFormat('save', data.components);
+
             data.name = document.getElementById('form_name').value;
             data.desc = document.getElementById('form_description').value;
+
             aliceJs.sendXhr({
                 method: 'POST',
                 url: '/rest/forms' + '?saveType=saveas',
@@ -782,7 +785,7 @@
      */
     function initProperties(componentData) {
         // set default component properties
-        let initializedProperties = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[componentData.type]);
+        let initializedProperties = aliceJs.mergeObject({}, aliceForm.options.componentProperties[componentData.type]);
 
         Object.keys(componentData).forEach(function(propertyGroupId) {
             if (aliceJs.isObject(componentData[propertyGroupId]) && initializedProperties.hasOwnProperty(propertyGroupId))  {
@@ -1189,7 +1192,7 @@
                                             return `<div class='vertical-group radio-datetime'>
                                             <input type='radio' id='${opt.id}' name='${group}.${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} />
                                             ${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><label for='" + opt.id + "'>" + labelName[1] + "</label>" : ""}
-                                            ${opt.id === 'datetime' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-0' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-0'>" + labelName[1] + "</label>" + "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-1' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-1'>" + labelName[2] + "</label>" : ""}
+                                            ${opt.id === 'datetime' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-day'>" + labelName[1] + "</label>" + "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-hour'>" + labelName[2] + "</label>" : ""}
                                             ${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
                                             ${opt.id === 'now' || opt.id === 'none' ? "<label for='" + opt.id + "'>" + labelName[0] + "</label>" : ""}
                                             </div>`;
@@ -1247,25 +1250,8 @@
                                     case 'datepicker':
                                     case 'timepicker':
                                     case 'datetimepicker':
-                                        let dateTimePickerValue = '';
-                                        if (fieldProp.value !== '') {
-                                            const dateTimePickerFormat = aliceForm.options.datetimeFormat;
-                                            dateTimePickerValue = fieldProp.value.split('|');
-                                            if (dateTimePickerValue[1] === undefined) {
-                                                dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerFormat, dateTimePickerFormat, dateTimePickerValue[0], aliceForm.options.lang);
-                                            } else {
-                                                let dummyDateTime = '';
-                                                if (fieldProp.type === 'timepicker') {
-                                                    dummyDateTime = aliceJs.getTimeStamp(aliceForm.options.dateFormat);
-                                                }
-                                                dateTimePickerValue = aliceJs.changeDateFormat(dateTimePickerValue[1], dateTimePickerFormat, (dummyDateTime !== '' ? dummyDateTime + ' ' : '') + dateTimePickerValue[0], aliceForm.options.lang);
-                                                if (fieldProp.type === 'timepicker') {
-                                                    dateTimePickerValue = dateTimePickerValue.split(' ')[1];
-                                                }
-                                            }
-                                        }
                                         fieldTemplate +=
-                                            `<input type='text' class='${fieldProp.type} property-field-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}.${fieldProp.id}' value='${dateTimePickerValue}'>`;
+                                            `<input type='text' class='${fieldProp.type} property-field-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}.${fieldProp.id}' value='${fieldProp.value}'>`;
                                         break;
                                 }
                                 // 단위 추가
@@ -1327,27 +1313,27 @@
         const datepickerElems = propertiesPanel.querySelectorAll('.datepicker');
         let i, len;
         for (i = 0, len = datepickerElems.length; i < len; i++) {
-            dateTimePicker.initDatePicker(datepickerElems[i].id, aliceForm.options.dateFormat, aliceForm.options.lang, setDateFormat);
+            dateTimePicker.initDatePicker(datepickerElems[i].id, i18n.options.dateFormat, i18n.options.lang, setDateFormat);
         }
         const timepickerElems = propertiesPanel.querySelectorAll('.timepicker');
         for (i = 0, len = timepickerElems.length; i < len; i++) {
-            dateTimePicker.initTimePicker(timepickerElems[i].id, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
+            dateTimePicker.initTimePicker(timepickerElems[i].id, i18n.options.timeFormat, i18n.options.lang, setDateFormat);
         }
         const datetimepickerElems = propertiesPanel.querySelectorAll('.datetimepicker');
         for (i = 0, len = datetimepickerElems.length; i < len; i++) {
-            dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, setDateFormat);
+            dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, i18n.options.dateFormat, i18n.options.timeFormat, i18n.options.lang, setDateFormat);
         }
 
         // focustout 이벤트 추가
         const inputElems = propertiesPanel.querySelectorAll('input[type="text"]:not([readonly])');
         for (i = 0, len = inputElems.length; i < len; i++) {
-            if (inputElems[i].id === 'date' || inputElems[i].id === 'time' || inputElems[i].id === 'datetime') {
+            if (inputElems[i].id === 'date' || inputElems[i].id === 'time' || inputElems[i].id === 'datetime-day' || inputElems[i].id === 'datetime-hour') {
                 inputElems[i].addEventListener('focusout', setDateFormat, false);
             } else {
                 inputElems[i].addEventListener('focusout', function (e) {
                     const elem = e.target;
                     const parentElem = elem.parentNode;
-                    if (parentElem.classList.contains('picker-wrapper')) { return false; }
+                    if (parentElem.classList.contains('picker-wrapper') || parentElem.classList.contains('wdp-hour-el-container')) { return false; }
                     if (parentElem.tagName === 'TD') { // option
                         const seqCell = parentElem.parentNode.cells[1].childNodes[0];
                         changePropertiesValue(elem.value, 'option', parentElem.id, Number(seqCell.value) - 1);
@@ -1555,7 +1541,6 @@
                 let defaultComponentAttr = component.getData(componentAttr.type);
                 let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
                 setComponentData(mergeComponentAttr);
-
                 component.draw(componentAttr.type, formPanel, mergeComponentAttr);
             }
         }

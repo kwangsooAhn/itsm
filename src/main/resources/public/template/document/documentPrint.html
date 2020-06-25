@@ -26,11 +26,11 @@
         /*<![CDATA[*/
         window.onload = function() {
             const printInfo = document.getElementById('printInfo');
-            printInfo.innerHTML = aliceForm.options.sessionInfo.userName + ' ['
-                + aliceForm.options.sessionInfo.email + ']<br>'
+            printInfo.innerHTML = i18n.options.session.userName + ' ['
+                + i18n.options.session.email + ']<br>'
                 + i18n.printFormat(/*[[${time}]]*/'');
 
-            aliceForm.initSync(aliceDocument.drawDocument, /*[[${data}]]*/);
+            aliceForm.init(aliceDocument.drawDocument, /*[[${data}]]*/);
 
             setTimeout(function() {
                 window.print();

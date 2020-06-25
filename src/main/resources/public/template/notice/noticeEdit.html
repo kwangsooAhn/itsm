@@ -208,8 +208,8 @@
                     document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
                     document.getElementById('popStrtDt').value = popStrtDtVal ? i18n.userDateTime(popStrtDtVal) : i18n.getDateTime();
                     document.getElementById('popEndDt').value = popEndDtVal ? i18n.userDateTime(popEndDtVal) : i18n.getDateTime({'days':30});
-                    dateTimePicker.initDateTimePicker('popStrtDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
-                    dateTimePicker.initDateTimePicker('popEndDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
+                    dateTimePicker.initDateTimePicker('popStrtDt', i18n.options.dateFormat, i18n.options.timeFormat, i18n.options.lang);
+                    dateTimePicker.initDateTimePicker('popEndDt', i18n.options.dateFormat, i18n.options.timeFormat, i18n.options.lang);
                     document.getElementsByName('popYn')[0].value = true;
                 } else if (name === 'topNoticeTab') {
                     const topNoticeStrtDtVal = /*[[${notice?.topNoticeStrtDt}]]*/;
@@ -217,8 +217,8 @@
                     document.getElementById('topNoticeStrtDt').value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
                     document.getElementById('topNoticeEndDt').value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime({'days':30});
                     document.getElementsByName('topNoticeYn')[0].value = true;
-                    dateTimePicker.initDateTimePicker('topNoticeStrtDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
-                    dateTimePicker.initDateTimePicker('topNoticeEndDt', userFormat.dateFormat, userFormat.timeFormat, userFormat.lang);
+                    dateTimePicker.initDateTimePicker('topNoticeStrtDt', i18n.options.dateFormat, i18n.options.timeFormat, i18n.options.lang);
+                    dateTimePicker.initDateTimePicker('topNoticeEndDt', i18n.options.dateFormat, i18n.options.timeFormat, i18n.options.lang);
                 }
                 document.getElementById(name).style.display = '';
             } else {
