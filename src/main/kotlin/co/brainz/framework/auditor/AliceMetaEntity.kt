@@ -1,11 +1,9 @@
 package co.brainz.framework.auditor
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.itsm.utility.LocalDateTimeAttributeConverter
 import java.io.Serializable
 import java.time.LocalDateTime
 import javax.persistence.Column
-import javax.persistence.Convert
 import javax.persistence.EntityListeners
 import javax.persistence.FetchType
 import javax.persistence.JoinColumn
@@ -32,7 +30,6 @@ open class AliceMetaEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     var createUser: AliceUserEntity? = null,
 
-    @Convert(converter = LocalDateTimeAttributeConverter::class)
     @CreatedDate
     @Column(name = "create_dt", nullable = false, updatable = false)
     var createDt: LocalDateTime = LocalDateTime.now(),
@@ -42,7 +39,6 @@ open class AliceMetaEntity(
     @ManyToOne(fetch = FetchType.LAZY)
     var updateUser: AliceUserEntity? = null,
 
-    @Convert(converter = LocalDateTimeAttributeConverter::class)
     @LastModifiedDate
     @Column(name = "update_dt", insertable = false)
     var updateDt: LocalDateTime? = LocalDateTime.now()

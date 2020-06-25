@@ -56,9 +56,12 @@
                     </td>
                 </tr>
                 <tr>
-                    <td th:text="#{download.label.createDtAndcreateUser}"></td>
-                    <td th:with="dateformat=${#authentication.details.timeFormat}"
-                        th:text="|${#temporals.format(download.createDt, dateformat)} ${download.createUserName}|"></td>
+                    <td th:text="#{download.label.createUser}"></td>
+                    <td th:text="${download.createUserName}"></td>
+                </tr>
+                <tr>
+                    <td><label th:text="#{download.label.createDt}"></label></td>
+                    <td id="createDt" th:text="${download.createDt}"></td>
                 </tr>
             </tbody>
         </table>
@@ -77,6 +80,7 @@
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
+            document.getElementById('createDt').textContent = i18n.userDateTime(document.getElementById('createDt').textContent);
             fileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download.downloadId}]], editor: false}});
         };
 

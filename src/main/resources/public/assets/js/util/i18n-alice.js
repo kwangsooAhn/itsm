@@ -75,7 +75,7 @@
             if (offset === undefined) {
                 offset = { 'days' : 0 };
             }
-            return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserDateTime), options.dateTimeFormat).setZone('utc+0').plus(offset).toISO();
+            return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserDateTime), options.dateTimeFormat, {zone: options.timezone}).setZone('utc+0').plus(offset).toISO();
         }
     }
 
@@ -94,7 +94,7 @@
             if (offset === undefined) {
                 offset = { 'days' : 0 };
             }
-            return luxon.DateTime.fromFormat(beforeUserDate, options.dateFormat).setZone('utc+0').plus(offset).toISO();
+            return luxon.DateTime.fromFormat(beforeUserDate, options.dateFormat, {zone: options.timezone}).setZone('utc+0').plus(offset).toISO();
         }
     }
 
@@ -145,7 +145,7 @@
         if (beforeSystemDateTime === null || beforeSystemDateTime === '') {
             return ''
         } else {
-            return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemDateTime).setZone(options.timezone).toFormat(options.dateTimeFormat));
+            return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(options.timezone).toFormat(options.dateTimeFormat));
         }
     }
 
@@ -161,7 +161,7 @@
         if (beforeSystemDate === null || beforeSystemDate === '') {
             return ''
         } else {
-            return luxon.DateTime.fromISO(beforeSystemDate).setZone(options.timezone).toFormat(options.dateFormat);
+            return luxon.DateTime.fromISO(beforeSystemDate, {zone: 'utc'}).setZone(options.timezone).toFormat(options.dateFormat);
         }
     }
 
@@ -218,7 +218,7 @@
 
     /**
      * 최소 날짜시간이 최대 날짜시간 보다 큰지 비교하여 조건에 부합할 경우 true를 반환한다.
-     * 
+     *
      * @author Woo Da Jung
      * @param minUserDateTime
      * @param maxUserDateTime
@@ -231,7 +231,7 @@
 
     /**
      * 최소 날짜가 최대 날짜 보다 큰지 비교하여 조건에 부합할 경우 true를 반환한다.
-     * 
+     *
      * @author Woo Da Jung
      * @param minUserDate
      * @param maxUserDate
@@ -244,7 +244,7 @@
 
     /**
      * 최소 시간이 최대 시간 보다 큰지 비교하여 조건에 부합할 경우 true를 반환한다.
-     * 
+     *
      * @author Woo Da Jung
      * @param minUserTime
      * @param maxUserTime

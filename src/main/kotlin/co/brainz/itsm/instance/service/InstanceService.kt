@@ -1,7 +1,5 @@
 package co.brainz.itsm.instance.service
 
-import co.brainz.framework.util.AliceTimezoneUtils
-import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
@@ -25,7 +23,7 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
         ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     fun getInstanceHistory(tokenId: String): List<RestTemplateInstanceHistoryDto>? {
-        val rebindHistory: MutableList<RestTemplateInstanceHistoryDto> = mutableListOf()
+        var histories: MutableList<RestTemplateInstanceHistoryDto>? = mutableListOf()
 
         getInstanceId(tokenId)?.let { instanceId ->
             val urlDto = RestTemplateUrlDto(
@@ -34,21 +32,9 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
                     instanceId
                 )
             )
-            val responseBody = restTemplate.get(urlDto)
-            val histories: MutableList<RestTemplateInstanceHistoryDto>? =
-                mapper.readValue(responseBody)
-            histories?.forEach { history ->
-                if (InstanceConstants.InstanceHistory.isHistoryElement(history.elementType)) {
-                    history.tokenStartDt =
-                        history.tokenStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
-                    history.tokenEndDt =
-                        history.tokenEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
-                    rebindHistory.add(history)
-                }
-            }
+            histories = mapper.readValue(restTemplate.get(urlDto))
         }
-
-        return rebindHistory
+        return histories
     }
 
     fun getInstanceId(tokenId: String): String? {
@@ -77,18 +63,13 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
         val responseBody = restTemplate.get(url)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-        val restTemplateComments: List<RestTemplateCommentDto> = mapper.readValue(
+        return mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(
                 List::class.java,
                 RestTemplateCommentDto::class.java
             )
         )
-        for (comment in restTemplateComments) {
-            comment.createDt = comment.createDt?.let { AliceTimezoneUtils().toTimezone(it) }
-        }
-
-        return restTemplateComments
     }
 
     fun getInstanceTags(instanceId: String): String {
@@ -132,21 +113,12 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
             )
         val responseBody = restTemplate.get(urlDto)
 
-        val instanceList: MutableList<RestTemplateInstanceListDto>? = mapper.readValue(
+        return mapper.readValue<MutableList<RestTemplateInstanceListDto>?>(
             responseBody,
             mapper.typeFactory.constructCollectionType(
                 List::class.java,
                 RestTemplateInstanceListDto::class.java
             )
         )
-
-        instanceList?.forEach { instance ->
-            instance.instanceStartDt =
-                instance.instanceStartDt?.let { AliceTimezoneUtils().toTimezone(it) }
-            instance.instanceEndDt =
-                instance.instanceEndDt?.let { AliceTimezoneUtils().toTimezone(it) }
-        }
-
-        return instanceList
     }
 }

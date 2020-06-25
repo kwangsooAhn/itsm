@@ -21,7 +21,7 @@ class CodeService(
     private val codeMapper: CodeMapper = Mappers.getMapper(CodeMapper::class.java)
 
     fun selectCodeByParent(code: String): MutableList<CodeEntity> {
-        return codeRepository.findByPCode(codeRepository.findById(code).orElse(CodeEntity(code = code)))
+        return codeRepository.findByPCodeOrderByCode(codeRepository.findById(code).orElse(CodeEntity(code = code)))
     }
 
     /**

@@ -28,7 +28,7 @@ common:
     modify: "Modify"
     delete: "Delete"
     createUserName: "Create User Name"
-    updateUserName: "Create Update Name"
+    updateUserName: "Update User Name"
     createDate: "Create Date"
     updateDate: "Update Date"
     attachFile: "Attach file"
@@ -39,11 +39,11 @@ common:
     print: "Print"
     count: "total {0}"
   msg:
-    save: "Saved"
     process: "It has been processed."
-    save.fail: "Fail"
+    save: "Saved."
+    save.fail: "Save Failed."
     delete.success: "Deleted."
-    delete.fail: "Deletion failed."
+    delete.fail: "Delete failed."
     update: "Changed."
     update.fail: "Change failed."
     unknownError: "An unknown error has occurred. Please contact the administrator."
@@ -88,8 +88,8 @@ auth:
   msg:
     idNotExist: "Please enter a auth id."
     nameNotExist: "Please enter a auth name."
-    idDuplecate: "duplicate auth id! Please enter other auth id."
-    nameDuplecate: "duplicate auth name! Please enter other auth name."
+    idDuplecate: "Duplicate auth id! Please enter other auth id."
+    nameDuplecate: "Duplicate auth name! Please enter other auth name."
   auth:
     read: "auth read"
     create: "auth create"
@@ -161,6 +161,21 @@ user:
   searchPlaceholder: "ID / Name / Position / Department / Office Number / Mobile Number"
   FileSizeLimit: "File Size Limit : 200KB"
   FileExtensionAllowed: "File Extension Allowed : 200KB"
+  usageStatus: "Usage Status"
+  status:
+    signup: "SignUp"
+    certified: "Certified"
+  usageStatusFlag:
+    use: "Use"
+    unused: "Unused"
+  platform:
+    alice: "Alice"
+    google: "Google"
+    kakao: "Kakao"
+  label:
+    all: All
+    list: User List
+    searchPlaceholder: User Name / User ID
   msg:
     idNotExist: "Please enter your UserId"
     passwordNotExist: "Please enter your password"
@@ -261,7 +276,7 @@ login:
     enterPassword: "Please enter your password."
     sessionExpired: "Your session has expired."
     redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
-    ipAccessDenied: "The IP is not accessible."
+    ipAccessDenied: "This IP is not accessible."
 
 # FORM
 form:
@@ -279,7 +294,7 @@ form:
     import: "Import"
     export: "Export"
     preview: "Preview"
-    saveExist: "Save and Exist"
+    saveExit: "Save and Exit"
     copy: "Copy-Just below"
     addAbove: "Add above"
     addBelow: "Add below"
@@ -439,7 +454,7 @@ document:
     print: "Service Request Print"
     businessFlowColor: "Business Flow Color"
     searchDocuments: "Document name / Document description"
-    searchDocumentStatus: "Document stauts"
+    searchDocumentStatus: "Document status"
     searchProcessName: "Process"
     searchFormName: "Form"
     group: "Group"
@@ -453,6 +468,9 @@ document:
     temporary: "Temporary"
     use: "Use"
     destroy: "Destroy"
+  type:
+    applicationForm: "Application Form"
+    workflow: "WorkFlow"
   msg:
     nameNotExist: "Please enter document's name."
     lengthMin: "Please enter at least {0} characters."
@@ -498,7 +516,7 @@ code:
     codeValue: "Code Value"
   msg:
     codeNotExist: "Please enter a code."
-    pCodeNotExist: "Parent code does not exist"
+    pCodeNotExist: "Parent code does not exist."
 
 # Custom Code
 custom.code:
@@ -557,7 +575,7 @@ download:
   category:
     all: "All"
     companyPolicy: "Company Policy"
-    etc: "Etc"
+    etc: "ETC"
   msg:
     selectDownloadCategory: "Please select a category."
     inputDownloadTitle: "Please enter a title."
@@ -583,12 +601,12 @@ board:
     count: "Number of posts"
     order: "Sort Order"
     categoryName: "Category Name"
-    useYn: "Use Yes or NO"
+    useYn: "Use enable"
     desc: "Board desc"
     writeAuth: "Write permission"
     roleName: "Role name"
-    replyYn: "Reply Yes or No"
-    commentYn: "Comment Yes or No"
+    replyYn: "Reply"
+    commentYn: "Comment enable"
     comment: "Comment"
     attachFileYn: "Attach File Yes or No"
     attachFileSize: "Attach File Size"
@@ -605,7 +623,7 @@ board:
     inputAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
     inputCategoryName: "Please enter the category name."
     inputBoardComments: "Please enter the board comments."
-    inputBoardEditComments: "Please save comments."
+    inputBoardEditComments: "Please save comments first."
 
 #Comment
 comment:
