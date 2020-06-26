@@ -86,16 +86,7 @@ class WfTokenAction(
             }
         }) ?: throw AliceException(AliceErrorConstants.ERR_00005, "Not found reject element in tokens.")
 
-        val rejectDto = tokenDto.copy()
-        rejectDto.tokenId = ""
-        rejectDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
-        rejectDto.documentId = tokenToReject.instance.document.documentId
-        rejectDto.instanceId = tokenToReject.instance.instanceId
-        rejectDto.elementId = tokenToReject.element.elementId
-        rejectDto.elementType = tokenToReject.element.elementType
-
-        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).getTokenManager(rejectDto.elementType)
-        tokenManager.createToken(rejectDto)
+        this.createToken(tokenDto.copy(), tokenToReject)
     }
 
     /**
@@ -121,16 +112,22 @@ class WfTokenAction(
             }
         }) ?: throw AliceException(AliceErrorConstants.ERR_00005, "Not found reject element in tokens.")
 
-        val withDrawDto = tokenDto.copy()
-        withDrawDto.tokenId = ""
-        withDrawDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
-        withDrawDto.documentId = tokenToWithDraw.instance.document.documentId
-        withDrawDto.instanceId = tokenToWithDraw.instance.instanceId
-        withDrawDto.elementId = tokenToWithDraw.element.elementId
-        withDrawDto.elementType = tokenToWithDraw.element.elementType
+        this.createToken(tokenDto.copy(), tokenToWithDraw)
+    }
 
-        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).getTokenManager(withDrawDto.elementType)
-        tokenManager.createToken(withDrawDto)
+    /**
+     * action 처리 후 진행할 신규 토큰을 생성한다.
+     */
+    private fun createToken(newTokenDto: WfTokenDto, baseToken: WfTokenEntity) {
+        newTokenDto.tokenId = ""
+        newTokenDto.tokenStatus = WfTokenConstants.Status.RUNNING.code
+        newTokenDto.documentId = baseToken.instance.document.documentId
+        newTokenDto.instanceId = baseToken.instance.instanceId
+        newTokenDto.elementId = baseToken.element.elementId
+        newTokenDto.elementType = baseToken.element.elementType
+
+        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).getTokenManager(newTokenDto.elementType)
+        tokenManager.createToken(newTokenDto)
     }
 
     /**

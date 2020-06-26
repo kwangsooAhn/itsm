@@ -60,6 +60,7 @@ common:
         withdraw: "withdraw"
         reject: "reject"
         terminate: "terminate"
+        cancel: "cancel"
 # Menu
 menu:
   service: "Service"
@@ -508,6 +509,7 @@ token:
     relatedInstance: "Related Documents"
     print: "Process Document Print"
     searchPlaceholder: "Create User Name / Contents"
+    status: "Status"
   type:
     todo: "Document to process"
     requested: "Application document"
