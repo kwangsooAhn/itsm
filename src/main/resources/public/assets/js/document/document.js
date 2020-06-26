@@ -256,7 +256,15 @@
             }
         }
 
-        //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
+        addCloseButton(buttonEle);
+    }
+
+    /**
+     * closeButton 생성
+     *
+     * @param buttonEle
+     */
+    function addCloseButton(buttonEle) {
         const buttonCancelEle = document.createElement('button');
         buttonCancelEle.type = 'button';
         buttonCancelEle.innerText = i18n.get('common.btn.close');
@@ -555,6 +563,11 @@
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
+        } else {
+            const buttonEle = document.createElement('div');
+            buttonEle.style.margin = '10px';
+            buttonEle.style.textAlign = 'center';
+            addCloseButton(buttonEle);
         }
 
         //Add Comment Box

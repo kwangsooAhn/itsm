@@ -2,6 +2,7 @@ package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -103,13 +104,8 @@ class DocumentActionService(
                 }
             }
             if (this.checkElementAttributeValue(tokenElementData, WfElementConstants.AttributeId.WITHDRAW.value)) {
-                instanceService.getInstanceHistory(tokenId)?.sortedBy { it.tokenEndDt }?.reversed()?.forEach { element ->
-                    if (element.tokenEndDt != null && element.elementType == "userTask") {
-                        if (userEntity.userKey == element.assigneeId.toString()) {
-                            isWithDraw = true
-                            return@forEach
-                        }
-                    }
+                if (userEntity.userKey == getBeforeTokenAssigneeId(tokenId)) {
+                    isWithDraw = true
                 }
             }
             if (isProgress && this.checkUserAuth(userEntity, "action.cancel")) {
@@ -160,8 +156,8 @@ class DocumentActionService(
             }
         }
 
+        tokenData.remove("actions")
         if (actionsResult.size() > 0) {
-            tokenData.remove("actions")
             tokenData.add("actions", actionsResult)
         }
 
@@ -169,7 +165,7 @@ class DocumentActionService(
     }
 
     /**
-     *  tokenStatus 상태에 따라서 현재 문서가 진행중인지 확인한다.
+     * tokenStatus 상태에 따라서 현재 문서가 진행중인지 확인한다.
      * @return Boolean
      */
     fun checkTokenStatus(tokenStatus: String): Boolean {
@@ -206,7 +202,6 @@ class DocumentActionService(
      */
     fun checkUserAuth(userEntity: AliceUserEntity, authId: String): Boolean {
         var isAuth = false
-
         userEntity.userRoleMapEntities.forEach { aliceUserRoleMapEntity ->
             aliceUserRoleMapEntity.role.roleAuthMapEntities.forEach { aliceRoleAuthMapEntity ->
                 if (aliceRoleAuthMapEntity.auth.authId == authId) {
@@ -262,7 +257,7 @@ class DocumentActionService(
     }
 
     /**
-     * Element의 특정 AttributeId에 특정 Value 값이 있는지 확인한다.
+     * Element의 특정 AttributeId에 특정 Value 값이 있는지 확인 한다.
      * @return Boolean
      */
     fun checkElementAttributeValue(tokenElementData: JsonObject, AttributeId: String): Boolean {
@@ -281,5 +276,23 @@ class DocumentActionService(
             }
         }
         return isAttributeValue
+    }
+
+    /**
+     * tokenId를 통해서 이전 UserTask 담당자Id를 반환 한다.
+     * @return String
+     */
+    fun getBeforeTokenAssigneeId(tokenId: String): String {
+        var assigneeId = ""
+        instanceService.getInstanceHistory(tokenId)?.sortedBy { it.tokenEndDt }?.reversed()
+            ?.forEach { element ->
+                if (element.tokenEndDt != null &&
+                    element.elementType == InstanceConstants.ElementListForHistoryViewing.USER_TASK.value
+                ) {
+                    assigneeId = element.assigneeId.toString()
+                    return@forEach
+                }
+            }
+        return assigneeId
     }
 }
