@@ -58,15 +58,17 @@
     </div>
     <table class="table table-hover" style="text-align: center">
         <colgroup>
-            <col width="25%">
             <col width="20%">
             <col width="20%">
+            <col width="15%">
+            <col width="15%">
             <col width="20%">
             <col width="10%">
         </colgroup>
         <thead>
         <tr>
-            <th th:text="#{document.label.name}">업무</th>
+            <th th:text="#{document.label.docNo}">문서번호</th>
+            <th th:text="#{document.label.name}">신청서 이름</th>
             <th th:text="#{token.label.startDt}">시작일시</th>
             <th th:text="#{token.label.endDt}">완료일시</th>
             <th th:text="#{token.label.createUser}">작성자</th>
@@ -75,6 +77,9 @@
         </thead>
         <tbody id="relatedInstance">
         <tr th:each="rInstance: ${relatedInstance}">
+            <td>
+                <a th:text="${rInstance.documentNo}" onclick="openTokenEdit('2c99508172e50e410172e5656c030004')"></a>
+            </td>
             <td th:text="${rInstance.documentName}"></td>
             <td th:name="tokenDt" th:text="${rInstance.instanceStartDt}"/>
             <td th:name="tokenDt" th:text="${rInstance.instanceEndDt}"/>
@@ -172,6 +177,14 @@
             restSubmit('DELETE', '/rest/folders/[[${folderId}]]', function () {
                 location.reload();
             }, jsonData, false);
+        }
+
+        function openTokenEdit(tokenId) {
+            const _width = 1500,
+                    _height = 920;
+            const _left = Math.ceil((window.screen.width - _width) / 2);
+            const _top = Math.ceil((window.screen.height - _height) / 4);
+            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=900, height=852, left='+_left+', top='+_top);
         }
 
         function restSubmit(method, url, result, data, showProgressbar) {

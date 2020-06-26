@@ -7,6 +7,8 @@ data class RestTemplateRelatedInstanceDto(
     val folderId: String?,
     val instanceId: String?,
     val relatedType: String?,
+    val tokenId: String? = null,
+    val documentNo: String?,
     val documentName: String?,
     val createUserKey: String?,
     val createDt: LocalDateTime? = null,

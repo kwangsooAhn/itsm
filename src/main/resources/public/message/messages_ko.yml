@@ -444,7 +444,7 @@ document:
     write: "신청서 작성"
     type: "업무흐름 구분"
     name: "신청서 이름"
-    docNo: "신청서 구분"
+    docNo: "문서번호"
     description: "설명"
     display: "신청서 양식 편집"
     form: "문서양식"
