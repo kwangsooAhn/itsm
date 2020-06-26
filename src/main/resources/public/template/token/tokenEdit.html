@@ -81,7 +81,7 @@
         <tbody id="relatedInstance">
         <tr th:each="rInstance: ${relatedInstance}">
             <td>
-                <a th:text="${rInstance.documentNo}" onclick="openTokenEdit('2c99508172e50e410172e5656c030004')"></a>
+                <a th:text="${rInstance.documentNo}" th:onclick="openTokenEdit([[${rInstance.tokenId}]])"></a>
             </td>
             <td th:text="${rInstance.documentName}"></td>
             <td th:name="tokenDt" th:text="${rInstance.instanceStartDt}"/>
