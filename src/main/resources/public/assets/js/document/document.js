@@ -429,7 +429,7 @@
         let actionMsg = '';
         if (v_kind === 'save') {
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
-            tokenObject.assigneeId = i18n.options.session.userKey;
+            tokenObject.assigneeId = aliceForm.session.userKey;
             tokenObject.assigneeType = defaultAssigneeTypeForSave;
             actionMsg = i18n.get('common.msg.save');
         } else {
@@ -482,7 +482,8 @@
         if (typeof data === 'string') {
             data = JSON.parse(data);
         }
-        data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.options.defaultType; }); //editbox 제외
+        console.log(data);
+        data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
         documentContainer = document.getElementById('document-container');
         documentContainer.setAttribute('data-isToken', (data.tokenId !== undefined) ? 'true' : 'false'); //신청서 = false , 처리할 문서 = true
         buttonContainer = document.getElementById('button-container');

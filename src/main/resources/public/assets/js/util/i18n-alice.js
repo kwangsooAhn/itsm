@@ -6,13 +6,11 @@
     'use strict';
 
     let messages = {},
-        options = {
-            dateTimeFormat: 'yyyy-MM-dd HH:mm:ss',
-            dateFormat: 'yyyy-MM-dd',
-            timeFormat: 'HH:mm:ss', //HH = 24, hh = 12
-            lang: 'ko',
-            timezone: 'Asia/Seoul'
-        };
+        dateTimeFormat = 'yyyy-MM-dd HH:mm:ss',
+        dateFormat = 'yyyy-MM-dd',
+        timeFormat = 'HH:mm:ss', //HH = 24, hh = 12
+        lang = 'ko',
+        timezone = 'Asia/Seoul';
 
     /**
      * 국제화 관련 초기화
@@ -26,7 +24,12 @@
     function init(userInfo) {
         addMessages();
 
-        Object.assign(options, JSON.parse(userInfo));
+        const sessionInfo = JSON.parse(userInfo);
+        dateTimeFormat = sessionInfo.dateTimeFormat;
+        dateFormat = sessionInfo.dateFormat;
+        timeFormat = sessionInfo.timeFormat;
+        lang = sessionInfo.lang;
+        timezone = sessionInfo.timezone;
     }
 
     /**
@@ -43,21 +46,21 @@
         if (offset === undefined) {
             offset = { 'days' : 0 };
         }
-        return convertToUserHourType(luxon.DateTime.local().setZone(options.timezone).plus(offset).toFormat(options.dateTimeFormat));
+        return convertToUserHourType(luxon.DateTime.local().setZone(timezone).plus(offset).toFormat(dateTimeFormat));
     }
 
     function getDate(offset) {
         if (offset === undefined) {
             offset = { 'days' : 0 };
         }
-        return luxon.DateTime.local().setZone(options.timezone).plus(offset).toFormat(options.dateFormat);
+        return luxon.DateTime.local().setZone(timezone).plus(offset).toFormat(dateFormat);
     }
 
     function getTime(offset) {
         if (offset === undefined) {
             offset = { 'hours' : 0 };
         }
-        return convertToUserHourType(luxon.DateTime.local().setZone(options.timezone).plus(offset).toFormat(options.timeFormat));
+        return convertToUserHourType(luxon.DateTime.local().setZone(timezone).plus(offset).toFormat(timeFormat));
     }
 
     /**
@@ -75,7 +78,7 @@
             if (offset === undefined) {
                 offset = { 'days' : 0 };
             }
-            return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserDateTime), options.dateTimeFormat, {zone: options.timezone}).setZone('utc+0').plus(offset).toISO();
+            return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserDateTime), dateTimeFormat, {zone: timezone}).setZone('utc+0').plus(offset).toISO();
         }
     }
 
@@ -94,7 +97,7 @@
             if (offset === undefined) {
                 offset = { 'days' : 0 };
             }
-            return luxon.DateTime.fromFormat(beforeUserDate, options.dateFormat, {zone: options.timezone}).setZone('utc+0').plus(offset).toISO();
+            return luxon.DateTime.fromFormat(beforeUserDate, dateFormat, {zone: timezone}).setZone('utc+0').plus(offset).toISO();
         }
     }
 
@@ -111,7 +114,7 @@
         if (beforeUserTime === null || beforeUserTime === '') {
             return ''
         } else {
-            return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserTime), options.timeFormat).toFormat('HH:mm');
+            return luxon.DateTime.fromFormat(convertToSystemHourType(beforeUserTime), timeFormat).toFormat('HH:mm');
         }
     }
 
@@ -145,7 +148,7 @@
         if (beforeSystemDateTime === null || beforeSystemDateTime === '') {
             return ''
         } else {
-            return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(options.timezone).toFormat(options.dateTimeFormat));
+            return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(timezone).toFormat(dateTimeFormat));
         }
     }
 
@@ -161,7 +164,7 @@
         if (beforeSystemDate === null || beforeSystemDate === '') {
             return ''
         } else {
-            return luxon.DateTime.fromISO(beforeSystemDate, {zone: 'utc'}).setZone(options.timezone).toFormat(options.dateFormat);
+            return luxon.DateTime.fromISO(beforeSystemDate, {zone: 'utc'}).setZone(timezone).toFormat(dateFormat);
         }
     }
 
@@ -178,7 +181,7 @@
         if (beforeSystemTime === null || beforeSystemTime === '') {
             return ''
         } else {
-            return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemTime).toFormat(options.timeFormat));
+            return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemTime).toFormat(timeFormat));
         }
     }
 
@@ -191,8 +194,8 @@
      * @return {String} 변환된 데이터.
      */
     function convertToPrintFormat(beforeSystemDateTime) {
-        return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(options.timezone)
-            .toFormat(options.dateTimeFormat.replace(/(mm)/g, '$1:ss') + ' (z)'));
+        return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(timezone)
+            .toFormat(dateTimeFormat.replace(/(mm)/g, '$1:ss') + ' (z)'));
     }
 
     /**
@@ -206,7 +209,7 @@
      * @return {String} 변환된 데이터.
      */
     function convertToUserHourType(beforeTime) {
-        if (options.lang === 'ko') {
+        if (lang === 'ko') {
             if (beforeTime.indexOf('PM') !== -1) {
                 beforeTime = beforeTime.replace('PM', '오후');
             } else if (beforeTime.indexOf('AM') !== -1) {
@@ -225,8 +228,8 @@
      * @returns {boolean}
      */
     function compareSystemDateTime(minUserDateTime, maxUserDateTime) {
-        return luxon.DateTime.fromFormat(convertToSystemHourType(minUserDateTime), options.dateTimeFormat).setZone('utc+0').toISO().valueOf() <
-            luxon.DateTime.fromFormat(convertToSystemHourType(maxUserDateTime), options.dateTimeFormat).setZone('utc+0').toISO().valueOf()
+        return luxon.DateTime.fromFormat(convertToSystemHourType(minUserDateTime), dateTimeFormat).setZone('utc+0').toISO().valueOf() <
+            luxon.DateTime.fromFormat(convertToSystemHourType(maxUserDateTime), dateTimeFormat).setZone('utc+0').toISO().valueOf()
     }
 
     /**
@@ -238,8 +241,8 @@
      * @returns {boolean}
      */
     function compareSystemDate(minUserDate, maxUserDate) {
-        return luxon.DateTime.fromFormat(minUserDate, options.dateFormat).setZone('utc+0').toISO().valueOf() <
-            luxon.DateTime.fromFormat(maxUserDate, options.dateFormat).setZone('utc+0').toISO().valueOf()
+        return luxon.DateTime.fromFormat(minUserDate, dateFormat).setZone('utc+0').toISO().valueOf() <
+            luxon.DateTime.fromFormat(maxUserDate, dateFormat).setZone('utc+0').toISO().valueOf()
     }
 
     /**
@@ -251,8 +254,8 @@
      * @returns {boolean}
      */
     function compareSystemTime(minUserTime, maxUserTime) {
-        return luxon.DateTime.fromFormat(convertToSystemHourType(minUserTime), options.timeFormat).setZone('utc+0').toISO().valueOf() <
-            luxon.DateTime.fromFormat(convertToSystemHourType(maxUserTime), options.timeFormat).setZone('utc+0').toISO().valueOf()
+        return luxon.DateTime.fromFormat(convertToSystemHourType(minUserTime), timeFormat).setZone('utc+0').toISO().valueOf() <
+            luxon.DateTime.fromFormat(convertToSystemHourType(maxUserTime), timeFormat).setZone('utc+0').toISO().valueOf()
     }
 
     /**
@@ -317,6 +320,11 @@
     exports.get = getMessage; // 앞으로 msg로 사용하고 get은 다 msg로 수정하면 지우자.
     exports.msg = getMessage;
 
-    exports.options = options;
+    exports.dateTimeFormat = dateTimeFormat;
+    exports.dateFormat = dateFormat;
+    exports.timeFormat = timeFormat;
+    exports.lang = lang;
+    exports.timezone = timezone;
+
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

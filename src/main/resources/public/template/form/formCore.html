@@ -28,7 +28,16 @@
     <script th:src="@{/assets/js/form/form.component.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
-        const userSessionInfo = {
+        const parsedDateTimeFormat = '[[${#authentication.details.timeFormat}]]'.split(' ');
+        i18n.init(JSON.stringify({
+            dateTimeFormat: '[[${#authentication.details.timeFormat}]]',
+            dateFormat: parsedDateTimeFormat[0],
+            timeFormat: (parsedDateTimeFormat[2] !== undefined) ? parsedDateTimeFormat[1] + ' ' + parsedDateTimeFormat[2] : parsedDateTimeFormat[1],
+            lang: '[[${#authentication.details.lang}]]',
+            timezone: '[[${#authentication.details.timezone}]]'
+        }));
+
+        aliceForm.initSession(JSON.stringify({
             userKey : '[[${#authentication.details.userKey}]]',
             userId : '[[${#authentication.details.userId}]]',
             userName: '[[${#authentication.details.userName}]]',
@@ -37,15 +46,6 @@
             department: '[[${#authentication.details.department}]]',
             officeNumber: '[[${#authentication.details.officeNumber}]]',
             mobileNumber: '[[${#authentication.details.mobileNumber}]]'
-        };
-        const parsedDateTimeFormat = '[[${#authentication.details.timeFormat}]]'.split(' ');
-        i18n.init(JSON.stringify({
-            session: userSessionInfo,
-            dateTimeFormat: '[[${#authentication.details.timeFormat}]]',
-            dateFormat: parsedDateTimeFormat[0],
-            timeFormat: (parsedDateTimeFormat[2] !== undefined) ? parsedDateTimeFormat[1] + ' ' + parsedDateTimeFormat[2] : parsedDateTimeFormat[1],
-            lang: '[[${#authentication.details.lang}]]',
-            timezone: '[[${#authentication.details.timezone}]]'
         }));
     </script>
 </head>

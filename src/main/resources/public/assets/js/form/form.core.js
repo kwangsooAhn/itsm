@@ -11,10 +11,9 @@
 }(this, (function (exports) {
     'use strict';
 
-    let options = {
-        defaultType: 'editbox',
-        columnWidth: 8.33  //폼 양식을 12등분 하였을 때, 1개의 너비
-    };
+    const defaultType = 'editbox';
+    let sessionInfo = {},
+        componentProperties = {};
 
     /**
      * 날짜와 관련있는 컴포넌트들에 대해서 사용자의 타임존과 출력 포맷에 따라 변환.
@@ -138,16 +137,30 @@
             method: 'GET',
             url: '/assets/js/form/componentProperties.json',
             callbackFunc: function(xhr) {
-                options.componentProperties = JSON.parse(xhr.responseText);
+                Object.assign(componentProperties, JSON.parse(xhr.responseText));
                 callback.apply(null, params);
             },
             contentType: 'application/json; charset=utf-8'
         });
     }
 
+    /**
+     * initSession.
+     *
+     * @param {String} userInfo 사용자 세션 정보
+     */
+
+    function initSession(userInfo) {
+        Object.assign(sessionInfo, JSON.parse(userInfo));
+    }
+
     exports.init = init;
+    exports.initSession = initSession;
     exports.reformatCalendarFormat = reformatCalendarFormat;
-    exports.options = options;
+
+    exports.defaultType = defaultType;
+    exports.session = sessionInfo;
+    exports.componentProperties = componentProperties;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

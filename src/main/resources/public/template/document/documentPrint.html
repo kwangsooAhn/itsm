@@ -26,8 +26,8 @@
         /*<![CDATA[*/
         window.onload = function() {
             const printInfo = document.getElementById('printInfo');
-            printInfo.innerHTML = i18n.options.session.userName + ' ['
-                + i18n.options.session.email + ']<br>'
+            printInfo.innerHTML = aliceForm.session.userName + ' ['
+                + aliceForm.session.email + ']<br>'
                 + i18n.printFormat(/*[[${time}]]*/'');
 
             aliceForm.init(aliceDocument.drawDocument, /*[[${data}]]*/);

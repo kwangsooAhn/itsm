@@ -27,7 +27,8 @@
             {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
             {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
         ],
-        editboxPlaceholder= '+ Typing \'/\' for add component';
+        editboxPlaceholder= '+ Typing \'/\' for add component',
+        columnWidth = 8.33;  //폼 양식을 12등분 하였을 때, 1개의 너비
         
     let componentIdx = 0;          //컴포넌트 index = 출력 순서 생성시 사용
 
@@ -79,7 +80,7 @@
      */
     function Text(attr, target) {
         let textDefaultArr = attr.display['default'].split('|');
-        let textDefaultValue = (textDefaultArr[0] === 'none') ? textDefaultArr[1] : i18n.options.session[textDefaultArr[1]];
+        let textDefaultValue = (textDefaultArr[0] === 'none') ? textDefaultArr[1] : aliceForm.session[textDefaultArr[1]];
         if (target.hasAttribute('data-readonly')) { //폼 양식
             if (textDefaultArr[0] !== 'none') { textDefaultValue = textDefaultArr[2]; } //폼 양식 편집 화면에서는 세션 값이 출력되지 않는다.
         } else { //신청서 및 처리할 문서
@@ -455,7 +456,7 @@
                         <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.componentId}' placeholder='${i18n.options.dateFormat}' value='${dateDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate.dateMax}' date-min='${attr.validate.dateMin}'/>
+                        <input type='text' id='date-${attr.componentId}' placeholder='${i18n.dateFormat}' value='${dateDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate.dateMax}' date-min='${attr.validate.dateMin}'/>
                     </div>
                 </div>
             `);
@@ -464,7 +465,7 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initDatePicker('date-' + attr.componentId, i18n.options.dateFormat, i18n.options.lang, function () {
+            dateTimePicker.initDatePicker('date-' + attr.componentId, i18n.dateFormat, i18n.lang, function () {
                 aliceDocument.checkValidate(document.getElementById('date-' + attr.componentId));
             });
         }
@@ -514,7 +515,7 @@
                         <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.componentId}' placeholder='${i18n.options.timeFormat}' value='${timeDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} time-max='${attr.validate.timeMax}' time-min='${attr.validate.timeMin}'/>
+                        <input type='text' id='time-${attr.componentId}' placeholder='${i18n.timeFormat}' value='${timeDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} time-max='${attr.validate.timeMax}' time-min='${attr.validate.timeMin}'/>
                     </div>
                 </div>
             `);
@@ -523,7 +524,7 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initTimePicker('time-' + attr.componentId, i18n.options.timeFormat, i18n.options.lang, function () {
+            dateTimePicker.initTimePicker('time-' + attr.componentId, i18n.timeFormat, i18n.lang, function () {
                 aliceDocument.checkValidate(document.getElementById('time-' + attr.componentId));
             });
         }
@@ -574,7 +575,7 @@
                         <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.componentId}' placeholder='${i18n.options.dateTimeFormat}' value='${datetimeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} 
+                        <input type='text' id='datetime-${attr.componentId}' placeholder='${i18n.dateTimeFormat}' value='${datetimeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} 
                         datetime-max='${attr.validate.datetimeMax}' datetime-min='${attr.validate.datetimeMin}'/>
                     </div>
                 </div>
@@ -583,7 +584,7 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initDateTimePicker('datetime-' + attr.componentId, i18n.options.dateFormat, i18n.options.timeFormat, i18n.options.lang, function () {
+            dateTimePicker.initDateTimePicker('datetime-' + attr.componentId, i18n.dateFormat, i18n.timeFormat, i18n.lang, function () {
                 aliceDocument.checkValidate(document.getElementById('datetime-' + attr.componentId));
             });
         }
@@ -663,13 +664,13 @@
                     if (textDefaultArr[0] === 'session') {
                         switch (textDefaultArr[1]) {
                             case 'userName':
-                                defaultCustomData = i18n.options.session.userKey;
+                                defaultCustomData = aliceForm.session.userKey;
                                 break;
                             case 'department':
-                                defaultCustomData = i18n.options.session.department;
+                                defaultCustomData = aliceForm.session.department;
                                 break;
                         }
-                        defaultCustomData += '|' + i18n.options.session[textDefaultArr[1]];
+                        defaultCustomData += '|' + aliceForm.session[textDefaultArr[1]];
                     }
                 }
             }
@@ -824,15 +825,15 @@
                 if (compAttr.label.position === 'hidden') {
                     firstField.style.display = 'none';
                 } else if (compAttr.label.position === 'left') {
-                    firstField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.label.column)) + '%';
+                    firstField.style.flexBasis = (columnWidth * Number(compAttr.label.column)) + '%';
                 } else { //top
-                    firstField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.label.column)) + '%';
+                    firstField.style.flexBasis = (columnWidth * Number(compAttr.label.column)) + '%';
                     const secondField = document.createElement('div');
                     secondField.className = 'field';
-                    secondField.style.flexBasis = (100 - (aliceForm.options.columnWidth * Number(compAttr.label.column))) + '%';
+                    secondField.style.flexBasis = (100 - (columnWidth * Number(compAttr.label.column))) + '%';
                     lastField.parentNode.insertBefore(secondField, lastField);
                 }
-                lastField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.display.column)) + '%';
+                lastField.style.flexBasis = (columnWidth * Number(compAttr.display.column)) + '%';
             }
         }
         return componentConstructor;
@@ -844,7 +845,7 @@
      */
     function getData(type) {
         let refineProp = { display: {} };
-        let defaultProp = aliceJs.mergeObject({}, aliceForm.options.componentProperties[type]);
+        let defaultProp = aliceJs.mergeObject({}, aliceForm.componentProperties[type]);
         Object.keys(defaultProp).forEach(function(group) {
             if (group === 'option') { //옵션 json 구조 변경
                 let options = [];
