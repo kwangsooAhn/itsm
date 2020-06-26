@@ -51,7 +51,16 @@ common:
     noData: "There is no data."
     checkDocument: "Please check the document again."
     tag: "Insert tags."
-
+  code:
+    token:
+      status:
+        running: "running"
+        waiting: "waiting"
+        finish: "finish"
+        withdraw: "withdraw"
+        reject: "reject"
+        terminate: "terminate"
+        cancel: "cancel"
 # Menu
 menu:
   service: "Service"
@@ -502,6 +511,7 @@ token:
     relatedInstance: "Related Documents"
     print: "Process Document Print"
     searchPlaceholder: "Create User Name / Contents"
+    status: "Status"
   type:
     todo: "Document to process"
     requested: "Application document"

@@ -51,45 +51,9 @@ class BoardService(
      * @return List<boardDto>
      */
     fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardDto> {
-        val boardDtoList = mutableListOf<BoardDto>()
         val fromDt = LocalDateTime.parse(boardSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(boardSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
-
-        boardRepository.findByBoardList(boardSearchDto.boardAdminId, boardSearchDto.search, fromDt, toDt)
-            .forEach { PortalBoardEntity ->
-                var categoryName = ""
-                var readCount = 0L
-
-                if (boardReadRepository.countByBoardId(PortalBoardEntity.boardId) > 0) {
-                    readCount = boardReadRepository.findByBoardId(PortalBoardEntity.boardId)[0].boardReadCount!!
-                }
-
-                if (PortalBoardEntity.boardAdmin.categoryYn) {
-                    if (PortalBoardEntity.boardCategoryId != "") {
-                        categoryName = PortalBoardEntity.boardCategoryId?.let {
-                            boardCategoryRepository.findById(it).get().boardCategoryName
-                        }.toString()
-                    }
-                }
-                boardDtoList.add(
-                    BoardDto(
-                        boardId = PortalBoardEntity.boardId,
-                        boardAdminId = PortalBoardEntity.boardAdmin.boardAdminId,
-                        boardCategoryName = categoryName,
-                        boardSeq = PortalBoardEntity.boardSeq,
-                        boardTitle = PortalBoardEntity.boardTitle,
-                        boardContents = PortalBoardEntity.boardContents,
-                        boardGroupId = PortalBoardEntity.boardGroupId,
-                        boardLevelId = PortalBoardEntity.boardLevelId,
-                        boardOrderSeq = PortalBoardEntity.boardOrderSeq,
-                        replyCount = PortalBoardEntity.commentBoard?.count()?.toLong(),
-                        readCount = readCount,
-                        createDt = PortalBoardEntity.createDt,
-                        createUser = PortalBoardEntity.createUser
-                    )
-                )
-            }
-        return boardDtoList
+        return boardRepository.findByBoardList(boardSearchDto.boardAdminId, boardSearchDto.search, fromDt, toDt)
     }
 
     /**

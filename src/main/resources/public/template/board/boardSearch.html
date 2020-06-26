@@ -35,12 +35,11 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[*/
-        const boardAdminId = /*[[${boardAdminId}]]*/;
+        const boardAdminId = /*[[${boardAdminId}]]*/ null;
 
         window.onload = function() {
             if (boardAdminId !== null) {
                 document.getElementById('boardAdmin').value = boardAdminId;
-                getBoardList();
             }
             document.getElementById('fromDt').value = i18n.getDate({'months':-1});
             document.getElementById('toDt').value = i18n.getDate();
@@ -97,7 +96,7 @@
                 url: url,
                 callbackFunc: function(response) {
                     document.getElementById('boardList').innerHTML = response.responseText;
-                    var boardDtEle = document.querySelectorAll('td[name=boardDt]');
+                    let boardDtEle = document.querySelectorAll('td[name=boardDt]');
                     for (let i = 0; i < boardDtEle.length; i++) {
                         boardDtEle[i].textContent = i18n.userDateTime(boardDtEle[i].textContent);
                     }
