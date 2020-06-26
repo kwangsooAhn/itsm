@@ -190,27 +190,6 @@ object RestTemplateConstants {
     }
 
     /**
-     * Instance Status.
-     *
-     * @param value
-     */
-    enum class InstanceStatus(val value: String) {
-        RUNNING("running"),
-        FINISH("finish")
-    }
-
-    /**
-     * Token Status.
-     *
-     * @param value
-     */
-    enum class TokenStatus(val value: String) {
-        RUNNING("running"),
-        WAITING("waiting"),
-        FINISH("finish")
-    }
-
-    /**
      * 이미지 컴포넌트 디렉터리.
      */
     const val BASE_DIR: String = "public"

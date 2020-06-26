@@ -9,6 +9,7 @@ interface WfInstanceRepositoryCustom {
 
     fun findTodoInstances(
         status: List<String>?,
+        tokenStatus: List<String>?,
         userKey: String,
         documentId: String,
         searchValue: String,
