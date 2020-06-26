@@ -175,7 +175,7 @@ class WfTokenManagerService(
     fun makeTokenEntity(wfTokenDto: WfTokenDto): WfTokenEntity {
         return WfTokenEntity(
             tokenId = "",
-            tokenStatus = RestTemplateConstants.TokenStatus.RUNNING.value,
+            tokenStatus = WfTokenConstants.Status.RUNNING.code,
             tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
             instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
             element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)

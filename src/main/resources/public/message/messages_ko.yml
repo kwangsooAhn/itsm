@@ -51,7 +51,16 @@ common:
     noData: "데이터가 없습니다."
     checkDocument: "문서를 다시 확인해주세요."
     tag: "태그를 입력하세요."
-
+  code:
+    token:
+      status:
+        running: "진행 중"
+        waiting: "대기 중"
+        finish: "처리 완료"
+        withdraw: "회수"
+        reject: "반려"
+        terminate: "종료"
+        cancel: "취소"
 # Menu
 menu:
   service: "서비스"
@@ -500,6 +509,7 @@ token:
     relatedInstance: "관련 문서"
     print: "처리할 문서 인쇄"
     searchPlaceholder: "작성자 / 내용"
+    status: "상태"
   type:
     todo: "처리할 문서"
     requested: "신청한 문서"

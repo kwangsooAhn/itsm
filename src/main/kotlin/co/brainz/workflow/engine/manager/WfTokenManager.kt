@@ -71,7 +71,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     fun completeToken(tokenDto: WfTokenDto): WfTokenDto {
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-        token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
+        token.tokenStatus = WfTokenConstants.Status.FINISH.code
         token.assigneeId = tokenDto.assigneeId
 
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
@@ -94,9 +94,9 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * 토큰을 대기(Waiting) 상태로 변환. (예:서브프로세스)
      */
-    fun waitingToken(tokenDto: WfTokenDto) {
+    protected fun waitingToken(tokenDto: WfTokenDto) {
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
-        token.tokenStatus = RestTemplateConstants.TokenStatus.WAITING.value
+        token.tokenStatus = WfTokenConstants.Status.WAITING.code
         this.createTokenEntity = wfTokenManagerService.saveToken(token)
     }
 
