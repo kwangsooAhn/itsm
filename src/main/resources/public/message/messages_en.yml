@@ -51,7 +51,15 @@ common:
     noData: "There is no data."
     checkDocument: "Please check the document again."
     tag: "Insert tags."
-
+  code:
+    token:
+      status:
+        running: "running"
+        waiting: "waiting"
+        finish: "finish"
+        withdraw: "withdraw"
+        reject: "reject"
+        terminate: "terminate"
 # Menu
 menu:
   service: "Service"
