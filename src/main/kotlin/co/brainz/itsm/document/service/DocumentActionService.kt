@@ -2,6 +2,7 @@ package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service
 @Service
 class DocumentActionService(
     private val restTemplate: RestTemplateProvider,
+    private val instanceService: InstanceService,
     private val userRepository: UserRepository
 ) {
 
@@ -77,7 +79,7 @@ class DocumentActionService(
         //해당 문서의 상태 값
         val tokenStatus = tokenDetailData.get("tokenStatus").asString
         //현재 진행중 문서 확인
-        val isProgress = checkTokenStatus(tokenStatus)
+        val isProgress = this.checkTokenStatus(tokenStatus)
         //문서를 연 사용자 정보
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userEntity = userRepository.findByUserKey(aliceUserDto.userKey)
@@ -90,24 +92,30 @@ class DocumentActionService(
         )
         val tokenElementData: JsonObject = JsonParser().parse(restTemplate.get(tokenElementDataUrl)).asJsonObject
         //문서 처리자 확인
-        val isAssignee = checkAssignee(tokenElementData, userEntity)
-
+        val isAssignee = this.checkAssignee(tokenElementData, userEntity)
         //각 버튼의 권한을 체크한다.
         if (isProgress) {
             if (isAssignee) {
                 isSave = true
                 isProcess = true
-                if (checkElementAttributeValue(tokenElementData, WfElementConstants.AttributeId.REJECT_ID.value)) {
+                if (this.checkElementAttributeValue(tokenElementData, WfElementConstants.AttributeId.REJECT_ID.value)) {
                     isReject = true
                 }
-                if (checkElementAttributeValue(tokenElementData, WfElementConstants.AttributeId.WITHDRAW.value)) {
-                    isWithDraw = true
+            }
+            if (this.checkElementAttributeValue(tokenElementData, WfElementConstants.AttributeId.WITHDRAW.value)) {
+                instanceService.getInstanceHistory(tokenId)?.sortedBy { it.tokenEndDt }?.reversed()?.forEach { element ->
+                    if (element.tokenEndDt != null && element.elementType == "userTask") {
+                        if (userEntity.userKey == element.assigneeId.toString()) {
+                            isWithDraw = true
+                            return@forEach
+                        }
+                    }
                 }
             }
-            if (isProgress && checkUserAuth(userEntity, "action.cancel")) {
+            if (isProgress && this.checkUserAuth(userEntity, "action.cancel")) {
                 isCancel = true
             }
-            if (isProgress && checkUserAuth(userEntity, "action.terminate")) {
+            if (isProgress && this.checkUserAuth(userEntity, "action.terminate")) {
                 isTerminate = true
             }
         }
