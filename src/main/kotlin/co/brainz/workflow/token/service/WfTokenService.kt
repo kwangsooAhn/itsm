@@ -1,12 +1,10 @@
 package co.brainz.workflow.token.service
 
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
+import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.form.service.WfFormService
-import co.brainz.workflow.provider.dto.RestTemplateTokenAssigneesViewDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
+import co.brainz.workflow.provider.dto.*
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
@@ -94,6 +92,29 @@ class WfTokenService(
             documentId = tokenEntity.instance.document.documentId,
             documentName = tokenEntity.instance.document.documentName,
             data = componentList
+        )
+    }
+
+    /**
+     * Token에 대한 ElementData.
+     *
+     * @param tokenId
+     * @return List<RestTemplateTokenElementDataViewDto>
+     */
+    fun getTokenElementData(tokenId: String): RestTemplateTokenElementDataViewDto {
+        val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId).get()
+        val attributeData = mutableListOf<LinkedHashMap<String, String>>()
+        tokenEntity.element.elementDataEntities.forEach { elementData ->
+            val elementDataMap = LinkedHashMap<String, String>()
+            elementDataMap["attributeId"] = elementData.attributeId
+            elementDataMap["attributeValue"] = elementData.attributeValue
+            attributeData.add(elementDataMap)
+        }
+
+        return RestTemplateTokenElementDataViewDto(
+            tokenId = tokenEntity.tokenId,
+            elementId = tokenEntity.element.elementId,
+            attributeData = attributeData
         )
     }
 

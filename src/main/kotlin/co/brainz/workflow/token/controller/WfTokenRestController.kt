@@ -6,6 +6,7 @@ import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.service.WfComponentService
 import co.brainz.workflow.engine.WfEngine
 import co.brainz.workflow.provider.dto.RestTemplateTokenAssigneesViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenElementDataViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataUpdateDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
@@ -64,7 +65,18 @@ class WfTokenRestController(
     }
 
     /**
-     * 토큰 담당자 조회.
+     * 토큰 ElementData 정보 조회.
+     *
+     * @param tokenId
+     * @return RestTemplateTokenViewDto
+     */
+    @GetMapping("/{tokenId}/elementdata")
+    fun getTokenElementData(@PathVariable tokenId: String): RestTemplateTokenElementDataViewDto {
+        return wfTokenService.getTokenElementData(tokenId)
+    }
+
+    /**
+     * 토큰 담당자 정보 조회.
      *
      * @param tokenId
      * @return RestTemplateTokenViewDto
