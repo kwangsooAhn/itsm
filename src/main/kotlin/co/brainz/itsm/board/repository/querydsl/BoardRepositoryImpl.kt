@@ -1,6 +1,6 @@
 package co.brainz.itsm.board.repository.querydsl
 
-import co.brainz.itsm.board.dto.BoardListDto
+import co.brainz.itsm.board.dto.BoardDto
 import co.brainz.itsm.board.entity.PortalBoardEntity
 import co.brainz.itsm.board.entity.QPortalBoardCommentEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
@@ -20,7 +20,7 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         search: String,
         fromDt: LocalDateTime,
         toDt: LocalDateTime
-    ): MutableList<BoardListDto> {
+    ): MutableList<BoardDto> {
         val board = QPortalBoardEntity.portalBoardEntity
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
@@ -28,7 +28,7 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         return from(board)
             .select(
                 Projections.constructor(
-                    BoardListDto::class.java,
+                    BoardDto::class.java,
                     board.boardId,
                     board.boardAdmin.boardAdminId,
                     category.boardCategoryName,

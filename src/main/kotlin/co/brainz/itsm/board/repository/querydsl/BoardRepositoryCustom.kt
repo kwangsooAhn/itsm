@@ -1,7 +1,7 @@
 package co.brainz.itsm.board.repository.querydsl
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.board.dto.BoardListDto
+import co.brainz.itsm.board.dto.BoardDto
 import java.time.LocalDateTime
 
 interface BoardRepositoryCustom : AliceRepositoryCustom {
@@ -10,5 +10,5 @@ interface BoardRepositoryCustom : AliceRepositoryCustom {
         search: String,
         fromDt: LocalDateTime,
         toDt: LocalDateTime
-    ): MutableList<BoardListDto>
+    ): MutableList<BoardDto>
 }

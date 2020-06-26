@@ -3,7 +3,7 @@ package co.brainz.itsm.board.service
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.board.dto.BoardCommentDto
-import co.brainz.itsm.board.dto.BoardListDto
+import co.brainz.itsm.board.dto.BoardDto
 import co.brainz.itsm.board.dto.BoardSaveDto
 import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.dto.BoardViewDto
@@ -50,7 +50,7 @@ class BoardService(
      * @param boardSearchDto
      * @return List<boardDto>
      */
-    fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardListDto> {
+    fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardDto> {
         val fromDt = LocalDateTime.parse(boardSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(boardSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
         return boardRepository.findByBoardList(boardSearchDto.boardAdminId, boardSearchDto.search, fromDt, toDt)
