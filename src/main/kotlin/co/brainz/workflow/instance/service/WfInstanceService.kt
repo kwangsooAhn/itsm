@@ -21,15 +21,16 @@ import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.tag.service.WfTagService
+import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.mapper.WfTokenMapper
 import co.brainz.workflow.token.repository.WfTokenRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.querydsl.core.QueryResults
-import java.time.format.DateTimeFormatter
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -54,20 +55,23 @@ class WfInstanceService(
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
         val queryResults = when (parameters["tokenType"].toString()) {
-            WfInstanceConstants.SearchType.REQUESTED.code -> requestedInstances(parameters)
-            WfInstanceConstants.SearchType.PROGRESS.code -> relatedInstances(
+            WfTokenConstants.SearchType.REQUESTED.code -> requestedInstances(parameters)
+            WfTokenConstants.SearchType.PROGRESS.code -> relatedInstances(
                 WfInstanceConstants.getTargetStatusGroup(
-                    WfInstanceConstants.SearchType.PROGRESS
+                    WfTokenConstants.SearchType.PROGRESS
                 ), parameters
             )
-            WfInstanceConstants.SearchType.COMPLETED.code -> relatedInstances(
+            WfTokenConstants.SearchType.COMPLETED.code -> relatedInstances(
                 WfInstanceConstants.getTargetStatusGroup(
-                    WfInstanceConstants.SearchType.COMPLETED
+                    WfTokenConstants.SearchType.COMPLETED
                 ), parameters
             )
             else -> todoInstances(
                 WfInstanceConstants.getTargetStatusGroup(
-                    WfInstanceConstants.SearchType.TODO
+                    WfTokenConstants.SearchType.TODO
+                ),
+                WfTokenConstants.getTargetTokenStatusGroup(
+                    WfTokenConstants.SearchType.TODO
                 ), parameters
             )
         }
@@ -154,10 +158,12 @@ class WfInstanceService(
      */
     private fun todoInstances(
         status: List<String>?,
+        tokenStatus: List<String>?,
         parameters: LinkedHashMap<String, Any>
     ): QueryResults<WfInstanceListViewDto> {
         return wfInstanceRepository.findTodoInstances(
             status,
+            tokenStatus,
             parameters["userKey"].toString(),
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
@@ -189,7 +195,7 @@ class WfInstanceService(
         val instanceEntity = WfInstanceEntity(
             instanceId = "",
             documentNo = documentNo,
-            instanceStatus = RestTemplateConstants.InstanceStatus.RUNNING.value,
+            instanceStatus = WfInstanceConstants.Status.RUNNING.code,
             instanceStartDt = LocalDateTime.now(ZoneId.of("UTC")),
             instanceCreateUser = user,
             pTokenId = wfTokenDto.parentTokenId,
