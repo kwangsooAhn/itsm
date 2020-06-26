@@ -60,6 +60,7 @@ common:
         withdraw: "회수"
         reject: "반려"
         terminate: "종료"
+        cancel: "취소"
 # Menu
 menu:
   service: "서비스"
@@ -493,6 +494,7 @@ token:
     relatedInstance: "관련 문서"
     print: "처리할 문서 인쇄"
     searchPlaceholder: "작성자 / 내용"
+    status: "상태"
   type:
     todo: "처리할 문서"
     requested: "신청한 문서"
