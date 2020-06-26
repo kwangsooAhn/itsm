@@ -1,6 +1,7 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.user.repository.UserRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -60,47 +61,26 @@ class DocumentActionService(
         var isWithDraw = false
         var isCancel = false
         var isTerminate = false
-        //담당자 확인
-        var isAssignee = false
-        //현재 진행중 문서 확인
-        var isTokenStatusIng = false
+
         //반환할 버튼 정보
         val actionsResult = JsonArray()
         //처리를 간편하게 처리 하기 위해서 json으로 변경한다.
-        val tokensJsonData: JsonObject = JsonParser().parse(tokensData).asJsonObject
+        val tokenData: JsonObject = JsonParser().parse(tokensData).asJsonObject
         //버튼 정보를 구한다.
-        val tokensActions = tokensJsonData.get("actions").asJsonArray
-
+        val tokensActions = tokenData.get("actions").asJsonArray
         //token에 대한 정보를 구한다.
-        val tokenId = tokensJsonData.get("tokenId").asString
+        val tokenId = tokenData.get("tokenId").asString
         val tokenDataUrl = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Token.GET_TOKEN.url.replace(restTemplate.getKeyRegex(), tokenId)
         )
-
-        val tokenDetailJsonData: JsonObject = JsonParser().parse(restTemplate.get(tokenDataUrl)).asJsonObject
+        val tokenDetailData: JsonObject = JsonParser().parse(restTemplate.get(tokenDataUrl)).asJsonObject
         //해당 문서의 상태 값
-        val tokenStatus = tokenDetailJsonData.get("tokenStatus").asString
-        /*if (tokenStatus == "token.status.running" || tokenStatus == "token.status.reject" ||tokenStatus == "token.status.withdraw") {*/
-        if (tokenStatus == RestTemplateConstants.TokenStatus.RUNNING.value) {
-            isTokenStatusIng = true
-        }
+        val tokenStatus = tokenDetailData.get("tokenStatus").asString
+        //현재 진행중 문서 확인
+        val isProgress = checkTokenStatus(tokenStatus)
         //문서를 연 사용자 정보
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userEntity = userRepository.findByUserKey(aliceUserDto.userKey)
-        //처리자 취소, 종결 권한 확인
-        userEntity.userRoleMapEntities.forEach { aliceUserRoleMapEntity ->
-            aliceUserRoleMapEntity.role.roleAuthMapEntities.forEach { aliceRoleAuthMapEntity ->
-                if (isTokenStatusIng) {
-                    if (aliceRoleAuthMapEntity.auth.authId == "action.cancel") {
-                        isCancel = true
-                    }
-                    if (aliceRoleAuthMapEntity.auth.authId == "action.terminate") {
-                        isTerminate = true
-                    }
-                }
-            }
-        }
-
         //Token ElementData
         val tokenElementDataUrl = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Token.GET_TOKEN_ELEMENT_DATA.url.replace(
@@ -108,22 +88,146 @@ class DocumentActionService(
                 tokenId
             )
         )
-        val tokenElementDataJsonData: JsonObject =
-            JsonParser().parse(restTemplate.get(tokenElementDataUrl)).asJsonObject
-        tokenElementDataJsonData.get("attributeData").asJsonArray.forEach { element ->
+        val tokenElementData: JsonObject = JsonParser().parse(restTemplate.get(tokenElementDataUrl)).asJsonObject
+        //문서 처리자 확인
+        val isAssignee = checkAssignee(tokenElementData, userEntity)
+
+        //각 버튼의 권한을 체크한다.
+        if (isProgress) {
+            if (isAssignee) {
+                isSave = true
+                isProcess = true
+                if (checkElementAttributeValue(tokenElementData, WfElementConstants.AttributeId.REJECT_ID.value)) {
+                    isReject = true
+                }
+                if (checkElementAttributeValue(tokenElementData, WfElementConstants.AttributeId.WITHDRAW.value)) {
+                    isWithDraw = true
+                }
+            }
+            if (isProgress && checkUserAuth(userEntity, "action.cancel")) {
+                isCancel = true
+            }
+            if (isProgress && checkUserAuth(userEntity, "action.terminate")) {
+                isTerminate = true
+            }
+        }
+
+        tokensActions.forEach { actions ->
+            when (actions.asJsonObject.get("value").asString) {
+                WfElementConstants.Action.SAVE.value -> {
+                    if (isSave) {
+                        actionsResult.add(actions)
+                    }
+                }
+                WfElementConstants.Action.PROCESS.value -> {
+                    if (isProcess) {
+                        actionsResult.add(actions)
+                    }
+                }
+                WfElementConstants.Action.REJECT.value -> {
+                    if (isReject) {
+                        actionsResult.add(actions)
+                    }
+                }
+                WfElementConstants.Action.WITHDRAW.value -> {
+                    if (isWithDraw) {
+                        actionsResult.add(actions)
+                    }
+                }
+                WfElementConstants.Action.CANCEL.value -> {
+                    if (isCancel) {
+                        actionsResult.add(actions)
+                    }
+                }
+                WfElementConstants.Action.TERMINATE.value -> {
+                    if (isTerminate) {
+                        actionsResult.add(actions)
+                    }
+                }
+                else -> {
+                    if (isProgress && isAssignee) {
+                        actionsResult.add(actions)
+                    }
+                }
+            }
+        }
+
+        if (actionsResult.size() > 0) {
+            tokenData.remove("actions")
+            tokenData.add("actions", actionsResult)
+        }
+
+        return Gson().toJson(tokenData)
+    }
+
+    /**
+     *  tokenStatus 상태에 따라서 현재 문서가 진행중인지 확인한다.
+     * @return Boolean
+     */
+    fun checkTokenStatus(tokenStatus: String): Boolean {
+        var isProgress = false
+        when (tokenStatus) {
+            WfTokenConstants.Status.RUNNING.code -> {
+                isProgress = true
+            }
+            WfTokenConstants.Status.WAITING.code -> {
+                isProgress = false
+            }
+            WfTokenConstants.Status.FINISH.code -> {
+                isProgress = false
+            }
+            WfTokenConstants.Status.WITHDRAW.code -> {
+                isProgress = true
+            }
+            WfTokenConstants.Status.REJECT.code -> {
+                isProgress = true
+            }
+            WfTokenConstants.Status.CANCEL.code -> {
+                isProgress = false
+            }
+            WfTokenConstants.Status.TERMINATE.code -> {
+                isProgress = false
+            }
+        }
+        return isProgress
+    }
+
+    /**
+     * 사용자가 해당 권한을 가지고 있는지 확인 한다.
+     * @return Boolean
+     */
+    fun checkUserAuth(userEntity: AliceUserEntity, authId: String): Boolean {
+        var isAuth = false
+
+        userEntity.userRoleMapEntities.forEach { aliceUserRoleMapEntity ->
+            aliceUserRoleMapEntity.role.roleAuthMapEntities.forEach { aliceRoleAuthMapEntity ->
+                if (aliceRoleAuthMapEntity.auth.authId == authId) {
+                    isAuth = true
+                }
+            }
+        }
+        return isAuth
+    }
+
+    /**
+     * 사용자가 해당 토근의 처리자인지 확인 한다.
+     * @return Boolean
+     */
+    fun checkAssignee(tokenElementData: JsonObject, userEntity: AliceUserEntity): Boolean {
+        var isAssignee = false
+        tokenElementData.get("attributeData").asJsonArray.forEach { element ->
             when (element.asJsonObject.get("attributeId").asString) {
                 WfElementConstants.AttributeId.ASSIGNEE_TYPE.value -> {
-                    //문서 처리자 정보
                     val tokenAssigneeUrl = RestTemplateUrlDto(
                         callUrl = RestTemplateConstants.Token.GET_TOKEN_ASSIGNEE.url.replace(
                             restTemplate.getKeyRegex(),
-                            tokenId
+                            tokenElementData.get("tokenId").asString
                         )
                     )
                     val tokenAssigneesJsonData: JsonObject =
                         JsonParser().parse(restTemplate.get(tokenAssigneeUrl)).asJsonObject
                     val assignees = tokenAssigneesJsonData.get("assignees").asJsonArray
-                    val assigneeType = tokenAssigneesJsonData.get("type").asString
+                    val assigneeType = tokenAssigneesJsonData.get("assigneeType").asString
                     if (assigneeType == WfTokenConstants.AssigneeType.ASSIGNEE.code) {
                         if (assignees.asString == userEntity.userKey) {
                             isAssignee = true
@@ -143,76 +247,31 @@ class DocumentActionService(
                             }
                         }
                     }
-                    if (isTokenStatusIng && isAssignee) {
-                        isSave = true
-                        isProcess = true
-                    }
-                }
-                WfElementConstants.AttributeId.REJECT_ID.value -> {
-                    if (isTokenStatusIng && isAssignee && !element.asJsonObject.get("attributeValue").isJsonNull) {
-                        isReject = true
-                    }
-                }
-                WfElementConstants.AttributeId.WITHDRAW.value -> {
-                    if (isTokenStatusIng && isAssignee && (element.asJsonObject.get("attributeValue").asString == "Y")) {
-                        isWithDraw = true
-                    }
                 }
             }
         }
-
-        tokensActions.forEach { actions ->
-            when (actions.asJsonObject.get("value").asString) {
-                WfElementConstants.Action.SAVE.value -> {
-                    if (isSave) {
-                        print("SAVE")
-                        actionsResult.add(actions)
-                    }
-                }
-                WfElementConstants.Action.PROCESS.value -> {
-                    if (isProcess) {
-                        print("PROCESS")
-                        actionsResult.add(actions)
-                    }
-                }
-                WfElementConstants.Action.REJECT.value -> {
-                    if (isReject) {
-                        print("REJECT")
-                        actionsResult.add(actions)
-                    }
-                }
-                WfElementConstants.Action.WITHDRAW.value -> {
-                    if (isWithDraw) {
-                        print("WITHDRAW")
-                        actionsResult.add(actions)
-                    }
-                }
-                WfElementConstants.Action.CANCEL.value -> {
-                    if (isCancel) {
-                        print("CANCEL")
-                        actionsResult.add(actions)
-                    }
-                }
-                WfElementConstants.Action.TERMINATE.value -> {
-                    if (isTerminate) {
-                        print("TERMINATE")
-                        actionsResult.add(actions)
-                    }
-                }
-                else -> {
-                    if (isTokenStatusIng && isAssignee) {
-                        actionsResult.add(actions)
-                    }
-                }
-            }
-        }
-
-        if (actionsResult.size() > 0) {
-            tokensJsonData.remove("actions")
-            tokensJsonData.add("actions", actionsResult)
-        }
-
-        return Gson().toJson(tokensJsonData)
+        return isAssignee
     }
 
+    /**
+     * Element의 특정 AttributeId에 특정 Value 값이 있는지 확인한다.
+     * @return Boolean
+     */
+    fun checkElementAttributeValue(tokenElementData: JsonObject, AttributeId: String): Boolean {
+        var isAttributeValue = false
+        tokenElementData.get("attributeData").asJsonArray.forEach { element ->
+            if (AttributeId == element.asJsonObject.get("attributeId").asString) {
+                if (AttributeId == WfElementConstants.AttributeId.REJECT_ID.value) {
+                    if (!element.asJsonObject.get("attributeValue").isJsonNull) {
+                        isAttributeValue = true
+                    }
+                } else if (AttributeId == WfElementConstants.AttributeId.WITHDRAW.value) {
+                    if (element.asJsonObject.get("attributeValue").asString == "Y") {
+                        isAttributeValue = true
+                    }
+                }
+            }
+        }
+        return isAttributeValue
+    }
 }

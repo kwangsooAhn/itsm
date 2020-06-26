@@ -1,10 +1,13 @@
 package co.brainz.workflow.token.service
 
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
-import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.form.service.WfFormService
-import co.brainz.workflow.provider.dto.*
+import co.brainz.workflow.provider.dto.RestTemplateTokenAssigneesViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenElementDataViewDto
+import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
@@ -125,26 +128,28 @@ class WfTokenService(
      * @return LinkedHashMap<String, Any>
      */
     fun getTokenAssignees(tokenId: String): RestTemplateTokenAssigneesViewDto {
-        var type = ""
+        var assigneeType = ""
         val assignees = mutableListOf<String>()
         val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId).get()
         tokenEntity.element.elementDataEntities.forEach { elementData ->
             if (elementData.attributeId == "assignee-type") {
-                type = elementData.attributeValue
+                assigneeType = elementData.attributeValue
             }
         }
 
-        if (type == WfTokenConstants.AssigneeType.ASSIGNEE.code) {
+        if (assigneeType == WfTokenConstants.AssigneeType.ASSIGNEE.code) {
             assignees.add(tokenEntity.assigneeId.toString())
-        } else if (type == WfTokenConstants.AssigneeType.USERS.code || type == WfTokenConstants.AssigneeType.GROUPS.code) {
-            wfCandidateRepository.findByTokenIdAndCandidateType(tokenEntity, type).forEach { candidate ->
+        } else if (assigneeType == WfTokenConstants.AssigneeType.USERS.code ||
+            assigneeType == WfTokenConstants.AssigneeType.GROUPS.code
+        ) {
+            wfCandidateRepository.findByTokenIdAndCandidateType(tokenEntity, assigneeType).forEach { candidate ->
                 assignees.add(candidate.candidateValue)
             }
         }
 
         return RestTemplateTokenAssigneesViewDto(
             tokenId = tokenId,
-            type = type,
+            assigneeType = assigneeType,
             assignees = assignees
         )
     }
