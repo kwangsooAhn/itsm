@@ -529,18 +529,6 @@
             histories.push({0: JSON.parse(JSON.stringify(editor.data.components[compIdx])), 1: {}});
             editor.data.components.splice(compIdx, 1);
         }
-        // 삭제 후 바로 이전 컴포넌트에 focus가 이동한다. 단, 첫번째 컴포넌트일 경우 삭제 후 첫번째 컴포넌트에 focus가 이동한다.
-        let focusElem = null;
-        let focusIdx = Math.min.apply(null, delIdx);
-        let components = document.querySelectorAll('.component');
-        if (focusIdx === 1) {
-            focusElem = components[0];
-        } else {
-            focusElem = components[focusIdx - 1];
-            if (focusElem === null) { //컴포넌트가 존재하지 않으면 마지막 컴포넌트를 선택한다.
-                focusElem = formPanel.lastElementChild
-            }
-        }
         // 이력 재정렬
         if (histories.length > 1) {
             histories.sort(function (a, b) {
@@ -548,12 +536,20 @@
             });
         }
 
-        // 컴포넌트 없을 경우 editbox 컴포넌트 신규 추가한다.
-        if (components.length === 0) {
+        // 삭제 후 바로 이전 컴포넌트에 focus가 이동한다.
+        let focusElem = null;
+        let focusIdx = Math.min.apply(null, delIdx);
+        let components = document.querySelectorAll('.component');
+        if (components.length === 0) { // 컴포넌트 없을 경우 editbox 컴포넌트 신규 추가한다.
             const editbox = component.draw(aliceForm.options.defaultType, formPanel);
             histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
             setComponentData(editbox.attr);
             focusElem = editbox.domElem;
+        } else {
+            focusElem = components[focusIdx - 1];
+            if (typeof focusElem === 'undefined') { //컴포넌트가 존재하지 않으면 마지막 컴포넌트를 선택한다.
+                focusElem = formPanel.lastElementChild
+            }
         }
         if (focusElem.getAttribute('data-type') === aliceForm.options.defaultType) {
             focusElem.querySelector('[contenteditable=true]').focus();
