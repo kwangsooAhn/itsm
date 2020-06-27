@@ -9,7 +9,6 @@ import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
@@ -72,7 +71,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     fun completeToken(tokenDto: WfTokenDto): WfTokenDto {
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-        token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
+        token.tokenStatus = WfTokenConstants.Status.FINISH.code
         token.assigneeId = tokenDto.assigneeId
 
         this.tokenEntity = wfTokenManagerService.saveToken(token)
@@ -95,32 +94,10 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * 토큰을 대기(Waiting) 상태로 변환. (예:서브프로세스)
      */
-    fun suspendToken(tokenDto: WfTokenDto) {
+    protected fun suspendToken(tokenDto: WfTokenDto) {
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
-        token.tokenStatus = RestTemplateConstants.TokenStatus.WAITING.value
+        token.tokenStatus = WfTokenConstants.Status.WAITING.code
         this.tokenEntity = wfTokenManagerService.saveToken(token)
-    }
-
-    /**
-     * Action - Save.
-     */
-    fun saveTokenAndTokenData(tokenDto: WfTokenDto) {
-        // Save Token & Token Data
-        val token = wfTokenManagerService.getToken(tokenDto.tokenId)
-        token.assigneeId = tokenDto.assigneeId
-        val tokenDataEntities: MutableList<WfTokenDataEntity> = mutableListOf()
-        for (tokenDataDto in tokenDto.data!!) {
-            val tokenDataEntity = WfTokenDataEntity(
-                token = token,
-                component = wfTokenManagerService.getComponent(tokenDataDto.componentId),
-                value = tokenDataDto.value
-            )
-            tokenDataEntities.add(tokenDataEntity)
-        }
-        if (tokenDataEntities.isNotEmpty()) {
-            wfTokenManagerService.saveAllTokenData(tokenDataEntities)
-        }
-        wfTokenManagerService.saveToken(token)
     }
 
     /**

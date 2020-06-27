@@ -34,6 +34,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
     override fun findTodoInstances(
         status: List<String>?,
+        tokenStatus: List<String>?,
         userKey: String,
         documentId: String,
         searchValue: String,
@@ -44,10 +45,9 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
         val candidateSub = QWfCandidateEntity("candidateSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
-
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
         builder.and(instance.instanceStatus.`in`(status))
-        builder.and(token.tokenStatus.`in`(status))
+        builder.and(token.tokenStatus.`in`(tokenStatus))
         builder.and(
             token.assigneeId.eq(userKey).or(
                 token.tokenId.`in`(
@@ -239,6 +239,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                     token.tokenEndDt,
                     token.element.elementName,
                     token.element.elementType,
+                    token.tokenStatus,
                     token.assigneeId,
                     user.userName
                 )

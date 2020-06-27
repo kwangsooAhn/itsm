@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ */
+
 package co.brainz.workflow.engine.manager.service
 
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
@@ -15,7 +19,6 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
@@ -175,7 +178,7 @@ class WfTokenManagerService(
     fun makeTokenEntity(wfTokenDto: WfTokenDto): WfTokenEntity {
         return WfTokenEntity(
             tokenId = "",
-            tokenStatus = RestTemplateConstants.TokenStatus.RUNNING.value,
+            tokenStatus = WfTokenConstants.Status.RUNNING.code,
             tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
             instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
             element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)

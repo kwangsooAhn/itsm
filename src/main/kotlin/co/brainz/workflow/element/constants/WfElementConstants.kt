@@ -63,6 +63,7 @@ object WfElementConstants {
         ACTION_VALUE("action-value"),
         SAVE("save"),
         REJECT_ID("reject-id"),
+        WITHDRAW("withdraw"),
         SUB_DOCUMENT_ID("sub-document-id"),
         TARGET_DOCUMENT_LIST("target-document-list"),
         NAME("name"),
@@ -95,6 +96,7 @@ object WfElementConstants {
     }
 
     enum class AttributeValue(val value: String) {
-        ACTION("#{action}")
+        ACTION("#{action}"),
+        WITHDRAW_ENABLE("Y")
     }
 }
