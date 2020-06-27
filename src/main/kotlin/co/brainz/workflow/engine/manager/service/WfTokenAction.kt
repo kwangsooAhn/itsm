@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.engine.manager.service
 
 import co.brainz.framework.exception.AliceErrorConstants
@@ -127,7 +132,7 @@ class WfTokenAction(
         newTokenDto.elementId = baseToken.element.elementId
         newTokenDto.elementType = baseToken.element.elementType
 
-        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).getTokenManager(newTokenDto.elementType)
+        val tokenManager = WfTokenManagerFactory(wfTokenManagerService).createTokenManager(newTokenDto.elementType)
         tokenManager.createToken(newTokenDto)
     }
 
