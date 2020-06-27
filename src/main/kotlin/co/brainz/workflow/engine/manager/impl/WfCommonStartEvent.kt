@@ -6,7 +6,8 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 
 class WfCommonStartEvent(
-    wfTokenManagerService: WfTokenManagerService
+    wfTokenManagerService: WfTokenManagerService,
+    override var isAutoComplete: Boolean = false
 ) : WfTokenManager(wfTokenManagerService) {
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
         return createTokenDto
@@ -14,8 +15,7 @@ class WfCommonStartEvent(
 
     override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
         super.setNextTokenDto(createNextTokenDto)
-        createNextTokenDto.isAutoComplete = super.setAutoComplete(createNextTokenDto.elementType)
-        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(createNextTokenDto.elementType)
+        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(createNextTokenDto.elementType)
             .createToken(createNextTokenDto)
     }
 

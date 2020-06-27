@@ -18,7 +18,7 @@ class WfTokenManagerFactory(
     private val wfTokenManagerService: WfTokenManagerService
 ) {
 
-    fun getTokenManager(elementType: String): WfTokenManager {
+    fun createTokenManager(elementType: String): WfTokenManager {
         return when (elementType) {
             WfElementConstants.ElementType.COMMON_START_EVENT.value -> {
                 WfCommonStartEvent(wfTokenManagerService)

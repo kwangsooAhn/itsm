@@ -31,7 +31,7 @@ class WfEngine(
         tokenDto.elementId = element.elementId
 
         // Start Token Create
-        val tokenManager = this.getTokenManager(tokenDto.elementType)
+        val tokenManager = this.createTokenManager(tokenDto.elementType)
         var startTokenDto = tokenManager.createToken(tokenDto)
         startTokenDto = tokenManager.completeToken(startTokenDto)
 
@@ -45,16 +45,16 @@ class WfEngine(
      * Progress workflow.
      */
     fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
-        logger.debug("Process Token")
+        logger.debug("Progress Token")
         when (tokenDto.action) {
-            WfElementConstants.Action.PROCESS.value -> {
+            WfElementConstants.Action.PROGRESS.value -> {
                 var progressTokenDto = tokenDto.copy()
                 do {
                     progressTokenDto = this.getTokenDto(progressTokenDto)
-                    val tokenManager = this.getTokenManager(progressTokenDto.elementType)
+                    val tokenManager = this.createTokenManager(progressTokenDto.elementType)
                     progressTokenDto = tokenManager.completeToken(progressTokenDto)
                     progressTokenDto = tokenManager.createNextToken(progressTokenDto)
-                } while (progressTokenDto.isAutoComplete)
+                } while (tokenManager.isAutoComplete)
             }
             else -> WfTokenAction(wfTokenManagerService).action(tokenDto)
         }
@@ -79,8 +79,8 @@ class WfEngine(
     /**
      * Get TokenManager.
      */
-    private fun getTokenManager(elementType: String): WfTokenManager {
-        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(elementType)
+    private fun createTokenManager(elementType: String): WfTokenManager {
+        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(elementType)
     }
 
     /**

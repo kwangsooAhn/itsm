@@ -6,14 +6,15 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 
 class WfUserTask(
-    wfTokenManagerService: WfTokenManagerService
+    wfTokenManagerService: WfTokenManagerService,
+    override var isAutoComplete: Boolean = false
 ) : WfTokenManager(wfTokenManagerService) {
 
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
-        super.createTokenEntity.tokenDataEntities =
+        super.tokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
-        super.setCandidate(super.createTokenEntity)
-        super.createTokenEntity.assigneeId?.let {
+        super.setCandidate(super.tokenEntity)
+        super.tokenEntity.assigneeId?.let {
             createTokenDto.assigneeId = it
         }
 
@@ -22,13 +23,12 @@ class WfUserTask(
 
     override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
         super.setNextTokenDto(createNextTokenDto)
-        createNextTokenDto.isAutoComplete = super.setAutoComplete(createNextTokenDto.elementType)
-        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(createNextTokenDto.elementType)
+        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(createNextTokenDto.elementType)
             .createToken(createNextTokenDto)
     }
 
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
-        super.createTokenEntity.tokenDataEntities =
+        super.tokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(completedToken))
         return completedToken
     }
