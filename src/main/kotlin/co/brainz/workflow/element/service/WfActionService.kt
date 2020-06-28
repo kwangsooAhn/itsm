@@ -31,9 +31,9 @@ class WfActionService(
      */
     fun actionInit(processId: String): MutableList<RestTemplateActionDto> {
         val startElement = wfElementService.getStartElement(processId)
-        val startArrow = getArrowElements(startElement.elementId)[0]
-        val registerElementId = getNextElementId(startArrow)
-        return actions(registerElementId)
+        val startArrow = this.getArrowElements(startElement.elementId)[0]
+        val registerElementId = this.getNextElementId(startArrow)
+        return this.actions(registerElementId)
     }
 
     fun actions(elementId: String): MutableList<RestTemplateActionDto> {
@@ -57,7 +57,7 @@ class WfActionService(
      * @param elementId
      * @return MutableList<WfElementEntity>
      */
-    fun getArrowElements(elementId: String): MutableList<WfElementEntity> {
+    private fun getArrowElements(elementId: String): MutableList<WfElementEntity> {
         return wfElementRepository.findAllArrowConnectorElement(elementId)
     }
 
@@ -67,7 +67,7 @@ class WfActionService(
      * @param arrowElement
      * @return String
      */
-    fun getNextElementId(arrowElement: WfElementEntity): String {
+    private fun getNextElementId(arrowElement: WfElementEntity): String {
         return wfElementDataRepository.findByElementAndAttributeId(arrowElement).attributeValue
     }
 
@@ -77,7 +77,7 @@ class WfActionService(
      * @param elementId
      * @return WfElementEntity
      */
-    fun getElement(elementId: String): WfElementEntity {
+    private fun getElement(elementId: String): WfElementEntity {
         return wfElementRepository.findWfElementEntityByElementId(elementId)
     }
 
@@ -100,9 +100,13 @@ class WfActionService(
      * @return MutableList<RestTemplateActionDto>
      */
     private fun postActions(element: WfElementEntity): MutableList<RestTemplateActionDto> {
+
         val postActions: MutableList<RestTemplateActionDto> = mutableListOf()
-        // REJECT: 현재 element 속성에 반려가 존재할 경우
+        // 현재 element 속성에 회수, 반려가 존재할 경우
         element.elementDataEntities.forEach {
+            if (it.attributeId == WfElementConstants.AttributeId.WITHDRAW.value && it.attributeValue == WfElementConstants.AttributeValue.WITHDRAW_ENABLE.value) {
+                postActions.add(RestTemplateActionDto(name = "회수", value = WfElementConstants.Action.WITHDRAW.value))
+            }
             if (it.attributeId == WfElementConstants.AttributeId.REJECT_ID.value && it.attributeValue.isNotEmpty()) {
                 postActions.add(RestTemplateActionDto(name = "반려", value = WfElementConstants.Action.REJECT.value))
             }
@@ -111,6 +115,8 @@ class WfActionService(
         // TODO: 권한여부에 따른 버튼 출려 기능 구현 필요
         postActions.add(RestTemplateActionDto(name = "취소", value = WfElementConstants.Action.CANCEL.value))
         postActions.add(RestTemplateActionDto(name = "종결", value = WfElementConstants.Action.TERMINATE.value))
+
+        logger.info("Make actions. {} ", postActions)
 
         return postActions
     }
@@ -145,7 +151,7 @@ class WfActionService(
                 }
                 when (isAction) {
                     true -> {
-                        val gatewayArrows = getArrowElements(nextElement.elementId)
+                        val gatewayArrows = this.getArrowElements(nextElement.elementId)
                         gatewayArrows.forEach { gatewayArrow ->
                             typeActions.addAll(makeAction(gatewayArrow.elementDataEntities))
                         }
@@ -157,7 +163,7 @@ class WfActionService(
             }
         }
         if (typeActions.isEmpty()) {
-            typeActions.add(RestTemplateActionDto(name = "처리", value = WfElementConstants.Action.PROCESS.value))
+            typeActions.add(RestTemplateActionDto(name = "처리", value = WfElementConstants.Action.PROGRESS.value))
         }
 
         return typeActions

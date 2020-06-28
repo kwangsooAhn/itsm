@@ -1,5 +1,7 @@
 package co.brainz.workflow.instance.constants
 
+import co.brainz.workflow.token.constants.WfTokenConstants
+
 class WfInstanceConstants {
 
     /**
@@ -11,21 +13,13 @@ class WfInstanceConstants {
         FINISH("finish")
     }
 
-    enum class SearchType(val code: String) {
-        TODO("token.type.todo"),
-        REQUESTED("token.type.requested"),
-        PROGRESS("token.type.progress"),
-        COMPLETED("token.type.completed")
-    }
-
     companion object {
-        fun getTargetStatusGroup(searchType: SearchType): List<String>? {
+        fun getTargetStatusGroup(searchType: WfTokenConstants.SearchType): List<String>? {
             return when (searchType) {
-                SearchType.TODO -> listOf(Status.RUNNING.code)
-                SearchType.REQUESTED -> null
-                SearchType.PROGRESS -> listOf(Status.RUNNING.code, Status.WAITING.code)
-                SearchType.COMPLETED -> listOf(Status.FINISH.code)
-                else -> null
+                WfTokenConstants.SearchType.TODO -> listOf(Status.RUNNING.code)
+                WfTokenConstants.SearchType.REQUESTED -> null
+                WfTokenConstants.SearchType.PROGRESS -> listOf(Status.RUNNING.code, Status.WAITING.code)
+                WfTokenConstants.SearchType.COMPLETED -> listOf(Status.FINISH.code)
             }
         }
     }

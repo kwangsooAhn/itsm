@@ -1,5 +1,6 @@
 /*
  * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
  */
 
 package co.brainz.workflow.engine.manager
@@ -9,7 +10,6 @@ import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
@@ -23,8 +23,9 @@ import java.time.ZoneId
  */
 abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) {
 
-    lateinit var createTokenEntity: WfTokenEntity
+    lateinit var tokenEntity: WfTokenEntity
     lateinit var assigneeId: String
+    abstract var isAutoComplete: Boolean
 
     /**
      * Create token.
@@ -33,17 +34,17 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         this.assigneeId = tokenDto.assigneeId.toString()
 
         val token = wfTokenManagerService.makeTokenEntity(tokenDto)
-        this.createTokenEntity = wfTokenManagerService.saveToken(token)
+        this.tokenEntity = wfTokenManagerService.saveToken(token)
 
         val createTokenDto = tokenDto.copy()
-        createTokenDto.tokenId = this.createTokenEntity.tokenId
+        createTokenDto.tokenId = this.tokenEntity.tokenId
 
         // TODO : Refactoring 필요.
         // 각 tokenmanager들의 createElementToken함수에서 super.cretateTokenEntity에 뭔짓을 하는지 몰라서
         // 일단 모든 처리가 끝난 이후에 알림을 체크하기 위해서 아래와 같이 임시로 newTokenDto로 구성.
         // entity와 dto를 이중으로 관리하는 패턴이 좀 이상하다.
         val newTokenDto = this.createElementToken(createTokenDto)
-        wfTokenManagerService.notificationCheck(createTokenEntity)
+        wfTokenManagerService.notificationCheck(tokenEntity)
         return newTokenDto
     }
 
@@ -71,14 +72,14 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     fun completeToken(tokenDto: WfTokenDto): WfTokenDto {
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-        token.tokenStatus = RestTemplateConstants.TokenStatus.FINISH.value
+        token.tokenStatus = WfTokenConstants.Status.FINISH.code
         token.assigneeId = tokenDto.assigneeId
 
-        this.createTokenEntity = wfTokenManagerService.saveToken(token)
+        this.tokenEntity = wfTokenManagerService.saveToken(token)
 
         val completedTokenDto = tokenDto.copy()
         completedTokenDto.tokenId = token.tokenId
-        completedTokenDto.assigneeId = this.createTokenEntity.assigneeId
+        completedTokenDto.assigneeId = this.tokenEntity.assigneeId
         if (!token.instance.pTokenId.isNullOrEmpty()) {
             completedTokenDto.parentTokenId = token.instance.pTokenId
         }
@@ -94,10 +95,10 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * 토큰을 대기(Waiting) 상태로 변환. (예:서브프로세스)
      */
-    fun waitingToken(tokenDto: WfTokenDto) {
+    protected fun suspendToken(tokenDto: WfTokenDto) {
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
-        token.tokenStatus = RestTemplateConstants.TokenStatus.WAITING.value
-        this.createTokenEntity = wfTokenManagerService.saveToken(token)
+        token.tokenStatus = WfTokenConstants.Status.WAITING.code
+        this.tokenEntity = wfTokenManagerService.saveToken(token)
     }
 
     /**
@@ -132,7 +133,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         if (tokenDto.data != null) {
             for (tokenDataDto in tokenDto.data!!) {
                 val tokenDataEntity = WfTokenDataEntity(
-                    token = this.createTokenEntity,
+                    token = this.tokenEntity,
                     component = wfTokenManagerService.getComponent(tokenDataDto.componentId),
                     value = tokenDataDto.value
                 )
@@ -230,19 +231,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             }
         }
         return attributeValues
-    }
-
-    /**
-     * Set autoComplete by elementType.
-     */
-    protected fun setAutoComplete(elementType: String): Boolean {
-        return when (elementType) {
-            WfElementConstants.ElementType.COMMON_END_EVENT.value,
-            WfElementConstants.ElementType.MANUAL_TASK.value,
-            WfElementConstants.ElementType.SIGNAL_SEND.value,
-            WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> true
-            else -> false
-        }
     }
 
     /**

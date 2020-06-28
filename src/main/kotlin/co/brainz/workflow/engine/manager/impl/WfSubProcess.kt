@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.engine.manager.impl
 
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -8,14 +13,15 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 
 class WfSubProcess(
-    wfTokenManagerService: WfTokenManagerService
+    wfTokenManagerService: WfTokenManagerService,
+    override var isAutoComplete: Boolean = false
 ) : WfTokenManager(wfTokenManagerService) {
 
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
-        super.createTokenEntity.tokenDataEntities =
+        super.tokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
-        super.setCandidate(super.createTokenEntity)
-        super.createTokenEntity.assigneeId?.let {
+        super.setCandidate(super.tokenEntity)
+        super.tokenEntity.assigneeId?.let {
             createTokenDto.assigneeId = it
         }
 
@@ -30,28 +36,27 @@ class WfSubProcess(
         startTokenDto.documentId = documentId
         startTokenDto.parentTokenId = startTokenDto.tokenId
         val makeDocumentTokens =
-            wfTokenManagerService.makeMappingTokenDto(super.createTokenEntity, mutableListOf(documentId))
+            wfTokenManagerService.makeMappingTokenDto(super.tokenEntity, mutableListOf(documentId))
         makeDocumentTokens.forEach {
             it.assigneeId = createTokenDto.assigneeId
             WfEngine(wfTokenManagerService).startWorkflow(it)
         }
 
-        super.waitingToken(createTokenDto)
+        super.suspendToken(createTokenDto)
 
         return createTokenDto
     }
 
     override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
         super.setNextTokenDto(createNextTokenDto)
-        createNextTokenDto.isAutoComplete = super.setAutoComplete(createNextTokenDto.elementType)
-        return WfTokenManagerFactory(wfTokenManagerService).getTokenManager(createNextTokenDto.elementType)
+        return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(createNextTokenDto.elementType)
             .createToken(createNextTokenDto)
     }
 
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
-        super.createTokenEntity.assigneeId =
+        super.tokenEntity.assigneeId =
             wfTokenManagerService.getCurrentAssigneeForChildProcess(completedToken.tokenId) ?: completedToken.assigneeId
-        wfTokenManagerService.saveToken(super.createTokenEntity)
+        wfTokenManagerService.saveToken(super.tokenEntity)
         return completedToken
     }
 }
