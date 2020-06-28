@@ -88,9 +88,9 @@ object WfElementConstants {
      */
     enum class Action(val value: String) {
         SAVE("save"),
-        PROCESS("process"),
-        WITHDRAW("withdraw"),
         REJECT("reject"),
+        PROGRESS("progress"),
+        WITHDRAW("withdraw"),
         CANCEL("cancel"),
         TERMINATE("terminate"),
         CLOSE("close")
