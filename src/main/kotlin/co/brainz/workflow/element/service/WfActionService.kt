@@ -48,6 +48,7 @@ class WfActionService(
             actions.addAll(typeActions(arrow, nextElement))
             actions.addAll(postActions(currentElement))
         }
+        actions.addAll(closeActions())
         return actions
     }
 
@@ -88,9 +89,19 @@ class WfActionService(
      */
     private fun preActions(): MutableList<RestTemplateActionDto> {
         val preActions: MutableList<RestTemplateActionDto> = mutableListOf()
-        // SAVE
         preActions.add(RestTemplateActionDto(name = "저장", value = WfElementConstants.Action.SAVE.value))
         return preActions
+    }
+
+    /**
+     * Close Actions.
+     *
+     * @return MutableList<RestTemplateActionDto>
+     */
+    private fun closeActions(): MutableList<RestTemplateActionDto> {
+        val closeActions: MutableList<RestTemplateActionDto> = mutableListOf()
+        closeActions.add(RestTemplateActionDto(name = "닫기", value = WfElementConstants.Action.CLOSE.value))
+        return closeActions
     }
 
     /**
@@ -112,10 +123,8 @@ class WfActionService(
             }
         }
 
-        // TODO: 권한여부에 따른 버튼 출려 기능 구현 필요
         postActions.add(RestTemplateActionDto(name = "취소", value = WfElementConstants.Action.CANCEL.value))
         postActions.add(RestTemplateActionDto(name = "종결", value = WfElementConstants.Action.TERMINATE.value))
-
         logger.info("Make actions. {} ", postActions)
 
         return postActions

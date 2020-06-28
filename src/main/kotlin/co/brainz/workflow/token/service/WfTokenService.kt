@@ -1,14 +1,16 @@
 package co.brainz.workflow.token.service
 
+import co.brainz.itsm.instance.constants.InstanceConstants
+import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.dto.RestTemplateTokenAssigneesViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
-import co.brainz.workflow.provider.dto.RestTemplateTokenElementDataViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
+import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
@@ -16,10 +18,14 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.Optional
+import kotlin.collections.HashMap
+import kotlin.collections.LinkedHashMap
 
 @Service
 @Transactional
 class WfTokenService(
+    private val instanceService: InstanceService,
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
@@ -99,46 +105,22 @@ class WfTokenService(
     }
 
     /**
-     * Token에 대한 ElementData.
-     *
-     * @param tokenId
-     * @return List<RestTemplateTokenElementDataViewDto>
-     */
-    fun getTokenElementData(tokenId: String): RestTemplateTokenElementDataViewDto {
-        val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId).get()
-        val attributeData = mutableListOf<LinkedHashMap<String, String>>()
-        tokenEntity.element.elementDataEntities.forEach { elementData ->
-            val elementDataMap = LinkedHashMap<String, String>()
-            elementDataMap["attributeId"] = elementData.attributeId
-            elementDataMap["attributeValue"] = elementData.attributeValue
-            attributeData.add(elementDataMap)
-        }
-
-        return RestTemplateTokenElementDataViewDto(
-            tokenId = tokenEntity.tokenId,
-            elementId = tokenEntity.element.elementId,
-            attributeData = attributeData
-        )
-    }
-
-    /**
      * Token에 대한 Assignees.
      *
-     * @param tokenId
+     * @param tokenEntity
      * @return LinkedHashMap<String, Any>
      */
-    fun getTokenAssignees(tokenId: String): RestTemplateTokenAssigneesViewDto {
+    fun getTokenAssignees(tokenEntity: Optional<WfTokenEntity>): RestTemplateTokenAssigneesViewDto {
         var assigneeType = ""
         val assignees = mutableListOf<String>()
-        val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId).get()
-        tokenEntity.element.elementDataEntities.forEach { elementData ->
+        tokenEntity.get().element.elementDataEntities.forEach { elementData ->
             if (elementData.attributeId == "assignee-type") {
                 assigneeType = elementData.attributeValue
             }
         }
 
         if (assigneeType == WfTokenConstants.AssigneeType.ASSIGNEE.code) {
-            assignees.add(tokenEntity.assigneeId.toString())
+            assignees.add(tokenEntity.get().assigneeId.toString())
         } else if (assigneeType == WfTokenConstants.AssigneeType.USERS.code ||
             assigneeType == WfTokenConstants.AssigneeType.GROUPS.code
         ) {
@@ -148,10 +130,28 @@ class WfTokenService(
         }
 
         return RestTemplateTokenAssigneesViewDto(
-            tokenId = tokenId,
             assigneeType = assigneeType,
-            assignees = assignees
+            assignees = assignees,
+            beforeAssigneeId = this.getBeforeTokenAssigneeId(tokenEntity.get().tokenId)
         )
+    }
+
+    /**
+     * tokenId를 통해서 이전 UserTask 담당자Id를 반환 한다.
+     * @return String
+     */
+    fun getBeforeTokenAssigneeId(tokenId: String): String {
+        var assigneeId = ""
+        instanceService.getInstanceHistory(tokenId)?.sortedBy { it.tokenEndDt }?.reversed()
+            ?.forEach { element ->
+                if (element.tokenEndDt != null &&
+                    element.elementType == InstanceConstants.ElementListForHistoryViewing.USER_TASK.value
+                ) {
+                    assigneeId = element.assigneeId.toString()
+                    return@forEach
+                }
+            }
+        return assigneeId
     }
 
     /**
@@ -189,11 +189,16 @@ class WfTokenService(
             }
         }
 
+        val tokenData: MutableMap<String, Any> = HashMap()
+        tokenData["tokenId"] = tokenEntity.get().tokenId
+        tokenData["tokenStatus"] = tokenEntity.get().tokenStatus
+
         return RestTemplateTokenViewDto(
-            tokenId = tokenId,
+            token = tokenData,
             instanceId = tokenEntity.get().instance.instanceId,
             form = formData,
-            actions = wfActionService.actions(tokenEntity.get().element.elementId)
+            actions = wfActionService.actions(tokenEntity.get().element.elementId),
+            assignee = this.getTokenAssignees(tokenEntity)
         )
     }
 }

@@ -92,7 +92,8 @@ object WfElementConstants {
         WITHDRAW("withdraw"),
         REJECT("reject"),
         CANCEL("cancel"),
-        TERMINATE("terminate")
+        TERMINATE("terminate"),
+        CLOSE("close")
     }
 
     enum class AttributeValue(val value: String) {

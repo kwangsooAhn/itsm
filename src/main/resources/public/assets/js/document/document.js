@@ -237,7 +237,11 @@
                     buttonProcessEle.type = 'button';
                     buttonProcessEle.innerText = element.name;
                     buttonProcessEle.addEventListener('click', function () {
-                        aliceDocument.save(element.value);
+                        if (element.value === 'close') {
+                            window.close();
+                        } else {
+                            aliceDocument.save(element.value);
+                        }
                     });
                     buttonEle.appendChild(buttonProcessEle);
                 }
@@ -254,26 +258,6 @@
                 });
                 buttonEle.appendChild(buttonSaveEle);
             }
-        }
-
-        addCloseButton(buttonEle);
-    }
-
-    /**
-     * closeButton 생성
-     *
-     * @param buttonEle
-     */
-    function addCloseButton(buttonEle) {
-        const buttonCancelEle = document.createElement('button');
-        buttonCancelEle.type = 'button';
-        buttonCancelEle.innerText = i18n.get('common.btn.close');
-        buttonCancelEle.addEventListener('click', function() {
-            window.close();
-        });
-        buttonEle.appendChild(buttonCancelEle);
-        if (buttonContainer !== null) {
-            buttonContainer.appendChild(buttonEle);
         }
     }
 
@@ -563,11 +547,6 @@
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
-        } else {
-            const buttonEle = document.createElement('div');
-            buttonEle.style.margin = '10px';
-            buttonEle.style.textAlign = 'center';
-            addCloseButton(buttonEle);
         }
 
         //Add Comment Box
