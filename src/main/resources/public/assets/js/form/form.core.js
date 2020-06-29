@@ -11,16 +11,9 @@
 }(this, (function (exports) {
     'use strict';
 
-    let options = {
-        lang: 'en',
-        datetimeFormat: 'YYYY-MM-DD HH:mm',
-        dateFormat: 'YYYY-MM-DD',
-        hourFormat: 'HH:mm',
-        timezone: 'Asia/Seoul',
-        sessionInfo: {},
-        defaultType: 'editbox',
-        columnWidth: 8.33  //폼 양식을 12등분 하였을 때, 1개의 너비
-    };
+    const defaultType = 'editbox';
+    let sessionInfo = {},
+        componentProperties = {};
 
     /**
      * 날짜와 관련있는 컴포넌트들에 대해서 사용자의 타임존과 출력 포맷에 따라 변환.
@@ -42,90 +35,68 @@
                 // 1. 기본값 타입 중에서 직접 Calendar로 입력한 값인 경우는 변환
                 if (component.display.default.indexOf('picker') !== -1) {
                     let displayDefaultValueArray = component.display.default.split('|'); // 속성 값을 파싱한 배열
-                    if (action === 'save') {
-                        switch(component.type) {
-                            case 'datetime':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToSystemDatetimeFormatWithTimezone(displayDefaultValueArray[1],
-                                        aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                                break;
-                            case 'date':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToSystemDateFormat(displayDefaultValueArray[1],
-                                        aliceForm.options.dateFormat);
-                                break;
-                            case 'time':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToSystemTimeFormat(displayDefaultValueArray[1],
-                                        aliceForm.options.hourFormat);
-                                break;
-                        }
-                    } else if (action === 'read') {
-                        switch(component.type) {
-                            case 'datetime':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToUserDatetimeFormatWithTimezone(displayDefaultValueArray[1],
-                                        aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                                break;
-                            case 'date':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToUserDateFormat(displayDefaultValueArray[1],
-                                        aliceForm.options.dateFormat);
-                                break;
-                            case 'time':
-                                displayDefaultValueArray[1] =
-                                    aliceJs.convertToUserTimeFormat(displayDefaultValueArray[1],
-                                        aliceForm.options.hourFormat);
-                                break;
-                        }
-
-                    }
-                    components[idx].display.default = displayDefaultValueArray.join('|');
-                }
-
-                // 2. validate 용 date-min, date-max 변환
-                let validateItems = component.validate;
-                Object.keys(validateItems).forEach(function(validateItem) {
-                    if (validateItem.indexOf('date') !== -1) {
-                        let validateItemValueArray = validateItems[validateItem].split('|'); // 속성 값을 파싱한 배열
+                    if (displayDefaultValueArray.length > 1 && displayDefaultValueArray[1] !== '') {
                         if (action === 'save') {
-                            switch(component.type) {
+                            switch (component.type) {
                                 case 'datetime':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToSystemDatetimeFormatWithTimezone(validateItemValueArray[0],
-                                            aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                    displayDefaultValueArray[1] = i18n.systemDateTime(displayDefaultValueArray[1]);
                                     break;
                                 case 'date':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToSystemDateFormat(validateItemValueArray[0],
-                                            aliceForm.options.dateFormat);
+                                    displayDefaultValueArray[1] = i18n.systemDate(displayDefaultValueArray[1]);
                                     break;
                                 case 'time':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToSystemDateFormat(validateItemValueArray[0],
-                                            aliceForm.options.hourFormat);
+                                    displayDefaultValueArray[1] = i18n.systemTime(displayDefaultValueArray[1]);
                                     break;
                             }
                         } else if (action === 'read') {
-                            switch(component.type) {
+                            switch (component.type) {
                                 case 'datetime':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToUserDatetimeFormatWithTimezone(validateItemValueArray[0],
-                                            aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                                    displayDefaultValueArray[1] = i18n.userDateTime(displayDefaultValueArray[1]);
                                     break;
                                 case 'date':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToUserDateFormat(validateItemValueArray[0],
-                                            aliceForm.options.dateFormat);
+                                    displayDefaultValueArray[1] = i18n.userDate(displayDefaultValueArray[1]);
                                     break;
                                 case 'time':
-                                    validateItemValueArray[0] =
-                                        aliceJs.convertToUserTimeFormat(validateItemValueArray[0],
-                                            aliceForm.options.hourFormat);
+                                    displayDefaultValueArray[1] = i18n.userTime(displayDefaultValueArray[1]);
                                     break;
                             }
                         }
-                        components[idx].validate[validateItem] = validateItemValueArray.join('|')
+                    }
+                    components[idx].display.default = displayDefaultValueArray.join('|');
+                }
+                
+                // 2. validate 용 date-min, date-max 변환
+                const dateTimeRegExp = /(date|time)\w*/i;
+                let validateItems = component.validate;
+                Object.keys(validateItems).forEach(function(item) {
+                    if (dateTimeRegExp.test(item) && validateItems[item] !== '') {
+                        let validateItemValue = validateItems[item];
+                        if (action === 'save') {
+                            switch (component.type) {
+                                case 'datetime':
+                                    validateItemValue = i18n.systemDateTime(validateItemValue);
+                                    break;
+                                case 'date':
+                                    validateItemValue = i18n.systemDate(validateItemValue);
+                                    break;
+                                case 'time':
+                                    validateItemValue = i18n.systemTime(validateItemValue);
+                                    break;
+                            }
+                        } else if (action === 'read') {
+                            switch (component.type) {
+                                case 'datetime':
+                                    validateItemValue = i18n.userDateTime(validateItemValue);
+                                    break;
+                                case 'date':
+                                    validateItemValue = i18n.userDate(validateItemValue);
+                                    break;
+                                case 'time':
+                                    validateItemValue = i18n.userTime(validateItemValue);
+                                    break;
+                            }
+                        }
+                        components[idx].validate[item] = validateItemValue;
                     }
                 });
 
@@ -134,17 +105,13 @@
                     let componentValue = component.value;
                     switch (component.type) {
                         case 'datetime':
-                            componentValue =
-                                aliceJs.convertToUserDatetimeFormatWithTimezone(componentValue,
-                                    aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                            componentValue = i18n.userDateTime(componentValue);
                             break;
                         case 'date':
-                            componentValue =
-                                aliceJs.convertToUserDateFormat(componentValue, aliceForm.options.dateFormat);
+                            componentValue = i18n.userDate(componentValue);
                             break;
                         case 'time':
-                            componentValue =
-                                aliceJs.convertToUserTimeFormat(componentValue, aliceForm.options.hourFormat);
+                            componentValue = i18n.userTime(componentValue);
                             break;
                     }
                     component.value = componentValue;
@@ -155,35 +122,7 @@
     }
 
     /**
-     * Init.
-     *
-     * @param {String} userInfo 사용자 세션 정보
-     */
-    function init(userInfo) {
-        Object.assign(options.sessionInfo, JSON.parse(userInfo));
-        //사용자 정보에 따라 날짜 및 시간 포맷 추출.
-        options.timezone = options.sessionInfo.timezone;
-        options.lang = options.sessionInfo.lang;
-        options.datetimeFormat = options.sessionInfo.timeFormat; // 사용자 날짜 포맷 스트링 원본
-
-        // 임시. (아래 내용 구현 후 .toUpperCase() 삭제예정)
-        // 현재 사용자 날짜 포맷은 yyyy-MM-dd와 같은 포맷임.
-        // dd처럼 소문자인 경우 요일 정보가 나오게 할 수 있으므로 일단 현재는 모두 대문자 처리
-        // 추후 기능 확장을 위해서 사용자 정보에서 현재 포맷은 DD로 넣게 하고
-        // 요일 출력 옵션도 추가하려면 그때 소문자 dd를 추가하기.
-        let splitDatetimeFormat = options.datetimeFormat.split(' ');
-        options.dateFormat = splitDatetimeFormat[0].toUpperCase();
-        options.hourFormat = splitDatetimeFormat[1];
-        options.datetimeFormat = options.dateFormat + ' ' + options.hourFormat
-
-        if (splitDatetimeFormat.length > 2) {
-            options.hourFormat = options.hourFormat + ' ' + splitDatetimeFormat[2];
-            options.datetimeFormat = options.datetimeFormat + ' ' + splitDatetimeFormat[2];
-        }
-    }
-
-    /**
-     * 컴포넌트 기본 속성인 '/assets/js/form/componentAttribute.json' 데이터를 조회 후
+     * 컴포넌트 기본 속성인 '/assets/js/form/componentProperties.json' 데이터를 조회 후
      * callback(init) 함수를 실행한다.
      *
      * 2020-06-03 Jung Hee Chan
@@ -191,46 +130,37 @@
      *
      * @param {Function} callback
      */
-    function initSync(callback) {
+    function init(callback) {
         let params = Array.prototype.slice.call(arguments, 1);
 
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/assets/js/form/componentAttribute.json',
+            url: '/assets/js/form/componentProperties.json',
             callbackFunc: function(xhr) {
-                options.componentAttribute = JSON.parse(xhr.responseText);
-                Object.keys(options.componentAttribute).forEach(function(componentType) {
-                    if (componentType === 'datetime' || componentType === 'date' || componentType === 'time') {
-                        Object.values(options.componentAttribute[componentType].validate).forEach(function(validateItem) {
-                            if (!(validateItem.id.indexOf('date') < 0 && validateItem.id.indexOf('time') < 0)) {
-                                switch (componentType) {
-                                    case 'datetime':
-                                        validateItem.value = aliceJs.convertToUserDatetimeFormatWithTimezone(validateItem.value,
-                                            options.datetimeFormat, options.timezone);
-                                        break;
-                                    case 'date':
-                                        validateItem.value =
-                                            aliceJs.convertToUserDateFormat(validateItem.value, options.dateFormat);
-                                        break;
-                                    case 'time':
-                                        validateItem.value =
-                                            aliceJs.convertToUserTimeFormat(validateItem.value, options.hourFormat);
-                                        break;
-                                }
-                            }
-                        });
-                    }
-                });
+                Object.assign(componentProperties, JSON.parse(xhr.responseText));
                 callback.apply(null, params);
             },
             contentType: 'application/json; charset=utf-8'
         });
     }
 
+    /**
+     * initSession.
+     *
+     * @param {String} userInfo 사용자 세션 정보
+     */
+
+    function initSession(userInfo) {
+        Object.assign(sessionInfo, JSON.parse(userInfo));
+    }
+
     exports.init = init;
-    exports.initSync = initSync;
+    exports.initSession = initSession;
     exports.reformatCalendarFormat = reformatCalendarFormat;
-    exports.options = options;
+
+    exports.defaultType = defaultType;
+    exports.session = sessionInfo;
+    exports.componentProperties = componentProperties;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));

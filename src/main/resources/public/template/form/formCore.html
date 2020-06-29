@@ -13,6 +13,7 @@
     <th:block layout:fragment="css"></th:block>
     <script th:src="@{/assets/vendors/moment/moment.js}"></script>
     <script th:src="@{/assets/vendors/moment/moment-timezone-with-data.js}"></script>
+    <script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
     <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/vendors/gModal/js/gModal.min.js}"></script>
@@ -25,10 +26,18 @@
     <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
     <script th:src="@{/assets/js/form/form.core.js}"></script>
     <script th:src="@{/assets/js/form/form.component.js}"></script>
-    <script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
-        const userAuthInfo = {
+        const parsedDateTimeFormat = '[[${#authentication.details.timeFormat}]]'.split(' ');
+        i18n.init(JSON.stringify({
+            dateTimeFormat: '[[${#authentication.details.timeFormat}]]',
+            dateFormat: parsedDateTimeFormat[0],
+            timeFormat: (parsedDateTimeFormat[2] !== undefined) ? parsedDateTimeFormat[1] + ' ' + parsedDateTimeFormat[2] : parsedDateTimeFormat[1],
+            lang: '[[${#authentication.details.lang}]]',
+            timezone: '[[${#authentication.details.timezone}]]'
+        }));
+
+        aliceForm.initSession(JSON.stringify({
             userKey : '[[${#authentication.details.userKey}]]',
             userId : '[[${#authentication.details.userId}]]',
             userName: '[[${#authentication.details.userName}]]',
@@ -36,31 +45,7 @@
             position: '[[${#authentication.details.position}]]',
             department: '[[${#authentication.details.department}]]',
             officeNumber: '[[${#authentication.details.officeNumber}]]',
-            mobileNumber: '[[${#authentication.details.mobileNumber}]]',
-            timeFormat : '[[${#authentication.details.timeFormat}]]',
-            timezone : '[[${#authentication.details.timezone}]]',
-            lang: '[[${#authentication.details.lang}]]'
-        };
-        i18n.initMessages(function(){
-            aliceForm.init(JSON.stringify(userAuthInfo));
-            // 프린터 시간 출력하기 위해 임시로 생성.
-            const timeFormat = userAuthInfo.timeFormat.split(' ');
-            i18n.init(JSON.stringify({
-                dateTimeFormat: userAuthInfo.timeFormat,
-                dateFormat: timeFormat[0],
-                timeFormat: timeFormat[1],
-                lang: userAuthInfo.lang,
-                timezone: userAuthInfo.timezone
-            }));
-        });
-        // 프린터 시간 출력하기 위해 임시로 생성
-        const timeFormat = userAuthInfo.timeFormat.split(' ');
-        i18n.init(JSON.stringify({
-            dateTimeFormat: userAuthInfo.timeFormat,
-            dateFormat: timeFormat[0],
-            timeFormat: timeFormat[1],
-            lang: userAuthInfo.lang,
-            timezone: userAuthInfo.timezone
+            mobileNumber: '[[${#authentication.details.mobileNumber}]]'
         }));
     </script>
 </head>
