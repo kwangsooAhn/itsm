@@ -105,32 +105,26 @@
                         break;
                     case 'date-min':
                     case 'date-max':
-                        const dateValue = moment(element.value, aliceForm.options.dateFormat);
-                        const dateNodeValue = moment(nodeValue, aliceJs.systemCalendarDateFormat);
-                        if (attribute.nodeName === 'date-min' && dateValue.isBefore(dateNodeValue)) {
-                            message = i18n.get('document.msg.dateMin', dateNodeValue.format(aliceForm.options.dateFormat));
-                        } else if (attribute.nodeName === 'date-max' && dateValue.isAfter(dateNodeValue)) {
-                            message = i18n.get('document.msg.dateMax', dateNodeValue.format(aliceForm.options.dateFormat));
+                        if (attribute.nodeName === 'date-min' && i18n.compareSystemDate(element.value, nodeValue)) {
+                            message = i18n.get('document.msg.dateMin', nodeValue);
+                        } else if (attribute.nodeName === 'date-max' && i18n.compareSystemDate(nodeValue, element.value)) {
+                            message = i18n.get('document.msg.dateMax', nodeValue);
                         }
                         break;
                     case 'time-min':
                     case 'time-max':
-                        const timeValue = moment(aliceJs.convertToSystemHourType(element.value), aliceForm.options.hourFormat);
-                        const timeNodeValue = moment(nodeValue, aliceJs.systemCalendarTimeFormat);
-                        if (attribute.nodeName === 'time-min' && timeValue.isBefore(timeNodeValue)) {
-                            message = i18n.get('document.msg.timeMin', timeNodeValue.format(aliceForm.options.hourFormat));
-                        } else if (attribute.nodeName === 'time-max' && timeValue.isAfter(timeNodeValue)) {
-                            message = i18n.get('document.msg.timeMax', timeNodeValue.format(aliceForm.options.hourFormat));
+                        if (attribute.nodeName === 'time-min' && i18n.compareSystemTime(element.value, nodeValue)) {
+                            message = i18n.get('document.msg.timeMin', nodeValue);
+                        } else if (attribute.nodeName === 'time-max' && i18n.compareSystemTime(nodeValue, element.value)) {
+                            message = i18n.get('document.msg.timeMax', nodeValue);
                         }
                         break;
                     case 'datetime-min':
                     case 'datetime-max':
-                        const datetimeValue = moment(aliceJs.convertToSystemHourType(element.value), aliceForm.options.datetimeFormat);
-                        const datetimeNodeValue = moment(nodeValue, aliceJs.systemCalendarDatetimeFormat);
-                        if (attribute.nodeName === 'datetime-min' && datetimeValue.isBefore(datetimeNodeValue)) {
-                            message = i18n.get('document.msg.dateMin', datetimeNodeValue.format(aliceForm.options.datetimeFormat));
-                        } else if (attribute.nodeName === 'datetime-max' && datetimeValue.isAfter(datetimeNodeValue)) {
-                            message = i18n.get('document.msg.dateMax', datetimeNodeValue.format(aliceForm.options.datetimeFormat));
+                        if (attribute.nodeName === 'datetime-min' && i18n.compareSystemDateTime(element.value, nodeValue)) {
+                            message = i18n.get('document.msg.datetimeMin', nodeValue);
+                        } else if (attribute.nodeName === 'datetime-max' && i18n.compareSystemDateTime(nodeValue, element.value)) {
+                            message = i18n.get('document.msg.datetimeMax', nodeValue);
                         }
                         break;
                     case 'regexp':
@@ -328,7 +322,7 @@
                         if (target === 'print') {
                             componentValue = componentChild.item(0).value;
                         } else {
-                            componentValue = aliceJs.convertToSystemDateFormat(componentChild.item(0).value, aliceForm.options.dateFormat);
+                            componentValue = i18n.systemDate(componentChild.item(0).value);
                         }
                         break;
                     case 'time':
@@ -336,7 +330,7 @@
                         if (target === 'print') {
                             componentValue = componentChild.item(0).value;
                         } else {
-                            componentValue = aliceJs.convertToSystemTimeFormat(componentChild.item(0).value, aliceForm.options.hourFormat);
+                            componentValue = i18n.systemTime(componentChild.item(0).value);
                         }
                         break;
                     case 'datetime':
@@ -344,7 +338,7 @@
                         if (target === 'print') {
                             componentValue = componentChild.item(0).value;
                         } else {
-                            componentValue = aliceJs.convertToSystemDatetimeFormatWithTimezone(componentChild.item(0).value, aliceForm.options.datetimeFormat, aliceForm.options.timezone);
+                            componentValue = i18n.systemDateTime(componentChild.item(0).value);
                         }
                         break;
                     case 'textarea':
@@ -435,7 +429,7 @@
         let actionMsg = '';
         if (v_kind === 'save') {
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
-            tokenObject.assigneeId = aliceForm.options.sessionInfo.userKey;
+            tokenObject.assigneeId = aliceForm.session.userKey;
             tokenObject.assigneeType = defaultAssigneeTypeForSave;
             actionMsg = i18n.get('common.msg.save');
         } else {
@@ -460,11 +454,6 @@
             method = 'put';
             url = '/rest/tokens/' + tokenObject.tokenId + '/data'
         }
-
-        // 2020-04-06 kbh
-        // 프로세스 넘기려고 부득이하게 하드코딩함. merge 된 후 삭제 예정
-        //tokenObject.documentId = 'beom'
-        //tokenObject.elementId = 'a12c2f06debf788570a6b08a5ece73ac'
         const opt = {
             method: method,
             url: url,
@@ -493,11 +482,10 @@
         if (typeof data === 'string') {
             data = JSON.parse(data);
         }
-        data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.options.defaultType; }); //editbox 제외
+        data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
         documentContainer = document.getElementById('document-container');
         documentContainer.setAttribute('data-isToken', (data.tokenId !== undefined) ? 'true' : 'false'); //신청서 = false , 처리할 문서 = true
         buttonContainer = document.getElementById('button-container');
-
         if (data.form.components.length > 0) {
             if (data.form.components.length > 2) {
                 data.form.components.sort(function (a, b) {
@@ -657,7 +645,6 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
-
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
                 dataForPrint.documentId = documentId;
@@ -674,7 +661,6 @@
      */
     function initToken(tokenId) {
         console.info('document editor initialization. [Token ID: ' + tokenId + ']');
-
         // token data search.
         aliceJs.sendXhr({
             method: 'GET',

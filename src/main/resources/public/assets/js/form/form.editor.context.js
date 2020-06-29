@@ -57,7 +57,7 @@
 
         // editbox 컴포넌트 1개만 존재할 경우 삭제 메뉴 비활성화
         if (document.querySelectorAll('.component').length === 1 &&
-            document.querySelector('.component').getAttribute('data-type') === aliceForm.options.defaultType) {
+            document.querySelector('.component').getAttribute('data-type') === aliceForm.defaultType) {
             const controlMenuDeleteItem = controlMenu.querySelector('[data-action="delete"]'); // 컨텍스트 메뉴 - 삭제
             if (!controlMenuDeleteItem.classList.contains('disabled')) {
                 controlMenuDeleteItem.classList.add('disabled');
