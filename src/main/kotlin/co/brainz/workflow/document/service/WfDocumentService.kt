@@ -381,7 +381,7 @@ class WfDocumentService(
                         }
                     }
                 }
-                //강제적으로 compoent가 추가 되었을때 기본값 출력
+                // 강제적으로 compoent가 추가 되었을때 기본값 출력
                 if (!isDisplay) {
                     val displayMap = LinkedHashMap<String, Any>()
                     displayMap["elementId"] = elementEntity["elementId"].toString()

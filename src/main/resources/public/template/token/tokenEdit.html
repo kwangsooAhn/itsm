@@ -125,7 +125,7 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            aliceForm.initSync(aliceDocument.initToken, '[[${tokenId}]]');
+            aliceForm.init(aliceDocument.initToken, '[[${tokenId}]]');
             var tokenDtEle = document.querySelectorAll('td[name=tokenDt]');
             for (let i = 0; i < tokenDtEle.length; i++) {
                 if (tokenDtEle[i].textContent !== '') {
