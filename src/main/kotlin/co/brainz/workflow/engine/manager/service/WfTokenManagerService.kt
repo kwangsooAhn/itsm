@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.engine.manager.service
 
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
@@ -15,7 +20,6 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
-import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
@@ -116,10 +120,25 @@ class WfTokenManagerService(
     }
 
     /**
-     * Save token.
+     * 토큰 엔티티 저장.
      */
     fun saveToken(tokenEntity: WfTokenEntity): WfTokenEntity {
         return wfTokenRepository.save(tokenEntity)
+    }
+
+    /**
+     * 토큰 DTO를 엔티티로 변환하여 저장.
+     */
+    fun saveToken(wfTokenDto: WfTokenDto): WfTokenEntity {
+        return this.saveToken(
+            WfTokenEntity(
+                tokenId = "",
+                tokenStatus = WfTokenConstants.Status.RUNNING.code,
+                tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
+                instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
+                element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
+            )
+        )
     }
 
     /**
@@ -167,19 +186,6 @@ class WfTokenManagerService(
      */
     fun saveAllTokenData(tokenDataEntities: MutableList<WfTokenDataEntity>): MutableList<WfTokenDataEntity> {
         return wfTokenDataRepository.saveAll(tokenDataEntities)
-    }
-
-    /**
-     * Make token entity.
-     */
-    fun makeTokenEntity(wfTokenDto: WfTokenDto): WfTokenEntity {
-        return WfTokenEntity(
-            tokenId = "",
-            tokenStatus = WfTokenConstants.Status.RUNNING.code,
-            tokenStartDt = LocalDateTime.now(ZoneId.of("UTC")),
-            instance = wfInstanceRepository.findByInstanceId(wfTokenDto.instanceId)!!,
-            element = wfElementRepository.findWfElementEntityByElementId(wfTokenDto.elementId)
-        )
     }
 
     /**

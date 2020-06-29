@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.engine.manager.impl
 
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -9,14 +14,14 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 
 class WfCommonEndEvent(
-    wfTokenManagerService: WfTokenManagerService
+    wfTokenManagerService: WfTokenManagerService,
+    override var isAutoComplete: Boolean = true
 ) : WfTokenManager(wfTokenManagerService) {
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
         return createTokenDto
     }
 
     override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
-        createNextTokenDto.isAutoComplete = super.setAutoComplete(createNextTokenDto.elementType)
         if (!createNextTokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
             val pTokenId = createNextTokenDto.parentTokenId!!
             val mainProcessToken = wfTokenManagerService.getToken(pTokenId)
@@ -35,19 +40,14 @@ class WfCommonEndEvent(
                     token = wfTokenManagerService.saveToken(mainProcessToken)
                     token.tokenDataEntities =
                         wfTokenManagerService.saveAllTokenData(super.setTokenData(createNextTokenDto))
-                    createNextTokenDto.isAutoComplete = true
                 }
-                else -> createNextTokenDto.isAutoComplete = false
             }
-        } else {
-            createNextTokenDto.isAutoComplete = false
         }
-
         return createNextTokenDto
     }
 
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
-        super.createTokenEntity.tokenDataEntities =
+        super.tokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(completedToken))
         wfTokenManagerService.completeInstance(completedToken.instanceId)
 

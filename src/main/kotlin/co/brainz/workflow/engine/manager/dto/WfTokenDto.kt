@@ -8,7 +8,6 @@ data class WfTokenDto(
     var documentId: String? = null,
     var documentName: String? = null,
     var instanceId: String = "",
-    var isAutoComplete: Boolean = false,
     var elementId: String = "",
     var elementType: String = "",
     var tokenStatus: String? = null,
