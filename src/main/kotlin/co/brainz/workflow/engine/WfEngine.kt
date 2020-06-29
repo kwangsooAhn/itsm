@@ -43,7 +43,7 @@ class WfEngine(
         // First Token Create
         val firstTokenDto = tokenManager.createNextToken(startTokenDto)
 
-        return this.progressWorkflow(firstTokenDto)
+        return this.progressWorkflow(firstTokenDto!!)
     }
 
     /**
@@ -53,21 +53,27 @@ class WfEngine(
         logger.debug("Progress Token")
         when (tokenDto.action) {
             WfElementConstants.Action.PROGRESS.value -> {
-                var progressTokenDto = tokenDto.copy()
-                progress@ do {
-                    // 현재 토큰 처리
-                    progressTokenDto = this.getTokenDto(progressTokenDto)
-                    val tokenManager = this.createTokenManager(progressTokenDto.elementType)
-                    progressTokenDto = tokenManager.completeToken(progressTokenDto)
+                var currentTokenDto = tokenDto.copy()
+                var currentTokenManager: WfTokenManager
+                var nextTokenDto: WfTokenDto?
+                var nextTokenManager: WfTokenManager
 
-                    // 현재 토큰이 End Event인 경우에 종료.
-                    when (progressTokenDto.elementType) {
-                        WfElementConstants.ElementType.COMMON_END_EVENT.value -> break@progress
-                    }
+                do {
+                    // 현재 토큰 처리
+                    currentTokenDto = this.getTokenDto(currentTokenDto)
+                    currentTokenManager = this.createTokenManager(currentTokenDto.elementType)
+                    currentTokenDto = currentTokenManager.completeToken(currentTokenDto)
 
                     // 다음 토큰 생성
-                    progressTokenDto = tokenManager.createNextToken(progressTokenDto)
-                } while (this.createTokenManager(progressTokenDto.elementType).isAutoComplete)
+                    nextTokenDto = currentTokenManager.createNextToken(currentTokenDto)
+                    if (nextTokenDto != null) {
+                        nextTokenManager = this.createTokenManager(nextTokenDto.elementType)
+                        currentTokenDto = nextTokenDto
+                    } else {
+                        nextTokenManager = currentTokenManager
+                        nextTokenManager.isAutoComplete = false
+                    }
+                } while (nextTokenManager.isAutoComplete)
             }
             else -> WfTokenAction(wfTokenManagerService).action(tokenDto)
         }
