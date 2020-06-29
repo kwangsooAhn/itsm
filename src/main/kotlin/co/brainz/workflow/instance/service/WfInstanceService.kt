@@ -11,7 +11,6 @@ import co.brainz.workflow.instance.constants.WfInstanceConstants
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
-import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
