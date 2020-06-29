@@ -18,13 +18,6 @@ class WfSignalSend(
 ) : WfTokenManager(wfTokenManagerService) {
 
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
-        super.tokenEntity.tokenDataEntities =
-            wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
-        super.setCandidate(super.tokenEntity)
-        super.tokenEntity.assigneeId?.let {
-            createTokenDto.assigneeId = it
-        }
-
         // 시그널 이벤트의 document 를 생성
         val targetDocumentIds = mutableListOf<String>()
         super.tokenEntity.element.elementDataEntities.forEach {
