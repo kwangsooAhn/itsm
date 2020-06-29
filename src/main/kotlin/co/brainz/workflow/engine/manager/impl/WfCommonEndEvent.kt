@@ -22,27 +22,6 @@ class WfCommonEndEvent(
     }
 
     override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
-        if (!createNextTokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
-            val pTokenId = createNextTokenDto.parentTokenId!!
-            val mainProcessToken = wfTokenManagerService.getToken(pTokenId)
-            when (mainProcessToken.element.elementType) {
-                WfElementConstants.ElementType.SUB_PROCESS.value -> {
-                    var token = wfTokenManagerService.getToken(createNextTokenDto.tokenId)
-                    token.tokenDataEntities = super.setTokenData(createNextTokenDto)
-                    mainProcessToken.tokenStatus = WfTokenConstants.Status.FINISH.code
-                    mainProcessToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-                    createNextTokenDto.data = wfTokenManagerService.makeSubProcessTokenDataDto(
-                        token,
-                        mainProcessToken
-                    )
-                    createNextTokenDto.tokenId = mainProcessToken.tokenId
-
-                    token = wfTokenManagerService.saveToken(mainProcessToken)
-                    token.tokenDataEntities =
-                        wfTokenManagerService.saveAllTokenData(super.setTokenData(createNextTokenDto))
-                }
-            }
-        }
         return createNextTokenDto
     }
 
@@ -50,6 +29,28 @@ class WfCommonEndEvent(
         super.tokenEntity.tokenDataEntities =
             wfTokenManagerService.saveAllTokenData(super.setTokenData(completedToken))
         wfTokenManagerService.completeInstance(completedToken.instanceId)
+
+        if (!completedToken.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
+            val pTokenId = completedToken.parentTokenId!!
+            val mainProcessToken = wfTokenManagerService.getToken(pTokenId)
+            when (mainProcessToken.element.elementType) {
+                WfElementConstants.ElementType.SUB_PROCESS.value -> {
+                    var token = wfTokenManagerService.getToken(completedToken.tokenId)
+                    token.tokenDataEntities = super.setTokenData(completedToken)
+                    mainProcessToken.tokenStatus = WfTokenConstants.Status.FINISH.code
+                    mainProcessToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
+                    completedToken.data = wfTokenManagerService.makeSubProcessTokenDataDto(
+                        token,
+                        mainProcessToken
+                    )
+                    completedToken.tokenId = mainProcessToken.tokenId
+
+                    token = wfTokenManagerService.saveToken(mainProcessToken)
+                    token.tokenDataEntities =
+                        wfTokenManagerService.saveAllTokenData(super.setTokenData(completedToken))
+                }
+            }
+        }
 
         return completedToken
     }

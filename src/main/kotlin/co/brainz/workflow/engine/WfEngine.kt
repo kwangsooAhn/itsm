@@ -54,12 +54,20 @@ class WfEngine(
         when (tokenDto.action) {
             WfElementConstants.Action.PROGRESS.value -> {
                 var progressTokenDto = tokenDto.copy()
-                do {
+                progress@ do {
+                    // 현재 토큰 처리
                     progressTokenDto = this.getTokenDto(progressTokenDto)
                     val tokenManager = this.createTokenManager(progressTokenDto.elementType)
                     progressTokenDto = tokenManager.completeToken(progressTokenDto)
+
+                    // 현재 토큰이 End Event인 경우에 종료.
+                    when (progressTokenDto.elementType) {
+                        WfElementConstants.ElementType.COMMON_END_EVENT.value -> break@progress
+                    }
+
+                    // 다음 토큰 생성
                     progressTokenDto = tokenManager.createNextToken(progressTokenDto)
-                } while (tokenManager.isAutoComplete)
+                } while (this.createTokenManager(progressTokenDto.elementType).isAutoComplete)
             }
             else -> WfTokenAction(wfTokenManagerService).action(tokenDto)
         }
