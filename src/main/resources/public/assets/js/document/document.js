@@ -482,7 +482,6 @@
         if (typeof data === 'string') {
             data = JSON.parse(data);
         }
-        console.log(data);
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
         documentContainer = document.getElementById('document-container');
         documentContainer.setAttribute('data-isToken', (data.tokenId !== undefined) ? 'true' : 'false'); //신청서 = false , 처리할 문서 = true
@@ -646,7 +645,6 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
-
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
                 dataForPrint.documentId = documentId;
@@ -663,7 +661,6 @@
      */
     function initToken(tokenId) {
         console.info('document editor initialization. [Token ID: ' + tokenId + ']');
-
         // token data search.
         aliceJs.sendXhr({
             method: 'GET',

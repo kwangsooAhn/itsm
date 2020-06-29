@@ -262,7 +262,7 @@
             data = JSON.parse(JSON.stringify(editor.data));
             let lastCompIndex = component.getLastIndex();
             data.components = data.components.filter(function (comp) {
-                return !(comp.display.order === lastCompIndex && comp.type === aliceForm.options.defaultType);
+                return !(comp.display.order === lastCompIndex && comp.type === aliceForm.defaultType);
             });
             data.name = document.getElementById('form_name').value;
             data.desc = document.getElementById('form_description').value;
@@ -806,7 +806,7 @@
      */
     function initProperties(componentData) {
         // set default component properties
-        let initializedProperties = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[componentData.type]);
+        let initializedProperties = aliceJs.mergeObject({}, aliceForm.componentProperties[componentData.type]);
 
         Object.keys(componentData).forEach(function(propertyGroupId) {
             if (aliceJs.isObject(componentData[propertyGroupId]) && initializedProperties.hasOwnProperty(propertyGroupId))  {
