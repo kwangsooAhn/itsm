@@ -5,6 +5,7 @@ import co.brainz.workflow.folder.entity.QWfFolderEntity
 import co.brainz.workflow.folder.entity.WfFolderEntity
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
 import co.brainz.workflow.token.entity.QWfTokenEntity
+import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -21,7 +22,11 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
         val queryTokenId = JPAExpressions.select(folder.folderId)
             .from(folder, token)
             .where(
-                folder.instance.eq(token.instance).and(token.tokenId.eq(tokenId)).and(folder.relatedType.eq("origin"))
+                folder.instance.eq(token.instance).and(token.tokenId.eq(tokenId)).and(
+                    folder.relatedType.eq(
+                        "origin"
+                    )
+                )
             )
         return from(folder)
             .select(
@@ -30,6 +35,13 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
                     folder.folderId,
                     folder.instance.instanceId,
                     folder.relatedType,
+                    ExpressionUtils.`as`(
+                        JPAExpressions.select(token.tokenId.max())
+                            .from(token)
+                            .where(folder.instance.instanceId.eq(token.instance.instanceId))
+                        , "tokenId"
+                    ),
+                    folder.instance.documentNo,
                     folder.instance.document.documentName,
                     folder.createUserKey,
                     folder.createDt,
