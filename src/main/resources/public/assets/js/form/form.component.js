@@ -27,7 +27,8 @@
             {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
             {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
         ],
-        editboxPlaceholder= 'Typing \'/\' for add component';
+        editboxPlaceholder= 'Typing \'/\' for add component',
+        columnWidth = 8.33;  //폼 양식을 12등분 하였을 때, 1개의 너비
         
     let componentIdx = 0;          //컴포넌트 index = 출력 순서 생성시 사용
 
@@ -79,7 +80,7 @@
      */
     function Text(attr, target) {
         let textDefaultArr = attr.display['default'].split('|');
-        let textDefaultValue = (textDefaultArr[0] === 'none') ? textDefaultArr[1] : aliceForm.options.sessionInfo[textDefaultArr[1]];
+        let textDefaultValue = (textDefaultArr[0] === 'none') ? textDefaultArr[1] : aliceForm.session[textDefaultArr[1]];
         if (target.hasAttribute('data-readonly')) { //폼 양식
             if (textDefaultArr[0] !== 'none') { textDefaultValue = textDefaultArr[2]; } //폼 양식 편집 화면에서는 세션 값이 출력되지 않는다.
         } else { //신청서 및 처리할 문서
@@ -422,26 +423,25 @@
         //날짜 포멧 변경
         let dateDefaultArr = attr.display['default'].split('|');
         let dateDefault = '';
-        let datePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
-        //처리할 문서는 실 데이터를 출력한다.
+        //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
         if (typeof attr.value !== 'undefined') {
             dateDefault = attr.value;
-        } else {
-            if (dateDefaultArr[0] === 'now') {
-                dateDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.dateFormat);
-                dateDefault = dateDefault.split(' ')[0];
-            } else if (dateDefaultArr[0] === 'date') {
-                dateDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.dateFormat);
-                // 설정에 따른 날짜 가감.
-                let momentObject = moment(dateDefault, aliceForm.options.dateFormat);
-                if (!aliceJs.isEmpty(dateDefaultArr[1])) {
-                    momentObject.add(Number(dateDefaultArr[1]), 'days');
-                }
-                dateDefault = momentObject.format(aliceForm.options.dateFormat);
-            } else if (dateDefaultArr[0] === 'datepicker') {
-                if (dateDefaultArr[1] !== '') {
-                    dateDefault = dateDefaultArr[1];
-                }
+        } else { //문서양식, 신청서는 default값 출력한다.
+            switch(dateDefaultArr[0]) {
+                case 'now':
+                    dateDefault = i18n.getDate();
+                    break;
+                case 'date':
+                    let offset = {};
+                    offset.days =  aliceJs.isEmpty(dateDefaultArr[1]) ? 0 : Number(dateDefaultArr[1]);
+                    dateDefault = i18n.getDate(offset);
+                    break;
+                case 'datepicker':
+                    if (!aliceJs.isEmpty(dateDefaultArr[1])) {
+                        dateDefault = dateDefaultArr[1];
+                    }
+                    break;
+                default: //none
             }
         }
         let comp = utils.createComponentByTemplate(`
@@ -456,7 +456,7 @@
                         <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.componentId}' placeholder='${aliceForm.options.dateFormat.toLowerCase()}' value='${dateDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate.dateMax}' date-min='${attr.validate.dateMin}'/>
+                        <input type='text' id='date-${attr.componentId}' placeholder='${i18n.dateFormat}' value='${dateDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate.dateMax}' date-min='${attr.validate.dateMin}'/>
                     </div>
                 </div>
             `);
@@ -465,7 +465,7 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initDatePicker('date-' + attr.componentId, aliceForm.options.dateFormat, aliceForm.options.lang, function () {
+            dateTimePicker.initDatePicker('date-' + attr.componentId, i18n.dateFormat, i18n.lang, function () {
                 aliceDocument.checkValidate(document.getElementById('date-' + attr.componentId));
             });
         }
@@ -482,27 +482,27 @@
         //시간 포멧 변경
         let timeDefaultArr = attr.display['default'].split('|');
         let timeDefault = '';
-        //처리할 문서는 실 데이터를 출력한다.
+        //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
         if (typeof attr.value !== 'undefined') {
             timeDefault = attr.value;
         } else {
-            if (timeDefaultArr[0] === 'now') {
-                timeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.hourFormat);
-            } else if (timeDefaultArr[0] === 'time') {
-                timeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.hourFormat);
-                // 설정에 따른 시간 가감.
-                let momentObject = moment(timeDefault, aliceForm.options.hourFormat);
-                if (!aliceJs.isEmpty(timeDefaultArr[1])) {
-                    momentObject.add(Number(timeDefaultArr[1]), 'hours');
-                }
-                timeDefault = momentObject.format(aliceForm.options.hourFormat);
-            } else if (timeDefaultArr[0] === 'timepicker') {
-                if (timeDefaultArr[1] !== '') {
-                    timeDefault = timeDefaultArr[1];
-                }
+            switch(timeDefaultArr[0]) {
+                case 'now':
+                    timeDefault = i18n.getTime();
+                    break;
+                case 'time':
+                    let offset = {};
+                    offset.hours =  aliceJs.isEmpty(timeDefaultArr[1]) ? 0 : Number(timeDefaultArr[1]);
+                    timeDefault = i18n.getTime(offset);
+                    break;
+                case 'timepicker':
+                    if (!aliceJs.isEmpty(timeDefaultArr[1])) {
+                        timeDefault = timeDefaultArr[1];
+                    }
+                    break;
+                default: //none
             }
         }
-
         let comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
                 <div class='group'>
@@ -515,7 +515,7 @@
                         <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.componentId}' placeholder='${(aliceForm.options.hourType === '12' ? aliceForm.options.timeFormat + ' a' : 'HH:mm')}' value='${timeDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} time-max='${attr.validate.timeMax}' time-min='${attr.validate.timeMin}'/>
+                        <input type='text' id='time-${attr.componentId}' placeholder='${i18n.timeFormat}' value='${timeDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} time-max='${attr.validate.timeMax}' time-min='${attr.validate.timeMin}'/>
                     </div>
                 </div>
             `);
@@ -524,7 +524,7 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initTimePicker('time-' + attr.componentId, aliceForm.options.hourFormat, aliceForm.options.lang, function () {
+            dateTimePicker.initTimePicker('time-' + attr.componentId, i18n.timeFormat, i18n.lang, function () {
                 aliceDocument.checkValidate(document.getElementById('time-' + attr.componentId));
             });
         }
@@ -541,30 +541,28 @@
         //날짜 시간 포멧 변경
         let datetimeDefaultArr = attr.display['default'].split('|');
         let datetimeDefault = '';
+        //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
         if (typeof attr.value !== 'undefined') {
                 datetimeDefault = attr.value;
         } else {
-            if (datetimeDefaultArr[0] === 'now') {
-                datetimeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.datetimeFormat);
-            } else if (datetimeDefaultArr[0] === 'datetime') {
-                datetimeDefault = aliceJs.getCurrentDatetimeWithTimezoneAndFormat(aliceForm.options.timezone, aliceForm.options.datetimeFormat);
-                // 설정에 따른 날짜와 시간 가감.
-                let momentObject = moment(datetimeDefault, aliceForm.options.datetimeFormat);
-                if (!aliceJs.isEmpty(datetimeDefaultArr[1])) {
-                    momentObject.add(Number(datetimeDefaultArr[1]), 'days');
-                }
-
-                if (!aliceJs.isEmpty(datetimeDefaultArr[2])) {
-                    momentObject.add(Number(datetimeDefaultArr[2]), 'hours');
-                }
-                datetimeDefault = momentObject.format(aliceForm.options.datetimeFormat);
-            } else if (datetimeDefaultArr[0] === 'datetimepicker') {
-                if (datetimeDefaultArr[1] !== '') {
-                    datetimeDefault = datetimeDefaultArr[1];
-                }
+            switch(datetimeDefaultArr[0]) {
+                case 'now':
+                    datetimeDefault = i18n.getDateTime();
+                    break;
+                case 'datetime':
+                    let offset = {};
+                    offset.days =  aliceJs.isEmpty(datetimeDefaultArr[1]) ? 0 : Number(datetimeDefaultArr[1]);
+                    offset.hours = aliceJs.isEmpty(datetimeDefaultArr[2]) ? 0 : Number(datetimeDefaultArr[2]);
+                    datetimeDefault = i18n.getDateTime(offset);
+                    break;
+                case 'datetimepicker':
+                    if (!aliceJs.isEmpty(datetimeDefaultArr[1])) {
+                        datetimeDefault = datetimeDefaultArr[1];
+                    }
+                    break;
+                default: //none
             }
         }
-
         let comp = utils.createComponentByTemplate(`
                 <div class='move-icon'></div>
                 <div class='group'>
@@ -577,7 +575,7 @@
                         <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
                     </div>
                     <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.componentId}' placeholder='${aliceForm.options.datetimeFormat}' value='${datetimeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} 
+                        <input type='text' id='datetime-${attr.componentId}' placeholder='${i18n.dateTimeFormat}' value='${datetimeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} 
                         datetime-max='${attr.validate.datetimeMax}' datetime-min='${attr.validate.datetimeMin}'/>
                     </div>
                 </div>
@@ -586,7 +584,7 @@
         this.domElem = comp;
 
         if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initDateTimePicker('datetime-' + attr.componentId, aliceForm.options.dateFormat, aliceForm.options.hourFormat, aliceForm.options.lang, function () {
+            dateTimePicker.initDateTimePicker('datetime-' + attr.componentId, i18n.dateFormat, i18n.timeFormat, i18n.lang, function () {
                 aliceDocument.checkValidate(document.getElementById('datetime-' + attr.componentId));
             });
         }
@@ -666,13 +664,13 @@
                     if (textDefaultArr[0] === 'session') {
                         switch (textDefaultArr[1]) {
                             case 'userName':
-                                defaultCustomData = aliceForm.options.sessionInfo.userKey;
+                                defaultCustomData = aliceForm.session.userKey;
                                 break;
                             case 'department':
-                                defaultCustomData = aliceForm.options.sessionInfo.department;
+                                defaultCustomData = aliceForm.session.department;
                                 break;
                         }
-                        defaultCustomData += '|' + aliceForm.options.sessionInfo[textDefaultArr[1]];
+                        defaultCustomData += '|' + aliceForm.session[textDefaultArr[1]];
                     }
                 }
             }
@@ -827,15 +825,15 @@
                 if (compAttr.label.position === 'hidden') {
                     firstField.style.display = 'none';
                 } else if (compAttr.label.position === 'left') {
-                    firstField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.label.column)) + '%';
+                    firstField.style.flexBasis = (columnWidth * Number(compAttr.label.column)) + '%';
                 } else { //top
-                    firstField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.label.column)) + '%';
+                    firstField.style.flexBasis = (columnWidth * Number(compAttr.label.column)) + '%';
                     const secondField = document.createElement('div');
                     secondField.className = 'field';
-                    secondField.style.flexBasis = (100 - (aliceForm.options.columnWidth * Number(compAttr.label.column))) + '%';
+                    secondField.style.flexBasis = (100 - (columnWidth * Number(compAttr.label.column))) + '%';
                     lastField.parentNode.insertBefore(secondField, lastField);
                 }
-                lastField.style.flexBasis = (aliceForm.options.columnWidth * Number(compAttr.display.column)) + '%';
+                lastField.style.flexBasis = (columnWidth * Number(compAttr.display.column)) + '%';
             }
         }
         return componentConstructor;
@@ -846,37 +844,41 @@
      * @return {Object} refineAttr 컴포넌트 데이터
      */
     function getData(type) {
-        let refineAttr = { display: {} };
-        let defaultAttr = aliceJs.mergeObject({}, aliceForm.options.componentAttribute[type]);
-        Object.keys(defaultAttr).forEach(function(group) {
+        let refineProp = { display: {} };
+        let defaultProp = aliceJs.mergeObject({}, aliceForm.componentProperties[type]);
+        Object.keys(defaultProp).forEach(function(group) {
             if (group === 'option') { //옵션 json 구조 변경
                 let options = [];
-                for (let i = 0, len = defaultAttr[group][0].items.length; i < len; i+=3) {
+                for (let i = 0, len = defaultProp[group][0].items.length; i < len; i+=3) {
                     let option = {};
                     for (let j = i; j < i + len; j++) {
-                        let child = defaultAttr[group][0].items[j];
+                        let child = defaultProp[group][0].items[j];
                         option[child.id] = child.value;
                     }
                     options.push(option);
                 }
-                refineAttr[group] = options;
+                refineProp[group] = options;
             } else {
-                refineAttr[group] = {};
-                let attributeItem = '';
-                Object.keys(defaultAttr[group]).forEach(function(child) {
-                    attributeItem = defaultAttr[group][child].id;
-                    if (attributeItem === 'dateMin' || attributeItem === 'dateMax') {
-                        refineAttr[group][defaultAttr[group][child].id] = aliceJs.convertToUserDatetimeFormatWithTimezone(defaultAttr[group][child].value, aliceForm.options.datetimeFormat, aliceForm.options.timezone);
-                    } else if (attributeItem === 'timeMin' || attributeItem === 'timeMax') {
-                        refineAttr[group][defaultAttr[group][child].id] = aliceJs.convertToUserTimeFormat(defaultAttr[group][child].value,
-                            aliceForm.options.hourFormat);
-                    } else {
-                        refineAttr[group][defaultAttr[group][child].id] = defaultAttr[group][child].value;
+                refineProp[group] = {};
+                Object.keys(defaultProp[group]).forEach(function(child) {
+                    const attributeItem = defaultProp[group][child];
+                    let attributeItemValue = attributeItem.value;
+                    if (type === 'datetime' || type === 'date' || type === 'time') {
+                        if (/datetimeM*/.test(attributeItem.id)) {
+                            attributeItemValue = i18n.userDateTime(attributeItemValue);
+                        } else if (/dateM*/.test(attributeItem.id)) {
+                            attributeItemValue = i18n.userDate(attributeItemValue);
+                        } else if (/timeM*/.test(attributeItem.id)) {
+                            attributeItemValue = i18n.userTime(attributeItemValue);
+                        } else {
+                            attributeItemValue = attributeItem.value;
+                        }
                     }
+                    refineProp[group][attributeItem.id] = attributeItemValue;
                 });
             }
         });
-        return refineAttr;
+        return refineProp;
     }
 
     /**
