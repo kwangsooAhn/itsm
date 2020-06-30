@@ -60,7 +60,7 @@
             </td>
         </tr>
         <tr>
-            <th th:text="#{common.label.createUserName}"></th>
+            <th th:text="#{common.label.createUser}"></th>
             <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${roleDetail?.createUserKey}"></span></td>
         </tr>
         <tr>
@@ -68,7 +68,7 @@
             <td><span id="spanCreateDt" name="spanCreateDt"></span></td>
         </tr>
         <tr>
-            <th th:text="#{common.label.updateUserName}"></th>
+            <th th:text="#{common.label.updateUser}"></th>
             <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${roleDetail?.updateUserKey}"></span></td>
         </tr>
         <tr>
@@ -262,15 +262,15 @@
                     callbackFunc: function(response) {
                         switch (response.responseText) {
                             case "true":
-                                aliceJs.alert([[#{common.msg.delete.success}]], function() {
+                                aliceJs.alert([[#{common.msg.delete}]], function() {
                                     window.location.href ='/roles/edit';
                                 });
                                 break;
                             case "false":
-                                aliceJs.alert([[#{common.msg.delete.fail}]]);
+                                aliceJs.alert(i18n.get('common.label.delete') + " " + i18n.get('common.msg.fail'));
                                 break;
                             default :
-                                aliceJs.alert([[#{common.msg.save.fail}]]);
+                                aliceJs.alert([[#{common.msg.fail}]]);
                                 break;
                         }
                     }

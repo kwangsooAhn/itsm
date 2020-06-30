@@ -13,11 +13,11 @@
         <form id="frm" method="post">
             <table class="table" border="1">
                 <tr>
-                    <th th:text="#{notice.title}"></th>
+                    <th th:text="#{common.label.title}"></th>
                     <td colspan="3"><input id="noticeTitle" name="noticeTitle" type="text" th:value="${notice?.noticeTitle}" maxlength="128"/></td>
                 </tr>
                 <tr>
-                    <th th:text="#{notice.contents}"></th>
+                    <th th:text="#{common.label.contents}"></th>
                     <td colspan="3"><textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="7" style="width: 750px; resize: none;" th:text="${notice?.noticeContents}"></textarea></td>
                 </tr>
                 <tr>
@@ -28,22 +28,22 @@
                     </td>
                 </tr>
                 <tr>
-                    <th th:text="#{notice.user}"></th>
+                    <th th:text="#{common.label.createUser}"></th>
                     <td><span sec:authentication="details.userName"></span></td>
                 </tr>
                 <tr>
-                    <th th:text="#{notice.popUpNoticeSettings}"></th>
+                    <th th:text="#{notice.label.popUpNoticeSettings}"></th>
                     <td>
                         <div>
-                            <label><input type="radio" id="popRadioBtUp" name="popYn" th:value="${notice?.popYn != null} ? ${notice.popYn} : true" checked="checked" onchange="setDisplay('popTab',true)" th:text="#{notice.set}"/></label>
-                            <label><input type="radio" id="popRadioBtDown" name="popYn" th:value="${notice?.popYn != null} ? ${notice.popYn} : false" onchange="setDisplay('popTab',false)" th:text="#{notice.notSet}"/></label>
+                            <label><input type="radio" id="popRadioBtUp" name="popYn" th:value="${notice?.popYn != null} ? ${notice.popYn} : true" checked="checked" onchange="setDisplay('popTab',true)" th:text="#{common.btn.setting}"/></label>
+                            <label><input type="radio" id="popRadioBtDown" name="popYn" th:value="${notice?.popYn != null} ? ${notice.popYn} : false" onchange="setDisplay('popTab',false)" th:text="#{common.btn.notSetting}"/></label>
                         </div>
                     </td>
-                    <th th:text="#{notice.topNoticeSettings}"></th>
+                    <th th:text="#{notice.label.topNoticeSettings}"></th>
                     <td>
                         <div>
-                            <label><input type="radio" id="topRadioBtUp" name="topNoticeYn" th:value="${notice?.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('topNoticeTab',true)" th:text="#{notice.set}"/></label>
-                            <label><input type="radio" id="topRadioBtDown" name="topNoticeYn" th:value="${notice?.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('topNoticeTab',false)" th:text="#{notice.notSet}"/></label>
+                            <label><input type="radio" id="topRadioBtUp" name="topNoticeYn" th:value="${notice?.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('topNoticeTab',true)" th:text="#{common.btn.setting}"/></label>
+                            <label><input type="radio" id="topRadioBtDown" name="topNoticeYn" th:value="${notice?.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('topNoticeTab',false)" th:text="#{common.btn.notSetting}"/></label>
                         </div>
                     </td>
                 </tr>
@@ -51,16 +51,16 @@
             <div id="popTab">
                 <table class="table" border="1">
                     <tr>
-                        <th rowspan="4" th:text="#{notice.popUpNoticeSettingsInfo}"></th>
-                        <th th:text="#{notice.height}"></th>
+                        <th rowspan="4" th:text="#{notice.label.popUpNoticeSettingsInfo}"></th>
+                        <th th:text="#{notice.label.height}"></th>
                         <th colspan="2"><input type="number" id="popHeight" name="popHeight" th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" />px</th>
                     </tr>
                     <tr>
-                        <th th:text="#{notice.width}"></th>
+                        <th th:text="#{notice.label.width}"></th>
                         <td colspan="2"><input type="number" id="popWidth" name="popWidth" th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" />px</td>
                     </tr>
                     <tr>
-                        <th th:text="#{notice.strtDt}"></th>
+                        <th th:text="#{notice.label.strtDt}"></th>
                         <td colspan="2">
                             <div class="container">
                                 <div class="row">
@@ -81,7 +81,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{notice.endDt}"></th>
+                        <th th:text="#{notice.label.endDt}"></th>
                         <td colspan="2">
                             <div class="container">
                                 <div class="row">
@@ -107,8 +107,8 @@
             <div id="topNoticeTab">
                 <table class="table" border="1">
                     <tr>
-                        <th rowspan="4" th:text="#{notice.topNoticeSettingsInfo}"></th>
-                        <th th:text="#{notice.strtDt}"></th>
+                        <th rowspan="4" th:text="#{notice.label.topNoticeSettingsInfo}"></th>
+                        <th th:text="#{notice.label.strtDt}"></th>
                         <td colspan="2">
                             <div class="container">
                                 <div class="row">
@@ -129,7 +129,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{notice.endDt}"></th>
+                        <th th:text="#{notice.label.endDt}"></th>
                         <td colspan="2">
                             <div class="container">
                                 <div class="row">
@@ -153,8 +153,8 @@
                 </table>
             </div>
             <div style="float: right;">
-                <button type="button" onclick="location.href='/notices/search'" th:text="#{notice.list}"></button>
-                <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/rest/notices}]])" th:text="#{notice.regist}"></button>
+                <button type="button" onclick="location.href='/notices/search'" th:text="#{common.btn.list}"></button>
+                <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/rest/notices}]])" th:text="#{common.btn.register}"></button>
                 <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.modifyCompleted}"></button>
             </div>
         </form>
@@ -239,8 +239,8 @@
 
         // validation check
         function validation() {
-            if (isEmpty('noticeTitle', 'notice.msg.titleNotExist')) return false;
-            if (isEmpty('noticeContents', 'notice.msg.contentsNotExist')) return false;
+            if (isEmpty('noticeTitle', 'common.msg.titleNotExist')) return false;
+            if (isEmpty('noticeContents', 'common.msg.contentsNotExist')) return false;
             if (document.getElementById('popRadioBtUp').checked) {
                 if (isEmpty('popHeight', 'notice.msg.popHeightNotExist')) return false;
                 if (isExistInScope('popHeight', 500, 1000, 'notice.msg.checkPopHeightRange')) return false;

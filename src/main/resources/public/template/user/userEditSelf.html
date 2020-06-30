@@ -40,86 +40,86 @@
             <table style="text-align: left;">
                 <tbody id="tbody">
                     <tr>
-                        <th th:text="#{user.id}+'*'"/>
+                        <th th:text="#{user.label.id}+'*'"/>
                         <td><input type="text" id="userId" name="userId" th:value="${users.userId}" maxlength="100" required="required"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.password}+'*'"/>
+                        <th th:text="#{user.label.password}+'*'"/>
                         <td><input type="password" id="password" name="password" maxlength="100" required="required"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.rePassword}+'*'"/>
+                        <th th:text="#{user.label.rePassword}+'*'"/>
                         <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"/>
                     </tr>
                 </tbody>
                 <tbody>
                     <tr>
-                        <th th:text="#{user.name}+'*'"/>
+                        <th th:text="#{user.label.name}+'*'"/>
                         <td><input type="text" id="userName" name="userName" th:value="${users.userName}" maxlength="100" required="required"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.email}+'*'"/>
+                        <th th:text="#{user.label.email}+'*'"/>
                         <td><input type="text" id="email" name="email" th:value="${users.email}" maxlength="100" required="required"/>
                     </tr>
                     <tr>
                         <th/>
-                        <td th:text="#{user.message}"/>
+                        <td th:text="#{user.msg.message}"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.position}"/>
+                        <th th:text="#{user.label.position}"/>
                         <td><input type="text" id="position" name="position" th:value="${users.position}" maxlength="100"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.department}"/>
+                        <th th:text="#{user.label.department}"/>
                         <td><input type="text" id="department" name="department" th:value="${users.department}" maxlength="100"/>
                     </tr>
                     <tr>
-                        <th th:text="#{user.officeNumber}"/>
+                        <th th:text="#{user.label.officeNumber}"/>
                         <td><input type="text" id="officeNumber" name="officeNumber" th:value="${users.officeNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
                     </tr>
                     <tr>
-                        <th th:text="#{user.mobileNumber}"/>
+                        <th th:text="#{user.label.mobileNumber}"/>
                         <td><input type="text" id="mobileNumber" name="mobileNumber" th:value="${users.mobileNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
                     </tr>
                     <tr>
-                        <th th:text="#{user.timezone}+'*'"/>
+                        <th th:text="#{user.label.timezone}+'*'"/>
                         <td><select name="timezone" id="timezone"><option th:each="tzData: ${timezoneList}" th:value="${tzData.timezoneValue}"
                         th:text="${tzData.timezoneId}"></option></select></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.timeFormat}+'*'"/></th>
+                        <th th:text="#{user.label.timeFormat}+'*'"/></th>
                         <td>
-                            <span th:text="#{user.date}"></span>
+                            <span th:text="#{user.label.date}"></span>
                             <select name="date" id="date"><option th:each="dateData: ${dateList}" th:value="${dateData.codeValue}"
                                                                   th:text="${dateData.codeValue}"></option></select>
-                            <span th:text="#{user.time}"></span>
+                            <span th:text="#{user.label.time}"></span>
                             <select name="time" id="time"><option th:each="timeData: ${timeList}" th:value="${timeData.codeValue}"
                                                                   th:text="${timeData.code}"></option></select>
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.lang}+'*'"/>
+                        <th th:text="#{user.label.lang}+'*'"/>
                         <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}"
                                                                   th:text="${itemData.codeValue}"></option></select></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.theme}+'*'"/>
+                        <th th:text="#{user.label.theme}+'*'"/>
                         <td><select name="theme" id="theme"><option th:each="themeData: ${themeList}" th:value="${themeData.codeValue}"
                                                                   th:text="${themeData.codeValue}"></option></select></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.avatar}"/>
+                        <th th:text="#{user.label.avatar}"/>
                         <td>
                             <div id="dropZoneFiles"></div><br/><br/>
-                            <div th:text="#{user.FileSizeLimit}"></div>
-                            <div th:text="#{user.FileExtensionAllowed}"></div>
+                            <div th:text="#{user.label.FileSizeLimit}"></div>
+                            <div th:text="#{user.label.FileExtensionAllowed}"></div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </form>
         <button style="margin-top: 25px;" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"
-                                          th:text="#{user.editUserInfo}"></button>
+                                          th:text="#{user.label.editUserInfo}"></button>
     </div>
     <br>
     <br>
@@ -293,7 +293,7 @@
                             aliceJs.alert([[#{user.msg.sameEmail}]]);
                             break;
                         default :
-                            aliceJs.alert([[#{common.msg.update.fail}]]);
+                            aliceJs.alert(i18n.get('common.label.update') + " " + i18n.get('common.msg.fail'));
                             break;
                     }
                 }

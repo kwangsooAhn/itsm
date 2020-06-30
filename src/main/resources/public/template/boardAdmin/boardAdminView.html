@@ -68,13 +68,13 @@
                 <td colspan="3"><label th:text="${boardAdmin?.attachFileSize}"></label> MB</td>
             </tr>
             <tr>
-                <td><label th:text="#{common.label.createUserName}"></label></td>
+                <td><label th:text="#{common.label.createUser}"></label></td>
                 <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardAdmin?.createUser} ? ${boardAdmin.createUser.userName} : ''"></span></td>
                 <td><label th:text="#{common.label.createDate}"></label></td>
                 <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardAdmin?.createDt}"></span></td>
             </tr>
             <tr>
-                <td><label th:text="#{common.label.updateUserName}"></label></td>
+                <td><label th:text="#{common.label.updateUser}"></label></td>
                 <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardAdmin?.updateUser} ? ${boardAdmin.updateUser.userName} : ''"></span></td>
                 <td><label th:text="#{common.label.updateDate}"></label></td>
                 <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardAdmin?.updateDt}"></span></td>
@@ -101,7 +101,7 @@
             // 게시물 삭제 처리 시
             const boardAdminId = /*[[${boardAdmin.boardAdminId}]]*/;
             if (boardAdminId === null) {
-                aliceJs.alert(i18n.get('common.msg.delete.success'));
+                aliceJs.alert(i18n.get('common.msg.delete'));
                 return history.go(-1);
             }
         };
@@ -113,7 +113,7 @@
                 url: url,
                 async: async,
                 callbackFunc: function() {
-                    aliceJs.alert(i18n.get('common.msg.delete.success'), function() {
+                    aliceJs.alert(i18n.get('common.msg.delete'), function() {
                         window.location.href = '/board-admin/search';
                     });
                 },

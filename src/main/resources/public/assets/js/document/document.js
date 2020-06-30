@@ -619,11 +619,11 @@
             url: '/rest/comments/' + commentId,
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
-                    aliceJs.alert(i18n.get('common.msg.delete.success'), function() {
+                    aliceJs.alert(i18n.get('common.msg.delete'), function() {
                         location.reload();
                     });
                 } else {
-                    aliceJs.alert(i18n.get('common.msg.save.fail'));
+                    aliceJs.alert(i18n.get('common.msg.fail'));
                 }
             }
         };

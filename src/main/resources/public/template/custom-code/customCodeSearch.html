@@ -43,7 +43,7 @@
             restSubmit('delete', '/rest/custom-codes/' + customCodeId, function (result) {
                 switch (result) {
                     case STATUS_SUCCESS:
-                        aliceJs.alert('[[#{common.msg.delete.success}]]', function () {
+                        aliceJs.alert('[[#{common.msg.delete}]]', function () {
                             window.location.reload();
                         });
                         break;
@@ -53,7 +53,7 @@
                         });
                         break;
                     default:
-                        aliceJs.alert('[[#{common.msg.save.fail}]]', function () {
+                        aliceJs.alert('[[#{common.msg.fail}]]', function () {
                             window.location.reload();
                         });
                         break;

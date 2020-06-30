@@ -46,7 +46,7 @@
         function deleteForm(formId) {
             restSubmit('DELETE', '/rest/forms/' + formId, function(result) {
                 if (result === 'true') {
-                    aliceJs.alert('[[#{common.msg.delete.success}]]', function() {
+                    aliceJs.alert('[[#{common.msg.delete}]]', function() {
                         location.reload();
                     });
                 } else {

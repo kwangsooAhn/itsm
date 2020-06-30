@@ -15,7 +15,7 @@
                 <input type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                 <input type="text" id="toDt" name="toDt" readonly="readonly"/>
                 <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;"
-                    onclick="location.href='/notices/new'" th:text="#{notice.regist}"></button>
+                    onclick="location.href='/notices/new'" th:text="#{common.btn.register}"></button>
             </div>
         </form>
     </div>
@@ -43,14 +43,14 @@
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
+                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
                 } else {
                     getNoticeList(false);
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
+                    aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
                 } else {
                     getNoticeList(false);
                 }

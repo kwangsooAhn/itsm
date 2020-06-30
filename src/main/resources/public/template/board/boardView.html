@@ -50,7 +50,7 @@
                         </td>
                     </tr>
                     <tr style="height: 250px;">
-                        <td><label th:text="#{board.label.contents}"></label></td>
+                        <td><label th:text="#{common.label.contents}"></label></td>
                         <td colspan="3" style="height: 80%;">
                             <div id="boardContents" style="height: 100%;"></div>
                         </td>
@@ -63,13 +63,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label th:text="#{common.label.createUserName}"></label></td>
+                        <td><label th:text="#{common.label.createUser}"></label></td>
                         <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
                         <td><label th:text="#{common.label.createDate}"></label></td>
                         <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardInfo?.createDt}"></span></td>
                     </tr>
                     <tr>
-                        <td><label th:text="#{common.label.updateUserName}"></label></td>
+                        <td><label th:text="#{common.label.updateUser}"></label></td>
                         <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
                         <td><label th:text="#{common.label.updateDate}"></label></td>
                         <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardInfo?.updateDt}"></span></td>
@@ -202,7 +202,7 @@
             if (method === 'put' || method === 'post') {
                 resultMsg = i18n.get('common.msg.save');
             } else if (method === 'delete') {
-                resultMsg = i18n.get('common.msg.delete.success');
+                resultMsg = i18n.get('common.msg.delete');
             }
             const opt = {
                 method: method,

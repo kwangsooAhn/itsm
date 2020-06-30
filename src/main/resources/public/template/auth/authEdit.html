@@ -52,9 +52,9 @@
                     <td colspan="3"><span id="roleAuthMapCount" name="roleAuthMapCount"></span></td>
                 </tr>
                 <tr>
-                    <th th:text="#{common.label.createUserName}"></th>
+                    <th th:text="#{common.label.createUser}"></th>
                     <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${authDetail?.createUserKey}"></span></td>
-                    <th th:text="#{common.label.updateUserName}"></th>
+                    <th th:text="#{common.label.updateUser}"></th>
                     <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${authDetail?.updateUserKey}"></span></td>
                 </tr>
                 <tr>
@@ -319,7 +319,7 @@
                     method: 'delete',
                     url: '/rest/auths/' + document.getElementById('txtAuthId').value,
                     callbackFunc: function() {
-                        aliceJs.alert([[#{common.msg.delete.success}]], function() {
+                        aliceJs.alert([[#{common.msg.delete}]], function() {
                             window.location.href ='/auths/edit';
                         });
                     }
