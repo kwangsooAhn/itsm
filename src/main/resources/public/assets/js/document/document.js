@@ -10,7 +10,7 @@
     let commentContainer = null;
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
-    const phoneRegular = /^([+-]?[0-9])*$/;
+    const phoneRegular = /^([+]?[0-9])([-]?[0-9])*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
 
