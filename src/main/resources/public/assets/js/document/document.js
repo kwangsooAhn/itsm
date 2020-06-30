@@ -230,28 +230,22 @@
                     let buttonProcessEle = document.createElement('button');
                     buttonProcessEle.type = 'button';
                     buttonProcessEle.innerText = element.name;
-                    buttonProcessEle.addEventListener('click', function () {
-                        if (element.value === 'close') {
+                    if (element.value === 'close') {
+                        buttonProcessEle.addEventListener('click', function () {
                             window.close();
-                        } else {
+                        });
+                    } else {
+                        buttonProcessEle.addEventListener('click', function () {
                             aliceDocument.save(element.value);
-                        }
-                    });
+                        });
+                    }
                     buttonEle.appendChild(buttonProcessEle);
                 }
             });
-        } else {
-            //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
-            //token Id 가 없고 버튼에 대한 정보 없다는 것은 처음 문서 생성 이라고 판단한다.
-            if (document.getElementById('tokenId') === null) {
-                const buttonSaveEle = document.createElement('button');
-                buttonSaveEle.type = 'button';
-                buttonSaveEle.innerText = i18n.get('common.btn.save');
-                buttonSaveEle.addEventListener('click', function () {
-                    aliceDocument.save('save');
-                });
-                buttonEle.appendChild(buttonSaveEle);
-            }
+        }
+
+        if (buttonContainer !== null) {
+            buttonContainer.appendChild(buttonEle);
         }
     }
 
@@ -476,7 +470,7 @@
         }
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
         documentContainer = document.getElementById('document-container');
-        documentContainer.setAttribute('data-isToken', (data.tokenId !== undefined) ? 'true' : 'false'); //신청서 = false , 처리할 문서 = true
+        documentContainer.setAttribute('data-isToken', (data.token !== undefined) ? 'true' : 'false'); //신청서 = false , 처리할 문서 = true
         buttonContainer = document.getElementById('button-container');
         if (data.form.components.length > 0) {
             if (data.form.components.length > 2) {
@@ -530,8 +524,8 @@
             addIdComponent('documentId', data.documentId);
         }
 
-        if (data.tokenId !== undefined) {
-            addIdComponent('tokenId', data.tokenId);
+        if (data.token !== undefined) {
+            addIdComponent('tokenId', data.token.tokenId);
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
@@ -660,10 +654,8 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
-
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
-                dataForPrint.tokenId = tokenId;
                 drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'

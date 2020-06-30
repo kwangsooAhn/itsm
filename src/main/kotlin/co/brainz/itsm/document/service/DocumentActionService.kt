@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
 import com.google.gson.JsonParser
+import org.slf4j.LoggerFactory
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service
 class DocumentActionService(
     private val userRepository: UserRepository
 ) {
-
+    private val logger = LoggerFactory.getLogger(this::class.java)
     /**
      *  documentData 받아서 버튼 정리해서 반환한다.
      * @return String
@@ -58,30 +59,30 @@ class DocumentActionService(
         var isCancel = false
         var isTerminate = false
 
-        //반환할 버튼 정보
+        // 반환할 버튼 정보
         val actionsResult = JsonArray()
-        //처리를 간편하게 처리 하기 위해서 json으로 변경한다.
+        // 처리를 간편하게 처리 하기 위해서 json으로 변경한다.
         val tokenData = JsonParser().parse(tokensData).asJsonObject
-        //버튼 정보를 구한다.
+        // 버튼 정보를 구한다.
         val tokensActions = tokenData.get("actions").asJsonArray
-        //해당 문서의 상태 값
-        val tokenStatus = tokenData.get("tokenStatus").asString
-        val assignees = tokenData.get("assignees").asJsonArray
-        val beforeAssigneeId = tokenData.get("beforeAssigneeId").asString
-        //현재 진행중 문서 확인
+        // 해당 문서의 상태 값
+        val tokenStatus = tokenData.get("token").asJsonObject.get("status").asString
+        val stakeholders = tokenData.get("stakeholders").asJsonObject
+        val revokeAssignee = tokenData.get("stakeholders").asJsonObject.get("revokeAssignee").asString
+        // 현재 진행중 문서 확인
         val isProgress = this.checkTokenStatus(tokenStatus)
-        //문서를 연 사용자 정보
+        // 문서를 연 사용자 정보
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userEntity = userRepository.findByUserKey(aliceUserDto.userKey)
-        val isAssignee = this.checkAssignee(assignees, userEntity)
-        //각 버튼의 권한을 체크 한다.
+        val isAssignee = this.checkAssignee(stakeholders, userEntity)
+        // 각 버튼의 권한을 체크 한다.
         if (isProgress) {
             if (isAssignee) {
                 isSave = true
                 isProcess = true
                 isReject = true
             }
-            if (userEntity.userKey == beforeAssigneeId) {
+            if (userEntity.userKey == revokeAssignee) {
                 isWithDraw = true
             }
             if (isProgress && this.checkUserAuth(userEntity, "action.cancel")) {
@@ -99,7 +100,7 @@ class DocumentActionService(
                         actionsResult.add(actions)
                     }
                 }
-                WfElementConstants.Action.PROCESS.value -> {
+                WfElementConstants.Action.PROGRESS.value -> {
                     if (isProcess) {
                         actionsResult.add(actions)
                     }
@@ -123,6 +124,9 @@ class DocumentActionService(
                     if (isTerminate) {
                         actionsResult.add(actions)
                     }
+                }
+                WfElementConstants.Action.CLOSE.value -> {
+                    actionsResult.add(actions)
                 }
                 else -> {
                     if (isProgress && isAssignee) {
@@ -192,26 +196,26 @@ class DocumentActionService(
      * 사용자가 해당 토근의 처리자인지 확인 한다.
      * @return Boolean
      */
-    fun checkAssignee(assignee: JsonArray, userEntity: AliceUserEntity): Boolean {
+    fun checkAssignee(stakeholders: JsonObject, userEntity: AliceUserEntity): Boolean {
         var isAssignee = false
-        assignee.forEach { assignees ->
-            val assigneeType = assignees.asJsonObject.get("assigneeType").asString
-            if (assigneeType == WfTokenConstants.AssigneeType.ASSIGNEE.code) {
-                if (assignees.asJsonObject.get("assignees").asString == userEntity.userKey) {
+        val assigneeType = stakeholders.asJsonObject.get("type").asString
+        val assignees = stakeholders.asJsonObject.get("assignee")
+
+        if (assigneeType == WfTokenConstants.AssigneeType.ASSIGNEE.code) {
+            if (stakeholders.asJsonObject.get("assignee").asString == userEntity.userKey) {
+                isAssignee = true
+            }
+        } else if (assigneeType == WfTokenConstants.AssigneeType.USERS.code) {
+            assignees.asJsonArray.forEach { assigneesUserKeys ->
+                if (assigneesUserKeys.asString == userEntity.userKey) {
                     isAssignee = true
                 }
-            } else if (assigneeType == WfTokenConstants.AssigneeType.USERS.code) {
-                assignees.asJsonObject.get("assignees").asJsonArray.forEach { assigneesUserKeys ->
-                    if (assigneesUserKeys.asString == userEntity.userKey) {
+            }
+        } else if (assigneeType == WfTokenConstants.AssigneeType.GROUPS.code) {
+            userEntity.userRoleMapEntities.forEach { aliceUserRoleMapEntity ->
+                assignees.asJsonArray.forEach { assigneesRoleIds ->
+                    if (assigneesRoleIds.asString == aliceUserRoleMapEntity.role.roleId) {
                         isAssignee = true
-                    }
-                }
-            } else if (assigneeType == WfTokenConstants.AssigneeType.GROUPS.code) {
-                userEntity.userRoleMapEntities.forEach { aliceUserRoleMapEntity ->
-                    assignees.asJsonObject.get("assignees").asJsonArray.forEach { assigneesRoleIds ->
-                        if (assigneesRoleIds.asString == aliceUserRoleMapEntity.role.roleId) {
-                            isAssignee = true
-                        }
                     }
                 }
             }
