@@ -59,17 +59,17 @@ class WfEngine(
                 var nextTokenManager: WfTokenManager
 
                 do {
-                    // 현재 토큰 처리
+                    // 현재 토큰 처리.
                     currentTokenDto = this.getTokenDto(currentTokenDto)
                     currentTokenManager = this.createTokenManager(currentTokenDto.elementType)
                     currentTokenDto = currentTokenManager.completeToken(currentTokenDto)
 
-                    // 다음 토큰 생성
+                    // 다음 토큰 생성.
                     nextTokenDto = currentTokenManager.createNextToken(currentTokenDto)
                     if (nextTokenDto != null) {
                         nextTokenManager = this.createTokenManager(nextTokenDto.elementType)
                         currentTokenDto = nextTokenDto
-                    } else {
+                    } else { // 다음 토큰이 없으면 종료.
                         nextTokenManager = currentTokenManager
                         nextTokenManager.isAutoComplete = false
                     }
@@ -77,7 +77,6 @@ class WfEngine(
             }
             else -> WfTokenAction(wfTokenManagerService).action(tokenDto)
         }
-
         return true
     }
 

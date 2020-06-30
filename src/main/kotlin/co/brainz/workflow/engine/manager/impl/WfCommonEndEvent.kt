@@ -42,9 +42,9 @@ class WfCommonEndEvent(
                     token = wfTokenManagerService.saveToken(mainProcessToken)
                     token.tokenDataEntities =
                         wfTokenManagerService.saveAllTokenData(super.setTokenData(tokenDto))
+                    nextTokenDto = tokenDto
                 }
             }
-            nextTokenDto = tokenDto
         }
         return nextTokenDto
     }
