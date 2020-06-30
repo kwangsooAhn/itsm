@@ -14,6 +14,8 @@ import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
+import java.awt.image.BufferedImage
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException
 import java.lang.Long.signum
@@ -245,13 +247,14 @@ class AliceFileService(
                 }
                 it.transferTo(file)
                 val bufferedImage = ImageIO.read(file)
+                val resizedBufferedImage = resizeBufferedImage(bufferedImage)
                 images.add(
                     AliceImageFileDto(
                         name = fileName,
                         extension = file.extension,
                         fullpath = file.absolutePath,
                         size = humanReadableByteCount(it.size),
-                        data = Base64.getEncoder().encodeToString(file.readBytes()),
+                        data = encodeToString(resizedBufferedImage, file.extension),
                         width = bufferedImage.width,
                         height = bufferedImage.height
                     )
@@ -282,19 +285,51 @@ class AliceFileService(
         fileList.forEach {
             val file = it.toFile()
             val bufferedImage = ImageIO.read(file)
+            val resizedBufferedImage = resizeBufferedImage(bufferedImage)
             images.add(
                 AliceImageFileDto(
                     name = file.name,
                     extension = file.extension,
                     fullpath = file.absolutePath,
                     size = humanReadableByteCount(file.length()),
-                    data = Base64.getEncoder().encodeToString(file.readBytes()),
+                    data = encodeToString(resizedBufferedImage, file.extension),
                     width = bufferedImage.width,
                     height = bufferedImage.height
                 )
             )
         }
         return images
+    }
+
+    /**
+     * 이미지 사이즈 조정.
+     */
+    private fun resizeBufferedImage(image: BufferedImage): BufferedImage {
+        val scaledWidth = 300
+        val scaledHeight = image.height / (image.width / scaledWidth)
+        val bufferedImage = BufferedImage(scaledWidth, scaledHeight, image.type)
+        val g2d = bufferedImage.createGraphics()
+        g2d.drawImage(image, 0, 0, scaledWidth, scaledHeight, null)
+        g2d.dispose()
+        return bufferedImage
+    }
+
+    /**
+     * 이미지 data 조회.
+     */
+    private fun encodeToString(image: BufferedImage, type: String): String {
+        var imageString = ""
+        val bos = ByteArrayOutputStream()
+        try {
+            ImageIO.write(image, type, bos)
+            val imageBytes = bos.toByteArray()
+            imageString = Base64.getEncoder().encodeToString(imageBytes)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            bos.close()
+        }
+        return imageString
     }
 
     /**
