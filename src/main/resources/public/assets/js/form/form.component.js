@@ -399,7 +399,7 @@
                 contentType: 'application/json; charset=utf-8',
                 callbackFunc: xhr => {
                     const responseText = xhr.responseText;
-                    if (responseText !== 'null') {
+                    if (responseText !== '') {
                         const image = JSON.parse(responseText);
                         target.querySelector('img').src = 'data:image/' + image.extension + ';base64,' + image.data;
                     }
