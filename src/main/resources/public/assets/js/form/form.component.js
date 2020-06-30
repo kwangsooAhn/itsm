@@ -27,7 +27,7 @@
             {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
             {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
         ],
-        editboxPlaceholder= '+ Typing \'/\' for add component';
+        editboxPlaceholder= 'Typing \'/\' for add component';
         
     let componentIdx = 0;          //컴포넌트 index = 출력 순서 생성시 사용
 
@@ -83,7 +83,7 @@
         if (target.hasAttribute('data-readonly')) { //폼 양식
             if (textDefaultArr[0] !== 'none') { textDefaultValue = textDefaultArr[2]; } //폼 양식 편집 화면에서는 세션 값이 출력되지 않는다.
         } else { //신청서 및 처리할 문서
-            if (target.getAttribute('data-isToken') === 'true') { //처리할 문서
+            if (typeof attr.value !== 'undefined') { //처리할 문서
                 textDefaultValue = attr.value;
             }
         }
@@ -122,7 +122,7 @@
         const textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * defaultRowHeight : defaultRowHeight;
         let textAreaDefaultValue = '';
         //처리할 문서는 실 데이터를 출력한다.
-        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+        if (typeof attr.value !== 'undefined') {
             textAreaDefaultValue = (textEditorUseYn && attr.value !== '') ? JSON.parse(attr.value) : attr.value;
         }
         let comp = utils.createComponentByTemplate(`
@@ -205,7 +205,7 @@
             optElem.text = attr.option[i].name;
             optElem.setAttribute('seq', attr.option[i].seq);
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true' && optElem.value === attr.value) {
+            if (typeof attr.value !== 'undefined' && optElem.value === attr.value) {
                 optElem.selected = true;
             }
             selectElem.appendChild(optElem);
@@ -252,7 +252,7 @@
             radioElem.setAttribute('seq', attr.option[i].seq);
 
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true' && attr.value !== '') {
+            if (typeof attr.value !== 'undefined' && attr.value !== '') {
                 radioElem.checked = (radioElem.value === attr.value);
             } else {
                 radioElem.checked = (i === 0);
@@ -321,7 +321,7 @@
             checkElem.name = attr.option[i].name;
 
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true' && attr.value !== '') {
+            if (typeof attr.value !== 'undefined' && attr.value !== '') {
                 const checkboxValues = JSON.parse(attr.value);
                 for (let j = 0, checkLen = checkboxValues.length; j < checkLen; j++) {
                     if (checkElem.value === checkboxValues[j]) {
@@ -424,7 +424,7 @@
         let dateDefault = '';
         let datePlaceholder = aliceForm.options.dateFormat + ' ' + aliceForm.options.timeFormat + ' ' + aliceForm.options.hourType;
         //처리할 문서는 실 데이터를 출력한다.
-        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+        if (typeof attr.value !== 'undefined') {
             dateDefault = attr.value;
         } else {
             if (dateDefaultArr[0] === 'now') {
@@ -483,7 +483,7 @@
         let timeDefaultArr = attr.display['default'].split('|');
         let timeDefault = '';
         //처리할 문서는 실 데이터를 출력한다.
-        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+        if (typeof attr.value !== 'undefined') {
             timeDefault = attr.value;
         } else {
             if (timeDefaultArr[0] === 'now') {
@@ -541,7 +541,7 @@
         //날짜 시간 포멧 변경
         let datetimeDefaultArr = attr.display['default'].split('|');
         let datetimeDefault = '';
-        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+        if (typeof attr.value !== 'undefined') {
                 datetimeDefault = attr.value;
         } else {
             if (datetimeDefaultArr[0] === 'now') {
@@ -632,7 +632,7 @@
                     editor: (attr.dataAttribute.displayType !== 'readonly')
                 }
             };
-            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+            if (typeof attr.value !== 'undefined') {
                 fileOptions.extra.fileDataIds = attr.value;
             }
             fileUploader.init(fileOptions);
@@ -658,7 +658,7 @@
             defaultCustomData = ''; // 신청서 작성 및 처리할 문서
         if (!target.hasAttribute('data-readonly')) { // 신청서 작성 및 처리할 문서
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+            if (typeof attr.value !== 'undefined') {
                 defaultCustomData = attr.value;
             } else {  // 신청서 작성
                 if (textDefaultArr[0] !== 'none') {

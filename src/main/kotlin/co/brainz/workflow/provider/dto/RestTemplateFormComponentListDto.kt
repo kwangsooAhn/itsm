@@ -29,7 +29,7 @@ class ComponentDetail(
     var componentId: String = "",
     val type: String = "",
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    var value: String = "",
+    var value: String? = "",
     val dataAttribute: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>(),
     var display: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>(),
     @JsonInclude(JsonInclude.Include.NON_NULL)
