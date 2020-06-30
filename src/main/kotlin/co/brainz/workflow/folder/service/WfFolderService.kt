@@ -58,6 +58,7 @@ class WfFolderService(
                     relatedType = it.relatedType,
                     createUserKey = it.createUserKey,
                     createDt = it.createDt,
+                    documentNo = null,
                     documentName = null,
                     instanceStartDt = null,
                     instanceEndDt = null,
