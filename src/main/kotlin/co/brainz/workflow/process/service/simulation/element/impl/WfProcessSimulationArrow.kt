@@ -11,9 +11,9 @@ import co.brainz.workflow.process.service.simulation.element.WfProcessSimulation
 class WfProcessSimulationArrow(private val wfElementRepository: WfElementRepository) : WfProcessSimulationElement() {
 
     override fun validate(element: WfElementEntity): Boolean {
-
         val sourceElementId = element.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
-        val sourceElement = wfElementRepository.getOne(sourceElementId!!)
+        val sourceElement = wfElementRepository.findWfElementEntityByElementId(sourceElementId!!)
+
         val isGateway =
             WfElementConstants.ElementType.getAtomic(sourceElement.elementType) == WfElementConstants.ElementType.GATEWAY
         val isArrowConnectorSizeGreaterThanOne =
