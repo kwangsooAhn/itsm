@@ -36,10 +36,10 @@
         </colgroup>
         <thead>
             <tr>
-                <th th:text="#{custom.code.label.customCodeName}"></th>
-                <th th:text="#{custom.code.label.type}"></th>
+                <th th:text="#{customCode.label.name}"></th>
+                <th th:text="#{customCode.label.type}"></th>
                 <th th:text="#{common.label.createUser}"></th>
-                <th th:text="#{common.label.lastUpdateDate}"></th>
+                <th th:text="#{customCode.label.lastUpdateDate}"></th>
                 <th th:text="#{common.label.updateUser}"></th>
                 <th th:text="#{common.btn.modify}"></th>
                 <th th:text="#{common.btn.delete}"></th>
@@ -52,7 +52,7 @@
             <tr th:unless="${#arrays.isEmpty(customCodeList)}" th:each="customCode: ${customCodeList}">
                 <td><a th:text="${customCode.customCodeName}"
                        th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a></td>
-                <td th:text="#{|custom.code.label.type.${customCode.type}|}"></td>
+                <td th:text="#{|customCode.label.${customCode.type}|}"></td>
                 <td th:text="${customCode.createUserName}"></td>
                 <td th:if="${customCode.updateDt == null && customCode.updateUserName == null}" th:name="customCodeDt"
                     th:text="${customCode.createDt}"></td>

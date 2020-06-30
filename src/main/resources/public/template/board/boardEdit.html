@@ -4,8 +4,8 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.edit}"></title>
-    <title th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.add}"></title>
+    <title th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></title>
+    <title th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></title>
     <title th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></title>
     <meta charset="UTF-8">
     <style>
@@ -32,8 +32,8 @@
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <div style="height: 90px;">
-            <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.edit}"></h1>
-            <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.add}"></h1>
+            <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></h1>
+            <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></h1>
             <h1 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></h1>
         </div>
         <hr>

@@ -14,27 +14,27 @@
 <div class="white-base">
   <img th:src="@{/assets/media/icons/logo_blue.png}" alt="Alice">
   <div class="login-base">
-      <p th:text="#{login.sendLogin}"></p>
+      <p th:text="#{login.btn.sendLogin}"></p>
       <div class="login-form">
         <img th:src="@{/assets/media/icons/icon_id.png}" alt="Alice">
-        <input type="text" id="uid" name="uid" th:placeholder="#{login.uid}"/>
+        <input type="text" id="uid" name="uid" th:placeholder="#{login.label.uid}"/>
       </div>
       <div class="login-form">
         <img th:src="@{/assets/media/icons/icon_pass.png}" alt="Alice">
-        <input type="password" id="upasswd" name="upasswd" th:placeholder="#{login.upasswd}"/>
+        <input type="password" id="upasswd" name="upasswd" th:placeholder="#{login.label.upasswd}"/>
       </div>
       <div class="login-find">
-        <a href="" tabindex="-1" th:text="#{login.findId}"></a>
+        <a href="" tabindex="-1" th:text="#{login.label.findId}"></a>
         |
-        <a href="" tabindex="-1" th:text="#{login.findPasswd}"></a>
+        <a href="" tabindex="-1" th:text="#{login.label.findPasswd}"></a>
       </div>
-      <button class="btn btn-primary" id="sendLogin" th:text="#{login.sendLogin}" onclick="onLogin();"></button>
-      <a class="btn btn-danger"  href="/oauth/google/login" th:text="#{login.gooleLogin}"></a>
-      <a class="btn btn-warning" href="/oauth/kakao/login" th:text="#{login.kakaoLogin}"></a>
+      <button class="btn btn-primary" id="sendLogin" th:text="#{login.btn.sendLogin}" onclick="onLogin();"></button>
+      <a class="btn btn-danger"  href="/oauth/google/login" th:text="#{login.btn.googleLogin}"></a>
+      <a class="btn btn-warning" href="/oauth/kakao/login" th:text="#{login.btn.kakaoLogin}"></a>
   </div>
   <div class="signup-face">
-    <p th:text="#{login.signupNote}"></p>
-    <a class="btn btn-primary" href="/certification/signup" id="userSignUp" th:text="#{login.userSignUp}"></a>
+    <p th:text="#{login.label.signupNote}"></p>
+    <a class="btn btn-primary" href="/certification/signup" id="userSignUp" th:text="#{login.btn.userSignUp}"></a>
   </div>
   <!--/*@thymesVar id="errorMsg" type=""*/-->
   <div th:text="${errorMsg}"></div>

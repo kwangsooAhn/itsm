@@ -42,12 +42,12 @@
     </div>
     <div class="white-base" id="signUp">
         <div class="login-face">
-            <p th:text="#{login.loginNote}"></p>
-            <a class="btn btn-primary" href="/login" id="sendLogin" th:text="#{login.sendLogin}"></a>
+            <p th:text="#{login.label.loginNote}"></p>
+            <a class="btn btn-primary" href="/login" id="sendLogin" th:text="#{login.btn.sendLogin}"></a>
         </div>
         <img th:src="@{/assets/media/icons/logo.png}" alt="Alice">
         <div class="signup-base">
-            <p th:text="#{login.userSignUp}"></p>
+            <p th:text="#{login.btn.userSignUp}"></p>
             <form id="signUpForm" method="post" onsubmit="return false">
                 <table class="signup-form">
                     <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
@@ -97,7 +97,7 @@
                     </tr>
                 </table>
             </form>
-            <button class="btn btn-primary" id="userSignUp" th:text="#{login.doSignUp}" onclick="userRegister()"></button>
+            <button class="btn btn-primary" id="userSignUp" th:text="#{login.btn.doSignUp}" onclick="userRegister()"></button>
         </div>
         <div id="password-guide">
             <pre>

@@ -4,14 +4,14 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{download.label.title}"></title>
+    <title th:text="#{download.label.download}"></title>
     <meta charset="UTF-8">
 </head>
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <div style="height: 90px;">
-            <h1 th:text="#{download.label.title}"></h1>
+            <h1 th:text="#{download.label.download}"></h1>
             <div style="margin-top: 10px">
                 <select id="category" style="width: 230px; height: 30px">
                     <option value="all" th:text="#{download.category.all}"></option>
@@ -53,7 +53,7 @@
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function () {
+                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function () {
                         picker.open();
                     });
                 } else {
@@ -62,7 +62,7 @@
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function () {
+                    aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function () {
                         picker.open();
                     });
                 } else {

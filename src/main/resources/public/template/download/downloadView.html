@@ -4,7 +4,7 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{download.label.title}"></title>
+    <title th:text="#{download.label.download}"></title>
     <meta charset="UTF-8">
     <style>
         table {
@@ -30,7 +30,7 @@
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <div style="height: 90px;">
-            <h1 th:text="#{download.label.title}"></h1>
+            <h1 th:text="#{download.label.download}"></h1>
         </div>
         <hr>
         <table>
@@ -40,12 +40,12 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td><label th:text="#{download.label.downloadCategory}"></label></td>
+                    <td><label th:text="#{download.label.category}"></label></td>
                     <td th:text="#{${download.downloadCategory}}">
                     </td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{download.label.downloadTitle}"></label></td>
+                    <td><label th:text="#{common.label.title}"></label></td>
                     <td th:text="#{${download.downloadTitle}}">
                 </tr>
                 <tr>
@@ -56,11 +56,11 @@
                     </td>
                 </tr>
                 <tr>
-                    <td th:text="#{download.label.createUser}"></td>
+                    <td th:text="#{common.label.createUser}"></td>
                     <td th:text="${download.createUserName}"></td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{download.label.createDt}"></label></td>
+                    <td><label th:text="#{common.label.createDate}"></label></td>
                     <td id="createDt" th:text="${download.createDt}"></td>
                 </tr>
             </tbody>

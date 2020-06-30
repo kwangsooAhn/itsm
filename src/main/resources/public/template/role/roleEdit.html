@@ -33,25 +33,25 @@
             <col width="480px">
         </colgroup>
         <tr>
-            <th th:text="'*' + #{role.label.roleId}"></th>
+            <th th:text="'*' + #{role.label.id}"></th>
             <td>
                 <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail?.roleId}"  maxlength="100"/>
             </td>
         </tr>
         <tr>
-            <th th:text="'*' + #{role.label.roleName}"></th>
+            <th th:text="'*' + #{role.label.name}"></th>
             <td>
                 <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail?.roleName}" maxlength="100" />
             </td>
         </tr>
         <tr>
-            <th th:text="#{role.label.roleDesc}"></th>
+            <th th:text="#{role.label.desc}"></th>
             <td>
                 <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${roleDetail?.roleDesc}"/>
             </td>
         </tr>
         <tr>
-            <th th:text="'*' + #{role.label.roleAuth}"></th>
+            <th th:text="'*' + #{role.label.auth}"></th>
             <td>
                 <ui th:each="auth : ${authList}">
                     <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
@@ -214,8 +214,8 @@
 
         /*등록, 수정 버튼*/
         function onSave(flag) {
-            if (isEmpty('txtRoleId', 'role.msg.idNotExist')) return;
-            if (isEmpty('txtRoleName', 'role.msg.nameNotExist')) return;
+            if (isEmpty('txtRoleId', 'role.msg.enterRoleId')) return;
+            if (isEmpty('txtRoleName', 'role.msg.enterRoleName')) return;
 
             //저장 데이터 수집
             let obj = {};
@@ -228,7 +228,7 @@
             });
 
             if (arrAuthId.length === 0) {
-                aliceJs.alert([[#{role.msg.authNotExist}]]);
+                aliceJs.alert([[#{role.msg.selectAuth}]]);
                 return;
             }
 

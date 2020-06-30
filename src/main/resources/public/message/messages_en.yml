@@ -30,13 +30,12 @@ common:
     fail: "Fail"
     update: "Update"
     delete: "Delete"
-    createUser: "Create User Name"
-    updateUser: "Update User Name"
+    createUser: "Create User"
+    updateUser: "Update User"
     createDate: "Create Date"
     updateDate: "Update Date"
     attachFile: "Attach file"
-    notSelect: "Not Select"
-    lastUpdateDate: "Last Update Date"
+    notSelect: "Not Select"\
     tag: "Tag"
     comment: "Comment"
     print: "Print"
@@ -429,15 +428,16 @@ portal:
 # Role
 role:
   label:
-    roleId: "Role Id"
-    roleName: "Role Name"
-    roleDesc: "Role Desc"
-    roleAuth: "Role Auth"
+    role: "Role"
+    id: "Role Id"
+    name: "Role Name"
+    desc: "Role Desc"
+    auth: "Role Auth"
     referenceCount: "Reference Count"
   msg:
-    idNotExist: "Please enter a role id."
-    nameNotExist: "Please enter a role name."
-    authNotExist: "Please enter a auth name."
+    enterRoleId: "Please enter a role id."
+    enterRoleName: "Please enter a role name."
+    selectAuth: "Please select a auth."
 
 # Validation
 validation:
@@ -514,12 +514,11 @@ token:
     endDt: "Finish Date"
     elementName: "Task Name"
     assignee: "Assignee"
-    createUser: "Create User"
     history: "History"
     relatedInstance: "Related Documents"
     print: "Process Document Print"
-    searchPlaceholder: "Create User Name / Contents"
     status: "Status"
+    searchPlaceholder: "Create User / Contents"
   type:
     todo: "Document to process"
     requested: "Application document"
@@ -533,28 +532,29 @@ code:
     pCode: "Parent Code"
     codeValue: "Code Value"
   msg:
-    codeNotExist: "Please enter a code."
+    enterCode: "Please enter a code."
     pCodeNotExist: "Parent code does not exist."
 
 # Custom Code
-custom.code:
+customCode:
   label:
-    title: "Custom Code"
-    customCodeName: "Custom Code Name"
+    customCode: "Custom Code"
+    name: "Custom Code Name"
     targetTable: "Target Table Name"
     searchColumn: "Search Column Name"
     valueColumn: "Value Column Name"
     type: "Type"
-    type.table: "Table"
-    type.code: "Code"
+    table: "Table"
+    code: "Code"
     condition: "Condition"
     pCode: "Parent Code"
+    lastUpdateDate: "Last Update Date"
   msg:
-    inputCustomCodeName: "Please enter a custom code name."
-    inputTableTarget: "Please enter a table target name."
-    inputSearchColumn: "Please enter a search column name."
-    inputValueColumn: "Please enter a value column name."
-    inputPCode: "Please enter your parental code."
+    enterCustomCode: "Please enter a custom code name."
+    enterTableTarget: "Please enter a table target name."
+    enterSearchColumn: "Please enter a search column name."
+    enterValueColumn: "Please enter a value column name."
+    enterPCode: "Please enter your parental code."
     addCondition: "Only {0} or less can be added."
     selectNotDuplicateSearchColumn: "Please select the search criteria in the column without duplication."
     customCodeUsed: "The Custom code is being used."
@@ -564,41 +564,28 @@ custom.code:
 # Dashboard
 dashboard:
   label:
-    title: "Dashboard"
+    dashboard: "Dashboard"
     documentStatus: "Requested Documents Status"
-    status:
-      running: "Running"
-      wait: "Wait"
-      finish: "finish"
-
-# fileupload
-fileupload:
-  msg:
-    maxfilesexceeded: "The number of attachments has been exceeded. (Attachment limit number : {0})"
-    maxfilesizeexceeded: "Attached fileSize limit exceeded. (Attached fileSize limit : {0}MB)"
-    fileNameExtensionNotExist: "Files with the fileName extension cannot be uploaded."
+  status:
+    running: "Running"
+    wait: "Wait"
+    finish: "Finish"
 
 # Download
 download:
   label:
-    title: "Download"
+    download: "Download"
     searchPlaceholder: "Title / Create User / Attach File Name"
-    downloadSeq: "Number"
-    downloadTitle: "Title"
-    downloadCategory: "Category"
-    createUser: "Create User"
-    createDt: "Create Date Time"
-    createDtAndcreateUser: "Create Date Time And Create User"
+    seq: "Number"
+    category: "Category"
     views: "Views"
+  msg:
+    selectCategory: "Please select a category."
+    enterTitle: "Please enter a title."
   category:
     all: "All"
     companyPolicy: "Company Policy"
     etc: "ETC"
-  msg:
-    selectDownloadCategory: "Please select a category."
-    inputDownloadTitle: "Please enter a title."
-    selectAfterDate: "Please select after {0} date."
-    selectBeforeDate: "Please select before {0} date."
 
 #board
 board:
@@ -607,8 +594,8 @@ board:
     reply: "REPLY"
   label:
     board: "Board"
-    add: "Board Add"
-    edit: "Board Edit"
+    create: "Board Create"
+    modify: "Board Modify"
     reply: "Board Reply"
     manager: "Board Manager"
     detail: "Board Detail"
@@ -621,15 +608,14 @@ board:
     categoryName: "Category Name"
     useYn: "Use enable"
     desc: "Board desc"
-    writeAuth: "Write permission"
     roleName: "Role name"
     replyYn: "Reply"
     commentYn: "Comment enable"
     comment: "Comment"
     attachFileYn: "Attach File Yes or No"
     attachFileSize: "Attach File Size"
-    use: "Use"
-    unused: "UnUsed"
+    enable: "Enable"
+    disable: "Disable"
     number: "Number"
     title: "Title"
     commentCount: "Number of Comment"
@@ -639,19 +625,17 @@ board:
     inputSortSize: "Please enter a sorting order of 100 or less."
     inputAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
     inputCategoryName: "Please enter the category name."
-    inputBoardComments: "Please enter the board comments."
-    inputBoardEditComments: "Please save comments first."
 
 #Comment
 comment:
-  label:
-    createUser: "Create User"
-    createDt: "Create Date Time"
-    content: "Content"
+  msg:
+    enterComments: "Please enter a comment."
+    afterSavedEditComments: "After saving a comment, you can edit it."
 
 #Notification
 notification:
-  label: "Notification"
+  label:
+   notification: "Notification"
   msg:
     description: "Up to 50 displays."
     noNotificationData: "No notifications."

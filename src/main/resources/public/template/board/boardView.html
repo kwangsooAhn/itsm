@@ -159,7 +159,7 @@
 
         //게시판 댓글 저장
         function saveBoardComment(method) {
-            if (isEmpty('boardComments', 'board.msg.inputBoardComments')) return;
+            if (isEmpty('boardComments', 'comment.msg.enterComments')) return;
             const data = {
                 boardId: boardId,
                 boardCommentContents: document.getElementById('boardComments').value
@@ -175,7 +175,7 @@
         //게시판 댓글 수정
         function openCommentEdit(boardCommentId) {
             if (document.getElementById('editComments')) {
-                aliceJs.alert(i18n.get('board.msg.inputBoardEditComments'), function () {
+                aliceJs.alert(i18n.get('comment.msg.afterSavedEditComments'), function () {
                     return false;
                 });
             } else {
@@ -187,7 +187,7 @@
 
         //게시판 댓글 수정
         function saveBoardEditComment(method, boardCommentId) {
-            if (isEmpty('editComments', 'board.msg.inputBoardComments')) return;
+            if (isEmpty('editComments', 'comment.msg.enterComments')) return;
             const data = {
                 boardCommentId: boardCommentId,
                 boardId: boardId,

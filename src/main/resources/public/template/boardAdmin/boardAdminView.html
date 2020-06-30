@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <td><label th:text="#{board.label.useYn}"></label></td>
-                <td><label th:text="${boardAdmin.boardUseYn == true} ? #{board.label.use} : #{board.label.unused}"></label></td>
+                <td><label th:text="${boardAdmin.boardUseYn == true} ? #{board.label.enable} : #{board.label.disable}"></label></td>
                 <td><label th:text="#{board.label.order}"></label></td>
                 <td><label th:text="${boardAdmin?.boardAdminSort}"></label></td>
             </tr>
@@ -53,17 +53,17 @@
             </tr>
             <tr>
                 <td><label th:text="#{board.label.replyYn}"></label></td>
-                <td><label th:text="${boardAdmin.replyYn == true} ? #{board.label.use} : #{board.label.unused}"></label></td>
+                <td><label th:text="${boardAdmin.replyYn == true} ? #{board.label.enable} : #{board.label.disable}"></label></td>
                 <td><label th:text="#{board.label.commentYn}"></label></td>
-                <td><label th:text="${boardAdmin.commentYn == true} ? #{board.label.use} : #{board.label.unused}"></label></td>
+                <td><label th:text="${boardAdmin.commentYn == true} ? #{board.label.enable} : #{board.label.disable}"></label></td>
             </tr>
             <tr>
                 <td><label th:text="#{board.label.category}"></label></td>
-                <td colspan="3"><label th:text="${boardAdmin.categoryYn == true} ? #{board.label.use} : #{board.label.unused}"></label></td>
+                <td colspan="3"><label th:text="${boardAdmin.categoryYn == true} ? #{board.label.enable} : #{board.label.disable}"></label></td>
             </tr>
             <tr>
                 <td><label th:text="#{board.label.attachFileYn}"></label></td>
-                <td><label th:text="${boardAdmin.attachYn == true} ? #{board.label.use} : #{board.label.unused}"></label></td>
+                <td><label th:text="${boardAdmin.attachYn == true} ? #{board.label.enable} : #{board.label.disable}"></label></td>
                 <td><label th:text="#{board.label.attachFileSize}"></label></td>
                 <td colspan="3"><label th:text="${boardAdmin?.attachFileSize}"></label> MB</td>
             </tr>
