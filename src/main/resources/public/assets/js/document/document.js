@@ -167,7 +167,6 @@
                     // TODO: number + char
                     break;
                 case 'phone':
-                    // TODO: phone
                     result = !phoneRegular.test(value);
                     break;
                 case 'email':
