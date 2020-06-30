@@ -174,16 +174,15 @@
     //ColorPicker 초기화
     function initColorPicker() {
         let selectedColorBox = document.getElementById('selected_color');
-        selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
-
         let elementObject = document.getElementById('document_color');
+        selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
+        elementObject.value = '#000000';
         elementObject.addEventListener('change', function() {
             if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
                 this.value = '';
             }
             selectedColorBox.style.backgroundColor = this.value;
         });
-
         let colorPaletteBox = document.getElementById('document_colorPalette');
         colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox, 'documentPaletteColors');
     }
