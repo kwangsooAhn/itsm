@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta http-equiv="expire" content="-1"/>
+    <meta http-equiv="cache-control" content="no-cache"/>
+    <meta http-equiv="pragma" content="no-cache"/>
+    <title th:text="#{form.component.image}"></title>
+    <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
+    <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
+    <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <!-- TODO: 임시 style -->
+    <style>
+        .thumbnail-container {
+            height: 650px;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+        .thumbnail-container > .thumbnail {
+            display: inline-block;
+            float: left;
+            overflow: hidden;
+            width: 175px;
+            height: 280px;
+            margin-top: 10px;
+            margin-right: 20px;
+            border: 1px solid lightgrey;
+        }
+        .thumbnail-container > .thumbnail.selected {
+            border: 2px solid darkgrey;
+        }
+        .thumbnail-container > .thumbnail > div.thumbnail-img {
+            display: inline-block;
+            width: 100%;
+            height: 180px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        .thumbnail-container > .thumbnail > div.thumbnail-info > p {
+            height: 20px;
+            margin: 5px;
+            padding: 0;
+        }
+        .thumbnail-container > .thumbnail > div.thumbnail-info > p > label {
+            display: block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .btn-container {
+            margin-top: 10px;
+        }
+        .btn-check-wrapper {
+            display: inline-block;
+            float: right;
+        }
+        .btn-upload-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="thumbnail-container">
+            <div class="thumbnail" th:each="image : ${imageList}" th:data-name="${image.name}" onclick="selectImage(this)">
+                <div class="thumbnail-img" th:style="'background-image: url(data:image/' + ${image.extension}  + ';base64,' + ${image.data} + ')'"></div>
+                <div class="thumbnail-info">
+                    <p><label th:text="${image.name}"></label></p>
+                    <p><label th:text="${image.size}"></label></p>
+                    <p><label th:text="${image.width} + ' X ' + ${image.height}"></label></p>
+                </div>
+            </div>
+        </div>
+        <div class="btn-container">
+            <div class="btn-check-wrapper">
+                <button type="button" th:text="#{common.btn.check}" onclick="selectedImageSave();"></button>
+                <button type="button" th:text="#{common.btn.close}" onclick="window.close();"></button>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    i18n.initMessages();
+
+    /**
+     *  이미지 선택 후 확인 버튼 클릭시 호출
+     */
+    function selectedImageSave() {
+        // image 미선택 시 알림창 출력
+        const selectedImage = document.querySelector('.thumbnail.selected');
+        if (!selectedImage) {
+            aliceJs.alert(i18n.get('form.msg.alert.fileSelect'));
+            return false;
+        }
+        if (window.opener && !window.opener.closed) {
+            const pathGroupElem = window.opener.document.getElementById('panel-properties').querySelector('button').parentNode;
+            if (pathGroupElem) {
+                const pathElem = pathGroupElem.querySelector('input[type="text"]');
+                if (pathElem) {
+                    pathElem.value = 'file:///' + selectedImage.dataset.name;
+                    pathElem.dispatchEvent(new Event('focusout'));
+                    window.close();
+                }
+            }
+        }
+    }
+
+    /**
+     * 팝업 오픈시 이미지 선택 초기화
+     */
+    function initSelectImage() {
+        if (!window.opener || window.opener.closed) { return false; }
+
+        const componentId = '[(${componentId})]';
+        let selectedPath = window.opener.document.getElementById(componentId).querySelector('img').dataset.path;
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        thumbnails.forEach(thumbnail => {
+            if (selectedPath.indexOf(thumbnail.dataset.name) > -1) {
+                thumbnail.classList.add('selected');
+            }
+        });
+    }
+
+    /**
+     * 이미지 선택
+     */
+    function selectImage(thumbnail) {
+        const thumbnails = document.querySelectorAll('.thumbnail');
+        for (let i = 0, len = thumbnails.length; i < len; i++) {
+            thumbnails.item(i).classList.remove('selected');
+        }
+        thumbnail.classList.add('selected');
+    }
+
+    window.onload = function() {
+        initSelectImage();
+    };
+    /*]]>*/
+</script>
+</html>

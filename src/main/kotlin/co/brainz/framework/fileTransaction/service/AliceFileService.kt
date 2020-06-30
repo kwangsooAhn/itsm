@@ -7,6 +7,7 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.dto.AliceFileLocDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
+import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
 import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
 import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
@@ -14,12 +15,20 @@ import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileNameExtensionRepository
 import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
 import java.io.File
+import java.io.IOException
+import java.lang.Long.signum
+import java.lang.String.format
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.text.SimpleDateFormat
+import java.text.StringCharacterIterator
+import java.util.Base64
 import java.util.Calendar
+import java.util.stream.Collectors
+import javax.imageio.ImageIO
+import kotlin.math.abs
 import org.apache.tika.Tika
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -49,6 +58,10 @@ class AliceFileService(
 
     @Value("\${file.upload.dir}")
     lateinit var basePath: String
+
+    private val processStatusRootDirectory = "processes"
+    private val imagesRootDirectory = "images"
+    private val allowedImageExtensions = listOf("png", "gif", "jpg", "jpeg")
 
     /**
      * 파일명으로 사용할 값 리턴 (난수화)
@@ -87,6 +100,19 @@ class AliceFileService(
         var dir: Path = Paths.get(basePath + File.separator + rootDir + File.separator + df.format(cal.time))
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
         return Paths.get(dir.toString() + File.separator + fileName)
+    }
+
+    /**
+     * 프로세스 및 이미지관리에서 사용하는 dir 조회.
+     */
+    private fun getWorkflowDir(rootDir: String): Path {
+        if (this.basePath == "") {
+            this.basePath = environment.getProperty("catalina.base").toString()
+        }
+
+        var dir: Path = Paths.get(basePath + File.separator + rootDir)
+        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
+        return dir
     }
 
     /**
@@ -186,17 +212,9 @@ class AliceFileService(
     /**
      * 프로세스 상태 표시를 위한 프로세스 XML 파일을 업로드한다.
      */
-    @Transactional
     fun uploadProcessFile(multipartFile: MultipartFile) {
-        if (this.basePath == "") {
-            this.basePath = environment.getProperty("catalina.base").toString()
-        }
-        var dir: Path = Paths.get(this.basePath + File.separator + "processes")
-        dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
+        val dir = getWorkflowDir(this.processStatusRootDirectory)
         val filePath = Paths.get(dir.toString() + File.separator + multipartFile.originalFilename)
-        if (Files.notExists(filePath.parent)) {
-            throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + filePath.toFile() + "]")
-        }
         multipartFile.transferTo(filePath.toFile())
     }
 
@@ -204,11 +222,159 @@ class AliceFileService(
      * 프로세스 상태 파일 로드.
      */
     fun getProcessStatusFile(processId: String): File {
-        if (this.basePath == "") {
-            this.basePath = environment.getProperty("catalina.base").toString()
-        }
-        val filePath = Paths.get(this.basePath + File.separator + "processes" + File.separator + processId + ".xml")
+        val dir = getWorkflowDir(this.processStatusRootDirectory)
+        val filePath = Paths.get(dir.toString() + File.separator + processId + ".xml")
         return filePath.toFile()
+    }
+
+    /**
+     * 워크플로우 이미지 파일 업로드.
+     */
+    fun uploadImageFiles(multipartFiles: List<MultipartFile>): List<AliceImageFileDto> {
+        val dir = getWorkflowDir(this.imagesRootDirectory)
+        val images = mutableListOf<AliceImageFileDto>()
+        multipartFiles.forEach {
+            val filePath = Paths.get(dir.toString() + File.separator + it.originalFilename)
+            val file = filePath.toFile()
+            if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
+                var num = 1
+                var fileName = file.name
+                while (file.exists()) {
+                    fileName = file.nameWithoutExtension + "(" + num++ + ")." + file.extension
+                    file.renameTo(File(dir.toFile(), fileName))
+                }
+                it.transferTo(file)
+                val bufferedImage = ImageIO.read(file)
+                images.add(
+                    AliceImageFileDto(
+                        name = fileName,
+                        extension = file.extension,
+                        fullpath = file.absolutePath,
+                        size = humanReadableByteCount(it.size),
+                        data = Base64.getEncoder().encodeToString(file.readBytes()),
+                        width = bufferedImage.width,
+                        height = bufferedImage.height
+                    )
+                )
+            }
+        }
+
+        return images
+    }
+
+    /**
+     * 워크플로우 이미지 파일 로드.
+     */
+    fun getImageFileList(): List<AliceImageFileDto> {
+        val dir = getWorkflowDir(this.imagesRootDirectory)
+        val fileList = mutableListOf<Path>()
+        if (Files.isDirectory(dir)) {
+            val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { it -> Files.isDirectory(it) })
+            fileDirMap[false]?.forEach { filePath ->
+                val file = filePath.toFile()
+                if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
+                    fileList.add(filePath)
+                }
+            }
+        }
+
+        val images = mutableListOf<AliceImageFileDto>()
+        fileList.forEach {
+            val file = it.toFile()
+            val bufferedImage = ImageIO.read(file)
+            images.add(
+                AliceImageFileDto(
+                    name = file.name,
+                    extension = file.extension,
+                    fullpath = file.absolutePath,
+                    size = humanReadableByteCount(file.length()),
+                    data = Base64.getEncoder().encodeToString(file.readBytes()),
+                    width = bufferedImage.width,
+                    height = bufferedImage.height
+                )
+            )
+        }
+        return images
+    }
+
+    /**
+     * 이미지 로드
+     */
+    fun getImageFile(name: String): AliceImageFileDto? {
+        val dir = getWorkflowDir(this.imagesRootDirectory)
+        val filePath = Paths.get(dir.toString() + File.separator + name)
+        val file = filePath.toFile()
+        return if (file.exists()) {
+            val bufferedImage = ImageIO.read(file)
+            AliceImageFileDto(
+                name = file.name,
+                extension = file.extension,
+                fullpath = file.absolutePath,
+                size = humanReadableByteCount(file.length()),
+                data = Base64.getEncoder().encodeToString(file.readBytes()),
+                width = bufferedImage.width,
+                height = bufferedImage.height
+            )
+        } else {
+            null
+        }
+    }
+
+    /**
+     * byte 사이즈를 단위를 넣어 변환한다.
+     */
+    private fun humanReadableByteCount(bytes: Long): String {
+        val absB = if (bytes == Long.MIN_VALUE) Long.MAX_VALUE else abs(bytes)
+        if (absB < 1024) {
+            return "$bytes Byte"
+        }
+        var value = absB
+        val ci = StringCharacterIterator("KMGTPE")
+        var i = 40
+        while (i >= 0 && absB > 0xfffccccccccccccL shr i) {
+            value = value shr 10
+            ci.next()
+            i -= 10
+        }
+        value *= signum(bytes)
+        return format("%.1f %cByte", value / 1024.0, ci.current())
+    }
+
+    /**
+     * 이미지 삭제.
+     */
+    fun deleteImage(name: String): Boolean {
+        val dir = getWorkflowDir(this.imagesRootDirectory)
+        val filePath = Paths.get(dir.toString() + File.separator + name)
+        return try {
+            Files.delete(filePath)
+            true
+        } catch (e: IOException) {
+            false
+        }
+    }
+
+    /**
+     * 이미지명 수정.
+     */
+    fun renameImage(originName: String, modifyName: String): Boolean {
+        val dir = getWorkflowDir(this.imagesRootDirectory)
+        val filePath = Paths.get(dir.toString() + File.separator + originName)
+        val file = filePath.toFile()
+        if (file.exists()) {
+            val modifyFile = File(dir.toFile(), modifyName)
+            if (modifyFile.exists()) {
+                return false
+            }
+            return try {
+                file.renameTo(modifyFile)
+                true
+            } catch (e: IOException) {
+                false
+            }
+        } else {
+            return false
+        }
     }
 
     /**

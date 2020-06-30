@@ -380,15 +380,35 @@
      * @constructor
      */
     function Imagebox(attr, target) {
+
         let comp = utils.createComponentByTemplate(`
             <div class='move-icon'></div>
             <div class='group'>
                 <div class='field' style='flex-basis: 100%; text-align: ${attr.display.align};'>
-                    <img src='${attr.display.path}' alt='' width='${attr.display.width}' height='${attr.display.height}'>
+                    <img src='' alt='' data-path="${attr.display.path}" width='${attr.display.width}' height='${attr.display.height}'>
                 </div>
             </div>
         `);
         target.appendChild(comp);
+
+        let imageSrc = attr.display.path;
+        if (imageSrc.startsWith('file:///')) {
+            aliceJs.sendXhr({
+                method: 'get',
+                url: '/rest/images/' + imageSrc.split('file:///')[1],
+                contentType: 'application/json; charset=utf-8',
+                callbackFunc: xhr => {
+                    const responseText = xhr.responseText;
+                    if (responseText !== 'null') {
+                        const image = JSON.parse(responseText);
+                        target.querySelector('img').src = 'data:image/' + image.extension + ';base64,' + image.data;
+                    }
+                }
+            });
+        } else {
+            target.querySelector('img').src = imageSrc;
+        }
+
         this.domElem = comp;
     }
 
@@ -404,7 +424,7 @@
             <div class='move-icon'></div>
             <div class='group'>
                 <div class='field' style='flex-basis: 100%;'>
-                    <hr style='border-top: ${attr.display.type} ${attr.display.thickness}px ${attr.display.color}; border-bottom-width: 0px;'>
+                    <hr style='border-top: ${attr.display.type} ${attr.display.thickness}px ${attr.display.color}; border-bottom-width: 0;'>
                 </div>
             </div>
         `);

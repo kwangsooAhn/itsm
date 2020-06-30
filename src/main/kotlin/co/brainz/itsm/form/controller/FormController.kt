@@ -1,5 +1,6 @@
 package co.brainz.itsm.form.controller
 
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.form.service.FormService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -20,14 +21,17 @@ import org.springframework.web.bind.annotation.RequestMethod
  */
 @Controller
 @RequestMapping("/forms")
-class FormController(private val formService: FormService) {
+class FormController(
+    private val formService: FormService,
+    private val fileService: AliceFileService
+) {
 
     private val formSearchPage: String = "form/formSearch"
     private val formListPage: String = "form/formList"
     private val formEditPage: String = "form/formEdit"
     private val formDesignerEditPage: String = "form/formDesignerEdit"
     private val formEditPreviewPage: String = "form/formEditPreview"
-    private val imageUploadPopupPage: String = "form/imageUploadPopup"
+    private val imageUploadPopupPage: String = "form/imagePopup"
 
     /**
      * 폼 리스트 검색 호출 화면.
@@ -90,7 +94,7 @@ class FormController(private val formService: FormService) {
     @GetMapping("/imageUpload/{componentId}/view")
     fun getImageUploadPopup(@PathVariable componentId: String, model: Model): String {
         model.addAttribute("componentId", componentId)
-        model.addAttribute("data", formService.getFormImageList())
+        model.addAttribute("imageList", fileService.getImageFileList())
         return imageUploadPopupPage
     }
 }
