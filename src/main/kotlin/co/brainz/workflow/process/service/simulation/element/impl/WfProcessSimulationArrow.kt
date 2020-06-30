@@ -13,26 +13,45 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
     override fun validate(element: WfElementEntity): Boolean {
         val sourceElementId = element.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
         val sourceElement = wfElementRepository.findWfElementEntityByElementId(sourceElementId!!)
-
-        val isGateway =
+        val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(sourceElement.elementId)
+        val sourceElementIsGateway =
             WfElementConstants.ElementType.getAtomic(sourceElement.elementType) == WfElementConstants.ElementType.GATEWAY
-        val isArrowConnectorSizeGreaterThanOne =
-            wfElementRepository.findAllArrowConnectorElement(sourceElement.elementId).size > 1
-        val emptyCondition =
-            element.getElementDataValue(WfElementConstants.AttributeId.CONDITION_VALUE.value)?.isBlank() ?: true
 
-        // sourceElement가 gateWay 일 때는 connector의 개수가 2개 이상이면 condition-value 값이 있어야 한다.
-        if (isGateway && isArrowConnectorSizeGreaterThanOne && emptyCondition) {
-            return setFailedMessage("connector condition value is empty.")
+        if (sourceElementIsGateway && arrowConnectors.size > 1) {
+            val arrowConnectorElementAttributeId =
+                when (sourceElement.getElementDataValue(WfElementConstants.AttributeId.CONDITION_ITEM.value)) {
+                    WfElementConstants.AttributeValue.ACTION.value -> WfElementConstants.AttributeId.ACTION_VALUE.value
+                    else -> WfElementConstants.AttributeId.CONDITION_VALUE.value
+                }
+
+            val arrowConnectorValues: MutableList<String?> = mutableListOf()
+            arrowConnectors.forEach {
+                val arrowConnectorValue = it.getElementDataValue(arrowConnectorElementAttributeId) ?: ""
+
+                // connector 값이 있는지 확인한다.
+                if (arrowConnectorValue.isBlank()) {
+                    return setFailedMessage("Connector value is empty.")
+                }
+
+                // connector 값이 중복되었는지 확인한다.
+                if (arrowConnectorValues.contains(arrowConnectorValue)) {
+                    return setFailedMessage("Connector value was duplicated.")
+                }
+                arrowConnectorValues.add(arrowConnectorValue)
+
+                // #{action} 이면 action-name과 action-value는 쌍으로 있어야 하며 2개 중 하나의 값만 있으면 안된다.
+                if (arrowConnectorElementAttributeId == WfElementConstants.AttributeId.ACTION_VALUE.value) {
+                    val isName =
+                        element.getElementDataValue(WfElementConstants.AttributeId.ACTION_NAME.value)?.isBlank() ?: true
+                    val isValue =
+                        element.getElementDataValue(WfElementConstants.AttributeId.ACTION_VALUE.value)?.isBlank()
+                            ?: true
+                    if ((isName && !isValue) || (!isName && isValue)) {
+                        return setFailedMessage("Check the action name and value .")
+                    }
+                }
+            }
         }
-
-        // action name과 action value는 쌍으로 있어야 하며 2개중 하나의 값만 있으면 안된다.
-        val isName = element.getElementDataValue(WfElementConstants.AttributeId.ACTION_NAME.value)?.isBlank() ?: true
-        val isValue = element.getElementDataValue(WfElementConstants.AttributeId.ACTION_VALUE.value)?.isBlank() ?: true
-        if ((isName && !isValue) || (!isName && isValue)) {
-            return setFailedMessage("Check the action name and value .")
-        }
-
         return true
     }
 

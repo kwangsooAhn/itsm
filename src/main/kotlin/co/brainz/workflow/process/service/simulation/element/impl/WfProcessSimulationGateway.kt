@@ -23,56 +23,33 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
                 return setFailedMessage("Condition item empty.")
             }
 
-            // 컨넥터들의 종류가 condition인지 action인지 잘못 사용되고 있는지 확인한다.
+            // 컨넥터들의 종류가 condition인지 action인지 확인한다.
             var connectorIsCondition = WfElementConstants.ConnectorConditionValue.NONE.value
             var connectorIsAction = WfElementConstants.ConnectorConditionValue.NONE.value
-            // 컨넥터들의 종류를 확인하기 위해서 loop 도는 김에 중복된 값을 가졌는지 같이 확인한다.
-            val conditionValues: MutableList<String?> = mutableListOf()
-            val actionValues: MutableList<String?> = mutableListOf()
-            var conditionValueWasDuplicated = false
-            var actionValueWasDuplicated = false
             arrowConnectors.forEach {
                 if (it.getElementDataValue(WfElementConstants.AttributeId.CONDITION_VALUE.value)
                         ?.isNotBlank() == true
                 ) {
                     connectorIsCondition = WfElementConstants.ConnectorConditionValue.CONDITION.value
-                    // 컨넥터의 종류가 condition이면 condition-value 중복 미리 체크해둠.
-                    val conditionValue =
-                        it.getElementDataValue(WfElementConstants.AttributeId.CONDITION_VALUE.value)
-                    if (conditionValues.contains(conditionValue)) {
-                        conditionValueWasDuplicated = true
-                    }
-                    conditionValues.add(conditionValue)
                 }
                 if (it.getElementDataValue(WfElementConstants.AttributeId.ACTION_VALUE.value)?.isNotBlank() == true) {
                     connectorIsAction = WfElementConstants.ConnectorConditionValue.ACTION.value
-                    // 컨넥터의 종류가 action이면 action-value 중복 미리 체크해둠
-                    val actionValue =
-                        it.getElementDataValue(WfElementConstants.AttributeId.ACTION_VALUE.value)
-                    if (actionValues.contains(actionValue)) {
-                        actionValueWasDuplicated = true
-                    }
-                    actionValues.add(actionValue)
                 }
             }
 
             // 컨넥터의 종류에 따라 validate 를 수행한다.
             when (connectorIsCondition + connectorIsAction) {
-                WfElementConstants.ConnectorConditionValue.NONE.value -> return setFailedMessage("There is no condition-value or action-value of the connector.")
+                WfElementConstants.ConnectorConditionValue.NONE.value -> return setFailedMessage("There is no value of the connector.")
                 WfElementConstants.ConnectorConditionValue.CONDITION.value -> {
-                    // condition-value 중복을 확인한다.
-                    if (conditionValueWasDuplicated) {
-                        return setFailedMessage("Condition-value was duplicated.")
+                    // connector 속성이 condition 이면 condition-item 으로 #{action} 은 사용하지 않는다.
+                    if (conditionItem == WfElementConstants.AttributeValue.ACTION.value) {
+                        return setFailedMessage("The condition-item of gateway should not be action.")
                     }
                 }
                 WfElementConstants.ConnectorConditionValue.ACTION.value -> {
-                    // 게이트웨이는 condition-item 으로 #{action} 을 가져야한다.
+                    // connector 속성이 action이면 condition-item 으로 #{action} 을 가져야한다.
                     if (conditionItem != WfElementConstants.AttributeValue.ACTION.value) {
                         return setFailedMessage("The condition-item of gateway should be action.")
-                    }
-                    // action-value 중복을 확인한다.
-                    if (actionValueWasDuplicated) {
-                        return setFailedMessage("Action-value was duplicated.")
                     }
                 }
                 WfElementConstants.ConnectorConditionValue.DUPLICATION.value -> return setFailedMessage("You only have to choose one of condition-value and action-value.")
