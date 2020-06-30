@@ -105,58 +105,6 @@ class WfTokenService(
     }
 
     /**
-     * Token에 대한 문서관련자
-     *
-     * @param tokenEntity
-     * @return RestTemplateTokenStakeholderViewDto
-     */
-    fun getTokenStakeholders(tokenEntity: Optional<WfTokenEntity>): RestTemplateTokenStakeholderViewDto {
-        var assigneeType = ""
-        val assignees = mutableListOf<String>()
-        tokenEntity.get().element.elementDataEntities.forEach { elementData ->
-            if (elementData.attributeId == "assignee-type") {
-                assigneeType = elementData.attributeValue
-            }
-        }
-
-        if (assigneeType == WfTokenConstants.AssigneeType.ASSIGNEE.code) {
-            assignees.add(tokenEntity.get().assigneeId.toString())
-        } else if (assigneeType == WfTokenConstants.AssigneeType.USERS.code ||
-            assigneeType == WfTokenConstants.AssigneeType.GROUPS.code
-        ) {
-            wfCandidateRepository.findByTokenIdAndCandidateType(tokenEntity, assigneeType).forEach { candidate ->
-                assignees.add(candidate.candidateValue)
-            }
-        }
-
-        return RestTemplateTokenStakeholderViewDto(
-            type = assigneeType,
-            assignee = assignees,
-            revokeAssignee = this.getRevokeAssignee(tokenEntity.get().tokenId)
-        )
-    }
-
-    /**
-     * tokenId를 통해서 이전 UserTask 담당자Id를 반환 한다.
-     * @return String
-     */
-    fun getRevokeAssignee(tokenId: String): String {
-        var assigneeId = ""
-        var isBreak = true
-        instanceService.getInstanceHistory(tokenId)?.sortedBy { it.tokenEndDt }?.reversed()
-            ?.forEach { element ->
-                if (element.tokenEndDt != null &&
-                    element.elementType == InstanceConstants.ElementListForHistoryViewing.USER_TASK.value &&
-                    isBreak
-                ) {
-                    assigneeId = element.assigneeId.toString()
-                    isBreak = false
-                }
-            }
-        return assigneeId
-    }
-
-    /**
      * Token + Instance View.
      *
      * @param tokenId
@@ -202,5 +150,59 @@ class WfTokenService(
             actions = wfActionService.actions(tokenEntity.get().element.elementId),
             stakeholders = this.getTokenStakeholders(tokenEntity)
         )
+    }
+    
+    /**
+     * Token에 대한 문서관련자
+     *
+     * @param tokenEntity
+     * @return RestTemplateTokenStakeholderViewDto
+     */
+    fun getTokenStakeholders(tokenEntity: Optional<WfTokenEntity>): RestTemplateTokenStakeholderViewDto {
+        var assigneeType = ""
+        val assignees = mutableListOf<String>()
+        tokenEntity.get().element.elementDataEntities.forEach { elementData ->
+            if (elementData.attributeId == "assignee-type") {
+                assigneeType = elementData.attributeValue
+            }
+        }
+
+        if (assigneeType == WfTokenConstants.AssigneeType.ASSIGNEE.code) {
+            assignees.add(tokenEntity.get().assigneeId.toString())
+        } else if (assigneeType == WfTokenConstants.AssigneeType.USERS.code ||
+            assigneeType == WfTokenConstants.AssigneeType.GROUPS.code
+        ) {
+            wfCandidateRepository.findByTokenIdAndCandidateType(tokenEntity, assigneeType).forEach { candidate ->
+                assignees.add(candidate.candidateValue)
+            }
+        }
+
+        return RestTemplateTokenStakeholderViewDto(
+            type = assigneeType,
+            assignee = assignees,
+            revokeAssignee = this.getRevokeAssignee(tokenEntity.get().tokenId)
+        )
+    }
+
+    /**
+     * tokenId를 통해서 이전 UserTask 담당자Id를 반환 한다.
+     *
+     * @param tokenId
+     * @return String
+     */
+    fun getRevokeAssignee(tokenId: String): String {
+        var assigneeId = ""
+        var isBreak = true
+        instanceService.getInstanceHistory(tokenId)?.sortedBy { it.tokenEndDt }?.reversed()
+            ?.forEach { element ->
+                if (element.tokenEndDt != null &&
+                    element.elementType == InstanceConstants.ElementListForHistoryViewing.USER_TASK.value &&
+                    isBreak
+                ) {
+                    assigneeId = element.assigneeId.toString()
+                    isBreak = false
+                }
+            }
+        return assigneeId
     }
 }

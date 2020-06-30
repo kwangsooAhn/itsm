@@ -18,8 +18,10 @@ class DocumentActionService(
     private val userRepository: UserRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
+
     /**
-     *  documentData 받아서 버튼 정리해서 반환한다.
+     * documentData 받아서 버튼 정리해서 반환한다.
+     * @param documentData
      * @return String
      */
     fun makeDocumentAction(documentData: String): String {
@@ -47,7 +49,8 @@ class DocumentActionService(
     }
 
     /**
-     *  TokenData 받아서 버튼 정리해서 반환한다.
+     * TokenData 받아서 버튼 정리해서 반환한다.
+     * @param tokensData
      * @return String
      */
     fun makeTokenAction(tokensData: String): String {
@@ -67,7 +70,9 @@ class DocumentActionService(
         val tokensActions = tokenData.get("actions").asJsonArray
         // 해당 문서의 상태 값
         val tokenStatus = tokenData.get("token").asJsonObject.get("status").asString
+        // 문서 관련자 정보
         val stakeholders = tokenData.get("stakeholders").asJsonObject
+        // 회수자 정보
         val revokeAssignee = tokenData.get("stakeholders").asJsonObject.get("revokeAssignee").asString
         // 현재 진행중 문서 확인
         val isProgress = this.checkTokenStatus(tokenStatus)
@@ -146,6 +151,7 @@ class DocumentActionService(
 
     /**
      * tokenStatus 상태에 따라서 현재 문서가 진행중인지 확인한다.
+     * @param tokenStatus
      * @return Boolean
      */
     fun checkTokenStatus(tokenStatus: String): Boolean {
@@ -178,6 +184,8 @@ class DocumentActionService(
 
     /**
      * 사용자가 해당 권한을 가지고 있는지 확인 한다.
+     * @param userEntity
+     * @param authId
      * @return Boolean
      */
     fun checkUserAuth(userEntity: AliceUserEntity, authId: String): Boolean {
@@ -194,6 +202,8 @@ class DocumentActionService(
 
     /**
      * 사용자가 해당 토근의 처리자인지 확인 한다.
+     * @param stakeholders
+     * @param userEntity
      * @return Boolean
      */
     fun checkAssignee(stakeholders: JsonObject, userEntity: AliceUserEntity): Boolean {
