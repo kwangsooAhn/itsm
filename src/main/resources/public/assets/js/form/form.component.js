@@ -27,8 +27,8 @@
             {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
             {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
         ],
-        editboxPlaceholder= 'Typing \'/\' for add component',
-        columnWidth = 8.33;  //폼 양식을 12등분 하였을 때, 1개의 너비
+        editboxPlaceholder = 'Typing \'/\' for add component',
+        columnWidth = 12;   // 폼 양식을 몇 등분할지 값
         
     let componentIdx = 0;          //컴포넌트 index = 출력 순서 생성시 사용
 
@@ -825,15 +825,15 @@
                 if (compAttr.label.position === 'hidden') {
                     firstField.style.display = 'none';
                 } else if (compAttr.label.position === 'left') {
-                    firstField.style.flexBasis = (columnWidth * Number(compAttr.label.column)) + '%';
+                    firstField.style.flexBasis = ((100 * Number(compAttr.label.column)) / columnWidth) + '%';
                 } else { //top
-                    firstField.style.flexBasis = (columnWidth * Number(compAttr.label.column)) + '%';
+                    firstField.style.flexBasis = ((100 * Number(compAttr.label.column)) / columnWidth) + '%';
                     const secondField = document.createElement('div');
                     secondField.className = 'field';
-                    secondField.style.flexBasis = (100 - (columnWidth * Number(compAttr.label.column))) + '%';
+                    secondField.style.flexBasis = (100 - ((100 * Number(compAttr.label.column)) / columnWidth)) + '%';
                     lastField.parentNode.insertBefore(secondField, lastField);
                 }
-                lastField.style.flexBasis = (columnWidth * Number(compAttr.display.column)) + '%';
+                lastField.style.flexBasis = ((100 * Number(compAttr.display.column)) / columnWidth) + '%';
             }
         }
         return componentConstructor;
