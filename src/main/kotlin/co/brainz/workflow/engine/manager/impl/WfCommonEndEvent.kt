@@ -21,29 +21,32 @@ class WfCommonEndEvent(
         return createTokenDto
     }
 
-    override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto {
-        if (!createNextTokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
-            val pTokenId = createNextTokenDto.parentTokenId!!
+    override fun createNextElementToken(tokenDto: WfTokenDto): WfTokenDto? {
+        var nextTokenDto: WfTokenDto? = null
+
+        if (!tokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
+            val pTokenId = tokenDto.parentTokenId!!
             val mainProcessToken = wfTokenManagerService.getToken(pTokenId)
             when (mainProcessToken.element.elementType) {
                 WfElementConstants.ElementType.SUB_PROCESS.value -> {
-                    var token = wfTokenManagerService.getToken(createNextTokenDto.tokenId)
-                    token.tokenDataEntities = super.setTokenData(createNextTokenDto)
+                    var token = wfTokenManagerService.getToken(tokenDto.tokenId)
+                    token.tokenDataEntities = super.setTokenData(tokenDto)
                     mainProcessToken.tokenStatus = WfTokenConstants.Status.FINISH.code
                     mainProcessToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-                    createNextTokenDto.data = wfTokenManagerService.makeSubProcessTokenDataDto(
+                    tokenDto.data = wfTokenManagerService.makeSubProcessTokenDataDto(
                         token,
                         mainProcessToken
                     )
-                    createNextTokenDto.tokenId = mainProcessToken.tokenId
+                    tokenDto.tokenId = mainProcessToken.tokenId
 
                     token = wfTokenManagerService.saveToken(mainProcessToken)
                     token.tokenDataEntities =
-                        wfTokenManagerService.saveAllTokenData(super.setTokenData(createNextTokenDto))
+                        wfTokenManagerService.saveAllTokenData(super.setTokenData(tokenDto))
+                    nextTokenDto = tokenDto
                 }
             }
         }
-        return createNextTokenDto
+        return nextTokenDto
     }
 
     override fun completeElementToken(completedToken: WfTokenDto): WfTokenDto {
