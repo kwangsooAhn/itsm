@@ -19,7 +19,8 @@ interface WfFormMapper {
         Mapping(source = "createUser.userKey", target = "createUserKey"),
         Mapping(source = "createUser.userName", target = "createUserName"),
         Mapping(source = "updateUser.userKey", target = "updateUserKey"),
-        Mapping(source = "updateUser.userName", target = "updateUserName")
+        Mapping(source = "updateUser.userName", target = "updateUserName"),
+        Mapping(target = "editable", ignore = true)
     )
     fun toFormViewDto(wfFormEntity: WfFormEntity): RestTemplateFormDto
 
@@ -29,7 +30,10 @@ interface WfFormMapper {
         Mapping(source = "desc", target = "desc"),
         Mapping(source = "status", target = "status"),
         Mapping(source = "updateDt", target = "updateDt"),
-        Mapping(source = "updateUserKey", target = "updateUserKey")
+        Mapping(source = "updateUserKey", target = "updateUserKey"),
+        Mapping(target = "editable", ignore = true),
+        Mapping(target = "createUserName", ignore = true),
+        Mapping(target = "updateUserName", ignore = true)
     )
     fun toRestTemplateFormDto(restTemplateFormComponentListDto: RestTemplateFormComponentListDto): RestTemplateFormDto
 }
