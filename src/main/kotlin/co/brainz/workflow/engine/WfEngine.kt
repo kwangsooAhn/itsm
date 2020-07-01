@@ -43,7 +43,7 @@ class WfEngine(
         // 시작 이벤트 이후 첫번째 토큰 생성.
         val firstTokenDto = tokenManager.createNextToken(startTokenDto)
 
-        return this.progressWorkflow(firstTokenDto)
+        return this.progressWorkflow(firstTokenDto!!)
     }
 
     /**
@@ -51,19 +51,35 @@ class WfEngine(
      */
     fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.debug("Progress Token")
-        when (tokenDto.action) {
-            WfElementConstants.Action.PROGRESS.value -> {
-                var progressTokenDto = tokenDto.copy()
-                do {
-                    progressTokenDto = this.getTokenDto(progressTokenDto)
-                    val tokenManager = this.createTokenManager(progressTokenDto.elementType)
-                    progressTokenDto = tokenManager.completeToken(progressTokenDto)
-                    progressTokenDto = tokenManager.createNextToken(progressTokenDto)
-                } while (tokenManager.isAutoComplete)
-            }
-            else -> WfTokenAction(wfTokenManagerService).action(tokenDto)
-        }
 
+        tokenDto.action?.let {
+            if (WfElementConstants.Action.isApplicationAction(it)) {
+                // 프로세스로 그려지진 않았지만 반려나 회수처럼 시스템에서 기본적으로 제공하는 동작 선택 시.
+                WfTokenAction(wfTokenManagerService).progressApplicationAction(tokenDto)
+            } else {
+                // 프로세스로 그려진 동적인 흐름을 진행하는 동작.
+                var currentTokenDto = tokenDto.copy()
+                var currentTokenManager: WfTokenManager
+                var nextTokenDto: WfTokenDto?
+                var nextTokenManager: WfTokenManager
+                do {
+                    // 현재 토큰 처리.
+                    currentTokenDto = this.getTokenDto(currentTokenDto)
+                    currentTokenManager = this.createTokenManager(currentTokenDto.elementType)
+                    currentTokenDto = currentTokenManager.completeToken(currentTokenDto)
+
+                    // 다음 토큰 생성.
+                    nextTokenDto = currentTokenManager.createNextToken(currentTokenDto)
+                    if (nextTokenDto != null) {
+                        nextTokenManager = this.createTokenManager(nextTokenDto.elementType)
+                        currentTokenDto = nextTokenDto
+                    } else { // 다음 토큰이 없으면 종료.
+                        nextTokenManager = currentTokenManager
+                        nextTokenManager.isAutoComplete = false
+                    }
+                } while (nextTokenManager.isAutoComplete)
+            }
+        }
         return true
     }
 

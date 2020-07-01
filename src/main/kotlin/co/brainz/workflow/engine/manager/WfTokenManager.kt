@@ -60,7 +60,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      * 다음 엘리먼트의 토큰 생성.
      *  - 기본적으로 현재 토큰을 복사해서 엘리먼트 별 사전 작업 후 반환
      */
-    fun createNextToken(tokenDto: WfTokenDto): WfTokenDto {
+    fun createNextToken(tokenDto: WfTokenDto): WfTokenDto? {
         val createNextTokenDto = tokenDto.copy()
         return this.createNextElementToken(createNextTokenDto)
     }
@@ -69,7 +69,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
      * 다음 엘리먼트의 토큰 생성 시 엘리먼트에 따른 처리 내용.
      *  - 추상 메소드로 상속 후 엘리먼트 별 처리 구현
      */
-    abstract fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto
+    abstract fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto?
 
     /**
      * 토큰 완료 처리.
