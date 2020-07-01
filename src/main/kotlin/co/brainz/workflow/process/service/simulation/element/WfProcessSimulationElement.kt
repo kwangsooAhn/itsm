@@ -58,7 +58,7 @@ abstract class WfProcessSimulationElement {
         val elementId = element.elementId
         val elementName = element.elementName
         logger.info("Simulation validate - ElementId:{}, ElementName:{}", elementId, elementName)
-        elementInformation = "<br>ElementId: $element.elementId <br>ElementName: ${element.elementName}}"
+        elementInformation = "<br>ElementId: $elementId <br>ElementName: $elementName"
 
         if (!validate(element)) {
             return false
