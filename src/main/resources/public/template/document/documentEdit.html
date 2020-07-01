@@ -37,7 +37,7 @@
             <th th:text="#{common.label.group}"></th>
             <td>
                 <select id="document_group" style="width:75%">
-                    <option value="" th:text="#{common.label.notSelect}" selected/>
+                    <option value="" th:text="#{document.label.notSelect}" selected/>
                     <option th:each="group:${groupList}" th:value="${group.code}"
                             th:text="${group.codeValue}"></option>
                 </select>

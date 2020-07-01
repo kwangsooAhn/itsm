@@ -239,15 +239,15 @@
 
         // validation check
         function validation() {
-            if (isEmpty('noticeTitle', 'common.msg.titleNotExist')) return false;
-            if (isEmpty('noticeContents', 'common.msg.contentsNotExist')) return false;
+            if (isEmpty('noticeTitle', 'common.msg.enterTitle')) return false;
+            if (isEmpty('noticeContents', 'common.msg.enterContents')) return false;
             if (document.getElementById('popRadioBtUp').checked) {
-                if (isEmpty('popHeight', 'notice.msg.popHeightNotExist')) return false;
+                if (isEmpty('popHeight', 'notice.msg.enterPopHeight')) return false;
                 if (isExistInScope('popHeight', 500, 1000, 'notice.msg.checkPopHeightRange')) return false;
-                if (isEmpty('popWidth', 'notice.msg.popWidthNotExist')) return false;
+                if (isEmpty('popWidth', 'notice.msg.enterPopWidth')) return false;
                 if (isExistInScope('popWidth', 500, 1000, 'notice.msg.checkPopWidthRange')) return false;
-                if (isEmpty('popStrtDt', 'notice.msg.popStrtDtNotExist')) return false;
-                if (isEmpty('popEndDt', 'notice.msg.popEndDtNotExist')) return false;
+                if (isEmpty('popStrtDt', 'notice.msg.enterPopStrtDt')) return false;
+                if (isEmpty('popEndDt', 'notice.msg.enterPopEndDt')) return false;
                 if (isOrOperator((i18n.systemDateTime(document.getElementById('popStrtDt').value) > i18n.systemDateTime(document.getElementById('popEndDt').value))
                     , (i18n.systemDateTime(document.getElementById('popStrtDt').value) === i18n.systemDateTime(document.getElementById('popEndDt').value))
                     , 'notice.msg.compareWithPopUpValue')) return false;
@@ -255,8 +255,8 @@
 
 
             if (document.getElementById('topRadioBtUp').checked) {
-                if (isEmpty('topNoticeStrtDt', 'notice.msg.topNoticeStrtDtNotExist')) return false;
-                if (isEmpty('topNoticeEndDt', 'notice.msg.topNoticeEndDtNotExist')) return false;
+                if (isEmpty('topNoticeStrtDt', 'notice.msg.enterTopNoticeStrtDt')) return false;
+                if (isEmpty('topNoticeEndDt', 'notice.msg.enterTopNoticeEndDt')) return false;
                 if (isOrOperator((i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value) > i18n.systemDateTime(document.getElementById('topNoticeEndDt').value))
                     , (i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value) === i18n.systemDateTime(document.getElementById('topNoticeEndDt').value))
                     , 'notice.msg.compareWithTopNoticeValue')) return false;

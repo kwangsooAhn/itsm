@@ -266,7 +266,7 @@
                             file.previewElement.parentNode.removeChild(file.previewElement);
                         }
                         this.files.splice(-1, 1);
-                        aliceJs.alert(i18n.get('common.msg.extensionNotAvailable'));
+                        aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
                     }
 
                     let isDuplicated = false;  //중복된 파일명이 존재하면 업로드를 알림창을 띄운다.
@@ -287,7 +287,7 @@
                     if (_self.options.maxFilesize && file.size > _self.options.maxFilesize * 1024 * 1024) {
                         if (file.previewElement != null && file.previewElement.parentNode != null) {
                             file.previewElement.parentNode.removeChild(file.previewElement);
-                            aliceJs.alert(i18n.get('common.msg.maxFileSize', _self.options.maxFilesize));
+                            aliceJs.alert(i18n.get('fileupload.msg.maxFileSize', _self.options.maxFilesize));
                             maxFileSizeExceeded = true;
                         }
                         this.files.splice(-1, 1);

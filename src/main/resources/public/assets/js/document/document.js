@@ -58,7 +58,7 @@
         }
         const validateElement = document.querySelectorAll('.validate-error');
         if (validateElement.length !== 0) {
-            aliceJs.alert(i18n.get('common.msg.checkDocument'), function () {
+            aliceJs.alert(i18n.get('document.msg.checkDocument'), function () {
                 if (validateElement[0].classList.contains('editor-container')) {
                     Quill.find(validateElement[0]).focus();
                 } else if (validateElement[0].id === 'radio' || validateElement[0].id === 'chkbox') {
@@ -187,7 +187,7 @@
             case 'editor':
                 let textEditor = Quill.find(element);
                 if (textEditor.getLength() === 1) {
-                    message = i18n.get('document.msg.requiredEnter');
+                    message = i18n.get('common.msg.requiredEnter');
                 }
                 break;
             case 'radio':
@@ -208,7 +208,7 @@
                 break;
             default :
                 if (element.value === '') {
-                    message = i18n.get('document.msg.requiredEnter');
+                    message = i18n.get('common.msg.requiredEnter');
                 }
                 break;
         }
@@ -436,7 +436,7 @@
             tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
             tokenObject.assigneeId = '';
             tokenObject.assigneeType = '';
-            actionMsg = i18n.get('common.msg.process');
+            actionMsg = i18n.get('document.msg.process');
         }
 
         const componentArrayList = getComponentData();

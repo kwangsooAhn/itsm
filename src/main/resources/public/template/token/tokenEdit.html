@@ -16,12 +16,12 @@
             <button type="button" onclick="openProcessStatusPopUp()"
                     th:text="#{process.label.process}"></button>
             <button type="button" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
-                    th:text="#{common.label.print}"></button>
+                    th:text="#{token.label.print}"></button>
         </div>
         <div class="drawing-board" id="document-container"></div>
         <div id="button-container"></div>
     </form>
-    <h1 th:text="#{common.label.tag}"></h1>
+    <h1 th:text="#{token.label.tag}"></h1>
     <div style="margin-bottom: 1rem;">
         <input name="tags" th:value="|${tagList}|"/>
     </div>
@@ -93,7 +93,7 @@
         </tr>
         </tbody>
     </table>
-    <h1 th:text="#{common.label.comment}"></h1>
+    <h1 th:text="#{token.label.comment}"></h1>
     <table class="table table-hover" style="text-align: center">
         <colgroup>
             <col width="25%">
@@ -145,7 +145,7 @@
             editTags        : false,
             callbacks       : { 'add'    : onAddTag,
                                 'remove' : onRemoveTag },
-            placeholder     : '[[#{common.msg.tag}]]'
+            placeholder     : '[[#{token.msg.tag}]]'
         });
 
         function onAddTag(tag) {

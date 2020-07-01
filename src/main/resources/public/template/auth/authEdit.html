@@ -239,8 +239,8 @@
         /* 등록, 수정 버튼 */
         function onSave(flag) {
             // validation
-            if (isOrOperator(isNull('txtAuthId', null), isEmpty('txtAuthId', null), 'auth.msg.idNotExist')) return;
-            if (isOrOperator(isNull('txtAuthName', null), isEmpty('txtAuthName', null), 'auth.msg.nameNotExist')) return;
+            if (isOrOperator(isNull('txtAuthId', null), isEmpty('txtAuthId', null), 'auth.msg.enterAuthId')) return;
+            if (isOrOperator(isNull('txtAuthName', null), isEmpty('txtAuthName', null), 'auth.msg.enterAuthName')) return;
 
             let authIds = [];
             let authNames = [];
@@ -252,13 +252,13 @@
             if (flag === 'post') {
                 for(let i = 0; i < authIds.length; i++) {
                     if (document.getElementById('txtAuthId').value === authIds[i]) {
-                        aliceJs.alert([[#{auth.msg.idDuplecate}]]);
+                        aliceJs.alert([[#{auth.msg.duplicateAuthId}]]);
                         return;
                     }
                 }
                 for(let i = 0; i < authNames.length; i++) {
                     if (document.getElementById('txtAuthName').value === authNames[i]) {
-                        aliceJs.alert([[#{auth.msg.nameDuplecate}]]);
+                        aliceJs.alert([[#{auth.msg.duplicateAuthName}]]);
                         return;
                     }
                 }
@@ -266,7 +266,7 @@
                 if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
                     for(let i = 0; i < authNames.length; i++) {
                         if (document.getElementById('txtAuthName').value === authNames[i]) {
-                            aliceJs.alert([[#{auth.msg.nameDuplecate}]]);
+                            aliceJs.alert([[#{auth.msg.duplicateAuthName}]]);
                             return;
                         }
                     }

@@ -19,13 +19,7 @@ common:
   label:
     title: "Title"
     contents: "Contents"
-    message: "Message"
     group: "Group"
-    path: "URL"
-    exceptionType: "Exception Type"
-    knownError: "Known Error"
-    addFile: "Add files"
-    success: "Success"
     save: "Save"
     fail: "Fail"
     update: "Update"
@@ -35,33 +29,21 @@ common:
     createDate: "Create Date"
     updateDate: "Update Date"
     attachFile: "Attach file"
-    notSelect: "Not Select"\
-    tag: "Tag"
-    comment: "Comment"
-    print: "Print"
-    count: "total {0}"
   msg:
-    searchWord: "Search"
     selectAfterDate: "Please select after {0} date."
     selectBeforeDate: "Please select before {0} date."
     selectAfterTime: "Please select after {0} time."
     selectBeforeTime: "Please select before {0} time."
-    process: "It has been processed."
     save: "Saved."
     fail: "Failed"
     delete.success: "Deleted."
     update: "Changed."
     update.fail: "Change failed."
     modify: "Modified."
-    unknownError: "An unknown error has occurred. Please contact the administrator."
     requiredEnter: "Please enter the required item."
-    requiredSelect: "Please select the required item."
     noData: "There is no data."
-    checkDocument: "Please check the document again."
-    tag: "Insert tags."
-    maxFileCount: "The number of attachments has been exceeded. (Attachment limit number : {0})"
-    maxFileSize: "Attached fileSize limit exceeded. (Attached fileSize limit : {0}MB)"
-    extensionNotAvailable: "Files with the fileName extension cannot be uploaded."
+    enterTitle: "Please enter a title."
+    enterContents: "Please enter contents"
   code:
     token:
       status:
@@ -74,28 +56,31 @@ common:
         cancel: "cancel"
 # Menu
 menu:
-  service: "Service"
-  service.request: "Service Request"
-  service.list: "Service History"
-  help: "Helpdesk"
-  help.notice: "Notice"
-  help.faq: "FAQ"
-  help.document: "Service Request"
-  help.token: "My Document"
-  help.dashboard: "Dashboard"
-  help.download: "Download"
-  setting: "settings"
-  setting.user: "Users management"
-  setting.role: "Role management"
-  setting.auth: "Auth management"
-  setting.code: "Code management"
-  setting.form: "Form"
-  setting.process: "Process"
-  setting.document: "Workflow"
-  setting.custom.code: "Custom Code"
-  editMyInfo: "Edit my info"
-  help.board: "Help"
-  setting.board.admin: "Board management"
+  service:
+    parent: "Service"
+    request: "Service Request"
+    list: "Service History"
+  help:
+    parent: "Helpdesk"
+    notice: "Notice"
+    faq: "FAQ"
+    document: "Service Request"
+    token: "My Document"
+    dashboard: "Dashboard"
+    download: "Download"
+    board: "Board"
+  setting:
+    parent: "Settings"
+    user: "Users management"
+    role: "Role management"
+    auth: "Auth management"
+    code: "Code management"
+    form: "Form"
+    process: "Process"
+    document: "Workflow"
+    customCode: "Custom Code"
+    editMyInfo: "Edit my info"
+    boardAdmin: "Board management"
 
 # Auth
 auth:
@@ -106,10 +91,10 @@ auth:
     authDesc: "Auth Desc"
     referenceCount: "Role reference count"
   msg:
-    idNotExist: "Please enter a auth id."
-    nameNotExist: "Please enter a auth name."
-    idDuplecate: "Duplicate auth id! Please enter other auth id."
-    nameDuplecate: "Duplicate auth name! Please enter other auth name."
+    enterAuthId: "Please enter a auth id."
+    enterAuthName: "Please enter a auth name."
+    duplicateAuthId: "Duplicate auth id! Please enter other auth id."
+    duplicateAuthName: "Duplicate auth name! Please enter other auth name."
   auth:
     read: "auth read"
     create: "auth create"
@@ -205,23 +190,15 @@ user:
     emailNotExist: "Please enter your Email"
     createUser: "User is registered."
     emailWithUpdate: "Member information, including email information, has been modified."
-    sameUserId: "The same ID exists.."
+    sameUserId: "The same ID exists."
     sameEmail: "The same Email exists."
     joinUser: "Success to Join.<br/>Please check your email sent to finish authentication."
     joinUserFail: "Join failed."
 
 # FAQ
 faq:
-  add: "Add"
-  list: "List"
-  save: "Save"
-  delete: "Delete"
-  title: "Title"
-  edit: "Edit"
   msg:
     description: "Frequently asked questions and answers."
-    titleNotExitst: "Please enter FAQ title."
-    contentNotExitst: "Please enter FAQ content."
   category:
     all: "All"
     techSupport: "Technical Support"
@@ -230,11 +207,7 @@ faq:
 
 # NOTICE
 notice:
-  title: "Title"
-  user: "User"
   popUp:  "PopUp"
-  createDt: "CreateDt"
-  regist: "Regist"
   popUpNoticeSettings: "PopUp Notice Settings"
   popUpNoticeSettingsInfo: "PopUp Notice Settings Info"
   topNoticeSettings: "Top Notice Settings"
@@ -245,29 +218,22 @@ notice:
   endDt: "End Date"
   set: "Set"
   notSet: "Not Set"
-  list: "List"
-  modify: "Modify"
   modifyCompleted: "Modify Completed"
-  delete: "Delete"
   searchPlaceholder: "Title / User"
   msg:
-    titleNotExist: "Please enter a title"
-    contentsNotExist: "Please enter contents"
-    popHeightNotExist: "Please enter a height"
+    enterPopHeight: "Please enter a height."
     checkPopHeightRange: "The height can only be a value between 500px and 1000px."
-    popWidthNotExist: "Please enter a Width"
-    checkPopWidthRange: "The width can only be a value between 500px and 1000px"
-    popStrtDtNotExist: "Please enter popup start date"
-    popEndDtNotExist: "Please enter popup end date"
+    enterPopWidth: "Please enter a Width."
+    checkPopWidthRange: "The width can only be a value between 500px and 1000px."
+    enterPopStrtDt: "Please enter popup start date."
+    enterPopEndDt: "Please enter popup end date."
     compareWithPopUpValue: "Pop-up notification start date is greater than or equal to end date."
-    topNoticeStrtDtNotExist: "Please enter a top notice start date"
-    topNoticeEndDtNotExist: "Please enter a top notice end date"
+    enterTopNoticeStrtDt: "Please enter a top notice start date."
+    enterTopNoticeEndDt: "Please enter a top notice end date."
     compareWithTopNoticeValue: "Top Notice start date is greater than or equal to the end date."
-    fromDtNotExist: "Please enter a search start date"
-    toDtNotExist: "Please enter a search end date"
-    checkSearchRange: "Search start date is greater than end date"
-    selectAfterDate: "Please select after {0} "
-    selectBeforeDate: "Please select before {0}"
+    enterFromDt: "Please enter a search start date."
+    enterToDt: "Please enter a search end date."
+    checkSearchRange: "Search start date is greater than end date."
 
 # LOGIN
 login:
@@ -286,6 +252,7 @@ login:
   loginNote: "Do you have an account?"
   signupNote: "Would you like to sign up?"
   msg:
+    unknownError: "An unknown error has occurred. Please contact the administrator."
     invalidPassword: "The ID or password are not correct. Please check again."
     disabledUser: "Your account has been disabled. Please contact the administrator."
     invalidUser: "This account is not registered. Please check again."
@@ -442,7 +409,7 @@ role:
 # Validation
 validation:
   msg:
-    isNotExistElement: "The element does not exist."
+    elementNotExist: "The element does not exist."
     pwNotContainSpace: "Password cannot contain spaces."
     pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
     pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
@@ -476,6 +443,7 @@ document:
     searchProcessName: "Process"
     searchFormName: "Form"
     all: "All"
+    notSelect: "Not Select"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -489,6 +457,8 @@ document:
     applicationForm: "Application Form"
     workflow: "WorkFlow"
   msg:
+    checkDocument: "Please check the document again."
+    process: "It has been processed."
     nameNotExist: "Please enter document's name."
     lengthMin: "Please enter at least {0} characters."
     lengthMax: "Please enter less than {0} characters."
@@ -498,7 +468,6 @@ document:
     timeMax: "Please select before {0} time."
     datetimeMin: "Please select after {0} datetime."
     datetimeMax: "Please select before {0} datetime."
-    requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     requiredFileupload: "Please upload a file."
     launchedInstance: "There is an instance started and cannot be deleted."
@@ -519,6 +488,11 @@ token:
     print: "Process Document Print"
     status: "Status"
     searchPlaceholder: "Create User / Contents"
+    tag: "Tag"
+    comment: "Comment"
+    count: "total {0}"
+  msg:
+    tag: "Insert tags."
   type:
     todo: "Document to process"
     requested: "Application document"
@@ -550,6 +524,7 @@ customCode:
     pCode: "Parent Code"
     lastUpdateDate: "Last Update Date"
   msg:
+    enterSearchTerm: "Please enter a search term"
     enterCustomCode: "Please enter a custom code name."
     enterTableTarget: "Please enter a table target name."
     enterSearchColumn: "Please enter a search column name."
@@ -558,7 +533,7 @@ customCode:
     addCondition: "Only {0} or less can be added."
     selectNotDuplicateSearchColumn: "Please select the search criteria in the column without duplication."
     customCodeUsed: "The Custom code is being used."
-    customCodeNameDuplication: "The same custom code name exists."
+    duplicateCustomCodeName: "The same custom code name exists."
     pCodeNotExist: "The parent code does not exist."
 
 # Dashboard
@@ -581,7 +556,6 @@ download:
     views: "Views"
   msg:
     selectCategory: "Please select a category."
-    enterTitle: "Please enter a title."
   category:
     all: "All"
     companyPolicy: "Company Policy"
@@ -653,3 +627,18 @@ authentication:
     recallAuthentication: "Please re-request authentication mail after login."
     resentAuthentication: "Authentication mail has been resent."
     emailCheck: "Please check your email sent to finish authentication."
+
+#Error
+error:
+  label:
+    message: "Message"
+    path: "URL"
+    exceptionType: "Exception Type"
+    knownError: "Known Error"
+
+#FileUpload
+fileupload:
+  msg:
+    maxFileCount: "The number of attachments has been exceeded. (Attachment limit number : {0})"
+    maxFileSize: "Attached fileSize limit exceeded. (Attached fileSize limit : {0}MB)"
+    extensionNotAvailable: "Files with the fileName extension cannot be uploaded."

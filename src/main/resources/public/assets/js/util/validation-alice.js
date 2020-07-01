@@ -22,7 +22,7 @@ function isNull(elementId, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -39,7 +39,7 @@ function isNotNull(elementId, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -56,7 +56,7 @@ function isEmpty(elementId, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -73,7 +73,7 @@ function isNotEmpty(elementId, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -90,7 +90,7 @@ function isEquals(elementId1, elementId2, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -107,7 +107,7 @@ function isNotEquals(elementId1, elementId2, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -124,7 +124,7 @@ function isExistInScope(elementId, minValue, maxValue, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
