@@ -458,7 +458,7 @@ document:
     lengthMax: "Please enter less than {0} characters."
     requiredFileupload: "Please upload a file."
     launchedInstance: "There is an instance started and cannot be deleted."
-    businessFlowColorNotExist: "Please enter Business Flow Color."
+    enterBusinessFlowColor: "Please enter Business Flow Color."
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
