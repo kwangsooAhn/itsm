@@ -42,6 +42,7 @@ common:
     save: "저장되었습니다"
     process: "처리되었습니다."
     save.fail: "실패되었습니다."
+    confirm.delete: "정말 삭제하시겠습니까?"
     delete.success: "삭제되었습니다."
     delete.fail: "삭제를 실패했습니다."
     update: "수정되었습니다."
@@ -82,6 +83,7 @@ menu:
   setting.process: "프로세스"
   setting.document: "업무흐름"
   setting.custom.code: "사용자 정의 코드"
+  setting.image: "이미지 관리"
   editMyInfo: "자기 정보 수정"
   help.board: "게시판"
   setting.board.admin: "게시판 관리"
@@ -662,3 +664,11 @@ authentication:
     recallAuthentication: "로그인 후 인증메일을 재요청하세요."
     resentAuthentication: "인증메일이 재발송되었습니다."
     emailCheck: "가입 시 등록한 메일에서 인증을 진행해주세요."
+
+#image
+image:
+  btn:
+    upload: "이미지 파일 업로드"
+  msg:
+    alert.failedRename: "파일명 변경이 실패하였습니다. 동일한 파일명이 있거나 수정권한이 있는 지 확인해주세요."
+    confirm.existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"

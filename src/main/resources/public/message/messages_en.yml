@@ -42,6 +42,7 @@ common:
     process: "It has been processed."
     save: "Saved."
     save.fail: "Save Failed."
+    confirm.delete: "Are you sure you want to delete?"
     delete.success: "Deleted."
     delete.fail: "Delete failed."
     update: "Changed."
@@ -82,6 +83,7 @@ menu:
   setting.process: "Process"
   setting.document: "Workflow"
   setting.custom.code: "Custom Code"
+  setting.image: "Image management"
   editMyInfo: "Edit my info"
   help.board: "Help"
   setting.board.admin: "Board management"
@@ -662,3 +664,11 @@ authentication:
     recallAuthentication: "Please re-request authentication mail after login."
     resentAuthentication: "Authentication mail has been resent."
     emailCheck: "Please check your email sent to finish authentication."
+
+#image
+image:
+  btn:
+    upload: "Image File Upload"
+  msg:
+    alert.failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    confirm.existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
