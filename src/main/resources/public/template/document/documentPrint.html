@@ -30,7 +30,8 @@
                 + aliceForm.session.email + ']<br>'
                 + i18n.printFormat(/*[[${time}]]*/'');
 
-            aliceForm.init(aliceDocument.drawDocument, /*[[${data}]]*/);
+            let data = sessionStorage.getItem('alice_print');
+            aliceForm.init(aliceDocument.drawDocument, data);
 
             setTimeout(function() {
                 window.print();

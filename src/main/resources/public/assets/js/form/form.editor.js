@@ -405,21 +405,11 @@
      * 미리보기
      */
     function previewForm() {
+        const itemName = 'alice_forms-preview-' + editor.data.formId;
+        sessionStorage.setItem(itemName, JSON.stringify({'form': editor.data}));
         let url = '/forms/' + editor.data.formId + '/preview';
         const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-        window.open(url, 'result', 'width=800,height=805,' + specs);
-
-        let form = document.createElement('form');
-        form.action = url;
-        form.method = 'POST';
-        form.target = 'result';
-        let input = document.createElement('textarea');
-        input.name = 'data';
-        input.value = JSON.stringify({'form': editor.data});
-        form.appendChild(input);
-        form.style.display = 'none';
-        document.body.appendChild(form);
-        form.submit();
+        window.open(url, itemName, 'width=800,height=805,' + specs);
     }
 
     /**

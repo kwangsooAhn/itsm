@@ -24,7 +24,8 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            aliceForm.init(aliceDocument.drawDocument, '[(${data})]');
+            let data = sessionStorage.getItem(window.name);
+            aliceForm.init(aliceDocument.drawDocument, data);
         };
         /*]]>*/
     </script>

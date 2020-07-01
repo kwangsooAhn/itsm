@@ -71,7 +71,8 @@
         }
     }
     window.onload = function() {
-        componentData = JSON.parse('[(${customCodeData})]');
+        const customCodeData = sessionStorage.getItem(window.name);
+        componentData = JSON.parse(customCodeData);
         let compDataMap = componentData.componentValue.split('|');
         let radioElem = document.querySelector('input[id="' + compDataMap[0] + '"]');
         if (radioElem) {
