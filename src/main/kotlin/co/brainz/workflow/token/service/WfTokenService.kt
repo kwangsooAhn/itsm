@@ -148,35 +148,35 @@ class WfTokenService(
             instanceId = tokenEntity.get().instance.instanceId,
             form = formData,
             actions = wfActionService.actions(tokenEntity.get().element.elementId),
-            stakeholders = this.getTokenStakeholders(tokenEntity)
+            stakeholders = this.getTokenStakeholders(tokenEntity.get())
         )
     }
 
     /**
      * 토큰정보[tokenEntity]를 받아서 문서관련자[RestTemplateTokenStakeholderViewDto]정보를 반환 한다.
      */
-    private fun getTokenStakeholders(tokenEntity: Optional<WfTokenEntity>): RestTemplateTokenStakeholderViewDto {
+    private fun getTokenStakeholders(tokenEntity: WfTokenEntity): RestTemplateTokenStakeholderViewDto {
         var assigneeType = ""
         val assignees = mutableListOf<String>()
-        tokenEntity.get().element.elementDataEntities.forEach { elementData ->
+        tokenEntity.element.elementDataEntities.forEach { elementData ->
             if (elementData.attributeId == WfElementConstants.AttributeId.ASSIGNEE_TYPE.value) {
                 assigneeType = elementData.attributeValue
             }
         }
 
-        if (assigneeType == WfTokenConstants.AssigneeType.ASSIGNEE.code) {
-            assignees.add(tokenEntity.get().assigneeId.toString())
-        } else if (assigneeType == WfTokenConstants.AssigneeType.USERS.code ||
-            assigneeType == WfTokenConstants.AssigneeType.GROUPS.code
-        ) {
-            wfCandidateRepository.findByTokenIdAndCandidateType(tokenEntity, assigneeType).forEach { candidate ->
-                assignees.add(candidate.candidateValue)
+        when (assigneeType) {
+            WfTokenConstants.AssigneeType.ASSIGNEE.code -> assignees.add(tokenEntity.assigneeId.toString())
+            WfTokenConstants.AssigneeType.USERS.code,
+            WfTokenConstants.AssigneeType.GROUPS.code -> {
+                wfCandidateRepository.findByTokenIdAndCandidateType(tokenEntity, assigneeType).forEach { candidate ->
+                    assignees.add(candidate.candidateValue)
+                }
             }
         }
         return RestTemplateTokenStakeholderViewDto(
             type = assigneeType,
             assignee = assignees,
-            revokeAssignee = this.getRevokeAssignee(tokenEntity.get().tokenId)
+            revokeAssignee = this.getRevokeAssignee(tokenEntity.tokenId)
         )
     }
 

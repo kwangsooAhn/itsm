@@ -231,15 +231,13 @@
                     let buttonProcessEle = document.createElement('button');
                     buttonProcessEle.type = 'button';
                     buttonProcessEle.innerText = element.name;
-                    if (element.value === 'close') {
-                        buttonProcessEle.addEventListener('click', function () {
-                            window.close();
-                        });
-                    } else {
-                        buttonProcessEle.addEventListener('click', function () {
-                            aliceDocument.save(element.value);
-                        });
-                    }
+                    buttonProcessEle.addEventListener('click', function () {
+                       if (element.value === 'close') {
+                           window.close();
+                       } else {
+                           aliceDocument.save(element.value);
+                       }
+                    });
                     buttonEle.appendChild(buttonProcessEle);
                 }
             });
