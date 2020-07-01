@@ -19,6 +19,15 @@
             overflow-y: auto;
             overflow-x: hidden;
         }
+        .thumbnail-container > .thumbnail-nodata {
+            display: inline-block;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            color: gray;
+            font-weight: bolder;
+            font-size: 30px;
+        }
         .thumbnail-container > .thumbnail {
             display: inline-block;
             float: left;
@@ -68,8 +77,11 @@
 </head>
 <body>
     <div>
-        <div class="thumbnail-container">
-            <div class="thumbnail" th:each="image : ${imageList}" th:data-name="${image.name}" onclick="selectImage(this)">
+        <div class="thumbnail-container" >
+            <div class="thumbnail-nodata" th:if="${#arrays.isEmpty(imageList)}">
+                <label th:text="#{common.msg.noData}"></label>
+            </div>
+            <div class="thumbnail" th:unless="${#arrays.isEmpty(imageList)}" th:each="image : ${imageList}" th:data-name="${image.name}" onclick="selectImage(this)">
                 <div class="thumbnail-img" th:style="'background-image: url(data:image/' + ${image.extension}  + ';base64,' + ${image.data} + ')'"></div>
                 <div class="thumbnail-info">
                     <p><label th:text="${image.name}"></label></p>
