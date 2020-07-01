@@ -9,6 +9,17 @@ import org.mapstruct.Mappings
 
 @Mapper
 interface WfFormMapper {
+    @Mappings(
+        Mapping(target = "id", ignore = true),
+        Mapping(target = "name", ignore = true),
+        Mapping(target = "status", ignore = true),
+        Mapping(target = "desc", ignore = true),
+        Mapping(target = "editable", ignore = true),
+        Mapping(target = "createUserKey", ignore = true),
+        Mapping(target = "createUserName", ignore = true),
+        Mapping(target = "updateUserKey", ignore = true),
+        Mapping(target = "updateUserName", ignore = true)
+    )
     fun toFormDto(wfFormEntity: WfFormEntity): RestTemplateFormDto
 
     @Mappings(
