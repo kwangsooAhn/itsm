@@ -113,7 +113,7 @@ class WfTokenAction(
         }.maxWith(Comparator { o1, o2 ->
             when {
                 o1.tokenStartDt!! > o2.tokenStartDt -> 1
-                o1.tokenStartDt == o2.tokenStartDt -> 1
+                o1.tokenStartDt == o2.tokenStartDt -> 0
                 else -> -1
             }
         }) ?: throw AliceException(AliceErrorConstants.ERR_00005, "Not found reject element in tokens.")
