@@ -97,7 +97,7 @@ object WfElementConstants {
         ;
 
         companion object {
-            fun isSystemBasicAction(actionValue: String): Boolean {
+            fun isApplicationAction(actionValue: String): Boolean {
                 return when (actionValue) {
                     SAVE.value,
                     REJECT.value,

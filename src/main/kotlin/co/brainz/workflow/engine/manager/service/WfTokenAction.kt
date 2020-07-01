@@ -21,7 +21,7 @@ class WfTokenAction(
     private val wfTokenManagerService: WfTokenManagerService
 ) {
 
-    fun action(tokenDto: WfTokenDto) {
+    fun progressApplicationAction(tokenDto: WfTokenDto) {
         when (tokenDto.action) {
             WfElementConstants.Action.SAVE.value -> this.actionSave(tokenDto)
             WfElementConstants.Action.CANCEL.value -> this.actionCancel(tokenDto)

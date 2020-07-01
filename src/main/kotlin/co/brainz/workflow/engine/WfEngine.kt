@@ -53,9 +53,9 @@ class WfEngine(
         logger.debug("Progress Token")
 
         tokenDto.action?.let {
-            if (WfElementConstants.Action.isSystemBasicAction(it)) {
+            if (WfElementConstants.Action.isApplicationAction(it)) {
                 // 프로세스로 그려지진 않았지만 반려나 회수처럼 시스템에서 기본적으로 제공하는 동작 선택 시.
-                WfTokenAction(wfTokenManagerService).action(tokenDto)
+                WfTokenAction(wfTokenManagerService).progressApplicationAction(tokenDto)
             } else {
                 // 프로세스로 그려진 동적인 흐름을 진행하는 동작.
                 var currentTokenDto = tokenDto.copy()
