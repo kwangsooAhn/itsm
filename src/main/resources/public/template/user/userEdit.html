@@ -30,108 +30,132 @@
             height: 180px;
             width: 180px;
         }
+        table td {
+            padding: 2px 0;
+        }
+        table td input[type="text"], table td input[type="password"] {
+            width: 55%;
+        }
+        table td input[type="password"] {
+            font-family: initial;
+        }
+        table td select {
+            height: 28px;
+        }
     </style>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div id="container" align="center">
+    <div id="container" align="center" style="margin: 15px 0 35px 0">
         <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
         <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
         <form id="userEditSelfForm" method="post" onsubmit ="return false">
             <table style="text-align: left;">
-                <tbody id="tbody">
+                <colgroup>
+                    <col width="150px">
+                    <col width="500px">
+                </colgroup>
+                <tbody th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                     <tr>
-                        <th th:text="#{user.id}+'*'"></th>
-                        <td><input type="text" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/>
+                        <th class="required" th:text="#{user.id}"></th>
+                        <td><input type="text" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/></td>
                     </tr>
                 </tbody>
-                <tbody id="passwordArea">
+                <tbody th:style="${users?.userKey == null || (users?.userKey != null && !users?.platform.equals('user.platform.alice'))} ? 'display: none' : ''">
                     <tr>
-                        <th th:text="#{user.password}+'*'"></th>
-                        <td><input type="password" id="password" autocomplete="new-password" name="password" maxlength="100" required="required"/>
+                        <th class="required" th:text="#{user.password}"></th>
+                        <td><input type="password" id="password" autocomplete="new-password" name="password" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.rePassword}+'*'"></th>
-                        <td><input type="password" id="rePassword" autocomplete="new-password" name="rePassword" maxlength="100" required="required"/>
+                        <th class="required" th:text="#{user.rePassword}"></th>
+                        <td><input type="password" id="rePassword" autocomplete="new-password" name="rePassword" maxlength="100" required="required"/></td>
                     </tr>
                 </tbody>
-                <tbody border="1">
-                    <colgroup>
-                        <col width="120px">
-                        <col width="480px">
-                    </colgroup>
+                <tbody>
                     <tr>
-                        <th th:text="#{user.name}+'*'"></th>
-                        <td><input type="text" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/>
+                        <th class="required" th:text="#{user.name}"></th>
+                        <td><input type="text" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.email}+'*'"></th>
-                        <td><input type="text" id="email" name="email" th:value="${users?.email}" maxlength="100" required="required"/>
+                        <th class="required" th:text="#{user.email}"></th>
+                        <td><input type="text" id="email" name="email" th:value="${users?.email}" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.usageStatus}+'*'"></th>
+                        <th class="required" th:text="#{user.usageStatus}"></th>
                         <td>
                             <label>
                                 <input id="usageStatusUse" name="type" type="radio"
-                                       th:checked="${users?.useYn == null || users?.useYn == true}"
-                                       th:text="#{user.usageStatusFlag.use}" />
+                                    th:checked="${users?.useYn == null || users?.useYn == true}"
+                                    th:text="#{user.usageStatusFlag.use}"/>
                             </label>
                             <label>
                                 <input id="usageStatusUnUse" name="type" type="radio"
-                                       th:checked="${users?.useYn == false}"
-                                       th:text="#{user.usageStatusFlag.unused}" />
+                                    th:checked="${users?.useYn == false}"
+                                    th:text="#{user.usageStatusFlag.unused}"/>
                             </label>
                         </td>
                     </tr>
                     <tr>
                         <th th:text="#{user.position}"></th>
-                        <td><input type="text" id="position" name="position" th:value="${users?.position}" maxlength="100"/>
+                        <td><input type="text" id="position" name="position" th:value="${users?.position}" maxlength="100"/></td>
                     </tr>
                     <tr>
                         <th th:text="#{user.department}"></th>
-                        <td><input type="text" id="department" name="department" th:value="${users?.department}" maxlength="100"/>
+                        <td><input type="text" id="department" name="department" th:value="${users?.department}" maxlength="100"/></td>
                     </tr>
                     <tr>
                         <th th:text="#{user.officeNumber}"></th>
-                        <td><input type="text" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
+                        <td>
+                            <input type="text" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
+                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"/>
+                        </td>
                     </tr>
                     <tr>
                         <th th:text="#{user.mobileNumber}"></th>
-                        <td><input type="text" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
+                        <td>
+                            <input type="text" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
+                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"/>
+                        </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.timezone}+'*'"></th>
+                        <th class="required" th:text="#{user.timezone}"></th>
                         <td>
                             <select name="timezone" id="timezone">
-                                <option th:each="tzData: ${timezoneList}" th:value="${tzData.timezoneValue}" th:text="${tzData.timezoneId}"></option>
+                                <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
+                                    th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone}"></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.timeFormat}+'*'"></th>
+                        <th class="required" th:text="#{user.timeFormat}"></th>
                         <td>
                             <span th:text="#{user.date}"></span>
                             <select name="date" id="date">
-                                <option th:each="dateData: ${dateList}" th:value="${dateData.codeValue}" th:text="${dateData.codeValue}"></option>
+                                <option th:each="date: ${dateList}" th:value="${date.codeValue}"
+                                    th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
                             </select>
                             <span th:text="#{user.time}"></span>
                             <select name="time" id="time">
-                                <option th:each="timeData: ${timeList}" th:value="${timeData.codeValue}" th:text="${timeData.code}"></option>
+                                <option th:each="time: ${timeList}" th:value="${time.codeValue}"
+                                    th:text="${time.code}" th:selected="${time.codeValue} == ${usersTime}"></option>
                             </select>
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.lang}+'*'"></th>
+                        <th class="required" th:text="#{user.lang}"></th>
                         <td>
                             <select name="lang" id="lang">
-                                <option th:each="itemData: ${langList}" th:value="${itemData.codeValue}" th:text="${itemData.codeValue}"></option>
-                            </select></td>
+                                <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
+                                    th:text="${lang.codeValue}" th:selected="${lang.codeValue} == ${users?.lang}"></option>
+                            </select>
+                        </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.theme}+'*'"></th>
+                        <th class="required" th:text="#{user.theme}"></th>
                         <td>
                             <select name="theme" id="theme">
-                                <option th:each="themeData: ${themeList}" th:value="${themeData.codeValue}" th:text="${themeData.codeValue}"></option>
+                                <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
+                                    th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"></option>
                             </select>
                         </td>
                     </tr>
@@ -154,13 +178,13 @@
                     </tr>
                 </tbody>
             </table>
-            <button style="margin-top: 25px;" th:if="!${users?.userKey}" th:onclick="restSubmit('post', [[@{/rest/users}]])" th:text="#{user.reg}"></button>
-            <button style="margin-top: 25px;" th:if="${users?.userKey}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])" th:text="#{user.editUserInfo}"></button>
+            <button type="button" style="margin-top: 25px;" th:if="!${users?.userKey}" th:text="#{user.reg}"
+                th:onclick="restSubmit('post', [[@{/rest/users}]])"></button>
+            <button type="button" style="margin-top: 25px;" th:if="${users?.userKey}" th:text="#{user.editUserInfo}"
+                th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])"></button>
             <button th:text="#{common.btn.list}" onclick="location.href='/users/search'"></button>
         </form>
     </div>
-    <br>
-    <br>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
@@ -172,73 +196,14 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            var userKey = /*[[${users?.userKey} ? ${users.userKey} : null]]*/;
-            var userPlatform = /*[[${users?.platform} ? ${users.platform} : null]]*/;
-            var userTheme = /*[[${users?.theme} ? ${users.theme} : null]]*/;
-            var userLang = /*[[${users?.lang} ? ${users.lang} : null]]*/;
-            var userTimezone = /*[[${users?.timezone} ? ${users.timezone} : null]]*/;
-            var userTimeFormat = /*[[${users?.timeFormat} ? ${users.timeFormat} : null]]*/;
-            var userDate = /*[[${usersDate}]]*/;
-            var userTime = /*[[${usersTime}]]*/;
-
-            if (userKey !== null && userPlatform !== 'user.platform.alice') {
-                document.getElementById('tbody').style.display = 'none';
-                document.getElementById('passwordArea').style.display = 'none';
-            } else if (userKey === null) {
-                document.getElementById('passwordArea').style.display = 'none';
-            }
-
-            if (userTheme !== null) {
-                var selectLength = document.getElementById('theme').length;
-                for (var i = 0; i < selectLength; i++) {
-                    if (document.getElementById('theme').options[i].value === userTheme) {
-                        document.getElementById('theme').options[i].selected = true;
-                    }
-                }
-            }
-
-            if (userLang !== null) {
-                var selectLength = document.getElementById('lang').length;
-                for (var i = 0; i < selectLength; i++) {
-                    if (document.getElementById('lang').options[i].value === userLang) {
-                        document.getElementById('lang').options[i].selected = true;
-                    }
-                }
-            }
-
-            if (userTimezone !== null) {
-                var selectLength = document.getElementById('timezone').length;
-                for (var i = 0; i < selectLength; i++) {
-                    if (document.getElementById('timezone').options[i].value === userTimezone) {
-                        document.getElementById('timezone').options[i].selected = true;
-                    }
-                }
-            }
-
-            if (userTimeFormat !== null) {
-                var selectLength = document.getElementById('date').length;
-                for (var i = 0; i < selectLength; i++) {
-                    if (document.getElementById('date').options[i].value === userDate) {
-                        document.getElementById('date').options[i].selected = true;
-                    }
-                }
-
-                selectLength = document.getElementById('time').length;
-                for (var i = 0; i < selectLength; i++) {
-                    if (document.getElementById('time').options[i].value === userTime) {
-                        document.getElementById('time').options[i].selected = true;
-                    }
-                }
-            }
-            document.getElementById('avatarUUID').value = uuid();
-            const avatarUUID = document.getElementById('avatarUUID').value;
-            fileUploader.init(
-                {extra: {
+            const avatarUUID = uuid();
+            document.getElementById('avatarUUID').value = avatarUUID;
+            fileUploader.init({extra: {
                 formId: 'userEditSelfForm',
                 dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/fileupload?target=avatar&fileName='+ avatarUUID,
+                dropZoneUrl: '/fileupload?target=avatar&fileName=' + avatarUUID,
                 dropZoneMaxFiles: 1,
-                acceptedFiles:".png,.jpeg,.jpg,.gif",
+                acceptedFiles: '.png,.jpeg,.jpg,.gif',
                 clickable: '.add-img-button'
             }});
         };
@@ -256,7 +221,7 @@
             event = event || window.event;
             const keyID = (event.which) ? event.which : event.keyCode;
             if (!(keyID === 8 || keyID === 46 || keyID === 37 || keyID === 39)) {
-                event.target.value = event.target.value.replace(/[^0-9]/g, "");
+                event.target.value = event.target.value.replace(/[^0-9]/g, '');
             }
         }
 
@@ -267,28 +232,10 @@
         const STATUS_SUCCESS_EDIT_ADMIN = '5';
 
         function restSubmit(method, url) {
-            var password = document.getElementById('password').value;
-            var keyModule;
-            var keyExponent;
-            var rsa;
-
             if (!validation()) {
                 return false;
             }
-
-            if (method === 'put') {
-                keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
-                keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-                rsa = new RSAKey();
-                rsa.setPublic(keyModule, keyExponent);
-                if (password !== '') {
-                    password = rsa.encrypt(password);
-                }
-            }
-
-            //역할 관련 function
             let arrRoleValue = [];
-
             document.querySelectorAll('input[name=roles]:checked').forEach(function(item) {
                 arrRoleValue.push(item.value);
             });
@@ -311,11 +258,16 @@
                 fileSeq: document.getElementsByTagName('fileSeq').value,
                 avatarUUID: document.getElementById('avatarUUID').value
             };
-            if (password !== '') {
-                data.password = password;
+            let password = document.getElementById('password').value;
+            if (password !== '' && method === 'put') {
+                const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+                const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+                const rsa = new RSAKey();
+                rsa.setPublic(keyModule, keyExponent);
+                data.password = rsa.encrypt(password);
             }
 
-            const opt = {
+            aliceJs.sendXhr({
                 method: method,
                 url: url,
                 params: JSON.stringify(data),
@@ -348,8 +300,7 @@
                             break;
                     }
                 }
-            };
-            aliceJs.sendXhr(opt);
+            });
         }
 
         function validation() {
