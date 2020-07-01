@@ -18,6 +18,11 @@ interface NoticeMapper {
 
     fun toNoticePopupListDto(noticeEntity: NoticeEntity): NoticePopupListDto
 
+    @Mappings(
+        Mapping(target = "createUserKey", ignore = true),
+        Mapping(target = "updateUserKey", ignore = true),
+        Mapping(target = "fileSeq", ignore = true)
+    )
     fun toNoticeDto(noticeEntity: NoticeEntity): NoticeDto
 
     fun toNoticeListDto(noticeEntity: NoticeEntity): NoticeListDto

@@ -458,9 +458,10 @@ aliceJs.alert = function(message, callbackFunc) {
  * open confirm dialog.
  *
  * @param message message
- * @param callbackFunc callback function
+ * @param okCallbackFunc ok 시 callback function
+ * @param cancelCallbackFunc cancel 시 callback function
  */
-aliceJs.confirm = function(message, callbackFunc) {
+aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
     const myModal = new gModal({
         title: 'Confirm',
         body: '<div style="text-align: center;">' + message + '</div>',
@@ -470,6 +471,9 @@ aliceJs.confirm = function(message, callbackFunc) {
                 classes: 'gmodal-button-red',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
+                    if (typeof cancelCallbackFunc === 'function') {
+                        cancelCallbackFunc();
+                    }
                     modal.hide();
                 }
             },{
@@ -477,8 +481,8 @@ aliceJs.confirm = function(message, callbackFunc) {
                 classes: 'gmodal-button-green',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
+                    if (typeof okCallbackFunc === 'function') {
+                        okCallbackFunc();
                     }
                     modal.hide();
                 }
