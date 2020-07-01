@@ -51,13 +51,17 @@ class WfEngine(
      */
     fun progressWorkflow(tokenDto: WfTokenDto): Boolean {
         logger.debug("Progress Token")
-        when (tokenDto.action) {
-            WfElementConstants.Action.PROGRESS.value -> {
+
+        tokenDto.action?.let {
+            if (WfElementConstants.Action.isApplicationAction(it)) {
+                // 프로세스로 그려지진 않았지만 반려나 회수처럼 시스템에서 기본적으로 제공하는 동작 선택 시.
+                WfTokenAction(wfTokenManagerService).progressApplicationAction(tokenDto)
+            } else {
+                // 프로세스로 그려진 동적인 흐름을 진행하는 동작.
                 var currentTokenDto = tokenDto.copy()
                 var currentTokenManager: WfTokenManager
                 var nextTokenDto: WfTokenDto?
                 var nextTokenManager: WfTokenManager
-
                 do {
                     // 현재 토큰 처리.
                     currentTokenDto = this.getTokenDto(currentTokenDto)
@@ -75,7 +79,6 @@ class WfEngine(
                     }
                 } while (nextTokenManager.isAutoComplete)
             }
-            else -> WfTokenAction(wfTokenManagerService).action(tokenDto)
         }
         return true
     }

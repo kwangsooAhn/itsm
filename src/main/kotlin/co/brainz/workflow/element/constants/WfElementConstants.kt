@@ -94,6 +94,20 @@ object WfElementConstants {
         WITHDRAW("withdraw"),
         CANCEL("cancel"),
         TERMINATE("terminate")
+        ;
+
+        companion object {
+            fun isApplicationAction(actionValue: String): Boolean {
+                return when (actionValue) {
+                    SAVE.value,
+                    REJECT.value,
+                    WITHDRAW.value,
+                    CANCEL.value,
+                    TERMINATE.value -> true
+                    else -> false
+                }
+            }
+        }
     }
 
     /**
