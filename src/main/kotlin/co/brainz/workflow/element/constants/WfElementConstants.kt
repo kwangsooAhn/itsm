@@ -97,8 +97,28 @@ object WfElementConstants {
         CLOSE("close")
     }
 
+    /**
+     * 엘리먼트 데이터에 사용하는 고정값.
+     */
     enum class AttributeValue(val value: String) {
         ACTION("#{action}"),
         WITHDRAW_ENABLE("Y")
+    }
+
+    /**
+     * 컨넥터 엘리먼트에서 사용하는 condition 속성 종류
+     */
+    enum class ConnectorConditionValue(val value: Int) {
+        /** attribute 데이터 없음 */
+        NONE(0),
+
+        /** condition-value 속성 */
+        CONDITION(1),
+
+        /** action-name & action-value 속성 */
+        ACTION(10),
+
+        /** condition-value 와 (action-name & action-value) 중복됨 */
+        DUPLICATION(11)
     }
 }
