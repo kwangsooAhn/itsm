@@ -1766,12 +1766,10 @@
             }
             const source = document.getElementById(element.data['start-id']),
                   target = document.getElementById(element.data['end-id']);
-            const nodeId = workflowUtil.generateUUID();
-            element.id = nodeId;
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;
-                let linkData = {id: nodeId, sourceId: source.id, targetId: target.id, isDefault: element.data['is-default']};
+                let linkData = {id: element.id, sourceId: source.id, targetId: target.id, isDefault: element.data['is-default']};
                 if (element.display) {
                     Object.keys(element.display).forEach(function(key) {
                         if (typeof element.display[key] !== 'undefined') {
