@@ -2,10 +2,10 @@ package co.brainz.workflow.token.repository
 
 import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
+import java.util.Optional
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
-import java.util.Optional
 
 @Repository
 interface WfCandidateRepository : JpaRepository<WfCandidateEntity, String> {

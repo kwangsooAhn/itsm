@@ -3,6 +3,7 @@ package co.brainz.workflow.token.service
 import co.brainz.itsm.instance.constants.InstanceConstants
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
+import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.dto.RestTemplateTokenStakeholderViewDto
@@ -14,13 +15,13 @@ import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
+import java.util.Optional
+import kotlin.collections.LinkedHashMap
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.LinkedMultiValueMap
-import java.util.Optional
-import kotlin.collections.LinkedHashMap
 
 @Service
 @Transactional
@@ -142,7 +143,6 @@ class WfTokenService(
         val tokenData = LinkedMultiValueMap<String, String>()
         tokenData["tokenId"] = tokenEntity.get().tokenId
         tokenData["status"] = tokenEntity.get().tokenStatus
-
         return RestTemplateTokenViewDto(
             token = tokenData,
             instanceId = tokenEntity.get().instance.instanceId,
@@ -151,18 +151,15 @@ class WfTokenService(
             stakeholders = this.getTokenStakeholders(tokenEntity)
         )
     }
-    
+
     /**
-     * Token에 대한 문서관련자
-     *
-     * @param tokenEntity
-     * @return RestTemplateTokenStakeholderViewDto
+     * 토큰정보[tokenEntity]를 받아서 문서관련자[RestTemplateTokenStakeholderViewDto]정보를 반환 한다.
      */
-    fun getTokenStakeholders(tokenEntity: Optional<WfTokenEntity>): RestTemplateTokenStakeholderViewDto {
+    private fun getTokenStakeholders(tokenEntity: Optional<WfTokenEntity>): RestTemplateTokenStakeholderViewDto {
         var assigneeType = ""
         val assignees = mutableListOf<String>()
         tokenEntity.get().element.elementDataEntities.forEach { elementData ->
-            if (elementData.attributeId == "assignee-type") {
+            if (elementData.attributeId == WfElementConstants.AttributeId.ASSIGNEE_TYPE.value) {
                 assigneeType = elementData.attributeValue
             }
         }
@@ -176,7 +173,6 @@ class WfTokenService(
                 assignees.add(candidate.candidateValue)
             }
         }
-
         return RestTemplateTokenStakeholderViewDto(
             type = assigneeType,
             assignee = assignees,
@@ -185,12 +181,9 @@ class WfTokenService(
     }
 
     /**
-     * tokenId를 통해서 이전 UserTask 담당자Id를 반환 한다.
-     *
-     * @param tokenId
-     * @return String
+     * [tokenId]를 받아서 회수자 Id[String]를 반환 한다.
      */
-    fun getRevokeAssignee(tokenId: String): String {
+    private fun getRevokeAssignee(tokenId: String): String {
         var assigneeId = ""
         var isBreak = true
         instanceService.getInstanceHistory(tokenId)?.sortedBy { it.tokenEndDt }?.reversed()

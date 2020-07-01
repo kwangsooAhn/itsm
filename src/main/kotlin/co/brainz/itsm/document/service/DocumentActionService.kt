@@ -20,9 +20,7 @@ class DocumentActionService(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
-     * documentData 받아서 버튼 정리해서 반환한다.
-     * @param documentData
-     * @return String
+     * [documentData]을 받아서 필요 버튼을 정리 한 후[String]으로 반환 한다.
      */
     fun makeDocumentAction(documentData: String): String {
         val documentJsonData: JsonObject = JsonParser().parse(documentData).asJsonObject
@@ -49,9 +47,7 @@ class DocumentActionService(
     }
 
     /**
-     * TokenData 받아서 버튼 정리해서 반환한다.
-     * @param tokensData
-     * @return String
+     * [tokensData] 받아서 필요 버튼을 정리 한 후[String]으로 반환 한다.
      */
     fun makeTokenAction(tokensData: String): String {
         //버튼 보여주기
@@ -150,50 +146,32 @@ class DocumentActionService(
     }
 
     /**
-     * tokenStatus 상태에 따라서 현재 문서가 진행중인지 확인한다.
-     * @param tokenStatus
-     * @return Boolean
+     * [tokenStatus]상태에 따라서 현재 문서가 진행 중인지 확인 하여 [Boolean]로 반환 한다.
      */
     fun checkTokenStatus(tokenStatus: String): Boolean {
-        var isProgress = false
-        when (tokenStatus) {
-            WfTokenConstants.Status.RUNNING.code -> {
-                isProgress = true
-            }
-            WfTokenConstants.Status.WAITING.code -> {
-                isProgress = false
-            }
-            WfTokenConstants.Status.FINISH.code -> {
-                isProgress = false
-            }
-            WfTokenConstants.Status.WITHDRAW.code -> {
-                isProgress = true
-            }
-            WfTokenConstants.Status.REJECT.code -> {
-                isProgress = true
-            }
-            WfTokenConstants.Status.CANCEL.code -> {
-                isProgress = false
-            }
-            WfTokenConstants.Status.TERMINATE.code -> {
-                isProgress = false
-            }
+        return when (tokenStatus) {
+            WfTokenConstants.Status.RUNNING.code,
+            WfTokenConstants.Status.WITHDRAW.code,
+            WfTokenConstants.Status.REJECT.code -> true
+            WfTokenConstants.Status.WAITING.code,
+            WfTokenConstants.Status.FINISH.code,
+            WfTokenConstants.Status.CANCEL.code,
+            WfTokenConstants.Status.TERMINATE.code -> false
+            else -> true
         }
-        return isProgress
     }
 
     /**
-     * 사용자가 해당 권한을 가지고 있는지 확인 한다.
-     * @param userEntity
-     * @param authId
-     * @return Boolean
+     * 사용자 정보[userEntity]와 확인 할 권한[authId]을 받아서
+     * 사용자가 해당 권한을 가지고 있는지 확인후 [Boolean]으로 반환 한다.
      */
     fun checkUserAuth(userEntity: AliceUserEntity, authId: String): Boolean {
         var isAuth = false
-        userEntity.userRoleMapEntities.forEach { aliceUserRoleMapEntity ->
+        userEntity.userRoleMapEntities.forEach userRole@{ aliceUserRoleMapEntity ->
             aliceUserRoleMapEntity.role.roleAuthMapEntities.forEach { aliceRoleAuthMapEntity ->
                 if (aliceRoleAuthMapEntity.auth.authId == authId) {
                     isAuth = true
+                    return@userRole
                 }
             }
         }
@@ -201,10 +179,7 @@ class DocumentActionService(
     }
 
     /**
-     * 사용자가 해당 토근의 처리자인지 확인 한다.
-     * @param stakeholders
-     * @param userEntity
-     * @return Boolean
+     * 문서 관련자[stakeholders]와 문서를 연 사용자가[userEntity]해당 토근의 처리자인지 확인 하여 [Boolean]을 반환 한다.
      */
     fun checkAssignee(stakeholders: JsonObject, userEntity: AliceUserEntity): Boolean {
         var isAssignee = false
@@ -216,16 +191,18 @@ class DocumentActionService(
                 isAssignee = true
             }
         } else if (assigneeType == WfTokenConstants.AssigneeType.USERS.code) {
-            assignees.asJsonArray.forEach { assigneesUserKeys ->
+            assignees.asJsonArray.forEach assigneesUserKeys@{ assigneesUserKeys ->
                 if (assigneesUserKeys.asString == userEntity.userKey) {
                     isAssignee = true
+                    return@assigneesUserKeys
                 }
             }
         } else if (assigneeType == WfTokenConstants.AssigneeType.GROUPS.code) {
-            userEntity.userRoleMapEntities.forEach { aliceUserRoleMapEntity ->
+            userEntity.userRoleMapEntities.forEach aliceUserRoleMapEntity@{ aliceUserRoleMapEntity ->
                 assignees.asJsonArray.forEach { assigneesRoleIds ->
                     if (assigneesRoleIds.asString == aliceUserRoleMapEntity.role.roleId) {
                         isAssignee = true
+                        return@aliceUserRoleMapEntity
                     }
                 }
             }
