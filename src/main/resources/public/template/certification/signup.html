@@ -43,11 +43,11 @@
     <div class="white-base" id="signUp">
         <div class="login-face">
             <p th:text="#{login.label.loginNote}"></p>
-            <a class="btn btn-primary" href="/login" id="sendLogin" th:text="#{login.btn.sendLogin}"></a>
+            <a class="btn btn-primary" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
         </div>
         <img th:src="@{/assets/media/icons/logo.png}" alt="Alice">
         <div class="signup-base">
-            <p th:text="#{login.btn.userSignUp}"></p>
+            <p th:text="#{login.label.userSignUp}"></p>
             <form id="signUpForm" method="post" onsubmit="return false">
                 <table class="signup-form">
                     <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
@@ -183,11 +183,11 @@
         }
         // 빈 값 체크
         function emptyValidation() {
-            if (isEmpty('userId', 'user.msg.idNotExist')) return false;
-            if (isEmpty('password', 'user.msg.passwordNotExist')) return false;
-            if (isEmpty('rePassword', 'user.msg.rePasswordNotExist')) return false;
-            if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
-            if (isEmpty('email', 'user.msg.emailNotExist')) return false;
+            if (isEmpty('userId', 'user.msg.enterUserId')) return false;
+            if (isEmpty('password', 'user.msg.enterUserPassword')) return false;
+            if (isEmpty('rePassword', 'user.msg.enterUserRePassword')) return false;
+            if (isEmpty('userName', 'user.msg.enterUserName')) return false;
+            if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
             return true;
         }
 
@@ -209,7 +209,7 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alert([[#{user.msg.joinUser}]], function() {
+                            aliceJs.alert([[#{user.msg.signUp}]], function() {
                                 location.href = "/login";
                             });
                             break;
@@ -220,7 +220,7 @@
                             aliceJs.alert([[#{user.msg.sameEmail}]]);
                             break;
                         default :
-                            aliceJs.alert([[#{common.msg.fail}]]);
+                            aliceJs.alert([[#{user.msg.signUpFail}]]);
                             break;
                     }
                 }

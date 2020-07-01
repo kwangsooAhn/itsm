@@ -353,15 +353,15 @@
         }
 
         function validation() {
-            if (isEmpty('userId', 'user.msg.idNotExist')) return false;
-            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.passwordNotExist')) return false;
-            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.rePasswordNotExist')) return false;
+            if (isEmpty('userId', 'user.msg.enterUserId')) return false;
+            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.enterUserPassword')) return false;
+            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.enterUserRePassword')) return false;
             if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
             if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
                 if (!isValidPassword('password')) return false;
             }
-            if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
-            if (isEmpty('email', 'user.msg.emailNotExist')) return false;
+            if (isEmpty('userName', 'user.msg.enterUserName')) return false;
+            if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
             if (!isValidEmail('email')) return false;
             return true;
         }

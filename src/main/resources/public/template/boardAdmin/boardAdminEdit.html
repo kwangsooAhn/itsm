@@ -170,9 +170,9 @@
 
         //게시판 관리 저장
         function saveBoardAdmin(method) {
-            if (isEmpty('boardAdminTitle', 'board.msg.inputBoardTitle')) return;
+            if (isEmpty('boardAdminTitle', 'board.msg.enterBoardTitle')) return;
             if (getRadioCheckValue('attachYn') === 'true') {
-                if (isExistInScope('attachFileSize', 1, 1024, 'board.msg.inputAttachFileSize')) return;
+                if (isExistInScope('attachFileSize', 1, 1024, 'board.msg.enterAttachFileSize')) return;
             }
             const data = {
                 boardAdminTitle: document.getElementById('boardAdminTitle').value,

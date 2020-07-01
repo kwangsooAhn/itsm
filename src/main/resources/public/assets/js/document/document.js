@@ -106,25 +106,25 @@
                     case 'date-min':
                     case 'date-max':
                         if (attribute.nodeName === 'date-min' && i18n.compareSystemDate(element.value, nodeValue)) {
-                            message = i18n.get('document.msg.dateMin', nodeValue);
+                            message = i18n.get('common.msg.selectAfterDate', nodeValue);
                         } else if (attribute.nodeName === 'date-max' && i18n.compareSystemDate(nodeValue, element.value)) {
-                            message = i18n.get('document.msg.dateMax', nodeValue);
+                            message = i18n.get('common.msg.selectBeforeDate', nodeValue);
                         }
                         break;
                     case 'time-min':
                     case 'time-max':
                         if (attribute.nodeName === 'time-min' && i18n.compareSystemTime(element.value, nodeValue)) {
-                            message = i18n.get('document.msg.timeMin', nodeValue);
+                            message = i18n.get('common.msg.selectAfterTime', nodeValue);
                         } else if (attribute.nodeName === 'time-max' && i18n.compareSystemTime(nodeValue, element.value)) {
-                            message = i18n.get('document.msg.timeMax', nodeValue);
+                            message = i18n.get('common.msg.selectBeforeTime', nodeValue);
                         }
                         break;
                     case 'datetime-min':
                     case 'datetime-max':
                         if (attribute.nodeName === 'datetime-min' && i18n.compareSystemDateTime(element.value, nodeValue)) {
-                            message = i18n.get('document.msg.datetimeMin', nodeValue);
+                            message = i18n.get('common.msg.selectAfterDateTime', nodeValue);
                         } else if (attribute.nodeName === 'datetime-max' && i18n.compareSystemDateTime(nodeValue, element.value)) {
-                            message = i18n.get('document.msg.datetimeMax', nodeValue);
+                            message = i18n.get('common.msg.selectBeforeDateTime', nodeValue);
                         }
                         break;
                     case 'regexp':
@@ -193,7 +193,7 @@
             case 'radio':
             case 'chkbox':
                 if (!checkSelect(element)) {
-                    message = i18n.get('document.msg.requiredSelect');
+                    message = i18n.get('common.msg.requiredSelect');
                 }
                 break;
             case 'fileupload':
@@ -203,7 +203,7 @@
                 break;
             case 'custom-code':
                 if (element.value === '') {
-                    message = i18n.get('document.msg.requiredSelect');
+                    message = i18n.get('common.msg.requiredSelect');
                 }
                 break;
             default :

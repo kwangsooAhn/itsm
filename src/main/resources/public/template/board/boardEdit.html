@@ -160,7 +160,7 @@
 
         //게시판 저장
         function saveBoard(method, kind) {
-            if (isEmpty('boardTitle', 'board.msg.inputBoardTitle')) return;
+            if (isEmpty('boardTitle', 'board.msg.enterBoardTitle')) return;
             let fileSeqList = [];
             document.getElementsByName('fileSeq').forEach(function(elem) {
                 fileSeqList.push(elem.value);

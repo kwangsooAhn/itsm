@@ -125,7 +125,7 @@
     function selectedImageSave() {
         //이미지가 하나라도 선택되어 있지 않으면 알림창 출력
         if (selectedImagePreview === null) {
-            aliceJs.alert(i18n.get('form.msg.alert.fileSelect'));
+            aliceJs.alert(i18n.get('form.msg.fileSelect'));
             return false;
         }
         if (window.opener && !window.opener.closed) {
@@ -277,7 +277,7 @@
                                     file.previewElement.parentNode.removeChild(file.previewElement);
                                 }
                                 this.files.splice(-1, 1);
-                                aliceJs.alert(i18n.get('form.msg.alert.fileNameDuplication'));
+                                aliceJs.alert(i18n.get('form.msg.fileNameDuplication'));
                                 isDuplicated = true;
                                 break;
                             }
@@ -335,7 +335,7 @@
                             file.previewElement.parentNode.removeChild(file.previewElement);
                         }
                         this.files.splice(-1, 1);
-                        aliceJs.alert(i18n.get('form.msg.alert.fileuploadFailed'));
+                        aliceJs.alert(i18n.get('form.msg.fileuploadFailed'));
                     } else {
                         file.url = response.imgUrl;
                         file.imgPath = response.imgPath;

@@ -155,7 +155,7 @@
             <div style="float: right;">
                 <button type="button" onclick="location.href='/notices/search'" th:text="#{common.btn.list}"></button>
                 <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/rest/notices}]])" th:text="#{common.btn.register}"></button>
-                <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.modifyCompleted}"></button>
+                <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.label.modifyCompleted}"></button>
             </div>
         </form>
     </div>
