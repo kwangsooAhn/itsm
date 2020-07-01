@@ -11,7 +11,7 @@
     <div class="container">
         <form id="formSearch" method="get">
             <div class="pull-right" style="width: 1100px; margin: 10px 0;">
-                <input type="text" name="searchValue" id="searchValue" th:placeholder="#{notice.searchPlaceholder}"/>
+                <input type="text" name="searchValue" id="searchValue" th:placeholder="#{notice.label.searchPlaceholder}"/>
                 <input type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                 <input type="text" id="toDt" name="toDt" readonly="readonly"/>
                 <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;"
