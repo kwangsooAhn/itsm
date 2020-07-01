@@ -115,7 +115,8 @@ object WfElementConstants {
      */
     enum class AttributeValue(val value: String) {
         ACTION("#{action}"),
-        WITHDRAW_ENABLE("Y")
+        WITHDRAW_ENABLE("Y"),
+        IS_DEFAULT_ENABLE("Y")
     }
 
     /**
