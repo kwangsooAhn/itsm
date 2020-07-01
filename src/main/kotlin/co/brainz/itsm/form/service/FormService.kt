@@ -108,7 +108,6 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
         val componentDetailList: MutableList<ComponentDetail> = mutableListOf()
         for (component in components) {
-            val value = component["value"].toString()
             var dataAttribute: LinkedHashMap<String, Any> = linkedMapOf()
             component["dataAttribute"]?.let {
                 dataAttribute =
@@ -147,7 +146,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                 ComponentDetail(
                     componentId = component["componentId"] as String,
                     type = component["type"] as String,
-                    value = value,
+                    value = null,
                     dataAttribute = dataAttribute,
                     display = display,
                     label = label,

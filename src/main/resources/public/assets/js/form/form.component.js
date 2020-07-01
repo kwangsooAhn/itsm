@@ -27,8 +27,8 @@
             {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
             {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
         ],
-        editboxPlaceholder= '+ Typing \'/\' for add component',
-        columnWidth = 8.33;  //폼 양식을 12등분 하였을 때, 1개의 너비
+        editboxPlaceholder = 'Typing \'/\' for add component',
+        columnWidth = 12;   // 폼 양식을 몇 등분할지 값
         
     let componentIdx = 0;          //컴포넌트 index = 출력 순서 생성시 사용
 
@@ -84,7 +84,7 @@
         if (target.hasAttribute('data-readonly')) { //폼 양식
             if (textDefaultArr[0] !== 'none') { textDefaultValue = textDefaultArr[2]; } //폼 양식 편집 화면에서는 세션 값이 출력되지 않는다.
         } else { //신청서 및 처리할 문서
-            if (target.getAttribute('data-isToken') === 'true') { //처리할 문서
+            if (typeof attr.value !== 'undefined') { //처리할 문서
                 textDefaultValue = attr.value;
             }
         }
@@ -123,7 +123,7 @@
         const textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * defaultRowHeight : defaultRowHeight;
         let textAreaDefaultValue = '';
         //처리할 문서는 실 데이터를 출력한다.
-        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+        if (typeof attr.value !== 'undefined') {
             textAreaDefaultValue = (textEditorUseYn && attr.value !== '') ? JSON.parse(attr.value) : attr.value;
         }
         let comp = utils.createComponentByTemplate(`
@@ -206,7 +206,7 @@
             optElem.text = attr.option[i].name;
             optElem.setAttribute('seq', attr.option[i].seq);
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true' && optElem.value === attr.value) {
+            if (typeof attr.value !== 'undefined' && optElem.value === attr.value) {
                 optElem.selected = true;
             }
             selectElem.appendChild(optElem);
@@ -253,7 +253,7 @@
             radioElem.setAttribute('seq', attr.option[i].seq);
 
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true' && attr.value !== '') {
+            if (typeof attr.value !== 'undefined' && attr.value !== '') {
                 radioElem.checked = (radioElem.value === attr.value);
             } else {
                 radioElem.checked = (i === 0);
@@ -322,7 +322,7 @@
             checkElem.name = attr.option[i].name;
 
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true' && attr.value !== '') {
+            if (typeof attr.value !== 'undefined' && attr.value !== '') {
                 const checkboxValues = JSON.parse(attr.value);
                 for (let j = 0, checkLen = checkboxValues.length; j < checkLen; j++) {
                     if (checkElem.value === checkboxValues[j]) {
@@ -444,7 +444,7 @@
         let dateDefaultArr = attr.display['default'].split('|');
         let dateDefault = '';
         //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
-        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+        if (typeof attr.value !== 'undefined') {
             dateDefault = attr.value;
         } else { //문서양식, 신청서는 default값 출력한다.
             switch(dateDefaultArr[0]) {
@@ -503,7 +503,7 @@
         let timeDefaultArr = attr.display['default'].split('|');
         let timeDefault = '';
         //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
-        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+        if (typeof attr.value !== 'undefined') {
             timeDefault = attr.value;
         } else {
             switch(timeDefaultArr[0]) {
@@ -562,7 +562,7 @@
         let datetimeDefaultArr = attr.display['default'].split('|');
         let datetimeDefault = '';
         //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
-        if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+        if (typeof attr.value !== 'undefined') {
                 datetimeDefault = attr.value;
         } else {
             switch(datetimeDefaultArr[0]) {
@@ -650,7 +650,7 @@
                     editor: (attr.dataAttribute.displayType !== 'readonly')
                 }
             };
-            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+            if (typeof attr.value !== 'undefined') {
                 fileOptions.extra.fileDataIds = attr.value;
             }
             fileUploader.init(fileOptions);
@@ -676,7 +676,7 @@
             defaultCustomData = ''; // 신청서 작성 및 처리할 문서
         if (!target.hasAttribute('data-readonly')) { // 신청서 작성 및 처리할 문서
             //처리할 문서는 실 데이터를 출력한다.
-            if (target.hasAttribute('data-isToken') && target.getAttribute('data-isToken') === 'true') {
+            if (typeof attr.value !== 'undefined') {
                 defaultCustomData = attr.value;
             } else {  // 신청서 작성
                 if (textDefaultArr[0] !== 'none') {
@@ -845,15 +845,15 @@
                 if (compAttr.label.position === 'hidden') {
                     firstField.style.display = 'none';
                 } else if (compAttr.label.position === 'left') {
-                    firstField.style.flexBasis = (columnWidth * Number(compAttr.label.column)) + '%';
+                    firstField.style.flexBasis = ((100 * Number(compAttr.label.column)) / columnWidth) + '%';
                 } else { //top
-                    firstField.style.flexBasis = (columnWidth * Number(compAttr.label.column)) + '%';
+                    firstField.style.flexBasis = ((100 * Number(compAttr.label.column)) / columnWidth) + '%';
                     const secondField = document.createElement('div');
                     secondField.className = 'field';
-                    secondField.style.flexBasis = (100 - (columnWidth * Number(compAttr.label.column))) + '%';
+                    secondField.style.flexBasis = (100 - ((100 * Number(compAttr.label.column)) / columnWidth)) + '%';
                     lastField.parentNode.insertBefore(secondField, lastField);
                 }
-                lastField.style.flexBasis = (columnWidth * Number(compAttr.display.column)) + '%';
+                lastField.style.flexBasis = ((100 * Number(compAttr.display.column)) / columnWidth) + '%';
             }
         }
         return componentConstructor;
