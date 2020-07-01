@@ -442,7 +442,7 @@ document:
     display: "Service Request Display"
     form: "Form"
     process: "Process"
-    status: "Status"
+    status: "Service Request Status"
     numberingRule: "Document Numbering Rule"
     print: "Service Request Print"
     businessFlowColor: "Business Flow Color"
