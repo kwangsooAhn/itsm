@@ -9,7 +9,6 @@ import org.springframework.util.LinkedMultiValueMap
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 
 /**
  * ### 폼(문서양식) 관련 화면 호출 처리용 클래스.
@@ -72,9 +71,9 @@ class FormController(
     /**
      * 폼 디자이너 미리보기 화면.
      */
-    @RequestMapping("/{formId}/preview", method = [RequestMethod.POST, RequestMethod.GET])
-    fun getFormEditPreview(@PathVariable formId: String, model: Model, request: HttpServletRequest): String {
-        model.addAttribute("data", request.getParameter("data") ?: "")
+    @GetMapping("/{formId}/preview")
+    fun getFormEditPreview(@PathVariable formId: String, model: Model): String {
+        model.addAttribute("formId", formId)
         return formEditPreviewPage
     }
 

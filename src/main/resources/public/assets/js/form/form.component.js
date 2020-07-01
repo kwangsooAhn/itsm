@@ -729,25 +729,14 @@
             let searchBtn = comp.querySelector('#codeBtn');
             searchBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                let url = '/custom-codes/' + attr.display.customCode + '/search';
-                window.open(url, 'customCodePop', 'width=500, height=655');
                 let customCodeData = {
                     componentId: attr.componentId,
                     componentValue: customCodeTextElem.getAttribute('custom-data')
                 };
-
-                let form = document.createElement('form');
-                form.action = url;
-                form.method = 'GET';
-                form.target = 'customCodePop';
-                let inputElem = document.createElement('input');
-                inputElem.name = 'customCodeData';
-                inputElem.value = JSON.stringify(customCodeData);
-                form.appendChild(inputElem);
-                form.style.display = 'none';
-
-                document.body.appendChild(form);
-                form.submit();
+                const itemName = 'alice_custom-codes-search-' + attr.componentId;
+                sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
+                let url = '/custom-codes/' + attr.display.customCode + '/search';
+                window.open(url, itemName, 'width=500, height=655');
             });
         }
     }

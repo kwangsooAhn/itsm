@@ -437,7 +437,7 @@
             url = '/rest/tokens/data'
         } else {
             method = 'put';
-            url = '/rest/tokens/' + tokenObject.tokenId + '/data'
+            url = '/rest/tokens/' + tokenObject.tokenId + '/data';
         }
         const opt = {
             method: method,
@@ -666,13 +666,6 @@
      * @param url
      */
     function print(url) {
-        let form = document.createElement('form');
-        form.action = url + '/print';
-        form.name = 'print';
-        form.method = 'post';
-        form.target = '_blank';
-        let textarea = document.createElement('textarea');
-        textarea.name = 'data';
         let componentArrayList = getComponentData('print');
         dataForPrint.form.components = dataForPrint.form.components.filter(function(comp) {
             componentArrayList.forEach(function(array) {
@@ -685,12 +678,8 @@
             }
             return comp;
         });
-        textarea.value = JSON.stringify(dataForPrint);
-        form.appendChild(textarea);
-        form.style.display = 'none';
-        document.body.appendChild(form);
-
-        form.submit();
+        sessionStorage.setItem('alice_print', JSON.stringify(dataForPrint));
+        window.open(url + '/print', '_blank');
     }
 
     exports.init = init;
