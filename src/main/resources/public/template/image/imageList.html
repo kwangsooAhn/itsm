@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <!-- 임시 css -->
+    <style type="text/css">
+        .title {
+            padding: 20px 0;
+            font-size: 30px;
+            font-weight: bolder;
+        }
+        .btn-container {
+            height: 20px;
+        }
+        .btn-container > .inputWrapper {
+            float: right;
+            height: 25px;
+            width: 140px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            /*Using a background color, but you can use a background image to represent a button*/
+            border: 1px solid #0000ff;
+            text-align: center;
+            color: blue;
+        }
+        .btn-container > .inputWrapper > .fileInput {
+            cursor: pointer;
+            height: 100%;
+            position:absolute;
+            top: 0;
+            right: 0;
+            z-index: 99;
+            /*This makes the button huge. If you want a bigger button, increase the font size*/
+            font-size:50px;
+            /*Opacity settings for all browsers*/
+            opacity: 0;
+            -moz-opacity: 0;
+            filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0)
+        }
+        .thumbnail-container {
+            margin-top: 20px;
+        }
+        .thumbnail-container > .thumbnail-nodata {
+            text-align: center;
+            color: gray;
+            font-weight: bolder;
+            font-size: 30px;
+        }
+        .thumbnail {
+            display: inline-block;
+            float: left;
+            overflow: hidden;
+            width: 200px;
+            height: 360px;
+            margin-top: 20px;
+            margin-right: 22px;
+            border: 1px solid lightgrey;
+            padding: 10px;
+        }
+        .thumbnail > div.thumbnail-img {
+            display: inline-block;
+            width: 100%;
+            height: 240px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+        .thumbnail > div.thumbnail-info > p {
+            height: 20px;
+        }
+
+        .thumbnail > div.thumbnail-info > p > label {
+            display: block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .thumbnail > div.thumbnail-info > p > label:first-child,
+        .thumbnail > div.thumbnail-info > p > input[type=text] {
+            width: 150px;
+            height: 20px;
+            float: left;
+        }
+
+        .thumbnail > div.thumbnail-info > p > img {
+            width: 20px;
+            height: 20px;
+            float: right;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="container">
+        <div class="title">
+            <label th:text="#{menu.setting.image}" />
+        </div>
+        <div class="btn-container">
+            <div sec:authorize="hasAuthority('image.create')" class="inputWrapper">
+                <label th:text="#{image.btn.upload}"/>
+                <input type="file" class="fileInput" id="image-upload-file" accept=".png,.gif,.jpeg,.jpg" multiple/>
+            </div>
+        </div>
+        <div class="thumbnail-container"></div>
+    </div>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript" th:inline="javascript">
+        window.onload = () => {
+            document.getElementById('image-upload-file').addEventListener('change', e => {
+                let fileList = e.target.files;
+                if (fileList.length > 0) {
+                    const allowedExtensions = ['png', 'jpg', 'jpeg', 'gif'];
+                    let isExistNotAllowedExtension = false;
+                    for (let i = 0, len = fileList.length; i < len; i++) {
+                        if (allowedExtensions.indexOf(fileList[i].name.split('.').pop().toLowerCase()) === -1) {
+                            isExistNotAllowedExtension = true;
+                        }
+                    }
+
+                    const uploadImage = function() {
+                        let xhr = new XMLHttpRequest(),
+                            formData = new FormData();
+                        for (let i = 0, len = fileList.length; i < len; i++) {
+                            formData.append('files', fileList[i]);
+                        }
+                        xhr.onreadystatechange = () => {
+                            if (xhr.readyState === 4 && xhr.status === 200) {
+                                let list = JSON.parse(xhr.responseText);
+                                for (let i = 0, len = list.length; i < len; i++) {
+                                    addThumbnail(list[i]);
+                                }
+                            }
+                        }
+                        xhr.open('POST', '/rest/images', true);
+                        xhr.send(formData);
+                        document.getElementById('image-upload-file').value = '';
+                    }
+
+                    if (isExistNotAllowedExtension) {
+                        aliceJs.confirm(
+                            i18n.get('image.msg.confirm.existNotAllowedExtension'),
+                            uploadImage, // OK 시 업로드
+                            () => document.getElementById('image-upload-file').value = ''  // CANCEL 시 file object 값 비움 처리
+                        );
+                    } else {
+                        uploadImage();
+                    }
+
+                }
+            }, false);
+            /*[# th:each="image : ${imageList}"]*/
+            addThumbnail(/*[[${image}]]*/);
+            /*[/]*/
+            addThumbnailNodata();
+        }
+
+        function addThumbnail(image) {
+            const thumbnailNodata = document.querySelector('.thumbnail-container').querySelector('.thumbnail-nodata');
+            if (thumbnailNodata) { thumbnailNodata.remove(); }
+            let thumbnailTemplate = `
+                <div class="thumbnail">
+                    <div class="thumbnail-img" style="background-image: url('data:image/${image.extension};base64,${image.data}')"></div>
+                    <div class="thumbnail-info">
+                        <p>
+                            <label ondblclick="renameImage(this)">${image.name}</label>
+                            <input type="text" style="display: none;">
+                            <img src="/assets/media/icons/delete.png" data-name="${image.name}" onclick="removeImage(this)"/>
+                        </p>
+                        <p><label>${image.size}</label></p>
+                        <p><label>${image.width} X ${image.height}</label></p>
+                    </div>
+                </div>
+            `;
+            document.querySelector('.thumbnail-container').insertAdjacentHTML('beforeend', thumbnailTemplate);
+        }
+
+        function addThumbnailNodata() {
+            const thumbnailCnt = document.querySelector('.thumbnail-container').querySelectorAll('.thumbnail').length;
+            if (thumbnailCnt === 0) {
+                let thumbnailNodataTemplate = `
+                    <div class="thumbnail-nodata">
+                        <label>${i18n.get('common.msg.noData')}</label>
+                    </div>
+                `;
+                document.querySelector('.thumbnail-container').insertAdjacentHTML('beforeend', thumbnailNodataTemplate);
+            }
+        }
+
+        function removeImage(imgObj) {
+            aliceJs.confirm(i18n.get('common.msg.confirm.delete'), () => {
+                aliceJs.sendXhr({
+                    url: '/rest/images/' + imgObj.dataset.name,
+                    method: 'delete',
+                    contentType: 'application/json',
+                    callbackFunc: xhr => {
+                        if (xhr.responseText === 'true') {
+                            document.querySelector('.thumbnail-container').removeChild(imgObj.parentNode.parentNode.parentNode);
+                            addThumbnailNodata();
+                        }
+                    }
+                });
+            });
+        }
+
+        function renameImage(labelObj) {
+            const name = labelObj.textContent.trim();
+            labelObj.style.display = 'none';
+            let inputObj = labelObj.parentNode.querySelector('input');
+            let extension = name.split('.').pop();
+            inputObj.value = name.split('.' + extension)[0];
+            inputObj.style.display = 'block';
+            let renameEventHandler = e => {
+                e.preventDefault();
+                e.target.removeEventListener('focusout', renameEventHandler);
+                e.target.removeEventListener('keyup', renameEventHandler);
+                inputObj.style.display = 'none';
+                labelObj.style.display = 'block';
+                let modifyName = labelObj.textContent;
+                if (inputObj.value.trim() !== '') {
+                    modifyName = inputObj.value.trim() + '.' + extension;
+                }
+
+                if (name !== modifyName) {
+                    aliceJs.sendXhr({
+                        url: '/rest/images',
+                        method: 'put',
+                        params: JSON.stringify({originName: name, modifyName: modifyName}),
+                        contentType: 'application/json; charset=utf-8',
+                        callbackFunc: xhr => {
+                            if (xhr.responseText === 'true') {
+                                labelObj.textContent = modifyName;
+                                labelObj.parentNode.querySelector('img').dataset.name = modifyName;
+                            } else {
+                                aliceJs.alert(i18n.get("image.msg.alert.failedRename"));
+                            }
+                        }
+                    });
+                }
+            };
+            inputObj.addEventListener('focusout', renameEventHandler, false);
+            inputObj.addEventListener('keyup', e => {
+                if (e.keyCode === 13) {
+                    renameEventHandler(e);
+                }
+            }, false);
+            inputObj.focus();
+        }
+    </script>
+</th:block>
+</body>
+</html>

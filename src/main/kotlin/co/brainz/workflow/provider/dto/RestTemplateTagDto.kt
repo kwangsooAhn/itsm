@@ -7,4 +7,3 @@ data class RestTemplateTagDto(
     var instanceId: String = "",
     var tagContent: String = ""
 ) : Serializable
-    

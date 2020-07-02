@@ -93,7 +93,8 @@ object WfElementConstants {
         PROGRESS("progress"),
         WITHDRAW("withdraw"),
         CANCEL("cancel"),
-        TERMINATE("terminate")
+        TERMINATE("terminate"),
+        CLOSE("close")
         ;
 
         companion object {

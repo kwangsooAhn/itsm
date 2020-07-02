@@ -6,4 +6,3 @@ data class RestTemplateTagViewDto(
     val id: String?,
     val value: String? = ""
 ) : Serializable
-    

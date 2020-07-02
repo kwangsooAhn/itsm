@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
@@ -62,10 +61,9 @@ class DocumentController(
     /**
      * 신청서 인쇄 화면.
      */
-    @PostMapping("/{documentId}/print")
+    @GetMapping("/{documentId}/print")
     fun getDocumentPrint(@PathVariable documentId: String, model: Model, request: HttpServletRequest): String {
         model.addAttribute("time", ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")))
-        model.addAttribute("data", request.getParameter("data") ?: "")
         return documentPrintPage
     }
 }

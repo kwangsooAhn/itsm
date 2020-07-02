@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RequestPart
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.multipart.MultipartFile
 
 @RestController
 @RequestMapping("/rest/forms")
@@ -61,22 +59,5 @@ class FormRestController(
     @DeleteMapping("/{formId}")
     fun deleteForm(@PathVariable formId: String): ResponseEntity<String> {
         return formService.deleteForm(formId)
-    }
-
-    /**
-     * 이미지 컴포넌트 이미지 파일 업로드.
-     * 경로 : resoures/public/assets/media/image/form
-     */
-    @PostMapping("/imageUpload")
-    fun uploadFile(@RequestPart("file") multipartFile: MultipartFile): String {
-        return formService.uploadFile(multipartFile)
-    }
-
-    /**
-     * 이미지 삭제
-     */
-    @DeleteMapping("/imageDelete")
-    fun deleteFile(@RequestBody jsonData: String): Boolean {
-        return formService.deleteFile(jsonData)
     }
 }
