@@ -73,7 +73,7 @@ class DocumentActionService(
     /**
      * 문서상태[tokenObject]에 따라서 현재 문서가 진행 중인지 확인 하여 [Boolean]로 반환 한다.
      */
-    fun checkTokenStatus(tokenObject: JsonObject): Boolean {
+    private fun checkTokenStatus(tokenObject: JsonObject): Boolean {
         return when (tokenObject.get("token").asJsonObject.get("status").asString) {
             WfTokenConstants.Status.RUNNING.code,
             WfTokenConstants.Status.WITHDRAW.code,
@@ -85,7 +85,7 @@ class DocumentActionService(
     /**
      * 문서 이해관계자[tokenObject]와를 문서를 연 사용자가[userEntity]해당 토근의 처리자인지 확인 하여 [Boolean]을 반환 한다.
      */
-    fun checkAssignee(tokenObject: JsonObject, userEntity: AliceUserEntity): Boolean {
+    private fun checkAssignee(tokenObject: JsonObject, userEntity: AliceUserEntity): Boolean {
         // 문서 관련자 정보
         val stakeholders = tokenObject.get("stakeholders").asJsonObject
         val assigneeType = stakeholders.asJsonObject.get("type").asString
@@ -197,7 +197,7 @@ class DocumentActionService(
      * 사용자 정보[userEntity]와 확인 할 권한[authId]을 받아서
      * 사용자가 해당 권한을 가지고 있는지 확인후 [Boolean]으로 반환 한다.
      */
-    fun checkUserAuth(userEntity: AliceUserEntity, authId: String): Boolean {
+    private fun checkUserAuth(userEntity: AliceUserEntity, authId: String): Boolean {
         var isAuth = false
         userEntity.userRoleMapEntities.forEach userRole@{ aliceUserRoleMapEntity ->
             aliceUserRoleMapEntity.role.roleAuthMapEntities.forEach { aliceRoleAuthMapEntity ->
