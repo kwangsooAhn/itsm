@@ -1,138 +1,81 @@
 # Common
 common:
   btn:
-    save: "SAVE"
-    saveAs: "SAVE AS"
-    close: "CLOSE"
-    logout: "LOGOUT"
-    delete: "DELETE"
-    register: "REGISTER"
-    modify: "MODIFY"
-    before: "BEFORE"
-    next: "NEXT"
     add: "ADD"
-    write: "WRITE"
+    before: "BEFORE"
     cancel: "CANCEL"
     check: "CHECK"
-    list: "LIST"
+    close: "CLOSE"
+    delete: "DELETE"
     fileUpload: "FILE UPLOAD"
+    list: "LIST"
+    logout: "LOGOUT"
+    modify: "MODIFY"
+    next: "NEXT"
+    register: "REGISTER"
+    save: "SAVE"
+    saveAs: "SAVE AS"
+    write: "WRITE"
   label:
+    attachFile: "Attach file"
     blank: " "
-    title: "Title"
     contents: "Contents"
+    createDate: "Create Date"
+    createUser: "Create User"
+    delete: "Delete"
+    fail: "Fail"
     group: "Group"
     save: "Save"
-    fail: "Fail"
+    title: "Title"
     update: "Update"
-    delete: "Delete"
-    createUser: "Create User"
-    updateUser: "Update User"
-    createDate: "Create Date"
     updateDate: "Update Date"
-    attachFile: "Attach file"
+    updateUser: "Update User"
   msg:
-    selectAfterDate: "Please select after {0} date."
-    selectBeforeDate: "Please select before {0} date."
-    selectAfterTime: "Please select after {0} time."
-    selectBeforeTime: "Please select before {0} time."
-    selectAfterDateTime: "Please select after {0} datetime."
-    selectBeforeDateTime: "Please select before {0} datetime."
-    save: "Saved."
-    fail: "Failed."
     delete: "Deleted."
-    update: "Changed."
+    enterContents: "Please enter contents"
+    enterTitle: "Please enter a title."
+    fail: "Failed."
     modify: "Modified."
+    noData: "There is no data."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
-    noData: "There is no data."
-    enterTitle: "Please enter a title."
-    enterContents: "Please enter contents"
+    save: "Saved."
+    selectAfterDate: "Please select after {0} date."
+    selectAfterDateTime: "Please select after {0} datetime."
+    selectAfterTime: "Please select after {0} time."
+    selectBeforeDate: "Please select before {0} date."
+    selectBeforeDateTime: "Please select before {0} datetime."
+    selectBeforeTime: "Please select before {0} time."
+    update: "Changed."
   code:
     token:
       status:
-        running: "running"
-        waiting: "waiting"
-        finish: "finish"
-        withdraw: "withdraw"
-        reject: "reject"
-        terminate: "terminate"
         cancel: "cancel"
-# Menu
-menu:
-  service:
-    parent: "Service"
-    request: "Service Request"
-    list: "Service History"
-  help:
-    parent: "Helpdesk"
-    notice: "Notice"
-    faq: "FAQ"
-    document: "Service Request"
-    token: "My Document"
-    dashboard: "Dashboard"
-    download: "Download"
-    board: "Board"
-  setting:
-    parent: "Settings"
-    user: "Users management"
-    role: "Role management"
-    auth: "Auth management"
-    code: "Code management"
-    form: "Form"
-    process: "Process"
-    document: "Workflow"
-    customCode: "Custom Code"
-    editMyInfo: "Edit my info"
-    boardAdmin: "Board management"
+        finish: "finish"
+        reject: "reject"
+        running: "running"
+        terminate: "terminate"
+        waiting: "waiting"
+        withdraw: "withdraw"
 
 # Auth
 auth:
   label:
-    manage: "Role management"
+    authDesc: "Auth Desc"
     authId: "Auth ID"
     authName: "Auth name"
-    authDesc: "Auth Desc"
+    manage: "Role management"
     referenceCount: "Role reference count"
   msg:
-    enterAuthId: "Please enter a auth id."
-    enterAuthName: "Please enter a auth name."
     duplicateAuthId: "Duplicate auth id! Please enter other auth id."
     duplicateAuthName: "Duplicate auth name! Please enter other auth name."
+    enterAuthId: "Please enter a auth id."
+    enterAuthName: "Please enter a auth name."
   auth:
     read: "auth read"
     create: "auth create"
     update: "auth update"
     delete: "auth delete"
-  service:
-    readAll: "Full service request inquiry"
-    readMine: "Service request Inquiry only for work"
-    create: "Create service request"
-  notice:
-    read: "Notice inquiry"
-    create: "Notice registration"
-    update: "Notice change"
-    delete: "Notice delete"
-  faq:
-    read: "FAQ inquiry"
-    create: "FAQ registration"
-    update: "FAQ change"
-    delete: "FAQ delete"
-  form:
-    read: "form read"
-    create: "form create"
-    update: "form update"
-    delete: "form delete"
-  process:
-    read: "process read"
-    create: "process create"
-    update: "process update"
-    delete: "process delete"
-  document:
-    read: "document.read"
-    create: "document create"
-  token:
-    read: "token read"
-    create: "token create"
   code:
     read: "code read"
     create: "code create"
@@ -143,397 +86,141 @@ auth:
     create: "customCode create"
     update: "customCode update"
     delete: "customCode delete"
+  document:
+    read: "document.read"
+    create: "document create"
   download:
     read: "download read"
     create: "download create"
     update: "download update"
     delete: "download delete"
+  faq:
+    read: "FAQ inquiry"
+    create: "FAQ registration"
+    update: "FAQ change"
+    delete: "FAQ delete"
+  form:
+    read: "form read"
+    create: "form create"
+    update: "form update"
+    delete: "form delete"
+  notice:
+    read: "Notice inquiry"
+    create: "Notice registration"
+    update: "Notice change"
+    delete: "Notice delete"
+  process:
+    read: "process read"
+    create: "process create"
+    update: "process update"
+    delete: "process delete"
+  service:
+    create: "Create service request"
+    readAll: "Full service request inquiry"
+    readMine: "Service request Inquiry only for work"
+  token:
+    read: "token read"
+    create: "token create"
   user:
     read: "user read"
     create: "user create"
     update: "user update"
     delete: "user delete"
 
-# User
-user:
+# Authentication
+authentication:
   label:
-    user: "User"
-    id: "User ID"
-    password: "Password"
-    rePassword: "rePassword"
-    name: "Name"
-    email: "Email"
-    position: "Position"
-    department: "Department"
-    officeNumber: "officeNumber"
-    mobileNumber: "mobileNumber"
-    timezone: "TimeZone"
-    timeFormat: "Date/Time Format"
-    date: "Date Format"
-    time: "Time Format"
-    lang: "Language"
-    theme: "Theme"
-    avatar: "Avatar"
-    editUserInfo: "Edit User Information"
-    searchPlaceholder: "User Name / User ID"
-    FileSizeLimit: "File Size Limit : 200KB"
-    FileExtensionAllowed: "File Extension Allowed : 200KB"
-    usageStatus: "Usage Status"
-    all: "All"
-    list: "User List"
+    recallAuthentication: "Recall authentication mail"
   msg:
-    emailAlert: "When you change your email, you need to verify."
-    enterUserId: "Please enter your UserId."
-    enterUserPassword: "Please enter your password."
-    enterUserRePassword: "Please enter your Reconfirm Password."
-    passwordNotEquals: "Passwords do not match."
-    enterUserName: "Please enter your UserName."
-    enterUserEmail: "Please enter your Email."
-    createUser: "User is registered."
-    emailWithUpdate: "Member information, including email information, has been modified."
-    sameUserId: "The same ID exists."
-    sameEmail: "The same Email exists."
-    signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
-    signUpFail: "Sign up failed."
-  status:
-    signup: "SignUp"
-    certified: "Certified"
-  usageStatusFlag:
-    use: "Use"
-    unused: "Unused"
-  platform:
-    alice: "Alice"
-    google: "Google"
-    kakao: "Kakao"
+    alreadyAuthenticated: "Authentication is already complete."
+    authenticationCompleted: "Authentication completed successfully."
+    beforeEmailCheck: "This account is available after authentication.<br/>Please check your email sent to finish authentication.<br/>If you have not received the authentication mail, please click below."
+    emailCheck: "Please check your email sent to finish authentication."
+    expiredAuthentication: "Authentication mail has expired."
+    recallAuthentication: "Please re-request authentication mail after login."
+    resentAuthentication: "Authentication mail has been resent."
+    wrongAuthenticationCode: "The authentication code is invalid."
 
-# FAQ
-faq:
-  msg:
-    description: "Frequently asked questions and answers."
-  category:
-    all: "All"
-    techSupport: "Technical Support"
-    setting: "Setting"
-    etc: "ETC"
-
-# NOTICE
-notice:
-  label:
-   popUp:  "PopUp"
-   popUpNoticeSettings: "PopUp Notice Settings"
-   popUpNoticeSettingsInfo: "PopUp Notice Settings Info"
-   topNoticeSettings: "Top Notice Settings"
-   topNoticeSettingsInfo: "Top Notice Settings Info"
-   width: "Width"
-   height: "Height"
-   strtDt: "Start Date"
-   endDt: "End Date"
-   set: "Set"
-   notSet: "Not Set"
-   modifyCompleted: "Modify Completed"
-   searchPlaceholder: "Title / User"
-  msg:
-    enterPopHeight: "Please enter a height."
-    checkPopHeightRange: "The height can only be a value between 500px and 1000px."
-    enterPopWidth: "Please enter a Width."
-    checkPopWidthRange: "The width can only be a value between 500px and 1000px."
-    enterPopStrtDt: "Please enter popup start date."
-    enterPopEndDt: "Please enter popup end date."
-    compareWithPopUpValue: "Pop-up notification start date is greater than or equal to end date."
-    enterTopNoticeStrtDt: "Please enter a top notice start date."
-    enterTopNoticeEndDt: "Please enter a top notice end date."
-    compareWithTopNoticeValue: "Top Notice start date is greater than or equal to the end date."
-    enterFromDt: "Please enter a search start date."
-    enterToDt: "Please enter a search end date."
-    checkSearchRange: "Search start date is greater than end date."
-
-# LOGIN
-login:
+# board
+board:
   btn:
-    login: "Login"
-    googleLogin: "GoogleLogin"
-    kakaoLogin: "KakaoLogin"
-    userSignUp: "Sign Up"
-    doSignUp: "Create account"
-    gotoLoginPage: "Go to the login page"
+    category: "CATEGORY"
+    reply: "REPLY"
   label:
-    login: "Login"
-    userSignUp: "Sign Up"
-    id: "ID"
-    password: "Password"
-    gotoMainPage: "Go to the main page"
-    findId: "Forgot ID?"
-    findPasswd: "Forgot Password?"
-    requiredLogin: "Login required"
-    loginNote: "Do you have an account?"
-    signupNote: "Would you like to sign up?"
-  msg:
-    unknownError: "An unknown error has occurred. Please contact the administrator."
-    invalidPassword: "The ID or password are not correct. Please check again."
-    disabledUser: "Your account has been disabled. Please contact the administrator."
-    invalidUser: "This account is not registered. Please check again."
-    enterId: "Please enter your ID."
-    enterPassword: "Please enter your password."
-    sessionExpired: "Your session has expired."
-    redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
-    ipAccessDenied: "This IP is not accessible."
-
-# FORM
-form:
-  label:
-    undo: "Undo"
-    redo: "Redo"
-    import: "Import"
-    export: "Export"
-    preview: "Preview"
-    saveExit: "Save and Exit"
-    copy: "Copy-Just below"
-    addAbove: "Add above"
-    addBelow: "Add below"
-    list: "Form List"
-    name: "Form Name"
-    edit: "Edit Form"
-    create: "Create Form"
-    description: "Description"
-    lang: "Language"
-    templatesList: "Templates List"
-    searchPlaceholder: "Form Name / Form Description"
-    customCodeTarget: "Target Select"
-  msg:
-    information: "There are no common editable component detail attributes."
-    enterFormName: "Please enter a form name."
-    number: "Please enter only numbers."
-    min: "Please enter at least {0}."
-    max: "Please enter below {0}."
-    minLength: "Please enter at least {0} characters."
-    maxLength: "Please enter less than {0} characters."
-    fileuploadFailed: "File upload failed."
-    fileSelect: "Please select a file."
-    fileNameDuplication: "The same file name exists."
-    failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
-  help:
-    mapping-id: "It is not an attribute for external output, but is a key value that is set to use the value of the component in the workflow engine or other modules."
-    is-topic: "Please check if you want to display the component in the document list."
-    text-default: "You can directly enter the default values displayed on the component, or choose between automatic input. In case of automatic input, one of user's session information can be selected."
-    date-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date.<br/>'days after' means +, -date from current date.<br/>The last item is used to show a specific date as fixed."
-    time-default: "You can set the default value displayed on the component.<br/>'Now' prints the current time.<br/>'hours later' means +, -hour from current time.<br/>The last item is used to show a specific time as fixed."
-    datetime-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date time.<br/>'days/hours later' means +, - date/hour from current date time.<br/>The last item is used to show a specific date time as fixed."
-    custom-code: "You can select a custom code list of user-defined code sets."
-    custom-code-default: "You can set the default value displayed on the component.<br/>'Session' prints the user's session information.<br/>'Custom Code Data' prints the data of the code defined by the user."
-  status:
-    edit: "Edit"
-    publish: "Publish"
-    use: "Use"
-    destroy: "Destroy"
-  component:
-    text: "Text"
-    textarea: "Text Box"
-    select: "Dropdown"
-    radio: "Radio Button"
-    checkbox: "Checkbox"
-    label: "Label"
-    image: "Image"
-    divider: "Divider"
-    date: "Date"
-    time: "Time"
-    datetime: "Date Time"
-    fileupload: "Fileupload"
-    customCode: "Custom Code"
-  properties:
-    name: "Name"
-    id: "Id"
-    desc: "Description"
-    status: "Status"
-    dataAttribute: "Data Attribute"
-    label: "Label"
-    display: "Display"
-    option: "Option"
-    validate: "Validate"
-
-# Process
-process:
-  btn:
-    import: "Import"
-    export: "Export"
-  label:
-    process: "Process"
-    list: "Process List"
-    name: "Process Name"
-    edit: "Edit Process"
-    create: "Create Process"
-    description: "Description"
-    templatesList: "Templates List"
-    searchPlaceholder: "Process Name / Process Description"
-    simulation: "Simulation"
-    undo: "Undo"
-    redo: "Redo"
-    imageDownload: "Image Download"
-    import: "Process Import"
-    importFile: "Import File"
-  msg:
-    simulation: "Simulation check is complete."
-    enterProcessName: "Please enter a process name."
-    selectImportFile: "Please select an import file."
-    fileExtensionNotAllow: "IMPORT files are only allowed with XML extensions."
-  status:
-    edit: "Edit"
-    publish: "Publish"
-    use: "Use"
-    destroy: "Destroy"
-
-# Portal
-portal:
-  label:
-    login: "Log In"
-    main: "Main Page"
-    notice: "Notice"
-    faq: "FAQ"
-    download: "Download"
-    search: "Search"
-    mainPhrase: "Alice Technical Support"
-    topPhrase: "Hi! How can we help you today?"
-    bottomPhrase: "Can't find what you're looking for?"
-    bottomLeftPhrase: "Contact us"
-    chrome: "Chrome"
-    firefox: "Firefox"
-    msEdge: "MS Edge"
-    safari: "Safari"
-    browserGuidePhrase: "Your web browser is not supported. Please use the browser below."
-
-# Role
-role:
-  label:
-    role: "Role"
-    id: "Role Id"
-    name: "Role Name"
-    desc: "Role Desc"
-    auth: "Role Auth"
-    referenceCount: "Reference Count"
-  msg:
-    enterRoleId: "Please enter a role id."
-    enterRoleName: "Please enter a role name."
-    selectAuth: "Please select a auth."
-
-# Validation
-validation:
-  msg:
-    elementNotExist: "The element does not exist."
-    pwNotContainSpace: "Password cannot contain spaces."
-    pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
-    pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
-    pwContainsId: "Password contains an ID."
-    pwContainsEmail: "Password contains an email ID."
-    pwContainsInnerMobileNumber: "The password contains your mobile."
-    checkEmailFormat: "Please enter the correct email format."
-    checkRgbFormat: "Please enter the correct RGB format."
-
-# Document
-document:
-  label:
-    adminList: "Workflow List"
-    list: "Service Request List"
-    register: "Service Request Registration"
-    modify: "Service Request Modify"
-    write: "Service Request Write"
-    type: "Document Type"
-    name: "Service Request Name"
-    docNo: "Service Request No"
-    description: "Service Request Description"
-    display: "Service Request Display"
-    form: "Form"
-    process: "Process"
-    status: "Service Request Status"
-    numberingRule: "Document Numbering Rule"
-    print: "Service Request Print"
-    businessFlowColor: "Business Flow Color"
-    searchPlaceholder: "Document name / Document description"
-    searchDocumentStatus: "Document status"
-    all: "All"
-    notSelect: "Not Select"
-  msg:
-    checkDocument: "Please check the document again."
-    process: "It has been processed."
-    enterDocumentName: "Please enter document's name."
-    lengthMin: "Please enter at least {0} characters."
-    lengthMax: "Please enter less than {0} characters."
-    requiredFileupload: "Please upload a file."
-    launchedInstance: "There is an instance started and cannot be deleted."
-    enterBusinessFlowColor: "Please enter Business Flow Color."
-  display:
-    editable: "Editable"
-    editableRequired: "Editable (required)"
-    readonly: "Readonly"
-    hidden: "Hidden"
-  status:
-    temporary: "Temporary"
-    use: "Use"
-    destroy: "Destroy"
-  type:
-    applicationForm: "Application Form"
-    workflow: "WorkFlow"
-
-# token
-token:
-  label:
-    list: "My Document List"
-    all: "All Document"
-    write: "My Document"
-    startDt: "Start Date"
-    endDt: "Finish Date"
-    elementName: "Task Name"
-    assignee: "Assignee"
-    history: "History"
-    relatedInstance: "Related Documents"
-    print: "Process Document Print"
-    status: "Status"
-    searchPlaceholder: "Create User / Contents"
-    tag: "Tag"
+    attachFileSize: "Attach File Size"
+    attachFileYn: "AttachFile enable"
+    board: "Board"
+    category: "Category"
+    categoryName: "Category Name"
     comment: "Comment"
-    count: "total {0}"
+    commentCount: "Number of Comment"
+    commentYn: "Comment enable"
+    count: "Number of posts"
+    create: "Board Create"
+    desc: "Board desc"
+    detail: "Board Detail"
+    disable: "Disable"
+    enable: "Enable"
+    manager: "Board Manager"
+    modify: "Board Modify"
+    name: "Board Name"
+    number: "Number"
+    order: "Sort Order"
+    readCount: "Number of Read"
+    reply: "Board Reply"
+    replyYn: "Reply enable"
+    roleName: "Role name"
+    searchBoardPlaceholder: "Category/ Title / CreateUser"
+    searchPlaceholder: "Title / CreateUser"
+    useYn: "Use enable"
   msg:
-    tag: "Insert tags."
-  type:
-    todo: "Document to process"
-    requested: "Application document"
-    progress: "Document in progress"
-    completed: "Completed Documents"
+    enterAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
+    enterBoardTitle: "Please enter the board name."
+    enterCategoryName: "Please enter the category name."
+    enterSortSize: "Please enter a sorting order of 100 or less."
 
 # Code
 code:
   label:
     code: "Code"
-    pCode: "Parent Code"
     codeValue: "Code Value"
+    pCode: "Parent Code"
   msg:
     enterCode: "Please enter a code."
     pCodeNotExist: "Parent code does not exist."
 
+# Comment
+comment:
+  msg:
+    afterSavedEditComments: "After saving a comment, you can edit it."
+    enterComments: "Please enter a comment."
+
 # Custom Code
 customCode:
   label:
-    customCode: "Custom Code"
-    name: "Custom Code Name"
-    targetTable: "Target Table Name"
-    searchColumn: "Search Column Name"
-    valueColumn: "Value Column Name"
-    type: "Type"
-    table: "Table"
     code: "Code"
     condition: "Condition"
-    pCode: "Parent Code"
+    customCode: "Custom Code"
     lastUpdateDate: "Last Update Date"
+    name: "Custom Code Name"
+    pCode: "Parent Code"
+    searchColumn: "Search Column Name"
+    table: "Table"
+    targetTable: "Target Table Name"
+    type: "Type"
+    valueColumn: "Value Column Name"
   msg:
-    enterSearchTerm: "Please enter a search term"
-    enterCustomCode: "Please enter a custom code name."
-    enterTableTarget: "Please enter a table target name."
-    enterSearchColumn: "Please enter a search column name."
-    enterValueColumn: "Please enter a value column name."
-    enterPCode: "Please enter your parental code."
     addCondition: "Only {0} or less can be added."
-    selectNotDuplicateSearchColumn: "Please select the search criteria in the column without duplication."
     customCodeUsed: "The Custom code is being used."
     duplicateCustomCodeName: "The same custom code name exists."
+    enterCustomCode: "Please enter a custom code name."
+    enterPCode: "Please enter your parental code."
+    enterSearchColumn: "Please enter a search column name."
+    enterSearchTerm: "Please enter a search term"
+    enterTableTarget: "Please enter a table target name."
+    enterValueColumn: "Please enter a value column name."
     pCodeNotExist: "The parent code does not exist."
+    selectNotDuplicateSearchColumn: "Please select the search criteria in the column without duplication."
 
 # Dashboard
 dashboard:
@@ -541,17 +228,62 @@ dashboard:
     dashboard: "Dashboard"
     documentStatus: "Requested Documents Status"
   status:
+    finish: "Finish"
     running: "Running"
     wait: "Wait"
-    finish: "Finish"
+
+# Document
+document:
+  label:
+    adminList: "Workflow List"
+    all: "All"
+    businessFlowColor: "Business Flow Color"
+    description: "Service Request Description"
+    display: "Service Request Display"
+    docNo: "Service Request No"
+    form: "Form"
+    list: "Service Request List"
+    modify: "Service Request Modify"
+    name: "Service Request Name"
+    notSelect: "Not Select"
+    numberingRule: "Document Numbering Rule"
+    print: "Service Request Print"
+    process: "Process"
+    register: "Service Request Registration"
+    searchDocumentStatus: "Document status"
+    searchPlaceholder: "Document name / Document description"
+    status: "Service Request Status"
+    type: "Document Type"
+    write: "Service Request Write"
+  msg:
+    checkDocument: "Please check the document again."
+    enterBusinessFlowColor: "Please enter Business Flow Color."
+    enterDocumentName: "Please enter document's name."
+    launchedInstance: "There is an instance started and cannot be deleted."
+    lengthMax: "Please enter less than {0} characters."
+    lengthMin: "Please enter at least {0} characters."
+    process: "It has been processed."
+    requiredFileupload: "Please upload a file."
+  display:
+    editable: "Editable"
+    editableRequired: "Editable (required)"
+    hidden: "Hidden"
+    readonly: "Readonly"
+  status:
+    destroy: "Destroy"
+    temporary: "Temporary"
+    use: "Use"
+  type:
+    applicationForm: "Application Form"
+    workflow: "WorkFlow"
 
 # Download
 download:
   label:
+    category: "Category"
     download: "Download"
     searchPlaceholder: "Title / Create User / Attach File Name"
     seq: "Number"
-    category: "Category"
     views: "Views"
   msg:
     selectCategory: "Please select a category."
@@ -560,83 +292,352 @@ download:
     companyPolicy: "Company Policy"
     etc: "ETC"
 
-# board
-board:
-  btn:
-    category: "CATEGORY"
-    reply: "REPLY"
+# Error
+error:
   label:
+    exceptionType: "Exception Type"
+    knownError: "Known Error"
+    message: "Message"
+    path: "URL"
+
+# FAQ
+faq:
+  msg:
+    description: "Frequently asked questions and answers."
+  category:
+    all: "All"
+    etc: "ETC"
+    setting: "Setting"
+    techSupport: "Technical Support"
+
+# FileUpload
+fileupload:
+  msg:
+    extensionNotAvailable: "Files with the fileName extension cannot be uploaded."
+    maxFileCount: "The number of attachments has been exceeded. (Attachment limit number : {0})"
+    maxFileSize: "Attached fileSize limit exceeded. (Attached fileSize limit : {0}MB)"
+
+# Form
+form:
+  label:
+    addAbove: "Add above"
+    addBelow: "Add below"
+    copy: "Copy-Just below"
+    create: "Create Form"
+    customCodeTarget: "Target Select"
+    description: "Description"
+    edit: "Edit Form"
+    export: "Export"
+    import: "Import"
+    lang: "Language"
+    list: "Form List"
+    name: "Form Name"
+    preview: "Preview"
+    redo: "Redo"
+    saveExit: "Save and Exit"
+    searchPlaceholder: "Form Name / Form Description"
+    templatesList: "Templates List"
+    undo: "Undo"
+  msg:
+    enterFormName: "Please enter a form name."
+    failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
+    fileNameDuplication: "The same file name exists."
+    fileSelect: "Please select a file."
+    fileuploadFailed: "File upload failed."
+    information: "There are no common editable component detail attributes."
+    max: "Please enter below {0}."
+    maxLength: "Please enter less than {0} characters."
+    min: "Please enter at least {0}."
+    minLength: "Please enter at least {0} characters."
+    number: "Please enter only numbers."
+  component:
+    checkbox: "Checkbox"
+    customCode: "Custom Code"
+    date: "Date"
+    datetime: "Date Time"
+    divider: "Divider"
+    fileupload: "Fileupload"
+    image: "Image"
+    label: "Label"
+    radio: "Radio Button"
+    select: "Dropdown"
+    text: "Text"
+    textarea: "Text Box"
+    time: "Time"
+  help:
+    custom-code-default: "You can set the default value displayed on the component.<br/>'Session' prints the user's session information.<br/>'Custom Code Data' prints the data of the code defined by the user."
+    custom-code: "You can select a custom code list of user-defined code sets."
+    date-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date.<br/>'days after' means +, -date from current date.<br/>The last item is used to show a specific date as fixed."
+    datetime-default: "You can set the default value displayed on the component.<br/>'Now' prints the current date time.<br/>'days/hours later' means +, - date/hour from current date time.<br/>The last item is used to show a specific date time as fixed."
+    is-topic: "Please check if you want to display the component in the document list."
+    mapping-id: "It is not an attribute for external output, but is a key value that is set to use the value of the component in the workflow engine or other modules."
+    text-default: "You can directly enter the default values displayed on the component, or choose between automatic input. In case of automatic input, one of user's session information can be selected."
+    time-default: "You can set the default value displayed on the component.<br/>'Now' prints the current time.<br/>'hours later' means +, -hour from current time.<br/>The last item is used to show a specific time as fixed."
+  properties:
+    dataAttribute: "Data Attribute"
+    desc: "Description"
+    display: "Display"
+    id: "Id"
+    label: "Label"
+    name: "Name"
+    option: "Option"
+    status: "Status"
+    validate: "Validate"
+  status:
+    destroy: "Destroy"
+    edit: "Edit"
+    publish: "Publish"
+    use: "Use"
+
+# Login
+login:
+  btn:
+    doSignUp: "Create account"
+    googleLogin: "GoogleLogin"
+    gotoLoginPage: "Go to the login page"
+    kakaoLogin: "KakaoLogin"
+    login: "Login"
+    userSignUp: "Sign Up"
+  label:
+    findId: "Forgot ID?"
+    findPasswd: "Forgot Password?"
+    gotoMainPage: "Go to the main page"
+    id: "ID"
+    login: "Login"
+    loginNote: "Do you have an account?"
+    password: "Password"
+    requiredLogin: "Login required"
+    signupNote: "Would you like to sign up?"
+    userSignUp: "Sign Up"
+  msg:
+    disabledUser: "Your account has been disabled. Please contact the administrator."
+    enterId: "Please enter your ID."
+    enterPassword: "Please enter your password."
+    invalidPassword: "The ID or password are not correct. Please check again."
+    invalidUser: "This account is not registered. Please check again."
+    ipAccessDenied: "This IP is not accessible."
+    redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
+    sessionExpired: "Your session has expired."
+    unknownError: "An unknown error has occurred. Please contact the administrator."
+
+# Menu
+menu:
+  service:
+    parent: "Service"
+    list: "Service History"
+    request: "Service Request"
+  help:
+    parent: "Helpdesk"
     board: "Board"
-    create: "Board Create"
-    modify: "Board Modify"
-    reply: "Board Reply"
-    manager: "Board Manager"
-    detail: "Board Detail"
-    searchPlaceholder: "Title / CreateUser"
-    searchBoardPlaceholder: "Category/ Title / CreateUser"
-    name: "Board Name"
-    category: "Category"
-    count: "Number of posts"
-    order: "Sort Order"
-    categoryName: "Category Name"
-    useYn: "Use enable"
-    desc: "Board desc"
-    roleName: "Role name"
-    replyYn: "Reply enable"
-    commentYn: "Comment enable"
-    comment: "Comment"
-    attachFileYn: "AttachFile enable"
-    attachFileSize: "Attach File Size"
-    enable: "Enable"
-    disable: "Disable"
-    number: "Number"
-    commentCount: "Number of Comment"
-    readCount: "Number of Read"
-  msg:
-    enterBoardTitle: "Please enter the board name."
-    enterSortSize: "Please enter a sorting order of 100 or less."
-    enterAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
-    enterCategoryName: "Please enter the category name."
+    dashboard: "Dashboard"
+    document: "Service Request"
+    download: "Download"
+    faq: "FAQ"
+    notice: "Notice"
+    token: "My Document"
+  setting:
+    parent: "Settings"
+    auth: "Auth management"
+    boardAdmin: "Board management"
+    code: "Code management"
+    customCode: "Custom Code"
+    document: "Workflow"
+    editMyInfo: "Edit my info"
+    form: "Form"
+    process: "Process"
+    role: "Role management"
+    user: "Users management"
 
-#Comment
-comment:
+# Notice
+notice:
+  label:
+    endDt: "End Date"
+    height: "Height"
+    modifyCompleted: "Modify Completed"
+    notSet: "Not Set"
+    popUp:  "PopUp"
+    popUpNoticeSettings: "PopUp Notice Settings"
+    popUpNoticeSettingsInfo: "PopUp Notice Settings Info"
+    searchPlaceholder: "Title / User"
+    set: "Set"
+    strtDt: "Start Date"
+    topNoticeSettings: "Top Notice Settings"
+    topNoticeSettingsInfo: "Top Notice Settings Info"
+    width: "Width"
   msg:
-    enterComments: "Please enter a comment."
-    afterSavedEditComments: "After saving a comment, you can edit it."
+    checkPopHeightRange: "The height can only be a value between 500px and 1000px."
+    checkPopWidthRange: "The width can only be a value between 500px and 1000px."
+    checkSearchRange: "Search start date is greater than end date."
+    compareWithPopUpValue: "Pop-up notification start date is greater than or equal to end date."
+    compareWithTopNoticeValue: "Top Notice start date is greater than or equal to the end date."
+    enterFromDt: "Please enter a search start date."
+    enterPopEndDt: "Please enter popup end date."
+    enterPopHeight: "Please enter a height."
+    enterPopStrtDt: "Please enter popup start date."
+    enterPopWidth: "Please enter a Width."
+    enterToDt: "Please enter a search end date."
+    enterTopNoticeEndDt: "Please enter a top notice end date."
+    enterTopNoticeStrtDt: "Please enter a top notice start date."
 
-#Notification
+# Notification
 notification:
   label:
-   notification: "Notification"
+    notification: "Notification"
   msg:
     description: "Up to 50 displays."
     noNotificationData: "No notifications."
 
-#Authentication
-authentication:
+# Portal
+portal:
   label:
-    recallAuthentication: "Recall authentication mail"
-  msg:
-    beforeEmailCheck: "This account is available after authentication.<br/>Please check your email sent to finish authentication.<br/>If you have not received the authentication mail, please click below."
-    authenticationCompleted: "Authentication completed successfully."
-    alreadyAuthenticated: "Authentication is already complete."
-    wrongAuthenticationCode: "The authentication code is invalid."
-    expiredAuthentication: "Authentication mail has expired."
-    recallAuthentication: "Please re-request authentication mail after login."
-    resentAuthentication: "Authentication mail has been resent."
-    emailCheck: "Please check your email sent to finish authentication."
+    bottomLeftPhrase: "Contact us"
+    bottomPhrase: "Can't find what you're looking for?"
+    browserGuidePhrase: "Your web browser is not supported. Please use the browser below."
+    chrome: "Chrome"
+    download: "Download"
+    faq: "FAQ"
+    firefox: "Firefox"
+    login: "Log In"
+    main: "Main Page"
+    mainPhrase: "Alice Technical Support"
+    msEdge: "MS Edge"
+    notice: "Notice"
+    safari: "Safari"
+    search: "Search"
+    topPhrase: "Hi! How can we help you today?"
 
-#Error
-error:
+# Process
+process:
+  btn:
+    export: "Export"
+    import: "Import"
   label:
-    message: "Message"
-    path: "URL"
-    exceptionType: "Exception Type"
-    knownError: "Known Error"
-
-#FileUpload
-fileupload:
+    create: "Create Process"
+    description: "Description"
+    edit: "Edit Process"
+    imageDownload: "Image Download"
+    import: "Process Import"
+    importFile: "Import File"
+    list: "Process List"
+    name: "Process Name"
+    process: "Process"
+    redo: "Redo"
+    searchPlaceholder: "Process Name / Process Description"
+    simulation: "Simulation"
+    templatesList: "Templates List"
+    undo: "Undo"
   msg:
-    maxFileCount: "The number of attachments has been exceeded. (Attachment limit number : {0})"
-    maxFileSize: "Attached fileSize limit exceeded. (Attached fileSize limit : {0}MB)"
-    extensionNotAvailable: "Files with the fileName extension cannot be uploaded."
+    enterProcessName: "Please enter a process name."
+    fileExtensionNotAllow: "IMPORT files are only allowed with XML extensions."
+    selectImportFile: "Please select an import file."
+    simulation: "Simulation check is complete."
+  status:
+    destroy: "Destroy"
+    edit: "Edit"
+    publish: "Publish"
+    use: "Use"
+
+# Role
+role:
+  label:
+    auth: "Role Auth"
+    desc: "Role Desc"
+    id: "Role Id"
+    name: "Role Name"
+    referenceCount: "Reference Count"
+    role: "Role"
+  msg:
+    enterRoleId: "Please enter a role id."
+    enterRoleName: "Please enter a role name."
+    selectAuth: "Please select a auth."
+
+# Token
+token:
+  label:
+    all: "All Document"
+    assignee: "Assignee"
+    comment: "Comment"
+    count: "total {0}"
+    elementName: "Task Name"
+    endDt: "Finish Date"
+    history: "History"
+    list: "My Document List"
+    print: "Process Document Print"
+    relatedInstance: "Related Documents"
+    searchPlaceholder: "Create User / Contents"
+    startDt: "Start Date"
+    status: "Status"
+    tag: "Tag"
+    write: "My Document"
+  msg:
+    tag: "Insert tags."
+  type:
+    completed: "Completed Documents"
+    progress: "Document in progress"
+    requested: "Application document"
+    todo: "Document to process"
+
+# User
+user:
+  label:
+    all: "All"
+    avatar: "Avatar"
+    date: "Date Format"
+    department: "Department"
+    editUserInfo: "Edit User Information"
+    email: "Email"
+    FileExtensionAllowed: "File Extension Allowed : 200KB"
+    FileSizeLimit: "File Size Limit : 200KB"
+    id: "User ID"
+    lang: "Language"
+    list: "User List"
+    mobileNumber: "mobileNumber"
+    name: "Name"
+    officeNumber: "officeNumber"
+    password: "Password"
+    position: "Position"
+    rePassword: "rePassword"
+    searchPlaceholder: "User Name / User ID"
+    theme: "Theme"
+    time: "Time Format"
+    timeFormat: "Date/Time Format"
+    timezone: "TimeZone"
+    usageStatus: "Usage Status"
+    user: "User"
+  msg:
+    createUser: "User is registered."
+    emailAlert: "When you change your email, you need to verify."
+    emailWithUpdate: "Member information, including email information, has been modified."
+    enterUserEmail: "Please enter your Email."
+    enterUserId: "Please enter your UserId."
+    enterUserName: "Please enter your UserName."
+    enterUserPassword: "Please enter your password."
+    enterUserRePassword: "Please enter your Reconfirm Password."
+    passwordNotEquals: "Passwords do not match."
+    sameEmail: "The same Email exists."
+    sameUserId: "The same ID exists."
+    signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
+    signUpFail: "Sign up failed."
+  status:
+    certified: "Certified"
+    signup: "SignUp"
+  usageStatusFlag:
+    unused: "Unused"
+    use: "Use"
+  platform:
+    alice: "Alice"
+    google: "Google"
+    kakao: "Kakao"
+
+# Validation
+validation:
+  msg:
+    checkEmailFormat: "Please enter the correct email format."
+    checkRgbFormat: "Please enter the correct RGB format."
+    elementNotExist: "The element does not exist."
+    pwContainsEmail: "Password contains an email ID."
+    pwContainsId: "Password contains an ID."
+    pwContainsInnerMobileNumber: "The password contains your mobile."
+    pwNotContainSpace: "Password cannot contain spaces."
+    pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
+    pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
