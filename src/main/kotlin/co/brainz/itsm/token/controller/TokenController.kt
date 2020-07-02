@@ -52,8 +52,6 @@ class TokenController(
         if (userDto.status == AliceUserConstants.Status.SIGNUP.code || userDto.status == AliceUserConstants.Status.EDIT.code) {
             return statusPage
         }
-        val restTemplateDocumentSearchListDto = RestTemplateDocumentSearchListDto()
-        model.addAttribute("documentList", documentService.getDocumentList(restTemplateDocumentSearchListDto))
         return tokenSearchPage
     }
 
