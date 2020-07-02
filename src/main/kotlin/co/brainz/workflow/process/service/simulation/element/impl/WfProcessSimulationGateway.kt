@@ -52,7 +52,7 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
                         return setFailedMessage("The condition-item of gateway should be action.")
                     }
                 }
-                WfElementConstants.ConnectorConditionValue.DUPLICATION.value -> return setFailedMessage("You only have to choose one of condition-value and action-value.")
+                WfElementConstants.ConnectorConditionValue.DUPLICATION.value -> return setFailedMessage("Connector of gateway only have to choose one of condition and action.")
             }
         } else {
             // gateway 의 arrowConnector 1개이면 condition-item 은 필수값이 아니므로

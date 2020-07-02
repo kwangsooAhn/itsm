@@ -64,6 +64,7 @@ class AliceFileService(
     private val processStatusRootDirectory = "processes"
     private val imagesRootDirectory = "images"
     private val allowedImageExtensions = listOf("png", "gif", "jpg", "jpeg")
+    private val thumbnailImageWidth = 300
 
     /**
      * 파일명으로 사용할 값 리턴 (난수화)
@@ -305,7 +306,7 @@ class AliceFileService(
      * 이미지 사이즈 조정.
      */
     private fun resizeBufferedImage(image: BufferedImage): BufferedImage {
-        val scaledWidth = 300
+        val scaledWidth = thumbnailImageWidth
         val scaledHeight = image.height / (image.width / scaledWidth)
         val bufferedImage = BufferedImage(scaledWidth, scaledHeight, image.type)
         val g2d = bufferedImage.createGraphics()
@@ -396,19 +397,15 @@ class AliceFileService(
         val dir = getWorkflowDir(this.imagesRootDirectory)
         val filePath = Paths.get(dir.toString() + File.separator + originName)
         val file = filePath.toFile()
-        if (file.exists()) {
-            val modifyFile = File(dir.toFile(), modifyName)
-            if (modifyFile.exists()) {
-                return false
-            }
-            return try {
+        val modifyFile = File(dir.toFile(), modifyName)
+        return if (file.exists() && !modifyFile.exists()) {
+            try {
                 file.renameTo(modifyFile)
-                true
             } catch (e: IOException) {
                 false
             }
         } else {
-            return false
+            false
         }
     }
 
