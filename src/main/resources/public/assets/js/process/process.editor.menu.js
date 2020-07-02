@@ -898,7 +898,7 @@
      */
     function changePropertiesDataValue(id) {
         const container = document.querySelector('.alice-process-properties-panel .properties-container'),
-              propertyObjects = container.querySelectorAll('input, select, textarea');
+              propertyObjects = container.querySelectorAll('input:not([type=radio]), select, textarea');
         if (id === aliceProcessEditor.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data.process));
             for (let i = 0, len = propertyObjects.length; i < len; i++) {
