@@ -18,5 +18,4 @@ class ImageController(private val fileService: AliceFileService) {
         model.addAttribute("imageList", fileService.getImageFileList())
         return imageListPage
     }
-
 }
