@@ -144,7 +144,7 @@
                         </td>
                     </tr>
                     <tr sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
-                        <th th:text="#{user.label.user} + ' ' + #{role.label.role}"></th>
+                        <th th:text="#{user.label.role}"></th>
                         <td>
                             <ui th:each="role : ${roles}">
                                 <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}" th:checked="*{role.checked}">

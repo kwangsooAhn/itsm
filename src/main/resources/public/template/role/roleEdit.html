@@ -88,7 +88,7 @@
             </td>
             <td>
                 <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" 
-                 th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                 th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
             </td>
             <td>
                 <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" 
@@ -267,7 +267,7 @@
                                 });
                                 break;
                             case "false":
-                                aliceJs.alert(i18n.get('common.label.delete') + " " + i18n.get('common.msg.fail'));
+                                aliceJs.alert(i18n.get('common.label.delete') + i18n.get('common.label.blank') + i18n.get('common.msg.fail'));
                                 break;
                             default :
                                 aliceJs.alert([[#{common.msg.fail}]]);

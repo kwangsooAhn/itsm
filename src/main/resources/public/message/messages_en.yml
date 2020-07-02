@@ -15,6 +15,7 @@ common:
     register: "REGISTER"
     save: "SAVE"
     saveAs: "SAVE AS"
+    update: "UPDATE"
     write: "WRITE"
   label:
     attachFile: "Attach file"
@@ -25,6 +26,9 @@ common:
     delete: "Delete"
     fail: "Fail"
     group: "Group"
+    list: "List"
+    modify: "Modify"
+    name: "Name"
     save: "Save"
     title: "Title"
     update: "Update"
@@ -156,7 +160,7 @@ board:
     commentCount: "Number of Comment"
     commentYn: "Comment enable"
     count: "Number of posts"
-    create: "Board Create"
+    create: "Create Board"
     desc: "Board desc"
     detail: "Board Detail"
     disable: "Disable"
@@ -328,6 +332,7 @@ form:
     description: "Description"
     edit: "Edit Form"
     export: "Export"
+    form: "Form"
     import: "Import"
     lang: "Language"
     list: "Form List"
@@ -597,6 +602,7 @@ user:
     password: "Password"
     position: "Position"
     rePassword: "rePassword"
+    role: "User Role"
     searchPlaceholder: "User Name / User ID"
     theme: "Theme"
     time: "Time Format"
@@ -618,16 +624,16 @@ user:
     sameUserId: "The same ID exists."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
+  platform:
+    alice: "Alice"
+    google: "Google"
+    kakao: "Kakao"
   status:
     certified: "Certified"
     signup: "SignUp"
   usageStatusFlag:
     unused: "Unused"
     use: "Use"
-  platform:
-    alice: "Alice"
-    google: "Google"
-    kakao: "Kakao"
 
 # Validation
 validation:

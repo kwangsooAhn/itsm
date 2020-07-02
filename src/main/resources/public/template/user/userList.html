@@ -54,7 +54,7 @@
             <td th:text="#{${user.status}}"></td>
             <td>
                 <button sec:authorize="hasAuthority('user.update')"
-                        th:text="#{common.btn.modify}"
+                        th:text="#{common.btn.update}"
                         th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''"></button>
             </td>
         </tr>
