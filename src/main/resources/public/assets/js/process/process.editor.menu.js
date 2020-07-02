@@ -1175,7 +1175,7 @@
                         if (property.id === 'condition-item') {
                             connectorConditionChangeHandler(this, id);
                         }
-                    }
+                    };
                     if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id === 'name')) {
                         elementObject.addEventListener('change', changeEventHandler);
                     }
