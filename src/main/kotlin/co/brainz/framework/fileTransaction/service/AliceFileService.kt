@@ -305,7 +305,10 @@ class AliceFileService(
      * 이미지 사이즈 조정.
      */
     private fun resizeBufferedImage(image: BufferedImage): BufferedImage {
-        val scaledWidth = 300
+        var scaledWidth = 300
+        if (image.width < scaledWidth) {
+            scaledWidth = image.width
+        }
         val scaledHeight = image.height / (image.width / scaledWidth)
         val bufferedImage = BufferedImage(scaledWidth, scaledHeight, image.type)
         val g2d = bufferedImage.createGraphics()
