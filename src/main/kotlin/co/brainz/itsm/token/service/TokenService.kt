@@ -1,6 +1,7 @@
 package co.brainz.itsm.token.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
@@ -16,7 +17,8 @@ import org.springframework.util.LinkedMultiValueMap
 
 @Service
 class TokenService(
-    private val restTemplate: RestTemplateProvider
+    private val restTemplate: RestTemplateProvider,
+    private val documentActionService: DocumentActionService
 ) {
 
     /**
@@ -84,9 +86,7 @@ class TokenService(
     }
 
     /**
-     * 처리할 문서 상세 조회.
-     *
-     * @return List<tokenDto>
+     * [tokenId]를 받아서 처리할 문서 상세 조회 하여 [String]반환 한다.
      */
     fun findToken(tokenId: String): String {
         val url = RestTemplateUrlDto(
@@ -95,6 +95,7 @@ class TokenService(
                 tokenId
             )
         )
-        return restTemplate.get(url)
+
+        return documentActionService.makeTokenAction(restTemplate.get(url))
     }
 }

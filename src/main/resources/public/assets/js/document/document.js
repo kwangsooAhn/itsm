@@ -10,6 +10,7 @@
     let commentContainer = null;
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
+    const phoneRegular = /^([+]?[0-9])([-]?[0-9])*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
 
@@ -166,7 +167,7 @@
                     // TODO: number + char
                     break;
                 case 'phone':
-                    // TODO: phone
+                    result = !phoneRegular.test(value);
                     break;
                 case 'email':
                     result = !emailRegular.test(value);
@@ -231,33 +232,17 @@
                     buttonProcessEle.type = 'button';
                     buttonProcessEle.innerText = element.name;
                     buttonProcessEle.addEventListener('click', function () {
-                        aliceDocument.save(element.value);
+                       if (element.value === 'close') {
+                           window.close();
+                       } else {
+                           aliceDocument.save(element.value);
+                       }
                     });
                     buttonEle.appendChild(buttonProcessEle);
                 }
             });
-        } else {
-            //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
-            //token Id 가 없고 버튼에 대한 정보 없다는 것은 처음 문서 생성 이라고 판단한다.
-            if (document.getElementById('tokenId') === null) {
-                const buttonSaveEle = document.createElement('button');
-                buttonSaveEle.type = 'button';
-                buttonSaveEle.innerText = i18n.get('common.btn.save');
-                buttonSaveEle.addEventListener('click', function () {
-                    aliceDocument.save('save');
-                });
-                buttonEle.appendChild(buttonSaveEle);
-            }
         }
 
-        //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
-        const buttonCancelEle = document.createElement('button');
-        buttonCancelEle.type = 'button';
-        buttonCancelEle.innerText = i18n.get('common.btn.close');
-        buttonCancelEle.addEventListener('click', function() {
-            window.close();
-        });
-        buttonEle.appendChild(buttonCancelEle);
         if (buttonContainer !== null) {
             buttonContainer.appendChild(buttonEle);
         }
@@ -452,7 +437,7 @@
             url = '/rest/tokens/data'
         } else {
             method = 'put';
-            url = '/rest/tokens/' + tokenObject.tokenId + '/data'
+            url = '/rest/tokens/' + tokenObject.tokenId + '/data';
         }
         const opt = {
             method: method,
@@ -484,7 +469,6 @@
         }
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
         documentContainer = document.getElementById('document-container');
-        documentContainer.setAttribute('data-isToken', (data.tokenId !== undefined) ? 'true' : 'false'); //신청서 = false , 처리할 문서 = true
         buttonContainer = document.getElementById('button-container');
         if (data.form.components.length > 0) {
             if (data.form.components.length > 2) {
@@ -538,8 +522,8 @@
             addIdComponent('documentId', data.documentId);
         }
 
-        if (data.tokenId !== undefined) {
-            addIdComponent('tokenId', data.tokenId);
+        if (data.token !== undefined) {
+            addIdComponent('tokenId', data.token.tokenId);
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
@@ -668,10 +652,8 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
-
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
-                dataForPrint.tokenId = tokenId;
                 drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
@@ -684,13 +666,6 @@
      * @param url
      */
     function print(url) {
-        let form = document.createElement('form');
-        form.action = url + '/print';
-        form.name = 'print';
-        form.method = 'post';
-        form.target = '_blank';
-        let textarea = document.createElement('textarea');
-        textarea.name = 'data';
         let componentArrayList = getComponentData('print');
         dataForPrint.form.components = dataForPrint.form.components.filter(function(comp) {
             componentArrayList.forEach(function(array) {
@@ -703,12 +678,8 @@
             }
             return comp;
         });
-        textarea.value = JSON.stringify(dataForPrint);
-        form.appendChild(textarea);
-        form.style.display = 'none';
-        document.body.appendChild(form);
-
-        form.submit();
+        sessionStorage.setItem('alice_print', JSON.stringify(dataForPrint));
+        window.open(url + '/print', '_blank');
     }
 
     exports.init = init;

@@ -394,6 +394,14 @@ form:
     publish: "Publish"
     use: "Use"
 
+#image
+image:
+  btn:
+    upload: "Image File Upload"
+  msg:
+    alert.failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    confirm.existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
+
 # Login
 login:
   btn:
@@ -449,6 +457,7 @@ menu:
     document: "Workflow"
     editMyInfo: "Edit my info"
     form: "Form"
+    image: "Image management"
     process: "Process"
     role: "Role management"
     user: "Users management"

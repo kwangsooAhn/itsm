@@ -16,7 +16,6 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 
@@ -80,10 +79,9 @@ class TokenController(
     /**
      * 처리할 문서 인쇄 화면.
      */
-    @PostMapping("/{tokenId}/print")
+    @GetMapping("/{tokenId}/print")
     fun getDocumentPrint(@PathVariable tokenId: String, model: Model, request: HttpServletRequest): String {
         model.addAttribute("time", ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")))
-        model.addAttribute("data", request.getParameter("data") ?: "")
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
         return tokenPrintPage
     }

@@ -19,17 +19,27 @@ interface WfProcessMapper {
         Mapping(source = "createUser.userKey", target = "createUserKey"),
         Mapping(source = "createUser.userName", target = "createUserName"),
         Mapping(source = "updateUser.userKey", target = "updateUserKey"),
-        Mapping(source = "updateUser.userName", target = "updateUserName")
+        Mapping(source = "updateUser.userName", target = "updateUserName"),
+        Mapping(target = "enabled", ignore = true)
     )
     fun toProcessViewDto(processEntity: WfProcessEntity): RestTemplateProcessViewDto
 
+    @Mappings(
+        Mapping(target = "elementEntities", ignore = true),
+        Mapping(target = "document", ignore = true),
+        Mapping(target = "createUser", ignore = true),
+        Mapping(target = "updateUser", ignore = true)
+    )
     fun toProcessEntity(restTemplateProcessDto: RestTemplateProcessDto): WfProcessEntity
 
     @Mappings(
         Mapping(source = "elementId", target = "id"),
         Mapping(source = "elementType", target = "type"),
         Mapping(source = "elementName", target = "name"),
-        Mapping(source = "elementDesc", target = "description")
+        Mapping(source = "elementDesc", target = "description"),
+        Mapping(target = "display", ignore = true),
+        Mapping(target = "data", ignore = true),
+        Mapping(target = "required", ignore = true)
     )
     fun toWfElementDto(elementEntity: WfElementEntity): RestTemplateElementDto
 }

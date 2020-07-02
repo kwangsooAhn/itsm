@@ -405,21 +405,11 @@
      * 미리보기
      */
     function previewForm() {
+        const itemName = 'alice_forms-preview-' + editor.data.formId;
+        sessionStorage.setItem(itemName, JSON.stringify({'form': editor.data}));
         let url = '/forms/' + editor.data.formId + '/preview';
         const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-        window.open(url, 'result', 'width=800,height=805,' + specs);
-
-        let form = document.createElement('form');
-        form.action = url;
-        form.method = 'POST';
-        form.target = 'result';
-        let input = document.createElement('textarea');
-        input.name = 'data';
-        input.value = JSON.stringify({'form': editor.data});
-        form.appendChild(input);
-        form.style.display = 'none';
-        document.body.appendChild(form);
-        form.submit();
+        window.open(url, itemName, 'width=800,height=805,' + specs);
     }
 
     /**
@@ -890,13 +880,13 @@
         let el = e.target || e;
         let parentEl = e.target ? el.parentNode : el.parentNode.parentNode;
         if (parentEl.classList.contains('property-field')) {
-            let changePropertiesArr = el.name.split('.');
+            let changePropertiesArr = el.name.split('-');
             changePropertiesValue(el.value, changePropertiesArr[0], changePropertiesArr[1]);
         } else {
             let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
             if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
 
-            let checkedPropertiesArr = checkedRadio.name.split('.');
+            let checkedPropertiesArr = checkedRadio.name.split('-');
             let changeValue = checkedRadio.value;
             if (changeValue === 'none' || changeValue === 'now') {
                 changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
@@ -1157,7 +1147,7 @@
                                     buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', toggleButtonClickHandler, false);
                                 }
                             } else {
-                                fieldGroupElem.setAttribute('id', group + '.' + fieldProp.id);
+                                fieldGroupElem.setAttribute('id', group + '-' + fieldProp.id);
                                 groupElem.appendChild(fieldGroupElem);
 
                                 //속성명 및 도움말 추가
@@ -1211,7 +1201,7 @@
                                             let labelName = opt.name.split('{0}');
 
                                             return `<div class='vertical-group radio-datetime'>
-                                            <input type='radio' id='${opt.id}' name='${group}.${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} />
+                                            <input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} />
                                             ${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><label for='" + opt.id + "'>" + labelName[1] + "</label>" : ""}
                                             ${opt.id === 'datetime' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-day'>" + labelName[1] + "</label>" + "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-hour'>" + labelName[2] + "</label>" : ""}
                                             ${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
@@ -1226,7 +1216,7 @@
                                         const fieldValueArr = fieldProp.value.split('|');
                                         const fieldRadioOptions = fieldProp.option.map(function (opt) {
                                             return `<div class='vertical-group'>
-                                            <input type='radio' id='${opt.id}' name='${group}.${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""}/>
+                                            <input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""}/>
                                             <label for='${opt.id}'>${opt.name}</label>
                                             ${opt.id !== 'none' ? "<br/><select>" + opt.items.map(function (item) {
                                                 return `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`
@@ -1272,7 +1262,7 @@
                                     case 'timepicker':
                                     case 'datetimepicker':
                                         fieldTemplate +=
-                                            `<input type='text' class='${fieldProp.type} property-field-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}.${fieldProp.id}' value='${fieldProp.value}'>`;
+                                            `<input type='text' class='${fieldProp.type} property-field-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}-${fieldProp.id}' value='${fieldProp.value}'>`;
                                         break;
                                 }
                                 // 단위 추가
@@ -1359,7 +1349,7 @@
                         const seqCell = parentElem.parentNode.cells[1].childNodes[0];
                         changePropertiesValue(elem.value, 'option', parentElem.id, Number(seqCell.value) - 1);
                     } else {
-                        const changePropertiesArr = parentElem.id.split('.');
+                        const changePropertiesArr = parentElem.id.split('-');
                         let changeValue = elem.value;
                         if (elem.classList.contains('session')) { changeValue = elem.id + '|' + elem.value; }
                         changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1]);
@@ -1375,7 +1365,7 @@
                 case 'checkbox':
                     if (changeElem.classList.contains('property-field-value')) {
                         changeElem.addEventListener('change', function (e) {
-                            const changePropertiesArr = e.target.parentNode.id.split('.');
+                            const changePropertiesArr = e.target.parentNode.id.split('-');
                             changePropertiesValue(e.target.checked, changePropertiesArr[0], changePropertiesArr[1]);
                         }, false);
                     }
@@ -1383,7 +1373,7 @@
                 case 'range':
                 case 'text':
                     changeElem.addEventListener('change', function(e) {
-                        const changePropertiesArr = e.target.parentNode.id.split('.');
+                        const changePropertiesArr = e.target.parentNode.id.split('-');
                         if (changeElem.type === 'range') {
                             const slider = document.getElementById(e.target.id + '-value');
                             slider.value = this.value;
@@ -1398,7 +1388,7 @@
                         changeElem.addEventListener('change', function (e) {
                             const elem = e.target;
                             const parentElem = elem.parentNode;
-                            const changePropertiesArr = parentElem.parentNode.id.split('.');
+                            const changePropertiesArr = parentElem.parentNode.id.split('-');
                             let val = (elem.id !== 'none') ? elem.id + '|' + parentElem.querySelector('select').value : elem.id;
                             if (elem.checked && elem.id !== 'none') {
                                 val += '|';
@@ -1417,7 +1407,7 @@
                         changeElem.addEventListener('change', function (e) {
                             const elem = e.target;
                             const parentElem = elem.parentNode;
-                            const changePropertiesArr = parentElem.id.split('.');
+                            const changePropertiesArr = parentElem.id.split('-');
                             let defaultValue = '';
                             for (let j = 0; j < elem.options.length; j++) {
                                 const toggleElem = parentElem.querySelector('#' + elem.options[j].value);
@@ -1439,12 +1429,12 @@
                             const elem = e.target;
                             const parentElem = elem.parentNode;
                             if (elem.classList.contains('session')) {
-                                const changePropertiesArr = parentElem.id.split('.');
+                                const changePropertiesArr = parentElem.id.split('-');
                                 changePropertiesValue(elem.id + '|' + elem.value + '|' + elem.options[elem.selectedIndex].text, changePropertiesArr[0], changePropertiesArr[1]);
                             } else {
                                 const targetRadio = parentElem.querySelector('input[type=radio]');
                                 if (targetRadio !== null) {
-                                    const changePropertiesArr = parentElem.parentNode.id.split('.');
+                                    const changePropertiesArr = parentElem.parentNode.id.split('-');
                                     if (!targetRadio.checked) { return; }
                                     let val = (targetRadio.id !== 'none') ? targetRadio.id + '|' + elem.value : targetRadio.id;
                                     if (targetRadio.checked && targetRadio.id !== 'none') {
@@ -1452,7 +1442,7 @@
                                     }
                                     changePropertiesValue(val, changePropertiesArr[0], changePropertiesArr[1]);
                                 } else {
-                                    const changePropertiesArr = parentElem.id.split('.');
+                                    const changePropertiesArr = parentElem.id.split('-');
                                     changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
                                 }
                             }
@@ -1565,6 +1555,7 @@
                 component.draw(componentAttr.type, formPanel, mergeComponentAttr);
             }
         }
+
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
         let editboxComponent = component.draw(aliceForm.defaultType, formPanel);
         setComponentData(editboxComponent.attr);

@@ -1396,29 +1396,30 @@
                 let x = snapToGrid(d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x),
                     y = snapToGrid(d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y);
                 const drawingBoard = document.querySelector('.alice-process-drawing-board');
-                if (d3.event.pageX - svgOffset.left - window.pageXOffset >= 0 &&
-                    d3.event.pageY - svgOffset.top - window.pageYOffset >= 0 &&
-                    d3.event.pageX - svgOffset.left - window.pageXOffset <= drawingBoard.offsetWidth &&
-                    d3.event.pageY - svgOffset.top - window.pageYOffset <= drawingBoard.offsetHeight) {
-                    let _this = d3.select(this);
-                    let node;
-                    if (_this.classed('event')) {
-                        node = new EventElement(x, y);
-                    } else if (_this.classed('task')) {
-                        node = new TaskElement(x, y);
-                    } else if (_this.classed('subprocess')) {
-                        node = new SubprocessElement(x, y);
-                    } else if (_this.classed('gateway')) {
-                        node = new GatewayElement(x, y);
-                    } else if (_this.classed('group')) {
-                        node = new GroupElement(x, y);
-                    } else if (_this.classed('annotation')) {
-                        node = new AnnotationElement(x, y);
-                    }
-                    if (node) {
-                        _this.classed(node.defaultType, true);
-                        aliceProcessEditor.addElementProperty(node.nodeElement);
-                    }
+                if (d3.event.pageX - svgOffset.left - window.pageXOffset < 0 ||
+                    d3.event.pageY - svgOffset.top - window.pageYOffset  < 0 ||
+                    d3.event.pageX - svgOffset.left - window.pageXOffset > drawingBoard.offsetWidth ||
+                    d3.event.pageY - svgOffset.top - window.pageYOffset > drawingBoard.offsetHeight) {
+                    return false;
+                }
+                let _this = d3.select(this);
+                let node;
+                if (_this.classed('event')) {
+                    node = new EventElement(x, y);
+                } else if (_this.classed('task')) {
+                    node = new TaskElement(x, y);
+                } else if (_this.classed('subprocess')) {
+                    node = new SubprocessElement(x, y);
+                } else if (_this.classed('gateway')) {
+                    node = new GatewayElement(x, y);
+                } else if (_this.classed('group')) {
+                    node = new GroupElement(x, y);
+                } else if (_this.classed('annotation')) {
+                    node = new AnnotationElement(x, y);
+                }
+                if (node) {
+                    _this.classed(node.defaultType, true);
+                    aliceProcessEditor.addElementProperty(node.nodeElement);
                 }
             });
     }
@@ -1766,12 +1767,10 @@
             }
             const source = document.getElementById(element.data['start-id']),
                   target = document.getElementById(element.data['end-id']);
-            const nodeId = workflowUtil.generateUUID();
-            element.id = nodeId;
             if (source && target) {
                 element['start-id'] = source.id;
                 element['end-id'] = target.id;
-                let linkData = {id: nodeId, sourceId: source.id, targetId: target.id, isDefault: element.data['is-default']};
+                let linkData = {id: element.id, sourceId: source.id, targetId: target.id, isDefault: element.data['is-default']};
                 if (element.display) {
                     Object.keys(element.display).forEach(function(key) {
                         if (typeof element.display[key] !== 'undefined') {

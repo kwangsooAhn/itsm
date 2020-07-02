@@ -29,86 +29,123 @@
             height: 180px;
             width: 180px;
         }
+        table td {
+            padding: 2px 0;
+        }
+        table td input[type="text"], table td input[type="password"] {
+            width: 55%;
+        }
+        table td input[type="password"] {
+            font-family: initial;
+        }
+        table td select {
+            height: 28px;
+        }
     </style>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div id="container" align="center">
+    <div id="container" align="center" style="margin-top: 15px">
     <input type="hidden" id="userKey" name="userKey" th:value="${users.userKey}"/>
     <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
-        <form id="userEditSelfForm" method="post" onsubmit ="return false">
+        <form id="userEditSelfForm" method="post" onsubmit="return false">
             <table style="text-align: left;">
-                <tbody id="tbody">
+                <colgroup>
+                    <col width="150px">
+                    <col width="500px">
+                </colgroup>
+                <tbody th:style="${!users.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                     <tr>
-                        <th th:text="#{user.label.id}+'*'"/>
-                        <td><input type="text" id="userId" name="userId" th:value="${users.userId}" maxlength="100" required="required"/>
+                        <th class="required" th:text="#{user.label.id}"></th>
+                        <td><input type="text" id="userId" name="userId" th:value="${users.userId}" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.label.password}+'*'"/>
-                        <td><input type="password" id="password" name="password" maxlength="100" required="required"/>
+                        <th class="required" th:text="#{user.label.password}"></th>
+                        <td><input type="password" id="password" name="password" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.label.rePassword}+'*'"/>
-                        <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"/>
+                        <th class="required" th:text="#{user.label.rePassword}"></th>
+                        <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"/></td>
                     </tr>
                 </tbody>
                 <tbody>
                     <tr>
-                        <th th:text="#{user.label.name}+'*'"/>
-                        <td><input type="text" id="userName" name="userName" th:value="${users.userName}" maxlength="100" required="required"/>
+                        <th class="required" th:text="#{user.label.name}"></th>
+                        <td><input type="text" id="userName" name="userName" th:value="${users.userName}" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.label.email}+'*'"/>
-                        <td><input type="text" id="email" name="email" th:value="${users.email}" maxlength="100" required="required"/>
-                    </tr>
-                    <tr>
-                        <th/>
-                        <td th:text="#{user.msg.emailAlert}"/>
-                    </tr>
-                    <tr>
-                        <th th:text="#{user.label.position}"/>
-                        <td><input type="text" id="position" name="position" th:value="${users.position}" maxlength="100"/>
-                    </tr>
-                    <tr>
-                        <th th:text="#{user.label.department}"/>
-                        <td><input type="text" id="department" name="department" th:value="${users.department}" maxlength="100"/>
-                    </tr>
-                    <tr>
-                        <th th:text="#{user.label.officeNumber}"/>
-                        <td><input type="text" id="officeNumber" name="officeNumber" th:value="${users.officeNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
-                    </tr>
-                    <tr>
-                        <th th:text="#{user.label.mobileNumber}"/>
-                        <td><input type="text" id="mobileNumber" name="mobileNumber" th:value="${users.mobileNumber}" onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100" />
-                    </tr>
-                    <tr>
-                        <th th:text="#{user.label.timezone}+'*'"/>
-                        <td><select name="timezone" id="timezone"><option th:each="tzData: ${timezoneList}" th:value="${tzData.timezoneValue}"
-                        th:text="${tzData.timezoneId}"></option></select></td>
-                    </tr>
-                    <tr>
-                        <th th:text="#{user.label.timeFormat}+'*'"/></th>
+                        <th class="required" th:text="#{user.label.email}"></th>
                         <td>
-                            <span th:text="#{user.label.date}"></span>
-                            <select name="date" id="date"><option th:each="dateData: ${dateList}" th:value="${dateData.codeValue}"
-                                                                  th:text="${dateData.codeValue}"></option></select>
-                            <span th:text="#{user.label.time}"></span>
-                            <select name="time" id="time"><option th:each="timeData: ${timeList}" th:value="${timeData.codeValue}"
-                                                                  th:text="${timeData.code}"></option></select>
+                            <input type="text" id="email" name="email" th:value="${users.email}" maxlength="100" required="required"/>
+                            <br><span th:text="#{user.msg.emailAlert}"></span>
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.label.lang}+'*'"/>
-                        <td><select name="lang" id="lang"><option th:each="itemData: ${langList}" th:value="${itemData.codeValue}"
-                                                                  th:text="${itemData.codeValue}"></option></select></td>
+                        <th th:text="#{user.label.position}"></th>
+                        <td><input type="text" id="position" name="position" th:value="${users.position}" maxlength="100"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.label.theme}+'*'"/>
-                        <td><select name="theme" id="theme"><option th:each="themeData: ${themeList}" th:value="${themeData.codeValue}"
-                                                                  th:text="${themeData.codeValue}"></option></select></td>
+                        <th th:text="#{user.label.department}"></th>
+                        <td><input type="text" id="department" name="department" th:value="${users.department}" maxlength="100"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.label.avatar}"/>
+                        <th th:text="#{user.label.officeNumber}"></th>
+                        <td>
+                            <input type="text" id="officeNumber" name="officeNumber" th:value="${users.officeNumber}"
+                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.label.mobileNumber}"></th>
+                        <td>
+                            <input type="text" id="mobileNumber" name="mobileNumber" th:value="${users.mobileNumber}"
+                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="required" th:text="#{user.label.timezone}"></th>
+                        <td>
+                            <select id="timezone" name="timezone">
+                                <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
+                                    th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users.timezone}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="required" th:text="#{user.label.timeFormat}"></th>
+                        <td>
+                            <span th:text="#{user.label.date}"></span>
+                            <select id="date" name="date">
+                                <option th:each="date: ${dateList}" th:value="${date.codeValue}"
+                                    th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
+                            </select>
+                            <span th:text="#{user.label.time}"></span>
+                            <select id="time" name="time">
+                                <option th:each="time: ${timeList}" th:value="${time.codeValue}"
+                                    th:text="${time.code}" th:selected="${time.codeValue} == ${usersTime}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="required" th:text="#{user.label.lang}"></th>
+                        <td>
+                            <select id="lang" name="lang">
+                                <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
+                                    th:text="${lang.codeValue}" th:selected="${lang.codeValue} == ${users.lang}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th class="required" th:text="#{user.label.theme}"></th>
+                        <td>
+                            <select id="theme" name="theme">
+                                <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
+                                    th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users.theme}"></option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{user.label.avatar}"></th>
                         <td>
                             <div id="dropZoneFiles"></div><br/><br/>
                             <div th:text="#{user.label.FileSizeLimit}"></div>
@@ -118,12 +155,10 @@
                 </tbody>
             </table>
         </form>
-        <button style="margin-top: 25px;" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"
-                                          th:text="#{user.label.editUserInfo}"></button>
+        <button type="button" style="margin-top: 25px;" th:text="#{user.label.editUserInfo}"
+            th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
     </div>
-    <br>
-    <br>
-    <div id="container" align="left">
+    <div id="password-guide" style="top: 35px;">
         <pre>
             [ 비밀번호 수정 가이드 ]
 
@@ -147,85 +182,34 @@
     <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
-     /*<![CDATA[*/
+    /*<![CDATA[*/
         window.onload = function() {
-            if (/*[[${!users.platform.equals('user.platform.alice')}]]*/) {
-                document.getElementById('tbody').style.display = 'none';
-            }
-
-            if (/*[[${users.theme != null}]]*/) {
-                var selectLength = document.getElementById('theme').length;
-                for (var i = 0; i < selectLength; i++) {
-                   if (document.getElementById('theme').options[i].value === /*[[${users.theme}]]*/) {
-                       document.getElementById('theme').options[i].selected = true;
-                   }
-                }
-            }
-
-            if (/*[[${users.lang != null}]]*/) {
-                var selectLength = document.getElementById('lang').length;
-                for (var i = 0; i < selectLength; i++) {
-                   if (document.getElementById('lang').options[i].value === /*[[${users.lang}]]*/) {
-                       document.getElementById('lang').options[i].selected = true;
-                   }
-                }
-            }
-
-            if (/*[[${users.timezone != null}]]*/) {
-                var selectLength = document.getElementById('timezone').length;
-                for (var i = 0; i < selectLength; i++) {
-                    if (document.getElementById('timezone').options[i].value === /*[[${users.timezone}]]*/) {
-                        document.getElementById('timezone').options[i].selected = true;
-                    }
-                }
-            }
-
-            if (/*[[${users.timeFormat != null}]]*/) {
-                var selectLength = document.getElementById('date').length;
-                for (var i = 0; i < selectLength; i++) {
-                    if (document.getElementById('date').options[i].value === /*[[${usersDate}]]*/) {
-                        document.getElementById('date').options[i].selected = true;
-                    }
-                }
-
-                selectLength = document.getElementById('time').length;
-                for (var i = 0; i < selectLength; i++) {
-                    if (document.getElementById('time').options[i].value === /*[[${usersTime}]]*/) {
-                        document.getElementById('time').options[i].selected = true;
-                    }
-                }
-            }
-
-            document.getElementById('avatarUUID').value = uuid();
-            var avatarUUID = document.getElementById('avatarUUID').value;
+            const avatarUUID = uuid();
+            document.getElementById('avatarUUID').value = avatarUUID;
             fileUploader.init({extra: {
                 formId: 'userEditSelfForm',
                 dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/fileupload?target=avatar&fileName='+ avatarUUID,
+                dropZoneUrl: '/fileupload?target=avatar&fileName=' + avatarUUID,
                 dropZoneMaxFiles: 1,
-                acceptedFiles:".png,.jpeg,.jpg,.gif",
+                acceptedFiles: '.png,.jpeg,.jpg,.gif',
                 clickable: '.add-img-button'
             }});
         };
 
         function onlyNumber(event) {
             event = event || window.event;
-            var keyID = (event.which) ? event.which : event.keyCode;
-            if ((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
-            || keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) {
-                return;
-            } else {
+            const keyID = (event.which) ? event.which : event.keyCode;
+            if (!((keyID >= 48 && keyID <= 57) || (keyID >= 96 && keyID <= 105)
+                || keyID === 8 || keyID === 46 || keyID === 37 || keyID === 39)) {
                 return false;
             }
         }
 
         function removeChar(event) {
             event = event || window.event;
-            var keyID = (event.which) ? event.which : event.keyCode;
-            if (keyID == 8 || keyID == 46 || keyID == 37 || keyID == 39) {
-                return;
-            } else {
-                event.target.value = event.target.value.replace(/[^0-9]/g, "");
+            const keyID = (event.which) ? event.which : event.keyCode;
+            if (!(keyID === 8 || keyID === 46 || keyID === 37 || keyID === 39)) {
+                event.target.value = event.target.value.replace(/[^0-9]/g, '');
             }
         }
 
@@ -235,20 +219,9 @@
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
 
         function restSubmit(method, url) {
-            var password = document.getElementById('password').value;
-            var keyModule;
-            var keyExponent;
-            var rsa;
-
             if (!validation()) {
                 return false;
             }
-
-            keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
-            keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-            rsa = new RSAKey();
-            rsa.setPublic(keyModule, keyExponent);
-
             const data = {
                 userKey: document.getElementById('userKey').value,
                 userId: document.getElementById('userId').value,
@@ -265,11 +238,16 @@
                 fileSeq: document.getElementsByName('fileSeq').value,
                 avatarUUID: document.getElementById('avatarUUID').value
             };
+            const password = document.getElementById('password').value;
             if (password !== '') {
+                const rsa = new RSAKey();
+                const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+                const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+                rsa.setPublic(keyModule, keyExponent);
                 data.password = rsa.encrypt(password);
             }
 
-            const opt = {
+            aliceJs.sendXhr({
                 method: method,
                 url: url,
                 params: JSON.stringify(data),
@@ -297,8 +275,7 @@
                             break;
                     }
                 }
-            };
-            aliceJs.sendXhr(opt);
+            });
         }
 
         function validation() {

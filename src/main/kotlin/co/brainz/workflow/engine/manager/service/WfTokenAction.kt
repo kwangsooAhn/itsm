@@ -21,7 +21,7 @@ class WfTokenAction(
     private val wfTokenManagerService: WfTokenManagerService
 ) {
 
-    fun action(tokenDto: WfTokenDto) {
+    fun progressApplicationAction(tokenDto: WfTokenDto) {
         when (tokenDto.action) {
             WfElementConstants.Action.SAVE.value -> this.actionSave(tokenDto)
             WfElementConstants.Action.CANCEL.value -> this.actionCancel(tokenDto)
@@ -113,7 +113,7 @@ class WfTokenAction(
         }.maxWith(Comparator { o1, o2 ->
             when {
                 o1.tokenStartDt!! > o2.tokenStartDt -> 1
-                o1.tokenStartDt > o2.tokenStartDt -> 1
+                o1.tokenStartDt == o2.tokenStartDt -> 0
                 else -> -1
             }
         }) ?: throw AliceException(AliceErrorConstants.ERR_00005, "Not found reject element in tokens.")
@@ -173,6 +173,9 @@ class WfTokenAction(
     private fun makeTokenToUpdate(tokenDto: WfTokenDto): WfTokenEntity {
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
 
+        // null 이면 담당자는 업데이트를 생략한다.
+        token.assigneeId = tokenDto.assigneeId ?: token.assigneeId
+        token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
         when (tokenDto.action) {
             WfElementConstants.Action.CANCEL.value -> {
                 token.tokenStatus = WfTokenConstants.Status.CANCEL.code
@@ -186,11 +189,10 @@ class WfTokenAction(
             WfElementConstants.Action.REJECT.value -> {
                 token.tokenStatus = WfTokenConstants.Status.REJECT.code
             }
+            WfElementConstants.Action.SAVE.value -> {
+                token.tokenEndDt = null
+            }
         }
-
-        // null 이면 담당자는 업데이트를 생략한다
-        token.assigneeId = tokenDto.assigneeId ?: token.assigneeId
-        token.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
 
         return token
     }

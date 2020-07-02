@@ -94,7 +94,6 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
      */
     @GetMapping("/{customCodeId}/search")
     fun getCustomCodeData(@PathVariable customCodeId: String, model: Model, request: HttpServletRequest): String {
-        model.addAttribute("customCodeData", request.getParameter("customCodeData") ?: "")
         model.addAttribute("customCodeDataList", customCodeService.getCustomCodeData(customCodeId))
         return documentCustomCodePage
     }

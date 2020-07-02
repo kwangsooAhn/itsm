@@ -296,7 +296,6 @@
                     }
                     let attributeData = getAttributeData(elementsKeys[i], elemType);
                     setElementData(elemData, attributeData);
-                    console.log(attributeData)
                     elemData.type = elemType;
                     elemData.display = {'width': bbox.width, 'height': bbox.height, 'position-x': bbox.cx, 'position-y': bbox.cy};
                     elemData.data = attributeData;
@@ -305,7 +304,7 @@
                 }
             }
         } else {
-            const data = elem.node().__data__;
+            const data = elem.data()[0];
             elemData.type = 'arrowConnector';
 
             let attributeData = getAttributeData('connector', 'arrowConnector')
@@ -411,7 +410,7 @@
             connectors.forEach(function(c) {
                 let connectorNode = document.getElementById(c.id);
                 if (connectorNode) {
-                    const data = connectorNode.__data__;
+                    const data = d3.select(connectorNode).data()[0];
                     if (data.sourceId === elementId) {
                         isSuggest = false;
                     }
@@ -480,7 +479,7 @@
             targetY = bbox.y + gTransform.y - containerHeight - 10;
 
         if (elem.classed('connector')) {
-            let linkData = elem.node().__data__;
+            let linkData = elem.data()[0];
             if (linkData.midPoint) {
                 targetX = (linkData.midPoint[0] + gTransform.x) - containerWidth / 2;
                 targetY = linkData.midPoint[1] + gTransform.y - containerHeight - 10;
@@ -581,7 +580,7 @@
                     elem.display['position-x'] = bbox.cx + containerTransform.x;
                     elem.display['position-y'] = bbox.cy + containerTransform.y;
                 } else {
-                    const linkData = nodeElement.node().__data__;
+                    const linkData = nodeElement.data()[0];
                     if (typeof linkData.midPoint !== 'undefined') {
                         elem.display['mid-point'] =
                             [linkData.midPoint[0] + containerTransform.x, linkData.midPoint[1] + containerTransform.y];
@@ -859,7 +858,7 @@
             const originElementData = JSON.parse(JSON.stringify(elementData[0])),
                   nodeElement = d3.select(document.getElementById(id));
             if (nodeElement.classed('connector')) {
-                const linkData = nodeElement.node().__data__;
+                const linkData = nodeElement.data()[0];
                 elementData[0].display = {};
                 if (typeof linkData.midPoint !== 'undefined') {
                     elementData[0].display['mid-point'] = linkData.midPoint;
@@ -885,7 +884,7 @@
             }
 
             let historyData = {0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))};
-            if (isSaveHistory !== false) {
+            if (isSaveHistory) {
                 aliceProcessEditor.utils.history.saveHistory([historyData]);
             }
             return historyData;

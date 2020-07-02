@@ -49,7 +49,7 @@ data class WfElementEntity(
         cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
         orphanRemoval = true
     )
-    var elementDataEntities: MutableList<WfElementDataEntity> = mutableListOf()
+    val elementDataEntities: MutableList<WfElementDataEntity> = mutableListOf()
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "element")
     val tokens: MutableList<WfTokenEntity>? = mutableListOf()

@@ -394,6 +394,14 @@ form:
     publish: "발행"
     use: "사용"
 
+#image
+image:
+  btn:
+    upload: "이미지 파일 업로드"
+  msg:
+    alert.failedRename: "파일명 변경이 실패하였습니다. 동일한 파일명이 있거나 수정권한이 있는 지 확인해주세요."
+    confirm.existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
+
 # Login
 login:
   btn:
@@ -449,6 +457,7 @@ menu:
     document: "업무 흐름"
     editMyInfo: "자기 정보 수정"
     form: "문서 양식"
+    image: "이미지 관리"
     process: "프로세스"
     role: "역할 관리"
     user: "사용자 관리"
