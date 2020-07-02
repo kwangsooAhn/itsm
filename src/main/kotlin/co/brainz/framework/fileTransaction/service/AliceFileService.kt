@@ -306,7 +306,7 @@ class AliceFileService(
      * 이미지 사이즈 조정.
      */
     private fun resizeBufferedImage(image: BufferedImage): BufferedImage {
-        val scaledWidth = thumbnailImageWidth
+        var scaledWidth = thumbnailImageWidth
         if (image.width < scaledWidth) {
             scaledWidth = image.width
         }
