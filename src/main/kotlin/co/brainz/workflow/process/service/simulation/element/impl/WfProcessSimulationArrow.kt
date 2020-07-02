@@ -37,9 +37,6 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
             val currentConnectorValue = element.getElementDataValue(arrowConnectorElementAttributeId) ?: ""
             when (connectorType) {
                 WfElementConstants.ConnectorConditionValue.ACTION.value -> {
-                    // connector 가 action 일 때는 기본경로 체크값이 없다. pass 하기 위해 1 고정값으로 셋업한다.
-                    checkedDefaultConditionTotal = 1
-
                     // action-name과 action-value는 쌍으로 있어야 하므로 2개 중 하나의 값만 있으면 안된다.
                     val isName =
                         element.getElementDataValue(WfElementConstants.AttributeId.ACTION_NAME.value)?.isBlank()
@@ -74,8 +71,8 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
                 checkedDefaultConditionTotal = checkedDefaultConditionCount(it, checkedDefaultConditionTotal)
             }
 
-            // 체크된 기본경로 값은 무조건 1개여야한다. (action은 무조건 pass)
-            if (checkedDefaultConditionTotal != 1) {
+            // 체크된 기본경로 값은 0 또는 1개여야한다. (action은 무조건 pass)
+            if (checkedDefaultConditionTotal > 1) {
                 return setFailedMessage("Default connector checked should be one. If action then all checks should be unchecked.")
             }
         }
