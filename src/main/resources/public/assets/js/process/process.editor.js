@@ -1746,9 +1746,10 @@
     /**
      * Draw a element with the loaded information.
      *
+     * @param processId process ID
      * @param elementList editor 에 추가할 element 목록
      */
-    function drawProcess(elementList) {
+    function drawProcess(processId, elementList) {
         // add element
         elementList.forEach(function(element) {
             if (element.type === 'arrowConnector') {
@@ -1784,6 +1785,14 @@
         });
         setConnectors();
         aliceProcessEditor.initUtil();
+
+        const loadingKeyName = 'alice_processes-edit-' + processId;
+        const loadingStatus = sessionStorage.getItem(loadingKeyName);
+        if (loadingStatus === 'firstLoading') {
+            let node = new EventElement(100, 200);
+            aliceProcessEditor.addElementProperty(node.nodeElement);
+            sessionStorage.removeItem(loadingKeyName);
+        }
     }
 
     /**
