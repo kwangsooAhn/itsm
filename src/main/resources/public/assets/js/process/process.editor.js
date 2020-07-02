@@ -1792,6 +1792,7 @@
             let node = new EventElement(100, 200);
             aliceProcessEditor.addElementProperty(node.nodeElement);
             sessionStorage.removeItem(loadingKeyName);
+            aliceProcessEditor.autoSave();
         }
     }
 
