@@ -49,5 +49,4 @@ class ImageRestController(private val fileService: AliceFileService) {
     fun getFile(@PathVariable name: String): AliceImageFileDto? {
         return fileService.getImageFile(name)
     }
-
 }
