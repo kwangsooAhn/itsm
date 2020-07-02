@@ -205,14 +205,18 @@ class WfDocumentService(
      * Update Form and Process status.
      */
     fun updateFormAndProcessStatus(documentEntity: WfDocumentEntity) {
-        val wfFormEntity = documentEntity.form
-        val wfProcessEntity = documentEntity.process
         when (documentEntity.documentStatus) {
             WfDocumentConstants.Status.USE.code -> {
+                val wfFormEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId).get()
                 if (wfFormEntity.formStatus != WfFormConstants.FormStatus.USE.value) {
                     wfFormEntity.formStatus = WfFormConstants.FormStatus.USE.value
                     wfFormRepository.save(wfFormEntity)
                 }
+                val wfProcessEntity = wfProcessRepository.findByProcessId(documentEntity.process.processId)
+                    ?: throw AliceException(
+                        AliceErrorConstants.ERR_00005,
+                        AliceErrorConstants.ERR_00005.message + "[Process Entity]"
+                    )
                 if (wfProcessEntity.processStatus != WfProcessConstants.Status.USE.code) {
                     wfProcessEntity.processStatus = WfProcessConstants.Status.USE.code
                     wfProcessRepository.save(wfProcessEntity)
