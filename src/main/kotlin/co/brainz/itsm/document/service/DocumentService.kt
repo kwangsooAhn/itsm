@@ -93,8 +93,6 @@ class DocumentService(
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.createUserKey = aliceUserDto.userKey
         restTemplateDocumentDto.createDt = LocalDateTime.now()
-        // TODO: 최초 생성시 상태 값은 임시로 변경해야 한다. (추후 작업)
-        restTemplateDocumentDto.documentStatus = RestTemplateConstants.DocumentStatus.USE.value
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.POST_DOCUMENT.url)
         val responseBody = restTemplate.create(url, restTemplateDocumentDto)
         return when (responseBody.body.toString().isNotEmpty()) {
