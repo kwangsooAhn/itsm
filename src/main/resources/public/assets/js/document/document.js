@@ -232,33 +232,17 @@
                     buttonProcessEle.type = 'button';
                     buttonProcessEle.innerText = element.name;
                     buttonProcessEle.addEventListener('click', function () {
-                        aliceDocument.save(element.value);
+                       if (element.value === 'close') {
+                           window.close();
+                       } else {
+                           aliceDocument.save(element.value);
+                       }
                     });
                     buttonEle.appendChild(buttonProcessEle);
                 }
             });
-        } else {
-            //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
-            //token Id 가 없고 버튼에 대한 정보 없다는 것은 처음 문서 생성 이라고 판단한다.
-            if (document.getElementById('tokenId') === null) {
-                const buttonSaveEle = document.createElement('button');
-                buttonSaveEle.type = 'button';
-                buttonSaveEle.innerText = i18n.get('common.btn.save');
-                buttonSaveEle.addEventListener('click', function () {
-                    aliceDocument.save('save');
-                });
-                buttonEle.appendChild(buttonSaveEle);
-            }
         }
 
-        //20200331 kimsungmin 다음 스프린트에서는 해당 버튼은 삭제가 되어야 한다.
-        const buttonCancelEle = document.createElement('button');
-        buttonCancelEle.type = 'button';
-        buttonCancelEle.innerText = i18n.get('common.btn.close');
-        buttonCancelEle.addEventListener('click', function() {
-            window.close();
-        });
-        buttonEle.appendChild(buttonCancelEle);
         if (buttonContainer !== null) {
             buttonContainer.appendChild(buttonEle);
         }
@@ -538,8 +522,8 @@
             addIdComponent('documentId', data.documentId);
         }
 
-        if (data.tokenId !== undefined) {
-            addIdComponent('tokenId', data.tokenId);
+        if (data.token !== undefined) {
+            addIdComponent('tokenId', data.token.tokenId);
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
@@ -668,10 +652,8 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
-
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
-                dataForPrint.tokenId = tokenId;
                 drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'

@@ -1,5 +1,6 @@
 package co.brainz.itsm.document.controller
 
+import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/documents")
 class DocumentRestController(
-    private val documentService: DocumentService
+    private val documentService: DocumentService,
+    private val documentActionService: DocumentActionService
 ) {
 
     /**
@@ -21,7 +23,7 @@ class DocumentRestController(
      * */
     @GetMapping("/{documentId}/data")
     fun getDocumentData(@PathVariable documentId: String): String {
-        return documentService.getDocumentData(documentId)
+        return documentActionService.makeDocumentAction(documentService.getDocumentData(documentId))
     }
 
     /**
