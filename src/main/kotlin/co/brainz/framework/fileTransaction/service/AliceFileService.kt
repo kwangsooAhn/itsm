@@ -396,19 +396,15 @@ class AliceFileService(
         val dir = getWorkflowDir(this.imagesRootDirectory)
         val filePath = Paths.get(dir.toString() + File.separator + originName)
         val file = filePath.toFile()
-        if (file.exists()) {
-            val modifyFile = File(dir.toFile(), modifyName)
-            if (modifyFile.exists()) {
-                return false
-            }
-            return try {
+        val modifyFile = File(dir.toFile(), modifyName)
+        return if (file.exists() && !modifyFile.exists()) {
+            try {
                 file.renameTo(modifyFile)
-                true
             } catch (e: IOException) {
                 false
             }
         } else {
-            return false
+            false
         }
     }
 
