@@ -111,9 +111,9 @@
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.mobileNumber}"></th>
+                        <th th:text="#{user.label.mobileNumber}"></th>
                         <td>
-                            <input type="text" id="mobileNumber" name="mobileNumber" th:value="${users?.label.mobileNumber}"
+                            <input type="text" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                 onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"/>
                         </td>
                     </tr>

@@ -35,6 +35,7 @@ common:
     updateDate: "Update Date"
     updateUser: "Update User"
   msg:
+    confirmDelete: "Are you sure you want to delete?"
     delete: "Deleted."
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."
@@ -394,13 +395,13 @@ form:
     publish: "Publish"
     use: "Use"
 
-#image
+# Image
 image:
   btn:
     upload: "Image File Upload"
   msg:
-    alert.failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
-    confirm.existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
+    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
 
 # Login
 login:
