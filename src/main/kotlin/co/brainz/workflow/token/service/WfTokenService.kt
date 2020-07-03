@@ -15,7 +15,6 @@ import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
-import java.util.Optional
 import kotlin.collections.LinkedHashMap
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

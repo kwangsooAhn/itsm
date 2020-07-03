@@ -3,11 +3,9 @@ package co.brainz.itsm.token.controller
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
-import co.brainz.itsm.document.service.DocumentService
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.itsm.user.service.UserService
-import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.servlet.http.HttpServletRequest
@@ -24,8 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam
 class TokenController(
     private val userService: UserService,
     private val instanceService: InstanceService,
-    private val folderService: FolderService,
-    private val documentService: DocumentService
+    private val folderService: FolderService
 ) {
 
     private val statusPage: String = "redirect:/certification/status"
