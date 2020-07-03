@@ -259,24 +259,46 @@
     function saveProcess() {
         if (aliceProcessEditor.isView) { return false; }
         aliceProcessEditor.resetElementPosition();
+        save(function(xhr) {
+            if (xhr.responseText === 'true') {
+                aliceJs.alert(i18n.get('common.msg.save'));
+                isEdited = false;
+                savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+                if (savedData.process.status === 'process.status.publish') {
+                    uploadProcessFile();
+                }
+                changeProcessName();
+            } else {
+                aliceJs.alert(i18n.get('common.label.fail'));
+            }
+        });
+    }
+
+    /**
+     * 자동 저장 (현재는 최초 오픈 시 start event 추가 후 저장 기능을 위해서만 사용중)
+     */
+    function autoSaveProcess() {
+        save(function(xhr) {
+            if (xhr.responseText === 'true') {
+                isEdited = false;
+                savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
+                changeProcessName();
+            }
+        });
+    }
+
+    /**
+     * 프로세스 저장 처리.
+     *
+     * @param callbackFunc 저장 처리 후 실행될 callback function
+     */
+    function save(callbackFunc) {
         aliceJs.sendXhr({
             method: 'PUT',
             url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/data',
-            callbackFunc: function(xhr) {
-                if (xhr.responseText === 'true') {
-                    aliceJs.alert(i18n.get('common.msg.save'));
-                    isEdited = false;
-                    savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
-                    if (savedData.process.status === 'process.status.publish') {
-                        uploadProcessFile();
-                    }
-                    changeProcessName();
-                } else {
-                    aliceJs.alert(i18n.get('common.label.fail'));
-                }
-            },
             contentType: 'application/json; charset=utf-8',
-            params: JSON.stringify(aliceProcessEditor.data)
+            params: JSON.stringify(aliceProcessEditor.data),
+            callbackFunc: callbackFunc
         });
     }
 
@@ -775,5 +797,6 @@
 
     exports.utils = utils;
     exports.initUtil = initUtil;
+    exports.autoSave = autoSaveProcess;
     Object.defineProperty(exports, '__esModule',{value: true});
 })));
