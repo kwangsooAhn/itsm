@@ -120,10 +120,12 @@ class DocumentActionService(
      * 여부를 확인하여 보여줄 버튼[JsonArray]을 보여준다.
      */
     private fun getActionList(
-        tokenObject: JsonObject, userEntity: AliceUserEntity,
-        isProgress: Boolean, isAssignee: Boolean
+        tokenObject: JsonObject,
+        userEntity: AliceUserEntity,
+        isProgress: Boolean,
+        isAssignee: Boolean
     ): JsonArray {
-        //버튼 보여주기
+        // 버튼 보여주기
         var isSave = false
         var isProcess = false
         var isReject = false
