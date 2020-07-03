@@ -211,13 +211,17 @@
 
         const statusElem = document.getElementById('document_status');
         statusElem.value = documentData.documentStatus;
-        // 임시가 아닌 경우 임시로 변경할 수 없다.
-        if (documentData.documentStatus !== STATUS_TEMPORARY) {
-            statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-        }
-        // 폐기인 경우 사용으로 변경할 수 없다.
-        if (documentData.documentStatus === STATUS_DESTROY) {
-            statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
+        switch (documentData.documentStatus) {
+            case STATUS_TEMPORARY:
+                statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
+                break;
+            case STATUS_USE:
+                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                break;
+            case STATUS_DESTROY:
+                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
+                break;
         }
     }
 
