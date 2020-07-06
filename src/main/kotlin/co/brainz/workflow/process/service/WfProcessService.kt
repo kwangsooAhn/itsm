@@ -95,50 +95,9 @@ class WfProcessService(
                 elDto.notification = "Y"
             }
 
-            // 엘리먼트 데이터가 싱글인지 멀티값인지에 따라 String 또는 mutableList 로 저장
-            val elementData = mutableMapOf<String, Any>()
-            elementEntity.elementDataEntities.forEach {
-                elementData[it.attributeId] = when (elementData[it.attributeId]) {
-                    is String -> {
-                        val data = mutableListOf(elementData[it.attributeId] as String)
-                        data.add(it.attributeValue)
-                        data
-                    }
-                    is MutableList<*> -> {
-                        val data =
-                            (elementData[it.attributeId] as MutableList<*>).filterIsInstance<String>().toMutableList()
-                        data.add(it.attributeValue)
-                        data
-                    }
-                    else -> {
-                        it.attributeValue
-                    }
-                }
-            }
-
-            // assignee type 에 따라 assignee 값은 List 타입으로 리턴
-            val attrIdAssigneeType = WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
-            if (elementData[attrIdAssigneeType] != null) {
-                val assigneeType = elementData[attrIdAssigneeType] as String
-                if (assigneeType == WfTokenConstants.AssigneeType.USERS.code ||
-                    assigneeType == WfTokenConstants.AssigneeType.GROUPS.code
-                ) {
-                    val attrIdAssignee = WfElementConstants.AttributeId.ASSIGNEE.value
-                    val assignee = elementData[attrIdAssignee]
-                    if (assignee is String) {
-                        elementData[attrIdAssignee] = mutableListOf(assignee)
-                    }
-                }
-            }
-
-            // target-document-list 는 List 타입으로 리턴
-            val attrIdTargetDocumentList = WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value
-            if (elementData[attrIdTargetDocumentList] != null) {
-                val targetDocumentList = elementData[attrIdTargetDocumentList]
-                if (targetDocumentList is String) {
-                    elementData[attrIdTargetDocumentList] = mutableListOf(targetDocumentList)
-                }
-            }
+            val elementData = this.convertElementDataToDataType(elementEntity)
+            this.convertElementDataToAssigneeType(elementData)
+            this.convertElementDataToTargetDocumentList(elementData)
 
             elDto.data = elementData
 
@@ -348,5 +307,67 @@ class WfProcessService(
      */
     fun getProcessSimulation(processId: String): Boolean {
         return wfProcessSimulator.getProcessSimulation(processId)
+    }
+
+    /**
+     * 엘리먼트 데이터가 싱글인지 멀티값인지에 따라 String 또는 mutableList 로 변환하여 리턴.
+     */
+    private fun convertElementDataToDataType(elementEntity: WfElementEntity): MutableMap<String, Any> {
+        val elementData = mutableMapOf<String, Any>()
+        elementEntity.elementDataEntities.forEach {
+            elementData[it.attributeId] = when (elementData[it.attributeId]) {
+                is String -> {
+                    val data = mutableListOf(elementData[it.attributeId] as String)
+                    data.add(it.attributeValue)
+                    data
+                }
+                is MutableList<*> -> {
+                    val data =
+                        (elementData[it.attributeId] as MutableList<*>).filterIsInstance<String>().toMutableList()
+                    data.add(it.attributeValue)
+                    data
+                }
+                else -> {
+                    it.attributeValue
+                }
+            }
+        }
+        return elementData
+    }
+
+    /**
+     * assignee type 에 따라 assignee 값은 List 타입으로 변환하여 리턴.
+     */
+    private fun convertElementDataToAssigneeType(elementData: MutableMap<String, Any>) {
+        val attrIdAssigneeType = WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
+
+        if (elementData[attrIdAssigneeType] == null) {
+            return
+        }
+
+        val assigneeType = elementData[attrIdAssigneeType] as String
+        if (assigneeType == WfTokenConstants.AssigneeType.USERS.code ||
+            assigneeType == WfTokenConstants.AssigneeType.GROUPS.code
+        ) {
+            val attrIdAssignee = WfElementConstants.AttributeId.ASSIGNEE.value
+            val assignee = elementData[attrIdAssignee]
+            if (assignee is String) {
+                elementData[attrIdAssignee] = mutableListOf(assignee)
+            }
+        }
+    }
+
+    /**
+     * target-document-list 는 List 타입으로 변환하여 리턴.
+     */
+    private fun convertElementDataToTargetDocumentList(elementData: MutableMap<String, Any>) {
+        val attrIdTargetDocumentList = WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value
+        if (elementData[attrIdTargetDocumentList] == null) {
+            return
+        }
+        val targetDocumentList = elementData[attrIdTargetDocumentList]
+        if (targetDocumentList is String) {
+            elementData[attrIdTargetDocumentList] = mutableListOf(targetDocumentList)
+        }
     }
 }
