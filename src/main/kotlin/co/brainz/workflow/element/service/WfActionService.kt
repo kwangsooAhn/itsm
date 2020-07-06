@@ -150,24 +150,9 @@ class WfActionService(
                 typeActions.addAll(makeAction(arrow.elementDataEntities))
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
-                var isAction = false
-                nextElement.elementDataEntities.forEach { data ->
-                    if (data.attributeId == WfElementConstants.AttributeId.CONDITION_ITEM.value) {
-                        if (data.attributeValue == WfElementConstants.AttributeValue.ACTION.value) {
-                            isAction = true
-                        }
-                    }
-                }
-                when (isAction) {
-                    true -> {
-                        val gatewayArrows = this.getArrowElements(nextElement.elementId)
-                        gatewayArrows.forEach { gatewayArrow ->
-                            typeActions.addAll(makeAction(gatewayArrow.elementDataEntities))
-                        }
-                    }
-                    false -> {
-                        typeActions.addAll(makeAction(arrow.elementDataEntities))
-                    }
+                val arrows = getGatewayTypeActions(arrow, nextElement)
+                arrows.forEach {
+                    typeActions.addAll(makeAction(it.elementDataEntities))
                 }
             }
         }
@@ -200,5 +185,15 @@ class WfActionService(
             actionList.add(RestTemplateActionDto(name = actionName, value = actionValue))
         }
         return actionList
+    }
+
+    /**
+     * [nextElement] 가 게이트웨이 일 때 condition-item 값에 따라 action인지 condition인지 확인하여 arrowConnector 정보를 리턴한다.
+     */
+    private fun getGatewayTypeActions(arrow: WfElementEntity, nextElement: WfElementEntity): List<WfElementEntity> {
+        return when (nextElement.getElementDataValue(WfElementConstants.AttributeId.CONDITION_ITEM.value) == WfElementConstants.AttributeValue.ACTION.value) {
+            true -> this.getArrowElements(nextElement.elementId)
+            false -> mutableListOf(arrow)
+        }
     }
 }
