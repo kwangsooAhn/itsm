@@ -36,5 +36,5 @@ data class AliceNumberingRuleEntity(
 ) : Serializable {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "numberingRule", cascade = [CascadeType.REMOVE])
     @OrderBy("pattern_order asc")
-    val patterns: MutableList<AliceNumberingPatternEntity>? = mutableListOf()
+    var patterns: MutableList<AliceNumberingPatternEntity>? = mutableListOf()
 }

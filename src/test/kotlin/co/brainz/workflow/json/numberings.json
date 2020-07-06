@@ -1,0 +1,16 @@
+[
+  {
+    "id": "",
+    "name": "Document No",
+    "patterns": [
+      {
+        "id": "",
+        "rule": null,
+        "name": "Sequence",
+        "type": "numbering.pattern.sequence",
+        "value": "{\"digit\":3,\"start-with\":1,\"full-fill\":\"Y\",\"initial-interval\":\"day\"}",
+        "order": 1
+      }
+    ]
+  }
+]

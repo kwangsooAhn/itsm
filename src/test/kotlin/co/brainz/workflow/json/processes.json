@@ -1,0 +1,165 @@
+[
+  {
+    "id": "",
+    "name": "UserTask Process",
+    "status": "process.status.publish",
+    "elementEntities": [
+      {
+        "id": "",
+        "name": "Start",
+        "type": "commonStart",
+        "notification": false,
+        "displayInfo": "{\"width\":40,\"height\":40,\"position-x\":110,\"position-y\":180}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "",
+            "order": 1,
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "",
+        "name": "Application Form",
+        "type": "userTask",
+        "notification": false,
+        "displayInfo": "{\"width\":120,\"height\":80,\"position-x\":290,\"position-y\":180}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "New Task",
+            "order": 1,
+            "required": true
+          },
+          {
+            "id": "description",
+            "value": "",
+            "order": 2,
+            "required": false
+          },
+          {
+            "id": "assignee-type",
+            "value": "assignee.type.candidate.users",
+            "order": 3,
+            "required": true
+          },
+          {
+            "id": "assignee",
+            "value": "",
+            "order": 4,
+            "required": true
+          },
+          {
+            "id": "reject-id",
+            "value": "",
+            "order": 5,
+            "required": false
+          },
+          {
+            "id": "withdraw",
+            "value": "N",
+            "order": 6,
+            "required": false
+          },
+          {
+            "id": "notification",
+            "value": "N",
+            "order": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "",
+        "name": "Processing",
+        "type": "userTask",
+        "notification": false,
+        "displayInfo": "{\"width\":120,\"height\":80,\"position-x\":510,\"position-y\":180}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "New Task",
+            "order": 1,
+            "required": true
+          },
+          {
+            "id": "description",
+            "value": "",
+            "order": 2,
+            "required": false
+          },
+          {
+            "id": "assignee-type",
+            "value": "assignee.type.candidate.users",
+            "order": 3,
+            "required": true
+          },
+          {
+            "id": "assignee",
+            "value": "",
+            "order": 4,
+            "required": true
+          },
+          {
+            "id": "reject-id",
+            "value": "",
+            "order": 5,
+            "required": false
+          },
+          {
+            "id": "withdraw",
+            "value": "N",
+            "order": 6,
+            "required": false
+          },
+          {
+            "id": "notification",
+            "value": "N",
+            "order": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "",
+        "name": "End",
+        "type": "commonEnd",
+        "notification": false,
+        "displayInfo": "{\"position-x\":730,\"position-y\":180,\"width\":40,\"height\":40}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "",
+            "order": 1,
+            "required": false
+          }
+        ]
+      }
+    ]
+  }
+]

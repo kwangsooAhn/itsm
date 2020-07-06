@@ -1,0 +1,243 @@
+{
+  "users": [
+    {
+      "key": "",
+      "id": "junit",
+      "name": "junit",
+      "useYn": true,
+      "status": "user.status.certified",
+      "platform": "user.platform.alice",
+      "timeFormat": "yyyy-MM-dd HH:mm",
+      "lang": "ko",
+      "timezone": "Asia/Seoul"
+    }
+  ],
+  "numbering": {
+    "id": "",
+    "name": "Document No",
+    "patterns": [
+      {
+        "id": "",
+        "rule": null,
+        "name": "Sequence",
+        "type": "numbering.pattern.sequence",
+        "value": "{\"digit\":3,\"start-with\":1,\"full-fill\":\"Y\",\"initial-interval\":\"day\"}",
+        "order": 1
+      }
+    ]
+  },
+  "forms": [
+    {
+      "id": "",
+      "name": "Common Form",
+      "status": "form.status.publish",
+      "components": [
+        {
+          "id": "",
+          "type": "text",
+          "mappingId": "",
+          "isTopic": true,
+          "attributes": [
+            {
+              "id": "display",
+              "value": "{\"placeholder\":\"\",\"column\":\"10\",\"default\":\"none|\",\"order\":1}"
+            },
+            {
+              "id": "label",
+              "value": "{\"position\":\"left\",\"column\":\"2\",\"size\":\"12\",\"color\":\"#000000\",\"bold\":\"N\",\"italic\":\"N\",\"underline\":\"N\",\"align\":\"left\",\"text\":\"TEXT\"}"
+            },
+            {
+              "id": "validate",
+              "value": "{\"regexp\":\"none\",\"regexp-msg\":\"\",\"length-min\":\"0\",\"length-max\":\"30\"}"
+            }
+          ]
+        },
+        {
+          "id": "",
+          "type": "textarea",
+          "mappingId": "",
+          "isTopic": false,
+          "attributes": [
+            {
+              "id": "display",
+              "value": "{\"editor-useYn\":\"Y\",\"rows\":\"3\",\"placeholder\":\"\",\"column\":\"10\",\"order\":2}"
+            },
+            {
+              "id": "label",
+              "value": "{\"position\":\"left\",\"column\":\"2\",\"size\":\"12\",\"color\":\"#000000\",\"bold\":\"N\",\"italic\":\"N\",\"underline\":\"N\",\"align\":\"left\",\"text\":\"TEXT\"}"
+            },
+            {
+              "id": "validate",
+              "value": "{\"length-min\":\"0\",\"length-max\":\"30\"}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "processes": [
+    {
+      "id": "",
+      "name": "UserTask Process",
+      "status": "process.status.publish",
+      "elementEntities": [
+        {
+          "id": "",
+          "name": "Start",
+          "type": "commonStart",
+          "notification": false,
+          "displayInfo": "{\"width\":40,\"height\":40,\"position-x\":110,\"position-y\":180}",
+          "data": [
+            {
+              "id": "id",
+              "value": "",
+              "order": 0,
+              "required": true
+            },
+            {
+              "id": "name",
+              "value": "",
+              "order": 1,
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "",
+          "name": "Application Form",
+          "type": "userTask",
+          "notification": false,
+          "displayInfo": "{\"width\":120,\"height\":80,\"position-x\":290,\"position-y\":180}",
+          "data": [
+            {
+              "id": "id",
+              "value": "",
+              "order": 0,
+              "required": true
+            },
+            {
+              "id": "name",
+              "value": "New Task",
+              "order": 1,
+              "required": true
+            },
+            {
+              "id": "description",
+              "value": "",
+              "order": 2,
+              "required": false
+            },
+            {
+              "id": "assignee-type",
+              "value": "assignee.type.candidate.users",
+              "order": 3,
+              "required": true
+            },
+            {
+              "id": "assignee",
+              "value": "",
+              "order": 4,
+              "required": true
+            },
+            {
+              "id": "reject-id",
+              "value": "",
+              "order": 5,
+              "required": false
+            },
+            {
+              "id": "withdraw",
+              "value": "N",
+              "order": 6,
+              "required": false
+            },
+            {
+              "id": "notification",
+              "value": "N",
+              "order": 7,
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "",
+          "name": "Processing",
+          "type": "userTask",
+          "notification": false,
+          "displayInfo": "{\"width\":120,\"height\":80,\"position-x\":510,\"position-y\":180}",
+          "data": [
+            {
+              "id": "id",
+              "value": "",
+              "order": 0,
+              "required": true
+            },
+            {
+              "id": "name",
+              "value": "New Task",
+              "order": 1,
+              "required": true
+            },
+            {
+              "id": "description",
+              "value": "",
+              "order": 2,
+              "required": false
+            },
+            {
+              "id": "assignee-type",
+              "value": "assignee.type.candidate.users",
+              "order": 3,
+              "required": true
+            },
+            {
+              "id": "assignee",
+              "value": "",
+              "order": 4,
+              "required": true
+            },
+            {
+              "id": "reject-id",
+              "value": "",
+              "order": 5,
+              "required": false
+            },
+            {
+              "id": "withdraw",
+              "value": "N",
+              "order": 6,
+              "required": false
+            },
+            {
+              "id": "notification",
+              "value": "N",
+              "order": 7,
+              "required": false
+            }
+          ]
+        },
+        {
+          "id": "",
+          "name": "End",
+          "type": "commonEnd",
+          "notification": false,
+          "displayInfo": "{\"position-x\":730,\"position-y\":180,\"width\":40,\"height\":40}",
+          "data": [
+            {
+              "id": "id",
+              "value": "",
+              "order": 0,
+              "required": true
+            },
+            {
+              "id": "name",
+              "value": "",
+              "order": 1,
+              "required": false
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
