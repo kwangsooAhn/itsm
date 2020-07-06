@@ -87,6 +87,25 @@ class WfEngine(
     }
 
     /**
+     * RestTemplateTokenDto To WfTokenDto.
+     */
+    fun toTokenDto(restTemplateTokenDto: RestTemplateTokenDto): WfTokenDto {
+        val tokenData: MutableList<WfTokenDataDto> = mutableListOf()
+        restTemplateTokenDto.data?.forEach { data ->
+            tokenData.add(WfTokenDataDto(componentId = data.componentId, value = data.value))
+        }
+        return WfTokenDto(
+            tokenId = restTemplateTokenDto.tokenId,
+            documentId = restTemplateTokenDto.documentId,
+            fileDataIds = restTemplateTokenDto.fileDataIds,
+            assigneeId = restTemplateTokenDto.assigneeId,
+            data = tokenData,
+            action = restTemplateTokenDto.action,
+            parentTokenId = restTemplateTokenDto.parentTokenId
+        )
+    }
+
+    /**
      * Get TokenDto Init.
      *  - 진행중 인 문서의 경우 토큰 조회 후 newToken 생성
      */
@@ -105,24 +124,5 @@ class WfEngine(
      */
     private fun createTokenManager(elementType: String): WfTokenManager {
         return WfTokenManagerFactory(wfTokenManagerService).createTokenManager(elementType)
-    }
-
-    /**
-     * RestTemplateTokenDto To WfTokenDto.
-     */
-    fun toTokenDto(restTemplateTokenDto: RestTemplateTokenDto): WfTokenDto {
-        val tokenData: MutableList<WfTokenDataDto> = mutableListOf()
-        restTemplateTokenDto.data?.forEach { data ->
-            tokenData.add(WfTokenDataDto(componentId = data.componentId, value = data.value))
-        }
-        return WfTokenDto(
-            tokenId = restTemplateTokenDto.tokenId,
-            documentId = restTemplateTokenDto.documentId,
-            fileDataIds = restTemplateTokenDto.fileDataIds,
-            assigneeId = restTemplateTokenDto.assigneeId,
-            data = tokenData,
-            action = restTemplateTokenDto.action,
-            parentTokenId = restTemplateTokenDto.parentTokenId
-        )
     }
 }
