@@ -276,13 +276,13 @@ class WfProcessService(
         }
         restTemplateProcessElementDto.elements?.forEach { element ->
             val dataMap: MutableMap<String, Any>? = element.data
-            if (dataMap != null) {
-                for ((key, value) in dataMap) {
-                    if (elementKeyMap.containsKey(value)) {
-                        dataMap[key] = elementKeyMap[value].toString()
-                    }
+
+            dataMap?.forEach {
+                if (elementKeyMap.containsKey(it.value)) {
+                    dataMap[it.key] = elementKeyMap[it.value].toString()
                 }
             }
+
             val restTemplateElementDto = RestTemplateElementDto(
                 id = elementKeyMap[element.id]!!,
                 name = element.name,
