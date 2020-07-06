@@ -46,7 +46,8 @@ class UserTask {
         configuration.setDocument(null, null, null, null, null)
         configuration.setInstance(null, null, null, null)
 
-        this.tokenManager = WfTokenManagerFactory(wfTokenManagerService).createTokenManager(WfElementConstants.ElementType.USER_TASK.value)
+        this.tokenManager = WfTokenManagerFactory(wfTokenManagerService)
+            .createTokenManager(WfElementConstants.ElementType.USER_TASK.value)
     }
 
     @Test

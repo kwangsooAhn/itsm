@@ -156,7 +156,8 @@ class Configuration {
                                 )
                             )
                         }
-                        numberingRuleEntity.patterns = wfAliceNumberingPatternRepository.saveAll(numberingPatternEntities)
+                        numberingRuleEntity.patterns =
+                            wfAliceNumberingPatternRepository.saveAll(numberingPatternEntities)
                         numberings.add(numberingRuleEntity)
                     }
                     wfAliceNumberingRuleRepository.saveAll(numberings)
@@ -187,7 +188,7 @@ class Configuration {
                         )
                         formEntity = wfFormRepository.save(formEntity)
 
-                        //component
+                        // component
                         val components: MutableList<WfComponentEntity> = mutableListOf()
                         form["components"].forEach { component ->
                             var componentEntity = WfComponentEntity(
@@ -199,7 +200,7 @@ class Configuration {
                             )
                             componentEntity = wfComponentRepository.save(componentEntity)
 
-                            //component data
+                            // component data
                             val componentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
                             component["attributes"].forEach { componentData ->
                                 val componentDatEntity = WfComponentDataEntity(
@@ -210,7 +211,9 @@ class Configuration {
                                 )
                                 componentDataEntities.add(componentDatEntity)
                             }
-                            componentEntity.attributes!!.addAll(wfComponentDataRepository.saveAll(componentDataEntities))
+                            componentEntity.attributes!!.addAll(
+                                wfComponentDataRepository.saveAll(componentDataEntities)
+                            )
                             components.add(componentEntity)
                         }
                         formEntity.components!!.addAll(components)
@@ -234,7 +237,7 @@ class Configuration {
                 val jsonFile = File(jsonFilePath + File.separator + processJsonFile)
                 if (jsonFile.exists()) {
                     val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
-                    val userEntity = user?:this.data.users!![0]
+                    val userEntity = user ?: this.data.users!![0]
                     jsonNode.forEach { process ->
                         var processEntity = WfProcessEntity(
                             processId = "",
@@ -275,7 +278,9 @@ class Configuration {
                                 )
                                 elementDataEntities.add(elementDataEntity)
                             }
-                            elementEntity.elementDataEntities.addAll(wfElementDataRepository.saveAll(elementDataEntities))
+                            elementEntity.elementDataEntities.addAll(
+                                wfElementDataRepository.saveAll(elementDataEntities)
+                            )
                             elementEntities.add(elementEntity)
                         }
                         processEntity.elementEntities = elementEntities
@@ -292,17 +297,23 @@ class Configuration {
     /**
      * Set documents.
      */
-    fun setDocument(customDataList: MutableList<WfDocumentEntity>?, process: WfProcessEntity?, form: WfFormEntity?, numbering: AliceNumberingRuleEntity?, user: AliceUserEntity?) {
+    fun setDocument(
+        customDataList: MutableList<WfDocumentEntity>?,
+        process: WfProcessEntity?,
+        form: WfFormEntity?,
+        numbering: AliceNumberingRuleEntity?,
+        user: AliceUserEntity?
+    ) {
         var documents: MutableList<WfDocumentEntity> = mutableListOf()
         when (customDataList) {
             null -> {
                 val jsonFile = File(jsonFilePath + File.separator + documentJsonFile)
                 if (jsonFile.exists()) {
                     val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
-                    val processEntity = process?:this.data.processes!![0]
-                    val formEntity = form?:this.data.forms!![0]
-                    val numberingRuleEntity = numbering?:this.data.numberingRule!![0]
-                    val userEntity = user?:this.data.users!![0]
+                    val processEntity = process ?: this.data.processes!![0]
+                    val formEntity = form ?: this.data.forms!![0]
+                    val numberingRuleEntity = numbering ?: this.data.numberingRule!![0]
+                    val userEntity = user ?: this.data.users!![0]
                     jsonNode.forEach { document ->
                         var documentEntity = WfDocumentEntity(
                             documentId = "",
@@ -331,17 +342,22 @@ class Configuration {
     /**
      * Set instance.
      */
-    fun setInstance(customData: WfInstanceEntity?, document: WfDocumentEntity?, user: AliceUserEntity?, numbering: AliceNumberingRuleEntity?) {
+    fun setInstance(
+        customData: WfInstanceEntity?,
+        document: WfDocumentEntity?,
+        user: AliceUserEntity?,
+        numbering: AliceNumberingRuleEntity?
+    ) {
         when (customData) {
             null -> {
                 val jsonFile = File(jsonFilePath + File.separator + instanceJsonFile)
                 if (jsonFile.exists()) {
                     val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
-                    val userEntity = user?:this.data.users!![0]
-                    val numberingEntity = numbering?:this.data.numberingRule!![0]
+                    val userEntity = user ?: this.data.users!![0]
+                    val numberingEntity = numbering ?: this.data.numberingRule!![0]
                     val instance = WfInstanceEntity(
                         instanceId = "",
-                        document = document?:this.data.documents!![0],
+                        document = document ?: this.data.documents!![0],
                         instanceStatus = jsonNode["status"].asText(),
                         instanceStartDt = LocalDateTime.now(),
                         instanceCreateUser = userEntity,
@@ -350,7 +366,6 @@ class Configuration {
                     )
                     this.data.instance = wfInstanceRepository.save(instance)
                 }
-
             }
             else -> this.data.instance = wfInstanceRepository.save(customData)
         }
