@@ -201,35 +201,32 @@
                         }
                     }
                 } else {
-                    if (changeData.display && (originData.display['mid-point'] !== changeData.display['mid-point']
-                        || originData.display['source-point'] !== changeData.display['source-point']
-                        || originData.display['target-point'] !== changeData.display['target-point']
-                        || originData.display['text-point'] !== changeData.display['text-point'])) {
-                        // modify connector points.
-                        for (let i = 0, len = links.length; i < len; i++) {
-                            if (links[i].id === changeData.id) {
-                                if (changeData.display && changeData.display['mid-point']) {
-                                    links[i].midPoint = changeData.display['mid-point'];
-                                } else {
-                                    delete links[i].midPoint;
-                                }
-                                if (changeData.display && changeData.display['source-point']) {
-                                    links[i].sourcePoint = changeData.display['source-point'];
-                                } else {
-                                    delete links[i].sourcePoint;
-                                }
-                                if (changeData.display && changeData.display['target-point']) {
-                                    links[i].targetPoint = changeData.display['target-point'];
-                                } else {
-                                    delete links[i].targetPoint;
-                                }
-                                if (changeData.display && changeData.display['text-point']) {
-                                    links[i].textPoint = changeData.display['text-point'];
-                                } else {
-                                    delete links[i].textPoint;
-                                }
-                                break;
+                    for (let i = 0, len = links.length; i < len; i++) {
+                        if (links[i].id === changeData.id) {
+                            links[i].sourceId = changeData.data['start-id'];
+                            links[i].targetId = changeData.data['end-id'];
+                            // modify connector points.
+                            if (changeData.display && changeData.display['mid-point']) {
+                                links[i].midPoint = changeData.display['mid-point'];
+                            } else {
+                                delete links[i].midPoint;
                             }
+                            if (changeData.display && changeData.display['source-point']) {
+                                links[i].sourcePoint = changeData.display['source-point'];
+                            } else {
+                                delete links[i].sourcePoint;
+                            }
+                            if (changeData.display && changeData.display['target-point']) {
+                                links[i].targetPoint = changeData.display['target-point'];
+                            } else {
+                                delete links[i].targetPoint;
+                            }
+                            if (changeData.display && changeData.display['text-point']) {
+                                links[i].textPoint = changeData.display['text-point'];
+                            } else {
+                                delete links[i].textPoint;
+                            }
+                            break;
                         }
                     }
                 }
