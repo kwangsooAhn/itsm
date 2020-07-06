@@ -38,6 +38,13 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         this.tokenEntity = wfTokenManagerService.saveToken(newTokenDto)
         newTokenDto.tokenId = this.tokenEntity.tokenId
 
+        this.tokenEntity.tokenDataEntities =
+            wfTokenManagerService.saveAllTokenData(this.setTokenData(newTokenDto))
+        this.setCandidate(this.tokenEntity)
+        this.tokenEntity.assigneeId?.let {
+            newTokenDto.assigneeId = it
+        }
+
         this.createElementToken(newTokenDto)
         wfTokenManagerService.notificationCheck(tokenEntity)
         return newTokenDto

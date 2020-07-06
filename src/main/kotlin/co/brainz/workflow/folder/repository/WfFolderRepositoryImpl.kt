@@ -38,8 +38,8 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
                     ExpressionUtils.`as`(
                         JPAExpressions.select(token.tokenId.max())
                             .from(token)
-                            .where(folder.instance.instanceId.eq(token.instance.instanceId))
-                        , "tokenId"
+                            .where(folder.instance.instanceId.eq(token.instance.instanceId)),
+                        "tokenId"
                     ),
                     folder.instance.documentNo,
                     folder.instance.document.documentName,

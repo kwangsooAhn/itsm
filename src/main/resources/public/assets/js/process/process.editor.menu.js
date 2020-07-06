@@ -1522,7 +1522,7 @@
                         element.required = getAttributeRequired(category, element.type);
                     });
                     setElementMenu();
-                    aliceProcessEditor.drawProcess(elements);
+                    aliceProcessEditor.drawProcess(processId, elements);
                 }
             });
         };
