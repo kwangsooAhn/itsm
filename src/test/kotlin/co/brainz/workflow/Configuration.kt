@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow
 
 import co.brainz.framework.auth.entity.AliceUserEntity
@@ -6,11 +11,11 @@ import co.brainz.framework.numbering.entity.AliceNumberingPatternEntity
 import co.brainz.framework.numbering.entity.AliceNumberingRuleEntity
 import co.brainz.framework.numbering.repository.AliceNumberingPatternRepository
 import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
+import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.workflow.component.entity.WfComponentDataEntity
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
-import co.brainz.workflow.document.entity.WfDocumentDisplayEntity
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.entity.WfElementDataEntity
@@ -19,6 +24,8 @@ import co.brainz.workflow.element.repository.WfElementDataRepository
 import co.brainz.workflow.element.repository.WfElementRepository
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.repository.WfFormRepository
+import co.brainz.workflow.instance.entity.WfInstanceEntity
+import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.process.repository.WfProcessRepository
 import com.fasterxml.jackson.databind.ObjectMapper
@@ -63,6 +70,12 @@ class Configuration {
     @Autowired
     lateinit var wfDocumentRepository: WfDocumentRepository
 
+    @Autowired
+    lateinit var wfInstanceRepository: WfInstanceRepository
+
+    @Autowired
+    lateinit var aliceNumberingService: AliceNumberingService
+
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     private val jsonFilePath = "src/test/kotlin/co/brainz/workflow/json"
@@ -71,6 +84,7 @@ class Configuration {
     private val formJsonFile = "forms.json"
     private val processJsonFile = "processes.json"
     private val documentJsonFile = "documents.json"
+    private val instanceJsonFile = "instance.json"
 
     private var data = DataDto()
 
@@ -104,7 +118,7 @@ class Configuration {
                         )
                     }
                     if (users.isNotEmpty()) {
-                        aliceUserRepository.saveAll(users)
+                        users = aliceUserRepository.saveAll(users)
                     }
                 }
             }
@@ -213,25 +227,29 @@ class Configuration {
     /**
      * Set processes.
      */
-    fun setProcesses(customDataList: MutableList<WfProcessEntity>?) {
+    fun setProcesses(customDataList: MutableList<WfProcessEntity>?, user: AliceUserEntity?) {
         var processes: MutableList<WfProcessEntity> = mutableListOf()
         when (customDataList) {
             null -> {
                 val jsonFile = File(jsonFilePath + File.separator + processJsonFile)
                 if (jsonFile.exists()) {
                     val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
+                    val userEntity = user?:this.data.users!![0]
                     jsonNode.forEach { process ->
                         var processEntity = WfProcessEntity(
                             processId = "",
                             processName = process["name"].asText(),
-                            processStatus = process["status"].asText()
+                            processStatus = process["status"].asText(),
+                            createDt = LocalDateTime.now(),
+                            createUser = userEntity
                         )
                         processEntity = wfProcessRepository.save(processEntity)
 
                         val elementEntities: MutableList<WfElementEntity> = mutableListOf()
                         process["elementEntities"].forEach { element ->
                             var elementEntity = WfElementEntity(
-                                elementId = UUID.randomUUID().toString().replace("-", ""),
+                                // elementId = UUID.randomUUID().toString().replace("-", ""),
+                                elementId = element["id"].asText(),
                                 processId = processEntity.processId,
                                 elementName = element["name"].asText(),
                                 elementType = element["type"].asText(),
@@ -244,6 +262,9 @@ class Configuration {
                                 var attributeValue = data["value"].asText()
                                 if (data["id"].asText() == "assignee") {
                                     attributeValue = aliceUserRepository.findByUserId("admin").userKey
+                                }
+                                if (data["id"].asText() == "id") {
+                                    attributeValue = elementEntity.elementId
                                 }
                                 val elementDataEntity = WfElementDataEntity(
                                     element = elementEntity,
@@ -271,28 +292,17 @@ class Configuration {
     /**
      * Set documents.
      */
-    fun setDocument(customDataList: MutableList<WfDocumentEntity>?, process: WfProcessEntity?, form: WfFormEntity?, numbering: AliceNumberingRuleEntity?) {
+    fun setDocument(customDataList: MutableList<WfDocumentEntity>?, process: WfProcessEntity?, form: WfFormEntity?, numbering: AliceNumberingRuleEntity?, user: AliceUserEntity?) {
         var documents: MutableList<WfDocumentEntity> = mutableListOf()
         when (customDataList) {
             null -> {
                 val jsonFile = File(jsonFilePath + File.separator + documentJsonFile)
                 if (jsonFile.exists()) {
                     val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
-                    var processEntity = WfProcessEntity()
-                    var formEntity = WfFormEntity()
-                    var numberingEntity = AliceNumberingRuleEntity(
-                        numberingId = "",
-                        numberingName = ""
-                    )
-                    if (process == null) {
-                        processEntity = this.data.processes!![0]
-                    }
-                    if (form == null) {
-                        formEntity = this.data.forms!![0]
-                    }
-                    if (numbering == null) {
-                        numberingEntity = this.data.numberingRule!![0]
-                    }
+                    val processEntity = process?:this.data.processes!![0]
+                    val formEntity = form?:this.data.forms!![0]
+                    val numberingRuleEntity = numbering?:this.data.numberingRule!![0]
+                    val userEntity = user?:this.data.users!![0]
                     jsonNode.forEach { document ->
                         var documentEntity = WfDocumentEntity(
                             documentId = "",
@@ -303,7 +313,9 @@ class Configuration {
                             documentGroup = document["group"].asText(),
                             form = formEntity,
                             process = processEntity,
-                            numberingRule = numberingEntity
+                            numberingRule = numberingRuleEntity,
+                            createDt = LocalDateTime.now(),
+                            createUserKey = userEntity.userKey
                         )
                         documentEntity = wfDocumentRepository.save(documentEntity)
                         documents.add(documentEntity)
@@ -314,5 +326,33 @@ class Configuration {
             } else -> documents = wfDocumentRepository.saveAll(customDataList)
         }
         this.data.documents = documents
+    }
+
+    /**
+     * Set instance.
+     */
+    fun setInstance(customData: WfInstanceEntity?, document: WfDocumentEntity?, user: AliceUserEntity?, numbering: AliceNumberingRuleEntity?) {
+        when (customData) {
+            null -> {
+                val jsonFile = File(jsonFilePath + File.separator + instanceJsonFile)
+                if (jsonFile.exists()) {
+                    val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
+                    val userEntity = user?:this.data.users!![0]
+                    val numberingEntity = numbering?:this.data.numberingRule!![0]
+                    val instance = WfInstanceEntity(
+                        instanceId = "",
+                        document = document?:this.data.documents!![0],
+                        instanceStatus = jsonNode["status"].asText(),
+                        instanceStartDt = LocalDateTime.now(),
+                        instanceCreateUser = userEntity,
+                        pTokenId = jsonNode["pTokenId"].asText(),
+                        documentNo = aliceNumberingService.getNewNumbering(numberingEntity.numberingId)
+                    )
+                    this.data.instance = wfInstanceRepository.save(instance)
+                }
+
+            }
+            else -> this.data.instance = wfInstanceRepository.save(customData)
+        }
     }
 }
