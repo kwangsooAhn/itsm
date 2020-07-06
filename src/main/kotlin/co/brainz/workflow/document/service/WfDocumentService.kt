@@ -30,8 +30,6 @@ import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.util.ArrayDeque
-import kotlin.collections.ArrayList
-import kotlin.collections.LinkedHashMap
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -270,15 +268,15 @@ class WfDocumentService(
     }
 
     /**
-     * [processId]기준 으로  Process에 Element중 userTask를 정렬하여 [List]로 반환
+     * [processId]로 조회한 processEntity의 elementEntity 중 userTask 를 정렬하여 [List]로 반환
      */
-    fun makeOrderElements(processId: String): List<Map<String, Any>> {
-        // userTask를 저장한 ElementList
-        val userTaskElementList: MutableList<Map<String, Any>> = mutableListOf()
-        // gateway 저장
-        val arrowConnectorInGateway: MutableMap<String, ArrayDeque<WfElementEntity>> = mutableMapOf()
-        // 중복 gateway 저장
-        val duplicateGateway: MutableMap<String, String> = mutableMapOf()
+    fun makeSortedUserTasks(processId: String): List<Map<String, Any>> {
+        // userTask를 저장할 변수
+        val sortedUserTasks: MutableList<Map<String, Any>> = mutableListOf()
+        // 게이트웨이가 가지는 컨넥터(화살표)를 저장할 큐
+        val arrowConnectorsQueueInGateway: MutableMap<String, ArrayDeque<WfElementEntity>> = mutableMapOf()
+        // 모든 컨넥터(화살표)를 꺼내서 체크된 gateway id 저장할 변수
+        val allCheckedGatewayIds: MutableMap<String, String> = mutableMapOf()
         // gateway에 여러개의 경우의 수가 있을 경우 저장
         val gatewayQueue = ArrayDeque<WfElementEntity>()
         val process = wfProcessRepository.getOne(processId)
@@ -297,59 +295,23 @@ class WfDocumentService(
 
         // while을 돌면서 전체 프로세스 확인
         while (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
-            val arrowConnectors = allElementEntitiesInProcess.filter {
-                currentElement.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
-            }
+            val arrowConnector = getArrowConnector(
+                allElementEntitiesInProcess,
+                currentElement,
+                arrowConnectorsQueueInGateway,
+                gatewayQueue,
+                allCheckedGatewayIds
+            )
 
-            // 화살표가 가리키는 Element
-            lateinit var arrowElement: WfElementEntity
+            currentElement = changeCurrentElementToNextElement(
+                allElementEntitiesInProcess,
+                arrowConnector,
+                gatewayQueue
+            )
 
-            // exclusiveGateway 처리
-            if (currentElement.elementType == WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value) {
-                if (arrowConnectorInGateway[currentElement.elementId] == null) {
-                    arrowConnectorInGateway[currentElement.elementId] = ArrayDeque(arrowConnectors)
-                }
-                arrowElement = arrowConnectorInGateway[currentElement.elementId]!!.pop()
-
-                // 모두 꺼내서 사용을 했으면 해당 gateway 삭제, duplicateGateway 저장, gateway 삭제
-                if (arrowConnectorInGateway[currentElement.elementId]!!.size == 0) {
-                    arrowConnectorInGateway.remove(currentElement.elementId)
-                    duplicateGateway[currentElement.elementId] = currentElement.elementId
-                    gatewayQueue.remove(currentElement)
-                } else {
-                    // 검증 해야 할 exclusiveGateway arrowConnector가 존재하므로 또 다시 꺼낼 수 있도록 큐에 넣어 둔다.
-                    if (duplicateGateway[currentElement.elementId] != currentElement.elementId) {
-                        gatewayQueue.push(currentElement)
-                    }
-                }
-            } else {
-                arrowElement = arrowConnectors.last()
-            }
-
-            val targetElementId = arrowElement.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
-            currentElement = allElementEntitiesInProcess.first {
-                it.elementId == targetElementId
-            }
-
-            if (gatewayQueue.size > 0 && currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
-                currentElement = gatewayQueue.pop()
-            }
-
-            if (currentElement.elementType == WfElementConstants.ElementType.USER_TASK.value) {
-                val elementAttribute = LinkedHashMap<String, Any>()
-                elementAttribute["elementId"] = currentElement.elementId
-                if (currentElement.elementName != "") {
-                    elementAttribute["elementName"] = currentElement.elementName
-                } else {
-                    elementAttribute["elementName"] = currentElement.elementType
-                }
-                if (userTaskElementList.contains(elementAttribute)) {
-                    userTaskElementList.remove(elementAttribute)
-                }
-                userTaskElementList.add(elementAttribute)
-            }
+            ifUserTaskSave(currentElement, sortedUserTasks)
         }
-        return ArrayList(userTaskElementList)
+        return sortedUserTasks
     }
 
     /**
@@ -360,7 +322,7 @@ class WfDocumentService(
      */
     fun getDocumentDisplay(documentId: String): RestTemplateDocumentDisplayViewDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
-        val elementEntities = makeOrderElements(documentEntity.process.processId)
+        val userTasks = makeSortedUserTasks(documentEntity.process.processId)
         val componentEntities =
             wfComponentRepository.findByFormIdAndComponentTypeNot(documentEntity.form.formId, "editbox")
         val displayList = wfDocumentDisplayRepository.findByDocumentId(documentId)
@@ -369,7 +331,7 @@ class WfDocumentService(
         for (component in componentEntities) {
             var isDisplay = false
             val displayValue: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
-            for (elementEntity in elementEntities) {
+            for (elementEntity in userTasks) {
                 for (display in displayList) {
                     if (display.componentId == component.componentId) {
                         if (display.elementId == elementEntity["elementId"].toString()) {
@@ -407,7 +369,7 @@ class WfDocumentService(
         }
         return RestTemplateDocumentDisplayViewDto(
             documentId = documentId,
-            elements = elementEntities,
+            elements = userTasks,
             components = components
         )
     }
@@ -433,5 +395,88 @@ class WfDocumentService(
             )
         }
         return true
+    }
+
+    /**
+     * [currentElement]를 start-id 속성으로 가지는 컨넥터를 [allElementEntitiesInProcess]에서 찾아 리턴한다.
+     * [currentElement]가 게이트웨이일 때는 [gatewayQueue]와 [arrowConnectorsQueueInGateway] 를 큐 형태로 관리하고
+     * 컨넥터를 다 꺼내본 게이트웨이는 삭제하여 [allCheckedGatewayIds] 에 기록한다.
+     */
+    private fun getArrowConnector(
+        allElementEntitiesInProcess: List<WfElementEntity>,
+        currentElement: WfElementEntity,
+        arrowConnectorsQueueInGateway: MutableMap<String, ArrayDeque<WfElementEntity>>,
+        gatewayQueue: ArrayDeque<WfElementEntity>,
+        allCheckedGatewayIds: MutableMap<String, String>
+    ): WfElementEntity {
+        val arrowConnectors = allElementEntitiesInProcess.filter {
+            currentElement.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
+        }
+
+        val arrowConnector: WfElementEntity
+        if (currentElement.elementType == WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value) {
+            if (arrowConnectorsQueueInGateway[currentElement.elementId] == null) {
+                arrowConnectorsQueueInGateway[currentElement.elementId] = ArrayDeque(arrowConnectors)
+            }
+            arrowConnector = arrowConnectorsQueueInGateway[currentElement.elementId]!!.pop()
+
+            // 컨넥터를 모두 꺼내서 사용 했으면 해당 gateway는 삭제하고 allCheckedGatewayIds 에 기록한다.
+            if (arrowConnectorsQueueInGateway[currentElement.elementId]!!.size == 0) {
+                arrowConnectorsQueueInGateway.remove(currentElement.elementId)
+                gatewayQueue.remove(currentElement)
+                allCheckedGatewayIds[currentElement.elementId] = currentElement.elementId
+            } else {
+                // 게이트웨이가 가지고 있는 컨넥터(화살표) 를 모두 찾아쓰고 확인할 필요가 없는 게이트웨이인지 확인 후
+                // 아닌 경우 사용하지 않은 컨넥터(화살표)를 꺼내기위해 게이트웨이를 큐에 다시 넣어 둔다.
+                if (allCheckedGatewayIds[currentElement.elementId] != currentElement.elementId) {
+                    gatewayQueue.push(currentElement)
+                }
+            }
+        } else {
+            arrowConnector = arrowConnectors.last()
+        }
+
+        return arrowConnector
+    }
+
+    /**
+     * [arrowConnector] 의 end-id 가 가르키는 타겟 엘리먼트를 찾아서 리턴한다.
+     * 타겟 엘리먼트가 종료 엘리먼트인 경우 최근 게이트웨이를 찾아 리턴한다.
+     */
+    private fun changeCurrentElementToNextElement(
+        allElementEntitiesInProcess: List<WfElementEntity>,
+        arrowConnector: WfElementEntity,
+        gatewayQueue: ArrayDeque<WfElementEntity>
+    ): WfElementEntity {
+        val targetElementId = arrowConnector.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
+        var nextElement = allElementEntitiesInProcess.first {
+            it.elementId == targetElementId
+        }
+
+        if (gatewayQueue.size > 0 && nextElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+            nextElement = gatewayQueue.pop()
+        }
+
+        return nextElement
+    }
+
+    /**
+     * [currentElement] 가 userTask 이면  [sortedUserTasks] 에 저장한다.
+     * 게이트웨이의 컨넥터 개수에 따라 중복 저장이 가능하므로 존재하는 경우 삭제 후 다시 저장
+     */
+    private fun ifUserTaskSave(currentElement: WfElementEntity, sortedUserTasks: MutableList<Map<String, Any>>) {
+        if (currentElement.elementType == WfElementConstants.ElementType.USER_TASK.value) {
+            val elementAttribute = LinkedHashMap<String, Any>()
+            elementAttribute["elementId"] = currentElement.elementId
+            if (currentElement.elementName != "") {
+                elementAttribute["elementName"] = currentElement.elementName
+            } else {
+                elementAttribute["elementName"] = currentElement.elementType
+            }
+            if (sortedUserTasks.contains(elementAttribute)) {
+                sortedUserTasks.remove(elementAttribute)
+            }
+            sortedUserTasks.add(elementAttribute)
+        }
     }
 }
