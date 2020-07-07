@@ -9909,138 +9909,120 @@ body {
 .alice-process-toolbar {
   width: 100vw;
   min-width: 75rem;
-  height: 2.5rem;
-  background-color: #4c5264;
+  height: 2.188rem;
+  background-color: #0050ff;
   color: #fff;
-  padding-top: 0.625rem;
-  padding-bottom: 0.625rem;
+  padding-top: 0.563rem;
+  padding-bottom: 0.563rem;
   line-height: 1rem;
   font-size: 0.938rem;
 }
 .alice-process-toolbar .logo {
-  width: 3.75rem;
-  height: 1.25rem;
+  width: 5.625rem;
+  height: 1.062rem;
   float: left;
   background-color: transparent;
-  background-size: 1.25rem 1.25rem;
+  background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/logo.png");
+  background-image: url("../media/icons/process/editor/logo.png");
+}
+.alice-process-toolbar .process-designer {
+  width: 5.938rem;
+  margin-left: 0.938rem;
+  margin-right: 0.938rem;
+  font-size: 0.75rem;
 }
 .alice-process-toolbar a {
   text-decoration: none;
-  margin-left: 1.25rem;
-  height: 1.25rem;
-  line-height: 1.25rem;
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+  height: 1.062rem;
+  line-height: 1.062rem;
   vertical-align: middle;
-  float: left;
-  color: #fff;
 }
 .alice-process-toolbar a img {
   cursor: pointer;
 }
-.alice-process-toolbar a label {
-  margin-left: 0.313rem;
-  cursor: pointer;
-}
-.alice-process-toolbar span.process-name {
-  height: 1.25rem;
-  line-height: 1.25rem;
+.alice-process-toolbar .process-name {
+  height: 1.062rem;
+  line-height: 1.062rem;
   float: right;
-  margin-right: 1.25rem;
-}
-.alice-process-toolbar span.separator {
-  width: 0.063rem;
-  height: 1.25rem;
-  background-color: #f6f6f7;
-  margin-left: 1.25rem;
-  float: left;
+  margin-right: 0.938rem;
 }
 .alice-process-element-palette {
   display: inline-block;
-  width: 3.75rem;
-  height: calc(100vh - 2.5rem);
-  min-height: 35rem;
-  background-color: #f6f6f7;
+  width: 5.625rem;
+  height: calc(100vh - 2.188rem);
+  min-height: 35.312rem;
+  background-color: #ffffff;
+  position: absolute;
+  top: 2.188rem;
+  border: #bcc5d3 solid 0.063rem;
+  color: #666f7a;
+  font-size: 0.688rem;
+}
+.alice-process-element-palette .rectangle-menu {
+  position: relative;
+  display: inline-block;
+  width: 4.875rem;
+  height: 4.375rem;
+  margin: 0.313rem 0.313rem 0 0.313rem;
+  border: 0.063rem solid #bec4ce;
+  background-color: transparent;
+  background-size: initial;
+  background-repeat: no-repeat;
+  background-position: 50% 30%;
+}
+.alice-process-element-palette .rectangle-menu label {
   position: absolute;
   top: 2.5rem;
-  border: #bcc5d3 solid 0.063rem;
+  width: 100%;
+  text-align: center;
 }
 .alice-process-element-palette .connector {
-  display: inline-block;
-  width: 1.875rem;
-  height: 1.875rem;
-  margin: 0.625rem 0.938rem;
-  background-color: transparent;
-  background-size: initial;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-image: url("../media/icons/process/element/connector-off.png");
+  background-color: #f9f9f9;
+  background-image: url("../media/icons/process/element/connector.png");
 }
 .alice-process-element-palette .connector.selected {
-  background-image: url("../media/icons/process/element/connector-on.png");
-}
-.alice-process-element-palette .shape {
-  display: inline-block;
-  width: 1.875rem;
-  height: 1.875rem;
-  margin: 0.625rem 0.938rem;
   background-color: transparent;
-  background-size: initial;
-  background-repeat: no-repeat;
-  background-position: center center;
 }
-.alice-process-element-palette .event {
+.alice-process-element-palette .shape.event {
   background-image: url("../media/icons/process/element/event.png");
 }
-.alice-process-element-palette .task {
+.alice-process-element-palette .shape.task {
   background-image: url("../media/icons/process/element/task.png");
 }
-.alice-process-element-palette .subprocess {
+.alice-process-element-palette .shape.subprocess {
   background-image: url("../media/icons/process/element/subprocess.png");
 }
-.alice-process-element-palette .gateway {
+.alice-process-element-palette .shape.gateway {
   background-image: url("../media/icons/process/element/gateway.png");
 }
-.alice-process-element-palette .group {
+.alice-process-element-palette .shape.group {
   background-image: url("../media/icons/process/element/group.png");
 }
-.alice-process-element-palette .annotation {
+.alice-process-element-palette .shape.annotation {
   background-image: url("../media/icons/process/element/annotation.png");
 }
-.alice-process-element-palette span.separator {
-  display: block;
-  width: 2.5rem;
-  height: 0.063rem;
-  background: lightgray;
-  margin-left: 0.625rem;
+.alice-process-element-palette .move-icon {
+  float: bottom;
+  background-color: #f9f9f9;
+  background-image: url("../media/icons/process/editor/icon-background.png");
 }
-.alice-process-element-palette span.move-icon {
-  display: inline-block;
-  width: 3rem;
-  height: 3rem;
-  position: absolute;
-  left: 0.313rem;
-  bottom: 0.938rem;
+.alice-process-element-palette .move-icon.selected {
   background-color: transparent;
-  background-size: initial;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-image: url("../media/icons/process/editor/move.png");
-}
-.alice-process-element-palette span.move-icon.selected {
-  background-image: url("../media/icons/process/editor/move_selected.png");
 }
 .alice-process-drawing-board {
   display: inline-block;
   position: absolute;
-  top: 2.5rem;
-  left: 3.75rem;
-  width: calc(100vw - 23.75rem);
-  min-width: 51.25rem;
-  height: calc(100vh - 2.5rem);
-  min-height: 35rem;
-  background-color: #ffffff;
+  top: 2.188rem;
+  left: 5.625rem;
+  width: calc(100vw - 25.625rem);
+  min-width: 49.375rem;
+  height: calc(100vh - 2.188rem);
+  min-height: 35.312rem;
+  background-color: #f2f5fa;
 }
 .alice-process-drawing-board svg {
   display: inline-block;
@@ -10050,7 +10032,7 @@ body {
 }
 .alice-process-drawing-board path.connector {
   fill: none;
-  stroke: #000;
+  stroke: #596f7a;
   stroke-width: 2;
   cursor: default;
 }
@@ -10102,7 +10084,7 @@ body {
   display: none;
 }
 .alice-process-drawing-board .grid line {
-  stroke: lightgrey;
+  stroke: #e5ebf5;
   stroke-width: 0.5;
   stroke-opacity: 1;
   shape-rendering: crispEdges;
@@ -10110,26 +10092,43 @@ body {
 .alice-process-drawing-board .element .node {
   fill: #ffffff;
   opacity: 1;
-  stroke: #000000;
   stroke-width: 1;
+}
+.alice-process-drawing-board .element .node.task.userTask {
+  stroke: #0099ff;
+}
+.alice-process-drawing-board .element .node.task.manualTask {
+  stroke: #23c8c1;
+}
+.alice-process-drawing-board .element .node.task.scriptTask {
+  stroke: #66cc00;
+}
+.alice-process-drawing-board .element .node.subprocess {
+  stroke: #6774ff;
+}
+.alice-process-drawing-board .element .node.gateway {
+  stroke: #fac900;
+}
+.alice-process-drawing-board .element .node.event {
+  stroke: #ff6f61;
 }
 .alice-process-drawing-board .element .node.event.commonEnd,
 .alice-process-drawing-board .element .node.event.messageEnd {
   stroke-width: 3;
 }
 .alice-process-drawing-board .element .node.selected {
-  stroke: #5887f9;
-  stroke-width: 2;
+  stroke-width: 3;
 }
 .alice-process-drawing-board .element .node.selected.event.commonEnd,
 .alice-process-drawing-board .element .node.selected.event.messageEnd {
-  stroke-width: 4;
+  stroke-width: 5;
 }
 .alice-process-drawing-board .element .node.reject-element {
   stroke: #ff0000;
   stroke-width: 2;
 }
 .alice-process-drawing-board .element .group {
+  stroke: #ff6f61;
   fill-opacity: 0;
   stroke-dasharray: 5, 5;
 }
@@ -10151,20 +10150,13 @@ body {
 }
 .alice-process-properties-panel {
   display: inline-block;
-  background-color: #f6f6f7;
+  background-color: #fafbfd;
   width: 20rem;
-  height: calc(100vh - 2.5rem);
-  min-height: 35rem;
+  height: calc(100vh - 2.188rem);
+  min-height: 35.312rem;
   position: absolute;
-  top: 2.5rem;
+  top: 2.188rem;
   right: 0;
-  border: #bcc5d3 solid 0.063rem;
-}
-.alice-process-properties-panel h2 {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-top: 1.25rem;
-  margin-left: 0.938rem;
 }
 .alice-process-properties-panel h3 {
   font-size: 0.938rem;
@@ -10178,13 +10170,20 @@ body {
   border: 0.125rem solid darkgray;
 }
 .alice-process-properties-panel div.properties-container {
-  height: calc(100vh - 2.5rem - 22.5rem);
+  height: calc(100vh - 2.188rem - 22.5rem);
 }
 .alice-process-properties-panel div.properties-container div.element-title {
-  height: 1.875rem;
+  height: 2.5rem;
+  background-color: #2669ff;
+}
+.alice-process-properties-panel div.properties-container div.element-title h2 {
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: bold;
+  padding: 0.719rem 0 0.719rem 0.938rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties {
-  height: calc(100vh - 2.5rem - 22.5rem - 1.875rem);
+  height: calc(100vh - 2.188rem - 22.5rem - 1.875rem);
   overflow: auto;
 }
 .alice-process-properties-panel div.properties-container div.element-properties fieldset {

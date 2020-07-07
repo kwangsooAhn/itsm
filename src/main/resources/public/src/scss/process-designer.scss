@@ -22,10 +22,10 @@
 }
 
 $alice-font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
-$process-toolbar-height: 2.5rem; // 40px
-$process-toolbar-top-bottom-padding: 0.625rem; // 10px
+$process-toolbar-height: 2.188rem; // 35px
+$process-toolbar-top-bottom-padding: 0.563rem; // 9px
 $process-toolbar-real-height: $process-toolbar-height - ($process-toolbar-top-bottom-padding * 2);
-$process-element-palette-width: 3.75rem; // 60px
+$process-element-palette-width: 5.625rem; // 90px
 $process-properties-panel-width: 20rem; // 320px
 $process-container-min-width: 75rem;  // 1200px
 $process-container-min-height: 37.5rem;  // 600px
@@ -46,7 +46,7 @@ body {
         width: 100vw;
         min-width: $process-container-min-width;
         height: $process-toolbar-height;
-        background-color: #4c5264;
+        background-color: #0050ff;
         color: $white;
         padding-top: $process-toolbar-top-bottom-padding;
         padding-bottom: $process-toolbar-top-bottom-padding;
@@ -62,45 +62,44 @@ body {
             float: left;
             background: {
                 color: transparent;
-                size: $process-toolbar-real-height $process-toolbar-real-height;
+                size: initial;
                 repeat: no-repeat;
                 position: center center;
-                image: url("../media/icons/logo.png");
+                image: url("../media/icons/process/editor/logo.png");
+            };
+        }
+
+        .process-designer {
+            width: 5.938rem; // 95px
+            margin: {
+                left: 0.938rem;
+                right: 0.938rem; // 15px
+            };
+            font: {
+                size: 0.75rem; // 12px
             };
         }
 
         a {
             text-decoration: none;
-            margin-left: 1.25rem; // 20px
+            margin: {
+                left: 0.75rem; // 12px
+                right: 0.75rem; // 12px
+            }
             height: $process-toolbar-real-height;
             line-height: $process-toolbar-real-height;
             vertical-align: middle;
-            float: left;
-            color: $white;
 
             img {
                 cursor: pointer;
             }
-
-            label {
-                margin-left: 0.313rem;  // 5px
-                cursor: pointer;
-            }
         }
 
-        span.process-name {
+        .process-name {
             height: $process-toolbar-real-height;
             line-height: $process-toolbar-real-height;
             float: right;
-            margin-right: 1.25rem; // 20px
-        }
-
-        span.separator {
-            width: 0.063rem; // 1px
-            height: $process-toolbar-real-height;
-            background-color: #f6f6f7;
-            margin-left: 1.25rem; // 20px
-            float: left;
+            margin-right: 0.938rem; // 15px
         }
     }
 
@@ -109,93 +108,83 @@ body {
         width: $process-element-palette-width;
         height: calc(100vh - #{$process-toolbar-height});
         min-height: #{$process-container-min-height - $process-toolbar-height};
-        background-color: #f6f6f7;
+        background-color: #ffffff;
         position: absolute;
         top: $process-toolbar-height;
         border: #bcc5d3 solid 0.063rem;
+        color: #666f7a;
+        font-size: 0.688rem; // 11px
 
-        .connector {
+        .rectangle-menu {
+            position: relative;
             display: inline-block;
-            width: 1.875rem;  // 30px
-            height: 1.875rem;  // 30px
-            margin: 0.625rem 0.938rem;  // 10px 15px
+            width: 4.875rem;  // 78px
+            height: 4.375rem;  // 70px
+            margin: 0.313rem 0.313rem 0 0.313rem;  // 5px
+            border: 0.063rem solid #bec4ce;
             background: {
                 color: transparent;
                 size: initial;
                 repeat: no-repeat;
-                position: center center;
-                image: url("../media/icons/process/element/connector-off.png");
+                position: 50% 30%;
+            }
+
+            label {
+                position: absolute;
+                top: 2.5rem; // 40px
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        .connector {
+            background: {
+                color: #f9f9f9;
+                image: url("../media/icons/process/element/connector.png");
             }
         }
 
         .connector.selected {
-            background-image: url("../media/icons/process/element/connector-on.png");
-        }
-
-        .shape {
-            display: inline-block;
-            width: 1.875rem;  // 30px
-            height: 1.875rem;  // 30px
-            margin: 0.625rem 0.938rem;  // 10px 15px
             background: {
                 color: transparent;
-                size: initial;
-                repeat: no-repeat;
-                position: center center;
             }
         }
 
-        .event {
+        .shape.event {
             background-image: url("../media/icons/process/element/event.png");
         }
 
-        .task {
+        .shape.task {
             background-image: url("../media/icons/process/element/task.png");
         }
 
-        .subprocess {
+        .shape.subprocess {
             background-image: url("../media/icons/process/element/subprocess.png");
         }
 
-        .gateway {
+        .shape.gateway {
             background-image: url("../media/icons/process/element/gateway.png");
         }
 
-        .group {
+        .shape.group {
             background-image: url("../media/icons/process/element/group.png");
         }
 
-        .annotation {
+        .shape.annotation {
             background-image: url("../media/icons/process/element/annotation.png");
         }
 
-        span.separator {
-            display: block;
-            width: 2.5rem;
-            height: 0.063rem;
-            background: lightgray;
-            margin-left: 0.625rem;
-        }
-
-        span.move-icon {
-            display: inline-block;
-            width: 3rem; // 48px
-            height: 3rem; // 48px
-            position: absolute;
-            left: 0.313rem; // 5px
-            bottom: 0.938rem; // 15px
+        .move-icon {
+            float: bottom;
             background: {
-                color: transparent;
-                size: initial;
-                repeat: no-repeat;
-                position: center center;
-                image: url("../media/icons/process/editor/move.png");
+                color: #f9f9f9;
+                image: url("../media/icons/process/editor/icon-background.png");
             }
         }
 
-        span.move-icon.selected {
+        .move-icon.selected {
             background: {
-                image: url("../media/icons/process/editor/move_selected.png");
+                color: transparent;
             }
         }
     }
@@ -209,7 +198,7 @@ body {
         min-width: #{$process-container-min-width - ($process-element-palette-width + $process-properties-panel-width)};
         height: calc(100vh - #{$process-toolbar-height});
         min-height: #{$process-container-min-height - $process-toolbar-height};
-        background-color: #ffffff;
+        background-color: #f2f5fa;
 
         svg {
             display: inline-block;
@@ -220,7 +209,7 @@ body {
 
         path.connector {
             fill: none;
-            stroke: #000;
+            stroke: #596f7a;
             stroke-width: 2;
             cursor: default;
         }
@@ -289,7 +278,7 @@ body {
         }
 
         .grid line {
-            stroke: lightgrey;
+            stroke: #e5ebf5;
             stroke-width: 0.5;
             stroke-opacity: 1;
             shape-rendering: crispEdges;
@@ -299,8 +288,28 @@ body {
             .node {
                 fill: #ffffff;
                 opacity: 1;
-                stroke: #000000;
                 stroke-width: 1;
+            }
+
+            .node.task.userTask {
+                stroke: #0099ff;
+            }
+            .node.task.manualTask {
+                stroke: #23c8c1;
+            }
+            .node.task.scriptTask {
+                stroke: #66cc00;
+            }
+            .node.subprocess {
+                stroke: #6774ff;
+            }
+
+            .node.gateway {
+                stroke: #fac900;
+            }
+
+            .node.event {
+                stroke: #ff6f61;
             }
 
             .node.event.commonEnd,
@@ -309,13 +318,12 @@ body {
             }
 
             .node.selected {
-                stroke: #5887f9;
-                stroke-width: 2;
+                stroke-width: 3;
             }
 
             .node.selected.event.commonEnd,
             .node.selected.event.messageEnd {
-                stroke-width: 4;
+                stroke-width: 5;
             }
 
             .node.reject-element {
@@ -324,6 +332,7 @@ body {
             }
 
             .group {
+                stroke: #ff6f61;
                 fill-opacity: 0;
                 stroke-dasharray: 5,5;
             }
@@ -355,25 +364,13 @@ body {
 
     &-properties-panel {
         display: inline-block;
-        background-color: #f6f6f7;
+        background-color: #fafbfd;
         width: $process-properties-panel-width;
         height: calc(100vh - #{$process-toolbar-height});
         min-height: #{$process-container-min-height - $process-toolbar-height};
         position: absolute;
         top: $process-toolbar-height;
         right: 0;
-        border: #bcc5d3 solid 0.063rem;
-
-        h2 {
-            font: {
-                size: 1.25rem; // 20px
-                weight: bold;
-            }
-            margin: {
-                top: 1.25rem; // 20px
-                left: 0.938rem; // 15px
-            }
-        }
 
         h3 {
             font: {
@@ -399,7 +396,17 @@ body {
 
 
             div.element-title {
-                height: 1.875rem; // 30px
+                height: 2.5rem; // 40px
+                background-color: #2669ff;
+
+                h2 {
+                    color: #ffffff;
+                    font: {
+                        size: 0.875rem; // 14px
+                        weight: bold;
+                    }
+                    padding: 0.719rem 0 0.719rem 0.938rem; // 11.5px 0 11.5px 15px
+                }
             }
 
             div.element-properties {

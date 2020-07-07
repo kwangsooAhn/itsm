@@ -911,14 +911,10 @@
         }
         lastDraggedPosition = [mouseX, mouseY];
 
-        if (nodeElement.classed('task')) {
+        if (nodeElement.classed('task') || nodeElement.classed('subprocess')) {
             typeElement
                 .attr('x', Number(nodeElement.attr('x')) + 10)
                 .attr('y', Number(nodeElement.attr('y')) + 10);
-        } else if (nodeElement.classed('subprocess')) {
-            typeElement
-                .attr('x', mouseX + (Number(nodeElement.attr('width')) / 2) - (Number(typeElement.attr('width')) / 2))
-                .attr('y', mouseY + Number(nodeElement.attr('height')) - Number(typeElement.attr('height')) - 5);
         } else if (nodeElement.classed('event')) {
             typeElement
                 .attr('x', mouseX - (Number(typeElement.attr('width')) / 2))
@@ -1033,7 +1029,7 @@
      */
     function TaskElement(x, y) {
         const self = this;
-        const width = 120, height = 80, radius = 8, typeImageSize = 20;
+        const width = 152, height = 40, radius = 4, typeImageSize = 40;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('task');
 
@@ -1081,7 +1077,7 @@
      */
     function SubprocessElement(x, y) {
         const self = this;
-        const width = 120, height = 80, radius = 8, typeImageSize = 20;
+        const width = 152, height = 40, radius = 4, typeImageSize = 40;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('subprocess');
 
@@ -1102,8 +1098,8 @@
             .attr('class', 'element-type')
             .attr('width', typeImageSize)
             .attr('height', typeImageSize)
-            .attr('x', x - (typeImageSize / 2))
-            .attr('y', y + (height / 2) - typeImageSize - 5)
+            .attr('x', x - (width / 2) + 10)
+            .attr('y', y - (height / 2) + 10)
             .style('fill', 'url(#subprocess-' + self.defaultType + '-element)')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -1129,7 +1125,7 @@
      */
     function EventElement(x, y) {
         const self = this;
-        const radius = 20, typeImageSize = 20;
+        const radius = 18, typeImageSize = 21;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('event');
 

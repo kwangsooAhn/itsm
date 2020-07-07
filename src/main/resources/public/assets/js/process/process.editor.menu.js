@@ -90,8 +90,8 @@
             }
         }, {
             type: 'signalSend', parent: 'event',
-            url: iconDirectory + '/element-type/event-start.png',
-            element_url: iconDirectory + '/element-type/event-start.png',
+            url: iconDirectory + '/element-type/event-signal-send.png',
+            element_url: iconDirectory + '/element-type/event-signal-send.png',
             action: function(el) {
                 editElementType(el,'signalSend');
             }
