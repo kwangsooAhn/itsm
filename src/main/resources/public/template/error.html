@@ -12,15 +12,15 @@
         <td th:text="|${error} (${status})|"></td>
     </tr>
     <tr>
-        <td th:text="#{common.label.message}"></td>
+        <td th:text="#{error.label.message}"></td>
         <td th:text="${message}"></td>
     </tr>
     <tr>
-        <td th:text="#{common.label.path}"></td>
+        <td th:text="#{error.label.path}"></td>
         <td th:text="${path}"></td>
     </tr>
     <tr th:unless="${exceptionType} == null">
-        <td th:text="#{common.label.exceptionType}"></td>
+        <td th:text="#{error.label.exceptionType}"></td>
         <td th:text="${exceptionType}"></td>
     </tr>
     <tr th:unless="${knownError} == null">
