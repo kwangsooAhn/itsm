@@ -145,7 +145,7 @@ class WfTokenManagerService(
      * 토큰이 속한 엘리먼트의 notification가 true인 경우, candidate 데이터와 assignee를 대상으로 알림.
      */
     fun notificationCheck(token: WfTokenEntity) {
-        if (token.element.notification) {
+        if (!token.element.notification) {
             return
         }
 
