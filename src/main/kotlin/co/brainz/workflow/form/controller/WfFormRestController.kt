@@ -1,6 +1,7 @@
 package co.brainz.workflow.form.controller
 
 import co.brainz.workflow.form.constants.WfFormConstants
+import co.brainz.workflow.form.service.WfFormGetService
 import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
@@ -22,22 +23,23 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/wf/forms")
 class WfFormRestController(
-    private val wfFormService: WfFormService
+    private val wfFormService: WfFormService,
+    private val wfFormGetService: WfFormGetService
 ) {
 
     @GetMapping("")
     fun getForms(@RequestParam parameters: LinkedHashMap<String, Any>): List<RestTemplateFormDto> {
-        return wfFormService.forms(parameters)
+        return wfFormGetService.forms(parameters)
     }
 
     @GetMapping("/{formId}")
     fun getForm(@PathVariable formId: String): RestTemplateFormDto {
-        return wfFormService.form(formId)
+        return wfFormGetService.form(formId)
     }
 
     @GetMapping("/{formId}/data")
     fun getFormData(@PathVariable formId: String): RestTemplateFormComponentListDto {
-        return wfFormService.getFormComponentList(formId)
+        return wfFormGetService.getFormComponentList(formId)
     }
 
     @PostMapping("")

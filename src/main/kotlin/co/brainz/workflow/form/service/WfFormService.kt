@@ -23,12 +23,10 @@ import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 
 @Service
-class WfFormService(
+class WfFormGetService(
     private val wfFormRepository: WfFormRepository,
     private val wfComponentRepository: WfComponentRepository,
-    private val wfComponentDataRepository: WfComponentDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository,
-    private val aliceUserRepository: AliceUserRepository
+    private val wfComponentDataRepository: WfComponentDataRepository
 ) {
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(
@@ -60,49 +58,6 @@ class WfFormService(
         }
 
         return formList
-    }
-
-    /**
-     * Create Form.
-     *
-     * @param restTemplateFormDto
-     * @return RestTemplateFormDto
-     */
-    fun createForm(restTemplateFormDto: RestTemplateFormDto): RestTemplateFormDto {
-        val formEntity = WfFormEntity(
-            formId = restTemplateFormDto.id,
-            formName = restTemplateFormDto.name,
-            formDesc = restTemplateFormDto.desc,
-            formStatus = restTemplateFormDto.status,
-            createDt = restTemplateFormDto.createDt,
-            createUser = restTemplateFormDto.createUserKey?.let { aliceUserRepository.findAliceUserEntityByUserKey(it) }
-        )
-        val dataEntity = wfFormRepository.save(formEntity)
-
-        return RestTemplateFormDto(
-            id = dataEntity.formId,
-            name = dataEntity.formName,
-            status = dataEntity.formStatus,
-            desc = dataEntity.formDesc,
-            editable = true,
-            createUserKey = dataEntity.createUser?.userKey,
-            createDt = dataEntity.createDt
-        )
-    }
-
-    /**
-     * Delete Form.
-     *
-     * @param formId
-     */
-    fun deleteForm(formId: String): Boolean {
-        val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
-        val documentEntity = wfDocumentRepository.findByForm(formEntity)
-        if (documentEntity == null) {
-            wfFormRepository.removeWfFormEntityByFormId(formId)
-            return true
-        }
-        return false
     }
 
     /**
@@ -193,6 +148,123 @@ class WfFormService(
     }
 
     /**
+     * Get component data.
+     */
+    fun getComponentData(
+        resultComponentEntity: WfComponentEntity,
+        component: ComponentDetail
+    ): MutableList<WfComponentDataEntity> {
+        val wfComponentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
+
+        // wf_comp_data 저장
+        var componentDataEntity = WfComponentDataEntity(
+            componentId = resultComponentEntity.componentId,
+            attributeId = "display",
+            attributeValue = objMapper.writeValueAsString(component.display),
+            attributes = resultComponentEntity
+        )
+        wfComponentDataEntities.add(componentDataEntity)
+
+        component.label?.let {
+            if (it.size > 0) {
+                componentDataEntity = WfComponentDataEntity(
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "label",
+                    attributeValue = objMapper.writeValueAsString(it),
+                    attributes = resultComponentEntity
+                )
+                wfComponentDataEntities.add(componentDataEntity)
+            }
+        }
+
+        component.validate?.let {
+            if (it.size > 0) {
+                componentDataEntity = WfComponentDataEntity(
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "validate",
+                    attributeValue = objMapper.writeValueAsString(it),
+                    attributes = resultComponentEntity
+                )
+                wfComponentDataEntities.add(componentDataEntity)
+            }
+        }
+
+        component.option?.let {
+            if (it.size > 0) {
+                componentDataEntity = WfComponentDataEntity(
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "option",
+                    attributeValue = objMapper.writeValueAsString(it),
+                    attributes = resultComponentEntity
+                )
+                wfComponentDataEntities.add(componentDataEntity)
+            }
+        }
+
+        return wfComponentDataEntities
+    }
+}
+
+@Service
+class WfFormService(
+    private val wfFormRepository: WfFormRepository,
+    private val wfComponentRepository: WfComponentRepository,
+    private val wfComponentDataRepository: WfComponentDataRepository,
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val aliceUserRepository: AliceUserRepository,
+    private val wfFormGetService: WfFormGetService
+) {
+
+    private val wfFormMapper: WfFormMapper = Mappers.getMapper(
+        WfFormMapper::class.java
+    )
+
+    private val objMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
+    /**
+     * Create Form.
+     *
+     * @param restTemplateFormDto
+     * @return RestTemplateFormDto
+     */
+    fun createForm(restTemplateFormDto: RestTemplateFormDto): RestTemplateFormDto {
+        val formEntity = WfFormEntity(
+            formId = restTemplateFormDto.id,
+            formName = restTemplateFormDto.name,
+            formDesc = restTemplateFormDto.desc,
+            formStatus = restTemplateFormDto.status,
+            createDt = restTemplateFormDto.createDt,
+            createUser = restTemplateFormDto.createUserKey?.let { aliceUserRepository.findAliceUserEntityByUserKey(it) }
+        )
+        val dataEntity = wfFormRepository.save(formEntity)
+
+        return RestTemplateFormDto(
+            id = dataEntity.formId,
+            name = dataEntity.formName,
+            status = dataEntity.formStatus,
+            desc = dataEntity.formDesc,
+            editable = true,
+            createUserKey = dataEntity.createUser?.userKey,
+            createDt = dataEntity.createDt
+        )
+    }
+
+    /**
+     * Delete Form.
+     *
+     * @param formId
+     */
+    fun deleteForm(formId: String): Boolean {
+        val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
+        val documentEntity = wfDocumentRepository.findByForm(formEntity)
+        if (documentEntity == null) {
+            wfFormRepository.removeWfFormEntityByFormId(formId)
+            return true
+        }
+        return false
+    }
+
+    /**
      * Update Form.
      *
      * @param restTemplateFormDto
@@ -230,7 +302,7 @@ class WfFormService(
             // wf_component 저장
             val resultComponentEntity = this.saveComponent(resultFormEntity, component)
             // component data 가져오기
-            wfComponentDataEntities.addAll(this.getComponentData(resultComponentEntity, component))
+            wfComponentDataEntities.addAll(wfFormGetService.getComponentData(resultComponentEntity, component))
         }
         if (wfComponentDataEntities.isNotEmpty()) {
             wfComponentDataRepository.saveAll(wfComponentDataEntities)
@@ -305,62 +377,5 @@ class WfFormService(
         )
 
         return wfComponentRepository.save(componentEntity)
-    }
-
-    /**
-     * Get component data.
-     */
-    private fun getComponentData(
-        resultComponentEntity: WfComponentEntity,
-        component: ComponentDetail
-    ): MutableList<WfComponentDataEntity> {
-        val wfComponentDataEntities: MutableList<WfComponentDataEntity> = mutableListOf()
-
-        // wf_comp_data 저장
-        var componentDataEntity = WfComponentDataEntity(
-            componentId = resultComponentEntity.componentId,
-            attributeId = "display",
-            attributeValue = objMapper.writeValueAsString(component.display),
-            attributes = resultComponentEntity
-        )
-        wfComponentDataEntities.add(componentDataEntity)
-
-        component.label?.let {
-            if (it.size > 0) {
-                componentDataEntity = WfComponentDataEntity(
-                    componentId = resultComponentEntity.componentId,
-                    attributeId = "label",
-                    attributeValue = objMapper.writeValueAsString(it),
-                    attributes = resultComponentEntity
-                )
-                wfComponentDataEntities.add(componentDataEntity)
-            }
-        }
-
-        component.validate?.let {
-            if (it.size > 0) {
-                componentDataEntity = WfComponentDataEntity(
-                    componentId = resultComponentEntity.componentId,
-                    attributeId = "validate",
-                    attributeValue = objMapper.writeValueAsString(it),
-                    attributes = resultComponentEntity
-                )
-                wfComponentDataEntities.add(componentDataEntity)
-            }
-        }
-
-        component.option?.let {
-            if (it.size > 0) {
-                componentDataEntity = WfComponentDataEntity(
-                    componentId = resultComponentEntity.componentId,
-                    attributeId = "option",
-                    attributeValue = objMapper.writeValueAsString(it),
-                    attributes = resultComponentEntity
-                )
-                wfComponentDataEntities.add(componentDataEntity)
-            }
-        }
-
-        return wfComponentDataEntities
     }
 }

@@ -5,7 +5,7 @@ import co.brainz.itsm.instance.service.InstanceService
 import co.brainz.workflow.document.repository.WfDocumentDisplayRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.service.WfActionService
-import co.brainz.workflow.form.service.WfFormService
+import co.brainz.workflow.form.service.WfFormGetService
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenStakeholderViewDto
@@ -29,7 +29,7 @@ class WfTokenService(
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
-    private val wfFormService: WfFormService,
+    private val wfFormGetService: WfFormGetService,
     private val wfActionService: WfActionService,
     private val wfCandidateRepository: WfCandidateRepository
 ) {
@@ -114,7 +114,7 @@ class WfTokenService(
         // FormComponent
         val tokenEntity = wfTokenRepository.findTokenEntityByTokenId(tokenId)
         val formId = tokenEntity.get().instance.document.form.formId
-        val formData = wfFormService.getFormComponentList(formId)
+        val formData = wfFormGetService.getFormComponentList(formId)
 
         val documentDisplayList =
             wfDocumentDisplayRepository.findByDocumentIdAndElementId(
