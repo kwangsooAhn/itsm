@@ -160,6 +160,14 @@
     </div>
     <div id="password-guide" style="top: 35px;">
         <pre>
+            [ 아이디 생성 가이드 ]
+
+            1. 영문, 숫자, 특수문자(@, ., -, _)만 허용한다.
+
+            2. 허용된 특수문자는 맨 앞에 올수 없다.
+
+            3. 공백을 허용하지 않는다.
+
             [ 비밀번호 수정 가이드 ]
 
             1. 2가지 이상의 문자 구성(대문자, 소문자, 특수문자, 숫자)인 경우, 8자 이상 20자 미만, 1가지 종류의 문자 구성인 경우 10자 이상 20자 미만의 비밀번호 입력 제한 범위를 가진다.
@@ -286,6 +294,7 @@
             if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
                 if (!isValidPassword('password')) return false;
             }
+            if (!isValidUserId("userId")) return false;
             if (isEmpty('userName', 'user.msg.enterUserName')) return false;
             if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
             if (!isValidEmail('email')) return false;

@@ -650,6 +650,7 @@ validation:
   msg:
     checkEmailFormat: "Please enter the correct email format."
     checkRgbFormat: "Please enter the correct RGB format."
+    checkUserIdFormat: "Please enter the correct userId format."
     elementNotExist: "The element does not exist."
     pwContainsEmail: "Password contains an email ID."
     pwContainsId: "Password contains an ID."
