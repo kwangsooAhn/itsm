@@ -87,13 +87,12 @@ class WfInstanceService(
             }
 
             val topics = mutableListOf<String>()
-            instance.tokenEntity.tokenDataEntities.forEach {
-                if (topicComponentIds.size == 0) {
-                    return@forEach
-                }
 
-                if (topicComponentIds.indexOf(it.component.componentId) > -1) {
-                    topics.add(it.value)
+            if (topicComponentIds.size > 0) {
+                instance.tokenEntity.tokenDataEntities.forEach {
+                    if (topicComponentIds.indexOf(it.component.componentId) > -1) {
+                        topics.add(it.value)
+                    }
                 }
             }
 
