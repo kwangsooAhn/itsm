@@ -25,7 +25,7 @@ import org.springframework.test.context.junit4.SpringRunner
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-class UserTask {
+class UserTaskTokenManager {
 
     @Autowired
     lateinit var initTestData: InitTestData
