@@ -142,10 +142,6 @@
             },
             moveDragStart: function(d, target) {
                 svg.selectAll('.alice-tooltip').remove();
-                d3.select(document.getElementById(d.id)).classed('hidden', true);
-                dragLine
-                    .style('marker-end', 'url(#end-arrow)')
-                    .classed('hidden', false);
                 d3.select(target).style('opacity', 0);
                 d3.select(target.parentNode).selectAll('.pointer:not(.move)').style('opacity', 0);
             },
@@ -226,9 +222,13 @@
                 })
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        d3.select(document.getElementById(d.id)).classed('hidden', true);
                         let targetElement = d3.select(document.getElementById(d.id + '_endPoint'));
                         const gTransform = d3.zoomTransform(d3.select('g.element-container').node());
-                        dragLine.attr('d', `M${d3.event.x + gTransform.x},${d3.event.y + gTransform.y} L${targetElement.attr('cx')},${targetElement.attr('cy')}`);
+                        dragLine
+                            .style('marker-end', 'url(#end-arrow)')
+                            .classed('hidden', false)
+                            .attr('d', `M${d3.event.x + gTransform.x},${d3.event.y + gTransform.y} L${Number(targetElement.attr('cx')) + gTransform.x},${Number(targetElement.attr('cy')) + gTransform.y}`);
                     }
                 })
                 .on('end', function(d) {
@@ -282,9 +282,13 @@
                 })
                 .on('drag', function(d) {
                     if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        d3.select(document.getElementById(d.id)).classed('hidden', true);
                         let sourceElement = d3.select(document.getElementById(d.id + '_startPoint'));
                         const gTransform = d3.zoomTransform(d3.select('g.element-container').node());
-                        dragLine.attr('d', `M${sourceElement.attr('cx')},${sourceElement.attr('cy')} L${d3.event.x + gTransform.x},${d3.event.y + gTransform.y}`);
+                        dragLine
+                            .style('marker-end', 'url(#end-arrow)')
+                            .classed('hidden', false)
+                            .attr('d', `M${Number(sourceElement.attr('cx')) + gTransform.x},${Number(sourceElement.attr('cy')) + gTransform.y} L${d3.event.x + gTransform.x},${d3.event.y + gTransform.y}`);
                     }
                 })
                 .on('end', function(d) {
