@@ -93,9 +93,103 @@ class InitTestData {
     }
 
     /**
-     * Set users.
+     * 유저 생성 ([userJsonFile] 파일의 사용자 목록).
+     */
+    fun setUsers() {
+        this.makeUsers(null)
+    }
+
+    /**
+     * 커스텀 유저 생성.
      */
     fun setUsers(customDataList: MutableList<AliceUserEntity>?) {
+        this.makeUsers(customDataList)
+    }
+
+    /**
+     * 문서 번호 생성 ([numberingJsonFile] 파일의 문서 목록).
+     */
+    fun setNumberings() {
+        this.makeNumberings(null)
+    }
+
+    /**
+     * 커스텀 문서 번호 생성.
+     */
+    fun setNumberings(customDataList: MutableList<AliceNumberingRuleEntity>?) {
+        this.makeNumberings(customDataList)
+    }
+
+    /**
+     * 폼 생성 ([formJsonFile] 파일의 폼 목록).
+     */
+    fun setForms() {
+        this.makeForms(null)
+    }
+
+    /**
+     * 커스텀 폼 생성.
+     */
+    fun setForms(customDataList: MutableList<WfFormEntity>?) {
+        this.makeForms(customDataList)
+    }
+
+    /**
+     * 프로세스 생성 ([processJsonFile] 파일의 프로세스 목록).
+     */
+    fun setProcesses() {
+        this.makeProcesses(null, null)
+    }
+
+    /**
+     * 커스텀 프로세스 생성.
+     */
+    fun setProcesses(customDataList: MutableList<WfProcessEntity>?, user: AliceUserEntity?) {
+        this.makeProcesses(customDataList, user)
+    }
+
+    /**
+     * 문서 생성 ([documentJsonFile] 파일의 문서 목록).
+     */
+    fun setDocuments() {
+        this.makeDocuments(null, null, null, null, null)
+    }
+
+    /**
+     * 커스텀 문서 생성.
+     */
+    fun setDocuments(
+        customDataList: MutableList<WfDocumentEntity>?,
+        process: WfProcessEntity?, form: WfFormEntity?,
+        numbering: AliceNumberingRuleEntity?,
+        user: AliceUserEntity?
+    ) {
+        this.makeDocuments(customDataList, process, form, numbering, user)
+    }
+
+    /**
+     * Instance 생성 ([instanceJsonFile] 파일의 Instance).
+     */
+    fun setInstance() {
+        this.makeInstance(null, null, null, null)
+    }
+
+    /**
+     * 커스텀 Instance 생성.
+     */
+    fun setInstance(
+        customData: WfInstanceEntity?,
+        document: WfDocumentEntity?,
+        user: AliceUserEntity?,
+        numbering: AliceNumberingRuleEntity?
+    ) {
+        this.makeInstance(customData, document, user, numbering)
+    }
+
+    /**
+     * 사용자 생성 (Multiple).
+     */
+    private fun makeUsers(customDataList: MutableList<AliceUserEntity>?) {
         var users: MutableList<AliceUserEntity> = mutableListOf()
         when (customDataList) {
             null -> {
@@ -128,9 +222,9 @@ class InitTestData {
     }
 
     /**
-     * Set numberings.
+     * 문서 번호 생성 (Multiple).
      */
-    fun setNumberings(customDataList: MutableList<AliceNumberingRuleEntity>?) {
+    private fun makeNumberings(customDataList: MutableList<AliceNumberingRuleEntity>?) {
         var numberings: MutableList<AliceNumberingRuleEntity> = mutableListOf()
         when (customDataList) {
             null -> {
@@ -169,9 +263,9 @@ class InitTestData {
     }
 
     /**
-     * Set forms.
+     * 폼 데이터 생성 (Multiple).
      */
-    fun setForms(customDataList: MutableList<WfFormEntity>?) {
+    private fun makeForms(customDataList: MutableList<WfFormEntity>?) {
         var forms: MutableList<WfFormEntity> = mutableListOf()
         when (customDataList) {
             null -> {
@@ -228,9 +322,9 @@ class InitTestData {
     }
 
     /**
-     * Set processes.
+     * 프로세스 생성 (Multiple).
      */
-    fun setProcesses(customDataList: MutableList<WfProcessEntity>?, user: AliceUserEntity?) {
+    private fun makeProcesses(customDataList: MutableList<WfProcessEntity>?, user: AliceUserEntity?) {
         var processes: MutableList<WfProcessEntity> = mutableListOf()
         when (customDataList) {
             null -> {
@@ -295,9 +389,9 @@ class InitTestData {
     }
 
     /**
-     * Set documents.
+     * 문서 생성 (Multiple).
      */
-    fun setDocuments(
+    private fun makeDocuments(
         customDataList: MutableList<WfDocumentEntity>?,
         process: WfProcessEntity?,
         form: WfFormEntity?,
@@ -340,9 +434,9 @@ class InitTestData {
     }
 
     /**
-     * Set instance.
+     * Instance 생성.
      */
-    fun setInstance(
+    private fun makeInstance(
         customData: WfInstanceEntity?,
         document: WfDocumentEntity?,
         user: AliceUserEntity?,

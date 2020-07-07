@@ -46,21 +46,29 @@ class UserTaskTokenManager {
 
     private var tokenDto: WfTokenDto = WfTokenDto()
 
+    /**
+     * 초기 데이터 셋팅.
+     * 데이터 설정 후 initTestData.getData() 로 등록한 데이터를 가져올 수 있음.
+     * 추가 설정은 [InitTestData] 에 구현 후 호출.
+     */
     @Before
     fun init() {
-        initTestData.setUsers(null)
-        initTestData.setNumberings(null)
-        initTestData.setForms(null)
-        initTestData.setProcesses(null, null)
-        initTestData.setDocuments(null, null, null, null, null)
-        initTestData.setInstance(null, null, null, null)
+        initTestData.setUsers()
+        initTestData.setNumberings()
+        initTestData.setForms()
+        initTestData.setProcesses()
+        initTestData.setDocuments()
+        initTestData.setInstance()
 
         this.tokenManager = WfTokenManagerFactory(wfTokenManagerService)
             .createTokenManager(WfElementConstants.ElementType.USER_TASK.value)
     }
 
+    /**
+     * 토큰 생성 (기본).
+     */
     @Test
-    fun userTaskTokenManager_createToken_normalSave() {
+    fun userTaskTokenManager_createToken_default_OK() {
         var elementId = ""
         run loop@{
             initTestData.getData().processes!![0].elementEntities.forEach { element ->
@@ -82,27 +90,36 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.tokenId).isNotBlank()
     }
 
+    /**
+     * 토큰 종료 여부.
+     */
     @Test
-    fun userTaskTokenManager_completeToken_normal() {
-        this.userTaskTokenManager_createToken_normalSave()
+    fun userTaskTokenManager_completeToken_default_OK() {
+        this.userTaskTokenManager_createToken_default_OK()
         this.tokenDto = this.tokenManager.completeToken(this.tokenDto)
         val token = wfTokenManagerService.getToken(this.tokenDto.tokenId)
         Assertions.assertThat(token.tokenStatus).isEqualTo(WfTokenConstants.Status.FINISH.code)
         Assertions.assertThat(token.tokenEndDt).isNotNull()
     }
 
+    /**
+     * 다음 토큰 존재 여부 확인.
+     */
     @Test
-    fun userTaskTokenManager_createNextToken_nextUserTask() {
-        this.userTaskTokenManager_createToken_normalSave()
-        this.userTaskTokenManager_completeToken_normal()
+    fun userTaskTokenManager_createNextToken_element_Exists() {
+        this.userTaskTokenManager_createToken_default_OK()
+        this.userTaskTokenManager_completeToken_default_OK()
         val nextTokenDto = this.tokenManager.createNextToken(this.tokenDto)!!
         Assertions.assertThat(this.tokenDto.elementId).isNotEqualTo(nextTokenDto.elementId)
         Assertions.assertThat(this.tokenDto.tokenId).isNotEqualTo(nextTokenDto.tokenId)
         Assertions.assertThat(nextTokenDto.tokenId).isNotBlank()
     }
 
+    /**
+     * 토큰 생성시 담당자 타입을 Assignee 으로 설정.
+     */
     @Test
-    fun userTaskTokenManager_createToken_assignee() {
+    fun userTaskTokenManager_createToken_assigneeType_assignee_Exists() {
         var elementId = ""
         run loop@{
             initTestData.getData().processes!![0].elementEntities.forEach { element ->
@@ -129,8 +146,11 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.assigneeId).isNotBlank()
     }
 
+    /**
+     * 토큰 생성시 담당자를 빈값으로 처리할 경우.
+     */
     @Test
-    fun userTaskTokenManager_createToken_noAssignee() {
+    fun userTaskTokenManager_createToken_assigneeId_Empty() {
         var elementId = ""
         run loop@{
             initTestData.getData().processes!![0].elementEntities.forEach { element ->
@@ -153,8 +173,11 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.assigneeId).isBlank()
     }
 
+    /**
+     * 토큰 생성시 담당자 타입을 사용자로 설정할 경우 후보자 설정에 데이터가 존재하는지 확인.
+     */
     @Test
-    fun userTaskTokenManager_createToken_assigneeUsers() {
+    fun userTaskTokenManager_createToken_assigneeType_assigneeUsers_Exists() {
         var elementId = ""
         run loop@{
             initTestData.getData().processes!![0].elementEntities.forEach { element ->
@@ -182,8 +205,11 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.candidate).size().isNotZero
     }
 
+    /**
+     * 토큰 생성시 알림 기능 ON.
+     */
     @Test
-    fun userTaskTokenManager_createToken_notification() {
+    fun userTaskTokenManager_createToken_notification_TRUE() {
         var elementId = ""
         run loop@{
             initTestData.getData().processes!![0].elementEntities.forEach { element ->
@@ -209,8 +235,11 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.element.notification).isTrue()
     }
 
+    /**
+     * 토큰 생성시 알림 기능 OFF.
+     */
     @Test
-    fun userTaskTokenManager_createToken_noNotification() {
+    fun userTaskTokenManager_createToken_notification_FALSE() {
         var elementId = ""
         run loop@{
             initTestData.getData().processes!![0].elementEntities.forEach { element ->
@@ -236,8 +265,11 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.element.notification).isFalse()
     }
 
+    /**
+     * 토큰 생성시 토큰 상태를 Waiting 으로 설정.
+     */
     @Test
-    fun userTaskTokenManager_createToken_statusWaiting() {
+    fun userTaskTokenManager_createToken_status_Waiting() {
         var elementId = ""
         run loop@{
             initTestData.getData().processes!![0].elementEntities.forEach { element ->
