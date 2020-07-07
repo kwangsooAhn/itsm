@@ -8,7 +8,7 @@ import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
 import java.io.Serializable
 
-data class DataDto(
+data class InitDataDto(
     var users: MutableList<AliceUserEntity>? = null,
     var numberingRule: MutableList<AliceNumberingRuleEntity>? = null,
     var forms: MutableList<WfFormEntity>? = null,

@@ -38,7 +38,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Component
 
 @Component
-class Configuration {
+class InitTestData {
 
     @Autowired
     lateinit var aliceUserRepository: AliceUserRepository
@@ -86,10 +86,10 @@ class Configuration {
     private val documentJsonFile = "documents.json"
     private val instanceJsonFile = "instance.json"
 
-    private var data = DataDto()
+    private var initData = InitDataDto()
 
-    fun getData(): DataDto {
-        return this.data
+    fun getData(): InitDataDto {
+        return this.initData
     }
 
     /**
@@ -124,13 +124,13 @@ class Configuration {
             }
             else -> users = aliceUserRepository.saveAll(customDataList)
         }
-        this.data.users = users
+        this.initData.users = users
     }
 
     /**
-     * Set numbering.
+     * Set numberings.
      */
-    fun setNumbering(customDataList: MutableList<AliceNumberingRuleEntity>?) {
+    fun setNumberings(customDataList: MutableList<AliceNumberingRuleEntity>?) {
         var numberings: MutableList<AliceNumberingRuleEntity> = mutableListOf()
         when (customDataList) {
             null -> {
@@ -165,7 +165,7 @@ class Configuration {
             }
             else -> numberings = wfAliceNumberingRuleRepository.saveAll(customDataList)
         }
-        this.data.numberingRule = numberings
+        this.initData.numberingRule = numberings
     }
 
     /**
@@ -224,7 +224,7 @@ class Configuration {
             }
             else -> forms = wfFormRepository.saveAll(customDataList)
         }
-        this.data.forms = forms
+        this.initData.forms = forms
     }
 
     /**
@@ -237,7 +237,7 @@ class Configuration {
                 val jsonFile = File(jsonFilePath + File.separator + processJsonFile)
                 if (jsonFile.exists()) {
                     val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
-                    val userEntity = user ?: this.data.users!![0]
+                    val userEntity = user ?: this.initData.users!![0]
                     jsonNode.forEach { process ->
                         var processEntity = WfProcessEntity(
                             processId = "",
@@ -291,13 +291,13 @@ class Configuration {
             }
             else -> processes = wfProcessRepository.saveAll(customDataList)
         }
-        this.data.processes = processes
+        this.initData.processes = processes
     }
 
     /**
      * Set documents.
      */
-    fun setDocument(
+    fun setDocuments(
         customDataList: MutableList<WfDocumentEntity>?,
         process: WfProcessEntity?,
         form: WfFormEntity?,
@@ -310,10 +310,10 @@ class Configuration {
                 val jsonFile = File(jsonFilePath + File.separator + documentJsonFile)
                 if (jsonFile.exists()) {
                     val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
-                    val processEntity = process ?: this.data.processes!![0]
-                    val formEntity = form ?: this.data.forms!![0]
-                    val numberingRuleEntity = numbering ?: this.data.numberingRule!![0]
-                    val userEntity = user ?: this.data.users!![0]
+                    val processEntity = process ?: this.initData.processes!![0]
+                    val formEntity = form ?: this.initData.forms!![0]
+                    val numberingRuleEntity = numbering ?: this.initData.numberingRule!![0]
+                    val userEntity = user ?: this.initData.users!![0]
                     jsonNode.forEach { document ->
                         var documentEntity = WfDocumentEntity(
                             documentId = "",
@@ -336,7 +336,7 @@ class Configuration {
                 wfDocumentRepository.saveAll(documents)
             } else -> documents = wfDocumentRepository.saveAll(customDataList)
         }
-        this.data.documents = documents
+        this.initData.documents = documents
     }
 
     /**
@@ -353,21 +353,21 @@ class Configuration {
                 val jsonFile = File(jsonFilePath + File.separator + instanceJsonFile)
                 if (jsonFile.exists()) {
                     val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
-                    val userEntity = user ?: this.data.users!![0]
-                    val numberingEntity = numbering ?: this.data.numberingRule!![0]
+                    val userEntity = user ?: this.initData.users!![0]
+                    val numberingEntity = numbering ?: this.initData.numberingRule!![0]
                     val instance = WfInstanceEntity(
                         instanceId = "",
-                        document = document ?: this.data.documents!![0],
+                        document = document ?: this.initData.documents!![0],
                         instanceStatus = jsonNode["status"].asText(),
                         instanceStartDt = LocalDateTime.now(),
                         instanceCreateUser = userEntity,
                         pTokenId = jsonNode["pTokenId"].asText(),
                         documentNo = aliceNumberingService.getNewNumbering(numberingEntity.numberingId)
                     )
-                    this.data.instance = wfInstanceRepository.save(instance)
+                    this.initData.instance = wfInstanceRepository.save(instance)
                 }
             }
-            else -> this.data.instance = wfInstanceRepository.save(customData)
+            else -> this.initData.instance = wfInstanceRepository.save(customData)
         }
     }
 }

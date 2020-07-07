@@ -28,7 +28,7 @@ import org.springframework.test.context.junit4.SpringRunner
 class UserTask {
 
     @Autowired
-    lateinit var configuration: Configuration
+    lateinit var initTestData: InitTestData
 
     @Autowired
     lateinit var wfTokenManagerService: WfTokenManagerService
@@ -39,12 +39,12 @@ class UserTask {
 
     @Before
     fun init() {
-        configuration.setUsers(null)
-        configuration.setNumbering(null)
-        configuration.setForms(null)
-        configuration.setProcesses(null, null)
-        configuration.setDocument(null, null, null, null, null)
-        configuration.setInstance(null, null, null, null)
+        initTestData.setUsers(null)
+        initTestData.setNumberings(null)
+        initTestData.setForms(null)
+        initTestData.setProcesses(null, null)
+        initTestData.setDocuments(null, null, null, null, null)
+        initTestData.setInstance(null, null, null, null)
 
         this.tokenManager = WfTokenManagerFactory(wfTokenManagerService)
             .createTokenManager(WfElementConstants.ElementType.USER_TASK.value)
@@ -60,7 +60,7 @@ class UserTask {
     fun createToken() {
         var elementId = ""
         run loop@{
-            configuration.getData().processes!![0].elementEntities.forEach { element ->
+            initTestData.getData().processes!![0].elementEntities.forEach { element ->
                 if (element.elementType == WfElementConstants.ElementType.USER_TASK.value) {
                     elementId = element.elementId
                     return@loop
@@ -69,9 +69,9 @@ class UserTask {
         }
         this.tokenDto = WfTokenDto(
             tokenId = "",
-            documentId = configuration.getData().documents!![0].documentId,
-            instanceId = configuration.getData().instance!!.instanceId,
-            instanceCreateUser = configuration.getData().instance!!.instanceCreateUser,
+            documentId = initTestData.getData().documents!![0].documentId,
+            instanceId = initTestData.getData().instance!!.instanceId,
+            instanceCreateUser = initTestData.getData().instance!!.instanceCreateUser,
             elementId = elementId
         )
         this.tokenDto = this.tokenManager.createToken(tokenDto)
