@@ -5,4 +5,14 @@ package co.brainz.itsm.code.constants
  */
 object CodeConstants {
     const val SEARCH_RANGE_VALUE: Long = 30
+
+    /**
+     * 코드 편집 상태.
+     */
+    enum class Status(val code: String) {
+        STATUS_SUCCESS("0"),
+        STATUS_ERROR_CODE_P_CODE_USED("1"),
+        STATUS_ERROR_CODE_DUPLICATION("2"),
+        STATUS_ERROR_CODE_P_CODE_NOT_EXIST("3")
+    }
 }

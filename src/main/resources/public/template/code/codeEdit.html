@@ -79,6 +79,10 @@
     <script th:src="@{/assets/js/util/validation-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        const STATUS_SUCCESS = '0';
+        const STATUS_ERROR_CODE_P_CODE_USER = '1';
+        const STATUS_ERROR_CODE_DUPLICATION = '2';
+        const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '3';
         let AUTH_DELETE = false;
         let AUTH_CREATE = false;
         let AUTH_UPDATE = false;
@@ -162,7 +166,7 @@
         }
 
         /** save **/
-        function onSave(flag) {
+        function onSave(method) {
             const jsonData = {
                 code: document.getElementById('txtCode').value,
                 pCode: document.getElementById('txtPCode').value,
@@ -174,34 +178,25 @@
                 return false;
             }
 
-            if (jsonData.pCode !== null || jsonData.pCode !== '') {
-                let codeList = document.querySelectorAll('li[name=codeList]');
-                for(let i = 0; i < codeList.length; i++) {
-                    if (codeList[i].id === jsonData.pCode) {
-                        if (flag === 'post') {
-                            url = '/rest/codes';
-                        } else {
-                            url = '/rest/codes/' + document.getElementById('txtCode').value;
-                        }
-
-                        const opt = {
-                            method: flag,
-                            url: url,
-                            params: JSON.stringify(jsonData),
-                            contentType: 'application/json',
-                            callbackFunc: function() {
-                                aliceJs.alert([[#{common.msg.save}]], function() {
-                                    window.location.href ='/codes/edit';
-                                });
-                            }
-                        };
-                        aliceJs.sendXhr(opt);
-                        return true;
-                    }
-                }
-                aliceJs.alert([[#{code.msg.pCodeNotExist}]]);
-                return false;
+            if (method === 'post') {
+                url = '/rest/codes';
+            } else {
+                url = '/rest/codes/' + document.getElementById('txtCode').value;
             }
+
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(jsonData),
+                contentType: 'application/json',
+                callbackFunc: function() {
+                    aliceJs.alert([[#{common.msg.save}]], function() {
+                        window.location.href ='/codes/edit';
+                    });
+                }
+            };
+
+            aliceJs.sendXhr(opt);
         }
 
         /** delete **/
@@ -209,10 +204,20 @@
             const opt = {
                 method: 'delete',
                 url: '/rest/codes/' + document.getElementById('txtCode').value,
-                callbackFunc: function() {
-                    aliceJs.alert([[#{common.msg.delete}]], function() {
-                        window.location.href ='/codes/edit';
-                    });
+                callbackFunc: function(response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alert([[#{common.msg.delete}]], function() {
+                                window.location.href ='/codes/edit';
+                            });
+                            break;
+                        case STATUS_ERROR_CODE_P_CODE_USER:
+                            alert("삭제 실패 사용중");
+                            break;
+                        default:
+                            aliceJs.alert(i18n.get('common.msg.fail'));
+                            break;
+                    }
                 }
             };
 

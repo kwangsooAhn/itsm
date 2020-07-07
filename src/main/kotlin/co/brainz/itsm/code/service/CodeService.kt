@@ -1,6 +1,7 @@
 package co.brainz.itsm.code.service
 
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
@@ -53,8 +54,10 @@ class CodeService(
     fun getDetailCodes(code: String): CodeDetailDto {
         val codeDetailDto = codeRepository.findCodeDetail(code)
         codeDetailDto.enabled = !customCodeRepository.existsByPCode(codeDetailDto.code)
-        codeDetailDto.createUserName = codeDetailDto.createUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
-        codeDetailDto.updateUserName = codeDetailDto.updateUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
+        codeDetailDto.createUserName =
+            codeDetailDto.createUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
+        codeDetailDto.updateUserName =
+            codeDetailDto.updateUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
         return codeDetailDto
     }
 
@@ -75,7 +78,16 @@ class CodeService(
     /**
      * 코드 데이터 삭제
      */
-    fun deleteCode(code: String) {
-        codeRepository.deleteById(code)
+    fun deleteCode(code: String): String {
+        var status = CodeConstants.Status.STATUS_SUCCESS.code
+        if (codeRepository.existsByPCodeAndEditableTrue(
+                codeRepository.findById(code).orElse(CodeEntity(code = code))
+            )
+        ) {
+            status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_USED.code
+        } else {
+            codeRepository.deleteById(code)
+        }
+        return status
     }
 }

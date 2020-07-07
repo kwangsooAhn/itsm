@@ -52,7 +52,7 @@ class CodeRestController(private val codeService: CodeService) {
      * 코드 데이터 삭제
      */
     @DeleteMapping("/{code}")
-    fun deleteCode(@PathVariable code: String) {
+    fun deleteCode(@PathVariable code: String): String {
         return codeService.deleteCode(code)
     }
 }
