@@ -17,7 +17,7 @@
             <ul id="main-menu" class="mr-auto">
                 <li th:each="topMenu : ${#authentication.details.menus}"
                     th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu'">
-                    <a class="nav-link" th:text="#{|menu.${topMenu.menuId}|}"></a>
+                    <a class="nav-link" th:text="#{|menu.${topMenu.menuId}.parent|}"></a>
                     <ul class="sub-menu">
                         <li th:each="subMenu : ${#authentication.details.menus}"
                             th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId}">
@@ -41,7 +41,7 @@
                 <div id="profile-menu">
                     <ul>
                         <li><a href="javascript:logout()" th:text="#{common.btn.logout}"></a></li>
-                        <li><a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}" th:text="#{menu.editMyInfo}"></a></li>
+                        <li><a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}" th:text="#{menu.setting.editMyInfo}"></a></li>
                     </ul>
                 </div>
             </div>

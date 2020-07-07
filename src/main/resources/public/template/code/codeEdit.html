@@ -41,9 +41,9 @@
                     </td>
                 </tr>
                 <tr>
-                    <th th:text="#{common.label.createUserName}"></th>
+                    <th th:text="#{common.label.createUser}"></th>
                     <td><span id="spanCreateUserName" name="spanCreateUserName" th:text="${codeDetail?.createUserName}"></span></td>
-                    <th th:text="#{common.label.updateUserName}"></th>
+                    <th th:text="#{common.label.updateUser}"></th>
                     <td><span id="spanUpdateUserName" name="spanUpdateUserName" th:text="${authDetail?.updateUserName}"></span></td>
                 </tr>
                 <tr>
@@ -170,7 +170,7 @@
             };
 
             if (jsonData.code === null || jsonData.code === '') {
-                aliceJs.alert([[#{code.msg.codeNotExist}]]);
+                aliceJs.alert([[#{code.msg.enterCode}]]);
                 return false;
             }
 
@@ -210,7 +210,7 @@
                 method: 'delete',
                 url: '/rest/codes/' + document.getElementById('txtCode').value,
                 callbackFunc: function() {
-                    aliceJs.alert([[#{common.msg.delete.success}]], function() {
+                    aliceJs.alert([[#{common.msg.delete}]], function() {
                         window.location.href ='/codes/edit';
                     });
                 }

@@ -57,31 +57,31 @@
                 </colgroup>
                 <tbody th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                     <tr>
-                        <th class="required" th:text="#{user.id}"></th>
+                        <th class="required" th:text="#{user.label.id}"></th>
                         <td><input type="text" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/></td>
                     </tr>
                 </tbody>
                 <tbody th:style="${users?.userKey == null || (users?.userKey != null && !users?.platform.equals('user.platform.alice'))} ? 'display: none' : ''">
                     <tr>
-                        <th class="required" th:text="#{user.password}"></th>
+                        <th class="required" th:text="#{user.label.password}"></th>
                         <td><input type="password" id="password" autocomplete="new-password" name="password" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.rePassword}"></th>
+                        <th class="required" th:text="#{user.label.rePassword}"></th>
                         <td><input type="password" id="rePassword" autocomplete="new-password" name="rePassword" maxlength="100" required="required"/></td>
                     </tr>
                 </tbody>
                 <tbody>
                     <tr>
-                        <th class="required" th:text="#{user.name}"></th>
+                        <th class="required" th:text="#{user.label.name}"></th>
                         <td><input type="text" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.email}"></th>
+                        <th class="required" th:text="#{user.label.email}"></th>
                         <td><input type="text" id="email" name="email" th:value="${users?.email}" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.usageStatus}"></th>
+                        <th class="required" th:text="#{user.label.usageStatus}"></th>
                         <td>
                             <label>
                                 <input id="usageStatusUse" name="type" type="radio"
@@ -96,29 +96,29 @@
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.position}"></th>
+                        <th th:text="#{user.label.position}"></th>
                         <td><input type="text" id="position" name="position" th:value="${users?.position}" maxlength="100"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.department}"></th>
+                        <th th:text="#{user.label.department}"></th>
                         <td><input type="text" id="department" name="department" th:value="${users?.department}" maxlength="100"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.officeNumber}"></th>
+                        <th th:text="#{user.label.officeNumber}"></th>
                         <td>
                             <input type="text" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
                                 onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"/>
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.mobileNumber}"></th>
+                        <th th:text="#{user.label.mobileNumber}"></th>
                         <td>
                             <input type="text" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                 onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"/>
                         </td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.timezone}"></th>
+                        <th class="required" th:text="#{user.label.timezone}"></th>
                         <td>
                             <select name="timezone" id="timezone">
                                 <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
@@ -127,14 +127,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.timeFormat}"></th>
+                        <th class="required" th:text="#{user.label.timeFormat}"></th>
                         <td>
-                            <span th:text="#{user.date}"></span>
+                            <span th:text="#{user.label.date}"></span>
                             <select name="date" id="date">
                                 <option th:each="date: ${dateList}" th:value="${date.codeValue}"
                                     th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
                             </select>
-                            <span th:text="#{user.time}"></span>
+                            <span th:text="#{user.label.time}"></span>
                             <select name="time" id="time">
                                 <option th:each="time: ${timeList}" th:value="${time.codeValue}"
                                     th:text="${time.code}" th:selected="${time.codeValue} == ${usersTime}"></option>
@@ -142,7 +142,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.lang}"></th>
+                        <th class="required" th:text="#{user.label.lang}"></th>
                         <td>
                             <select name="lang" id="lang">
                                 <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
@@ -151,7 +151,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.theme}"></th>
+                        <th class="required" th:text="#{user.label.theme}"></th>
                         <td>
                             <select name="theme" id="theme">
                                 <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
@@ -160,15 +160,15 @@
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.avatar}"></th>
+                        <th th:text="#{user.label.avatar}"></th>
                         <td>
                             <div id="dropZoneFiles"></div><br/><br/>
-                            <div th:text="#{user.FileSizeLimit}"></div>
-                            <div th:text="#{user.FileExtensionAllowed}"></div>
+                            <div th:text="#{user.label.FileSizeLimit}"></div>
+                            <div th:text="#{user.label.FileExtensionAllowed}"></div>
                         </td>
                     </tr>
                     <tr sec:authorize="hasAuthority('user.read')" th:unless="${#lists.isEmpty(roles)}">
-                        <th th:text="#{user.role}"></th>
+                        <th th:text="#{user.label.role}"></th>
                         <td>
                             <ui th:each="role : ${roles}">
                                 <input type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}" th:checked="*{role.checked}">
@@ -178,9 +178,9 @@
                     </tr>
                 </tbody>
             </table>
-            <button type="button" style="margin-top: 25px;" th:if="!${users?.userKey}" th:text="#{user.reg}"
+            <button type="button" style="margin-top: 25px;" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
                 th:onclick="restSubmit('post', [[@{/rest/users}]])"></button>
-            <button type="button" style="margin-top: 25px;" th:if="${users?.userKey}" th:text="#{user.editUserInfo}"
+            <button type="button" style="margin-top: 25px;" th:if="${users?.userKey}" th:text="#{user.label.editUserInfo}"
                 th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])"></button>
             <button th:text="#{common.btn.list}" onclick="location.href='/users/search'"></button>
         </form>
@@ -280,7 +280,7 @@
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_ADMIN:
-                            aliceJs.alert([[#{common.msg.update}]], function() {
+                            aliceJs.alert([[#{common.msg.modify}]], function() {
                                 window.location.reload();
                             });
                             break;
@@ -296,7 +296,7 @@
                             aliceJs.alert([[#{user.msg.sameEmail}]]);
                             break;
                         default:
-                            aliceJs.alert([[#{common.msg.save.fail}]]);
+                            aliceJs.alert([[#{common.msg.fail}]]);
                             break;
                     }
                 }
@@ -304,15 +304,15 @@
         }
 
         function validation() {
-            if (isEmpty('userId', 'user.msg.idNotExist')) return false;
-            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.passwordNotExist')) return false;
-            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.rePasswordNotExist')) return false;
+            if (isEmpty('userId', 'user.msg.enterUserId')) return false;
+            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.enterUserPassword')) return false;
+            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.enterUserRePassword')) return false;
             if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
             if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
                 if (!isValidPassword('password')) return false;
             }
-            if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
-            if (isEmpty('email', 'user.msg.emailNotExist')) return false;
+            if (isEmpty('userName', 'user.msg.enterUserName')) return false;
+            if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
             if (!isValidEmail('email')) return false;
             return true;
         }

@@ -143,7 +143,7 @@
 
                     if (isExistNotAllowedExtension) {
                         aliceJs.confirm(
-                            i18n.get('image.msg.confirm.existNotAllowedExtension'),
+                            i18n.get('image.msg.existNotAllowedExtension'),
                             uploadImage, // OK 시 업로드
                             () => document.getElementById('image-upload-file').value = ''  // CANCEL 시 file object 값 비움 처리
                         );
@@ -192,7 +192,7 @@
         }
 
         function removeImage(imgObj) {
-            aliceJs.confirm(i18n.get('common.msg.confirm.delete'), () => {
+            aliceJs.confirm(i18n.get('common.msg.confirmDelete'), () => {
                 aliceJs.sendXhr({
                     url: '/rest/images/' + imgObj.dataset.name,
                     method: 'delete',
@@ -236,7 +236,7 @@
                                 labelObj.textContent = modifyName;
                                 labelObj.parentNode.querySelector('img').dataset.name = modifyName;
                             } else {
-                                aliceJs.alert(i18n.get("image.msg.alert.failedRename"));
+                                aliceJs.alert(i18n.get("image.msg.failedRename"));
                             }
                         }
                     });
