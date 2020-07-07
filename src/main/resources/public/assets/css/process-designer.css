@@ -9876,27 +9876,16 @@ h3 {
   }
 }
 @font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareL.woff) format("woff");
-  font-weight: 300;
+  font-family: "Noto Sans";
+  src: url(font/NotoSansKR-Regular.woff) format("woff");
 }
 @font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareR.woff) format("woff");
-  font-weight: 400;
-}
-@font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareB.woff) format("woff");
-  font-weight: 700;
-}
-@font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareEB.woff) format("woff");
-  font-weight: 800;
+  font-family: "Noto Sans";
+  src: url(font/NotoSansKR-Bold.woff) format("woff");
+  font-weight: bold;
 }
 body {
-  font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  font-family: "Noto Sans";
 }
 
 .alice-process-container {

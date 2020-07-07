@@ -1,27 +1,16 @@
 @import "bootstrap-4.4.1/bootstrap";
 
 @font-face {
-    font-family: NanumSquare;
-    src: url(NanumSquareL.woff) format('woff');
-    font-weight: 300;
+    font-family: "Noto Sans";
+    src: url(font/NotoSansKR-Regular.woff) format('woff');
 }
 @font-face {
-    font-family: NanumSquare;
-    src: url(NanumSquareR.woff) format('woff');
-    font-weight: 400;
-}
-@font-face {
-    font-family: NanumSquare;
-    src: url(NanumSquareB.woff) format('woff');
-    font-weight: 700;
-}
-@font-face {
-    font-family: NanumSquare;
-    src: url(NanumSquareEB.woff) format('woff');
-    font-weight: 800;
+    font-family: "Noto Sans";
+    src: url(font/NotoSansKR-Bold.woff) format('woff');
+    font-weight: bold;
 }
 
-$alice-font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
+$alice-font-family: "Noto Sans" !default;
 $process-toolbar-height: 2.188rem; // 35px
 $process-toolbar-top-bottom-padding: 0.563rem; // 9px
 $process-toolbar-real-height: $process-toolbar-height - ($process-toolbar-top-bottom-padding * 2);
