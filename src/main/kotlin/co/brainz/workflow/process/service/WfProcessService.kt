@@ -336,7 +336,7 @@ class WfProcessService(
     }
 
     /**
-     * assignee type 에 따라 assignee 값은 List 타입으로 변환하여 리턴.
+     * [elementData] 안에 assignee type 에 따라 assignee 값은 List 타입으로 변환하여 리턴.
      */
     private fun convertElementDataToAssigneeType(elementData: MutableMap<String, Any>) {
         val attrIdAssigneeType = WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
@@ -358,7 +358,7 @@ class WfProcessService(
     }
 
     /**
-     * target-document-list 는 List 타입으로 변환하여 리턴.
+     * [elementData] 안에 target-document-list 는 List 타입으로 변환하여 리턴.
      */
     private fun convertElementDataToTargetDocumentList(elementData: MutableMap<String, Any>) {
         val attrIdTargetDocumentList = WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value
