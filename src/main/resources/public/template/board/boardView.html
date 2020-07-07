@@ -78,7 +78,7 @@
             </table>
             <table th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
                 <tr>
-                    <td><label th:text="#{board.label.comment}"></label></td>
+                    <td><label th:text="#{common.label.comment}"></label></td>
                     <td><input type="text" id="boardComments" name="boardComments" maxlength="500"/></td>
                     <td><div align="center"><button onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button></div></td>
                 </tr>

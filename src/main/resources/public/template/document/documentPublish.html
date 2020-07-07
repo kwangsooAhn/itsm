@@ -13,7 +13,7 @@
     <form id="frm" name="frm">
         <div class="print-btn">
             <button type="button" th:onclick="aliceDocument.print('/documents/' + [[${documentId}]])"
-                    th:text="#{document.label.print}"></button>
+                    th:text="#{common.btn.print}"></button>
         </div>
         <div class="drawing-board" id="document-container"></div>
         <div id="button-container"></div>

@@ -140,7 +140,7 @@
                     if (tokenList.length > 0) {
                         totalCount = tokenList[0].totalCount;
                     }
-                    document.getElementById('totalCount').textContent = i18n.get("token.label.count", totalCount);
+                    document.getElementById('totalCount').textContent = i18n.get("common.label.count", totalCount);
                     tokenList.forEach(function(token) {
                         tokenListElement.innerHTML = tokenListElement.innerHTML + getTokenTemplate(token);
                     });

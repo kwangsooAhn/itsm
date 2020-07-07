@@ -12,6 +12,7 @@ common:
     logout: "로그아웃"
     modify: "수정"
     next: "다음"
+    print: "인쇄"
     register: "등록"
     save: "저장"
     saveAs: "다른 이름으로 저장"
@@ -20,7 +21,9 @@ common:
   label:
     attachFile: "첨부파일"
     blank: " "
+    comment: "댓글"
     contents: "내용"
+    count: "{0} 건"
     createDate: "등록 일시"
     createUser: "등록자"
     delete: "삭제"
@@ -29,7 +32,9 @@ common:
     list: "목록"
     modify: "수정"
     name: "이름"
+    print: "인쇄"
     save: "저장"
+    tag: "태그"
     title: "제목"
     update: "변경"
     updateDate: "수정 일시"
@@ -157,7 +162,6 @@ board:
     board: "게시판"
     category: "카테고리"
     categoryName: "카테고리 명"
-    comment: "댓글"
     commentCount: "댓글 수"
     commentYn: "댓글 사용 여부"
     count: "게시물 수"
@@ -252,7 +256,6 @@ document:
     name: "신청서 이름"
     notSelect: "선택 안 함"
     numberingRule: "문서번호 규칙"
-    print: "신청서 인쇄"
     process: "프로세스"
     register: "신청서 등록"
     searchDocumentStatus: "문서 상태"
@@ -400,7 +403,7 @@ image:
   btn:
     upload: "이미지 파일 업로드"
   msg:
-    failedRename: "파일명 변경이 실패하였습니다. 동일한 파일명이 있거나 수정권한이 있는 지 확인해주세요."
+    failedRename: "파일명 변경이 실패하였습니다. 동일한 파일명이 있거나 수정 권한이 있는지 확인하세요."
     existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
 
 # Login
@@ -571,18 +574,14 @@ token:
   label:
     all: "전체 문서"
     assignee: "담당자"
-    comment: "댓글"
-    count: "{0} 건"
     elementName: "업무 명"
     endDt: "완료 일시"
     history: "처리 이력"
     list: "문서함"
-    print: "처리할 문서 인쇄"
     relatedInstance: "관련 문서"
     searchPlaceholder: "등록자 / 내용"
     startDt: "시작 일시"
     status: "상태"
-    tag: "태그"
     write: "처리할 문서"
   msg:
     tag: "태그를 입력하세요."
