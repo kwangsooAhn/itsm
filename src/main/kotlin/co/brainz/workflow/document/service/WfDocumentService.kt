@@ -276,7 +276,7 @@ class WfDocumentService(
         // 게이트웨이가 가지는 컨넥터(화살표)를 저장할 큐
         val arrowConnectorsQueueInGateway: MutableMap<String, ArrayDeque<WfElementEntity>> = mutableMapOf()
         // 모든 컨넥터(화살표)를 꺼내서 체크된 gateway id 저장할 변수
-        val allCheckedGatewayIds: MutableMap<String, String> = mutableMapOf()
+        val checkedGatewayIds: MutableMap<String, String> = mutableMapOf()
         // gateway에 여러개의 경우의 수가 있을 경우 저장
         val gatewayQueue = ArrayDeque<WfElementEntity>()
         val process = wfProcessRepository.getOne(processId)
@@ -300,7 +300,7 @@ class WfDocumentService(
                 currentElement,
                 arrowConnectorsQueueInGateway,
                 gatewayQueue,
-                allCheckedGatewayIds
+                checkedGatewayIds
             )
 
             currentElement = changeCurrentElementToNextElement(
@@ -400,14 +400,14 @@ class WfDocumentService(
     /**
      * [currentElement]를 start-id 속성으로 가지는 컨넥터를 [allElementEntitiesInProcess]에서 찾아 리턴한다.
      * [currentElement]가 게이트웨이일 때는 [gatewayQueue]와 [arrowConnectorsQueueInGateway] 를 큐 형태로 관리하고
-     * 컨넥터를 다 꺼내본 게이트웨이는 삭제하여 [allCheckedGatewayIds] 에 기록한다.
+     * 컨넥터를 다 꺼내본 게이트웨이는 삭제하여 [checkedGatewayIds] 에 기록한다.
      */
     private fun getArrowConnector(
         allElementEntitiesInProcess: List<WfElementEntity>,
         currentElement: WfElementEntity,
         arrowConnectorsQueueInGateway: MutableMap<String, ArrayDeque<WfElementEntity>>,
         gatewayQueue: ArrayDeque<WfElementEntity>,
-        allCheckedGatewayIds: MutableMap<String, String>
+        checkedGatewayIds: MutableMap<String, String>
     ): WfElementEntity {
         val arrowConnectors = allElementEntitiesInProcess.filter {
             currentElement.elementId == it.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
@@ -424,11 +424,11 @@ class WfDocumentService(
             if (arrowConnectorsQueueInGateway[currentElement.elementId]!!.size == 0) {
                 arrowConnectorsQueueInGateway.remove(currentElement.elementId)
                 gatewayQueue.remove(currentElement)
-                allCheckedGatewayIds[currentElement.elementId] = currentElement.elementId
+                checkedGatewayIds[currentElement.elementId] = currentElement.elementId
             } else {
                 // 게이트웨이가 가지고 있는 컨넥터(화살표) 를 모두 찾아쓰고 확인할 필요가 없는 게이트웨이인지 확인 후
                 // 아닌 경우 사용하지 않은 컨넥터(화살표)를 꺼내기위해 게이트웨이를 큐에 다시 넣어 둔다.
-                if (allCheckedGatewayIds[currentElement.elementId] != currentElement.elementId) {
+                if (checkedGatewayIds[currentElement.elementId] != currentElement.elementId) {
                     gatewayQueue.push(currentElement)
                 }
             }
