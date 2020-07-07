@@ -149,24 +149,58 @@ class WfElementService(
         tokenDto: WfTokenDto
     ): WfElementEntity? {
         var selectedConnector: WfElementEntity? = null
-        var defaultConnector: WfElementEntity? = null
         connectorElements.forEach { connector ->
-            selectedConnector = this.selectConnector(conditionItemValue, tokenDto, connector)
-            if (selectedConnector != null) {
-                return@forEach
+            val connectorValue = wfElementDataRepository.findByElementAndAttributeId(
+                connector,
+                WfElementConstants.AttributeId.CONDITION_VALUE.value
+            ).attributeValue
+            val connectorValueSplitArray =
+                connectorValue.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
+            if (connectorValueSplitArray.size == 2) {
+                val connectorConvertValue = this.getMatchesRegex(connectorValueSplitArray[1], tokenDto)
+                when (connectorValueSplitArray[0]) {
+                    "=" -> {
+                        if (conditionItemValue == connectorConvertValue) {
+                            selectedConnector = connector
+                            return@forEach
+                        }
+                    }
+                    "<=" -> {
+                        if (conditionItemValue.toInt() <= connectorConvertValue.toInt()) {
+                            selectedConnector = connector
+                            return@forEach
+                        }
+                    }
+                    "<" -> {
+                        if (conditionItemValue.toInt() < connectorConvertValue.toInt()) {
+                            selectedConnector = connector
+                            return@forEach
+                        }
+                    }
+                    ">=" -> {
+                        if (conditionItemValue.toInt() >= connectorConvertValue.toInt()) {
+                            selectedConnector = connector
+                            return@forEach
+                        }
+                    }
+                    ">" -> {
+                        if (conditionItemValue.toInt() > connectorConvertValue.toInt()) {
+                            selectedConnector = connector
+                            return@forEach
+                        }
+                    }
+                }
             }
 
-            if (wfElementDataRepository.findByElementAndAttributeId(
+            if (selectedConnector == null) {
+                val isDefault = wfElementDataRepository.findByElementAndAttributeId(
                     connector,
                     WfElementConstants.AttributeId.IS_DEFAULT.value
                 ).attributeValue == "Y"
-            ) {
-                defaultConnector = connector
+                if (isDefault) {
+                    selectedConnector = connector
+                }
             }
-        }
-
-        if (selectedConnector == null) {
-            selectedConnector = defaultConnector
         }
 
         return selectedConnector
@@ -214,58 +248,5 @@ class WfElementService(
             }
             else -> stringForRegex.trim()
         }
-    }
-
-    /**
-     * [conditionItemValue] 와 일치하는 컨넥터를 찾아서 리턴한다.
-     */
-    private fun selectConnector(
-        conditionItemValue: String,
-        tokenDto: WfTokenDto,
-        connector: WfElementEntity
-    ): WfElementEntity? {
-        var selectedConnector: WfElementEntity? = null
-
-        val connectorValue = wfElementDataRepository.findByElementAndAttributeId(
-            connector,
-            WfElementConstants.AttributeId.CONDITION_VALUE.value
-        ).attributeValue
-
-        val connectorValueSplitArray =
-            connectorValue.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
-
-        if (connectorValueSplitArray.size != 2) {
-            return null
-        }
-
-        val connectorConvertValue = this.getMatchesRegex(connectorValueSplitArray[1], tokenDto)
-        when (connectorValueSplitArray[0]) {
-            "=" -> {
-                if (conditionItemValue == connectorConvertValue) {
-                    selectedConnector = connector
-                }
-            }
-            "<=" -> {
-                if (conditionItemValue.toInt() <= connectorConvertValue.toInt()) {
-                    selectedConnector = connector
-                }
-            }
-            "<" -> {
-                if (conditionItemValue.toInt() < connectorConvertValue.toInt()) {
-                    selectedConnector = connector
-                }
-            }
-            ">=" -> {
-                if (conditionItemValue.toInt() >= connectorConvertValue.toInt()) {
-                    selectedConnector = connector
-                }
-            }
-            ">" -> {
-                if (conditionItemValue.toInt() > connectorConvertValue.toInt()) {
-                    selectedConnector = connector
-                }
-            }
-        }
-        return selectedConnector
     }
 }
