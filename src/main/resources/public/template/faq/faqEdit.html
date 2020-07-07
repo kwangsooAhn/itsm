@@ -20,7 +20,7 @@
                     <col width="*">
                 </colgroup>
                 <tr>
-                    <th class="required" th:text="#{faq.group}">*그룹</th>
+                    <th class="required" th:text="#{common.label.group}">*그룹</th>
                     <td>
                         <select id="faqGroup" name="faqGroup">
                             <option th:each="faqGroup :${faqGroupList}" th:text="#{${faqGroup.code}}"
@@ -30,27 +30,27 @@
                     </td>
                 </tr>
                 <tr>
-                    <th class="required" th:text="#{faq.title}">제목</th>
+                    <th class="required" th:text="#{common.btn.title}">제목</th>
                     <td><input id="faqTitle" name="faqTitle" type="text" th:value="${faq?.faqTitle}" maxlength="200"
                                required="required"/></td>
                 </tr>
                 <tr>
-                    <th class="required" th:text="#{faq.contents}">내용</th>
+                    <th class="required" th:text="#{common.label.contents}">내용</th>
                     <td><textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"></textarea></td>
                 </tr>
             </table>
 
             <div class="button">
-                <button type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{faq.list}">목록
+                <button type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{common.btn.list}">목록
                 </button>
                 <button sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}" id="btnRegist"
-                        th:text="#{faq.save}">저장
+                        th:text="#{common.btn.save}">저장
                 </button>
                 <button sec:authorize="hasAuthority('faq.update')" th:if="${faq?.faqId}" id="btnUpdate"
-                        th:text="#{faq.save}">저장
+                        th:text="#{common.btn.save}">저장
                 </button>
                 <button sec:authorize="hasAuthority('faq.delete')" th:if="${faq?.faqId}" id="btnDelete"
-                        th:text="#{faq.delete}">삭제
+                        th:text="#{common.btn.delete}">삭제
                 </button>
             </div>
         </form>
@@ -103,8 +103,8 @@
         }
 
         function validation() {
-            if (isEmpty('faqTitle', 'faq.msg.titleNotExist')) { return false; }
-            if (isEmpty('faqContent', 'faq.msg.contentNotExist')) { return false; }
+            if (isEmpty('faqTitle', 'common.msg.enterTitle')) { return false; }
+            if (isEmpty('faqContent', 'common.msg.enterContents')) { return false; }
             return true;
         }
         /*]]>*/

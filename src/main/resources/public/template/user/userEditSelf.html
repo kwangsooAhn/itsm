@@ -56,54 +56,54 @@
                 </colgroup>
                 <tbody th:style="${!users.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                     <tr>
-                        <th class="required" th:text="#{user.id}"></th>
+                        <th class="required" th:text="#{user.label.id}"></th>
                         <td><input type="text" id="userId" name="userId" th:value="${users.userId}" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.password}"></th>
+                        <th class="required" th:text="#{user.label.password}"></th>
                         <td><input type="password" id="password" name="password" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.rePassword}"></th>
+                        <th class="required" th:text="#{user.label.rePassword}"></th>
                         <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"/></td>
                     </tr>
                 </tbody>
                 <tbody>
                     <tr>
-                        <th class="required" th:text="#{user.name}"></th>
+                        <th class="required" th:text="#{user.label.name}"></th>
                         <td><input type="text" id="userName" name="userName" th:value="${users.userName}" maxlength="100" required="required"/></td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.email}"></th>
+                        <th class="required" th:text="#{user.label.email}"></th>
                         <td>
                             <input type="text" id="email" name="email" th:value="${users.email}" maxlength="100" required="required"/>
-                            <br><span th:text="#{user.message}"></span>
+                            <br><span th:text="#{user.msg.emailAlert}"></span>
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.position}"></th>
+                        <th th:text="#{user.label.position}"></th>
                         <td><input type="text" id="position" name="position" th:value="${users.position}" maxlength="100"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.department}"></th>
+                        <th th:text="#{user.label.department}"></th>
                         <td><input type="text" id="department" name="department" th:value="${users.department}" maxlength="100"/></td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.officeNumber}"></th>
+                        <th th:text="#{user.label.officeNumber}"></th>
                         <td>
                             <input type="text" id="officeNumber" name="officeNumber" th:value="${users.officeNumber}"
                                 onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"/>
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.mobileNumber}"></th>
+                        <th th:text="#{user.label.mobileNumber}"></th>
                         <td>
                             <input type="text" id="mobileNumber" name="mobileNumber" th:value="${users.mobileNumber}"
                                 onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100"/>
                         </td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.timezone}"></th>
+                        <th class="required" th:text="#{user.label.timezone}"></th>
                         <td>
                             <select id="timezone" name="timezone">
                                 <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
@@ -112,14 +112,14 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.timeFormat}"></th>
+                        <th class="required" th:text="#{user.label.timeFormat}"></th>
                         <td>
-                            <span th:text="#{user.date}"></span>
+                            <span th:text="#{user.label.date}"></span>
                             <select id="date" name="date">
                                 <option th:each="date: ${dateList}" th:value="${date.codeValue}"
                                     th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
                             </select>
-                            <span th:text="#{user.time}"></span>
+                            <span th:text="#{user.label.time}"></span>
                             <select id="time" name="time">
                                 <option th:each="time: ${timeList}" th:value="${time.codeValue}"
                                     th:text="${time.code}" th:selected="${time.codeValue} == ${usersTime}"></option>
@@ -127,7 +127,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.lang}"></th>
+                        <th class="required" th:text="#{user.label.lang}"></th>
                         <td>
                             <select id="lang" name="lang">
                                 <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
@@ -136,7 +136,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <th class="required" th:text="#{user.theme}"></th>
+                        <th class="required" th:text="#{user.label.theme}"></th>
                         <td>
                             <select id="theme" name="theme">
                                 <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
@@ -145,21 +145,29 @@
                         </td>
                     </tr>
                     <tr>
-                        <th th:text="#{user.avatar}"></th>
+                        <th th:text="#{user.label.avatar}"></th>
                         <td>
                             <div id="dropZoneFiles"></div><br/><br/>
-                            <div th:text="#{user.FileSizeLimit}"></div>
-                            <div th:text="#{user.FileExtensionAllowed}"></div>
+                            <div th:text="#{user.label.FileSizeLimit}"></div>
+                            <div th:text="#{user.label.FileExtensionAllowed}"></div>
                         </td>
                     </tr>
                 </tbody>
             </table>
         </form>
-        <button type="button" style="margin-top: 25px;" th:text="#{user.editUserInfo}"
+        <button type="button" style="margin-top: 25px;" th:text="#{user.label.editUserInfo}"
             th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
     </div>
     <div id="password-guide" style="top: 35px;">
         <pre>
+            [ 아이디 생성 가이드 ]
+
+            1. 영문, 숫자, 특수문자(@, ., -, _)만 허용한다.
+
+            2. 허용된 특수문자는 맨 앞에 올수 없다.
+
+            3. 공백을 허용하지 않는다.
+
             [ 비밀번호 수정 가이드 ]
 
             1. 2가지 이상의 문자 구성(대문자, 소문자, 특수문자, 숫자)인 경우, 8자 이상 20자 미만, 1가지 종류의 문자 구성인 경우 10자 이상 20자 미만의 비밀번호 입력 제한 범위를 가진다.
@@ -255,7 +263,7 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alert([[#{common.msg.update}]], function() {
+                            aliceJs.alert([[#{common.msg.modify}]], function() {
                                 window.location.reload();
                             });
                             break;
@@ -271,7 +279,7 @@
                             aliceJs.alert([[#{user.msg.sameEmail}]]);
                             break;
                         default :
-                            aliceJs.alert([[#{common.msg.update.fail}]]);
+                            aliceJs.alert(i18n.get('common.label.modify') + i18n.get('common.label.blank') + i18n.get('common.msg.fail'));
                             break;
                     }
                 }
@@ -279,15 +287,16 @@
         }
 
         function validation() {
-            if (isEmpty('userId', 'user.msg.idNotExist')) return false;
-            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.passwordNotExist')) return false;
-            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.rePasswordNotExist')) return false;
+            if (isEmpty('userId', 'user.msg.enterUserId')) return false;
+            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.enterUserPassword')) return false;
+            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.enterUserRePassword')) return false;
             if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
             if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
                 if (!isValidPassword('password')) return false;
             }
-            if (isEmpty('userName', 'user.msg.nameNotExist')) return false;
-            if (isEmpty('email', 'user.msg.emailNotExist')) return false;
+            if (!isValidUserId("userId")) return false;
+            if (isEmpty('userName', 'user.msg.enterUserName')) return false;
+            if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
             if (!isValidEmail('email')) return false;
             return true;
         }

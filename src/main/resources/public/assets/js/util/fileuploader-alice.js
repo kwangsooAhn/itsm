@@ -301,7 +301,7 @@ const fileUploader = (function () {
 
                     if (!(array.includes(fileNameExtension))) {
                         this.removeFile(file);
-                        aliceJs.alert(i18n.get('fileupload.msg.fileNameExtensionNotExist'))
+                        aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'))
                     }
 
                     const seq = document.createElement('input');
@@ -335,12 +335,12 @@ const fileUploader = (function () {
 
                 this.on("maxfilesexceeded", function (file, maxFiles) {
                     this.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesexceeded', maxFiles));
+                    aliceJs.alert(i18n.get('fileupload.msg.maxFileCount', maxFiles));
                 });
 
                 this.on("maxfilesizeexceeded", function (file, maxFileSize) {
                     this.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxfilesizeexceeded', maxFileSize));
+                    aliceJs.alert(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행

@@ -50,7 +50,7 @@
                         </td>
                     </tr>
                     <tr style="height: 250px;">
-                        <td><label th:text="#{board.label.contents}"></label></td>
+                        <td><label th:text="#{common.label.contents}"></label></td>
                         <td colspan="3" style="height: 80%;">
                             <div id="boardContents" style="height: 100%;"></div>
                         </td>
@@ -63,13 +63,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label th:text="#{common.label.createUserName}"></label></td>
+                        <td><label th:text="#{common.label.createUser}"></label></td>
                         <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
                         <td><label th:text="#{common.label.createDate}"></label></td>
                         <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardInfo?.createDt}"></span></td>
                     </tr>
                     <tr>
-                        <td><label th:text="#{common.label.updateUserName}"></label></td>
+                        <td><label th:text="#{common.label.updateUser}"></label></td>
                         <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
                         <td><label th:text="#{common.label.updateDate}"></label></td>
                         <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardInfo?.updateDt}"></span></td>
@@ -78,7 +78,7 @@
             </table>
             <table th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
                 <tr>
-                    <td><label th:text="#{board.label.comment}"></label></td>
+                    <td><label th:text="#{common.label.comment}"></label></td>
                     <td><input type="text" id="boardComments" name="boardComments" maxlength="500"/></td>
                     <td><div align="center"><button onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button></div></td>
                 </tr>
@@ -159,7 +159,7 @@
 
         //게시판 댓글 저장
         function saveBoardComment(method) {
-            if (isEmpty('boardComments', 'board.msg.inputBoardComments')) return;
+            if (isEmpty('boardComments', 'comment.msg.enterComments')) return;
             const data = {
                 boardId: boardId,
                 boardCommentContents: document.getElementById('boardComments').value
@@ -175,7 +175,7 @@
         //게시판 댓글 수정
         function openCommentEdit(boardCommentId) {
             if (document.getElementById('editComments')) {
-                aliceJs.alert(i18n.get('board.msg.inputBoardEditComments'), function () {
+                aliceJs.alert(i18n.get('comment.msg.afterSavedEditComments'), function () {
                     return false;
                 });
             } else {
@@ -187,7 +187,7 @@
 
         //게시판 댓글 수정
         function saveBoardEditComment(method, boardCommentId) {
-            if (isEmpty('editComments', 'board.msg.inputBoardComments')) return;
+            if (isEmpty('editComments', 'comment.msg.enterComments')) return;
             const data = {
                 boardCommentId: boardCommentId,
                 boardId: boardId,
@@ -202,7 +202,7 @@
             if (method === 'put' || method === 'post') {
                 resultMsg = i18n.get('common.msg.save');
             } else if (method === 'delete') {
-                resultMsg = i18n.get('common.msg.delete.success');
+                resultMsg = i18n.get('common.msg.delete');
             }
             const opt = {
                 method: method,

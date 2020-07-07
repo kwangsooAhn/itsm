@@ -262,6 +262,10 @@ body {
             circle.pointer {
                 cursor: move;
             }
+
+            circle.pointer.move {
+                fill: #5887f9;
+            }
         }
 
         defs {

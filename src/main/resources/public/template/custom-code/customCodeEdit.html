@@ -3,7 +3,7 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{custom.code.label.title}"></title>
+    <title th:text="#{customCode.label.customCode}"></title>
     <meta charset="UTF-8">
     <style>
         table {
@@ -63,7 +63,7 @@
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <div style="height: 90px;">
-            <h1 th:text="#{custom.code.label.title}"></h1>
+            <h1 th:text="#{customCode.label.customCode}"></h1>
         </div>
         <hr>
         <div id="container" style="margin-bottom: 20px;">
@@ -71,24 +71,24 @@
             <table id="type-common-container">
                 <tbody>
                 <tr>
-                    <td class="required" th:text="#{custom.code.label.customCodeName}"></td>
+                    <td class="required" th:text="#{customCode.label.name}"></td>
                     <td>
                         <input type="text" id="customCodeName" required="required" maxlength="100"
                                th:value="${customCode?.customCodeName}">
                     </td>
                 </tr>
                 <tr>
-                    <td class="required" th:text="#{custom.code.label.type}"></td>
+                    <td class="required" th:text="#{customCode.label.type}"></td>
                     <td>
                         <label>
                             <input id="table" name="type" type="radio"
                                    th:checked="${customCode?.type == null || customCode?.type == 'table'}"
-                                   th:text="#{custom.code.label.type.table}" onclick="changeContainer('table')">
+                                   th:text="#{customCode.label.table}" onclick="changeContainer('table')">
                         </label>
                         <label>
                             <input id="code" name="type" type="radio"
                                    th:checked="${customCode?.type == 'code'}"
-                                   th:text="#{custom.code.label.type.code}" onclick="changeContainer('code')">
+                                   th:text="#{customCode.label.code}" onclick="changeContainer('code')">
                         </label>
                     </td>
                 </tr>
@@ -99,7 +99,7 @@
                    th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
                 <tbody>
                 <tr>
-                    <td class="required" th:text="#{custom.code.label.targetTable}"></td>
+                    <td class="required" th:text="#{customCode.label.targetTable}"></td>
                     <td>
                         <select id="targetTable">
                             <option th:each="customCodeTable: ${customCodeTableList}"
@@ -111,16 +111,16 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="required" th:text="#{custom.code.label.searchColumn}"></td>
+                    <td class="required" th:text="#{customCode.label.searchColumn}"></td>
                     <td><select id="searchColumn"></select></td>
                 </tr>
                 <tr>
-                    <td class="required" th:text="#{custom.code.label.valueColumn}"></td>
+                    <td class="required" th:text="#{customCode.label.valueColumn}"></td>
                     <td><select id="valueColumn"></select></td>
                 </tr>
                 <tr>
                     <td>
-                        <label th:text="#{custom.code.label.condition}"></label>
+                        <label th:text="#{customCode.label.condition}"></label>
                         <button class="plus" onclick="addCondition()"></button>
                     </td>
                     <td id="condition" style="padding: 0 10px;"></td>
@@ -131,7 +131,7 @@
             <table id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
                 <tbody>
                 <tr>
-                    <td class="required" th:text="#{custom.code.label.pCode}"></td>
+                    <td class="required" th:text="#{customCode.label.pCode}"></td>
                     <td><input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}"></td>
                 </tr>
                 </tbody>
@@ -218,7 +218,7 @@
             if (document.getElementById('condition').childNodes.length < searchColumnLength) {
                 drawCondition();
             } else {
-                aliceJs.alert(i18n.get('custom.code.msg.addCondition', searchColumnLength));
+                aliceJs.alert(i18n.get('customCode.msg.addCondition', searchColumnLength));
             }
         }
 
@@ -274,13 +274,13 @@
         //empty Check
         function emptyCheck(type) {
             if (type === 'table') {
-                if (isEmpty('customCodeName', 'custom.code.msg.inputCustomCodeName')) { return false; }
-                if (isEmpty('targetTable', 'custom.code.msg.inputTableTarget')) { return false; }
-                if (isEmpty('searchColumn', 'custom.code.msg.inputSearchColumn')) { return false; }
-                return !isEmpty('valueColumn', 'custom.code.msg.inputValueColumn');
+                if (isEmpty('customCodeName', 'customCode.msg.enterCustomCode')) { return false; }
+                if (isEmpty('targetTable', 'customCode.msg.enterTableTarget')) { return false; }
+                if (isEmpty('searchColumn', 'customCode.msg.enterSearchColumn')) { return false; }
+                return !isEmpty('valueColumn', 'customCode.msg.enterValueColumn');
             } else {
-                if (isEmpty('customCodeName', 'custom.code.msg.inputCustomCodeName')) { return false; }
-                return !isEmpty('pCode', 'custom.code.msg.inputPCode');
+                if (isEmpty('customCodeName', 'customCode.msg.enterCustomCode')) { return false; }
+                return !isEmpty('pCode', 'customCode.msg.enterPCode');
             }
         }
 
@@ -304,7 +304,7 @@
                         if (typeof conditionData[selectValue] === 'undefined') {
                             conditionData[selectValue] = div[i].getElementsByTagName('input')[0].value;
                         } else {
-                            aliceJs.alert(i18n.get('custom.code.msg.selectNotDuplicateSearchColumn'));
+                            aliceJs.alert(i18n.get('customCode.msg.selectNotDuplicateSearchColumn'));
                             return false;
                         }
                     }
@@ -334,16 +334,16 @@
                             });
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_USED:
-                            aliceJs.alert(i18n.get('custom.code.msg.customCodeUsed'));
+                            aliceJs.alert(i18n.get('customCode.msg.customCodeUsed'));
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                            aliceJs.alert(i18n.get('custom.code.msg.customCodeNameDuplication'));
+                            aliceJs.alert(i18n.get('customCode.msg.customCodeNameDuplication'));
                             break;
                         case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
-                            aliceJs.alert(i18n.get('custom.code.msg.pCodeNotExist'));
+                            aliceJs.alert(i18n.get('customCode.msg.pCodeNotExist'));
                             break;
                         default :
-                            aliceJs.alert(i18n.get('common.msg.save.fail'));
+                            aliceJs.alert(i18n.get('common.msg.fail'));
                             break;
                     }
                 }

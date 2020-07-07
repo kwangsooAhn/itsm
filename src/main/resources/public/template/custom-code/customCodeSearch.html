@@ -4,14 +4,14 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{custom.code.label.title}"></title>
+    <title th:text="#{customCode.label.customCode}"></title>
     <meta charset="UTF-8">
 </head>
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <div style="height: 90px;">
-            <h1 th:text="#{custom.code.label.title}"></h1>
+            <h1 th:text="#{customCode.label.customCode}"></h1>
             <div align="right">
                 <button type="button" onclick="location.href='/custom-codes/new'"
                     sec:authorize="hasAuthority('custom.code.create')" th:text="#{common.btn.register}"></button>
@@ -43,17 +43,17 @@
             restSubmit('delete', '/rest/custom-codes/' + customCodeId, function (result) {
                 switch (result) {
                     case STATUS_SUCCESS:
-                        aliceJs.alert('[[#{common.msg.delete.success}]]', function () {
+                        aliceJs.alert('[[#{common.msg.delete}]]', function () {
                             window.location.reload();
                         });
                         break;
                     case STATUS_ERROR_CUSTOM_CODE_USED:
-                        aliceJs.alert('[[#{custom.code.msg.customCodeUsed}]]', function () {
+                        aliceJs.alert('[[#{customCode.msg.customCodeUsed}]]', function () {
                             window.location.reload();
                         });
                         break;
                     default:
-                        aliceJs.alert('[[#{common.msg.save.fail}]]', function () {
+                        aliceJs.alert('[[#{common.msg.fail}]]', function () {
                             window.location.reload();
                         });
                         break;

@@ -86,7 +86,7 @@
 
         //카테고리 관리 저장
         function saveBoardCategory(method) {
-            if (isEmpty('boardCategoryName', 'board.msg.inputCategoryName')) return;
+            if (isEmpty('boardCategoryName', 'board.msg.enterCategoryName')) return;
 
             const data = {
                 boardAdminId : /*[[${boardAdmin?.boardAdminId}]]*/,
@@ -108,7 +108,7 @@
             if (method === 'post' || method === 'put') {
                 resultMsg = i18n.get('common.msg.save');
             } else {
-                resultMsg = i18n.get('common.msg.delete.success');
+                resultMsg = i18n.get('common.msg.delete');
             }
             const opt = {
                 method: method,

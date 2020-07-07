@@ -4,8 +4,8 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.edit}"></title>
-    <title th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.add}"></title>
+    <title th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></title>
+    <title th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></title>
     <title th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></title>
     <meta charset="UTF-8">
     <style>
@@ -32,8 +32,8 @@
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <div style="height: 90px;">
-            <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.edit}"></h1>
-            <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.add}"></h1>
+            <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></h1>
+            <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></h1>
             <h1 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></h1>
         </div>
         <hr>
@@ -57,7 +57,7 @@
                         </td>
                     </tr>
                     <tr style="height: 250px;">
-                        <td><label th:text="#{board.label.contents}"></label></td>
+                        <td><label th:text="#{common.label.contents}"></label></td>
                         <td colspan="3">
                             <div id="boardContents" style="height: 80%"></div>
                         </td>
@@ -70,13 +70,13 @@
                         </td>
                     </tr>
                     <tr>
-                        <td><label th:text="#{common.label.createUserName}"></label></td>
+                        <td><label th:text="#{common.label.createUser}"></label></td>
                         <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
                         <td><label th:text="#{common.label.createDate}"></label></td>
                         <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"></span></td>
                     </tr>
                     <tr>
-                        <td><label th:text="#{common.label.updateUserName}"></label></td>
+                        <td><label th:text="#{common.label.updateUser}"></label></td>
                         <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
                         <td><label th:text="#{common.label.updateDate}"></label></td>
                         <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''"></span></td>
@@ -160,7 +160,7 @@
 
         //게시판 저장
         function saveBoard(method, kind) {
-            if (isEmpty('boardTitle', 'board.msg.inputBoardTitle')) return;
+            if (isEmpty('boardTitle', 'board.msg.enterBoardTitle')) return;
             let fileSeqList = [];
             document.getElementsByName('fileSeq').forEach(function(elem) {
                 fileSeqList.push(elem.value);
