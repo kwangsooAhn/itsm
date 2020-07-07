@@ -14,6 +14,7 @@ import co.brainz.workflow.provider.dto.ComponentDetail
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.type.TypeFactory
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.google.gson.JsonParser
@@ -161,11 +162,18 @@ class WfFormService(
                         objMapper.readValue(componentDataEntity.attributeValue, LinkedHashMap::class.java)
                 }
 
+                val linkedMapType = TypeFactory.defaultInstance()
+                    .constructMapType(LinkedHashMap::class.java, String::class.java, Any::class.java)
                 when (componentDataEntity.attributeId) {
-                    "display" -> component.display = attributeValue["value"] as LinkedHashMap<String, Any>
-                    "label" -> component.label = attributeValue["value"] as LinkedHashMap<String, Any>
-                    "validate" -> component.validate = attributeValue["value"] as LinkedHashMap<String, Any>
-                    "option" -> component.option = attributeValue["value"] as MutableList<LinkedHashMap<String, Any>>
+                    "display" -> component.display = objMapper.convertValue(attributeValue["value"], linkedMapType)
+                    "label" -> component.label = objMapper.convertValue(attributeValue["value"], linkedMapType)
+                    "validate" -> component.validate = objMapper.convertValue(attributeValue["value"], linkedMapType)
+                    "option" -> component.option = objMapper.convertValue(attributeValue["value"],
+                        TypeFactory.defaultInstance().constructCollectionType(
+                            MutableList::class.java,
+                            LinkedHashMap::class.java
+                        )
+                    )
                 }
             }
             components.add(component)
@@ -182,36 +190,6 @@ class WfFormService(
             createUserKey = formEntity.get().createUser?.userKey,
             components = components
         )
-    }
-
-    /**
-     * Make Attribute.
-     *
-     * @param component
-     * @return HashMap<String, Any>
-     */
-    fun makeAttributes(component: WfComponentEntity): LinkedHashMap<String, Any> {
-        val attributes = LinkedHashMap<String, Any>()
-        attributes["type"] = component.componentType
-
-        val common = LinkedHashMap<String, Any>()
-        common["mapping-id"] = component.mappingId
-        common["is-topic"] = component.isTopic
-        attributes["common"] = common
-
-        for (attribute in component.attributes!!) {
-            val jsonElement = JsonParser().parse(attribute.attributeValue)
-            when (jsonElement.isJsonArray) {
-                true -> attributes[attribute.attributeId] = objMapper.readValue(
-                    attribute.attributeValue,
-                    objMapper.typeFactory.constructCollectionType(List::class.java, LinkedHashMap::class.java)
-                )
-                false -> attributes[attribute.attributeId] =
-                    objMapper.readValue(attribute.attributeValue, LinkedHashMap::class.java)
-            }
-        }
-
-        return attributes
     }
 
     /**
