@@ -3,7 +3,7 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{custom.code.label.title}"></title>
+    <title th:text="#{customCode.label.customCode}"></title>
     <meta charset="UTF-8">
     <style>
         div#container {
@@ -43,7 +43,7 @@
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <div style="height: 90px;">
-            <h1 th:text="#{custom.code.label.title}"></h1>
+            <h1 th:text="#{customCode.label.customCode}"></h1>
         </div>
         <hr>
         <div id="container">
@@ -51,12 +51,12 @@
             <table id="type-common-container">
                 <tbody>
                 <tr>
-                    <td th:text="#{custom.code.label.customCodeName}"></td>
+                    <td th:text="#{customCode.label.name}"></td>
                     <td th:text="${customCode.customCodeName}"></td>
                 </tr>
                 <tr>
-                    <td th:text="#{custom.code.label.type}"></td>
-                    <td th:text="#{|custom.code.label.type.${customCode.type}|}"></td>
+                    <td th:text="#{customCode.label.type}"></td>
+                    <td th:text="#{|customCode.label.${customCode.type}|}"></td>
                 </tr>
                 </tbody>
             </table>
@@ -64,19 +64,19 @@
             <table id="type-table-container" th:if="${customCode.type == 'table'}">
                 <tbody>
                 <tr>
-                    <td th:text="#{custom.code.label.targetTable}"></td>
+                    <td th:text="#{customCode.label.targetTable}"></td>
                     <td th:text="|${customCode.targetTableName}(${customCode.targetTable})|"></td>
                 </tr>
                 <tr>
-                    <td th:text="#{custom.code.label.searchColumn}"></td>
+                    <td th:text="#{customCode.label.searchColumn}"></td>
                     <td th:text="|${customCode.searchColumnName}(${customCode.searchColumn})|"></td>
                 </tr>
                 <tr>
-                    <td th:text="#{custom.code.label.valueColumn}"></td>
+                    <td th:text="#{customCode.label.valueColumn}"></td>
                     <td th:text="|${customCode.valueColumnName}(${customCode.valueColumn})|"></td>
                 </tr>
                 <tr>
-                    <td th:text="#{custom.code.label.condition}"></td>
+                    <td th:text="#{customCode.label.condition}"></td>
                     <td id="condition"></td>
                 </tr>
                 </tbody>
@@ -85,7 +85,7 @@
             <table id="type-code-container" th:if="${customCode.type == 'code'}">
                 <tbody>
                 <tr>
-                    <td th:text="#{custom.code.label.pCode}"></td>
+                    <td th:text="#{customCode.label.pCode}"></td>
                     <td th:text="${customCode.pCode}"></td>
                 </tr>
                 </tbody>

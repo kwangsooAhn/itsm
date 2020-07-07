@@ -1,674 +1,660 @@
-# common
+# Common
 common:
-  searchWord: "검색어를 입력하세요"
   btn:
-    save: "저장"
-    saveAs: "다른 이름으로 저장"
-    close: "닫기"
-    logout: "로그아웃"
-    delete: "삭제"
-    register: "등록"
-    modify: "수정"
-    before: "이전"
-    next: "다음"
     add: "추가"
-    write: "작성"
+    before: "이전"
     cancel: "취소"
     check: "확인"
-    list: "목록"
-  label:
-    title: "제목"
-    message: "메시지"
-    path: "호출 URL"
-    exceptionType: "예외 종류"
-    knownError: "정의된 에러"
-    addFile: "파일 추가"
-    success: "성공"
-    fail: "실패"
-    modify: "수정"
+    close: "닫기"
     delete: "삭제"
-    createUserName: "등록자"
-    updateUserName: "수정자"
-    createDate: "등록일시"
-    updateDate: "수정일시"
-    attachFile: "첨부파일"
-    notSelect: "선택 안 함"
-    lastUpdateDate: "마지막 수정일시"
-    tag: "태그"
-    comment: "코멘트"
+    fileUpload: "파일 업로드"
+    list: "목록"
+    logout: "로그아웃"
+    modify: "수정"
+    next: "다음"
     print: "인쇄"
+    register: "등록"
+    save: "저장"
+    saveAs: "다른 이름으로 저장"
+    update: "변경"
+    write: "작성"
+  label:
+    attachFile: "첨부파일"
+    blank: " "
+    comment: "댓글"
+    contents: "내용"
     count: "{0} 건"
+    createDate: "등록 일시"
+    createUser: "등록자"
+    delete: "삭제"
+    fail: "실패"
+    group: "그룹"
+    list: "목록"
+    modify: "수정"
+    name: "이름"
+    save: "저장"
+    tag: "태그"
+    title: "제목"
+    update: "변경"
+    updateDate: "수정 일시"
+    updateUser: "수정자"
   msg:
-    save: "저장되었습니다"
-    process: "처리되었습니다."
-    save.fail: "실패되었습니다."
-    confirm.delete: "정말 삭제하시겠습니까?"
-    delete.success: "삭제되었습니다."
-    delete.fail: "삭제를 실패했습니다."
-    update: "수정되었습니다."
-    update.fail: "수정이 실패했습니다."
-    unknownError: "알 수 없는 에러가 발생하였습니다. 관리자에게 문의해주세요."
-    requiredEnter: "필수 항목을 입력해주세요."
+    confirmDelete: "정말 삭제하시겠습니까?"
+    delete: "삭제되었습니다."
+    enterContents: "내용을 입력하세요."
+    enterTitle: "제목을 입력하세요."
+    fail: "실패하였습니다."
+    modify: "수정되었습니다."
     noData: "데이터가 없습니다."
-    checkDocument: "문서를 다시 확인해주세요."
-    tag: "태그를 입력하세요."
+    requiredEnter: "필수 항목을 입력하세요."
+    requiredSelect: "필수 항목을 선택하세요."
+    save: "저장되었습니다."
+    selectAfterDate: "{0} 날짜 이후로 선택하세요."
+    selectAfterDateTime: "{0} 날짜 시간 이후로 선택하세요."
+    selectAfterTime: "{0} 시간 이후로 선택하세요."
+    selectBeforeDate: "{0} 날짜 이전으로 선택하세요."
+    selectBeforeDateTime: "{0} 날짜 시간 이전으로 선택하세요."
+    selectBeforeTime: "{0} 시간 이전으로 선택하세요."
+    update: "변경되었습니다."
   code:
     token:
       status:
-        running: "진행 중"
-        waiting: "대기 중"
-        finish: "처리 완료"
-        withdraw: "회수"
-        reject: "반려"
-        terminate: "종료"
         cancel: "취소"
-# Menu
-menu:
-  service: "서비스"
-  service.request: "서비스 요청"
-  service.list: "요청 이력"
-  help: "헬프데스크"
-  help.notice: "공지사항"
-  help.faq: "FAQ"
-  help.document: "신청서"
-  help.token: "문서함"
-  help.dashboard: "대시보드"
-  help.download: "자료실"
-  setting: "설정"
-  setting.user: "사용자 관리"
-  setting.role: "역할 관리"
-  setting.auth: "권한 관리"
-  setting.code: "코드 관리"
-  setting.form: "문서양식"
-  setting.process: "프로세스"
-  setting.document: "업무흐름"
-  setting.custom.code: "사용자 정의 코드"
-  setting.image: "이미지 관리"
-  editMyInfo: "자기 정보 수정"
-  help.board: "게시판"
-  setting.board.admin: "게시판 관리"
+        finish: "처리 완료"
+        reject: "반려"
+        running: "진행 중"
+        terminate: "종료"
+        waiting: "대기 중"
+        withdraw: "회수"
 
 # Auth
 auth:
   label:
-    manage: "권한 관리"
-    authId: "권한 아이디"
-    authName: "권한명"
     authDesc: "권한 설명"
+    authId: "권한 아이디"
+    authName: "권한 명"
+    manage: "권한 관리"
     referenceCount: "역할 참조 개수"
   msg:
-    idNotExist: "권한 아이디를 입력하세요."
-    nameNotExist: "권한명을 입력하세요."
-    idDuplecate: "중복되는 아이디가 있습니다. 다른 권한 아이디를 입력하세요."
-    nameDuplecate: "중복된 권한명이 있습니다. 다른 권한명을 입력하세요."
+    duplicateAuthId: "중복되는 아이디가 있습니다. 다른 권한 아이디를 입력하세요."
+    duplicateAuthName: "중복된 권한 명이 있습니다. 다른 권한 명을 입력하세요."
+    enterAuthId: "권한 아이디를 입력하세요."
+    enterAuthName: "권한 명을 입력하세요."
   auth:
     read: "권한 조회"
     create: "권한 등록"
     update: "권한 변경"
     delete: "권한 삭제"
-  service.read:
-    all: "서비스 요청 전체 조회"
-    my: "서비스 요청 자신 업무만 조회"
-  service.create: "서비스 요청 작성"
-  notice.read: "공지사항 조회"
-  notice.create: "공지사항 등록"
-  notice.update: "공지사항 변경"
-  notice.delete: "공지사항 삭제"
-  faq.read: "공지사항 조회"
-  faq.create: "공지사항 등록"
-  faq.update: "공지사항 변경"
-  faq.delete: "공지사항 삭제"
-  form.read: "문서양식 조회"
-  form.create: "문서양식 등록"
-  form.update: "문서양식 변경"
-  form.delete: "문서양식 삭제"
-  process.read: "프로세스 조회"
-  process.create: "프로세스 등록"
-  process.update: "프로세스 변경"
-  process.delete: "프로세스 삭제"
-  document.read: "신청서 조회"
-  document.create: "신청서 등록"
-  token.read: "처리할 문서 조회"
-  token.create: "처리할 문서 등록"
-  code.read: "코드 조회"
-  code.create: "코드 등록"
-  code.update: "코드 수정"
-  code.delete: "코드 삭제"
-  custom.code.read: "사용자 정의 코드 조회"
-  custom.code.create: "사용자 정의 코드 등록"
-  custom.code.update: "사용자 정의 코드 수정"
-  custom.code.delete: "사용자 정의 코드 삭제"
-  download.read: "자료실 조회"
-  download.create: "자료실 등록"
-  download.update: "자료실 수정"
-  download.delete: "자료실 삭제"
-
-# 사용자
-user:
-  id: "아이디"
-  password: "비밀번호"
-  rePassword: "비밀번호 재확인"
-  name: "이름"
-  email: "이메일"
-  position: "직책"
-  department: "부서"
-  officeNumber: "사무실 번호"
-  mobileNumber: "핸드폰 번호"
-  timezone: "타임존"
-  timeFormat: "날짜/시간 유형"
-  date: "날짜 유형"
-  time: "시간 유형"
-  lang: "언어"
-  theme: "테마"
-  avatar: "아바타"
-  reg: "사용자 등록"
-  read: "사용자 조회"
-  role: "사용자 역할"
-  create: "사용자 생성"
-  update: "사용자 변경"
-  delete: "사용자 삭제"
-  editUserInfo: "회원 정보 수정"
-  message: "이메일 변경 시, 인증 절차가 필요합니다."
-  searchPlaceholder: "아이디 / 이름 / 직책 / 부서 / 사무실 번호 / 핸드폰 번호"
-  FileSizeLimit: "파일 크기 제한 : 200KB"
-  FileExtensionAllowed: "파일 허용 확장자 : gif, jpeg, jpg, png"
-  usageStatus: "사용 여부"
-  status:
-    signup: "등록"
-    certified: "인증완료"
-  usageStatusFlag:
-    use: "사용"
-    unused: "미사용"
-  platform:
-    alice: "Alice"
-    google: "Google"
-    kakao: "Kakao"
-  label:
-    all: 전체
-    list: 사용자 목록
-    searchPlaceholder: 사용자이름 / 사용자아이디
-  msg:
-    idNotExist: "아이디를 입력해주세요."
-    passwordNotExist: "비밀번호를 입력해주세요."
-    rePasswordNotExist: "재확인 비밀번호를 입력해주세요."
-    passwordNotEquals: "비밀번호가 일치하지 않습니다."
-    nameNotExist: "이름을 입력해주세요."
-    emailNotExist: "이메일을 입력해주세요."
-    createUser: "사용자가 등록되었습니다."
-    emailWithUpdate: "이메일 정보를 포함한 회원 정보가 수정되었습니다."
-    sameUserId: "동일한 아이디가 존재합니다."
-    sameEmail: "이미 사용중인 이메일입니다."
-    joinUser: "가입되었습니다.<br/>가입 시 등록한 메일에서 인증을 진행해주세요."
-    joinUserFail: "가입 실패되었습니다."
-
-# FAQ
-faq:
-  add: "추가"
-  list: "목록"
-  save: "저장"
-  delete: "삭제"
-  group: "그룹"
-  title: "제목"
-  contents: "내용"
-  edit: "수정"
-  msg:
-    description: "자주 묻는 질문과 답변입니다."
-    titleNotExist: "제목을 입력하세요."
-    contentNotExist: "내용을 입력하세요."
-  category:
-    all: "전체"
-    techSupport: "기술지원"
-    setting: "설정"
-    etc: "기타"
-
-# NOTICE
-notice:
-  title: "제목"
-  user: "작성자"
-  popUp: "팝업"
-  createDt: "등록일시"
-  regist: "등록"
-  contents: "내용"
-  popUpNoticeSettings: "팝업 알림 설정"
-  popUpNoticeSettingsInfo: "팝업 알림 설정 정보"
-  topNoticeSettings: "상단 공지 설정"
-  topNoticeSettingsInfo: "상단 공지 설정 정보"
-  width: "넓이"
-  height: "높이"
-  strtDt: "시작일"
-  endDt: "종료일"
-  set: "설정"
-  notSet: "미설정"
-  list: "목록"
-  modify: "수정"
-  modifyCompleted: "수정 완료"
-  delete: "삭제"
-  searchPlaceholder: "제목 / 작성자"
-  msg:
-    titleNotExist: "제목을 입력하세요."
-    contentsNotExist: "내용을 입력하세요."
-    popHeightNotExist: "높이를 입력하세요."
-    checkPopHeightRange: "높이는 500px부터 1000px 사이의 값만 입력 가능합니다."
-    popWidthNotExist: "넓이를 입력하세요."
-    checkPopWidthRange: "넓이는 500px부터 1000px 사이의 값만 입력 가능합니다."
-    popStrtDtNotExist: "팝업 시작일을 입력하세요."
-    popEndDtNotExist: "팝업 종료일을 입력하세요."
-    compareWithPopUpValue: "팝업 알림 시작일이 종료일보다 크거나 같습니다."
-    topNoticeStrtDtNotExist: "상단 공지 시작일을 입력하세요."
-    topNoticeEndDtNotExist: "상단 공지 종료일을 입력하세요."
-    compareWithTopNoticeValue: "상단 공지 시작일이 종료일보다 크거나 같습니다."
-    fromDtNotExist: "검색 시작 날짜를 입력해주세요."
-    toDtNotExist: "검색 종료 날짜를 입력해주세요."
-    checkSearchRange: "검색 시작 날짜가 종료 날짜보다 큽니다."
-    selectAfterDate: "{0} 날짜 이후로 선택해주세요."
-    selectBeforeDate: "{0} 날짜 이전으로 선택해주세요."
-
-# LOGIN
-login:
-  uid: "아이디"
-  upasswd: "패스워드"
-  findId: "아이디를 잊으셨나요?"
-  findPasswd: "비밀번호를 잊으셨나요?"
-  sendLogin: "로그인"
-  gooleLogin: "Google 아이디로 로그인"
-  kakaoLogin: "Kakao 아이디로 로그인"
-  requiredLogin: "로그인이 필요합니다."
-  gotoLoginPage: "로그인 페이지"
-  gotoMainPage: "메인화면으로 이동"
-  userSignUp: "회원가입"
-  doSignUp: "가입하기"
-  loginNote: "계정이 있으신가요?"
-  signupNote: "처음이신가요?"
-  msg:
-    invalidPassword: "아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요."
-    disabledUser: "계정이 비활성화되었습니다. 관리자에게 문의해주세요."
-    invalidUser: "등록되지 않은 계정입니다. 다시 확인해주세요."
-    enterId: "아이디를 입력해주세요."
-    enterPassword: "패스워드를 입력해주세요."
-    sessionExpired: "세션이 만료되었습니다."
-    redirectedLoginPage: "{0} 초 뒤 로그인 페이지로 이동합니다."
-    ipAccessDenied: "해당 IP는 접근이 불가능합니다."
-
-# FORM
-form:
-  label:
-    list: "문서양식 목록"
-    name: "문서양식 이름"
-    edit: "문서양식 편집"
-    register: "문서양식 등록"
-    description: "설명"
-    lang: "언어"
-    templatesList: "템플릿 목록"
-    searchPlaceholder: "문서양식 이름 / 문서양식 설명"
-    undo: "작업취소"
-    redo: "작업재실행"
-    import: "가져오기"
-    export: "내보내기"
-    preview: "미리보기"
-    saveExit: "저장하고 나가기"
-    copy: "복사-바로아래"
-    addAbove: "새로만들기-위"
-    addBelow: "새로만들기-아래"
-    customCodeTarget: "대상 선택"
-  status:
-    edit: "편집"
-    publish: "발행"
-    use: "사용"
-    destroy: "폐기"
-  component:
-    text: "Text"
-    textarea: "Text Box"
-    select: "Dropdown"
-    radio: "Radio Button"
-    checkbox: "Checkbox"
-    label: "Label"
-    image: "Image"
-    divider: "Divider"
-    date: "Date"
-    time: "Time"
-    datetime: "Date Time"
-    fileupload: "Fileupload"
-    customCode: "Custom Code"
-  btn:
-    upload: "파일 업로드"
-  lang:
-    ko: "한국어"
-  msg:
-    information: "공통 편집 가능한 컴포넌트 세부 속성이 존재하지 않습니다."
-    alert:
-      nameNotExist: "문서양식 이름을 입력해주세요."
-      number: "숫자만 입력해주세요."
-      min: "{0} 이상 입력해주세요."
-      max: "{0} 이하로 입력해주세요."
-      minLength: "{0}글자 이상 입력해주세요."
-      maxLength: "{0}글자 이하로 입력해주세요."
-      fileuploadFailed: "파일업로드에 실패하였습니다."
-      fileSelect: "파일을 선택해주세요."
-      fileNameDuplication: "동일한 파일명이 존재합니다."
-      failedFormDelete: "문서양식을 삭제할 수 없습니다. 발행된 신청서가 있는 지 확인해주세요."
-  preview:
-    name: "문서양식 미리보기"
-  help:
-    mapping-id: "외부 출력을 위한 속성이 아니며, 워크플로우 엔진이나 다른 모듈에서 해당 컴포넌트의 값을 이용하기 위해 설정하는 키값입니다."
-    is-topic: "처리할 문서 목록에서 해당 컴포넌트를 표시하고 싶은 경우 체크합니다."
-    text-default: "컴포넌트에 표시되는 기본값을 직접입력하거나, 자동입력 중 선택할 수 있습니다. 자동입력일 경우 사용자의 세션 정보 중 하나를 선택할 수 있습니다."
-    date-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Now'로 선택하는 경우 해당 신청서 작성 시점의 날짜가 기본 값으로 출력됩니다.<br/>'days after'로 선택하고 숫자로 된 값을 넣으면 문서를 작성하는 시점을 기준으로 해당 숫자만큼 이후의 날짜가 기본 값으로 사용됩니다. 마이너스 값을 입력하는 경우 이전 날짜를 지정할 수 있습니다.<br/>마지막 항목은 특정 날짜를 고정으로 표시할 경우 사용하시면 됩니다."
-    time-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Now'로 선택하는 경우 해당 신청서 작성 시점의 시간이 기본 값으로 출력됩니다.<br/>'hours later'로 선택하고 숫자로 된 값을 넣으면 문서를 작성하는 시점을 기준으로 해당 숫자만큼 이후의 시간이 기본 값으로 사용됩니다. 마이너스 값을 입력하는 경우 이전 시간을 지정할 수 있습니다.<br/>마지막 항목은 특정 시간을 고정으로 표시할 경우 사용하시면 됩니다."
-    datetime-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Now'로 선택하는 경우 해당 신청서 작성 시점의 날짜시간이 기본 값으로 출력됩니다.<br/>'days/hours later'로 선택하고 숫자로 된 값을 넣으면 문서를 작성하는 시점을 기준으로 해당 숫자만큼 이후의 날짜시간이 기본 값으로 사용됩니다. 마이너스 값을 입력하는 경우 이전 날짜시간을 지정할 수 있습니다.<br/>마지막 항목은 특정 날짜시간을 고정으로 표시할 경우 사용하시면 됩니다."
-    custom-code: "사용자가 정의한 코드셋의 커스텀 코드 목록을 선택할 수 있습니다. 자세한 화면은 설정 > 사용자 정의 코드를 참조합니다."
-    custom-code-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Session'을 선택하는 경우 사용자의 세션 정보가 기본 값으로 출력됩니다.<br/>'Custom Code Data'로 선택하는 경우에는 사용자가 정의한 코드의 데이터를 기본 값으로 출력합니다."
-  properties:
-    name: "Name"
-    id: "Id"
-    desc: "Description"
-    status: "Status"
-    dataAttribute: "Data Attribute"
-    label: "Label"
-    display: "Display"
-    option: "Option"
-    validate: "Validate"
-
-# Process
-process:
-  label:
-    process: "프로세스"
-    list: "프로세스 목록"
-    name: "프로세스 이름"
-    edit: "프로세스 편집"
-    register: "프로세스 등록"
-    description: "설명"
-    templatesList: "템플릿 목록"
-    searchPlaceholder: "프로세스 이름 / 프로세스 설명"
-    simulation: "미리보기"
-    undo: "작업취소"
-    redo: "작업재실행"
-    imageDownload: "이미지로 저장하기"
-    import: "프로세스 IMPORT"
-    importFile: "IMPORT 파일"
-  btn:
-    import: "가져오기"
-    export: "내보내기"
-  status:
-    edit: "편집"
-    publish: "발행"
-    use: "사용"
-    destroy: "폐기"
-  msg:
-    simulation: "시뮬레이션 점검이 완료되었습니다."
-    alert:
-      nameNotExist: "프로세스 이름을 입력해주세요."
-      importFileNotExist: "IMPORT 파일을 선택해주세요."
-      fileExtensionNotAllow: "IMPORT 파일은 XML 확장자만 허용됩니다."
-
-# Portal
-portal:
-  label:
-    login: "로그인"
-    main: "메인화면"
-    notice: "공지사항"
-    faq: "FAQ"
-    download: "자료실"
-    search: "검색"
-    mainPhrase: "Alice 기술 지원"
-    topPhrase: "안녕하세요! 오늘은 어떻게 도와 드릴까요?"
-    bottomPhrase: "원하는 걸 찾을 수 없나요?"
-    bottomLeftPhrase: "문의하기"
-    chrome: "Chrome"
-    firefox: "Firefox"
-    msEdge: "MS Edge"
-    safari: "Safari"
-    browserGuidePhrase: "사용 중인 웹 브라우저를 지원하지 않습니다. 아래의 브라우저를 사용해 주세요."
-
-# Role
-role:
-  label:
-    roleId: "역할 아이디"
-    roleName: "역할 명"
-    roleDesc: "역할 설명"
-    roleAuth: "권한"
-    referenceCount: "사용자 참조 개수"
-  msg:
-    idNotExist: "역할 아이디를 입력하세요."
-    nameNotExist: "역할 명을 입력하세요."
-    authNotExist: "권한을 선택하세요."
-
-# Validation
-validation:
-  msg:
-    isNotExistElement: "해당 엘리먼트 요소는 존재하지 않습니다."
-    pwNotContainSpace: "비밀번호에 공백을 포함할 수 없습니다."
-    pwOneBetween10And20: "1가지 문자 구성의 경우 10자~20자의 비밀번호를 설정해야 합니다."
-    pwTwoBetween8And20: "2가지 문자 구성의 경우 8자~20자의 비밀번호를 설정해야 합니다."
-    pwContainsId: "비밀번호에 아이디가 포함되어 있습니다."
-    pwContainsEmail: "비밀번호에 이메일 아이디가 포함되어 있습니다."
-    pwContainsInnerMobileNumber: "비밀번호에 사용자의 핸드폰 번호가 포함되어 있습니다."
-    checkEmailFormat: "이메일 형식에 맞게 입력해주세요."
-    checkRgbFormat: "RGB 형식에 맞게 입력해주세요."
-
-# Document
-document:
-  label:
-    adminList: "업무흐름 목록"
-    list: "신청서 목록"
-    register: "신청서 등록"
-    modify: "신청서 수정"
-    write: "신청서 작성"
-    type: "업무흐름 구분"
-    name: "신청서 이름"
-    docNo: "문서번호"
-    description: "설명"
-    display: "신청서 양식 편집"
-    form: "문서양식"
-    process: "프로세스"
-    status: "신청서 상태"
-    numberingRule: "문서번호규칙"
-    print: "신청서 인쇄"
-    businessFlowColor: "업무 흐름 색상"
-    searchDocuments: "문서이름 / 문서설명"
-    searchDocumentStatus: "문서상태"
-    searchProcessName: "프로세스"
-    searchFormName: "문서양식"
-    group: "그룹"
-    all: "전체"
-  display:
-    editable: "수정가능"
-    editableRequired: "수정가능(필수값)"
-    readonly: "수정불가"
-    hidden: "숨김"
-  status:
-    temporary: "임시"
-    use: "사용"
-    destroy: "폐기"
-  type:
-    applicationForm: "신청서"
-    workflow: "업무흐름"
-  msg:
-    nameNotExist: "신청서 이름을 입력해주세요."
-    lengthMin: "{0}글자 이상 입력해주세요."
-    lengthMax: "{0}글자 이하로 입력해주세요."
-    dateMin: "{0} 날짜 이후로 선택해주세요."
-    dateMax: "{0} 날짜 이전으로 선택해주세요."
-    timeMin: "{0} 시간 이후로 선택해주세요."
-    timeMax: "{0} 시간 이전으로 선택해주세요."
-    datetimeMin: "{0} 날짜시간 이후로 선택해주세요."
-    datetimeMax: "{0} 날짜시간 이전으로 선택해주세요."
-    requiredEnter: "필수 항목을 입력해주세요."
-    requiredSelect: "필수 항목을 선택해주세요."
-    requiredFileupload: "파일을 업로드해주세요."
-    launchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
-    businessFlowColorNotExist: "업무 흐름 색상을 입력해주세요."
-
-# token
-token:
-  label:
-    list: "문서함"
-    all: "전체 문서"
-    write: "처리할 문서"
-    startDt: "시작 일시"
-    endDt: "완료 일시"
-    elementName: "업무명"
-    assignee: "담당자"
-    createUser: "작성자"
-    history: "처리 이력"
-    relatedInstance: "관련 문서"
-    print: "처리할 문서 인쇄"
-    searchPlaceholder: "작성자 / 내용"
-    status: "상태"
-  type:
-    todo: "처리할 문서"
-    requested: "신청한 문서"
-    progress: "진행중 문서"
-    completed: "완료된 문서"
-
-# Code
-code:
-  label:
-    code: "코드"
-    pCode: "부모 코드"
-    codeValue: "코드 값"
-  msg:
-    codeNotExist: "코드를 입력해주세요."
-    pCodeNotExist: "부모 코드가 존재하지 않습니다."
-
-# Custom Code
-custom.code:
-  label:
-    title: "사용자 정의 코드"
-    customCodeName: "사용자 정의 코드명"
-    targetTable: "대상 테이블명"
-    searchColumn: "검색 컬럼명"
-    valueColumn: "값 컬럼명"
-    type: "타입"
-    type.table: "테이블"
-    type.code: "코드"
-    condition: "조건"
-    pCode: "부모 코드"
-  msg:
-    inputCustomCodeName: "사용자 정의 코드명을 입력해주세요."
-    inputTableTarget: "대상 테이블명을 입력해주세요."
-    inputSearchColumn: "검색 컬럼명을 입력해주세요."
-    inputValueColumn: "값 컬럼명을 입력해주세요."
-    inputPCode: "부모 코드를 입력해주세요."
-    addCondition: "{0}개 이하만 추가 가능합니다."
-    selectNotDuplicateSearchColumn: "조건 항목에 검색 컬럼을 중복 없이 선택해주세요."
-    customCodeUsed: "사용 중인 사용자 정의 코드입니다."
-    customCodeNameDuplication: "동일한 사용자 정의 코드명이 존재합니다."
-    pCodeNotExist: "존재하지 않는 코드입니다."
-
-# Dashboard
-dashboard:
-  label:
-    title: "대시보드"
-    documentStatus: "신청한 문서 현황"
-    status:
-      running: "진행"
-      wait: "대기"
-      finish: "완료"
-
-# fileupload
-fileupload:
-  msg:
-    maxfilesexceeded: "첨부파일 개수를 초과하였습니다. (첨부파일 제한 개수 : {0})"
-    maxfilesizeexceeded: "첨부파일 제한 용량을 초과하였습니다. (첨부파일 제한 용량 : {0}MB)"
-    fileNameExtensionNotExist: "해당 확장자를 가진 파일은 업로드가 불가능합니다."
-
-# Download
-download:
-  label:
-    title: "자료실"
-    searchPlaceholder: "제목 / 작성자 / 첨부파일명"
-    downloadSeq: "번호"
-    downloadTitle: "제목"
-    downloadCategory: "카테고리"
-    createUser: "작성자"
-    createDt: "작성일시"
-    createDtAndcreateUser: "작성일시 및 작성자"
-    views: "조회수"
-  category:
-    all: "전체"
-    companyPolicy: "회사 규정"
-    etc: "기타"
-  msg:
-    selectDownloadCategory: "카테고리를 선택해주세요."
-    inputDownloadTitle: "제목을 입력해주세요."
-    selectAfterDate: "{0} 날짜 이후로 선택해주세요."
-    selectBeforeDate: "{0} 날짜 이전으로 선택해주세요."
-
-#board
-board:
-  btn:
-    category: "카테고리"
-    reply: "답글"
-  label:
-    board: "게시판"
-    add: "게시판 등록"
-    edit: "게시판 수정"
-    reply: "게시판 답글"
-    manager: "게시판 관리"
-    detail: "게시판 상세"
-    searchPlaceholder: "제목 / 등록자"
-    searchBoardPlaceholder: "카테고리 / 제목 / 등록자"
-    name: "게시판 명"
-    category: "카테고리"
-    count: "게시물수"
-    order: "정렬순서"
-    categoryName: "카테고리 명"
-    useYn: "사용여부"
-    desc: "게시판 설명"
-    writeAuth: "쓰기권한"
-    roleName: "역할 명"
-    replyYn: "답글"
-    commentYn: "댓글"
-    comment: "댓글"
-    attachFileYn: "첨부파일"
-    attachFileSize: "첨부파일 용량"
-    use: "사용"
-    unused: "미사용"
-    number: "번호"
-    title: "제목"
-    commentCount: "댓글 수"
-    readCount: "조회 수"
-    contents: "내용"
-  msg:
-    inputBoardTitle: "게시판명을 입력해주세요."
-    inputSortSize: "정렬순서를 100 이하로 넣어주세요."
-    inputAttachFileSize: "첨부파일 용량을 0MB 이상 1024MB 이하로 넣어주세요."
-    inputCategoryName: "카테고리명을 입력해주세요."
-    inputBoardComments: "댓글을 입력해주세요."
-    inputBoardEditComments: "댓글 저장부터 해주세요."
-
-#Comment
-comment:
-  label:
-    createUser: "작성자"
-    createDt: "작성일시"
-    content: "내용"
-
-#Notification
-notification:
-  label: "알림"
-  msg:
-    description: "최대 50개까지 표시됩니다."
-    noNotificationData: "알림이 없습니다."
+  code:
+    read: "코드 조회"
+    create: "코드 등록"
+    update: "코드 수정"
+    delete: "코드 삭제"
+  customCode:
+    read: "사용자 정의 코드 조회"
+    create: "사용자 정의 코드 등록"
+    update: "사용자 정의 코드 수정"
+    delete: "사용자 정의 코드 삭제"
+  document:
+    read: "신청서 조회"
+    create: "신청서 등록"
+  download:
+    read: "자료실 조회"
+    create: "자료실 등록"
+    update: "자료실 수정"
+    delete: "자료실 삭제"
+  faq:
+    read: "FAQ 조회"
+    create: "FAQ 등록"
+    update: "FAQ 변경"
+    delete: "FAQ 삭제"
+  form:
+    read: "문서양식 조회"
+    create: "문서양식 등록"
+    update: "문서양식 변경"
+    delete: "문서양식 삭제"
+  notice:
+    read: "공지사항 조회"
+    create: "공지사항 등록"
+    update: "공지사항 변경"
+    delete: "공지사항 삭제"
+  process:
+    read: "프로세스 조회"
+    create: "프로세스 등록"
+    update: "프로세스 변경"
+    delete: "프로세스 삭제"
+  service:
+    readAll: "서비스 요청 전체 조회"
+    readMine: "서비스 요청 자신 업무만 조회"
+    create: "서비스 요청 작성"
+  token:
+    read: "처리할 문서 조회"
+    create: "처리할 문서 등록"
+  user:
+    read: "사용자 조회"
+    create: "사용자 등록"
+    update: "사용자 변경"
+    delete: "사용자 삭제"
 
 #Authentication
 authentication:
   label:
     recallAuthentication: "인증메일 재요청"
   msg:
-    beforeEmailCheck: "메일 인증 후 사용가능합니다.<br/>가입 시 등록한 메일에서 인증을 진행해주세요.<br/>만약 인증 메일이 수신되지 않았다면 아래 버튼을 클릭해주세요."
-    authenticationCompleted: "메일 인증이 완료되었습니다."
     alreadyAuthenticated: "이미 인증이 완료되었습니다."
-    wrongAuthenticationCode: "인증코드가 잘못되었습니다."
+    authenticationCompleted: "메일 인증이 완료되었습니다."
+    beforeEmailCheck: "메일 인증 후 사용가능합니다.<br/>가입 시 등록한 메일에서 인증을 진행하세요.<br/>만약 인증 메일이 수신되지 않았다면 아래 버튼을 클릭하세요."
+    emailCheck: "가입 시 등록한 메일에서 인증을 진행하세요."
     expiredAuthentication: "인증메일이 만료되었습니다."
     recallAuthentication: "로그인 후 인증메일을 재요청하세요."
     resentAuthentication: "인증메일이 재발송되었습니다."
-    emailCheck: "가입 시 등록한 메일에서 인증을 진행해주세요."
+    wrongAuthenticationCode: "인증코드가 잘못되었습니다."
 
-#image
+# Board
+board:
+  btn:
+    category: "카테고리"
+    reply: "답글"
+  label:
+    attachFileSize: "첨부파일 용량"
+    attachFileYn: "첨부파일 사용 여부"
+    board: "게시판"
+    category: "카테고리"
+    categoryName: "카테고리 명"
+    commentCount: "댓글 수"
+    commentYn: "댓글 사용 여부"
+    count: "게시물 수"
+    create: "게시판 등록"
+    desc: "게시판 설명"
+    detail: "게시판 상세"
+    disable: "미사용"
+    enable: "사용"
+    manager: "게시판 관리"
+    modify: "게시판 수정"
+    name: "게시판 명"
+    number: "번호"
+    order: "정렬 순서"
+    readCount: "조회 수"
+    reply: "게시판 답글"
+    replyYn: "답글 사용 여부"
+    roleName: "역할 명"
+    searchBoardPlaceholder: "카테고리 / 제목 / 등록자"
+    searchPlaceholder: "제목 / 등록자"
+    useYn: "사용 여부"
+  msg:
+    enterAttachFileSize: "첨부파일 용량을 0MB 이상 1024MB 이하로 입력하세요."
+    enterBoardTitle: "게시판 명을 입력하세요."
+    enterCategoryName: "카테고리 명을 입력하세요."
+    enterSortSize: "정렬순서를 100 이하로 입력하세요."
+
+# Code
+code:
+  label:
+    code: "코드"
+    codeValue: "코드 값"
+    pCode: "부모 코드"
+  msg:
+    enterCode: "코드를 입력하세요."
+    pCodeNotExist: "부모 코드가 존재하지 않습니다."
+
+# Comment
+comment:
+  msg:
+    afterSavedEditComments: "댓글 저장 후, 수정이 가능합니다."
+    enterComments: "댓글을 입력하세요."
+
+# Custom Code
+customCode:
+  label:
+    code: "코드"
+    condition: "조건"
+    customCode: "사용자 정의 코드"
+    lastUpdateDate: "마지막 수정일시"
+    name: "사용자 정의 코드 명"
+    pCode: "부모 코드"
+    searchColumn: "검색 컬럼 명"
+    table: "테이블"
+    targetTable: "대상 테이블 명"
+    type: "타입"
+    valueColumn: "값 컬럼 명"
+  msg:
+    addCondition: "{0}개 이하만 추가 가능합니다."
+    customCodeUsed: "사용 중인 사용자 정의 코드입니다."
+    duplicateCustomCodeName: "동일한 사용자 정의 코드 명이 존재합니다."
+    enterCustomCode: "사용자 정의 코드 명을 입력하세요."
+    enterPCode: "부모 코드를 입력하세요."
+    enterSearchColumn: "검색 컬럼 명을 입력하세요."
+    enterSearchTerm: "검색어를 입력하세요."
+    enterTableTarget: "대상 테이블 명을 입력하세요."
+    enterValueColumn: "값 컬럼 명을 입력하세요."
+    pCodeNotExist: "부모 코드가 존재하지 않습니다."
+    selectNotDuplicateSearchColumn: "조건 항목에 검색 컬럼을 중복 없이 선택하세요."
+
+# Dashboard
+dashboard:
+  label:
+    dashboard: "대시보드"
+    documentStatus: "신청한 문서 현황"
+  status:
+    finish: "완료"
+    running: "진행"
+    wait: "대기"
+
+# Document
+document:
+  label:
+    adminList: "업무 흐름 목록"
+    all: "전체"
+    businessFlowColor: "업무 흐름 색상"
+    description: "설명"
+    display: "신청서 양식 편집"
+    docNo: "문서번호"
+    form: "문서 양식"
+    list: "신청서 목록"
+    modify: "신청서 수정"
+    name: "신청서 이름"
+    notSelect: "선택 안 함"
+    numberingRule: "문서번호 규칙"
+    print: "신청서 인쇄"
+    process: "프로세스"
+    register: "신청서 등록"
+    searchDocumentStatus: "문서 상태"
+    searchPlaceholder: "문서 이름 / 문서 설명"
+    status: "신청서 상태"
+    type: "업무 흐름 구분"
+    write: "신청서 작성"
+  msg:
+    checkDocument: "문서를 다시 확인하세요."
+    enterBusinessFlowColor: "업무 흐름 색상을 입력하세요."
+    enterDocumentName: "신청서 이름을 입력하세요."
+    launchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
+    lengthMax: "{0}글자 이하로 입력하세요."
+    lengthMin: "{0}글자 이상 입력하세요."
+    process: "처리되었습니다."
+    requiredFileupload: "파일을 업로드하세요."
+  display:
+    editable: "수정 가능"
+    editableRequired: "수정 가능(필수값)"
+    hidden: "숨김"
+    readonly: "수정 불가"
+  status:
+    destroy: "폐기"
+    temporary: "임시"
+    use: "사용"
+  type:
+    applicationForm: "신청서"
+    workflow: "업무 흐름"
+
+# Download
+download:
+  label:
+    category: "카테고리"
+    download: "자료실"
+    searchPlaceholder: "제목 / 등록자 / 첨부파일 명"
+    seq: "번호"
+    views: "조회 수"
+  msg:
+    selectCategory: "카테고리를 선택하세요."
+  category:
+    all: "전체"
+    companyPolicy: "회사 규정"
+    etc: "기타"
+
+# Error
+error:
+  label:
+    exceptionType: "예외 종류"
+    knownError: "정의된 에러"
+    message: "메시지"
+    path: "호출 URL"
+
+# FAQ
+faq:
+  msg:
+    description: "자주 묻는 질문과 답변입니다."
+  category:
+    all: "전체"
+    etc: "기타"
+    setting: "설정"
+    techSupport: "기술지원"
+
+# FileUpload
+fileupload:
+  msg:
+    extensionNotAvailable: "해당 확장자를 가진 파일은 업로드가 불가능합니다."
+    maxFileCount: "첨부파일 개수를 초과하였습니다. (첨부파일 제한 개수 : {0})"
+    maxFileSize: "첨부파일 제한 용량을 초과하였습니다. (첨부파일 제한 용량 : {0}MB)"
+
+# Form
+form:
+  label:
+    addAbove: "새로만들기-위"
+    addBelow: "새로만들기-아래"
+    copy: "복사-바로아래"
+    create: "문서 양식 등록"
+    customCodeTarget: "대상 선택"
+    description: "설명"
+    edit: "문서 양식 편집"
+    export: "내보내기"
+    form: "문서 양식"
+    import: "가져오기"
+    lang: "언어"
+    list: "문서 양식 목록"
+    name: "문서 양식 이름"
+    preview: "미리 보기"
+    redo: "작업 재실행"
+    saveExit: "저장하고 나가기"
+    searchPlaceholder: "문서 양식 이름 / 문서 양식 설명"
+    templatesList: "템플릿 목록"
+    undo: "작업 취소"
+  msg:
+    enterFormName: "문서 양식 이름을 입력하세요."
+    failedFormDelete: "문서 양식을 삭제할 수 없습니다. 발행된 신청서가 있는 지 확인하세요."
+    fileNameDuplication: "동일한 파일 명이 존재합니다."
+    fileSelect: "파일을 선택하세요."
+    fileuploadFailed: "파일 업로드에 실패하였습니다."
+    information: "공통 편집 가능한 컴포넌트 세부 속성이 존재하지 않습니다."
+    max: "{0} 이하로 입력하세요."
+    maxLength: "{0}글자 이하로 입력하세요."
+    min: "{0} 이상 입력하세요."
+    minLength: "{0}글자 이상 입력하세요."
+    number: "숫자만 입력하세요."
+  component:
+    checkbox: "Checkbox"
+    customCode: "Custom Code"
+    date: "Date"
+    datetime: "Date Time"
+    divider: "Divider"
+    fileupload: "Fileupload"
+    image: "Image"
+    label: "Label"
+    radio: "Radio Button"
+    select: "Dropdown"
+    text: "Text"
+    textarea: "Text Box"
+    time: "Time"
+  help:
+    custom-code-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Session'을 선택하는 경우 사용자의 세션 정보가 기본 값으로 출력됩니다.<br/>'Custom Code Data'로 선택하는 경우에는 사용자가 정의한 코드의 데이터를 기본 값으로 출력합니다."
+    custom-code: "사용자가 정의한 코드셋의 커스텀 코드 목록을 선택할 수 있습니다. 자세한 화면은 설정 > 사용자 정의 코드를 참조합니다."
+    date-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Now'로 선택하는 경우 해당 신청서 작성 시점의 날짜가 기본 값으로 출력됩니다.<br/>'days after'로 선택하고 숫자로 된 값을 넣으면 문서를 작성하는 시점을 기준으로 해당 숫자만큼 이후의 날짜가 기본 값으로 사용됩니다. 마이너스 값을 입력하는 경우 이전 날짜를 지정할 수 있습니다.<br/>마지막 항목은 특정 날짜를 고정으로 표시할 경우 사용하시면 됩니다."
+    datetime-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Now'로 선택하는 경우 해당 신청서 작성 시점의 날짜시간이 기본 값으로 출력됩니다.<br/>'days/hours later'로 선택하고 숫자로 된 값을 넣으면 문서를 작성하는 시점을 기준으로 해당 숫자만큼 이후의 날짜시간이 기본 값으로 사용됩니다. 마이너스 값을 입력하는 경우 이전 날짜시간을 지정할 수 있습니다.<br/>마지막 항목은 특정 날짜시간을 고정으로 표시할 경우 사용하시면 됩니다."
+    is-topic: "처리할 문서 목록에서 해당 컴포넌트를 표시하고 싶은 경우 체크합니다."
+    mapping-id: "외부 출력을 위한 속성이 아니며, 워크플로우 엔진이나 다른 모듈에서 해당 컴포넌트의 값을 이용하기 위해 설정하는 키값입니다."
+    text-default: "컴포넌트에 표시되는 기본값을 직접입력하거나, 자동입력 중 선택할 수 있습니다. 자동입력일 경우 사용자의 N세션 정보 중 하나를 선택할 수 있습니다."
+    time-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Now'로 선택하는 경우 해당 신청서 작성 시점의 시간이 기본 값으로 출력됩니다.<br/>'hours later'로 선택하고 숫자로 된 값을 넣으면 문서를 작성하는 시점을 기준으로 해당 숫자만큼 이후의 시간이 기본 값으로 사용됩니다. 마이너스 값을 입력하는 경우 이전 시간을 지정할 수 있습니다.<br/>마지막 항목은 특정 시간을 고정으로 표시할 경우 사용하시면 됩니다."
+  properties:
+    dataAttribute: "Data Attribute"
+    desc: "Description"
+    display: "Display"
+    id: "Id"
+    label: "Label"
+    name: "Name"
+    option: "Option"
+    status: "Status"
+    validate: "Validate"
+  status:
+    destroy: "폐기"
+    edit: "편집"
+    publish: "발행"
+    use: "사용"
+
+# Image
 image:
   btn:
     upload: "이미지 파일 업로드"
   msg:
-    alert.failedRename: "파일명 변경이 실패하였습니다. 동일한 파일명이 있거나 수정권한이 있는 지 확인해주세요."
-    confirm.existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
+    failedRename: "파일명 변경이 실패하였습니다. 동일한 파일명이 있거나 수정 권한이 있는지 확인하세요."
+    existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
+
+# Login
+login:
+  btn:
+    doSignUp: "가입하기"
+    googleLogin: "Google 아이디로 로그인"
+    gotoLoginPage: "로그인 페이지"
+    kakaoLogin: "Kakao 아이디로 로그인"
+    login: "로그인"
+    userSignUp: "회원가입"
+  label:
+    findId: "아이디를 잊으셨나요?"
+    findPassword: "비밀번호를 잊으셨나요?"
+    gotoMainPage: "메인화면으로 이동"
+    id: "아이디"
+    login: "로그인"
+    loginNote: "계정이 있으신가요?"
+    password: "패스워드"
+    requiredLogin: "로그인이 필요합니다."
+    signupNote: "처음이신가요?"
+    userSignUp: "회원가입"
+  msg:
+    disabledUser: "계정이 비활성화되었습니다. 관리자에게 문의하세요."
+    enterId: "아이디를 입력하세요."
+    enterPassword: "패스워드를 입력하세요."
+    invalidPassword: "아이디나 비밀번호가 맞지 않습니다. 다시 확인하세요."
+    invalidUser: "등록되지 않은 계정입니다. 다시 확인하세요."
+    ipAccessDenied: "해당 IP는 접근이 불가능합니다."
+    redirectedLoginPage: "{0} 초 뒤 로그인 페이지로 이동합니다."
+    sessionExpired: "세션이 만료되었습니다."
+    unknownError: "알 수 없는 에러가 발생하였습니다. 관리자에게 문의하세요."
+
+# Menu
+menu:
+  service:
+    parent: "서비스"
+    list: "요청 이력"
+    request: "서비스 요청"
+  help:
+    parent: "헬프데스크"
+    board: "게시판"
+    dashboard: "대시보드"
+    document: "신청서"
+    download: "자료실"
+    faq: "FAQ"
+    notice: "공지사항"
+    token: "문서함"
+  setting:
+    parent: "설정"
+    auth: "권한 관리"
+    boardAdmin: "게시판 관리"
+    code: "코드 관리"
+    customCode: "사용자 정의 코드"
+    document: "업무 흐름"
+    editMyInfo: "자기 정보 수정"
+    form: "문서 양식"
+    image: "이미지 관리"
+    process: "프로세스"
+    role: "역할 관리"
+    user: "사용자 관리"
+
+# Notice
+notice:
+  label:
+    endDt: "종료일"
+    height: "높이"
+    modifyCompleted: "수정 완료"
+    notSet: "미설정"
+    popUp: "팝업"
+    popUpNoticeSettings: "팝업 알림 설정"
+    popUpNoticeSettingsInfo: "팝업 알림 설정 정보"
+    searchPlaceholder: "제목 / 등록자"
+    set: "설정"
+    strtDt: "시작일"
+    topNoticeSettings: "상단 공지 설정"
+    topNoticeSettingsInfo: "상단 공지 설정 정보"
+    width: "넓이"
+  msg:
+    checkPopHeightRange: "높이는 500px부터 1000px 사이의 값만 입력 가능합니다."
+    checkPopWidthRange: "넓이는 500px부터 1000px 사이의 값만 입력 가능합니다."
+    checkSearchRange: "검색 시작 날짜가 종료 날짜보다 큽니다."
+    compareWithPopUpValue: "팝업 알림 시작일이 종료일보다 크거나 같습니다."
+    compareWithTopNoticeValue: "상단 공지 시작일이 종료일보다 크거나 같습니다."
+    enterFromDt: "검색 시작 날짜를 입력하세요."
+    enterPopEndDt: "팝업 종료일을 입력하세요."
+    enterPopHeight: "높이를 입력하세요."
+    enterPopStrtDt: "팝업 시작일을 입력하세요."
+    enterPopWidth: "넓이를 입력하세요."
+    enterToDt: "검색 종료 날짜를 입력하세요."
+    enterTopNoticeEndDt: "상단 공지 종료일을 입력하세요."
+    enterTopNoticeStrtDt: "상단 공지 시작일을 입력하세요."
+
+# Notification
+notification:
+  label:
+    notification: "알림"
+  msg:
+    description: "최대 50개까지 표시됩니다."
+    noNotificationData: "알림이 없습니다."
+
+# Portal
+portal:
+  label:
+    bottomLeftPhrase: "문의하기"
+    bottomPhrase: "원하는 걸 찾을 수 없나요?"
+    browserGuidePhrase: "사용 중인 웹 브라우저를 지원하지 않습니다. 아래의 브라우저를 사용해 주세요."
+    chrome: "Chrome"
+    download: "자료실"
+    faq: "FAQ"
+    firefox: "Firefox"
+    login: "로그인"
+    main: "메인화면"
+    mainPhrase: "Alice 기술 지원"
+    msEdge: "MS Edge"
+    notice: "공지사항"
+    safari: "Safari"
+    search: "검색"
+    topPhrase: "안녕하세요! 오늘은 어떻게 도와 드릴까요?"
+
+# Process
+process:
+  btn:
+    export: "내보내기"
+    import: "가져오기"
+  label:
+    create: "프로세스 등록"
+    description: "설명"
+    edit: "프로세스 편집"
+    imageDownload: "이미지로 저장하기"
+    import: "프로세스 IMPORT"
+    importFile: "IMPORT 파일"
+    list: "프로세스 목록"
+    name: "프로세스 이름"
+    process: "프로세스"
+    redo: "작업재실행"
+    searchPlaceholder: "프로세스 이름 / 프로세스 설명"
+    simulation: "미리보기"
+    templatesList: "템플릿 목록"
+    undo: "작업취소"
+  msg:
+    enterProcessName: "프로세스 이름을 입력하세요."
+    fileExtensionNotAllow: "IMPORT 파일은 XML 확장자만 허용됩니다."
+    selectImportFile: "IMPORT 파일을 선택하세요."
+    simulation: "시뮬레이션 점검이 완료되었습니다."
+  status:
+    destroy: "폐기"
+    edit: "편집"
+    publish: "발행"
+    use: "사용"
+
+# Role
+role:
+  label:
+    auth: "권한"
+    desc: "역할 설명"
+    id: "역할 아이디"
+    name: "역할 명"
+    referenceCount: "사용자 참조 개수"
+    role: "역할"
+  msg:
+    enterRoleId: "역할 아이디를 입력하세요."
+    enterRoleName: "역할 명을 입력하세요."
+    selectAuth: "권한을 선택하세요."
+
+# Token
+token:
+  label:
+    all: "전체 문서"
+    assignee: "담당자"
+    elementName: "업무 명"
+    endDt: "완료 일시"
+    history: "처리 이력"
+    list: "문서함"
+    print: "처리할 문서 인쇄"
+    relatedInstance: "관련 문서"
+    searchPlaceholder: "등록자 / 내용"
+    startDt: "시작 일시"
+    status: "상태"
+    write: "처리할 문서"
+  msg:
+    tag: "태그를 입력하세요."
+  type:
+    completed: "완료된 문서"
+    progress: "진행 중 문서"
+    requested: "신청한 문서"
+    todo: "처리할 문서"
+
+# User
+user:
+  label:
+    all: "전체"
+    avatar: "아바타"
+    date: "날짜 유형"
+    department: "부서"
+    editUserInfo: "회원 정보 수정"
+    email: "이메일"
+    FileExtensionAllowed: "파일 허용 확장자 : gif, jpeg, jpg, png"
+    FileSizeLimit: "파일 크기 제한 : 200KB"
+    id: "아이디"
+    lang: "언어"
+    list: "사용자 목록"
+    mobileNumber: "핸드폰 번호"
+    name: "이름"
+    officeNumber: "사무실 번호"
+    password: "비밀번호"
+    position: "직책"
+    rePassword: "비밀번호 재확인"
+    role: "사용자 역할"
+    searchPlaceholder: "사용자 이름 / 사용자 아이디"
+    theme: "테마"
+    time: "시간 유형"
+    timeFormat: "날짜/시간 유형"
+    timezone: "타임존"
+    usageStatus: "사용 여부"
+    user: "사용자"
+  msg:
+    createUser: "사용자가 등록되었습니다."
+    emailAlert: "이메일 변경 시, 인증 절차가 필요합니다."
+    emailWithUpdate: "이메일 정보를 포함한 회원 정보가 수정되었습니다."
+    enterUserEmail: "이메일을 입력하세요."
+    enterUserId: "아이디를 입력하세요."
+    enterUserName: "이름을 입력하세요."
+    enterUserPassword: "비밀번호를 입력하세요."
+    enterUserRePassword: "재확인 비밀번호를 입력하세요."
+    passwordNotEquals: "비밀번호가 일치하지 않습니다."
+    sameEmail: "이미 사용중인 이메일입니다."
+    sameUserId: "동일한 아이디가 존재합니다."
+    signUp: "가입되었습니다.<br/>가입 시 등록한 메일에서 인증을 진행하세요."
+    signUpFail: "가입 실패되었습니다."
+  platform:
+    alice: "Alice"
+    google: "Google"
+    kakao: "Kakao"
+  status:
+    certified: "인증 완료"
+    signup: "등록"
+  usageStatusFlag:
+    unused: "미사용"
+    use: "사용"
+
+# Validation
+validation:
+  msg:
+    checkEmailFormat: "이메일 형식에 맞게 입력하세요."
+    checkRgbFormat: "RGB 형식에 맞게 입력하세요."
+    checkUserIdFormat: "사용자 아이디 형식에 맞게 입력해주세요."
+    elementNotExist: "해당 엘리먼트 요소는 존재하지 않습니다."
+    pwContainsEmail: "비밀번호에 이메일 아이디가 포함되어 있습니다."
+    pwContainsId: "비밀번호에 아이디가 포함되어 있습니다."
+    pwContainsInnerMobileNumber: "비밀번호에 사용자의 핸드폰 번호가 포함되어 있습니다."
+    pwNotContainSpace: "비밀번호에 공백을 포함할 수 없습니다."
+    pwOneBetween10And20: "1가지 문자 구성의 경우 10자~20자의 비밀번호를 설정해야 합니다."
+    pwTwoBetween8And20: "2가지 문자 구성의 경우 8자~20자의 비밀번호를 설정해야 합니다."

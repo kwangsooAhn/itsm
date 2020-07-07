@@ -10068,6 +10068,9 @@ body {
 .alice-process-drawing-board .connector circle.pointer {
   cursor: move;
 }
+.alice-process-drawing-board .connector circle.pointer.move {
+  fill: #5887f9;
+}
 .alice-process-drawing-board defs marker path {
   fill: #000000;
 }

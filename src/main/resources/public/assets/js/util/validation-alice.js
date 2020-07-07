@@ -8,6 +8,7 @@ const lowerCaseReg = /^[a-z]*$/;
 const numberReg = /^[0-9]*$/;
 const specialCharReg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/;
 const rgbReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
+const idReg = /^[A-Za-z0-9+][A-Za-z0-9@\-_\.]*$/g;
 
 /** @brief 해당 엘리먼트 아이디의 값이 null인 경우를 판별한다.
  *  @date 2020-03-03
@@ -22,7 +23,7 @@ function isNull(elementId, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -39,7 +40,7 @@ function isNotNull(elementId, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -56,7 +57,7 @@ function isEmpty(elementId, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -73,7 +74,7 @@ function isNotEmpty(elementId, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -90,7 +91,7 @@ function isEquals(elementId1, elementId2, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -107,7 +108,7 @@ function isNotEquals(elementId1, elementId2, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -124,7 +125,7 @@ function isExistInScope(elementId, minValue, maxValue, messageId) {
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.isNotExistElement') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -235,6 +236,19 @@ function isValidEmail(elementId) {
 
     if (!emailReg.test(email)) {
         aliceJs.alert(i18n.get('validation.msg.checkEmailFormat'));
+        return false;
+    }
+    return true;
+}
+
+/** @brief 아이디 관련 유효성 검사(아이디 형식)
+ *  @date 2020-07-08
+ */
+function isValidUserId(elementId) {
+    let userId = document.getElementById(elementId).value;
+
+    if (!idReg.test(userId)) {
+        aliceJs.alert(i18n.get('validation.msg.checkUserIdFormat'));
         return false;
     }
     return true;

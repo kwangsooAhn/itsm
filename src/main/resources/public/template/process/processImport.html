@@ -73,12 +73,12 @@
 
     function validation() {
         // 필수 체크
-        if (isEmpty('process_name', 'process.msg.alert.nameNotExist')) { return false; }
-        if (isEmpty('process_file', 'process.msg.alert.importFileNotExist')) { return false; }
+        if (isEmpty('process_name', 'process.msg.enterProcessName')) { return false; }
+        if (isEmpty('process_file', 'process.msg.selectImportFile')) { return false; }
         // 확장자 체크
         let filename = document.getElementById('process_file').value;
         if (filename.split('.').pop().toUpperCase() !== 'XML') {
-            aliceJs.alert('process.msg.alert.fileExtensionNotAllow');
+            aliceJs.alert('process.msg.fileExtensionNotAllow');
             return false;
         }
         return true;

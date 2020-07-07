@@ -31,6 +31,8 @@
         dragElement;
 
     let isDrawConnector = false,
+        isMoveConnector = false,
+        isEndMoveConnector = false,
         isMovableDrawingboard = false;
 
     let isView = true;            //view 모드 여부
@@ -102,6 +104,8 @@
                 let selectedLink = d3.select(this).classed('selected', true);
                 selectedElement = null;
                 d3.select(document.getElementById(d.id + '_midPoint')).style('opacity', 1).style('cursor', 'move');
+                d3.select(document.getElementById(d.id + '_startPoint')).style('opacity', 1).style('cursor', 'move');
+                d3.select(document.getElementById(d.id + '_endPoint')).style('opacity', 1).style('cursor', 'move');
 
                 setConnectors();
                 aliceProcessEditor.setElementMenu(selectedLink);
@@ -135,6 +139,16 @@
                 const event = document.createEvent('MouseEvent');
                 event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
                 d3.select(document.getElementById(d.id)).node().dispatchEvent(event);
+            },
+            moveDragStart: function(d, target) {
+                svg.selectAll('.alice-tooltip').remove();
+                d3.select(target).style('opacity', 0);
+                d3.select(target.parentNode).selectAll('.pointer:not(.move)').style('opacity', 0);
+            },
+            moveDragEnd: function(d, target) {
+                dragLine.classed('hidden', true);
+                d3.select(document.getElementById(d.id)).classed('hidden', false);
+                d3.select(target).style('opacity', 1);
             }
         };
 
@@ -185,6 +199,127 @@
                             .style('cursor', 'pointer');
                         aliceProcessEditor.changeDisplayValue(d.id);
                     })
+            );
+
+        enter.append('circle')
+            .attr('class', 'pointer move')
+            .attr('id', function(d) { return d.id + '_startPoint'; })
+            .attr('r', displayOptions.pointerRadius)
+            .style('opacity', 0)
+            .call(d3.drag()
+                .on('start', function(d) {
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        connectorMouseEventHandler.moveDragStart(d, this);
+                        elements.links.forEach(function (l) {
+                            if (l.id === d.id) {
+                                mousedownElement = d3.select(document.getElementById(d.targetId));
+                                l.movable = true;
+                            }
+                        });
+                        isMoveConnector = true;
+                        isEndMoveConnector = true;
+                    }
+                })
+                .on('drag', function(d) {
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        d3.select(document.getElementById(d.id)).classed('hidden', true);
+                        let targetElement = d3.select(document.getElementById(d.id + '_endPoint'));
+                        const gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+                        dragLine
+                            .style('marker-end', 'url(#end-arrow)')
+                            .classed('hidden', false)
+                            .attr('d', `M${d3.event.x + gTransform.x},${d3.event.y + gTransform.y} L${Number(targetElement.attr('cx')) + gTransform.x},${Number(targetElement.attr('cy')) + gTransform.y}`);
+                    }
+                })
+                .on('end', function(d) {
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        connectorMouseEventHandler.moveDragEnd(d, this);
+
+                        if (mouseoverElement && mousedownElement.node().id !== mouseoverElement.node().id) {
+                            mouseoverElement.classed('selected', false);
+                            if (checkAvailableLink(mouseoverElement, mousedownElement)) {
+                                elements.links.forEach(function(l) {
+                                    delete l.movable;
+                                    if (l.id === d.id && l.sourceId !== mouseoverElement.node().id) {
+                                        l.sourceId = mouseoverElement.node().id;
+                                        delete l.midPoint;
+                                        delete l.sourcePoint;
+                                        delete l.targetPoint;
+                                        delete l.textPoint;
+                                        aliceProcessEditor.changeDisplayValue(d.id);
+                                    }
+                                });
+                                selectedElement = null;
+                            }
+                        }
+                        resetMouseVars();
+                        isMoveConnector = false;
+                        isEndMoveConnector = false;
+
+                        const event = document.createEvent('MouseEvent');
+                        event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                        d3.select(document.getElementById(d.id)).node().dispatchEvent(event);
+                    }
+                })
+            );
+        enter.append('circle')
+            .attr('class', 'pointer move')
+            .attr('id', function(d) { return d.id + '_endPoint'; })
+            .attr('r', displayOptions.pointerRadius)
+            .style('opacity', 0)
+            .call(d3.drag()
+                .on('start', function(d) {
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        connectorMouseEventHandler.moveDragStart(d, this);
+                        elements.links.forEach(function(l) {
+                            if (l.id === d.id) {
+                                mousedownElement = d3.select(document.getElementById(d.sourceId));
+                                l.movable = true;
+                            }
+                        });
+                        isMoveConnector = true;
+                    }
+                })
+                .on('drag', function(d) {
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        d3.select(document.getElementById(d.id)).classed('hidden', true);
+                        let sourceElement = d3.select(document.getElementById(d.id + '_startPoint'));
+                        const gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+                        dragLine
+                            .style('marker-end', 'url(#end-arrow)')
+                            .classed('hidden', false)
+                            .attr('d', `M${Number(sourceElement.attr('cx')) + gTransform.x},${Number(sourceElement.attr('cy')) + gTransform.y} L${d3.event.x + gTransform.x},${d3.event.y + gTransform.y}`);
+                    }
+                })
+                .on('end', function(d) {
+                    if (d3.select(document.getElementById(d.id)).classed('selected')) {
+                        connectorMouseEventHandler.moveDragEnd(d, this);
+
+                        if (mouseoverElement && mousedownElement.node().id !== mouseoverElement.node().id) {
+                            mouseoverElement.classed('selected', false);
+                            if (checkAvailableLink(mousedownElement, mouseoverElement)) {
+                                elements.links.forEach(function (l) {
+                                    delete l.movable;
+                                    if (l.id === d.id && l.targetId !== mouseoverElement.node().id) {
+                                        l.targetId = mouseoverElement.node().id;
+                                        delete l.midPoint;
+                                        delete l.sourcePoint;
+                                        delete l.targetPoint;
+                                        delete l.textPoint;
+                                        aliceProcessEditor.changeDisplayValue(d.id);
+                                    }
+                                });
+                                selectedElement = null;
+                            }
+                        }
+                        resetMouseVars();
+                        isMoveConnector = false;
+
+                        const event = document.createEvent('MouseEvent');
+                        event.initMouseEvent('mousedown', true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+                        d3.select(document.getElementById(d.id)).node().dispatchEvent(event);
+                    }
+                })
             );
 
         enter.append('circle')
@@ -437,7 +572,9 @@
             const midPoint = d3.select(document.getElementById(d.id + '_midPoint'));
             let linePath = '';
             const sourcePoint = d3.select(document.getElementById(d.id + '_sourcePoint')),
-                  targetPoint = d3.select(document.getElementById(d.id + '_targetPoint'));
+                  targetPoint = d3.select(document.getElementById(d.id + '_targetPoint')),
+                  startPoint = d3.select(document.getElementById(d.id + '_startPoint')),
+                  endPoint = d3.select(document.getElementById(d.id + '_endPoint'));
             if (typeof d.midPoint !== 'undefined') {
                 midPoint.attr('cx', d.midPoint[0]).attr('cy', d.midPoint[1]);
                 if (d3.select(document.getElementById(d.id)).classed('selected')) {
@@ -499,6 +636,8 @@
                     linePath += calcCirclePath(coords[0], coords[1], coords[2]);
                 });
                 linePath += [' L', bestLine2[1]].join(' ');
+                startPoint.attr('cx', bestLine1[0][0]).attr('cy', bestLine1[0][1]);
+                endPoint.attr('cx', bestLine2[1][0]).attr('cy', bestLine2[1][1]);
             } else {
                 let bestLine = getBestLine(sourceBBox, targetBBox, sourcePointArray, targetPointArray);
                 linePath = ['M', bestLine[0], 'L', bestLine[1]].join(' ');
@@ -506,13 +645,14 @@
                 midPoint.attr('cx', midPointCoords[0]).attr('cy', midPointCoords[1]);
                 sourcePoint.style('opacity', 0).style('cursor', 'default');
                 targetPoint.style('opacity', 0).style('cursor', 'default');
+                startPoint.attr('cx', bestLine[0][0]).attr('cy', bestLine[0][1]);
+                endPoint.attr('cx', bestLine[1][0]).attr('cy', bestLine[1][1]);
             }
             return linePath;
         };
 
         connectors.select('path.connector').attr('d', function(d) {
             let linePath = getLinePath(d);
-
             let paths = linePath.split(' ');
             let startCoords = paths[1].split(','),
                 endCoords = paths[paths.length - 1].split(',');
@@ -555,17 +695,23 @@
                 }
                 elemContainer.style('cursor', cursor);
             }
-            if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
+            if (!(isDrawConnector || isMoveConnector) || !mousedownElement || elem.node().id === mousedownElement.node().id) {
                 return;
             }
             mouseoverElement = elem;
-            let availableLink = checkAvailableLink();
-            elem.classed('selected', availableLink);
+
+            let source = mousedownElement,
+                target = mouseoverElement;
+            if (isMoveConnector && isEndMoveConnector) {
+                source = mouseoverElement;
+                target = mousedownElement;
+            }
+            elem.classed('selected', checkAvailableLink(source, target));
         },
         mouseout: function() {
             const elemContainer = d3.select(this.parentNode);
             const elem = elemContainer.select('.node');
-            if (!isDrawConnector || !mousedownElement || elem.node().id === mousedownElement.node().id) {
+            if (!(isDrawConnector || isMoveConnector) || !mousedownElement || elem.node().id === mousedownElement.node().id) {
                 if (!dragElement) {
                     elemContainer.style('cursor', 'default');
                 }
@@ -592,7 +738,7 @@
                     dragLine
                         .style('marker-end', 'url(#end-arrow)')
                         .classed('hidden', false)
-                        .attr('d', 'M' + centerX + ',' + centerY + 'L' + centerX + ',' + centerY);
+                        .attr('d', `M${centerX},${centerY} L${centerX},${centerY}`);
                 }
             } else {
                 let selectedNodes = d3.selectAll('.node.selected').nodes();
@@ -655,7 +801,7 @@
 
                 if (mousedownElement.node().id !== mouseoverElement.node().id) {
                     mouseoverElement.classed('selected', false);
-                    if (checkAvailableLink()) {
+                    if (checkAvailableLink(mousedownElement, mouseoverElement)) {
                         elements.links.push({id: workflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id, isDefault: 'N'});
                         selectedElement = null;
                         setConnectors();
@@ -729,28 +875,30 @@
                 gTransform = d3.zoomTransform(d3.select('g.element-container').node()),
                 centerX = bbox.cx + gTransform.x,
                 centerY = bbox.cy + gTransform.y;
-            dragLine.attr('d', 'M' + centerX + ',' + centerY + 'L' + (d3.event.x + gTransform.x) + ',' + (d3.event.y + gTransform.y));
+            dragLine.attr('d', `M${centerX},${centerY} L${d3.event.x + gTransform.x},${d3.event.y + gTransform.y}`);
         }
     };
 
     /**
      * connector 연결 가능여부 체크하여 리턴한다.
      *
+     * @param source
+     * @param target
      * @return {boolean} 연결 가능 여부
      */
-    function checkAvailableLink() {
+    function checkAvailableLink(source, target) {
         let availableLink = true;
-        const source = mousedownElement,
-              target = mouseoverElement;
         elements.links.forEach(function(l) {
-            // it's not a gateway, but several starts
-            if (!source.classed('gateway') && l.sourceId === source.node().id) {
-                availableLink = false;
-            }
-            // cannot link to each other
-            if ((l.sourceId === source.node().id && l.targetId === target.node().id) ||
-                (l.sourceId === target.node().id && l.targetId === source.node().id)) {
-                availableLink = false;
+            if (!l.movable) {
+                // it's not a gateway, but several starts
+                if (!source.classed('gateway') && l.sourceId === source.node().id) {
+                    availableLink = false;
+                }
+                // cannot link to each other
+                if ((l.sourceId === source.node().id && l.targetId === target.node().id) ||
+                    (l.sourceId === target.node().id && l.targetId === source.node().id)) {
+                    availableLink = false;
+                }
             }
         });
         // common start cannot be a target.

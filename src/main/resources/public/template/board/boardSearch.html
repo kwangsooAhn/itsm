@@ -57,14 +57,14 @@
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("download.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
+                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
                 } else {
                     getBoardList();
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("download.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
+                    aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
                 } else {
                     getBoardList();
                 }

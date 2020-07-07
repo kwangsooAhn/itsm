@@ -713,12 +713,13 @@
                 addElemHeight = 80;
                 break;
             case 'exclusiveGateway':
-                addElemWidth = Math.sqrt(Math.pow(40, 2) + Math.pow(40, 2));
-                addElemHeight = addElemWidth;
+                let gatewaySize = Math.sqrt(Math.pow(40, 2) + Math.pow(40, 2));
+                addElemWidth = gatewaySize;
+                addElemHeight = gatewaySize;
                 break;
             case 'commonEnd':
                 addElemWidth = 40;
-                addElemHeight = addElemWidth;
+                addElemHeight = 40;
                 break;
         }
 
@@ -859,6 +860,9 @@
                   nodeElement = d3.select(document.getElementById(id));
             if (nodeElement.classed('connector')) {
                 const linkData = nodeElement.data()[0];
+                elementData[0].data['start-id'] = linkData.sourceId;
+                elementData[0].data['end-id'] = linkData.targetId;
+
                 elementData[0].display = {};
                 if (typeof linkData.midPoint !== 'undefined') {
                     elementData[0].display['mid-point'] = linkData.midPoint;

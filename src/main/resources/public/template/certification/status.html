@@ -15,7 +15,7 @@
     <div th:if="${validCode == 1}">
         <p th:text="#{authentication.msg.authenticationCompleted}"></p>
         <div sec:authorize="isAnonymous()">
-            <p th:text="#{login.requiredLogin}"></p>
+            <p th:text="#{login.label.requiredLogin}"></p>
             <form th:action="@{/logout}" method="post">
                 <label>
                     <input type="submit" th:value="LOGIN"/>
@@ -23,13 +23,13 @@
             </form>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <a href="/tokens/search" th:text="#{login.gotoMainPage}"></a>
+            <a href="/tokens/search" th:text="#{login.label.gotoMainPage}"></a>
         </div>
     </div>
     <div th:if="${validCode == 2}">
         <p th:text="#{authentication.msg.alreadyAuthenticated}"></p>
         <div sec:authorize="isAnonymous()">
-            <p th:text="#{login.requiredLogin}"></p>
+            <p th:text="#{login.label.requiredLogin}"></p>
             <form th:action="@{/logout}" method="post">
                 <label>
                     <input type="submit" th:value="LOGIN"/>
@@ -37,7 +37,7 @@
             </form>
         </div>
         <div sec:authorize="isAuthenticated()">
-            <a href="/tokens/search" th:text="#{login.gotoMainPage}"></a>
+            <a href="/tokens/search" th:text="#{login.label.gotoMainPage}"></a>
         </div>
     </div>
     <div th:if="${validCode == 3}">
