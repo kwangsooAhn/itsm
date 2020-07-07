@@ -41,7 +41,6 @@
 
             isEdited = !workflowUtil.compareJson(aliceProcessEditor.data, savedData);
             changeProcessName();
-            setProcessInformation();
         },
         undo: function() {
             aliceProcessEditor.removeElementSelected();
@@ -667,9 +666,9 @@
     }
 
     /**
-     * 오른쪽 하단에 프로세스 정보를 표시 한다.
+     * 미니맵을 표시한다.
      */
-    function setProcessInformation() {
+    function setProcessMinimap() {
         let drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
         let content = drawingBoard.html();
         d3.select('.minimap').html(content);
@@ -696,35 +695,6 @@
         }
         minimapSvg.attr('viewBox', getSvgViewBox().join(' '));
         minimapSvg.select('.minimap-guide').attr('transform', minimapTranslate);
-
-        const elements = aliceProcessEditor.data.elements;
-        let categories = [];
-        elements.forEach(function(elem) {
-            categories.push(aliceProcessEditor.getElementCategory(elem.type));
-        });
-
-        let uniqList =  categories.reduce(function(a, b) {
-            if (a.indexOf(b) < 0 ) { a.push(b); }
-            return a;
-        },[]);
-        const countList = [];
-        uniqList.forEach(function(item) {
-            let count = 0;
-            categories.forEach(function(category) {
-                if (item === category) {
-                    count++;
-                }
-            });
-            countList.push({category: item, count: count});
-        });
-        let infoContainer = document.querySelector('.alice-process-properties-panel .info');
-        infoContainer.querySelectorAll('label').forEach(function(label) {
-            label.textContent = '0';
-        });
-        countList.forEach(function(countInfo) {
-            infoContainer.querySelector('#' + countInfo.category + '_count').textContent = countInfo.count;
-        });
-        infoContainer.querySelector('#element_count').textContent = elements.length;
     }
 
     /**
@@ -789,7 +759,6 @@
         savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
         setShortcut();
         changeProcessName();
-        setProcessInformation();
     }
 
     exports.utils = utils;

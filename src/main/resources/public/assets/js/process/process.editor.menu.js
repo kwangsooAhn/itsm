@@ -7,8 +7,8 @@
 
     const data = {};
     const iconDirectory = '/assets/media/icons/process';
-    const itemSize = 20;
-    const itemMargin = 8;
+    const itemSize = 13;
+    const itemMargin = 5.5;
     const assigneeTypeData = {
         users: [],
         groups: []
@@ -435,7 +435,7 @@
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
-            containerHeight = itemSize + (itemMargin * 2);
+              containerHeight = itemSize + (itemMargin * 2);
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container action-tooltip')
@@ -473,9 +473,9 @@
             });
 
         const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem),
-            gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+              gTransform = d3.zoomTransform(d3.select('g.element-container').node());
 
-        let targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
+        let targetX = (bbox.x + bbox.width + gTransform.x) - containerWidth,
             targetY = bbox.y + gTransform.y - containerHeight - 10;
 
         if (elem.classed('connector')) {
@@ -1122,10 +1122,10 @@
         for (let idx = 0, len = propertiesDivision.length; idx < len; idx++) {
             // property 구분 타이틀
             let title = document.createElement('h3');
-            title.textContent = propertiesDivision[idx].title;
+            let span = document.createElement('span');
+            span.textContent = propertiesDivision[idx].title;
+            title.appendChild(span);
             elementContainer.appendChild(title);
-            let divideLine = document.createElement('hr');
-            elementContainer.appendChild(divideLine);
 
             const items = propertiesDivision[idx].items;
             for (let i = 0, attrLen = items.length; i < attrLen; i++) {
@@ -1143,22 +1143,22 @@
                     elementContainer.appendChild(propertyContainer);
                 }
 
-                // property required
-                let requiredLabelObject = document.createElement('label');
-                requiredLabelObject.className = 'required';
-                requiredLabelObject.htmlFor =  property.id;
                 if (property.required === 'Y') {
+                    // property required
+                    let requiredLabelObject = document.createElement('label');
+                    requiredLabelObject.className = 'required';
+                    requiredLabelObject.htmlFor =  property.id;
                     requiredLabelObject.textContent = '*';
+                    propertyContainer.appendChild(requiredLabelObject);
                 }
                 // property title
-                propertyContainer.appendChild(requiredLabelObject);
                 let labelObject = document.createElement('label');
                 labelObject.htmlFor = property.id;
                 labelObject.textContent = property.name;
                 propertyContainer.appendChild(labelObject);
 
                 // property object (input, select, textarea ..)
-                let elementObject = addPropertyObject(property, properties, elemData, propertyContainer);
+                let elementObject = addPropertyObject(id, property, properties, elemData, propertyContainer);
                 if (elementObject) {
                     // id, name, value 등 기본 값 설정
                     elementObject.id = property.id;
@@ -1220,6 +1220,11 @@
         }
         if (id !== aliceProcessEditor.data.process.id) {
             addSpecialProperties(id, elemData);
+        } else {
+            const temp = document.getElementById('process-info');
+            let clone = temp.content.cloneNode(true);
+            elementContainer.appendChild(clone);
+            setProcessInformation();
         }
     }
 
@@ -1309,13 +1314,14 @@
     /**
      * property object(input, textarea, select 등) 생성 후 해당 object 를 반환한다.
      *
+     * @param id
      * @param property
      * @param properties
      * @param elemData
      * @param propertyContainer
      * @return {HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement}
      */
-    function addPropertyObject(property, properties, elemData, propertyContainer) {
+    function addPropertyObject(id, property, properties, elemData, propertyContainer) {
         let elementObject;
         switch (property.type) {
             case 'inputbox':
@@ -1491,6 +1497,37 @@
                 connectorData['condition-value'] = '';
             }
         }
+    }
+
+    function setProcessInformation() {
+        const elements = aliceProcessEditor.data.elements;
+        let categories = [];
+        elements.forEach(function(elem) {
+            categories.push(aliceProcessEditor.getElementCategory(elem.type));
+        });
+
+        let uniqList =  categories.reduce(function(a, b) {
+            if (a.indexOf(b) < 0 ) { a.push(b); }
+            return a;
+        },[]);
+        const countList = [];
+        uniqList.forEach(function(item) {
+            let count = 0;
+            categories.forEach(function(category) {
+                if (item === category) {
+                    count++;
+                }
+            });
+            countList.push({category: item, count: count});
+        });
+        let infoContainer = document.querySelector('.alice-process-properties-panel .info');
+        infoContainer.querySelectorAll('label').forEach(function(label) {
+            label.textContent = '0';
+        });
+        countList.forEach(function(countInfo) {
+            infoContainer.querySelector('#' + countInfo.category + '_count').textContent = countInfo.count;
+        });
+        infoContainer.querySelector('#element_count').textContent = elements.length;
     }
 
     /**
