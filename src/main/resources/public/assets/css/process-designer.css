@@ -9890,26 +9890,6 @@ h3 {
   src: url(font/NotoSansKR-Medium.woff) format("woff");
   font-weight: 500;
 }
-@font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareL.woff) format("woff");
-  src: url(NanumSquareL.woff) format("woff");
-  font-weight: 300;
-}
-@font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareR.woff) format("woff");
-  font-weight: 400;
-}
-@font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareB.woff) format("woff");
-  font-weight: 700;
-}
-@font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareEB.woff) format("woff");
-}
 body {
   font-family: "Noto Sans";
   font-size: 0.688rem;
@@ -9945,19 +9925,27 @@ body {
 }
 .alice-process-toolbar .process-designer {
   width: 5.938rem;
+  float: left;
   margin-left: 0.938rem;
   margin-right: 0.938rem;
 }
 .alice-process-toolbar a {
   text-decoration: none;
-  margin-left: 0.75rem;
   margin-right: 0.75rem;
   height: 1.062rem;
   line-height: 1.062rem;
   vertical-align: middle;
+  float: left;
 }
 .alice-process-toolbar a img {
   cursor: pointer;
+}
+.alice-process-toolbar span.separator {
+  width: 0.063rem;
+  height: 1.062rem;
+  background-color: #3079ff;
+  margin-right: 0.75rem;
+  float: left;
 }
 .alice-process-toolbar .process-name {
   height: 1.062rem;
@@ -10095,7 +10083,7 @@ body {
   fill: #5887f9;
 }
 .alice-process-drawing-board defs marker path {
-  fill: #000000;
+  fill: #596f7a;
 }
 .alice-process-drawing-board g.alice-tooltip rect.tooltip-container {
   fill: #ffffff;
@@ -10111,7 +10099,7 @@ body {
 }
 .alice-process-drawing-board .grid line {
   stroke: #e5ebf5;
-  stroke-width: 0.5;
+  stroke-width: 1;
   stroke-opacity: 1;
   shape-rendering: crispEdges;
 }
@@ -10201,7 +10189,7 @@ body {
   overflow: hidden;
   position: absolute;
   bottom: 0.625rem;
-  right: 3.438rem;
+  right: 3.125rem;
   box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7, 0.063rem 0 0.313rem -0.25rem #def9f7;
 }
 .alice-process-drawing-board div.minimap svg {
@@ -10353,6 +10341,10 @@ body {
 .alice-process-properties-panel div.properties-container div.element-properties div.properties label.required {
   width: 0.5rem;
   color: #ff0000;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties label.checkbox {
+  width: initial;
+  margin-right: 0.625rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea,

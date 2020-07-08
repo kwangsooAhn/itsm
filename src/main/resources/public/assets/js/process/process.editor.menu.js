@@ -495,10 +495,14 @@
             let linkData = elem.data()[0];
             if (linkData.midPoint) {
                 targetX = (linkData.midPoint[0] + gTransform.x) - containerWidth / 2;
-                targetY = linkData.midPoint[1] + gTransform.y - containerHeight - 10;
+                targetY = linkData.midPoint[1] + gTransform.y - containerHeight - itemMargin;
             } else {
+                targetX = (bbox.cx + gTransform.x) - containerWidth / 2;
                 targetY = bbox.cy + gTransform.y - containerHeight - 10;
             }
+        } else if (elem.classed('gateway')) {
+            const gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [30, 30]);
+            targetX = bbox.cx + (gatewayDist / 2) - containerWidth;
         }
 
         tooltipItemContainer
@@ -1166,6 +1170,9 @@
                 }
                 // property title
                 let labelObject = document.createElement('label');
+                if (property.type === 'checkbox') {
+                    labelObject.className = 'checkbox';
+                }
                 labelObject.htmlFor = property.id;
                 labelObject.textContent = property.name;
                 propertyContainer.appendChild(labelObject);

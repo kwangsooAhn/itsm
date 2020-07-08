@@ -696,7 +696,6 @@
             minimapTranslate = 'translate(' + -transform.x + ',' + -transform.y + ')';
         }
         minimapSvg.attr('viewBox', getSvgViewBox().join(' '));
-        console.log(minimapSvg.attr('viewBox'))
         minimapSvg.select('.minimap-guide').attr('transform', minimapTranslate);
     }
 

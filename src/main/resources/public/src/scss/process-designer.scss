@@ -16,27 +16,6 @@
     font-weight: 500;
 }
 
-@font-face {
-    font-family: NanumSquare;
-    src: url(NanumSquareL.woff) format('woff');
-    src: url(NanumSquareL.woff) format('woff');
-    font-weight: 300;
-}
-@font-face {
-    font-family: NanumSquare;
-    src: url(NanumSquareR.woff) format('woff');
-    font-weight: 400;
-}
-@font-face {
-    font-family: NanumSquare;
-    src: url(NanumSquareB.woff) format('woff');
-    font-weight: 700;
-}
-@font-face {
-    font-family: NanumSquare;
-    src: url(NanumSquareEB.woff) format('woff');
-}
-
 $alice-font-family: "Noto Sans";
 $process-toolbar-height: 2.188rem; // 35px
 $process-toolbar-top-bottom-padding: 0.563rem; // 9px
@@ -90,6 +69,7 @@ body {
 
         .process-designer {
             width: 5.938rem; // 95px
+            float: left;
             margin: {
                 left: 0.938rem;
                 right: 0.938rem; // 15px
@@ -98,17 +78,23 @@ body {
 
         a {
             text-decoration: none;
-            margin: {
-                left: 0.75rem; // 12px
-                right: 0.75rem; // 12px
-            }
+            margin-right: 0.75rem; // 12px
             height: $process-toolbar-real-height;
             line-height: $process-toolbar-real-height;
             vertical-align: middle;
+            float: left;
 
             img {
                 cursor: pointer;
             }
+        }
+
+        span.separator {
+            width: 0.063rem; // 1px
+            height: $process-toolbar-real-height;
+            background-color: #3079ff;
+            margin-right: 0.75rem; // 12px
+            float: left;
         }
 
         .process-name {
@@ -284,7 +270,7 @@ body {
         defs {
             marker {
                 path {
-                    fill: #000000;
+                    fill: #596f7a;
                 }
             }
         }
@@ -307,7 +293,7 @@ body {
 
         .grid line {
             stroke: #e5ebf5;
-            stroke-width: 0.5;
+            stroke-width: 1;
             stroke-opacity: 1;
             shape-rendering: crispEdges;
         }
@@ -412,7 +398,7 @@ body {
             overflow: hidden;
             position: absolute;
             bottom: 0.625rem; // 10px
-            right: 3.438rem;  // 55px
+            right: 3.125rem;  // 50px
             box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7, // -1px 0 5px -4px #def9f7
                         0.063rem 0 0.313rem -0.25rem #def9f7; // 1px 0 5px -4px #def9f7
 
@@ -612,6 +598,10 @@ body {
                     label.required {
                         width: 0.5rem;  // 8px
                         color: #ff0000;
+                    }
+                    label.checkbox {
+                        width: initial;
+                        margin-right: 0.625rem; // 10px
                     }
 
                     input,

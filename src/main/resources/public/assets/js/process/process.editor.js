@@ -8,7 +8,7 @@
     const displayOptions = {
         translateLimit: 1000, // drawing board limit.
         gridInterval: 10,     // value of grid interval.
-        pointerRadius: 6,
+        pointerRadius: 4,
         connectorRadius: 8,
         connectorLabelPos: 20
     };
@@ -1058,9 +1058,6 @@
             textElement
                 .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2) + (Number(nodeElement.attr('height')) / 2))
                 .attr('y', Number(nodeElement.attr('y')) + (Number(nodeElement.attr('height')) / 2));
-            if (nodeElement.classed('group')) {
-                textElement.attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2));
-            }
         }
         lastDraggedPosition = [mouseX, mouseY];
 
@@ -1084,7 +1081,9 @@
                 .attr('x', mouseX + (Number(nodeElement.attr('width')) / 2))
                 .attr('y', mouseY + (Number(nodeElement.attr('height')) / 2) + Number(nodeElement.attr('height')) + 10);
         } else if (nodeElement.classed('group')) {
-            textElement.attr('y', mouseY + 10);
+            textElement
+                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
+                .attr('y', mouseY + 10);
             let rectData = [
                 {x: Number(nodeElement.attr('x')), y: Number(nodeElement.attr('y'))},
                 {x: Number(nodeElement.attr('x')) + Number(nodeElement.attr('width')), y: Number(nodeElement.attr('y')) + Number(nodeElement.attr('height'))}
@@ -1099,6 +1098,7 @@
             });
         } else if (nodeElement.classed('annotation')) {
             textElement
+                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
                 .attr('y', mouseY + 15);
             if (textElement.selectAll('tspan').nodes().length > 0) {
                 textElement.selectAll('tspan').nodes().forEach(function(tspan) {
@@ -1333,6 +1333,8 @@
             .attr('height', size)
             .attr('x', x - (size / 2))
             .attr('y', y - (size / 2))
+            .attr('rx', 2)
+            .attr('ry', 2)
             .attr('transform', 'rotate(45, ' + x + ', ' + y + ')')
             .attr('class', 'node gateway ' + self.defaultType)
             .on('mouseover', elementMouseEventHandler.mouseover)

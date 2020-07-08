@@ -29,21 +29,31 @@
     <div class="alice-process-toolbar">
         <span class="logo"></span>
         <span class="process-designer">Process Designer</span>
-        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnSave">
-            <img th:src="@{/assets/media/icons/process/topmenu/icon_save.png}"/>
-        </a>
+        <span class="separator"></span>
+        <th:block th:if="${#strings.isEmpty(isView)}">
+            <a href="#" id="btnSave">
+                <img th:src="@{/assets/media/icons/process/topmenu/icon_save.png}"/>
+            </a>
+            <span class="separator"></span>
+        </th:block>
         <a href="#" id="btnSaveAs">
             <img th:src="@{/assets/media/icons/process/topmenu/icon_save_as.png}"/>
         </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnSimulation">
-            <img th:src="@{/assets/media/icons/process/topmenu/icon_simulation.png}"/>
-        </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnUndo">
-            <img th:src="@{/assets/media/icons/process/topmenu/icon_undo.png}"/>
-        </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnRedo">
-            <img th:src="@{/assets/media/icons/process/topmenu/icon_redo.png}"/>
-        </a>
+        <th:block th:if="${#strings.isEmpty(isView)}">
+            <span class="separator"></span>
+            <a href="#" id="btnSimulation">
+                <img th:src="@{/assets/media/icons/process/topmenu/icon_simulation.png}"/>
+            </a>
+            <span class="separator"></span>
+            <a href="#" id="btnUndo">
+                <img th:src="@{/assets/media/icons/process/topmenu/icon_undo.png}"/>
+            </a>
+            <span class="separator"></span>
+            <a href="#" id="btnRedo">
+                <img th:src="@{/assets/media/icons/process/topmenu/icon_redo.png}"/>
+            </a>
+        </th:block>
+        <span class="separator"></span>
         <a href="#" id="btnDownload">
             <img th:src="@{/assets/media/icons/process/topmenu/icon_image_download.png}"/>
         </a>
@@ -63,7 +73,7 @@
             <label>Gateway</label>
         </span>
         <span class="rectangle-menu shape group">
-            <label>Grouop</label>
+            <label>Group</label>
         </span>
         <span class="rectangle-menu shape annotation">
             <label>Annotation</label>
