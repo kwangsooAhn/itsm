@@ -502,7 +502,7 @@
             }
         } else if (elem.classed('gateway')) {
             const gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [30, 30]);
-            targetX = bbox.cx + (gatewayDist / 2) - containerWidth;
+            targetX = bbox.cx + (gatewayDist / 2) + gTransform.x - containerWidth;
         }
 
         tooltipItemContainer
