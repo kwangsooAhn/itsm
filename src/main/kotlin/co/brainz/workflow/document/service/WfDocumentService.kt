@@ -19,7 +19,7 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.form.constants.WfFormConstants
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.form.repository.WfFormRepository
-import co.brainz.workflow.form.service.WfFormGetService
+import co.brainz.workflow.form.service.WfFormService
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.entity.WfProcessEntity
@@ -39,7 +39,7 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional
 class WfDocumentService(
-    private val wfFormGetService: WfFormGetService,
+    private val wfFormService: WfFormService,
     private val wfActionService: WfActionService,
     private val wfElementService: WfElementService,
     private val wfDocumentRepository: WfDocumentRepository,
@@ -101,7 +101,7 @@ class WfDocumentService(
     fun getInitDocument(documentId: String): RestTemplateRequestDocumentDto {
         val documentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(documentId)
 
-        val form = wfFormGetService.getFormComponentList(documentEntity.form.formId)
+        val form = wfFormService.getFormComponentList(documentEntity.form.formId)
         val dummyTokenDto =
             WfTokenDto(elementId = wfElementService.getStartElement(documentEntity.process.processId).elementId)
         val firstElement = wfElementService.getNextElement(dummyTokenDto)

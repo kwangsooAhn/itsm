@@ -23,10 +23,12 @@ import org.mapstruct.factory.Mappers
 import org.springframework.stereotype.Service
 
 @Service
-class WfFormGetService(
+class WfFormService(
     private val wfFormRepository: WfFormRepository,
     private val wfComponentRepository: WfComponentRepository,
-    private val wfComponentDataRepository: WfComponentDataRepository
+    private val wfComponentDataRepository: WfComponentDataRepository,
+    private val wfDocumentRepository: WfDocumentRepository,
+    private val aliceUserRepository: AliceUserRepository
 ) {
 
     private val wfFormMapper: WfFormMapper = Mappers.getMapper(
@@ -203,23 +205,6 @@ class WfFormGetService(
 
         return wfComponentDataEntities
     }
-}
-
-@Service
-class WfFormService(
-    private val wfFormRepository: WfFormRepository,
-    private val wfComponentRepository: WfComponentRepository,
-    private val wfComponentDataRepository: WfComponentDataRepository,
-    private val wfDocumentRepository: WfDocumentRepository,
-    private val aliceUserRepository: AliceUserRepository,
-    private val wfFormGetService: WfFormGetService
-) {
-
-    private val wfFormMapper: WfFormMapper = Mappers.getMapper(
-        WfFormMapper::class.java
-    )
-
-    private val objMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
     /**
      * Create Form.
@@ -302,7 +287,7 @@ class WfFormService(
             // wf_component 저장
             val resultComponentEntity = this.saveComponent(resultFormEntity, component)
             // component data 가져오기
-            wfComponentDataEntities.addAll(wfFormGetService.getComponentData(resultComponentEntity, component))
+            wfComponentDataEntities.addAll(this.getComponentData(resultComponentEntity, component))
         }
         if (wfComponentDataEntities.isNotEmpty()) {
             wfComponentDataRepository.saveAll(wfComponentDataEntities)

@@ -1,5 +1,7 @@
 package co.brainz.framework.exception
 
+import org.apache.http.HttpStatus
+
 /**
  * Http 상태 코드
  *
@@ -15,42 +17,42 @@ enum class AliceHttpStatusConstants(val status: Int, val reasonPhrase: String) {
     /**
      * 전송 성공
      */
-    OK(200, "OK"),
+    OK(HttpStatus.SC_OK, "OK"),
 
     /**
      * 요청 실패. 서버가 요청사항을 처리할 수 없음.
      */
-    BAD_REQUEST(400, "Bad Request"),
+    BAD_REQUEST(HttpStatus.SC_BAD_REQUEST, "Bad Request"),
 
     /**
      * 인증실패. 비로그인 사용자
      */
-    UNAUTHORIZED(401, "Unauthorized"),
+    UNAUTHORIZED(HttpStatus.SC_UNAUTHORIZED, "Unauthorized"),
 
     /**
      * 인증은 되었으나 리소스에 접근 권한이 없음
      */
-    FORBIDDEN(403, "Forbidden"),
+    FORBIDDEN(HttpStatus.SC_FORBIDDEN, "Forbidden"),
 
     /**
      * 리소스를 찾을 수 없음
      */
-    NOT_FOUND(404, "Not Found"),
+    NOT_FOUND(HttpStatus.SC_NOT_FOUND, "Not Found"),
 
     /**
      * 다양한 비지니스 원인으로 인해 요청한 작업이 불가능함
      */
-    NOT_ACCEPTABLE(406, "Not Acceptable"),
+    NOT_ACCEPTABLE(HttpStatus.SC_NOT_ACCEPTABLE, "Not Acceptable"),
 
     /**
      * 서버 오류. 400번대 외 기타 나머지 오류
      */
-    INTERNAL_SERVER_ERROR(500, "Internal Server Error"),
+    INTERNAL_SERVER_ERROR(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Internal Server Error"),
 
     /**
      * 요청을 수행할 수 있는 기능이 없음.
      */
-    NOT_IMPLEMENTED(501, "Not Implemented")
+    NOT_IMPLEMENTED(HttpStatus.SC_NOT_IMPLEMENTED, "Not Implemented")
     ;
 
     companion object {
