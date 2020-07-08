@@ -132,8 +132,12 @@ class WfElementService(
     private fun getConnectorElementByCondition(connectorElements: MutableList<WfElementEntity>, conditionItemValue: String, tokenDto: WfTokenDto): WfElementEntity? {
         var selectedConnector: WfElementEntity? = null
         connectorElements.forEach { connector ->
-            val connectorValue = wfElementDataRepository.findByElementAndAttributeId(connector, WfElementConstants.AttributeId.CONDITION_VALUE.value).attributeValue
-            val connectorValueSplitArray = connectorValue.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
+            val connectorValue = wfElementDataRepository.findByElementAndAttributeId(
+                connector,
+                WfElementConstants.AttributeId.CONDITION_VALUE.value
+            ).attributeValue
+            val connectorValueSplitArray =
+                connectorValue.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
             if (connectorValueSplitArray.size == 2) {
                 val connectorConvertValue = this.getMatchesRegex(connectorValueSplitArray[1], tokenDto)
                 when (connectorValueSplitArray[0]) {
@@ -171,7 +175,10 @@ class WfElementService(
             }
 
             if (selectedConnector == null) {
-                val isDefault = wfElementDataRepository.findByElementAndAttributeId(connector, WfElementConstants.AttributeId.IS_DEFAULT.value).attributeValue == "Y"
+                val isDefault = wfElementDataRepository.findByElementAndAttributeId(
+                    connector,
+                    WfElementConstants.AttributeId.IS_DEFAULT.value
+                ).attributeValue == "Y"
                 if (isDefault) {
                     selectedConnector = connector
                 }

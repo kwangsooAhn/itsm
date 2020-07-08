@@ -52,12 +52,9 @@ class UserRestController(
     fun createUser(@RequestBody aliceSignUpDto: AliceSignUpDto): String {
         val fromNum = 1000000000
         val toNum = 9999999999
-        val random = Random
-        val randomNumber = random.nextLong(toNum - fromNum) + fromNum
+        val randomNumber = Random.nextLong(toNum - fromNum) + fromNum
         val password = randomNumber.toString()
         val publicKey = aliceCryptoRsa.getPublicKey()
-
-        // 패스워드 암호화
         aliceSignUpDto.password = aliceCryptoRsa.encrypt(publicKey, password)
 
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
