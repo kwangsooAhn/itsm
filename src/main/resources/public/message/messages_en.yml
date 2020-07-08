@@ -46,6 +46,7 @@ common:
     fail: "Failed."
     modify: "Modified."
     noData: "There is no data."
+    register: "Registered."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     save: "Saved."
@@ -194,8 +195,10 @@ code:
     codeValue: "Code Value"
     pCode: "Parent Code"
   msg:
+    duplicateCode: "Duplicate code Exists."
     enterCode: "Please enter a code."
     pCodeNotExist: "Parent code does not exist."
+    referenceCodeExist: "Code exists that references the code."
 
 # Comment
 comment:
