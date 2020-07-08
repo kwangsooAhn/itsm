@@ -27,5 +27,4 @@ interface CodeRepository : JpaRepository<CodeEntity, String> {
     fun existsByCodeAndPCodeAndEditableTrue(code: String, pCode: CodeEntity = CodeEntity()): Boolean
 
     fun findByPCodeAndEditableTrueOrderByCodeValue(pCode: CodeEntity): MutableList<CodeEntity>
-
 }
