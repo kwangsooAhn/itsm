@@ -9893,6 +9893,7 @@ h3 {
 @font-face {
   font-family: NanumSquare;
   src: url(NanumSquareL.woff) format("woff");
+  src: url(NanumSquareL.woff) format("woff");
   font-weight: 300;
 }
 @font-face {
@@ -9930,7 +9931,7 @@ body {
   padding-top: 0.563rem;
   padding-bottom: 0.563rem;
   line-height: 1rem;
-  font-size: 0.938rem;
+  font-size: 0.75rem;
 }
 .alice-process-toolbar .logo {
   width: 5.625rem;
@@ -9946,7 +9947,6 @@ body {
   width: 5.938rem;
   margin-left: 0.938rem;
   margin-right: 0.938rem;
-  font-size: 0.75rem;
 }
 .alice-process-toolbar a {
   text-decoration: none;
@@ -9974,7 +9974,6 @@ body {
   position: absolute;
   top: 2.188rem;
   color: #666f7a;
-  font-size: 0.688rem;
   box-shadow: 0.063rem 0 0.313rem -0.25rem #182738;
 }
 .alice-process-element-palette .rectangle-menu {
@@ -9994,6 +9993,7 @@ body {
   top: 2.5rem;
   width: 100%;
   text-align: center;
+  font-size: 0.688rem;
 }
 .alice-process-element-palette .connector {
   position: absolute;
@@ -10004,6 +10004,7 @@ body {
 }
 .alice-process-element-palette .connector.selected {
   background-color: transparent;
+  background-image: url("../media/icons/process/element/connector-select.png");
 }
 .alice-process-element-palette .shape.event {
   background-image: url("../media/icons/process/element/event.png");
@@ -10032,6 +10033,7 @@ body {
 }
 .alice-process-element-palette .move-icon.selected {
   background-color: transparent;
+  background-image: url("../media/icons/process/editor/icon-background-select.png");
 }
 .alice-process-drawing-board {
   display: inline-block;
@@ -10138,22 +10140,19 @@ body {
 }
 .alice-process-drawing-board .element .node.event.commonEnd,
 .alice-process-drawing-board .element .node.event.messageEnd {
-  stroke-width: 3;
+  stroke-width: 2;
 }
 .alice-process-drawing-board .element .node.selected {
-  stroke-width: 3;
-}
-.alice-process-drawing-board .element .node.selected.event.commonEnd,
-.alice-process-drawing-board .element .node.selected.event.messageEnd {
-  stroke-width: 5;
+  stroke: #0050ff;
+  stroke-width: 2;
 }
 .alice-process-drawing-board .element .node.reject-element {
   stroke: #ff0000;
   stroke-width: 2;
 }
 .alice-process-drawing-board .element .element-type.task {
-  stroke-width: 1;
   stroke: #0099ff;
+  stroke-width: 1;
 }
 .alice-process-drawing-board .element .group {
   stroke: #000000;
@@ -10161,6 +10160,7 @@ body {
   stroke-dasharray: 5, 5;
 }
 .alice-process-drawing-board .element .annotation {
+  stroke: #000000;
   fill-opacity: 0;
   stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
 }
@@ -10176,21 +10176,38 @@ body {
   stroke: darkgray;
   stroke-width: 0;
 }
-.alice-process-drawing-board div.minimap {
-  background-color: #f2f5fa;
+.alice-process-drawing-board div.minimap-button {
   display: inline-block;
-  width: 18rem;
-  height: 11.125rem;
-  overflow: hidden;
+  width: 2.188rem;
+  height: 2.188rem;
   position: absolute;
   bottom: 0.625rem;
   right: 0.625rem;
-  border: 0.063rem solid #c8ced8;
   cursor: pointer;
+  background-image: url("../media/icons/process/editor/icon-map.png");
+  background-repeat: no-repeat;
+}
+.alice-process-drawing-board div.minimap {
+  background-color: #ffffff;
+  display: inline-block;
+  width: 12.5rem;
+  height: 9.375rem;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0.625rem;
+  right: 3.438rem;
+  box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7, 0.063rem 0 0.313rem -0.25rem #def9f7;
+}
+.alice-process-drawing-board div.minimap svg {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  background-color: #eef2f7;
+  border: 1px solid #c8ced8;
 }
 .alice-process-drawing-board div.minimap rect.minimap-guide {
-  fill: red;
-  fill-opacity: 0.1;
+  fill: #A3B6CC;
+  fill-opacity: 0.25;
   stroke-width: 0;
 }
 .alice-process-drawing-board div.minimap path.connector {
@@ -10237,17 +10254,15 @@ body {
   stroke-width: 3;
 }
 .alice-process-drawing-board div.minimap .element text {
-  fill: #000000;
-  font-weight: bold;
-  font-size: 0.813rem;
+  fill: #3E4752;
+  font-size: 0.75rem;
+  font-weight: 500;
   text-anchor: middle;
   dominant-baseline: middle;
   user-select: none;
 }
 .alice-process-drawing-board div.minimap.closed {
-  background-color: #ffffff;
-  width: 2.188rem;
-  height: 2.188rem;
+  display: none;
 }
 .alice-process-properties-panel {
   display: inline-block;
@@ -10263,8 +10278,6 @@ body {
 .alice-process-properties-panel h3 {
   border-bottom: 0.063rem solid #c8ced8;
   line-height: 0.1em;
-  font-size: 0.75rem;
-  font-weight: 500;
   margin-top: 0.969rem;
   margin-left: 1.25rem;
   margin-right: 1.25rem;
@@ -10273,6 +10286,8 @@ body {
 .alice-process-properties-panel h3 span {
   background-color: #fafbfd;
   padding-right: 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 .alice-process-properties-panel div.properties-container {
   height: calc(100vh - 2.188rem);
@@ -10306,7 +10321,7 @@ body {
   margin: 0 0.3125rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties fieldset legend label {
-  font-size: 0.813rem;
+  font-size: 0.688rem;
   font-weight: bold;
 }
 .alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties {
@@ -10321,11 +10336,11 @@ body {
   margin-top: 0.5rem;
   margin-left: 1.25rem;
   margin-right: 1.25rem;
-  font-size: 0.813rem;
+  font-size: 0.688rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties label {
   display: inline-block;
-  width: 11.375rem;
+  width: 10.625rem;
   vertical-align: top;
   margin-bottom: 0.375rem;
 }
@@ -10338,6 +10353,7 @@ body {
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select {
   border: 0.063rem solid #c8ced8;
   color: #68717c;
+  padding-left: 0.438rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]),
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea,
@@ -10377,7 +10393,6 @@ body {
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table th {
   background-color: lightgrey;
   text-align: center;
-  font-weight: bold;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table td {
   padding-left: 0.313rem;
@@ -10401,14 +10416,18 @@ body {
   cursor: pointer;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette {
-  background-color: #d3d3d3;
+  background-color: #ffffff;
   width: 11.875rem;
+  margin-top: 0.188rem;
+  border: 0.063rem solid #c8ced8;
+  padding-left: 0.219rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette div {
   display: inline-block;
-  width: 1.25rem;
-  height: 1.25rem;
-  margin: 0.3125rem;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.375rem;
+  margin-left: 0.375rem;
   cursor: pointer;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip {

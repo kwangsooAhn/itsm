@@ -674,12 +674,12 @@
         if (minimap.classed('closed')) {
             return false;
         }
-        let drawingBoardContainer = document.querySelector('.alice-process-drawing-board');
-        let drawingBoard = d3.select(drawingBoardContainer).select('svg');
+        const drawingboardContainer = document.querySelector('.alice-process-drawing-board');
+        let drawingBoard = d3.select(drawingboardContainer).select('svg');
         let content = drawingBoard.html();
-        d3.select('div.minimap').select('svg').html(content);
         const minimapSvg = d3.select('div.minimap').select('svg');
-        minimapSvg.attr('width', 288).attr('height', 178);
+        minimapSvg.html(content);
+        minimapSvg.attr('width', 160).attr('height', 110);
         minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
         minimapSvg.selectAll('text').nodes().forEach(function(node) {
             if (node.textContent === '') { d3.select(node).remove(); }
@@ -691,8 +691,8 @@
             .attr('class', 'minimap-guide')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('width', drawingBoardContainer.offsetWidth)
-            .attr('height', drawingBoardContainer.offsetHeight);
+            .attr('width', drawingboardContainer.offsetWidth)
+            .attr('height', drawingboardContainer.offsetHeight);
 
         let minimapTranslate = '';
         if (minimapSvg.selectAll('g.element, g.connector').nodes().length > 0) {
@@ -745,27 +745,17 @@
         minimapContainer.classList.add('minimap', 'closed');
         drawingBoard.appendChild(minimapContainer);
         d3.select(minimapContainer).append('svg');
-
-        const minimapSvg = d3.select('div.minimap').select('svg');
-        minimapSvg.append('rect')
-            .attr('width', 35)
-            .attr('height', 35)
-            .style('fill', 'url(#minimap)');
-
-        d3.select(minimapContainer).on('click', function() {
-            let isMinimapClosed = d3.select('div.minimap').classed('closed');
-            d3.select('div.minimap').classed('closed', !isMinimapClosed);
+        const minimapButtonContainer = document.createElement('div');
+        minimapButtonContainer.classList.add('minimap-button');
+        minimapButtonContainer.addEventListener('click', function() {
+            const minimap = document.querySelector('div.minimap');
+            let isMinimapClosed = minimap.classList.contains('closed');
+            minimap.classList.toggle('closed');
             if (isMinimapClosed) {
                 setProcessMinimap();
-            } else {
-                minimapSvg.html('');
-                minimapSvg.attr('width', 35).attr('height', 35).attr('viewBox', null);
-                minimapSvg.append('rect')
-                    .attr('width', 35)
-                    .attr('height', 35)
-                    .style('fill', 'url(#minimap)');
             }
-        });
+        }, false);
+        drawingBoard.appendChild(minimapButtonContainer);
     }
 
     /**

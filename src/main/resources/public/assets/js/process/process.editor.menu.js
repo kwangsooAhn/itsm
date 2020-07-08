@@ -7,7 +7,7 @@
 
     const data = {};
     const iconDirectory = '/assets/media/icons/process';
-    const itemSize = 13;
+    const itemSize = 16;
     const itemMargin = 5.5;
     const assigneeTypeData = {
         users: [],
@@ -53,98 +53,98 @@
         },
         {
             type: 'userTask', parent: 'suggest',
-            url: iconDirectory + '/suggestion/usertask.png',
+            url: iconDirectory + '/tooltip/task-userTask.png',
             action: function(el) {
                 suggestElement(el, 'userTask');
             }
         }, {
             type: 'manualTask', parent: 'suggest',
-            url: iconDirectory + '/suggestion/manual.png',
+            url: iconDirectory + '/tooltip/task-manualTask.png',
             action: function(el) {
                 suggestElement(el, 'manualTask');
             }
         }, {
             type: 'exclusiveGateway', parent: 'suggest',
-            url: iconDirectory + '/suggestion/gateways.png',
+            url: iconDirectory + '/tooltip/gateway-exclusiveGateway.png',
             action: function(el) {
                 suggestElement(el, 'exclusiveGateway');
             }
         }, {
             type: 'commonEnd', parent: 'suggest',
-            url: iconDirectory + '/suggestion/end.png',
+            url: iconDirectory + '/tooltip/event-commonEnd.png',
             action: function(el) {
                 suggestElement(el, 'commonEnd');
             }
         }, {
             type: 'commonStart', parent: 'event',
-            url: iconDirectory + '/element-type/event-start.png',
+            url: iconDirectory + '/tooltip/event-commonStart.png',
             action: function(el) {
                 editElementType(el,'commonStart');
             }
         }, {
             type: 'timerStart', parent: 'event',
-            url: iconDirectory + '/element-type/event-start-timer.png',
+            url: iconDirectory + '/tooltip/event-timerStart.png',
             element_url: iconDirectory + '/element-type/event-start-timer.png',
             action: function(el) {
                 editElementType(el,'timerStart');
             }
         }, {
             type: 'signalSend', parent: 'event',
-            url: iconDirectory + '/element-type/event-signal-send.png',
+            url: iconDirectory + '/tooltip/event-signalSend.png',
             element_url: iconDirectory + '/element-type/event-signal-send.png',
             action: function(el) {
                 editElementType(el,'signalSend');
             }
         }, {
             type: 'commonEnd', parent: 'event',
-            url: iconDirectory + '/element-type/event-end.png',
+            url: iconDirectory + '/tooltip/event-commonEnd.png',
             action: function(el) {
                 editElementType(el,'commonEnd');
             }
         }, {
             type: 'userTask', parent: 'task',
-            url: iconDirectory + '/element-type/task-user.png',
+            url: iconDirectory + '/tooltip/task-userTask.png',
             element_url: iconDirectory + '/element-type/task-user.png',
             action: function(el) {
                 editElementType(el,'userTask');
             }
         }, {
             type: 'manualTask', parent: 'task',
-            url: iconDirectory + '/element-type/task-manual.png',
+            url: iconDirectory + '/tooltip/task-manualTask.png',
             element_url: iconDirectory + '/element-type/task-manual.png',
             action: function(el) {
                 editElementType(el,'manualTask');
             }
         }, {
             type: 'scriptTask', parent: 'task',
-            url: iconDirectory + '/element-type/task-script.png',
+            url: iconDirectory + '/tooltip/task-scriptTask.png',
             element_url: iconDirectory + '/element-type/task-script.png',
             action: function(el) {
                 editElementType(el,'scriptTask');
             }
         }, {
             type: 'subprocess', parent: 'subprocess',
-            url: iconDirectory + '/element-type/subprocess.png',
+            url: '',
             element_url: iconDirectory + '/element-type/subprocess.png',
             action: function(el) {}
         }, {
             type: 'exclusiveGateway', parent: 'gateway',
-            url: iconDirectory + '/element-type/gateway-exclusive.png',
+            url: iconDirectory + '/tooltip/gateway-exclusiveGateway.png',
             element_url: iconDirectory + '/element-type/gateway-exclusive.png',
             action: function(el) {
                 editElementType(el,'exclusiveGateway');
             }
         }, {
             type: 'parallelGateway', parent: 'gateway',
-            url: iconDirectory + '/element-type/gateway-parallel.png',
+            url: iconDirectory + '/tooltip/gateway-parallelGateway.png',
             element_url: iconDirectory + '/element-type/gateway-parallel.png',
             action: function(el) {
                 editElementType(el,'parallelGateway');
             }
         }, {
             type: 'inclusiveGateway', parent: 'gateway',
-            url: iconDirectory + '/element-type/gateway-inclusive.png',
-            element_url: iconDirectory + '/element-type/event-end.png',
+            url: iconDirectory + '/tooltip/gateway-inclusiveGateway.png',
+            element_url: iconDirectory + '/element-type/gateway-inclusive.png',
             action: function(el) {
                 editElementType(el,'inclusiveGateway');
             }
@@ -713,7 +713,7 @@
                 addElemHeight = 80;
                 break;
             case 'exclusiveGateway':
-                let gatewaySize = Math.sqrt(Math.pow(40, 2) + Math.pow(40, 2));
+                let gatewaySize = Math.sqrt(Math.pow(30, 2) + Math.pow(30, 2));
                 addElemWidth = gatewaySize;
                 addElemHeight = gatewaySize;
                 break;
@@ -1641,7 +1641,6 @@
                 imageLoadingList.push(focusData);
             }
         });
-        imageLoadingList.push({id: 'minimap', url: iconDirectory + '/editor/icon-map.png'});
 
         const defs = d3.select('svg').select('defs');
         defs.selectAll('pattern').data(imageLoadingList)

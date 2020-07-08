@@ -19,6 +19,7 @@
 @font-face {
     font-family: NanumSquare;
     src: url(NanumSquareL.woff) format('woff');
+    src: url(NanumSquareL.woff) format('woff');
     font-weight: 300;
 }
 @font-face {
@@ -71,7 +72,7 @@ body {
         line-height: 1.0rem;
 
         font: {
-            size: 0.938rem; // 15px
+            size: 0.75rem; // 12px
         }
 
         .logo {
@@ -92,9 +93,6 @@ body {
             margin: {
                 left: 0.938rem;
                 right: 0.938rem; // 15px
-            };
-            font: {
-                size: 0.75rem; // 12px
             };
         }
 
@@ -130,7 +128,6 @@ body {
         position: absolute;
         top: $process-toolbar-height;
         color: #666f7a;
-        font-size: 0.688rem; // 11px
         box-shadow: 0.063rem 0 0.313rem -0.25rem #182738;
 
         .rectangle-menu {
@@ -152,6 +149,7 @@ body {
                 top: 2.5rem; // 40px
                 width: 100%;
                 text-align: center;
+                font-size: 0.688rem; // 11px
             }
         }
 
@@ -168,6 +166,7 @@ body {
         .connector.selected {
             background: {
                 color: transparent;
+                image: url("../media/icons/process/element/connector-select.png");
             }
         }
 
@@ -208,6 +207,7 @@ body {
         .move-icon.selected {
             background: {
                 color: transparent;
+                image: url("../media/icons/process/editor/icon-background-select.png");
             }
         }
     }
@@ -342,16 +342,12 @@ body {
 
             .node.event.commonEnd,
             .node.event.messageEnd {
-                stroke-width: 3;
+                stroke-width: 2;
             }
 
             .node.selected {
-                stroke-width: 3;
-            }
-
-            .node.selected.event.commonEnd,
-            .node.selected.event.messageEnd {
-                stroke-width: 5;
+                stroke: #0050ff;
+                stroke-width: 2;
             }
 
             .node.reject-element {
@@ -360,8 +356,8 @@ body {
             }
 
             .element-type.task {
-                stroke-width: 1;
                 stroke: #0099ff;
+                stroke-width: 1;
             }
 
             .group {
@@ -371,6 +367,7 @@ body {
             }
 
             .annotation {
+                stroke: #000000;
                 fill-opacity: 0;
                 stroke-dasharray: 5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5;
             }
@@ -394,21 +391,43 @@ body {
             }
         }
 
-        div.minimap {
-            background-color: #f2f5fa;
+        div.minimap-button {
             display: inline-block;
-            width: 18rem;  // 288px
-            height: 11.125rem; // 178px
+            width: 2.188rem;  // 35px
+            height: 2.188rem;  // 35px
+            position: absolute;
+            bottom: 0.625rem; // 10px
+            right: 0.625rem; // 10px
+            cursor: pointer;
+            background: {
+                image: url("../media/icons/process/editor/icon-map.png");
+                repeat: no-repeat;
+            };
+        }
+
+        div.minimap {
+            background-color: #ffffff;
+            display: inline-block;
+            width: 12.5rem;  // 200px
+            height: 9.375rem; // 150px
             overflow: hidden;
             position: absolute;
             bottom: 0.625rem; // 10px
-            right: 0.625rem;  // 10px
-            border: 0.063rem solid #c8ced8;
-            cursor: pointer;
+            right: 3.438rem;  // 55px
+            box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7, // -1px 0 5px -4px #def9f7
+                        0.063rem 0 0.313rem -0.25rem #def9f7; // 1px 0 5px -4px #def9f7
+
+            svg {
+                position: absolute;
+                top: 1.25rem;  // 20px
+                left: 1.25rem;  // 20px
+                background-color: #eef2f7;
+                border: 1px solid #c8ced8;
+            }
 
             rect.minimap-guide {
-                fill: red;
-                fill-opacity: 0.1;
+                fill: #A3B6CC;
+                fill-opacity: 0.25;
                 stroke-width: 0;
             }
 
@@ -468,10 +487,10 @@ body {
                 }
 
                 text {
-                    fill: #000000;
+                    fill: #3E4752;
                     font: {
-                        weight: bold;
-                        size: 0.813rem; // 13px
+                        size: 0.75rem; // 12px
+                        weight: 500;
                     }
                     text-anchor: middle;
                     dominant-baseline: middle;
@@ -481,9 +500,7 @@ body {
         }
 
         div.minimap.closed {
-            background-color: #ffffff;
-            width: 2.188rem;  // 35px
-            height: 2.188rem; // 35px
+            display: none;
         }
     }
 
@@ -502,10 +519,6 @@ body {
             border-bottom: 0.063rem solid #c8ced8;
             line-height: 0.1em;
 
-            font: {
-                size: 0.75rem; // 12px
-                weight: 500;
-            }
             margin: {
                 top: 0.969rem; // 15.5px
                 left: 1.25rem; // 20px
@@ -517,6 +530,10 @@ body {
         h3 span {
             background-color: #fafbfd;
             padding-right: 0.625rem;
+            font: {
+                size: 0.75rem; // 12px
+                weight: 500;
+            }
         }
 
         div.properties-container {
@@ -559,7 +576,7 @@ body {
 
                         label {
                             font: {
-                                size: 0.813rem; // 13px
+                                size: 0.688rem; // 11px
                                 weight: bold;
                             }
                         }
@@ -583,12 +600,12 @@ body {
                     }
 
                     font: {
-                        size: 0.813rem; // 13px
+                        size: 0.688rem; // 11px
                     }
 
                     label {
                         display: inline-block;
-                        width: 11.375rem;  // 182px
+                        width: 10.625rem;  // 168px
                         vertical-align: top;
                         margin-bottom: 0.375rem;
                     }
@@ -603,6 +620,7 @@ body {
                     select {
                         border: 0.063rem solid #c8ced8;
                         color: #68717c;
+                        padding-left: 0.438rem; // 7px
                     }
 
                     input:not([type=checkbox]),
@@ -652,9 +670,6 @@ body {
                         th {
                             background-color: lightgrey;
                             text-align: center;
-                            font: {
-                                weight: bold;
-                            }
                         }
 
                         td {
@@ -686,13 +701,19 @@ body {
                     }
 
                     div.color-palette {
-                        background-color: #d3d3d3;
+                        background-color: #ffffff;
                         width: 11.875rem; // 190px
+                        margin-top: 0.188rem;  // 3px
+                        border: 0.063rem solid #c8ced8;
+                        padding-left: 0.219rem; // 3.5px
                         div {
                             display: inline-block;
-                            width: 1.25rem;    //20px
-                            height: 1.25rem;
-                            margin: 0.3125rem; //5px
+                            width: 1rem;    //16px
+                            height: 1rem;
+                            margin: {
+                                top: 0.375rem; //6px
+                                left: 0.375rem; //6px
+                            }
                             cursor: pointer;
                         }
                     }
@@ -817,6 +838,5 @@ body {
                 }
             }
         }
-
     }
 }

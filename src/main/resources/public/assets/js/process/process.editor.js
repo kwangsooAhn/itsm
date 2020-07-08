@@ -555,7 +555,7 @@
                 sourceWidth = sourceBBox.width,
                 sourceHeight = sourceBBox.height;
             if (target.classed('gateway') || source.classed('gateway')) {
-                let gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [40, 40]);
+                let gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [30, 30]);
                 if (target.classed('gateway')) {
                     targetWidth = gatewayDist;
                     targetHeight = gatewayDist;
@@ -924,7 +924,7 @@
     function drawGuides(elem) {
         const errorRange = 3;
         const elementBbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem),
-              gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [40, 40]);
+              gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [30, 30]);
         let elemLeft = elementBbox.cx - (elementBbox.width / 2),
             elemRight = elementBbox.cx + (elementBbox.width / 2),
             elemTop = elementBbox.cy - (elementBbox.height / 2),
@@ -1054,15 +1054,15 @@
                 .attr('x', mouseX)
                 .attr('y', mouseY);
             textElement
-                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
+                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2) + (Number(nodeElement.attr('height')) / 2))
                 .attr('y', Number(nodeElement.attr('y')) + (Number(nodeElement.attr('height')) / 2));
         }
         lastDraggedPosition = [mouseX, mouseY];
 
         if (nodeElement.classed('task') || nodeElement.classed('subprocess')) {
             typeElement
-                .attr('x', Number(nodeElement.attr('x')) + 10)
-                .attr('y', Number(nodeElement.attr('y')) + 10);
+                .attr('x', Number(nodeElement.attr('x')))
+                .attr('y', Number(nodeElement.attr('y')));
         } else if (nodeElement.classed('event')) {
             typeElement
                 .attr('x', mouseX - (Number(typeElement.attr('width')) / 2))
@@ -1177,7 +1177,7 @@
      */
     function TaskElement(x, y) {
         const self = this;
-        const width = 152, height = 40, radius = 4, typeImageSize = 21;
+        const width = 152, height = 40, radius = 4;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('task');
 
@@ -1196,17 +1196,17 @@
 
         elementContainer.append('rect')
             .attr('class', 'element-type task')
-            .attr('width', typeImageSize)
-            .attr('height', typeImageSize)
-            .attr('x', x - (width / 2) + 10)
-            .attr('y', y - (height / 2) + 10)
+            .attr('width', height)
+            .attr('height', height)
+            .attr('x', x - (width / 2))
+            .attr('y', y - (height / 2))
             .style('fill', 'url(#task-' + self.defaultType + '-element)')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
         elementContainer.append('text')
-            .attr('x', x)
+            .attr('x', x + (height / 2))
             .attr('y', y)
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -1225,7 +1225,7 @@
      */
     function SubprocessElement(x, y) {
         const self = this;
-        const width = 152, height = 40, radius = 4, typeImageSize = 21;
+        const width = 152, height = 40, radius = 4;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('subprocess');
 
@@ -1244,17 +1244,17 @@
 
         elementContainer.append('rect')
             .attr('class', 'element-type subprocess')
-            .attr('width', typeImageSize)
-            .attr('height', typeImageSize)
-            .attr('x', x - (width / 2) + 10)
-            .attr('y', y - (height / 2) + 10)
+            .attr('width', height)
+            .attr('height', height)
+            .attr('x', x - (width / 2))
+            .attr('y', y - (height / 2))
             .style('fill', 'url(#subprocess-' + self.defaultType + '-element)')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
         elementContainer.append('text')
-            .attr('x', x)
+            .attr('x', x + (height / 2))
             .attr('y', y)
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -1318,7 +1318,7 @@
      */
     function GatewayElement(x, y) {
         const self = this;
-        const size = 40, typeImageSize = 20;
+        const size = 30, typeImageSize = 21;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('gateway');
 
@@ -1615,11 +1615,15 @@
                     textElement.text(textArr[0]);
                     // wrap text
                     const element = d3.select(elementNode);
-                    if (textArr[0].length > 0) {
+                    if (textArr[0].length > 0 && (d3.select(elementNode).classed('task') || d3.select(elementNode).classed('subprocess') || d3.select(elementNode).classed('group'))) {
                         let textLength = textElement.node().getComputedTextLength(),
                             displayText = textElement.text();
                         const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(element);
-                        while (textLength > bbox.width && displayText.length > 0) {
+                        let writableWidth = bbox.width;
+                        if (!d3.select(elementNode).classed('group')) {
+                            writableWidth = bbox.width - 40;
+                        }
+                        while (textLength > writableWidth && displayText.length > 0) {
                             displayText = displayText.slice(0, -1);
                             textElement.text(displayText + '...');
                             textLength = textElement.node().getComputedTextLength();
