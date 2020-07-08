@@ -157,7 +157,7 @@
                 if (!result) {
                     e.stopImmediatePropagation();
                     element.classList.add('validate-error');
-                    aliceJs.alert(i18n.get('form.msg.alert.' + validateValueArray[0], arg), function() {
+                    aliceJs.alert(i18n.get('form.msg.' + validateValueArray[0], arg), function() {
                         element.value = '';
                         element.focus();
                     });

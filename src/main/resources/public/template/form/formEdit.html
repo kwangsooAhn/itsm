@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{form.label.register}"></title>
+    <title th:text="#{form.label.create}"></title>
     <th:block th:replace="layout/fragments/commonHead"></th:block>
     <!-- 임시 style -->
     <style>
@@ -52,7 +52,7 @@
 
     //빈 값 체크
     function emptyValidation() {
-        if (isEmpty('form_name', 'form.msg.alert.nameNotExist')) { return false; }
+        if (isEmpty('form_name', 'form.msg.enterFormName')) { return false; }
         return true;
     }
 

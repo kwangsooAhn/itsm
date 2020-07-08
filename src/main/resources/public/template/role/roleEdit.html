@@ -33,25 +33,25 @@
             <col width="480px">
         </colgroup>
         <tr>
-            <th th:text="'*' + #{role.label.roleId}"></th>
+            <th th:text="'*' + #{role.label.id}"></th>
             <td>
                 <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail?.roleId}"  maxlength="100"/>
             </td>
         </tr>
         <tr>
-            <th th:text="'*' + #{role.label.roleName}"></th>
+            <th th:text="'*' + #{role.label.name}"></th>
             <td>
                 <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail?.roleName}" maxlength="100" />
             </td>
         </tr>
         <tr>
-            <th th:text="#{role.label.roleDesc}"></th>
+            <th th:text="#{role.label.desc}"></th>
             <td>
                 <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${roleDetail?.roleDesc}"/>
             </td>
         </tr>
         <tr>
-            <th th:text="'*' + #{role.label.roleAuth}"></th>
+            <th th:text="'*' + #{role.label.auth}"></th>
             <td>
                 <ui th:each="auth : ${authList}">
                     <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
@@ -60,7 +60,7 @@
             </td>
         </tr>
         <tr>
-            <th th:text="#{common.label.createUserName}"></th>
+            <th th:text="#{common.label.createUser}"></th>
             <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${roleDetail?.createUserKey}"></span></td>
         </tr>
         <tr>
@@ -68,7 +68,7 @@
             <td><span id="spanCreateDt" name="spanCreateDt"></span></td>
         </tr>
         <tr>
-            <th th:text="#{common.label.updateUserName}"></th>
+            <th th:text="#{common.label.updateUser}"></th>
             <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${roleDetail?.updateUserKey}"></span></td>
         </tr>
         <tr>
@@ -88,7 +88,7 @@
             </td>
             <td>
                 <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" 
-                 th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                 th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
             </td>
             <td>
                 <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" 
@@ -214,8 +214,8 @@
 
         /*등록, 수정 버튼*/
         function onSave(flag) {
-            if (isEmpty('txtRoleId', 'role.msg.idNotExist')) return;
-            if (isEmpty('txtRoleName', 'role.msg.nameNotExist')) return;
+            if (isEmpty('txtRoleId', 'role.msg.enterRoleId')) return;
+            if (isEmpty('txtRoleName', 'role.msg.enterRoleName')) return;
 
             //저장 데이터 수집
             let obj = {};
@@ -228,7 +228,7 @@
             });
 
             if (arrAuthId.length === 0) {
-                aliceJs.alert([[#{role.msg.authNotExist}]]);
+                aliceJs.alert([[#{role.msg.selectAuth}]]);
                 return;
             }
 
@@ -262,15 +262,15 @@
                     callbackFunc: function(response) {
                         switch (response.responseText) {
                             case "true":
-                                aliceJs.alert([[#{common.msg.delete.success}]], function() {
+                                aliceJs.alert([[#{common.msg.delete}]], function() {
                                     window.location.href ='/roles/edit';
                                 });
                                 break;
                             case "false":
-                                aliceJs.alert([[#{common.msg.delete.fail}]]);
+                                aliceJs.alert(i18n.get('common.label.delete') + i18n.get('common.label.blank') + i18n.get('common.msg.fail'));
                                 break;
                             default :
-                                aliceJs.alert([[#{common.msg.save.fail}]]);
+                                aliceJs.alert([[#{common.msg.fail}]]);
                                 break;
                         }
                     }

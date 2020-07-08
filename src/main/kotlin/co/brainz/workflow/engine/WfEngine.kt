@@ -27,7 +27,7 @@ class WfEngine(
      * Start workflow.
      */
     fun startWorkflow(tokenDto: WfTokenDto): Boolean {
-        logger.debug("Start Workflow")
+        logger.info("Start Workflow : {}", tokenDto.documentName)
 
         val instance = wfTokenManagerService.createInstance(tokenDto)
         val element = wfTokenManagerService.getStartElement(instance.document.process.processId)
@@ -35,12 +35,12 @@ class WfEngine(
         tokenDto.elementType = element.elementType
         tokenDto.elementId = element.elementId
 
-        // Start Token Create
+        // 시작 이벤트 생성 및 완료 처리.
         val tokenManager = this.createTokenManager(tokenDto.elementType)
         var startTokenDto = tokenManager.createToken(tokenDto)
         startTokenDto = tokenManager.completeToken(startTokenDto)
 
-        // First Token Create
+        // 시작 이벤트 이후 첫번째 토큰 생성.
         val firstTokenDto = tokenManager.createNextToken(startTokenDto)
 
         return this.progressWorkflow(firstTokenDto!!)

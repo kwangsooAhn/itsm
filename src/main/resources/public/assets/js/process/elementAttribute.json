@@ -228,10 +228,10 @@
         {
           "title": "Data",
           "items": [
-            {"id": "is-default", "name": "is Default", "type": "checkbox", "default": "", "required": "N"},
-            {"id": "condition-value", "name": "Condition", "type": "inputbox", "default": "", "required": "N", "fieldset": "condition"},
             {"id": "action-name", "name": "Name", "type": "inputbox", "default": "", "required": "N", "fieldset": "action"},
-            {"id": "action-value", "name": "Value", "type": "inputbox", "default": "", "required": "N", "fieldset": "action"}
+            {"id": "action-value", "name": "Value", "type": "inputbox", "default": "", "required": "N", "fieldset": "action"},
+            {"id": "is-default", "name": "is Default", "type": "checkbox", "default": "N", "required": "N", "fieldset": "condition"},
+            {"id": "condition-value", "name": "Condition", "type": "inputbox", "default": "", "required": "N", "fieldset": "condition"}
           ]
         },
         {

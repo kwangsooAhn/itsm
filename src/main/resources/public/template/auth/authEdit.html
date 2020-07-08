@@ -52,9 +52,9 @@
                     <td colspan="3"><span id="roleAuthMapCount" name="roleAuthMapCount"></span></td>
                 </tr>
                 <tr>
-                    <th th:text="#{common.label.createUserName}"></th>
+                    <th th:text="#{common.label.createUser}"></th>
                     <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${authDetail?.createUserKey}"></span></td>
-                    <th th:text="#{common.label.updateUserName}"></th>
+                    <th th:text="#{common.label.updateUser}"></th>
                     <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${authDetail?.updateUserKey}"></span></td>
                 </tr>
                 <tr>
@@ -97,7 +97,7 @@
                 </td>
                 <td>
                     <button sec:authorize="hasAuthority('auth.update')" type="button" id="btnUpdate" name="btnUpdate"
-                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 </td>
                 <td>
                     <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnRegist" name="btnRegist"
@@ -239,8 +239,8 @@
         /* 등록, 수정 버튼 */
         function onSave(flag) {
             // validation
-            if (isOrOperator(isNull('txtAuthId', null), isEmpty('txtAuthId', null), 'auth.msg.idNotExist')) return;
-            if (isOrOperator(isNull('txtAuthName', null), isEmpty('txtAuthName', null), 'auth.msg.nameNotExist')) return;
+            if (isOrOperator(isNull('txtAuthId', null), isEmpty('txtAuthId', null), 'auth.msg.enterAuthId')) return;
+            if (isOrOperator(isNull('txtAuthName', null), isEmpty('txtAuthName', null), 'auth.msg.enterAuthName')) return;
 
             let authIds = [];
             let authNames = [];
@@ -252,13 +252,13 @@
             if (flag === 'post') {
                 for(let i = 0; i < authIds.length; i++) {
                     if (document.getElementById('txtAuthId').value === authIds[i]) {
-                        aliceJs.alert([[#{auth.msg.idDuplecate}]]);
+                        aliceJs.alert([[#{auth.msg.duplicateAuthId}]]);
                         return;
                     }
                 }
                 for(let i = 0; i < authNames.length; i++) {
                     if (document.getElementById('txtAuthName').value === authNames[i]) {
-                        aliceJs.alert([[#{auth.msg.nameDuplecate}]]);
+                        aliceJs.alert([[#{auth.msg.duplicateAuthName}]]);
                         return;
                     }
                 }
@@ -266,7 +266,7 @@
                 if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
                     for(let i = 0; i < authNames.length; i++) {
                         if (document.getElementById('txtAuthName').value === authNames[i]) {
-                            aliceJs.alert([[#{auth.msg.nameDuplecate}]]);
+                            aliceJs.alert([[#{auth.msg.duplicateAuthName}]]);
                             return;
                         }
                     }
@@ -319,7 +319,7 @@
                     method: 'delete',
                     url: '/rest/auths/' + document.getElementById('txtAuthId').value,
                     callbackFunc: function() {
-                        aliceJs.alert([[#{common.msg.delete.success}]], function() {
+                        aliceJs.alert([[#{common.msg.delete}]], function() {
                             window.location.href ='/auths/edit';
                         });
                     }

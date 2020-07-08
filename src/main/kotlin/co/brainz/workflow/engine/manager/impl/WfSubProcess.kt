@@ -18,13 +18,6 @@ class WfSubProcess(
 ) : WfTokenManager(wfTokenManagerService) {
 
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
-        super.tokenEntity.tokenDataEntities =
-            wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
-        super.setCandidate(super.tokenEntity)
-        super.tokenEntity.assigneeId?.let {
-            createTokenDto.assigneeId = it
-        }
-
         // Set mapping component data.
         val element = wfTokenManagerService.getElement(createTokenDto.elementId)
         val documentId =

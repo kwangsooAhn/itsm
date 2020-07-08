@@ -3,7 +3,7 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{download.label.title}"></title>
+    <title th:text="#{download.label.download}"></title>
     <meta charset="UTF-8">
     <style>
         table {
@@ -29,7 +29,7 @@
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <div style="height: 90px;">
-            <h1 th:text="#{download.label.title}"></h1>
+            <h1 th:text="#{download.label.download}"></h1>
         </div>
         <hr>
         <table>
@@ -39,7 +39,7 @@
             </colgroup>
             <tbody>
                 <tr>
-                    <td><label th:text="#{download.label.downloadCategory}"></label><span class="required"></span></td>
+                    <td><label th:text="#{download.label.category}"></label><span class="required"></span></td>
                     <td>
                         <select id="downloadCategory">
                             <option th:each="category: ${categoryList}"
@@ -50,7 +50,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td><label th:text="#{download.label.downloadTitle}"></label><span class="required"></span></td>
+                    <td><label th:text="#{common.label.title}"></label><span class="required"></span></td>
                     <td><input type="text" id="downloadTitle" maxlength="100" th:value="${download?.downloadTitle}"></td>
                 </tr>
                 <tr>
@@ -83,8 +83,8 @@
 
         //Empty Check
         function emptyCheck() {
-            if (isEmpty('downloadCategory', 'download.msg.selectDownloadCategory')) { return false; }
-            return !isEmpty('downloadTitle', 'download.msg.inputDownloadTitle')
+            if (isEmpty('downloadCategory', 'download.msg.selectCategory')) { return false; }
+            return !isEmpty('downloadTitle', 'common.msg.enterTitle')
         }
 
         function saveDownload(method) {

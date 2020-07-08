@@ -28,7 +28,7 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(RestTemplateDocumentS
                         WfDocumentConstants.Status.USE.code
                     )
                 } else {
-                    super.eq(document.documentStatus, searchDto.searchDocuments)
+                    super.eq(document.documentStatus, searchDto.searchDocumentStatus)
                 },
                 super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)
                     ?.or(super.likeIgnoreCase(document.documentDesc, searchDto.searchDocuments)),

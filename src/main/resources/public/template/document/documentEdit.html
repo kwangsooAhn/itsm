@@ -34,10 +34,10 @@
             </td>
         </tr>
         <tr>
-            <th th:text="#{document.label.group}"></th>
+            <th th:text="#{common.label.group}"></th>
             <td>
                 <select id="document_group" style="width:75%">
-                    <option value="" th:text="#{common.label.notSelect}" selected></option>
+                    <option value="" th:text="#{document.label.notSelect}" selected></option>
                     <option th:each="group:${groupList}" th:value="${group.code}"
                             th:text="${group.codeValue}"></option>
                 </select>
@@ -149,8 +149,8 @@
 
     //빈 값 체크
     function emptyValidation() {
-        if (isEmpty('document_name', 'document.msg.nameNotExist')) return false;
-        if (isEmpty('document_color', 'document.msg.businessFlowColorNotExist')) return false;
+        if (isEmpty('document_name', 'document.msg.enterDocumentName')) return false;
+        if (isEmpty('document_color', 'document.msg.enterBusinessFlowColor')) return false;
         return true;
     }
 

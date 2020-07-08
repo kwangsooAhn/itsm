@@ -1,7 +1,7 @@
 package co.brainz.workflow.provider.dto
 
-import org.springframework.util.LinkedMultiValueMap
 import java.io.Serializable
+import org.springframework.util.LinkedMultiValueMap
 
 data class RestTemplateTokenViewDto(
     val token: LinkedMultiValueMap<String, String>,

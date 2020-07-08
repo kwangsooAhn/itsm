@@ -52,7 +52,7 @@
 
     //빈 값 체크
     function emptyValidation() {
-        if (isEmpty('process_name', 'process.msg.alert.nameNotExist')) { return false; }
+        if (isEmpty('process_name', 'process.msg.enterProcessName')) { return false; }
         return true;
     }
 
@@ -67,13 +67,14 @@
                 opener.location.reload();
                 window.close();
 
+                let processId = response.responseText;
+                sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
+
                 const _width = 1800,
                       _height = 920;
                 //중앙 배치
                 const _left = Math.ceil((window.screen.width - _width) / 2);
                 const _top = Math.ceil((window.screen.height - _height) / 4);
-
-                let processId = response.responseText;
                 let specs = 'left=' + _left + ',top=' + _top;
                 specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
                 window.open('/processes/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);

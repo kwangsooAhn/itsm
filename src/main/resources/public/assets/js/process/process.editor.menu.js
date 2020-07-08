@@ -713,12 +713,13 @@
                 addElemHeight = 80;
                 break;
             case 'exclusiveGateway':
-                addElemWidth = Math.sqrt(Math.pow(40, 2) + Math.pow(40, 2));
-                addElemHeight = addElemWidth;
+                let gatewaySize = Math.sqrt(Math.pow(40, 2) + Math.pow(40, 2));
+                addElemWidth = gatewaySize;
+                addElemHeight = gatewaySize;
                 break;
             case 'commonEnd':
                 addElemWidth = 40;
-                addElemHeight = addElemWidth;
+                addElemHeight = 40;
                 break;
         }
 
@@ -859,6 +860,9 @@
                   nodeElement = d3.select(document.getElementById(id));
             if (nodeElement.classed('connector')) {
                 const linkData = nodeElement.data()[0];
+                elementData[0].data['start-id'] = linkData.sourceId;
+                elementData[0].data['end-id'] = linkData.targetId;
+
                 elementData[0].display = {};
                 if (typeof linkData.midPoint !== 'undefined') {
                     elementData[0].display['mid-point'] = linkData.midPoint;
@@ -884,7 +888,7 @@
             }
 
             let historyData = {0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))};
-            if (isSaveHistory) {
+            if (isSaveHistory !== false) {
                 aliceProcessEditor.utils.history.saveHistory([historyData]);
             }
             return historyData;
@@ -898,7 +902,7 @@
      */
     function changePropertiesDataValue(id) {
         const container = document.querySelector('.alice-process-properties-panel .properties-container'),
-              propertyObjects = container.querySelectorAll('input, select, textarea');
+              propertyObjects = container.querySelectorAll('input:not([type=radio]), select, textarea');
         if (id === aliceProcessEditor.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data.process));
             for (let i = 0, len = propertyObjects.length; i < len; i++) {
@@ -921,7 +925,7 @@
                     if (propertyObject.tagName.toUpperCase() === 'INPUT' && propertyObject.type.toUpperCase() === 'CHECKBOX') {
                         propertyValue = propertyObject.checked ? 'Y' : 'N';
                         if (propertyObject.id === 'is-default') {
-                            let conditionAttrObject = container.querySelector('input[name=condition]');
+                            let conditionAttrObject = container.querySelector('input[name=condition-value]');
                             if (conditionAttrObject && propertyObject.checked) {
                                 conditionAttrObject.value = '';
                             }
@@ -1100,7 +1104,7 @@
     /**
      * 속성 항목을 생성한다.
      *
-     * @param id ID
+     * @param id process/component ID
      * @param properties 속성정보
      * @param elemData 속성데이터
      */
@@ -1116,6 +1120,7 @@
         propertiesContainer.querySelector('.element-title > h2').textContent = propertiesPanelTitle;
 
         for (let idx = 0, len = propertiesDivision.length; idx < len; idx++) {
+            // property 구분 타이틀
             let title = document.createElement('h3');
             title.textContent = propertiesDivision[idx].title;
             elementContainer.appendChild(title);
@@ -1128,173 +1133,34 @@
                 let propertyContainer = document.createElement('div');
                 propertyContainer.className = 'properties';
                 if (typeof property.fieldset !== 'undefined') {
+                    // property fieldset
                     let fieldsetContainer = elementContainer.querySelector('fieldset[name="' + property.fieldset + '"]');
                     if (fieldsetContainer === null) {
-                        fieldsetContainer = document.createElement('fieldset');
-                        fieldsetContainer.name = property.fieldset;
-                        let legend = document.createElement('legend');
-                        let selectRadio = document.createElement('input');
-                        selectRadio.type = 'radio';
-                        selectRadio.name = 'fieldset_' + id;
-                        selectRadio.value = property.fieldset;
-                        selectRadio.addEventListener('click', function() {
-                            elementContainer.querySelectorAll('fieldset').forEach(function(fieldset) {
-                                if (fieldset.querySelector('legend').querySelector('input[type=radio]').checked) {
-                                    fieldset.removeAttribute('disabled');
-                                } else {
-                                    fieldset.disabled = true;
-                                    fieldset.querySelectorAll('input:not([type=radio])').forEach(function(inputObject) {
-                                        inputObject.value = '';
-                                        const evt = document.createEvent('HTMLEvents');
-                                        evt.initEvent('change', false, true);
-                                        inputObject.dispatchEvent(evt);
-                                    });
-                                }
-                            });
-                        });
-                        legend.appendChild(selectRadio);
-                        let legendLabel = document.createElement('label');
-                        legendLabel.textContent = property.fieldset;
-                        legend.appendChild(legendLabel);
-                        fieldsetContainer.appendChild(legend);
-                        elementContainer.appendChild(fieldsetContainer);
+                        fieldsetContainer = addFieldset(property, elementContainer);
                     }
                     fieldsetContainer.appendChild(propertyContainer);
                 } else {
                     elementContainer.appendChild(propertyContainer);
                 }
 
+                // property required
                 let requiredLabelObject = document.createElement('label');
                 requiredLabelObject.className = 'required';
                 requiredLabelObject.htmlFor =  property.id;
                 if (property.required === 'Y') {
                     requiredLabelObject.textContent = '*';
                 }
+                // property title
                 propertyContainer.appendChild(requiredLabelObject);
                 let labelObject = document.createElement('label');
                 labelObject.htmlFor = property.id;
                 labelObject.textContent = property.name;
                 propertyContainer.appendChild(labelObject);
 
-                let elementObject;
-                switch (property.type) {
-                    case 'inputbox':
-                        elementObject = document.createElement('input');
-                        if (properties.type === 'arrowConnector' && property.id === 'condition' && elemData['is-default'] === 'Y') {
-                            elementObject.disabled = true;
-                        }
-                        propertyContainer.appendChild(elementObject);
-                        break;
-                    case 'inputbox-readonly':
-                        elementObject = document.createElement('input');
-                        elementObject.readOnly = true;
-                        propertyContainer.appendChild(elementObject);
-                        break;
-                    case 'inputbox-copy':
-                        elementObject = document.createElement('input');
-                        elementObject.className = 'copy';
-                        elementObject.readOnly = true;
-                        propertyContainer.appendChild(elementObject);
-
-                        let copyBtnContainer = document.createElement('div');
-                        copyBtnContainer.className = 'clipboard-tooltip';
-                        let copyBtn = document.createElement('span');
-                        copyBtn.className = 'clipboard-tooltip-button';
-                        copyBtn.addEventListener('click', function() {
-                            elementObject.select();
-                            elementObject.setSelectionRange(0, 99999);
-                            document.execCommand('copy');
-
-                            let tooltip = document.getElementById('clipboard-tooltip-text');
-                            tooltip.textContent = 'Copy Success';
-                        });
-                        copyBtn.addEventListener('mouseout', function() {
-                            let tooltip = document.getElementById('clipboard-tooltip-text');
-                            tooltip.textContent = 'Copy to clipboard';
-                        });
-                        let tooltip = document.createElement('span');
-                        tooltip.id = 'clipboard-tooltip-text';
-                        tooltip.className = 'clipboard-tooltip-text';
-                        tooltip.textContent = 'Copy to clipboard';
-                        copyBtn.appendChild(tooltip);
-                        copyBtnContainer.appendChild(copyBtn);
-
-                        propertyContainer.appendChild(copyBtnContainer);
-                        break;
-                    case 'textarea':
-                        elementObject = document.createElement('textarea');
-                        elementObject.style.resize = 'none';
-                        propertyContainer.appendChild(elementObject);
-                        break;
-                    case 'checkbox':
-                        elementObject = document.createElement('input');
-                        elementObject.type = 'checkbox';
-                        if (elemData[property.id] && elemData[property.id] === 'Y') {
-                            elementObject.checked = true;
-                        }
-                        propertyContainer.appendChild(elementObject);
-                        break;
-                    case 'select':
-                        elementObject = document.createElement('select');
-                        let optionList = JSON.parse(JSON.stringify(property['sub-list']));
-                        if (property.id === 'sub-document-id') {
-                            documents.forEach(function(d) {
-                                optionList.push({id: d.documentId, name: d.documentName});
-                            });
-                        }
-                        for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
-                            let option = document.createElement('option');
-                            option.value = optionList[j].id;
-                            option.text = optionList[j].name;
-                            elementObject.appendChild(option);
-                        }
-                        if (property.id === 'assignee-type') {
-                            elementObject.addEventListener('change', function() {
-                                changePropertyAssigneeType(this);
-                            });
-                        }
-                        propertyContainer.appendChild(elementObject);
-                        break;
-                    case 'rgb':
-                        let selectedColorBox = document.createElement('span');
-                        selectedColorBox.className = 'selected-color';
-                        selectedColorBox.style.backgroundColor = elemData[property.id];
-                        propertyContainer.appendChild(selectedColorBox);
-
-                        elementObject = document.createElement('input');
-                        elementObject.className = 'color';
-                        if (property.required === 'Y') {
-                            elementObject.readOnly = true;
-                        }
-                        elementObject.addEventListener('change', function() {
-                            if (this.value.trim() !== ''&& !isValidRgb(this.id, function() {elementObject.focus();})) {
-                                this.value = '';
-                            }
-                            this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
-                            if (properties.type === 'groupArtifact') {
-                                const groupElement = d3.select(document.getElementById(id));
-                                if (this.id === 'line-color') {
-                                    groupElement.style('stroke', this.value);
-                                } else if (this.id === 'background-color') {
-                                    if (this.value.trim() === '') {
-                                        groupElement.style('fill-opacity', 0);
-                                    } else {
-                                        groupElement.style('fill', this.value).style('fill-opacity', 0.5);
-                                    }
-                                }
-                            }
-                        });
-                        propertyContainer.appendChild(elementObject);
-
-                        let colorPaletteBox = document.createElement('div');
-                        colorPaletteBox.id = property.id + '-colorPalette';
-                        colorPaletteBox.className = 'color-palette';
-                        propertyContainer.appendChild(colorPaletteBox);
-                        colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox);
-                        break;
-                }
-
+                // property object (input, select, textarea ..)
+                let elementObject = addPropertyObject(property, properties, elemData, propertyContainer);
                 if (elementObject) {
+                    // id, name, value 등 기본 값 설정
                     elementObject.id = property.id;
                     elementObject.name = property.id;
                     if (elemData[property.id] && property.type !== 'checkbox') {
@@ -1302,36 +1168,23 @@
                     } else if (property.id === 'id') {
                         elementObject.value = id;
                     }
-
+                    // change 이벤트 설정
                     let changeEventHandler = function() {
                         changePropertiesDataValue(id);
                         if (property.id === 'is-default') {
-                            let conditionAttrObject = elementContainer.querySelector('input[name=condition]');
-                            if (conditionAttrObject) {
-                                conditionAttrObject.disabled = this.checked;
-                                d3.select(document.getElementById(id)).classed('is-default', this.checked);
-                                let sourceId;
-                                aliceProcessEditor.elements.links.forEach(function(l) {
-                                    if (l.id === id) {
-                                        l.isDefault = conditionAttrObject.disabled ? 'Y' : 'N';
-                                        sourceId = l.sourceId;
-                                    }
-                                });
-                                aliceProcessEditor.elements.links.forEach(function(l) {
-                                    if (l.sourceId === sourceId && l.id !== id && l.isDefault === 'Y') {
-                                        d3.select(document.getElementById(l.id)).classed('is-default', false);
-                                        l.isDefault = 'N';
-                                        aliceProcessEditor.data.elements.forEach(function(e) {
-                                            if (e.id === l.id) {
-                                                e.data['is-default'] = 'N';
-                                            }
-                                        });
-                                    }
-                                });
-                            }
+                            let conditionValueObject = elementContainer.querySelector('input[name=condition-value]');
+                            conditionValueObject.disabled = this.checked;
+                            connectorIsDefaultChangeHandler(this, id);
                         }
+                        if (property.id === 'condition-item') {
+                            connectorConditionChangeHandler(this, id);
+                        }
+                    };
+                    if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id === 'name')) {
+                        elementObject.addEventListener('change', changeEventHandler);
                     }
 
+                    // 그 외 이벤트 설정
                     switch (property.id) {
                         case 'name':
                             let keyupHandler = function() {
@@ -1362,34 +1215,281 @@
                             setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
                             break;
                     }
-
-                    if (property.id !== 'id' && !(id === aliceProcessEditor.data.process.id && property.id === 'name')) {
-                        elementObject.addEventListener('change', changeEventHandler);
-                    }
                 }
             }
         }
+        if (id !== aliceProcessEditor.data.process.id) {
+            addSpecialProperties(id, elemData);
+        }
+    }
 
-        let assigneeTypeObject = document.getElementById('assignee-type');
-        if (assigneeTypeObject !== null) {
-            changePropertyAssigneeType(assigneeTypeObject, elemData.assignee);
+    /**
+     * assignee-type, fieldset 등의 특별 케이스의 property 처리.
+     *
+     * @param id element ID
+     * @param elemData element data
+     */
+    function addSpecialProperties(id, elemData) {
+        const propertiesContainer = document.querySelector('.alice-process-properties-panel .properties-container');
+        const elementContainer = propertiesContainer.querySelector('.element-properties');
+
+        const selectedElement = d3.select(document.getElementById(id));
+
+        if (selectedElement.classed('userTask')) {
+            let assigneeTypeObject = propertiesContainer.querySelector('#assignee-type');
+            if (assigneeTypeObject) {
+                changePropertyAssigneeType(assigneeTypeObject, elemData.assignee);
+            }
         }
 
-        if (elementContainer.querySelectorAll('fieldset').length > 0) {
-            let selectedFieldset;
-            elementContainer.querySelectorAll('fieldset').forEach(function(fieldset) {
-               fieldset.querySelectorAll('input:not([type=radio])').forEach(function(inputObject) {
-                   if (inputObject.value !== '') { selectedFieldset = fieldset; }
-               })
-            });
-            if (!selectedFieldset) {
-                selectedFieldset = elementContainer.querySelectorAll('fieldset').item(0);
+        if (selectedElement.classed('connector')) { // 현재는 arrowConnector만 적용
+            let actionFieldset = elementContainer.querySelector('fieldset[name=action]');
+            let conditionFieldset = elementContainer.querySelector('fieldset[name=condition]');
+            if (actionFieldset && conditionFieldset) {
+                let element = aliceProcessEditor.data.elements.filter(function(e) { return e.id === id; })[0];
+                let sourceElement = aliceProcessEditor.data.elements.filter(function(e) { return e.id === element.data['start-id']; })[0];
+
+                let enableFieldset = actionFieldset;
+                let disabledFieldset = conditionFieldset;
+                if (sourceElement.type.indexOf('Gateway') > -1 && sourceElement.data['condition-item'].startsWith('$')) {
+                    enableFieldset = conditionFieldset;
+                    disabledFieldset = actionFieldset;
+                }
+                disabledFieldset.querySelector('input[type=radio]').checked = false;
+                disabledFieldset.disabled = true;
+                disabledFieldset.querySelectorAll('input:not([type=radio])').forEach(function(inputObject) {
+                    if (inputObject.tagName.toUpperCase() === 'INPUT' && inputObject.type.toUpperCase() === 'CHECKBOX') {
+                        inputObject.checked = false;
+                        inputObject.value = 'N';
+                    } else {
+                        inputObject.value = '';
+                    }
+                    const evt = document.createEvent('HTMLEvents');
+                    evt.initEvent('change', false, true);
+                    inputObject.dispatchEvent(evt);
+                });
+
+                enableFieldset.querySelector('input[type=radio]').checked = true;
+                enableFieldset.disabled = false;
+
+                let isDefaultObject = enableFieldset.querySelector('input[name=is-default]');
+                if (isDefaultObject) {
+                    let conditionValueObject = enableFieldset.querySelector('input[name=condition-value]');
+                    conditionValueObject.disabled = isDefaultObject.checked;
+                }
             }
-            let selectedRadioObject = selectedFieldset.querySelector('input[type=radio]');
-            selectedRadioObject.checked = true;
-            const evt = document.createEvent('HTMLEvents');
-            evt.initEvent('click', false, true);
-            selectedRadioObject.dispatchEvent(evt);
+        }
+    }
+
+    /**
+     * properties panel에 fieldset을 추가한다.
+     *
+     * @param property
+     * @param elementContainer
+     * @return {HTMLFieldSetElement}
+     */
+    function addFieldset(property, elementContainer) {
+        const fieldsetContainer = document.createElement('fieldset');
+        fieldsetContainer.name = property.fieldset;
+        let legend = document.createElement('legend');
+        let selectRadio = document.createElement('input');
+        selectRadio.type = 'radio';
+        selectRadio.disabled = true;
+        selectRadio.name = 'fieldset_' + id;
+        selectRadio.value = property.fieldset;
+        legend.appendChild(selectRadio);
+        let legendLabel = document.createElement('label');
+        legendLabel.textContent = property.fieldset;
+        legend.appendChild(legendLabel);
+        fieldsetContainer.appendChild(legend);
+        elementContainer.appendChild(fieldsetContainer);
+        return fieldsetContainer;
+    }
+
+    /**
+     * property object(input, textarea, select 등) 생성 후 해당 object 를 반환한다.
+     *
+     * @param property
+     * @param properties
+     * @param elemData
+     * @param propertyContainer
+     * @return {HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement}
+     */
+    function addPropertyObject(property, properties, elemData, propertyContainer) {
+        let elementObject;
+        switch (property.type) {
+            case 'inputbox':
+                elementObject = document.createElement('input');
+                propertyContainer.appendChild(elementObject);
+                break;
+            case 'inputbox-readonly':
+                elementObject = document.createElement('input');
+                elementObject.readOnly = true;
+                propertyContainer.appendChild(elementObject);
+                break;
+            case 'inputbox-copy':
+                elementObject = document.createElement('input');
+                elementObject.className = 'copy';
+                elementObject.readOnly = true;
+                propertyContainer.appendChild(elementObject);
+
+                let copyBtnContainer = document.createElement('div');
+                copyBtnContainer.className = 'clipboard-tooltip';
+                let copyBtn = document.createElement('span');
+                copyBtn.className = 'clipboard-tooltip-button';
+                copyBtn.addEventListener('click', function() {
+                    elementObject.select();
+                    elementObject.setSelectionRange(0, 99999);
+                    document.execCommand('copy');
+
+                    let tooltip = document.getElementById('clipboard-tooltip-text');
+                    tooltip.textContent = 'Copy Success';
+                });
+                copyBtn.addEventListener('mouseout', function() {
+                    let tooltip = document.getElementById('clipboard-tooltip-text');
+                    tooltip.textContent = 'Copy to clipboard';
+                });
+                let tooltip = document.createElement('span');
+                tooltip.id = 'clipboard-tooltip-text';
+                tooltip.className = 'clipboard-tooltip-text';
+                tooltip.textContent = 'Copy to clipboard';
+                copyBtn.appendChild(tooltip);
+                copyBtnContainer.appendChild(copyBtn);
+
+                propertyContainer.appendChild(copyBtnContainer);
+                break;
+            case 'textarea':
+                elementObject = document.createElement('textarea');
+                elementObject.style.resize = 'none';
+                propertyContainer.appendChild(elementObject);
+                break;
+            case 'checkbox':
+                elementObject = document.createElement('input');
+                elementObject.type = 'checkbox';
+                if (elemData[property.id] && elemData[property.id] === 'Y') {
+                    elementObject.checked = true;
+                }
+                propertyContainer.appendChild(elementObject);
+                break;
+            case 'select':
+                elementObject = document.createElement('select');
+                let optionList = JSON.parse(JSON.stringify(property['sub-list']));
+                if (property.id === 'sub-document-id') {
+                    documents.forEach(function(d) {
+                        optionList.push({id: d.documentId, name: d.documentName});
+                    });
+                }
+                for (let j = 0, optionLength = optionList.length; j < optionLength; j++) {
+                    let option = document.createElement('option');
+                    option.value = optionList[j].id;
+                    option.text = optionList[j].name;
+                    elementObject.appendChild(option);
+                }
+                if (property.id === 'assignee-type') {
+                    elementObject.addEventListener('change', function() {
+                        changePropertyAssigneeType(this);
+                    });
+                }
+                propertyContainer.appendChild(elementObject);
+                break;
+            case 'rgb':
+                let selectedColorBox = document.createElement('span');
+                selectedColorBox.className = 'selected-color';
+                selectedColorBox.style.backgroundColor = elemData[property.id];
+                propertyContainer.appendChild(selectedColorBox);
+
+                elementObject = document.createElement('input');
+                elementObject.className = 'color';
+                if (property.required === 'Y') {
+                    elementObject.readOnly = true;
+                }
+                elementObject.addEventListener('change', function() {
+                    if (this.value.trim() !== ''&& !isValidRgb(this.id, function() {elementObject.focus();})) {
+                        this.value = '';
+                    }
+                    this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
+                    if (properties.type === 'groupArtifact') {
+                        const groupElement = d3.select(document.getElementById(id));
+                        if (this.id === 'line-color') {
+                            groupElement.style('stroke', this.value);
+                        } else if (this.id === 'background-color') {
+                            if (this.value.trim() === '') {
+                                groupElement.style('fill-opacity', 0);
+                            } else {
+                                groupElement.style('fill', this.value).style('fill-opacity', 0.5);
+                            }
+                        }
+                    }
+                });
+                propertyContainer.appendChild(elementObject);
+
+                let colorPaletteBox = document.createElement('div');
+                colorPaletteBox.id = property.id + '-colorPalette';
+                colorPaletteBox.className = 'color-palette';
+                propertyContainer.appendChild(colorPaletteBox);
+                colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox);
+                break;
+            default:
+                break;
+        }
+        return elementObject;
+    }
+
+    /**
+     * arrowConnector is-default 관련 이벤트.
+     * 해당 옵션 체크 시 동일 sourceId를 가진 connector의 is-default 속성을 false로 만든다.
+     *
+     * @param target is-default object(checkbox)
+     * @param id component ID
+     */
+    function connectorIsDefaultChangeHandler(target, id) {
+        d3.select(document.getElementById(id)).classed('is-default', target.checked);
+        let sourceId;
+        aliceProcessEditor.elements.links.forEach(function(l) {
+            if (l.id === id) {
+                l.isDefault = target.checked ? 'Y' : 'N';
+                sourceId = l.sourceId;
+            }
+        });
+        aliceProcessEditor.elements.links.forEach(function(l) {
+            if (l.sourceId === sourceId && l.id !== id && l.isDefault === 'Y') {
+                d3.select(document.getElementById(l.id)).classed('is-default', false);
+                l.isDefault = 'N';
+                aliceProcessEditor.data.elements.forEach(function(e) {
+                    if (e.id === l.id) {
+                        e.data['is-default'] = 'N';
+                    }
+                });
+            }
+        });
+    }
+
+    /**
+     * 게이트웨이 condition item change에 따른 connector condition 값 초기화.
+     *
+     * @param target condition-item object(input)
+     * @param id element ID
+     */
+    function connectorConditionChangeHandler(target, id) {
+        let arrowConnectors = aliceProcessEditor.data.elements.filter(function(e) {
+            return e.type === 'arrowConnector' && e.data['start-id'] === id;
+        });
+        for (let i = 0, len = arrowConnectors.length; i < len; i++) {
+            let connectorData = arrowConnectors[i].data;
+            if (target.value.startsWith('$')) {
+                connectorData['action-name'] = '';
+                connectorData['action-value'] = '';
+            } else {
+                if (connectorData['is-default'] === 'Y') {
+                    connectorData['is-default'] = 'N';
+                    let targetConnector = aliceProcessEditor.elements.links.filter(function(l) {
+                        return l.id === arrowConnectors[i].id;
+                    })[0];
+                    d3.select(document.getElementById(targetConnector.id)).classed('is-default', false);
+                    targetConnector.isDefault = 'N';
+                }
+                connectorData['condition-value'] = '';
+            }
         }
     }
 
@@ -1426,7 +1526,7 @@
                         element.required = getAttributeRequired(category, element.type);
                     });
                     setElementMenu();
-                    aliceProcessEditor.drawProcess(elements);
+                    aliceProcessEditor.drawProcess(processId, elements);
                 }
             });
         };
