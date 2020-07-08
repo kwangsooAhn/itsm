@@ -352,8 +352,8 @@ body {
                 stroke-width: 2;
             }
             .node.selected {
-                stroke: #0050ff;
-                stroke-width: 2;
+                stroke: #0050ff !important;
+                stroke-width: 2 !important;
             }
             .node.reject-element {
                 stroke: #ff0000 !important;

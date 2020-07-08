@@ -696,6 +696,7 @@
             minimapTranslate = 'translate(' + -transform.x + ',' + -transform.y + ')';
         }
         minimapSvg.attr('viewBox', getSvgViewBox().join(' '));
+        console.log(minimapSvg.attr('viewBox'))
         minimapSvg.select('.minimap-guide').attr('transform', minimapTranslate);
     }
 
@@ -705,6 +706,10 @@
      * @return {[number, number, *, *]}
      */
     function getSvgViewBox() {
+        let isMinimapClosed = d3.select('div.minimap').classed('closed');
+        if (isMinimapClosed) {
+            d3.select('div.minimap').classed('closed', false);
+        }
         const drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
         const minimapSvg = d3.select('div.minimap').select('svg');
         const nodeTopArray = [],
@@ -719,6 +724,9 @@
             nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
             nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
         });
+        if (isMinimapClosed) {
+            d3.select('div.minimap').classed('closed', true);
+        }
         let viewBox = [0, 0, drawingBoard.node().offsetWidth, drawingBoard.node().offsetHeight];
         if (nodes.length > 0) {
             const margin = 100;

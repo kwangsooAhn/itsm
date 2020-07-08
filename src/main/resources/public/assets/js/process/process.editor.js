@@ -1937,7 +1937,6 @@
             }
         });
         setConnectors();
-        aliceProcessEditor.initUtil();
 
         const loadingKeyName = 'alice_processes-edit-' + processId;
         const loadingStatus = sessionStorage.getItem(loadingKeyName);
@@ -1947,6 +1946,8 @@
             sessionStorage.removeItem(loadingKeyName);
             aliceProcessEditor.autoSave();
         }
+
+        aliceProcessEditor.initUtil();
     }
 
     /**
