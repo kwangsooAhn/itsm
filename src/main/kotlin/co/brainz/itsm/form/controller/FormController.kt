@@ -31,6 +31,7 @@ class FormController(
     private val formDesignerEditPage: String = "form/formDesignerEdit"
     private val formEditPreviewPage: String = "form/formEditPreview"
     private val imageUploadPopupPage: String = "form/imagePopup"
+    private val formImportPage: String = "form/formImport"
 
     /**
      * 폼 리스트 검색 호출 화면.
@@ -95,5 +96,13 @@ class FormController(
         model.addAttribute("componentId", componentId)
         model.addAttribute("imageList", fileService.getImageFileList())
         return imageUploadPopupPage
+    }
+
+    /**
+     * 폼 Import 화면.
+     */
+    @GetMapping("/import")
+    fun getFormImport(request: HttpServletRequest, model: Model): String {
+        return formImportPage
     }
 }

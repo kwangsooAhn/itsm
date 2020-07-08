@@ -5,12 +5,15 @@
             layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{form.label.list}"></title>
+    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
         <h1 th:text="#{form.label.list}"></h1>
         <div align="right">
+            <button type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')"
+                    th:text="#{form.btn.import}"></button>
             <button type="button" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')"
                     th:text="#{common.btn.register}"></button>
             <input type="text" id="search" style="width: 270px" th:placeholder="#{form.label.searchPlaceholder}">
@@ -84,7 +87,11 @@
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
             window.open('/forms/' + formId + '/view', 'form_' + formId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
-    
+        //폼 IMPORT 화면 오픈
+        function openFormImport() {
+            window.open('/forms/import', 'form_import', 'width=600, height=350');
+        }
+
         //REST API
         function restSubmit(method, url, result, showProgressbar) {
             const opt = {
