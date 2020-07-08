@@ -329,12 +329,14 @@ class WfDocumentService(
                 arrowElement = arrowConnectors.last()
             }
 
-            val targetElementId = arrowElement.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
+            val targetElementId =
+                arrowElement.getElementDataValue(WfElementConstants.AttributeId.TARGET_ID.value)
             currentElement = allElementEntitiesInProcess.first {
                 it.elementId == targetElementId
             }
 
-            if (gatewayQueue.size > 0 && currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+            if (gatewayQueue.size > 0
+                && currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value) {
                 currentElement = gatewayQueue.pop()
             }
 

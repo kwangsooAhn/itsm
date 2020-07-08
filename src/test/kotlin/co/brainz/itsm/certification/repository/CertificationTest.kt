@@ -67,7 +67,8 @@ class CertificationTest {
             timeFormat = "YYYY-MM-DD HH:MM",
             theme = AliceUserConstants.USER_THEME
         )
-        val usernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
+        val usernamePasswordAuthenticationToken =
+            UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
         usernamePasswordAuthenticationToken.details = aliceUserDto
         securityContext.authentication = usernamePasswordAuthenticationToken
     }
