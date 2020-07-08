@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    layout:decorator="layout/defaultLayout">
 <head>
     <title>코드 관리</title>
 </head>
@@ -78,6 +78,11 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
+        const STATUS_SUCCESS = '0';
+        const STATUS_SUCCESS_EDIT_CODE = '1';
+        const STATUS_ERROR_CODE_DUPLICATION = '2';
+        const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '3';
+        const STATUS_ERROR_CODE_P_CODE_USED = '4';
         let AUTH_DELETE = false;
         let AUTH_CREATE = false;
         let AUTH_UPDATE = false;
@@ -161,7 +166,7 @@
         }
 
         /** save **/
-        function onSave(flag) {
+        function onSave(method) {
             const jsonData = {
                 code: document.getElementById('txtCode').value,
                 pCode: document.getElementById('txtPCode').value,
@@ -173,34 +178,43 @@
                 return false;
             }
 
-            if (jsonData.pCode !== null || jsonData.pCode !== '') {
-                let codeList = document.querySelectorAll('li[name=codeList]');
-                for(let i = 0; i < codeList.length; i++) {
-                    if (codeList[i].id === jsonData.pCode) {
-                        if (flag === 'post') {
-                            url = '/rest/codes';
-                        } else {
-                            url = '/rest/codes/' + document.getElementById('txtCode').value;
-                        }
+            if (method === 'post') {
+                url = '/rest/codes';
+            } else {
+                url = '/rest/codes/' + document.getElementById('txtCode').value;
+            }
 
-                        const opt = {
-                            method: flag,
-                            url: url,
-                            params: JSON.stringify(jsonData),
-                            contentType: 'application/json',
-                            callbackFunc: function() {
-                                aliceJs.alert([[#{common.msg.save}]], function() {
-                                    window.location.href ='/codes/edit';
-                                });
-                            }
-                        };
-                        aliceJs.sendXhr(opt);
-                        return true;
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(jsonData),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alert(i18n.get('common.msg.register'), function() {
+                                window.location.href = '/codes/edit';
+                            });
+                            break;
+                        case STATUS_SUCCESS_EDIT_CODE:
+                            aliceJs.alert(i18n.get('common.msg.modify'), function() {
+                                window.location.href = '/codes/edit';
+                            });
+                            break;
+                        case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
+                            aliceJs.alert(i18n.get('code.msg.pCodeNotExist'));
+                            break;
+                        case STATUS_ERROR_CODE_DUPLICATION:
+                            aliceJs.alert(i18n.get('code.msg.duplicateCode'));
+                            break;
+                        default:
+                            aliceJs.alert(i18n.get('common.msg.fail'));
+                            break;
                     }
                 }
-                aliceJs.alert([[#{code.msg.pCodeNotExist}]]);
-                return false;
-            }
+            };
+
+            aliceJs.sendXhr(opt);
         }
 
         /** delete **/
@@ -208,10 +222,20 @@
             const opt = {
                 method: 'delete',
                 url: '/rest/codes/' + document.getElementById('txtCode').value,
-                callbackFunc: function() {
-                    aliceJs.alert([[#{common.msg.delete}]], function() {
-                        window.location.href ='/codes/edit';
-                    });
+                callbackFunc: function(response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alert(i18n.get('common.msg.delete'), function() {
+                                window.location.href ='/codes/edit';
+                            });
+                            break;
+                        case STATUS_ERROR_CODE_P_CODE_USED:
+                            aliceJs.alert(i18n.get('code.msg.referenceCodeExist'));
+                            break;
+                        default:
+                            aliceJs.alert(i18n.get('common.msg.fail'));
+                            break;
+                    }
                 }
             };
 
