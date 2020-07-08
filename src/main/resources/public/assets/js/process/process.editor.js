@@ -8,7 +8,7 @@
     const displayOptions = {
         translateLimit: 1000, // drawing board limit.
         gridInterval: 10,     // value of grid interval.
-        pointerRadius: 3,
+        pointerRadius: 6,
         connectorRadius: 8,
         connectorLabelPos: 20
     };
@@ -471,7 +471,6 @@
         let bbox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
         return bbox.x <= point[0] && (bbox.x + bbox.width) >= point[0] &&
             bbox.y <= point[1] && (bbox.y + bbox.height) >= point[1];
-
     }
 
     /**
@@ -752,6 +751,7 @@
                 if (!isSelectedElem) {
                     if (d3.event.sourceEvent.ctrlKey && selectedNodes.length > 0) {
                         elem.classed('selected', true);
+
                         mousedownElement = null;
                         selectedElement = null;
                         svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
@@ -762,6 +762,7 @@
                         mousedownElement = elem;
                         selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
                         selectedElement.classed('selected', true);
+
                         if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
                             d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function(elem) {
                                 elem.style.opacity = '1';
@@ -1049,6 +1050,7 @@
             nodeElement
                 .attr('cx', mouseX)
                 .attr('cy', mouseY);
+
         } else {
             nodeElement
                 .attr('x', mouseX)
@@ -1056,6 +1058,9 @@
             textElement
                 .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2) + (Number(nodeElement.attr('height')) / 2))
                 .attr('y', Number(nodeElement.attr('y')) + (Number(nodeElement.attr('height')) / 2));
+            if (nodeElement.classed('group')) {
+                textElement.attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2));
+            }
         }
         lastDraggedPosition = [mouseX, mouseY];
 
@@ -1195,7 +1200,7 @@
             .call(drag);
 
         elementContainer.append('rect')
-            .attr('class', 'element-type task')
+            .attr('class', 'element-type task ' + self.defaultType)
             .attr('width', height)
             .attr('height', height)
             .attr('x', x - (width / 2))
@@ -1243,7 +1248,7 @@
             .call(drag);
 
         elementContainer.append('rect')
-            .attr('class', 'element-type subprocess')
+            .attr('class', 'element-type subprocess ' + self.defaultType)
             .attr('width', height)
             .attr('height', height)
             .attr('x', x - (width / 2))

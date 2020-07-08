@@ -85,6 +85,7 @@
             type: 'timerStart', parent: 'event',
             url: iconDirectory + '/tooltip/event-timerStart.png',
             element_url: iconDirectory + '/element-type/event-start-timer.png',
+            element_selected_url: iconDirectory + '/element-type/event-start-timer-selected.png',
             action: function(el) {
                 editElementType(el,'timerStart');
             }
@@ -92,6 +93,7 @@
             type: 'signalSend', parent: 'event',
             url: iconDirectory + '/tooltip/event-signalSend.png',
             element_url: iconDirectory + '/element-type/event-signal-send.png',
+            element_selected_url: iconDirectory + '/element-type/event-signal-send-selected.png',
             action: function(el) {
                 editElementType(el,'signalSend');
             }
@@ -105,6 +107,7 @@
             type: 'userTask', parent: 'task',
             url: iconDirectory + '/tooltip/task-userTask.png',
             element_url: iconDirectory + '/element-type/task-user.png',
+            element_selected_url: iconDirectory + '/element-type/task-user-selected.png',
             action: function(el) {
                 editElementType(el,'userTask');
             }
@@ -112,6 +115,7 @@
             type: 'manualTask', parent: 'task',
             url: iconDirectory + '/tooltip/task-manualTask.png',
             element_url: iconDirectory + '/element-type/task-manual.png',
+            element_selected_url: iconDirectory + '/element-type/task-manual-selected.png',
             action: function(el) {
                 editElementType(el,'manualTask');
             }
@@ -119,6 +123,7 @@
             type: 'scriptTask', parent: 'task',
             url: iconDirectory + '/tooltip/task-scriptTask.png',
             element_url: iconDirectory + '/element-type/task-script.png',
+            element_selected_url: iconDirectory + '/element-type/task-script-selected.png',
             action: function(el) {
                 editElementType(el,'scriptTask');
             }
@@ -126,11 +131,13 @@
             type: 'subprocess', parent: 'subprocess',
             url: '',
             element_url: iconDirectory + '/element-type/subprocess.png',
+            element_selected_url: iconDirectory + '/element-type/subprocess-selected.png',
             action: function(el) {}
         }, {
             type: 'exclusiveGateway', parent: 'gateway',
             url: iconDirectory + '/tooltip/gateway-exclusiveGateway.png',
             element_url: iconDirectory + '/element-type/gateway-exclusive.png',
+            element_selected_url: iconDirectory + '/element-type/gateway-exclusive-selected.png',
             action: function(el) {
                 editElementType(el,'exclusiveGateway');
             }
@@ -138,6 +145,7 @@
             type: 'parallelGateway', parent: 'gateway',
             url: iconDirectory + '/tooltip/gateway-parallelGateway.png',
             element_url: iconDirectory + '/element-type/gateway-parallel.png',
+            element_selected_url: iconDirectory + '/element-type/gateway-parallel-selected.png',
             action: function(el) {
                 editElementType(el,'parallelGateway');
             }
@@ -145,6 +153,7 @@
             type: 'inclusiveGateway', parent: 'gateway',
             url: iconDirectory + '/tooltip/gateway-inclusiveGateway.png',
             element_url: iconDirectory + '/element-type/gateway-inclusive.png',
+            element_selected_url: iconDirectory + '/element-type/gateway-inclusive-selected.png',
             action: function(el) {
                 editElementType(el,'inclusiveGateway');
             }
@@ -241,8 +250,12 @@
     function changeElementType(element, type) {
         const category = getElementCategory(type);
         const typeList = elementsProperties[category];
-        typeList.forEach(function(t) { element.classed(t.type, t.type === type); });
-        d3.select(element.node().parentNode).select('.element-type').style('fill', 'url(#' + category + '-' + type + '-element)');
+        typeList.forEach(function(t) {
+            element.classed(t.type, t.type === type);
+            d3.select(element.node().parentNode).select('.element-type').classed(t.type, t.type === type);
+        });
+        d3.select(element.node().parentNode).select('.element-type')
+            .style('fill', 'url(#' + category + '-' + type + '-element)');
     }
 
     /**
@@ -1624,15 +1637,21 @@
         // add pattern image. for tooltip item image.
         const imageLoadingList = [];
         tooltipItems.forEach(function(item) {
-            let data = {};
-            data.id = item.parent + '-' + item.type;
-            data.url = item.url;
-            imageLoadingList.push(data);
+            if (item.url) {
+                let data = {};
+                data.id = item.parent + '-' + item.type;
+                data.url = item.url;
+                imageLoadingList.push(data);
+            }
             if (item.element_url) {
                 let elemData = {};
                 elemData.id = item.parent + '-' + item.type + '-element';
                 elemData.url = item.element_url;
                 imageLoadingList.push(elemData);
+
+                elemData = {};
+                elemData.id = item.parent + '-' + item.type + '-element-selected';
+                elemData.url = item.element_selected_url;
             }
             if (item.focus_url) {
                 let focusData = {};

@@ -10120,16 +10120,26 @@ body {
   opacity: 1;
   stroke-width: 1;
 }
-.alice-process-drawing-board .element .node.task.userTask {
+.alice-process-drawing-board .element .element-type.task {
+  stroke-width: 1;
+}
+.alice-process-drawing-board .element .node.task.userTask,
+.alice-process-drawing-board .element .element-type.task.userTask {
   stroke: #0099ff;
 }
-.alice-process-drawing-board .element .node.task.manualTask {
+.alice-process-drawing-board .element .node.task.manualTask,
+.alice-process-drawing-board .element .element-type.task.manualTask {
   stroke: #23c8c1;
 }
-.alice-process-drawing-board .element .node.task.scriptTask {
+.alice-process-drawing-board .element .node.task.scriptTask,
+.alice-process-drawing-board .element .element-type.task.scriptTask {
   stroke: #66cc00;
 }
-.alice-process-drawing-board .element .node.subprocess {
+.alice-process-drawing-board .element .element-type.subprocess {
+  stroke-width: 1;
+}
+.alice-process-drawing-board .element .node.subprocess,
+.alice-process-drawing-board .element .element-type.subprocess {
   stroke: #6774ff;
 }
 .alice-process-drawing-board .element .node.gateway {
@@ -10147,12 +10157,8 @@ body {
   stroke-width: 2;
 }
 .alice-process-drawing-board .element .node.reject-element {
-  stroke: #ff0000;
-  stroke-width: 2;
-}
-.alice-process-drawing-board .element .element-type.task {
-  stroke: #0099ff;
-  stroke-width: 1;
+  stroke: #ff0000 !important;
+  stroke-width: 2 !important;
 }
 .alice-process-drawing-board .element .group {
   stroke: #000000;
@@ -10217,7 +10223,7 @@ body {
   cursor: default;
 }
 .alice-process-drawing-board div.minimap path.connector.is-default {
-  stroke-width: 4;
+  stroke-width: 2;
 }
 .alice-process-drawing-board div.minimap .connector text {
   fill: #000000;

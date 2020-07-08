@@ -670,10 +670,6 @@
      * 미니맵을 표시한다.
      */
     function setProcessMinimap() {
-        const minimap = d3.select('div.minimap');
-        if (minimap.classed('closed')) {
-            return false;
-        }
         const drawingboardContainer = document.querySelector('.alice-process-drawing-board');
         let drawingBoard = d3.select(drawingboardContainer).select('svg');
         let content = drawingBoard.html();
@@ -748,14 +744,10 @@
         const minimapButtonContainer = document.createElement('div');
         minimapButtonContainer.classList.add('minimap-button');
         minimapButtonContainer.addEventListener('click', function() {
-            const minimap = document.querySelector('div.minimap');
-            let isMinimapClosed = minimap.classList.contains('closed');
-            minimap.classList.toggle('closed');
-            if (isMinimapClosed) {
-                setProcessMinimap();
-            }
+            document.querySelector('div.minimap').classList.toggle('closed');
         }, false);
         drawingBoard.appendChild(minimapButtonContainer);
+        setProcessMinimap();
     }
 
     /**
