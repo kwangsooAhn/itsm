@@ -36,7 +36,9 @@ class DocumentService(
      *
      * @return List<DocumentDto>
      */
-    fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+    fun getDocumentList(
+        restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto
+    ): List<RestTemplateDocumentDto> {
         val multiVal: MultiValueMap<String, String> = LinkedMultiValueMap()
         multiVal.setAll(
             objMapper.convertValue<Map<String, String>>(

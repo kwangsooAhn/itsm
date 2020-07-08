@@ -30,7 +30,9 @@ class DocumentRestController(
      * 신청서 목록 조회.
      */
     @GetMapping("/", "")
-    fun getDocuments(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+    fun getDocuments(
+        restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto
+    ): List<RestTemplateDocumentDto> {
         return documentService.getDocumentList(restTemplateDocumentSearchListDto)
     }
 }

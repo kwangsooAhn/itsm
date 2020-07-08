@@ -39,7 +39,8 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
 
             // 컨넥터의 종류에 따라 validate 를 수행한다.
             when (connectorIsCondition + connectorIsAction) {
-                WfElementConstants.ConnectorConditionValue.NONE.value -> return setFailedMessage("There is no value of the connector.")
+                WfElementConstants.ConnectorConditionValue.NONE.value ->
+                    return setFailedMessage("There is no value of the connector.")
                 WfElementConstants.ConnectorConditionValue.CONDITION.value -> {
                     // connector 속성이 condition 이면 condition-item 으로 #{action} 은 사용하지 않는다.
                     if (conditionItem == WfElementConstants.AttributeValue.ACTION.value) {
@@ -52,7 +53,8 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
                         return setFailedMessage("The condition-item of gateway should be action.")
                     }
                 }
-                WfElementConstants.ConnectorConditionValue.DUPLICATION.value -> return setFailedMessage("Connector of gateway only have to choose one of condition and action.")
+                WfElementConstants.ConnectorConditionValue.DUPLICATION.value ->
+                    return setFailedMessage("Connector of gateway only have to choose one of condition and action.")
             }
         } else {
             // gateway 의 arrowConnector 1개이면 condition-item 은 필수값이 아니므로

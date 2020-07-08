@@ -73,7 +73,8 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
 
             // 체크된 기본경로 값은 0 또는 1개여야한다. (action은 무조건 pass)
             if (checkedDefaultConditionTotal > 1) {
-                return setFailedMessage("Default connector checked should be one. If action then all checks should be unchecked.")
+                return setFailedMessage("Default connector checked should be one." +
+                        " If action then all checks should be unchecked.")
             }
         }
         return true

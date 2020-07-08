@@ -119,8 +119,8 @@ class UserRestController(
     /**
      * 변경된 사용자 정보를 SecurityContextHolder에 update한다.
      */
-    fun createNewAuthentication(User: UserUpdateDto): Authentication {
-        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(User.userKey))
+    fun createNewAuthentication(user: UserUpdateDto): Authentication {
+        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(user.userKey))
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
 
         val usernamePasswordAuthenticationToken =
