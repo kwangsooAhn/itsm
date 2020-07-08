@@ -3,14 +3,40 @@
 @font-face {
     font-family: "Noto Sans";
     src: url(font/NotoSansKR-Regular.woff) format('woff');
+    font-weight: normal;
 }
 @font-face {
     font-family: "Noto Sans";
     src: url(font/NotoSansKR-Bold.woff) format('woff');
     font-weight: bold;
 }
+@font-face {
+    font-family: "Noto Sans";
+    src: url(font/NotoSansKR-Medium.woff) format('woff');
+    font-weight: 500;
+}
 
-$alice-font-family: "Noto Sans" !default;
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareL.woff) format('woff');
+    font-weight: 300;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareR.woff) format('woff');
+    font-weight: 400;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareB.woff) format('woff');
+    font-weight: 700;
+}
+@font-face {
+    font-family: NanumSquare;
+    src: url(NanumSquareEB.woff) format('woff');
+}
+
+$alice-font-family: "Noto Sans";
 $process-toolbar-height: 2.188rem; // 35px
 $process-toolbar-top-bottom-padding: 0.563rem; // 9px
 $process-toolbar-real-height: $process-toolbar-height - ($process-toolbar-top-bottom-padding * 2);
@@ -20,7 +46,10 @@ $process-container-min-width: 75rem;  // 1200px
 $process-container-min-height: 37.5rem;  // 600px
 
 body {
-    font-family: $alice-font-family;
+    font: {
+        family: $alice-font-family;
+        size: 0.688rem; // 11px
+    }
 }
 
 .alice-process {
@@ -364,6 +393,98 @@ body {
                 stroke-width: 0;
             }
         }
+
+        div.minimap {
+            background-color: #f2f5fa;
+            display: inline-block;
+            width: 18rem;  // 288px
+            height: 11.125rem; // 178px
+            overflow: hidden;
+            position: absolute;
+            bottom: 0.625rem; // 10px
+            right: 0.625rem;  // 10px
+            border: 0.063rem solid #c8ced8;
+            cursor: pointer;
+
+            rect.minimap-guide {
+                fill: red;
+                fill-opacity: 0.1;
+                stroke-width: 0;
+            }
+
+            path.connector {
+                fill: none;
+                stroke: #000;
+                stroke-width: 2;
+                cursor: default;
+            }
+            path.connector.is-default {
+                stroke-width: 4;
+            }
+
+            .connector {
+                text {
+                    fill: #000000;
+                    font: {
+                        weight: bold;
+                        size: 0.813rem; // 13px
+                    }
+                    dominant-baseline: text-before-edge;
+                    user-select: none;
+                }
+            }
+
+            .element {
+                .node {
+                    fill: #ffffff;
+                    opacity: 1;
+                    stroke-width: 1;
+                }
+
+                .node.task.userTask {
+                    stroke: #0099ff;
+                }
+                .node.task.manualTask {
+                    stroke: #23c8c1;
+                }
+                .node.task.scriptTask {
+                    stroke: #66cc00;
+                }
+                .node.subprocess {
+                    stroke: #6774ff;
+                }
+
+                .node.gateway {
+                    stroke: #fac900;
+                }
+
+                .node.event {
+                    stroke: #ff6f61;
+                }
+
+                .node.event.commonEnd,
+                .node.event.messageEnd {
+                    stroke-width: 3;
+                }
+
+                text {
+                    fill: #000000;
+                    font: {
+                        weight: bold;
+                        size: 0.813rem; // 13px
+                    }
+                    text-anchor: middle;
+                    dominant-baseline: middle;
+                    user-select: none;
+                }
+            }
+        }
+
+        div.minimap.closed {
+            background-color: #ffffff;
+            width: 2.188rem;  // 35px
+            height: 2.188rem; // 35px
+        }
     }
 
     &-properties-panel {
@@ -382,8 +503,8 @@ body {
             line-height: 0.1em;
 
             font: {
-                size: 0.938rem; // 15px
-                weight: bold;
+                size: 0.75rem; // 12px
+                weight: 500;
             }
             margin: {
                 top: 0.969rem; // 15.5px
@@ -697,83 +818,5 @@ body {
             }
         }
 
-    }
-
-
-    div.minimap {
-        display: inline-block;
-        width: calc(#{$process-properties-panel-width - (0.063rem * 2)});
-        height: 11.25rem;
-
-        svg {
-            display: inline-block;
-            border: 0.063rem solid #4C5264;
-            margin: {
-                right: 0.938rem; // 15px
-                left: 0.938rem; // 15px
-            }
-        }
-
-        rect.minimap-guide {
-            fill: #4d4d4d;
-            fill-opacity: 0.1;
-            stroke-width: 0;
-        }
-
-        path.connector {
-            fill: none;
-            stroke: #000;
-            stroke-width: 2;
-            cursor: default;
-        }
-        path.connector.is-default {
-            stroke-width: 4;
-        }
-
-        .connector {
-            text {
-                fill: #000000;
-                font: {
-                    weight: bold;
-                    size: 0.813rem; // 13px
-                }
-                dominant-baseline: text-before-edge;
-                user-select: none;
-            }
-        }
-
-        .element {
-            .node {
-                fill: #ffffff;
-                opacity: 1;
-                stroke: #000000;
-                stroke-width: 1;
-            }
-
-            .node.event.commonEnd,
-            .node.event.messageEnd {
-                stroke-width: 3;
-            }
-
-            .group {
-                fill-opacity: 0;
-                stroke-dasharray: 5,5;
-            }
-
-            .annotation {
-                fill-opacity: 0;
-            }
-
-            text {
-                fill: #000000;
-                font: {
-                    weight: bold;
-                    size: 0.813rem; // 13px
-                }
-                text-anchor: middle;
-                dominant-baseline: middle;
-                user-select: none;
-            }
-        }
     }
 }

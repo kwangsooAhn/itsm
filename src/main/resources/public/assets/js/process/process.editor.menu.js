@@ -1641,6 +1641,7 @@
                 imageLoadingList.push(focusData);
             }
         });
+        imageLoadingList.push({id: 'minimap', url: iconDirectory + '/editor/icon-map.png'});
 
         const defs = d3.select('svg').select('defs');
         defs.selectAll('pattern').data(imageLoadingList)

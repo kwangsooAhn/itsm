@@ -1690,7 +1690,7 @@
             verticalGrid.call(verticalAxis);
             horizontalGrid.call(horizontalAxis);
 
-            let nodes = d3.select('.minimap').selectAll('g.element, g.connector').nodes();
+            let nodes = d3.select('div.minimap').selectAll('g.element, g.connector').nodes();
             let minimapTranslate = '';
             if (nodes.length > 0) {
                 let transform = d3.zoomTransform(d3.select(drawingBoard).select('.element-container').node());
@@ -1769,7 +1769,7 @@
                 svg.select('g.guides-container')
                     .attr('transform', d3.event.transform);
 
-                let nodes = d3.select('.minimap').selectAll('g.element, g.connector').nodes();
+                let nodes = d3.select('div.minimap').selectAll('g.element, g.connector').nodes();
                 let minimapTranslate = '';
                 if (nodes.length > 0) {
                     minimapTranslate = 'translate(' + -d3.event.transform.x + ',' + -d3.event.transform.y + ')';

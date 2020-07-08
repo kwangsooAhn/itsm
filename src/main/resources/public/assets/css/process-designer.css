@@ -9878,14 +9878,40 @@ h3 {
 @font-face {
   font-family: "Noto Sans";
   src: url(font/NotoSansKR-Regular.woff) format("woff");
+  font-weight: normal;
 }
 @font-face {
   font-family: "Noto Sans";
   src: url(font/NotoSansKR-Bold.woff) format("woff");
   font-weight: bold;
 }
+@font-face {
+  font-family: "Noto Sans";
+  src: url(font/NotoSansKR-Medium.woff) format("woff");
+  font-weight: 500;
+}
+@font-face {
+  font-family: NanumSquare;
+  src: url(NanumSquareL.woff) format("woff");
+  font-weight: 300;
+}
+@font-face {
+  font-family: NanumSquare;
+  src: url(NanumSquareR.woff) format("woff");
+  font-weight: 400;
+}
+@font-face {
+  font-family: NanumSquare;
+  src: url(NanumSquareB.woff) format("woff");
+  font-weight: 700;
+}
+@font-face {
+  font-family: NanumSquare;
+  src: url(NanumSquareEB.woff) format("woff");
+}
 body {
   font-family: "Noto Sans";
+  font-size: 0.688rem;
 }
 
 .alice-process-container {
@@ -10150,6 +10176,79 @@ body {
   stroke: darkgray;
   stroke-width: 0;
 }
+.alice-process-drawing-board div.minimap {
+  background-color: #f2f5fa;
+  display: inline-block;
+  width: 18rem;
+  height: 11.125rem;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0.625rem;
+  right: 0.625rem;
+  border: 0.063rem solid #c8ced8;
+  cursor: pointer;
+}
+.alice-process-drawing-board div.minimap rect.minimap-guide {
+  fill: red;
+  fill-opacity: 0.1;
+  stroke-width: 0;
+}
+.alice-process-drawing-board div.minimap path.connector {
+  fill: none;
+  stroke: #000;
+  stroke-width: 2;
+  cursor: default;
+}
+.alice-process-drawing-board div.minimap path.connector.is-default {
+  stroke-width: 4;
+}
+.alice-process-drawing-board div.minimap .connector text {
+  fill: #000000;
+  font-weight: bold;
+  font-size: 0.813rem;
+  dominant-baseline: text-before-edge;
+  user-select: none;
+}
+.alice-process-drawing-board div.minimap .element .node {
+  fill: #ffffff;
+  opacity: 1;
+  stroke-width: 1;
+}
+.alice-process-drawing-board div.minimap .element .node.task.userTask {
+  stroke: #0099ff;
+}
+.alice-process-drawing-board div.minimap .element .node.task.manualTask {
+  stroke: #23c8c1;
+}
+.alice-process-drawing-board div.minimap .element .node.task.scriptTask {
+  stroke: #66cc00;
+}
+.alice-process-drawing-board div.minimap .element .node.subprocess {
+  stroke: #6774ff;
+}
+.alice-process-drawing-board div.minimap .element .node.gateway {
+  stroke: #fac900;
+}
+.alice-process-drawing-board div.minimap .element .node.event {
+  stroke: #ff6f61;
+}
+.alice-process-drawing-board div.minimap .element .node.event.commonEnd,
+.alice-process-drawing-board div.minimap .element .node.event.messageEnd {
+  stroke-width: 3;
+}
+.alice-process-drawing-board div.minimap .element text {
+  fill: #000000;
+  font-weight: bold;
+  font-size: 0.813rem;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  user-select: none;
+}
+.alice-process-drawing-board div.minimap.closed {
+  background-color: #ffffff;
+  width: 2.188rem;
+  height: 2.188rem;
+}
 .alice-process-properties-panel {
   display: inline-block;
   background-color: #fafbfd;
@@ -10164,8 +10263,8 @@ body {
 .alice-process-properties-panel h3 {
   border-bottom: 0.063rem solid #c8ced8;
   line-height: 0.1em;
-  font-size: 0.938rem;
-  font-weight: bold;
+  font-size: 0.75rem;
+  font-weight: 500;
   margin-top: 0.969rem;
   margin-left: 1.25rem;
   margin-right: 1.25rem;
@@ -10401,63 +10500,6 @@ body {
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table label {
   height: 0.938rem;
   margin: 0;
-}
-.alice-process div.minimap {
-  display: inline-block;
-  width: calc(14.249rem);
-  height: 11.25rem;
-}
-.alice-process div.minimap svg {
-  display: inline-block;
-  border: 0.063rem solid #4C5264;
-  margin-right: 0.938rem;
-  margin-left: 0.938rem;
-}
-.alice-process div.minimap rect.minimap-guide {
-  fill: #4d4d4d;
-  fill-opacity: 0.1;
-  stroke-width: 0;
-}
-.alice-process div.minimap path.connector {
-  fill: none;
-  stroke: #000;
-  stroke-width: 2;
-  cursor: default;
-}
-.alice-process div.minimap path.connector.is-default {
-  stroke-width: 4;
-}
-.alice-process div.minimap .connector text {
-  fill: #000000;
-  font-weight: bold;
-  font-size: 0.813rem;
-  dominant-baseline: text-before-edge;
-  user-select: none;
-}
-.alice-process div.minimap .element .node {
-  fill: #ffffff;
-  opacity: 1;
-  stroke: #000000;
-  stroke-width: 1;
-}
-.alice-process div.minimap .element .node.event.commonEnd,
-.alice-process div.minimap .element .node.event.messageEnd {
-  stroke-width: 3;
-}
-.alice-process div.minimap .element .group {
-  fill-opacity: 0;
-  stroke-dasharray: 5, 5;
-}
-.alice-process div.minimap .element .annotation {
-  fill-opacity: 0;
-}
-.alice-process div.minimap .element text {
-  fill: #000000;
-  font-weight: bold;
-  font-size: 0.813rem;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  user-select: none;
 }
 
 /*# sourceMappingURL=process-designer.css.map */
