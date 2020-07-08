@@ -59,7 +59,7 @@
                     <td>
                         <button sec:authorize="hasAnyAuthority('process.create', 'process.update')"
                             th:text="#{process.btn.export}" th:disabled="${!process.enabled}"
-                            th:attr="onclick=|aliceProcessUtil.export('${process.id}')|"></button>
+                            th:attr="onclick=|workflowUtil.export('${process.id}', 'process')|"></button>
                     </td>
                     <td>
                         <button sec:authorize="hasAuthority('process.update')"
