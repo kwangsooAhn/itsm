@@ -62,17 +62,48 @@ class CodeService(
     }
 
     /**
-     * 코드 데이터 저장, 수정
+     * 코드 데이터 저장
      */
-    fun createCode(codeDetailDto: CodeDetailDto) {
-        val pCode = codeDetailDto.pCode
+    fun createCode(codeDetailDto: CodeDetailDto): String {
+        var status = CodeConstants.Status.STATUS_SUCCESS.code
         val codeEntity = CodeEntity(
             codeDetailDto.code,
-            codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = pCode!!)),
+            codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
             codeDetailDto.codeValue,
             codeDetailDto.editable
         )
-        codeRepository.save(codeEntity)
+
+        if (codeRepository.existsByCodeAndEditableTrue(codeDetailDto.code)) {
+            status = CodeConstants.Status.STATUS_ERROR_CODE_DUPLICATION.code
+        } else if (!codeRepository.existsByCodeAndEditableTrue(codeDetailDto.pCode!!) && codeDetailDto.pCode != "") {
+            status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
+        } else {
+            codeRepository.save(codeEntity)
+        }
+        return status
+    }
+
+    /**
+     * 코드 데이터 수정
+     */
+    fun updateCode(codeDetailDto: CodeDetailDto): String {
+        var status = CodeConstants.Status.STATUS_SUCCESS_EDIT_CODE.code
+        val codeEntity = CodeEntity(
+            codeDetailDto.code,
+            codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
+            codeDetailDto.codeValue,
+            codeDetailDto.editable
+        )
+
+        when (codeRepository.existsByCodeAndEditableTrue(codeDetailDto.pCode!!) || codeDetailDto.pCode == "") {
+            true -> {
+                codeRepository.save(codeEntity)
+            }
+            false -> {
+                status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
+            }
+        }
+        return status
     }
 
     /**
@@ -80,13 +111,16 @@ class CodeService(
      */
     fun deleteCode(code: String): String {
         var status = CodeConstants.Status.STATUS_SUCCESS.code
-        if (codeRepository.existsByPCodeAndEditableTrue(
-                codeRepository.findById(code).orElse(CodeEntity(code = code))
-            )
-        ) {
-            status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_USED.code
-        } else {
-            codeRepository.deleteById(code)
+
+        when (codeRepository.existsByPCodeAndEditableTrue(
+            codeRepository.findById(code).orElse(CodeEntity(code = code))
+        )) {
+            true -> {
+                status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_USED.code
+            }
+            false -> {
+                codeRepository.deleteById(code)
+            }
         }
         return status
     }

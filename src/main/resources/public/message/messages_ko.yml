@@ -46,6 +46,7 @@ common:
     fail: "실패하였습니다."
     modify: "수정되었습니다."
     noData: "데이터가 없습니다."
+    register: "등록되었습니다."
     requiredEnter: "필수 항목을 입력하세요."
     requiredSelect: "필수 항목을 선택하세요."
     save: "저장되었습니다."
@@ -194,8 +195,10 @@ code:
     codeValue: "코드 값"
     pCode: "부모 코드"
   msg:
+    duplicateCode: "중복된 코드가 존재합니다."
     enterCode: "코드를 입력하세요."
     pCodeNotExist: "부모 코드가 존재하지 않습니다."
+    referenceCodeExist: "해당 코드를 참조하는 코드가 존재합니다."
 
 # Comment
 comment:

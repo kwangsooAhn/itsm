@@ -3,7 +3,7 @@ spring:
   datasource:
     hikari.maximum-pool-size: 5
     platform: postgres
-    url: ENC(YbJqvHIZCJfoeXSAtzK59GtHmcQFMS3vh/emNM5vzl1bHUzGIiNoFwfkcZGg4idmmB0NbibwMy4r5SAIwc1Udw==) #jdbc:log4jdbc:postgresql://10.0.10.175:32784/itsm
+    url: jdbc:log4jdbc:postgresql://10.0.10.175:32796/itsm #jdbc:log4jdbc:postgresql://10.0.10.175:32784/itsm
     username: ENC(C4bWbxHAbRqyUnYZQNlsjA==) # itsm
     password: ENC(Nkoufw9FfHXYGOYykZFpqA==) # itsm123
     driver-class-name: ENC(Arw4J0ZjOrhA7dVeRVgnR7n1SbuwU+e2b1TUmlskxnRbd0/Zf/hRY5wf4PEk43DU) # net.sf.log4jdbc.sql.jdbcapi.DriverSpy

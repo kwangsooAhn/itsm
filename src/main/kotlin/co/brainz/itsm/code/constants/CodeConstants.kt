@@ -11,8 +11,9 @@ object CodeConstants {
      */
     enum class Status(val code: String) {
         STATUS_SUCCESS("0"),
-        STATUS_ERROR_CODE_P_CODE_USED("1"),
-        STATUS_ERROR_CODE_DUPLICATION("2"),
-        STATUS_ERROR_CODE_P_CODE_NOT_EXIST("3")
+        STATUS_SUCCESS_EDIT_CODE("1"),
+        STATUS_ERROR_CODE_P_CODE_USED("2"),
+        STATUS_ERROR_CODE_DUPLICATION("3"),
+        STATUS_ERROR_CODE_P_CODE_NOT_EXIST("4")
     }
 }

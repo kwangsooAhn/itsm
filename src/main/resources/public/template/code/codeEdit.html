@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    layout:decorator="layout/defaultLayout">
 <head>
     <title>코드 관리</title>
 </head>
@@ -80,9 +80,10 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         const STATUS_SUCCESS = '0';
-        const STATUS_ERROR_CODE_P_CODE_USER = '1';
-        const STATUS_ERROR_CODE_DUPLICATION = '2';
-        const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '3';
+        const STATUS_SUCCESS_EDIT_CODE = '1';
+        const STATUS_ERROR_CODE_P_CODE_USED = '2';
+        const STATUS_ERROR_CODE_DUPLICATION = '3';
+        const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '4';
         let AUTH_DELETE = false;
         let AUTH_CREATE = false;
         let AUTH_UPDATE = false;
@@ -189,10 +190,28 @@
                 url: url,
                 params: JSON.stringify(jsonData),
                 contentType: 'application/json',
-                callbackFunc: function() {
-                    aliceJs.alert([[#{common.msg.save}]], function() {
-                        window.location.href ='/codes/edit';
-                    });
+                callbackFunc: function(response) {
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alert(i18n.get('common.msg.register'), function() {
+                                window.location.href = '/codes/edit';
+                            });
+                            break;
+                        case STATUS_SUCCESS_EDIT_CODE:
+                            aliceJs.alert(i18n.get('common.msg.modify'), function() {
+                                window.location.href = '/codes/edit';
+                            });
+                            break;
+                        case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
+                            aliceJs.alert(i18n.get('code.msg.pCodeNotExist'));
+                            break;
+                        case STATUS_ERROR_CODE_DUPLICATION:
+                            aliceJs.alert(i18n.get('code.msg.duplicateCode'));
+                            break;
+                        default:
+                            aliceJs.alert(i18n.get('common.msg.fail'));
+                            break;
+                    }
                 }
             };
 
@@ -207,12 +226,12 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alert([[#{common.msg.delete}]], function() {
+                            aliceJs.alert(i18n.get('common.msg.delete'), function() {
                                 window.location.href ='/codes/edit';
                             });
                             break;
-                        case STATUS_ERROR_CODE_P_CODE_USER:
-                            alert("삭제 실패 사용중");
+                        case STATUS_ERROR_CODE_P_CODE_USED:
+                            aliceJs.alert(i18n.get('code.msg.referenceCodeExist'));
                             break;
                         default:
                             aliceJs.alert(i18n.get('common.msg.fail'));
