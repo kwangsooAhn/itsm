@@ -233,13 +233,15 @@ class WfFormService(
     fun saveFormData(restTemplateFormComponentListDto: RestTemplateFormComponentListDto) {
 
         // Delete component, attribute
-        val componentEntities = wfComponentRepository.findByFormId(restTemplateFormComponentListDto.formId)
+        val componentEntities = restTemplateFormComponentListDto.formId?.let { wfComponentRepository.findByFormId(it) }
         val componentIds: MutableList<String> = mutableListOf()
-        for (component in componentEntities) {
-            componentIds.add(component.componentId)
-        }
-        if (componentIds.isNotEmpty()) {
-            wfComponentRepository.deleteComponentEntityByComponentIdIn(componentIds)
+        if (componentEntities != null) {
+            for (component in componentEntities) {
+                componentIds.add(component.componentId)
+            }
+            if (componentIds.isNotEmpty()) {
+                wfComponentRepository.deleteComponentEntityByComponentIdIn(componentIds)
+            }
         }
 
         // Update Form
@@ -270,6 +272,7 @@ class WfFormService(
             name = restTemplateFormComponentListDto.name,
             status = restTemplateFormComponentListDto.status,
             desc = restTemplateFormComponentListDto.desc,
+            editable = true,
             createUserKey = restTemplateFormComponentListDto.createUserKey,
             createDt = restTemplateFormComponentListDto.createDt
         )

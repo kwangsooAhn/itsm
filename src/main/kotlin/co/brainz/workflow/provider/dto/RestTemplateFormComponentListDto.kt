@@ -14,7 +14,7 @@ import java.time.LocalDateTime
  * @param components 화면에서 사용하는 데이터로 가공한 컴포넌트 리스트
  */
 class RestTemplateFormComponentListDto(
-    var formId: String = "",
+    var formId: String? = "",
     var name: String = "",
     var status: String? = "",
     var desc: String? = "",

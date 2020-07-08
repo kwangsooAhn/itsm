@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{process.label.import}"></title>
+    <title th:text="#{form.label.import}"></title>
     <th:block th:replace="layout/fragments/commonHead"></th:block>
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
     <!-- 임시 style -->
@@ -21,27 +21,27 @@
 <div>
     <table>
         <tr>
-            <th th:text="|#{process.label.name} *|"></th>
+            <th th:text="|#{form.label.name} *|"></th>
         </tr>
         <tr>
-            <td><input type="text" id="process_name" maxlength="50" required="required" tabindex="1"/></td>
+            <td><input type="text" id="form_name" maxlength="50" required="required" tabindex="1"/></td>
         </tr>
         <tr>
-            <th th:text="#{process.label.description}"></th>
+            <th th:text="#{form.label.description}"></th>
         </tr>
         <tr>
-            <td><textarea id="process_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
+            <td><textarea id="form_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
         </tr>
         <tr>
-            <th th:text="#{process.label.importFile}"></th>
+            <th th:text="#{form.label.importFile}"></th>
         </tr>
         <tr>
-            <td><input type="file" id="process_file" accept=".xml" tabindex="3"/></td>
+            <td><input type="file" id="form_file" accept=".xml" tabindex="3"/></td>
         </tr>
     </table>
 </div>
 <div>
-    <button th:text="#{common.btn.save}" onclick="javascript:importProcess();"></button>
+    <button th:text="#{common.btn.save}" onclick="javascript:importForm();"></button>
     <button th:text="#{common.btn.cancel}" onclick="javascript:window.close();"></button>
 </div>
 </body>
@@ -50,20 +50,20 @@
     let fileList = [];
 
     window.onload = function() {
-        const fileSelector = document.getElementById('process_file');
+        const fileSelector = document.getElementById('form_file');
         fileSelector.addEventListener('change', function(e) {
             fileList = e.target.files;
         });
     };
 
-    function importProcess() {
+    function importForm() {
         if (validation()) {
-            const processInfo = {
-                processName: document.getElementById('process_name').value,
-                processDesc: document.getElementById('process_desc').value
+            const formInfo = {
+                formName: document.getElementById('form_name').value,
+                formDesc: document.getElementById('form_desc').value
             };
             if (fileList.length > 0) {
-                workflowUtil.import(fileList[0], processInfo, 'process', function (result) {
+                workflowUtil.import(fileList[0], formInfo, 'form', function (result) {
                     if (result) {
                         aliceJs.alert(i18n.get('common.msg.save'), function () {
                             opener.location.reload();
@@ -81,12 +81,12 @@
 
     function validation() {
         // 필수 체크
-        if (isEmpty('process_name', 'process.msg.enterProcessName')) { return false; }
-        if (isEmpty('process_file', 'process.msg.selectImportFile')) { return false; }
+        if (isEmpty('form_name', 'form.msg.enterFormName')) { return false; }
+        if (isEmpty('form_file', 'form.msg.selectImportFile')) { return false; }
         // 확장자 체크
-        let filename = document.getElementById('process_file').value;
+        let filename = document.getElementById('form_file').value;
         if (filename.split('.').pop().toUpperCase() !== allowedExtension) {
-            aliceJs.alert(i18n.get('process.msg.fileExtensionNotAllow', allowedExtension));
+            aliceJs.alert(i18n.get('form.msg.fileExtensionNotAllow', allowedExtension));
             return false;
         }
         return true;

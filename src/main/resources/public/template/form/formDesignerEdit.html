@@ -33,15 +33,6 @@
             <img th:src="@{/assets/media/icons/form/topmenu/redo.png}"/>
             <label th:text="#{form.label.redo}"></label>
         </a>
-        <span th:if="${#strings.isEmpty(isView)}" class="separator"></span>
-        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.importForm();">
-            <img th:src="@{/assets/media/icons/form/topmenu/import.png}"/>
-            <label th:text="#{form.label.import}"></label>
-        </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.exportForm();">
-            <img th:src="@{/assets/media/icons/form/topmenu/export.png}"/>
-            <label th:text="#{form.label.export}"></label>
-        </a>
         <span class="separator"></span>
         <a href="javascript:void(0);" onclick="editor.preview();">
             <img th:src="@{/assets/media/icons/form/topmenu/preview.png}"/>
@@ -186,7 +177,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="script">
-    <script th:src="@{/assets/js/process/workflow.util.js}"></script>
+    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
     <script th:src="@{/assets/js/util/shortcut-alice.js}"></script>
     <script th:src="@{/assets/vendors/gModal/js/gModal.min.js}"></script>
     <script th:src="@{/assets/js/form/form.editor.context.js}"></script>
