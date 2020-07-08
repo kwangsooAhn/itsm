@@ -16,8 +16,8 @@
             <th class="required" th:text="#{document.label.type}"></th>
             <td>
                 <select id="document_type" style="width:75%">
-                    <option value="application-form" th:text="#{document.type.applicationForm}" />
-                    <option value="workflow" th:text="#{document.type.workflow}" />
+                    <option value="application-form" th:text="#{document.type.applicationForm}" selected></option>
+                    <option value="workflow" th:text="#{document.type.workflow}"></option>
                 </select>
             </td>
         </tr>
@@ -37,7 +37,7 @@
             <th th:text="#{common.label.group}"></th>
             <td>
                 <select id="document_group" style="width:75%">
-                    <option value="" th:text="#{document.label.notSelect}" selected/>
+                    <option value="" th:text="#{document.label.notSelect}" selected></option>
                     <option th:each="group:${groupList}" th:value="${group.code}"
                             th:text="${group.codeValue}"></option>
                 </select>
@@ -79,9 +79,9 @@
         <tr>
             <th th:text="#{document.label.status}"></th>
             <td>
-                <select id="document_status" style="width:75%" th:disabled="!${documentId}">
+                <select id="document_status" style="width:75%">
                     <option th:each="status:${statusList}" th:value="${status.code}"
-                            th:text="${status.codeValue}" th:selected="${status.code == 'document.status.use'}"></option>
+                            th:text="${status.codeValue}" th:selected="${status.code == 'document.status.temporary'}"></option>
                 </select>
             </td>
         </tr>
@@ -109,6 +109,11 @@
 <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
 <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
 <script type="text/javascript">
+    // Document status.
+    const STATUS_TEMPORARY = 'document.status.temporary';
+    const STATUS_USE = 'document.status.use';
+    const STATUS_DESTROY = 'document.status.destroy';
+
     function saveDocument(method) {
         if (emptyValidation()) {
             let documentType = document.getElementById('document_type');
@@ -187,7 +192,6 @@
         colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox, 'documentPaletteColors');
     }
 
-
     /**
      * Set Document Data.
      *
@@ -199,11 +203,26 @@
         document.getElementById('document_desc').value = documentData.documentDesc;
         document.getElementById('document_form').value = documentData.formId;
         document.getElementById('document_process').value = documentData.processId;
-        document.getElementById('document_status').value = documentData.documentStatus;
         document.getElementById('document_numbering_rule').value = documentData.documentNumberingRuleId;
         document.getElementById('document_color').value = documentData.documentColor;
         document.getElementById('selected_color').style.backgroundColor = documentData.documentColor;
         document.getElementById('document_group').value = (documentData.documentGroup !== null ? documentData.documentGroup : '');
+        document.getElementById('document_group').disabled = (documentData.documentType === 'workflow');
+
+        const statusElem = document.getElementById('document_status');
+        statusElem.value = documentData.documentStatus;
+        switch (documentData.documentStatus) {
+            case STATUS_TEMPORARY:
+                statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
+                break;
+            case STATUS_USE:
+                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                break;
+            case STATUS_DESTROY:
+                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
+                break;
+        }
     }
 
     //신청서 양식편집 화면 open
@@ -226,6 +245,13 @@
                 }
             });
         }
+        document.getElementById('document_type').addEventListener('change', function() {
+            const groupElem = document.getElementById('document_group');
+            groupElem.disabled = (this.value === 'workflow');
+            if (this.value === 'workflow') {
+                groupElem.value = '';
+            }
+        });
     };
     /*]]>*/
 </script>

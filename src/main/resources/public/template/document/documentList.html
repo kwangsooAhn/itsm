@@ -15,6 +15,12 @@
         table td {
             border-top: 1px solid #e7e7e7;
             border-left: 1px solid;
+            text-align: center;
+            padding: 3px;
+            height: 40px;
+        }
+        table td:nth-child(2), table td:nth-child(3) {
+            text-align: left;
         }
     </style>
 </head>
@@ -23,8 +29,9 @@
     <table class="table-hover">
         <colgroup>
             <col width="1%">
-            <col width="34%">
-            <col width="60%">
+            <col width="29%">
+            <col width="55%">
+            <col width="10%">
             <col width="5%">
         </colgroup>
         <tbody>
@@ -35,6 +42,7 @@
             <td th:style="|background-color:${document.documentColor}|"></td>
             <td th:text="${document.documentName}"></td>
             <td th:text="${document.documentDesc}"></td>
+            <td th:text="#{${document.documentStatus}}"></td>
             <td>
                 <button sec:authorize="hasAuthority('document.create')"
                         th:attr="onclick=|openDocument('${document.documentId}')|"

@@ -12,9 +12,18 @@
         table tr:nth-child(1) td {
             border-top: 1px solid;
         }
+        table td label {
+            margin: 0;
+        }
         table td {
             border-top: 1px solid #e7e7e7;
             border-left: 1px solid;
+            text-align: center;
+            padding: 3px;
+            height: 40px;
+        }
+        table td:nth-child(2), table td:nth-child(5) {
+            text-align: left;
         }
     </style>
 </head>
@@ -43,7 +52,7 @@
             <td>
             <th:block th:if="${document.documentGroup != null && document.documentGroup != ''}">
                 <th:block th:each="group, index : ${groupList}">
-                    <label th:if="${group.code} == ${document.documentGroup}"  th:text="${group.codeValue}"></label>
+                    <label th:if="${group.code} == ${document.documentGroup}" th:text="${group.codeValue}"></label>
                 </th:block>
             </th:block>
             </td>
