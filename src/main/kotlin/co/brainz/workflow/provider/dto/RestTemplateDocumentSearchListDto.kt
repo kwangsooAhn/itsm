@@ -11,5 +11,6 @@ data class RestTemplateDocumentSearchListDto(
     var searchDocumentType: String? = "",
     var searchDocumentStatus: String? = "",
     var searchProcessName: String? = "",
-    var searchFormName: String? = ""
+    var searchFormName: String? = "",
+    val viewType: String? = ""
 ) : Serializable

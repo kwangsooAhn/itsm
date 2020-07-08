@@ -180,7 +180,10 @@ class WfDocumentService(
      * @param restTemplateDocumentDto
      * @return Boolean
      */
-    fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): Boolean {
+    fun updateDocument(
+        restTemplateDocumentDto: RestTemplateDocumentDto,
+        params: LinkedHashMap<String, Any>
+    ): Boolean {
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateDocumentDto.documentId)
         val form = WfFormEntity(formId = restTemplateDocumentDto.formId)
         val process = WfProcessEntity(processId = restTemplateDocumentDto.processId)
@@ -197,6 +200,11 @@ class WfDocumentService(
         wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
         wfDocumentEntity.documentGroup = restTemplateDocumentDto.documentGroup
         updateFormAndProcessStatus(wfDocumentRepository.save(wfDocumentEntity))
+
+        if (params["isDeleteData"].toString().toBoolean()) {
+            logger.debug("Delete Instance Data... (Document Id: {})", wfDocumentEntity.documentId)
+            wfDocumentEntity.instance?.let { wfInstanceRepository.deleteInstances(it) }
+        }
 
         return true
     }

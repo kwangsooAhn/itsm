@@ -114,6 +114,8 @@
     const STATUS_USE = 'document.status.use';
     const STATUS_DESTROY = 'document.status.destroy';
 
+    let beforeDocumentStatus = null;
+
     function saveDocument(method) {
         if (emptyValidation()) {
             let documentType = document.getElementById('document_type');
@@ -137,13 +139,20 @@
                 documentInfo.documentGroup = documentGroup.options[documentGroup.selectedIndex].value;
             }
 
-            let parameter = '';
+            let url = '/rest/documents-admin';
             if (method === 'put') {
                 documentInfo.documentId = '[[${documentId}]]';
-                parameter = '/[[${documentId}]]';
+                url += '/[[${documentId}]]';
             }
-
-            restSubmit(method, '/rest/documents-admin' + parameter, documentInfo);
+            if (beforeDocumentStatus === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) {
+                aliceJs.confirm(
+                    i18n.get('document.msg.confirmDeleteInstance'),
+                    () => restSubmit(method, url + '?isDeleteData=true', documentInfo),
+                    () => restSubmit(method, url, documentInfo)
+                );
+            } else {
+                restSubmit(method, url, documentInfo);
+            }
         }
     }
 
@@ -210,13 +219,14 @@
         document.getElementById('document_group').disabled = (documentData.documentType === 'workflow');
 
         const statusElem = document.getElementById('document_status');
-        statusElem.value = documentData.documentStatus;
-        switch (documentData.documentStatus) {
+        beforeDocumentStatus = documentData.documentStatus;
+        statusElem.value = beforeDocumentStatus;
+        switch (beforeDocumentStatus) {
             case STATUS_TEMPORARY:
                 statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
                 break;
             case STATUS_USE:
-                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                //statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
                 break;
             case STATUS_DESTROY:
                 statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();

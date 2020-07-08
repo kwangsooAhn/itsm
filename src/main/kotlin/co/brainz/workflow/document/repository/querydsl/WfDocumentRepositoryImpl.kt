@@ -23,10 +23,14 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(RestTemplateDocumentS
                 super.eq(document.documentGroup, searchDto.searchGroupName),
                 super.eq(document.documentType, searchDto.searchDocumentType),
                 if (searchDto.searchDocumentType.equals(DocumentConstants.DocumentType.APPLICATION_FORM.value)) {
-                    document.documentStatus.`in`(
-                        WfDocumentConstants.Status.TEMPORARY.code,
-                        WfDocumentConstants.Status.USE.code
-                    )
+                    if (searchDto.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
+                        document.documentStatus.`in`(
+                            WfDocumentConstants.Status.USE.code,
+                            WfDocumentConstants.Status.TEMPORARY.code
+                        )
+                    } else {
+                        super.eq(document.documentStatus, WfDocumentConstants.Status.USE.code)
+                    }
                 } else {
                     super.eq(document.documentStatus, searchDto.searchDocumentStatus)
                 },
