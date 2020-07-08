@@ -20,7 +20,7 @@ interface CodeRepository : JpaRepository<CodeEntity, String> {
     )
     fun findCodeDetail(code: String): CodeDetailDto
 
-    fun existsByCodeAndEditableTrue(code: String) : Boolean
+    fun existsByCodeAndEditableTrue(code: String): Boolean
 
     fun existsByPCodeAndEditableTrue(pCode: CodeEntity): Boolean
 
