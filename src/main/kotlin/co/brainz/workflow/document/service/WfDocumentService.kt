@@ -156,9 +156,8 @@ class WfDocumentService(
             documentGroup = restTemplateDocumentDto.documentGroup
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
-
-        // 신청서 양식 정보 초기화
-        createDocumentDisplay(dataEntity)
+        createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
+        updateFormAndProcessStatus(dataEntity)
 
         return RestTemplateDocumentDto(
             documentId = dataEntity.documentId,
@@ -182,7 +181,6 @@ class WfDocumentService(
      * @return Boolean
      */
     fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): Boolean {
-
         val wfDocumentEntity = wfDocumentRepository.findDocumentEntityByDocumentId(restTemplateDocumentDto.documentId)
         val form = WfFormEntity(formId = restTemplateDocumentDto.formId)
         val process = WfProcessEntity(processId = restTemplateDocumentDto.processId)
@@ -198,17 +196,24 @@ class WfDocumentService(
             aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
         wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
         wfDocumentEntity.documentGroup = restTemplateDocumentDto.documentGroup
-        wfDocumentRepository.save(wfDocumentEntity)
+        updateFormAndProcessStatus(wfDocumentRepository.save(wfDocumentEntity))
 
-        when (restTemplateDocumentDto.documentStatus) {
+        return true
+    }
+
+    /**
+     * Update Form and Process status.
+     */
+    fun updateFormAndProcessStatus(documentEntity: WfDocumentEntity) {
+        when (documentEntity.documentStatus) {
             WfDocumentConstants.Status.USE.code -> {
-                val wfFormEntity = wfFormRepository.findWfFormEntityByFormId(restTemplateDocumentDto.formId).get()
+                val wfFormEntity = wfFormRepository.findWfFormEntityByFormId(documentEntity.form.formId).get()
                 if (wfFormEntity.formStatus != WfFormConstants.FormStatus.USE.value) {
                     wfFormEntity.formStatus = WfFormConstants.FormStatus.USE.value
                     wfFormRepository.save(wfFormEntity)
                 }
-                val wfProcessEntity =
-                    wfProcessRepository.findByProcessId(restTemplateDocumentDto.processId) ?: throw AliceException(
+                val wfProcessEntity = wfProcessRepository.findByProcessId(documentEntity.process.processId)
+                    ?: throw AliceException(
                         AliceErrorConstants.ERR_00005,
                         AliceErrorConstants.ERR_00005.message + "[Process Entity]"
                     )
@@ -218,8 +223,6 @@ class WfDocumentService(
                 }
             }
         }
-
-        return true
     }
 
     /**
