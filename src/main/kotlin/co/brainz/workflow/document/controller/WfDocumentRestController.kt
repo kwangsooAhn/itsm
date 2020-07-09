@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -75,9 +76,10 @@ class WfDocumentRestController(
     @PutMapping("/{documentId}")
     fun updateDocument(
         @PathVariable documentId: String,
-        @RequestBody restTemplateDocumentDto: RestTemplateDocumentDto
+        @RequestBody restTemplateDocumentDto: RestTemplateDocumentDto,
+        @RequestParam params: LinkedHashMap<String, Any>
     ): Boolean {
-        return wfDocumentService.updateDocument(restTemplateDocumentDto)
+        return wfDocumentService.updateDocument(restTemplateDocumentDto, params)
     }
 
     /**
