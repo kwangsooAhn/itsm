@@ -7,8 +7,8 @@
 
     const data = {};
     const iconDirectory = '/assets/media/icons/process';
-    const itemSize = 20;
-    const itemMargin = 8;
+    const itemSize = 16;
+    const itemMargin = 5.5;
     const assigneeTypeData = {
         users: [],
         groups: []
@@ -53,98 +53,107 @@
         },
         {
             type: 'userTask', parent: 'suggest',
-            url: iconDirectory + '/suggestion/usertask.png',
+            url: iconDirectory + '/tooltip/task-userTask.png',
             action: function(el) {
                 suggestElement(el, 'userTask');
             }
         }, {
             type: 'manualTask', parent: 'suggest',
-            url: iconDirectory + '/suggestion/manual.png',
+            url: iconDirectory + '/tooltip/task-manualTask.png',
             action: function(el) {
                 suggestElement(el, 'manualTask');
             }
         }, {
             type: 'exclusiveGateway', parent: 'suggest',
-            url: iconDirectory + '/suggestion/gateways.png',
+            url: iconDirectory + '/tooltip/gateway-exclusiveGateway.png',
             action: function(el) {
                 suggestElement(el, 'exclusiveGateway');
             }
         }, {
             type: 'commonEnd', parent: 'suggest',
-            url: iconDirectory + '/suggestion/end.png',
+            url: iconDirectory + '/tooltip/event-commonEnd.png',
             action: function(el) {
                 suggestElement(el, 'commonEnd');
             }
         }, {
             type: 'commonStart', parent: 'event',
-            url: iconDirectory + '/element-type/event-start.png',
+            url: iconDirectory + '/tooltip/event-commonStart.png',
             action: function(el) {
                 editElementType(el,'commonStart');
             }
         }, {
             type: 'timerStart', parent: 'event',
-            url: iconDirectory + '/element-type/event-start-timer.png',
+            url: iconDirectory + '/tooltip/event-timerStart.png',
             element_url: iconDirectory + '/element-type/event-start-timer.png',
+            element_selected_url: iconDirectory + '/element-type/event-start-timer-selected.png',
             action: function(el) {
                 editElementType(el,'timerStart');
             }
         }, {
             type: 'signalSend', parent: 'event',
-            url: iconDirectory + '/element-type/event-start.png',
-            element_url: iconDirectory + '/element-type/event-start.png',
+            url: iconDirectory + '/tooltip/event-signalSend.png',
+            element_url: iconDirectory + '/element-type/event-signal-send.png',
+            element_selected_url: iconDirectory + '/element-type/event-signal-send-selected.png',
             action: function(el) {
                 editElementType(el,'signalSend');
             }
         }, {
             type: 'commonEnd', parent: 'event',
-            url: iconDirectory + '/element-type/event-end.png',
+            url: iconDirectory + '/tooltip/event-commonEnd.png',
             action: function(el) {
                 editElementType(el,'commonEnd');
             }
         }, {
             type: 'userTask', parent: 'task',
-            url: iconDirectory + '/element-type/task-user.png',
+            url: iconDirectory + '/tooltip/task-userTask.png',
             element_url: iconDirectory + '/element-type/task-user.png',
+            element_selected_url: iconDirectory + '/element-type/task-user-selected.png',
             action: function(el) {
                 editElementType(el,'userTask');
             }
         }, {
             type: 'manualTask', parent: 'task',
-            url: iconDirectory + '/element-type/task-manual.png',
+            url: iconDirectory + '/tooltip/task-manualTask.png',
             element_url: iconDirectory + '/element-type/task-manual.png',
+            element_selected_url: iconDirectory + '/element-type/task-manual-selected.png',
             action: function(el) {
                 editElementType(el,'manualTask');
             }
         }, {
             type: 'scriptTask', parent: 'task',
-            url: iconDirectory + '/element-type/task-script.png',
+            url: iconDirectory + '/tooltip/task-scriptTask.png',
             element_url: iconDirectory + '/element-type/task-script.png',
+            element_selected_url: iconDirectory + '/element-type/task-script-selected.png',
             action: function(el) {
                 editElementType(el,'scriptTask');
             }
         }, {
             type: 'subprocess', parent: 'subprocess',
-            url: iconDirectory + '/element-type/subprocess.png',
+            url: '',
             element_url: iconDirectory + '/element-type/subprocess.png',
+            element_selected_url: iconDirectory + '/element-type/subprocess-selected.png',
             action: function(el) {}
         }, {
             type: 'exclusiveGateway', parent: 'gateway',
-            url: iconDirectory + '/element-type/gateway-exclusive.png',
+            url: iconDirectory + '/tooltip/gateway-exclusiveGateway.png',
             element_url: iconDirectory + '/element-type/gateway-exclusive.png',
+            element_selected_url: iconDirectory + '/element-type/gateway-exclusive-selected.png',
             action: function(el) {
                 editElementType(el,'exclusiveGateway');
             }
         }, {
             type: 'parallelGateway', parent: 'gateway',
-            url: iconDirectory + '/element-type/gateway-parallel.png',
+            url: iconDirectory + '/tooltip/gateway-parallelGateway.png',
             element_url: iconDirectory + '/element-type/gateway-parallel.png',
+            element_selected_url: iconDirectory + '/element-type/gateway-parallel-selected.png',
             action: function(el) {
                 editElementType(el,'parallelGateway');
             }
         }, {
             type: 'inclusiveGateway', parent: 'gateway',
-            url: iconDirectory + '/element-type/gateway-inclusive.png',
-            element_url: iconDirectory + '/element-type/event-end.png',
+            url: iconDirectory + '/tooltip/gateway-inclusiveGateway.png',
+            element_url: iconDirectory + '/element-type/gateway-inclusive.png',
+            element_selected_url: iconDirectory + '/element-type/gateway-inclusive-selected.png',
             action: function(el) {
                 editElementType(el,'inclusiveGateway');
             }
@@ -241,8 +250,12 @@
     function changeElementType(element, type) {
         const category = getElementCategory(type);
         const typeList = elementsProperties[category];
-        typeList.forEach(function(t) { element.classed(t.type, t.type === type); });
-        d3.select(element.node().parentNode).select('.element-type').style('fill', 'url(#' + category + '-' + type + '-element)');
+        typeList.forEach(function(t) {
+            element.classed(t.type, t.type === type);
+            d3.select(element.node().parentNode).select('.element-type').classed(t.type, t.type === type);
+        });
+        d3.select(element.node().parentNode).select('.element-type')
+            .style('fill', 'url(#' + category + '-' + type + '-element)');
     }
 
     /**
@@ -435,7 +448,7 @@
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
-            containerHeight = itemSize + (itemMargin * 2);
+              containerHeight = itemSize + (itemMargin * 2);
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container action-tooltip')
@@ -473,19 +486,27 @@
             });
 
         const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem),
-            gTransform = d3.zoomTransform(d3.select('g.element-container').node());
+              gTransform = d3.zoomTransform(d3.select('g.element-container').node());
 
-        let targetX = (bbox.cx + gTransform.x) - containerWidth / 2,
-            targetY = bbox.y + gTransform.y - containerHeight - 10;
+        let targetX = (bbox.x + bbox.width + gTransform.x) - containerWidth,
+            targetY = bbox.y + gTransform.y - containerHeight - itemMargin;
 
         if (elem.classed('connector')) {
             let linkData = elem.data()[0];
             if (linkData.midPoint) {
                 targetX = (linkData.midPoint[0] + gTransform.x) - containerWidth / 2;
-                targetY = linkData.midPoint[1] + gTransform.y - containerHeight - 10;
+                targetY = linkData.midPoint[1] + gTransform.y - containerHeight - itemMargin;
             } else {
+                targetX = (bbox.cx + gTransform.x) - containerWidth / 2;
                 targetY = bbox.cy + gTransform.y - containerHeight - 10;
             }
+        } else if (elem.classed('gateway')) {
+            const gatewayDist = aliceProcessEditor.utils.calcDist(
+                [0, 0],
+                [aliceProcessEditor.displayOptions.gatewaySize, aliceProcessEditor.displayOptions.gatewaySize]
+            );
+            targetX = bbox.cx + (gatewayDist / 2) + gTransform.x - containerWidth;
+            targetY = bbox.cy + gTransform.y - (gatewayDist / 2) - containerHeight - itemMargin;
         }
 
         tooltipItemContainer
@@ -709,11 +730,13 @@
         switch (type) {
             case 'userTask':
             case 'manualTask':
-                addElemWidth = 120;
-                addElemHeight = 80;
+                addElemWidth = 160;
+                addElemHeight = 40;
                 break;
             case 'exclusiveGateway':
-                let gatewaySize = Math.sqrt(Math.pow(40, 2) + Math.pow(40, 2));
+                let gatewaySize = Math.sqrt(
+                    Math.pow(aliceProcessEditor.displayOptions.gatewaySize, 2) + Math.pow(aliceProcessEditor.displayOptions.gatewaySize, 2)
+                );
                 addElemWidth = gatewaySize;
                 addElemHeight = gatewaySize;
                 break;
@@ -779,13 +802,13 @@
         }
 
         const tooltipItemContainer = d3.select('g.alice-tooltip'),
-            actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
-            containerWidth = itemSize + (itemMargin * 2),
-            containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
+              actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
+              containerWidth = itemSize + (itemMargin * 2),
+              containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
         const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
-            x = bbox.x + bbox.width + itemMargin,
-            y = bbox.y;
+              x = bbox.x + bbox.width + itemMargin,
+              y = bbox.y;
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container element-tooltip')
@@ -1122,10 +1145,10 @@
         for (let idx = 0, len = propertiesDivision.length; idx < len; idx++) {
             // property 구분 타이틀
             let title = document.createElement('h3');
-            title.textContent = propertiesDivision[idx].title;
+            let span = document.createElement('span');
+            span.textContent = propertiesDivision[idx].title;
+            title.appendChild(span);
             elementContainer.appendChild(title);
-            let divideLine = document.createElement('hr');
-            elementContainer.appendChild(divideLine);
 
             const items = propertiesDivision[idx].items;
             for (let i = 0, attrLen = items.length; i < attrLen; i++) {
@@ -1143,22 +1166,25 @@
                     elementContainer.appendChild(propertyContainer);
                 }
 
-                // property required
-                let requiredLabelObject = document.createElement('label');
-                requiredLabelObject.className = 'required';
-                requiredLabelObject.htmlFor =  property.id;
                 if (property.required === 'Y') {
+                    // property required
+                    let requiredLabelObject = document.createElement('label');
+                    requiredLabelObject.className = 'required';
+                    requiredLabelObject.htmlFor =  property.id;
                     requiredLabelObject.textContent = '*';
+                    propertyContainer.appendChild(requiredLabelObject);
                 }
                 // property title
-                propertyContainer.appendChild(requiredLabelObject);
                 let labelObject = document.createElement('label');
+                if (property.type === 'checkbox') {
+                    labelObject.className = 'checkbox';
+                }
                 labelObject.htmlFor = property.id;
                 labelObject.textContent = property.name;
                 propertyContainer.appendChild(labelObject);
 
                 // property object (input, select, textarea ..)
-                let elementObject = addPropertyObject(property, properties, elemData, propertyContainer);
+                let elementObject = addPropertyObject(id, property, properties, elemData, propertyContainer);
                 if (elementObject) {
                     // id, name, value 등 기본 값 설정
                     elementObject.id = property.id;
@@ -1220,6 +1246,11 @@
         }
         if (id !== aliceProcessEditor.data.process.id) {
             addSpecialProperties(id, elemData);
+        } else {
+            const temp = document.getElementById('process-info');
+            let clone = temp.content.cloneNode(true);
+            elementContainer.appendChild(clone);
+            setProcessInformation();
         }
     }
 
@@ -1309,13 +1340,14 @@
     /**
      * property object(input, textarea, select 등) 생성 후 해당 object 를 반환한다.
      *
+     * @param id
      * @param property
      * @param properties
      * @param elemData
      * @param propertyContainer
      * @return {HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement}
      */
-    function addPropertyObject(property, properties, elemData, propertyContainer) {
+    function addPropertyObject(id, property, properties, elemData, propertyContainer) {
         let elementObject;
         switch (property.type) {
             case 'inputbox':
@@ -1493,6 +1525,37 @@
         }
     }
 
+    function setProcessInformation() {
+        const elements = aliceProcessEditor.data.elements;
+        let categories = [];
+        elements.forEach(function(elem) {
+            categories.push(aliceProcessEditor.getElementCategory(elem.type));
+        });
+
+        let uniqList =  categories.reduce(function(a, b) {
+            if (a.indexOf(b) < 0 ) { a.push(b); }
+            return a;
+        },[]);
+        const countList = [];
+        uniqList.forEach(function(item) {
+            let count = 0;
+            categories.forEach(function(category) {
+                if (item === category) {
+                    count++;
+                }
+            });
+            countList.push({category: item, count: count});
+        });
+        let infoContainer = document.querySelector('.alice-process-properties-panel .info');
+        infoContainer.querySelectorAll('label').forEach(function(label) {
+            label.textContent = '0';
+        });
+        countList.forEach(function(countInfo) {
+            infoContainer.querySelector('#' + countInfo.category + '_count').textContent = countInfo.count;
+        });
+        infoContainer.querySelector('#element_count').textContent = elements.length;
+    }
+
     /**
      *
      * 선택된 element 의 속성 및 tooltip 메뉴를 표시한다.
@@ -1587,15 +1650,21 @@
         // add pattern image. for tooltip item image.
         const imageLoadingList = [];
         tooltipItems.forEach(function(item) {
-            let data = {};
-            data.id = item.parent + '-' + item.type;
-            data.url = item.url;
-            imageLoadingList.push(data);
+            if (item.url) {
+                let data = {};
+                data.id = item.parent + '-' + item.type;
+                data.url = item.url;
+                imageLoadingList.push(data);
+            }
             if (item.element_url) {
                 let elemData = {};
                 elemData.id = item.parent + '-' + item.type + '-element';
                 elemData.url = item.element_url;
                 imageLoadingList.push(elemData);
+
+                elemData = {};
+                elemData.id = item.parent + '-' + item.type + '-element-selected';
+                elemData.url = item.element_selected_url;
             }
             if (item.focus_url) {
                 let focusData = {};

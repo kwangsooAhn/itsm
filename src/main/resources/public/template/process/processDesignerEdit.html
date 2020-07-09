@@ -28,45 +28,63 @@
 <div class="alice-process-container">
     <div class="alice-process-toolbar">
         <span class="logo"></span>
-        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnSave">
-            <img th:src="@{/assets/media/icons/process/topmenu/save.png}"/>
-            <label th:text="#{common.btn.save}"/>
-        </a>
+        <span class="process-designer">Process Designer</span>
+        <span class="separator"></span>
+        <th:block th:if="${#strings.isEmpty(isView)}">
+            <a href="#" id="btnSave">
+                <img th:src="@{/assets/media/icons/process/topmenu/icon_save.png}"/>
+            </a>
+            <span class="separator"></span>
+        </th:block>
         <a href="#" id="btnSaveAs">
-            <img th:src="@{/assets/media/icons/process/topmenu/save.png}"/>
-            <label th:text="#{common.btn.saveAs}"/>
+            <img th:src="@{/assets/media/icons/process/topmenu/icon_save_as.png}"/>
         </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnSimulation">
-            <img th:src="@{/assets/media/icons/process/topmenu/simulation.png}"/>
-            <label th:text="#{process.label.simulation}"/>
-        </a>
-        <span th:if="${#strings.isEmpty(isView)}" class="separator"></span>
-        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnUndo">
-            <img th:src="@{/assets/media/icons/process/topmenu/undo.png}"/>
-            <label th:text="#{process.label.undo}"/>
-        </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="#" id="btnRedo">
-            <img th:src="@{/assets/media/icons/process/topmenu/redo.png}"/>
-            <label th:text="#{process.label.redo}"/>
-        </a>
+        <th:block th:if="${#strings.isEmpty(isView)}">
+            <span class="separator"></span>
+            <a href="#" id="btnSimulation">
+                <img th:src="@{/assets/media/icons/process/topmenu/icon_simulation.png}"/>
+            </a>
+            <span class="separator"></span>
+            <a href="#" id="btnUndo">
+                <img th:src="@{/assets/media/icons/process/topmenu/icon_undo.png}"/>
+            </a>
+            <span class="separator"></span>
+            <a href="#" id="btnRedo">
+                <img th:src="@{/assets/media/icons/process/topmenu/icon_redo.png}"/>
+            </a>
+        </th:block>
         <span class="separator"></span>
         <a href="#" id="btnDownload">
-            <img th:src="@{/assets/media/icons/process/topmenu/image-download.png}"/>
-            <label th:text="#{process.label.imageDownload}"/>
+            <img th:src="@{/assets/media/icons/process/topmenu/icon_image_download.png}"/>
         </a>
         <span class="process-name"></span>
     </div>
     <div class="alice-process-element-palette">
-        <span class="connector"></span>
-        <span class="separator"></span>
-        <span class="shape event"></span>
-        <span class="shape task"></span>
-        <span class="shape subprocess"></span>
-        <span class="shape gateway"></span>
-        <span class="separator"></span>
-        <span class="shape group"></span>
-        <span class="shape annotation"></span>
-        <span class="move-icon" id="icon-move-drawingboard"></span>
+        <span class="rectangle-menu shape event">
+            <label>Event</label>
+        </span>
+        <span class="rectangle-menu shape task">
+            <label>Task</label>
+        </span>
+        <span class="rectangle-menu shape subprocess">
+            <label>Subprocess</label>
+        </span>
+        <span class="rectangle-menu shape gateway">
+            <label>Gateway</label>
+        </span>
+        <span class="rectangle-menu shape group">
+            <label>Group</label>
+        </span>
+        <span class="rectangle-menu shape annotation">
+            <label>Annotation</label>
+        </span>
+
+        <span class="rectangle-menu connector">
+            <label>Connector</label>
+        </span>
+        <span class="rectangle-menu move-icon" id="icon-move-drawingboard">
+            <label>Background</label>
+        </span>
     </div>
     <div class="alice-process-drawing-board"></div>
     <div class="alice-process-properties-panel">
@@ -74,44 +92,48 @@
             <div class="element-title"><h2></h2></div>
             <div class="element-properties"></div>
         </div>
-        <div class="process-info-container">
-            <h3>Process Information</h3>
-            <hr/>
-            <div class="minimap"></div>
-            <div class="info">
-                <table>
-                    <colgroup>
-                        <col width="30%">
-                        <col width="20%">
-                        <col width="30%">
-                        <col width="20%">
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <td colspan="4">Total Count : <label id="element_count"></label></td>
-                        </tr>
+        <template id="process-info">
+            <div class="process-info-container">
+                <h3><span>Process Information</span></h3>
+                <div class="info">
+                    <div class="total">
+                        <span>Total Count : <label id="element_count"></label></span>
+                    </div>
+                    <table>
+                        <colgroup>
+                            <col width="60%">
+                            <col width="*">
+                        </colgroup>
+                        <tbody>
                         <tr>
                             <td>Event</td>
                             <td><label id="event_count"></label></td>
+                        </tr>
+                        <tr>
                             <td>Task</td>
                             <td><label id="task_count"></label></td>
                         </tr>
                         <tr>
                             <td>Gateway</td>
                             <td><label id="gateway_count"></label></td>
+                        </tr>
+                        <tr>
                             <td>Subprocess</td>
                             <td><label id="subprocess_count"></label></td>
                         </tr>
                         <tr>
                             <td>Connector</td>
                             <td><label id="connector_count"></label></td>
+                        </tr>
+                        <tr>
                             <td>Artifact</td>
                             <td><label id="artifact_count"></label></td>
                         </tr>
-                    </tbody>
-                </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+        </template>
     </div>
 </div>
 </body>

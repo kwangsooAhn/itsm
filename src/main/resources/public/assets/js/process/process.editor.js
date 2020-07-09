@@ -8,9 +8,10 @@
     const displayOptions = {
         translateLimit: 1000, // drawing board limit.
         gridInterval: 10,     // value of grid interval.
-        pointerRadius: 5,
-        connectorRadius: 8,
-        connectorLabelPos: 20
+        pointerRadius: 4,
+        connectorRadius: 4,
+        connectorLabelPos: 20,
+        gatewaySize: 28
     };
 
     let svg,
@@ -18,8 +19,6 @@
         elementsContainer,
         connectors,
         dragLine;
-
-    let lastDraggedPosition = [];
 
     const elements = {
         links: []
@@ -471,7 +470,6 @@
         let bbox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
         return bbox.x <= point[0] && (bbox.x + bbox.width) >= point[0] &&
             bbox.y <= point[1] && (bbox.y + bbox.height) >= point[1];
-
     }
 
     /**
@@ -555,7 +553,7 @@
                 sourceWidth = sourceBBox.width,
                 sourceHeight = sourceBBox.height;
             if (target.classed('gateway') || source.classed('gateway')) {
-                let gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [40, 40]);
+                let gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [displayOptions.gatewaySize, displayOptions.gatewaySize]);
                 if (target.classed('gateway')) {
                     targetWidth = gatewayDist;
                     targetHeight = gatewayDist;
@@ -752,6 +750,7 @@
                 if (!isSelectedElem) {
                     if (d3.event.sourceEvent.ctrlKey && selectedNodes.length > 0) {
                         elem.classed('selected', true);
+
                         mousedownElement = null;
                         selectedElement = null;
                         svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
@@ -762,6 +761,7 @@
                         mousedownElement = elem;
                         selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
                         selectedElement.classed('selected', true);
+
                         if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
                             d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function(elem) {
                                 elem.style.opacity = '1';
@@ -810,7 +810,8 @@
                 resetMouseVars();
             } else {
                 if (dragElement) {
-                    dragged(dragElement, snapToGrid(lastDraggedPosition[0]) - lastDraggedPosition[0], snapToGrid(lastDraggedPosition[1]) - lastDraggedPosition[1]);
+                    const gatewayBBox = aliceProcessEditor.utils.getBoundingBoxCenter(dragElement);
+                    dragged(dragElement, snapToGrid(gatewayBBox.cx) - gatewayBBox.cx, snapToGrid(gatewayBBox.cy) - gatewayBBox.cy);
                 }
 
                 let histories = [];
@@ -924,7 +925,7 @@
     function drawGuides(elem) {
         const errorRange = 3;
         const elementBbox = aliceProcessEditor.utils.getBoundingBoxCenter(elem),
-              gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [40, 40]);
+              gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [displayOptions.gatewaySize, displayOptions.gatewaySize]);
         let elemLeft = elementBbox.cx - (elementBbox.width / 2),
             elemRight = elementBbox.cx + (elementBbox.width / 2),
             elemTop = elementBbox.cy - (elementBbox.height / 2),
@@ -1049,24 +1050,20 @@
             nodeElement
                 .attr('cx', mouseX)
                 .attr('cy', mouseY);
+
         } else {
             nodeElement
                 .attr('x', mouseX)
                 .attr('y', mouseY);
             textElement
-                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
+                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2) + (Number(nodeElement.attr('height')) / 2))
                 .attr('y', Number(nodeElement.attr('y')) + (Number(nodeElement.attr('height')) / 2));
         }
-        lastDraggedPosition = [mouseX, mouseY];
 
-        if (nodeElement.classed('task')) {
+        if (nodeElement.classed('task') || nodeElement.classed('subprocess')) {
             typeElement
-                .attr('x', Number(nodeElement.attr('x')) + 10)
-                .attr('y', Number(nodeElement.attr('y')) + 10);
-        } else if (nodeElement.classed('subprocess')) {
-            typeElement
-                .attr('x', mouseX + (Number(nodeElement.attr('width')) / 2) - (Number(typeElement.attr('width')) / 2))
-                .attr('y', mouseY + Number(nodeElement.attr('height')) - Number(typeElement.attr('height')) - 5);
+                .attr('x', Number(nodeElement.attr('x')))
+                .attr('y', Number(nodeElement.attr('y')));
         } else if (nodeElement.classed('event')) {
             typeElement
                 .attr('x', mouseX - (Number(typeElement.attr('width')) / 2))
@@ -1083,7 +1080,9 @@
                 .attr('x', mouseX + (Number(nodeElement.attr('width')) / 2))
                 .attr('y', mouseY + (Number(nodeElement.attr('height')) / 2) + Number(nodeElement.attr('height')) + 10);
         } else if (nodeElement.classed('group')) {
-            textElement.attr('y', mouseY + 10);
+            textElement
+                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
+                .attr('y', mouseY + 10);
             let rectData = [
                 {x: Number(nodeElement.attr('x')), y: Number(nodeElement.attr('y'))},
                 {x: Number(nodeElement.attr('x')) + Number(nodeElement.attr('width')), y: Number(nodeElement.attr('y')) + Number(nodeElement.attr('height'))}
@@ -1098,6 +1097,7 @@
             });
         } else if (nodeElement.classed('annotation')) {
             textElement
+                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2))
                 .attr('y', mouseY + 15);
             if (textElement.selectAll('tspan').nodes().length > 0) {
                 textElement.selectAll('tspan').nodes().forEach(function(tspan) {
@@ -1154,13 +1154,18 @@
                 elementMouseEventHandler.mousedrag();
             } else {
                 if (!dragElement) {
-                    if (d3.event.sourceEvent.target.tagName.toUpperCase() === 'TSPAN') {
-                        dragElement = d3.select(d3.event.sourceEvent.target.parentNode.parentNode).select('.node');
-                    } else {
-                        dragElement = d3.select(d3.event.sourceEvent.target.parentNode).select('.node');
+                    const allowedTargetTagNames = ['rect', 'circle', 'text'];
+                    if (allowedTargetTagNames.indexOf(d3.event.sourceEvent.target.tagName.toLowerCase()) === -1) {
+                        return false;
                     }
+
+                    let targetElement = d3.event.sourceEvent.target.parentNode;
+                    if (d3.event.sourceEvent.target.tagName.toLowerCase() === 'tspan') {
+                        targetElement = targetElement.parentNode;
+                    }
+                    dragElement = d3.select(targetElement).select('.node');
                 }
-                if (dragElement.classed('selected')) {
+                if (dragElement.node().classList && dragElement.classed('selected')) {
                     const dx = d3.event.dx,
                           dy = d3.event.dy;
                     d3.selectAll('.node.selected').each(function() {
@@ -1181,7 +1186,7 @@
      */
     function TaskElement(x, y) {
         const self = this;
-        const width = 120, height = 80, radius = 8, typeImageSize = 20;
+        const width = 160, height = 40, radius = 4;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('task');
 
@@ -1199,18 +1204,18 @@
             .call(drag);
 
         elementContainer.append('rect')
-            .attr('class', 'element-type')
-            .attr('width', typeImageSize)
-            .attr('height', typeImageSize)
-            .attr('x', x - (width / 2) + 10)
-            .attr('y', y - (height / 2) + 10)
+            .attr('class', 'element-type task ' + self.defaultType)
+            .attr('width', height)
+            .attr('height', height)
+            .attr('x', x - (width / 2))
+            .attr('y', y - (height / 2))
             .style('fill', 'url(#task-' + self.defaultType + '-element)')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
         elementContainer.append('text')
-            .attr('x', x)
+            .attr('x', x + (height / 2))
             .attr('y', y)
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -1229,7 +1234,7 @@
      */
     function SubprocessElement(x, y) {
         const self = this;
-        const width = 120, height = 80, radius = 8, typeImageSize = 20;
+        const width = 152, height = 40, radius = 4;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('subprocess');
 
@@ -1247,18 +1252,18 @@
             .call(drag);
 
         elementContainer.append('rect')
-            .attr('class', 'element-type')
-            .attr('width', typeImageSize)
-            .attr('height', typeImageSize)
-            .attr('x', x - (typeImageSize / 2))
-            .attr('y', y + (height / 2) - typeImageSize - 5)
+            .attr('class', 'element-type subprocess ' + self.defaultType)
+            .attr('width', height)
+            .attr('height', height)
+            .attr('x', x - (width / 2))
+            .attr('y', y - (height / 2))
             .style('fill', 'url(#subprocess-' + self.defaultType + '-element)')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
 
         elementContainer.append('text')
-            .attr('x', x)
+            .attr('x', x + (height / 2))
             .attr('y', y)
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -1277,7 +1282,7 @@
      */
     function EventElement(x, y) {
         const self = this;
-        const radius = 20, typeImageSize = 20;
+        const radius = 20, typeImageSize = 21;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('event');
 
@@ -1322,7 +1327,7 @@
      */
     function GatewayElement(x, y) {
         const self = this;
-        const size = 40, typeImageSize = 20;
+        const size = displayOptions.gatewaySize, typeImageSize = 21;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('gateway');
 
@@ -1332,6 +1337,8 @@
             .attr('height', size)
             .attr('x', x - (size / 2))
             .attr('y', y - (size / 2))
+            .attr('rx', 2)
+            .attr('ry', 2)
             .attr('transform', 'rotate(45, ' + x + ', ' + y + ')')
             .attr('class', 'node gateway ' + self.defaultType)
             .on('mouseover', elementMouseEventHandler.mouseover)
@@ -1586,53 +1593,57 @@
                 if (elem.id === elementId) { text = elem.name; }
             });
         }
-        if (text) {
-            if (d3.select(elementNode).classed('connector')) {
-                d3.select(elementNode.parentNode).select('text').text(text);
-            } else {
-                const textElement = d3.select(elementNode.parentNode).select('text');
-                if (textElement.node()) {
-                    const textArr = text.split('\n');
-                    if (textArr.length > 1) {
-                        textElement.selectAll('*').remove();
-                        textElement.selectAll('tspan')
-                            .data(textArr)
-                            .enter()
-                            .append('tspan')
-                            .attr('x', textElement.attr('x'))
-                            .attr('y', textElement.attr('y'))
-                            .attr('dy', function(d, i) { return (i * 1.2) + 'rem'; })
-                            .text(function(d) { return d; });
 
-                        if (d3.select(elementNode).classed('annotation')) {
-                            const textBbox = aliceProcessEditor.utils.getBoundingBoxCenter(textElement),
-                                  textElementHeight = textBbox.height + 20;
-                            let strokeDashArray = '6,6,6,6,6,' + textElementHeight + ',6,6,6,6,6';
-                            for (let i = 0, len = Math.trunc(textElementHeight / 12); i < len; i++) {
-                                strokeDashArray += ',6,6';
-                            }
-                            d3.select(elementNode)
-                                .attr('height', textElementHeight)
-                                .style('stroke-dasharray', strokeDashArray);
+        if (d3.select(elementNode).classed('connector')) {
+            d3.select(elementNode.parentNode).select('text').text(text);
+        } else {
+            const textElement = d3.select(elementNode.parentNode).select('text');
+            if (textElement.node()) {
+                const textArr = text.split('\n');
+                if (textArr.length > 1) {
+                    textElement.selectAll('*').remove();
+                    textElement.selectAll('tspan')
+                        .data(textArr)
+                        .enter()
+                        .append('tspan')
+                        .attr('x', textElement.attr('x'))
+                        .attr('y', textElement.attr('y'))
+                        .attr('dy', function(d, i) { return (i * 1.2) + 'rem'; })
+                        .text(function(d) { return d; });
+
+                    if (d3.select(elementNode).classed('annotation')) {
+                        const textBbox = aliceProcessEditor.utils.getBoundingBoxCenter(textElement),
+                              textElementHeight = textBbox.height + 20;
+                        let strokeDashArray = '6,6,6,6,6,' + textElementHeight + ',6,6,6,6,6';
+                        for (let i = 0, len = Math.trunc(textElementHeight / 12); i < len; i++) {
+                            strokeDashArray += ',6,6';
                         }
-                    } else {
-                        textElement.text(textArr[0]);
-                        // wrap text
-                        const element = d3.select(elementNode);
-                        if (textArr[0].length > 0 && element.classed('resizable')) {
-                            let textLength = textElement.node().getComputedTextLength(),
-                                displayText = textElement.text();
-                            const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(element);
-                            while (textLength > bbox.width && displayText.length > 0) {
-                                displayText = displayText.slice(0, -1);
-                                textElement.text(displayText + '...');
-                                textLength = textElement.node().getComputedTextLength();
-                            }
+                        d3.select(elementNode)
+                            .attr('height', textElementHeight)
+                            .style('stroke-dasharray', strokeDashArray);
+                    }
+                } else {
+                    textElement.text(textArr[0]);
+                    // wrap text
+                    const element = d3.select(elementNode);
+                    if (textArr[0].length > 0 && (d3.select(elementNode).classed('task') || d3.select(elementNode).classed('subprocess') || d3.select(elementNode).classed('group'))) {
+                        let textLength = textElement.node().getComputedTextLength(),
+                            displayText = textElement.text();
+                        const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(element);
+                        let writableWidth = bbox.width;
+                        if (!d3.select(elementNode).classed('group')) {
+                            writableWidth = bbox.width - 40;
+                        }
+                        while (textLength > writableWidth && displayText.length > 0) {
+                            displayText = displayText.slice(0, -1);
+                            textElement.text(displayText + '...');
+                            textLength = textElement.node().getComputedTextLength();
                         }
                     }
                 }
             }
         }
+
     }
 
     /**
@@ -1694,7 +1705,7 @@
             verticalGrid.call(verticalAxis);
             horizontalGrid.call(horizontalAxis);
 
-            let nodes = d3.select('.minimap').selectAll('g.element, g.connector').nodes();
+            let nodes = d3.select('div.minimap').selectAll('g.element, g.connector').nodes();
             let minimapTranslate = '';
             if (nodes.length > 0) {
                 let transform = d3.zoomTransform(d3.select(drawingBoard).select('.element-container').node());
@@ -1773,7 +1784,7 @@
                 svg.select('g.guides-container')
                     .attr('transform', d3.event.transform);
 
-                let nodes = d3.select('.minimap').selectAll('g.element, g.connector').nodes();
+                let nodes = d3.select('div.minimap').selectAll('g.element, g.connector').nodes();
                 let minimapTranslate = '';
                 if (nodes.length > 0) {
                     minimapTranslate = 'translate(' + -d3.event.transform.x + ',' + -d3.event.transform.y + ')';
@@ -1932,7 +1943,6 @@
             }
         });
         setConnectors();
-        aliceProcessEditor.initUtil();
 
         const loadingKeyName = 'alice_processes-edit-' + processId;
         const loadingStatus = sessionStorage.getItem(loadingKeyName);
@@ -1942,6 +1952,8 @@
             sessionStorage.removeItem(loadingKeyName);
             aliceProcessEditor.autoSave();
         }
+
+        aliceProcessEditor.initUtil();
     }
 
     /**
@@ -1961,6 +1973,7 @@
 
     exports.init = init;
     exports.isView = isView;
+    exports.displayOptions = displayOptions;
     exports.elements = elements;
     exports.drawProcess = drawProcess;
     exports.addElement = addElement;
