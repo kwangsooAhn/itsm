@@ -489,7 +489,7 @@
               gTransform = d3.zoomTransform(d3.select('g.element-container').node());
 
         let targetX = (bbox.x + bbox.width + gTransform.x) - containerWidth,
-            targetY = bbox.y + gTransform.y - containerHeight - 10;
+            targetY = bbox.y + gTransform.y - containerHeight - itemMargin;
 
         if (elem.classed('connector')) {
             let linkData = elem.data()[0];
@@ -501,8 +501,12 @@
                 targetY = bbox.cy + gTransform.y - containerHeight - 10;
             }
         } else if (elem.classed('gateway')) {
-            const gatewayDist = aliceProcessEditor.utils.calcDist([0, 0], [30, 30]);
+            const gatewayDist = aliceProcessEditor.utils.calcDist(
+                [0, 0],
+                [aliceProcessEditor.displayOptions.gatewaySize, aliceProcessEditor.displayOptions.gatewaySize]
+            );
             targetX = bbox.cx + (gatewayDist / 2) + gTransform.x - containerWidth;
+            targetY = bbox.cy + gTransform.y - (gatewayDist / 2) - containerHeight - itemMargin;
         }
 
         tooltipItemContainer
@@ -726,11 +730,13 @@
         switch (type) {
             case 'userTask':
             case 'manualTask':
-                addElemWidth = 120;
-                addElemHeight = 80;
+                addElemWidth = 160;
+                addElemHeight = 40;
                 break;
             case 'exclusiveGateway':
-                let gatewaySize = Math.sqrt(Math.pow(30, 2) + Math.pow(30, 2));
+                let gatewaySize = Math.sqrt(
+                    Math.pow(aliceProcessEditor.displayOptions.gatewaySize, 2) + Math.pow(aliceProcessEditor.displayOptions.gatewaySize, 2)
+                );
                 addElemWidth = gatewaySize;
                 addElemHeight = gatewaySize;
                 break;
@@ -796,13 +802,13 @@
         }
 
         const tooltipItemContainer = d3.select('g.alice-tooltip'),
-            actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
-            containerWidth = itemSize + (itemMargin * 2),
-            containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
+              actionTooltipContainer = tooltipItemContainer.select('.action-tooltip'),
+              containerWidth = itemSize + (itemMargin * 2),
+              containerHeight = items.length * (itemSize + itemMargin) + itemMargin;
 
         const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(actionTooltipContainer),
-            x = bbox.x + bbox.width + itemMargin,
-            y = bbox.y;
+              x = bbox.x + bbox.width + itemMargin,
+              y = bbox.y;
 
         tooltipItemContainer.append('rect')
             .attr('class', 'tooltip-container element-tooltip')
