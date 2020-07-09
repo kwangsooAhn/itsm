@@ -1,0 +1,372 @@
+[
+  {
+    "id": "",
+    "name": "UserTask Process",
+    "status": "process.status.publish",
+    "elementEntities": [
+      {
+        "id": "acf16a30e2025d331c10407bb7455cas",
+        "name": "Start",
+        "type": "commonStart",
+        "notification": false,
+        "displayInfo": "{\"width\":40,\"height\":40,\"position-x\":110,\"position-y\":180}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "",
+            "order": 1,
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "a3317980df126e4ede356712f47d3e17",
+        "name": "Arrow",
+        "type": "arrowConnector",
+        "notification": false,
+        "displayInfo": "{}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "",
+            "order": 1,
+            "required": false
+          },
+          {
+            "id": "is-default",
+            "value": "",
+            "order": 2,
+            "required": false
+          },
+          {
+            "id": "condition-value",
+            "value": "",
+            "order": 3,
+            "required": false
+          },
+          {
+            "id": "action-name",
+            "value": "",
+            "order": 4,
+            "required": false
+          },
+          {
+            "id": "action-value",
+            "value": "",
+            "order": 5,
+            "required": false
+          },
+          {
+            "id": "start-id",
+            "value": "acf16a30e2025d331c10407bb7455cas",
+            "order": 6,
+            "required": true
+          },
+          {
+            "id": "start-name",
+            "value": "Start",
+            "order": 7,
+            "required": false
+          },
+          {
+            "id": "end-id",
+            "value": "a0af08e81eca38bf501919dabd556575",
+            "order": 8,
+            "required": true
+          },
+          {
+            "id": "end-name",
+            "value": "Application Form",
+            "order": 9,
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "a0af08e81eca38bf501919dabd556575",
+        "name": "Application Form",
+        "type": "userTask",
+        "notification": false,
+        "displayInfo": "{\"width\":120,\"height\":80,\"position-x\":290,\"position-y\":180}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "New Task",
+            "order": 1,
+            "required": true
+          },
+          {
+            "id": "description",
+            "value": "",
+            "order": 2,
+            "required": false
+          },
+          {
+            "id": "assignee-type",
+            "value": "assignee.type.candidate.users",
+            "order": 3,
+            "required": true
+          },
+          {
+            "id": "assignee",
+            "value": "",
+            "order": 4,
+            "required": true
+          },
+          {
+            "id": "reject-id",
+            "value": "",
+            "order": 5,
+            "required": false
+          },
+          {
+            "id": "withdraw",
+            "value": "N",
+            "order": 6,
+            "required": false
+          },
+          {
+            "id": "notification",
+            "value": "N",
+            "order": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "a55f2ec681bdaddd1e308105f8071a0g",
+        "name": "Arrow",
+        "type": "arrowConnector",
+        "notification": false,
+        "displayInfo": "{}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "",
+            "order": 1,
+            "required": false
+          },
+          {
+            "id": "is-default",
+            "value": "",
+            "order": 2,
+            "required": false
+          },
+          {
+            "id": "condition-value",
+            "value": "",
+            "order": 3,
+            "required": false
+          },
+          {
+            "id": "action-name",
+            "value": "",
+            "order": 4,
+            "required": false
+          },
+          {
+            "id": "action-value",
+            "value": "",
+            "order": 5,
+            "required": false
+          },
+          {
+            "id": "start-id",
+            "value": "a0af08e81eca38bf501919dabd556575",
+            "order": 6,
+            "required": true
+          },
+          {
+            "id": "start-name",
+            "value": "Application Form",
+            "order": 7,
+            "required": false
+          },
+          {
+            "id": "end-id",
+            "value": "a8b2136a31dae99bc7b320798b7d3089",
+            "order": 8,
+            "required": true
+          },
+          {
+            "id": "end-name",
+            "value": "Processing",
+            "order": 9,
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "a8b2136a31dae99bc7b320798b7d3089",
+        "name": "Processing",
+        "type": "userTask",
+        "notification": false,
+        "displayInfo": "{\"width\":120,\"height\":80,\"position-x\":510,\"position-y\":180}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "New Task",
+            "order": 1,
+            "required": true
+          },
+          {
+            "id": "description",
+            "value": "",
+            "order": 2,
+            "required": false
+          },
+          {
+            "id": "assignee-type",
+            "value": "assignee.type.candidate.users",
+            "order": 3,
+            "required": true
+          },
+          {
+            "id": "assignee",
+            "value": "",
+            "order": 4,
+            "required": true
+          },
+          {
+            "id": "reject-id",
+            "value": "",
+            "order": 5,
+            "required": false
+          },
+          {
+            "id": "withdraw",
+            "value": "N",
+            "order": 6,
+            "required": false
+          },
+          {
+            "id": "notification",
+            "value": "N",
+            "order": 7,
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "af37bd363f18f1f20ca129eb5562d8a5",
+        "name": "Arrow",
+        "type": "arrowConnector",
+        "notification": false,
+        "displayInfo": "{}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "",
+            "order": 1,
+            "required": false
+          },
+          {
+            "id": "is-default",
+            "value": "",
+            "order": 2,
+            "required": false
+          },
+          {
+            "id": "condition-value",
+            "value": "",
+            "order": 3,
+            "required": false
+          },
+          {
+            "id": "action-name",
+            "value": "",
+            "order": 4,
+            "required": false
+          },
+          {
+            "id": "action-value",
+            "value": "",
+            "order": 5,
+            "required": false
+          },
+          {
+            "id": "start-id",
+            "value": "a8b2136a31dae99bc7b320798b7d3089",
+            "order": 6,
+            "required": true
+          },
+          {
+            "id": "start-name",
+            "value": "Processing",
+            "order": 7,
+            "required": false
+          },
+          {
+            "id": "end-id",
+            "value": "a1d11d9f687f0571ce7e584ab5997b3z",
+            "order": 8,
+            "required": true
+          },
+          {
+            "id": "end-name",
+            "value": "End",
+            "order": 9,
+            "required": false
+          }
+        ]
+      },
+      {
+        "id": "a1d11d9f687f0571ce7e584ab5997b3z",
+        "name": "End",
+        "type": "commonEnd",
+        "notification": false,
+        "displayInfo": "{\"position-x\":730,\"position-y\":180,\"width\":40,\"height\":40}",
+        "data": [
+          {
+            "id": "id",
+            "value": "",
+            "order": 0,
+            "required": true
+          },
+          {
+            "id": "name",
+            "value": "",
+            "order": 1,
+            "required": false
+          }
+        ]
+      }
+    ]
+  }
+]

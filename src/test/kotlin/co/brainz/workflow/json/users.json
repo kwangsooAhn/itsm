@@ -1,0 +1,36 @@
+[
+  {
+    "key": "",
+    "id": "alice",
+    "name": "Alice User",
+    "useYn": true,
+    "status": "user.status.certified",
+    "platform": "user.platform.alice",
+    "timeFormat": "yyyy-MM-dd HH:mm",
+    "lang": "ko",
+    "timezone": "Asia/Seoul"
+  },
+  {
+    "key": "",
+    "id": "google",
+    "name": "Google User",
+    "useYn": true,
+    "status": "user.status.certified",
+    "platform": "user.platform.google",
+    "timeFormat": "yyyy-MM-dd HH:mm",
+    "lang": "ko",
+    "timezone": "Asia/Seoul"
+  },
+  {
+    "key": "",
+    "id": "kakao",
+    "name": "Kakao User",
+    "useYn": true,
+    "status": "user.status.certified",
+    "platform": "user.platform.kakao",
+    "timeFormat": "yyyy-MM-dd HH:mm",
+    "lang": "ko",
+    "timezone": "Asia/Seoul"
+  }
+]
+
