@@ -161,7 +161,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
             formId = (map["formId"] ?: "") as String,
             name = map["name"] as String,
             desc = map["desc"] as String,
-            status = (map["status"] ?:"") as String,
+            status = (map["status"] ?: "") as String,
             createDt = LocalDateTime.now(),
             createUserKey = aliceUserDto.userKey,
             updateDt = null,
