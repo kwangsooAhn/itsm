@@ -41,7 +41,7 @@
 
             isEdited = !workflowUtil.compareJson(aliceProcessEditor.data, savedData);
             changeProcessName();
-            setProcessInformation();
+            setProcessMinimap();
         },
         undo: function() {
             aliceProcessEditor.removeElementSelected();
@@ -667,14 +667,15 @@
     }
 
     /**
-     * 오른쪽 하단에 프로세스 정보를 표시 한다.
+     * 미니맵을 표시한다.
      */
-    function setProcessInformation() {
-        let drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
+    function setProcessMinimap() {
+        const drawingboardContainer = document.querySelector('.alice-process-drawing-board');
+        let drawingBoard = d3.select(drawingboardContainer).select('svg');
         let content = drawingBoard.html();
-        d3.select('.minimap').html(content);
-        const minimapSvg = d3.select('.minimap').select('svg');
-        minimapSvg.attr('width', 288).attr('height', 178);
+        const minimapSvg = d3.select('div.minimap').select('svg');
+        minimapSvg.html(content);
+        minimapSvg.attr('width', 160).attr('height', 110);
         minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
         minimapSvg.selectAll('text').nodes().forEach(function(node) {
             if (node.textContent === '') { d3.select(node).remove(); }
@@ -686,8 +687,8 @@
             .attr('class', 'minimap-guide')
             .attr('x', 0)
             .attr('y', 0)
-            .attr('width', drawingBoard.node().offsetWidth)
-            .attr('height', drawingBoard.node().offsetHeight);
+            .attr('width', drawingboardContainer.offsetWidth)
+            .attr('height', drawingboardContainer.offsetHeight);
 
         let minimapTranslate = '';
         if (minimapSvg.selectAll('g.element, g.connector').nodes().length > 0) {
@@ -696,35 +697,6 @@
         }
         minimapSvg.attr('viewBox', getSvgViewBox().join(' '));
         minimapSvg.select('.minimap-guide').attr('transform', minimapTranslate);
-
-        const elements = aliceProcessEditor.data.elements;
-        let categories = [];
-        elements.forEach(function(elem) {
-            categories.push(aliceProcessEditor.getElementCategory(elem.type));
-        });
-
-        let uniqList =  categories.reduce(function(a, b) {
-            if (a.indexOf(b) < 0 ) { a.push(b); }
-            return a;
-        },[]);
-        const countList = [];
-        uniqList.forEach(function(item) {
-            let count = 0;
-            categories.forEach(function(category) {
-                if (item === category) {
-                    count++;
-                }
-            });
-            countList.push({category: item, count: count});
-        });
-        let infoContainer = document.querySelector('.alice-process-properties-panel .info');
-        infoContainer.querySelectorAll('label').forEach(function(label) {
-            label.textContent = '0';
-        });
-        countList.forEach(function(countInfo) {
-            infoContainer.querySelector('#' + countInfo.category + '_count').textContent = countInfo.count;
-        });
-        infoContainer.querySelector('#element_count').textContent = elements.length;
     }
 
     /**
@@ -733,8 +705,12 @@
      * @return {[number, number, *, *]}
      */
     function getSvgViewBox() {
+        let isMinimapClosed = d3.select('div.minimap').classed('closed');
+        if (isMinimapClosed) {
+            d3.select('div.minimap').classed('closed', false);
+        }
         const drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
-        const minimapSvg = d3.select('.minimap').select('svg');
+        const minimapSvg = d3.select('div.minimap').select('svg');
         const nodeTopArray = [],
               nodeRightArray = [],
               nodeBottomArray = [],
@@ -747,6 +723,9 @@
             nodeBottomArray.push(nodeBBox.cy + (nodeBBox.height / 2));
             nodeLeftArray.push(nodeBBox.cx - (nodeBBox.width / 2));
         });
+        if (isMinimapClosed) {
+            d3.select('div.minimap').classed('closed', true);
+        }
         let viewBox = [0, 0, drawingBoard.node().offsetWidth, drawingBoard.node().offsetHeight];
         if (nodes.length > 0) {
             const margin = 100;
@@ -758,6 +737,24 @@
             ];
         }
         return viewBox;
+    }
+
+    /**
+     * 미니맵 기능 추가.
+     */
+    function addMinimap() {
+        const drawingBoard = document.querySelector('.alice-process-drawing-board');
+        const minimapContainer = document.createElement('div');
+        minimapContainer.classList.add('minimap', 'closed');
+        drawingBoard.appendChild(minimapContainer);
+        d3.select(minimapContainer).append('svg');
+        const minimapButtonContainer = document.createElement('div');
+        minimapButtonContainer.classList.add('minimap-button');
+        minimapButtonContainer.addEventListener('click', function() {
+            document.querySelector('div.minimap').classList.toggle('closed');
+        }, false);
+        drawingBoard.appendChild(minimapButtonContainer);
+        setProcessMinimap();
     }
 
     /**
@@ -784,12 +781,12 @@
             document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
         }
 
+        addMinimap();
         // start observer
         isEdited = false;
         savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
         setShortcut();
         changeProcessName();
-        setProcessInformation();
     }
 
     exports.utils = utils;

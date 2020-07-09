@@ -275,6 +275,7 @@ document:
     lengthMin: "Please enter at least {0} characters."
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
+    confirmDeleteInstance: "Are you sure you want to delete all documents created in a temporary state?"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"

@@ -21,4 +21,11 @@ object DocumentConstants {
         APPLICATION_FORM("application-form"),
         WORKFLOW("workflow")
     }
+
+    /**
+     * document view type.
+     */
+    enum class DocumentViewType(val value: String) {
+        ADMIN("admin")
+    }
 }
