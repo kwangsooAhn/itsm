@@ -6,5 +6,5 @@ import co.brainz.framework.auth.entity.AliceMenuAuthMapPk
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface AliceMenuAuthMapRepository : JpaRepository<AliceMenuAuthMapEntity, AliceMenuAuthMapPk> {
-    fun findByAuth(AuthInfo: AliceAuthEntity): MutableList<AliceMenuAuthMapEntity>
+    fun findByAuth(authInfo: AliceAuthEntity): MutableList<AliceMenuAuthMapEntity>
 }

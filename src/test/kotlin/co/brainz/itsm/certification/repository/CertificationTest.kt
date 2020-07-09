@@ -51,8 +51,29 @@ class CertificationTest {
         mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build()
         securityContext = SecurityContextHolder.getContext()
         val userDto: AliceUserEntity = aliceCertificationService.findByUserId(userId)
-        val aliceUserDto: AliceUserDto = AliceUserDto(userDto.userKey, userDto.userId, userDto.userName, userDto.email, "", "", "", "", userDto.useYn, userDto.tryLoginCount, LocalDateTime.now(), userDto.oauthKey, emptySet(), emptySet(), emptySet(), TimeZone.getDefault().id, "en", "YYYY-MM-DD HH:MM", "defualt")
-        val usernamePasswordAuthenticationToken: UsernamePasswordAuthenticationToken = UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
+        val aliceUserDto = AliceUserDto(
+            userKey = userDto.userKey,
+            userId = userDto.userId,
+            userName = userDto.userName,
+            email = userDto.email,
+            position = "",
+            department = "",
+            officeNumber = "",
+            mobileNumber = "",
+            useYn = userDto.useYn,
+            tryLoginCount = userDto.tryLoginCount,
+            expiredDt = LocalDateTime.now(),
+            oauthKey = userDto.oauthKey,
+            grantedAuthorises = emptySet(),
+            menus = emptySet(),
+            urls = emptySet(),
+            timezone = TimeZone.getDefault().id,
+            lang = "en",
+            timeFormat = "YYYY-MM-DD HH:MM",
+            theme = AliceUserConstants.USER_THEME
+        )
+        val usernamePasswordAuthenticationToken =
+            UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
         usernamePasswordAuthenticationToken.details = aliceUserDto
         securityContext.authentication = usernamePasswordAuthenticationToken
     }
@@ -64,8 +85,8 @@ class CertificationTest {
 
         // User status init.
         val status: String = AliceUserConstants.Status.SIGNUP.code
-        val certificationCode: String = ""
-        val aliceCertificationDto: AliceCertificationDto = AliceCertificationDto(userId, email, certificationCode, status)
+        val certificationCode = ""
+        val aliceCertificationDto = AliceCertificationDto(userId, email, certificationCode, status)
         aliceCertificationService.updateUser(aliceCertificationDto)
 
         // Check user status init.
@@ -88,7 +109,12 @@ class CertificationTest {
         userStatusInit()
 
         val certificationKey: String = AliceKeyGeneratorService().getKey(50, false)
-        val aliceCertificationDto: AliceCertificationDto = AliceCertificationDto(userId, email, certificationKey, AliceUserConstants.Status.SIGNUP.code)
+        val aliceCertificationDto = AliceCertificationDto(
+            userId,
+            email,
+            certificationKey,
+            AliceUserConstants.Status.SIGNUP.code
+        )
         aliceCertificationService.updateUser(aliceCertificationDto)
 
         val uid: String = "$certificationKey:$userId:$email"

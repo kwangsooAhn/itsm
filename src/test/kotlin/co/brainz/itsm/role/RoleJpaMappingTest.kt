@@ -33,8 +33,8 @@ class RoleJpaMappingTest {
     fun save() {
         var inputDate = LocalDateTime.now()
 
-        val auth1 = AliceAuthEntity("notice.read", "notice", "","", LocalDateTime.now(), "", null, emptySet(), emptySet())
-        val auth2 = AliceAuthEntity("notice.create", "notice", "","", LocalDateTime.now(), "", null, emptySet(), emptySet())
+        val auth1 = AliceAuthEntity("notice.read", "notice", "")
+        val auth2 = AliceAuthEntity("notice.create", "notice", "")
 
         roleRepository.save(
                 AliceRoleEntity(

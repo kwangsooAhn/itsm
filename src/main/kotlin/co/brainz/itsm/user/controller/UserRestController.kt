@@ -54,12 +54,9 @@ class UserRestController(
     fun createUser(@RequestBody aliceSignUpDto: AliceSignUpDto): String {
         val fromNum = 1000000000
         val toNum = 9999999999
-        val random = Random
-        val randomNumber = random.nextLong(toNum - fromNum) + fromNum
+        val randomNumber = Random.nextLong(toNum - fromNum) + fromNum
         val password = randomNumber.toString()
         val publicKey = aliceCryptoRsa.getPublicKey()
-
-        // 패스워드 암호화
         aliceSignUpDto.password = aliceCryptoRsa.encrypt(publicKey, password)
 
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
@@ -121,8 +118,8 @@ class UserRestController(
     /**
      * 변경된 사용자 정보를 SecurityContextHolder에 update한다.
      */
-    fun createNewAuthentication(User: UserUpdateDto): Authentication {
-        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(User.userKey))
+    fun createNewAuthentication(user: UserUpdateDto): Authentication {
+        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(user.userKey))
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
 
         val usernamePasswordAuthenticationToken =

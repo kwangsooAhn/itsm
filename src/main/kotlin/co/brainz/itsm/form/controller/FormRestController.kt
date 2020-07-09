@@ -32,7 +32,8 @@ class FormRestController(
         val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         return when (saveType) {
-            RestTemplateConstants.FormSaveType.SAVE_AS.code -> formService.saveAsForm(mapper.writeValueAsString(jsonData))
+            RestTemplateConstants.FormSaveType.SAVE_AS.code ->
+                formService.saveAsForm(mapper.writeValueAsString(jsonData))
             else -> formService.createForm(mapper.convertValue(jsonData, RestTemplateFormDto::class.java))
         }
     }

@@ -17,7 +17,9 @@ class WfComponentRestController(
      * 컴포넌트 데이터를 조회한다
      */
     @GetMapping("/data")
-    fun getComponentData(@RequestParam parameters: LinkedHashMap<String, Any>?): List<RestTemplateFormComponentDataDto> {
+    fun getComponentData(
+        @RequestParam parameters: LinkedHashMap<String, Any>?
+    ): List<RestTemplateFormComponentDataDto> {
         return wfComponentService.getComponentData(parameters)
     }
 

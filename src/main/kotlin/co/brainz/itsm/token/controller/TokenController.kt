@@ -41,12 +41,12 @@ class TokenController(
      */
     @GetMapping("/search")
     fun getTokenSearch(request: HttpServletRequest, model: Model): String {
-        // 사용자 상태가 SIGNUP 인 경우 인증 화면으로 이동
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val userKey = aliceUserDto.userKey
         val userDto: AliceUserEntity = userService.selectUserKey(userKey)
-        if (userDto.status == AliceUserConstants.Status.SIGNUP.code || userDto.status == AliceUserConstants.Status.EDIT.code) {
-            return statusPage
+        when (userDto.status) {
+            AliceUserConstants.Status.SIGNUP.code,
+            AliceUserConstants.Status.EDIT.code -> return statusPage
         }
         return tokenSearchPage
     }

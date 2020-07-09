@@ -29,7 +29,9 @@ class WfDocumentRestController(
      * @return List<RestTemplateDocumentDto>
      */
     @GetMapping("")
-    fun getDocuments(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+    fun getDocuments(
+        restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto
+    ): List<RestTemplateDocumentDto> {
         return wfDocumentService.documents(restTemplateDocumentSearchListDto)
     }
 

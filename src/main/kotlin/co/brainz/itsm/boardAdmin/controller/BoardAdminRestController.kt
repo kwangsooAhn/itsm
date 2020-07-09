@@ -38,11 +38,11 @@ class BoardAdminRestController(private val boardAdminService: BoardAdminService)
     /**
      * 게시판 관리 삭제.
      *
-     * @param BoardAdminId
+     * @param boardAdminId
      */
-    @DeleteMapping("/{BoardAdminId}")
-    fun deleteBoardAdmin(@PathVariable BoardAdminId: String) {
-        boardAdminService.deleteBoardAdmin(BoardAdminId)
+    @DeleteMapping("/{boardAdminId}")
+    fun deleteBoardAdmin(@PathVariable boardAdminId: String) {
+        boardAdminService.deleteBoardAdmin(boardAdminId)
     }
 
     /**
