@@ -3,13 +3,16 @@ package co.brainz.workflow.instance.repository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.auth.entity.QAliceUserRoleMapEntity
 import co.brainz.itsm.instance.constants.InstanceConstants
+import co.brainz.workflow.comment.entity.QWfCommentEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
+import co.brainz.workflow.folder.entity.QWfFolderEntity
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.tag.entity.QWfTagEntity
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfCandidateEntity
 import co.brainz.workflow.token.entity.QWfTokenDataEntity
@@ -29,6 +32,11 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
     val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
     val token: QWfTokenEntity = QWfTokenEntity.wfTokenEntity
+    val tokenData: QWfTokenDataEntity = QWfTokenDataEntity.wfTokenDataEntity
+    val candidate: QWfCandidateEntity = QWfCandidateEntity.wfCandidateEntity
+    val comment: QWfCommentEntity = QWfCommentEntity.wfCommentEntity
+    val tag: QWfTagEntity = QWfTagEntity.wfTagEntity
+    val folder: QWfFolderEntity = QWfFolderEntity.wfFolderEntity
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val searchDataCount: Long = WfTokenConstants.searchDataCount
 
@@ -250,5 +258,20 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             .where(token.instance.instanceId.eq(instanceId).and(token.element.elementType.`in`(elementTypes)))
             .orderBy(token.tokenStartDt.asc())
             .fetch()
+    }
+
+    override fun deleteInstances(instances: MutableList<WfInstanceEntity>) {
+        val tokens = from(token).where(token.instance.`in`(instances)).fetch()
+        val instanceIds = mutableListOf<String>()
+        instances.forEach { instanceIds.add(it.instanceId) }
+
+        // Delete instance relation data.
+        delete(tag).where(tag.instance.`in`(instances)).execute()
+        delete(candidate).where(candidate.token.`in`(tokens)).execute()
+        delete(tokenData).where(tokenData.token.`in`(tokens)).execute()
+        delete(token).where(token.instance.`in`(instances)).execute()
+        delete(folder).where(folder.instance.`in`(instances)).execute()
+        delete(comment).where(comment.instance.`in`(instances)).execute()
+        delete(instance).where(instance.instanceId.`in`(instanceIds)).execute()
     }
 }

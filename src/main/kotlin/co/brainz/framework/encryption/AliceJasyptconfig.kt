@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Configuration
 @Configuration
 class AliceJasyptconfig {
     @Bean("jasyptStringEncryptor")
-    fun StringEncryptor(): StringEncryptor {
+    fun stringEncryptor(): StringEncryptor {
 
         val key = AliceSecurityConstant.keyValue
-        val encryptor: PooledPBEStringEncryptor = PooledPBEStringEncryptor()
-        val config: SimpleStringPBEConfig = SimpleStringPBEConfig()
+        val encryptionValue = PooledPBEStringEncryptor()
+        val config = SimpleStringPBEConfig()
         config.password = key
 
         // config.setAlgorithm("PBEWITHHMACSHA512ANDAES_256");
@@ -22,10 +22,10 @@ class AliceJasyptconfig {
         config.setKeyObtentionIterations("1000")
         config.setPoolSize("1")
         config.providerName = "SunJCE" // 암호화 알고리즘 제공자
-        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator") // slat 함수
+        config.setSaltGeneratorClassName("org.jasypt.salt.RandomSaltGenerator") // salt 함수
         config.stringOutputType = "base64" // encoding 방법
-        encryptor.setConfig(config)
+        encryptionValue.setConfig(config)
 
-        return encryptor
+        return encryptionValue
     }
 }

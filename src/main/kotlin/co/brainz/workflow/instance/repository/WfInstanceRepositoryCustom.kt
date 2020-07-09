@@ -1,6 +1,7 @@
 package co.brainz.workflow.instance.repository
 
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
+import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
@@ -38,4 +39,6 @@ interface WfInstanceRepositoryCustom {
     ): QueryResults<WfInstanceListViewDto>
 
     fun findInstanceHistory(instanceId: String): List<RestTemplateInstanceHistoryDto>
+
+    fun deleteInstances(instances: MutableList<WfInstanceEntity>)
 }

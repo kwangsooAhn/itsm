@@ -14,7 +14,10 @@ import java.net.URLDecoder
 import kotlin.collections.HashSet*/
 
 // @RunWith(SpringRunner::class)
-// @SpringBootTest(properties = ["classpath:application.yml"], webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+/*@SpringBootTest(
+    properties = ["classpath:application.yml"],
+    webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT
+)*/
 class OAuthTest {
 /*
 

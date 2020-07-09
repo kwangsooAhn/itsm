@@ -1,0 +1,49 @@
+[
+  {
+    "id": "",
+    "name": "Common Form",
+    "status": "form.status.publish",
+    "components": [
+      {
+        "id": "",
+        "type": "text",
+        "mappingId": "",
+        "isTopic": true,
+        "attributes": [
+          {
+            "id": "display",
+            "value": "{\"placeholder\":\"\",\"column\":\"10\",\"default\":\"none|\",\"order\":1}"
+          },
+          {
+            "id": "label",
+            "value": "{\"position\":\"left\",\"column\":\"2\",\"size\":\"12\",\"color\":\"#000000\",\"bold\":\"N\",\"italic\":\"N\",\"underline\":\"N\",\"align\":\"left\",\"text\":\"TEXT\"}"
+          },
+          {
+            "id": "validate",
+            "value": "{\"regexp\":\"none\",\"regexp-msg\":\"\",\"length-min\":\"0\",\"length-max\":\"30\"}"
+          }
+        ]
+      },
+      {
+        "id": "",
+        "type": "textarea",
+        "mappingId": "",
+        "isTopic": false,
+        "attributes": [
+          {
+            "id": "display",
+            "value": "{\"editor-useYn\":\"Y\",\"rows\":\"3\",\"placeholder\":\"\",\"column\":\"10\",\"order\":2}"
+          },
+          {
+            "id": "label",
+            "value": "{\"position\":\"left\",\"column\":\"2\",\"size\":\"12\",\"color\":\"#000000\",\"bold\":\"N\",\"italic\":\"N\",\"underline\":\"N\",\"align\":\"left\",\"text\":\"TEXT\"}"
+          },
+          {
+            "id": "validate",
+            "value": "{\"length-min\":\"0\",\"length-max\":\"30\"}"
+          }
+        ]
+      }
+    ]
+  }
+]

@@ -49,7 +49,9 @@ class WfInstanceRestController(
      * @return List<RestTemplateInstanceCountDto>
      */
     @GetMapping("/count")
-    fun getProcessInstancesStatusCount(@RequestParam param: LinkedHashMap<String, Any>): List<RestTemplateInstanceCountDto> {
+    fun getProcessInstancesStatusCount(
+        @RequestParam param: LinkedHashMap<String, Any>
+    ): List<RestTemplateInstanceCountDto> {
         return wfInstanceService.instancesStatusCount(param)
     }
 

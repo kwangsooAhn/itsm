@@ -34,7 +34,11 @@ class PortalController(private val portalService: PortalService) {
      * 포탈 검색 리스트 호출 처리
      */
     @GetMapping("/list")
-    fun getPortalList(portalSearchDto: PortalSearchDto, model: Model, @PageableDefault pageableValue: Pageable): String {
+    fun getPortalList(
+        portalSearchDto: PortalSearchDto,
+        model: Model,
+        @PageableDefault pageableValue: Pageable
+    ): String {
         val totalCount = portalService.findTotalCount(portalSearchDto)
         val totalPages = ceil(totalCount * 1.0 / 10).toInt()
         val pageNumber = pageableValue.pageNumber

@@ -244,7 +244,6 @@ class CustomCodeService(
      * @return MutableList<CustomCodeDataDto>
      */
     fun getTableTypeData(customCode: CustomCodeEntity): MutableList<CustomCodeDataDto> {
-        // TODO: 동적 쿼리로 가져오도록 소스 리팩토링 필요
         val customDataList = mutableListOf<CustomCodeDataDto>()
         var dataList = mutableListOf<Any>()
         val condition = jsonToMapByCondition(customCode.condition)

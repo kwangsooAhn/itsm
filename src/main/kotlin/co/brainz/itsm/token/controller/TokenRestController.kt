@@ -20,7 +20,9 @@ class TokenRestController(private val tokenService: TokenService) {
      * 문서함 목록 조회.
      * */
     @GetMapping("")
-    fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto): List<RestTemplateInstanceViewDto> {
+    fun getTokenList(
+        restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto
+    ): List<RestTemplateInstanceViewDto> {
         return tokenService.getTokenList(restTemplateTokenSearchListDto)
     }
 

@@ -36,7 +36,7 @@ data class WfDocumentEntity(
     var documentStatus: String? = null,
 
     @Column(name = "document_desc", length = 256)
-    var documentDesc: String?,
+    var documentDesc: String? = null,
 
     @Column(name = "document_color", length = 128)
     var documentColor: String?,

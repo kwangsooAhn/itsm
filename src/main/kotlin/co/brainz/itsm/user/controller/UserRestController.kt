@@ -5,6 +5,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.AliceSignUpDto
+import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
@@ -36,6 +37,7 @@ import org.springframework.web.servlet.LocaleResolver
 @RequestMapping("/rest/users")
 class UserRestController(
     private val aliceCertificationService: AliceCertificationService,
+    private val aliceCertificationMailService: AliceCertificationMailService,
     private val userService: UserService,
     private val userDetailsService: AliceUserDetailsService,
     private val localeResolver: LocaleResolver,
@@ -52,17 +54,14 @@ class UserRestController(
     fun createUser(@RequestBody aliceSignUpDto: AliceSignUpDto): String {
         val fromNum = 1000000000
         val toNum = 9999999999
-        val random = Random
-        val randomNumber = random.nextLong(toNum - fromNum) + fromNum
+        val randomNumber = Random.nextLong(toNum - fromNum) + fromNum
         val password = randomNumber.toString()
         val publicKey = aliceCryptoRsa.getPublicKey()
-
-        // 패스워드 암호화
         aliceSignUpDto.password = aliceCryptoRsa.encrypt(publicKey, password)
 
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
         if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
-            aliceCertificationService.sendMail(
+            aliceCertificationMailService.sendMail(
                 aliceSignUpDto.userId,
                 aliceSignUpDto.email,
                 AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code,
@@ -92,14 +91,14 @@ class UserRestController(
         val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
         when (result) {
             AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code -> {
-                aliceCertificationService.sendMail(
+                aliceCertificationMailService.sendMail(
                     user.userId,
                     user.email!!,
                     AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
                     null
                 )
             }
-            else -> aliceCertificationService.sendMail(
+            else -> aliceCertificationMailService.sendMail(
                 user.userId,
                 user.email!!,
                 AliceUserConstants.SendMailStatus.UPDATE_USER.code,
@@ -119,8 +118,8 @@ class UserRestController(
     /**
      * 변경된 사용자 정보를 SecurityContextHolder에 update한다.
      */
-    fun createNewAuthentication(User: UserUpdateDto): Authentication {
-        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(User.userKey))
+    fun createNewAuthentication(user: UserUpdateDto): Authentication {
+        var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(user.userKey))
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
 
         val usernamePasswordAuthenticationToken =

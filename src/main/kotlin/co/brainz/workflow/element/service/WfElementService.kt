@@ -90,7 +90,10 @@ class WfElementService(
     /**
      * 다수의 연결선 중에 하나 선택.
      */
-    private fun getConnectorElement(tokenDto: WfTokenDto, connectorElements: MutableList<WfElementEntity>): WfElementEntity? {
+    private fun getConnectorElement(
+        tokenDto: WfTokenDto,
+        connectorElements: MutableList<WfElementEntity>
+    ): WfElementEntity? {
         val connectorElement: WfElementEntity?
         // 현재 element에 condition-item 값을 찾는다.
         val conditionItem = wfElementDataRepository.findByElementAndAttributeId(
@@ -103,7 +106,11 @@ class WfElementService(
         val conditionItemValue = this.getMatchesRegex(conditionItem, tokenDto)
 
         connectorElement = when (conditionItem) {
-            WfElementConstants.AttributeValue.ACTION.value -> this.getConnectorElementByAction(connectorElements, conditionItemValue, tokenDto)
+            WfElementConstants.AttributeValue.ACTION.value -> this.getConnectorElementByAction(
+                connectorElements,
+                conditionItemValue,
+                tokenDto
+            )
             else -> this.getConnectorElementByCondition(connectorElements, conditionItemValue, tokenDto)
         }
 
@@ -113,10 +120,17 @@ class WfElementService(
     /**
      * Connector 정보 가져오기 - Action일 경우.
      */
-    private fun getConnectorElementByAction(connectorElements: MutableList<WfElementEntity>, conditionItemValue: String, tokenDto: WfTokenDto): WfElementEntity? {
+    private fun getConnectorElementByAction(
+        connectorElements: MutableList<WfElementEntity>,
+        conditionItemValue: String,
+        tokenDto: WfTokenDto
+    ): WfElementEntity? {
         var selectedConnector: WfElementEntity? = null
         connectorElements.forEach { connector ->
-            val connectorValue = wfElementDataRepository.findByElementAndAttributeId(connector, WfElementConstants.AttributeId.ACTION_VALUE.value).attributeValue
+            val connectorValue = wfElementDataRepository.findByElementAndAttributeId(
+                connector,
+                WfElementConstants.AttributeId.ACTION_VALUE.value
+            ).attributeValue
             if (conditionItemValue == this.getMatchesRegex(connectorValue, tokenDto)) {
                 selectedConnector = connector
                 return@forEach
@@ -129,11 +143,19 @@ class WfElementService(
     /**
      * Connector 정보 가져오기 - Condition일 경우.
      */
-    private fun getConnectorElementByCondition(connectorElements: MutableList<WfElementEntity>, conditionItemValue: String, tokenDto: WfTokenDto): WfElementEntity? {
+    private fun getConnectorElementByCondition(
+        connectorElements: MutableList<WfElementEntity>,
+        conditionItemValue: String,
+        tokenDto: WfTokenDto
+    ): WfElementEntity? {
         var selectedConnector: WfElementEntity? = null
         connectorElements.forEach { connector ->
-            val connectorValue = wfElementDataRepository.findByElementAndAttributeId(connector, WfElementConstants.AttributeId.CONDITION_VALUE.value).attributeValue
-            val connectorValueSplitArray = connectorValue.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
+            val connectorValue = wfElementDataRepository.findByElementAndAttributeId(
+                connector,
+                WfElementConstants.AttributeId.CONDITION_VALUE.value
+            ).attributeValue
+            val connectorValueSplitArray =
+                connectorValue.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
             if (connectorValueSplitArray.size == 2) {
                 val connectorConvertValue = this.getMatchesRegex(connectorValueSplitArray[1], tokenDto)
                 when (connectorValueSplitArray[0]) {
@@ -171,7 +193,10 @@ class WfElementService(
             }
 
             if (selectedConnector == null) {
-                val isDefault = wfElementDataRepository.findByElementAndAttributeId(connector, WfElementConstants.AttributeId.IS_DEFAULT.value).attributeValue == "Y"
+                val isDefault = wfElementDataRepository.findByElementAndAttributeId(
+                    connector,
+                    WfElementConstants.AttributeId.IS_DEFAULT.value
+                ).attributeValue == "Y"
                 if (isDefault) {
                     selectedConnector = connector
                 }

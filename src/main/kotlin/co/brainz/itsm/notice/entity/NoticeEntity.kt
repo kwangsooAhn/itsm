@@ -41,7 +41,8 @@ import org.hibernate.annotations.GenericGenerator
 
 @NamedNativeQuery(
     name = "portalSearchMapping",
-    query = "select notice_title as portal_title, notice_contents as portal_content, create_dt, update_dt, 'notice' table_name " +
+    query = "select notice_title as portal_title, notice_contents as portal_content, " +
+            "create_dt, update_dt, 'notice' table_name " +
             "from portal_notice " +
             "where (lower(notice_title) like lower(concat('%', :searchValue, '%'))) " +
             "union all " +

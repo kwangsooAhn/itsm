@@ -1,0 +1,17 @@
+[
+  {
+    "id": "",
+    "name": "Default Document",
+    "status": "document.status.use",
+    "color": "#00ff00",
+    "type": "application-form",
+    "group": null,
+    "display": [
+      {
+        "componentId": "",
+        "elementId": "",
+        "display": "readonly"
+      }
+    ]
+  }
+]

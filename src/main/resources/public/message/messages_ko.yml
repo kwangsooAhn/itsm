@@ -275,6 +275,7 @@ document:
     lengthMin: "{0}글자 이상 입력하세요."
     process: "처리되었습니다."
     requiredFileupload: "파일을 업로드하세요."
+    confirmDeleteInstance: "임시 상태로 작성된 문서 모두 삭제하시겠습니까?"
   display:
     editable: "수정 가능"
     editableRequired: "수정 가능(필수값)"

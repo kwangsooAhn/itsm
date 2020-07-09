@@ -24,15 +24,15 @@ class AliceEncryptionUtil {
     private val oneWayAlgorithm: String = "sha512"
 
     init {
-        var key = AliceSecurityConstant.keyValue
+        val key = AliceSecurityConstant.keyValue
         this.iv = key.substring(0, 16)
-        var keyBytes = ByteArray(16)
-        var b = key.toByteArray(charset("UTF-8"))
+        val keyBytes = ByteArray(16)
+        val b = key.toByteArray(charset("UTF-8"))
         var len: Int = b.size
         if (len > keyBytes.size)
             len = keyBytes.size
         System.arraycopy(b, 0, keyBytes, 0, len)
-        val keySpec: SecretKeySpec = SecretKeySpec(keyBytes, "AES")
+        val keySpec = SecretKeySpec(keyBytes, "AES")
         this.keySpec = keySpec
     }
 
@@ -80,13 +80,11 @@ class AliceEncryptionUtil {
         BadPaddingException::class
     )
     private fun enCodeAES256(str: String): String {
-
         val c = Cipher.getInstance("AES/CBC/PKCS5Padding")
         c.init(Cipher.ENCRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray()))
         val encrypted = c.doFinal(str.toByteArray(charset("UTF-8")))
-        val enStr = String(Base64.encodeBase64(encrypted))
 
-        return enStr
+        return String(Base64.encodeBase64(encrypted))
     }
 
     // AES 256 복호화
@@ -100,7 +98,6 @@ class AliceEncryptionUtil {
         BadPaddingException::class
     )
     private fun deCodeAES256(str: String): String {
-
         val c: Cipher = Cipher.getInstance("AES/CBC/PKCS5Padding")
         c.init(Cipher.DECRYPT_MODE, keySpec, IvParameterSpec(iv.toByteArray(charset("UTF-8"))))
         val byteStr = Base64.decodeBase64(str.toByteArray())
@@ -110,10 +107,9 @@ class AliceEncryptionUtil {
 
     // SHA 512 암호화
     private fun enCodeSHA512(str: String): String {
-
         lateinit var toReturn: String
         try {
-            var digest: MessageDigest = MessageDigest.getInstance("SHA-512")
+            val digest: MessageDigest = MessageDigest.getInstance("SHA-512")
             digest.reset()
             digest.update(str.toByteArray(charset("utf8")))
             toReturn = String.format("%0128x", BigInteger(1, digest.digest()))

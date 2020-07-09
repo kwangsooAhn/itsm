@@ -136,8 +136,10 @@ class UserService(
                 code = when (targetEntity.email == emailConfirmVal) {
                     true -> {
                         when (userEditType) {
-                            AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
-                            AliceUserConstants.UserEditType.SELF_USER_EDIT.code -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
+                            AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code ->
+                                AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_ADMIN.code
+                            AliceUserConstants.UserEditType.SELF_USER_EDIT.code ->
+                                AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
                             else -> AliceUserConstants.UserEditStatus.STATUS_SUCCESS.code
                         }
                     }

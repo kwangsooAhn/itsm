@@ -6,5 +6,5 @@ import co.brainz.framework.auth.entity.AliceUrlAuthMapPk
 import org.springframework.data.jpa.repository.JpaRepository
 
 interface AliceUrlAuthMapRepository : JpaRepository<AliceUrlAuthMapEntity, AliceUrlAuthMapPk> {
-    fun findByAuth(AuthInfo: AliceAuthEntity): MutableList<AliceUrlAuthMapEntity>
+    fun findByAuth(authInfo: AliceAuthEntity): MutableList<AliceUrlAuthMapEntity>
 }

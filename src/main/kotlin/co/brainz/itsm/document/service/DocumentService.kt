@@ -36,7 +36,9 @@ class DocumentService(
      *
      * @return List<DocumentDto>
      */
-    fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+    fun getDocumentList(
+        restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto
+    ): List<RestTemplateDocumentDto> {
         val multiVal: MultiValueMap<String, String> = LinkedMultiValueMap()
         multiVal.setAll(
             objMapper.convertValue<Map<String, String>>(
@@ -111,7 +113,10 @@ class DocumentService(
      * @param restTemplateDocumentDto
      * @return Boolean
      */
-    fun updateDocument(restTemplateDocumentDto: RestTemplateDocumentDto): String? {
+    fun updateDocument(
+        restTemplateDocumentDto: RestTemplateDocumentDto,
+        params: LinkedMultiValueMap<String, String>
+    ): String? {
         val documentId = restTemplateDocumentDto.documentId
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         restTemplateDocumentDto.updateUserKey = aliceUserDto.userKey
@@ -120,7 +125,8 @@ class DocumentService(
             callUrl = RestTemplateConstants.Workflow.PUT_DOCUMENT.url.replace(
                 restTemplate.getKeyRegex(),
                 documentId
-            )
+            ),
+            parameters = params
         )
         val responseEntity = restTemplate.update(url, restTemplateDocumentDto)
         return when (responseEntity.body.toString().isNotEmpty()) {
