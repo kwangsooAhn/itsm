@@ -10066,7 +10066,7 @@ body {
   pointer-events: stroke;
 }
 .alice-process-drawing-board .connector text {
-  fill: #000000;
+  fill: #3E4752;
   font-weight: bold;
   font-size: 0.813rem;
   dominant-baseline: text-before-edge;
@@ -10110,6 +10110,7 @@ body {
 }
 .alice-process-drawing-board .element .element-type.task {
   stroke-width: 1;
+  stroke-dasharray: 0, 40, 40, 40;
 }
 .alice-process-drawing-board .element .node.task.userTask,
 .alice-process-drawing-board .element .element-type.task.userTask {
@@ -10125,6 +10126,7 @@ body {
 }
 .alice-process-drawing-board .element .element-type.subprocess {
   stroke-width: 1;
+  stroke-dasharray: 0, 40, 40, 40;
 }
 .alice-process-drawing-board .element .node.subprocess,
 .alice-process-drawing-board .element .element-type.subprocess {
@@ -10159,7 +10161,7 @@ body {
   stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
 }
 .alice-process-drawing-board .element text {
-  fill: #000000;
+  fill: #3E4752;
   font-weight: bold;
   font-size: 0.813rem;
   text-anchor: middle;

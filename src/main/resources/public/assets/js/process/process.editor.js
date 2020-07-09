@@ -1106,7 +1106,7 @@
             }
         }
 
-        if (dragElement.node().id === nodeElement.node().id) {
+        if (dragElement && dragElement.node().id === nodeElement.node().id) {
             elements.links.forEach(function(l) {
                 let isExistSource = false,
                     isExistTarget = false;
@@ -1208,8 +1208,6 @@
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
-            .attr('rx', radius)
-            .attr('ry', radius)
             .style('fill', 'url(#task-' + self.defaultType + '-element)')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -1258,8 +1256,6 @@
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
-            .attr('rx', radius)
-            .attr('ry', radius)
             .style('fill', 'url(#subprocess-' + self.defaultType + '-element)')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)

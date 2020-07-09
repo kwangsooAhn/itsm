@@ -547,7 +547,7 @@ process:
     importFile: "Import File"
     list: "Process List"
     name: "Process Name"
-    process: "Process"
+    processMap: "Process Map"
     redo: "Redo"
     searchPlaceholder: "Process Name / Process Description"
     simulation: "Simulation"

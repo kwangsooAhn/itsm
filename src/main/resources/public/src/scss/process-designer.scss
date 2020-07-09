@@ -244,7 +244,7 @@ body {
 
         .connector {
             text {
-                fill: #000000;
+                fill: #3E4752;
                 font: {
                     weight: bold;
                     size: 0.813rem; // 13px
@@ -307,6 +307,7 @@ body {
 
             .element-type.task {
                 stroke-width: 1;
+                stroke-dasharray: 0,40,40,40;
             }
             .node.task.userTask,
             .element-type.task.userTask {
@@ -320,8 +321,10 @@ body {
             .element-type.task.scriptTask {
                 stroke: #66cc00;
             }
+
             .element-type.subprocess {
                 stroke-width: 1;
+                stroke-dasharray: 0,40,40,40;
             }
             .node.subprocess,
             .element-type.subprocess {
@@ -358,7 +361,7 @@ body {
             }
 
             text {
-                fill: #000000;
+                fill: #3E4752;
                 font: {
                     weight: bold;
                     size: 0.813rem; // 13px
