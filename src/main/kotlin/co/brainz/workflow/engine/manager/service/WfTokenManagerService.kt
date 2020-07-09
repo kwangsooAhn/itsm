@@ -145,40 +145,40 @@ class WfTokenManagerService(
      * 토큰이 속한 엘리먼트의 notification가 true인 경우, candidate 데이터와 assignee를 대상으로 알림.
      */
     fun notificationCheck(token: WfTokenEntity) {
-        if (token.element.notification) {
-            val notifications = mutableListOf<NotificationDto>()
-            val commonNotification = NotificationDto(
-                title = token.instance.document.documentName,
-                message = "[${token.element.elementName}] ${token.instance.document.documentDesc}",
-                instanceId = token.instance.instanceId
-            )
+        if (!token.element.notification) {
+            return
+        }
 
-            token.candidate?.let {
-                it.forEach { candidate ->
-                    val notification = commonNotification.copy()
-                    when (candidate.candidateType) {
-                        WfTokenConstants.AssigneeType.USERS.code -> {
-                            notification.receivedUser = candidate.candidateValue
-                        }
-                        WfTokenConstants.AssigneeType.GROUPS.code -> {
-                            val userRoleMaps =
-                                aliceUserRoleMapRepository.findUserRoleMapByRoleId(candidate.candidateValue)
-                            userRoleMaps?.forEach { userRoleMap ->
-                                notification.receivedUser = userRoleMap.user.userKey
-                            }
-                        }
+        val notifications = mutableListOf<NotificationDto>()
+        val commonNotification = NotificationDto(
+            title = token.instance.document.documentName,
+            message = "[${token.element.elementName}] ${token.instance.document.documentDesc}",
+            instanceId = token.instance.instanceId
+        )
+
+        token.candidate?.forEach { candidate ->
+            val notification = commonNotification.copy()
+            when (candidate.candidateType) {
+                WfTokenConstants.AssigneeType.USERS.code -> {
+                    notification.receivedUser = candidate.candidateValue
+                }
+                WfTokenConstants.AssigneeType.GROUPS.code -> {
+                    val userRoleMaps =
+                        aliceUserRoleMapRepository.findUserRoleMapByRoleId(candidate.candidateValue)
+                    userRoleMaps?.forEach { userRoleMap ->
+                        notification.receivedUser = userRoleMap.user.userKey
                     }
-                    notifications.add(notification)
                 }
             }
-
-            token.assigneeId?.let {
-                commonNotification.receivedUser = token.assigneeId!!
-                notifications.add(commonNotification)
-            }
-
-            notificationService.insertNotificationList(notifications)
+            notifications.add(notification)
         }
+
+        token.assigneeId?.let {
+            commonNotification.receivedUser = token.assigneeId!!
+            notifications.add(commonNotification)
+        }
+
+        notificationService.insertNotificationList(notifications)
     }
 
     /**
