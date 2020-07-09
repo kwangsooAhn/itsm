@@ -21,28 +21,28 @@ class WfCommonEndEvent(
         return createTokenDto
     }
 
-    override fun createNextElementToken(tokenDto: WfTokenDto): WfTokenDto? {
+    override fun createNextElementToken(createNextTokenDto: WfTokenDto): WfTokenDto? {
         var nextTokenDto: WfTokenDto? = null
 
-        if (!tokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
-            val pTokenId = tokenDto.parentTokenId!!
+        if (!createNextTokenDto.parentTokenId.isNullOrEmpty()) { // SubProcess, Signal
+            val pTokenId = createNextTokenDto.parentTokenId!!
             val mainProcessToken = wfTokenManagerService.getToken(pTokenId)
             when (mainProcessToken.element.elementType) {
                 WfElementConstants.ElementType.SUB_PROCESS.value -> {
-                    var token = wfTokenManagerService.getToken(tokenDto.tokenId)
-                    token.tokenDataEntities = super.setTokenData(tokenDto)
+                    var token = wfTokenManagerService.getToken(createNextTokenDto.tokenId)
+                    token.tokenDataEntities = super.setTokenData(createNextTokenDto)
                     mainProcessToken.tokenStatus = WfTokenConstants.Status.FINISH.code
                     mainProcessToken.tokenEndDt = LocalDateTime.now(ZoneId.of("UTC"))
-                    tokenDto.data = wfTokenManagerService.makeSubProcessTokenDataDto(
+                    createNextTokenDto.data = wfTokenManagerService.makeSubProcessTokenDataDto(
                         token,
                         mainProcessToken
                     )
-                    tokenDto.tokenId = mainProcessToken.tokenId
+                    createNextTokenDto.tokenId = mainProcessToken.tokenId
 
                     token = wfTokenManagerService.saveToken(mainProcessToken)
                     token.tokenDataEntities =
-                        wfTokenManagerService.saveAllTokenData(super.setTokenData(tokenDto))
-                    nextTokenDto = tokenDto
+                        wfTokenManagerService.saveAllTokenData(super.setTokenData(createNextTokenDto))
+                    nextTokenDto = createNextTokenDto
                 }
             }
         }

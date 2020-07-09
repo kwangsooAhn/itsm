@@ -3,6 +3,7 @@ package co.brainz.itsm.certification.repository
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.certification.dto.AliceCertificationDto
+import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.certification.service.AliceKeyGeneratorService
 import co.brainz.framework.constants.AliceUserConstants
@@ -32,6 +33,10 @@ class CertificationTest {
 
     @Autowired
     lateinit var aliceCertificationService: AliceCertificationService
+
+    @Autowired
+    lateinit var aliceCertificationMailService: AliceCertificationMailService
+
     lateinit var mvc: MockMvc
     lateinit var securityContext: SecurityContext
 
@@ -74,7 +79,7 @@ class CertificationTest {
     fun sendCertifiedMail() {
         userStatusInit()
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        aliceCertificationService.sendMail(aliceUserDto.userId, aliceUserDto.email, null, null)
+        aliceCertificationMailService.sendMail(aliceUserDto.userId, aliceUserDto.email, null, null)
     }
 
     // Valid CertificationCode

@@ -2,6 +2,7 @@ package co.brainz.framework.certification.controller
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.certification.dto.AliceSignUpDto
+import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.fileTransaction.service.AliceFileService
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile
 @RequestMapping("certification")
 class AliceCertificationRestController(
     private val aliceCertificationService: AliceCertificationService,
+    private val aliceCertificationMailService: AliceCertificationMailService,
     private val aliceFileService: AliceFileService
 ) {
 
@@ -32,7 +34,7 @@ class AliceCertificationRestController(
     fun setUser(@RequestBody aliceSignUpDto: AliceSignUpDto): String {
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.USER_ID)
         if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
-            aliceCertificationService.sendMail(
+            aliceCertificationMailService.sendMail(
                 aliceSignUpDto.userId,
                 aliceSignUpDto.email,
                 AliceUserConstants.SendMailStatus.CREATE_USER.code,
@@ -45,7 +47,7 @@ class AliceCertificationRestController(
     @GetMapping("/certifiedMail")
     fun sendCertifiedMail() {
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        aliceCertificationService.sendMail(
+        aliceCertificationMailService.sendMail(
             aliceUserDto.userId,
             aliceUserDto.email,
             AliceUserConstants.SendMailStatus.CREATE_USER.code,

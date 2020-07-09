@@ -5,6 +5,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.dto.AliceSignUpDto
+import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
@@ -36,6 +37,7 @@ import org.springframework.web.servlet.LocaleResolver
 @RequestMapping("/rest/users")
 class UserRestController(
     private val aliceCertificationService: AliceCertificationService,
+    private val aliceCertificationMailService: AliceCertificationMailService,
     private val userService: UserService,
     private val userDetailsService: AliceUserDetailsService,
     private val localeResolver: LocaleResolver,
@@ -62,7 +64,7 @@ class UserRestController(
 
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
         if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
-            aliceCertificationService.sendMail(
+            aliceCertificationMailService.sendMail(
                 aliceSignUpDto.userId,
                 aliceSignUpDto.email,
                 AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code,
@@ -92,14 +94,14 @@ class UserRestController(
         val result = userService.updateUserEdit(user, AliceUserConstants.UserEditType.SELF_USER_EDIT.code)
         when (result) {
             AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_EMAIL.code -> {
-                aliceCertificationService.sendMail(
+                aliceCertificationMailService.sendMail(
                     user.userId,
                     user.email!!,
                     AliceUserConstants.SendMailStatus.UPDATE_USER_EMAIL.code,
                     null
                 )
             }
-            else -> aliceCertificationService.sendMail(
+            else -> aliceCertificationMailService.sendMail(
                 user.userId,
                 user.email!!,
                 AliceUserConstants.SendMailStatus.UPDATE_USER.code,
