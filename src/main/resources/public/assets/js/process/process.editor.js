@@ -809,14 +809,13 @@
                 }
                 resetMouseVars();
             } else {
-                if (dragElement) {
-                    const gatewayBBox = aliceProcessEditor.utils.getBoundingBoxCenter(dragElement);
-                    dragged(dragElement, snapToGrid(gatewayBBox.cx) - gatewayBBox.cx, snapToGrid(gatewayBBox.cy) - gatewayBBox.cy);
-                }
-
                 let histories = [];
                 const selectedNodes = d3.selectAll('.node.selected').nodes();
                 selectedNodes.forEach(function(node) {
+                    let targetElement = d3.select(node);
+                    const bbox = aliceProcessEditor.utils.getBoundingBoxCenter(targetElement);
+                    dragged(targetElement, snapToGrid(bbox.cx) - bbox.cx, snapToGrid(bbox.cy) - bbox.cy);
+
                     let history = aliceProcessEditor.changeDisplayValue(node.id, false);
                     histories.push(history);
                 });
@@ -1209,6 +1208,8 @@
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
+            .attr('rx', radius)
+            .attr('ry', radius)
             .style('fill', 'url(#task-' + self.defaultType + '-element)')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -1257,6 +1258,8 @@
             .attr('height', height)
             .attr('x', x - (width / 2))
             .attr('y', y - (height / 2))
+            .attr('rx', radius)
+            .attr('ry', radius)
             .style('fill', 'url(#subprocess-' + self.defaultType + '-element)')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
