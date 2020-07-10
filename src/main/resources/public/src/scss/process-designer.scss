@@ -705,6 +705,17 @@ svg {
                 fill-opacity: 0;
                 stroke-dasharray: 5,5;
             }
+
+            text {
+                fill: #3E4752;
+                font: {
+                    weight: bold;
+                    size: 0.813rem; // 13px
+                }
+                text-anchor: middle;
+                dominant-baseline: middle;
+                user-select: none;
+            }
         }
     }
 

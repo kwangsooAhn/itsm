@@ -10419,6 +10419,14 @@ svg g.group-artifact-container g.element .group {
   fill-opacity: 0;
   stroke-dasharray: 5, 5;
 }
+svg g.group-artifact-container g.element text {
+  fill: #3E4752;
+  font-weight: bold;
+  font-size: 0.813rem;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  user-select: none;
+}
 svg g.connector-container g.connector path.connector {
   fill: none;
   stroke: #596f7a;
