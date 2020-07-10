@@ -9900,7 +9900,7 @@ body {
   width: 100vw;
   height: 100vh;
   min-width: 75rem;
-  min-height: 37.5rem;
+  min-height: 41.563rem;
 }
 .alice-process-toolbar {
   width: 100vw;
@@ -9957,7 +9957,7 @@ body {
   display: inline-block;
   width: 5.625rem;
   height: calc(100vh - 2.188rem);
-  min-height: 35.312rem;
+  min-height: 39.375rem;
   background-color: #ffffff;
   position: absolute;
   top: 2.188rem;
@@ -10031,144 +10031,7 @@ body {
   width: calc(100vw - 20rem);
   min-width: 55rem;
   height: calc(100vh - 2.188rem);
-  min-height: 35.312rem;
-  background-color: #f2f5fa;
-}
-.alice-process-drawing-board svg {
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-.alice-process-drawing-board path.connector {
-  fill: none;
-  stroke: #596f7a;
-  stroke-width: 1;
-  cursor: default;
-}
-.alice-process-drawing-board path.connector.selected {
-  stroke-dasharray: 10, 2;
-  stroke-width: 2;
-}
-.alice-process-drawing-board path.connector.is-default {
-  stroke-width: 3;
-}
-.alice-process-drawing-board path.connector.drag-line {
-  pointer-events: none;
-}
-.alice-process-drawing-board path.connector.hidden {
-  stroke-width: 0;
-}
-.alice-process-drawing-board path.painted-connector {
-  fill: none;
-  stroke: none;
-  stroke-width: 20;
-  pointer-events: stroke;
-}
-.alice-process-drawing-board .connector text {
-  fill: #000000;
-  font-weight: bold;
-  font-size: 0.813rem;
-  dominant-baseline: text-before-edge;
-  user-select: none;
-}
-.alice-process-drawing-board .connector text.selected {
-  fill: #0c4dcd;
-}
-.alice-process-drawing-board .connector circle.pointer {
-  fill: #596f7a;
-  cursor: move;
-}
-.alice-process-drawing-board .connector circle.pointer.move {
-  fill: #5887f9;
-}
-.alice-process-drawing-board defs marker path {
-  fill: #596f7a;
-}
-.alice-process-drawing-board g.alice-tooltip rect.tooltip-container {
-  fill: #ffffff;
-  stroke: #bec4ce;
-  stroke-width: 0.5;
-}
-.alice-process-drawing-board g.alice-tooltip rect.action-tooltip-item:hover,
-.alice-process-drawing-board g.alice-tooltip rect.element-tooltip-item:hover {
-  cursor: pointer;
-}
-.alice-process-drawing-board .grid path {
-  display: none;
-}
-.alice-process-drawing-board .grid line {
-  stroke: #e5ebf5;
-  stroke-width: 1;
-  stroke-opacity: 1;
-  shape-rendering: crispEdges;
-}
-.alice-process-drawing-board .element .node {
-  fill: #ffffff;
-  opacity: 1;
-  stroke-width: 1;
-}
-.alice-process-drawing-board .element .element-type.task {
-  stroke-width: 1;
-}
-.alice-process-drawing-board .element .node.task.userTask,
-.alice-process-drawing-board .element .element-type.task.userTask {
-  stroke: #0099ff;
-}
-.alice-process-drawing-board .element .node.task.manualTask,
-.alice-process-drawing-board .element .element-type.task.manualTask {
-  stroke: #23c8c1;
-}
-.alice-process-drawing-board .element .node.task.scriptTask,
-.alice-process-drawing-board .element .element-type.task.scriptTask {
-  stroke: #66cc00;
-}
-.alice-process-drawing-board .element .element-type.subprocess {
-  stroke-width: 1;
-}
-.alice-process-drawing-board .element .node.subprocess,
-.alice-process-drawing-board .element .element-type.subprocess {
-  stroke: #6774ff;
-}
-.alice-process-drawing-board .element .node.gateway {
-  stroke: #fac900;
-}
-.alice-process-drawing-board .element .node.event {
-  stroke: #ff6f61;
-}
-.alice-process-drawing-board .element .node.event.commonEnd,
-.alice-process-drawing-board .element .node.event.messageEnd {
-  stroke-width: 2;
-}
-.alice-process-drawing-board .element .node.selected {
-  stroke: #0050ff !important;
-  stroke-width: 2 !important;
-}
-.alice-process-drawing-board .element .node.reject-element {
-  stroke: #ff0000 !important;
-  stroke-width: 2 !important;
-}
-.alice-process-drawing-board .element .group {
-  stroke: #000000;
-  fill-opacity: 0;
-  stroke-dasharray: 5, 5;
-}
-.alice-process-drawing-board .element .annotation {
-  stroke: #000000;
-  fill-opacity: 0;
-  stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
-}
-.alice-process-drawing-board .element text {
-  fill: #000000;
-  font-weight: bold;
-  font-size: 0.813rem;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  user-select: none;
-}
-.alice-process-drawing-board g.guides-container line.guides-line {
-  stroke: darkgray;
-  stroke-width: 0;
+  min-height: 39.375rem;
 }
 .alice-process-drawing-board div.minimap-button {
   display: inline-block;
@@ -10199,61 +10062,10 @@ body {
   background-color: #eef2f7;
   border: 1px solid #c8ced8;
 }
-.alice-process-drawing-board div.minimap rect.minimap-guide {
+.alice-process-drawing-board div.minimap svg rect.minimap-guide {
   fill: #A3B6CC;
   fill-opacity: 0.25;
   stroke-width: 0;
-}
-.alice-process-drawing-board div.minimap path.connector {
-  fill: none;
-  stroke: #000;
-  stroke-width: 2;
-  cursor: default;
-}
-.alice-process-drawing-board div.minimap path.connector.is-default {
-  stroke-width: 2;
-}
-.alice-process-drawing-board div.minimap .connector text {
-  fill: #000000;
-  font-weight: bold;
-  font-size: 0.813rem;
-  dominant-baseline: text-before-edge;
-  user-select: none;
-}
-.alice-process-drawing-board div.minimap .element .node {
-  fill: #ffffff;
-  opacity: 1;
-  stroke-width: 1;
-}
-.alice-process-drawing-board div.minimap .element .node.task.userTask {
-  stroke: #0099ff;
-}
-.alice-process-drawing-board div.minimap .element .node.task.manualTask {
-  stroke: #23c8c1;
-}
-.alice-process-drawing-board div.minimap .element .node.task.scriptTask {
-  stroke: #66cc00;
-}
-.alice-process-drawing-board div.minimap .element .node.subprocess {
-  stroke: #6774ff;
-}
-.alice-process-drawing-board div.minimap .element .node.gateway {
-  stroke: #fac900;
-}
-.alice-process-drawing-board div.minimap .element .node.event {
-  stroke: #ff6f61;
-}
-.alice-process-drawing-board div.minimap .element .node.event.commonEnd,
-.alice-process-drawing-board div.minimap .element .node.event.messageEnd {
-  stroke-width: 3;
-}
-.alice-process-drawing-board div.minimap .element text {
-  fill: #3E4752;
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  user-select: none;
 }
 .alice-process-drawing-board div.minimap.closed {
   display: none;
@@ -10263,7 +10075,7 @@ body {
   background-color: #fafbfd;
   width: 14.375rem;
   height: calc(100vh - 2.188rem);
-  min-height: 35.312rem;
+  min-height: 39.375rem;
   position: absolute;
   top: 2.188rem;
   right: 0;
@@ -10376,6 +10188,8 @@ body {
   width: 8.563rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties button {
+  border: 0.063rem solid #c8ced8;
+  background-color: #ffffff;
   width: 3.125rem;
   height: 1.563rem;
   margin-left: 0.188rem;
@@ -10388,22 +10202,37 @@ body {
   border-top: 0.063rem solid #c8ced8;
   border-bottom: 0.063rem solid #c8ced8;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table th {
-  background-color: lightgrey;
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table thead th {
+  background-color: #ffffff;
   text-align: center;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table td {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(odd) {
+  background-color: #eff3f8;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:first-child {
   padding-left: 0.313rem;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table td span.remove {
-  display: inline-block;
-  background-image: url("../media/icons/icon_delete.png");
-  width: 0.938rem;
-  height: 0.938rem;
-  cursor: pointer;
-}
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table td:last-child {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child {
   text-align: right;
+  padding-right: 0.313rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 0.063rem solid #c8ced8;
+  background-color: #ffffff;
+  cursor: pointer;
+  position: relative;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove:after {
+  position: absolute;
+  left: 0.188rem;
+  top: -0.063rem;
+  content: "−";
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties span.selected-color {
   display: inline-block;
@@ -10476,6 +10305,7 @@ body {
 }
 .alice-process-properties-panel div.properties-container div.process-info-container {
   height: 15rem;
+  overflow: hidden;
   border-top: 0.063rem solid #c8ced8;
   border-bottom: 0.063rem solid #c8ced8;
   margin-top: 1.25rem;
@@ -10517,6 +10347,165 @@ body {
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table label {
   height: 0.938rem;
   margin: 0;
+}
+
+svg {
+  background-color: #f2f5fa;
+}
+svg g.element-container g.element .node {
+  fill: #ffffff;
+  opacity: 1;
+  stroke-width: 1;
+}
+svg g.element-container g.element .element-type.task,
+svg g.element-container g.element .element-type.subprocess {
+  stroke-width: 1;
+  stroke-dasharray: 0, 40, 40, 40;
+}
+svg g.element-container g.element .node.task.userTask,
+svg g.element-container g.element .element-type.task.userTask {
+  stroke: #0099ff;
+}
+svg g.element-container g.element .node.task.manualTask,
+svg g.element-container g.element .element-type.task.manualTask {
+  stroke: #23c8c1;
+}
+svg g.element-container g.element .node.task.scriptTask,
+svg g.element-container g.element .element-type.task.scriptTask {
+  stroke: #66cc00;
+}
+svg g.element-container g.element .node.subprocess,
+svg g.element-container g.element .element-type.subprocess {
+  stroke: #6774ff;
+}
+svg g.element-container g.element .node.gateway {
+  stroke: #fac900;
+}
+svg g.element-container g.element .node.event {
+  stroke: #ff6f61;
+}
+svg g.element-container g.element .node.event.commonEnd,
+svg g.element-container g.element .node.event.messageEnd {
+  stroke-width: 2;
+}
+svg g.element-container g.element .node.selected {
+  stroke: #0050ff !important;
+  stroke-width: 2 !important;
+}
+svg g.element-container g.element .node.reject-element {
+  stroke: #ff0000 !important;
+  stroke-width: 2 !important;
+}
+svg g.element-container g.element .annotation {
+  stroke: #000000;
+  fill-opacity: 0;
+  stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
+}
+svg g.element-container g.element text {
+  fill: #3E4752;
+  font-weight: bold;
+  font-size: 0.813rem;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  user-select: none;
+}
+svg g.element-container g.element.selected .node,
+svg g.element-container g.element.selected .element-type.task,
+svg g.element-container g.element.selected .element-type.subprocess {
+  stroke: #0050ff !important;
+  stroke-width: 2 !important;
+}
+svg g.group-artifact-container g.element .group {
+  stroke: #000000;
+  fill-opacity: 0;
+  stroke-dasharray: 5, 5;
+}
+svg g.group-artifact-container g.element .node.selected {
+  stroke: #0050ff !important;
+  stroke-width: 2 !important;
+}
+svg g.group-artifact-container g.element text {
+  fill: #3E4752;
+  font-weight: bold;
+  font-size: 0.813rem;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  user-select: none;
+}
+svg g.connector-container g.connector path.connector {
+  fill: none;
+  stroke: #596f7a;
+  stroke-width: 1;
+  cursor: default;
+}
+svg g.connector-container g.connector path.connector.selected {
+  stroke-dasharray: 10, 2;
+  stroke-width: 2;
+}
+svg g.connector-container g.connector path.connector.is-default {
+  stroke-width: 3;
+}
+svg g.connector-container g.connector path.connector.hidden {
+  stroke-width: 0;
+}
+svg g.connector-container g.connector path.painted-connector {
+  fill: none;
+  stroke: none;
+  stroke-width: 20;
+  pointer-events: stroke;
+}
+svg g.connector-container g.connector text {
+  fill: #3E4752;
+  font-weight: bold;
+  font-size: 0.813rem;
+  dominant-baseline: text-before-edge;
+  user-select: none;
+}
+svg g.connector-container g.connector text.selected {
+  fill: #0c4dcd;
+}
+svg g.connector-container g.connector circle.pointer {
+  fill: #596f7a;
+  cursor: move;
+}
+svg g.connector-container g.connector circle.pointer.move {
+  fill: #5887f9;
+}
+svg defs marker path {
+  fill: #596f7a;
+}
+svg g.alice-tooltip rect.tooltip-container {
+  fill: #ffffff;
+  stroke: #bec4ce;
+  stroke-width: 0.5;
+}
+svg g.alice-tooltip rect.action-tooltip-item:hover,
+svg g.alice-tooltip rect.element-tooltip-item:hover {
+  cursor: pointer;
+}
+svg g.grid path {
+  display: none;
+}
+svg g.grid line {
+  stroke: #e5ebf5;
+  stroke-width: 1;
+  stroke-opacity: 1;
+  shape-rendering: crispEdges;
+}
+svg g.guides-container line.guides-line {
+  stroke: darkgray;
+  stroke-width: 0;
+}
+svg path.connector {
+  fill: none;
+  stroke: #596f7a;
+  stroke-width: 1;
+}
+svg path.connector.drag-line {
+  pointer-events: none;
+}
+svg path.connector.hidden {
+  stroke-width: 0;
 }
 
 /*# sourceMappingURL=process-designer.css.map */

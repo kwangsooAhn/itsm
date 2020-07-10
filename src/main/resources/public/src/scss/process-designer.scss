@@ -23,7 +23,7 @@ $process-toolbar-real-height: $process-toolbar-height - ($process-toolbar-top-bo
 $process-element-palette-width: 5.625rem; // 90px
 $process-properties-panel-width: 14.375rem; // 230px
 $process-container-min-width: 75rem;  // 1200px
-$process-container-min-height: 37.5rem;  // 600px
+$process-container-min-height: 41.563rem;  // 665px
 
 body {
     font: {
@@ -207,174 +207,6 @@ body {
         min-width: #{$process-container-min-width - ($process-element-palette-width + $process-properties-panel-width)};
         height: calc(100vh - #{$process-toolbar-height});
         min-height: #{$process-container-min-height - $process-toolbar-height};
-        background-color: #f2f5fa;
-
-        svg {
-            display: inline-block;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-
-        path.connector {
-            fill: none;
-            stroke: #596f7a;
-            stroke-width: 1;
-            cursor: default;
-        }
-        path.connector.selected {
-            stroke-dasharray: 10,2;
-            stroke-width: 2;
-        }
-        path.connector.is-default {
-            stroke-width: 3;
-        }
-        path.connector.drag-line {
-            pointer-events: none;
-        }
-        path.connector.hidden {
-            stroke-width: 0;
-        }
-        path.painted-connector {
-            fill: none;
-            stroke: none;
-            stroke-width: 20;
-            pointer-events: stroke;
-        }
-
-        .connector {
-            text {
-                fill: #000000;
-                font: {
-                    weight: bold;
-                    size: 0.813rem; // 13px
-                }
-                dominant-baseline: text-before-edge;
-                user-select: none;
-            }
-
-            text.selected {
-                fill: #0c4dcd;
-            }
-
-            circle.pointer {
-                fill: #596f7a;
-                cursor: move;
-            }
-
-            circle.pointer.move {
-                fill: #5887f9;
-            }
-        }
-
-        defs {
-            marker {
-                path {
-                    fill: #596f7a;
-                }
-            }
-        }
-
-        g.alice-tooltip {
-            rect.tooltip-container {
-                fill: #ffffff;
-                stroke: #bec4ce;
-                stroke-width: 0.5;
-            }
-            rect.action-tooltip-item:hover,
-            rect.element-tooltip-item:hover {
-                cursor: pointer;
-            }
-        }
-
-        .grid path {
-            display: none;
-        }
-
-        .grid line {
-            stroke: #e5ebf5;
-            stroke-width: 1;
-            stroke-opacity: 1;
-            shape-rendering: crispEdges;
-        }
-
-        .element {
-            .node {
-                fill: #ffffff;
-                opacity: 1;
-                stroke-width: 1;
-            }
-
-            .element-type.task {
-                stroke-width: 1;
-            }
-            .node.task.userTask,
-            .element-type.task.userTask {
-                stroke: #0099ff;
-            }
-            .node.task.manualTask,
-            .element-type.task.manualTask {
-                stroke: #23c8c1;
-            }
-            .node.task.scriptTask,
-            .element-type.task.scriptTask {
-                stroke: #66cc00;
-            }
-            .element-type.subprocess {
-                stroke-width: 1;
-            }
-            .node.subprocess,
-            .element-type.subprocess {
-                stroke: #6774ff;
-            }
-            .node.gateway {
-                stroke: #fac900;
-            }
-            .node.event {
-                stroke: #ff6f61;
-            }
-            .node.event.commonEnd,
-            .node.event.messageEnd {
-                stroke-width: 2;
-            }
-            .node.selected {
-                stroke: #0050ff !important;
-                stroke-width: 2 !important;
-            }
-            .node.reject-element {
-                stroke: #ff0000 !important;
-                stroke-width: 2 !important;
-            }
-            .group {
-                stroke: #000000;
-                fill-opacity: 0;
-                stroke-dasharray: 5,5;
-            }
-
-            .annotation {
-                stroke: #000000;
-                fill-opacity: 0;
-                stroke-dasharray: 5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5;
-            }
-
-            text {
-                fill: #000000;
-                font: {
-                    weight: bold;
-                    size: 0.813rem; // 13px
-                }
-                text-anchor: middle;
-                dominant-baseline: middle;
-                user-select: none;
-            }
-        }
-
-        g.guides-container {
-            line.guides-line {
-                stroke: darkgray;
-                stroke-width: 0;
-            }
-        }
 
         div.minimap-button {
             display: inline-block;
@@ -408,78 +240,11 @@ body {
                 left: 1.25rem;  // 20px
                 background-color: #eef2f7;
                 border: 1px solid #c8ced8;
-            }
 
-            rect.minimap-guide {
-                fill: #A3B6CC;
-                fill-opacity: 0.25;
-                stroke-width: 0;
-            }
-
-            path.connector {
-                fill: none;
-                stroke: #000;
-                stroke-width: 2;
-                cursor: default;
-            }
-            path.connector.is-default {
-                stroke-width: 2;
-            }
-
-            .connector {
-                text {
-                    fill: #000000;
-                    font: {
-                        weight: bold;
-                        size: 0.813rem; // 13px
-                    }
-                    dominant-baseline: text-before-edge;
-                    user-select: none;
-                }
-            }
-
-            .element {
-                .node {
-                    fill: #ffffff;
-                    opacity: 1;
-                    stroke-width: 1;
-                }
-
-                .node.task.userTask {
-                    stroke: #0099ff;
-                }
-                .node.task.manualTask {
-                    stroke: #23c8c1;
-                }
-                .node.task.scriptTask {
-                    stroke: #66cc00;
-                }
-                .node.subprocess {
-                    stroke: #6774ff;
-                }
-
-                .node.gateway {
-                    stroke: #fac900;
-                }
-
-                .node.event {
-                    stroke: #ff6f61;
-                }
-
-                .node.event.commonEnd,
-                .node.event.messageEnd {
-                    stroke-width: 3;
-                }
-
-                text {
-                    fill: #3E4752;
-                    font: {
-                        size: 0.75rem; // 12px
-                        weight: 500;
-                    }
-                    text-anchor: middle;
-                    dominant-baseline: middle;
-                    user-select: none;
+                rect.minimap-guide {
+                    fill: #A3B6CC;
+                    fill-opacity: 0.25;
+                    stroke-width: 0;
                 }
             }
         }
@@ -641,6 +406,8 @@ body {
                     }
 
                     button {
+                        border: 0.063rem solid #c8ced8;
+                        background-color: #ffffff;
                         width: 3.125rem;  // 50px
                         height: 1.563rem; // 25px
                         margin-left: 0.188rem; // 3px
@@ -656,28 +423,48 @@ body {
                                 bottom: 0.063rem solid #c8ced8;
                             }
                         }
-                        th {
-                            background-color: lightgrey;
-                            text-align: center;
-                        }
 
-                        td {
-                            padding: {
-                                left: 0.313rem;
-                            };
-
-                            span.remove {
-                                display: inline-block;
-                                background-image: url("../media/icons/icon_delete.png");
-                                width: 0.938rem;  // 15px
-                                height: 0.938rem; // 15px
-                                cursor: pointer;
+                        thead {
+                            th {
+                                background-color: #ffffff;
+                                text-align: center;
                             }
                         }
 
-                        td:last-child {
-                            text-align: right;
+                        tbody {
+                            tr:nth-child(even) {
+                                background-color: #ffffff;
+                            }
+                            tr:nth-child(odd) {
+                                background-color: #eff3f8
+                            }
+
+                            td:first-child {
+                                padding-left: 0.313rem;
+                            }
+
+                            td:last-child {
+                                text-align: right;
+                                padding-right: 0.313rem;
+
+                                span.remove {
+                                    display: inline-block;
+                                    width: 1rem;  // 16px
+                                    height: 1rem; // 16px
+                                    border: 0.063rem solid #c8ced8;
+                                    background-color: #ffffff;
+                                    cursor: pointer;
+                                    position: relative;
+                                }
+                                span.remove:after {
+                                    position: absolute;
+                                    left: 0.188rem; // 3px
+                                    top: -0.063rem;  // -1px
+                                    content: '\2212';
+                                }
+                            }
                         }
+
                     }
 
                     span.selected-color {
@@ -766,6 +553,8 @@ body {
 
             div.process-info-container {
                 height: 15rem; // 240px
+                overflow: hidden;
+
                 border: {
                     top: 0.063rem solid #c8ced8;
                     bottom: 0.063rem solid #c8ced8;
@@ -827,5 +616,215 @@ body {
                 }
             }
         }
+    }
+}
+
+svg {
+    background-color: #f2f5fa;
+
+    g.element-container {
+        g.element {
+            .node {
+                fill: #ffffff;
+                opacity: 1;
+                stroke-width: 1;
+            }
+
+            .element-type.task,
+            .element-type.subprocess {
+                stroke-width: 1;
+                stroke-dasharray: 0,40,40,40;
+            }
+            .node.task.userTask,
+            .element-type.task.userTask {
+                stroke: #0099ff;
+            }
+            .node.task.manualTask,
+            .element-type.task.manualTask {
+                stroke: #23c8c1;
+            }
+            .node.task.scriptTask,
+            .element-type.task.scriptTask {
+                stroke: #66cc00;
+            }
+
+            .node.subprocess,
+            .element-type.subprocess {
+                stroke: #6774ff;
+            }
+
+            .node.gateway {
+                stroke: #fac900;
+            }
+            .node.event {
+                stroke: #ff6f61;
+            }
+            .node.event.commonEnd,
+            .node.event.messageEnd {
+                stroke-width: 2;
+            }
+            .node.selected {
+                stroke: #0050ff !important;
+                stroke-width: 2 !important;
+            }
+            .node.reject-element {
+                stroke: #ff0000 !important;
+                stroke-width: 2 !important;
+            }
+
+            .annotation {
+                stroke: #000000;
+                fill-opacity: 0;
+                stroke-dasharray: 5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5;
+            }
+
+            text {
+                fill: #3E4752;
+                font: {
+                    weight: bold;
+                    size: 0.813rem; // 13px
+                }
+                text-anchor: middle;
+                dominant-baseline: middle;
+                user-select: none;
+            }
+        }
+
+        g.element.selected {
+            .node,
+            .element-type.task,
+            .element-type.subprocess {
+                stroke: #0050ff !important;
+                stroke-width: 2 !important;
+            }
+        }
+    }
+
+    g.group-artifact-container {
+        g.element {
+            .group {
+                stroke: #000000;
+                fill-opacity: 0;
+                stroke-dasharray: 5,5;
+            }
+
+            .node.selected {
+                stroke: #0050ff !important;
+                stroke-width: 2 !important;
+            }
+
+            text {
+                fill: #3E4752;
+                font: {
+                    weight: bold;
+                    size: 0.813rem; // 13px
+                }
+                text-anchor: middle;
+                dominant-baseline: middle;
+                user-select: none;
+            }
+        }
+    }
+
+    g.connector-container {
+        g.connector {
+            path.connector {
+                fill: none;
+                stroke: #596f7a;
+                stroke-width: 1;
+                cursor: default;
+            }
+            path.connector.selected {
+                stroke-dasharray: 10,2;
+                stroke-width: 2;
+            }
+            path.connector.is-default {
+                stroke-width: 3;
+            }
+            path.connector.hidden {
+                stroke-width: 0;
+            }
+            path.painted-connector {
+                fill: none;
+                stroke: none;
+                stroke-width: 20;
+                pointer-events: stroke;
+            }
+
+            text {
+                fill: #3E4752;
+                font: {
+                    weight: bold;
+                    size: 0.813rem; // 13px
+                }
+                dominant-baseline: text-before-edge;
+                user-select: none;
+            }
+
+            text.selected {
+                fill: #0c4dcd;
+            }
+
+            circle.pointer {
+                fill: #596f7a;
+                cursor: move;
+            }
+
+            circle.pointer.move {
+                fill: #5887f9;
+            }
+        }
+    }
+
+    defs {
+        marker {
+            path {
+                fill: #596f7a;
+            }
+        }
+    }
+
+    g.alice-tooltip {
+        rect.tooltip-container {
+            fill: #ffffff;
+            stroke: #bec4ce;
+            stroke-width: 0.5;
+        }
+        rect.action-tooltip-item:hover,
+        rect.element-tooltip-item:hover {
+            cursor: pointer;
+        }
+    }
+
+    g.grid {
+        path {
+            display: none;
+        }
+
+        line {
+            stroke: #e5ebf5;
+            stroke-width: 1;
+            stroke-opacity: 1;
+            shape-rendering: crispEdges;
+        }
+    }
+
+    g.guides-container {
+        line.guides-line {
+            stroke: darkgray;
+            stroke-width: 0;
+        }
+    }
+
+    path.connector {
+        fill: none;
+        stroke: #596f7a;
+        stroke-width: 1;
+    }
+    path.connector.drag-line {
+        pointer-events: none;
+    }
+    path.connector.hidden {
+        stroke-width: 0;
     }
 }

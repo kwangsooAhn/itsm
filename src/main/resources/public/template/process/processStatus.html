@@ -10,7 +10,7 @@
 </head>
 <body style="margin: 0;">
     <svg id="elementContainer"
-         style="position: absolute; top: 0; left: 0;"
+         style="position: absolute; top: 0; left: 0; background-size: initial;"
          th:width="${processStatus.width}"
          th:height="${processStatus.height}"
          th:viewBox="${processStatus.left + ' ' + processStatus.top + ' ' + processStatus.width + ' ' + processStatus.height}"></svg>
@@ -20,26 +20,26 @@
     window.onload = function() {
         window.resizeTo(
             window.outerWidth - window.innerWidth + Number(/*[[${processStatus.width}]]*/),
-            window.outerHeight - window.innerHeight + Math.ceil(Number(/*[[${processStatus.height}]]*/))
+            window.outerHeight - window.innerHeight + Number(/*[[${processStatus.height}]]*/)
         );
         let statusGroup = d3.select('#elementContainer')
             .style('background-image', 'url([[${processStatus.imageData}]])')
             .append('g');
         /*[# th:each="element : ${processStatus.elements}"]*/
         /*[# th:if="${element.id == processStatus.elementId}"]*/
-        const type = /*[[${element.type}]]*/,
+        const type = /*[[${element.type}]]*/ '',
               width = Number(/*[[${element.width}]]*/),
               height = Number(/*[[${element.height}]]*/),
-              x = Number(/*[[${element["position-x"]}]]*/),
-              y = Number(/*[[${element["position-y"]}]]*/);
+              x = Number(/*[[${element["position-x"]}]]*/), // center - x
+              y = Number(/*[[${element["position-y"]}]]*/); // center - y
         if (type === 'userTask' || type === 'subprocess') {
             statusGroup.append('rect')
                 .attr('width', width)
                 .attr('height', height)
-                .attr('x', x)
-                .attr('y', y)
-                .attr('rx', 8)
-                .attr('ry', 8)
+                .attr('x', x - (width / 2))
+                .attr('y', y - (height / 2))
+                .attr('rx', 4)
+                .attr('ry', 4)
                 .style('stroke', '#ff0000')
                 .style('stroke-width', 2)
                 .style('fill', 'none');
