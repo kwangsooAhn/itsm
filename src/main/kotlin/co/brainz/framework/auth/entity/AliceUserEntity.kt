@@ -1,19 +1,22 @@
 package co.brainz.framework.auth.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
+import co.brainz.framework.avatar.entity.AliceAvatarEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import java.io.Serializable
 import java.time.LocalDateTime
+import org.hibernate.annotations.GenericGenerator
+import org.springframework.format.annotation.DateTimeFormat
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.OneToMany
+import javax.persistence.OneToOne
+import javax.persistence.JoinColumn
 import javax.persistence.Table
-import org.hibernate.annotations.GenericGenerator
-import org.springframework.format.annotation.DateTimeFormat
 
 @Entity
 @Table(name = "awf_user")
@@ -64,7 +67,8 @@ data class AliceUserEntity(
 
     @Column(name = "expired_dt")
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    var expiredDt: LocalDateTime = LocalDateTime.now().plusMonths(AliceConstants.EXPIRED_MONTH_PERIOD.toLong()),
+    var expiredDt: LocalDateTime = LocalDateTime.now()
+        .plusMonths(AliceConstants.EXPIRED_MONTH_PERIOD.toLong()),
 
     @Column(name = "oauth_key", length = 256)
     var oauthKey: String? = "",
@@ -79,7 +83,12 @@ data class AliceUserEntity(
     var timeFormat: String = "",
 
     @Column(name = "theme", length = 100)
-    var theme: String = ""
+    var theme: String = "",
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "avatar_id")
+    var avatar: AliceAvatarEntity = AliceAvatarEntity()
+
 ) : Serializable, AliceMetaEntity() {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     val userRoleMapEntities = mutableListOf<AliceUserRoleMapEntity>()

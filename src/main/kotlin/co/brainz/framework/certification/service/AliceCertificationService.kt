@@ -185,7 +185,7 @@ class AliceCertificationService(
             AliceUserConstants.USER_AVATAR_IMAGE_DIR,
             AliceUserConstants.BASE_DIR,
             user.userKey,
-            aliceSignUpDto.avatarUUID
+            aliceSignUpDto.avatarId
         )
         when (target) {
             AliceUserConstants.USER_ID -> {

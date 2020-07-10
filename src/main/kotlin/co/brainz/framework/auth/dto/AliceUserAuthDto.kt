@@ -2,6 +2,7 @@ package co.brainz.framework.auth.dto
 
 import co.brainz.framework.auth.entity.AliceMenuEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
+import co.brainz.framework.avatar.entity.AliceAvatarEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import org.springframework.security.core.GrantedAuthority
@@ -29,5 +30,6 @@ data class AliceUserAuthDto(
     var theme: String = "",
     var grantedAuthorises: Set<GrantedAuthority>? = null,
     var menus: Set<AliceMenuEntity>? = null,
-    var urls: Set<AliceUrlEntity>? = null
+    var urls: Set<AliceUrlEntity>? = null,
+    var avatar: AliceAvatarEntity? = null
 ) : Serializable
