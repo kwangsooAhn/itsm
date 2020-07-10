@@ -9900,7 +9900,7 @@ body {
   width: 100vw;
   height: 100vh;
   min-width: 75rem;
-  min-height: 37.5rem;
+  min-height: 41.563rem;
 }
 .alice-process-toolbar {
   width: 100vw;
@@ -9957,7 +9957,7 @@ body {
   display: inline-block;
   width: 5.625rem;
   height: calc(100vh - 2.188rem);
-  min-height: 35.312rem;
+  min-height: 39.375rem;
   background-color: #ffffff;
   position: absolute;
   top: 2.188rem;
@@ -10031,7 +10031,7 @@ body {
   width: calc(100vw - 20rem);
   min-width: 55rem;
   height: calc(100vh - 2.188rem);
-  min-height: 35.312rem;
+  min-height: 39.375rem;
 }
 .alice-process-drawing-board div.minimap-button {
   display: inline-block;
@@ -10075,7 +10075,7 @@ body {
   background-color: #fafbfd;
   width: 14.375rem;
   height: calc(100vh - 2.188rem);
-  min-height: 35.312rem;
+  min-height: 39.375rem;
   position: absolute;
   top: 2.188rem;
   right: 0;
@@ -10305,6 +10305,7 @@ body {
 }
 .alice-process-properties-panel div.properties-container div.process-info-container {
   height: 15rem;
+  overflow: hidden;
   border-top: 0.063rem solid #c8ced8;
   border-bottom: 0.063rem solid #c8ced8;
   margin-top: 1.25rem;

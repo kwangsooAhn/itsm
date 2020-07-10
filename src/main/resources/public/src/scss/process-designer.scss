@@ -23,7 +23,7 @@ $process-toolbar-real-height: $process-toolbar-height - ($process-toolbar-top-bo
 $process-element-palette-width: 5.625rem; // 90px
 $process-properties-panel-width: 14.375rem; // 230px
 $process-container-min-width: 75rem;  // 1200px
-$process-container-min-height: 37.5rem;  // 600px
+$process-container-min-height: 41.563rem;  // 665px
 
 body {
     font: {
@@ -553,6 +553,8 @@ body {
 
             div.process-info-container {
                 height: 15rem; // 240px
+                overflow: hidden;
+
                 border: {
                     top: 0.063rem solid #c8ced8;
                     bottom: 0.063rem solid #c8ced8;
