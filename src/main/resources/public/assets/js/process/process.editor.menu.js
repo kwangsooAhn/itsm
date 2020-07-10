@@ -210,7 +210,6 @@
               elements = aliceProcessEditor.data.elements;
         const elementData = elements.filter(function(elem) { return elem.id === elementId; });
         if (elementData.length) {
-            console.debug('current element type: %s, edit element type: %s', elementData[0].type, type);
             if (elementData[0].type === type) {
                 d3.select('g.alice-tooltip').remove();
                 return;
@@ -233,11 +232,9 @@
             elementData[0].data = typeData;
             elementData[0].required = getAttributeRequired(category, type);
 
-            changeElementType(element, type);
             d3.select('g.alice-tooltip').remove();
-            setElementMenu(element);
+            changeElementType(element, type, true);
             aliceProcessEditor.utils.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
-            console.debug('edited element [%s]!!', type);
         }
     }
 
@@ -246,16 +243,22 @@
      *
      * @param element target element
      * @param type 변경될 타입
+     * @param isSelected 선택여부
      */
-    function changeElementType(element, type) {
+    function changeElementType(element, type, isSelected) {
         const category = getElementCategory(type);
         const typeList = elementsProperties[category];
         typeList.forEach(function(t) {
             element.classed(t.type, t.type === type);
             d3.select(element.node().parentNode).select('.element-type').classed(t.type, t.type === type);
         });
+        let fillUrl = category + '-' + type + '-element';
+        if (isSelected) {
+            fillUrl = fillUrl + '-selected';
+            setElementMenu(element);
+        }
         d3.select(element.node().parentNode).select('.element-type')
-            .style('fill', 'url(#' + category + '-' + type + '-element)');
+            .style('fill', 'url(#' + fillUrl + ')');
     }
 
     /**
@@ -1040,13 +1043,13 @@
         btnAdd.innerText = 'ADD';
 
         const saveData = function() {
-            let dataTable = inputObject.parentNode.querySelector('table');
-            let rows = dataTable.querySelectorAll('tr');
+            let dataBody = inputObject.parentNode.querySelector('tbody');
+            let rows = dataBody.querySelectorAll('tr');
             let assigneeValue = '';
             let rowLength = rows.length;
-            if (rowLength > 1) {
-                for (let i = 1; i < rowLength; i++) {
-                    if (i !== 1) { assigneeValue += ','; }
+            if (rowLength > 0) {
+                for (let i = 0; i < rowLength; i++) {
+                    if (i !== 0) { assigneeValue += ','; }
                     assigneeValue += rows[i].querySelector('input').value;
                 }
             }
@@ -1058,7 +1061,7 @@
         };
 
         const addDataRow = function(dataVal, dataText) {
-            let dataTable = inputObject.parentNode.querySelector('table');
+            let dataBody = inputObject.parentNode.querySelector('tbody');
             let row = document.createElement('tr');
             let nameColumn = document.createElement('td');
             nameColumn.textContent = dataText;
@@ -1076,21 +1079,21 @@
             });
             btnColumn.appendChild(btnDel);
             row.appendChild(btnColumn);
-            dataTable.appendChild(row);
+            dataBody.appendChild(row);
 
             saveData();
         };
 
         btnAdd.addEventListener('click', function() {
             let dataSelect = this.parentNode.querySelector('select'),
-                dataTable = inputObject.parentNode.querySelector('table'),
-                rows = dataTable.querySelectorAll('tr');
+                dataBody = inputObject.parentNode.querySelector('tbody'),
+                rows = dataBody.querySelectorAll('tr');
 
             let isDuplicate = false,
                 selectedValue = dataSelect.value,
                 rowLength = rows.length;
-            if (rowLength > 1) {
-                for (let i = 1; i < rowLength; i++) {
+            if (rowLength > 0) {
+                for (let i = 0; i < rowLength; i++) {
                     if (selectedValue === rows[i].querySelector('input').value) {
                         isDuplicate = true;
                         break;
@@ -1102,15 +1105,18 @@
             }
         });
         inputObject.parentNode.insertBefore(btnAdd, dataSelect.nextSibling);
-        let userTable = document.createElement('table');
+        let dataTable = document.createElement('table');
+        let thead = document.createElement('thead');
         let headRow = document.createElement('tr');
         let headNameColumn = document.createElement('th');
         headNameColumn.textContent = 'Name';
+        headNameColumn.colSpan = 2;
         headRow.appendChild(headNameColumn);
-        let headBtnColumn = document.createElement('th');
-        headRow.appendChild(headBtnColumn);
-        userTable.appendChild(headRow);
-        inputObject.parentNode.insertBefore(userTable, btnAdd.nextSibling);
+        thead.appendChild(headRow);
+        dataTable.appendChild(thead);
+        let tbody = document.createElement('tbody');
+        dataTable.appendChild(tbody);
+        inputObject.parentNode.insertBefore(dataTable, btnAdd.nextSibling);
 
         if (typeof valueArr !== 'undefined') {
             for (let i = 0, len = valueArr.length; i < len; i++) {
@@ -1665,6 +1671,7 @@
                 elemData = {};
                 elemData.id = item.parent + '-' + item.type + '-element-selected';
                 elemData.url = item.element_selected_url;
+                imageLoadingList.push(elemData);
             }
             if (item.focus_url) {
                 let focusData = {};

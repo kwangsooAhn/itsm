@@ -548,7 +548,7 @@ process:
     importFile: "IMPORT 파일"
     list: "프로세스 목록"
     name: "프로세스 이름"
-    process: "프로세스"
+    processMap: "프로세스맵"
     redo: "작업재실행"
     searchPlaceholder: "프로세스 이름 / 프로세스 설명"
     simulation: "미리보기"
