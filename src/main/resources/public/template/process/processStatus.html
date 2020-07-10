@@ -36,10 +36,8 @@
             statusGroup.append('rect')
                 .attr('width', width)
                 .attr('height', height)
-                .attr('x', x + 10)
-                .attr('y', y + 15)
-                /*.attr('x', x - (width / 2))  // 얘로 나와야 하는데 이상하게 나온다. 일단, 하드코딩!
-                .attr('y', y - (height / 2))*/
+                .attr('x', x - (width / 2))
+                .attr('y', y - (height / 2))
                 .attr('rx', 4)
                 .attr('ry', 4)
                 .style('stroke', '#ff0000')

@@ -2038,5 +2038,6 @@
     exports.changeTextToElement = changeTextToElement;
     exports.removeElementSelected = removeElementSelected;
     exports.setConnectors = setConnectors;
+    exports.setDeselectedElement = setDeselectedElement;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));
