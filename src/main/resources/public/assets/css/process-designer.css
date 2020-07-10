@@ -10419,6 +10419,10 @@ svg g.group-artifact-container g.element .group {
   fill-opacity: 0;
   stroke-dasharray: 5, 5;
 }
+svg g.group-artifact-container g.element .node.selected {
+  stroke: #0050ff !important;
+  stroke-width: 2 !important;
+}
 svg g.group-artifact-container g.element text {
   fill: #3E4752;
   font-weight: bold;

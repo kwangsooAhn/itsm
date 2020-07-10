@@ -706,6 +706,11 @@ svg {
                 stroke-dasharray: 5,5;
             }
 
+            .node.selected {
+                stroke: #0050ff !important;
+                stroke-width: 2 !important;
+            }
+
             text {
                 fill: #3E4752;
                 font: {
