@@ -449,32 +449,33 @@ login:
 
 # Menu
 menu:
-  service:
-    parent: "서비스"
-    list: "요청 이력"
-    request: "서비스 요청"
-  help:
-    parent: "헬프데스크"
-    board: "게시판"
+  my:
+    parent: "나의 업무"
     dashboard: "대시보드"
-    document: "신청서"
-    download: "자료실"
-    faq: "FAQ"
-    notice: "공지사항"
     token: "문서함"
-  setting:
-    parent: "설정"
-    auth: "권한 관리"
-    boardAdmin: "게시판 관리"
-    code: "코드 관리"
-    customCode: "사용자 정의 코드"
-    document: "업무 흐름"
-    editMyInfo: "자기 정보 수정"
-    form: "문서 양식"
-    image: "이미지 관리"
+    document: "신청서"
+  portal:
+    parent: "포탈 서비스"
+    notice: "공지사항"
+    faq: "FAQ"
+    download: "자료실"
+    board: "게시판"
+  config:
+    parent: "시스템 관리"
+    user: "사용자"
+    auth: "권한"
+    role: "역할"
+    boardAdmin: "게시판"
+    code: "코드"
+  workflow:
+    parent: "업무흐름 관리"
     process: "프로세스"
-    role: "역할 관리"
-    user: "사용자 관리"
+    form: "문서 양식"
+    document: "업무 흐름"
+    customCode: "커스텀 코드"
+    image: "이미지 관리"
+  setting:
+    editMyInfo: "자기정보 수정"
 
 # Notice
 notice:
