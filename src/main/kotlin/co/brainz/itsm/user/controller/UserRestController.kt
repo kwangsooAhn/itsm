@@ -4,6 +4,7 @@ import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.avatar.service.AliceAvataService
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
@@ -40,6 +41,7 @@ class UserRestController(
     private val aliceCertificationMailService: AliceCertificationMailService,
     private val userService: UserService,
     private val userDetailsService: AliceUserDetailsService,
+    private val avataService: AliceAvataService,
     private val localeResolver: LocaleResolver,
     private val aliceCryptoRsa: AliceCryptoRsa
 ) {
@@ -121,20 +123,18 @@ class UserRestController(
     fun createNewAuthentication(user: UserUpdateDto): Authentication {
         var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(user.userKey))
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
-
+        val avatarPath = avataService.makeAvataPath(aliceUser.avatar)
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->
             aliceUser.urls?.let { urls ->
                 aliceUser.menus?.let { menus ->
-                    aliceUser.avatar?.let { avatar ->
-                        AliceUserDto(
-                            aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.position,
-                            aliceUser.department, aliceUser.officeNumber, aliceUser.mobileNumber, aliceUser.useYn,
-                            aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
-                            menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme, avatar
-                        )
-                    }
+                    AliceUserDto(
+                        aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.position,
+                        aliceUser.department, aliceUser.officeNumber, aliceUser.mobileNumber, aliceUser.useYn,
+                        aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
+                        menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme, avatarPath
+                    )
                 }
             }
         }

@@ -31,5 +31,5 @@ data class AliceUserAuthDto(
     var grantedAuthorises: Set<GrantedAuthority>? = null,
     var menus: Set<AliceMenuEntity>? = null,
     var urls: Set<AliceUrlEntity>? = null,
-    var avatar: AliceAvatarEntity? = null
+    var avatar: AliceAvatarEntity = AliceAvatarEntity()
 ) : Serializable

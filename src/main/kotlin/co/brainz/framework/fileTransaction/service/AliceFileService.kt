@@ -1,6 +1,8 @@
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.avatar.dto.AliceAvatarDto
+import co.brainz.framework.avatar.repository.AliceAvatarRepository
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -46,6 +48,7 @@ class AliceFileService(
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileNameExtensionRepository: AliceFileNameExtensionRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
+    private val aliceAvatarRepository: AliceAvatarRepository,
     environment: Environment
 ) : AliceFileUtil(environment) {
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -434,10 +437,34 @@ class AliceFileService(
         multipartFile.transferTo(filePath.toFile())
     }
 
-    fun uploadAvatar(location: String, baseDir: String, userKey: String, avatarUUID: String) {
+    fun uploadAvatar(location: String, baseDir: String, userKey: String, avatarID: String, avatarType: String) {
+
+
+        //aliceAvatarRepository.save();
+        /*for (fileSeq in aliceFileDto.fileSeq.orEmpty()) {
+            val fileLocEntity = aliceFileLocRepository.getOne(fileSeq)
+            val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
+            val tempPath = super.getDir("temp", fileLocEntity.randomName)
+            Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
+            logger.debug(">> 임시업로드파일 {} 을 사용할 위치로 이동 {}", tempPath.toAbsolutePath(), filePath.toAbsolutePath())
+            logger.debug(
+                ">> 여기에 업로드 파일 {}({})",
+                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName,
+                fileLocEntity.randomName
+            )
+            fileLocEntity.uploaded = true
+            try {
+                val fileOwnMapEntity = AliceFileOwnMapEntity(aliceFileDto.ownId, fileLocEntity)
+                aliceFileOwnMapRepository.save(fileOwnMapEntity)
+            } catch (e: Exception) {
+                logger.error("{}", e.message)
+                Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
+                throw AliceException(AliceErrorConstants.ERR, e.message)
+            }
+        }*/
         this.basePath = ClassPathResource(baseDir).file.path.toString()
         val dir = Paths.get(this.basePath, location)
-        val tempPath = Paths.get(dir.toString() + File.separator + avatarUUID)
+        val tempPath = Paths.get(dir.toString() + File.separator + avatarID)
         val filePath = Paths.get(dir.toString() + File.separator + userKey)
         val sampleFilePath = Paths.get(dir.toString() + File.separator + AliceUserConstants.SAMPLE_FILE_NAME)
         val tempFile = File(tempPath.toString())
@@ -453,5 +480,14 @@ class AliceFileService(
                 }
             }
         }
+        /*val avatarDto : AliceAvatarDto = AliceAvatarDto(
+            avatarId = userKey,
+            avatarType = ,
+            avatarValue = ,
+            randomName =
+        )*/
+
+
     }
+
 }

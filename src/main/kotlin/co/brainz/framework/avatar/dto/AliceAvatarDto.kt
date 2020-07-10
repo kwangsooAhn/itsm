@@ -3,7 +3,7 @@ package co.brainz.framework.avatar.dto
 import java.io.Serializable
 
 data class AliceAvatarDto(
-    var userKey: Long,
+    var avatarId: String,
     var avatarType: String?,
     var avatarValue: String?,
     var uploaded: Boolean?,

@@ -3,7 +3,11 @@ package co.brainz.framework.avatar.entity
 import co.brainz.framework.auditor.AliceMetaEntity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.GeneratedValue
+import javax.persistence.Id
+import javax.persistence.Table
 
 @Entity
 @Table(name = "awf_avatar")

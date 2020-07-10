@@ -40,8 +40,8 @@
             <td colspan="7" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
-            <td><img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${user.userKey})}" width="30px" height="30px" border="1"
-                     th:onerror="'this.onerror=null; this.src=\'' + @{/assets/media/image/avatar/profile_sample.jpg} + '\';'" alt="profile pic"/>
+            <td>
+                <img th:src="@{${user.avatarPath}}" width="30px" height="30px" border="1" alt="profile pic"/>
                 <span th:text="${user.userName}"></span>
             </td>
             <td th:text="${user.userId}"></td>

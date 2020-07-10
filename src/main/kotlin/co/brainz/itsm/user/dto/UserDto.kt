@@ -22,5 +22,6 @@ class UserDto(
     var timezone: String? = null,
     var lang: String? = null,
     var timeFormat: String? = null,
-    var theme: String? = null
+    var theme: String? = null,
+    var avatarPath: String = ""
 ) : Serializable

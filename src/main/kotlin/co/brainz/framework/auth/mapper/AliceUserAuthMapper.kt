@@ -13,8 +13,7 @@ interface AliceUserAuthMapper {
     @Mappings(
         Mapping(target = "grantedAuthorises", ignore = true),
         Mapping(target = "menus", ignore = true),
-        Mapping(target = "urls", ignore = true),
-        Mapping(target = "avatar", ignore = true)
+        Mapping(target = "urls", ignore = true)
     )
     fun toAliceUserAuthDto(aliceUserEntity: AliceUserEntity): AliceUserAuthDto
 
@@ -30,5 +29,9 @@ interface AliceUserAuthMapper {
         Mapping(target = "userRoleMapEntities", ignore = true)
     )
     fun toAliceUserEntity(aliceUserDto: AliceUserDto): AliceUserEntity
+
+    @Mappings(
+        Mapping(target = "avatarPath", ignore = true)
+    )
     fun toUserDto(aliceUserEntity: AliceUserEntity): UserDto
 }

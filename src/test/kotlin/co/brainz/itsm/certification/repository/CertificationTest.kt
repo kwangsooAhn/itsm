@@ -2,6 +2,7 @@ package co.brainz.itsm.certification.repository
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.avatar.entity.AliceAvatarEntity
 import co.brainz.framework.certification.dto.AliceCertificationDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
@@ -70,7 +71,8 @@ class CertificationTest {
             timezone = TimeZone.getDefault().id,
             lang = "en",
             timeFormat = "YYYY-MM-DD HH:MM",
-            theme = AliceUserConstants.USER_THEME
+            theme = AliceUserConstants.USER_THEME,
+            avatarPath = ""
         )
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())

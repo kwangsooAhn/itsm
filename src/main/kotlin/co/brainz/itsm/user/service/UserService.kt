@@ -4,6 +4,7 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapPk
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.avatar.service.AliceAvataService
 import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
@@ -36,6 +37,7 @@ class UserService(
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
     private val aliceFileService: AliceFileService,
+    private val avataService: AliceAvataService,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val userRepository: UserRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
@@ -53,8 +55,11 @@ class UserService(
         val aliceUserEntities =
             userRepository.findAliceUserEntityList(search, category)
         val userList: MutableList<UserDto> = mutableListOf()
-        aliceUserEntities.forEach {
-            userList.add(userMapper.toUserDto(it))
+        aliceUserEntities.forEach { userEntity ->
+            val avatarPath = avataService.makeAvataPath(userEntity.avatar)
+            val userDto = userMapper.toUserDto(userEntity)
+            userDto.avatarPath = avatarPath
+            userList.add(userDto)
         }
         return userList
     }
@@ -115,7 +120,8 @@ class UserService(
                     AliceUserConstants.USER_AVATAR_IMAGE_DIR,
                     AliceUserConstants.BASE_DIR,
                     userUpdateDto.userKey,
-                    userUpdateDto.avatarUUID
+                    userUpdateDto.avatarUUID,
+                    "FILE"
                 )
 
                 if (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {

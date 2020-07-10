@@ -2,7 +2,6 @@ package co.brainz.framework.auth.dto
 
 import co.brainz.framework.auth.entity.AliceMenuEntity
 import co.brainz.framework.auth.entity.AliceUrlEntity
-import co.brainz.framework.avatar.entity.AliceAvatarEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 import org.springframework.security.core.GrantedAuthority
@@ -30,5 +29,5 @@ data class AliceUserDto(
     val lang: String,
     val timeFormat: String,
     val theme: String,
-    val avatarEntity: AliceAvatarEntity
+    val avatarPath: String
 ) : Serializable
