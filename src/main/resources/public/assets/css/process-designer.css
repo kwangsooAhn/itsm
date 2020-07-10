@@ -10391,11 +10391,6 @@ svg g.element-container g.element .node.reject-element {
   stroke: #ff0000 !important;
   stroke-width: 2 !important;
 }
-svg g.element-container g.element .group {
-  stroke: #000000;
-  fill-opacity: 0;
-  stroke-dasharray: 5, 5;
-}
 svg g.element-container g.element .annotation {
   stroke: #000000;
   fill-opacity: 0;
@@ -10415,6 +10410,11 @@ svg g.element-container g.element.selected .element-type.subprocess {
   stroke: #0050ff !important;
   stroke-width: 2 !important;
 }
+svg g.group-artifact-container g.element .group {
+  stroke: #000000;
+  fill-opacity: 0;
+  stroke-dasharray: 5, 5;
+}
 svg g.connector-container g.connector path.connector {
   fill: none;
   stroke: #596f7a;
@@ -10427,12 +10427,6 @@ svg g.connector-container g.connector path.connector.selected {
 }
 svg g.connector-container g.connector path.connector.is-default {
   stroke-width: 3;
-}
-svg g.connector-container g.connector path.connector.drag-line {
-  pointer-events: none;
-}
-svg g.connector-container g.connector path.connector.hidden {
-  stroke-width: 0;
 }
 svg g.connector-container g.connector path.painted-connector {
   fill: none;
@@ -10480,6 +10474,17 @@ svg g.grid line {
 }
 svg g.guides-container line.guides-line {
   stroke: darkgray;
+  stroke-width: 0;
+}
+svg path.connector {
+  fill: none;
+  stroke: #596f7a;
+  stroke-width: 1;
+}
+svg path.connector.drag-line {
+  pointer-events: none;
+}
+svg path.connector.hidden {
   stroke-width: 0;
 }
 

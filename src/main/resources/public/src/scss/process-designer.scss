@@ -665,11 +665,6 @@ svg {
                 stroke: #ff0000 !important;
                 stroke-width: 2 !important;
             }
-            .group {
-                stroke: #000000;
-                fill-opacity: 0;
-                stroke-dasharray: 5,5;
-            }
 
             .annotation {
                 stroke: #000000;
@@ -699,6 +694,16 @@ svg {
         }
     }
 
+    g.group-artifact-container {
+        g.element {
+            .group {
+                stroke: #000000;
+                fill-opacity: 0;
+                stroke-dasharray: 5,5;
+            }
+        }
+    }
+
     g.connector-container {
         g.connector {
             path.connector {
@@ -713,12 +718,6 @@ svg {
             }
             path.connector.is-default {
                 stroke-width: 3;
-            }
-            path.connector.drag-line {
-                pointer-events: none;
-            }
-            path.connector.hidden {
-                stroke-width: 0;
             }
             path.painted-connector {
                 fill: none;
@@ -790,5 +789,17 @@ svg {
             stroke: darkgray;
             stroke-width: 0;
         }
+    }
+
+    path.connector {
+        fill: none;
+        stroke: #596f7a;
+        stroke-width: 1;
+    }
+    path.connector.drag-line {
+        pointer-events: none;
+    }
+    path.connector.hidden {
+        stroke-width: 0;
     }
 }
