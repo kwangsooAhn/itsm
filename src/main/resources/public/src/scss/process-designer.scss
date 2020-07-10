@@ -298,7 +298,7 @@ body {
             shape-rendering: crispEdges;
         }
 
-        .element {
+        g.element {
             .node {
                 fill: #ffffff;
                 opacity: 1;
@@ -340,10 +340,6 @@ body {
             .node.event.messageEnd {
                 stroke-width: 2;
             }
-            .node.selected {
-                stroke: #0050ff !important;
-                stroke-width: 2 !important;
-            }
             .node.reject-element {
                 stroke: #ff0000 !important;
                 stroke-width: 2 !important;
@@ -369,6 +365,15 @@ body {
                 text-anchor: middle;
                 dominant-baseline: middle;
                 user-select: none;
+            }
+        }
+
+        g.element.selected {
+            .node,
+            .element-type.task,
+            .element-type.subprocess {
+                stroke: #0050ff !important;
+                stroke-width: 2 !important;
             }
         }
 

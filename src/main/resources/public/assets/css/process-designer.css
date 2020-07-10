@@ -10103,70 +10103,72 @@ body {
   stroke-opacity: 1;
   shape-rendering: crispEdges;
 }
-.alice-process-drawing-board .element .node {
+.alice-process-drawing-board g.element .node {
   fill: #ffffff;
   opacity: 1;
   stroke-width: 1;
 }
-.alice-process-drawing-board .element .element-type.task {
+.alice-process-drawing-board g.element .element-type.task {
   stroke-width: 1;
   stroke-dasharray: 0, 40, 40, 40;
 }
-.alice-process-drawing-board .element .node.task.userTask,
-.alice-process-drawing-board .element .element-type.task.userTask {
+.alice-process-drawing-board g.element .node.task.userTask,
+.alice-process-drawing-board g.element .element-type.task.userTask {
   stroke: #0099ff;
 }
-.alice-process-drawing-board .element .node.task.manualTask,
-.alice-process-drawing-board .element .element-type.task.manualTask {
+.alice-process-drawing-board g.element .node.task.manualTask,
+.alice-process-drawing-board g.element .element-type.task.manualTask {
   stroke: #23c8c1;
 }
-.alice-process-drawing-board .element .node.task.scriptTask,
-.alice-process-drawing-board .element .element-type.task.scriptTask {
+.alice-process-drawing-board g.element .node.task.scriptTask,
+.alice-process-drawing-board g.element .element-type.task.scriptTask {
   stroke: #66cc00;
 }
-.alice-process-drawing-board .element .element-type.subprocess {
+.alice-process-drawing-board g.element .element-type.subprocess {
   stroke-width: 1;
   stroke-dasharray: 0, 40, 40, 40;
 }
-.alice-process-drawing-board .element .node.subprocess,
-.alice-process-drawing-board .element .element-type.subprocess {
+.alice-process-drawing-board g.element .node.subprocess,
+.alice-process-drawing-board g.element .element-type.subprocess {
   stroke: #6774ff;
 }
-.alice-process-drawing-board .element .node.gateway {
+.alice-process-drawing-board g.element .node.gateway {
   stroke: #fac900;
 }
-.alice-process-drawing-board .element .node.event {
+.alice-process-drawing-board g.element .node.event {
   stroke: #ff6f61;
 }
-.alice-process-drawing-board .element .node.event.commonEnd,
-.alice-process-drawing-board .element .node.event.messageEnd {
+.alice-process-drawing-board g.element .node.event.commonEnd,
+.alice-process-drawing-board g.element .node.event.messageEnd {
   stroke-width: 2;
 }
-.alice-process-drawing-board .element .node.selected {
-  stroke: #0050ff !important;
-  stroke-width: 2 !important;
-}
-.alice-process-drawing-board .element .node.reject-element {
+.alice-process-drawing-board g.element .node.reject-element {
   stroke: #ff0000 !important;
   stroke-width: 2 !important;
 }
-.alice-process-drawing-board .element .group {
+.alice-process-drawing-board g.element .group {
   stroke: #000000;
   fill-opacity: 0;
   stroke-dasharray: 5, 5;
 }
-.alice-process-drawing-board .element .annotation {
+.alice-process-drawing-board g.element .annotation {
   stroke: #000000;
   fill-opacity: 0;
   stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
 }
-.alice-process-drawing-board .element text {
+.alice-process-drawing-board g.element text {
   fill: #3E4752;
   font-weight: bold;
   font-size: 0.813rem;
   text-anchor: middle;
   dominant-baseline: middle;
   user-select: none;
+}
+.alice-process-drawing-board g.element.selected .node,
+.alice-process-drawing-board g.element.selected .element-type.task,
+.alice-process-drawing-board g.element.selected .element-type.subprocess {
+  stroke: #0050ff !important;
+  stroke-width: 2 !important;
 }
 .alice-process-drawing-board g.guides-container line.guides-line {
   stroke: darkgray;

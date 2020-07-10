@@ -564,6 +564,7 @@
 
         svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
+        svg.selectAll('g.element').classed('selected', false);
         svg.selectAll('.selected').classed('selected', false);
         svg.selectAll('.reject-element').classed('reject-element', false);
 
@@ -681,6 +682,7 @@
             if (node.textContent === '') { d3.select(node).remove(); }
         });
         minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
+        minimapSvg.selectAll('g.element').classed('selected', false);
         minimapSvg.selectAll('.selected').classed('selected', false);
         minimapSvg.selectAll('.reject-element').classed('reject-element', false);
         minimapSvg.append('rect')

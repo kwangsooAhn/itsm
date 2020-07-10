@@ -62,7 +62,9 @@
      */
     function removeElementSelected() {
         selectedElement = null;
-        svg.selectAll('.node').classed('selected', false);
+        svg.selectAll('.node').nodes().forEach(function(node) {
+            setDeselectedElement(d3.select(node));
+        });
         svg.selectAll('.connector').classed('selected', false);
         svg.selectAll('.pointer').style('opacity', 0).style('cursor', 'default');
         svg.selectAll('.alice-tooltip').remove();
@@ -235,7 +237,7 @@
                         connectorMouseEventHandler.moveDragEnd(d, this);
 
                         if (mouseoverElement && mousedownElement.node().id !== mouseoverElement.node().id) {
-                            mouseoverElement.classed('selected', false);
+                            setDeselectedElement(mouseoverElement);
                             if (checkAvailableLink(mouseoverElement, mousedownElement)) {
                                 elements.links.forEach(function(l) {
                                     delete l.movable;
@@ -295,7 +297,7 @@
                         connectorMouseEventHandler.moveDragEnd(d, this);
 
                         if (mouseoverElement && mousedownElement.node().id !== mouseoverElement.node().id) {
-                            mouseoverElement.classed('selected', false);
+                            setDeselectedElement(mouseoverElement);
                             if (checkAvailableLink(mousedownElement, mouseoverElement)) {
                                 elements.links.forEach(function (l) {
                                     delete l.movable;
@@ -716,7 +718,7 @@
                 return;
             }
             mouseoverElement = null;
-            elem.classed('selected', false);
+            setDeselectedElement(elem);
         },
         mousedown: function() {
             const elemContainer = d3.select(this.parentNode);
@@ -749,7 +751,7 @@
                 elemContainer.style('cursor', 'move');
                 if (!isSelectedElem) {
                     if (d3.event.sourceEvent.ctrlKey && selectedNodes.length > 0) {
-                        elem.classed('selected', true);
+                        setSelectedElement(elem);
 
                         mousedownElement = null;
                         selectedElement = null;
@@ -760,7 +762,7 @@
                         removeElementSelected();
                         mousedownElement = elem;
                         selectedElement = (mousedownElement === selectedElement) ? null : mousedownElement;
-                        selectedElement.classed('selected', true);
+                        setSelectedElement(selectedElement);
 
                         if (elem.node().getAttribute('class').match(/\bresizable\b/)) {
                             d3.select(selectedElement.node().parentNode).selectAll('.pointer').nodes().forEach(function(elem) {
@@ -770,7 +772,8 @@
                         aliceProcessEditor.setElementMenu(elem);
                     }
                 } else if (isSelectedElem && d3.event.sourceEvent.ctrlKey) {
-                    elem.classed('selected', false);
+                    setDeselectedElement(elem);
+
                     selectedNodes = d3.selectAll('.node.selected').nodes();
                     if (selectedNodes.length === 1) {
                         mousedownElement = d3.select(selectedNodes[0]);
@@ -800,7 +803,7 @@
                 }
 
                 if (mousedownElement.node().id !== mouseoverElement.node().id) {
-                    mouseoverElement.classed('selected', false);
+                    setDeselectedElement(mouseoverElement);
                     if (checkAvailableLink(mousedownElement, mouseoverElement)) {
                         elements.links.push({id: workflowUtil.generateUUID(), sourceId: mousedownElement.node().id, targetId: mouseoverElement.node().id, isDefault: 'N'});
                         selectedElement = null;
@@ -880,6 +883,59 @@
     };
 
     /**
+     * 엘리먼트ID로 저장된 엘리먼트 데이터를 조회하여 반환한다.
+     *
+     * @param id 엘리먼트ID
+     * @return {null} 엘리먼트 데이터
+     */
+    function getElementDataById(id) {
+        const elementDataList = aliceProcessEditor.data.elements.filter(function(e) { return e.id === id; });
+        let elementData = null;
+        if (elementDataList) {
+            elementData = elementDataList[0];
+        }
+        return elementData;
+    }
+
+    /**
+     * 엘리먼트 선택 효과 추가.
+     *
+     * @param elem 엘리먼트 object
+     */
+    function setSelectedElement(elem) {
+        elem.classed('selected', true);
+        d3.select(elem.node().parentNode).classed('selected', true);
+
+        let elementData = getElementDataById(elem.node().id);
+        if (elementData) {
+            let category = aliceProcessEditor.getElementCategory(elementData.type);
+            let type = d3.select(elem.node().parentNode).select('.element-type.' + category + '.' + elementData.type);
+            if (type) {
+                type.style('fill', 'url(#' + category + '-' + elementData.type + '-element-selected)');
+            }
+        }
+    }
+
+    /**
+     * 엘리먼트 선택해제.
+     *
+     * @param elem 엘리먼트 object
+     */
+    function setDeselectedElement(elem) {
+        elem.classed('selected', false);
+        d3.select(elem.node().parentNode).classed('selected', false);
+
+        let elementData = getElementDataById(elem.node().id);
+        if (elementData) {
+            let category = aliceProcessEditor.getElementCategory(elementData.type);
+            let type = d3.select(elem.node().parentNode).select('.element-type.' + category + '.' + elementData.type);
+            if (type) {
+                type.style('fill', 'url(#' + category + '-' + elementData.type + '-element)');
+            }
+        }
+    }
+
+    /**
      * connector 연결 가능여부 체크하여 리턴한다.
      *
      * @param source
@@ -944,23 +1000,25 @@
             isDrawBottom = false;
 
         svg.selectAll('.node:not(.selected)').nodes().forEach(function(node) {
-            const element = aliceProcessEditor.data.elements.filter(function(e) { return e.id === node.id; })[0];
-            let left = element.display['position-x'] - (element.display.width / 2),
-                right = element.display['position-x'] + (element.display.width / 2),
-                top = element.display['position-y'] - (element.display.height / 2),
-                bottom = element.display['position-y'] + (element.display.height / 2);
-            if (element.type.indexOf('Gateway') > -1) {
-                left = element.display['position-x'] - (gatewayDist / 2);
-                right = element.display['position-x'] + (gatewayDist / 2);
-                top = element.display['position-y'] - (gatewayDist / 2);
-                bottom = element.display['position-y'] + (gatewayDist / 2);
+            const element = getElementDataById(node.id);
+            if (element) {
+                let left = element.display['position-x'] - (element.display.width / 2),
+                    right = element.display['position-x'] + (element.display.width / 2),
+                    top = element.display['position-y'] - (element.display.height / 2),
+                    bottom = element.display['position-y'] + (element.display.height / 2);
+                if (element.type.indexOf('Gateway') > -1) {
+                    left = element.display['position-x'] - (gatewayDist / 2);
+                    right = element.display['position-x'] + (gatewayDist / 2);
+                    top = element.display['position-y'] - (gatewayDist / 2);
+                    bottom = element.display['position-y'] + (gatewayDist / 2);
+                }
+                isDrawCenterX = isDrawCenterX || Math.abs(elementBbox.cx - element.display['position-x']) < errorRange;
+                isDrawCenterY = isDrawCenterY || Math.abs(elementBbox.cy - element.display['position-y']) < errorRange;
+                isDrawLeft = isDrawLeft || Math.abs(elemLeft - left) < errorRange;
+                isDrawRight = isDrawRight || Math.abs(elemRight - right) < errorRange;
+                isDrawTop = isDrawTop || Math.abs(elemTop - top) < errorRange;
+                isDrawBottom = isDrawBottom || Math.abs(elemBottom - bottom) < errorRange;
             }
-            isDrawCenterX = isDrawCenterX || Math.abs(elementBbox.cx - element.display['position-x']) < errorRange;
-            isDrawCenterY = isDrawCenterY || Math.abs(elementBbox.cy - element.display['position-y']) < errorRange;
-            isDrawLeft = isDrawLeft || Math.abs(elemLeft - left) < errorRange;
-            isDrawRight = isDrawRight || Math.abs(elemRight - right) < errorRange;
-            isDrawTop = isDrawTop || Math.abs(elemTop - top) < errorRange;
-            isDrawBottom = isDrawBottom || Math.abs(elemBottom - bottom) < errorRange;
         });
 
         const drawingBoard = document.querySelector('.alice-process-drawing-board'),
@@ -1296,7 +1354,7 @@
             .call(drag);
 
         elementContainer.append('rect')
-            .attr('class', 'element-type')
+            .attr('class', 'element-type event')
             .attr('width', typeImageSize)
             .attr('height', typeImageSize)
             .attr('x', x - (typeImageSize / 2))
@@ -1345,7 +1403,7 @@
             .call(drag);
 
         elementContainer.append('rect')
-            .attr('class', 'element-type')
+            .attr('class', 'element-type gateway')
             .attr('width', typeImageSize)
             .attr('height', typeImageSize)
             .attr('x', x - (typeImageSize / 2))
@@ -1944,15 +2002,16 @@
         setConnectors();
 
         const loadingKeyName = 'alice_processes-edit-' + processId;
+        aliceProcessEditor.initUtil();
+
         const loadingStatus = sessionStorage.getItem(loadingKeyName);
         if (loadingStatus === 'firstLoading') {
+            sessionStorage.removeItem(loadingKeyName);
             let node = new EventElement(100, 200);
             aliceProcessEditor.addElementProperty(node.nodeElement);
-            sessionStorage.removeItem(loadingKeyName);
             aliceProcessEditor.autoSave();
+            aliceProcessEditor.setElementMenu();
         }
-
-        aliceProcessEditor.initUtil();
     }
 
     /**

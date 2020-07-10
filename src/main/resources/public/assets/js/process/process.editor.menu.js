@@ -210,7 +210,6 @@
               elements = aliceProcessEditor.data.elements;
         const elementData = elements.filter(function(elem) { return elem.id === elementId; });
         if (elementData.length) {
-            console.debug('current element type: %s, edit element type: %s', elementData[0].type, type);
             if (elementData[0].type === type) {
                 d3.select('g.alice-tooltip').remove();
                 return;
@@ -233,11 +232,9 @@
             elementData[0].data = typeData;
             elementData[0].required = getAttributeRequired(category, type);
 
-            changeElementType(element, type);
             d3.select('g.alice-tooltip').remove();
-            setElementMenu(element);
+            changeElementType(element, type, true);
             aliceProcessEditor.utils.history.saveHistory([{0: originElementData, 1: JSON.parse(JSON.stringify(elementData[0]))}]);
-            console.debug('edited element [%s]!!', type);
         }
     }
 
@@ -246,16 +243,22 @@
      *
      * @param element target element
      * @param type 변경될 타입
+     * @param isSelected 선택여부
      */
-    function changeElementType(element, type) {
+    function changeElementType(element, type, isSelected) {
         const category = getElementCategory(type);
         const typeList = elementsProperties[category];
         typeList.forEach(function(t) {
             element.classed(t.type, t.type === type);
             d3.select(element.node().parentNode).select('.element-type').classed(t.type, t.type === type);
         });
+        let fillUrl = category + '-' + type + '-element';
+        if (isSelected) {
+            fillUrl = fillUrl + '-selected';
+            setElementMenu(element);
+        }
         d3.select(element.node().parentNode).select('.element-type')
-            .style('fill', 'url(#' + category + '-' + type + '-element)');
+            .style('fill', 'url(#' + fillUrl + ')');
     }
 
     /**
@@ -1665,6 +1668,7 @@
                 elemData = {};
                 elemData.id = item.parent + '-' + item.type + '-element-selected';
                 elemData.url = item.element_selected_url;
+                imageLoadingList.push(elemData);
             }
             if (item.focus_url) {
                 let focusData = {};
