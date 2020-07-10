@@ -661,6 +661,10 @@ svg {
             .node.event.messageEnd {
                 stroke-width: 2;
             }
+            .node.selected {
+                stroke: #0050ff !important;
+                stroke-width: 2 !important;
+            }
             .node.reject-element {
                 stroke: #ff0000 !important;
                 stroke-width: 2 !important;
@@ -718,6 +722,9 @@ svg {
             }
             path.connector.is-default {
                 stroke-width: 3;
+            }
+            path.connector.hidden {
+                stroke-width: 0;
             }
             path.painted-connector {
                 fill: none;

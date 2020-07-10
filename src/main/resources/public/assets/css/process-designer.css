@@ -10387,6 +10387,10 @@ svg g.element-container g.element .node.event.commonEnd,
 svg g.element-container g.element .node.event.messageEnd {
   stroke-width: 2;
 }
+svg g.element-container g.element .node.selected {
+  stroke: #0050ff !important;
+  stroke-width: 2 !important;
+}
 svg g.element-container g.element .node.reject-element {
   stroke: #ff0000 !important;
   stroke-width: 2 !important;
@@ -10427,6 +10431,9 @@ svg g.connector-container g.connector path.connector.selected {
 }
 svg g.connector-container g.connector path.connector.is-default {
   stroke-width: 3;
+}
+svg g.connector-container g.connector path.connector.hidden {
+  stroke-width: 0;
 }
 svg g.connector-container g.connector path.painted-connector {
   fill: none;
