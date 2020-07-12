@@ -51,7 +51,6 @@
         { 'keys': 'ctrl+q', 'command': 'editor.save(true);', 'force': false },                //폼 양식 저장하고 나가기
         { 'keys': 'insert', 'command': 'editor.copyComponent();', 'force': false },           //컴포넌트를 복사하여 바로 아래 추가
         { 'keys': 'ctrl+x,delete', 'command': 'editor.deleteComponent();', 'force': false },  //컴포넌트 삭제
-        { 'keys': 'ctrl+pageup', 'command': 'editor.addEditboxUp();', 'force': false },       //위에 컴포넌트 새로 만들기
         { 'keys': 'ctrl+pagedown', 'command': 'editor.addEditboxDown();', 'force': false },   //아래 컴포넌트 새로 만들기
         { 'keys': 'ctrl+home', 'command': 'editor.selectFirstComponent();', 'force': false }, //첫번째 컴포넌트 선택
         { 'keys': 'ctrl+end', 'command': 'editor.selectLastComponent();', 'force': false },   //마지막 컴포넌트 선택
@@ -643,32 +642,6 @@
         if (selectElems.length === 0) { return false; }
 
         selectElems[0].focus();
-    }
-
-    /**
-     * elemId 선택한 element Id를 기준으로 위에 editbox 추가 후 data의 display order 변경
-     * @param {String} elemId 선택한 element Id
-     */
-    function addEditboxUp(elemId) {
-        if (typeof elemId === 'undefined' && selectedComponentIds.length > 1) { return false; } //다중 선택일 경우 동작 안함
-        let addElemId = elemId || selectedComponentIds[0];
-        let elem = document.getElementById(addElemId);
-        if (elem === null) { return; }
-
-        let editbox = component.draw(aliceForm.defaultType, formPanel);
-        setComponentData(editbox.attr);
-        elem.parentNode.insertBefore(editbox.domElem, elem);
-
-        // 컴포넌트 순서 재정렬
-        reorderComponent();
-
-        editbox.domElem.querySelector('[contenteditable=true]').focus();
-        selectedComponentIds.length = 0;
-        selectedComponentIds.push(editbox.id);
-        showComponentProperties();
-
-        let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.componentId === editbox.id; });
-        history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
     }
 
     /**
@@ -1460,7 +1433,6 @@
      */
     function showFormProperties(elemId) {
         hideComponentProperties();
-
         if (typeof elemId !== 'undefined' && elemId !== '') {
             if (!document.getElementById(elemId).classList.contains('selected')) {
                 document.getElementById(elemId).classList.add('selected'); //현재 선택된 컴포넌트 css 추가
@@ -1470,10 +1442,12 @@
             previousComponentIds.length = 0;
         }
         let formProperties = editor.data;
+        console.log(formProperties);
         //폼 속성 출력
-        const formTemplate = document.getElementById('form-properties');
+        const formTemplate = document.getElementById('form-template');
         const formElem = formTemplate.content.cloneNode(true);
-        const formNodes = formElem.querySelectorAll('.property-field');
+        const formNodes = formElem.querySelectorAll('.property');
+        console.log(formNodes);
         formNodes.forEach(function(node) {
             Object.keys(formProperties).some(function(prop) {
                 if (prop === node.id) {
@@ -1512,7 +1486,6 @@
                             }, false);
                             break;
                     }
-                    return true;
                 }
             });
         });
@@ -1546,7 +1519,7 @@
         savedData = JSON.parse(JSON.stringify(editor.data));
 
         //첫번째 컴포넌트 선택
-        const firstComponent = document.getElementById('panel-form').querySelectorAll('.component')[0];
+        const firstComponent = document.getElementById('form-panel').querySelectorAll('.component')[0];
         if (firstComponent.getAttribute('data-type') === aliceForm.defaultType) { //editbox 컴포넌트일 경우 input box 안에 포커싱
             firstComponent.querySelector('[contenteditable=true]').focus();
         }
@@ -1575,20 +1548,23 @@
      */
     function init(formId, flag) {
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
-        formPanel = document.getElementById('panel-form');
+        formPanel = document.getElementById('form-panel');
         formPanel.setAttribute('data-readonly', true);
-        propertiesPanel = document.getElementById('panel-properties');
+        propertiesPanel = document.getElementById('properties-panel');
 
         if (flag === 'true') { isView = false; }
 
+        //컴포넌트 초기화
+        //component.init(formPanel);
+
         //컨텍스트 메뉴 초기화
-        context.init();
+        //context.init();
 
         //단축키 초기화 및 등록
-        shortcut.init();
-        for (let i = 0; i < shortcuts.length; i++) {
-            shortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].force);
-        }
+        //shortcut.init();
+        //for (let i = 0; i < shortcuts.length; i++) {
+        //    shortcut.add(shortcuts[i].keys, shortcuts[i].command, shortcuts[i].force);
+        //}
 
         //load custom-code list.
         aliceJs.sendXhr({
@@ -1608,7 +1584,8 @@
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.components = aliceForm.reformatCalendarFormat('read', responseObject.components);
                 editor.data = responseObject;
-                drawForm();
+                showFormProperties();
+                //drawForm();
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -1628,7 +1605,6 @@
     exports.selectUpComponent = selectUpComponent;
     exports.selectDownComponent = selectDownComponent;
     exports.reorderComponent = reorderComponent;
-    exports.addEditboxUp = addEditboxUp;
     exports.addEditboxDown = addEditboxDown;
     exports.getComponentIndex = getComponentIndex;
     exports.setComponentData = setComponentData;

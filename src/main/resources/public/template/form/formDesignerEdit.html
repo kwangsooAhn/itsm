@@ -8,172 +8,213 @@
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>
     <th:block layout:fragment="css">
-    <link th:href="@{/assets/css/form.editor.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
     </th:block>
 </head>
 <body>
 <th:block layout:fragment="content">
-<div class="alice-form-container light-thema" id="form-designer">
+<div class="alice-form-container">
     <div class="alice-form-toolbar">
         <span class="logo"></span>
-        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.save(false);">
-            <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
-            <label th:text="#{common.btn.save}"></label>
-        </a>
+        <span class="form-designer"></span>
+        <span class="separator"></span>
+        <th:block th:if="${#strings.isEmpty(isView)}">
+            <a href="javascript:void(0);" onclick="editor.save(false);">
+                <img th:src="@{/assets/media/icons/form/topmenu/icon_save.png}"/>
+                <!--<label th:text="#{common.btn.save}"></label>-->
+            </a>
+            <span class="separator"></span>
+        </th:block>
         <a href="javascript:void(0);" onclick="editor.saveAs();">
-            <img th:src="@{/assets/media/icons/form/topmenu/save.png}"/>
-            <label th:text="#{common.btn.saveAs}"></label>
-        </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.undo();">
-            <img th:src="@{/assets/media/icons/form/topmenu/undo.png}"/>
-            <label th:text="#{form.label.undo}"></label>
-        </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.redo();">
-            <img th:src="@{/assets/media/icons/form/topmenu/redo.png}"/>
-            <label th:text="#{form.label.redo}"></label>
+            <img th:src="@{/assets/media/icons/form/topmenu/icon_save_as.png}"/>
+            <!--<label th:text="#{common.btn.saveAs}"></label>-->
         </a>
         <span class="separator"></span>
+        <th:block th:if="${#strings.isEmpty(isView)}">
+            <a href="javascript:void(0);" onclick="editor.undo();">
+                <img th:src="@{/assets/media/icons/form/topmenu/icon_before.png}"/>
+                <!--<label th:text="#{form.label.undo}"></label>-->
+            </a>
+            <span class="separator"></span>
+        </th:block>
+        <th:block th:if="${#strings.isEmpty(isView)}">
+            <a href="javascript:void(0);" onclick="editor.redo();">
+                <img th:src="@{/assets/media/icons/form/topmenu/icon_after.png}"/>
+                <!--<label th:text="#{form.label.redo}"></label>-->
+            </a>
+            <span class="separator"></span>
+        </th:block>
         <a href="javascript:void(0);" onclick="editor.preview();">
-            <img th:src="@{/assets/media/icons/form/topmenu/preview.png}"/>
-            <label th:text="#{form.label.preview}"></label>
+            <img th:src="@{/assets/media/icons/form/topmenu/icon_preview.png}"/>
+            <!--<label th:text="#{form.label.preview}"></label>-->
         </a>
-        <a th:if="${#strings.isEmpty(isView)}" href="javascript:void(0);" onclick="editor.save(true);">
-            <img th:src="@{/assets/media/icons/form/topmenu/save_exit.png}"/>
-            <label th:text="#{form.label.saveExit}"></label>
-        </a>
+        <span class="separator"></span>
+        <th:block th:if="${#strings.isEmpty(isView)}">
+            <a href="javascript:void(0);" onclick="editor.save(true);">
+                <img th:src="@{/assets/media/icons/form/topmenu/icon_save out.png}"/>
+                <!--<label th:text="#{form.label.saveExit}"></label>-->
+            </a>
+            <span class="separator"></span>
+        </th:block>
         <span class="form-name"></span>
     </div>
     <div class="alice-form-panel">
-        <div class="drawing-board" id="panel-form"></div>
+        <div class="drawing-board" id="form-panel"></div>
     </div>
-    <div class="alice-form-properties-panel" id="panel-properties"></div>
+    <div class="alice-form-properties-panel" id="properties-panel"></div>
 </div>
-<div id="context-menu" class="context-menu">
+<div class="alice-form-context-menu" id="context-menu">
     <ul id="context-menu-control" class="context-menu-control active">
-        <li class="context-item-link" data-action="copy">
-            <img th:src="@{/assets/media/icons/form/context-menu/copy.png}"/>
-            <label th:text="#{form.label.copy}"></label>
+        <li class="context-menu-item" data-action="copy">
+            <div>
+                <img th:src="@{/assets/media/icons/form/context-menu/copy.png}"/>
+                <label th:text="#{form.label.copy}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="delete">
-            <img th:src="@{/assets/media/icons/form/context-menu/delete.png}"/>
-            <label th:text="#{common.btn.delete}"></label>
+        <li class="context-menu-item" data-action="delete">
+            <div>
+                <img th:src="@{/assets/media/icons/form/context-menu/delete.png}"/>
+                <label th:text="#{common.btn.delete}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="addEditboxUp">
-            <!-- TODO 위에 editbox 추가 아이콘 필요 -->
-            <label th:text="#{form.label.addAbove}"></label>
-        </li>
-        <li class="context-item-link" data-action="addEditboxDown">
-            <!-- TODO 아래에 editbox 추가 아이콘 필요 -->
-            <label th:text="#{form.label.addBelow}"></label>
+        <li class="context-menu-item" data-action="addEditboxDown">
+            <div>
+                <img th:src="@{/assets/media/icons/form/context-menu/delete.png}"/>
+                <label th:text="#{form.label.addBelow}"></label>
+            </div>
         </li>
     </ul>
     <ul id="context-menu-component" class="context-menu-component">
-        <li class="context-item-link" data-action="text">
-            <img th:src="@{/assets/media/icons/form/context-component/text.png}"/>
-            <label th:text="#{form.component.text}"></label>
+        <li class="context-menu-item inputbox" data-action="inputbox">
+            <div>
+                <img/>
+                <label th:text="#{form.component.inputbox}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="textarea">
-            <img th:src="@{/assets/media/icons/form/context-component/sentence.png}"/>
-            <label th:text="#{form.component.textarea}"></label>
+        <li class="context-menu-item textarea" data-action="textarea">
+            <div>
+                <img/>
+                <label th:text="#{form.component.textarea}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="select">
-            <img th:src="@{/assets/media/icons/form/context-component/dropdown.png}"/>
-            <label th:text="#{form.component.select}"></label>
+        <li class="context-menu-item dropdown" data-action="dropdown">
+            <div>
+                <img/>
+                <label th:text="#{form.component.select}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="radio">
-            <img th:src="@{/assets/media/icons/form/context-component/radiobutton.png}"/>
-            <label th:text="#{form.component.radio}"></label>
+        <li class="context-menu-item radio" data-action="radio">
+            <div>
+                <img/>
+                <label th:text="#{form.component.radio}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="checkbox">
-            <img th:src="@{/assets/media/icons/form/context-component/checkbox.png}"/>
-            <label th:text="#{form.component.checkbox}"></label>
+        <li class="context-menu-item checkbox" data-action="checkbox">
+            <div>
+                <img/>
+                <label th:text="#{form.component.checkbox}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="label">
-            <img th:src="@{/assets/media/icons/form/context-component/label.png}"/>
-            <label th:text="#{form.component.label}"></label>
+        <li class="context-menu-item label" data-action="label">
+            <div>
+                <img/>
+                <label th:text="#{form.component.label}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="image">
-            <img th:src="@{/assets/media/icons/form/context-component/image.png}"/>
-            <label th:text="#{form.component.image}"></label>
+        <li class="context-menu-item image" data-action="image">
+            <div>
+                <img/>
+                <label th:text="#{form.component.image}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="divider">
-            <!--TODO divider 가로선 아이콘으로 변경 필요-->
-            <img th:src="@{/assets/media/icons/form/context-component/divider.png}"/>
-            <label th:text="#{form.component.divider}"></label>
+        <li class="context-menu-item divider" data-action="divider">
+            <div>
+                <img/>
+                <label th:text="#{form.component.divider}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="date">
-            <img th:src="@{/assets/media/icons/form/context-component/calendar.png}"/>
-            <label th:text="#{form.component.date}"></label>
+        <li class="context-menu-item date" data-action="date">
+            <div>
+                <img/>
+                <label th:text="#{form.component.date}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="time">
-            <img th:src="@{/assets/media/icons/form/context-component/time.png}"/>
-            <label th:text="#{form.component.time}"></label>
+        <li class="context-menu-item time" data-action="time">
+            <div>
+                <img/>
+                <label th:text="#{form.component.time}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="datetime">
-            <img th:src="@{/assets/media/icons/form/context-component/date-time.png}"/>
-            <label th:text="#{form.component.datetime}"></label>
+        <li class="context-menu-item datetime" data-action="datetime">
+            <div>
+                <img/>
+                <label th:text="#{form.component.datetime}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="fileupload">
-            <img th:src="@{/assets/media/icons/form/context-component/upload.png}"/>
-            <label th:text="#{form.component.fileupload}"></label>
+        <li class="context-menu-item fileupload" data-action="fileupload">
+            <div>
+                <img/>
+                <label th:text="#{form.component.fileupload}"></label>
+            </div>
         </li>
-        <li class="context-item-link" data-action="custom-code">
-        <!-- TODO: 커스텀 코드 컴포넌트 아이콘 변경 -->
-            <img th:src="@{/assets/media/icons/form/context-component/text.png}"/>
-            <label th:text="#{form.component.customCode}"></label>
+        <li class="context-menu-item custom-code" data-action="custom-code">
+            <div>
+                <img/>
+                <label th:text="#{form.component.customCode}"></label>
+            </div>
         </li>
     </ul>
 </div>
-
-    <!-- 템플릿 -->
-    <template id="component-properties">
-        <div class="property-title" style="display: none;"></div>
-        <div class="property-group" id="dataAttribute" style="display: none;">
-            <label th:text="#{form.properties.dataAttribute}"></label>
+<!-- 템플릿 -->
+<!--<template id="component-template">
+    <div class="property-title" style="display: none;"></div>
+    <div class="property-group" id="dataAttribute" style="display: none;">
+        <label th:text="#{form.properties.dataAttribute}"></label>
+    </div>
+    <div class="property-group" id="label" style="display: none;">
+        <label th:text="#{form.properties.label}"></label>
+    </div>
+    <div class="property-group" id="display" style="display: none;">
+        <label th:text="#{form.properties.display}"></label>
+    </div>
+    <div class="property-group" id="option" style="display: none;">
+        <label th:text="#{form.properties.option}"></label>
+        <button class="plus"></button>
+        <button class="minus"></button>
+        <table></table>
+    </div>
+    <div class="property-group" id="validate" style="display: none;">
+        <label th:text="#{form.properties.validate}"></label>
+    </div>
+</template>-->
+<template id="form-template">
+    <div class="form-title">
+        <h2>Form</h2>
+    </div>
+    <div class="form-properties">
+        <div class="property" id="formId">
+            <label for="formId" th:text="#{form.properties.id}"></label>
+            <input type="text" class="property-value" readonly="true">
         </div>
-        <div class="property-group" id="label" style="display: none;">
-            <label th:text="#{form.properties.label}"></label>
+        <div class="property" id="name">
+            <label for="name" th:text="#{form.properties.name}"></label>
+            <input type="text" class="property-value" maxlength="20">
         </div>
-        <div class="property-group" id="display" style="display: none;">
-            <label th:text="#{form.properties.display}"></label>
+        <div class="property" id="desc">
+            <label for="desc" th:text="#{form.properties.desc}"></label>
+            <textarea class="property-value" maxlength="200"></textarea>
         </div>
-        <div class="property-group" id="option" style="display: none;">
-            <label th:text="#{form.properties.option}"></label>
-            <button class="plus"></button>
-            <button class="minus"></button>
-            <table></table>
+        <div class="property" id="status">
+            <label for="status" th:text="#{form.properties.status}"></label>
+            <select class="property-value">
+                <option value="form.status.edit" th:text="#{form.status.edit}"></option>
+                <option value="form.status.publish" th:text="#{form.status.publish}"></option>
+                <option value="form.status.use" th:text="#{form.status.use}"></option>
+                <option value="form.status.destroy" th:text="#{form.status.destroy}"></option>
+            </select>
         </div>
-        <div class="property-group" id="validate" style="display: none;">
-            <label th:text="#{form.properties.validate}"></label>
-        </div>
-    </template>
-    <template id="form-properties">
-        <div class="property-group" id="form">form
-            <div class="property-field" id="name">
-                <span class="property-field-name" th:text="#{form.properties.name}"></span>
-                <input type="text" value="" class="property-field-value" maxlength="20">
-            </div>
-            <div class="property-field" id="formId">
-                <span class="property-field-name" th:text="#{form.properties.id}"></span>
-                <input type="text" value="" class="property-field-value noline" readonly="true">
-            </div>
-            <div class="property-field" id="desc">
-                <span class="property-field-name" th:text="#{form.properties.desc}"></span>
-                <textarea class="property-field-value" maxlength="200"></textarea>
-            </div>
-            <div class="property-field" id="status">
-                <span class="property-field-name" th:text="#{form.properties.status}"></span>
-                <select class="property-field-value">
-                    <option value="form.status.edit" th:text="#{form.status.edit}"></option>
-                    <option value="form.status.publish" th:text="#{form.status.publish}"></option>
-                    <option value="form.status.use" th:text="#{form.status.use}"></option>
-                    <option value="form.status.destroy" th:text="#{form.status.destroy}"></option>
-                </select>
-            </div>
-        </div>
-    </template>
-
+    </div>
+</template>
 </th:block>
 </body>
 <th:block layout:fragment="script">

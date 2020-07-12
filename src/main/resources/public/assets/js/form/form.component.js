@@ -1,13 +1,13 @@
 /**
-* @projectDescription Form Designer Component Library
-*
-* @author woodajung
-* @version 1.0
-*/
+ * @projectDescription Form Designer Component Library
+ *
+ * @author woodajung
+ * @version 1.0
+ */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-    typeof define === 'function' && define.amd ? define(['exports'], factory) :
-    (factory((global.component = global.component || {})));
+        typeof define === 'function' && define.amd ? define(['exports'], factory) :
+            (factory((global.component = global.component || {})));
 }(this, (function (exports) {
     'use strict';
 
@@ -27,10 +27,11 @@
             {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
             {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
         ],
-        editboxPlaceholder = 'Typing \'/\' for add component',
         columnWidth = 12;   // 폼 양식을 몇 등분할지 값
-        
-    let componentIdx = 0;          //컴포넌트 index = 출력 순서 생성시 사용
+    let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
+    let parent = null;
+    let children = [];
+    let isForm = false;     //폼 양식 화면인지 여부
 
     const utils = {
         /**
@@ -58,819 +59,336 @@
     /**
      * Editbox 컴포넌트
      *
-     * @param {Object} target 컴포넌트가 추가될 대상
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function Editbox(target) {
-        let comp = utils.createComponentByTemplate(`
-            <div class='add-icon'></div>
-            <div class='move-icon'></div>
-            <div class='group' contenteditable='true' placeholder="${editboxPlaceholder}"></div>
-        `);
-        target.appendChild(comp);
-        this.domElem = comp;
+    function Editbox(property) {
+        this.id = property.componentId;
+        this.name = 'Edit Box';
+        this.type = 'editbox';
+        this.property = property;
+        this.renderOrder = property.display.order;
+        this.readOnly = false;
+        this.hide = false;
+
+        this.template =
+        `<component class="component" id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}">` +
+            `<div class="add-icon"></div>` +
+            `<div class="move-icon"></div>` +
+            `<div class="group" contenteditable="true" placeholder="Typing '/' for add component"></div>` +
+        `</component>`;
     }
 
     /**
-     * Text 컴포넌트
+     * Input Box 컴포넌트
      *
-     * @param {Object} attr 컴포넌트 속성
-     * @param {Object} target 컴포넌트가 추가될 대상
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function Text(attr, target) {
-        let textDefaultArr = attr.display['default'].split('|');
-        let textDefaultValue = (textDefaultArr[0] === 'none') ? textDefaultArr[1] : aliceForm.session[textDefaultArr[1]];
-        if (target.hasAttribute('data-readonly')) { //폼 양식
-            if (textDefaultArr[0] !== 'none') { textDefaultValue = textDefaultArr[2]; } //폼 양식 편집 화면에서는 세션 값이 출력되지 않는다.
-        } else { //신청서 및 처리할 문서
-            if (typeof attr.value !== 'undefined') { //처리할 문서
-                textDefaultValue = attr.value;
+    function InputBox(property) {
+        this.id = property.componentId;
+        this.name = 'Input Box';
+        this.type = 'inputbox';
+        this.property = property;
+        this.renderOrder = property.display.order;
+        this.readOnly = (property['dataAttribute']['displayType'] === 'readonly');
+        this.hide = (property['dataAttribute']['displayType'] === 'hidden');
+
+        // 기본값 설정
+        const defaultValueArr = property.display['default'].split('|'); // select|userId|아이디
+        let defaultValue = (defaultValueArr[0] === 'none') ? defaultValueArr[1] : aliceForm.session[defaultValueArr[1]];
+        if (isForm && defaultValueArr[0] !== 'none') { // 폼 양식 화면 세션 값 미출력
+            defaultValue = defaultValueArr[2];
+        } else {
+            if (typeof property.value !== 'undefined') { // 처리할 문서일 경우
+                defaultValue = property.value;
             }
         }
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field'  style='text-align: ${attr.label.align};'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; 
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
-                </div>
-                <div class='field' style='flex-basis: 100%;'>
-                    <input type='text' placeholder='${attr.display.placeholder}' value='${textDefaultValue}'
-                    ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} max-length='${attr.validate.lengthMax}' maxlength='${attr.validate.lengthMax}'
-                    min-length='${attr.validate.lengthMin}' regexp='${attr.validate.regexp}' regexp-msg='${attr.validate.regexpMsg}'/>
-                </div>
-            </div>
-        `);
+        
+        this.template =
+        `<component class="component" id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}">` +
+            `<div class="move-icon"></div>` +
+            `<div class="group">` +
+                `<div class="field" style="text-align: ${attr.label.align};">` +
+                    `<div class="label" style="color: ${attr.label.color}; font-size: ${attr.label.size}px;` +
+                        ` ${attr.label.bold === 'Y' ? 'font-weight: bold;' : ''}` +
+                        ` ${attr.label.italic === 'Y' ? 'font-style: italic;' : ''}` +
+                        ` ${attr.label.underline === 'Y' ? 'text-decoration: underline;' : ''}">${attr.label.text}</div>` +
+                    `<span class="required" style="${attr.dataAttribute.displayType === 'editableRequired' ? '' : 'display: none;'}">*</span>` +
+                `</div>` +
+                `<div class="field"  style="flex-basis: 100%;">` +
+                    
+                `</div>` +
+            `</div>` +
+        `</component>`;
 
-        target.appendChild(comp);
-        this.domElem = comp;
     }
 
     /**
      * Text Box 컴포넌트
      *
-     * @param {Object} attr 컴포넌트 속성
-     * @param {Object} target 컴포넌트가 추가될 대상
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function Textarea(attr, target) {
-        const defaultRowHeight = 26;
-        const textEditorUseYn = attr.display.editorUseYn;
-        const textEditorHeight = attr.display.rows !== '' ? Number(attr.display.rows) * defaultRowHeight : defaultRowHeight;
-        let textAreaDefaultValue = '';
-        //처리할 문서는 실 데이터를 출력한다.
-        if (typeof attr.value !== 'undefined') {
-            textAreaDefaultValue = (textEditorUseYn && attr.value !== '') ? JSON.parse(attr.value) : attr.value;
-        }
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field' style='text-align: ${attr.label.align};'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; 
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
-                </div>
-                <div class='field' style='flex-basis: 100%;'>
-                ${textEditorUseYn ?
-                    `<div style='width: 100%;'>
-                        <div id='editor' class='editor-container'
-                        style='height: ${textEditorHeight}px;' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''}
-                        max-length='${attr.validate.lengthMax}' min-length='${attr.validate.lengthMin}'></div>
-                    </div>` :
-                    `<textarea placeholder='${attr.display.placeholder}' rows='${attr.display.rows}' 
-                    ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} maxlength='${attr.validate.lengthMax}'
-                    max-length='${attr.validate.lengthMax}' min-length='${attr.validate.lengthMin}'>${textAreaDefaultValue}</textarea>`
-                }
-                </div>
-            </div>
-        `);
+    function TextBox(property) {
+        this.name = 'Text Box';
+        this.type = 'textbox';
 
-        target.appendChild(comp);
-        this.domElem = comp;
-
-        if (textEditorUseYn) { //텍스트 에디터
-            let textEditorOptions = {
-                modules: {
-                    toolbar: [
-                        [{'header': [1, 2, 3, 4, 5, 6, false]}],
-                        ['bold', 'italic', 'underline'],
-                        [{'color': []}, {'background': []}],
-                        [{'align': []}, { 'list': 'bullet' }],
-                        ['image']
-                    ]
-                },
-                placeholder: attr.display.placeholder,
-                theme: 'snow',
-                readOnly: (target.hasAttribute('data-readonly'))            //폼 양식 편집 화면에서는 editor를 편집할 수 없다.
-            };
-            let textEditorContainer = comp.querySelector('.editor-container');
-            let textEditor = new Quill(textEditorContainer, textEditorOptions);
-            textEditor.setContents(textAreaDefaultValue);
-        }
     }
 
     /**
      * Dropdown 컴포넌트
      *
-     * @param {Object} attr 컴포넌트 속성
-     * @param {Object} target 컴포넌트가 추가될 대상
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function Selectbox(attr, target) {
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field' style='text-align: ${attr.label.align};'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                    </div>
-                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
-                </div>
-                <div class='field' style='flex-basis: 100%;'>
-                    <select ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''}></select>
-                </div>
-            </div>
-        `);
-        let selectElem = comp.querySelector('select');
-        for (let i = 0, len = attr.option.length; i < len; i++) {
-            let optElem = document.createElement('option');
-            optElem.value = attr.option[i].value;
-            optElem.text = attr.option[i].name;
-            optElem.setAttribute('seq', attr.option[i].seq);
-            //처리할 문서는 실 데이터를 출력한다.
-            if (typeof attr.value !== 'undefined' && optElem.value === attr.value) {
-                optElem.selected = true;
-            }
-            selectElem.appendChild(optElem);
-        }
+    function Dropdown(property) {
+        this.name = 'Dropdown';
+        this.type = 'select';
 
-        target.appendChild(comp);
-        this.domElem = comp;
     }
 
     /**
      * Radio Button 컴포넌트
      *
-     * @param {Object} target 컴포넌트가 추가될 대상
-     * @param {Object} attr 컴포넌트 속성
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function Radiobox(attr, target) {
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field' style='text-align: ${attr.label.align};'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                    </div>
-                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
-                </div>
-                <div class='field' style='flex-basis: 100%;' id='radio' ${attr.dataAttribute.displayType === 'editableRequired' ? "required" : ""}></div>
-            </div>
-        `);
-        let fieldLastEle = comp.querySelector('#radio');
-        fieldLastEle.classList.add(attr.display.direction);
-        for (let i = 0, len = attr.option.length; i < len; i++) {
-            let divEle = document.createElement('div');
-            divEle.classList.add('field-radio');
-            if (attr.display.direction === 'horizontal') { divEle.style.display = 'inline-block'; }
-            
-            let radioElem = document.createElement('input');
-            radioElem.type = 'radio';
-            radioElem.id = attr.option[i].value;
-            radioElem.value = attr.option[i].value;
-            radioElem.name = attr.option[i].name;
-            radioElem.setAttribute('seq', attr.option[i].seq);
+    function Radiobox(property) {
+        this.name = 'Radio Button';
+        this.type = 'radio';
 
-            //처리할 문서는 실 데이터를 출력한다.
-            if (typeof attr.value !== 'undefined' && attr.value !== '') {
-                radioElem.checked = (radioElem.value === attr.value);
-            } else {
-                radioElem.checked = (i === 0);
-            }
-
-            radioElem.addEventListener('click', function() {
-                let checkedRadioElem = comp.querySelectorAll('input[type=radio]:checked');
-                for (let j = 0, checkLen = checkedRadioElem.length; j < checkLen; j++) {
-                    checkedRadioElem[j].checked = false;
-                }
-                this.checked = true;
-            });
-            
-            let lblElem = document.createElement('label');
-            lblElem.setAttribute('for', attr.option[i].value);
-            lblElem.textContent = attr.option[i].name;
-            
-            if (attr.display.position === 'left') {
-                divEle.appendChild(lblElem);
-                divEle.appendChild(radioElem);
-            } else {
-                divEle.appendChild(radioElem);
-                divEle.appendChild(lblElem);
-            }
-            fieldLastEle.appendChild(divEle);
-        }
-
-        target.appendChild(comp);
-        this.domElem = comp;
     }
 
     /**
      * Checkbox 컴포넌트
      *
-     * @param {Object} attr 컴포넌트 속성
-     * @param {Object} target 컴포넌트가 추가될 대상
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function Checkbox(attr, target) {
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field' style='text-align: ${attr.label.align};'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                    </div>
-                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
-                </div>
-                <div class='field' style='flex-basis: 100%;' id='chkbox' ${attr.dataAttribute.displayType === 'editableRequired' ? "required" : ""}></div>
-            </div>
-        `);
-        let fieldLastEle = comp.querySelector('#chkbox');
-        fieldLastEle.classList.add(attr.display.direction);
-        for (let i = 0, len = attr.option.length; i < len; i++) {
-            let divEle = document.createElement('div');
-            divEle.classList.add('field-checkbox');
-            if (attr.display.direction === 'horizontal') { divEle.style.display = 'inline-block'; }
-            
-            let checkElem = document.createElement('input');
-            checkElem.type = 'checkbox';
-            checkElem.id = attr.option[i].value;
-            checkElem.setAttribute('seq', attr.option[i].seq);
-            checkElem.value = attr.option[i].value;
-            checkElem.name = attr.option[i].name;
-
-            //처리할 문서는 실 데이터를 출력한다.
-            if (typeof attr.value !== 'undefined' && attr.value !== '') {
-                const checkboxValues = JSON.parse(attr.value);
-                for (let j = 0, checkLen = checkboxValues.length; j < checkLen; j++) {
-                    if (checkElem.value === checkboxValues[j]) {
-                        checkElem.checked = true;
-                    }
-                }
-            }
-            
-            let lblElem = document.createElement('label');
-            lblElem.setAttribute('for', attr.option[i].value);
-            lblElem.textContent = attr.option[i].name;
-            
-            if (attr.display.position === 'left') {
-                divEle.appendChild(lblElem);
-                divEle.appendChild(checkElem);
-            } else {
-                divEle.appendChild(checkElem);
-                divEle.appendChild(lblElem);
-            }
-            fieldLastEle.appendChild(divEle);
-        }
-
-        target.appendChild(comp);
-        this.domElem = comp;
+    function Checkbox(property) {
+        this.name = 'Checkbox';
+        this.type = 'checkbox';
     }
 
     /**
      * Label 컴포넌트
      *
-     * @param {Object} attr 컴포넌트 속성
-     * @param {Object} target 컴포넌트가 추가될 대상
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function Label(attr, target) {
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field' style='flex-basis: 100%; text-align: ${attr.display.align};'>
-                    <div class='label'style='color: ${attr.display.color}; font-size: ${attr.display.size}px;
-                    ${attr.display.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.display.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.display.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.display.text}</div>
-                </div>
-            </div>
-        `);
-        target.appendChild(comp);
-        this.domElem = comp;
+    function Label(property) {
+        this.name = 'Label';
+        this.type = 'label';
     }
 
     /**
      * Image 컴포넌트
      *
-     * @param {Object} target 컴포넌트가 추가될 대상
-     * @param {Object} attr 컴포넌트 속성
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function Imagebox(attr, target) {
-
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field' style='flex-basis: 100%; text-align: ${attr.display.align};'>
-                    <img src='' alt='' data-path="${attr.display.path}" width='${attr.display.width}' height='${attr.display.height}'>
-                </div>
-            </div>
-        `);
-        target.appendChild(comp);
-
-        let imageSrc = attr.display.path;
-        if (imageSrc.startsWith('file:///')) {
-            aliceJs.sendXhr({
-                method: 'get',
-                url: '/rest/images/' + imageSrc.split('file:///')[1],
-                contentType: 'application/json; charset=utf-8',
-                callbackFunc: xhr => {
-                    const responseText = xhr.responseText;
-                    if (responseText !== '') {
-                        const image = JSON.parse(responseText);
-                        target.querySelector('img').src = 'data:image/' + image.extension + ';base64,' + image.data;
-                    }
-                }
-            });
-        } else {
-            target.querySelector('img').src = imageSrc;
-        }
-
-        this.domElem = comp;
+    function Imagebox(property) {
+        this.name = 'Image';
+        this.type = 'image';
     }
 
     /**
      * Divider 컴포넌트
      *
-     * @param {Object} target 컴포넌트가 추가될 대상
-     * @param {Object} attr 컴포넌트 속성
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function Divider(attr, target) {
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field' style='flex-basis: 100%;'>
-                    <hr style='border-top: ${attr.display.type} ${attr.display.thickness}px ${attr.display.color}; border-bottom-width: 0;'>
-                </div>
-            </div>
-        `);
-        target.appendChild(comp);
-        this.domElem = comp;
+    function Divider(property) {
+        this.name = 'Divider';
+        this.type = 'divider';
     }
 
     /**
      * Date 컴포넌트
      *
-     * @param {Object} target 컴포넌트가 추가될 대상
-     * @param {Object} attr 컴포넌트 속성
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function DateBox(attr, target) {
-        //날짜 포멧 변경
-        let dateDefaultArr = attr.display['default'].split('|');
-        let dateDefault = '';
-        //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
-        if (typeof attr.value !== 'undefined') {
-            dateDefault = attr.value;
-        } else { //문서양식, 신청서는 default값 출력한다.
-            switch(dateDefaultArr[0]) {
-                case 'now':
-                    dateDefault = i18n.getDate();
-                    break;
-                case 'date':
-                    let offset = {};
-                    offset.days =  aliceJs.isEmpty(dateDefaultArr[1]) ? 0 : Number(dateDefaultArr[1]);
-                    dateDefault = i18n.getDate(offset);
-                    break;
-                case 'datepicker':
-                    if (!aliceJs.isEmpty(dateDefaultArr[1])) {
-                        dateDefault = dateDefaultArr[1];
-                    }
-                    break;
-                default: //none
-            }
-        }
-        let comp = utils.createComponentByTemplate(`
-                <div class='move-icon'></div>
-                <div class='group'>
-                    <div class='field' style='text-align: ${attr.label.align};'>
-                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px; 
-                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        </div>
-                        <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
-                    </div>
-                    <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='date-${attr.componentId}' placeholder='${i18n.dateFormat}' value='${dateDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} date-max='${attr.validate.dateMax}' date-min='${attr.validate.dateMin}'/>
-                    </div>
-                </div>
-            `);
-
-        target.appendChild(comp);
-        this.domElem = comp;
-
-        if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initDatePicker('date-' + attr.componentId, i18n.dateFormat, i18n.lang, function () {
-                aliceDocument.checkValidate(document.getElementById('date-' + attr.componentId));
-            });
-        }
+    function DateBox(property) {
+        this.name = 'Date';
+        this.type = 'date';
     }
 
     /**
      * Time 컴포넌트
      *
-     * @param {Object} target 컴포넌트가 추가될 대상
-     * @param {Object} attr 컴포넌트 속성성
+     * @param {Object} property 컴포넌트 속성성
      * @constructor
      */
-    function TimeBox(attr, target) {
-        //시간 포멧 변경
-        let timeDefaultArr = attr.display['default'].split('|');
-        let timeDefault = '';
-        //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
-        if (typeof attr.value !== 'undefined') {
-            timeDefault = attr.value;
-        } else {
-            switch(timeDefaultArr[0]) {
-                case 'now':
-                    timeDefault = i18n.getTime();
-                    break;
-                case 'time':
-                    let offset = {};
-                    offset.hours =  aliceJs.isEmpty(timeDefaultArr[1]) ? 0 : Number(timeDefaultArr[1]);
-                    timeDefault = i18n.getTime(offset);
-                    break;
-                case 'timepicker':
-                    if (!aliceJs.isEmpty(timeDefaultArr[1])) {
-                        timeDefault = timeDefaultArr[1];
-                    }
-                    break;
-                default: //none
-            }
-        }
-        let comp = utils.createComponentByTemplate(`
-                <div class='move-icon'></div>
-                <div class='group'>
-                    <div class='field' style='text-align: ${attr.label.align};'>
-                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
-                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        </div>
-                        <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
-                    </div>
-                    <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='time-${attr.componentId}' placeholder='${i18n.timeFormat}' value='${timeDefault}' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} time-max='${attr.validate.timeMax}' time-min='${attr.validate.timeMin}'/>
-                    </div>
-                </div>
-            `);
-
-        target.appendChild(comp);
-        this.domElem = comp;
-
-        if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initTimePicker('time-' + attr.componentId, i18n.timeFormat, i18n.lang, function () {
-                aliceDocument.checkValidate(document.getElementById('time-' + attr.componentId));
-            });
-        }
+    function TimeBox(property) {
+        this.name = 'Time';
+        this.type = 'time';
     }
 
     /**
      * Date Time 컴포넌트
      *
-     * @param {Object} target 컴포넌트가 추가될 대상
-     * @param {Object} attr 컴포넌트 속성
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function DatetimeBox(attr, target) {
-        //날짜 시간 포멧 변경
-        let datetimeDefaultArr = attr.display['default'].split('|');
-        let datetimeDefault = '';
-        //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
-        if (typeof attr.value !== 'undefined') {
-                datetimeDefault = attr.value;
-        } else {
-            switch(datetimeDefaultArr[0]) {
-                case 'now':
-                    datetimeDefault = i18n.getDateTime();
-                    break;
-                case 'datetime':
-                    let offset = {};
-                    offset.days =  aliceJs.isEmpty(datetimeDefaultArr[1]) ? 0 : Number(datetimeDefaultArr[1]);
-                    offset.hours = aliceJs.isEmpty(datetimeDefaultArr[2]) ? 0 : Number(datetimeDefaultArr[2]);
-                    datetimeDefault = i18n.getDateTime(offset);
-                    break;
-                case 'datetimepicker':
-                    if (!aliceJs.isEmpty(datetimeDefaultArr[1])) {
-                        datetimeDefault = datetimeDefaultArr[1];
-                    }
-                    break;
-                default: //none
-            }
-        }
-        let comp = utils.createComponentByTemplate(`
-                <div class='move-icon'></div>
-                <div class='group'>
-                    <div class='field' style='text-align: ${attr.label.align};'>
-                        <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
-                        ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                        ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                        ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                        </div>
-                        <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
-                    </div>
-                    <div class='field' style='flex-basis: 100%;'>
-                        <input type='text' id='datetime-${attr.componentId}' placeholder='${i18n.dateTimeFormat}' value='${datetimeDefault}' ${attr.displayType === 'editableRequired' ? 'required' : ''} 
-                        datetime-max='${attr.validate.datetimeMax}' datetime-min='${attr.validate.datetimeMin}'/>
-                    </div>
-                </div>
-            `);
-        target.appendChild(comp);
-        this.domElem = comp;
-
-        if (!target.hasAttribute('data-readonly')) {
-            dateTimePicker.initDateTimePicker('datetime-' + attr.componentId, i18n.dateFormat, i18n.timeFormat, i18n.lang, function () {
-                aliceDocument.checkValidate(document.getElementById('datetime-' + attr.componentId));
-            });
-        }
+    function DatetimeBox(property) {
+        this.name = 'Date Time';
+        this.type = 'datetime';
     }
 
     /**
      * Fileupload 컴포넌트
      *
-     * @param {Object} target 컴포넌트가 추가될 대상
-     * @param {Object} attr 컴포넌트 속성
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function Fileupload(attr, target) {
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field' style='text-align: ${attr.label.align};'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}
-                    </div>
-                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
-                </div>
-                <div class='field' style='flex-basis: 100%;' id='fileupload' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''}>
-                    <div id='dropZoneFiles-${attr.componentId}'></div> 
-                    <div id='dropZoneUploadedFiles-${attr.componentId}' class='dropbox'></div>
-                </div>
-            </div>
-        `);
-
-        target.appendChild(comp);
-        this.domElem = comp;
-
-        if (!target.hasAttribute('data-readonly')) {
-            document.getElementById('dropZoneUploadedFiles-' + attr.componentId).classList.remove('dropbox');
-            let fileOptions = {
-                extra: {
-                    formId: 'frm',
-                    ownId: '',
-                    dropZoneFilesId: 'dropZoneFiles-' + attr.componentId,
-                    dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + attr.componentId,
-                    editor: (attr.dataAttribute.displayType !== 'readonly')
-                }
-            };
-            if (typeof attr.value !== 'undefined') {
-                fileOptions.extra.fileDataIds = attr.value;
-            }
-            fileUploader.init(fileOptions);
-        } else {
-            let fileUploadElem = comp.querySelector('.dropbox');
-            fileUploadElem.textContent = 'Drop files here to upload';
-            let buttonElem = document.createElement('button');
-            buttonElem.type = 'button';
-            buttonElem.innerText = 'ADD';
-            fileUploadElem.parentNode.insertBefore(buttonElem, fileUploadElem);
-        }
+    function Fileupload(property) {
+        this.name = 'File Upload';
+        this.type = 'fileupload';
     }
     /**
      * Custom-Code 컴포넌트
      *
-     * @param {Object} target 컴포넌트가 추가될 대상
-     * @param {Object} attr 컴포넌트 속성
+     * @param {Object} property 컴포넌트 속성
      * @constructor
      */
-    function CustomCode(attr, target) {
-        let textDefaultArr = attr.display['default'].split('|');
-        let textDefaultValue = '',  // 폼 디자이너, 미리보기용
-            defaultCustomData = ''; // 신청서 작성 및 처리할 문서
-        if (!target.hasAttribute('data-readonly')) { // 신청서 작성 및 처리할 문서
-            //처리할 문서는 실 데이터를 출력한다.
-            if (typeof attr.value !== 'undefined') {
-                defaultCustomData = attr.value;
-            } else {  // 신청서 작성
-                if (textDefaultArr[0] !== 'none') {
-                    defaultCustomData = textDefaultArr[1] + '|' + textDefaultArr[2];
-                    if (textDefaultArr[0] === 'session') {
-                        switch (textDefaultArr[1]) {
-                            case 'userName':
-                                defaultCustomData = aliceForm.session.userKey;
-                                break;
-                            case 'department':
-                                defaultCustomData = aliceForm.session.department;
-                                break;
-                        }
-                        defaultCustomData += '|' + aliceForm.session[textDefaultArr[1]];
-                    }
-                }
-            }
-        } else {
-            if (textDefaultArr[0] !== 'none') {
-                textDefaultValue = textDefaultArr[2];
-            }
-        }
-        console.debug('textDefaultValue: %s, defaultCustomData: %s', textDefaultValue, defaultCustomData);
-        let comp = utils.createComponentByTemplate(`
-            <div class='move-icon'></div>
-            <div class='group'>
-                <div class='field' style='text-align: ${attr.label.align};'>
-                    <div class='label' style='color: ${attr.label.color}; font-size: ${attr.label.size}px;
-                    ${attr.label.bold === "Y" ? "font-weight: bold;" : ""} 
-                    ${attr.label.italic === "Y" ? "font-style: italic;" : ""} 
-                    ${attr.label.underline === "Y" ? "text-decoration: underline;" : ""}'>${attr.label.text}</div>
-                    <span class='required' style='${attr.dataAttribute.displayType === "editableRequired" ? "" : "display: none;"}'>*</span>
-                </div>
-                <div class='field' style='display: flex; flex-basis: 100%;'>
-                    <input type='text' id='custom-code' ${attr.dataAttribute.displayType === 'editableRequired' ? 'required' : ''} readonly custom-data='${defaultCustomData}' value="${textDefaultValue}"/>
-                    <input type='button' id='codeBtn' value='${attr.display["buttonText"]}'>
-                </div>
-            </div>
-        `);
+    function CustomCode(property) {
+        this.name = 'Custom Code';
+        this.type = 'custom-code';
 
-        target.appendChild(comp);
-        this.domElem = comp;
-        if (!target.hasAttribute('data-readonly')) {
-            let customCodeTextElem = comp.querySelector('input[type="text"]');
-            if (defaultCustomData !== '') {
-                let customDataValue = defaultCustomData.split('|');
-                customCodeTextElem.value = (customDataValue.length > 1) ? customDataValue[1] : '';
-            }
-
-            let searchBtn = comp.querySelector('#codeBtn');
-            searchBtn.addEventListener('click', function (e) {
-                e.stopPropagation();
-                let customCodeData = {
-                    componentId: attr.componentId,
-                    componentValue: customCodeTextElem.getAttribute('custom-data')
-                };
-                const itemName = 'alice_custom-codes-search-' + attr.componentId;
-                sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
-                let url = '/custom-codes/' + attr.display.customCode + '/search';
-                window.open(url, itemName, 'width=500, height=655');
-            });
-        }
     }
 
     /**
      * 컴포넌트를 생성하고 출력한다.
-     * @param {String} compType 컴포넌트 타입
-     * @param {Object} compTarget 컴포넌트를 추가할 대상
-     * @param {Object} compData 컴포넌트 데이터
+     * @param {String} type 컴포넌트 타입
+     * @param {Object} data 컴포넌트 데이터
      * @return {Object} 생성된 컴포넌트 객체
      */
-    function draw(compType, compTarget, compData) {
-        let compAttr = { 'display': {} },
-            compId = '';
+    function draw(type, data) {
+        if (typeof parent === 'undefined') { return false; }
 
-        if (compData !== undefined) { //기존 저장된 컴포넌트 속성이 존재할 경우
-            compId = compData.componentId;
-            compAttr = compData;
+        let componentProperty = {'display': { 'order': ++renderOrder }};
+        if (typeof data !== 'undefined') { //기존 저장된 컴포넌트 속성이 존재할 경우
+            componentProperty = data;
         } else {                     //신규 생성된 컴포넌트일 경우
-            compId = workflowUtil.generateUUID();
-            compAttr = getData(compType);
-            compAttr.componentId = compId;
-            compAttr.type = compType;
+            componentProperty.componentId = workflowUtil.generateUUID();
+            componentProperty.type = type;
+            componentProperty = getData(type, componentProperty);
         }
-        compAttr.display.order = ++componentIdx;
-        let componentConstructor = null;
-        switch(compType) {
+        console.log(componentProperty);
+        let componentObject = null;
+        switch(type) {
             case 'editbox':
-                componentConstructor = new Editbox(compTarget);
+                componentObject = new Editbox(componentProperty);
                 break;
             case 'text':
-                componentConstructor =  new Text(compAttr, compTarget);
+                componentObject =  new InputBox(componentProperty);
                 break;
             case 'textarea':
-                componentConstructor =  new Textarea(compAttr, compTarget);
+                componentObject =  new TextBox(componentProperty);
                 break;
             case 'select':
-                componentConstructor =  new Selectbox(compAttr, compTarget);
+                componentObject =  new Dropdown(componentProperty);
                 break;
             case 'radio':
-                componentConstructor =  new Radiobox(compAttr, compTarget);
+                componentObject =  new Radiobox(componentProperty);
                 break;
             case 'checkbox':
-                componentConstructor =  new Checkbox(compAttr, compTarget);
+                componentObject =  new Checkbox(componentProperty);
                 break;
             case 'label':
-                componentConstructor =  new Label(compAttr, compTarget);
+                componentObject =  new Label(componentProperty);
                 break;
             case 'image':
-                componentConstructor =  new Imagebox(compAttr, compTarget);
+                componentObject =  new Imagebox(componentProperty);
                 break;
             case 'divider':
-                componentConstructor =  new Divider(compAttr, compTarget);
+                componentObject =  new Divider(componentProperty);
                 break;
             case 'date':
-                componentConstructor =  new DateBox(compAttr, compTarget);
+                componentObject =  new DateBox(componentProperty);
                 break;
             case 'time':
-                componentConstructor =  new TimeBox(compAttr, compTarget);
+                componentObject =  new TimeBox(componentProperty);
                 break;
             case 'datetime':
-                componentConstructor =  new DatetimeBox(compAttr, compTarget);
+                componentObject =  new DatetimeBox(componentProperty);
                 break;
             case 'fileupload':
-                componentConstructor =  new Fileupload(compAttr, compTarget);
+                componentObject =  new Fileupload(componentProperty);
                 break;
             case 'custom-code':
-                componentConstructor =  new CustomCode(compAttr, compTarget);
+                componentObject =  new CustomCode(componentProperty);
                 break;
             default:
                 break;
         }
-        
-        if (componentConstructor) {
-            componentConstructor.id = compId;
-            componentConstructor.type = compType;
-            componentConstructor.attr = compAttr;
-            componentConstructor.domElem.setAttribute('id', compId);
-            componentConstructor.domElem.setAttribute('data-type', compType);
-            componentConstructor.domElem.setAttribute('data-index', getLastIndex());
-            componentConstructor.domElem.setAttribute('tabIndex', getLastIndex());
+        children.push(componentObject);
+        console.log(componentObject);
+        parent.insertAdjacentHTML('beforeend', componentObject.template);
 
-            if (typeof compAttr.dataAttribute !== 'undefined') {
-                if (compAttr.dataAttribute.displayType === 'readonly') {
-                    componentConstructor.domElem.setAttribute('data-readonly', true);
-                } else if (compAttr.dataAttribute.displayType === 'hidden') {
-                    componentConstructor.domElem.style.display = 'none';
+        let componentElement = parent.querySelector('#' + componentObject.id);
+        if (componentObject && componentElement) {
+            componentObject.domElem = componentElement;
+
+            // 신청서 display Type에 따른 처리
+            if (componentObject.hide) {
+                componentElement.style.display = 'none';
+            } else {
+                if (componentObject.readOnly) {
+                    componentElement.setAttribute('data-readonly', true);
                 }
             }
 
-            //공통 : 라벨 위치 조정
-            if (typeof compAttr.label !== 'undefined') {
-                let firstField = componentConstructor.domElem.querySelector('.group').firstElementChild;
-                let lastField = componentConstructor.domElem.querySelector('.group').lastElementChild;
-                if (compAttr.label.position === 'hidden') {
+            // 공통 : 라벨 위치 조정 >> TODO : CSS 로 처리
+            /*if (typeof componentProperty.label !== 'undefined') {
+                let firstField = componentElement.querySelector('.group').firstElementChild;
+                let lastField = componentElement.querySelector('.group').lastElementChild;
+                if (componentProperty.label.position === 'hidden') {
                     firstField.style.display = 'none';
-                } else if (compAttr.label.position === 'left') {
-                    firstField.style.flexBasis = ((100 * Number(compAttr.label.column)) / columnWidth) + '%';
+                } else if (componentProperty.label.position === 'left') {
+                    firstField.style.flexBasis = ((100 * Number(componentProperty.label.column)) / columnWidth) + '%';
                 } else { //top
-                    firstField.style.flexBasis = ((100 * Number(compAttr.label.column)) / columnWidth) + '%';
+                    firstField.style.flexBasis = ((100 * Number(componentProperty.label.column)) / columnWidth) + '%';
                     const secondField = document.createElement('div');
                     secondField.className = 'field';
-                    secondField.style.flexBasis = (100 - ((100 * Number(compAttr.label.column)) / columnWidth)) + '%';
+                    secondField.style.flexBasis = (100 - ((100 * Number(componentProperty.label.column)) / columnWidth)) + '%';
                     lastField.parentNode.insertBefore(secondField, lastField);
                 }
-                lastField.style.flexBasis = ((100 * Number(compAttr.display.column)) / columnWidth) + '%';
-            }
+                lastField.style.flexBasis = ((100 * Number(componentProperty.display.column)) / columnWidth) + '%';
+            }*/
         }
-        return componentConstructor;
+        return componentObject;
     }
     /**
      * 컴포넌트 기본 속성을 읽어서 폼 저장을 위한 컴포넌트의 데이터로 정제하여 조회한다.
      * @param {String} type 컴포넌트 타입
-     * @return {Object} refineAttr 컴포넌트 데이터
+     * @param {Object} data 컴포넌트 데이터
+     * @return {Object} refineProperty 정제된 컴포넌트 데이터
      */
-    function getData(type) {
-        let refineProp = { display: {} };
-        let defaultProp = aliceJs.mergeObject({}, aliceForm.componentProperties[type]);
-        Object.keys(defaultProp).forEach(function(group) {
+    function getData(type, data) {
+        let refineProperty = { display: {} };
+        if (typeof refineProperty !== 'undefined') {
+            refineProperty = data;
+        }
+        let defaultProperty = aliceJs.mergeObject({}, aliceForm.componentProperties[type]);
+        Object.keys(defaultProperty).forEach(function(group) {
             if (group === 'option') { //옵션 json 구조 변경
                 let options = [];
-                for (let i = 0, len = defaultProp[group][0].items.length; i < len; i+=3) {
+                for (let i = 0, len = defaultProperty[group][0].items.length; i < len; i+=3) {
                     let option = {};
                     for (let j = i; j < i + len; j++) {
-                        let child = defaultProp[group][0].items[j];
+                        let child = defaultProperty[group][0].items[j];
                         option[child.id] = child.value;
                     }
                     options.push(option);
                 }
-                refineProp[group] = options;
+                refineProperty[group] = options;
             } else {
-                refineProp[group] = {};
-                Object.keys(defaultProp[group]).forEach(function(child) {
-                    const attributeItem = defaultProp[group][child];
+                refineProperty[group] = {};
+                Object.keys(defaultProperty[group]).forEach(function(child) {
+                    const attributeItem = defaultProperty[group][child];
                     let attributeItemValue = attributeItem.value;
                     if (type === 'datetime' || type === 'date' || type === 'time') {
                         if (/datetimeM*/.test(attributeItem.id)) {
@@ -883,11 +401,11 @@
                             attributeItemValue = attributeItem.value;
                         }
                     }
-                    refineProp[group][attributeItem.id] = attributeItemValue;
+                    refineProperty[group][attributeItem.id] = attributeItemValue;
                 });
             }
         });
-        return refineProp;
+        return refineProperty;
     }
 
     /**
@@ -895,15 +413,26 @@
      * @return {Number} 마지막 컴포넌트 index
      */
     function getLastIndex() {
-        return componentIdx;
+        return renderOrder;
     }
     /**
      * 컴포넌트 Index 초기화
      * @param {Number} idx 초기화할 값
      */
     function setLastIndex(idx) {
-        componentIdx = idx;
+        renderOrder = idx;
     }
+
+    /**
+     * 라이브러리를 초기화한다.
+     * @param target 컴포넌트를 추가할 대상 (폼 또는 문서)
+     */
+    function init(target) {
+        parent = target;
+        isForm = target.hasAttribute('data-readonly');
+    }
+
+    exports.init = init;
 
     exports.draw = draw;
     exports.getTitle = getTitle;

@@ -66,10 +66,6 @@
 
         // 다중 컴포넌트 선택일 경우, 위/아래 컴포넌트 추가 메뉴 비활성화
         if (editor.selectedComponentIds.length > 1) {
-            const controlMenuAddUpItem = controlMenu.querySelector('[data-action="addEditboxUp"]'); // 컨텍스트 메뉴 - 위에 editbox 추가
-            if (!controlMenuAddUpItem.classList.contains('disabled')) {
-                controlMenuAddUpItem.classList.add('disabled');
-            }
             const controlMenuAddDownItem = controlMenu.querySelector('[data-action="addEditboxDown"]'); // 컨텍스트 메뉴 - 아래에 editbot 추가
             if (!controlMenuAddDownItem.classList.contains('disabled')) {
                 controlMenuAddDownItem.classList.add('disabled');
@@ -411,7 +407,7 @@
             return false;
         }
 
-        const clickedElem = clickInsideElement(e, 'context-item-link');
+        const clickedElem = clickInsideElement(e, 'context-menu-item');
         if (clickedElem) { // control context 메뉴가 오픈된 상태에서 해당 메뉴 선택한 경우
             e.preventDefault();
             menuItemListener(clickedElem);
@@ -581,9 +577,6 @@
                 break;
             case 'delete': //컴포넌트 삭제
                 editor.deleteComponent();
-                break;
-            case 'addEditboxUp': //위에 editbox 컴포넌트 추가
-                editor.addEditboxUp(clickedComponent.id);
                 break;
             case 'addEditboxDown': //아래에 editbox 컴포넌트 추가
                 editor.addEditboxDown(clickedComponent.id);
