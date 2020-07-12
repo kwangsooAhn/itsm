@@ -14,7 +14,7 @@
     <form id="frm" name="frm">
         <div class="print-btn">
             <button type="button" onclick="openProcessStatusPopUp()"
-                    th:text="#{process.label.process}"></button>
+                    th:text="#{process.label.processMap}"></button>
             <button type="button" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
                     th:text="#{common.btn.print}"></button>
         </div>

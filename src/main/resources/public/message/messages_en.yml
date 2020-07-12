@@ -449,32 +449,33 @@ login:
 
 # Menu
 menu:
-  service:
-    parent: "Service"
-    list: "Service History"
-    request: "Service Request"
-  help:
-    parent: "Helpdesk"
-    board: "Board"
+  my:
+    parent: "My Work"
     dashboard: "Dashboard"
-    document: "Service Request"
-    download: "Download"
-    faq: "FAQ"
-    notice: "Notice"
     token: "My Document"
-  setting:
-    parent: "Settings"
-    auth: "Auth management"
+    document: "Service Request"
+  portal:
+    parent: "Portal Service"
+    notice: "Notice"
+    faq: "FAQ"
+    download: "Download"
+    board: "Board"
+  config:
+    parent: "System config"
+    user: "User"
+    auth: "Auth"
+    role: "Role"
     boardAdmin: "Board management"
     code: "Code management"
-    customCode: "Custom Code"
-    document: "Workflow"
-    editMyInfo: "Edit my info"
-    form: "Form"
-    image: "Image management"
+  workflow:
+    parent: "Workflow"
     process: "Process"
-    role: "Role management"
-    user: "Users management"
+    form: "Form"
+    document: "Workflow"
+    customCode: "Custom Code"
+    image: "Image"
+  setting:
+    editMyInfo: "Edit My Info"
 
 # Notice
 notice:
@@ -548,7 +549,7 @@ process:
     importFile: "Import File"
     list: "Process List"
     name: "Process Name"
-    process: "Process"
+    processMap: "Process Map"
     redo: "Redo"
     searchPlaceholder: "Process Name / Process Description"
     simulation: "Simulation"

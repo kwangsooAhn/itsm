@@ -564,6 +564,9 @@
 
         svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
+        svg.selectAll('.node.selected').nodes().forEach(function(node) {
+            aliceProcessEditor.setDeselectedElement(d3.select(node));
+        });
         svg.selectAll('.selected').classed('selected', false);
         svg.selectAll('.reject-element').classed('reject-element', false);
 
@@ -615,7 +618,7 @@
             let cssRules = s.cssRules;
             for (let r = 0; r < cssRules.length; r++) {
                 if (cssRules[r].selectorText &&
-                    cssRules[r].selectorText.indexOf('.alice-process-drawing-board') > -1) {
+                    cssRules[r].selectorText.startsWith('svg')) {
                     cssStyleText += cssRules[r].cssText;
                 }
             }
@@ -681,6 +684,9 @@
             if (node.textContent === '') { d3.select(node).remove(); }
         });
         minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
+        minimapSvg.selectAll('.node.selected').nodes().forEach(function(node) {
+            aliceProcessEditor.setDeselectedElement(d3.select(node));
+        });
         minimapSvg.selectAll('.selected').classed('selected', false);
         minimapSvg.selectAll('.reject-element').classed('reject-element', false);
         minimapSvg.append('rect')
@@ -732,8 +738,8 @@
             viewBox = [
                 d3.min(nodeLeftArray) - margin,
                 d3.min(nodeTopArray) - margin,
-                Math.abs(d3.max(nodeRightArray) - d3.min(nodeLeftArray)) + (margin * 3),
-                Math.abs(d3.max(nodeBottomArray) - d3.min(nodeTopArray)) + (margin * 3)
+                Math.abs(d3.max(nodeRightArray) - d3.min(nodeLeftArray)) + (margin * 2),
+                Math.abs(d3.max(nodeBottomArray) - d3.min(nodeTopArray)) + (margin * 2)
             ];
         }
         return viewBox;
