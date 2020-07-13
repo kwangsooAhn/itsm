@@ -22,7 +22,6 @@ import java.util.Optional
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.context.request.RequestContextHolder
