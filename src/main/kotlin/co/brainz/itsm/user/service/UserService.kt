@@ -158,22 +158,15 @@ class UserService(
         val targetEntity = userRepository.findByUserKey(userUpdateDto.userKey)
         var code: String = AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
 
-        if (targetEntity.userId != userUpdateDto.userId) {
-            if (userRepository.countByUserId(userUpdateDto.userId) > 0) {
-                code = AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
-                isContinue = false
-            }
-        }
-
         when (isContinue) {
-            true -> {
-                try {
-                    if (targetEntity.email != userUpdateDto.email) {
-                        if (aliceCertificationRepository.countByEmail(userUpdateDto.email!!) > 0) {
-                            code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
-                        }
-                    }
-                } catch (e: EmptyResultDataAccessException) {
+            targetEntity.userId != userUpdateDto.userId -> {
+                if (userRepository.countByUserId(userUpdateDto.userId) > 0) {
+                    code = AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
+                }
+            }
+            targetEntity.email != userUpdateDto.email -> {
+                if (aliceCertificationRepository.countByEmail(userUpdateDto.email!!) > 0) {
+                    code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                 }
             }
         }
