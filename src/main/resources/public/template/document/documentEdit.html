@@ -91,7 +91,9 @@
                 <div>
                     <input id="selected_color" name="selected_color" class="selected-color"/>
                     <input id="document_color" name="document_color" class="color"/>
-                    <div id="document_colorPalette" name="document_colorPalette" class="color-palette"></div>
+                    <div id="document_colorPalette_group">
+                        <div id="document_colorPalette" name="document_colorPalette" class="color-palette"></div>
+                    </div>
                 </div>
             </td>
         </tr>
@@ -196,7 +198,7 @@
             }
             selectedColorBox.style.backgroundColor = this.value;
         });
-        let colorPaletteBox = document.getElementById('document_colorPalette');
+        let colorPaletteBox = document.getElementById('document_colorPalette_group');
         colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox, 'documentPaletteColors');
     }
 

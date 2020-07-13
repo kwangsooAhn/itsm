@@ -1170,7 +1170,12 @@
                                             `<span class='selected-color' style='background-color: ${fieldProp.value};'></span>
                                             <input type='text' class='property-field-value underline color' id='${group}-${fieldProp.id}-value'  value='${fieldProp.value}' readonly>`;
 
-                                        groupElem.insertAdjacentHTML('beforeend', `<div id='${group + "-" + fieldProp.id}-colorPalette' class='color-palette'></div>`);
+                                        let colorPaletteGroup = `<div id="${group + "-" + fieldProp.id}-colorPaletteGroup">
+                                                <div id='${group + "-" + fieldProp.id}-colorPalette' class='color-palette'></div>
+                                                <div id='${group + "-" + fieldProp.id}-colorPalette-opacity' class='color-palette-opacity'></div>
+                                                </div>`;
+                                        groupElem.insertAdjacentHTML('beforeend', colorPaletteGroup);
+                                        //groupElem.insertAdjacentHTML('beforeend', `<div id="${group + "-" + fieldProp.id}-colorPaletteGroup"><div id='${group + "-" + fieldProp.id}-colorPalette' class='color-palette'></div></div>`);
                                         break;
                                     case 'radio-datetime':
                                         fieldGroupElem.classList.add('vertical');
@@ -1260,7 +1265,7 @@
                                 if (fieldProp.type === 'rgb') {
                                     colorPalette.initColorPalette(fieldGroupElem.querySelector('.selected-color'),
                                         fieldGroupElem.querySelector('#' + group + '-' + fieldProp.id + '-value'),
-                                        groupElem.querySelector('#' + group + '-' + fieldProp.id + '-colorPalette'));
+                                        groupElem.querySelector('#' + group + '-' + fieldProp.id + '-colorPaletteGroup'));
                                 }
 
                                 //custom-code 초기화

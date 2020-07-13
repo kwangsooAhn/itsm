@@ -1442,8 +1442,12 @@
                     elementObject.readOnly = true;
                 }
                 elementObject.addEventListener('change', function() {
-                    if (this.value.trim() !== ''&& !isValidRgb(this.id, function() {elementObject.focus();})) {
+                    if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
                         this.value = '';
+                    }
+                    let opacity = 0;
+                    if (this.dataset['opacity'] !== '') {
+                        opacity = Number(this.dataset['opacity']) / 100;
                     }
                     this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
                     if (properties.type === 'groupArtifact') {
@@ -1454,18 +1458,35 @@
                             if (this.value.trim() === '') {
                                 groupElement.style('fill-opacity', 0);
                             } else {
-                                groupElement.style('fill', this.value).style('fill-opacity', 0.5);
+                                groupElement.style('fill', this.value).style('fill-opacity', opacity);
                             }
                         }
                     }
                 });
                 propertyContainer.appendChild(elementObject);
 
-                let colorPaletteBox = document.createElement('div');
+                /*let colorPaletteBox = document.createElement('div');
                 colorPaletteBox.id = property.id + '-colorPalette';
                 colorPaletteBox.className = 'color-palette';
                 propertyContainer.appendChild(colorPaletteBox);
-                colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox);
+                colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox);*/
+
+                let colorPaletteGroup = document.createElement('div');
+                let colorPaletteBox = document.createElement('div');
+                colorPaletteBox.id = property.id + '-colorPalette';
+                colorPaletteBox.className = 'color-palette';
+
+                let colorPaletteOpacityBox = document.createElement('div');
+                //colorPaletteOpacityBox.style.height = '40px';
+                //colorPaletteOpacityBox.style.background = 'red';
+                colorPaletteOpacityBox.id = property.id + '-colorPaletteOpacity';
+                colorPaletteOpacityBox.className = 'color-palette-opacity';
+                //colorPaletteOpacityBox.style.display = 'none';
+                colorPaletteGroup.appendChild(colorPaletteBox);
+                colorPaletteGroup.appendChild(colorPaletteOpacityBox);
+                propertyContainer.appendChild(colorPaletteGroup);
+
+                colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteGroup);
                 break;
             default:
                 break;
