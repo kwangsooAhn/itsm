@@ -94,14 +94,13 @@ class UserService(
      */
     fun updateUserEdit(userUpdateDto: UserUpdateDto, userEditType: String): String {
         var code: String = userEditValid(userUpdateDto)
+        val userEntity = userRepository.findByUserKey(userUpdateDto.userKey)
+        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        val privateKey =
+            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val targetEntity = updateDataInput(userUpdateDto)
         when (code) {
             AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
-                val userEntity = userRepository.findByUserKey(userUpdateDto.userKey)
-                val emailConfirmVal = userEntity.email
-                val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
-                val privateKey =
-                    attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
-                val targetEntity = updateDataInput(userUpdateDto)
                 if (userUpdateDto.password != null) {
                     if (targetEntity.password != userUpdateDto.password) {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
@@ -132,7 +131,7 @@ class UserService(
                     }
                 }
 
-                code = when (targetEntity.email == emailConfirmVal) {
+                code = when (targetEntity.email == userEntity.email) {
                     true -> {
                         when (userEditType) {
                             AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code ->

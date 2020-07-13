@@ -141,6 +141,8 @@ class RoleService(
                     if (dtoRole.roleId == allRole.roleId) {
                         i = 1
                         break
+                    } else {
+                        i = 0
                     }
                 }
                 if (i == 1) {
