@@ -5,6 +5,8 @@
     layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{menu.setting.user}"></title>
+    <link th:href="@{/assets/css/reset.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/alice-itsm.css}" rel="stylesheet"/>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -12,8 +14,8 @@
         <div class="container" style="max-width: 100%;">
             <div class="contents">
                 <div class="contents-title">
-                    <span class="title-txt" th:text="#{user.label.list}">사용자 관리</span>
-                    <span class="title-description">사용자를 조회하거나 추가, 변경할 수 있습니다.</span>
+                    <span class="title-txt" th:text="#{user.label.list}"></span>
+                    <span class="title-description" th:text="#{user.msg.description}"></span>
                 </div>
                 <div class="contents-body">
                     <div class="usermanage-menubar">

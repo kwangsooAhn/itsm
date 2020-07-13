@@ -118,6 +118,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .list table tr {
   color: #67717f;
   font-size: 13px;
+  text-align: center;
   border-bottom: 1px solid #d2d9e2;
   padding: 0 16px;
 }
@@ -134,7 +135,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .list table tr td {
   height: 45px;
   vertical-align: middle;
-  text-align: center;
 }
 
 .container .contents .list table tr td:first-child {
