@@ -46,7 +46,6 @@ common:
     fail: "실패하였습니다."
     modify: "수정되었습니다."
     noData: "데이터가 없습니다."
-    register: "등록되었습니다."
     requiredEnter: "필수 항목을 입력하세요."
     requiredSelect: "필수 항목을 선택하세요."
     save: "저장되었습니다."
@@ -195,10 +194,8 @@ code:
     codeValue: "코드 값"
     pCode: "부모 코드"
   msg:
-    duplicateCode: "중복된 코드가 존재합니다."
     enterCode: "코드를 입력하세요."
     pCodeNotExist: "부모 코드가 존재하지 않습니다."
-    referenceCodeExist: "해당 코드를 참조하는 코드가 존재합니다."
 
 # Comment
 comment:
@@ -275,7 +272,6 @@ document:
     lengthMin: "{0}글자 이상 입력하세요."
     process: "처리되었습니다."
     requiredFileupload: "파일을 업로드하세요."
-    confirmDeleteInstance: "임시 상태로 작성된 문서 모두 삭제하시겠습니까?"
   display:
     editable: "수정 가능"
     editableRequired: "수정 가능(필수값)"
@@ -331,9 +327,6 @@ fileupload:
 
 # Form
 form:
-  btn:
-    export: "내보내기"
-    import: "가져오기"
   label:
     addAbove: "새로만들기-위"
     addBelow: "새로만들기-아래"
@@ -344,8 +337,7 @@ form:
     edit: "문서 양식 편집"
     export: "내보내기"
     form: "문서 양식"
-    import: "폼 IMPORT"
-    importFile: "IMPORT 파일"
+    import: "가져오기"
     lang: "언어"
     list: "문서 양식 목록"
     name: "문서 양식 이름"
@@ -358,7 +350,6 @@ form:
   msg:
     enterFormName: "문서 양식 이름을 입력하세요."
     failedFormDelete: "문서 양식을 삭제할 수 없습니다. 발행된 신청서가 있는 지 확인하세요."
-    fileExtensionNotAllow: "IMPORT 파일은 {0} 확장자만 허용됩니다."
     fileNameDuplication: "동일한 파일 명이 존재합니다."
     fileSelect: "파일을 선택하세요."
     fileuploadFailed: "파일 업로드에 실패하였습니다."
@@ -368,7 +359,6 @@ form:
     min: "{0} 이상 입력하세요."
     minLength: "{0}글자 이상 입력하세요."
     number: "숫자만 입력하세요."
-    selectImportFile: "IMPORT 파일을 선택하세요."
   component:
     checkbox: "Checkbox"
     customCode: "Custom Code"
@@ -449,33 +439,32 @@ login:
 
 # Menu
 menu:
-  my:
-    parent: "나의 업무"
-    dashboard: "대시보드"
-    token: "문서함"
-    document: "신청서"
-  portal:
-    parent: "포탈 서비스"
-    notice: "공지사항"
-    faq: "FAQ"
-    download: "자료실"
+  service:
+    parent: "서비스"
+    list: "요청 이력"
+    request: "서비스 요청"
+  help:
+    parent: "헬프데스크"
     board: "게시판"
-  config:
-    parent: "시스템 관리"
-    user: "사용자"
-    auth: "권한"
-    role: "역할"
-    boardAdmin: "게시판"
-    code: "코드"
-  workflow:
-    parent: "업무흐름 관리"
-    process: "프로세스"
-    form: "문서 양식"
-    document: "업무 흐름"
-    customCode: "커스텀 코드"
-    image: "이미지 관리"
+    dashboard: "대시보드"
+    document: "신청서"
+    download: "자료실"
+    faq: "FAQ"
+    notice: "공지사항"
+    token: "문서함"
   setting:
-    editMyInfo: "자기정보 수정"
+    parent: "설정"
+    auth: "권한 관리"
+    boardAdmin: "게시판 관리"
+    code: "코드 관리"
+    customCode: "사용자 정의 코드"
+    document: "업무 흐름"
+    editMyInfo: "자기 정보 수정"
+    form: "문서 양식"
+    image: "이미지 관리"
+    process: "프로세스"
+    role: "역할 관리"
+    user: "사용자 관리"
 
 # Notice
 notice:
@@ -549,7 +538,7 @@ process:
     importFile: "IMPORT 파일"
     list: "프로세스 목록"
     name: "프로세스 이름"
-    processMap: "프로세스맵"
+    process: "프로세스"
     redo: "작업재실행"
     searchPlaceholder: "프로세스 이름 / 프로세스 설명"
     simulation: "미리보기"
@@ -557,7 +546,7 @@ process:
     undo: "작업취소"
   msg:
     enterProcessName: "프로세스 이름을 입력하세요."
-    fileExtensionNotAllow: "IMPORT 파일은 {0} 확장자만 허용됩니다."
+    fileExtensionNotAllow: "IMPORT 파일은 XML 확장자만 허용됩니다."
     selectImportFile: "IMPORT 파일을 선택하세요."
     simulation: "시뮬레이션 점검이 완료되었습니다."
   status:
@@ -624,7 +613,8 @@ user:
     position: "직책"
     rePassword: "비밀번호 재확인"
     role: "사용자 역할"
-    searchPlaceholder: "사용자 이름 / 사용자 아이디"
+    searchPlaceholder: "아이디/이름/직책/부서/전화번호"
+    signUpDate: "가입일"
     theme: "테마"
     time: "시간 유형"
     timeFormat: "날짜/시간 유형"

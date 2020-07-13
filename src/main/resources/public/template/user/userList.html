@@ -3,63 +3,40 @@
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-        }
-        table tr:nth-child(1) td {
-            border-top: 1px solid;
-        }
-        table td {
-            border-top: 1px solid #e7e7e7;
-            border-left: 1px solid;
-            text-align: center;
-            padding: 3px;
-            height: 40px;
-        }
-        table td:nth-child(1), table td:nth-child(2) {
-            text-align: left;
-        }
-    </style>
+    <link th:href="@{/assets/css/reset.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/alice-itsm.css}" rel="stylesheet"/>
 </head>
 <body>
-<div>
-    <table class="table-hover">
-        <colgroup>
-            <col width="15%">
-            <col width="15%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-            <col width="5%">
-        </colgroup>
-        <tbody>
-        <tr th:if="${#arrays.isEmpty(userList)}">
-            <td colspan="7" th:text="#{common.msg.noData}"></td>
-        </tr>
-        <tr th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
-            <td><img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${user.userKey})}" width="30px" height="30px" border="1"
-                     th:onerror="'this.onerror=null; this.src=\'' + @{/assets/media/image/avatar/profile_sample.jpg} + '\';'" alt="profile pic"/>
-                <span th:text="${user.userName}"></span>
-            </td>
-            <td th:text="${user.userId}"></td>
-            <td>
-                <img th:src="@{${'/assets/media/image/platform/' + user.platform + '.png'}}" width="30px" height="30px" border="1"
-                     th:onerror="'this.onerror=null; this.src=\'' + @{/assets/media/image/platform/user.platform.alice.png} + '\';'" alt="platform pic"/>
-            </td>
-            <td th:if="${user.useYn == true}" th:text="#{user.usageStatusFlag.use}"></td>
-            <td th:unless="${user.useYn == true}" th:text="#{user.usageStatusFlag.unused}"></td>
-            <td th:text="#{${user.status}}"></td>
-            <td>
-                <button sec:authorize="hasAuthority('user.update')"
-                        th:text="#{common.btn.modify}"
-                        th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''"></button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
+    <div class="list-wrap">
+        <table>
+            <tbody>
+                <tr>
+                    <th th:text="#{user.label.name}" colspan="2"></th>
+                    <th th:text="#{user.label.id}"></th>
+                    <th th:text="#{user.label.email}"></th>
+                    <th th:text="#{user.label.department}"></th>
+                    <th th:text="#{user.label.position}"></th>
+                    <th th:text="#{user.label.officeNumber}"></th>
+                    <th th:text="#{user.label.mobileNumber}"></th>
+                    <th th:text="#{user.label.signUpDate}"></th>
+                </tr>
+                <tr th:if="${#arrays.isEmpty(userList)}">
+                    <td colspan="9" th:text="#{common.msg.noData}"></td>
+                </tr>
+                <tr th:unless="${#arrays.isEmpty(userList)}" th:each="user, i: ${userList}" th:if="${i.count} < 11">
+                    <td><img class="profile-photo" th:src="@{/assets/media/image/avatar/{userKey}(userKey=${user.userKey})}"
+                             th:onerror="'this.onerror=null; this.src=\'' + @{/assets/media/image/avatar/profile_sample.jpg} + '\';'" alt="profile pic"/></td>
+                    <td th:text="${user.userName}"></td>
+                    <td th:text="${user.userId}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.department}"></td>
+                    <td th:text="${user.position}"></td>
+                    <td th:text="${user.officeNumber}"></td>
+                    <td th:text="${user.mobileNumber}"></td>
+                    <td>2020.07.03</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

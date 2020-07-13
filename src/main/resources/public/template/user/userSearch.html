@@ -8,22 +8,41 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
-            <h1 th:text="#{user.label.list}"></h1>
-            <div style="margin-top: 10px">
-                <select id="category" style="width: 230px; height: 30px">
-                    <option value="all" th:text="#{user.label.all}"></option>
-                    <option th:each="category: ${categoryList}" th:value="${category.code}"
-                            th:text="#{${category.code}}"></option>
-                </select>
-                <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}" />
-                <button style="float: right" onclick="location.href='/users/new'"
-                        sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.register}" ></button>
+    <div class="wrap-screen">
+        <div class="container" style="max-width: 100%;">
+            <div class="contents">
+                <div class="contents-title">
+                    <span class="title-txt" th:text="#{user.label.list}">사용자 관리</span>
+                    <span class="title-description">사용자를 조회하거나 추가, 변경할 수 있습니다.</span>
+                </div>
+                <div class="contents-body">
+                    <div class="usermanage-menubar">
+                        <div class="menubar-left">
+                            <input class="search" id="search" type="text" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}" >
+                            <span class="icon-search"></span>
+                        </div>
+                        <div class="menubar-right">
+                            <button class="btn-add" onclick="location.href='/users/new'" sec:authorize="hasAuthority('user.create')"></button>
+                        </div>
+                    </div>
+                    <div class="list" id="userList"></div>
+                    <div class="menubar-bottom">
+                        <div class="paging">
+                            <ul>
+                                <li><span class="btn-prev"></span></li>
+                                <li><span class="btn-num">1</span></li>
+                                <li><span class="btn-num">2</span></li>
+                                <li><span class="btn-num">3</span></li>
+                                <li><span class="btn-num">···</span></li>
+                                <li><span class="btn-num">6</span></li>
+                                <li><span class="btn-next"></span></li>
+                            </ul>
+                        </div>
+                        <div class="list-count"><span>총:127명</span></div>
+                    </div>
+                </div>
             </div>
         </div>
-        <hr>
-        <div id="userList" style="margin-top: 20px"></div>
     </div>
 </th:block>
 </body>
@@ -31,7 +50,6 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            document.getElementById('category').addEventListener('change', getUserList.bind(null, false), false);
             document.getElementById('search').addEventListener('keyup', getUserList.bind(null, false), false);
             getUserList(true);
         }
@@ -42,10 +60,9 @@
 
         function getUserList(showProgressbar) {
             const searchOpt = {
-                category: document.getElementById('category').value,
                 search: document.getElementById('search').value.trim()
             }
-            const urlParam = 'category=' + searchOpt.category + '&search=' + searchOpt.search;
+            const urlParam = 'category=all&search=' + searchOpt.search;
             restSubmit('get', '/users/list?' + urlParam, showProgressbar);
         }
 

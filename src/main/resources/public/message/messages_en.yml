@@ -46,7 +46,6 @@ common:
     fail: "Failed."
     modify: "Modified."
     noData: "There is no data."
-    register: "Registered."
     requiredEnter: "Please enter the required item."
     requiredSelect: "Please select a required item."
     save: "Saved."
@@ -195,10 +194,8 @@ code:
     codeValue: "Code Value"
     pCode: "Parent Code"
   msg:
-    duplicateCode: "Duplicate code Exists."
     enterCode: "Please enter a code."
     pCodeNotExist: "Parent code does not exist."
-    referenceCodeExist: "Code exists that references the code."
 
 # Comment
 comment:
@@ -275,7 +272,6 @@ document:
     lengthMin: "Please enter at least {0} characters."
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
-    confirmDeleteInstance: "Are you sure you want to delete all documents created in a temporary state?"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -331,9 +327,6 @@ fileupload:
 
 # Form
 form:
-  btn:
-    export: "Export"
-    import: "Import"
   label:
     addAbove: "Add above"
     addBelow: "Add below"
@@ -344,8 +337,7 @@ form:
     edit: "Edit Form"
     export: "Export"
     form: "Form"
-    import: "Form IMPORT"
-    importFile: "IMPORT File"
+    import: "Import"
     lang: "Language"
     list: "Form List"
     name: "Form Name"
@@ -358,7 +350,6 @@ form:
   msg:
     enterFormName: "Please enter a form name."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
-    fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
     fileNameDuplication: "The same file name exists."
     fileSelect: "Please select a file."
     fileuploadFailed: "File upload failed."
@@ -368,7 +359,6 @@ form:
     min: "Please enter at least {0}."
     minLength: "Please enter at least {0} characters."
     number: "Please enter only numbers."
-    selectImportFile: "Please select an import file."
   component:
     checkbox: "Checkbox"
     customCode: "Custom Code"
@@ -449,33 +439,32 @@ login:
 
 # Menu
 menu:
-  my:
-    parent: "My Work"
-    dashboard: "Dashboard"
-    token: "My Document"
-    document: "Service Request"
-  portal:
-    parent: "Portal Service"
-    notice: "Notice"
-    faq: "FAQ"
-    download: "Download"
+  service:
+    parent: "Service"
+    list: "Service History"
+    request: "Service Request"
+  help:
+    parent: "Helpdesk"
     board: "Board"
-  config:
-    parent: "System config"
-    user: "User"
-    auth: "Auth"
-    role: "Role"
+    dashboard: "Dashboard"
+    document: "Service Request"
+    download: "Download"
+    faq: "FAQ"
+    notice: "Notice"
+    token: "My Document"
+  setting:
+    parent: "Settings"
+    auth: "Auth management"
     boardAdmin: "Board management"
     code: "Code management"
-  workflow:
-    parent: "Workflow"
-    process: "Process"
-    form: "Form"
-    document: "Workflow"
     customCode: "Custom Code"
-    image: "Image"
-  setting:
-    editMyInfo: "Edit My Info"
+    document: "Workflow"
+    editMyInfo: "Edit my info"
+    form: "Form"
+    image: "Image management"
+    process: "Process"
+    role: "Role management"
+    user: "Users management"
 
 # Notice
 notice:
@@ -549,7 +538,7 @@ process:
     importFile: "Import File"
     list: "Process List"
     name: "Process Name"
-    processMap: "Process Map"
+    process: "Process"
     redo: "Redo"
     searchPlaceholder: "Process Name / Process Description"
     simulation: "Simulation"
@@ -557,7 +546,7 @@ process:
     undo: "Undo"
   msg:
     enterProcessName: "Please enter a process name."
-    fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
+    fileExtensionNotAllow: "IMPORT files are only allowed with XML extensions."
     selectImportFile: "Please select an import file."
     simulation: "Simulation check is complete."
   status:
@@ -624,7 +613,8 @@ user:
     position: "Position"
     rePassword: "rePassword"
     role: "User Role"
-    searchPlaceholder: "User Name / User ID"
+    searchPlaceholder: "ID/Name/Position/Dept/Number"
+    signUpDate: "SignUp Date"
     theme: "Theme"
     time: "Time Format"
     timeFormat: "Date/Time Format"

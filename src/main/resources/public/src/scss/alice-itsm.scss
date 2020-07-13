@@ -1,0 +1,324 @@
+body, h1, h2, h3, h4, h5, h6, input, textarea, select { font-family: 'Noto Sans KR', sans-serif; font-size: 15px;}
+
+/* EOT는 IE8 이하버전
+   OTF/TTF는 Chrome 6+, Firefox 3.5, Opera 10+, Safari 3-5
+   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+ 
+*/
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
+// *********************************************************************************************************************
+// Global 변수
+// *********************************************************************************************************************
+$icon-folder-path: "../media/icons/";
+$alice-primary:#0050ff !default;
+
+// *********************************************************************************************************************
+// mixin
+// *********************************************************************************************************************
+
+// GNB 아이콘 속성
+@mixin gnb-icon($icon-url) {background: url($icon-folder-path + $icon-url) no-repeat center left; padding: 0 0 0 30px; margin: 20px 10px; vertical-align: middle;}
+
+// SNB 아이콘 속성
+@mixin snb-icon($icon-url) {padding: 0 0 0 36px; margin: 0 0 0 36px; background: url($icon-folder-path + $icon-url) no-repeat left center;}
+@mixin snb-icon2($icon-url) {padding: 0 0 0 30px; margin: 0 0 0 16px; background: url($icon-folder-path + $icon-url) no-repeat left center;}
+
+// *********************************************************************************************************************
+// CONTENTS (container > contents > title, body)
+// *********************************************************************************************************************
+.wrap-screen{position: relative;}
+
+.container {
+    height:100%; padding:60px 0 0 220px; background: rgba(234, 241, 247, 1);
+    .contents {
+        height:100%; display:block; padding: 1% 8% 2% 8%;
+        .contents-title {
+            padding: 20px 0;
+            .title-txt {display:block; font-size: 30px; color:#47556a; padding: 10px 0; font-weight: 600;}
+            .title-description {font-size: 15px; color:#94a6bf; font-weight: 300;}
+        }
+        .contents-body {background: rgba(255, 255, 255, 1); padding: 4% 8%;}
+
+        .menubar {
+            &-left {float: left;}
+            &-right{float: right;}
+            &-bottom{display: inline-block; width: 100%;}
+        }
+
+        // 테이블 리스트 타입 속성
+        .list {
+            clear: both;
+            & table {
+                width: 100%;
+                & span {display: block;margin-left: 30px;}
+                & tr {
+                    color: #67717f;font-size: 13px;border-bottom: 1px solid #d2d9e2;padding: 0 16px;
+                    th {
+                        height: 38px;color: #3e4752;font-size: 14px;border-bottom: 2px solid #d2d9e2;
+                        vertical-align: middle;border-top: 1px solid #d2d9e2;
+                    }
+                    td {height: 45px;vertical-align: middle;text-align: center;
+                        &:first-child{width:30px;}
+                    }
+                    &:hover {background: rgba(0, 80, 255, 0.05);}
+                    &:first-child{background: rgba(0, 80, 255, 0);}
+                }
+            }
+            // 리스트 출력용 아바타 이미지
+            .profile-photo{height:27px; width:27px; border-radius: 50%; background: rgba(240, 240, 240, 1);}
+
+        }
+        .search {
+            width:305px;height:30px; background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
+            padding: 0 10px; border: 1px solid rgba(200, 206, 216, 1); border-radius: 2px; font-size: 13px;
+        }
+        .list-wrap{padding: 15px 0;}
+        .list-count{float: right; color: #67717F; font-size: 13px; padding: 10px 10px;display: inline-block;}
+    }
+    &-close {height:100%; padding:90px 0 0 80px; background: rgba(234, 241, 247, 1);}
+    .btn-add {
+        display:inline-block; background: url($icon-folder-path + "icon_add.svg") no-repeat center center;
+        padding: 10px; border-radius: 2px; border: 1px solid rgba(0, 80, 255, 1); text-align: center;
+        &:hover {
+            background: rgba(0, 80, 255, 1) url($icon-folder-path + "icon_add_ov.svg") no-repeat center center;
+            color: $alice-primary; border: rgba(64, 158, 230, 0.05) 1px solid;
+        }
+    }
+}
+
+// Paging
+.paging{
+    display: inline-block; float: left; padding-left: 40%;
+    & ul li{display: inline-block; padding: 10px 2px; vertical-align: middle;  text-align: center;}
+    .btn {
+        &-num {
+            width: 29px;height: 29px;background: rgba(64, 158, 230, 0);border: 1px solid rgba(255, 255, 255, 0);
+            border-radius: 50%;display: inline-block;vertical-align: middle;line-height: 29px;
+
+            &:hover {
+                background: rgba(64, 158, 230, 0.05);color: $alice-primary;
+                border: rgba(64, 158, 230, 0.05) 1px solid;
+            }
+        }
+
+        &-prev {
+            width: 29px;height: 29px;border: 1px solid #C8CED8;border-radius: 50%;display: inline-block;
+            background: url($icon-folder-path + "icon_paging_prev.svg") no-repeat center center;
+
+            &:hover {
+                background: rgba(64, 158, 230, 0.05) url($icon-folder-path + "icon_paging_prev_ov.svg") no-repeat center center;
+                color: $alice-primary;border: rgba(64, 158, 230, 0.05) 1px solid;
+            }
+        }
+
+        &-next {
+            width: 29px;height: 29px;background: url($icon-folder-path + "icon_paging_next.svg") no-repeat center center;
+            border: 1px solid #C8CED8;border-radius: 50%;display: inline-block;
+            &:hover {
+                background: rgba(64, 158, 230, 0.05) url($icon-folder-path + "icon_paging_next_ov.svg") no-repeat center center;
+                color: $alice-primary;border: rgba(64, 158, 230, 0.05) 1px solid;
+            }
+        }
+    }
+}
+
+// *********************************************************************************************************************
+// TOP (breadcrumb)
+// *********************************************************************************************************************
+/* 상단 바 */
+.top-menu {width:100%; height:60px; background: rgba(255, 255, 255, 1); position: fixed; top: 0; z-index: 2;}
+
+/* 상단 Breadcrumb */
+.breadcrumb {
+    height:60px; padding:0 0 0 240px; color:#5c6776; opacity: 0.57; font-size: 13px; float: left;
+    & ul li {
+        display: inline-block;
+        & span {vertical-align: middle; padding: 0 0 0 18px; line-height:3;}
+    }
+    &.close {
+        height:60px; padding:0 0 0 80px; color:#5c6776; opacity: 0.57; font-size: 13px; float: left;
+        & ul li{
+            display: inline-block;
+            & span{vertical-align: middle; padding: 0 0 0 18px; line-height:3;}
+        }
+    }
+
+    .arrow-r {padding:9px; background: url($icon-folder-path + "icon_arrow_r.svg") no-repeat center left;}
+    .home {background: url($icon-folder-path + "icon_home.svg") no-repeat center center; }
+}
+
+.bread-end{color:#67717f; font-size: 13px;}
+
+/* 상단 알람 및 프로필 메뉴  */
+.top-config {
+    float: right;
+    /* 상단 알람 */
+    .notice {
+        padding:8px 15px; background: url($icon-folder-path + "icon_notice.svg") no-repeat center center;
+        display: inline-block; border-right: 1px solid #D2D9E2; vertical-align: middle;
+        &-num {
+            padding: 2px 8px; border-radius: 20px; border: 1px solid $alice-primary;
+            margin-left: 80px; color: $alice-primary;
+        }
+    }
+    .user-info {
+        display: inline-block; padding:12px 15px;vertical-align: middle; background: url($icon-folder-path + "icon_userinfo_arrow_d.svg") no-repeat center right;
+        & ul li {display: inline-block;vertical-align: middle;}
+        .user-name {padding: 10px;display: inline-block; }
+        .user-profile {
+            width:32px; height:32px; border-radius: 50%; background: rgba(240, 240, 240, 1);
+            display: inline-block; vertical-align: middle;
+        }
+        &.active{
+            .my-edit{
+                display: block; padding: 5px; position: absolute; top:70px; right:10px; background: rgba(255, 255, 255, 1);
+                & ul li{
+                    padding: 10px 0; display: list-item;
+                    &:hover{background: rgba(0, 80, 255, 0.05);}
+                    & span{padding:0 40px;}
+                }
+            }
+            
+        }
+    }
+    /* 상단바 프로필 메뉴 */
+    .my-edit {display: none;}
+    .my-modify{padding:5px 20px; background: url($icon-folder-path + "icon_profiledit.svg") no-repeat 10px center;}
+    .my-logout{padding: 5px 20px; background: url($icon-folder-path + "icon_logout.svg") no-repeat 10px center; }
+}
+
+// *********************************************************************************************************************
+// LEFT (Menu)
+// *********************************************************************************************************************
+
+/* GNB 아이콘 */
+.gnb01{ @include gnb-icon("icon_gnb01_mywork.svg")}
+.gnb02{ @include gnb-icon("icon_gnb02_portal.svg") }
+.gnb03{ @include gnb-icon("icon_gnb03_sysmange.svg") }
+.gnb04{ @include gnb-icon("icon_gnb04_wfmanage.svg") }
+
+/* SNB 아이콘 */
+.snb0101{ @include snb-icon("icon_gnb01_snb01_docbox.svg") }
+.snb0102{ @include snb-icon("icon_gnb01_snb02_edit.svg") }
+
+.snb0201{ @include snb-icon("icon_gnb02_snb01_notice.svg") }
+.snb0202{ @include snb-icon("icon_gnb02_snb02_faq.svg") }
+.snb0203{ @include snb-icon("icon_gnb02_snb03_archive.svg") }
+.snb0204{ @include snb-icon("icon_gnb02_snb04_board.svg") }
+
+.snb0301{ @include snb-icon("icon_gnb03_snb01_usermanage.svg") }
+.snb0302{ @include snb-icon("icon_gnb03_snb02_authority.svg") }
+.snb0303{ @include snb-icon("icon_gnb03_snb03_role.svg") }
+.snb0304{ @include snb-icon("icon_gnb03_snb04_sysboard.svg") }
+.snb0305{ @include snb-icon("icon_gnb03_snb05_code.svg") }
+
+.snb0401{ @include snb-icon("icon_gnb04_snb01_process.svg") }
+.snb0402{ @include snb-icon("icon_gnb04_snb02_form.svg") }
+.snb0403{ @include snb-icon("icon_gnb04_snb03_workflow.svg") }
+.snb0404{ @include snb-icon("icon_gnb04_snb04_customcode.svg") }
+
+
+
+// GNB
+.gnb {
+    &-open {
+        ul li {
+            padding:10px 0; line-height: 1.6; color:#fff; font-weight: 300; opacity: 0.6;
+            &:hover {opacity: 1; background: rgba(2, 66, 235, 1)}
+            ul li {
+                color:#fff; font-weight: 300; opacity: 0.6;
+                &:hover{opacity: 1; background: rgba(255, 255, 255, 0.1);}
+            }
+            .snb{margin:16px 0 0 0; }
+            &.toggle {
+                line-height: 1.6; color:#fff; font-weight: 300; opacity: 0.6;
+                background: url($icon-folder-path + "icon_arrow_d.svg")no-repeat right 7px;
+                &:hover {
+                    opacity: 1;
+                    background: rgba(2, 66, 235, 1) url($icon-folder-path + "icon_arrow_d.svg") no-repeat right 7px;
+                }
+                & ul li {
+                    color:#fff; font-weight: 300; opacity: 0.6;
+                    &:hover{opacity: 1; background: rgba(255, 255, 255, 0.1);}
+                }
+            }
+        }
+    }
+
+    &-close {
+        ul li {
+            height:20px; padding:16px 0 24px 6px;  line-height: 1.6; color:#fff; font-weight: 300; opacity: 0.6;
+            &:hover{opacity: 1; background: rgba(2, 66, 235, 1); }
+            & a{visibility: hidden;}
+        }    
+
+        /* GNB 메뉴 닫혔을 때 - 서브메뉴 */
+        .snb {
+            display: none;
+            &.active{
+                display: block; margin:0 0 0 54px;
+                & ul li {
+                    padding:10px 0; z-index: 999; width:150px; background: rgba(255, 255, 255, 1 ); color:rgba(103, 113, 127, 1);
+                    font-weight: 300; opacity: 1;
+                    &:hover { background: rgba(0, 80, 255,0.05); color:rgba(72 , 80, 92, 1);}
+                    & a { visibility: visible; }
+                    & .snb-title{color:#48505C; font-size: 15px; font-weight: 600; text-align: center; display: block;}
+                    /* GNB 접혔을 때 SNB 아이콘 */
+                    .snb0101{ @include snb-icon2("icon_gnb01_snb01_docbox.svg")}
+                    .snb0102{ @include snb-icon2("icon_gnb01_snb02_edit.svg") }
+
+                    .snb0201{ @include snb-icon2("icon_gnb02_snb01_notice.svg") }
+                    .snb0202{ @include snb-icon2("icon_gnb02_snb02_faq.svg") }
+                    .snb0203{ @include snb-icon2("icon_gnb02_snb03_archive.svg") }
+                    .snb0204{ @include snb-icon2("icon_gnb02_snb04_board.svg") }
+
+                    .snb0301{ @include snb-icon2("icon_gnb03_snb01_usermanage.svg") }
+                    .snb0302{ @include snb-icon2("icon_gnb03_snb02_authority.svg") }
+                    .snb0303{ @include snb-icon2("icon_gnb03_snb03_role.svg") }
+                    .snb0304{ @include snb-icon2("icon_gnb03_snb04_sysboard.svg") }
+                    .snb0305{ @include snb-icon2("icon_gnb03_snb05_code.svg") }
+
+                    .snb0401{ @include snb-icon2("icon_gnb04_snb01_process.svg") }
+                    .snb0402{ @include snb-icon2("icon_gnb04_snb02_form.svg") }
+                    .snb0403{ @include snb-icon2("icon_gnb04_snb03_workflow.svg") }
+                    .snb0404{ @include snb-icon2("icon_gnb04_snb04_customcode.svg") }
+
+                }
+            &.snb-mywork{position: absolute; top:60px;}
+            &.snb-portal{position: absolute; top:120px;}
+            &.snb-system{position: absolute; top:180px;}
+            &.snb-workflow{position: absolute; top:240px;}
+            }
+        }
+    }
+}
+
+.left-open-menu.disable{display: none;}
+.left-close-menu.disable{display: none;}
+
+/* GNB 메뉴 열렸을 때 */
+.left-open-menu{width:220px; height:100%; background:$alice-primary; position: fixed; left: 0; z-index: 999;}
+.logo-open{height:60px; background:rgba(255, 255, 255, 0.1) url($icon-folder-path + "icon_logo_open.svg") no-repeat 20px center;}
+
+/* GNB 메뉴 닫혔을 때 */
+.left-close-menu{width:60px; height:100%; background:$alice-primary; position: fixed; left: 0; z-index: 999;}
+.logo-close{height:60px; background:rgba(255, 255, 255, 0.1) url($icon-folder-path + "icon_logo_close.svg") no-repeat 20px center;}
+
+/* 토글메뉴 리스트 */
+.toggle-container {display: none;}
+.toggle-container.active{display: block;}
+
+.btn-menuclose {
+    background:rgba(255, 255, 255, 1) url($icon-folder-path + "icon_menuclose.svg") no-repeat center center;
+    width:34px; height:34px; border-radius: 50%; box-shadow: 0px 2px 7px 0px rgba(0,72,230,0.45);
+    position: absolute; left: 202px; bottom: 60px;
+}
+.btn-menuopen {
+    background:rgba(255, 255, 255, 1) url($icon-folder-path + "icon_menuopen.svg") no-repeat center center;
+    width:34px; height:34px;border-radius: 50%; box-shadow: 0px 2px 7px 0px rgba(0,72,230,0.45);
+    position: absolute; left: 42px; bottom: 60px;
+}
