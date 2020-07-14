@@ -13,7 +13,6 @@ import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUrlRepository
-import co.brainz.itsm.auth.dto.AuthDetailDto
 import co.brainz.itsm.auth.dto.AuthDto
 import co.brainz.itsm.auth.dto.AuthMenuDto
 import co.brainz.itsm.auth.dto.AuthUrlDto
@@ -176,33 +175,6 @@ class AuthService(
                 roleAuthMapCount
             )
         )
-        return dto
-    }
-
-    /**
-     * 모든 권한 목록을 조회한다.
-     */
-    fun getAuths(authEntities: Set<AliceAuthEntity>?): MutableList<AuthDetailDto> {
-        val dto = mutableListOf<AuthDetailDto>()
-        if (authEntities != null) {
-            val getAuths = authRepository.findAll()
-            var i = 0
-            for (allAuth in getAuths) {
-                for (dtoAuth in authEntities) {
-                    if (dtoAuth.authId == allAuth.authId) {
-                        i = 1
-                        break
-                    } else {
-                        i = 0
-                    }
-                }
-                if (i == 1) {
-                    dto.add(AuthDetailDto(allAuth.authId, allAuth.authName, true))
-                } else {
-                    dto.add(AuthDetailDto(allAuth.authId, allAuth.authName, false))
-                }
-            }
-        }
         return dto
     }
 }

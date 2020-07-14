@@ -23,7 +23,6 @@ import java.util.Optional
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.web.context.request.RequestContextHolder
@@ -103,17 +102,18 @@ class UserService(
         when (code) {
             AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code -> {
                 val userEntity = userRepository.findByUserKey(userUpdateDto.userKey)
-                val emailConfirmVal = userEntity.email
                 val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
                 val privateKey =
                     attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val targetEntity = updateDataInput(userUpdateDto)
-                if (userUpdateDto.password != null) {
-                    if (targetEntity.password != userUpdateDto.password) {
+
+                when (userUpdateDto.password != null) {
+                    targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
-                        userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
+                        userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password)}
                     }
                 }
+
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
                 aliceFileService.uploadAvatar(
@@ -123,22 +123,23 @@ class UserService(
                     AliceUserConstants.USER_AVATAR_TYPE_FILE
                 )
 
-                if (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
-                    userEntity.userRoleMapEntities.forEach {
-                        userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
-                    }
-
-                    userUpdateDto.roles!!.forEach {
-                        userRoleMapRepository.save(
-                            AliceUserRoleMapEntity(
-                                targetEntity,
-                                roleRepository.findByRoleId(it)
+                when (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
+                    true -> {
+                        userEntity.userRoleMapEntities.forEach {
+                            userRoleMapRepository.deleteById(AliceUserRoleMapPk(userUpdateDto.userKey, it.role.roleId))
+                        }
+                        userUpdateDto.roles!!.forEach {
+                            userRoleMapRepository.save(
+                                AliceUserRoleMapEntity(
+                                    targetEntity,
+                                    roleRepository.findByRoleId(it)
+                                )
                             )
-                        )
+                        }
                     }
                 }
 
-                code = when (targetEntity.email == emailConfirmVal) {
+                code = when (targetEntity.email == userEntity.email) {
                     true -> {
                         when (userEditType) {
                             AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code ->
@@ -159,26 +160,18 @@ class UserService(
      * 자기정보 수정 시, 이메일 및 ID의 중복을 검사한다.
      */
     fun userEditValid(userUpdateDto: UserUpdateDto): String {
-        var isContinue = true
         val targetEntity = userRepository.findByUserKey(userUpdateDto.userKey)
         var code: String = AliceUserConstants.UserEditStatus.STATUS_VALID_SUCCESS.code
 
-        if (targetEntity.userId != userUpdateDto.userId) {
-            if (userRepository.countByUserId(userUpdateDto.userId) > 0) {
-                code = AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
-                isContinue = false
+        when (true) {
+            targetEntity.userId != userUpdateDto.userId -> {
+                if (userRepository.countByUserId(userUpdateDto.userId) > 0) {
+                    code = AliceUserConstants.SignUpStatus.STATUS_ERROR_USER_ID_DUPLICATION.code
+                }
             }
-        }
-
-        when (isContinue) {
-            true -> {
-                try {
-                    if (targetEntity.email != userUpdateDto.email) {
-                        if (aliceCertificationRepository.countByEmail(userUpdateDto.email!!) > 0) {
-                            code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
-                        }
-                    }
-                } catch (e: EmptyResultDataAccessException) {
+            targetEntity.email != userUpdateDto.email -> {
+                if (aliceCertificationRepository.countByEmail(userUpdateDto.email!!) > 0) {
+                    code = AliceUserConstants.SignUpStatus.STATUS_ERROR_EMAIL_DUPLICATION.code
                 }
             }
         }
