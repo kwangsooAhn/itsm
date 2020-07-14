@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.certification.service
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
@@ -5,7 +10,6 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.avatar.entity.AliceAvatarEntity
-import co.brainz.framework.avatar.repository.AliceAvatarRepository
 import co.brainz.framework.certification.dto.AliceCertificationDto
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.repository.AliceCertificationRepository
@@ -205,6 +209,7 @@ class AliceCertificationService(
      */
     private fun setUserAvatar(aliceSignUpDto: AliceSignUpDto): AliceAvatarEntity {
         return aliceFileService.uploadAvatar(
+            "",
             AliceUserConstants.USER_AVATAR_IMAGE_DIR,
             AliceUserConstants.BASE_DIR,
             aliceSignUpDto.avatarId,

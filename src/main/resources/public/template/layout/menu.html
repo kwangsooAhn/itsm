@@ -34,7 +34,7 @@
                 </div>
                 <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" onclick="profile_menu();">
                     Hello, <span sec:authentication="details.userName"></span>
-                    <img th:src="@{${#authentication.details.avatarPath}}" width="50px" height="50px" border="1" alt="profile pic"/>
+                    <img th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" width="50px" height="50px" border="1" alt="profile pic"/>
                     <span class="caret"></span>
                 </button>
                 <div id="profile-menu">

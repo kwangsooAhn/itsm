@@ -415,7 +415,7 @@ class AliceFileService(
     }
 
     /**
-     * 아파타 이미지 임시 업로드
+     * 회원 가입 시 아바타 이미지 임시 업로드
      */
     fun uploadResources(multipartFile: MultipartFile, location: String, baseDir: String, fileName: String?) {
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
@@ -440,13 +440,13 @@ class AliceFileService(
     }
 
     /**
-     * 아파타 이미지 업로드
+     * 아바타 이미지 업로드
      */
-    fun uploadAvatar(location: String, baseDir: String, avatarID: String, avatarType: String): AliceAvatarEntity {
+    fun uploadAvatar(avatarId : String, location: String, baseDir: String, avatarUUID: String, avatarType: String): AliceAvatarEntity {
         val dir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_DIR)
         val tempDir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_TEMP_DIR)
-        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarID)
-        val filePath = Paths.get(dir.toString() + File.separator + avatarID)
+        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
+        val filePath = Paths.get(dir.toString() + File.separator + avatarUUID)
         val sampleFilePath = Paths.get(dir.toString() + File.separator + AliceUserConstants.SAMPLE_FILE_NAME)
         val tempFile = File(tempPath.toString())
         val uploadFile = File(filePath.toString())
@@ -456,7 +456,7 @@ class AliceFileService(
             true -> {
                 Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
                 path = filePath.toString()
-                avatarValue = avatarID
+                avatarValue = avatarUUID
             }
             false -> {
                 if (!uploadFile.exists()) {
@@ -468,12 +468,11 @@ class AliceFileService(
         }
 
         val avatarEntity = AliceAvatarEntity(
+            avatarId =avatarId,
             avatarType = avatarType,
             avatarValue = avatarValue,
             uploaded = true,
-            uploadedLocation = path,
-            randomName = avatarID,
-            fileSize = 825200
+            uploadedLocation = path
         )
 
         return aliceAvatarRepository.save(avatarEntity)

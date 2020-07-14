@@ -1,6 +1,12 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.avatar.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
+import co.brainz.framework.constants.AliceUserConstants
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import javax.persistence.Column
@@ -19,21 +25,15 @@ data class AliceAvatarEntity(
     var avatarId: String = "",
 
     @Column(name = "avatar_type", length = 128)
-    var avatarType: String = "",
+    var avatarType: String = AliceUserConstants.USER_AVATAR_TYPE_FILE,
 
     @Column(name = "avatar_value", length = 512)
-    var avatarValue: String = "",
+    var avatarValue: String = AliceUserConstants.SAMPLE_FILE_NAME,
 
     @Column(name = "uploaded")
     var uploaded: Boolean = false,
 
     @Column(name = "uploaded_location")
-    var uploadedLocation: String = "",
-
-    @Column(name = "random_name")
-    var randomName: String = "",
-
-    @Column(name = "file_size")
-    var fileSize: Long = 0L
+    var uploadedLocation: String = ""
 
 ) : Serializable, AliceMetaEntity()

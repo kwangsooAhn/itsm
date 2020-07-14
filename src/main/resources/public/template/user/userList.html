@@ -41,7 +41,7 @@
         </tr>
         <tr th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
             <td>
-                <img th:src="@{${user.avatarPath}}" width="30px" height="30px" border="1" alt="profile pic"/>
+                <img th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="30px" height="30px" border="1" alt="profile pic"/>
                 <span th:text="${user.userName}"></span>
             </td>
             <td th:text="${user.userId}"></td>

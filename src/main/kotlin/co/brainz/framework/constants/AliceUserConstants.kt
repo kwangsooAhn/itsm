@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.constants
 
 /**
@@ -49,6 +54,7 @@ object AliceUserConstants {
      * 사용자 아바타  디렉터리
      */
     const val AVATAR_ID: String = "avatar"
+    const val SAMPLE_FILE_PATH: String = "/assets/media/image/avatar/"
     const val SAMPLE_FILE_NAME: String = "profile_sample.jpg"
     const val BASE_DIR: String = "public"
     const val USER_AVATAR_IMAGE_TEMP_DIR: String = "avatar/temp/"
