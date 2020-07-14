@@ -43,7 +43,7 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
                 val fileName = request.getParameter("fileName") ?: null
                 map["file"] = aliceFileService.uploadResources(
                     multipartFile,
-                    AliceUserConstants.USER_AVATAR_IMAGE_DIR,
+                    AliceUserConstants.USER_AVATAR_IMAGE_TEMP_DIR,
                     AliceUserConstants.BASE_DIR,
                     fileName
                 )

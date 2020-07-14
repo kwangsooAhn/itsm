@@ -12,7 +12,8 @@ import javax.persistence.Table
 @Entity
 @Table(name = "awf_avatar")
 data class AliceAvatarEntity(
-    @Id @GeneratedValue(generator = "system-uuid")
+    @Id
+    @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(name = "avatar_id", length = 128)
     var avatarId: String = "",

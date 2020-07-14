@@ -3,7 +3,7 @@ package co.brainz.framework.auth.service
 import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
-import co.brainz.framework.avatar.service.AliceAvataService
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import java.security.PrivateKey
@@ -32,7 +32,7 @@ import org.springframework.web.context.request.ServletRequestAttributes
 @Component
 class AliceAuthProvider(
     private val userDetailsService: AliceUserDetailsService,
-    private val avataService: AliceAvataService,
+    private val avatarService: AliceAvatarService,
     private val aliceCryptoRsa: AliceCryptoRsa
 ) : AuthenticationProvider {
 
@@ -66,7 +66,7 @@ class AliceAuthProvider(
         }
 
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
-        val avatarPath = avataService.makeAvataPath(aliceUser.avatar)
+        val avatarPath = avatarService.makeAvatarPath(aliceUser.avatar)
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(userId, password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->

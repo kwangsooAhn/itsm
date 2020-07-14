@@ -9,6 +9,7 @@ import java.time.LocalDateTime
 import org.hibernate.annotations.GenericGenerator
 import org.springframework.format.annotation.DateTimeFormat
 import javax.persistence.Column
+import javax.persistence.CascadeType
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
@@ -85,7 +86,7 @@ data class AliceUserEntity(
     @Column(name = "theme", length = 100)
     var theme: String = "",
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = [CascadeType.ALL], optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "avatar_id")
     var avatar: AliceAvatarEntity = AliceAvatarEntity()
 

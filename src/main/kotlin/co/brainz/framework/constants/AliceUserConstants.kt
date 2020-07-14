@@ -51,7 +51,10 @@ object AliceUserConstants {
     const val AVATAR_ID: String = "avatar"
     const val SAMPLE_FILE_NAME: String = "profile_sample.jpg"
     const val BASE_DIR: String = "public"
-    const val USER_AVATAR_IMAGE_DIR: String = "assets/media/image/avatar/"
+    const val USER_AVATAR_IMAGE_TEMP_DIR: String = "avatar/temp/"
+    const val USER_AVATAR_IMAGE_DIR: String = "avatar"
+    const val USER_AVATAR_TYPE_FILE = "FILE"
+    const val USER_AVATAR_TYPE_URL = "URL"
 
     /**
      * 사용자 상태.

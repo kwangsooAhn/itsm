@@ -5,7 +5,7 @@ import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.framework.avatar.service.AliceAvataService
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.certification.dto.AliceOAuthDto
 import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceUserConstants
@@ -41,7 +41,7 @@ import org.springframework.web.client.exchange
 class OAuthService(
     private val userService: UserService,
     private val userDetailsService: AliceUserDetailsService,
-    private val avataService: AliceAvataService,
+    private val avatarService: AliceAvatarService,
     private val aliceCertificationRepository: AliceCertificationRepository
 ) {
 
@@ -87,7 +87,7 @@ class OAuthService(
             )
         )
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
-        val avatarPath = avataService.makeAvataPath(aliceUser.avatar)
+        val avatarPath = avatarService.makeAvatarPath(aliceUser.avatar)
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(aliceUser.oauthKey, aliceUser.password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->

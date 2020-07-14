@@ -2,7 +2,6 @@ package co.brainz.itsm.certification.repository
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.avatar.entity.AliceAvatarEntity
 import co.brainz.framework.certification.dto.AliceCertificationDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
@@ -93,8 +92,8 @@ class CertificationTest {
 
         // Check user status init.
         mvc.perform(get("/certification/status"))
-                .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", AliceUserConstants.Status.SIGNUP.value))
+            .andExpect(status().isOk)
+            .andExpect(model().attribute("validCode", AliceUserConstants.Status.SIGNUP.value))
     }
 
     // Send Mail
@@ -122,7 +121,7 @@ class CertificationTest {
         val uid: String = "$certificationKey:$userId:$email"
         val encryptUid: String = AliceEncryptionUtil().twoWayEnCode(uid)
         mvc.perform(get("/certification/valid").param("uid", encryptUid))
-                .andExpect(status().isOk)
-                .andExpect(model().attribute("validCode", AliceUserConstants.Status.CERTIFIED.value))
+            .andExpect(status().isOk)
+            .andExpect(model().attribute("validCode", AliceUserConstants.Status.CERTIFIED.value))
     }
 }

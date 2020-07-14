@@ -1,7 +1,7 @@
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.avatar.dto.AliceAvatarDto
+import co.brainz.framework.avatar.entity.AliceAvatarEntity
 import co.brainz.framework.avatar.repository.AliceAvatarRepository
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
@@ -29,7 +29,6 @@ import javax.imageio.ImageIO
 import org.apache.tika.Tika
 import org.slf4j.LoggerFactory
 import org.springframework.core.env.Environment
-import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.HttpHeaders
@@ -310,7 +309,8 @@ class AliceFileService(
     fun getList(ownId: String, fileDataId: String): List<AliceFileOwnMapDto> {
         val aliceFileOwnMapList: MutableList<AliceFileOwnMapDto> = mutableListOf()
         if (ownId != "") {
-            val fileOwnMapEntities = aliceFileOwnMapRepository.findAllByOwnIdAndFileLocEntityUploaded(ownId, true)
+            val fileOwnMapEntities =
+                aliceFileOwnMapRepository.findAllByOwnIdAndFileLocEntityUploaded(ownId, true)
             for (fileOwnMapEntity in fileOwnMapEntities) {
                 val fileLocEntity = fileOwnMapEntity.fileLocEntity
                 val fileLocDto = AliceFileLocDto(
@@ -414,11 +414,13 @@ class AliceFileService(
         }
     }
 
+    /**
+     * 아파타 이미지 임시 업로드
+     */
     fun uploadResources(multipartFile: MultipartFile, location: String, baseDir: String, fileName: String?) {
-        this.basePath = ClassPathResource(baseDir).file.path.toString()
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
         val filePath: Path
-        var dir = Paths.get(this.basePath, location)
+        var dir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_TEMP_DIR)
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
 
         filePath = when (fileName) {
@@ -437,57 +439,44 @@ class AliceFileService(
         multipartFile.transferTo(filePath.toFile())
     }
 
-    fun uploadAvatar(location: String, baseDir: String, userKey: String, avatarID: String, avatarType: String) {
-
-
-        //aliceAvatarRepository.save();
-        /*for (fileSeq in aliceFileDto.fileSeq.orEmpty()) {
-            val fileLocEntity = aliceFileLocRepository.getOne(fileSeq)
-            val filePath = Paths.get(fileLocEntity.uploadedLocation + File.separator + fileLocEntity.randomName)
-            val tempPath = super.getDir("temp", fileLocEntity.randomName)
-            Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
-            logger.debug(">> 임시업로드파일 {} 을 사용할 위치로 이동 {}", tempPath.toAbsolutePath(), filePath.toAbsolutePath())
-            logger.debug(
-                ">> 여기에 업로드 파일 {}({})",
-                fileLocEntity.uploadedLocation + File.separator + fileLocEntity.originName,
-                fileLocEntity.randomName
-            )
-            fileLocEntity.uploaded = true
-            try {
-                val fileOwnMapEntity = AliceFileOwnMapEntity(aliceFileDto.ownId, fileLocEntity)
-                aliceFileOwnMapRepository.save(fileOwnMapEntity)
-            } catch (e: Exception) {
-                logger.error("{}", e.message)
-                Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
-                throw AliceException(AliceErrorConstants.ERR, e.message)
-            }
-        }*/
-        this.basePath = ClassPathResource(baseDir).file.path.toString()
-        val dir = Paths.get(this.basePath, location)
-        val tempPath = Paths.get(dir.toString() + File.separator + avatarID)
-        val filePath = Paths.get(dir.toString() + File.separator + userKey)
+    /**
+     * 아파타 이미지 업로드
+     */
+    fun uploadAvatar(location: String, baseDir: String, avatarID: String, avatarType: String): AliceAvatarEntity {
+        val dir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_DIR)
+        val tempDir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_TEMP_DIR)
+        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarID)
+        val filePath = Paths.get(dir.toString() + File.separator + avatarID)
         val sampleFilePath = Paths.get(dir.toString() + File.separator + AliceUserConstants.SAMPLE_FILE_NAME)
         val tempFile = File(tempPath.toString())
         val uploadFile = File(filePath.toString())
-
+        var path = ""
+        var avatarValue = ""
         when (tempFile.exists()) {
             true -> {
                 Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
+                path = filePath.toString()
+                avatarValue = avatarID
             }
             false -> {
                 if (!uploadFile.exists()) {
                     Files.copy(sampleFilePath, filePath)
+                    path = sampleFilePath.toString()
+                    avatarValue = AliceUserConstants.SAMPLE_FILE_NAME
                 }
             }
         }
-        /*val avatarDto : AliceAvatarDto = AliceAvatarDto(
-            avatarId = userKey,
-            avatarType = ,
-            avatarValue = ,
-            randomName =
-        )*/
 
+        val avatarEntity = AliceAvatarEntity(
+            avatarType = avatarType,
+            avatarValue = avatarValue,
+            uploaded = true,
+            uploadedLocation = path,
+            randomName = avatarID,
+            fileSize = 825200
+        )
 
+        return aliceAvatarRepository.save(avatarEntity)
     }
 
 }

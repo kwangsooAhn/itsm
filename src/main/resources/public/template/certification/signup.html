@@ -185,7 +185,7 @@
                         officeNumber: document.getElementById("officeNumber").value,
                         mobileNumber: document.getElementById("mobileNumber").value,
                         fileSeq: document.getElementsByName('fileSeq').value,
-                        avatarUUID: document.getElementById('avatarUUID').value
+                        avatarId: document.getElementById('avatarUUID').value
                     };
                     // 등록
                     restSubmit("POST", "/certification/register",true,registerInfo);
