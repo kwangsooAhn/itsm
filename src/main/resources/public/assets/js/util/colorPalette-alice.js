@@ -54,10 +54,11 @@ const colorPalette = (function() {
      * @param eventTriggerElem 컬러 팔레트를 출력하기 위한 클릭 이벤트를 걸 엘리먼트
      * @param colorCodeElem 컬러 색상값 엘리먼트
      * @param colorPaletteElem 보여줄 컬러 팔레트 엘리먼트
+     * @param isOpacity 불투명도 사용여부
      * @param colorName 커스텀 컬러명
      */
-    function initColorPalette(eventTriggerElem, colorCodeElem, colorPaletteElem, colorName) {
-        if (colorName === '' || colorName === undefined) {
+    function initColorPalette(eventTriggerElem, colorCodeElem, colorPaletteElem, isOpacity, colorName) {
+        if (colorName === null || colorName === '' || colorName === undefined) {
             colorName = basicPaletteColors;
         }
 
@@ -68,17 +69,63 @@ const colorPalette = (function() {
         let wrapperEl = pk.getElm(eventTriggerElem);
 
         // Opacity
-        let opacityEl = colorPaletteElem.querySelector(".color-palette-opacity");
-        let slideInput;
-        if (opacityEl !== null) {
-            slideInput = this.initColorPaletteOpacity(paletteEl, wrapperEl, opacityEl, pk, colorCodeElem);
+        let opacityEl;
+        let slideObject;
+        if (isOpacity) {
+            opacityEl = document.createElement('div');
+            opacityEl.className = 'color-palette-opacity';
+            opacityEl.id = paletteEl.id + '-' +  'opacity';
+
+            let slideBox = document.createElement('span');
+            slideObject = document.createElement('input');
+            slideObject.type = 'range';
+            slideObject.min = '0';
+            slideObject.max = '100';
+            slideObject.value = '100';
+            slideObject.className = 'slide-object'
+
+            let slideInput = document.createElement('input');
+            slideInput.type = 'text';
+            slideInput.readOnly = true;
+            slideInput.className = 'slide-input';
+            slideInput.value = slideObject.value;
+
+            let slideUnit = document.createElement('label');
+            slideUnit.innerText = '%';
+            slideBox.appendChild(slideObject);
+            slideBox.appendChild(slideInput);
+            slideBox.appendChild(slideUnit);
+            opacityEl.appendChild(slideBox);
+            colorPaletteElem.appendChild(opacityEl);
+
+            slideObject.addEventListener('click', function (event) {
+                slideObjectEvent(event, colorCodeElem, slideInput, this);
+            });
+
+            slideObject.addEventListener('input', function (event) {
+                slideObjectEvent(event, colorCodeElem, slideInput, this);
+            });
+
+            opacityEl.addEventListener('click', function(ev) {
+                ev.stopPropagation();
+                ev.preventDefault();
+            });
+
+            window.addEventListener('click', function(e) {
+                if (pk.isOpen) {
+                    opacityEl.style.display = 'table';
+                } else {
+                    opacityEl.style.display = 'none';
+                }
+            });
         }
 
         pk.colorChosen(function (col) {
             wrapperEl.style.backgroundColor = col;
+
             colorCodeElem.value = col;
-            if (opacityEl !== null) {
-                colorCodeElem.dataset['opacity'] = slideInput.value;
+            if (isOpacity && opacityEl !== null) {
+                colorCodeElem.dataset['opacity'] = slideObject.value;
                 opacityEl.style.display = 'none';
             }
             const evt = document.createEvent('HTMLEvents');
@@ -89,72 +136,27 @@ const colorPalette = (function() {
         eventTriggerElem.addEventListener('blur', function(e) {
 
         });
-    };
+    }
 
-    function initColorPaletteOpacity(paletteEl, wrapperEl, opacityEl, pk, colorCodeElem) {
-        let slideBox = document.createElement('span');
-        let slideObject = document.createElement('input');
-        slideObject.type = 'range';
-        slideObject.min = '0';
-        slideObject.max = '100';
-        slideObject.value = '100';
-        slideObject.id = 'slideObject';
-        slideObject.style.width = '122px';
-        slideObject.style.marginLeft = '9.5px';
-        slideObject.style.marginRight = '10px';
-
-        let slideInput = document.createElement('input');
-        slideInput.type = 'number';
-        slideInput.min = '0';
-        slideInput.max = '100';
-        slideInput.style.width = '39px';
-        slideInput.style.height = '20px';
-        slideInput.value = slideObject.value;
-        slideBox.appendChild(slideObject);
-        slideBox.appendChild(slideInput);
-        opacityEl.appendChild(slideBox);
-
-        slideObject.addEventListener('click', function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            slideInput.value = this.value;
-            colorCodeElem.dataset['opacity'] = slideInput.value;
-            const evt = document.createEvent('HTMLEvents');
-            evt.initEvent('change', false, true);
-            colorCodeElem.dispatchEvent(evt);
-        });
-
-        slideInput.addEventListener('click', function (e) {
-            e.stopPropagation();
-            e.preventDefault();
-            slideInput.oninput = function() {
-                slideObject.value = this.value;
-                colorCodeElem.dataset['opacity'] = slideObject.value;
-                const evt = document.createEvent('HTMLEvents');
-                evt.initEvent('change', false, true);
-                colorCodeElem.dispatchEvent(evt);
-            }
-        });
-
-        wrapperEl.addEventListener('click', function () {
-            if (pk.isOpen) {
-                opacityEl.style.display = 'block';
-            } else {
-                opacityEl.style.display = 'none';
-            }
-        });
-
-        window.addEventListener("click", function (ev) {
-            if (ev.target !== wrapperEl && ev.target !== paletteEl && ev.target !== slideInput) {
-                opacityEl.style.display = 'none';
-            }
-        });
-
-        return slideInput
+    /**
+     * 불투명도 조절 이벤트.
+     *
+     * @param event 이벤트
+     * @param colorCodeElem 컬러 색상값 엘리먼트
+     * @param slideInput 슬라이드 Input 오브젝트
+     * @param slideObject 슬라이드 오브젝트
+     */
+    function slideObjectEvent(event, colorCodeElem, slideInput, slideObject) {
+        event.stopPropagation();
+        event.preventDefault();
+        slideInput.value = Number(slideObject.value).toFixed(0);
+        colorCodeElem.dataset['opacity'] = slideInput.value;
+        const evt = document.createEvent('HTMLEvents');
+        evt.initEvent('change', false, true);
+        colorCodeElem.dispatchEvent(evt);
     }
 
     return {
-        initColorPalette: initColorPalette,
-        initColorPaletteOpacity: initColorPaletteOpacity
+        initColorPalette: initColorPalette
     }
 })();

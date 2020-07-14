@@ -10257,6 +10257,45 @@ body {
   margin-left: 0.375rem;
   cursor: pointer;
 }
+.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity {
+  background-color: #ffffff;
+  width: 11.875rem;
+  border: 0.063rem solid #c8ced8;
+  border-top: none;
+  padding-left: 0.219rem;
+  display: none;
+  height: 2.5rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span {
+  display: table-cell;
+  vertical-align: middle;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span input {
+  vertical-align: middle;
+  width: 1.625rem;
+  height: 1.25rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span input.slide-object {
+  -webkit-appearance: none;
+  width: 7.625rem;
+  height: 0.0625rem;
+  background: #4C5264;
+  outline: none;
+  margin-left: 0.594rem;
+  margin-right: 0.625rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span input.slide-input {
+  border: none;
+  pointer-events: none;
+  background-color: #ffffff;
+  color: #212529;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span label {
+  margin: 0;
+  width: 0.875rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
+}
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip {
   position: relative;
   display: inline-block;

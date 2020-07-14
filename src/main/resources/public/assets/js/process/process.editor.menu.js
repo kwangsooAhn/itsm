@@ -1196,10 +1196,26 @@
                     elementObject.id = property.id;
                     elementObject.name = property.id;
                     if (elemData[property.id] && property.type !== 'checkbox') {
-                        elementObject.value = elemData[property.id];
+                        if (property.type === 'rgb') {
+                            if (aliceJs.isHexCode(elemData[property.id])) {
+                                elementObject.value = aliceJs.hexToRgba(elemData[property.id], 0.5)
+                            } else {
+                                elementObject.value = aliceJs.rgbaToHex(elemData[property.id]);
+                            }
+                            let opacityValue = aliceJs.rgbaOpacity(elemData[property.id]) * 100;
+                            let opacityLayer = elementObject.nextElementSibling.querySelector('.color-palette-opacity');
+                            if (typeof opacityLayer !== 'undefined') {
+                                opacityLayer.querySelector('.slide-object').value = opacityValue;
+                                opacityLayer.querySelector('.slide-input').value = opacityValue;
+                            }
+                            elementObject.value = elemData[property.id];
+                        } else {
+                            elementObject.value = elemData[property.id];
+                        }
                     } else if (property.id === 'id') {
                         elementObject.value = id;
                     }
+
                     // change 이벤트 설정
                     let changeEventHandler = function() {
                         changePropertiesDataValue(id);
@@ -1442,13 +1458,19 @@
                     elementObject.readOnly = true;
                 }
                 elementObject.addEventListener('change', function() {
-                    if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
+                    /*if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
                         this.value = '';
-                    }
+                    }*/
                     let opacity = 0;
                     if (this.dataset['opacity'] !== '') {
                         opacity = Number(this.dataset['opacity']) / 100;
                     }
+
+                    if (!aliceJs.isHexCode(this.value)) {
+                        this.value = aliceJs.rgbaToHex(this.value); // opacity 값 갱신하기 위해 Hex로 변환
+                    }
+                    this.value = aliceJs.hexToRgba(this.value, opacity);
+
                     this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
                     if (properties.type === 'groupArtifact') {
                         const groupElement = d3.select(document.getElementById(id));
@@ -1465,28 +1487,14 @@
                 });
                 propertyContainer.appendChild(elementObject);
 
-                /*let colorPaletteBox = document.createElement('div');
-                colorPaletteBox.id = property.id + '-colorPalette';
-                colorPaletteBox.className = 'color-palette';
-                propertyContainer.appendChild(colorPaletteBox);
-                colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox);*/
-
-                let colorPaletteGroup = document.createElement('div');
+                let colorPaletteLayer = document.createElement('div');
                 let colorPaletteBox = document.createElement('div');
                 colorPaletteBox.id = property.id + '-colorPalette';
                 colorPaletteBox.className = 'color-palette';
+                colorPaletteLayer.appendChild(colorPaletteBox);
+                propertyContainer.appendChild(colorPaletteLayer);
 
-                let colorPaletteOpacityBox = document.createElement('div');
-                //colorPaletteOpacityBox.style.height = '40px';
-                //colorPaletteOpacityBox.style.background = 'red';
-                colorPaletteOpacityBox.id = property.id + '-colorPaletteOpacity';
-                colorPaletteOpacityBox.className = 'color-palette-opacity';
-                //colorPaletteOpacityBox.style.display = 'none';
-                colorPaletteGroup.appendChild(colorPaletteBox);
-                colorPaletteGroup.appendChild(colorPaletteOpacityBox);
-                propertyContainer.appendChild(colorPaletteGroup);
-
-                colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteGroup);
+                colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteLayer, true);
                 break;
             default:
                 break;

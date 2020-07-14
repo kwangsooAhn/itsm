@@ -494,6 +494,53 @@ body {
                         }
                     }
 
+                    div.color-palette-opacity {
+                        background-color: #ffffff;
+                        width: 11.875rem; // 190px
+                        border: 0.063rem solid #c8ced8;
+                        border-top: none;
+                        padding-left: 0.219rem; // 3.5px
+                        display: none;
+                        height: 2.5rem; // 40px
+                    }
+
+                    div.color-palette-opacity span {
+                        display: table-cell;
+                        vertical-align: middle;
+                    }
+
+                    div.color-palette-opacity span input {
+                        vertical-align: middle;
+                        width: 1.625rem; // 26px
+                        height: 1.25rem; // 20px
+                    }
+
+                    div.color-palette-opacity span input.slide-object {
+                        -webkit-appearance: none;
+                        width: 7.625rem;
+                        height: 0.0625rem;
+                        background: #4C5264;
+                        outline: none;
+                        margin: {
+                            left: 0.594rem; // 9.5px
+                            right: 0.625rem; // 10px
+                        };
+                    }
+
+                    div.color-palette-opacity span input.slide-input {
+                        border: none;
+                        pointer-events: none;
+                        background-color: #ffffff;
+                        color: #212529;
+                    }
+
+                    div.color-palette-opacity span label {
+                        margin: 0;
+                        width: 0.875rem;
+                        height: 1.25rem;
+                        line-height: 1.25rem;
+                    }
+
                     .clipboard-tooltip {
                         position: relative;
                         display: inline-block;

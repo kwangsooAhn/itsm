@@ -536,3 +536,63 @@ aliceJs.mergeObject = function(target, source) {
 aliceJs.isEmpty = function(value) {
     return value === "" || value == null || (typeof value == "object" && !Object.keys(value).length);
 };
+
+/**
+ * RGBA 값을 Hex 값으로 변환.
+ *
+ * @param {string} value
+ * @returns {string} rgb
+ */
+aliceJs.rgbaToHex = function(value) {
+    let rgb = value.replace(/\s/g, '').match(/^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i)
+    return rgb ?
+        '#' +
+        (rgb[1] | 1 << 8).toString(16).slice(1) +
+        (rgb[2] | 1 << 8).toString(16).slice(1) +
+        (rgb[3] | 1 << 8).toString(16).slice(1) : value;
+}
+
+/**
+ * RGBA 의 alpha 값 조회.
+ *
+ * @param {string} value
+ * @returns {string} alpha
+ */
+aliceJs.rgbaOpacity = function(value) {
+    let rgb = value.replace(/\s/g, '').match(/^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i);
+    let alpha = (rgb && rgb[4]);
+    if (alpha === null || alpha === '') {
+        alpha = 0.5;
+    }
+    return alpha
+}
+
+/**
+ * Hex 값을 RGBA 값으로 변환.
+ *
+ * @param {string} value
+ * @param {number} opacity
+ * @returns {string} hexValue
+ */
+aliceJs.hexToRgba = function(value, opacity) {
+    let hexValue;
+    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(value)) {
+        hexValue = value.substring(1).split('');
+        if (hexValue.length === 3) {
+            hexValue = [hexValue[0], hexValue[0], hexValue[1], hexValue[1], hexValue[2], hexValue[2]];
+        }
+        hexValue = '0x' + hexValue.join('');
+        return 'rgba('+[(hexValue>>16)&255, (hexValue>>8)&255, hexValue&255].join(',')+',' + opacity + ')';
+    }
+    throw new Error('Bad Hex');
+}
+
+/**
+ * Hex 값 체크.
+ *
+ * @param {string} value
+ * @returns {boolean}
+ */
+aliceJs.isHexCode = function(value) {
+    return /^#([A-Fa-f0-9]{3}){1,2}$/.test(value);
+}
