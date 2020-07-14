@@ -22,7 +22,8 @@ class FolderRestController(
 
     @DeleteMapping("/{folderId}")
     fun deleteFolder(
-        @PathVariable folderId: String, @RequestBody restTemplateFolderDto: RestTemplateFolderDto
+        @PathVariable folderId: String,
+        @RequestBody restTemplateFolderDto: RestTemplateFolderDto
     ): Boolean {
         return folderService.deleteFolder(folderId, restTemplateFolderDto)
     }
