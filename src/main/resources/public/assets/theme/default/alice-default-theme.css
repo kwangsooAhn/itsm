@@ -42,10 +42,6 @@
   font-size: 1.25rem;
   font-weight: 400;
 }
-.alice-container {
-  height: calc(100vh - 3.75rem);
-  overflow: auto;
-}
 
 .navbar-brand {
   height: 2.5rem;
