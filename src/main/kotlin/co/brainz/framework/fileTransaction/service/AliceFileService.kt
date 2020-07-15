@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
@@ -417,7 +422,7 @@ class AliceFileService(
     /**
      * 회원 가입 시 아바타 이미지 임시 업로드
      */
-    fun uploadResources(multipartFile: MultipartFile, location: String, baseDir: String, fileName: String?) {
+    fun uploadTempAvatar(multipartFile: MultipartFile, location: String, baseDir: String, fileName: String?) {
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
         val filePath: Path
         var dir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_TEMP_DIR)
@@ -442,40 +447,85 @@ class AliceFileService(
     /**
      * 아바타 이미지 업로드
      */
-    fun uploadAvatar(avatarId : String, location: String, baseDir: String, avatarUUID: String, avatarType: String): AliceAvatarEntity {
-        val dir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_DIR)
+    fun uploadAvatar(avatarId: String, avatarUUId: String, avatarType: String): AliceAvatarEntity {
         val tempDir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_TEMP_DIR)
-        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
-        val filePath = Paths.get(dir.toString() + File.separator + avatarUUID)
-        val sampleFilePath = Paths.get(dir.toString() + File.separator + AliceUserConstants.SAMPLE_FILE_NAME)
+        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUId)
         val tempFile = File(tempPath.toString())
-        val uploadFile = File(filePath.toString())
-        var path = ""
-        var avatarValue = ""
-        when (tempFile.exists()) {
-            true -> {
-                Files.move(tempPath, filePath, StandardCopyOption.REPLACE_EXISTING)
-                path = filePath.toString()
-                avatarValue = avatarUUID
-            }
-            false -> {
-                if (!uploadFile.exists()) {
-                    Files.copy(sampleFilePath, filePath)
-                    path = sampleFilePath.toString()
-                    avatarValue = AliceUserConstants.SAMPLE_FILE_NAME
+
+        val avatarDir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_DIR)
+        val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUId)
+        val avatarUploadFile = File(avatarFilePath.toString())
+
+        var avatarInfo = AliceAvatarEntity()
+        val avatarUploadedLocation: String
+        val avatarValue: String
+        val avatarUploaded: Boolean
+        if (avatarId != "") {
+            avatarInfo = aliceAvatarRepository.findByAvatarId(avatarId)
+        }
+
+        // 임시폴더에서 파일이 없으면 아바타를 등록/수정 하지 않았다고 본다.
+        if (tempFile.exists() && avatarUUId != "") {
+            if (avatarId != "") {
+                if (avatarUploadFile.exists() && avatarInfo.uploaded) {
+                    Files.delete(Paths.get(avatarInfo.uploadedLocation + File.separator + avatarInfo.avatarValue))
                 }
+            }
+            Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
+            avatarValue = avatarUUId
+            avatarUploaded = true
+            avatarUploadedLocation = avatarFilePath.toString()
+        } else {
+            if (avatarId != "") {
+                avatarValue = avatarInfo.avatarValue
+                avatarUploaded = avatarInfo.uploaded
+                avatarUploadedLocation = avatarInfo.uploadedLocation
+            } else {
+                avatarValue = AliceUserConstants.SAMPLE_FILE_NAME
+                avatarUploaded = false
+                avatarUploadedLocation = AliceUserConstants.SAMPLE_FILE_PATH
             }
         }
 
         val avatarEntity = AliceAvatarEntity(
-            avatarId =avatarId,
+            avatarId = avatarId,
             avatarType = avatarType,
             avatarValue = avatarValue,
-            uploaded = true,
-            uploadedLocation = path
+            uploaded = avatarUploaded,
+            uploadedLocation = avatarUploadedLocation
         )
 
         return aliceAvatarRepository.save(avatarEntity)
+    }
+
+    /**
+     * 아바타 이미지명을 uuid에서 ID 값으로 변경 한다.
+     * 신규 사용자 등록 시 avatar_id, user_key를 구할 수가 없기 때문에
+     * 임시적으로 생성한 avatar_uuid로 파일명을 만든다. avatar_uuid가 고유 값을 보장 하지 못하기 때문에
+     * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
+     */
+    fun avatarFileNameMod(aliceAvatarEntity: AliceAvatarEntity) {
+        if (aliceAvatarEntity.avatarType == AliceUserConstants.USER_AVATAR_TYPE_FILE &&
+            aliceAvatarEntity.uploaded
+        ) {
+            if (aliceAvatarEntity.avatarId != aliceAvatarEntity.avatarValue) {
+                val avatarDir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_DIR)
+                val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarValue)
+                val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarId)
+                val avatarUploadFile = File(avatarFilePath.toString())
+                if (avatarUploadFile.exists()) {
+                    Files.move(avatarFilePath, avatarIdFilePath, StandardCopyOption.REPLACE_EXISTING)
+                    val avatarEntity = AliceAvatarEntity(
+                        avatarId = aliceAvatarEntity.avatarId,
+                        avatarType = aliceAvatarEntity.avatarType,
+                        avatarValue = aliceAvatarEntity.avatarId,
+                        uploaded = aliceAvatarEntity.uploaded,
+                        uploadedLocation = avatarIdFilePath.toString()
+                    )
+                    aliceAvatarRepository.save(avatarEntity)
+                }
+            }
+        }
     }
 
 }

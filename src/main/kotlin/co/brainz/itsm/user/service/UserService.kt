@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.user.service
 
 import co.brainz.framework.auth.entity.AliceUserEntity
@@ -116,13 +121,14 @@ class UserService(
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
-                aliceFileService.uploadAvatar(
+                val aliceAliceAvatarEntity = aliceFileService.uploadAvatar(
                     targetEntity.avatar.avatarId,
-                    AliceUserConstants.USER_AVATAR_IMAGE_DIR,
-                    AliceUserConstants.BASE_DIR,
-                    userUpdateDto.avatarUUID,
+                    userUpdateDto.avatarUUId,
                     AliceUserConstants.USER_AVATAR_TYPE_FILE
                 )
+                if (aliceAliceAvatarEntity.uploaded) {
+                    aliceFileService.avatarFileNameMod(aliceAliceAvatarEntity)
+                }
 
                 when (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
                     true -> {

@@ -50,7 +50,7 @@
             <p th:text="#{login.label.userSignUp}"></p>
             <form id="signUpForm" method="post" onsubmit="return false">
                 <table class="signup-form">
-                    <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
+                    <input type="hidden" id="avatarUUId" name="avatarUUId" value=""/>
                     <tr>
                         <th><a class="required" th:text="#{user.label.id}"></a></th>
                         <td><input type="text" id="userId" name="userId" maxlength="100" required="required"></td>
@@ -139,12 +139,12 @@
             i18n.initMessages();
             hiddenProgressBar();
 
-            document.getElementById('avatarUUID').value = uuid();
-            var avatarUUID = document.getElementById('avatarUUID').value;
+            document.getElementById('avatarUUId').value = uuid();
+            var avatarUUId = document.getElementById('avatarUUId').value;
             fileUploader.init({extra: {
                     formId: 'signUpForm',
                     dropZoneMaxFileSize: 0.2,
-                    dropZoneUrl: '/certification/fileupload?target=avatar&fileName='+ avatarUUID,
+                    dropZoneUrl: '/certification/fileupload?target=avatar&fileName='+ avatarUUId,
                     dropZoneMaxFiles: 1,
                     acceptedFiles:".png,.jpeg,.jpg,.gif",
                     clickable: '.add-img-button'
@@ -174,6 +174,11 @@
                     // 이메일 validation Check
                     if (!isValidEmail("email")) return false;
 
+                    let avatarUUId = document.getElementById('avatarUUId').value;
+                    if (document.getElementsByClassName('dz-image').item(0) === null) {
+                        avatarUUId = '';
+                    }
+
                     const password = document.getElementById("password").value;
                     const registerInfo = {
                         userId: document.getElementById("userId").value,
@@ -185,7 +190,7 @@
                         officeNumber: document.getElementById("officeNumber").value,
                         mobileNumber: document.getElementById("mobileNumber").value,
                         fileSeq: document.getElementsByName('fileSeq').value,
-                        avatarId: document.getElementById('avatarUUID').value
+                        avatarUUId: avatarUUId
                     };
                     // 등록
                     restSubmit("POST", "/certification/register",true,registerInfo);

@@ -20,6 +20,6 @@ data class UserUpdateDto(
     var timeFormat: String?,
     var theme: String?,
     var fileSeq: Long?,
-    var avatarUUID: String,
-    var useYn: Boolean?
+    var useYn: Boolean?,
+    var avatarUUId: String
 ) : Serializable

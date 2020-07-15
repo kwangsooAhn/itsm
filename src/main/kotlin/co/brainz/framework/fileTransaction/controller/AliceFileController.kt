@@ -41,7 +41,7 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
         when (request.getParameter("target") ?: null) {
             AliceUserConstants.AVATAR_ID -> {
                 val fileName = request.getParameter("fileName") ?: null
-                map["file"] = aliceFileService.uploadResources(
+                map["file"] = aliceFileService.uploadTempAvatar(
                     multipartFile,
                     AliceUserConstants.USER_AVATAR_IMAGE_TEMP_DIR,
                     AliceUserConstants.BASE_DIR,

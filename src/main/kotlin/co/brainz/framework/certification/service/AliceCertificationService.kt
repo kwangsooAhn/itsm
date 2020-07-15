@@ -63,6 +63,9 @@ class AliceCertificationService(
         when (code) {
             AliceUserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
                 val user = aliceCertificationRepository.save(this.setUserEntity(aliceSignUpDto, target))
+                if (user.avatar.uploaded) {
+                    this.avatarFileNameMod(user.avatar)
+                }
                 this.setUserDetail(aliceSignUpDto, user, target)
                 code = AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code
                 logger.info("New user created : $1", user.userName)
@@ -210,10 +213,15 @@ class AliceCertificationService(
     private fun setUserAvatar(aliceSignUpDto: AliceSignUpDto): AliceAvatarEntity {
         return aliceFileService.uploadAvatar(
             "",
-            AliceUserConstants.USER_AVATAR_IMAGE_DIR,
-            AliceUserConstants.BASE_DIR,
-            aliceSignUpDto.avatarId,
+            aliceSignUpDto.avatarUUId,
             AliceUserConstants.USER_AVATAR_TYPE_FILE
         )
+    }
+
+    /**
+     * 아바타 이미지명 변경
+     */
+    private fun avatarFileNameMod(avatarEntity: AliceAvatarEntity) {
+        aliceFileService.avatarFileNameMod(avatarEntity)
     }
 }

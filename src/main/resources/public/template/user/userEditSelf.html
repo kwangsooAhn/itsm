@@ -47,7 +47,7 @@
 <th:block layout:fragment="content">
     <div id="container" align="center" style="margin-top: 15px">
     <input type="hidden" id="userKey" name="userKey" th:value="${users.userKey}"/>
-    <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
+    <input type="hidden" id="avatarUUId" name="avatarUUId" value=""/>
         <form id="userEditSelfForm" method="post" onsubmit="return false">
             <table style="text-align: left;">
                 <colgroup>
@@ -191,12 +191,12 @@
     <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
         window.onload = function() {
-            const avatarUUID = uuid();
-            document.getElementById('avatarUUID').value = avatarUUID;
+            const avatarUUId = uuid();
+            document.getElementById('avatarUUId').value = avatarUUId;
             fileUploader.init({extra: {
                 formId: 'userEditSelfForm',
                 dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/fileupload?target=avatar&fileName=' + avatarUUID,
+                dropZoneUrl: '/fileupload?target=avatar&fileName=' + avatarUUId,
                 dropZoneMaxFiles: 1,
                 acceptedFiles: '.png,.jpeg,.jpg,.gif',
                 clickable: '.add-img-button'
@@ -226,6 +226,11 @@
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
 
         function restSubmit(method, url) {
+            let avatarUUId = document.getElementById('avatarUUId').value;
+            if (document.getElementsByClassName('dz-image').item(0) === null) {
+                avatarUUId = '';
+            }
+
             if (!validation()) {
                 return false;
             }
@@ -243,7 +248,7 @@
                 theme: document.getElementById('theme').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
                 fileSeq: document.getElementsByName('fileSeq').value,
-                avatarUUID: document.getElementById('avatarUUID').value
+                avatarUUId: avatarUUId
             };
             const password = document.getElementById('password').value;
             if (password !== '') {

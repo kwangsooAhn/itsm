@@ -63,7 +63,7 @@ class AliceCertificationRestController(
         val map: MutableMap<String, Any> = mutableMapOf()
         val fileName = request.getParameter("fileName") ?: null
 
-        map["file"] = aliceFileService.uploadResources(
+        map["file"] = aliceFileService.uploadTempAvatar(
             multipartFile,
             AliceUserConstants.USER_AVATAR_IMAGE_DIR,
             AliceUserConstants.BASE_DIR,

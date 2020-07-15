@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.certification.dto
 
 import java.io.Serializable
@@ -17,5 +22,5 @@ data class AliceSignUpDto(
     var timeFormat: String?,
     var theme: String?,
     var fileSeq: Long?,
-    var avatarId: String
+    var avatarUUId: String
 ) : Serializable
