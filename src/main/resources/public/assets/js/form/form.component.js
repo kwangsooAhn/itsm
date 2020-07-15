@@ -27,26 +27,12 @@
             {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
             {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
         ],
-        columnWidth = 12;   // 폼 양식을 몇 등분할지 값
+        columnRow = 12;   // 폼 양식을 몇 등분할지 값
     let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
     let parent = null;
     let children = [];
     let isForm = false;     //폼 양식 화면인지 여부
 
-    const utils = {
-        /**
-         * 템플릿 리터럴 문자열을 전달받아서 컴포넌트 생성한다.
-         *
-         * @param {String} template 템플릿 리터럴
-         * @return {Object} elem 생성된 컴포넌트 객체
-         */
-        createComponentByTemplate: function(template) {
-            let elem = document.createElement('component');
-            elem.classList.add('component');
-            elem.innerHTML = template;
-            return elem;
-        }
-    };
     /**
      * 우측 세부 속성창(properties panel)에 출력될 컴포넌트 제목 객체 조회
      * @param {String} type 컴포넌트 타입
@@ -68,15 +54,13 @@
         this.type = 'editbox';
         this.property = property;
         this.renderOrder = property.display.order;
-        this.readOnly = false;
-        this.hide = false;
-
         this.template =
-        `<component class="component" id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}">` +
-            `<div class="add-icon"></div>` +
-            `<div class="move-icon"></div>` +
-            `<div class="group" contenteditable="true" placeholder="Typing '/' for add component"></div>` +
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="editable">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group" contenteditable="true" placeholder="Typing '/' for add component"></div>` +
         `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
     }
 
     /**
@@ -91,8 +75,6 @@
         this.type = 'inputbox';
         this.property = property;
         this.renderOrder = property.display.order;
-        this.readOnly = (property['dataAttribute']['displayType'] === 'readonly');
-        this.hide = (property['dataAttribute']['displayType'] === 'hidden');
 
         // 기본값 설정
         const defaultValueArr = property.display['default'].split('|'); // select|userId|아이디
@@ -104,24 +86,29 @@
                 defaultValue = property.value;
             }
         }
-        
+        const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component class="component" id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}">` +
-            `<div class="move-icon"></div>` +
-            `<div class="group">` +
-                `<div class="field" style="text-align: ${attr.label.align};">` +
-                    `<div class="label" style="color: ${attr.label.color}; font-size: ${attr.label.size}px;` +
-                        ` ${attr.label.bold === 'Y' ? 'font-weight: bold;' : ''}` +
-                        ` ${attr.label.italic === 'Y' ? 'font-style: italic;' : ''}` +
-                        ` ${attr.label.underline === 'Y' ? 'text-decoration: underline;' : ''}">${attr.label.text}</div>` +
-                    `<span class="required" style="${attr.dataAttribute.displayType === 'editableRequired' ? '' : 'display: none;'}">*</span>` +
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                        `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                        `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                        `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `<span class="required">*</span>` +
                 `</div>` +
-                `<div class="field"  style="flex-basis: 100%;">` +
-                    
+                `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                `<div class="field-content" style="--data-column: ${property.display.column};">` +
+                    `<input type="text" placeholder="${property.display.placeholder}" value="${defaultValue}"` +
+                    `${displayType === 'editableRequired' ? ' required' : ''}` +
+                    ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}"` +
+                    ` regexp='${property.validate.regexp}' regexp-msg='${property.validate.regexpMsg}' />` +
                 `</div>` +
             `</div>` +
         `</component>`;
 
+        parent.insertAdjacentHTML('beforeend', this.template);
     }
 
     /**
@@ -131,8 +118,68 @@
      * @constructor
      */
     function TextBox(property) {
+        this.id = property.componentId;
         this.name = 'Text Box';
         this.type = 'textbox';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const editorUseYn = property.display.editorUseYn;
+        let defaultValue = '';
+        if (typeof property.value !== 'undefined') {
+            defaultValue = (editorUseYn && property.value !== '') ? JSON.parse(property.value) : property.value;
+        }
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                    `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `<span class="required">*</span>` +
+                `</div>` +
+                `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                `<div class="field-content" style="--data-column: ${property.display.column};">` +
+                `${editorUseYn ? 
+                    `<div>` +
+                        `<div id="editor" class="editor-container" style="--data-row: ${property.display.rows};"` +
+                        `${displayType === 'editableRequired' ? ' required' : ''}` +
+                        ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}">` +
+                        `</div>` +
+                    `</div>` : 
+                    `<textarea placeholder="${property.display.placeholder}" rows="${property.display.rows}"` +
+                    `${displayType === 'editableRequired' ? ' required' : ''}` +
+                    ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}">${defaultValue}` +
+                    `</textarea>`}` +
+                `</div>` +
+            `</div>` +
+         `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        // quill editor 초기화
+        if (editorUseYn) {
+            const editorContainer = parent.querySelector('.editor-container');
+            let editorOptions = {
+                modules: {
+                    toolbar: [
+                        [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                        ['bold', 'italic', 'underline'],
+                        [{'color': []}, {'background': []}],
+                        [{'align': []}, { 'list': 'bullet' }],
+                        ['image']
+                    ]
+                },
+                placeholder: property.display.placeholder,
+                theme: 'snow',
+                readOnly: isForm            //폼 양식 편집 화면에서는 editor를 편집할 수 없다.
+            };
+            const editor = new Quill(editorContainer, editorOptions);
+            editor.setContents(defaultValue);
+        }
 
     }
 
@@ -143,8 +190,47 @@
      * @constructor
      */
     function Dropdown(property) {
+        this.id = property.componentId;
         this.name = 'Dropdown';
-        this.type = 'select';
+        this.type = 'dropdown';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const inputOptionsTemplate = property.option.map(function (opt) {
+            return `<div class="select-value">` +
+                        `<input type="radio" class="select-input" id="${opt.value}-${opt.seq}" name="${opt.name}" value="${opt.value}"` +
+                         `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}/>` +
+                        `<p class="select-text">${opt.name}</p>` +
+                    `</div>`;
+        }).join('');
+
+        const selectOptionsTemplate = property.option.map(function (opt) {
+            return `<li><label for="${opt.value}-${opt.seq}" aria-hidden="aria-hidden">${opt.name}</label></li>`;
+        }).join('');
+
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                    `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `<span class="required">*</span>` +
+                `</div>` +
+                `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                `<div class="field-content" style="--data-column: ${property.display.column};">` +
+                    `<div class="dropdown">` +
+                        `<div class="select-current" tabindex="${this.renderOrder}">${inputOptionsTemplate}<img class="select-arrow-icon" aria-hidden="true"/></div>` +
+                        `<ul class="select-list">${selectOptionsTemplate}</ul>` +
+                     `</div>` +
+                `</div>` +
+            `</div>` +
+        `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
 
     }
 
@@ -155,20 +241,91 @@
      * @constructor
      */
     function Radiobox(property) {
+        this.id = property.componentId;
         this.name = 'Radio Button';
         this.type = 'radio';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const optionsTemplate = property.option.map(function (opt) {
+            return `<div class="field-radio">` +
+                `${(property.display.position === 'right') ?
+                    `<input type="radio" id="radio-${opt.value}" name="${opt.name}" value="${opt.value}" ${(typeof property.value !== 'undefined' && opt.value === property.value) ? "checked='true'" : ""}>` +
+                    `<label for='radio-${opt.value}'>${opt.name}</label>` :
+                    `<label for='radio-${opt.value}'>${opt.name}</label>` +
+                    `<input type="radio" id="radio-${opt.value}" name="${opt.name}" value="${opt.value}" ${(typeof property.value !== 'undefined' && opt.value === property.value) ? "checked='true'" : ""}>`
+                 }` +
+                `</div>`;
+        }).join('');
+
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                    `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `<span class="required">*</span>` +
+                `</div>` +
+                `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                `<div class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
+                `${displayType === 'editableRequired' ? 'required' : ''}>${optionsTemplate}` +
+                `</div>` +
+            `</div>` +
+        `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
 
     }
 
     /**
-     * Checkbox 컴포넌트
+     * Dropdown 컴포넌트
      *
      * @param {Object} property 컴포넌트 속성
      * @constructor
      */
     function Checkbox(property) {
+        this.id = property.componentId;
         this.name = 'Checkbox';
         this.type = 'checkbox';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const checkboxValueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
+        const optionsTemplate = property.option.map(function (opt) {
+            return `<div class="field-checkbox">` +
+                `${(property.display.position === 'right') ?
+                    `<input type="checkbox" id="checkbox-${opt.value}" name="${opt.name}" value="${opt.value}" ${(checkboxValueArr.indexOf(opt.value) > -1) ? "checked='true'" : ""}>` +
+                    `<label for='checkbox-${opt.value}'>${opt.name}</label>` :
+                    `<label for='checkbox-${opt.value}'>${opt.name}</label>` +
+                    `<input type="checkbox" id="checkbox-${opt.value}" name="${opt.name}" value="${opt.value}" ${(checkboxValueArr.indexOf(opt.value) > -1) ? "checked='true'" : ""}>`
+                }` +
+                `</div>`;
+        }).join('');
+
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+            `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+                `<div class="move-handler"></div>` +
+                `<div class="field-group">` +
+                    `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                        `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                        `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                        `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                        `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                        `<span class="required">*</span>` +
+                    `</div>` +
+                    `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                    `<div class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
+                    `${displayType === 'editableRequired' ? 'required' : ''}>${optionsTemplate}` +
+                    `</div>` +
+                `</div>` +
+            `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
     }
 
     /**
@@ -178,8 +335,27 @@
      * @constructor
      */
     function Label(property) {
+        this.id = property.componentId;
         this.name = 'Label';
         this.type = 'label';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label ${property.display.align}">` +
+                    `<div class="label" style="color: ${property.display.color}; font-size: ${property.display.size}px;` +
+                    `${property.display.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                    `${property.display.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                    `${property.display.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.display.text}</div>` +
+                `</div>` +
+            `</div>` +
+        `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
     }
 
     /**
@@ -189,8 +365,43 @@
      * @constructor
      */
     function Imagebox(property) {
+        this.id = property.componentId;
         this.name = 'Image';
         this.type = 'image';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const displayType = property['dataAttribute']['displayType'];
+        const imageSrc = property.display.path;
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+                `<div class="field-group">` +
+                `<div class="field-content ${property.display.align}">` +
+                    `<img src="" alt="" data-path="${imageSrc}" width="${property.display.width}" height="${property.display.height}">` +
+                `</div>` +
+            `</div>` +
+        `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        // 이미지 팝업
+        if (imageSrc.startsWith('file:///')) {
+            aliceJs.sendXhr({
+                method: 'get',
+                url: '/rest/images/' + imageSrc.split('file:///')[1],
+                contentType: 'application/json; charset=utf-8',
+                callbackFunc: xhr => {
+                    const responseText = xhr.responseText;
+                    if (responseText !== '') {
+                        const image = JSON.parse(responseText);
+                        parent.querySelector('img').src = 'data:image/' + image.extension + ';base64,' + image.data;
+                    }
+                }
+            });
+        } else {
+            parent.querySelector('img').src = imageSrc;
+        }
     }
 
     /**
@@ -200,8 +411,23 @@
      * @constructor
      */
     function Divider(property) {
+        this.id = property.componentId;
         this.name = 'Divider';
         this.type = 'divider';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-content>` +
+                    `<hr style="border-top: ${property.display.type} ${property.display.thickness}px ${property.display.color}; border-bottom-width: 0;">` +
+                `</div>` +
+            `</div>` +
+        `</component>`;
+        parent.insertAdjacentHTML('beforeend', this.template);
     }
 
     /**
@@ -211,8 +437,65 @@
      * @constructor
      */
     function DateBox(property) {
+        this.id = property.componentId;
         this.name = 'Date';
         this.type = 'date';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        // 기본값 설정
+        const defaultValueArr = property.display['default'].split('|');
+        let defaultValue = '';
+        //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
+        if (typeof property.value !== 'undefined') {
+            defaultValue = property.value;
+        } else { // 신청서는 default값 출력한다.
+            switch(defaultValueArr[0]) {
+                case 'now':
+                    defaultValue = i18n.getDate();
+                    break;
+                case 'date':
+                    let offset = {};
+                    offset.days =  aliceJs.isEmpty(defaultValueArr[1]) ? 0 : Number(defaultValueArr[1]);
+                    defaultValue = i18n.getDate(offset);
+                    break;
+                case 'datepicker':
+                    if (!aliceJs.isEmpty(defaultValueArr[1])) {
+                        defaultValue = defaultValueArr[1];
+                    }
+                    break;
+                default: //none
+            }
+        }
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                    `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `<span class="required">*</span>` +
+                `</div>` +
+                `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                `<div class="field-content" style="--data-column: ${property.display.column};">` +
+                    `<input type="text" id="date-${this.id}" placeholder="${i18n.dateFormat}" value="${defaultValue}"` +
+                    `${displayType === 'editableRequired' ? ' required' : ''}` +
+                    ` date-max="${property.validate.dateMax}" date-min="${property.validate.dateMin}" />` +
+                `</div>` +
+            `</div>` +
+        `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        // data picker 초기화
+        if (!isForm) {
+            dateTimePicker.initDatePicker('date-' + this.id, i18n.dateFormat, i18n.lang, function () {
+                aliceDocument.checkValidate(document.getElementById('date-' + this.id));
+            });
+        }
     }
 
     /**
@@ -222,8 +505,65 @@
      * @constructor
      */
     function TimeBox(property) {
+        this.id = property.componentId;
         this.name = 'Time';
         this.type = 'time';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        // 기본값 설정
+        const defaultValueArr = property.display['default'].split('|');
+        let defaultValue = '';
+        //처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
+        if (typeof property.value !== 'undefined') {
+            defaultValue = property.value;
+        } else { // 신청서는 default값 출력한다.
+            switch(defaultValueArr[0]) {
+                case 'now':
+                    defaultValue = i18n.getTime();
+                    break;
+                case 'time':
+                    let offset = {};
+                    offset.hours =  aliceJs.isEmpty(defaultValueArr[1]) ? 0 : Number(defaultValueArr[1]);
+                    defaultValue = i18n.getTime(offset);
+                    break;
+                case 'timepicker':
+                    if (!aliceJs.isEmpty(defaultValueArr[1])) {
+                        defaultValue = defaultValueArr[1];
+                    }
+                    break;
+                default: //none
+            }
+        }
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                    `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `<span class="required">*</span>` +
+                `</div>` +
+                `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                `<div class="field-content" style="--data-column: ${property.display.column};">` +
+                    `<input type="text" id="time-${this.id}" placeholder="${i18n.timeFormat}" value="${defaultValue}"` +
+                    `${displayType === 'editableRequired' ? ' required' : ''}` +
+                    ` time-max="${property.validate.timeMax}" time-min="${property.validate.timeMin}" />` +
+                `</div>` +
+            `</div>` +
+        `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        // time picker 초기화
+        if (!isForm) {
+            dateTimePicker.initTimePicker('time-' + this.id, i18n.timeFormat, i18n.lang, function () {
+                aliceDocument.checkValidate(document.getElementById('time-' + this.id));
+            });
+        }
     }
 
     /**
@@ -233,8 +573,66 @@
      * @constructor
      */
     function DatetimeBox(property) {
+        this.id = property.componentId;
         this.name = 'Date Time';
         this.type = 'datetime';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        // 기본값 설정
+        const defaultValueArr = property.display['default'].split('|');
+        let defaultValue = '';
+        // 처리할 문서는 사용자 포멧에 맞게 변환된 실 데이터를 출력한다. (form.core.js 의 reformatCalendarFormat()에서 처리한 데이터)
+        if (typeof property.value !== 'undefined') {
+            defaultValue = property.value;
+        } else { // 신청서는 default값 출력한다.
+            switch(defaultValueArr[0]) {
+                case 'now':
+                    defaultValue = i18n.getDateTime();
+                    break;
+                case 'datetime':
+                    let offset = {};
+                    offset.days =  aliceJs.isEmpty(defaultValueArr[1]) ? 0 : Number(defaultValueArr[1]);
+                    offset.hours = aliceJs.isEmpty(defaultValueArr[2]) ? 0 : Number(defaultValueArr[2]);
+                    defaultValue = i18n.getDateTime(offset);
+                    break;
+                case 'datetimepicker':
+                    if (!aliceJs.isEmpty(defaultValueArr[1])) {
+                        defaultValue = defaultValueArr[1];
+                    }
+                    break;
+                default: //none
+            }
+        }
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                    `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `<span class="required">*</span>` +
+                `</div>` +
+                `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                `<div class="field-content" style="--data-column: ${property.display.column};">` +
+                    `<input type="text" id="datetime-${this.id}" placeholder="${i18n.dateTimeFormat}" value="${defaultValue}"` +
+                    `${displayType === 'editableRequired' ? ' required' : ''}` +
+                    ` datetime-max="${property.validate.datetimeMax}" datetime-min="${property.validate.datetimeMin}" />` +
+                `</div>` +
+            `</div>` +
+        `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        // datetime picker 초기화
+        if (!isForm) {
+            dateTimePicker.initDateTimePicker('datetime-' + this.id, i18n.dateFormat, i18n.timeFormat, i18n.lang, function () {
+                aliceDocument.checkValidate(document.getElementById('datetime-' + this.id));
+            });
+        }
     }
 
     /**
@@ -244,8 +642,51 @@
      * @constructor
      */
     function Fileupload(property) {
+        this.id = property.componentId;
         this.name = 'File Upload';
         this.type = 'fileupload';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                    `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `<span class="required">*</span>` +
+                `</div>` +
+                `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                `<div class="field-content" id="fileupload"${displayType === 'editableRequired' ? ' required' : ''} style="--data-column: ${property.display.column};">` +
+                    `<div id='dropZoneFiles-${this.id}'></div>` +
+                    `<div class="dropbox" id='dropZoneUploadedFiles-${this.id}}'>${isForm ? `Drop files here to upload` : ``}</div>` +
+                `</div>` +
+            `</div>` +
+        `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        // 드랍존 초기화
+        if (!isForm) {
+            document.getElementById('dropZoneUploadedFiles-' + this.id).classList.remove('dropbox');
+            let fileOptions = {
+                extra: {
+                    formId: 'frm',
+                    ownId: '',
+                    dropZoneFilesId: 'dropZoneFiles-' + this.id,
+                    dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + this.id,
+                    editor: (displayType !== 'readonly')
+                }
+            };
+            if (typeof property.value !== 'undefined') {
+                fileOptions.extra.fileDataIds = property.value;
+            }
+            fileUploader.init(fileOptions);
+        }
     }
     /**
      * Custom-Code 컴포넌트
@@ -254,9 +695,78 @@
      * @constructor
      */
     function CustomCode(property) {
+        this.id = property.componentId;
         this.name = 'Custom Code';
         this.type = 'custom-code';
+        this.property = property;
+        this.renderOrder = property.display.order;
 
+        // 기본값 설정
+        const defaultValueArr = property.display['default'].split('|');
+        let defaultValue = (isForm && defaultValueArr[0] !== 'none') ? defaultValueArr[2] : ''; // 폼 디자이너, 미리보기용
+        let defaultCustomData = ''; // 신청서 작성 및 처리할 문서
+        if (typeof property.value !== 'undefined') {
+            defaultCustomData = property.value;
+        } else {
+            if (defaultValueArr[0] !== 'none') {
+                defaultCustomData = defaultValueArr[1] + '|' + defaultValueArr[2];
+                if (defaultValueArr[0] === 'session') {
+                    switch (defaultValueArr[1]) {
+                        case 'userName':
+                            defaultCustomData = aliceForm.session.userKey;
+                            break;
+                        case 'department':
+                            defaultCustomData = aliceForm.session.department;
+                            break;
+                    }
+                    defaultCustomData += '|' + aliceForm.session[defaultValueArr[1]];
+                }
+            }
+        }
+
+        const displayType = property['dataAttribute']['displayType'];
+        this.template =
+        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                    `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `<span class="required">*</span>` +
+                `</div>` +
+                `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                `<div class="field-content" style="--data-column: ${property.display.column};">` +
+                    `<input type="text" id="custom-code-${this.id}" custom-data="${defaultCustomData}" value="${defaultValue}"` +
+                    `${displayType === 'editableRequired' ? ' required' : ''} readonly />` +
+                    `<input type="button" id="codeBtn-${this.id}" value="${property.display.buttonText}">` +
+                `</div>` +
+            `</div>` +
+        `</component>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        // custom-code 초기화
+        if (!isForm) {
+            const searchBtn = parent.querySelector('#codeBtn-' + this.id);
+            searchBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                const customCodeTextElem = parent.querySelector('#custom-code-' + property.componentId);
+                if (defaultCustomData !== '') {
+                    let customDataValue = defaultCustomData.split('|');
+                    customCodeTextElem.value = (customDataValue.length > 1) ? customDataValue[1] : '';
+                }
+                let customCodeData = {
+                    componentId: property.componentId,
+                    componentValue: customCodeTextElem.getAttribute('custom-data')
+                };
+                const itemName = 'alice_custom-codes-search-' + property.componentId;
+                sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
+                let url = '/custom-codes/' + attr.display.customCode + '/search';
+                window.open(url, itemName, 'width=500, height=655');
+            });
+        }
     }
 
     /**
@@ -268,27 +778,27 @@
     function draw(type, data) {
         if (typeof parent === 'undefined') { return false; }
 
-        let componentProperty = {'display': { 'order': ++renderOrder }};
+        let componentProperty = {'display': {}};
         if (typeof data !== 'undefined') { //기존 저장된 컴포넌트 속성이 존재할 경우
             componentProperty = data;
         } else {                     //신규 생성된 컴포넌트일 경우
             componentProperty.componentId = workflowUtil.generateUUID();
             componentProperty.type = type;
-            componentProperty = getData(type, componentProperty);
+            componentProperty = getPropertiesWithType(type, componentProperty);
         }
-        console.log(componentProperty);
+        componentProperty.display.order = ++renderOrder;
         let componentObject = null;
         switch(type) {
             case 'editbox':
                 componentObject = new Editbox(componentProperty);
                 break;
-            case 'text':
+            case 'inputbox':
                 componentObject =  new InputBox(componentProperty);
                 break;
             case 'textarea':
                 componentObject =  new TextBox(componentProperty);
                 break;
-            case 'select':
+            case 'dropdown':
                 componentObject =  new Dropdown(componentProperty);
                 break;
             case 'radio':
@@ -324,40 +834,12 @@
             default:
                 break;
         }
-        children.push(componentObject);
         console.log(componentObject);
-        parent.insertAdjacentHTML('beforeend', componentObject.template);
 
-        let componentElement = parent.querySelector('#' + componentObject.id);
+        let componentElement = parent.lastChild;
         if (componentObject && componentElement) {
             componentObject.domElem = componentElement;
-
-            // 신청서 display Type에 따른 처리
-            if (componentObject.hide) {
-                componentElement.style.display = 'none';
-            } else {
-                if (componentObject.readOnly) {
-                    componentElement.setAttribute('data-readonly', true);
-                }
-            }
-
-            // 공통 : 라벨 위치 조정 >> TODO : CSS 로 처리
-            /*if (typeof componentProperty.label !== 'undefined') {
-                let firstField = componentElement.querySelector('.group').firstElementChild;
-                let lastField = componentElement.querySelector('.group').lastElementChild;
-                if (componentProperty.label.position === 'hidden') {
-                    firstField.style.display = 'none';
-                } else if (componentProperty.label.position === 'left') {
-                    firstField.style.flexBasis = ((100 * Number(componentProperty.label.column)) / columnWidth) + '%';
-                } else { //top
-                    firstField.style.flexBasis = ((100 * Number(componentProperty.label.column)) / columnWidth) + '%';
-                    const secondField = document.createElement('div');
-                    secondField.className = 'field';
-                    secondField.style.flexBasis = (100 - ((100 * Number(componentProperty.label.column)) / columnWidth)) + '%';
-                    lastField.parentNode.insertBefore(secondField, lastField);
-                }
-                lastField.style.flexBasis = ((100 * Number(componentProperty.display.column)) / columnWidth) + '%';
-            }*/
+            children.push(componentObject);
         }
         return componentObject;
     }
@@ -367,9 +849,9 @@
      * @param {Object} data 컴포넌트 데이터
      * @return {Object} refineProperty 정제된 컴포넌트 데이터
      */
-    function getData(type, data) {
+    function getPropertiesWithType(type, data) {
         let refineProperty = { display: {} };
-        if (typeof refineProperty !== 'undefined') {
+        if (typeof data !== 'undefined') {
             refineProperty = data;
         }
         let defaultProperty = aliceJs.mergeObject({}, aliceForm.componentProperties[type]);
@@ -424,7 +906,7 @@
     }
 
     /**
-     * 라이브러리를 초기화한다.
+     * 컴포넌트를 추가할 대상을 지정한다.
      * @param target 컴포넌트를 추가할 대상 (폼 또는 문서)
      */
     function init(target) {
@@ -433,10 +915,9 @@
     }
 
     exports.init = init;
-
     exports.draw = draw;
+    exports.getPropertiesWithType = getPropertiesWithType;
     exports.getTitle = getTitle;
-    exports.getData = getData;
     exports.getLastIndex = getLastIndex;
     exports.setLastIndex = setLastIndex;
 

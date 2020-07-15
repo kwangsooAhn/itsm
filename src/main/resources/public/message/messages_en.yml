@@ -380,7 +380,7 @@ form:
     inputbox: "Input Box"
     label: "Label"
     radio: "Radio Button"
-    select: "Dropdown"
+    dropdown: "Dropdown"
     textarea: "Text Box"
     time: "Time"
   help:

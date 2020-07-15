@@ -1,6 +1,6 @@
 {
     "editbox": {},
-    "text": {
+    "inputbox": {
         "dataAttribute": [
             {
                 "id": "mappingId",
@@ -25,7 +25,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -223,7 +223,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -366,7 +366,7 @@
             }
         ]
     },
-    "select": {
+    "dropdown": {
         "dataAttribute": [
             {
                 "id": "mappingId",
@@ -391,7 +391,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -523,7 +523,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -673,7 +673,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -823,7 +823,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -915,7 +915,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -984,7 +984,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -1043,7 +1043,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -1192,7 +1192,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -1341,7 +1341,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -1490,7 +1490,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -1611,7 +1611,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }

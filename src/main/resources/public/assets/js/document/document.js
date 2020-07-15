@@ -469,6 +469,8 @@
         }
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
         documentContainer = document.getElementById('document-container');
+        component.init(documentContainer);
+
         buttonContainer = document.getElementById('button-container');
         if (data.form.components.length > 0) {
             if (data.form.components.length > 2) {
@@ -479,11 +481,11 @@
             for (let i = 0, len = data.form.components.length; i < len; i++) {
                 //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
                 let componentAttr = data.form.components[i];
-                let defaultComponentAttr = component.getData(componentAttr.type);
+                let defaultComponentAttr = component.getPropertiesWithType(componentAttr.type);
                 let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
                 data.form.components[i] = mergeComponentAttr;
 
-                component.draw(componentAttr.type, documentContainer, mergeComponentAttr);
+                component.draw(componentAttr.type, mergeComponentAttr);
             }
             //유효성 검증 추가
             if (!documentContainer.hasAttribute('data-readonly')) {

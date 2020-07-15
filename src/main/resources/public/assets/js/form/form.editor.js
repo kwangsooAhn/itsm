@@ -333,13 +333,13 @@
                         }
                     }
                 } else { // add component
-                    let defaultComponentAttr = component.getData(changeData.type);
+                    let defaultComponentAttr = component.getPropertiesWithType(changeData.type);
                     let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, JSON.parse(JSON.stringify(changeData)));
-                    let element = component.draw(changeData.type, formPanel, mergeComponentAttr);
+                    let element = component.draw(changeData.type, mergeComponentAttr);
                     const compOrder = Number(changeData.display.order) - 1;
                     let targetElement = formPanel.querySelectorAll('.component').item(compOrder);
                     targetElement.parentNode.insertBefore(element.domElem, targetElement);
-                    setComponentData(element.attr);
+                    setComponentData(element.property);
                 }
                 reorderComponent();
             } else { // modify
@@ -349,8 +349,8 @@
                         changeFormName();
                     }
                 } else { // component
-                    let element = component.draw(changeData.type, formPanel, JSON.parse(JSON.stringify(changeData)));
-                    let compAttr = element.attr;
+                    let element = component.draw(changeData.type, JSON.parse(JSON.stringify(changeData)));
+                    let compAttr = element.property;
                     setComponentData(compAttr);
                     let targetElement = document.getElementById(compAttr.componentId);
                     if (originData.display.order !== changeData.display.order) {
@@ -419,8 +419,8 @@
             let histories = [];
             let elem = document.getElementById(id);
             let replaceEditbox = editor.data.components.filter(function(comp) { return comp.componentId === id; });
-            let replaceComp = component.draw(type, formPanel);
-            let compAttr = replaceComp.attr;
+            let replaceComp = component.draw(type);
+            let compAttr = replaceComp.property;
             compAttr.componentId = id;
             setComponentData(compAttr);
 
@@ -439,8 +439,8 @@
                 history.saveHistory(histories);
             });
         } else {
-            let editbox = component.draw(aliceForm.defaultType, formPanel);
-            setComponentData(editbox.attr);
+            let editbox = component.draw(aliceForm.defaultType);
+            setComponentData(editbox.property);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             selectedComponentIds.length = 0;
             selectedComponentIds.push(editbox.id);
@@ -463,8 +463,9 @@
             if (copyElemId === editor.data.components[i].componentId) {
                 let copyData = JSON.parse(JSON.stringify(editor.data.components[i]));
                 copyData.componentId = workflowUtil.generateUUID();
-                let comp = component.draw(copyData.type, formPanel, copyData);
-                setComponentData(comp.attr);
+                let comp = component.draw(copyData.type, copyData);
+                setComponentData(comp.property
+                );
                 elem.parentNode.insertBefore(comp.domElem, elem.nextSibling);
                 //재정렬
                 reorderComponent();
@@ -513,9 +514,9 @@
         let focusIdx = Math.min.apply(null, delIdx);
         let components = document.querySelectorAll('.component');
         if (components.length === 0) { // 컴포넌트 없을 경우 editbox 컴포넌트 신규 추가한다.
-            const editbox = component.draw(aliceForm.defaultType, formPanel);
-            histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
-            setComponentData(editbox.attr);
+            const editbox = component.draw(aliceForm.defaultType);
+            histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.property))});
+            setComponentData(editbox.property);
             focusElem = editbox.domElem;
         } else {
             focusElem = components[focusIdx - 1];
@@ -657,12 +658,12 @@
 
         let editbox = null;
         if (elem.nextSibling !== null) {
-            editbox = component.draw(aliceForm.defaultType, formPanel);
-            setComponentData(editbox.attr);
+            editbox = component.draw(aliceForm.defaultType);
+            setComponentData(editbox.property);
             elem.parentNode.insertBefore(editbox.domElem, elem.nextSibling);
         } else { //마지막에 추가된 경우
-            editbox = component.draw(aliceForm.defaultType, formPanel);
-            setComponentData(editbox.attr);
+            editbox = component.draw(aliceForm.defaultType);
+            setComponentData(editbox.property);
             elem.parentNode.appendChild(editbox.domElem);
         }
         // 컴포넌트 순서 재정렬
@@ -674,7 +675,7 @@
         showComponentProperties();
 
         if (typeof callbackFunc === 'function') {
-            callbackFunc(editbox.attr);
+            callbackFunc(editbox.property);
         } else {
             let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.componentId === editbox.id; });
             history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
@@ -775,9 +776,9 @@
      */
     function redrawComponent(data) {
         const id = data.componentId;
-        let element = component.draw(data.type, formPanel, data);
+        let element = component.draw(data.type, data);
         if (element) {
-            let compAttr = element.attr;
+            let compAttr = element.property;
             compAttr.componentId = id;
             setComponentData(compAttr);
 
@@ -1506,25 +1507,29 @@
             //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
             for (let i = 0, len = editor.data.components.length; i < len; i ++) {
                 let componentAttr = editor.data.components[i];
-                let defaultComponentAttr = component.getData(componentAttr.type);
+                let defaultComponentAttr = component.getPropertiesWithType(componentAttr.type);
                 let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
                 setComponentData(mergeComponentAttr);
-                component.draw(componentAttr.type, formPanel, mergeComponentAttr);
+                component.draw(componentAttr.type, mergeComponentAttr);
             }
         }
 
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
-        let editboxComponent = component.draw(aliceForm.defaultType, formPanel);
-        setComponentData(editboxComponent.attr);
+        let editboxComponent = component.draw(aliceForm.defaultType);
+        setComponentData(editboxComponent.property);
         savedData = JSON.parse(JSON.stringify(editor.data));
 
         //첫번째 컴포넌트 선택
-        const firstComponent = document.getElementById('form-panel').querySelectorAll('.component')[0];
+        const firstComponent = document.getElementById('form-panel').querySelectorAll('component')[0];
         if (firstComponent.getAttribute('data-type') === aliceForm.defaultType) { //editbox 컴포넌트일 경우 input box 안에 포커싱
             firstComponent.querySelector('[contenteditable=true]').focus();
         }
         selectedComponentIds.push(firstComponent.id);
-        showComponentProperties();
+        //showComponentProperties(); //TODO 상세 속성 디자인
+
+        component.draw('dropdown');
+        component.draw('radio');
+        component.draw('checkbox');
 
         //폼 이름 출력
         changeFormName();
@@ -1555,7 +1560,7 @@
         if (flag === 'true') { isView = false; }
 
         //컴포넌트 초기화
-        //component.init(formPanel);
+        component.init(formPanel);
 
         //컨텍스트 메뉴 초기화
         //context.init();
@@ -1584,8 +1589,7 @@
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.components = aliceForm.reformatCalendarFormat('read', responseObject.components);
                 editor.data = responseObject;
-                showFormProperties();
-                //drawForm();
+                drawForm();
             },
             contentType: 'application/json; charset=utf-8'
         });
