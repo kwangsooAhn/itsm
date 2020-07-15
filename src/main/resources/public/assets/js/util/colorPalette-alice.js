@@ -2,7 +2,8 @@ const colorPalette = (function() {
     'use strict';
 
     const basicPaletteColors = [
-        '#1abc9c'
+        '#000000'
+        , '#1abc9c'
         , '#2ecc71'
         , '#3498db'
         , '#9b59b6'
@@ -22,6 +23,7 @@ const colorPalette = (function() {
         , '#c0392b'
         , '#bdc3c7'
         , '#7f8c8d'
+        , '#ffffff'
     ];
 
     const documentPaletteColors = [
@@ -61,7 +63,6 @@ const colorPalette = (function() {
         if (colorName === null || colorName === '' || colorName === undefined) {
             colorName = basicPaletteColors;
         }
-
         let paletteEl = colorPaletteElem.querySelector(".color-palette");
         let pk = new Piklor(paletteEl, eval(colorName), { open: eventTriggerElem, closeOnBlur: true});
 

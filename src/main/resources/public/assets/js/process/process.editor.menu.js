@@ -1447,20 +1447,24 @@
                 propertyContainer.appendChild(elementObject);
                 break;
             case 'rgb':
+                let selectedColorLayer = document.createElement('span');
+                selectedColorLayer.className = 'selected-color-layer'
                 let selectedColorBox = document.createElement('span');
                 selectedColorBox.className = 'selected-color';
-                selectedColorBox.style.backgroundColor = elemData[property.id];
-                propertyContainer.appendChild(selectedColorBox);
+                if (property.id === 'background-color') {
+                    selectedColorBox.style.backgroundColor = elemData[property.id];
+                    selectedColorBox.style.border = 'transparent';
+                } else {
+                    selectedColorBox.style.backgroundColor = '';
+                    selectedColorBox.style.borderColor = elemData[property.id];
+                }
+                selectedColorLayer.appendChild(selectedColorBox);
+                propertyContainer.appendChild(selectedColorLayer);
 
                 elementObject = document.createElement('input');
                 elementObject.className = 'color';
-                if (property.required === 'Y') {
-                    elementObject.readOnly = true;
-                }
+                elementObject.readOnly = true;
                 elementObject.addEventListener('change', function() {
-                    /*if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
-                        this.value = '';
-                    }*/
                     let opacity = 0;
                     if (this.dataset['opacity'] !== '') {
                         opacity = Number(this.dataset['opacity']) / 100;
@@ -1470,8 +1474,13 @@
                         this.value = aliceJs.rgbaToHex(this.value); // opacity 값 갱신하기 위해 Hex로 변환
                     }
                     this.value = aliceJs.hexToRgba(this.value, opacity);
-
-                    this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
+                    if (this.id === 'background-color') {
+                        this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
+                        this.parentNode.querySelector('span.selected-color').style.border = 'transparent';
+                    } else {
+                        this.parentNode.querySelector('span.selected-color').style.backgroundColor = '';
+                        this.parentNode.querySelector('span.selected-color').style.borderColor = this.value;
+                    }
                     if (properties.type === 'groupArtifact') {
                         const groupElement = d3.select(document.getElementById(id));
                         if (this.id === 'line-color') {

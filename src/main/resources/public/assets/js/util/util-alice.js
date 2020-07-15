@@ -4,6 +4,9 @@ aliceJs.systemCalendarDatetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 aliceJs.systemCalendarDateFormat = 'YYYY-MM-DD';
 aliceJs.systemCalendarTimeFormat = 'HH:mm:ss';
 
+const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
+const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
+
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
  *
@@ -541,15 +544,15 @@ aliceJs.isEmpty = function(value) {
  * RGBA 값을 Hex 값으로 변환.
  *
  * @param {string} value
- * @returns {string} rgb
+ * @returns {string} rgba
  */
 aliceJs.rgbaToHex = function(value) {
-    let rgb = value.replace(/\s/g, '').match(/^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i)
-    return rgb ?
+    let rgba = value.replace(/\s/g, '').match(rgbaReg)
+    return rgba ?
         '#' +
-        (rgb[1] | 1 << 8).toString(16).slice(1) +
-        (rgb[2] | 1 << 8).toString(16).slice(1) +
-        (rgb[3] | 1 << 8).toString(16).slice(1) : value;
+        (rgba[1] | 1 << 8).toString(16).slice(1) +
+        (rgba[2] | 1 << 8).toString(16).slice(1) +
+        (rgba[3] | 1 << 8).toString(16).slice(1) : value;
 }
 
 /**
@@ -559,8 +562,8 @@ aliceJs.rgbaToHex = function(value) {
  * @returns {string} alpha
  */
 aliceJs.rgbaOpacity = function(value) {
-    let rgb = value.replace(/\s/g, '').match(/^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i);
-    let alpha = (rgb && rgb[4]);
+    let rgba = value.replace(/\s/g, '').match(rgbaReg);
+    let alpha = (rgba && rgba[4]);
     if (alpha === null || alpha === '') {
         alpha = 0.5;
     }
@@ -576,15 +579,19 @@ aliceJs.rgbaOpacity = function(value) {
  */
 aliceJs.hexToRgba = function(value, opacity) {
     let hexValue;
-    if (/^#([A-Fa-f0-9]{3}){1,2}$/.test(value)) {
-        hexValue = value.substring(1).split('');
-        if (hexValue.length === 3) {
-            hexValue = [hexValue[0], hexValue[0], hexValue[1], hexValue[1], hexValue[2], hexValue[2]];
+    if (value !== '' && typeof opacity !== 'undefined') {
+        if (aliceJs.isHexCode(value)) {
+            hexValue = value.substring(1).split('');
+            if (hexValue.length === 3) {
+                hexValue = [hexValue[0], hexValue[0], hexValue[1], hexValue[1], hexValue[2], hexValue[2]];
+            }
+            hexValue = '0x' + hexValue.join('');
+            return 'rgba(' + [(hexValue >> 16) & 255, (hexValue >> 8) & 255, hexValue & 255].join(',') + ',' + opacity + ')';
+        } else {
+            throw new Error('Bad Hex');
         }
-        hexValue = '0x' + hexValue.join('');
-        return 'rgba('+[(hexValue>>16)&255, (hexValue>>8)&255, hexValue&255].join(',')+',' + opacity + ')';
     }
-    throw new Error('Bad Hex');
+    return value;
 }
 
 /**
@@ -594,5 +601,15 @@ aliceJs.hexToRgba = function(value, opacity) {
  * @returns {boolean}
  */
 aliceJs.isHexCode = function(value) {
-    return /^#([A-Fa-f0-9]{3}){1,2}$/.test(value);
+    return hexReg.test(value);
+}
+
+/**
+ * RGBA 값 체크.
+ *
+ * @param {string} value
+ * @returns {boolean}
+ */
+aliceJs.isRgba = function(value) {
+    return rgbaReg.test(value);
 }
