@@ -1,22 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
-	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
-]>
-<svg version="1.1"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-	 x="0px" y="0px" width="28px" height="28px" viewBox="-7.875 -5 28 28" style="enable-background:new -7.875 -5 28 28;"
-	 xml:space="preserve">
-<defs>
-</defs>
-<path style="fill:#FFFFFF;" d="M6.125,1c1.2021484,0,2.1806641,0.9785156,2.1806641,2.1796875
-	c0,1.203125-0.9785156,2.1816406-2.1806641,2.1816406S3.9453125,4.3828125,3.9453125,3.1796875
-	C3.9453125,1.9785156,4.9228516,1,6.125,1 M6.125,0C4.3691406,0,2.9443359,1.4238281,2.9443359,3.1796875
-	c0,1.7578125,1.4248047,3.1816406,3.1806641,3.1816406c1.7568359,0,3.1816406-1.4238281,3.1816406-3.1816406
-	C9.3066406,1.4238281,7.8818359,0,6.125,0L6.125,0z"/>
-<path style="fill:#FFFFFF;" d="M6.1259766,9.2705078c2.8261719,0,5.1240234,2.2998047,5.1240234,5.1259766V17H1v-2.6035156
-	C1,11.5703125,3.2988281,9.2705078,6.1259766,9.2705078 M6.1259766,8.2705078C2.7421875,8.2705078,0,11.0136719,0,14.3964844
-	c0,0.21875,0,2.7119141,0,2.7119141C0,17.6015625,0.3984375,18,0.8916016,18H11.359375
-	C11.8515625,18,12.25,17.6015625,12.25,17.1083984c0,0,0-2.4931641,0-2.7119141
-	C12.25,11.0136719,9.5087891,8.2705078,6.1259766,8.2705078L6.1259766,8.2705078z"/>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="레이어_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve">
+<g>
+	<path fill="#FFFFFF" d="M14,5c-1.93,0-3.5,1.57-3.5,3.5S12.07,12,14,12s3.5-1.57,3.5-3.5S15.93,5,14,5z M14,11
+		c-1.38,0-2.5-1.12-2.5-2.5S12.62,6,14,6s2.5,1.12,2.5,2.5S15.38,11,14,11z"/>
+	<path fill="#FFFFFF" d="M14,14c-3.87,0-7,3.13-7,7v1c0,0.55,0.45,1,1,1h12c0.55,0,1-0.45,1-1v-1C21,17.13,17.87,14,14,14z M20,22H8
+		v-1c0-3.31,2.69-6,6-6s6,2.69,6,6V22z"/>
+</g>
 </svg>

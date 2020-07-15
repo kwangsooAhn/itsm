@@ -6,7 +6,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 
 /* EOT는 IE8 이하버전
    OTF/TTF는 Chrome 6+, Firefox 3.5, Opera 10+, Safari 3-5
-   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+ 
+   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+
 */
 @font-face {
   font-family: 'Noto Sans KR';
@@ -50,24 +50,23 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format("opentype");
 }
 
-body {
-  background: #eaf1f7;
-}
-
 .wrap-screen {
   position: relative;
+  background: #eaf1f7;
 }
 
 .container {
   height: 100%;
-  padding: 60px 0 0 220px;
+  width: max-content;
+  position: relative;
+  padding: 120px 0 30px 370px;
 }
 
 .container .contents {
-  width: 1400px;
+  max-width: 1400px;
+  min-width: 1200px;
   height: 100%;
   display: block;
-  padding: 50px 150px;
 }
 
 .container .contents .contents-title {
@@ -824,9 +823,11 @@ body {
 .align-center {
   text-align: center;
 }
+
 .align-left {
   text-align: left;
 }
+
 .align-right {
   text-align: right;
 }

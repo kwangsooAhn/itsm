@@ -82,6 +82,7 @@ ul, li {
   width: 12.5rem;
   font-size: 1.12rem;
   font-weight: 400;
+  z-index: 999;
 }
 
 .sub-menu > li {

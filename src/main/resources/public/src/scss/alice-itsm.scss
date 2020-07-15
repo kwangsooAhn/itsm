@@ -30,13 +30,12 @@ $alice-primary:#0050ff !default;
 // *********************************************************************************************************************
 // CONTENTS (container > contents > title, body)
 // *********************************************************************************************************************
-body{background: rgba(234, 241, 247, 1);}
-.wrap-screen{position: relative;}
+.wrap-screen{position: relative;height:100%}
 
 .container {
-    height:100%; padding:60px 0 0 220px;
+    height:100%; padding:60px 0 0 220px;background: rgba(234, 241, 247, 1);
     .contents {
-        width:1400px; height:100%; display:block; padding: 50px 150px;
+        width:1400px; height:100%; display:block; position: absolute; top:120px; left:370px;
         .contents-title {
             padding: 20px 0;
             .title-txt {display:block; font-size: 30px; color:#47556a; padding: 10px 0; font-weight: 600;}

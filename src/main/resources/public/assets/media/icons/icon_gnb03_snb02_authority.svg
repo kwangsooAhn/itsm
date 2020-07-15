@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In  -->
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
-	<!ENTITY ns_flows "http://ns.adobe.com/Flows/1.0/">
-]>
-<svg version="1.1"
-	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:a="http://ns.adobe.com/AdobeSVGViewerExtensions/3.0/"
-	 x="0px" y="0px" width="28px" height="28px" viewBox="-5 -4 28 28" style="enable-background:new -5 -4 28 28;"
-	 xml:space="preserve">
-<defs>
-</defs>
-<path style="fill:#FFFFFF;" d="M16.2207031,5.7304688h-1.9804688V5.2382813C14.2402344,2.3447266,11.8945313,0,9.0029297,0
-	C6.109375,0,3.7636719,2.3447266,3.7636719,5.2382813v0.4921875H1.7788086C0.7963867,5.7304688,0,6.5263672,0,7.5087891v10.7128906
-	C0,19.2041016,0.7963867,20,1.7788086,20h14.4418945C17.203125,20,18,19.2041016,18,18.2216797V7.5087891
-	C18,6.5263672,17.203125,5.7304688,16.2207031,5.7304688z M4.7636719,5.2382813C4.7636719,2.9013672,6.6660156,1,9.0029297,1
-	s4.2373047,1.9013672,4.2373047,4.2382813v0.4921875H4.7636719V5.2382813z M17,18.2216797
-	C17,18.6503906,16.6503906,19,16.2207031,19H1.7788086C1.3496094,19,1,18.6503906,1,18.2216797V7.5087891
-	c0-0.4287109,0.3496094-0.7783203,0.7788086-0.7783203h1.9848633h10.4765625h1.9804688
-	C16.6503906,6.7304688,17,7.0800781,17,7.5087891V18.2216797z"/>
-<path style="fill:#FFFFFF;" d="M9,9.6611328c-0.2763672,0-0.5,0.2236328-0.5,0.5v5.4082031c0,0.2763672,0.2236328,0.5,0.5,0.5
-	s0.5-0.2236328,0.5-0.5v-5.4082031C9.5,9.8847656,9.2763672,9.6611328,9,9.6611328z"/>
+<!-- Generator: Adobe Illustrator 15.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="레이어_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+	 y="0px" width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve">
+<g>
+	<g>
+		<path fill="#FFFFFF" d="M22,10h-3c0-2.76-2.24-5-5-5s-5,2.24-5,5H6c-0.55,0-1,0.45-1,1v11c0,0.55,0.45,1,1,1h16c0.55,0,1-0.45,1-1
+			V11C23,10.45,22.55,10,22,10z M14,6c2.21,0,4,1.79,4,4h-8C10,7.79,11.79,6,14,6z M22,22H6V11h3.1h1.03h7.74h1.03H22V22z"/>
+	</g>
+	<path fill="#FFFFFF" d="M14,19c-0.28,0-0.5-0.22-0.5-0.5v-3c0-0.28,0.22-0.5,0.5-0.5s0.5,0.22,0.5,0.5v3C14.5,18.78,14.28,19,14,19
+		z"/>
+</g>
 </svg>
