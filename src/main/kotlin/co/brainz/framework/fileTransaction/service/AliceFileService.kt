@@ -381,7 +381,11 @@ class AliceFileService(
      */
     private fun delete(aliceFileLocEntity: AliceFileLocEntity) {
         try {
-            Files.delete(Paths.get(aliceFileLocEntity.uploadedLocation + File.separator + aliceFileLocEntity.randomName))
+            Files.delete(
+                Paths.get(
+                    aliceFileLocEntity.uploadedLocation + File.separator + aliceFileLocEntity.randomName
+                )
+            )
             logger.info(
                 "Delete physical file {}({})",
                 aliceFileLocEntity.uploadedLocation + File.separator + aliceFileLocEntity.randomName,
@@ -420,12 +424,12 @@ class AliceFileService(
     }
 
     /**
-     * 회원 가입 시 아바타 이미지 임시 업로드
+     * 회원 가입 시 아바타 파일[multipartFile]를 받아서 임시 폴더에[avatar/temp/]저장 한다.
      */
-    fun uploadTempAvatar(multipartFile: MultipartFile, location: String, baseDir: String, fileName: String?) {
+    fun uploadTempAvatarFile(multipartFile: MultipartFile, fileName: String?) {
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
         val filePath: Path
-        var dir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_TEMP_DIR)
+        var dir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
         dir = if (Files.exists(dir)) dir else Files.createDirectories(dir)
 
         filePath = when (fileName) {
@@ -445,14 +449,14 @@ class AliceFileService(
     }
 
     /**
-     * 아바타 이미지 업로드
+     * 업로드한 아바타 이미지정보를[avatarId,avatarUUId,avatarType]를 받아서 아바타 정보[AliceAvatarEntity]를 반환한다.
      */
-    fun uploadAvatar(avatarId: String, avatarUUId: String, avatarType: String): AliceAvatarEntity {
-        val tempDir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_TEMP_DIR)
+    fun uploadAvatarFile(avatarId: String, avatarUUId: String, avatarType: String): AliceAvatarEntity {
+        val tempDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
         val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUId)
         val tempFile = File(tempPath.toString())
 
-        val avatarDir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_DIR)
+        val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
         val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUId)
         val avatarUploadFile = File(avatarFilePath.toString())
 
@@ -481,9 +485,9 @@ class AliceFileService(
                 avatarUploaded = avatarInfo.uploaded
                 avatarUploadedLocation = avatarInfo.uploadedLocation
             } else {
-                avatarValue = AliceUserConstants.SAMPLE_FILE_NAME
+                avatarValue = AliceUserConstants.AVATAR_BASIC_FILE_NAME
                 avatarUploaded = false
-                avatarUploadedLocation = AliceUserConstants.SAMPLE_FILE_PATH
+                avatarUploadedLocation = AliceUserConstants.AVATAR_BASIC_FILE_PATH
             }
         }
 
@@ -505,11 +509,11 @@ class AliceFileService(
      * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
      */
     fun avatarFileNameMod(aliceAvatarEntity: AliceAvatarEntity) {
-        if (aliceAvatarEntity.avatarType == AliceUserConstants.USER_AVATAR_TYPE_FILE &&
+        if (aliceAvatarEntity.avatarType == AliceUserConstants.AVATAR_TYPE_FILE &&
             aliceAvatarEntity.uploaded
         ) {
             if (aliceAvatarEntity.avatarId != aliceAvatarEntity.avatarValue) {
-                val avatarDir = super.getWorkflowDir(AliceUserConstants.USER_AVATAR_IMAGE_DIR)
+                val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
                 val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarValue)
                 val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarId)
                 val avatarUploadFile = File(avatarFilePath.toString())
@@ -527,5 +531,4 @@ class AliceFileService(
             }
         }
     }
-
 }

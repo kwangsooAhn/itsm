@@ -208,18 +208,18 @@ class AliceCertificationService(
     }
 
     /**
-     * 사용자 아바타 저장
+     * 사용자정보[aliceSignUpDto]를 받아서 아바타 저장후 아바타 정보[AliceAvatarEntity]를 반환한다.
      */
     private fun setUserAvatar(aliceSignUpDto: AliceSignUpDto): AliceAvatarEntity {
-        return aliceFileService.uploadAvatar(
+        return aliceFileService.uploadAvatarFile(
             "",
             aliceSignUpDto.avatarUUId,
-            AliceUserConstants.USER_AVATAR_TYPE_FILE
+            AliceUserConstants.AVATAR_TYPE_FILE
         )
     }
 
     /**
-     * 아바타 이미지명 변경
+     * 사용자 아바타 정보[avatarEntity]를 받아서 이미지명을 avatar_id로 변경한다.
      */
     private fun avatarFileNameMod(avatarEntity: AliceAvatarEntity) {
         aliceFileService.avatarFileNameMod(avatarEntity)

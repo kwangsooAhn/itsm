@@ -1,7 +1,13 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.certification.repository
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.certification.dto.AliceCertificationDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
@@ -37,6 +43,9 @@ class CertificationTest {
     @Autowired
     lateinit var aliceCertificationMailService: AliceCertificationMailService
 
+    @Autowired
+    lateinit var avatarService: AliceAvatarService
+
     lateinit var mvc: MockMvc
     lateinit var securityContext: SecurityContext
 
@@ -71,7 +80,7 @@ class CertificationTest {
             lang = "en",
             timeFormat = "YYYY-MM-DD HH:MM",
             theme = AliceUserConstants.USER_THEME,
-            avatarPath = ""
+            avatarPath = avatarService.makeAvatarPath(userDto.avatar)
         )
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())
@@ -118,7 +127,8 @@ class CertificationTest {
         )
         aliceCertificationService.updateUser(aliceCertificationDto)
 
-        val uid: String = "$certificationKey:$userId:$email"
+        val uid: String
+        uid = "$certificationKey:$userId:$email"
         val encryptUid: String = AliceEncryptionUtil().twoWayEnCode(uid)
         mvc.perform(get("/certification/valid").param("uid", encryptUid))
             .andExpect(status().isOk)

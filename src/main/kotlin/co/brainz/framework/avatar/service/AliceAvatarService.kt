@@ -18,15 +18,18 @@ class AliceAvatarService {
     @Value("\${file.image.uri}")
     private val resourcesUriPath: String? = null
 
+    /**
+     * 아바타 타입에 따른 경로를 반환한다. 이때 uploaded가 false를 기본값으로 본다.
+     */
     fun makeAvatarPath(avatarEntity: AliceAvatarEntity): String {
         return when (avatarEntity.avatarType) {
-            AliceUserConstants.USER_AVATAR_TYPE_FILE ->
+            AliceUserConstants.AVATAR_TYPE_FILE ->
                 if (avatarEntity.uploaded) {
                     resourcesUriPath + "/avatar/" + avatarEntity.avatarValue
                 } else {
-                    AliceUserConstants.SAMPLE_FILE_PATH + AliceUserConstants.SAMPLE_FILE_NAME
+                    AliceUserConstants.AVATAR_BASIC_FILE_PATH + AliceUserConstants.AVATAR_BASIC_FILE_NAME
                 }
-            AliceUserConstants.USER_AVATAR_TYPE_URL ->
+            AliceUserConstants.AVATAR_TYPE_URL ->
                 avatarEntity.avatarValue
             else -> avatarEntity.uploadedLocation
         }

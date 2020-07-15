@@ -115,16 +115,16 @@ class UserService(
                 when (userUpdateDto.password != null) {
                     targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
-                        userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password)}
+                        userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
                     }
                 }
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
-                val aliceAliceAvatarEntity = aliceFileService.uploadAvatar(
+                val aliceAliceAvatarEntity = aliceFileService.uploadAvatarFile(
                     targetEntity.avatar.avatarId,
                     userUpdateDto.avatarUUId,
-                    AliceUserConstants.USER_AVATAR_TYPE_FILE
+                    AliceUserConstants.AVATAR_TYPE_FILE
                 )
                 if (aliceAliceAvatarEntity.uploaded) {
                     aliceFileService.avatarFileNameMod(aliceAliceAvatarEntity)

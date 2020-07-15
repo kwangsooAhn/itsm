@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.auth.service
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
@@ -45,7 +50,7 @@ class AliceUserDetailsService(
         aliceUserAuthDto.urls =
             aliceUserAuthDto.userKey.let { aliceAuthRepository.findByUserKey(aliceUserAuthDto.userKey) }
         aliceUserAuthDto.avatar =
-            aliceUserAuthDto.userKey.let { aliceUserRepository.findByUserId(aliceUserAuthDto.userId).avatar}
+            aliceUserAuthDto.userKey.let { aliceUserRepository.findByUserId(aliceUserAuthDto.userId).avatar }
         return aliceUserAuthDto
     }
 

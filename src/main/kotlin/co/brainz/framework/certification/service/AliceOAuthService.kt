@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.certification.service
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto

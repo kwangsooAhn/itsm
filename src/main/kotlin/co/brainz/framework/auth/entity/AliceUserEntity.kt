@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.auth.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
@@ -6,18 +11,18 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import java.io.Serializable
 import java.time.LocalDateTime
-import org.hibernate.annotations.GenericGenerator
-import org.springframework.format.annotation.DateTimeFormat
-import javax.persistence.Column
 import javax.persistence.CascadeType
+import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
 import javax.persistence.OneToOne
-import javax.persistence.JoinColumn
 import javax.persistence.Table
+import org.hibernate.annotations.GenericGenerator
+import org.springframework.format.annotation.DateTimeFormat
 
 @Entity
 @Table(name = "awf_user")

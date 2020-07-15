@@ -51,16 +51,39 @@ object AliceUserConstants {
     const val PLATFORM_CATEGORY_P_CODE = "user.platform"
 
     /**
-     * 사용자 아바타  디렉터리
+     * 사용자 아바타 디렉터리
      */
     const val AVATAR_ID: String = "avatar"
-    const val SAMPLE_FILE_PATH: String = "/assets/media/image/avatar/"
-    const val SAMPLE_FILE_NAME: String = "profile_sample.jpg"
-    const val BASE_DIR: String = "public"
-    const val USER_AVATAR_IMAGE_TEMP_DIR: String = "avatar/temp/"
-    const val USER_AVATAR_IMAGE_DIR: String = "avatar"
-    const val USER_AVATAR_TYPE_FILE = "FILE"
-    const val USER_AVATAR_TYPE_URL = "URL"
+
+    /**
+     * 사용자 아바타 기본 디렉터리
+     */
+    const val AVATAR_BASIC_FILE_PATH: String = "/assets/media/image/avatar/"
+
+    /**
+     * 사용자 아바타 기본 파일명
+     */
+    const val AVATAR_BASIC_FILE_NAME: String = "profile_sample.jpg"
+
+    /**
+     * 사용자 아바타 이미지 임시 경로
+     */
+    const val AVATAR_IMAGE_TEMP_DIR: String = "avatar/temp/"
+
+    /**
+     * 사용자 아바타 이미지 경로
+     */
+    const val AVATAR_IMAGE_DIR: String = "avatar"
+
+    /**
+     * 사용자 아바타 저장 유형 - FILE
+     */
+    const val AVATAR_TYPE_FILE = "FILE"
+
+    /**
+     * 사용자 아바타 저장 유형 - URL
+     */
+    const val AVATAR_TYPE_URL = "URL"
 
     /**
      * 사용자 상태.

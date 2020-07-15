@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.certification.controller
 
 import co.brainz.framework.auth.dto.AliceUserDto
@@ -63,10 +68,8 @@ class AliceCertificationRestController(
         val map: MutableMap<String, Any> = mutableMapOf()
         val fileName = request.getParameter("fileName") ?: null
 
-        map["file"] = aliceFileService.uploadTempAvatar(
+        map["file"] = aliceFileService.uploadTempAvatarFile(
             multipartFile,
-            AliceUserConstants.USER_AVATAR_IMAGE_DIR,
-            AliceUserConstants.BASE_DIR,
             fileName
         )
 
