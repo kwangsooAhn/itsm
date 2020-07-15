@@ -20,6 +20,13 @@ import org.springframework.stereotype.Component
 @Component
 class AliceAuthFailureHandler : AuthenticationFailureHandler {
 
+    companion object {
+        const val EX_HANDLING_FIRST_NUM = 1
+        const val EX_HANDLING_SECOND_NUM = 2
+        const val EX_HANDLING_THIRD_NUM = 3
+        const val EX_HANDLING_DEFAULT_NUM = 99
+    }
+
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val redirectStrategy: RedirectStrategy = DefaultRedirectStrategy()
 
@@ -30,14 +37,14 @@ class AliceAuthFailureHandler : AuthenticationFailureHandler {
     ) {
         logger.error(e.message)
         val errorCode = when (e) {
-            // "아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요."
-            is BadCredentialsException -> 1
+            // "비밀번호가 일치하지 않습니다. 다시 확인하세요."
+            is BadCredentialsException -> EX_HANDLING_FIRST_NUM
             // "계정이 비활성화되었습니다. 관리자에게 문의해주세요"
-            is DisabledException -> 2
+            is DisabledException -> EX_HANDLING_SECOND_NUM
             // "등록되지 않은 계정입니다. 다시 확인해주세요."
-            is UsernameNotFoundException -> 3
+            is UsernameNotFoundException -> EX_HANDLING_THIRD_NUM
             // "알 수 없는 에러가 발생하였습니다. 관리자에게 문의해주세요."
-            else -> 99
+            else -> EX_HANDLING_DEFAULT_NUM
         }
 
         // TODO 로그인 실패 카운트 및 이력 업데이트
