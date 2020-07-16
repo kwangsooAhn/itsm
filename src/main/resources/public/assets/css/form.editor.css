@@ -10790,6 +10790,13 @@ a.text-dark:hover, a.text-dark:focus {
   font-weight: 800;
 }
 
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 body {
   font-family: NanumSquare, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
@@ -10932,7 +10939,7 @@ body {
 }
 
 .alice-form-panel .drawing-board[data-readonly=true] .component.selected {
-  background-color: #f4f7f7;
+  background-color: rgba(140, 174, 222, 0.1);
 }
 
 .alice-form-panel .drawing-board[data-readonly=true] .component[data-type]:not([data-type="editbox"]):hover {

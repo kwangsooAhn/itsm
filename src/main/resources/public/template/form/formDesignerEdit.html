@@ -16,7 +16,7 @@
 <div class="alice-form-container">
     <div class="alice-form-toolbar">
         <span class="logo"></span>
-        <span class="form-designer"></span>
+        <span class="form-designer">Form Designer</span>
         <span class="separator"></span>
         <th:block th:if="${#strings.isEmpty(isView)}">
             <a href="javascript:void(0);" onclick="editor.save(false);">
@@ -65,19 +65,19 @@
 </div>
 <div class="alice-form-tooltip-menu" id="tooltip-menu">
     <ul>
-        <li class="list" data-action="list">
+        <li class="menu-item list" data-action="list">
             <img/>
             <!--<label th:text="#{form.label.list}"></label>-->
         </li>
-        <li class="copy" data-action="copy">
+        <li class="menu-item copy" data-action="copy">
             <img/>
             <!--<label th:text="#{form.label.copy}"></label>-->
         </li>
-        <li class="delete" data-action="delete">
+        <li class="menu-item delete" data-action="delete">
             <img/>
             <!--<label th:text="#{common.btn.delete}"></label>-->
         </li>
-        <li class="add" data-action="add">
+        <li class="menu-item add" data-action="add">
             <img/>
             <!--<label th:text="#{form.label.addBelow}"></label>-->
         </li>
@@ -85,79 +85,79 @@
 </div>
 <div class="alice-form-context-menu" id="context-menu">
     <ul>
-        <li class="inputbox" data-action="inputbox">
+        <li class="menu-item inputbox" data-action="inputbox">
             <div>
                 <img/>
                 <label th:text="#{form.component.inputbox}"></label>
             </div>
         </li>
-        <li class="textarea" data-action="textarea">
+        <li class="menu-item textarea" data-action="textarea">
             <div>
                 <img/>
                 <label th:text="#{form.component.textarea}"></label>
             </div>
         </li>
-        <li class="dropdown" data-action="dropdown">
+        <li class="menu-item dropdown" data-action="dropdown">
             <div>
                 <img/>
                 <label th:text="#{form.component.dropdown}"></label>
             </div>
         </li>
-        <li class="radio" data-action="radio">
+        <li class="menu-item radio" data-action="radio">
             <div>
                 <img/>
                 <label th:text="#{form.component.radio}"></label>
             </div>
         </li>
-        <li class="checkbox" data-action="checkbox">
+        <li class="menu-item checkbox" data-action="checkbox">
             <div>
                 <img/>
                 <label th:text="#{form.component.checkbox}"></label>
             </div>
         </li>
-        <li class="label" data-action="label">
+        <li class="menu-item label" data-action="label">
             <div>
                 <img/>
                 <label th:text="#{form.component.label}"></label>
             </div>
         </li>
-        <li class="image" data-action="image">
+        <li class="menu-item image" data-action="image">
             <div>
                 <img/>
                 <label th:text="#{form.component.image}"></label>
             </div>
         </li>
-        <li class="divider" data-action="divider">
+        <li class="menu-item divider" data-action="divider">
             <div>
                 <img/>
                 <label th:text="#{form.component.divider}"></label>
             </div>
         </li>
-        <li class="date" data-action="date">
+        <li class="menu-item date" data-action="date">
             <div>
                 <img/>
                 <label th:text="#{form.component.date}"></label>
             </div>
         </li>
-        <li class="time" data-action="time">
+        <li class="menu-item time" data-action="time">
             <div>
                 <img/>
                 <label th:text="#{form.component.time}"></label>
             </div>
         </li>
-        <li class="datetime" data-action="datetime">
+        <li class="menu-item datetime" data-action="datetime">
             <div>
                 <img/>
                 <label th:text="#{form.component.datetime}"></label>
             </div>
         </li>
-        <li class="fileupload" data-action="fileupload">
+        <li class="menu-item fileupload" data-action="fileupload">
             <div>
                 <img/>
                 <label th:text="#{form.component.fileupload}"></label>
             </div>
         </li>
-        <li class="custom-code" data-action="custom-code">
+        <li class="menu-item custom-code" data-action="custom-code">
             <div>
                 <img/>
                 <label th:text="#{form.component.customCode}"></label>

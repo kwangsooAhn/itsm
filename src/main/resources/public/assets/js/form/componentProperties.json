@@ -924,7 +924,7 @@
             {
                 "id": "path",
                 "name": "Image Path",
-                "value": "https://placehold.it/720X100",
+                "value": "",
                 "type": "image",
                 "code": "",
                 "unit": "",

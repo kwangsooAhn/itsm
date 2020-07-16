@@ -9,9 +9,15 @@ $form-container-min-width: 75rem;    // 1200px
 $form-container-min-height: 37.5rem;    // 600px
 $form-container-top-margin: 5rem;    //80px
 $form-container-left-margin: 8.75rem;    //140px
-$form-component-selected-color: #f4f7f7; 
+$form-component-selected-color: rgba(140, 174, 222, 0.1); 
 $form-context-menu-width: 19.63rem;    // 314px
 $form-component-help-width: 20rem;    //320px
+
+*,
+*::before,
+*::after {
+          box-sizing: border-box;
+}
 
 body {
     font-family: $alice-font-family;

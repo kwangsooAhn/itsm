@@ -26,8 +26,8 @@
             {'type': 'datetime', 'name': 'Date Time', 'icon': ''},
             {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
             {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
-        ],
-        columnRow = 12;   // 폼 양식을 몇 등분할지 값
+        ];
+
     let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
     let parent = null;
     let children = [];
@@ -55,10 +55,10 @@
         this.property = property;
         this.renderOrder = property.display.order;
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="editable">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="editable">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group" contenteditable="true" placeholder="Typing '/' for add component"></div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
     }
@@ -88,7 +88,7 @@
         }
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -106,7 +106,7 @@
                     ` regexp='${property.validate.regexp}' regexp-msg='${property.validate.regexpMsg}' />` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
     }
@@ -131,7 +131,7 @@
         }
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -156,13 +156,14 @@
                     `</textarea>`}` +
                 `</div>` +
             `</div>` +
-         `</component>`;
+         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // quill editor 초기화
         if (editorUseYn) {
-            const editorContainer = parent.querySelector('.editor-container');
+            const textboxElement = parent.lastChild;
+            const editorContainer = textboxElement.querySelector('.editor-container');
             let editorOptions = {
                 modules: {
                     toolbar: [
@@ -196,21 +197,22 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
+        let selectedOptionValue = (typeof property.value !== 'undefined' && property.value != '') ? property.value : property.option[0].value;
         const inputOptionsTemplate = property.option.map(function (opt) {
-            return `<div class="select-value">` +
-                        `<input type="radio" class="select-input" id="${opt.value}-${opt.seq}" name="${opt.name}" value="${opt.value}"` +
-                         `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}/>` +
-                        `<p class="select-text">${opt.name}</p>` +
-                    `</div>`;
+            return `<div class="select-box-value">` +
+                `<input type="radio" class="select-box-input" id="select-${opt.value}-${opt.seq}" name="${opt.name}" value="${opt.value}"` +
+                `${(opt.value === selectedOptionValue) ? " checked='true'" : ""}/>` +
+                `<p class="select-box-text">${opt.name}</p>` +
+                `</div>`;
         }).join('');
 
-        const selectOptionsTemplate = property.option.map(function (opt) {
-            return `<li><label for="${opt.value}-${opt.seq}" aria-hidden="aria-hidden">${opt.name}</label></li>`;
+        const itemOptionsTemplate = property.option.map(function (opt) {
+            return `<li><label class="select-box-option${(opt.value === selectedOptionValue) ? ' checked' : ''}" for="select-${opt.value}-${opt.seq}">${opt.name}</label></li>`;
         }).join('');
 
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -222,15 +224,47 @@
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
-                    `<div class="dropdown">` +
-                        `<div class="select-current" tabindex="${this.renderOrder}">${inputOptionsTemplate}<img class="select-arrow-icon" aria-hidden="true"/></div>` +
-                        `<ul class="select-list">${selectOptionsTemplate}</ul>` +
-                     `</div>` +
+                    `<div class="select-box">` +
+                        `<div class="select-box-current" tabindex="${this.renderOrder}">${inputOptionsTemplate}<img class="select-box-icon"/></div>` +
+                        `<ul class="select-box-list">${itemOptionsTemplate}</ul>` +
+                    `</div>` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
+
+        const dropdownElement = parent.lastChild;
+        const optionElements = dropdownElement.querySelectorAll('.select-box-option');
+        for (let i = 0; i < optionElements.length; i++) {
+            optionElements[i].addEventListener('click', function (e) {
+                console.log(e.target);
+                const selectedElem = e.target;
+                const selectedElemId = selectedElem.getAttribute('for');
+                const ulElem = selectedElem.parentNode.parentNode;
+                const inputElem = ulElem.previousElementSibling;
+                for (let j = 0; j < ulElem.children.length ; j++) {
+                    const prevSelectedElem = ulElem.children[j].firstElementChild;
+                    if (prevSelectedElem.classList.contains('checked')) {
+                        prevSelectedElem.classList.remove('checked');
+                    }
+                }
+                if (!selectedElem.classList.contains('checked')) {
+                    selectedElem.classList.add('checked');
+
+                    for (let k = 0; k < inputElem.children.length ; k++) {
+                        const radioElem = inputElem.children[k].firstElementChild;
+                        if (radioElem) {
+                            if (radioElem.id === selectedElemId) {
+                                radioElem.checked = true;
+                            } else {
+                                radioElem.checked = false;
+                            }
+                        }
+                    }
+                }
+            });
+        }
 
     }
 
@@ -250,17 +284,17 @@
         const optionsTemplate = property.option.map(function (opt) {
             return `<div class="field-radio">` +
                 `${(property.display.position === 'right') ?
-                    `<input type="radio" id="radio-${opt.value}" name="${opt.name}" value="${opt.value}" ${(typeof property.value !== 'undefined' && opt.value === property.value) ? "checked='true'" : ""}>` +
-                    `<label for='radio-${opt.value}'>${opt.name}</label>` :
-                    `<label for='radio-${opt.value}'>${opt.name}</label>` +
-                    `<input type="radio" id="radio-${opt.value}" name="${opt.name}" value="${opt.value}" ${(typeof property.value !== 'undefined' && opt.value === property.value) ? "checked='true'" : ""}>`
+                    `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}" ${(typeof property.value !== 'undefined' && opt.value === property.value) ? "checked='true'" : ""}>` +
+                    `<label for='radio-${opt.value}-${opt.seq}'>${opt.name}</label>` :
+                    `<label for='radio-${opt.value}-${opt.seq}'>${opt.name}</label>` +
+                    `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}" ${(typeof property.value !== 'undefined' && opt.value === property.value) ? "checked='true'" : ""}>`
                  }` +
                 `</div>`;
         }).join('');
 
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -275,14 +309,13 @@
                 `${displayType === 'editableRequired' ? 'required' : ''}>${optionsTemplate}` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
-
     }
 
     /**
-     * Dropdown 컴포넌트
+     * Checkbox 컴포넌트
      *
      * @param {Object} property 컴포넌트 속성
      * @constructor
@@ -298,17 +331,17 @@
         const optionsTemplate = property.option.map(function (opt) {
             return `<div class="field-checkbox">` +
                 `${(property.display.position === 'right') ?
-                    `<input type="checkbox" id="checkbox-${opt.value}" name="${opt.name}" value="${opt.value}" ${(checkboxValueArr.indexOf(opt.value) > -1) ? "checked='true'" : ""}>` +
-                    `<label for='checkbox-${opt.value}'>${opt.name}</label>` :
-                    `<label for='checkbox-${opt.value}'>${opt.name}</label>` +
-                    `<input type="checkbox" id="checkbox-${opt.value}" name="${opt.name}" value="${opt.value}" ${(checkboxValueArr.indexOf(opt.value) > -1) ? "checked='true'" : ""}>`
+                    `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}" ${(checkboxValueArr.indexOf(opt.value) > -1) ? "checked='true'" : ""}>` +
+                    `<label for='checkbox-${opt.value}-${opt.seq}'>${opt.name}</label>` :
+                    `<label for='checkbox-${opt.value}-${opt.seq}'>${opt.name}</label>` +
+                    `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}" ${(checkboxValueArr.indexOf(opt.value) > -1) ? "checked='true'" : ""}>`
                 }` +
                 `</div>`;
         }).join('');
 
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-            `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
                 `<div class="move-handler"></div>` +
                 `<div class="field-group">` +
                     `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -323,7 +356,7 @@
                     `${displayType === 'editableRequired' ? 'required' : ''}>${optionsTemplate}` +
                     `</div>` +
                 `</div>` +
-            `</component>`;
+            `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
     }
@@ -343,17 +376,17 @@
 
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.display.align}">` +
+                `<div class="field-label ${property.display.align}" >` +
                     `<div class="label" style="color: ${property.display.color}; font-size: ${property.display.size}px;` +
                     `${property.display.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.display.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.display.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.display.text}</div>` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
     }
@@ -374,14 +407,15 @@
         const displayType = property['dataAttribute']['displayType'];
         const imageSrc = property.display.path;
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
                 `<div class="field-group">` +
                 `<div class="field-content ${property.display.align}">` +
-                    `<img src="" alt="" data-path="${imageSrc}" width="${property.display.width}" height="${property.display.height}">` +
+                    `<img class="field-img" src="" alt="" data-path="${imageSrc}" width="${property.display.width}" height="${property.display.height}">` +
+                    `<div class="img-placeholder"><img/><p>Select Your Image</p></div>` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -395,7 +429,8 @@
                     const responseText = xhr.responseText;
                     if (responseText !== '') {
                         const image = JSON.parse(responseText);
-                        parent.querySelector('img').src = 'data:image/' + image.extension + ';base64,' + image.data;
+                        const componentElement = parent.querySelector('.component');
+                        componentElement.querySelector('img').src = 'data:image/' + image.extension + ';base64,' + image.data;
                     }
                 }
             });
@@ -419,14 +454,14 @@
 
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-content>` +
-                    `<hr style="border-top: ${property.display.type} ${property.display.thickness}px ${property.display.color}; border-bottom-width: 0;">` +
+                `<div class="field-content">` +
+                    `<hr style="border-top: ${property.display.type} ${property.display.thickness}px ${property.display.color};">` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
         parent.insertAdjacentHTML('beforeend', this.template);
     }
 
@@ -469,7 +504,7 @@
         }
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -486,7 +521,7 @@
                     ` date-max="${property.validate.dateMax}" date-min="${property.validate.dateMin}" />` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -537,7 +572,7 @@
         }
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -554,7 +589,7 @@
                     ` time-max="${property.validate.timeMax}" time-min="${property.validate.timeMin}" />` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -606,7 +641,7 @@
         }
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -623,7 +658,7 @@
                     ` datetime-max="${property.validate.datetimeMax}" datetime-min="${property.validate.datetimeMin}" />` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -650,7 +685,7 @@
 
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -663,10 +698,10 @@
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" id="fileupload"${displayType === 'editableRequired' ? ' required' : ''} style="--data-column: ${property.display.column};">` +
                     `<div id='dropZoneFiles-${this.id}'></div>` +
-                    `<div class="dropbox" id='dropZoneUploadedFiles-${this.id}}'>${isForm ? `Drop files here to upload` : ``}</div>` +
+                    `<div class="dropbox" id='dropZoneUploadedFiles-${this.id}}'>${isForm ? `Drop files here to upload or <span>browse</span>` : ``}</div>` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
@@ -726,7 +761,7 @@
 
         const displayType = property['dataAttribute']['displayType'];
         this.template =
-        `<component id="${this.id}" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
@@ -737,22 +772,23 @@
                     `<span class="required">*</span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
-                `<div class="field-content" style="--data-column: ${property.display.column};">` +
+                `<div class="field-content custom-code" style="--data-column: ${property.display.column};">` +
                     `<input type="text" id="custom-code-${this.id}" custom-data="${defaultCustomData}" value="${defaultValue}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''} readonly />` +
                     `<input type="button" id="codeBtn-${this.id}" value="${property.display.buttonText}">` +
                 `</div>` +
             `</div>` +
-        `</component>`;
+        `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // custom-code 초기화
         if (!isForm) {
-            const searchBtn = parent.querySelector('#codeBtn-' + this.id);
+            const componentElement = parent.querySelector('.component');
+            const searchBtn = componentElement.querySelector('#codeBtn-' + this.id);
             searchBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                const customCodeTextElem = parent.querySelector('#custom-code-' + property.componentId);
+                const customCodeTextElem = componentElement.querySelector('#custom-code-' + property.componentId);
                 if (defaultCustomData !== '') {
                     let customDataValue = defaultCustomData.split('|');
                     customCodeTextElem.value = (customDataValue.length > 1) ? customDataValue[1] : '';
@@ -888,6 +924,11 @@
             }
         });
         return refineProperty;
+    }
+
+    function get(id) {
+        console.log(children);
+        children.find(c => { return c.id === id; });
     }
 
     /**

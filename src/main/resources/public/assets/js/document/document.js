@@ -286,7 +286,7 @@
      */
     function getComponentData(target) {
         let componentArrayList = [];
-        const componentElements = documentContainer.getElementsByClassName('component');
+        const componentElements = documentContainer.querySelectorAll('.component');
         for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
             if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||

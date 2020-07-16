@@ -12,7 +12,8 @@
     'use strict';
 
     const keycode = { arrowUp: 38, arrowDown: 40, enter: 13, ctrl: 17 };
-    let menu = null,           // 컨텍스트 메뉴
+    let contextMenu = null,           // 컨텍스트 메뉴
+        tooltipMenu = null,    // tooltip 메뉴
         flag = 0,              // 0:menu off, 1:menu on
 
         itemInContext = null,  // 해당 element가 컨텍스트 메뉴를 출력하는 객체인지 여부 판단
@@ -27,6 +28,44 @@
 
 
     /**
+     * tooltop menu on
+     * @param target 컴포넌트 element
+     */
+    function tooltipMenuOn(target) {
+        console.log(editor.selectedComponentIds);
+        if (!tooltipMenu.classList.contains('on')) {
+            tooltipMenu.classList.add('on');
+            // 위치 설정
+            tooltipMenu.style.right = '0px';
+            let rect = tooltipMenu.getBoundingClientRect();
+            tooltipMenu.style.top = target.offsetTop + target.offsetHeight + 10 + 'px';
+
+            console.log(target.offsetTop + target.offsetHeight);
+            console.log(rect.bottom, window.innerHeight , document.documentElement.clientHeight);
+
+            if (rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) { // top
+                tooltipMenu.style.top = '';
+                tooltipMenu.style.bottom = target.offsetTop + target.offsetHeight + 10 + 'px';
+            }
+
+            // 1. editbox 컴포넌트라면 list, copy, delete, add 메뉴 표시
+
+            // 2. editbox 컴포넌트가 아니고 선택된 컴포넌트가 1개라면, 상단에 copy, delete, add 메뉴 표시
+
+            // 3. 선택된 컴포넌트가 여러개면, 상단에 delete 메뉴 표시
+        }
+    }
+
+    /**
+     * tooltop menu off
+     */
+    function tooltipMenuOff() {
+        if (tooltipMenu.classList.contains('on')) {
+            tooltipMenu.classList.remove('on');
+        }
+    }
+
+    /**
      * context menu on
      * @param {Object} state {1=control 메뉴 on, 2=component 메뉴 on}
      */
@@ -34,8 +73,8 @@
         if (flag === 1) { return false; }
         
         flag = 1;
-        menu.classList.add('on');
-        menu.scrollTop = 0;
+        contextMenu.classList.add('on');
+        contextMenu.scrollTop = 0;
 
         // 비활성 메뉴 활성화
         let controlMenu = document.getElementById('context-menu-control');
@@ -81,7 +120,8 @@
         if (flag === 0) { return false; }
 
         flag = 0;
-        menu.classList.remove('on');
+        contextMenu.classList.remove('on');
+
         searchItems = [];
         selectedItem = null;
         selectedItemIdx = -1;
@@ -205,15 +245,15 @@
      * 키보드 위 아래 키로 컨텍스트 메뉴 scroll시 위치 재조정
      */
     function setScrollMenu() {
-        let contextHeight = menu.offsetHeight;
-        let contextScrollTop = menu.scrollTop;
+        let contextHeight = contextMenu.offsetHeight;
+        let contextScrollTop = contextMenu.scrollTop;
         let viewPort = contextScrollTop + contextHeight;
-        let elem = menu.getElementsByClassName('active')[0];
+        let elem = contextMenu.getElementsByClassName('active')[0];
         let itemHeight = elem.querySelector('.active').offsetHeight;
         let contextOffset = itemHeight * selectedItemIdx;
 
         if (contextOffset < contextScrollTop || (contextOffset + itemHeight) > viewPort) {
-            menu.scrollTop = contextOffset;
+            contextMenu.scrollTop = contextOffset;
         }
     }
 
@@ -226,22 +266,22 @@
         let clickCoordsX = clickCoords.x;
         let clickCoordsY = clickCoords.y;
         
-        let menuWidth = menu.offsetWidth + 4;
-        let menuHeight = menu.offsetHeight + 4;
+        let menuWidth = contextMenu.offsetWidth + 4;
+        let menuHeight = contextMenu.offsetHeight + 4;
         
         let windowWidth = window.innerWidth;
         let windowHeight = window.innerHeight;
         
         if ( (windowWidth - clickCoordsX) < menuWidth ) {
-            menu.style.left = windowWidth - menuWidth + 'px';
+            contextMenu.style.left = windowWidth - menuWidth + 'px';
         } else {
-            menu.style.left = clickCoordsX + 'px';
+            contextMenu.style.left = clickCoordsX + 'px';
         }
         
         if ( (windowHeight - clickCoordsY) < menuHeight ) {
-            menu.style.top = windowHeight - menuHeight + 'px';
+            contextMenu.style.top = windowHeight - menuHeight + 'px';
         } else {
-            menu.style.top = clickCoordsY + 'px';
+            contextMenu.style.top = clickCoordsY + 'px';
         }
     }
     
@@ -407,8 +447,8 @@
             return false;
         }
 
-        const clickedElem = clickInsideElement(e, 'context-menu-item');
-        if (clickedElem) { // control context 메뉴가 오픈된 상태에서 해당 메뉴 선택한 경우
+        const clickedElem = clickInsideElement(e, 'menu-item');
+        if (clickedElem) { // 컨텍스트 메뉴가 오픈된 상태에서 해당 메뉴 선택한 경우
             e.preventDefault();
             menuItemListener(clickedElem);
         } else {
@@ -418,11 +458,11 @@
             }
             itemInContext = clickInsideElement(e, 'component');
             if (itemInContext) {
-                const box = itemInContext.querySelector('[contenteditable=true]');
-                if (box && e.target.classList.contains('add-icon')) { //+ 아이콘 클릭시 전체 컴포넌트 컨텍스트 메뉴
+                /*const editboxElement = itemInContext.querySelector('[contenteditable=true]');
+                if (editboxElement && e.target.classList.contains('add-icon')) { //+ 아이콘 클릭시 전체 컴포넌트 컨텍스트 메뉴
                     menuOn(2);
                     setPositionMenu(e);
-                }
+                }*/
                 if (isCtrlPressed) {  //배열에 담음
                     const removeIdx = editor.selectedComponentIds.indexOf(itemInContext.id);
                     if (removeIdx === -1) {
@@ -434,6 +474,7 @@
                     editor.selectedComponentIds.length = 0;
                     editor.selectedComponentIds.push(itemInContext.id);
                 }
+                tooltipMenuOn(itemInContext);
                 editor.showComponentProperties();
             }
         }
@@ -444,8 +485,7 @@
      * @param {Object} e 이벤트객체
      */
     function onMouseDownHandler(e) {
-        if (e.target.classList.contains('add-icon')) { return false; }
-        if (e.target.classList.contains('move-icon')) {
+        if (e.target.classList.contains('move-handler')) {
             e.target.parentNode.setAttribute('draggable', 'true');
         }
     }
@@ -467,7 +507,7 @@
                 editor.showComponentProperties();
             }
             //맨 마지막에 추가되길 원할 경우 필요한 drag 영역
-            lastComponent = document.createElement('component');
+            lastComponent = document.createElement('div');
             lastComponent.classList.add('component');
             lastComponent.style.height = '2px';
             dragComponent.parentNode.appendChild(lastComponent);
@@ -569,16 +609,19 @@
     function menuItemListener(elem) {
         menuOff();
         let clickedComponent = itemInContext;
-        editor.hideComponentProperties();
+        //editor.hideComponentProperties();
         
         switch (elem.getAttribute('data-action')) {
-            case 'copy': //컴포넌트 복사
+            case 'list': // 컴포넌트 전체 목록 출력
+
+                break;
+            case 'copy': // 컴포넌트 복사
                 editor.copyComponent(clickedComponent.id);
                 break;
-            case 'delete': //컴포넌트 삭제
+            case 'delete': // 컴포넌트 삭제
                 editor.deleteComponent();
                 break;
-            case 'addEditboxDown': //아래에 editbox 컴포넌트 추가
+            case 'add': // 바로 아래에 editbox 컴포넌트 추가
                 editor.addEditboxDown(clickedComponent.id);
                 break;
             default:
@@ -591,14 +634,16 @@
      * context menu 초기화 및 이벤트 등록
      */
     function init() {
-        menu = document.getElementById('context-menu');
-        itemInContext = menu;
+        tooltipMenu = document.getElementById('tooltip-menu');
 
-        menu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
+        contextMenu = document.getElementById('context-menu');
+        contextMenu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
             let d = -e.deltaY || e.detail;
             this.scrollTop += ( d < 0 ? 1 : -1 ) * 30;
             e.preventDefault();
         }, false);
+        itemInContext = contextMenu;
+
         document.addEventListener('keydown', onKeyDownHandler, false);
         document.addEventListener('keypress', onKeyPressHandler, false);
         document.addEventListener('keyup', onKeyUpHandler, false);

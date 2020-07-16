@@ -1024,6 +1024,8 @@
                 }
             }
         }
+        //TODO 아래 작업 필요
+        return false;
 
         // 선택된 첫번째 컴포넌트의 속성을 출력한다.
         let compIdx = getComponentIndex(selectedComponentIds[0]);
@@ -1520,16 +1522,25 @@
         savedData = JSON.parse(JSON.stringify(editor.data));
 
         //첫번째 컴포넌트 선택
-        const firstComponent = document.getElementById('form-panel').querySelectorAll('component')[0];
+        const firstComponent = document.getElementById('form-panel').querySelectorAll('.component')[0];
         if (firstComponent.getAttribute('data-type') === aliceForm.defaultType) { //editbox 컴포넌트일 경우 input box 안에 포커싱
             firstComponent.querySelector('[contenteditable=true]').focus();
         }
         selectedComponentIds.push(firstComponent.id);
         //showComponentProperties(); //TODO 상세 속성 디자인
 
-        component.draw('dropdown');
+        component.draw('inputbox');
+        component.draw('textarea');
         component.draw('radio');
         component.draw('checkbox');
+        component.draw('dropdown');
+        component.draw('divider');
+        component.draw('image');
+        component.draw('date');
+        component.draw('time');
+        component.draw('datetime');
+        component.draw('fileupload');
+        component.draw('custom-code');
 
         //폼 이름 출력
         changeFormName();
@@ -1559,11 +1570,11 @@
 
         if (flag === 'true') { isView = false; }
 
-        //컴포넌트 초기화
+        //컴포넌트 메뉴ㅠ 초기화
         component.init(formPanel);
 
         //컨텍스트 메뉴 초기화
-        //context.init();
+        context.init();
 
         //단축키 초기화 및 등록
         //shortcut.init();
