@@ -24,7 +24,7 @@ interface AliceMenuRepository : JpaRepository<AliceMenuEntity, String> {
                 "AND ra.auth = ma.auth " +
                 "AND ma.menu = m " +
                 "AND ur.user.userKey = :userKey " +
-                "ORDER BY m.sort "
+                "ORDER BY m.sort"
     )
     fun findByUserKey(@Param("userKey") userKey: String): MutableSet<AliceMenuEntity>
 }
