@@ -65,13 +65,11 @@
             let message = '';
             switch (authFailedCode) {
                 case '1':
-                    message = [[#{login.msg.invalidPassword}]];
-                    break;
                 case '2':
-                    message = [[#{login.msg.disabledUser}]];
+                    message = [[#{login.msg.invalidUserOrPassword}]];
                     break;
                 case '3':
-                    message = [[#{login.msg.invalidUser}]];
+                    message = [[#{login.msg.disabledUser}]];
                     break;
                 default:
                     message = [[#{login.msg.unknownError}]];
