@@ -624,7 +624,8 @@ user:
     position: "Position"
     rePassword: "rePassword"
     role: "User Role"
-    searchPlaceholder: "User Name / User ID"
+    searchPlaceholder: "ID/Name/Position/Dept/Number"
+    signUpDate: "SignUp Date"
     theme: "Theme"
     time: "Time Format"
     timeFormat: "Date/Time Format"
@@ -633,6 +634,7 @@ user:
     user: "User"
   msg:
     createUser: "User is registered."
+    description: "View, add, or edit user's information."
     emailAlert: "When you change your email, you need to verify."
     emailWithUpdate: "Member information, including email information, has been modified."
     enterUserEmail: "Please enter your Email."
