@@ -202,6 +202,7 @@ $alice-primary:#0050ff !default;
 .gnb04{ @include gnb-icon("icon_gnb04_wfmanage.svg") }
 
 /* SNB 아이콘 */
+.snb0100{ @include snb-icon("icon_gnb01_snb00_image.svg") }
 .snb0101{ @include snb-icon("icon_gnb01_snb01_docbox.svg") }
 .snb0102{ @include snb-icon("icon_gnb01_snb02_edit.svg") }
 
@@ -220,6 +221,7 @@ $alice-primary:#0050ff !default;
 .snb0402{ @include snb-icon("icon_gnb04_snb02_form.svg") }
 .snb0403{ @include snb-icon("icon_gnb04_snb03_workflow.svg") }
 .snb0404{ @include snb-icon("icon_gnb04_snb04_customcode.svg") }
+.snb0405{ @include snb-icon("icon_gnb04_snb05_dashboard.svg") }
 
 
 
@@ -268,6 +270,7 @@ $alice-primary:#0050ff !default;
                     & a { visibility: visible; }
                     & .snb-title{color:#48505C; font-size: 15px; font-weight: 600; text-align: center; display: block;}
                     /* GNB 접혔을 때 SNB 아이콘 */
+                    .snb0100{ @include snb-icon2("icon_gnb01_snb00_image.svg") }
                     .snb0101{ @include snb-icon2("icon_gnb01_snb01_docbox.svg")}
                     .snb0102{ @include snb-icon2("icon_gnb01_snb02_edit.svg") }
 
@@ -286,6 +289,7 @@ $alice-primary:#0050ff !default;
                     .snb0402{ @include snb-icon2("icon_gnb04_snb02_form.svg") }
                     .snb0403{ @include snb-icon2("icon_gnb04_snb03_workflow.svg") }
                     .snb0404{ @include snb-icon2("icon_gnb04_snb04_customcode.svg") }
+                    .snb0405{ @include snb-icon2("icon_gnb04_snb05_dashboard.svg") }
 
                 }
             &.snb-mywork{position: absolute; top:60px;}

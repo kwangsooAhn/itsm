@@ -439,6 +439,12 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 /* SNB 아이콘 */
+.snb0100 {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../media/icons/icon_gnb01_snb00_image.svg") no-repeat left center;
+}
+
 .snb0101 {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
@@ -527,6 +533,12 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
   background: url("../media/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+}
+
+.snb0405 {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../media/icons/icon_gnb04_snb05_dashboard.svg") no-repeat left center;
 }
 
 .gnb-open ul li {
@@ -640,6 +652,12 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   display: block;
 }
 
+.gnb-close .snb.active ul li .snb0100 {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../media/icons/icon_gnb01_snb00_image.svg") no-repeat left center;
+}
+
 .gnb-close .snb.active ul li .snb0101 {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
@@ -728,6 +746,12 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
   background: url("../media/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .snb0405 {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../media/icons/icon_gnb04_snb05_dashboard.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active.snb-mywork {
