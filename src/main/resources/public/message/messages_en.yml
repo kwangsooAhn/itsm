@@ -444,7 +444,7 @@ login:
     ipAccessDenied: "This IP is not accessible."
     redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
     sessionExpired: "Your session has expired."
-    unknownError: "An unknown error has occurred. Please contact the administrator."
+    unKnownError: "An unknown error has occurred. Please contact the administrator."
 
 # Menu
 menu:

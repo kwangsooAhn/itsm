@@ -444,7 +444,7 @@ login:
     ipAccessDenied: "해당 IP는 접근이 불가능합니다."
     redirectedLoginPage: "{0} 초 뒤 로그인 페이지로 이동합니다."
     sessionExpired: "세션이 만료되었습니다."
-    unknownError: "알 수 없는 에러가 발생하였습니다. 관리자에게 문의하세요."
+    unKnownError: "알 수 없는 에러가 발생하였습니다. 관리자에게 문의하세요."
 
 # Menu
 menu:
