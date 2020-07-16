@@ -471,7 +471,7 @@ menu:
     parent: "Workflow"
     process: "Process"
     form: "Form"
-    document: "Workflow"
+    workflowAdmin: "Workflow"
     customCode: "Custom Code"
     image: "Image"
   setting:
