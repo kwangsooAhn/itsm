@@ -30,12 +30,12 @@ $alice-primary:#0050ff !default;
 // *********************************************************************************************************************
 // CONTENTS (container > contents > title, body)
 // *********************************************************************************************************************
-.wrap-screen{position: relative; background: rgba(234, 241, 247, 1);}
+.wrap-screen{position: relative;}
 
 .container {
-    height:100%; padding:60px 0 0 220px;
+    height:100%; padding:60px 0 0 220px; background: rgba(234, 241, 247, 1);
     .contents {
-        min-width:1260px; max-height:820px; display:block; padding: 10px 136px 34px 136px;
+        min-width:1260px; max-height:820px; display:block; padding: 17px 136px 34px 136px;
         .contents-title {
             padding: 20px 0;
             .title-txt {display:block; font-size: 30px; color:#47556a; padding: 10px 0; font-weight: 600;}
@@ -77,7 +77,7 @@ $alice-primary:#0050ff !default;
             padding: 0 10px; border: 1px solid rgba(200, 206, 216, 1); border-radius: 2px; font-size: 13px;
         }
         .list-wrap{padding: 15px 0; height:490px;}
-        .list-count{float: right; color: #67717F; font-size: 13px; padding: 10px 10px;display: inline-block;}
+        .list-count{float: right; color: #67717F; font-size: 13px; padding: 10px 10px;display: block;}
     }
     &-close {height:100%; padding:90px 0 0 80px; background: rgba(234, 241, 247, 1);}
     .btn-add {
@@ -92,7 +92,7 @@ $alice-primary:#0050ff !default;
 
 // Paging
 .paging{
-    display: inline-block; float: left; padding-left: 40%;
+    display: block; float: left; padding-left: 40%;
     & ul li{display: inline-block; padding: 10px 2px; vertical-align: middle;  text-align: center;}
     .btn {
         &-num {
