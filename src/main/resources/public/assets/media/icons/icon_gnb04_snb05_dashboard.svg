@@ -3,6 +3,12 @@
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <svg version="1.1" id="레이어_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
 	 y="0px" width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve">
-<path fill="#0050FF" d="M20,13.5h-5.5V8c0-0.3-0.2-0.5-0.5-0.5S13.5,7.7,13.5,8v5.5H8c-0.3,0-0.5,0.2-0.5,0.5s0.2,0.5,0.5,0.5h5.5
-	V20c0,0.3,0.2,0.5,0.5,0.5s0.5-0.2,0.5-0.5v-5.5H20c0.3,0,0.5-0.2,0.5-0.5S20.3,13.5,20,13.5z"/>
+<g>
+	<path fill="#FFFFFF" d="M12,6v16H6V6H12 M12,5H6C5.447,5,5,5.447,5,6v16c0,0.55,0.45,1,1,1h6c0.55,0,1-0.45,1-1V6
+		C13,5.45,12.55,5,12,5L12,5z"/>
+	<path fill="#FFFFFF" d="M22,6v6h-6V6H22 M22,5h-6c-0.553,0-1,0.447-1,1v6c0,0.55,0.45,1,1,1h6c0.55,0,1-0.45,1-1V6
+		C23,5.45,22.55,5,22,5L22,5z"/>
+	<path fill="#FFFFFF" d="M22,16v6h-6v-6H22 M22,15h-6c-0.553,0-1,0.447-1,1v6c0,0.55,0.45,1,1,1h6c0.55,0,1-0.45,1-1v-6
+		C23,15.45,22.55,15,22,15L22,15z"/>
+</g>
 </svg>

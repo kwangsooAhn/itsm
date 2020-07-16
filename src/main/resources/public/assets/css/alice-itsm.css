@@ -6,7 +6,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 
 /* EOT는 IE8 이하버전
    OTF/TTF는 Chrome 6+, Firefox 3.5, Opera 10+, Safari 3-5
-   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+
+   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+ 
 */
 @font-face {
   font-family: 'Noto Sans KR';
@@ -57,16 +57,14 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 
 .container {
   height: 100%;
-  width: max-content;
-  position: relative;
-  padding: 120px 0 30px 370px;
+  padding: 60px 0 0 220px;
 }
 
 .container .contents {
-  max-width: 1400px;
-  min-width: 1200px;
-  height: 100%;
+  min-width: 1260px;
+  max-height: 820px;
   display: block;
+  padding: 20px 136px 37px 136px;
 }
 
 .container .contents .contents-title {
@@ -89,7 +87,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 
 .container .contents .contents-body {
   background: white;
-  padding: 50px 100px;
+  padding: 4% 8%;
 }
 
 .container .contents .menubar-left {
@@ -101,8 +99,8 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 .container .contents .menubar-bottom {
+  display: inline-block;
   width: 100%;
-  padding: 30px 0;
 }
 
 .container .contents .list {
@@ -121,7 +119,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .list table tr {
   color: #67717f;
   font-size: 13px;
-  text-align: center;
   border-bottom: 1px solid #d2d9e2;
   padding: 0 16px;
 }
@@ -136,8 +133,13 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 .container .contents .list table tr td {
-  height: 52px;
+  height: 45px;
   vertical-align: middle;
+  text-align: center;
+}
+
+.container .contents .list table tr td:first-child {
+  width: 30px;
 }
 
 .container .contents .list table tr:hover {
@@ -167,7 +169,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 
 .container .contents .list-wrap {
   padding: 15px 0;
-  height: 532px;
+  height: 490px;
 }
 
 .container .contents .list-count {
@@ -437,6 +439,12 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 /* SNB 아이콘 */
+.snb0100 {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../media/icons/icon_gnb01_snb00_image.svg") no-repeat left center;
+}
+
 .snb0101 {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
@@ -525,6 +533,12 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
   background: url("../media/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+}
+
+.snb0405 {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../media/icons/icon_gnb04_snb05_dashboard.svg") no-repeat left center;
 }
 
 .gnb-open ul li {
@@ -638,6 +652,12 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   display: block;
 }
 
+.gnb-close .snb.active ul li .snb0100 {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../media/icons/icon_gnb01_snb00_image.svg") no-repeat left center;
+}
+
 .gnb-close .snb.active ul li .snb0101 {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
@@ -726,6 +746,12 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
   background: url("../media/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .snb0405 {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../media/icons/icon_gnb04_snb05_dashboard.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active.snb-mywork {
@@ -817,17 +843,4 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   position: absolute;
   left: 42px;
   bottom: 60px;
-}
-
-/* 텍스트 정렬 */
-.align-center {
-  text-align: center;
-}
-
-.align-left {
-  text-align: left;
-}
-
-.align-right {
-  text-align: right;
 }
