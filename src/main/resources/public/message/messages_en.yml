@@ -38,6 +38,8 @@ common:
     update: "Update"
     updateDate: "Update Date"
     updateUser: "Update User"
+    writeDate: "Write Date"
+    writer: "Writer"
   msg:
     confirmDelete: "Are you sure you want to delete?"
     delete: "Deleted."

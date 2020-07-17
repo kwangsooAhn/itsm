@@ -7,23 +7,23 @@
     <div class="list-wrap">
         <table>
             <colgroup>
-                <col width="300px">
+                <col width="290px">
                 <col width="100px">
                 <col width="100px">
-                <col width="275px">
-                <col width="275px">
+                <col width="280px">
+                <col width="280px">
                 <col width="150px">
             </colgroup>
             <tbody>
                 <tr>
                     <th th:text="#{common.label.title}"></th>
                     <th th:text="#{notice.label.popUp}"></th>
-                    <th th:text="#{common.label.createUser}"></th>
+                    <th th:text="#{common.label.writer}"></th>
                     <th th:text="#{notice.label.pupUpPeriod}"></th>
                     <th th:text="#{notice.label.noticePeriod}"></th>
-                    <th th:text="#{common.label.createDate}"></th>
+                    <th th:text="#{common.label.writeDate}"></th>
                 </tr>
-                <tr th:if="${#arrays.isEmpty(topNoticeList)}">
+                <tr th:if="${#arrays.isEmpty(noticeList)}">
                     <td colspan="6" th:text="#{common.msg.noData}"></td>
                 </tr>
                 <tr class="tr-notice" th:each="topNotice, i : ${topNoticeList}" th:if="${i.count} < 4">

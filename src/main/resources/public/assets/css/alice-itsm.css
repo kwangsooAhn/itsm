@@ -153,6 +153,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   border-radius: 2px;
   font-size: 13px;
   margin-right: 5px;
+  color: #3e4752;
 }
 .container .contents .list-wrap {
   padding: 15px 0;

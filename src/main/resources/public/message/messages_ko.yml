@@ -38,6 +38,8 @@ common:
     update: "변경"
     updateDate: "수정 일시"
     updateUser: "수정자"
+    writeDate: "작성 일시"
+    writer: "작성자"
   msg:
     confirmDelete: "정말 삭제하시겠습니까?"
     delete: "삭제되었습니다."
