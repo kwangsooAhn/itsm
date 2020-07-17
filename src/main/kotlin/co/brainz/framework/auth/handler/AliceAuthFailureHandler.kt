@@ -22,6 +22,9 @@ class AliceAuthFailureHandler : AuthenticationFailureHandler {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val redirectStrategy: RedirectStrategy = DefaultRedirectStrategy()
+    private val invalidUserOrPasswordMsgKey = "login.msg.invalidUserOrPassword"
+    private val disableUserMsgKey = "login.msg.diabledUser"
+    private val unKnownErrorMsgKey = "login.msg.unKnownError"
 
     override fun onAuthenticationFailure(
         request: HttpServletRequest,
@@ -29,19 +32,17 @@ class AliceAuthFailureHandler : AuthenticationFailureHandler {
         e: AuthenticationException
     ) {
         logger.error(e.message)
-        val errorCode = when (e) {
-            // "아이디나 비밀번호가 맞지 않습니다. 다시 확인해주세요."
-            is BadCredentialsException -> 1
+        val errorMsg = when (e) {
+            // "가입하지 않은 아이디이거나, 잘못된 비밀번호입니다."
+            is UsernameNotFoundException, is BadCredentialsException -> invalidUserOrPasswordMsgKey
             // "계정이 비활성화되었습니다. 관리자에게 문의해주세요"
-            is DisabledException -> 2
-            // "등록되지 않은 계정입니다. 다시 확인해주세요."
-            is UsernameNotFoundException -> 3
+            is DisabledException -> disableUserMsgKey
             // "알 수 없는 에러가 발생하였습니다. 관리자에게 문의해주세요."
-            else -> 99
+            else -> unKnownErrorMsgKey
         }
 
         // TODO 로그인 실패 카운트 및 이력 업데이트
 
-        redirectStrategy.sendRedirect(request, response, "/login?authfailed=$errorCode")
+        redirectStrategy.sendRedirect(request, response, "/login?authfailed=$errorMsg")
     }
 }
