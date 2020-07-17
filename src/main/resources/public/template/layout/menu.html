@@ -15,12 +15,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul id="main-menu" class="mr-auto">
-                <li th:each="topMenu : ${#authentication.details.menus}"
-                    th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu'">
+                <li th:each="topMenu : ${#authentication.details.menus}" th:if="${topMenu.pMenuId} == 'menu'">
                     <a class="nav-link" th:text="#{|menu.${topMenu.menuId}.parent|}"></a>
                     <ul class="sub-menu">
                         <li th:each="subMenu : ${#authentication.details.menus}"
-                            th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId}">
+                            th:if="${subMenu.pMenuId} == ${topMenu.menuId}">
                             <a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}" onclick="showProgressBar()"></a>
                         </li>
                     </ul>
