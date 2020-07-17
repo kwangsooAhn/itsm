@@ -47,7 +47,8 @@
     margin: 0 auto 2em auto;
     box-sizing: border-box;
     background: #FFF;
-    box-shadow: 0px 0px 2px 2px #6B6B6B;
+    box-shadow: 5px 5px 5px 5px #7493B3;
+    padding: 1.5625rem 1.625rem 1.625rem 1.625rem; /* 25,26,26,26 px */
 }
 .gmodal-close-in, .gmodal-close-out{
     position:absolute;
@@ -93,19 +94,24 @@
 }
 .gmodal-buttons{
     box-sizing:border-box;
-    text-align:center;
+    text-align:right;
 }
 .gmodal-button{
     padding: 0.6em 1em;
-    border:0;
-    margin:1em 0.5em;
-    color:#FFF;
+    border: 0.0625rem #C8CED8;
+    margin:0rem 0rem 0rem 0.3125rem;
+    color:#3E4752;
     text-transform:uppercase;
     cursor:pointer;
     display: inline-block;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    text-decoration: none;
+}
+
+.gmodal-button a:link {
+    text-decoration: none;
 }
 .gmodal-button-red{background-color:#e51c23;}
 .gmodal-button-blue{background-color:#007aff;}

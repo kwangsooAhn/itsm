@@ -432,11 +432,11 @@ function delFileCheck() {
  */
 aliceJs.alert = function(message, callbackFunc) {
     const myModal = new gModal({
-        title: 'Alert',
+        title: '',
         body: '<div style="text-align: center;">' + message + '</div>',
         buttons: [
             {
-                content: 'OK',
+                content: '닫기',
                 classes: 'gmodal-button-green',
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
