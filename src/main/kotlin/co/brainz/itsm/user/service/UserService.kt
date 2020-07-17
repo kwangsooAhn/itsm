@@ -11,6 +11,7 @@ import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
+import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.dto.UserDto
 import co.brainz.itsm.user.dto.UserListDto
@@ -35,6 +36,7 @@ class UserService(
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
     private val aliceFileService: AliceFileService,
+    private val codeService: CodeService,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val userRepository: UserRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
@@ -52,8 +54,11 @@ class UserService(
         val aliceUserEntities =
             userRepository.findAliceUserEntityList(search, category)
         val userList: MutableList<UserDto> = mutableListOf()
-        aliceUserEntities.forEach {
-            userList.add(userMapper.toUserDto(it))
+        aliceUserEntities.forEach { AliceUserEntity ->
+            AliceUserEntity.department?.let {
+                AliceUserEntity.department = codeService.getDetailCodes(AliceUserEntity.department!!).codeValue
+            }
+            userList.add(userMapper.toUserDto(AliceUserEntity))
         }
         return userList
     }
