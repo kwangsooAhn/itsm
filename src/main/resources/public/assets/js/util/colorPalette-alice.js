@@ -176,6 +176,11 @@ const colorPalette = (function() {
         let paletteElement = pk.getElm(palette);
         if (data.isSelected) {
             paletteElement.childNodes.forEach(function(item){
+                item.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    pk.set(item.dataset.col, true);
+                });
                 if (item.dataset.col === data.value) {
                     item.classList.add(data.selectedClass);
                 }
@@ -245,7 +250,6 @@ const colorPalette = (function() {
             selectedInput.value = color;
             if (isOpacity && opacityElement !== null) {
                 selectedInput.dataset['opacity'] = slideObject.value;
-                opacityElement.style.display = 'none';
 
                 // 기존 선택된 값의 테두리를 없애고 새로운 값 테두리 생성
                 paletteElement.childNodes.forEach(function(item){
