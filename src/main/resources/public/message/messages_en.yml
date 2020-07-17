@@ -38,6 +38,8 @@ common:
     update: "Update"
     updateDate: "Update Date"
     updateUser: "Update User"
+    writeDate: "Write Date"
+    writer: "Writer"
   msg:
     confirmDelete: "Are you sure you want to delete?"
     delete: "Deleted."
@@ -170,6 +172,7 @@ board:
     detail: "Board Detail"
     disable: "Disable"
     enable: "Enable"
+    list: "Board List"
     manager: "Board Manager"
     modify: "Board Modify"
     name: "Board Name"
@@ -187,6 +190,7 @@ board:
     enterBoardTitle: "Please enter the board name."
     enterCategoryName: "Please enter the category name."
     enterSortSize: "Please enter a sorting order of 100 or less."
+    description: "View, add, or edit board's information."
 
 # Code
 code:
@@ -481,11 +485,14 @@ notice:
   label:
     endDt: "End Date"
     height: "Height"
+    list: "Notice List"
     modifyCompleted: "Modify Completed"
+    noticePeriod: "Notice Period"
     notSet: "Not Set"
     popUp:  "PopUp"
     popUpNoticeSettings: "PopUp Notice Settings"
     popUpNoticeSettingsInfo: "PopUp Notice Settings Info"
+    pupUpPeriod: "PopUp Period"
     searchPlaceholder: "Title / User"
     set: "Set"
     strtDt: "Start Date"
@@ -498,6 +505,7 @@ notice:
     checkSearchRange: "Search start date is greater than end date."
     compareWithPopUpValue: "Pop-up notification start date is greater than or equal to end date."
     compareWithTopNoticeValue: "Top Notice start date is greater than or equal to the end date."
+    description: "View, add, or edit notice's information."
     enterFromDt: "Please enter a search start date."
     enterPopEndDt: "Please enter popup end date."
     enterPopHeight: "Please enter a height."
