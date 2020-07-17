@@ -117,14 +117,16 @@
     text-decoration: none;
 }
 
-.gmodal-button-red{background-color:#e51c23;}
-.gmodal-button-blue{background-color:#007aff;}
-.gmodal-button-green{background-color:#00ca3c;}
-.gmodal-button-gray{background-color:#969696;}
+.gmodal-button-red{border: solid 1px #e51c23;}
+.gmodal-button-blue{border: solid 1px #007aff;}
+.gmodal-button-green{border: solid 1px #00ca3c;}
+.gmodal-button-gray{border: solid 1px #969696;}
 
-.gmodal-icon-alert{background: url("../../../media/icons/icon_modal_alert.png") no-repeat left top;}
-.gmodal-icon-error{background: url("../../../media/icons/icon_modal_error.png") no-repeat left top;}
-.gmodal-icon-success{background: url("../../../media/icons/icon_modal_success.png") no-repeat left top;}
+.gmodal-icon-success{background: url("../../../media/icons/icon_alert_success.png") no-repeat left top;}
+.gmodal-icon-info{background: url("../../../media/icons/icon_alert_info.png") no-repeat left top;}
+.gmodal-icon-warning{background: url("../../../media/icons/icon_alert_warning.png") no-repeat left top;}
+.gmodal-icon-danger{background: url("../../../media/icons/icon_alert_danger.png") no-repeat left top;}
+.gmodal-icon-confirm{background: url("../../../media/icons/icon_alert_confirm.png") no-repeat left top;}
 
 .gmodal-input {
     width: 250px;

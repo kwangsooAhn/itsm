@@ -433,11 +433,68 @@ function delFileCheck() {
 aliceJs.alert = function(message, callbackFunc) {
     const myModal = new gModal({
         message: message,
-        type: 'gmodal-icon-alert',
+        type: 'gmodal-icon-success',
         buttons: [
             {
                 content: '닫기',
-                //classes: 'gmodal-button-green',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.info = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-info',
+        buttons: [
+            {
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.warning = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-warning',
+        buttons: [
+            {
+                content: '닫기',
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -460,10 +517,10 @@ aliceJs.alert = function(message, callbackFunc) {
  * @param message message
  * @param callbackFunc callback function
  */
-aliceJs.error = function(message, callbackFunc) {
+aliceJs.danger = function(message, callbackFunc) {
     const myModal = new gModal({
         message: message,
-        type: 'gmodal-icon-error',
+        type: 'gmodal-icon-danger',
         buttons: [
             {
                 content: '닫기',
@@ -493,11 +550,10 @@ aliceJs.error = function(message, callbackFunc) {
 aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
     const myModal = new gModal({
         message: message,
-        type: 'gmodal-icon-alert',
+        type: 'gmodal-icon-confirm',
         buttons: [
             {
                 content: 'Cancel',
-                classes: 'gmodal-button-red',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -507,7 +563,7 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                 }
             },{
                 content: 'OK',
-                classes: 'gmodal-button-green',
+                classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {
