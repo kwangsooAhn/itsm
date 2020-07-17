@@ -67,7 +67,7 @@ class AliceAuthProvider(
         }
 
         if (!aliceUser.useYn) {
-            throw DisabledException("Invalid user.")
+            throw DisabledException("Disabled account.")
         }
 
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
