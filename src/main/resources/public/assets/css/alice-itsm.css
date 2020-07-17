@@ -373,7 +373,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   vertical-align: middle;
 }
 
-.top-config .user-info.active .my-edit {
+.top-config .user-info .my-edit {
   display: block;
   padding: 5px;
   position: absolute;
@@ -382,16 +382,16 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background: white;
 }
 
-.top-config .user-info.active .my-edit ul li {
+.top-config .user-info .my-edit ul li {
   padding: 10px 0;
   display: list-item;
 }
 
-.top-config .user-info.active .my-edit ul li:hover {
+.top-config .user-info .my-edit ul li:hover {
   background: rgba(0, 80, 255, 0.05);
 }
 
-.top-config .user-info.active .my-edit ul li span {
+.top-config .user-info .my-edit ul li span {
   padding: 0 40px;
 }
 

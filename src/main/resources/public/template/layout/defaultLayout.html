@@ -1,17 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" >
-<head>
-    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Alice</title>
-    <th:block th:replace="layout/fragments/commonHead"></th:block>
-</head>
-<body>
-    <header>
-        <th:block th:replace="layout/menu">menu</th:block>
-    </header>
-    <div class="alice-container">
-        <th:block layout:fragment="content"></th:block>
-    </div>
-    <footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
-</body>
-    <th:block layout:fragment="pageScript"></th:block>
+	<head>
+		<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Alice</title>
+		<th:block th:replace="layout/fragments/commonHead"></th:block>
+	</head>
+	<body>
+		<header>
+			<th:block th:replace="layout/menu">menu</th:block>
+		</header>
+		<div class="alice-container">
+			<div class="wrap-screen">
+				<div class="container">
+					<th:block layout:fragment="content"></th:block>
+				</div>
+			</div>
+		</div>
+		<footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
+	</body>
+	<th:block layout:fragment="pageScript"></th:block>
 </html>

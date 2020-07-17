@@ -103,19 +103,3 @@ ul, li {
 .sub-menu > li > a:hover {
   text-decoration: underline;
 }
-
-#profile-menu {
-  display: none;
-  position: absolute;
-}
-
-#profile-menu > ul > li > a {
-  color: rgba(48, 48, 48, 0.6);
-  background: #e0e0e0;
-  transition: all 0.15s ease-in;
-  display: block;
-  width: 12.5rem;
-  text-align: right;
-  font-size: 1.12rem;
-  font-weight: 400;
-}
