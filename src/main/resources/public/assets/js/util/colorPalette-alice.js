@@ -51,91 +51,213 @@ const colorPalette = (function() {
     ];
 
     /**
-     * Color Palette 사용을 위한 컨테이너 생성 및 초기화 처리.
+     * 커스텀 색상표 설정.
      *
-     * @param eventTriggerElem 컬러 팔레트를 출력하기 위한 클릭 이벤트를 걸 엘리먼트
-     * @param colorCodeElem 컬러 색상값 엘리먼트
-     * @param colorPaletteElem 보여줄 컬러 팔레트 엘리먼트
-     * @param isOpacity 불투명도 사용여부
-     * @param colorName 커스텀 컬러명
+     * @param paletteColors 색상표 이름
+     * @return 색상표 목록
      */
-    function initColorPalette(eventTriggerElem, colorCodeElem, colorPaletteElem, isOpacity, colorName) {
-        if (colorName === null || colorName === '' || colorName === undefined) {
-            colorName = basicPaletteColors;
-        }
-        let paletteEl = colorPaletteElem.querySelector(".color-palette");
-        let pk = new Piklor(paletteEl, eval(colorName), { open: eventTriggerElem, closeOnBlur: true});
+    function getPaletteColors(paletteColors) {
+        return paletteColors ? eval(paletteColors) : basicPaletteColors;
+    }
 
-        // Selector 사용하는 경우를 대비해서 원래 구조를 그대로 둠.
-        let wrapperEl = pk.getElm(eventTriggerElem);
+    /**
+     * 색상표 설정 (기본값: basicPaletteColors).
+     *
+     * @param option 옵션
+     * @return {string[]} 색상표 목록
+     */
+    function setPaletteColors(option) {
+        let colors = basicPaletteColors;
+        if (option !== null && option !== undefined && option['colors'] !== undefined) {
+            colors = option['colors'];
+        }
+        return colors;
+    }
+
+    /**
+     * 색상표 템플릿 설정 (기본값: null).
+     *   - 색상표에 디자인 적용시 사용 (ex: 그라데이션, 모양 등)
+     *
+     * @param option 옵션
+     * @return {string} template
+     */
+    function setPaletteTemplate(option) {
+        let template = '';
+        if (option !== null && option !== undefined && option['template'] !== undefined) {
+            template = option['template'];
+        }
+        return template;
+    }
+
+    /**
+     * 데이터 옵션.
+     *
+     * @param option 옵션
+     * @return {object} data
+     */
+    function setData(option) {
+        let data = {};
+        if (option !== null && option !== undefined && option['data'] !== undefined) {
+            data.isSelected = option['data']['isSelected'] !== undefined ? option['data']['isSelected'] : false
+            data.selectedClass = option['data']['selectedClass'] !== undefined ? option['data']['selectedClass'] : null
+
+            // data 값이 RGBA 인 경우
+            data.value = null;
+            let dataValue = option['data']['value'];
+            if (dataValue !== undefined) {
+                data.value = aliceJs.isRgba(dataValue) ? aliceJs.rgbaToHex(dataValue) : dataValue
+            }
+        }
+        return data;
+    }
+
+    /**
+     * 불투명도 사용여부.
+     *
+     * @param option 옵션
+     * @return {boolean} 사용여부
+     */
+    function isPaletteOpacity(option) {
+        let isOpacity = false;
+        if (option !== null && option !== undefined && option['isOpacity'] !== undefined) {
+            isOpacity = option['isOpacity']
+        }
+        return isOpacity
+    }
+
+    /**
+     * 불투명도 슬라이드 생성.
+     *
+     * @return {HTMLInputElement}
+     */
+    function createRangeElement() {
+        let slide = document.createElement('input');
+        slide.type = 'range';
+        slide.min = '0';
+        slide.max = '100';
+        slide.value = '100';
+        slide.className = 'slide-object'
+        return slide;
+    }
+
+    /**
+     * 불투명도 슬라이드 값 input 생성.
+     *
+     * @param slide 슬라이드 엘리먼트
+     * @return {HTMLInputElement}
+     */
+    function createInputElement(slide) {
+        let input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'slide-input';
+        input.value = slide.value;
+        input.maxLength = 3;
+        return input;
+    }
+
+    /**
+     * 색상표 생성.
+     *
+     * @param colorLayout 색상표 전체 레이아웃 (색상표, 불투명도 부모 엘리멘트)
+     * @param selectedBox 선택된 색상 box
+     * @param selectedInput 선택된 색상 input
+     * @param option 옵션
+     */
+    function initColorPalette(colorLayout, selectedBox, selectedInput, option) {
+        let palette = colorLayout.querySelector(".color-palette");
+
+        let colors = setPaletteColors(option);
+        let template = setPaletteTemplate(option);
+        let data = setData(option);
+        let isOpacity = isPaletteOpacity(option);
+        let pk = new Piklor(palette, colors, { open: selectedBox, closeOnBlur: true, template: template});
+
+        // 기존에 선택된 color 에 class 적용 (border)
+        let paletteElement = pk.getElm(palette);
+        if (data.isSelected) {
+            paletteElement.childNodes.forEach(function(item){
+                if (item.dataset.col === data.value) {
+                    item.classList.add(data.selectedClass);
+                }
+            });
+        }
 
         // Opacity
-        let opacityEl;
+        let opacityElement;
         let slideObject;
         if (isOpacity) {
-            opacityEl = document.createElement('div');
-            opacityEl.className = 'color-palette-opacity';
-            opacityEl.id = paletteEl.id + '-' +  'opacity';
+            opacityElement = document.createElement('div');
+            opacityElement.className = 'color-palette-opacity';
+            opacityElement.id = palette.id + '-' +  'opacity';
 
             let slideBox = document.createElement('span');
-            slideObject = document.createElement('input');
-            slideObject.type = 'range';
-            slideObject.min = '0';
-            slideObject.max = '100';
-            slideObject.value = '100';
-            slideObject.className = 'slide-object'
-
-            let slideInput = document.createElement('input');
-            slideInput.type = 'text';
-            slideInput.readOnly = true;
-            slideInput.className = 'slide-input';
-            slideInput.value = slideObject.value;
+            slideObject = createRangeElement();
+            let slideInput = createInputElement(slideObject);
 
             let slideUnit = document.createElement('label');
             slideUnit.innerText = '%';
+
             slideBox.appendChild(slideObject);
             slideBox.appendChild(slideInput);
             slideBox.appendChild(slideUnit);
-            opacityEl.appendChild(slideBox);
-            colorPaletteElem.appendChild(opacityEl);
+            opacityElement.appendChild(slideBox);
+            colorLayout.appendChild(opacityElement);
 
             slideObject.addEventListener('click', function (event) {
-                slideObjectEvent(event, colorCodeElem, slideInput, this);
+                slideEvent(event, selectedInput, slideInput, this);
             });
 
             slideObject.addEventListener('input', function (event) {
-                slideObjectEvent(event, colorCodeElem, slideInput, this);
+                slideEvent(event, selectedInput, slideInput, this);
             });
 
-            opacityEl.addEventListener('click', function(ev) {
+            slideInput.addEventListener('input', function (event) {
+                if (!numberReg.test(this.value)) {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                    return false;
+                }
+                if (this.value < 0 || this.value > 100) {
+                    this.value = 100;
+                }
+                if (this.value === '') {
+                    this.value = 0;
+                }
+                slideObject.value = this.value;
+                slideEvent(event, selectedInput, slideInput, this);
+            });
+
+            opacityElement.addEventListener('click', function(ev) {
                 ev.stopPropagation();
                 ev.preventDefault();
             });
 
             window.addEventListener('click', function(e) {
                 if (pk.isOpen) {
-                    opacityEl.style.display = 'table';
+                    opacityElement.style.display = 'table';
                 } else {
-                    opacityEl.style.display = 'none';
+                    opacityElement.style.display = 'none';
                 }
             });
         }
 
-        pk.colorChosen(function (col) {
-            wrapperEl.style.backgroundColor = col;
+        pk.colorChosen(function (color) {
+            selectedBox.style.backgroundColor = color;
+            selectedInput.value = color;
+            if (isOpacity && opacityElement !== null) {
+                selectedInput.dataset['opacity'] = slideObject.value;
+                opacityElement.style.display = 'none';
 
-            colorCodeElem.value = col;
-            if (isOpacity && opacityEl !== null) {
-                colorCodeElem.dataset['opacity'] = slideObject.value;
-                opacityEl.style.display = 'none';
+                // 기존 선택된 값의 테두리를 없애고 새로운 값 테두리 생성
+                paletteElement.childNodes.forEach(function(item){
+                    item.classList.remove(data.selectedClass);
+                    if (item.dataset.col === color) {
+                        item.classList.add(data.selectedClass);
+                    }
+                });
             }
             const evt = document.createEvent('HTMLEvents');
             evt.initEvent('change', false, true);
-            colorCodeElem.dispatchEvent(evt);
-        });
-
-        eventTriggerElem.addEventListener('blur', function(e) {
-
+            selectedInput.dispatchEvent(evt);
         });
     }
 
@@ -143,21 +265,22 @@ const colorPalette = (function() {
      * 불투명도 조절 이벤트.
      *
      * @param event 이벤트
-     * @param colorCodeElem 컬러 색상값 엘리먼트
+     * @param selectedInput 컬러 색상값 엘리먼트
      * @param slideInput 슬라이드 Input 오브젝트
      * @param slideObject 슬라이드 오브젝트
      */
-    function slideObjectEvent(event, colorCodeElem, slideInput, slideObject) {
+    function slideEvent(event, selectedInput, slideInput, slideObject) {
         event.stopPropagation();
         event.preventDefault();
         slideInput.value = Number(slideObject.value).toFixed(0);
-        colorCodeElem.dataset['opacity'] = slideInput.value;
+        selectedInput.dataset['opacity'] = slideInput.value;
         const evt = document.createEvent('HTMLEvents');
         evt.initEvent('change', false, true);
-        colorCodeElem.dispatchEvent(evt);
+        selectedInput.dispatchEvent(evt);
     }
 
     return {
-        initColorPalette: initColorPalette
+        getPaletteColors: getPaletteColors,
+        initColorPalette: initColorPalette,
     }
 })();

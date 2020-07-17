@@ -504,6 +504,10 @@ body {
                             border: 0.063rem solid #a3adbb; // 1px
                             cursor: pointer;
                         }
+                        div.selected {
+                            border: 0.125rem solid #ffffff; // 2px
+                            outline: 0.063rem solid #0055ff; // 1px
+                        }
                     }
 
                     div.color-palette-opacity {
@@ -526,14 +530,16 @@ body {
                                 -webkit-appearance: none;
                                 &::-webkit-slider-thumb {
                                     -webkit-appearance: none;
-                                    appearance: none;
-                                    width:  0.625rem;    //10px
-                                    height: 0.625rem;
+                                    width:  0.625rem; // 10px
+                                    height: 0.625rem; // 10px
                                     border: 0.0625rem solid #c8ced8;
                                     border-radius: 50%;
                                     background: #fff;
                                     cursor: pointer;
                                 }
+                                /*&::-webkit-slider-runnable-track {
+                                    -webkit-appearance: none;
+                                }*/
                                 &::-moz-range-thumb {
                                     width: 0.625rem;     //10px
                                     height:  0.625rem;
@@ -541,6 +547,10 @@ body {
                                     border-radius: 50%;
                                     background: #fff;
                                     cursor: pointer;
+                                }
+                                &::-moz-range-progress {
+                                    background-color: #0055ff;
+                                    height: 0.0625rem; // 1px
                                 }
                             }
                             input.slide-object {
@@ -556,17 +566,14 @@ body {
                                 }
                             }
                             input.slide-input {
-                                border: none;
                                 width: 1.75rem; // 28px
                                 padding-left: 0;
                                 padding-right: 0.25rem; // 4px
                                 text-align: right;
-                                pointer-events: none;
-                                background-color: #ffffff;
-                                color: #212529;
                             }
                             label {
-                                margin: 0;
+                                //margin: 0;
+                                margin-left: 0.125rem; // 2px
                                 width: 0.813rem; // 13px
                                 height: 1.25rem; // 20px
                                 line-height: 1.25rem; // 20px

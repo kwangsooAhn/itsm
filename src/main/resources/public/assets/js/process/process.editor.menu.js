@@ -1204,7 +1204,8 @@
                             }
                             let opacityValue = aliceJs.rgbaOpacity(elemData[property.id]) * 100;
                             let opacityLayer = elementObject.nextElementSibling.querySelector('.color-palette-opacity');
-                            if (typeof opacityLayer !== 'undefined') {
+                            if (opacityLayer !== null) {
+                                opacityValue = opacityValue.toFixed(0); // 실제 값은 정상이나 소수점이 나오는 현상이 있어 소수점 처리 추가
                                 opacityLayer.querySelector('.slide-object').value = opacityValue;
                                 opacityLayer.querySelector('.slide-input').value = opacityValue;
                             }
@@ -1448,15 +1449,16 @@
                 break;
             case 'rgb':
                 let selectedColorLayer = document.createElement('span');
-                selectedColorLayer.className = 'selected-color-layer'
                 let selectedColorBox = document.createElement('span');
+                selectedColorLayer.className = 'selected-color-layer'
                 selectedColorBox.className = 'selected-color';
+                if (property.id === 'line-color') {
+                    selectedColorBox.style.backgroundColor = '';
+                    selectedColorBox.style.borderColor = elemData[property.id];
+                }
                 if (property.id === 'background-color') {
                     selectedColorBox.style.backgroundColor = elemData[property.id];
                     selectedColorBox.style.border = 'transparent';
-                } else {
-                    selectedColorBox.style.backgroundColor = '';
-                    selectedColorBox.style.borderColor = elemData[property.id];
                 }
                 selectedColorLayer.appendChild(selectedColorBox);
                 propertyContainer.appendChild(selectedColorLayer);
@@ -1469,23 +1471,21 @@
                     if (this.dataset['opacity'] !== '') {
                         opacity = Number(this.dataset['opacity']) / 100;
                     }
-
                     if (!aliceJs.isHexCode(this.value)) {
                         this.value = aliceJs.rgbaToHex(this.value); // opacity 값 갱신하기 위해 Hex로 변환
                     }
                     this.value = aliceJs.hexToRgba(this.value, opacity);
-                    if (this.id === 'background-color') {
-                        this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
-                        this.parentNode.querySelector('span.selected-color').style.border = 'transparent';
-                    } else {
-                        this.parentNode.querySelector('span.selected-color').style.backgroundColor = '';
-                        this.parentNode.querySelector('span.selected-color').style.borderColor = this.value;
-                    }
                     if (properties.type === 'groupArtifact') {
                         const groupElement = d3.select(document.getElementById(id));
+                        const selectedElement = elementObject.parentNode.querySelector('span.selected-color');
                         if (this.id === 'line-color') {
+                            selectedElement.style.borderColor = this.value;
+                            selectedElement.style.backgroundColor = 'transparent';
                             groupElement.style('stroke', this.value);
-                        } else if (this.id === 'background-color') {
+                        }
+                        if (this.id === 'background-color') {
+                            selectedElement.style.backgroundColor = this.value;
+                            selectedElement.style.border = 'transparent';
                             if (this.value.trim() === '') {
                                 groupElement.style('fill-opacity', 0);
                             } else {
@@ -1503,7 +1503,15 @@
                 colorPaletteLayer.appendChild(colorPaletteBox);
                 propertyContainer.appendChild(colorPaletteLayer);
 
-                colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteLayer, true);
+                let option = {
+                    isOpacity: true,
+                    data: {
+                        isSelected: true,
+                        selectedClass: 'selected',
+                        value: elemData[property.id]
+                    }
+                }
+                colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
                 break;
             default:
                 break;
