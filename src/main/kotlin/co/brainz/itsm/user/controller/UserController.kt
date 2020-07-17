@@ -37,6 +37,7 @@ class UserController(
     private val userListPage: String = "user/userList"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
+    private val userDepartmentPopUpPage: String = "user/userDepartmentPopUp"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -85,6 +86,7 @@ class UserController(
         val themeList = codeService.selectCodeByParent(UserConstants.PTHEMECODE.value)
         val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
         val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
+        val departmentList = codeService.selectCodeByParent("department.group")
         val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
         val timezoneList = userService.selectTimezoneList()
 
@@ -104,6 +106,7 @@ class UserController(
         model.addAttribute("langList", langList)
         model.addAttribute("timezoneList", timezoneList)
         model.addAttribute("dateList", dateList)
+        model.addAttribute("departmentList", departmentList)
         model.addAttribute("timeList", timeList)
 
         when (target) {
@@ -138,5 +141,16 @@ class UserController(
         model.addAttribute("timeList", timeList)
         model.addAttribute("roles", roles)
         return userEditPage
+    }
+
+    /**
+     * 부서 리스트 호출
+     */
+    @GetMapping("/department/view-pop")
+    fun getUserDepartmentPopUp(model: Model): String {
+        val departmentList = codeService.selectCodeByParent("department.group")
+        model.addAttribute("departmentList", departmentList)
+
+        return userDepartmentPopUpPage
     }
 }

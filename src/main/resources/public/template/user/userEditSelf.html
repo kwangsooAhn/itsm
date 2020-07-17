@@ -86,7 +86,11 @@
                     </tr>
                     <tr>
                         <th th:text="#{user.label.department}"></th>
-                        <td><input type="text" id="department" name="department" th:value="${users.department}" maxlength="100"/></td>
+                        <td>
+                            <input type="text" id="department" name="department" th:value="${users.department}" maxlength="100"/>
+                            <input type="text" id="pCode" name="pCode">
+                            <button type="button" th:text="선택" onclick="deptPopUp();"></button>
+                        </td>
                     </tr>
                     <tr>
                         <th th:text="#{user.label.officeNumber}"></th>
@@ -305,6 +309,10 @@
                 return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
             }
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        }
+
+        function deptPopUp() {
+            window.open('/users/department/view-pop', null, 'width=400, height=700');
         }
         /*]]>*/
     </script>
