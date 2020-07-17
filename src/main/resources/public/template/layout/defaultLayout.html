@@ -8,11 +8,9 @@
 		<header>
 			<th:block th:replace="layout/menu">menu</th:block>
 		</header>
-		<div class="alice-container">
-			<div class="wrap-screen">
-				<div class="container">
-					<th:block layout:fragment="content"></th:block>
-				</div>
+		<div class="wrap-screen">
+			<div class="container">
+				<th:block layout:fragment="content"></th:block>
 			</div>
 		</div>
 		<footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
