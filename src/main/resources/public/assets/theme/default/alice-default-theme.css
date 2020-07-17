@@ -127,7 +127,6 @@
   top: 70px;
   right: 10px;
   background: white;
-  /* 추가 */
   display: none;
 }
 
@@ -142,10 +141,6 @@
 
 .top-config .user-info .my-edit ul li span {
   padding: 0 40px;
-}
-
-.top-config .my-edit {
-  display: none;
 }
 
 .top-config .my-modify {

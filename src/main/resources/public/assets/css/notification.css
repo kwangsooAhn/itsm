@@ -1,18 +1,5 @@
 @charset "UTF-8";
 /* 알림 임시 css */
-.notification-menu .count {
-  position: absolute;
-  top: -7px;
-  left: 14px;
-  padding: 1px 4px;
-  border-radius: 50%;
-  background: red;
-  color: white;
-  font-size: 12px;
-  display: none;
-  cursor: pointer;
-}
-
 .notification-menu img, .notification-menu button {
   width: 24px;
   height: 24px;

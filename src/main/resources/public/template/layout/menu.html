@@ -38,7 +38,7 @@
 		</div>
 		<div class="top-config">
 			<div class="notice notification-menu">
-				<span class="notice-num">99+</span>
+				<span class="notice-num count" id="count"></span>
 				<div id="notification-container" class="notification-container"></div>
 			</div>
 			<div class="user-info dropdown-toggle" type="button" data-toggle="dropdown" onclick="profile_menu();">
@@ -136,11 +136,11 @@
             const count = document.getElementById('count');
             const noConfirmNotification = notificationDiv.querySelectorAll('div[is-confirm=false]');
             count.innerText = noConfirmNotification.length.toString();
-            if (noConfirmNotification.length !== 0) {
-                count.style.display = 'block';
-            } else {
-                count.style.display = 'none';
-            }
+<!--            if (noConfirmNotification.length !== 0) {-->
+<!--                count.style.display = 'block';-->
+<!--            } else {-->
+<!--                count.style.display = 'none';-->
+<!--            }-->
             document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
                 notificationDiv.querySelectorAll('div.notification:not(.noData)').length + ')';
 
