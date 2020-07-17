@@ -87,9 +87,11 @@
                     <tr>
                         <th th:text="#{user.label.department}"></th>
                         <td>
-                            <input type="text" id="department" name="department" th:value="${users.department}" maxlength="100"/>
-                            <input type="text" id="pCode" name="pCode">
-                            <button type="button" th:text="선택" onclick="deptPopUp();"></button>
+                            <input type="text" id="department" name="department" th:value="${deptCodeDetail?.codeValue}"
+                                   readonly/>
+                            <input type="hidden" id="departmentCode" name="departmentCode"
+                                   th:value="${deptCodeDetail?.code}"/>
+                            <button type="button" th:text="#{department.btn.selection}" onclick="deptPopUp();"/>
                         </td>
                     </tr>
                     <tr>
@@ -239,7 +241,7 @@
                 userName: document.getElementById('userName').value,
                 email: document.getElementById('email').value,
                 position: document.getElementById('position').value,
-                department: document.getElementById('department').value,
+                department: document.getElementById('departmentCode').value,
                 officeNumber: document.getElementById('officeNumber').value,
                 mobileNumber: document.getElementById('mobileNumber').value,
                 timezone: document.getElementById('timezone').value,

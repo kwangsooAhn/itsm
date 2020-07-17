@@ -75,8 +75,8 @@
                         <th><a th:text="#{user.label.position}"></a></th>
                         <td><input type="text" id="position" name="position" maxlength="100"></td>
                     </tr>
-                    <tr>
-                        <th><a th:text="#{user.label.department}"></a></th>
+                    <tr style="display: none">
+                        <th><a type="hidden" th:text="#{user.label.department}"></a></th>
                         <td><input type="text" id="department" name="department" maxlength="100"></td>
                     </tr>
                     <tr>
@@ -237,6 +237,9 @@
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+        function deptPopUp() {
+            window.open('/users/department/view-pop', null, 'width=400, height=700');
         }
         /*]]>*/
     </script>

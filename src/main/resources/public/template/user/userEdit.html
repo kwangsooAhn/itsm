@@ -101,7 +101,13 @@
                     </tr>
                     <tr>
                         <th th:text="#{user.label.department}"></th>
-                        <td><input type="text" id="department" name="department" th:value="${users?.department}" maxlength="100"/></td>
+                        <td>
+                            <input type="text" id="department" name="department" th:value="${deptCodeDetail?.codeValue}"
+                                   readonly/>
+                            <input type="hidden" id="departmentCode" name="deptartmentCode"
+                                   th:value="${deptCodeDetail?.code}"/>
+                            <button type="button" th:text="#{department.btn.selection}" onclick="deptPopUp();"/>
+                        </td>
                     </tr>
                     <tr>
                         <th th:text="#{user.label.officeNumber}"></th>
@@ -246,7 +252,7 @@
                 email: document.getElementById('email').value,
                 useYn: document.getElementById('usageStatusUse').checked,
                 position: document.getElementById('position').value,
-                department: document.getElementById('department').value,
+                department: document.getElementById('departmentCode').value,
                 officeNumber: document.getElementById('officeNumber').value,
                 mobileNumber: document.getElementById('mobileNumber').value,
                 timezone: document.getElementById('timezone').value,
@@ -322,6 +328,10 @@
                 return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
             }
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        }
+
+        function deptPopUp() {
+            window.open('/users/department/view-pop', null, 'width=400, height=700');
         }
         /*]]>*/
     </script>

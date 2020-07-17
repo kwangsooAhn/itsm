@@ -8,7 +8,8 @@ enum class UserConstants(val value: String) {
     PTHEMECODE("user.theme"), /** 사용자 테마 사용할 부모 코드 */
     PLANGCODE("user.lang"), /** 사용자 언어 사용할 부모 코드 */
     PDATECODE("user.date"), /** 사용자 날짜 형식 사용할 부모 코드 */
-    PTIMECODE("user.time") /** 사용자 시간 형식 사용할 부모 코드 */
+    PTIMECODE("user.time"), /** 사용자 시간 형식 사용할 부모 코드 */
+    PDEPTCODE("department.group") /** 부서 관리 사용할 부모 코드 */
     ;
 
     /**

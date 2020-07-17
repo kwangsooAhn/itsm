@@ -243,6 +243,14 @@ dashboard:
     running: "Running"
     wait: "Wait"
 
+# Department:
+department:
+  btn:
+    selection: "SELECTION"
+  label:
+    deptList: "department List"
+    deptManagement: "department Management"
+
 # Document
 document:
   label:

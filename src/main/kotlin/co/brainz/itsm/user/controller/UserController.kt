@@ -37,7 +37,7 @@ class UserController(
     private val userListPage: String = "user/userList"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
-    private val userDepartmentPopUpPage: String = "user/userDepartmentPopUp"
+    private val departmentPopUpPage: String = "user/departmentPopUp"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -86,17 +86,19 @@ class UserController(
         val themeList = codeService.selectCodeByParent(UserConstants.PTHEMECODE.value)
         val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
         val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
-        val departmentList = codeService.selectCodeByParent("department.group")
         val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
         val timezoneList = userService.selectTimezoneList()
 
         userEntity.userRoleMapEntities.forEach { userRoleMap ->
             roleEntities.add(userRoleMap.role)
         }
-
         val roles = roleService.getRoles(roleEntities)
-
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
+
+        if (users.department != "") {
+            val deptCodeDetail = codeService.getDetailCodes(users.department!!)
+            model.addAttribute("deptCodeDetail", deptCodeDetail)
+        }
 
         model.addAttribute("users", users)
         model.addAttribute("roles", roles)
@@ -106,7 +108,6 @@ class UserController(
         model.addAttribute("langList", langList)
         model.addAttribute("timezoneList", timezoneList)
         model.addAttribute("dateList", dateList)
-        model.addAttribute("departmentList", departmentList)
         model.addAttribute("timeList", timeList)
 
         when (target) {
@@ -144,13 +145,13 @@ class UserController(
     }
 
     /**
-     * 부서 리스트 호출
+     * 부서 관리 팝업 호출
      */
     @GetMapping("/department/view-pop")
-    fun getUserDepartmentPopUp(model: Model): String {
-        val departmentList = codeService.selectCodeByParent("department.group")
+    fun getDepartmentPopUp(model: Model): String {
+        val departmentList = codeService.selectCodeByParent(UserConstants.PDEPTCODE.value)
         model.addAttribute("departmentList", departmentList)
 
-        return userDepartmentPopUpPage
+        return departmentPopUpPage
     }
 }
