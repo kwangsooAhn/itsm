@@ -2,104 +2,601 @@
 /*
  * Default theme
  */
- 
-.bg-primary {
-  background-color: #60C3FF !important;
+
+/* 상단 바 */
+
+.top-menu {
+  width: 100%;
+  height: 60px;
+  background: white;
+  position: fixed;
+  top: 0;
+  z-index: 2;
 }
 
-.alice-navbar {
-  background: linear-gradient(to right, #5574F7 30%, #60C3FF);
-  color: #fff;
-  padding: 0.625rem 1.25rem;
-  line-height: 1rem;
-  font-size: 1.25rem;
-  font-weight: 700;
-  z-index: 1000;
-}
-.alice-navbar a {
-  color: #fff;
-}
-.alice-navbar-profile img {
-  border: 1px solid #DADADB;
-  border-radius: 0.375rem;
-  height: 2.5rem;
-  margin-left: 1.25rem;
-}
-.alice-navbar-profile .arrow_down {
-  margin-left: 1.25rem;
-  margin-top: 0.625rem;
-  border: 8px solid;
-  width: 0;
-  height: 0;
-  border-color: #fff transparent transparent transparent;
-  position: relative;
-}
-.alice-navbar-profile .btn {
-  color: #fff;
-  padding-top: 0rem;
-  padding-bottom: 0rem;
-  border-width: 0rem;
-  font-size: 1.25rem;
-  font-weight: 400;
-}
+/* 상단 Breadcrumb */
 
-.navbar-brand {
-  height: 2.5rem;
-  padding: 0rem;
-  margin-right: 1.25rem;
-}
-
-.nav-link {
-  margin: 0rem 1.375rem;
-}
-
-ul, li {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-#main-menu > li {
+.breadcrumb {
+  height: 60px;
+  padding: 0 0 0 240px;
+  color: #5c6776;
+  opacity: 0.57;
+  font-size: 13px;
   float: left;
-  position: relative;
 }
 
-#main-menu > li > a {
-  text-align: center;
-  text-decoration: none;
-  letter-spacing: 0.05em;
+.breadcrumb ul li {
+  display: inline-block;
 }
 
-.sub-menu {
-  position: absolute;
-  background: #e0e0e0;
-  opacity: 0;
-  visibility: hidden;
-  transition: all 0.15s ease-in;
-  margin-top: 1rem;
-  margin-left: 2rem;
+.breadcrumb ul li span {
+  vertical-align: middle;
+  padding: 0 0 0 18px;
+  line-height: 3;
+}
+
+.breadcrumb.close {
+  height: 60px;
+  padding: 0 0 0 80px;
+  color: #5c6776;
+  opacity: 0.57;
+  font-size: 13px;
+  float: left;
+}
+
+.breadcrumb.close ul li {
+  display: inline-block;
+}
+
+.breadcrumb.close ul li span {
+  vertical-align: middle;
+  padding: 0 0 0 18px;
+  line-height: 3;
+}
+
+.breadcrumb .arrow-r {
+  padding: 9px;
+  background: url("../../media/icons/icon_arrow_r.svg") no-repeat center left;
+}
+
+.breadcrumb .home {
+  background: url("../../media/icons/icon_home.svg") no-repeat center center;
+}
+
+.bread-end {
+  color: #67717f;
+  font-size: 13px;
+}
+
+/* 상단 알람 및 프로필 메뉴  */
+
+.top-config {
+  float: right;
+/* 상단 알람 */
+
+/* 상단바 프로필 메뉴 */
+
+}
+
+.top-config .notice {
+  padding: 8px 15px;
+  background: url("../../media/icons/icon_notice.svg") no-repeat center center;
+  display: inline-block;
+  border-right: 1px solid #D2D9E2;
+  vertical-align: middle;
+}
+
+.top-config .notice-num {
+  padding: 2px 8px;
+  border-radius: 20px;
+  border: 1px solid #0050ff;
+  margin-left: 80px;
+  color: #0050ff;
+}
+
+.top-config .user-info {
+  display: inline-block;
+  padding: 12px 15px;
+  vertical-align: middle;
+  background: url("../../media/icons/icon_userinfo_arrow_d.svg") no-repeat center right;
+}
+
+.top-config .user-info ul li {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.top-config .user-info .user-name {
+  padding: 10px;
+  display: inline-block;
+}
+
+.top-config .user-info .user-profile {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.top-config .user-info .my-edit {
   display: block;
-  width: 12.5rem;
-  font-size: 1.12rem;
-  font-weight: 400;
-  z-index: 999;
+  padding: 5px;
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  background: white;
+  /* 추가 */
+  display: none;
 }
 
-.sub-menu > li {
-  padding: 16px 28px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+.top-config .user-info .my-edit ul li {
+  padding: 10px 0;
+  display: list-item;
 }
 
-.sub-menu > li > a {
-  color: rgba(48, 48, 48, 0.6);
-  text-decoration: none;
+.top-config .user-info .my-edit ul li:hover {
+  background: rgba(0, 80, 255, 0.05);
 }
 
-#main-menu > li:hover .sub-menu {
+.top-config .user-info .my-edit ul li span {
+  padding: 0 40px;
+}
+
+.top-config .my-edit {
+  display: none;
+}
+
+.top-config .my-modify {
+  padding: 5px 20px;
+  background: url("../../media/icons/icon_profiledit.svg") no-repeat 10px center;
+}
+
+.top-config .my-logout {
+  padding: 5px 20px;
+  background: url("../../media/icons/icon_logout.svg") no-repeat 10px center;
+}
+
+/* GNB 아이콘 */
+
+.my {
+  background: url("../../media/icons/icon_gnb01_mywork.svg") no-repeat center left;
+  padding: 0 0 0 30px;
+  margin: 20px 10px;
+  vertical-align: middle;
+}
+
+.portal {
+  background: url("../../media/icons/icon_gnb02_portal.svg") no-repeat center left;
+  padding: 0 0 0 30px;
+  margin: 20px 10px;
+  vertical-align: middle;
+}
+
+.config {
+  background: url("../../media/icons/icon_gnb03_sysmange.svg") no-repeat center left;
+  padding: 0 0 0 30px;
+  margin: 20px 10px;
+  vertical-align: middle;
+}
+
+.workflow {
+  background: url("../../media/icons/icon_gnb04_wfmanage.svg") no-repeat center left;
+  padding: 0 0 0 30px;
+  margin: 20px 10px;
+  vertical-align: middle;
+}
+
+/* SNB 아이콘 */
+
+.dashboard {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb01_snb00_dashboard.svg") no-repeat left center;
+}
+
+.token {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
+}
+
+.document {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
+}
+
+.notice {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
+}
+
+.faq {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
+}
+
+.download {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
+}
+
+.board {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb02_snb04_board.svg") no-repeat left center;
+}
+
+.user {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
+}
+
+.auth {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
+}
+
+.role {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb03_snb03_role.svg") no-repeat left center;
+}
+
+.boardAdmin {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
+}
+
+.code {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb03_snb05_code.svg") no-repeat left center;
+}
+
+.process {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb04_snb01_process.svg") no-repeat left center;
+}
+
+.form {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb04_snb02_form.svg") no-repeat left center;
+}
+
+.workflowAdmin {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
+}
+
+.customCode {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+}
+
+.image {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../../media/icons/icon_gnb04_snb05_image.svg") no-repeat left center;
+}
+
+.gnb-open ul li {
+  padding: 10px 0;
+  line-height: 1.6;
+  color: #fff;
+  font-weight: 300;
+  opacity: 0.6;
+}
+
+.gnb-open ul li:hover {
   opacity: 1;
+  background: #0242eb;
+}
+
+.gnb-open ul li ul li {
+  color: #fff;
+  font-weight: 300;
+  opacity: 0.6;
+}
+
+.gnb-open ul li ul li:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.gnb-open ul li .snb {
+  margin: 16px 0 0 0;
+}
+
+.gnb-open ul li.toggle {
+  line-height: 1.6;
+  color: #fff;
+  font-weight: 300;
+  opacity: 0.6;
+  background: url("../../media/icons/icon_arrow_d.svg") no-repeat right 7px;
+}
+
+.gnb-open ul li.toggle:hover {
+  opacity: 1;
+  background: #0242eb url("../../media/icons/icon_arrow_d.svg") no-repeat right 7px;
+}
+
+.gnb-open ul li.toggle ul li {
+  color: #fff;
+  font-weight: 300;
+  opacity: 0.6;
+}
+
+.gnb-open ul li.toggle ul li:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.gnb-close {
+/* GNB 메뉴 닫혔을 때 - 서브메뉴 */
+
+}
+
+.gnb-close ul li {
+  height: 20px;
+  padding: 16px 0 24px 6px;
+  line-height: 1.6;
+  color: #fff;
+  font-weight: 300;
+  opacity: 0.6;
+}
+
+.gnb-close ul li:hover {
+  opacity: 1;
+  background: #0242eb;
+}
+
+.gnb-close ul li a {
+  visibility: hidden;
+}
+
+.gnb-close .snb {
+  display: none;
+}
+
+.gnb-close .snb.active {
+  display: block;
+  margin: 0 0 0 54px;
+}
+
+.gnb-close .snb.active ul li {
+  padding: 10px 0;
+  z-index: 999;
+  width: 150px;
+  background: white;
+  color: #67717f;
+  font-weight: 300;
+  opacity: 1;
+/* GNB 접혔을 때 SNB 아이콘 */
+
+}
+
+.gnb-close .snb.active ul li:hover {
+  background: rgba(0, 80, 255, 0.05);
+  color: #48505c;
+}
+
+.gnb-close .snb.active ul li a {
   visibility: visible;
 }
 
-.sub-menu > li > a:hover {
-  text-decoration: underline;
+.gnb-close .snb.active ul li .snb-title {
+  color: #48505C;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
+  display: block;
+}
+
+.gnb-close .snb.active ul li .dashboard {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb01_snb00_dashboard.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .token {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .document {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .notice {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .faq {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .download {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .board {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb02_snb04_board.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .user {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .auth {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .role {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb03_snb03_role.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .boardAdmin {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .code {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb03_snb05_code.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .process {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb04_snb01_process.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .form {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb04_snb02_form.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .workflowAdmin {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .customCode {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active ul li .image {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../../media/icons/icon_gnb04_snb05_image.svg") no-repeat left center;
+}
+
+.gnb-close .snb.active.snb-mywork {
+  position: absolute;
+  top: 60px;
+}
+
+.gnb-close .snb.active.snb-portal {
+  position: absolute;
+  top: 120px;
+}
+
+.gnb-close .snb.active.snb-system {
+  position: absolute;
+  top: 180px;
+}
+
+.gnb-close .snb.active.snb-workflow {
+  position: absolute;
+  top: 240px;
+}
+
+.left-open-menu.disable {
+  display: none;
+}
+
+.left-close-menu.disable {
+  display: none;
+}
+
+/* GNB 메뉴 열렸을 때 */
+
+.left-open-menu {
+  width: 220px;
+  height: 100%;
+  background: #0050ff;
+  position: fixed;
+  left: 0;
+  z-index: 999;
+}
+
+.logo-open {
+  height: 60px;
+  background: rgba(255, 255, 255, 0.1) url("../../media/icons/icon_logo_open.svg") no-repeat 20px center;
+}
+
+/* GNB 메뉴 닫혔을 때 */
+
+.left-close-menu {
+  width: 60px;
+  height: 100%;
+  background: #0050ff;
+  position: fixed;
+  left: 0;
+  z-index: 999;
+}
+
+.logo-close {
+  height: 60px;
+  background: rgba(255, 255, 255, 0.1) url("../../media/icons/icon_logo_close.svg") no-repeat 20px center;
+}
+
+/* 토글메뉴 리스트 */
+
+.toggle-container {
+  display: none;
+}
+
+.toggle-container.active {
+  display: block;
+}
+
+.btn-menuclose {
+  background: white url("../../media/icons/icon_menuclose.svg") no-repeat center center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  -webkit-box-shadow: 0px 2px 7px 0px rgba(0, 72, 230, 0.45);
+          box-shadow: 0px 2px 7px 0px rgba(0, 72, 230, 0.45);
+  position: absolute;
+  left: 202px;
+  bottom: 60px;
+}
+
+.btn-menuopen {
+  background: white url("../../media/icons/icon_menuopen.svg") no-repeat center center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  -webkit-box-shadow: 0px 2px 7px 0px rgba(0, 72, 230, 0.45);
+          box-shadow: 0px 2px 7px 0px rgba(0, 72, 230, 0.45);
+  position: absolute;
+  left: 42px;
+  bottom: 60px;
 }

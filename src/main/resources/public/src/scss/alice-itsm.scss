@@ -1,3 +1,5 @@
+@import "notification.css";
+
 body, h1, h2, h3, h4, h5, h6, input, textarea, select { font-family: 'Noto Sans KR', sans-serif; font-size: 15px;}
 
 /* EOT는 IE8 이하버전
@@ -196,32 +198,32 @@ $alice-primary:#0050ff !default;
 // *********************************************************************************************************************
 
 /* GNB 아이콘 */
-.gnb01{ @include gnb-icon("icon_gnb01_mywork.svg")}
-.gnb02{ @include gnb-icon("icon_gnb02_portal.svg") }
-.gnb03{ @include gnb-icon("icon_gnb03_sysmange.svg") }
-.gnb04{ @include gnb-icon("icon_gnb04_wfmanage.svg") }
+.my{ @include gnb-icon("icon_gnb01_mywork.svg")}
+.portal{ @include gnb-icon("icon_gnb02_portal.svg") }
+.config{ @include gnb-icon("icon_gnb03_sysmange.svg") }
+.workflow{ @include gnb-icon("icon_gnb04_wfmanage.svg") }
 
 /* SNB 아이콘 */
-.snb0100{ @include snb-icon("icon_gnb01_snb00_image.svg") }
-.snb0101{ @include snb-icon("icon_gnb01_snb01_docbox.svg") }
-.snb0102{ @include snb-icon("icon_gnb01_snb02_edit.svg") }
+.dashboard{ @include snb-icon("icon_gnb01_snb00_dashboard.svg") }
+.token{ @include snb-icon("icon_gnb01_snb01_docbox.svg") }
+.document{ @include snb-icon("icon_gnb01_snb02_edit.svg") }
 
-.snb0201{ @include snb-icon("icon_gnb02_snb01_notice.svg") }
-.snb0202{ @include snb-icon("icon_gnb02_snb02_faq.svg") }
-.snb0203{ @include snb-icon("icon_gnb02_snb03_archive.svg") }
-.snb0204{ @include snb-icon("icon_gnb02_snb04_board.svg") }
+.notice{ @include snb-icon("icon_gnb02_snb01_notice.svg") }
+.faq{ @include snb-icon("icon_gnb02_snb02_faq.svg") }
+.download{ @include snb-icon("icon_gnb02_snb03_archive.svg") }
+.board{ @include snb-icon("icon_gnb02_snb04_board.svg") }
 
-.snb0301{ @include snb-icon("icon_gnb03_snb01_usermanage.svg") }
-.snb0302{ @include snb-icon("icon_gnb03_snb02_authority.svg") }
-.snb0303{ @include snb-icon("icon_gnb03_snb03_role.svg") }
-.snb0304{ @include snb-icon("icon_gnb03_snb04_sysboard.svg") }
-.snb0305{ @include snb-icon("icon_gnb03_snb05_code.svg") }
+.user{ @include snb-icon("icon_gnb03_snb01_usermanage.svg") }
+.auth{ @include snb-icon("icon_gnb03_snb02_authority.svg") }
+.role{ @include snb-icon("icon_gnb03_snb03_role.svg") }
+.boardAdmin{ @include snb-icon("icon_gnb03_snb04_sysboard.svg") }
+.code{ @include snb-icon("icon_gnb03_snb05_code.svg") }
 
-.snb0401{ @include snb-icon("icon_gnb04_snb01_process.svg") }
-.snb0402{ @include snb-icon("icon_gnb04_snb02_form.svg") }
-.snb0403{ @include snb-icon("icon_gnb04_snb03_workflow.svg") }
-.snb0404{ @include snb-icon("icon_gnb04_snb04_customcode.svg") }
-.snb0405{ @include snb-icon("icon_gnb04_snb05_dashboard.svg") }
+.process{ @include snb-icon("icon_gnb04_snb01_process.svg") }
+.form{ @include snb-icon("icon_gnb04_snb02_form.svg") }
+.workflowAdmin{ @include snb-icon("icon_gnb04_snb03_workflow.svg") }
+.customCode{ @include snb-icon("icon_gnb04_snb04_customcode.svg") }
+.image{ @include snb-icon("icon_gnb04_snb05_image.svg") }
 
 
 
@@ -270,26 +272,27 @@ $alice-primary:#0050ff !default;
                     & a { visibility: visible; }
                     & .snb-title{color:#48505C; font-size: 15px; font-weight: 600; text-align: center; display: block;}
                     /* GNB 접혔을 때 SNB 아이콘 */
-                    .snb0100{ @include snb-icon2("icon_gnb01_snb00_image.svg") }
-                    .snb0101{ @include snb-icon2("icon_gnb01_snb01_docbox.svg")}
-                    .snb0102{ @include snb-icon2("icon_gnb01_snb02_edit.svg") }
+                    .dashboard{ @include snb-icon2("icon_gnb01_snb00_dashboard.svg") }
+                    .token{ @include snb-icon2("icon_gnb01_snb01_docbox.svg")}
+                    .document{ @include snb-icon2("icon_gnb01_snb02_edit.svg") }
 
-                    .snb0201{ @include snb-icon2("icon_gnb02_snb01_notice.svg") }
-                    .snb0202{ @include snb-icon2("icon_gnb02_snb02_faq.svg") }
-                    .snb0203{ @include snb-icon2("icon_gnb02_snb03_archive.svg") }
-                    .snb0204{ @include snb-icon2("icon_gnb02_snb04_board.svg") }
+                    .notice{ @include snb-icon2("icon_gnb02_snb01_notice.svg") }
+                    .faq{ @include snb-icon2("icon_gnb02_snb02_faq.svg") }
+                    .download{ @include snb-icon2("icon_gnb02_snb03_archive.svg") }
+                    .board{ @include snb-icon2("icon_gnb02_snb04_board.svg") }
 
-                    .snb0301{ @include snb-icon2("icon_gnb03_snb01_usermanage.svg") }
-                    .snb0302{ @include snb-icon2("icon_gnb03_snb02_authority.svg") }
-                    .snb0303{ @include snb-icon2("icon_gnb03_snb03_role.svg") }
-                    .snb0304{ @include snb-icon2("icon_gnb03_snb04_sysboard.svg") }
-                    .snb0305{ @include snb-icon2("icon_gnb03_snb05_code.svg") }
+                    .user{ @include snb-icon2("icon_gnb03_snb01_usermanage.svg") }
+                    .auth{ @include snb-icon2("icon_gnb03_snb02_authority.svg") }
+                    .role{ @include snb-icon2("icon_gnb03_snb03_role.svg") }
+                    .boardAdmin{ @include snb-icon2("icon_gnb03_snb04_sysboard.svg") }
+                    .code{ @include snb-icon2("icon_gnb03_snb05_code.svg") }
 
-                    .snb0401{ @include snb-icon2("icon_gnb04_snb01_process.svg") }
-                    .snb0402{ @include snb-icon2("icon_gnb04_snb02_form.svg") }
-                    .snb0403{ @include snb-icon2("icon_gnb04_snb03_workflow.svg") }
-                    .snb0404{ @include snb-icon2("icon_gnb04_snb04_customcode.svg") }
-                    .snb0405{ @include snb-icon2("icon_gnb04_snb05_dashboard.svg") }
+                    .process{ @include snb-icon2("icon_gnb04_snb01_process.svg") }
+                    .form{ @include snb-icon2("icon_gnb04_snb02_form.svg") }
+                    .workflowAdmin{ @include snb-icon2("icon_gnb04_snb03_workflow.svg") }
+                    .customCode{ @include snb-icon2("icon_gnb04_snb04_customcode.svg") }
+                    .image{ @include snb-icon2("icon_gnb04_snb05_image.svg") }
+
 
                 }
             &.snb-mywork{position: absolute; top:60px;}
