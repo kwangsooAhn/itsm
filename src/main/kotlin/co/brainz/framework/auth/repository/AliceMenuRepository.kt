@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.auth.repository
 
 import co.brainz.framework.auth.entity.AliceMenuEntity
@@ -18,7 +23,8 @@ interface AliceMenuRepository : JpaRepository<AliceMenuEntity, String> {
                 "WHERE ur.role = ra.role " +
                 "AND ra.auth = ma.auth " +
                 "AND ma.menu = m " +
-                "AND ur.user.userKey = :userKey"
+                "AND ur.user.userKey = :userKey " +
+                "ORDER BY m.sort"
     )
     fun findByUserKey(@Param("userKey") userKey: String): MutableSet<AliceMenuEntity>
 }

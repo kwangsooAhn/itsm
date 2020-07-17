@@ -43,10 +43,12 @@
 <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
 <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
+<script th:src="@{/assets/js/util/i18n-alice.js}"></script>
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
 
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
+    i18n.initMessages();
     let keyModule = '';
     let keyExponent = '';
     let ipList = /*[[${ipList}]]*/;
@@ -59,30 +61,15 @@
         }
         keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
         keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-        const authFailedCode = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
-        if (authFailedCode !== null) {
-            let message = '';
-            switch (authFailedCode) {
-                case '1':
-                    message = [[#{login.msg.invalidPassword}]];
-                    break;
-                case '2':
-                    message = [[#{login.msg.disabledUser}]];
-                    break;
-                case '3':
-                    message = [[#{login.msg.invalidUser}]];
-                    break;
-                default:
-                    message = [[#{login.msg.unknownError}]];
-                    break;
-            }
-            aliceJs.alert(message, function() {
+        const authFailedMsg = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
+        if (authFailedMsg !== null) {
+            aliceJs.alert(i18n.get(authFailedMsg), function() {
                 document.getElementById('uid').focus();
             });
         } else {
             document.getElementById('uid').focus();
         }
-    }
+    };
 
     window.onkeydown = function() {
         if (event.keyCode === 13) {
