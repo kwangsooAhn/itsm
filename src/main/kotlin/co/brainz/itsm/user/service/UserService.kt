@@ -123,7 +123,7 @@ class UserService(
                 userRepository.save(targetEntity)
                 val aliceAliceAvatarEntity = aliceFileService.uploadAvatarFile(
                     targetEntity.avatar.avatarId,
-                    userUpdateDto.avatarUUId,
+                    userUpdateDto.avatarUUID,
                     AliceUserConstants.AVATAR_TYPE_FILE
                 )
                 if (aliceAliceAvatarEntity.uploaded) {

@@ -213,7 +213,7 @@ class AliceCertificationService(
     private fun setUserAvatar(aliceSignUpDto: AliceSignUpDto): AliceAvatarEntity {
         return aliceFileService.uploadAvatarFile(
             "",
-            aliceSignUpDto.avatarUUId,
+            aliceSignUpDto.avatarUUID,
             AliceUserConstants.AVATAR_TYPE_FILE
         )
     }

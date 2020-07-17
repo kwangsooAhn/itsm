@@ -48,7 +48,7 @@
 <th:block layout:fragment="content">
     <div id="container" align="center" style="margin: 15px 0 35px 0">
         <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
-        <input type="hidden" id="avatarUUId" name="avatarUUId" value=""/>
+        <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
         <form id="userEditSelfForm" method="post" onsubmit ="return false">
             <table style="text-align: left;">
                 <colgroup>
@@ -195,12 +195,12 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            const avatarUUId = uuid();
-            document.getElementById('avatarUUId').value = avatarUUId;
+            const avatarUUID = uuid();
+            document.getElementById('avatarUUID').value = avatarUUID;
             fileUploader.init({extra: {
                 formId: 'userEditSelfForm',
                 dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/fileupload?target=avatar&fileName=' + avatarUUId,
+                dropZoneUrl: '/fileupload?target=avatar&fileName=' + avatarUUID,
                 dropZoneMaxFiles: 1,
                 acceptedFiles: '.png,.jpeg,.jpg,.gif',
                 clickable: '.add-img-button'
@@ -239,9 +239,9 @@
                 arrRoleValue.push(item.value);
             });
 
-            let avatarUUId = document.getElementById('avatarUUId').value;
+            let avatarUUID = document.getElementById('avatarUUID').value;
             if (document.getElementsByClassName('dz-image').item(0) === null) {
-                avatarUUId = '';
+                avatarUUID = '';
             }
 
             const data = {
@@ -260,7 +260,7 @@
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
                 roles: arrRoleValue,
                 fileSeq: document.getElementsByTagName('fileSeq').value,
-                avatarUUId: avatarUUId
+                avatarUUID: avatarUUID
             };
             let password = document.getElementById('password').value;
             if (password !== '' && method === 'put') {

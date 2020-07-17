@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.user.dto
 
 import java.io.Serializable
@@ -21,5 +26,5 @@ data class UserUpdateDto(
     var theme: String?,
     var fileSeq: Long?,
     var useYn: Boolean?,
-    var avatarUUId: String
+    var avatarUUID: String
 ) : Serializable

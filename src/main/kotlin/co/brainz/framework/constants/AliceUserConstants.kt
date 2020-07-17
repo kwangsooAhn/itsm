@@ -51,9 +51,14 @@ object AliceUserConstants {
     const val PLATFORM_CATEGORY_P_CODE = "user.platform"
 
     /**
-     * 사용자 아바타 디렉터리
+     * 사용자 아바타 URL
      */
     const val AVATAR_ID: String = "avatar"
+
+    /**
+     * 사용자 프로세스 URL
+     */
+    const val PROCESS_ID: String = "process"
 
     /**
      * 사용자 아바타 기본 디렉터리

@@ -33,7 +33,8 @@
             <td colspan="9" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:unless="${#arrays.isEmpty(userList)}" th:each="user, i: ${userList}" th:if="${i.count} < 11">
-            <td><img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" alt="profile pic"/></td>
+            <td><img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" alt="profile pic"
+                     th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''"/></td>
             <td th:text="${user.userName}"></td>
             <td th:text="${user.userId}"></td>
             <td th:text="${user.email}"></td>

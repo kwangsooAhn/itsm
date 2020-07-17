@@ -23,14 +23,13 @@ class AliceAvatarService {
      */
     fun makeAvatarPath(avatarEntity: AliceAvatarEntity): String {
         return when (avatarEntity.avatarType) {
-            AliceUserConstants.AVATAR_TYPE_FILE ->
+            AliceUserConstants.AVATAR_TYPE_FILE,
+            AliceUserConstants.AVATAR_TYPE_URL ->
                 if (avatarEntity.uploaded) {
-                    resourcesUriPath + "/avatar/" + avatarEntity.avatarValue
+                    resourcesUriPath + "/" + AliceUserConstants.AVATAR_IMAGE_DIR + "/" + avatarEntity.avatarValue
                 } else {
                     AliceUserConstants.AVATAR_BASIC_FILE_PATH + AliceUserConstants.AVATAR_BASIC_FILE_NAME
                 }
-            AliceUserConstants.AVATAR_TYPE_URL ->
-                avatarEntity.avatarValue
             else -> avatarEntity.uploadedLocation
         }
     }

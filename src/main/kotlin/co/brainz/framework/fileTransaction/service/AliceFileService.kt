@@ -449,15 +449,15 @@ class AliceFileService(
     }
 
     /**
-     * 업로드한 아바타 이미지정보를[avatarId,avatarUUId,avatarType]를 받아서 아바타 정보[AliceAvatarEntity]를 반환한다.
+     * 업로드한 아바타 이미지정보를[avatarId] ,[avatarUUID], [avatarType]를 받아서 아바타 정보[AliceAvatarEntity]를 반환한다.
      */
-    fun uploadAvatarFile(avatarId: String, avatarUUId: String, avatarType: String): AliceAvatarEntity {
+    fun uploadAvatarFile(avatarId: String, avatarUUID: String, avatarType: String): AliceAvatarEntity {
         val tempDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
-        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUId)
+        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
         val tempFile = File(tempPath.toString())
 
         val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
-        val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUId)
+        val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
         val avatarUploadFile = File(avatarFilePath.toString())
 
         var avatarInfo = AliceAvatarEntity()
@@ -469,14 +469,12 @@ class AliceFileService(
         }
 
         // 임시폴더에서 파일이 없으면 아바타를 등록/수정 하지 않았다고 본다.
-        if (tempFile.exists() && avatarUUId != "") {
-            if (avatarId != "") {
-                if (avatarUploadFile.exists() && avatarInfo.uploaded) {
-                    Files.delete(Paths.get(avatarInfo.uploadedLocation + File.separator + avatarInfo.avatarValue))
-                }
+        if (tempFile.exists() && avatarUUID != "") {
+            if (avatarId != "" && avatarUploadFile.exists() && avatarInfo.uploaded) {
+                Files.delete(Paths.get(avatarInfo.uploadedLocation + File.separator + avatarInfo.avatarValue))
             }
             Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
-            avatarValue = avatarUUId
+            avatarValue = avatarUUID
             avatarUploaded = true
             avatarUploadedLocation = avatarFilePath.toString()
         } else {
@@ -509,9 +507,7 @@ class AliceFileService(
      * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
      */
     fun avatarFileNameMod(aliceAvatarEntity: AliceAvatarEntity) {
-        if (aliceAvatarEntity.avatarType == AliceUserConstants.AVATAR_TYPE_FILE &&
-            aliceAvatarEntity.uploaded
-        ) {
+        if (aliceAvatarEntity.avatarType == AliceUserConstants.AVATAR_TYPE_FILE && aliceAvatarEntity.uploaded) {
             if (aliceAvatarEntity.avatarId != aliceAvatarEntity.avatarValue) {
                 val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
                 val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarValue)

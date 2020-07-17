@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.fileTransaction.controller
 
 import co.brainz.framework.constants.AliceUserConstants
@@ -46,7 +51,7 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
                     fileName
                 )
             }
-            "process" -> map["file"] = aliceFileService.uploadProcessFile(multipartFile)
+            AliceUserConstants.PROCESS_ID -> map["file"] = aliceFileService.uploadProcessFile(multipartFile)
             null -> map["file"] = aliceFileService.uploadTemp(multipartFile)
         }
 
