@@ -80,7 +80,7 @@
 
     function onLogin() {
         if (document.getElementById('uid').value.trim() === '') {
-            aliceJs.alert([[#{login.msg.enterId}]]);
+            aliceJs.error([[#{login.msg.enterId}]]);
             return false;
         }
         if (document.getElementById('upasswd').value.trim() === '') {

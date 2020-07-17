@@ -432,12 +432,41 @@ function delFileCheck() {
  */
 aliceJs.alert = function(message, callbackFunc) {
     const myModal = new gModal({
-        title: '',
-        body: '<div style="text-align: center;">' + message + '</div>',
+        message: message,
+        type: 'gmodal-icon-alert',
         buttons: [
             {
                 content: '닫기',
-                classes: 'gmodal-button-green',
+                //classes: 'gmodal-button-green',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open error dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.error = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-error',
+        buttons: [
+            {
+                content: '닫기',
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -463,8 +492,8 @@ aliceJs.alert = function(message, callbackFunc) {
  */
 aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
     const myModal = new gModal({
-        title: 'Confirm',
-        body: '<div style="text-align: center;">' + message + '</div>',
+        message: message,
+        type: 'gmodal-icon-alert',
         buttons: [
             {
                 content: 'Cancel',

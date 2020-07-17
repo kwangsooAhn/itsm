@@ -32,8 +32,8 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background:#000;
-    opacity: 0.5;
+    /* background:#000;
+    opacity: 0.5; */
 }
 .gmodal-dialog{
     z-index:999999999;
@@ -47,8 +47,8 @@
     margin: 0 auto 2em auto;
     box-sizing: border-box;
     background: #FFF;
-    box-shadow: 5px 5px 5px 5px #7493B3;
-    padding: 1.5625rem 1.625rem 1.625rem 1.625rem; /* 25,26,26,26 px */
+    box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25); /* 5px */
+    padding: 1.5625rem 1.625rem 1.625rem 1.625rem; /* 25,26,26,26px */
 }
 .gmodal-close-in, .gmodal-close-out{
     position:absolute;
@@ -87,10 +87,16 @@
     box-sizing:border-box;
 }
 .gmodal-body{
-    padding: 1em;
+    padding: 2px 0 0 67px;
+    margin-bottom: 32px;
     overflow:auto;
-    max-height:50%;
+    min-height: 47px;
     box-sizing:border-box;
+}
+.gmodal-message{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.7143;
 }
 .gmodal-buttons{
     box-sizing:border-box;
@@ -98,9 +104,10 @@
 }
 .gmodal-button{
     padding: 0.6em 1em;
-    border: 0.0625rem #C8CED8;
+    border: solid 1px #C8CED8;
     margin:0rem 0rem 0rem 0.3125rem;
     color:#3E4752;
+    font-size: 14px;
     text-transform:uppercase;
     cursor:pointer;
     display: inline-block;
@@ -110,13 +117,14 @@
     text-decoration: none;
 }
 
-.gmodal-button a:link {
-    text-decoration: none;
-}
 .gmodal-button-red{background-color:#e51c23;}
 .gmodal-button-blue{background-color:#007aff;}
 .gmodal-button-green{background-color:#00ca3c;}
 .gmodal-button-gray{background-color:#969696;}
+
+.gmodal-icon-alert{background: url("../../../media/icons/icon_modal_alert.png") no-repeat left top;}
+.gmodal-icon-error{background: url("../../../media/icons/icon_modal_error.png") no-repeat left top;}
+.gmodal-icon-success{background: url("../../../media/icons/icon_modal_success.png") no-repeat left top;}
 
 .gmodal-input {
     width: 250px;
