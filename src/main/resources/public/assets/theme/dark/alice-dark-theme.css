@@ -56,11 +56,11 @@
 
 .breadcrumb .arrow-r {
   padding: 9px;
-  background: url("../../media/icons/icon_arrow_r.svg") no-repeat center left;
+  background: url("../default/icons/icon_arrow_r.svg") no-repeat center left;
 }
 
 .breadcrumb .home {
-  background: url("../../media/icons/icon_home.svg") no-repeat center center;
+  background: url("../default/icons/icon_home.svg") no-repeat center center;
 }
 
 .bread-end {
@@ -80,7 +80,7 @@
 
 .top-config .notice {
   padding: 8px 15px;
-  background: url("../../media/icons/icon_notice.svg") no-repeat center center;
+  background: url("../default/icons/icon_notice.svg") no-repeat center center;
   display: inline-block;
   border-right: 1px solid #D2D9E2;
   vertical-align: middle;
@@ -98,7 +98,7 @@
   display: inline-block;
   padding: 12px 15px;
   vertical-align: middle;
-  background: url("../../media/icons/icon_userinfo_arrow_d.svg") no-repeat center right;
+  background: url("../default/icons/icon_userinfo_arrow_d.svg") no-repeat center right;
 }
 
 .top-config .user-info ul li {
@@ -150,39 +150,39 @@
 
 .top-config .my-modify {
   padding: 5px 20px;
-  background: url("../../media/icons/icon_profiledit.svg") no-repeat 10px center;
+  background: url("../default/icons/icon_profiledit.svg") no-repeat 10px center;
 }
 
 .top-config .my-logout {
   padding: 5px 20px;
-  background: url("../../media/icons/icon_logout.svg") no-repeat 10px center;
+  background: url("../default/icons/icon_logout.svg") no-repeat 10px center;
 }
 
 /* GNB 아이콘 */
 
 .my {
-  background: url("../../media/icons/icon_gnb01_mywork.svg") no-repeat center left;
+  background: url("../default/icons/icon_gnb01_mywork.svg") no-repeat center left;
   padding: 0 0 0 30px;
   margin: 20px 10px;
   vertical-align: middle;
 }
 
 .portal {
-  background: url("../../media/icons/icon_gnb02_portal.svg") no-repeat center left;
+  background: url("../default/icons/icon_gnb02_portal.svg") no-repeat center left;
   padding: 0 0 0 30px;
   margin: 20px 10px;
   vertical-align: middle;
 }
 
 .config {
-  background: url("../../media/icons/icon_gnb03_sysmange.svg") no-repeat center left;
+  background: url("../default/icons/icon_gnb03_sysmange.svg") no-repeat center left;
   padding: 0 0 0 30px;
   margin: 20px 10px;
   vertical-align: middle;
 }
 
 .workflow {
-  background: url("../../media/icons/icon_gnb04_wfmanage.svg") no-repeat center left;
+  background: url("../default/icons/icon_gnb04_wfmanage.svg") no-repeat center left;
   padding: 0 0 0 30px;
   margin: 20px 10px;
   vertical-align: middle;
@@ -193,103 +193,103 @@
 .dashboard {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb01_snb00_dashboard.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb01_snb00_dashboard.svg") no-repeat left center;
 }
 
 .token {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
 }
 
 .document {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
 }
 
 .notice {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
 }
 
 .faq {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
 }
 
 .download {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
 }
 
 .board {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb02_snb04_board.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb02_snb04_board.svg") no-repeat left center;
 }
 
 .user {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
 }
 
 .auth {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
 }
 
 .role {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb03_snb03_role.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb03_snb03_role.svg") no-repeat left center;
 }
 
 .boardAdmin {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
 }
 
 .code {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb03_snb05_code.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb03_snb05_code.svg") no-repeat left center;
 }
 
 .process {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb04_snb01_process.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb04_snb01_process.svg") no-repeat left center;
 }
 
 .form {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb04_snb02_form.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb04_snb02_form.svg") no-repeat left center;
 }
 
 .workflowAdmin {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
 }
 
 .customCode {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
 }
 
 .image {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../../media/icons/icon_gnb04_snb05_image.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb04_snb05_image.svg") no-repeat left center;
 }
 
 .gnb-open ul li {
@@ -325,12 +325,12 @@
   color: #fff;
   font-weight: 300;
   opacity: 0.6;
-  background: url("../../media/icons/icon_arrow_d.svg") no-repeat right 7px;
+  background: url("../default/icons/icon_arrow_d.svg") no-repeat right 7px;
 }
 
 .gnb-open ul li.toggle:hover {
   opacity: 1;
-  background: #0242eb url("../../media/icons/icon_arrow_d.svg") no-repeat right 7px;
+  background: #0242eb url("../default/icons/icon_arrow_d.svg") no-repeat right 7px;
 }
 
 .gnb-open ul li.toggle ul li {
@@ -408,103 +408,103 @@
 .gnb-close .snb.active ul li .dashboard {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb01_snb00_dashboard.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb01_snb00_dashboard.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .token {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .document {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .notice {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .faq {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .download {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .board {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb02_snb04_board.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb02_snb04_board.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .user {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .auth {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .role {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb03_snb03_role.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb03_snb03_role.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .boardAdmin {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .code {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb03_snb05_code.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb03_snb05_code.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .process {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb04_snb01_process.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb04_snb01_process.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .form {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb04_snb02_form.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb04_snb02_form.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .workflowAdmin {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .customCode {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active ul li .image {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../../media/icons/icon_gnb04_snb05_image.svg") no-repeat left center;
+  background: url("../default/icons/icon_gnb04_snb05_image.svg") no-repeat left center;
 }
 
 .gnb-close .snb.active.snb-mywork {
@@ -548,7 +548,7 @@
 
 .logo-open {
   height: 60px;
-  background: rgba(255, 255, 255, 0.1) url("../../media/icons/icon_logo_open.svg") no-repeat 20px center;
+  background: rgba(255, 255, 255, 0.1) url("../default/icons/icon_logo_open.svg") no-repeat 20px center;
 }
 
 /* GNB 메뉴 닫혔을 때 */
@@ -564,7 +564,7 @@
 
 .logo-close {
   height: 60px;
-  background: rgba(255, 255, 255, 0.1) url("../../media/icons/icon_logo_close.svg") no-repeat 20px center;
+  background: rgba(255, 255, 255, 0.1) url("../default/icons/icon_logo_close.svg") no-repeat 20px center;
 }
 
 /* 토글메뉴 리스트 */
@@ -578,7 +578,7 @@
 }
 
 .btn-menuclose {
-  background: white url("../../media/icons/icon_menuclose.svg") no-repeat center center;
+  background: white url("../default/icons/icon_menuclose.svg") no-repeat center center;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -590,7 +590,7 @@
 }
 
 .btn-menuopen {
-  background: white url("../../media/icons/icon_menuopen.svg") no-repeat center center;
+  background: white url("../default/icons/icon_menuopen.svg") no-repeat center center;
   width: 34px;
   height: 34px;
   border-radius: 50%;
