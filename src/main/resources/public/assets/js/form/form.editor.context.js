@@ -33,26 +33,39 @@
      */
     function tooltipMenuOn(target) {
         console.log(editor.selectedComponentIds);
+
         if (!tooltipMenu.classList.contains('on')) {
-            tooltipMenu.classList.add('on');
-            // 위치 설정
-            tooltipMenu.style.right = '0px';
-            let rect = tooltipMenu.getBoundingClientRect();
-            tooltipMenu.style.top = target.offsetTop + target.offsetHeight + 10 + 'px';
-
-            console.log(target.offsetTop + target.offsetHeight);
-            console.log(rect.bottom, window.innerHeight , document.documentElement.clientHeight);
-
-            if (rect.bottom > (window.innerHeight || document.documentElement.clientHeight)) { // top
-                tooltipMenu.style.top = '';
-                tooltipMenu.style.bottom = target.offsetTop + target.offsetHeight + 10 + 'px';
+            const menuItems = target.querySelectorAll('li');
+            for (let i = 0, len = menuItems.length; i < len; i++) {
+                const item = menuItems[i];
+                // editbox 컴포넌트라면 list, copy, delete, add 메뉴 모두 표시
+                // editbox 컴포넌트가 아니라면,
+                if (!target.isContentEditable) {
+                    if (editor.selectedComponentIds.length > 1) {
+                        // 선택된 컴포넌트가 여러개면, 상단에 delete 메뉴 표시
+                        if (!item.classList.contains('delete')) {
+                            item.classList.add('hidden');
+                        }
+                    } else {
+                        // 선택된 컴포넌트가 1개라면, 상단에 copy, delete, add 메뉴 표시
+                        if (item.classList.contains('list')) {
+                            item.classList.add('hidden');
+                        }
+                    }
+                }
             }
 
-            // 1. editbox 컴포넌트라면 list, copy, delete, add 메뉴 표시
+            // 위치 설정
+            const clientRect = target.getBoundingClientRect(), // DomRect 구하기 (각종 좌표값이 들어있는 객체)
+                scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+                scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            console.log(clientRect);
+            console.log(scrollTop, scrollLeft);
+            tooltipMenu.style.top = (clientRect.top + scrollTop - tooltipMenu.offsetHeight) + 'px';
+            tooltipMenu.style.left = (clientRect.left + scrollLeft + target.offsetWidth - tooltipMenu.offsetWidth) + 'px';
 
-            // 2. editbox 컴포넌트가 아니고 선택된 컴포넌트가 1개라면, 상단에 copy, delete, add 메뉴 표시
-
-            // 3. 선택된 컴포넌트가 여러개면, 상단에 delete 메뉴 표시
+            // 표시
+            tooltipMenu.classList.add('on');
         }
     }
 
@@ -62,6 +75,14 @@
     function tooltipMenuOff() {
         if (tooltipMenu.classList.contains('on')) {
             tooltipMenu.classList.remove('on');
+            // 메뉴 초기화
+            const menuItems = tooltipMenu.querySelectorAll('li');
+            for (let i = 0, len = menuItems.length; i < len; i++) {
+                const item = menuItems[i];
+                if (item.classList.contains('hidden')) {
+                    item.classList.remove('hidden');
+                }
+            }
         }
     }
 
@@ -441,6 +462,8 @@
     function onLeftClickHandler(e) {
         //상단메뉴 및 우측 세부 속성창을 클릭한 경우, 아무 동작도 하지 않는다.
         if (clickInsideElement(e, 'alice-form-properties-panel') || clickInsideElement(e, 'alice-form-toolbar')) {
+            tooltipMenuOff();
+
             if (flag === 1) {
                 menuOff();
             }
@@ -452,17 +475,13 @@
             e.preventDefault();
             menuItemListener(clickedElem);
         } else {
+            tooltipMenuOff();
             menuOff();
             if (e.target.classList.contains('alice-form-panel') || e.target.classList.contains('drawing-board')) {
                 editor.showFormProperties();
             }
             itemInContext = clickInsideElement(e, 'component');
             if (itemInContext) {
-                /*const editboxElement = itemInContext.querySelector('[contenteditable=true]');
-                if (editboxElement && e.target.classList.contains('add-icon')) { //+ 아이콘 클릭시 전체 컴포넌트 컨텍스트 메뉴
-                    menuOn(2);
-                    setPositionMenu(e);
-                }*/
                 if (isCtrlPressed) {  //배열에 담음
                     const removeIdx = editor.selectedComponentIds.indexOf(itemInContext.id);
                     if (removeIdx === -1) {
@@ -610,10 +629,11 @@
         menuOff();
         let clickedComponent = itemInContext;
         //editor.hideComponentProperties();
-        
+        console.log(elem);
         switch (elem.getAttribute('data-action')) {
             case 'list': // 컴포넌트 전체 목록 출력
-
+                //menuOn(2);
+                //setPositionMenu(e);
                 break;
             case 'copy': // 컴포넌트 복사
                 editor.copyComponent(clickedComponent.id);
