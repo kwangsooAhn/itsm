@@ -106,7 +106,7 @@
     padding: 0.6em 1em;
     border: solid 1px #C8CED8;
     margin:0rem 0rem 0rem 0.3125rem;
-    color:#3E4752;
+    color:#3D4752;
     font-size: 14px;
     text-transform:uppercase;
     cursor:pointer;
@@ -117,10 +117,10 @@
     text-decoration: none;
 }
 
-.gmodal-button-red{border: solid 1px #e51c23;}
-.gmodal-button-blue{border: solid 1px #007aff;}
-.gmodal-button-green{border: solid 1px #00ca3c;}
-.gmodal-button-gray{border: solid 1px #969696;}
+.gmodal-button-red{border: solid 1px #e51c23; color:#e51c23;}
+.gmodal-button-blue{border: solid 1px #0050ff; color:#0050ff;}
+.gmodal-button-green{border: solid 1px #00ca3c; color:#00ca3c;}
+.gmodal-button-gray{border: solid 1px #969696; color:#969696;}
 
 .gmodal-icon-success{background: url("../../../media/icons/icon_alert_success.png") no-repeat left top;}
 .gmodal-icon-info{background: url("../../../media/icons/icon_alert_info.png") no-repeat left top;}
