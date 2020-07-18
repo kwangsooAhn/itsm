@@ -81,7 +81,7 @@
 
     function onLogin() {
         if (document.getElementById('uid').value.trim() === '') {
-            aliceJs.warning([[#{login.msg.enterId}]]);
+            aliceJs.alert([[#{login.msg.enterId}]]);
             return false;
         }
         if (document.getElementById('upasswd').value.trim() === '') {

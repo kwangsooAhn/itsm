@@ -433,35 +433,6 @@ function delFileCheck() {
 aliceJs.alert = function(message, callbackFunc) {
     const myModal = new gModal({
         message: message,
-        type: 'gmodal-icon-success',
-        buttons: [
-            {
-                content: '닫기',
-                bindKey: 13, /* Enter */
-                callback: function(modal) {
-                    if (typeof callbackFunc === 'function') {
-                        callbackFunc();
-                    }
-                    modal.hide();
-                }
-            }
-        ],
-        close: {
-            closable: false,
-        }
-    });
-    myModal.show();
-};
-
-/**
- * open alert dialog.
- *
- * @param message message
- * @param callbackFunc callback function
- */
-aliceJs.info = function(message, callbackFunc) {
-    const myModal = new gModal({
-        message: message,
         type: 'gmodal-icon-info',
         buttons: [
             {
@@ -488,7 +459,36 @@ aliceJs.info = function(message, callbackFunc) {
  * @param message message
  * @param callbackFunc callback function
  */
-aliceJs.warning = function(message, callbackFunc) {
+aliceJs.alertSuccess = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-success',
+        buttons: [
+            {
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.AlertWarning = function(message, callbackFunc) {
     const myModal = new gModal({
         message: message,
         type: 'gmodal-icon-warning',
@@ -517,7 +517,7 @@ aliceJs.warning = function(message, callbackFunc) {
  * @param message message
  * @param callbackFunc callback function
  */
-aliceJs.danger = function(message, callbackFunc) {
+aliceJs.AlertDanger = function(message, callbackFunc) {
     const myModal = new gModal({
         message: message,
         type: 'gmodal-icon-danger',
