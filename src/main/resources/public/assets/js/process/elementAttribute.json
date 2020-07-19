@@ -302,7 +302,7 @@
         {
           "title": "Data",
           "items": [
-            {"id": "line-color", "name": "Line Color", "type": "rgb", "default": "#000000", "required": "Y"},
+            {"id": "line-color", "name": "Line Color", "type": "rgb", "default": "rgba(0,0,0,1)", "required": "Y"},
             {"id": "background-color", "name": "Background Color", "type": "rgb", "default": "", "required": "N"}
           ]
         }

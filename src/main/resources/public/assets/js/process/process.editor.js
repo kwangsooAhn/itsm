@@ -1941,7 +1941,7 @@
                     if (element.data['background-color'] === '') {
                         node.nodeElement.style('fill-opacity', 0);
                     } else {
-                        node.nodeElement.style('fill-opacity', 0.5);
+                        node.nodeElement.style('fill-opacity', aliceJs.rgbaOpacity(element.data['background-color']));
                     }
                 } else if (element.type === 'annotationArtifact') {
                     node = new AnnotationElement(x, y);
