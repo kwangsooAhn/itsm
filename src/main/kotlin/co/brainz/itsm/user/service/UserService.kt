@@ -124,7 +124,7 @@ class UserService(
                 val aliceAliceAvatarEntity = aliceFileService.uploadAvatarFile(
                     targetEntity.avatar.avatarId,
                     userUpdateDto.avatarUUID,
-                    AliceUserConstants.AVATAR_TYPE_FILE
+                    AliceUserConstants.AvatarStatus.AVATAR_TYPE_FILE.code
                 )
                 if (aliceAliceAvatarEntity.uploaded) {
                     aliceFileService.avatarFileNameMod(aliceAliceAvatarEntity)

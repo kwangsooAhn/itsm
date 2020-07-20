@@ -25,7 +25,7 @@ data class AliceAvatarEntity(
     var avatarId: String = "",
 
     @Column(name = "avatar_type", length = 100)
-    var avatarType: String = AliceUserConstants.AVATAR_TYPE_FILE,
+    var avatarType: String = AliceUserConstants.AvatarStatus.AVATAR_TYPE_FILE.code,
 
     @Column(name = "avatar_value", length = 512)
     var avatarValue: String = AliceUserConstants.AVATAR_BASIC_FILE_NAME,

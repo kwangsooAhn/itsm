@@ -507,23 +507,23 @@ class AliceFileService(
      * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
      */
     fun avatarFileNameMod(aliceAvatarEntity: AliceAvatarEntity) {
-        if (aliceAvatarEntity.avatarType == AliceUserConstants.AVATAR_TYPE_FILE && aliceAvatarEntity.uploaded) {
-            if (aliceAvatarEntity.avatarId != aliceAvatarEntity.avatarValue) {
-                val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
-                val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarValue)
-                val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarId)
-                val avatarUploadFile = File(avatarFilePath.toString())
-                if (avatarUploadFile.exists()) {
-                    Files.move(avatarFilePath, avatarIdFilePath, StandardCopyOption.REPLACE_EXISTING)
-                    val avatarEntity = AliceAvatarEntity(
-                        avatarId = aliceAvatarEntity.avatarId,
-                        avatarType = aliceAvatarEntity.avatarType,
-                        avatarValue = aliceAvatarEntity.avatarId,
-                        uploaded = aliceAvatarEntity.uploaded,
-                        uploadedLocation = avatarIdFilePath.toString()
-                    )
-                    aliceAvatarRepository.save(avatarEntity)
-                }
+        if (aliceAvatarEntity.avatarType == AliceUserConstants.AvatarStatus.AVATAR_TYPE_FILE.code &&
+            aliceAvatarEntity.uploaded && aliceAvatarEntity.avatarId != aliceAvatarEntity.avatarValue
+        ) {
+            val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
+            val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarValue)
+            val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarId)
+            val avatarUploadFile = File(avatarFilePath.toString())
+            if (avatarUploadFile.exists()) {
+                Files.move(avatarFilePath, avatarIdFilePath, StandardCopyOption.REPLACE_EXISTING)
+                val avatarEntity = AliceAvatarEntity(
+                    avatarId = aliceAvatarEntity.avatarId,
+                    avatarType = aliceAvatarEntity.avatarType,
+                    avatarValue = aliceAvatarEntity.avatarId,
+                    uploaded = aliceAvatarEntity.uploaded,
+                    uploadedLocation = avatarIdFilePath.toString()
+                )
+                aliceAvatarRepository.save(avatarEntity)
             }
         }
     }

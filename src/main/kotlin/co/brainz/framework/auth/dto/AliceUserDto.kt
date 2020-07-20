@@ -28,11 +28,11 @@ data class AliceUserDto(
     val expiredDt: LocalDateTime,
     val oauthKey: String?,
     val grantedAuthorises: Set<GrantedAuthority>,
-    val menus: Set<AliceMenuEntity>,
-    val urls: Set<AliceUrlEntity>,
+    val menus: Set<AliceMenuEntity>?,
+    val urls: Set<AliceUrlEntity>?,
     val timezone: String,
     val lang: String,
     val timeFormat: String,
     val theme: String,
-    val avatarPath: String
+    val avatarPath: String?
 ) : Serializable

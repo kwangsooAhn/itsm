@@ -81,14 +81,12 @@ object AliceUserConstants {
     const val AVATAR_IMAGE_DIR: String = "avatar"
 
     /**
-     * 사용자 아바타 저장 유형 - FILE
+     * 사용자 아바타 저장 유형
      */
-    const val AVATAR_TYPE_FILE = "FILE"
-
-    /**
-     * 사용자 아바타 저장 유형 - URL
-     */
-    const val AVATAR_TYPE_URL = "URL"
+    enum class AvatarStatus(val code: String) {
+        AVATAR_TYPE_FILE("FILE"),
+        AVATAR_TYPE_URL("URL")
+    }
 
     /**
      * 사용자 상태.

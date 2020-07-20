@@ -214,7 +214,7 @@ class AliceCertificationService(
         return aliceFileService.uploadAvatarFile(
             "",
             aliceSignUpDto.avatarUUID,
-            AliceUserConstants.AVATAR_TYPE_FILE
+            AliceUserConstants.AvatarStatus.AVATAR_TYPE_FILE.code
         )
     }
 
