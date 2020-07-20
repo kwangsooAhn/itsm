@@ -13,9 +13,7 @@
 var gModal = (function() {
     var defaults = {
         title: '',
-        body:
-            'This is the default body. It can include <strong>html</strong>. ' +
-            'You can also leave it empty so we will hide it :).',
+        message: '',
         buttons: [
             /* No buttons by default.
                         {
@@ -39,14 +37,6 @@ var gModal = (function() {
                         }
             */
         ],
-        close: {
-            closable: true,
-            location: 'in',
-            bindKey: 27,
-            callback: function(modal) {
-                modal.hide();
-            }
-        },
 
         onShow: function(modal) {},
         onHide: function(modal) {
@@ -143,10 +133,12 @@ var gModal = (function() {
                 var keyCode = e.keyCode || e.which;
                 var keys = Object.keys(_that.bindings);
                 for (var i = 0; i < keys.length; i++) {
-                    if (keys[i] === keyCode) {
+                    console.log(typeof keys[i]);
+                    console.log(typeof keyCode);
+                    if (Number(keys[i]) === keyCode) {
                         e.preventDefault();
                         e.stopPropagation();
-                        _that.bindings[keys[i]](_that);
+                        _that.bindings[Number(keys[i])](_that);
                         return false;
                     }
                 }
@@ -187,49 +179,14 @@ var gModal = (function() {
             dialog = document.createElement('div');
             dialog.className = 'gmodal-dialog';
 
-            if (typeof this.options.close.closable !== 'undefined' && this.options.close.closable) {
-                var close = document.createElement('a');
-                close.setAttribute('href', 'javascript:void(0);');
-
-                if (typeof this.options.close.callback === 'undefined') {
-                    this.options.close.callback = function() {};
-                }
-
-                // close button click
-                close.modal = this;
-                close.callback = this.options.close.callback;
-                close.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.callback(this.modal);
-                    return false;
-                };
-
-                // close key binding
-                if (typeof this.options.close.bindKey === 'number') {
-                    this.bind(this.options.close.bindKey, this.options.close.callback);
-                }
-
-                if (
-                    typeof this.options.close.location === 'undefined' ||
-                    this.options.close.location == 'in'
-                ) {
-                    close.className = 'gmodal-close-in';
-                    dialog.appendChild(close);
-                } else {
-                    close.className = 'gmodal-close-out';
-                    backdrop.appendChild(close);
-                }
-            }
-
-            if (this.options.title != '') {
+            if (this.options.title !== '') {
                 var title = document.createElement('div');
                 title.className = 'gmodal-title';
                 title.innerHTML = this.options.title;
                 dialog.appendChild(title);
             }
 
-            if (this.options.message != '') {
+            if (this.options.message !== '') {
                 var message = document.createElement('div');
                 message.className = 'gmodal-message';
                 message.innerHTML = this.options.message;
