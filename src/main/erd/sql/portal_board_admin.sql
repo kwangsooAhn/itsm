@@ -37,3 +37,5 @@ COMMENT ON COLUMN portal_board_admin.create_user_key IS '등록자';
 COMMENT ON COLUMN portal_board_admin.create_dt IS '등록일';
 COMMENT ON COLUMN portal_board_admin.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_board_admin.update_dt IS '수정일';
+
+insert into portal_board_admin values ('40288a19736b46fb01736b718cb60001', '기본 게시판', null, 1, true, true, true, true, true, 10, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
