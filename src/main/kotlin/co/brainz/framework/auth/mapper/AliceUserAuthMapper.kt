@@ -33,5 +33,9 @@ interface AliceUserAuthMapper {
     fun toAliceUserEntity(aliceUserDto: AliceUserDto): AliceUserEntity
     fun toUserDto(aliceUserEntity: AliceUserEntity): UserDto
 
+    @Mappings(
+        Mapping(source = "createUser.userKey", target = "createUser"),
+        Mapping(source = "updateUser.userKey", target = "updateUser")
+    )
     fun toIpVerificationDto(ipVerificationEntity: AliceIpVerificationEntity): AliceIpVerificationDto
 }
