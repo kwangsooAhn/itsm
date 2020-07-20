@@ -8,6 +8,9 @@
 <th:block layout:fragment="content">
     <h1 style="text-align: left;" th:text="#{department.label.deptList}"></h1>
     <div class="container">
+        <tr th:if="${#arrays.isEmpty(departmentList)}">
+            <td th:text="#{common.msg.noData}"></td>
+        </tr>
         <ul th:each="department : ${departmentList}">
             <li th:id="${department.code}" th:text="${department.codeValue}" th:value="${department.code}"
                 onclick="transferData(this.id);" style="cursor: pointer"/>

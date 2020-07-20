@@ -10,6 +10,7 @@ import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.user.repository.UserRepository
 import org.mapstruct.factory.Mappers
+import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 
 @Service
@@ -51,14 +52,18 @@ class CodeService(
     /**
      * 코드 데이터 상세 정보 조회
      */
-    fun getDetailCodes(code: String): CodeDetailDto {
-        val codeDetailDto = codeRepository.findCodeDetail(code)
-        codeDetailDto.enabled = !customCodeRepository.existsByPCode(codeDetailDto.code)
-        codeDetailDto.createUserName =
-            codeDetailDto.createUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
-        codeDetailDto.updateUserName =
-            codeDetailDto.updateUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
-        return codeDetailDto
+    fun getDetailCodes(code: String): CodeDetailDto? {
+        return try {
+            val codeDetailDto = codeRepository.findCodeDetail(code)
+            codeDetailDto.enabled = !customCodeRepository.existsByPCode(codeDetailDto.code)
+            codeDetailDto.createUserName =
+                codeDetailDto.createUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
+            codeDetailDto.updateUserName =
+                codeDetailDto.updateUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
+            codeDetailDto
+        } catch (e: EmptyResultDataAccessException) {
+            null
+        }
     }
 
     /**

@@ -56,7 +56,7 @@ class UserService(
         val userList: MutableList<UserDto> = mutableListOf()
         aliceUserEntities.forEach { AliceUserEntity ->
             AliceUserEntity.department?.let {
-                AliceUserEntity.department = codeService.getDetailCodes(AliceUserEntity.department!!).codeValue
+                AliceUserEntity.department = codeService.getDetailCodes(AliceUserEntity.department!!)?.codeValue
             }
             userList.add(userMapper.toUserDto(AliceUserEntity))
         }
