@@ -34,7 +34,7 @@ class AliceLoginController(
     @Value("\${ip.access.control}")
     lateinit var ipAccessControlValue: String
 
-    val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
+    private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
 
     /**
      * 로그인 페이지로 이동한다.

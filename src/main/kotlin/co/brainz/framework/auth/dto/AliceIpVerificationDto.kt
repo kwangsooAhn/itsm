@@ -4,5 +4,5 @@ import java.io.Serializable
 
 data class AliceIpVerificationDto(
     var ipAddr: String = "",
-    var ipExplain: String? = ""
+    var ipExplain: String? = null
 ) : Serializable
