@@ -9,7 +9,7 @@
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto auto auto;">
-        <h1 th:text="#{menu.setting.auth}"></h1>
+        <h1 th:text="#{menu.config.auth}"></h1>
         <div align="right">
             <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnCreate" name="btnCreate"
                     th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
@@ -59,9 +59,9 @@
                 </tr>
                 <tr>
                     <th th:text="#{common.label.createDate}"></th>
-                    <td><span id="spanCreateDt" name="spanCreateDt"</span></td>
+                    <td><span id="spanCreateDt" name="spanCreateDt"></span></td>
                     <th th:text="#{common.label.updateDate}"></th>
-                    <td><span id="spanUpdateDt" name="spanUpdateDt"</span></td>
+                    <td><span id="spanUpdateDt" name="spanUpdateDt"></span></td>
                 </tr>
                 <tr>
                     <th colspan="2"><span>메뉴 목록</span></th>
