@@ -1113,8 +1113,8 @@
                 .attr('x', mouseX)
                 .attr('y', mouseY);
             textElement
-                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2) + (Number(nodeElement.attr('height')) / 2))
-                .attr('y', Number(nodeElement.attr('y')) + (Number(nodeElement.attr('height')) / 2));
+                .attr('x', Number(nodeElement.attr('x')) + (Number(nodeElement.attr('width')) / 2) + (Number(nodeElement.attr('height')) / 2) - 1)
+                .attr('y', Number(nodeElement.attr('y')) + (Number(nodeElement.attr('height')) / 2) + 1);
         }
 
         if (nodeElement.classed('task') || nodeElement.classed('subprocess')) {
@@ -1272,8 +1272,8 @@
             .call(drag);
 
         elementContainer.append('text')
-            .attr('x', x + (height / 2))
-            .attr('y', y)
+            .attr('x', x + (height / 2) - 1)
+            .attr('y', y + 1)
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
@@ -1320,8 +1320,8 @@
             .call(drag);
 
         elementContainer.append('text')
-            .attr('x', x + (height / 2))
-            .attr('y', y)
+            .attr('x', x + (height / 2) - 1)
+            .attr('y', y + 1)
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
             .call(drag);
@@ -1525,7 +1525,7 @@
 
                             self.textElement
                                 .attr('x', rectData[0].x + ((rectData[1].x - rectData[0].x) / 2))
-                                .attr('y', rectData[0].y + 10);
+                                .attr('y', rectData[0].y + 12);
                             changeTextToElement(self.nodeElement.node().id);
 
                             let pointArray =
