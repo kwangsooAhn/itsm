@@ -439,12 +439,98 @@ function delFileCheck() {
  */
 aliceJs.alert = function(message, callbackFunc) {
     const myModal = new gModal({
-        title: 'Alert',
-        body: '<div style="text-align: center;">' + message + '</div>',
+        message: message,
+        type: 'gmodal-icon-info',
         buttons: [
             {
-                content: 'OK',
-                classes: 'gmodal-button-green',
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.alertSuccess = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-success',
+        buttons: [
+            {
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.AlertWarning = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-warning',
+        buttons: [
+            {
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open error dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.AlertDanger = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-danger',
+        buttons: [
+            {
+                content: '닫기',
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -470,12 +556,11 @@ aliceJs.alert = function(message, callbackFunc) {
  */
 aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
     const myModal = new gModal({
-        title: 'Confirm',
-        body: '<div style="text-align: center;">' + message + '</div>',
+        message: message,
+        type: 'gmodal-icon-confirm',
         buttons: [
             {
                 content: 'Cancel',
-                classes: 'gmodal-button-red',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -485,7 +570,7 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                 }
             },{
                 content: 'OK',
-                classes: 'gmodal-button-green',
+                classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {
