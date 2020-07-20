@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html  lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <meta http-equiv="Content-Style-Type" content="text/css">
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <title>사용자 관리</title>
+        <!-- new2020 Z-itsm3.0 css -->
+        <link rel="stylesheet" type="text/css" href="../../public/assets/css/reset.css" />
+        <link rel="stylesheet" type="text/css" href="../../public/assets/theme/default/css/alice-itsm.css" />
+    </head>
+    <body>
+        <div class="wrap-screen"> 
+            <!--메인 왼쪽메뉴 열림-->
+            <div id="left-open" class="left-open-menu">
+                <div class="logo-open"></div>
+                <div class="gnb-open">
+                    <ul> 
+                        <li><a href="#"><span class="my">나의업무</span></a>
+                            <div class="snb snb-mywork">
+                                <ul>
+                                    <li><a href="#"><span class="dashboard">대시보드</span></a></li>
+                                    <li><a href="#"><span class="token">문서함</span></a></li>
+                                    <li><a href="#"><span class="document">신청서 작성</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li ><a href="#"><span class="portal">포탈서비스</span></a>
+                            <div class="snb snb-portal">
+                                <ul>
+                                    <li><a href="#"><span class="notice">공지사항</span></a></li>
+                                    <li><a href="#"><span class="faq">FAQ</span></a></li>
+                                    <li><a href="#"><span class="download">자료실</span></a></li>
+                                    <li><a href="#"><span class="board">게시판</span></a></li>
+                                </ul>
+                            </div>
+                        </li> 
+                        <li class="toggle"><a href="#"><span class="config">시스템 관리</span></a>
+                            <div class="snb snb-system toggle-container">
+                                <ul>
+                                    <li><a href="#"><span class="user">사용자</span></a></li>
+                                    <li><a href="#"><span class="auth">권한</span></a></li>
+                                    <li><a href="#"><span class="role">역할</span></a></li>
+                                    <li><a href="#"><span class="boardAdmin">게시판</span></a></li>
+                                    <li><a href="#"><span class="code">코드</span></a></li>
+                                </ul>
+                            </div>    
+                        </li>
+                        <li class="toggle"><a href="#"><span class="workflow">업무흐름관리</span></a>
+                            <div class="snb snb-workflow toggle-container active">
+                                <ul>
+                                    <li><a href="#"><span class="process">프로세스</span></a></li>
+                                    <li><a href="#"><span class="form">문서양식</span></a></li>
+                                    <li><a href="#"><span class="workflowAdmin">워크플로우</span></a></li>
+                                    <li><a href="#"><span class="customCode">커스텀코드</span></a></li>
+                                    <li><a href="#"><span class="image">이미지관리</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn-menuclose"></div>
+            </div>
+            <!--상단 메뉴-->
+                <div class="top-menu">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li><span class="home"></span></li>
+                            <li class="arrow-r"><span >시스템관리</span></li>
+                            <li class="arrow-r"><span class="bread-end">사용자</span></li>
+                        </ul>
+                    </div>
+                    <div class="top-config"> 
+                        <div class="notice"><span class="notice-num">99+</span></div>
+                        <div class="user-info">
+                            <ul>
+                                <li><span class="user-profile"></span></li>
+                                <li><span class="user-name">Hello,Andrew</span>
+                                    <div class="my-edit active">
+                                        <ul>
+                                            <li><a href="#"><span class="my-modify">자기정보 수정</span></a></li>
+                                            <li><a href="#"><span class="my-logout">로그아웃</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li><span class="arrow-d"></span></li>
+                            </ul>
+                        </div>
+                    </div>       
+                </div>
+            <!--컨테이너 내용-->
+            <div class="container">
+                <div class="contents">
+                    <div class="contents-title">
+                        <span class="title-txt">사용자 관리</span>
+                        <span class="title-description">사용자를 조회하거나 추가, 변경할 수 있습니다.</span>
+                    </div>
+                    <div class="contents-body">
+                        <div class="usermanage-menubar">
+                            <div class="menubar-left">
+                                <input class="search" placeholder="아이디/이름/직책/부서/전화번호">
+                                <span class="icon-search"></span>
+                            </div>
+                            <div class="menubar-right">
+                                <span class="btn-add"></span>
+                            </div>
+                        </div>
+                        <div class="list">
+                            <div class="list-wrap">
+                                <table>
+                                    <colgroup>
+                                        <col width="52px">
+                                        <col width="78px">
+                                        <col width="130px">
+                                        <col width="192px">
+                                        <col width="242px">
+                                        <col width="88px">
+                                        <col width="134px">
+                                        <col width="138px">
+                                        <col width="146px">
+                                    </colgroup>
+                                <tr>
+                                    <th colspan="2">이름</th>
+                                    <th>아이디</th>
+                                    <th>이메일</th>
+                                    <th>부서</th>
+                                    <th>직책</th>
+                                    <th>회사 전화번호</th>
+                                    <th>휴대폰번호</th>
+                                    <th>가입일</th>
+                                </tr>
+                                <tr>
+                                    <td><span class="profile-photo"></SPAN></td>
+                                    <td>정희찬</td>
+                                    <td>idid</td>
+                                    <td>email@brainz.co.kr</td>
+                                    <td>연구개발본부/개발2그룹/itsm팀</td>
+                                    <td>팀장</td>
+                                    <td>02-0202-0202</td>
+                                    <td>010-1234-5678</td>
+                                    <td>2020.07.03</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="profile-photo"></SPAN></td>
+                                    <td>정희찬</td>
+                                    <td>idid</td>
+                                    <td>email@brainz.co.kr</td>
+                                    <td>연구개발본부/개발2그룹/itsm팀</td>
+                                    <td>팀장</td>
+                                    <td>02-0202-0202</td>
+                                    <td>010-1234-5678</td>
+                                    <td>2020.07.03</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="profile-photo"></SPAN></td>
+                                    <td>정희찬</td>
+                                    <td>idid</td>
+                                    <td>email@brainz.co.kr</td>
+                                    <td>연구개발본부/개발2그룹/itsm팀</td>
+                                    <td>팀장</td>
+                                    <td>02-0202-0202</td>
+                                    <td>010-1234-5678</td>
+                                    <td>2020.07.03</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="profile-photo"></SPAN></td>
+                                    <td>정희찬</td>
+                                    <td>idid</td>
+                                    <td>email@brainz.co.kr</td>
+                                    <td>연구개발본부/개발2그룹/itsm팀</td>
+                                    <td>팀장</td>
+                                    <td>02-0202-0202</td>
+                                    <td>010-1234-5678</td>
+                                    <td>2020.07.03</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="profile-photo"></SPAN></td>
+                                    <td>정희찬</td>
+                                    <td>idid</td>
+                                    <td>email@brainz.co.kr</td>
+                                    <td>연구개발본부/개발2그룹/itsm팀</td>
+                                    <td>팀장</td>
+                                    <td>02-0202-0202</td>
+                                    <td>010-1234-5678</td>
+                                    <td>2020.07.03</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="profile-photo"></SPAN></td>
+                                    <td>정희찬</td>
+                                    <td>idid</td>
+                                    <td>email@brainz.co.kr</td>
+                                    <td>연구개발본부/개발2그룹/itsm팀</td>
+                                    <td>팀장</td>
+                                    <td>02-0202-0202</td>
+                                    <td>010-1234-5678</td>
+                                    <td>2020.07.03</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="profile-photo"></SPAN></td>
+                                    <td>정희찬</td>
+                                    <td>idid</td>
+                                    <td>email@brainz.co.kr</td>
+                                    <td>연구개발본부/개발2그룹/itsm팀</td>
+                                    <td>팀장</td>
+                                    <td>02-0202-0202</td>
+                                    <td>010-1234-5678</td>
+                                    <td>2020.07.03</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="profile-photo"></SPAN></td>
+                                    <td>정희찬</td>
+                                    <td>idid</td>
+                                    <td>email@brainz.co.kr</td>
+                                    <td>연구개발본부/개발2그룹/itsm팀</td>
+                                    <td>팀장</td>
+                                    <td>02-0202-0202</td>
+                                    <td>010-1234-5678</td>
+                                    <td>2020.07.03</td>
+                                </tr>
+                                <!-- <tr>
+                                    <td><span class="profile-photo"></SPAN></td>
+                                    <td>정희찬</td>
+                                    <td>idid</td>
+                                    <td>email@brainz.co.kr</td>
+                                    <td>연구개발본부/개발2그룹/itsm팀</td>
+                                    <td>팀장</td>
+                                    <td>02-0202-0202</td>
+                                    <td>010-1234-5678</td>
+                                    <td>2020.07.03</td>
+                                </tr>
+                                <tr>
+                                    <td><span class="profile-photo"></SPAN></td>
+                                    <td>정희찬</td>
+                                    <td>idid</td>
+                                    <td>email@brainz.co.kr</td>
+                                    <td>연구개발본부/개발2그룹/itsm팀</td>
+                                    <td>팀장</td>
+                                    <td>02-0202-0202</td>
+                                    <td>010-1234-5678</td>
+                                    <td>2020.07.03</td>
+                                </tr> -->
+                            </table>
+                            </div>
+                        </div>
+                        <div class="menubar-bottom">
+                            <div class="paging">
+                                <ul>
+                                    <li><span class="btn-prev"></span></li>
+                                    <li><span class="btn-num">1</span></li>
+                                    <li><span class="btn-num">2</span></li>
+                                    <li><span class="btn-num">3</span></li>
+                                    <li><span class="btn-num">···</span></li>
+                                    <li><span class="btn-num">6</span></li>
+                                    <li><span class="btn-next"></span></li>
+                                </ul>
+                            </div>
+                            <div class="list-count"><span>총:127명</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
