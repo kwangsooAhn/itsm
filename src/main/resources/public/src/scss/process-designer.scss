@@ -31,6 +31,12 @@ body {
     }
 }
 
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
 .alice-process {
     &-container {
         position: relative;
@@ -551,7 +557,6 @@ body {
             }
 
             div.process-info-container {
-                height: 15rem; // 240px
                 overflow: hidden;
 
                 border: {
@@ -562,23 +567,26 @@ body {
                 padding-top: 0.625rem;  // 10px
 
                 div.info {
-                    width: $process-properties-panel-width;
-                    height: 6.563rem; // 105px
 
-                    padding: {
-                        right: 1.563rem; // 25px
-                        left: 1.563rem; // 25px
+                    margin: {
+                        top: 0.5rem; // 8px
+                        left: 1.25rem; // 20px
+                        right: 1.25rem; // 20px
                     }
+
+                    padding-bottom: 1.3125rem; // 21px
 
                     font: {
                         size: 0.688rem; // 11px
                     }
 
                     div.total {
+                        margin-top: 0.5rem; // 8px
                         text-align: right;
                     }
 
                     table {
+                        margin-top: 0.5rem; // 8px
                         width: 11.875rem; // 190px
 
                         tr {
@@ -596,6 +604,7 @@ body {
 
                         tr > td {
                             height: 1.563rem;  // 25px
+                            vertical-align: middle
                         }
 
                         tr > td:first-child {

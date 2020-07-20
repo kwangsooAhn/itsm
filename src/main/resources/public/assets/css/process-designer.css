@@ -19,6 +19,12 @@ body {
   font-size: 0.688rem;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 .alice-process-container {
   position: relative;
   width: 100vw;
@@ -428,7 +434,6 @@ body {
   opacity: 1;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container {
-  height: 15rem;
   overflow: hidden;
   border-top: 0.063rem solid #c8ced8;
   border-bottom: 0.063rem solid #c8ced8;
@@ -436,16 +441,18 @@ body {
   padding-top: 0.625rem;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info {
-  width: 14.375rem;
-  height: 6.563rem;
-  padding-right: 1.563rem;
-  padding-left: 1.563rem;
+  margin-top: 0.5rem;
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
+  padding-bottom: 1.3125rem;
   font-size: 0.688rem;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info div.total {
+  margin-top: 0.5rem;
   text-align: right;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table {
+  margin-top: 0.5rem;
   width: 11.875rem;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr {
@@ -460,6 +467,7 @@ body {
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td {
   height: 1.563rem;
+  vertical-align: middle;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td:first-child {
   padding-left: 0.625rem;

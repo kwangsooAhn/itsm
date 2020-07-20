@@ -49,6 +49,14 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+input, button, select, optgroup, textarea {
+	margin: 0;
+	font-family: inherit;
+	font-size: inherit;
+	line-height: inherit;
+}
+
 a:link{text-decoration: none; color: inherit;}
 a:visited{text-decoration: none; color: inherit;}
 a:hover{text-decoration: none;}
