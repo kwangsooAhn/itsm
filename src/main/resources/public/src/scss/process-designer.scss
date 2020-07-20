@@ -37,6 +37,11 @@ body {
     box-sizing: border-box;
 }
 
+label {
+    display: inline-block;
+    margin-top: 0.25rem;
+}
+
 .alice-process {
     &-container {
         position: relative;
