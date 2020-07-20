@@ -133,12 +133,11 @@ var gModal = (function() {
                 var keyCode = e.keyCode || e.which;
                 var keys = Object.keys(_that.bindings);
                 for (var i = 0; i < keys.length; i++) {
-                    console.log(typeof keys[i]);
-                    console.log(typeof keyCode);
-                    if (Number(keys[i]) === keyCode) {
+                    var bindingKey = Number(keys[i]);
+                    if (bindingKey === keyCode) {
                         e.preventDefault();
                         e.stopPropagation();
-                        _that.bindings[Number(keys[i])](_that);
+                        _that.bindings[bindingKey](_that);
                         return false;
                     }
                 }
@@ -208,7 +207,6 @@ var gModal = (function() {
 
                 for (var i = 0; i < this.options.buttons.length; i++) {
                     var button = document.createElement('button');
-                    //button.setAttribute('href', 'javascript:void(0);');
                     button.setAttribute('type', 'button');
 
                     button.className = 'gmodal-button';
