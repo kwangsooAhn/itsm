@@ -142,7 +142,10 @@ insert into awf_code values ('assignee.type.assignee', 'assignee.type', '', fals
 insert into awf_code values ('assignee.type.candidate.groups', 'assignee.type', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('assignee.type.candidate.users', 'assignee.type', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document', '', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('document.group', 'document', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group', 'document', '업무 흐름 그룹 코드', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.inquiry', 'document.group', '단순 문의', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.incident', 'document.group', '장애 문의', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('document.group.request', 'document.group', '서비스 요청', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status', 'document', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.temporary', 'document.status', '임시', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
