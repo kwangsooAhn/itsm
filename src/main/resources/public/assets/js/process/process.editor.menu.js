@@ -1196,10 +1196,27 @@
                     elementObject.id = property.id;
                     elementObject.name = property.id;
                     if (elemData[property.id] && property.type !== 'checkbox') {
-                        elementObject.value = elemData[property.id];
+                        if (property.type === 'rgb') {
+                            if (aliceJs.isHexCode(elemData[property.id])) {
+                                elementObject.value = aliceJs.hexToRgba(elemData[property.id], 0.5)
+                            } else {
+                                elementObject.value = aliceJs.rgbaToHex(elemData[property.id]);
+                            }
+                            let opacityValue = aliceJs.rgbaOpacity(elemData[property.id]) * 100;
+                            let opacityLayer = elementObject.nextElementSibling.querySelector('.color-palette-opacity');
+                            if (opacityLayer !== null) {
+                                opacityValue = opacityValue.toFixed(0); // 실제 값은 정상이나 소수점이 나오는 현상이 있어 소수점 처리 추가
+                                opacityLayer.querySelector('.slide-object').value = opacityValue;
+                                opacityLayer.querySelector('.slide-input').value = opacityValue;
+                            }
+                            elementObject.value = elemData[property.id];
+                        } else {
+                            elementObject.value = elemData[property.id];
+                        }
                     } else if (property.id === 'id') {
                         elementObject.value = id;
                     }
+
                     // change 이벤트 설정
                     let changeEventHandler = function() {
                         changePropertiesDataValue(id);
@@ -1431,41 +1448,70 @@
                 propertyContainer.appendChild(elementObject);
                 break;
             case 'rgb':
+                let selectedColorLayer = document.createElement('span');
                 let selectedColorBox = document.createElement('span');
+                selectedColorLayer.className = 'selected-color-layer'
                 selectedColorBox.className = 'selected-color';
-                selectedColorBox.style.backgroundColor = elemData[property.id];
-                propertyContainer.appendChild(selectedColorBox);
+                if (property.id === 'line-color') {
+                    selectedColorBox.style.backgroundColor = '';
+                    selectedColorBox.style.borderColor = elemData[property.id];
+                }
+                if (property.id === 'background-color') {
+                    selectedColorBox.style.backgroundColor = elemData[property.id];
+                    selectedColorBox.style.border = 'transparent';
+                }
+                selectedColorLayer.appendChild(selectedColorBox);
+                propertyContainer.appendChild(selectedColorLayer);
 
                 elementObject = document.createElement('input');
                 elementObject.className = 'color';
-                if (property.required === 'Y') {
-                    elementObject.readOnly = true;
-                }
+                elementObject.readOnly = true;
                 elementObject.addEventListener('change', function() {
-                    if (this.value.trim() !== ''&& !isValidRgb(this.id, function() {elementObject.focus();})) {
-                        this.value = '';
+                    let opacity = 0;
+                    if (this.dataset['opacity'] !== '') {
+                        opacity = Number(this.dataset['opacity']) / 100;
                     }
-                    this.parentNode.querySelector('span.selected-color').style.backgroundColor = this.value;
+                    if (!aliceJs.isHexCode(this.value)) {
+                        this.value = aliceJs.rgbaToHex(this.value); // opacity 값 갱신하기 위해 Hex로 변환
+                    }
+                    this.value = aliceJs.hexToRgba(this.value, opacity);
                     if (properties.type === 'groupArtifact') {
                         const groupElement = d3.select(document.getElementById(id));
+                        const selectedElement = elementObject.parentNode.querySelector('span.selected-color');
                         if (this.id === 'line-color') {
+                            selectedElement.style.borderColor = this.value;
+                            selectedElement.style.backgroundColor = 'transparent';
                             groupElement.style('stroke', this.value);
-                        } else if (this.id === 'background-color') {
+                        }
+                        if (this.id === 'background-color') {
+                            selectedElement.style.backgroundColor = this.value;
+                            selectedElement.style.border = 'transparent';
                             if (this.value.trim() === '') {
                                 groupElement.style('fill-opacity', 0);
                             } else {
-                                groupElement.style('fill', this.value).style('fill-opacity', 0.5);
+                                groupElement.style('fill', this.value).style('fill-opacity', opacity);
                             }
                         }
                     }
                 });
                 propertyContainer.appendChild(elementObject);
 
+                let colorPaletteLayer = document.createElement('div');
                 let colorPaletteBox = document.createElement('div');
                 colorPaletteBox.id = property.id + '-colorPalette';
                 colorPaletteBox.className = 'color-palette';
-                propertyContainer.appendChild(colorPaletteBox);
-                colorPalette.initColorPalette(selectedColorBox, elementObject, colorPaletteBox);
+                colorPaletteLayer.appendChild(colorPaletteBox);
+                propertyContainer.appendChild(colorPaletteLayer);
+
+                let option = {
+                    isOpacity: true,
+                    data: {
+                        isSelected: true,
+                        selectedClass: 'selected',
+                        value: elemData[property.id]
+                    }
+                }
+                colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
                 break;
             default:
                 break;

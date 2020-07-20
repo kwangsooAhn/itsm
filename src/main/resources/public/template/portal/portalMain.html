@@ -10,7 +10,7 @@
     <a class="navbar-brand" href="#"><img th:src="@{/assets/media/icons/logo_portal.png}" width="35" height="35" alt="Alice"></a>
     <div class="collapse navbar-collapse" id="navbarSupportedContent" th:text="#{portal.label.mainPhrase}"></div>
     <div sec:authorize="isAuthenticated()" class="alice-navbar-profile" onclick="location.href='/layout'" style="cursor:pointer;" th:text="#{portal.label.main}"></div>
-    <div sec:authorize="isAnonymous()" class="alice-navbar-profile" onclick="location.href='/login'" style="cursor:pointer;" th:text="#{portal.label.login}"></div>
+    <div sec:authorize="isAnonymous()" class="alice-navbar-profile" onclick="location.href='/login'" style="float:right;cursor:pointer;" th:text="#{portal.label.login}"></div>
 </nav>
 <th:block layout:fragment="content">
     <div class="navbar navbar-expand-lg bg-primary alice-navbar" id="portalPartA">
@@ -24,7 +24,7 @@
     </div>
     <div>
         <div id="portalPartC" class="container">
-            <ul style="float:left; text-align:center;">
+            <ul style="text-align:center;">
                 <li style="display:inline-block; text-align:center; margin:55px; width:250px; height:100px; background-color:#F6F6F6;">
                     <img th:src="@{/assets/media/icons/icon_portal_click.png}" width="50" height="50" style="margin-top:10px;">
                     <p style="font-size:x-large; color:#004085;" th:text="#{portal.label.notice}"></p>
@@ -48,7 +48,6 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-    <link th:href="@{/assets/css/alice-bootstrap.css}" rel="stylesheet"/>
     <link th:href="@{/assets/theme/default/alice-default-theme.css}" rel="stylesheet"/>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:inline="javascript">
