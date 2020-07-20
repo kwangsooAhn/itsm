@@ -147,9 +147,9 @@ insert into awf_code values ('document.status', 'document', '', false, '0509e094
 insert into awf_code values ('document.status.destroy', 'document.status', '폐기', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.temporary', 'document.status', '임시', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('document.status.use', 'document.status', '사용', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('download.category', 'download', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('download.category.companyPolicy', 'download.category', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('download.category.etc', 'download.category', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('download.category', 'download', '', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('download.category.companyPolicy', 'download.category', '', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('download.category.etc', 'download.category', '기타', true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('faq.category', 'faq', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('faq.category.etc', 'faq.category', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('faq.category.setting', 'faq.category', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
