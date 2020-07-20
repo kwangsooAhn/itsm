@@ -105,7 +105,7 @@ class UserService(
                 when (userUpdateDto.password != null) {
                     targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
-                        userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password)}
+                        userUpdateDto.password.let { targetEntity.password = BCryptPasswordEncoder().encode(password) }
                     }
                 }
 

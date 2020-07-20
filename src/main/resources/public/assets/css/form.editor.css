@@ -10847,7 +10847,7 @@ body {
   background-size: 1.25rem 1.25rem;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/logo.png");
+  background-image: url("../theme/default/icons/logo.png");
 }
 
 .alice-form-toolbar a {

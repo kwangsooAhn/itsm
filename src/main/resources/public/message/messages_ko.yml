@@ -470,7 +470,7 @@ menu:
     parent: "업무흐름 관리"
     process: "프로세스"
     form: "문서 양식"
-    document: "업무 흐름"
+    workflowAdmin: "업무 흐름"
     customCode: "커스텀 코드"
     image: "이미지 관리"
   setting:
