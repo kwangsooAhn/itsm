@@ -11,36 +11,11 @@
 }(this, (function (exports) {
     'use strict';
 
-    const componentTitles = [ //컴포넌트 명
-            {'type': 'editbox', 'name': 'Edit Box', 'icon': ''},
-            {'type': 'text', 'name': 'Text', 'icon': ''},
-            {'type': 'textarea', 'name': 'Text Box', 'icon': ''},
-            {'type': 'select', 'name': 'Dropdown', 'icon': ''},
-            {'type': 'radio', 'name': 'Radio Button', 'icon': ''},
-            {'type': 'checkbox', 'name': 'Checkbox', 'icon': ''},
-            {'type': 'label', 'name': 'Label', 'icon': ''},
-            {'type': 'image', 'name': 'Image', 'icon': ''},
-            {'type': 'divider', 'name': 'Divider', 'icon': ''},
-            {'type': 'date', 'name': 'Date', 'icon': ''},
-            {'type': 'time', 'name': 'Time', 'icon': ''},
-            {'type': 'datetime', 'name': 'Date Time', 'icon': ''},
-            {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
-            {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
-        ];
-
     let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
     let parent = null;
     let children = [];
     let isForm = false;     //폼 양식 화면인지 여부
-
-    /**
-     * 우측 세부 속성창(properties panel)에 출력될 컴포넌트 제목 객체 조회
-     * @param {String} type 컴포넌트 타입
-     * @return {Object} match title 일치하는 제목 객제
-     */
-    function getTitle(type) {
-        return componentTitles.filter(function(title) { return title.type === type; })[0];
-    }
+    let tooltipTemplate = null; // 폼 양식 툴팁 메뉴
 
     /**
      * Editbox 컴포넌트
@@ -809,20 +784,24 @@
      * 컴포넌트를 생성하고 출력한다.
      * @param {String} type 컴포넌트 타입
      * @param {Object} data 컴포넌트 데이터
+     * @param {Boolean} flag 신규 생성일 경우 true
+     * @param {Number} index 배열에 추가될 순서
      * @return {Object} 생성된 컴포넌트 객체
      */
-    function draw(type, data) {
+    function draw(type, data, flag, index) {
         if (typeof parent === 'undefined') { return false; }
 
         let componentProperty = {'display': {}};
-        if (typeof data !== 'undefined') { //기존 저장된 컴포넌트 속성이 존재할 경우
+        if (typeof data !== 'undefined' && data !== null) { //기존 저장된 컴포넌트 속성이 존재할 경우
             componentProperty = data;
         } else {                     //신규 생성된 컴포넌트일 경우
             componentProperty.componentId = workflowUtil.generateUUID();
             componentProperty.type = type;
             componentProperty = getPropertiesWithType(type, componentProperty);
         }
-        componentProperty.display.order = ++renderOrder;
+        if (flag) {
+            componentProperty.display.order = ++renderOrder;
+        }
         let componentObject = null;
         switch(type) {
             case 'editbox':
@@ -870,12 +849,23 @@
             default:
                 break;
         }
-        console.log(componentObject);
 
         let componentElement = parent.lastChild;
         if (componentObject && componentElement) {
+            if (tooltipTemplate) {
+                const tooltipElem = tooltipTemplate.content.cloneNode(true);
+                componentElement.appendChild(tooltipElem);
+            }
             componentObject.domElem = componentElement;
-            children.push(componentObject);
+            if (flag) {
+                if (typeof index !== 'undefined') {
+                    children.splice(index, 0, componentObject);
+                    // 재정렬
+                    sort();
+                } else {
+                    children.push(componentObject);
+                }
+            }
         }
         return componentObject;
     }
@@ -886,7 +876,7 @@
      * @return {Object} refineProperty 정제된 컴포넌트 데이터
      */
     function getPropertiesWithType(type, data) {
-        let refineProperty = { display: {} };
+        let refineProperty = { 'display': {} };
         if (typeof data !== 'undefined') {
             refineProperty = data;
         }
@@ -927,8 +917,43 @@
     }
 
     function get(id) {
+        let obj = children.find(c => { return c.id === id; });
+        return obj;
+    }
+
+    function replace(type, id) {
+        const prevObj = get(id);
+
+        let componentProperty = {'display': {}};
+        componentProperty = getPropertiesWithType(type);
+        componentProperty.componentId = prevObj.id;
+        componentProperty.type = type;
+        componentProperty.display.order = prevObj.renderOrder;
+
+        const newObj = draw(type, componentProperty, false);
+        parent.insertBefore(parent.lastChild, prevObj.domElem);
+        prevObj.domElem.innerHTML = '';
+        prevObj.domElem.remove();
+
+        children[prevObj.renderOrder - 1] = newObj;
+        return newObj;
+    }
+
+    function remove(id) {
+        let removeIndex = children.findIndex(c => { return c.id === id; });
+        children.splice(removeIndex, 1);
+
+        sort();
+    }
+
+    function sort() {
+        for (let i = 0, len = children.length; i < len; i++) {
+            let c = children[i];
+            c.renderOrder = String(i + 1);
+            c.property.display.order = String(i + 1);
+        }
+        renderOrder = children.length;
         console.log(children);
-        children.find(c => { return c.id === id; });
     }
 
     /**
@@ -953,12 +978,17 @@
     function init(target) {
         parent = target;
         isForm = target.hasAttribute('data-readonly');
+        if (isForm) {
+            tooltipTemplate = document.getElementById('tooltip-template');
+        }
     }
 
     exports.init = init;
     exports.draw = draw;
+    exports.get = get;
+    exports.replace = replace;
+    exports.remove = remove;
     exports.getPropertiesWithType = getPropertiesWithType;
-    exports.getTitle = getTitle;
     exports.getLastIndex = getLastIndex;
     exports.setLastIndex = setLastIndex;
 

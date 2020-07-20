@@ -63,26 +63,7 @@
     </div>
     <div class="alice-form-properties-panel" id="properties-panel"></div>
 </div>
-<div class="alice-form-tooltip-menu" id="tooltip-menu">
-    <ul>
-        <li class="menu-item list" data-action="list">
-            <img/>
-            <!--<label th:text="#{form.label.list}"></label>-->
-        </li>
-        <li class="menu-item copy" data-action="copy">
-            <img/>
-            <!--<label th:text="#{form.label.copy}"></label>-->
-        </li>
-        <li class="menu-item delete" data-action="delete">
-            <img/>
-            <!--<label th:text="#{common.btn.delete}"></label>-->
-        </li>
-        <li class="menu-item add" data-action="add">
-            <img/>
-            <!--<label th:text="#{form.label.addBelow}"></label>-->
-        </li>
-    </ul>
-</div>
+
 <div class="alice-form-context-menu" id="context-menu">
     <ul>
         <li class="menu-item inputbox" data-action="inputbox">
@@ -165,28 +146,62 @@
         </li>
     </ul>
 </div>
-<!-- 템플릿 -->
-<!--<template id="component-template">
-    <div class="property-title" style="display: none;"></div>
-    <div class="property-group" id="dataAttribute" style="display: none;">
-        <label th:text="#{form.properties.dataAttribute}"></label>
+<!-- 툴팁 템플릿 -->
+<template id="tooltip-template">
+    <div class="tooltip-menu">
+        <ul>
+            <li class="menu-item list" data-action="list">
+                <img th:src="@{/assets/media/icons/form/tooltip-menu/add.png}"/>
+                <!--<label th:text="#{form.label.list}"></label>-->
+            </li>
+            <li class="menu-item copy" data-action="copy">
+                <img th:src="@{/assets/media/icons/form/tooltip-menu/copy.png}"/>
+                <!--<label th:text="#{form.label.copy}"></label>-->
+            </li>
+            <li class="menu-item delete" data-action="delete">
+                <img th:src="@{/assets/media/icons/form/tooltip-menu/delete.png}"/>
+                <!--<label th:text="#{common.btn.delete}"></label>-->
+            </li>
+            <li class="menu-item add" data-action="add">
+                <img th:src="@{/assets/media/icons/form/tooltip-menu/new.png}"/>
+                <!--<label th:text="#{form.label.addBelow}"></label>-->
+            </li>
+        </ul>
     </div>
-    <div class="property-group" id="label" style="display: none;">
-        <label th:text="#{form.properties.label}"></label>
+</template>
+<!-- 컴포넌트 properties 템플릿 -->
+<template id="component-template">
+    <div class="component-title">
     </div>
-    <div class="property-group" id="display" style="display: none;">
-        <label th:text="#{form.properties.display}"></label>
+    <div class="component-properties">
+        <div class="property-empty">
+            <h3 th:text="#{form.msg.information}"></h3>
+        </div>
+        <div class="property-group" id="dataAttribute">
+            <h3><span th:text="#{form.properties.dataAttribute}"></span></h3>
+        </div>
+        <div class="property-group" id="label">
+            <h3><span th:text="#{form.properties.label}"></span></h3>
+        </div>
+        <div class="property-group" id="display">
+            <h3><span th:text="#{form.properties.display}"></span></h3>
+        </div>
+        <div class="property-group" id="option">
+            <h3>
+                <span th:text="#{form.properties.display}"></span>
+                <div>
+                    <button class="plus"></button>
+                    <button class="minus"></button>
+                </div>
+            </h3>
+            <table></table>
+        </div>
+        <div class="property-group" id="validate">
+            <h3><span th:text="#{form.properties.validate}"></span></h3>
+        </div>
     </div>
-    <div class="property-group" id="option" style="display: none;">
-        <label th:text="#{form.properties.option}"></label>
-        <button class="plus"></button>
-        <button class="minus"></button>
-        <table></table>
-    </div>
-    <div class="property-group" id="validate" style="display: none;">
-        <label th:text="#{form.properties.validate}"></label>
-    </div>
-</template>-->
+</template>
+<!-- 폼 properties 템플릿 -->
 <template id="form-template">
     <div class="form-title">
         <h2>Form</h2>

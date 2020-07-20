@@ -485,7 +485,7 @@
                 let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
                 data.form.components[i] = mergeComponentAttr;
 
-                component.draw(componentAttr.type, mergeComponentAttr);
+                component.draw(componentAttr.type, mergeComponentAttr, false);
             }
             //유효성 검증 추가
             if (!documentContainer.hasAttribute('data-readonly')) {

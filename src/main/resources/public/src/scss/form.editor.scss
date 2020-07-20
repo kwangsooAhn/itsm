@@ -202,6 +202,7 @@ body {
             border-bottom: 0.0625rem solid #707070;
             font-size: 1.125rem;            //18px
             font-weight: bold;
+            
             &[id*="option"] button {
                 width: 1.563rem;          //25px
                 height: 1.563rem;         //25px
@@ -222,6 +223,7 @@ body {
             td input[type=checkbox] { vertical-align: middle; }
             td input[type=text] { width:100%; height:100%; border: none; text-align: center; }
             input[readonly] { pointer-events: none; }
+            
             .help-tooltip {
                 display: inline-block;
                 text-align: center;
