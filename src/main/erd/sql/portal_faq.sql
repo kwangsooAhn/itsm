@@ -9,8 +9,8 @@ CREATE TABLE portal_faq
 	faq_group varchar(100) NOT NULL,
     faq_title varchar(512) NOT NULL,
 	faq_content text NOT NULL,
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT portal_faq_pk PRIMARY KEY (faq_id)

@@ -9,8 +9,8 @@ CREATE TABLE awf_code
 	p_code varchar(100),
 	code_value varchar(256),
 	editable boolean,
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT awf_code_pk PRIMARY KEY (code)

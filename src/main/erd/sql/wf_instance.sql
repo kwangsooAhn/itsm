@@ -10,7 +10,7 @@ CREATE TABLE wf_instance
 	instance_status varchar(100) NOT NULL,
 	instance_start_dt timestamp NOT NULL,
 	instance_end_dt timestamp,
-	instance_create_user_key varchar(128) NOT NULL,
+	instance_create_user_key varchar(128),
 	p_token_id varchar(128),
 	document_no varchar(128) NOT NULL,
 	CONSTRAINT wf_instance_pk PRIMARY KEY (instance_id),

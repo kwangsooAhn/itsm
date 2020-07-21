@@ -6,8 +6,8 @@ DROP TABLE IF EXISTS awf_file_name_extension cascade;
 CREATE TABLE awf_file_name_extension
 (
 	file_name_extension varchar(128) NOT NULL,
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT awf_file_name_extension_pk PRIMARY KEY (file_name_extension)

@@ -15,8 +15,8 @@ CREATE TABLE portal_board_admin
 	category_yn boolean,
 	attach_yn boolean,
 	attach_file_size bigint,
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT portal_board_admin_pk PRIMARY KEY (board_admin_id)

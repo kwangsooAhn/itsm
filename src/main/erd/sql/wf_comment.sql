@@ -8,8 +8,8 @@ CREATE TABLE wf_comment
 	comment_id varchar(128) NOT NULL,
 	instance_id varchar(128) NOT NULL,
 	content text,
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	CONSTRAINT wf_comment_pk PRIMARY KEY (comment_id),
 	CONSTRAINT wf_comment_fk FOREIGN KEY (instance_id) REFERENCES wf_instance (instance_id)
 );

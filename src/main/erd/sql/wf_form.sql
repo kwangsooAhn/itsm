@@ -9,8 +9,8 @@ CREATE TABLE wf_form
 	form_name varchar(256) NOT NULL,
 	form_desc varchar(256),
 	form_status varchar(100) DEFAULT 'form.status.edit' NOT NULL,
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT wf_form_pk PRIMARY KEY (form_id)

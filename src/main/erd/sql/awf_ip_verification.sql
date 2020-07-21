@@ -7,8 +7,8 @@ CREATE TABLE awf_ip_verification
 (
 	ip_addr varchar(128) NOT NULL,
 	ip_explain varchar(512),
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT awf_ip_verification_pk PRIMARY KEY (ip_addr)

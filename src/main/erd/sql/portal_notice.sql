@@ -16,8 +16,8 @@ CREATE TABLE portal_notice
 	top_notice_yn boolean NOT NULL,
 	top_notice_strt_dt timestamp,
 	top_notice_end_dt timestamp,
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT portal_notice_pk PRIMARY KEY (notice_no)

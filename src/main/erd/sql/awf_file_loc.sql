@@ -13,8 +13,8 @@ CREATE TABLE awf_file_loc
 	origin_name varchar(512),
 	file_size bigint,
 	sort int,
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT awf_file_loc_pk PRIMARY KEY (seq)

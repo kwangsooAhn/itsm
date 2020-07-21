@@ -10,8 +10,8 @@ CREATE TABLE awf_avatar
     avatar_value varchar(512),
     uploaded boolean DEFAULT 'false' NOT NULL,
     uploaded_location varchar(512),
-    create_user_key varchar(128) NOT NULL,
-    create_dt timestamp NOT NULL,
+    create_user_key varchar(128),
+    create_dt timestamp,
     update_user_key varchar(128),
     update_dt timestamp,
     CONSTRAINT awf_avatar_pk PRIMARY KEY (avatar_id)

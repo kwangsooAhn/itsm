@@ -12,8 +12,8 @@ CREATE TABLE awf_scheduled_task_mst
 	execute_cycle_type varchar(100),
 	execute_cycle_period bigint,
 	cron_expression varchar(128),
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT awf_scheduled_task_mst_pk PRIMARY KEY (task_id)

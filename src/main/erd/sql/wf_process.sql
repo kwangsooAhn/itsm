@@ -9,8 +9,8 @@ CREATE TABLE wf_process
 	process_name varchar(256) NOT NULL,
 	process_status varchar(100) NOT NULL,
 	process_desc varchar(256),
-	create_user_key varchar(128) NOT NULL,
-	create_dt timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT wf_process_pk PRIMARY KEY (process_id)
