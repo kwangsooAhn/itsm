@@ -123,13 +123,15 @@
                         createDtList[i].textContent = i18n.userDateTime(createDtList[i].textContent);
                         let popDt = popDtList[i].textContent.split('~');
                         if (popDt[0] !== 'null') {
-                            popDtList[i].textContent = i18n.userDateTime(popDt[0]) + ' ~ ' + i18n.userDateTime(popDt[1]);
+                            popDtList[i].textContent = i18n.userDateTime(popDt[0])
+                                + ' ~ ' + i18n.userDateTime(popDt[1]);
                         } else {
                             popDtList[i].textContent = '';
                         }
                         let noticeDt = noticeDtList[i].textContent.split('~');
                         if (noticeDt[0] !== 'null') {
-                            noticeDtList[i].textContent = i18n.userDateTime(noticeDt[0]) + ' ~ ' + i18n.userDateTime(noticeDt[1]);
+                            noticeDtList[i].textContent = i18n.userDateTime(noticeDt[0])
+                                + ' ~ ' + i18n.userDateTime(noticeDt[1]);
                         } else {
                             noticeDtList[i].textContent = '';
                         }

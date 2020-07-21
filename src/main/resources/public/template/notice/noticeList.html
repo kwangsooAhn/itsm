@@ -36,7 +36,7 @@
                     <td th:unless="${topNotice.popYn}"></td>
                     <td th:text="${topNotice?.aliceUserEntity.userName}"></td>
                     <td th:name="popDt" th:text="${topNotice.popStrtDt} + '~' + ${topNotice.popEndDt}"></td>
-                    <td th:name="noticeDt" th:text="${topNotice.topNoticeStrtDt} + '~' + ${topNotice.topNoticeEndDt}"></td>
+                    <td th:name="noticeDt" th:text="${topNotice.topNoticeStrtDt} + '~' + ${topNotice.topNoticeEndDt}"/>
                     <td th:name="createDt" th:text="${topNotice.createDt}"></td>
                 </tr>
                 <tr th:each="notice, z : ${noticeList}" th:if="${z.count} < 8">
