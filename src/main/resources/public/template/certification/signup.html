@@ -173,6 +173,11 @@
                     // 이메일 validation Check
                     if (!isValidEmail("email")) return false;
 
+                    let avatarUUID = document.getElementById('avatarUUID').value;
+                    if (document.getElementsByClassName('dz-image').item(0) === null) {
+                        avatarUUID = '';
+                    }
+
                     const password = document.getElementById("password").value;
                     const registerInfo = {
                         userId: document.getElementById("userId").value,
@@ -184,7 +189,7 @@
                         officeNumber: document.getElementById("officeNumber").value,
                         mobileNumber: document.getElementById("mobileNumber").value,
                         fileSeq: document.getElementsByName('fileSeq').value,
-                        avatarUUID: document.getElementById('avatarUUID').value
+                        avatarUUID: avatarUUID
                     };
                     // 등록
                     restSubmit("POST", "/certification/register",true,registerInfo);

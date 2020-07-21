@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.user.dto
 
 import java.io.Serializable
@@ -22,5 +27,6 @@ class UserDto(
     var timezone: String? = null,
     var lang: String? = null,
     var timeFormat: String? = null,
-    var theme: String? = null
+    var theme: String? = null,
+    var avatarPath: String = ""
 ) : Serializable
