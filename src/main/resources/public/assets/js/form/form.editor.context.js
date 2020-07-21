@@ -304,7 +304,7 @@
             // editbox 에서 enter키를 입력하면 editbox를 아래 추가한다.
             if (e.target.isContentEditable) {
                 if (e.target.textContent.length === 0 && itemInContext !== null) {
-                    editor.addEditboxDown(e.target.id);
+                    editor.addComponent();
                 }
                 e.target.innerHTML = '';
             }
@@ -402,6 +402,16 @@
     }
 
     /**
+     * 마우스 down 이벤트 핸들러
+     * @param {Object} e 이벤트객체
+     */
+    function onMouseDownHandler(e) {
+        if (e.target.classList.contains('move-handler')) {
+            e.target.parentNode.setAttribute('draggable', 'true');
+        }
+    }
+
+    /**
      * drag 이벤트 핸들러
      * @param {Object} e 이벤트객체
      */
@@ -479,6 +489,7 @@
             }
             targetComponent.parentNode.removeChild(lastComponent);
             lastComponent = null;
+
             //재정렬
             editor.reorderComponent();
             componentDragOff();
@@ -530,11 +541,9 @@
                 break;
             case 'delete': // 컴포넌트 삭제
                 editor.deleteComponent();
-                itemInContext = null;
                 break;
             case 'add': // 바로 아래에 editbox 컴포넌트 추가
                 editor.addEditboxDown(clickedComponent.id);
-                itemInContext = null;
                 break;
             default:
                 editor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
@@ -562,6 +571,7 @@
         document.getElementById('form-panel').addEventListener('mousewheel', onMouseScrollHandler, false);
         
         //컴포넌트 drag & drop 이벤트
+        document.addEventListener('mousedown', onMouseDownHandler, false);
         document.addEventListener('dragstart', onDragStartHandler, false);
         document.addEventListener('dragover', onDragOverHandler, false);
         document.addEventListener('dragenter', onDragEnterHandler, false);

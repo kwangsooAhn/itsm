@@ -11,9 +11,24 @@
 }(this, (function (exports) {
     'use strict';
 
+    const componentNameList = [ //컴포넌트 명
+            {'type': 'editbox', 'name': 'Edit Box', 'icon': ''},
+            {'type': 'inputbox', 'name': 'Input Box', 'icon': ''},
+            {'type': 'textarea', 'name': 'Text Box', 'icon': ''},
+            {'type': 'dropdown', 'name': 'Dropdown', 'icon': ''},
+            {'type': 'radio', 'name': 'Radio Button', 'icon': ''},
+            {'type': 'checkbox', 'name': 'Checkbox', 'icon': ''},
+            {'type': 'label', 'name': 'Label', 'icon': ''},
+            {'type': 'image', 'name': 'Image', 'icon': ''},
+            {'type': 'divider', 'name': 'Divider', 'icon': ''},
+            {'type': 'date', 'name': 'Date', 'icon': ''},
+            {'type': 'time', 'name': 'Time', 'icon': ''},
+            {'type': 'datetime', 'name': 'Date Time', 'icon': ''},
+            {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
+            {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
+    ];
     let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
     let parent = null;
-    let children = [];
     let isForm = false;     //폼 양식 화면인지 여부
     let tooltipTemplate = null; // 폼 양식 툴팁 메뉴
 
@@ -172,17 +187,9 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
-        let selectedOptionValue = (typeof property.value !== 'undefined' && property.value != '') ? property.value : property.option[0].value;
-        const inputOptionsTemplate = property.option.map(function (opt) {
-            return `<div class="select-box-value">` +
-                `<input type="radio" class="select-box-input" id="select-${opt.value}-${opt.seq}" name="${opt.name}" value="${opt.value}"` +
-                `${(opt.value === selectedOptionValue) ? " checked='true'" : ""}/>` +
-                `<p class="select-box-text">${opt.name}</p>` +
-                `</div>`;
-        }).join('');
-
-        const itemOptionsTemplate = property.option.map(function (opt) {
-            return `<li><label class="select-box-option${(opt.value === selectedOptionValue) ? ' checked' : ''}" for="select-${opt.value}-${opt.seq}">${opt.name}</label></li>`;
+        const optionsTemplate = property.option.map(function (opt) {
+            return `<option value="${opt.value}" data-seq="${opt.seq}" ${(typeof property.value !== 'undefined' && opt.value === property.value) ? "selected='true'" : ""}>` +
+                `${opt.name}</option>`;
         }).join('');
 
         const displayType = property['dataAttribute']['displayType'];
@@ -199,48 +206,12 @@
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
-                    `<div class="select-box">` +
-                        `<div class="select-box-current" tabindex="${this.renderOrder}">${inputOptionsTemplate}<img class="select-box-icon"/></div>` +
-                        `<ul class="select-box-list">${itemOptionsTemplate}</ul>` +
-                    `</div>` +
+                    `<select ${displayType === 'editableRequired' ? 'required' : ''}>${optionsTemplate}</select>` +
                 `</div>` +
             `</div>` +
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
-
-        const dropdownElement = parent.lastChild;
-        const optionElements = dropdownElement.querySelectorAll('.select-box-option');
-        for (let i = 0; i < optionElements.length; i++) {
-            optionElements[i].addEventListener('click', function (e) {
-                console.log(e.target);
-                const selectedElem = e.target;
-                const selectedElemId = selectedElem.getAttribute('for');
-                const ulElem = selectedElem.parentNode.parentNode;
-                const inputElem = ulElem.previousElementSibling;
-                for (let j = 0; j < ulElem.children.length ; j++) {
-                    const prevSelectedElem = ulElem.children[j].firstElementChild;
-                    if (prevSelectedElem.classList.contains('checked')) {
-                        prevSelectedElem.classList.remove('checked');
-                    }
-                }
-                if (!selectedElem.classList.contains('checked')) {
-                    selectedElem.classList.add('checked');
-
-                    for (let k = 0; k < inputElem.children.length ; k++) {
-                        const radioElem = inputElem.children[k].firstElementChild;
-                        if (radioElem) {
-                            if (radioElem.id === selectedElemId) {
-                                radioElem.checked = true;
-                            } else {
-                                radioElem.checked = false;
-                            }
-                        }
-                    }
-                }
-            });
-        }
-
     }
 
     /**
@@ -784,11 +755,9 @@
      * 컴포넌트를 생성하고 출력한다.
      * @param {String} type 컴포넌트 타입
      * @param {Object} data 컴포넌트 데이터
-     * @param {Boolean} flag 신규 생성일 경우 true
-     * @param {Number} index 배열에 추가될 순서
      * @return {Object} 생성된 컴포넌트 객체
      */
-    function draw(type, data, flag, index) {
+    function draw(type, data) {
         if (typeof parent === 'undefined') { return false; }
 
         let componentProperty = {'display': {}};
@@ -797,11 +766,11 @@
         } else {                     //신규 생성된 컴포넌트일 경우
             componentProperty.componentId = workflowUtil.generateUUID();
             componentProperty.type = type;
-            componentProperty = getPropertiesWithType(type, componentProperty);
+
         }
-        if (flag) {
-            componentProperty.display.order = ++renderOrder;
-        }
+        componentProperty = getPropertiesWithType(type, componentProperty);
+        componentProperty.display.order = ++renderOrder;
+
         let componentObject = null;
         switch(type) {
             case 'editbox':
@@ -857,18 +826,19 @@
                 componentElement.appendChild(tooltipElem);
             }
             componentObject.domElem = componentElement;
-            if (flag) {
-                if (typeof index !== 'undefined') {
-                    children.splice(index, 0, componentObject);
-                    // 재정렬
-                    sort();
-                } else {
-                    children.push(componentObject);
-                }
-            }
         }
         return componentObject;
     }
+
+    /**
+     * 우측 세부 속성창(properties panel)에 출력될 컴포넌트 제목 객체 조회
+     * @param {String} type 컴포넌트 타입
+     * @return {Object} match title 일치하는 제목 객제
+     */
+    function getName(type) {
+        return componentNameList.find(c => { return c.type === type; });
+    }
+
     /**
      * 컴포넌트 기본 속성을 읽어서 폼 저장을 위한 컴포넌트의 데이터로 정제하여 조회한다.
      * @param {String} type 컴포넌트 타입
@@ -877,10 +847,8 @@
      */
     function getPropertiesWithType(type, data) {
         let refineProperty = { 'display': {} };
-        if (typeof data !== 'undefined') {
-            refineProperty = data;
-        }
-        let defaultProperty = aliceJs.mergeObject({}, aliceForm.componentProperties[type]);
+        
+        let defaultProperty = JSON.parse(JSON.stringify(aliceForm.componentProperties[type]));
         Object.keys(defaultProperty).forEach(function(group) {
             if (group === 'option') { //옵션 json 구조 변경
                 let options = [];
@@ -913,47 +881,11 @@
                 });
             }
         });
-        return refineProperty;
-    }
 
-    function get(id) {
-        let obj = children.find(c => { return c.id === id; });
-        return obj;
-    }
-
-    function replace(type, id) {
-        const prevObj = get(id);
-
-        let componentProperty = {'display': {}};
-        componentProperty = getPropertiesWithType(type);
-        componentProperty.componentId = prevObj.id;
-        componentProperty.type = type;
-        componentProperty.display.order = prevObj.renderOrder;
-
-        const newObj = draw(type, componentProperty, false);
-        parent.insertBefore(parent.lastChild, prevObj.domElem);
-        prevObj.domElem.innerHTML = '';
-        prevObj.domElem.remove();
-
-        children[prevObj.renderOrder - 1] = newObj;
-        return newObj;
-    }
-
-    function remove(id) {
-        let removeIndex = children.findIndex(c => { return c.id === id; });
-        children.splice(removeIndex, 1);
-
-        sort();
-    }
-
-    function sort() {
-        for (let i = 0, len = children.length; i < len; i++) {
-            let c = children[i];
-            c.renderOrder = String(i + 1);
-            c.property.display.order = String(i + 1);
+        if (typeof data !== 'undefined') {
+            refineProperty = aliceJs.mergeObject(refineProperty, data) ;
         }
-        renderOrder = children.length;
-        console.log(children);
+        return refineProperty;
     }
 
     /**
@@ -985,12 +917,10 @@
 
     exports.init = init;
     exports.draw = draw;
-    exports.get = get;
-    exports.replace = replace;
-    exports.remove = remove;
     exports.getPropertiesWithType = getPropertiesWithType;
     exports.getLastIndex = getLastIndex;
     exports.setLastIndex = setLastIndex;
+    exports.getName = getName;
 
     Object.defineProperty(exports, '__esModule', { value: true });
 })));
