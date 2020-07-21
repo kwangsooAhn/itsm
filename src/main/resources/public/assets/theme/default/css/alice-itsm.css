@@ -56,7 +56,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
 }
 .container .contents {
   min-width: 1260px;
-  max-height: 820px;
+  min-height: 820px;
   display: block;
   padding: 20px 136px 37px 136px;
 }
@@ -1148,17 +1148,6 @@ textarea {
   position: absolute;
   left: 42px;
   bottom: 60px;
-}
-
-/* 텍스트 정렬 */
-.align-center {
-  text-align: center;
-}
-.align-left {
-  text-align: left;
-}
-.align-right {
-  text-align: right;
 }
 
 /*# sourceMappingURL=alice-itsm.css.map */

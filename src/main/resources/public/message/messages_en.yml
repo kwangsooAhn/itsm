@@ -613,6 +613,7 @@ user:
   label:
     all: "All"
     avatar: "Avatar"
+    createUser: "User Registration"
     date: "Date Format"
     department: "Department"
     editUserInfo: "Edit User Information"
