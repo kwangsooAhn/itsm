@@ -73,32 +73,39 @@
         }
     };
 
-/*    window.onkeydown = function() {
+    window.onkeydown = function() {
         if (event.keyCode === 13) {
             onLogin();
         }
-    };*/
+    };
 
+    window._onLogin = false;
     function onLogin() {
-        if (document.getElementById('uid').value.trim() === '') {
-            aliceJs.alert([[#{login.msg.enterId}]]);
-            return false;
-        }
-        if (document.getElementById('upasswd').value.trim() === '') {
-            aliceJs.alert([[#{login.msg.enterPassword}]]);
-            return false;
-        }
+        if (!window._onLogin) {
+            window._onLogin = true;
+            if (document.getElementById('uid').value.trim() === '') {
+                aliceJs.alert([[#{login.msg.enterId}]], function() {window._onLogin = false;});
+                return false;
+            }
+            if (document.getElementById('upasswd').value.trim() === '') {
+                aliceJs.alert([[#{login.msg.enterPassword}]], function() {window._onLogin = false;});
+                window._onLogin = false;
+                return false;
+            }
 
-        if (!ipAccessCheck()) {
-            aliceJs.alert([[#{login.msg.ipAccessDenied}]]);
-            return false;
-        }
+            if (!ipAccessCheck()) {
+                aliceJs.alert([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
+                window._onLogin = false;
+                return false;
+            }
 
-        const rsa = new RSAKey();
-        rsa.setPublic(keyModule, keyExponent);
-        document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
-        document.getElementById('password').value = rsa.encrypt(document.getElementById('upasswd').value.trim());
-        document.loginForm.submit();
+            const rsa = new RSAKey();
+            rsa.setPublic(keyModule, keyExponent);
+            document.getElementById('userId').value = rsa.encrypt(document.getElementById('uid').value.trim());
+            document.getElementById('password').value = rsa.encrypt(document.getElementById('upasswd').value.trim());
+            document.loginForm.submit();
+            window._onLogin = false;
+        }
     }
 
     function ipAccessCheck() {

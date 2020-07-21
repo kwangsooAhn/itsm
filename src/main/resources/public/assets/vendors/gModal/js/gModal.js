@@ -97,6 +97,7 @@ var gModal = (function() {
     }
 
     var gModal = function(options, id) {
+        var originalKeydownEvent;
         this.id = id || Math.random().toString(36).substr(2);
         this.options = Object.assign({}, defaults, options);
         // this will fix options.close unwanted overrides
@@ -115,12 +116,16 @@ var gModal = (function() {
 
         this.addKeyListener = function() {
             window.currentModal = this;
+            originalKeydownEvent = window.onkeydown;
+            window.onkeydown = undefined;
             window.addEventListener('keydown', this.onKeyPress, false);
+
         };
 
         this.removeKeyListener = function() {
             window.currentModal = undefined;
             window.removeEventListener('keydown', this.onKeyPress, false);
+            window.onkeydown = originalKeydownEvent;
         };
 
         this.onKeyPress = function(e) {
