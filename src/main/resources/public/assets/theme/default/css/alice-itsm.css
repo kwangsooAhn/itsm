@@ -195,10 +195,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   border: rgba(64, 158, 230, 0.05) 1px solid;
 }
 
-/* 텍스트 정렬 */
-/*.align-center {text-align: center;}
-.align-left {text-align: left;}
-.align-right {text-align: right;}*/
 /* Date compoent 기본 */
 .picker-wrapper-date {
   display: inline;
