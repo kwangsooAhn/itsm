@@ -48,6 +48,11 @@ $form-drawing-board-top-margin: 6.563rem; // 105px
 $form-properties-panel-width: 16.25rem; // 260px
 $form-drawing-board-column-row: 12; // 폼을 나누는 갯수
 
+:root {
+    --data-column: 12;
+    --data-row: 2;
+}
+
 // 공통
 *,
 *::before,
