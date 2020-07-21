@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
+<head>
+    <title th:text="#{department.label.deptManagement}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <h1 style="text-align: left;" th:text="#{department.label.deptList}"></h1>
+    <div class="container">
+        <tr th:if="${#arrays.isEmpty(departmentList)}">
+            <td th:text="#{common.msg.noData}"></td>
+        </tr>
+        <ul th:each="department : ${departmentList}">
+            <li th:id="${department.code}" th:text="${department.codeValue}" th:value="${department.code}"
+                onclick="transferData(this.id);" style="cursor: pointer"/>
+        </ul>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        function transferData(id) {
+            opener.document.getElementById('department').value = document.getElementById(id).textContent;
+            opener.document.getElementById('departmentCode').value = id;
+
+            window.close();
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>

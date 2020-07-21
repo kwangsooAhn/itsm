@@ -17,6 +17,7 @@ import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
+import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
 import co.brainz.itsm.user.dto.UserDto
 import co.brainz.itsm.user.dto.UserListDto
@@ -42,6 +43,7 @@ class UserService(
     private val aliceCryptoRsa: AliceCryptoRsa,
     private val aliceFileService: AliceFileService,
     private val avatarService: AliceAvatarService,
+    private val codeService: CodeService,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val userRepository: UserRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository,
@@ -63,6 +65,10 @@ class UserService(
             val avatarPath = avatarService.makeAvatarPath(userEntity.avatar)
             val userDto = userMapper.toUserDto(userEntity)
             userDto.avatarPath = avatarPath
+
+            userEntity.department?.let {
+                userEntity.department = codeService.getDetailCodes(userEntity.department!!)?.codeValue
+            }
             userList.add(userDto)
         }
         return userList
