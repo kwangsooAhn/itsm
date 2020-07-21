@@ -1,5 +1,12 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.util
 
+import co.brainz.framework.auth.dto.AliceUserAuthDto
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.configuration.AliceApplicationRunner
 import co.brainz.framework.constants.AliceConstants
 import javax.servlet.http.HttpServletRequest
@@ -65,5 +72,33 @@ class AliceUtil {
         }
 
         return isPermission
+    }
+
+    /**
+     * 로그인시에 받은 사용자 정보[AliceUserAuthDto]를 받아서 url, menu, avatarPath를 더해서 [AliceUserDto]를 반환한다.
+     */
+    fun setUserDetails(aliceUser: AliceUserAuthDto): AliceUserDto? {
+        return AliceUserDto(
+            aliceUser.userKey,
+            aliceUser.userId,
+            aliceUser.userName,
+            aliceUser.email,
+            aliceUser.position,
+            aliceUser.department,
+            aliceUser.officeNumber,
+            aliceUser.mobileNumber,
+            aliceUser.useYn,
+            aliceUser.tryLoginCount,
+            aliceUser.expiredDt,
+            aliceUser.oauthKey,
+            aliceUser.grantedAuthorises,
+            aliceUser.menus,
+            aliceUser.urls,
+            aliceUser.timezone,
+            aliceUser.lang,
+            aliceUser.timeFormat,
+            aliceUser.theme,
+            aliceUser.avatarPath
+        )
     }
 }
