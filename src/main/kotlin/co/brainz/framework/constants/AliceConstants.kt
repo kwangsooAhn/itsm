@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.constants
 
 /**
@@ -48,7 +53,8 @@ object AliceConstants {
         PATTEN97("/filelist"),
         PATTEN98("/filedel"),
         PATTEN99("/fileSubmit"),
-        PATTEN100("/i18n/**")
+        PATTEN100("/i18n/**"),
+        PATTEN101("/fileImages/**")
         ;
 
         companion object {

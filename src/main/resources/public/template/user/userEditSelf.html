@@ -226,6 +226,11 @@
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
 
         function restSubmit(method, url) {
+            let avatarUUID = document.getElementById('avatarUUID').value;
+            if (document.getElementsByClassName('dz-image').item(0) === null) {
+                avatarUUID = '';
+            }
+
             if (!validation()) {
                 return false;
             }
@@ -243,7 +248,7 @@
                 theme: document.getElementById('theme').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
                 fileSeq: document.getElementsByName('fileSeq').value,
-                avatarUUID: document.getElementById('avatarUUID').value
+                avatarUUID: avatarUUID
             };
             const password = document.getElementById('password').value;
             if (password !== '') {

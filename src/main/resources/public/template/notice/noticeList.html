@@ -1,47 +1,60 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 </head>
 <body>
-       <div class= "container">
-            <table class="table table-hover" style="text-align: center">
-                <colgroup>
-                    <col width="10%">
-                    <col width="40%">
-                    <col width="10%">
-                    <col width="20%">
-                    <col width="20%">
-                </colgroup>
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th th:text="#{common.label.title}"></th>
-                        <th th:text="#{notice.label.popUp}"></th>
-                        <th th:text="#{common.label.createUser}"></th>
-                        <th th:text="#{common.label.createDate}"></th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                    <tr th:each="topNotice : ${topNoticeList}">
-                        <td th:if="${topNotice.topNoticeYn}"><img src="../assets/media/icons/icon_notice.gif"></td>
-                        <td th:unless="${topNotice.topNoticeYn}"></td>
-                        <td style = "text-align:left"><a th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}" th:text="${topNotice.noticeTitle}"></a></td>
-                        <td th:if="${topNotice.popYn}"><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif"></a></td>
-                        <td th:unless="${topNotice.popYn}"></td>
-                        <td th:text="${topNotice?.aliceUserEntity.userName}"></td>
-                        <td th:name="createDt" th:text="${topNotice.createDt}"></td>
-                    </tr>
-                    <tr th:each="notice : ${noticeList}">
-                        <td id="topNoticeYn"></td>
-                        <td style = "text-align:left"><a th:href="@{/notices/{id}/view(id=${notice.noticeNo})}" th:text="${notice.noticeTitle}" style="text-align:left"></a></td>
-                        <td th:if="${notice.popYn}"><a th:attr="onclick=|openPopUp('${notice.noticeNo}')|"><img src="../assets/media/icons/icon_pop.gif" ></a></td>
-                        <td th:unless="${notice.popYn}"></td>
-                        <td id="userName" th:text="${notice?.aliceUserEntity.userName}"></td>
-                        <td th:name="createDt" th:text="${notice.createDt}"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+    <div class="list-wrap">
+        <table>
+            <colgroup>
+                <col width="290px">
+                <col width="100px">
+                <col width="100px">
+                <col width="280px">
+                <col width="280px">
+                <col width="150px">
+            </colgroup>
+            <tbody>
+                <tr>
+                    <th th:text="#{common.label.title}"></th>
+                    <th th:text="#{notice.label.popUp}"></th>
+                    <th th:text="#{common.label.writer}"></th>
+                    <th th:text="#{notice.label.popUpPeriod}"></th>
+                    <th th:text="#{notice.label.noticePeriod}"></th>
+                    <th th:text="#{common.label.writeDate}"></th>
+                </tr>
+                <tr th:if="${#arrays.isEmpty(noticeList)}">
+                    <td colspan="6" th:text="#{common.msg.noData}"></td>
+                </tr>
+                <tr th:unless="${#arrays.isEmpty(noticeList)}" class="tr-notice"
+                    th:each="topNotice, i : ${topNoticeList}" th:if="${i.count} < 4">
+                    <td class="align-left">
+                        <a th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}" th:text="${topNotice.noticeTitle}"/>
+                    </td>
+                    <td th:if="${topNotice.popYn}"><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|">
+                        <img src="../assets/media/icons/btn_popup.png"></a></td>
+                    <td th:unless="${topNotice.popYn}"></td>
+                    <td th:text="${topNotice?.aliceUserEntity.userName}"></td>
+                    <td th:name="popDt" th:text="${topNotice.popStrtDt} + '~' + ${topNotice.popEndDt}"></td>
+                    <td th:name="noticeDt" th:text="${topNotice.topNoticeStrtDt} + '~' + ${topNotice.topNoticeEndDt}"/>
+                    <td th:name="createDt" th:text="${topNotice.createDt}"></td>
+                </tr>
+                <tr th:each="notice, z : ${noticeList}" th:if="${z.count} < 8">
+                    <td class="align-left">
+                        <a th:href="@{/notices/{id}/view(id=${notice.noticeNo})}" th:text="${notice.noticeTitle}"></a>
+                    </td>
+                    <td th:if="${notice.popYn}">
+                        <a th:attr="onclick=|openPopUp('${notice.noticeNo}')|">
+                            <img src="../assets/media/icons/btn_popup.png"/></a>
+                    </td>
+                    <td th:unless="${notice.popYn}"></td>
+                    <td id="userName" th:text="${notice?.aliceUserEntity.userName}"></td>
+                    <td th:name="popDt" th:text="${notice.popStrtDt} + '~' + ${notice.popEndDt}"></td>
+                    <td th:name="noticeDt" th:text="${notice.topNoticeStrtDt} + '~' + ${notice.topNoticeEndDt}"></td>
+                    <td th:name="createDt" th:text="${notice.createDt}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

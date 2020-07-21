@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.constants
 
 /**
@@ -46,12 +51,42 @@ object AliceUserConstants {
     const val PLATFORM_CATEGORY_P_CODE = "user.platform"
 
     /**
-     * 사용자 아바타  디렉터리
+     * 사용자 아바타 URL
      */
     const val AVATAR_ID: String = "avatar"
-    const val SAMPLE_FILE_NAME: String = "profile_sample.jpg"
-    const val BASE_DIR: String = "public"
-    const val USER_AVATAR_IMAGE_DIR: String = "assets/media/image/avatar/"
+
+    /**
+     * 사용자 프로세스 URL
+     */
+    const val PROCESS_ID: String = "process"
+
+    /**
+     * 사용자 아바타 기본 디렉터리
+     */
+    const val AVATAR_BASIC_FILE_PATH: String = "/assets/media/image/avatar/"
+
+    /**
+     * 사용자 아바타 기본 파일명
+     */
+    const val AVATAR_BASIC_FILE_NAME: String = "profile_sample.jpg"
+
+    /**
+     * 사용자 아바타 이미지 임시 경로
+     */
+    const val AVATAR_IMAGE_TEMP_DIR: String = "avatar/temp/"
+
+    /**
+     * 사용자 아바타 이미지 경로
+     */
+    const val AVATAR_IMAGE_DIR: String = "avatar"
+
+    /**
+     * 사용자 아바타 저장 유형
+     */
+    enum class AvatarType(val code: String) {
+        FILE("FILE"),
+        URL("URL")
+    }
 
     /**
      * 사용자 상태.
