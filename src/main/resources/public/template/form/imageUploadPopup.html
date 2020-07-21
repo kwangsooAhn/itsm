@@ -130,7 +130,7 @@
             return false;
         }
         if (window.opener && !window.opener.closed) {
-            const pathGroupElem = window.opener.document.getElementById('panel-properties').querySelector('#path');
+            const pathGroupElem = window.opener.document.getElementById('properties-panel').querySelector('#path');
             if (pathGroupElem) {
                 const pathElem =  pathGroupElem.querySelector('input[type="text"]');
                 if (pathElem) {
