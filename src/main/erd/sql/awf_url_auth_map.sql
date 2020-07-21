@@ -63,13 +63,6 @@ insert into awf_url_auth_map values ('/boards/{id}/view', 'get', 'board.update')
 insert into awf_url_auth_map values ('/boards/{id}/view', 'get', 'board.create');
 insert into awf_url_auth_map values ('/boards/{id}/view', 'get', 'board.read');
 insert into awf_url_auth_map values ('/boards/{id}/view', 'get', 'board.delete');
-insert into awf_url_auth_map values ('/certification/certifiedMail', 'get', 'test2');
-insert into awf_url_auth_map values ('/certification/certifiedMail', 'get', 'test');
-insert into awf_url_auth_map values ('/certification/regist', 'post', 'test');
-insert into awf_url_auth_map values ('/certification/sendCertifiedMail', 'get', 'test');
-insert into awf_url_auth_map values ('/certification/signup', 'get', 'test');
-insert into awf_url_auth_map values ('/certification/status', 'get', 'test');
-insert into awf_url_auth_map values ('/certification/valid', 'get', 'test');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.delete');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.update');
 insert into awf_url_auth_map values ('/codes/edit', 'get', 'code.read');

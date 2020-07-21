@@ -35,11 +35,11 @@ insert into awf_url values ('/boards/{id}/new', 'get', '게시판 신규 등록'
 insert into awf_url values ('/boards/{id}/replay/edit', 'get', '게시판 답글 편집', 'TRUE');
 insert into awf_url values ('/boards/{id}/view', 'get', '게시판 상세 조회 화면', 'TRUE');
 insert into awf_url values ('/certification/certifiedMail', 'get', '메일 발송', 'FALSE');
-insert into awf_url values ('/certification/regist', 'post', '회원 가입 요청(인증 메일 발송 포함)', 'TRUE');
+insert into awf_url values ('/certification/regist', 'post', '회원 가입 요청(인증 메일 발송 포함)', 'FALSE');
 insert into awf_url values ('/certification/sendCertifiedMail', 'get', '메일 발송', 'FALSE');
-insert into awf_url values ('/certification/signup', 'get', '회원 가입 화면 호출', 'TRUE');
+insert into awf_url values ('/certification/signup', 'get', '회원 가입 화면 호출', 'FALSE');
 insert into awf_url values ('/certification/status', 'get', '메일 인증 상태/재발송 요청 화면', 'FALSE');
-insert into awf_url values ('/certification/valid', 'get', '메일 인증', 'TRUE');
+insert into awf_url values ('/certification/valid', 'get', '메일 인증', 'FALSE');
 insert into awf_url values ('/codes/edit', 'get', '코드 편집 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/list', 'get', '사용자 정의 코드 리스트 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/new', 'get', '사용자 정의 코드 신규 등록 화면', 'TRUE');
