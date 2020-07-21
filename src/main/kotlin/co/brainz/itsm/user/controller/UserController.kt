@@ -37,6 +37,7 @@ class UserController(
     private val userListPage: String = "user/userList"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
+    private val departmentPopUpPage: String = "user/departmentPopUp"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -75,36 +76,33 @@ class UserController(
         val users = userMapper.toUserDto(userEntity)
         val roleEntities = mutableSetOf<AliceRoleEntity>()
         val timeFormat = users.timeFormat!!.split(' ')
-        val usersDate = timeFormat[0].toString()
+        val usersDate = timeFormat[0]
         val usersTime = if (timeFormat.size == 3) {
             timeFormat[1] + ' ' + timeFormat[2]
         } else {
             timeFormat[1]
         }
 
-        val themeList = codeService.selectCodeByParent(UserConstants.PTHEMECODE.value)
-        val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
-        val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
-        val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
-        val timezoneList = userService.selectTimezoneList()
-
         userEntity.userRoleMapEntities.forEach { userRoleMap ->
             roleEntities.add(userRoleMap.role)
         }
-
         val roles = roleService.getRoles(roleEntities)
-
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
+
+        if (users.department != "") {
+            val deptCodeDetail = codeService.getDetailCodes(users.department!!)
+            model.addAttribute("deptCodeDetail", deptCodeDetail)
+        }
 
         model.addAttribute("users", users)
         model.addAttribute("roles", roles)
         model.addAttribute("usersDate", usersDate)
         model.addAttribute("usersTime", usersTime)
-        model.addAttribute("themeList", themeList)
-        model.addAttribute("langList", langList)
-        model.addAttribute("timezoneList", timezoneList)
-        model.addAttribute("dateList", dateList)
-        model.addAttribute("timeList", timeList)
+        model.addAttribute("themeList", codeService.selectCodeByParent(UserConstants.PTHEMECODE.value))
+        model.addAttribute("langList", codeService.selectCodeByParent(UserConstants.PLANGCODE.value))
+        model.addAttribute("timezoneList", userService.selectTimezoneList())
+        model.addAttribute("dateList", codeService.selectCodeByParent(UserConstants.PDATECODE.value))
+        model.addAttribute("timeList", codeService.selectCodeByParent(UserConstants.PTIMECODE.value))
 
         when (target) {
             "editSelf" -> {
@@ -123,20 +121,24 @@ class UserController(
      */
     @GetMapping("/new")
     fun getUserRegister(model: Model): String {
-        val themeList = codeService.selectCodeByParent(UserConstants.PTHEMECODE.value)
-        val langList = codeService.selectCodeByParent(UserConstants.PLANGCODE.value)
-        val dateList = codeService.selectCodeByParent(UserConstants.PDATECODE.value)
-        val timeList = codeService.selectCodeByParent(UserConstants.PTIMECODE.value)
-        val timezoneList = userService.selectTimezoneList()
-        val roleEntities = mutableSetOf<AliceRoleEntity>()
-        val roles = roleService.getRoles(roleEntities)
+        model.addAttribute("themeList", codeService.selectCodeByParent(UserConstants.PTHEMECODE.value))
+        model.addAttribute("langList", codeService.selectCodeByParent(UserConstants.PLANGCODE.value))
+        model.addAttribute("timezoneList", userService.selectTimezoneList())
+        model.addAttribute("dateList", codeService.selectCodeByParent(UserConstants.PDATECODE.value))
+        model.addAttribute("timeList", codeService.selectCodeByParent(UserConstants.PTIMECODE.value))
+        model.addAttribute("roles", roleService.getRoles(mutableSetOf()))
 
-        model.addAttribute("themeList", themeList)
-        model.addAttribute("langList", langList)
-        model.addAttribute("timezoneList", timezoneList)
-        model.addAttribute("dateList", dateList)
-        model.addAttribute("timeList", timeList)
-        model.addAttribute("roles", roles)
         return userEditPage
+    }
+
+    /**
+     * 부서 관리 팝업 호출
+     */
+    @GetMapping("/department/view-pop")
+    fun getDepartmentPopUp(model: Model): String {
+        val departmentList = codeService.selectCodeByParent(UserConstants.PDEPTCODE.value)
+        model.addAttribute("departmentList", departmentList)
+
+        return departmentPopUpPage
     }
 }
