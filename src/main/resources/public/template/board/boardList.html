@@ -29,7 +29,7 @@
             <tr th:if="${#arrays.isEmpty(boardList)}">
                 <td colspan="7" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr th:unless="${#arrays.isEmpty(boardList)}" th:each="board, i: ${boardList}" th:if="${i.count} < 11">
+            <tr th:each="board, i: ${boardList}" th:if="${i.count} < 11">
                 <td th:text="${board.boardSeq}"></td>
                 <td th:text="${board.boardCategoryName}"></td>
                 <td class="align-left">
