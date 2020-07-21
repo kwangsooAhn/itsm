@@ -42,23 +42,23 @@
                         </div>
                     </div>
                     <div class="user-register-top-list" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
-                        <span class= "input-title" th:text="#{user.label.id}"><span class="essential_category">*</span></span>
+                        <span class= "input-title required" th:text="#{user.label.id}"></span>
                         <input class="user-register-input" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/>
                     </div>
                     <div class="profile-input-body-list" th:style="${users?.userKey == null || (users?.userKey != null && !users?.platform.equals('user.platform.alice'))} ? 'display: none' : ''">
-                        <span class= "input-title" th:text="#{user.label.password}"><span class="essential_category">*</span></span>
+                        <span class= "input-title required" th:text="#{user.label.password}"></span>
                         <input class="user-register-input" type="password" id="password" name="password" maxlength="100" autocomplete="new-password" required="required"/>
                     </div>
                     <div class="profile-input-body-list" th:style="${users?.userKey == null || (users?.userKey != null && !users?.platform.equals('user.platform.alice'))} ? 'display: none' : ''">
-                        <span class= "input-title" th:text="#{user.label.rePassword}"><span class="essential_category">*</span></span>
+                        <span class= "input-title required" th:text="#{user.label.rePassword}"></span>
                         <input class="user-register-input" type="password" id="rePassword" name="rePassword" maxlength="100" autocomplete="new-password" required="required"/>
                     </div>
                     <div class="profile-input-body-list">
-                        <span class= "input-title" th:text="#{user.label.name}"><span class="essential_category">*</span></span>
+                        <span class= "input-title required" th:text="#{user.label.name}"></span>
                         <input class="user-register-input" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/>
                     </div>
                     <div class="profile-input-body-list">
-                        <span class= "input-title" th:text="#{user.label.email}"><span class="essential_category">*</span></span>
+                        <span class= "input-title required" th:text="#{user.label.email}"></span>
                         <input class="user-register-input" id="email" name="email" th:value="${users?.email}" maxlength="100" required="required">
                     </div>
                     <div class="profile-input-body-list">
@@ -82,7 +82,7 @@
                 <span class="profile-title">맞춤설정</span>
                 <div class="profile-manage">
                     <div class="user-register-top-list">
-                        <span class= "input-title" th:text="#{user.label.timezone}"><span class="essential_category">*</span></span>
+                        <span class= "input-title required" th:text="#{user.label.timezone}"></span>
                         <select class="custom-setting-top-select" name="timezone" id="timezone">
                             <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
                                     th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone}"></option>
@@ -100,14 +100,14 @@
                         </select>
                     </div>
                     <div class="profile-input-body-list">
-                        <span class="input-title" th:text="#{user.label.lang}"><span class="essential_category">*</span></span>
+                        <span class="input-title required" th:text="#{user.label.lang}"></span>
                         <select class="language-select" name="lang" id="lang">
                             <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
                                     th:text="${lang.codeValue}" th:selected="${lang.codeValue} == ${users?.lang}"></option>
                         </select>
                     </div>
                     <div class="profile-input-body-list">
-                        <span class="input-title" th:text="#{user.label.theme}"><span class="essential_category">*</span></span>
+                        <span class="input-title required" th:text="#{user.label.theme}"></span>
                         <select class="theme-color-select" name="theme" id="theme">
                             <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
                                     th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"></option>
@@ -115,7 +115,7 @@
                     </div>
                 </div>
                 <span class="profile-title" th:text="#{user.label.role}"></span>
-                <div class="profile-manage">
+                <div class="profile-manage user-role-checkbox-list-bottom">
                     <ui class="user-register-top-list" th:each="role : ${roles}">
                         <p class="user-role-checkbox-wrap">
                             <input class="user-role-checkbox" type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}" th:checked="*{role.checked}">

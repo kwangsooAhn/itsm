@@ -101,8 +101,9 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   padding: 88px 351px 96px 351px;
 }
 
-.container .contents .user-register-contents-body .essential_category {
+.container .contents .user-register-contents-body .required::after {
   color: #E83828;
+  content: "\002a";
 }
 
 .container .contents .user-register-contents-body .profile-title {
