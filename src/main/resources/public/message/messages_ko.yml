@@ -245,6 +245,14 @@ dashboard:
     running: "진행"
     wait: "대기"
 
+# Department:
+department:
+  btn:
+    selection: "선택"
+  label:
+    deptList: "부서 목록"
+    deptManagement: "부서 관리"
+
 # Document
 document:
   label:
