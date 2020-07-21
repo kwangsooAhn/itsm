@@ -162,16 +162,14 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   border: 1px solid #c8ced8;
   border-radius: 2px;
   font-size: 13px;
-  margin-right: 5px;
   color: #3e4752;
 }
 .container .contents .search-selectBox {
-  height: 30px;
+  height: 32px;
   padding: 0 10px;
   border: 1px solid #c8ced8;
   border-radius: 2px;
   font-size: 13px;
-  margin-right: 5px;
   color: #3e4752;
 }
 .container .contents .list-wrap {
