@@ -10,39 +10,35 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="wrap-screen">
-        <div class="container">
-            <div class="contents">
-                <div class="contents-title">
-                    <span class="title-txt" th:text="#{user.label.list}"></span>
-                    <span class="title-description" th:text="#{user.msg.description}"></span>
+    <div class="contents">
+        <div class="contents-title">
+            <span class="title-txt" th:text="#{user.label.list}"></span>
+            <span class="title-description" th:text="#{user.msg.description}"></span>
+        </div>
+        <div class="contents-body">
+            <div class="usermanage-menubar">
+                <div class="menubar-left">
+                    <input class="search" id="search" type="text" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}" >
+                    <span class="icon-search"></span>
                 </div>
-                <div class="contents-body">
-                    <div class="usermanage-menubar">
-                        <div class="menubar-left">
-                            <input class="search" id="search" type="text" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}" >
-                            <span class="icon-search"></span>
-                        </div>
-                        <div class="menubar-right">
-                            <button class="btn-add" onclick="location.href='/users/new'" sec:authorize="hasAuthority('user.create')"></button>
-                        </div>
-                    </div>
-                    <div class="list" id="userList"></div>
-                    <div class="menubar-bottom">
-                        <div class="paging">
-                            <ul>
-                                <li><span class="btn-prev"></span></li>
-                                <li><span class="btn-num">1</span></li>
-                                <li><span class="btn-num">2</span></li>
-                                <li><span class="btn-num">3</span></li>
-                                <li><span class="btn-num">···</span></li>
-                                <li><span class="btn-num">6</span></li>
-                                <li><span class="btn-next"></span></li>
-                            </ul>
-                        </div>
-                        <div class="list-count"><span>총:127명</span></div>
-                    </div>
+                <div class="menubar-right">
+                    <button class="btn-add" onclick="location.href='/users/new'" sec:authorize="hasAuthority('user.create')"></button>
                 </div>
+            </div>
+            <div class="list" id="userList"></div>
+            <div class="menubar-bottom">
+                <div class="paging">
+                    <ul>
+                        <li><span class="btn-prev"></span></li>
+                        <li><span class="btn-num">1</span></li>
+                        <li><span class="btn-num">2</span></li>
+                        <li><span class="btn-num">3</span></li>
+                        <li><span class="btn-num">···</span></li>
+                        <li><span class="btn-num">6</span></li>
+                        <li><span class="btn-next"></span></li>
+                    </ul>
+                </div>
+                <div class="list-count"><span>총:127명</span></div>
             </div>
         </div>
     </div>
