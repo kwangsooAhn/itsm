@@ -89,13 +89,11 @@
             }
             if (document.getElementById('upasswd').value.trim() === '') {
                 aliceJs.alert([[#{login.msg.enterPassword}]], function() {window._onLogin = false;});
-                window._onLogin = false;
                 return false;
             }
 
             if (!ipAccessCheck()) {
                 aliceJs.alert([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
-                window._onLogin = false;
                 return false;
             }
 
