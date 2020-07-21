@@ -10,5 +10,9 @@ data class NoticeListDto(
     var noticeTitle: String = "",
     var popYn: Boolean = true,
     var createDt: LocalDateTime? = null,
+    var popStrtDt: LocalDateTime? = null,
+    var popEndDt: LocalDateTime? = null,
+    var topNoticeStrtDt: LocalDateTime? = null,
+    var topNoticeEndDt: LocalDateTime? = null,
     var aliceUserEntity: AliceUserEntity? = null
 ) : Serializable
