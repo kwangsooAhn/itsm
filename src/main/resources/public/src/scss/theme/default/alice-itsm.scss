@@ -1,0 +1,94 @@
+@import url("notification.css");
+
+body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family: 'Noto Sans KR', sans-serif; font-size: 15px;}
+
+/*
+   OTF/TTF는 Chrome 6+, Firefox 3.5, Opera 10+, Safari 3-5
+   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+ 
+*/
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 100;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 300;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 400;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 500;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');}
+@font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
+
+@import "_variables.scss";
+@import "_mixin.scss";
+
+// *********************************************************************************************************************
+// CONTENTS (container > contents > title, body)
+// *********************************************************************************************************************
+.wrap-screen{position: relative;background: rgba(234, 241, 247, 1);}
+
+.container {
+    height:100%; padding:60px 0 0 220px;
+    .contents {
+        min-width:1260px; max-height:820px; display:block; padding: 20px 136px 37px 136px;
+        .contents-title {
+            padding: 20px 0;
+            .title-txt {display:block; font-size: 30px; color:#47556a; padding: 10px 0; font-weight: 600;}
+            .title-description {font-size: 15px; color:#94a6bf; font-weight: 300;}
+        }
+        .contents-body {background: rgba(255, 255, 255, 1); padding: 4% 8%;}
+
+        .menubar {
+            &-left {float: left;}
+            &-right {float: right;}
+            &-bottom {display: inline-block; width: 100%;}
+        }
+
+        // 테이블 리스트 타입 속성
+        .list {
+            clear: both;
+            & table {
+                width: 100%;
+                & span {display: block;margin-left: 30px;}
+                & tr {
+                    color: #67717f;font-size: 13px;border-bottom: 1px solid #d2d9e2;padding: 0 16px;
+                    th {
+                        height: 38px;color: #3e4752;font-size: 14px;border-bottom: 2px solid #d2d9e2;
+                        vertical-align: middle;border-top: 1px solid #d2d9e2;
+                    }
+                    td {height: 45px;vertical-align: middle;text-align: center;
+                        &:first-child{width:30px;}
+                    }
+                    &:hover {background: rgba(0, 80, 255, 0.05);}
+                    &:first-child {background: rgba(0, 80, 255, 0);}
+                }
+            }
+            // 리스트 출력용 아바타 이미지
+            .profile-photo {height:27px; width:27px; border-radius: 50%; background: rgba(240, 240, 240, 1);}
+            .tr-notice {background: rgba(255,255,0, 0.2);}
+            .align-center {text-align: center;}
+            .align-left {text-align: left;}
+            .align-right {text-align: right;}
+        }
+        .search {
+            width:305px;height:30px; background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
+            padding: 0 10px; border: 1px solid rgba(200, 206, 216, 1); border-radius: 2px; font-size: 13px;
+        }
+        .search-date {
+            width:100px;height:30px; background: url($icon-folder-path + "icon_calendar.png") no-repeat 100px 8px;
+            padding: 0 10px; border: 1px solid rgba(200, 206, 216, 1); border-radius: 2px; font-size: 13px;
+            margin-right: 5px; color: #3e4752;
+        }
+        .list-wrap {padding: 15px 0; height:490px;}
+        .list-count {float: right; color: #67717F; font-size: 13px; padding: 10px 10px;display: block;}
+    }
+    &-close {height:100%; padding:90px 0 0 80px; background: rgba(234, 241, 247, 1);}
+    .btn-add {
+        display:inline-block; background: url($icon-folder-path + "icon_add.svg") no-repeat center center;
+        padding: 10px; border-radius: 2px; border: 1px solid rgba(0, 80, 255, 1); text-align: center;
+        &:hover {
+            background: rgba(0, 80, 255, 1) url($icon-folder-path + "icon_add_ov.svg") no-repeat center center;
+            color: $alice-primary; border: rgba(64, 158, 230, 0.05) 1px solid;
+        }
+    }
+}
+
+/* Date compoent 기본 */
+.picker-wrapper-date {display: inline;}
+
+@import "_paging.scss";
+@import "_gnb.scss";

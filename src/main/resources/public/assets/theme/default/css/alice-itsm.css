@@ -1,12 +1,13 @@
 @charset "UTF-8";
+@import url("notification.css");
 body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 15px;
 }
 
-/* EOT는 IE8 이하버전
+/*
    OTF/TTF는 Chrome 6+, Firefox 3.5, Opera 10+, Safari 3-5
-   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+ 
+   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+
 */
 @font-face {
   font-family: "Noto Sans KR";
@@ -46,21 +47,18 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 .wrap-screen {
   position: relative;
-  height: 100%;
+  background: #eaf1f7;
 }
 
 .container {
   height: 100%;
   padding: 60px 0 0 220px;
-  background: #eaf1f7;
 }
 .container .contents {
-  width: 1400px;
-  height: 100%;
+  min-width: 1260px;
+  max-height: 820px;
   display: block;
-  position: absolute;
-  top: 120px;
-  left: 370px;
+  padding: 20px 136px 37px 136px;
 }
 .container .contents .contents-title {
   padding: 20px 0;
@@ -79,7 +77,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 .container .contents .contents-body {
   background: white;
-  padding: 50px 100px;
+  padding: 4% 8%;
 }
 .container .contents .menubar-left {
   float: left;
@@ -88,8 +86,8 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   float: right;
 }
 .container .contents .menubar-bottom {
+  display: inline-block;
   width: 100%;
-  padding: 30px 0;
 }
 .container .contents .list {
   clear: both;
@@ -104,7 +102,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .list table tr {
   color: #67717f;
   font-size: 13px;
-  text-align: center;
   border-bottom: 1px solid #d2d9e2;
   padding: 0 16px;
 }
@@ -117,8 +114,12 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   border-top: 1px solid #d2d9e2;
 }
 .container .contents .list table tr td {
-  height: 52px;
+  height: 45px;
   vertical-align: middle;
+  text-align: center;
+}
+.container .contents .list table tr td:first-child {
+  width: 30px;
 }
 .container .contents .list table tr:hover {
   background: rgba(0, 80, 255, 0.05);
@@ -135,10 +136,19 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .list .tr-notice {
   background: rgba(255, 255, 0, 0.2);
 }
+.container .contents .list .align-center {
+  text-align: center;
+}
+.container .contents .list .align-left {
+  text-align: left;
+}
+.container .contents .list .align-right {
+  text-align: right;
+}
 .container .contents .search {
   width: 305px;
   height: 30px;
-  background: url("../media/icons/icon_search.svg") no-repeat center right;
+  background: url("../icons/icon_search.svg") no-repeat center right;
   padding: 0 10px;
   border: 1px solid #c8ced8;
   border-radius: 2px;
@@ -147,16 +157,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .search-date {
   width: 100px;
   height: 30px;
-  background: url("../media/icons/icon_calendar.png") no-repeat 100px 8px;
-  padding: 0 10px;
-  border: 1px solid #c8ced8;
-  border-radius: 2px;
-  font-size: 13px;
-  margin-right: 5px;
-  color: #3e4752;
-}
-.container .contents .search-selectBox {
-  height: 30px;
+  background: url("../icons/icon_calendar.png") no-repeat 100px 8px;
   padding: 0 10px;
   border: 1px solid #c8ced8;
   border-radius: 2px;
@@ -166,7 +167,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 .container .contents .list-wrap {
   padding: 15px 0;
-  height: 532px;
+  height: 490px;
 }
 .container .contents .list-count {
   float: right;
@@ -182,16 +183,21 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 .container .btn-add {
   display: inline-block;
-  background: url("../media/icons/icon_add.svg") no-repeat center center;
+  background: url("../icons/icon_add.svg") no-repeat center center;
   padding: 10px;
   border-radius: 2px;
   border: 1px solid #0050ff;
   text-align: center;
 }
 .container .btn-add:hover {
-  background: #0050ff url("../media/icons/icon_add_ov.svg") no-repeat center center;
+  background: #0050ff url("../icons/icon_add_ov.svg") no-repeat center center;
   color: #0050ff;
   border: rgba(64, 158, 230, 0.05) 1px solid;
+}
+
+/* Date compoent 기본 */
+.picker-wrapper-date {
+  display: inline;
 }
 
 .paging {
@@ -226,23 +232,23 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   border: 1px solid #C8CED8;
   border-radius: 50%;
   display: inline-block;
-  background: url("../media/icons/icon_paging_prev.svg") no-repeat center center;
+  background: url("../icons/icon_paging_prev.svg") no-repeat center center;
 }
 .paging .btn-prev:hover {
-  background: rgba(64, 158, 230, 0.05) url("../media/icons/icon_paging_prev_ov.svg") no-repeat center center;
+  background: rgba(64, 158, 230, 0.05) url("../icons/icon_paging_prev_ov.svg") no-repeat center center;
   color: #0050ff;
   border: rgba(64, 158, 230, 0.05) 1px solid;
 }
 .paging .btn-next {
   width: 29px;
   height: 29px;
-  background: url("../media/icons/icon_paging_next.svg") no-repeat center center;
+  background: url("../icons/icon_paging_next.svg") no-repeat center center;
   border: 1px solid #C8CED8;
   border-radius: 50%;
   display: inline-block;
 }
 .paging .btn-next:hover {
-  background: rgba(64, 158, 230, 0.05) url("../media/icons/icon_paging_next_ov.svg") no-repeat center center;
+  background: rgba(64, 158, 230, 0.05) url("../icons/icon_paging_next_ov.svg") no-repeat center center;
   color: #0050ff;
   border: rgba(64, 158, 230, 0.05) 1px solid;
 }
@@ -292,10 +298,10 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 .breadcrumb .arrow-r {
   padding: 9px;
-  background: url("../media/icons/icon_arrow_r.svg") no-repeat center left;
+  background: url("../icons/icon_arrow_r.svg") no-repeat center left;
 }
 .breadcrumb .home {
-  background: url("../media/icons/icon_home.svg") no-repeat center center;
+  background: url("../icons/icon_home.svg") no-repeat center center;
 }
 
 .bread-end {
@@ -311,7 +317,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 .top-config .notice {
   padding: 8px 15px;
-  background: url("../media/icons/icon_notice.svg") no-repeat center center;
+  background: url("../icons/icon_notice.svg") no-repeat center center;
   display: inline-block;
   border-right: 1px solid #D2D9E2;
   vertical-align: middle;
@@ -327,11 +333,14 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   display: inline-block;
   padding: 12px 15px;
   vertical-align: middle;
-  background: url("../media/icons/icon_userinfo_arrow_d.svg") no-repeat center right;
+  background: url("../icons/icon_userinfo_arrow_d.svg") no-repeat center right;
 }
 .top-config .user-info ul li {
   display: inline-block;
   vertical-align: middle;
+}
+.top-config .user-info .my-edit {
+  display: none;
 }
 .top-config .user-info .user-name {
   padding: 10px;
@@ -363,136 +372,145 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .top-config .user-info.active .my-edit ul li span {
   padding: 0 40px;
 }
-.top-config .my-edit {
-  display: none;
-}
 .top-config .my-modify {
   padding: 5px 20px;
-  background: url("../media/icons/icon_profiledit.svg") no-repeat 10px center;
+  background: url("../icons/icon_profiledit.svg") no-repeat 10px center;
 }
 .top-config .my-logout {
   padding: 5px 20px;
-  background: url("../media/icons/icon_logout.svg") no-repeat 10px center;
+  background: url("../icons/icon_logout.svg") no-repeat 10px center;
 }
 
 /* GNB 아이콘 */
-.gnb01 {
-  background: url("../media/icons/icon_gnb01_mywork.svg") no-repeat center left;
+.my {
+  background: url("../icons/icon_gnb01_mywork.svg") no-repeat center left;
   padding: 0 0 0 30px;
   margin: 20px 10px;
   vertical-align: middle;
 }
 
-.gnb02 {
-  background: url("../media/icons/icon_gnb02_portal.svg") no-repeat center left;
+.portal {
+  background: url("../icons/icon_gnb02_portal.svg") no-repeat center left;
   padding: 0 0 0 30px;
   margin: 20px 10px;
   vertical-align: middle;
 }
 
-.gnb03 {
-  background: url("../media/icons/icon_gnb03_sysmange.svg") no-repeat center left;
+.config {
+  background: url("../icons/icon_gnb03_sysmange.svg") no-repeat center left;
   padding: 0 0 0 30px;
   margin: 20px 10px;
   vertical-align: middle;
 }
 
-.gnb04 {
-  background: url("../media/icons/icon_gnb04_wfmanage.svg") no-repeat center left;
+.workflow {
+  background: url("../icons/icon_gnb04_wfmanage.svg") no-repeat center left;
   padding: 0 0 0 30px;
   margin: 20px 10px;
   vertical-align: middle;
 }
 
 /* SNB 아이콘 */
-.snb0101 {
+.dashboard {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
+  background: url("../icons/icon_gnb01_snb00_dashboard.svg") no-repeat left center;
 }
 
-.snb0102 {
+.token {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
+  background: url("../icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
 }
 
-.snb0201 {
+.document {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
+  background: url("../icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
 }
 
-.snb0202 {
+.notice {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
+  background: url("../icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
 }
 
-.snb0203 {
+.faq {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
+  background: url("../icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
 }
 
-.snb0204 {
+.download {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb02_snb04_board.svg") no-repeat left center;
+  background: url("../icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
 }
 
-.snb0301 {
+.board {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
+  background: url("../icons/icon_gnb02_snb04_board.svg") no-repeat left center;
 }
 
-.snb0302 {
+.user {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
+  background: url("../icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
 }
 
-.snb0303 {
+.auth {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb03_snb03_role.svg") no-repeat left center;
+  background: url("../icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
 }
 
-.snb0304 {
+.role {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
+  background: url("../icons/icon_gnb03_snb03_role.svg") no-repeat left center;
 }
 
-.snb0305 {
+.boardAdmin {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb03_snb05_code.svg") no-repeat left center;
+  background: url("../icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
 }
 
-.snb0401 {
+.code {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb04_snb01_process.svg") no-repeat left center;
+  background: url("../icons/icon_gnb03_snb05_code.svg") no-repeat left center;
 }
 
-.snb0402 {
+.process {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb04_snb02_form.svg") no-repeat left center;
+  background: url("../icons/icon_gnb04_snb01_process.svg") no-repeat left center;
 }
 
-.snb0403 {
+.form {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
+  background: url("../icons/icon_gnb04_snb02_form.svg") no-repeat left center;
 }
 
-.snb0404 {
+.workflowAdmin {
   padding: 0 0 0 36px;
   margin: 0 0 0 36px;
-  background: url("../media/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+  background: url("../icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
+}
+
+.customCode {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+}
+
+.image {
+  padding: 0 0 0 36px;
+  margin: 0 0 0 36px;
+  background: url("../icons/icon_gnb04_snb05_image.svg") no-repeat left center;
 }
 
 .gnb-open ul li {
@@ -523,11 +541,11 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   color: #fff;
   font-weight: 300;
   opacity: 0.6;
-  background: url("../media/icons/icon_arrow_d.svg") no-repeat right 7px;
+  background: url("../icons/icon_arrow_d.svg") no-repeat right 7px;
 }
 .gnb-open ul li.toggle:hover {
   opacity: 1;
-  background: #0242eb url("../media/icons/icon_arrow_d.svg") no-repeat right 7px;
+  background: #0242eb url("../icons/icon_arrow_d.svg") no-repeat right 7px;
 }
 .gnb-open ul li.toggle ul li {
   color: #fff;
@@ -587,80 +605,90 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   text-align: center;
   display: block;
 }
-.gnb-close .snb.active ul li .snb0101 {
+.gnb-close .snb.active ul li .dashboard {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
+  background: url("../icons/icon_gnb01_snb00_dashboard.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0102 {
+.gnb-close .snb.active ul li .token {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
+  background: url("../icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0201 {
+.gnb-close .snb.active ul li .document {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
+  background: url("../icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0202 {
+.gnb-close .snb.active ul li .notice {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
+  background: url("../icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0203 {
+.gnb-close .snb.active ul li .faq {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
+  background: url("../icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0204 {
+.gnb-close .snb.active ul li .download {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb02_snb04_board.svg") no-repeat left center;
+  background: url("../icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0301 {
+.gnb-close .snb.active ul li .board {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
+  background: url("../icons/icon_gnb02_snb04_board.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0302 {
+.gnb-close .snb.active ul li .user {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
+  background: url("../icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0303 {
+.gnb-close .snb.active ul li .auth {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb03_snb03_role.svg") no-repeat left center;
+  background: url("../icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0304 {
+.gnb-close .snb.active ul li .role {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
+  background: url("../icons/icon_gnb03_snb03_role.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0305 {
+.gnb-close .snb.active ul li .boardAdmin {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb03_snb05_code.svg") no-repeat left center;
+  background: url("../icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0401 {
+.gnb-close .snb.active ul li .code {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb04_snb01_process.svg") no-repeat left center;
+  background: url("../icons/icon_gnb03_snb05_code.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0402 {
+.gnb-close .snb.active ul li .process {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb04_snb02_form.svg") no-repeat left center;
+  background: url("../icons/icon_gnb04_snb01_process.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0403 {
+.gnb-close .snb.active ul li .form {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
+  background: url("../icons/icon_gnb04_snb02_form.svg") no-repeat left center;
 }
-.gnb-close .snb.active ul li .snb0404 {
+.gnb-close .snb.active ul li .workflowAdmin {
   padding: 0 0 0 30px;
   margin: 0 0 0 16px;
-  background: url("../media/icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+  background: url("../icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
+}
+.gnb-close .snb.active ul li .customCode {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
+}
+.gnb-close .snb.active ul li .image {
+  padding: 0 0 0 30px;
+  margin: 0 0 0 16px;
+  background: url("../icons/icon_gnb04_snb05_image.svg") no-repeat left center;
 }
 .gnb-close .snb.active.snb-mywork {
   position: absolute;
@@ -699,7 +727,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 
 .logo-open {
   height: 60px;
-  background: rgba(255, 255, 255, 0.1) url("../media/icons/icon_logo_open.svg") no-repeat 20px center;
+  background: rgba(255, 255, 255, 0.1) url("../icons/icon_logo_open.svg") no-repeat 20px center;
 }
 
 /* GNB 메뉴 닫혔을 때 */
@@ -714,7 +742,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 
 .logo-close {
   height: 60px;
-  background: rgba(255, 255, 255, 0.1) url("../media/icons/icon_logo_close.svg") no-repeat 20px center;
+  background: rgba(255, 255, 255, 0.1) url("../icons/icon_logo_close.svg") no-repeat 20px center;
 }
 
 /* 토글메뉴 리스트 */
@@ -727,7 +755,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 .btn-menuclose {
-  background: white url("../media/icons/icon_menuclose.svg") no-repeat center center;
+  background: white url("../icons/icon_menuclose.svg") no-repeat center center;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -738,7 +766,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 .btn-menuopen {
-  background: white url("../media/icons/icon_menuopen.svg") no-repeat center center;
+  background: white url("../icons/icon_menuopen.svg") no-repeat center center;
   width: 34px;
   height: 34px;
   border-radius: 50%;
@@ -746,24 +774,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   position: absolute;
   left: 42px;
   bottom: 60px;
-}
-
-/* 텍스트 정렬 */
-.align-center {
-  text-align: center;
-}
-
-.align-left {
-  text-align: left;
-}
-
-.align-right {
-  text-align: right;
-}
-
-/* Date compoent 기본 */
-.picker-wrapper-date {
-  display: inline;
 }
 
 /*# sourceMappingURL=alice-itsm.css.map */
