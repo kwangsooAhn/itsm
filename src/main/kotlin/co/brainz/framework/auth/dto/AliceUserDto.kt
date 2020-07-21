@@ -27,7 +27,7 @@ data class AliceUserDto(
     val tryLoginCount: Int,
     val expiredDt: LocalDateTime,
     val oauthKey: String?,
-    val grantedAuthorises: Set<GrantedAuthority>,
+    val grantedAuthorises: Set<GrantedAuthority>?,
     val menus: Set<AliceMenuEntity>?,
     val urls: Set<AliceUrlEntity>?,
     val timezone: String,
