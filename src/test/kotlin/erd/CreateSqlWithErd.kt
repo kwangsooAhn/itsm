@@ -12,6 +12,6 @@ fun main() {
     executeSql.createNewFile()
     val sqlFiles = Paths.get("src/main/erd/sql").toFile().listFiles(FileFilter { it.isFile })
     for (sql in sqlFiles!!) {
-        Files.write(executePath, sql.readBytes(), StandardOpenOption.APPEND)
+        Files.write(executePath, sql.readBytes() + "\n".toByteArray(), StandardOpenOption.APPEND)
     }
 }

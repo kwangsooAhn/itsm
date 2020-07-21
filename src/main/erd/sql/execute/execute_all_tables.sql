@@ -92,6 +92,7 @@ insert into awf_auth values ('user.delete', '사용자 삭제', '', '0509e094125
 insert into awf_auth values ('user.read', '사용자 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('user.update', '사용자 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
+
 /**
  * 아바타
  */
@@ -121,6 +122,7 @@ COMMENT ON COLUMN awf_avatar.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_avatar.create_dt IS '등록일';
 COMMENT ON COLUMN awf_avatar.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_avatar.update_dt IS '수정일';
+
 /**
  * 코드정보
  */
@@ -225,6 +227,7 @@ insert into awf_code values ('user.time', 'user', '', false, '0509e09412534a6e98
 insert into awf_code values ('version', '', '', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('version.workflow', 'version', '20200515', false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
+
 /**
  * 사용자정의코드
  */
@@ -263,6 +266,7 @@ COMMENT ON COLUMN awf_custom_code.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_custom_code.update_dt IS '수정일';
 
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '{}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * 사용자정의코드컬럼
  */
@@ -292,6 +296,7 @@ insert into awf_custom_code_column values ('awf_user', 'search', 'user_name', '�
 insert into awf_custom_code_column values ('awf_user', 'search', 'position', '사용자 직급');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_name', '사용자 이름');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_key', '사용자 식별키');
+
 /**
  * 사용자정의코드테이블
  */
@@ -310,6 +315,7 @@ COMMENT ON COLUMN awf_custom_code_table.custom_code_table_name IS '테이블이�
 
 insert into awf_custom_code_table values ('awf_user', '사용자 정보 테이블');
 insert into awf_custom_code_table values ('awf_role', '역할 정보 테이블');
+
 /**
  * 자료실
  */
@@ -340,6 +346,7 @@ COMMENT ON COLUMN awf_download.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_download.create_dt IS '등록일';
 COMMENT ON COLUMN awf_download.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_download.update_dt IS '수정일';
+
 /**
  * 파일관리
  */
@@ -375,6 +382,7 @@ COMMENT ON COLUMN awf_file_loc.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_file_loc.create_dt IS '등록일';
 COMMENT ON COLUMN awf_file_loc.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_file_loc.update_dt IS '수정일';
+
 /**
  * 파일확장자관리
  */
@@ -406,6 +414,7 @@ insert into awf_file_name_extension values ('PPTX', '0509e09412534a6e98f04ca79ab
 insert into awf_file_name_extension values ('ZIP', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('HWP', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('PNG', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * 첨부파일연결매핑
  */
@@ -421,7 +430,8 @@ CREATE TABLE awf_file_own_map
 
 COMMENT ON TABLE awf_file_own_map IS '첨부파일연결매핑';
 COMMENT ON COLUMN awf_file_own_map.own_id IS '파일소유아이디';
-COMMENT ON COLUMN awf_file_own_map.file_seq IS '파일관리번호';/**
+COMMENT ON COLUMN awf_file_own_map.file_seq IS '파일관리번호';
+/**
  * 접근허용IP정보
  */
 DROP TABLE IF EXISTS awf_ip_verification cascade;
@@ -444,6 +454,7 @@ COMMENT ON COLUMN awf_ip_verification.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_ip_verification.create_dt IS '등록일';
 COMMENT ON COLUMN awf_ip_verification.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_ip_verification.update_dt IS '수정일';
+
 /**
  * 메뉴정보
  */
@@ -487,6 +498,7 @@ insert into awf_menu values ('workflow.document', 'workflow', '/documents-admin/
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRUE);
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1,TRUE);
+
 /**
  * 권한별메뉴매핑
  */
@@ -605,6 +617,7 @@ insert into awf_menu_auth_map values ('workflow.process', 'process.delete');
 insert into awf_menu_auth_map values ('workflow.process', 'process.create');
 insert into awf_menu_auth_map values ('workflow.process', 'process.update');
 insert into awf_menu_auth_map values ('workflow.process', 'process.read');
+
 /**
  * 알림
  */
@@ -638,6 +651,7 @@ COMMENT ON COLUMN awf_notification.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_notification.create_dt IS '등록일';
 COMMENT ON COLUMN awf_notification.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_notification.update_dt IS '수정일';
+
 /**
  * 넘버링패턴정보
  */
@@ -665,7 +679,8 @@ COMMENT ON COLUMN awf_numbering_pattern.pattern_order IS '순서';
 
 insert into awf_numbering_pattern values ('7a112d61751fs6f325714q053c421411', '40125c91714df6c325714e053c890125', '문서 Prefix', 'numbering.pattern.text', '{"value":"CSR"}', 1);
 insert into awf_numbering_pattern values ('7a112d61751fs6f325714q053c421412', '40125c91714df6c325714e053c890125', '문서 날짜', 'numbering.pattern.date', '{"code":"pattern.format.yyyyMMdd"}', 2);
-insert into awf_numbering_pattern values ('7a112d61751fs6f325714q053c421413', '40125c91714df6c325714e053c890125', '문서 시퀀스', 'numbering.pattern.sequence', '{"digit":3,"start-with":1,"full-fill":"Y"}', 3);/**
+insert into awf_numbering_pattern values ('7a112d61751fs6f325714q053c421413', '40125c91714df6c325714e053c890125', '문서 시퀀스', 'numbering.pattern.sequence', '{"digit":3,"start-with":1,"full-fill":"Y"}', 3);
+/**
  * 넘버링정보
  */
 DROP TABLE IF EXISTS awf_numbering_rule cascade;
@@ -688,6 +703,7 @@ COMMENT ON COLUMN awf_numbering_rule.latest_value IS '최근값';
 COMMENT ON COLUMN awf_numbering_rule.latest_date IS '최근날짜';
 
 insert into awf_numbering_rule values ('40125c91714df6c325714e053c890125', '문서 번호', '신청서 작성시 발생한 문서번호');
+
 /**
  * 역할
  */
@@ -729,6 +745,7 @@ insert into awf_role values ('admin', '관리자', '전체관리자', '0509e0941
 insert into awf_role values ('users.manager', '사용자관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('faq.all', 'FAQ관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_role values ('auth.all', '권한 관리자', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * 역할권한매핑
  */
@@ -960,6 +977,7 @@ insert into awf_role_auth_map values ('users.manager', 'role.read');
 insert into awf_role_auth_map values ('users.manager', 'role.create');
 insert into awf_role_auth_map values ('users.manager', 'role.update');
 
+
 /**
  * 스케줄작업정보
  */
@@ -993,6 +1011,7 @@ COMMENT ON COLUMN awf_scheduled_task_mst.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_scheduled_task_mst.create_dt IS '등록일';
 COMMENT ON COLUMN awf_scheduled_task_mst.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_scheduled_task_mst.update_dt IS '수정일';
+
 /**
  * 타임존정보
  */
@@ -1099,6 +1118,7 @@ insert into awf_timezone values ('(GMT-10:00) Hawaii', 'Etc/GMT+10');
 insert into awf_timezone values ('(GMT+11:00) Solomon Is., New Caledonia', 'Etc/GMT-11');
 insert into awf_timezone values ('(GMT-09:00) Alaska', 'America/Anchorage');
 insert into awf_timezone values ('(GMT+02:00) Windhoek', 'Africa/Windhoek');
+
 /**
  * URL별메소드명
  */
@@ -1301,6 +1321,7 @@ insert into awf_url values ('/users/new', 'get', '사용자 등록 화면', 'TRU
 insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 등 메인이 되는 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editSelf', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
+
 /**
  * URL별권한매핑
  */
@@ -1641,6 +1662,7 @@ insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.updat
 insert into awf_url_auth_map values ('/users/{userkey}/editSelf', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editSelf', 'get', 'user.update');
 
+
 /**
  * 사용자정보
  */
@@ -1702,7 +1724,9 @@ COMMENT ON COLUMN awf_user.create_dt IS '등록일';
 COMMENT ON COLUMN awf_user.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_user.update_dt IS '수정일';
 
-insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$QsZ1uzooTk2yEkWIiV8tyOUc/UODpMrjdReNUQnNWm0SpjyPVOy26', 'admin@gmail.com', TRUE, 0, null, null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$QsZ1uzooTk2yEkWIiV8tyOUc/UODpMrjdReNUQnNWm0SpjyPVOy26', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
+
 /**
  * 사용자역할매핑
  */
@@ -1721,7 +1745,8 @@ COMMENT ON TABLE awf_user_role_map IS '사용자역할매핑';
 COMMENT ON COLUMN awf_user_role_map.user_key IS '사용자키';
 COMMENT ON COLUMN awf_user_role_map.role_id IS '역할아이디';
 
-insert into awf_user_role_map values ('0509e09412534a6e98f04ca79abb6424', 'admin');/**
+insert into awf_user_role_map values ('0509e09412534a6e98f04ca79abb6424', 'admin');
+/**
  * 게시판
  */
 DROP TABLE IF EXISTS portal_board cascade;
@@ -1760,6 +1785,7 @@ COMMENT ON COLUMN portal_board.create_user_key IS '등록자';
 COMMENT ON COLUMN portal_board.create_dt IS '등록일';
 COMMENT ON COLUMN portal_board.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_board.update_dt IS '수정일';
+
 /**
  * 게시판 관리
  */
@@ -1801,6 +1827,7 @@ COMMENT ON COLUMN portal_board_admin.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_board_admin.update_dt IS '수정일';
 
 insert into portal_board_admin values ('40288a19736b46fb01736b718cb60001', '기본 게시판', null, 1, true, true, true, true, true, 10, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * 카테고리 관리
  */
@@ -1829,6 +1856,7 @@ COMMENT ON COLUMN portal_board_category.create_user_key IS '등록자';
 COMMENT ON COLUMN portal_board_category.create_dt IS '등록일';
 COMMENT ON COLUMN portal_board_category.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_board_category.update_dt IS '수정일';
+
 /**
  * 게시판 댓글
  */
@@ -1855,6 +1883,7 @@ COMMENT ON COLUMN portal_board_comment.create_user_key IS '등록자';
 COMMENT ON COLUMN portal_board_comment.create_dt IS '등록일';
 COMMENT ON COLUMN portal_board_comment.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_board_comment.update_dt IS '수정일';
+
 /**
  * 게시판 조회
  */
@@ -1870,7 +1899,8 @@ CREATE TABLE portal_board_read
 
 COMMENT ON TABLE portal_board_read IS '게시판 조회';
 COMMENT ON COLUMN portal_board_read.board_id IS '게시판 번호';
-COMMENT ON COLUMN portal_board_read.board_read_count IS '조회수';/**
+COMMENT ON COLUMN portal_board_read.board_read_count IS '조회수';
+/**
  * FAQ정보
  */
 DROP TABLE IF EXISTS portal_faq cascade;
@@ -1897,6 +1927,7 @@ COMMENT ON COLUMN portal_faq.create_user_key IS '등록자';
 COMMENT ON COLUMN portal_faq.create_dt IS '등록일';
 COMMENT ON COLUMN portal_faq.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_faq.update_dt IS '수정일';
+
 /**
  * 공지사항
  */
@@ -1938,6 +1969,7 @@ COMMENT ON COLUMN portal_notice.create_user_key IS '등록자';
 COMMENT ON COLUMN portal_notice.create_dt IS '등록일';
 COMMENT ON COLUMN portal_notice.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_notice.update_dt IS '수정일';
+
 /**
  * 토큰담당후보자
  */
@@ -1955,7 +1987,8 @@ CREATE TABLE wf_candidate
 COMMENT ON TABLE wf_candidate IS '토큰담당후보자';
 COMMENT ON COLUMN wf_candidate.token_id IS '토큰아이디';
 COMMENT ON COLUMN wf_candidate.candidate_type IS '토큰담당후보자타입';
-COMMENT ON COLUMN wf_candidate.candidate_value IS '토큰후보자';/**
+COMMENT ON COLUMN wf_candidate.candidate_value IS '토큰후보자';
+/**
  * 의견
  */
 DROP TABLE IF EXISTS wf_comment cascade;
@@ -1977,6 +2010,7 @@ COMMENT ON COLUMN wf_comment.instance_id IS '인스턴스아이디';
 COMMENT ON COLUMN wf_comment.content IS '내용';
 COMMENT ON COLUMN wf_comment.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_comment.create_dt IS '생성일시';
+
 /**
  * 컴포넌트정보
  */
@@ -1998,7 +2032,8 @@ COMMENT ON COLUMN wf_component.component_id IS '컴포넌트아이디';
 COMMENT ON COLUMN wf_component.form_id IS '문서양식아이디';
 COMMENT ON COLUMN wf_component.component_type IS '컴포넌트종류';
 COMMENT ON COLUMN wf_component.mapping_id IS '매핑아이디';
-COMMENT ON COLUMN wf_component.is_topic IS '토픽여부';/**
+COMMENT ON COLUMN wf_component.is_topic IS '토픽여부';
+/**
  * 
  */
 DROP TABLE IF EXISTS wf_component_data cascade;
@@ -2017,7 +2052,8 @@ COMMENT ON TABLE wf_component_data IS '컴포넌트세부설정';
 COMMENT ON COLUMN wf_component_data.component_id IS '컴포넌트아이디';
 COMMENT ON COLUMN wf_component_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN wf_component_data.attribute_value IS '속성값';
-COMMENT ON COLUMN wf_component_data.attribute_order IS '속성순서';/**
+COMMENT ON COLUMN wf_component_data.attribute_order IS '속성순서';
+/**
  * 신청서정보
  */
 DROP TABLE IF EXISTS wf_document cascade;
@@ -2059,6 +2095,7 @@ COMMENT ON COLUMN wf_document.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_document.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_document.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_document.update_dt IS '수정일시';
+
 /**
  * 문서출력정보
  */
@@ -2080,7 +2117,8 @@ COMMENT ON TABLE wf_document_display IS '문서출력정보';
 COMMENT ON COLUMN wf_document_display.document_id IS '신청서아이디';
 COMMENT ON COLUMN wf_document_display.component_id IS '컴포넌트아이디';
 COMMENT ON COLUMN wf_document_display.element_id IS '엘리먼트아이디';
-COMMENT ON COLUMN wf_document_display.display IS '엘리먼트별컴포넌트출력정보';/**
+COMMENT ON COLUMN wf_document_display.display IS '엘리먼트별컴포넌트출력정보';
+/**
  * 엘리먼트정보
  */
 DROP TABLE IF EXISTS wf_element cascade;
@@ -2107,7 +2145,8 @@ COMMENT ON COLUMN wf_element.element_name IS '엘리먼트이름';
 COMMENT ON COLUMN wf_element.element_desc IS '엘리먼트설명';
 COMMENT ON COLUMN wf_element.notification IS '알람여부';
 COMMENT ON COLUMN wf_element.element_config IS '엘리먼트설정데이터';
-COMMENT ON COLUMN wf_element.display_info IS '출력정보';/**
+COMMENT ON COLUMN wf_element.display_info IS '출력정보';
+/**
  * 엘리먼트세부설정
  */
 DROP TABLE IF EXISTS wf_element_data cascade;
@@ -2128,7 +2167,8 @@ COMMENT ON COLUMN wf_element_data.element_id IS '엘리먼트아이디';
 COMMENT ON COLUMN wf_element_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN wf_element_data.attribute_value IS '속성값';
 COMMENT ON COLUMN wf_element_data.attribute_order IS '속성순서';
-COMMENT ON COLUMN wf_element_data.attribute_required IS '속성필수값';/**
+COMMENT ON COLUMN wf_element_data.attribute_required IS '속성필수값';
+/**
  * 문서폴더정보
  */
 DROP TABLE IF EXISTS wf_folder cascade;
@@ -2154,6 +2194,7 @@ COMMENT ON COLUMN wf_folder.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_folder.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_folder.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_folder.update_dt IS '수정일시';
+
 /**
  * 문서양식정보
  */
@@ -2181,6 +2222,7 @@ COMMENT ON COLUMN wf_form.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_form.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_form.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_form.update_dt IS '수정일시';
+
 /**
  * 인스턴스정보
  */
@@ -2209,6 +2251,7 @@ COMMENT ON COLUMN wf_instance.instance_end_dt IS '인스턴스종료일시';
 COMMENT ON COLUMN wf_instance.instance_create_user_key IS '인스턴스생성자';
 COMMENT ON COLUMN wf_instance.p_token_id IS '호출토큰아이디';
 COMMENT ON COLUMN wf_instance.document_no IS '문서번호';
+
 /**
  * 프로세스정보
  */
@@ -2236,6 +2279,7 @@ COMMENT ON COLUMN wf_process.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_process.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_process.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_process.update_dt IS '수정일시';
+
 /**
  * 태그
  */
@@ -2251,7 +2295,8 @@ CREATE TABLE wf_tag
 
 COMMENT ON TABLE wf_tag IS '태그';
 COMMENT ON COLUMN wf_tag.tag_id IS '태그아이디';
-COMMENT ON COLUMN wf_tag.tag_content IS '태그내용';/**
+COMMENT ON COLUMN wf_tag.tag_content IS '태그내용';
+/**
  * 태그매핑테이블
  */
 DROP TABLE IF EXISTS wf_tag_map cascade;
@@ -2268,7 +2313,8 @@ CREATE TABLE wf_tag_map
 
 COMMENT ON TABLE wf_tag_map IS '태그매핑테이블';
 COMMENT ON COLUMN wf_tag_map.tag_id IS '태그아이디';
-COMMENT ON COLUMN wf_tag_map.instance_id IS '인스턴스아이디';/**
+COMMENT ON COLUMN wf_tag_map.instance_id IS '인스턴스아이디';
+/**
  * 토큰정보
  */
 DROP TABLE IF EXISTS wf_token cascade;
@@ -2294,7 +2340,8 @@ COMMENT ON COLUMN wf_token.element_id IS '엘리먼트아이디';
 COMMENT ON COLUMN wf_token.token_start_dt IS '토큰시작일시';
 COMMENT ON COLUMN wf_token.token_end_dt IS '토큰종료일시';
 COMMENT ON COLUMN wf_token.token_status IS '토큰상태';
-COMMENT ON COLUMN wf_token.assignee_id IS '담당자아이디';/**
+COMMENT ON COLUMN wf_token.assignee_id IS '담당자아이디';
+/**
  * 토큰데이터정보
  */
 DROP TABLE IF EXISTS wf_token_data cascade;
