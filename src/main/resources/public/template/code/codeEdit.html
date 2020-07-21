@@ -9,7 +9,7 @@
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto auto auto;">
-        <h1 th:text="#{menu.setting.code}">></h1>
+        <h1 th:text="#{menu.config.code}">></h1>
         <div align="right">
             <button sec:authorize="hasAuthority('code.create')" type="button" id="btnCreate" name="btnCreate"
                     th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>

@@ -1,9 +1,15 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.user.service
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapPk
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
@@ -36,6 +42,7 @@ class UserService(
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
     private val aliceFileService: AliceFileService,
+    private val avatarService: AliceAvatarService,
     private val codeService: CodeService,
     private val userAliceTimezoneRepository: AliceTimezoneRepository,
     private val userRepository: UserRepository,
@@ -54,11 +61,15 @@ class UserService(
         val aliceUserEntities =
             userRepository.findAliceUserEntityList(search, category)
         val userList: MutableList<UserDto> = mutableListOf()
-        aliceUserEntities.forEach { AliceUserEntity ->
-            AliceUserEntity.department?.let {
-                AliceUserEntity.department = codeService.getDetailCodes(AliceUserEntity.department!!)?.codeValue
+        aliceUserEntities.forEach { userEntity ->
+            val avatarPath = avatarService.makeAvatarPath(userEntity.avatar)
+            val userDto = userMapper.toUserDto(userEntity)
+            userDto.avatarPath = avatarPath
+
+            userEntity.department?.let {
+                userEntity.department = codeService.getDetailCodes(userEntity.department!!)?.codeValue
             }
-            userList.add(userMapper.toUserDto(AliceUserEntity))
+            userList.add(userDto)
         }
         return userList
     }
@@ -116,12 +127,14 @@ class UserService(
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
-                aliceFileService.uploadAvatar(
-                    AliceUserConstants.USER_AVATAR_IMAGE_DIR,
-                    AliceUserConstants.BASE_DIR,
-                    userUpdateDto.userKey,
-                    userUpdateDto.avatarUUID
+                val aliceAliceAvatarEntity = aliceFileService.uploadAvatarFile(
+                    targetEntity.avatar.avatarId,
+                    userUpdateDto.avatarUUID,
+                    AliceUserConstants.AvatarType.FILE.code
                 )
+                if (aliceAliceAvatarEntity.uploaded) {
+                    aliceFileService.avatarFileNameMod(aliceAliceAvatarEntity)
+                }
 
                 when (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
                     true -> {
