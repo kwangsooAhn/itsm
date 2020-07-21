@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.configuration
 
 import co.brainz.framework.auth.handler.AliceAuthFailureHandler
@@ -22,7 +27,7 @@ class AliceWebSecurityConfig(
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun ignoreConfigure(web: WebSecurity) {
-        web.ignoring().antMatchers("/assets/**", "/favicon.ico")
+        web.ignoring().antMatchers("/assets/**", "/favicon.ico", "/fileImages/**")
         logger.debug("> web configure <")
     }
 

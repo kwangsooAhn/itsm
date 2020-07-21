@@ -1,9 +1,15 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.certification.service
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.avatar.entity.AliceAvatarEntity
 import co.brainz.framework.certification.dto.AliceCertificationDto
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.repository.AliceCertificationRepository
@@ -57,7 +63,10 @@ class AliceCertificationService(
         when (code) {
             AliceUserConstants.SignUpStatus.STATUS_VALID_SUCCESS.code -> {
                 val user = aliceCertificationRepository.save(this.setUserEntity(aliceSignUpDto, target))
-                this.setUserAvatar(aliceSignUpDto, user, target)
+                if (user.avatar.uploaded) {
+                    this.avatarFileNameMod(user.avatar)
+                }
+                this.setUserDetail(aliceSignUpDto, user, target)
                 code = AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code
                 logger.info("New user created : $1", user.userName)
             }
@@ -146,6 +155,7 @@ class AliceCertificationService(
         val privateKey =
             attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
         val password = aliceSignUpDto.password?.let { aliceCryptoRsa.decrypt(privateKey, it) }
+        val avatarEntity = this.setUserAvatar(aliceSignUpDto)
         val user = AliceUserEntity(
             userKey = "",
             userId = aliceSignUpDto.userId,
@@ -162,8 +172,10 @@ class AliceCertificationService(
             lang = AliceUserConstants.USER_LOCALE_LANG,
             timezone = TimeZone.getDefault().id,
             timeFormat = AliceUserConstants.USER_TIME_FORMAT,
-            theme = AliceUserConstants.USER_THEME
+            theme = AliceUserConstants.USER_THEME,
+            avatar = avatarEntity
         )
+
         when (target) {
             AliceUserConstants.ADMIN_ID -> {
                 user.status = AliceUserConstants.Status.CERTIFIED.code
@@ -178,15 +190,9 @@ class AliceCertificationService(
     }
 
     /**
-     * Set user avatar.
+     * 사용자 상세정보(역할 저장)
      */
-    private fun setUserAvatar(aliceSignUpDto: AliceSignUpDto, user: AliceUserEntity, target: String?) {
-        aliceFileService.uploadAvatar(
-            AliceUserConstants.USER_AVATAR_IMAGE_DIR,
-            AliceUserConstants.BASE_DIR,
-            user.userKey,
-            aliceSignUpDto.avatarUUID
-        )
+    private fun setUserDetail(aliceSignUpDto: AliceSignUpDto, user: AliceUserEntity, target: String?) {
         when (target) {
             AliceUserConstants.USER_ID -> {
                 getDefaultUserRoleList(AliceUserConstants.DefaultRole.USER_DEFAULT_ROLE.code).forEach { role ->
@@ -199,5 +205,23 @@ class AliceCertificationService(
                 }
             }
         }
+    }
+
+    /**
+     * 사용자정보[aliceSignUpDto]를 받아서 아바타 저장후 아바타 정보[AliceAvatarEntity]를 반환한다.
+     */
+    private fun setUserAvatar(aliceSignUpDto: AliceSignUpDto): AliceAvatarEntity {
+        return aliceFileService.uploadAvatarFile(
+            "",
+            aliceSignUpDto.avatarUUID,
+            AliceUserConstants.AvatarType.FILE.code
+        )
+    }
+
+    /**
+     * 사용자 아바타 정보[avatarEntity]를 받아서 이미지명을 avatar_id로 변경한다.
+     */
+    private fun avatarFileNameMod(avatarEntity: AliceAvatarEntity) {
+        aliceFileService.avatarFileNameMod(avatarEntity)
     }
 }
