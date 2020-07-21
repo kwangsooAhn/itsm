@@ -30,11 +30,16 @@
     float: right;
     /* 상단 알람 */
     .notice {
-        padding:8px 15px; background: url($icon-folder-path + "icon_notice.svg") no-repeat center center;
+        //padding:8px 15px; 
+        padding-left: 116px;
+        background: url($icon-folder-path + "icon_notice.svg") no-repeat center center;
         display: inline-block; border-right: 1px solid #D2D9E2; vertical-align: middle;
         &-num {
-            padding: 2px 8px; border-radius: 20px; border: 1px solid $alice-primary;
-            margin-left: 80px; color: $alice-primary;
+            width: 14px;
+            margin-top: 24px;
+            padding: 2px 10px 2px 6px; border-radius: 20px; border: 1.2px solid $alice-primary;
+            margin-left: 60px; color: $alice-primary;
+            text-align: center;
         }
     }
     .user-info {

@@ -2,7 +2,7 @@
 /* 알림 임시 css */
 .notification-menu {
   margin-right: 10px;
-  height: 32px;
+  height: 50px;
   position: relative;
   display: inline-block;
 }
@@ -13,7 +13,6 @@
   left: 14px;
   padding: 1px 4px;
   border-radius: 50%;
-  background: red;
   color: white;
   font-size: 12px;
   display: none;
@@ -31,12 +30,13 @@
 
 .notification-menu .notification-container {
   position: absolute;
-  border: 1px solid black;
+  border: 1px solid #dce1e8;
   background-color: #ffffff;
   width: 350px;
   right: -1px;
-  top: 54px;
+  top: 46px;
   color: black;
+  display: none;
   font-weight: normal;
   font-size: 12px;
 }
@@ -76,7 +76,7 @@
   padding-left: 4px;
 }
 
-.notification-menu .notification-container .notification-header span.delete {
+.notification-menu .notification-container .notification-header span.close {
   width: 34px;
   text-align: center;
 }
@@ -90,12 +90,9 @@
   float: right;
 }
 
-.notification-menu .notification-container .notification-body button.check {
-  background-image: url("/assets/media/icons/icon_check.png");
-}
-
 .notification-menu .notification-container .notification-body button.remove {
-  background-image: url("/assets/media/icons/icon_remove.png");
+  background-image: url("../icons/delete.png");
+  background-repeat: no-repeat;
 }
 
 .notification-menu .notification-container .notification-body span.title:hover {
@@ -113,8 +110,10 @@
   border-bottom: none;
 }
 
-.notification-menu .notification-container .notification-body .notification .nodata {
-  height: 55;
+.notification-menu .notification-container .notification-body .notification.nodata {
+  height: 55px;
+  padding-left: 18px;
+  border: none;
 }
 
 .notification-menu:hover .notification-container {
@@ -133,12 +132,38 @@
   right: 11px;
 }
 
-.notification-content span.date {
+.notification-content label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  float: left;
+  background-color: #ffffff;
+}
+
+.notification-content label input[type="checkbox"] {
+  -webkit-appearance: none;
+  border: 1.5px solid #0242eb;
+  padding: 6px;
+  border-radius: 3px;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+
+.notification-content label input[type="checkbox"]:checked {
+  background-color: #e9ecee;
+  border: 1px solid #adb8c0;
+  color: #99a1a7;
+  cursor: unset;
+}
+
+.notification-content label input[type="checkbox"]:checked::after {
+  content: '\2714';
   font-size: 12px;
-  margin-left: 5px;
-  vertical-align: top;
-  line-height: 24px;
-  height: 18px;
+  position: absolute;
+  top: -1px;
+  left: 1px;
+  color: #99a1a7;
 }
 
 .notification-content span.title {
@@ -147,13 +172,28 @@
   line-height: 14px;
   max-width: 190px;
   height: 20px;
+  padding-left: 11px;
 }
 
 .notification-content span.message {
   font-size: 12px;
   max-width: 390px;
-  line-height: 14px;
+  line-height: 12px;
   height: 20px;
+  padding-left: 23px;
+}
+
+.notification-content span.date {
+  font-size: 12px;
+  vertical-align: top;
+  line-height: 16px;
+  height: 18px;
+  padding-left: 23px;
+}
+
+.notification-content.confirm {
+  color: #5c6776;
+  opacity: 0.6;
 }
 
 .notification-content:hover {

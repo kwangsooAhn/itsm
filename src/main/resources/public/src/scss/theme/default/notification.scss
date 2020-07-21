@@ -1,7 +1,7 @@
 /* 알림 임시 css */
 .notification-menu {
     margin-right: 10px;
-    height: 32px;
+    height: 50px;
     position: relative;
     display: inline-block;
     .count {
@@ -10,7 +10,6 @@
         left: 14px;
         padding: 1px 4px;
         border-radius: 50%;
-        background: red;
         color: white;
         font-size: 12px;
         display: none;
@@ -26,13 +25,13 @@
     }
     .notification-container {
         position: absolute;
-        border: 1px solid black;
+        border: 1px solid #dce1e8;
         background-color: #ffffff;
         width: 350px;
         right: -1px;
-        top: 54px;
+        top: 46px;
         color: black;
-        //display: none;
+        display: none;
         font-weight: normal;
         font-size: 12px;
         .notification-header {
@@ -51,7 +50,6 @@
             span.title {
                 width: 34px;
                 font-size: 14px;
-                //font-weight: bold;
                 line-height: 32px;
             }
             span.count {
@@ -61,7 +59,7 @@
                 width: 250px;
                 padding-left: 4px;
             }
-            span.delete {
+            span.close {
                 width: 34px;
                 text-align: center;
             }
@@ -71,11 +69,9 @@
             max-height: 234px;
             button {
                 float: right;
-                &.check {
-                    background-image: url('/assets/media/icons/icon_check.png');
-                }
                 &.remove {
-                    background-image: url('/assets/media/icons/icon_remove.png');
+                    background-image: url('../icons/delete.png');
+                    background-repeat: no-repeat;
                 }
             }
             span.title:hover {
@@ -92,10 +88,13 @@
                 &[is-confirm=false] {
                     //background-color: #b3d7ff3b;
                 }
-                .nodata {
-                    height: 55;
+                &.nodata {
+                    height: 55px;
+                    padding-left: 18px;
+                    border: none;
                 }
             }
+            
         }
     }
     &:hover .notification-container {
@@ -115,28 +114,62 @@
 }
 
 .notification-content {
-    span {
-        &.date {
-            font-size: 12px;
-            margin-left: 5px;
-            vertical-align: top;
-            line-height: 24px;
-            height: 18px;
+    label {
+        display: flex;
+        float: left;
+        background-color: #ffffff;
+        input[type="checkbox"] {
+            -webkit-appearance: none;
+            border: 1.5px solid #0242eb;
+            padding: 6px;
+            border-radius: 3px;
+            display: inline-block;
+            position: relative;
+            cursor: pointer;
+            &:checked {
+                background-color: #e9ecee;
+                border: 1px solid #adb8c0;
+                color: #99a1a7;
+                cursor: unset;
+            }
+            &:checked::after {
+                content: '\2714';
+                font-size: 12px;
+                position: absolute;
+                top: -1px;
+                left: 1px;
+                color: #99a1a7;
+            }
         }
+    }
+    span {
         &.title {
             font-size: 14px;
             font-weight: bold;
             line-height: 14px;
             max-width: 190px;
             height: 20px;
+            padding-left: 11px;
         }
         &.message {
             font-size: 12px;
             max-width: 390px;
-            line-height: 14px;
+            line-height: 12px;
             height: 20px;
+            padding-left: 23px;
+        }
+        &.date {
+            font-size: 12px;
+            vertical-align: top;
+            line-height: 16px;
+            height: 18px;
+            padding-left: 23px;
         }
     }
+}
+.notification-content.confirm {
+    color: #5c6776;
+    opacity: 0.6;
 }
 .notification-content:hover {
     background-color: #eaf1f7;
