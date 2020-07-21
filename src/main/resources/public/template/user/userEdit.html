@@ -319,6 +319,11 @@
                 arrRoleValue.push(item.value);
             });
 
+            let avatarUUID = document.getElementById('avatarUUID').value;
+            if (document.getElementsByClassName('dz-image').item(0) === null) {
+                avatarUUID = '';
+            }
+
             const data = {
                 userKey: document.getElementById('userKey').value,
                 userId: document.getElementById('userId').value,
@@ -335,7 +340,7 @@
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
                 roles: arrRoleValue,
                 fileSeq: document.getElementsByTagName('fileSeq').value,
-                avatarUUID: document.getElementById('avatarUUID').value
+                avatarUUID: avatarUUID
             };
             let password = document.getElementById('password').value;
             if (password !== '' && method === 'put') {

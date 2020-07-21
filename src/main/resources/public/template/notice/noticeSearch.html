@@ -4,34 +4,65 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title>공지사항 리스트</title>
+    <title th:text="#{menu.portal.notice}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="container">
-        <form id="formSearch" method="get">
-            <div class="pull-right" style="width: 1100px; margin: 10px 0;">
-                <input type="text" name="searchValue" id="searchValue" th:placeholder="#{notice.label.searchPlaceholder}"/>
-                <input type="text" id="fromDt" name="fromDt" readonly="readonly"/>
-                <input type="text" id="toDt" name="toDt" readonly="readonly"/>
-                <button sec:authorize="hasAuthority('notice.create')" type="button" style="text-align: left; float: right;"
-                    onclick="location.href='/notices/new'" th:text="#{common.btn.register}"></button>
+    <div class="wrap-screen">
+        <div class="container">
+            <div class="contents">
+                <div class="contents-title">
+                    <span class="title-txt" th:text="#{notice.label.list}"></span>
+                    <span class="title-description" th:text="#{notice.msg.description}"></span>
+                </div>
+                <div class="contents-body">
+                    <div class="usermanage-menubar">
+                        <div class="menubar-left">
+                            <input class="search" id="searchValue" type="text" maxlength="100"
+                                th:placeholder="#{notice.label.searchPlaceholder}"/>
+                            <span class="icon-search"></span>
+                            <input class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                            <span>~</span>
+                            <input class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
+                        </div>
+                        <div class="menubar-right">
+                            <button class="btn-add" onclick="location.href='/notices/new'"
+                                sec:authorize="hasAuthority('notice.create')"></button>
+                        </div>
+                    </div>
+                    <div class="list" id="noticeList"></div>
+                    <div class="menubar-bottom">
+                        <div class="paging">
+                            <ul>
+                                <li><span class="btn-prev"></span></li>
+                                <li><span class="btn-num">1</span></li>
+                                <li><span class="btn-num">2</span></li>
+                                <li><span class="btn-num">3</span></li>
+                                <li><span class="btn-num">···</span></li>
+                                <li><span class="btn-num">6</span></li>
+                                <li><span class="btn-next"></span></li>
+                            </ul>
+                        </div>
+                        <div class="list-count"><span>총:127건</span></div>
+                    </div>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
-    <div id="noticeList"></div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-        window.onload = function() {
+        window.onload = function () {
             // initialization date picker
-            document.getElementById('fromDt').value = i18n.getDate({'months':-1});
+            document.getElementById('fromDt').value = i18n.getDate({'months': -1});
             document.getElementById('toDt').value = i18n.getDate();
             dateTimePicker.initDatePicker('fromDt', i18n.dateFormat, i18n.lang, setDatePicker);
             dateTimePicker.initDatePicker('toDt', i18n.dateFormat, i18n.lang, setDatePicker);
-            document.getElementById('searchValue').addEventListener('keyup', function () { getNoticeList(false); });
+            document.getElementById('searchValue').addEventListener('keyup', function () {
+                getNoticeList(false);
+            });
             getNoticeList(true);
         };
 
@@ -42,14 +73,18 @@
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
+                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function () {
+                        picker.open();
+                    });
                 } else {
                     getNoticeList(false);
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
+                    aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function () {
+                        picker.open();
+                    });
                 } else {
                     getNoticeList(false);
                 }
@@ -66,7 +101,7 @@
             const data = {
                 searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim()),
                 fromDt: i18n.systemDate(document.getElementById('fromDt').value),
-                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days':1})
+                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days': 1})
             };
             const urlParam = 'searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
 
@@ -79,11 +114,27 @@
                 method: method,
                 url: url,
                 showProgressbar: showProgressbar,
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
                     document.getElementById('noticeList').innerHTML = response.responseText;
-                    var noticeList = document.querySelectorAll('td[name=createDt]');
-                    for (let i = 0; i < noticeList.length; i++) {
-                        noticeList[i].textContent = i18n.userDateTime(noticeList[i].textContent);
+                    let createDtList = document.querySelectorAll('td[name=createDt]');
+                    let popDtList = document.querySelectorAll('td[name=popDt]');
+                    let noticeDtList = document.querySelectorAll('td[name=noticeDt]');
+                    for (let i = 0; i < createDtList.length; i++) {
+                        createDtList[i].textContent = i18n.userDateTime(createDtList[i].textContent);
+                        let popDt = popDtList[i].textContent.split('~');
+                        if (popDt[0] !== 'null') {
+                            popDtList[i].textContent = i18n.userDateTime(popDt[0])
+                                + ' ~ ' + i18n.userDateTime(popDt[1]);
+                        } else {
+                            popDtList[i].textContent = '';
+                        }
+                        let noticeDt = noticeDtList[i].textContent.split('~');
+                        if (noticeDt[0] !== 'null') {
+                            noticeDtList[i].textContent = i18n.userDateTime(noticeDt[0])
+                                + ' ~ ' + i18n.userDateTime(noticeDt[1]);
+                        } else {
+                            noticeDtList[i].textContent = '';
+                        }
                     }
                 }
             };

@@ -1,14 +1,19 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.certification.service
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
-import co.brainz.framework.auth.service.AliceAuthProvider
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.certification.dto.AliceOAuthDto
 import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.user.service.UserService
 import com.fasterxml.jackson.databind.ObjectMapper
 import java.time.LocalDateTime
@@ -41,9 +46,8 @@ import org.springframework.web.client.exchange
 class OAuthService(
     private val userService: UserService,
     private val userDetailsService: AliceUserDetailsService,
-    private val aliceCertificationService: AliceCertificationService,
-    private val aliceCertificationRepository: AliceCertificationRepository,
-    private val aliceAuthProvider: AliceAuthProvider
+    private val avatarService: AliceAvatarService,
+    private val aliceCertificationRepository: AliceCertificationRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -88,21 +92,10 @@ class OAuthService(
             )
         )
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
-
+        aliceUser.avatarPath = avatarService.makeAvatarPath(aliceUser.avatar)
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(aliceUser.oauthKey, aliceUser.password, aliceUser.grantedAuthorises)
-        usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->
-            aliceUser.urls?.let { urls ->
-                aliceUser.menus?.let { menus ->
-                    AliceUserDto(
-                        aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.position,
-                        aliceUser.department, aliceUser.officeNumber, aliceUser.mobileNumber, aliceUser.useYn,
-                        aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
-                        menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme
-                    )
-                }
-            }
-        }
+        usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)
         SecurityContextHolder.getContext().authentication = usernamePasswordAuthenticationToken
     }
 
