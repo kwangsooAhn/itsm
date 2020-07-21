@@ -60,7 +60,7 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa) : HandlerInte
             val regex = "\\{([a-zA-Z]*)}".toRegex()
             val requestUrls = requestUrl.split("/")
             aliceUserDto.urls.let letDto@{ urlList ->
-                urlList.forEach forEachList@{
+                urlList?.forEach forEachList@{
                     val urls = it.url.split("/")
                     if (requestUrls.size == urls.size && requestMethod == it.method) {
                         requestUrls.forEachIndexed { idx, url ->

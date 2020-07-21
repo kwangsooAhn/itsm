@@ -1,10 +1,16 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.auth.service
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
-import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
+import co.brainz.framework.util.AliceUtil
 import java.security.PrivateKey
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -31,6 +37,7 @@ import org.springframework.web.context.request.ServletRequestAttributes
 @Component
 class AliceAuthProvider(
     private val userDetailsService: AliceUserDetailsService,
+    private val avatarService: AliceAvatarService,
     private val aliceCryptoRsa: AliceCryptoRsa
 ) : AuthenticationProvider {
 
@@ -64,20 +71,10 @@ class AliceAuthProvider(
         }
 
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
+        aliceUser.avatarPath = avatarService.makeAvatarPath(aliceUser.avatar)
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(userId, password, aliceUser.grantedAuthorises)
-        usernamePasswordAuthenticationToken.details = aliceUser.grantedAuthorises?.let { grantedAuthorises ->
-            aliceUser.urls?.let { urls ->
-                aliceUser.menus?.let { menus ->
-                    AliceUserDto(
-                        aliceUser.userKey, aliceUser.userId, aliceUser.userName, aliceUser.email, aliceUser.position,
-                        aliceUser.department, aliceUser.officeNumber, aliceUser.mobileNumber, aliceUser.useYn,
-                        aliceUser.tryLoginCount, aliceUser.expiredDt, aliceUser.oauthKey, grantedAuthorises,
-                        menus, urls, aliceUser.timezone, aliceUser.lang, aliceUser.timeFormat, aliceUser.theme
-                    )
-                }
-            }
-        }
+        usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)
         return usernamePasswordAuthenticationToken
     }
 

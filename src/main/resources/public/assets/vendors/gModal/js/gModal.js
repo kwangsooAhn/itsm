@@ -12,7 +12,7 @@
  */
 var gModal = (function() {
     var defaults = {
-        title: 'Default gModal title',
+        title: '',
         body:
             'This is the default body. It can include <strong>html</strong>. ' +
             'You can also leave it empty so we will hide it :).',
@@ -229,10 +229,19 @@ var gModal = (function() {
                 dialog.appendChild(title);
             }
 
-            if (this.options.body != '') {
+            if (this.options.message != '') {
+                var message = document.createElement('div');
+                message.className = 'gmodal-message';
+                message.innerHTML = this.options.message;
+
                 var body = document.createElement('div');
                 body.className = 'gmodal-body';
-                body.innerHTML = this.options.body;
+
+                if (typeof this.options.type !== 'undefined') {
+                    body.className += ' ' + this.options.type;
+                }
+
+                body.appendChild(message);
                 dialog.appendChild(body);
             }
 
@@ -241,8 +250,9 @@ var gModal = (function() {
                 buttons.className = 'gmodal-buttons';
 
                 for (var i = 0; i < this.options.buttons.length; i++) {
-                    var button = document.createElement('a');
-                    button.setAttribute('href', 'javascript:void(0);');
+                    var button = document.createElement('button');
+                    //button.setAttribute('href', 'javascript:void(0);');
+                    button.setAttribute('type', 'button');
 
                     button.className = 'gmodal-button';
                     if (typeof this.options.buttons[i].classes !== 'undefined') {

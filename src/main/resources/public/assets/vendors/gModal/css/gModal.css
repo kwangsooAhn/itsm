@@ -32,11 +32,12 @@
     right: 0;
     bottom: 0;
     left: 0;
-    background:#000;
-    opacity: 0.5;
+    background: rgba(116, 147, 179, 0.5);
 }
 .gmodal-dialog{
     z-index:999999999;
+    border: solid 1px #C8CED8;
+    border-radius: 1px;
     position: absolute;
     top: 8em;
     left: 0;
@@ -47,7 +48,8 @@
     margin: 0 auto 2em auto;
     box-sizing: border-box;
     background: #FFF;
-    box-shadow: 0px 0px 2px 2px #6B6B6B;
+    box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25); /* 5px */
+    padding: 1.5625rem 1.625rem 1.625rem 1.625rem; /* 25,26,26,26px */
 }
 .gmodal-close-in, .gmodal-close-out{
     position:absolute;
@@ -86,31 +88,46 @@
     box-sizing:border-box;
 }
 .gmodal-body{
-    padding: 1em;
+    padding: 2px 0 0 67px;
+    margin-bottom: 32px;
     overflow:auto;
-    max-height:50%;
+    min-height: 47px;
     box-sizing:border-box;
+}
+.gmodal-message{
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.7143;
 }
 .gmodal-buttons{
     box-sizing:border-box;
-    text-align:center;
+    text-align:right;
 }
 .gmodal-button{
     padding: 0.6em 1em;
-    border:0;
-    margin:1em 0.5em;
-    color:#FFF;
+    border: solid 1px #C8CED8;
+    margin:0rem 0rem 0rem 0.3125rem;
+    color:#3D4752;
+    font-size: 14px;
     text-transform:uppercase;
     cursor:pointer;
     display: inline-block;
-    -webkit-border-radius: 3px;
-    -moz-border-radius: 3px;
-    border-radius: 3px;
+    -webkit-border-radius: 1px;
+    -moz-border-radius: 1px;
+    border-radius: 1px;
+    text-decoration: none;
 }
-.gmodal-button-red{background-color:#e51c23;}
-.gmodal-button-blue{background-color:#007aff;}
-.gmodal-button-green{background-color:#00ca3c;}
-.gmodal-button-gray{background-color:#969696;}
+
+.gmodal-button-red{border: solid 1px #e51c23; color:#e51c23;}
+.gmodal-button-blue{border: solid 1px #0050ff; color:#0050ff;}
+.gmodal-button-green{border: solid 1px #00ca3c; color:#00ca3c;}
+.gmodal-button-gray{border: solid 1px #969696; color:#969696;}
+
+.gmodal-icon-success{background: url("../../../media/icons/icon_alert_success.png") no-repeat left top;}
+.gmodal-icon-info{background: url("../../../media/icons/icon_alert_info.png") no-repeat left top;}
+.gmodal-icon-warning{background: url("../../../media/icons/icon_alert_warning.png") no-repeat left top;}
+.gmodal-icon-danger{background: url("../../../media/icons/icon_alert_danger.png") no-repeat left top;}
+.gmodal-icon-confirm{background: url("../../../media/icons/icon_alert_confirm.png") no-repeat left top;}
 
 .gmodal-input {
     width: 250px;
