@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{menu.portal.board}"></title>
-    <meta charset="UTF-8">
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -21,16 +20,18 @@
                         <div class="menubar-left">
                             <select th:class="search-selectBox" id="boardAdmin">
                                 <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
-                                        th:text="#{${boardAdmin.boardAdminTitle}}"></option>
+                                    th:text="#{${boardAdmin.boardAdminTitle}}"></option>
                             </select>
-                            <input th:class="search" id="search" type="text" maxlength="100" th:placeholder="#{board.label.searchBoardPlaceholder}">
+                            <input th:class="search" id="search" type="text" maxlength="100"
+                                th:placeholder="#{board.label.searchBoardPlaceholder}">
                             <span th:class="icon-search"></span>
                             <input th:class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                             <span>~</span>
                             <input th:class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
                         </div>
                         <div class="menubar-right">
-                            <button class="btn-add" onclick="openBoardAdd()" sec:authorize="hasAuthority('board.create')"></button>
+                            <button class="btn-add" onclick="openBoardAdd()"
+                                sec:authorize="hasAuthority('board.create')"></button>
                         </div>
                     </div>
                     <div class="list" id="boardList"></div>
@@ -46,7 +47,7 @@
                                 <li><span class="btn-next"></span></li>
                             </ul>
                         </div>
-                        <div class="list-count"><span>총:127명</span></div>
+                        <div class="list-count"><span>총:127건</span></div>
                     </div>
                 </div>
             </div>
