@@ -4,11 +4,18 @@ aliceJs.systemCalendarDatetimeFormat = 'YYYY-MM-DD HH:mm:ss';
 aliceJs.systemCalendarDateFormat = 'YYYY-MM-DD';
 aliceJs.systemCalendarTimeFormat = 'HH:mm:ss';
 
+const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
+const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
+
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
  *
  * @param elementId 에러를 출력할 장소 element id
  * @param text response text
+ *
+ * 2020-07-20 Jung Hee Chan
+ * - printError div를 만들어서 에러 내용을 상세히 찍는 부분은 그대로 살려둔다. 다만 화면에 출력하는 부분만 주석처리 함.
+ * - 향후 단순 alert이 아닌 상세 리포팅 모달이 필요한 경우 아래 모듈을 발전시켜 사용할 예정이다.
  */
 aliceJs.xhrErrorResponse = function (elementId, text) {
     let elmNode = document.getElementById(elementId);
@@ -49,7 +56,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
         keyTd.innerText = obj.key;
         valueTd.innerText = obj.text;
     });
-    elmNode.appendChild(table);
+    //elmNode.appendChild(table);
     console.log(data);
     aliceJs.alert('[' + data.status + ']' + data.error + '<br/>' + data.message)
 };
@@ -432,12 +439,98 @@ function delFileCheck() {
  */
 aliceJs.alert = function(message, callbackFunc) {
     const myModal = new gModal({
-        title: 'Alert',
-        body: '<div style="text-align: center;">' + message + '</div>',
+        message: message,
+        type: 'gmodal-icon-info',
         buttons: [
             {
-                content: 'OK',
-                classes: 'gmodal-button-green',
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.alertSuccess = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-success',
+        buttons: [
+            {
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.AlertWarning = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-warning',
+        buttons: [
+            {
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open error dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.AlertDanger = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-danger',
+        buttons: [
+            {
+                content: '닫기',
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -463,12 +556,11 @@ aliceJs.alert = function(message, callbackFunc) {
  */
 aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
     const myModal = new gModal({
-        title: 'Confirm',
-        body: '<div style="text-align: center;">' + message + '</div>',
+        message: message,
+        type: 'gmodal-icon-confirm',
         buttons: [
             {
                 content: 'Cancel',
-                classes: 'gmodal-button-red',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -478,7 +570,7 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                 }
             },{
                 content: 'OK',
-                classes: 'gmodal-button-green',
+                classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {
@@ -536,3 +628,77 @@ aliceJs.mergeObject = function(target, source) {
 aliceJs.isEmpty = function(value) {
     return value === "" || value == null || (typeof value == "object" && !Object.keys(value).length);
 };
+
+/**
+ * RGBA 값을 Hex 값으로 변환.
+ *
+ * @param {string} value
+ * @returns {string} rgba
+ */
+aliceJs.rgbaToHex = function(value) {
+    let rgba = value.replace(/\s/g, '').match(rgbaReg)
+    return rgba ?
+        '#' +
+        (rgba[1] | 1 << 8).toString(16).slice(1) +
+        (rgba[2] | 1 << 8).toString(16).slice(1) +
+        (rgba[3] | 1 << 8).toString(16).slice(1) : value;
+}
+
+/**
+ * RGBA 의 alpha 값 조회.
+ *
+ * @param {string} value
+ * @returns {string} alpha
+ */
+aliceJs.rgbaOpacity = function(value) {
+    let rgba = value.replace(/\s/g, '').match(rgbaReg);
+    let alpha = (rgba && rgba[4]);
+    if (alpha === null || alpha === '') {
+        alpha = 0.5;
+    }
+    return alpha
+}
+
+/**
+ * Hex 값을 RGBA 값으로 변환.
+ *
+ * @param {string} value
+ * @param {number} opacity
+ * @returns {string} hexValue
+ */
+aliceJs.hexToRgba = function(value, opacity) {
+    let hexValue;
+    if (value !== '' && typeof opacity !== 'undefined') {
+        if (aliceJs.isHexCode(value)) {
+            hexValue = value.substring(1).split('');
+            if (hexValue.length === 3) {
+                hexValue = [hexValue[0], hexValue[0], hexValue[1], hexValue[1], hexValue[2], hexValue[2]];
+            }
+            hexValue = '0x' + hexValue.join('');
+            return 'rgba(' + [(hexValue >> 16) & 255, (hexValue >> 8) & 255, hexValue & 255].join(',') + ',' + opacity + ')';
+        } else {
+            throw new Error('Bad Hex');
+        }
+    }
+    return value;
+}
+
+/**
+ * Hex 값 체크.
+ *
+ * @param {string} value
+ * @returns {boolean}
+ */
+aliceJs.isHexCode = function(value) {
+    return hexReg.test(value);
+}
+
+/**
+ * RGBA 값 체크.
+ *
+ * @param {string} value
+ * @returns {boolean}
+ */
+aliceJs.isRgba = function(value) {
+    return rgbaReg.test(value);
+}

@@ -1,0 +1,6 @@
+// GNB 아이콘 속성
+@mixin gnb-icon($icon-url) {background: url($icon-folder-path + $icon-url) no-repeat center left; padding: 0 0 0 30px; margin: 20px 10px; vertical-align: middle;}
+
+// SNB 아이콘 속성
+@mixin snb-icon($icon-url) {padding: 0 0 0 36px; margin: 0 0 0 36px; background: url($icon-folder-path + $icon-url) no-repeat left center;}
+@mixin snb-icon2($icon-url) {padding: 0 0 0 30px; margin: 0 0 0 16px; background: url($icon-folder-path + $icon-url) no-repeat left center;}

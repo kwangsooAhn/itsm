@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.auth.mapper
 
 import co.brainz.framework.auth.dto.AliceIpVerificationDto
@@ -15,7 +20,8 @@ interface AliceUserAuthMapper {
     @Mappings(
         Mapping(target = "grantedAuthorises", ignore = true),
         Mapping(target = "menus", ignore = true),
-        Mapping(target = "urls", ignore = true)
+        Mapping(target = "urls", ignore = true),
+        Mapping(target = "avatarPath", ignore = true)
     )
     fun toAliceUserAuthDto(aliceUserEntity: AliceUserEntity): AliceUserAuthDto
 
@@ -28,9 +34,14 @@ interface AliceUserAuthMapper {
         Mapping(target = "status", ignore = true),
         Mapping(target = "certificationCode", ignore = true),
         Mapping(target = "platform", ignore = true),
-        Mapping(target = "userRoleMapEntities", ignore = true)
+        Mapping(target = "userRoleMapEntities", ignore = true),
+        Mapping(target = "avatar", ignore = true)
     )
     fun toAliceUserEntity(aliceUserDto: AliceUserDto): AliceUserEntity
+
+    @Mappings(
+        Mapping(target = "avatarPath", ignore = true)
+    )
     fun toUserDto(aliceUserEntity: AliceUserEntity): UserDto
 
     @Mappings(

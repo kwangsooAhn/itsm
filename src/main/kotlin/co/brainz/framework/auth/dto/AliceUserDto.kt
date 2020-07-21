@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.auth.dto
 
 import co.brainz.framework.auth.entity.AliceMenuEntity
@@ -22,11 +27,12 @@ data class AliceUserDto(
     val tryLoginCount: Int,
     val expiredDt: LocalDateTime,
     val oauthKey: String?,
-    val grantedAuthorises: Set<GrantedAuthority>,
-    val menus: Set<AliceMenuEntity>,
-    val urls: Set<AliceUrlEntity>,
+    val grantedAuthorises: Set<GrantedAuthority>?,
+    val menus: Set<AliceMenuEntity>?,
+    val urls: Set<AliceUrlEntity>?,
     val timezone: String,
     val lang: String,
     val timeFormat: String,
-    val theme: String
+    val theme: String,
+    val avatarPath: String?
 ) : Serializable
