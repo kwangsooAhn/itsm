@@ -1,0 +1,18 @@
+.signupPortal {
+    position: relative;
+}
+
+#signupMainImage {
+    background-color: $alice-primary;
+    position: fixed;
+    height: 73.75rem;
+    width: 80.3125rem;
+}
+
+#signupMainForm {
+    margin-left: 80.3125rem;
+    width: 39.6875rem;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+}
