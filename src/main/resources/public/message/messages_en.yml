@@ -490,7 +490,7 @@ notice:
     popUp:  "PopUp"
     popUpNoticeSettings: "PopUp Notice Settings"
     popUpNoticeSettingsInfo: "PopUp Notice Settings Info"
-    pupUpPeriod: "PopUp Period"
+    popUpPeriod: "PopUp Period"
     searchPlaceholder: "Title / User"
     set: "Set"
     strtDt: "Start Date"

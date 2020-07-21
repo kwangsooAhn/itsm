@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{menu.portal.notice}"></title>
 </head>
@@ -18,12 +18,16 @@
                 <div class="contents-body">
                     <div class="usermanage-menubar">
                         <div class="menubar-left">
-                            <input class="search" id="searchValue" type="text" maxlength="100" th:placeholder="#{notice.label.searchPlaceholder}" >
+                            <input class="search" id="searchValue" type="text" maxlength="100"
+                                th:placeholder="#{notice.label.searchPlaceholder}">
                             <span class="icon-search"></span>
-                            <input class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/><span>~ </span><input class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
+                            <input class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                            <span>~</span>
+                            <input class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
                         </div>
                         <div class="menubar-right">
-                            <button class="btn-add" onclick="location.href='/notices/new'" sec:authorize="hasAuthority('notice.create')"></button>
+                            <button class="btn-add" onclick="location.href='/notices/new'"
+                                sec:authorize="hasAuthority('notice.create')"></button>
                         </div>
                     </div>
                     <div class="list" id="noticeList"></div>
@@ -50,13 +54,15 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-        window.onload = function() {
+        window.onload = function () {
             // initialization date picker
-            document.getElementById('fromDt').value = i18n.getDate({'months':-1});
+            document.getElementById('fromDt').value = i18n.getDate({'months': -1});
             document.getElementById('toDt').value = i18n.getDate();
             dateTimePicker.initDatePicker('fromDt', i18n.dateFormat, i18n.lang, setDatePicker);
             dateTimePicker.initDatePicker('toDt', i18n.dateFormat, i18n.lang, setDatePicker);
-            document.getElementById('searchValue').addEventListener('keyup', function () { getNoticeList(false); });
+            document.getElementById('searchValue').addEventListener('keyup', function () {
+                getNoticeList(false);
+            });
             getNoticeList(true);
         };
 
@@ -67,14 +73,18 @@
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
+                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function () {
+                        picker.open();
+                    });
                 } else {
                     getNoticeList(false);
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
+                    aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function () {
+                        picker.open();
+                    });
                 } else {
                     getNoticeList(false);
                 }
@@ -91,7 +101,7 @@
             const data = {
                 searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim()),
                 fromDt: i18n.systemDate(document.getElementById('fromDt').value),
-                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days':1})
+                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days': 1})
             };
             const urlParam = 'searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
 
@@ -104,7 +114,7 @@
                 method: method,
                 url: url,
                 showProgressbar: showProgressbar,
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
                     document.getElementById('noticeList').innerHTML = response.responseText;
                     let createDtList = document.querySelectorAll('td[name=createDt]');
                     let popDtList = document.querySelectorAll('td[name=popDt]');
