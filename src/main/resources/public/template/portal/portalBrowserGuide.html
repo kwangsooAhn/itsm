@@ -14,34 +14,38 @@
         body {
             background-color: #EFF4FA;
         }
-
-        a {
-
-        }
-
-        p {
-            font-size: 30px;
-            font-family: 'Noto Sans KR', sans-serif;
-            text-align: center;
-            margin: 277px 315px 0px 315px;
-            height: 58px;
-            width: 1290px;
-        }
     </style>
 </head>
 <body>
-<p th:text="#{portal.label.browserGuidePhrase}"></p>
-<a href="https://www.google.com/intl/ko/chrome/" target="_blank"><img
-        th:src="@{/assets/media/image/testgoogle.png}" style="padding: 83px; position: relative; left: 315px; background-color: white">
-</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://www.mozilla.org/ko/firefox/new/" target="_blank"><img
-        th:src="@{/assets/media/image/testgoogle.png}" style="padding: 83px; background-color: white">
-</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://www.microsoft.com/ko-kr/edge" target="_blank"><img
-        th:src="@{/assets/media/image/testgoogle.png}" style="padding: 83px; background-color: white">
-</a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://support.apple.com/ko_KR/downloads/safari" target="_blank"><img
-        th:src="@{/assets/media/image/testgoogle.png}" style="padding: 83px; background-color: white">
+<p th:text="#{portal.label.browserGuidePhrase}"
+   style="font-size: 30px; font-family: 'Noto Sans KR', sans-serif; text-align: center; margin: 277px 315px 46px 315px; height: 58px; width: 1290px;"></p>
+
+<a href="https://www.google.com/intl/ko/chrome/" target="_blank"
+   style="padding: 63px; margin: 0px 15px 0px 15px; position: relative; left: 300px; background-color: white; display: inline-block;"><img
+        th:src="@{/assets/media/image/testgoogle.png}"
+        style="width: 174px; height: 174px; position: relative; bottom: 10px;">
+    <p style="display: inline-block; position: relative; top: 30px;">GOOGLE</p>
+</a>
+
+<a href="https://www.mozilla.org/ko/firefox/new/" target="_blank"
+   style="padding: 63px; margin: 0px 15px 0px 15px; position: relative; left: 300px; background-color: white; display: inline-block;"><img
+        th:src="@{/assets/media/image/testgoogle.png}"
+        style="width: 174px; height: 174px; position: relative; bottom: 10px;">
+    <p style="display: inline-block; position: relative; top: 30px;">GOOGLE</p>
+</a>
+
+<a href="https://www.microsoft.com/ko-kr/edge" target="_blank"
+   style="padding: 63px; margin: 0px 15px 0px 15px; position: relative; left: 300px; background-color: white; display: inline-block;"><img
+        th:src="@{/assets/media/image/testgoogle.png}"
+        style="width: 174px; height: 174px; position: relative; bottom: 10px;">
+    <p style="display: inline-block; position: relative; top: 30px;">MS EDGE</p>
+</a>
+
+<a href="https://support.apple.com/ko_KR/downloads/safari" target="_blank"
+   style="padding: 63px; margin: 0px 15px 0px 15px; position: relative; left: 300px; background-color: white; display: inline-block;"><img
+        th:src="@{/assets/media/image/testgoogle.png}"
+        style="width: 174px; height: 174px; position: relative; bottom: 10px;">
+    <p style="display: inline-block; position: relative; top: 30px;">SAFARI</p>
 </a>
 </body>
 </html>
