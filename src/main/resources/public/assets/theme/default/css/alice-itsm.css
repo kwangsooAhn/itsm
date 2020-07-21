@@ -389,6 +389,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   width: 27px;
   border-radius: 50%;
   background: #f0f0f0;
+  cursor: pointer;
 }
 .container .contents .list .tr-notice {
   background: rgba(255, 255, 0, 0.2);
