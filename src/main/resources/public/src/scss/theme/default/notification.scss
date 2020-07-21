@@ -72,6 +72,7 @@
                 &.remove {
                     background-image: url('../icons/delete.png');
                     background-repeat: no-repeat;
+                    opacity: 0.6;
                 }
             }
             span.title:hover {
@@ -80,7 +81,7 @@
             }
             .notification {
                 height: 55px;
-                border-bottom: 1px solid black;
+                border-bottom: 1px solid #dce1e8;
                 padding: 11px;
                 &:last-child {
                     border-bottom: none;
@@ -168,8 +169,7 @@
     }
 }
 .notification-content.confirm {
-    color: #5c6776;
-    opacity: 0.6;
+    color: #bfbfbf;
 }
 .notification-content:hover {
     background-color: #eaf1f7;
