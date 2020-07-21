@@ -83,9 +83,9 @@ object AliceUserConstants {
     /**
      * 사용자 아바타 저장 유형
      */
-    enum class AvatarStatus(val code: String) {
-        AVATAR_TYPE_FILE("FILE"),
-        AVATAR_TYPE_URL("URL")
+    enum class AvatarType(val code: String) {
+        FILE("FILE"),
+        URL("URL")
     }
 
     /**

@@ -507,7 +507,7 @@ class AliceFileService(
      * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
      */
     fun avatarFileNameMod(aliceAvatarEntity: AliceAvatarEntity) {
-        if (aliceAvatarEntity.avatarType == AliceUserConstants.AvatarStatus.AVATAR_TYPE_FILE.code &&
+        if (aliceAvatarEntity.avatarType == AliceUserConstants.AvatarType.FILE.code &&
             aliceAvatarEntity.uploaded && aliceAvatarEntity.avatarId != aliceAvatarEntity.avatarValue
         ) {
             val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
