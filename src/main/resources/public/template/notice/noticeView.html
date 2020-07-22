@@ -10,7 +10,7 @@
 <th:block layout:fragment="content">
     <div class="container">
         <br />
-        <form id = "frm" method = "post">
+        <form id="frm" method="post">
         <table class="table" border="1">
             <tr>
                 <th th:text="#{common.label.title}"></th>
@@ -31,7 +31,7 @@
                 <th th:text="#{common.label.createUser}"></th>
                 <td colspan="3"><span th:text="${notice?.aliceUserEntity.userName}"></span></td>
             </tr>
-            <tr style = "display:none;">
+            <tr style="display:none;">
                 <th th:text="#{notice.label.popUpNoticeSettings}"></th>
                 <td>
                     <div>
@@ -60,7 +60,7 @@
                 </td>
             </tr>
         </table>
-        <div id="popTab" style = "display:none;">
+        <div id="popTab" style="display:none;">
             <table class="table" border="1">
                 <tr>
                     <th rowspan="4" th:text="#{notice.label.popUpNoticeSettingsInfo}"></th>
@@ -88,7 +88,7 @@
             </table>
         </div>
 
-        <div id="topNoticeTab" style = "display:none;">
+        <div id="topNoticeTab" style="display:none;">
             <table class="table" border="1">
                 <tr>
                     <th rowspan="4" th:text="#{notice.label.topNoticeSettingsInfo}"></th>
@@ -107,7 +107,7 @@
                 </tr>
             </table>
         </div>
-        <div style = "float:right;">
+        <div style="float:right;">
             <button type="button" onclick="location.href='/notices/search'" th:text="#{common.btn.list}"></button>
         </div>
         </form>
