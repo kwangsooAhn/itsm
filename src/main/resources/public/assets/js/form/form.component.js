@@ -3,6 +3,9 @@
  *
  * @author woodajung
  * @version 1.0
+ *
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -227,18 +230,22 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
+        const displayType = property['dataAttribute']['displayType'];
         const optionsTemplate = property.option.map(function (opt) {
             return `<div class="field-radio">` +
                 `${(property.display.position === 'right') ?
-                    `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}" ${(typeof property.value !== 'undefined' && opt.value === property.value) ? "checked='true'" : ""}>` +
+                    `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}"` + 
+                    `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
+                    `${displayType === 'readonly' ? ' disabled' : ''}>` +
                     `<label for='radio-${opt.value}-${opt.seq}'>${opt.name}</label>` :
                     `<label for='radio-${opt.value}-${opt.seq}'>${opt.name}</label>` +
-                    `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}" ${(typeof property.value !== 'undefined' && opt.value === property.value) ? "checked='true'" : ""}>`
+                    `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}"` +
+                    `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
+                    `${displayType === 'readonly' ? ' disabled' : ''}>`
                  }` +
                 `</div>`;
         }).join('');
 
-        const displayType = property['dataAttribute']['displayType'];
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
@@ -273,19 +280,23 @@
         this.property = property;
         this.renderOrder = property.display.order;
 
+        const displayType = property['dataAttribute']['displayType'];
         const checkboxValueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
         const optionsTemplate = property.option.map(function (opt) {
             return `<div class="field-checkbox">` +
                 `${(property.display.position === 'right') ?
-                    `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}" ${(checkboxValueArr.indexOf(opt.value) > -1) ? "checked='true'" : ""}>` +
+                    `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}"` + 
+                    `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
+                    `${displayType === 'readonly' ? ' disabled' : ''}>` +
                     `<label for='checkbox-${opt.value}-${opt.seq}'>${opt.name}</label>` :
                     `<label for='checkbox-${opt.value}-${opt.seq}'>${opt.name}</label>` +
-                    `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}" ${(checkboxValueArr.indexOf(opt.value) > -1) ? "checked='true'" : ""}>`
+                    `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}"` +
+                    `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
+                    `${displayType === 'readonly' ? ' disabled' : ''}>`
                 }` +
                 `</div>`;
         }).join('');
 
-        const displayType = property['dataAttribute']['displayType'];
         this.template =
             `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
                 `<div class="move-handler"></div>` +

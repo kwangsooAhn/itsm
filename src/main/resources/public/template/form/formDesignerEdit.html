@@ -13,10 +13,10 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-<div class="alice-form-container">
-    <div class="alice-form-toolbar">
+<div class="container">
+    <div class="toolbar">
         <span class="logo"></span>
-        <span class="form-designer">Form Designer</span>
+        <span class="name">Form Designer</span>
         <span class="separator"></span>
         <th:block th:if="${#strings.isEmpty(isView)}">
             <a href="javascript:void(0);" onclick="editor.save(false);">
@@ -58,13 +58,13 @@
         </th:block>
         <span class="form-name"></span>
     </div>
-    <div class="alice-form-panel">
+    <div class="content form">
         <div class="drawing-board" id="form-panel"></div>
     </div>
-    <div class="alice-form-properties-panel" id="properties-panel"></div>
+    <div class="aside form" id="properties-panel"></div>
 </div>
-<div class="alice-form-context-menu" id="context-menu">
-    <ul>
+<div class="context-menu" id="context-menu">
+    <ul class="menu">
         <li class="menu-item inputbox" data-action="inputbox">
             <div>
                 <a href="javascript:void(0);"></a>
@@ -148,7 +148,7 @@
 <!-- 툴팁 템플릿 -->
 <template id="tooltip-template">
     <div class="tooltip-menu">
-        <ul>
+        <ul class="menu">
             <li class="menu-item list" data-action="list">
                 <a href="javascript:void(0);">
                     <!--<label th:text="#{form.label.list}"></label>-->
@@ -174,24 +174,24 @@
 </template>
 <!-- 컴포넌트 properties 템플릿 -->
 <template id="component-template">
-    <div class="component-title">
+    <div class="properties-title">
     </div>
     <div class="component-properties">
         <div class="property-empty">
             <h3 th:text="#{form.msg.information}"></h3>
         </div>
         <div class="property-group" id="dataAttribute">
-            <h3><span th:text="#{form.properties.dataAttribute}"></span></h3>
+            <h3><label th:text="#{form.properties.dataAttribute}"></label></h3>
         </div>
         <div class="property-group" id="label">
-            <h3><span th:text="#{form.properties.label}"></span></h3>
+            <h3><label th:text="#{form.properties.label}"></label></h3>
         </div>
         <div class="property-group" id="display">
-            <h3><span th:text="#{form.properties.display}"></span></h3>
+            <h3><label th:text="#{form.properties.display}"></label></h3>
         </div>
         <div class="property-group" id="option">
             <h3>
-                <span th:text="#{form.properties.display}"></span>
+                <label th:text="#{form.properties.display}"></label>
                 <div>
                     <button class="plus"></button>
                     <button class="minus"></button>
@@ -206,30 +206,32 @@
 </template>
 <!-- 폼 properties 템플릿 -->
 <template id="form-template">
-    <div class="form-title">
+    <div class="properties-title on">
         <h2>Form</h2>
     </div>
     <div class="form-properties">
-        <div class="property" id="formId">
-            <label for="formId" th:text="#{form.properties.id}"></label>
-            <input type="text" class="property-value" readonly="true">
-        </div>
-        <div class="property" id="name">
-            <label for="name" th:text="#{form.properties.name}"></label>
-            <input type="text" class="property-value" maxlength="20">
-        </div>
-        <div class="property" id="desc">
-            <label for="desc" th:text="#{form.properties.desc}"></label>
-            <textarea class="property-value" maxlength="200"></textarea>
-        </div>
-        <div class="property" id="status">
-            <label for="status" th:text="#{form.properties.status}"></label>
-            <select class="property-value">
-                <option value="form.status.edit" th:text="#{form.status.edit}"></option>
-                <option value="form.status.publish" th:text="#{form.status.publish}"></option>
-                <option value="form.status.use" th:text="#{form.status.use}"></option>
-                <option value="form.status.destroy" th:text="#{form.status.destroy}"></option>
-            </select>
+        <div class="property-group on">
+            <div class="property-field" id="formId">
+                <label class="property-name" for="formId" th:text="#{form.properties.id}"></label>
+                <input type="text" class="property-value" readonly="true">
+            </div>
+            <div class="property-field" id="name">
+                <label class="property-name" for="name" th:text="#{form.properties.name}"></label>
+                <input type="text" class="property-value" maxlength="20">
+            </div>
+            <div class="property-field" id="desc">
+                <label class="property-name" for="desc" th:text="#{form.properties.desc}"></label>
+                <textarea class="property-value" maxlength="200"></textarea>
+            </div>
+            <div class="property-field" id="status">
+                <label class="property-name" for="status" th:text="#{form.properties.status}"></label>
+                <select class="property-value">
+                    <option value="form.status.edit" th:text="#{form.status.edit}"></option>
+                    <option value="form.status.publish" th:text="#{form.status.publish}"></option>
+                    <option value="form.status.use" th:text="#{form.status.use}"></option>
+                    <option value="form.status.destroy" th:text="#{form.status.destroy}"></option>
+                </select>
+            </div>
         </div>
     </div>
 </template>

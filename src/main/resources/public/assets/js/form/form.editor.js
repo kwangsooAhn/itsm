@@ -3,6 +3,9 @@
  *
  * @author woodajung
  * @version 1.0
+ *
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -1075,7 +1078,7 @@
 
         } else {
             // 5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
-            const componentTitleElem = componentElem.querySelector('.component-title');
+            const componentTitleElem = componentElem.querySelector('.properties-title');
             if (!componentTitleElem.classList.contains('on')) {
                 const componentTitleData = component.getName(componentData.type);
                 componentTitleElem.insertAdjacentHTML('beforeend', `<h2>${componentTitleData.name}</h2>`);
@@ -1130,20 +1133,22 @@
 
                                 //속성명 및 도움말 추가
                                 let fieldTemplate =
-                                    `<label class='property-field-name'>${fieldProp.name}${typeof fieldProp.help === 'undefined' ? '' : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`}</label>`;
+                                    `< class="property-name"${fieldProp.type === 'checkbox-boolean' ? " for='checkbox-" + componentData.componentId + "-"  + fieldProp.id + "'" : ""}>${fieldProp.name}` +
+                                        `${typeof fieldProp.help === 'undefined' ? '' : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`}` +
+                                    `</label>`;
 
                                 // 상세속성 추가
                                 switch (fieldProp.type) {
                                     case 'checkbox-boolean':
                                         fieldTemplate +=
-                                            `<input type='checkbox' class='property-field-value' name='${fieldProp.id}' ${fieldProp.value ? 'checked' : ''}>`;
+                                            `<input type='checkbox' class='property-value' id= 'checkbox-${componentData.componentId}-${fieldProp.id}' name='${fieldProp.id}' ${fieldProp.value ? 'checked' : ''}>`;
                                         break;
                                     case 'customcode':
                                         const fieldCustomCodeOptions = customCodeList.map(function (code) {
                                             return `<option value='${code.customCodeId}' ${fieldProp.value === code.customCodeId ? "selected='selected'" : ""}>${code.customCodeName}</option>`;
                                         }).join('');
                                         fieldTemplate +=
-                                            `<select class='property-field-value' id='${fieldProp.id}'>${fieldCustomCodeOptions}</select>`;
+                                            `<select class='property-value' id='${fieldProp.id}'>${fieldCustomCodeOptions}</select>`;
                                         // 첫번째 커스텀 코드를 저장
                                         if (fieldProp.value === '' && customCodeList.length > 0) {
                                             changePropertiesValue(customCodeList[0].customCodeId, group, fieldProp.id);
@@ -1151,18 +1156,18 @@
                                         break;
                                     case 'image':
                                         fieldTemplate +=
-                                            `<input type='text' class='property-field-value' value='${fieldProp.value}'>
+                                            `<input type='text' class='property-value' value='${fieldProp.value}'>
                                             <button type='button' onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1200, height=700");'>select</button>`;
                                         break;
                                     case 'inputbox':
                                     case 'inputbox-underline':
                                         fieldTemplate +=
-                                            `<input type='text' class='property-field-value${fieldProp.type === "inputbox-underline" ? " underline" : ""}' value='${fieldProp.value}'/>`;
+                                            `<input type='text' class='property-value${fieldProp.type === "inputbox-underline" ? " underline" : ""}' value='${fieldProp.value}'/>`;
                                         break;
                                     case 'rgb':
                                         fieldTemplate +=
                                             `<span class='selected-color-layer'><span class='selected-color' style='background-color: ${fieldProp.value};'></span></span>
-                                            <input type='text' class='property-field-value underline color' id='${group}-${fieldProp.id}-value'  value='${fieldProp.value}' readonly>`;
+                                            <input type='text' class='property-value underline color' id='${group}-${fieldProp.id}-value'  value='${fieldProp.value}' readonly>`;
 
                                         let colorPaletteLayer = `<div id="${group + "-" + fieldProp.id}-colorPaletteLayer">
                                                 <div id='${group + "-" + fieldProp.id}-colorPalette' class='color-palette'></div>
@@ -1184,8 +1189,8 @@
 
                                             return `<div class='vertical-group radio-datetime'>
                                             <input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} />
-                                            ${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><label for='" + opt.id + "'>" + labelName[1] + "</label>" : ""}
-                                            ${opt.id === 'datetime' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-day'>" + labelName[1] + "</label>" + "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-hour'>" + labelName[2] + "</label>" : ""}
+                                            ${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><label for='" + opt.id + "'>" + labelName[1] + "</label>" : ""}
+                                            ${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-day'>" + labelName[1] + "</label>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-hour'>" + labelName[2] + "</label>" : ""}
                                             ${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
                                             ${opt.id === 'now' || opt.id === 'none' ? "<label for='" + opt.id + "'>" + labelName[0] + "</label>" : ""}
                                             </div>`;
@@ -1217,11 +1222,11 @@
                                             return `<option value='${opt.id}' ${fieldProp.value === opt.id && selectedComponentIds.length === 1 ? "selected='selected'" : ""}>${opt.name}</option>`;
                                         }).join('');
                                         fieldTemplate +=
-                                            `<select class='property-field-value'>${fieldSelectOptions}</select>`;
+                                            `<select class='property-value'>${fieldSelectOptions}</select>`;
                                         break;
                                     case 'slider':
                                         fieldTemplate +=
-                                            `<input type='range' class='property-field-value' id='${group + "-" + fieldProp.id}' min='1' max='12' value='${fieldProp.value}'/>
+                                            `<input type='range' class='property-value' id='${group + "-" + fieldProp.id}' min='1' max='12' value='${fieldProp.value}'/>
                                              <input type='text' class='underline' id='${group + "-" + fieldProp.id}-value' value='${fieldProp.value}' readonly/>`;
                                         break;
                                     case 'session':
@@ -1230,7 +1235,7 @@
                                             return `<option value='${opt.id}' ${propValueArr[0] === opt.id ? "selected='selected'" : ""}>${opt.name}</option>`;
                                         }).join('');
                                         fieldTemplate +=
-                                            `<select class='property-field-value' id='toggle'>${fieldSessionOptions}</select>`;
+                                            `<select class='property-value' id='toggle'>${fieldSessionOptions}</select>`;
 
                                         fieldTemplate += `<input type='text' class='${fieldProp.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? propValueArr[1] : ""}'/>`;
 
@@ -1244,7 +1249,7 @@
                                     case 'timepicker':
                                     case 'datetimepicker':
                                         fieldTemplate +=
-                                            `<input type='text' class='${fieldProp.type} property-field-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}-${fieldProp.id}' value='${fieldProp.value}'>`;
+                                            `<input type='text' class='${fieldProp.type} property-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}-${fieldProp.id}' value='${fieldProp.value}'>`;
                                         break;
                                 }
                                 // 단위 추가
@@ -1270,10 +1275,10 @@
 
                             // 유효성 검증 추가
                             if (typeof fieldProp.validate !== 'undefined' && fieldProp.validate !== '') {
-                                validateCheck(fieldGroupElem.querySelector('.property-field-value'), fieldProp.validate);
+                                validateCheck(fieldGroupElem.querySelector('.property-value'), fieldProp.validate);
                             }
                             if (typeof fieldProp.option !== 'undefined') {
-                                const fieldValueElem = fieldGroupElem.querySelector('.property-field-value');
+                                const fieldValueElem = fieldGroupElem.querySelector('.property-value');
                                 if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
                                     validateCheck(fieldValueElem, fieldValueElem.getAttribute('data-validate'));
                                 }
@@ -1345,7 +1350,7 @@
             const changeElem = changeElems[i];
             switch (changeElem.type) {
                 case 'checkbox':
-                    if (changeElem.classList.contains('property-field-value')) {
+                    if (changeElem.classList.contains('property-value')) {
                         changeElem.addEventListener('change', function (e) {
                             const changePropertiesArr = e.target.parentNode.id.split('-');
                             changePropertiesValue(e.target.checked, changePropertiesArr[0], changePropertiesArr[1]);
@@ -1485,7 +1490,7 @@
         //폼 속성 출력
         const formTemplate = document.getElementById('form-template');
         const formElem = formTemplate.content.cloneNode(true);
-        const formNodes = formElem.querySelectorAll('.property');
+        const formNodes = formElem.querySelectorAll('.property-field');
         formNodes.forEach(function(node) {
             Object.keys(formProperties).some(function(prop) {
                 if (prop === node.id) {

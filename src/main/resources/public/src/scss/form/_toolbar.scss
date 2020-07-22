@@ -1,0 +1,52 @@
+// 상단 툴 바
+.toolbar {
+    width: 100vw;
+    height: $toolbar-height;
+    font-size: $toolbar-font-size;
+    color: $toolbar-font-color;
+    background-color: $toolbar-background-color;
+    padding-top: $toolbar-top-bottom-padding;
+    padding-bottom: $toolbar-top-bottom-padding;
+    line-height: 1.0rem;
+
+    span.logo { // 로고
+        width: $toolbar-logo-width;
+        height: $toolbar-real-height;
+        float: left;
+        @include background("#{$asset-path}/form/topmenu/logo.png");
+    }
+
+    span.name { // 문구
+        float: left;
+        padding : 0 0.938rem; // 15px;
+    }
+
+    span.separator { // 아이콘 구분자
+        width: 0.063rem; // 1px
+        height: $toolbar-real-height;
+        background-color: $toolbar-separator-color;
+        margin-right: 0.75rem; // 12px
+        float: left;
+    }
+
+    a { // 아이콘
+        margin-right: 0.75rem; // 12px
+        height: $toolbar-real-height;
+        line-height: $toolbar-real-height;
+        float: left;
+        img {
+            cursor: pointer;
+        }
+        label {
+            margin-left: 0.313rem;  // 5px
+            cursor: pointer;
+        }
+    }
+
+    span.form-name { // 상단 우측 이름
+        height: $toolbar-real-height;
+        line-height: $toolbar-real-height;
+        float: right;
+        margin-right: 0.938rem; // 15px
+    }
+}
