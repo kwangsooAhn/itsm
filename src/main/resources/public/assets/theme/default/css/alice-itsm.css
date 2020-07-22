@@ -190,6 +190,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
 .container .contents .user-register-contents-body .user-role-checkbox-list {
   margin-top: 37px;
   margin-left: 10px;
+  margin-bottom: 51px;
 }
 
 .container .contents .user-register-contents-body .user-role-checkbox-list-middle {

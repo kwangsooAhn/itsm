@@ -120,7 +120,8 @@
                         <ui class="user-role-checkbox-wrap user-role-checkbox-list-middle" th:each="role : ${roles}">
                             <p class="user-role-checkbox-block">
                                 <input class="user-role-checkbox" type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}" th:checked="*{role.checked}">
-                                <label class="checkbox-label" th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
+                                <label class="checkbox-label" th:for="|roles*{roleStat.index}|"
+                                       th:title="*{role.roleName}" th:text="*{role.roleName}"></label>
                             </p>
                         </ui>
                     </div>
