@@ -134,21 +134,85 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, botton {
   font-weight: 900;
   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format("opentype");
 }
-.signupPortal {
-  position: relative;
+label, input {
+  display: block;
 }
 
-#signupMainImage {
+.alicePortal {
+  overflow: auto;
+}
+
+.signup-logo {
+  position: absolute;
+  z-index: 99999999;
+  top: 5rem;
+  left: 5rem;
+}
+.signup-background {
   background-color: #0050ff;
-  position: fixed;
   height: 73.75rem;
   width: 80.3125rem;
+  top: 0;
+  left: 0;
 }
-
-#signupMainForm {
-  margin-left: 80.3125rem;
+.signup-login-face {
+  position: relative;
+  top: 53.1875rem;
+  left: 28.375rem;
+}
+.signup-login-face .btn {
+  border: 1px solid;
+  border-radius: 1px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.75rem 0.625rem;
+}
+.signup-login-face .btn-primary {
+  background-color: #0050ff;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  min-width: 11.75rem;
+  margin-left: 2.5rem;
+}
+.signup-login-note {
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #FFFFFF;
+}
+.signup-main-image {
+  position: relative;
+  z-index: 99999999;
+  top: 6.1875rem;
+  left: 11.125rem;
+}
+.signup-form {
+  margin: 5.6875rem 8.5938rem 0rem 88.9063rem;
   width: 39.6875rem;
   position: absolute;
-  left: 0px;
-  top: 0px;
+  top: 0;
+}
+.signup-form h1 {
+  font-weight: bold;
+  font-size: 2.1875rem;
+  color: #3E4752;
+  margin-bottom: 3.3125rem;
+}
+.signup-form label {
+  color: #3E4752;
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+.signup-form input {
+  padding-left: 0.625rem;
+  width: 22.375rem;
+  height: 2.25rem;
+  border: 0.0625rem solid #C8CED8;
+  border-radius: 0.0625rem;
+  font-size: 0.8759rem;
+}
+.signup-form input:focus {
+  outline: 0.125rem solid #0050ff;
+  border-radius: 0.0625rem;
 }

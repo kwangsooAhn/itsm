@@ -7,119 +7,46 @@
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
-    <title>회원가입 페이지</title>
-
-    <!--<style>
-        .dropzone {
-            height: 180px;
-            width: 180px;
-            overflow-y: hidden;
-            overflow-x: hidden;
-        }
-        .dropzone img {
-            width: 100%;
-            height: 100%;
-        }
-        .btn-check-wrapper {
-            display: inline-block;
-            float: right;
-        }
-        .btn-upload-wrapper input[type=file] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-        }
-        .fileEditorable {
-            height: 180px;
-            width: 180px;
-        }
-    </style>-->
 </head>
 <body>
-<div class="signupPortal">
-    <div id="signupMainImage"></div>
-    <div id="signupMainForm">
-        <p th:text="#{login.label.userSignUp}"></p>
-        <div class="login-face">
-            <p th:text="#{login.label.loginNote}"></p>
+<div class="alicePortal">
+    <img class="signup-logo" th:src="@{/assets/media/image/signup/alice_logo.png}" alt="Alice">
+    <div class="signup-background">
+        <div class="signup-login-face">
+            <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
             <a class="btn btn-primary" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
         </div>
-        <img th:src="@{/assets/media/icons/logo.png}" alt="Alice">
+        <img class="signup-main-image" th:src="@{/assets/media/image/signup/graphic_signup.png}" alt="SignupBackgroud">
+    </div>
+    <div class="signup-form">
+        <h1 th:text="#{login.label.userSignUp}"></h1>
         <div class="signup-base">
             <form id="signUpForm" method="post" onsubmit="return false">
-                <table class="signup-form">
-                    <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
-                    <tr>
-                        <th><a class="required" th:text="#{user.label.id}"></a></th>
-                        <td><input type="text" id="userId" name="userId" maxlength="100" required="required"></td>
-                    </tr>
-                    <tr>
-                        <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.password}"></a></th>
-                        <td><input type="password" id="password" name="password" maxlength="100" required="required"></td>
-                    </tr>
-                    <tr>
-                        <th><a class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.rePassword}"></a></th>
-                        <td><input type="password" id="rePassword" name="rePassword" maxlength="100" required="required"></td>
-                    </tr>
-                    <tr>
-                        <th><a class="required" th:text="#{user.label.name}"></a></th>
-                        <td><input type="text" id="userName" name="userName" maxlength="100" required="required"></td>
-                    </tr>
-                    <tr>
-                        <th><a class="required" th:text="#{user.label.email}"></a></th>
-                        <td><input type="text" id="email" name="email" maxlength="100" required="required"></td>
-                    </tr>
-                    <tr>
-                        <th><a th:text="#{user.label.position}"></a></th>
-                        <td><input type="text" id="position" name="position" maxlength="100"></td>
-                    </tr>
-                    <tr style="display: none">
-                        <th><a type="hidden" th:text="#{user.label.department}"></a></th>
-                        <td><input type="text" id="department" name="department" maxlength="100"></td>
-                    </tr>
-                    <tr>
-                        <th><a th:text="#{user.label.officeNumber}"></a></th>
-                        <td><input type="text" id="officeNumber" name="officeNumber" maxlength="100"></td>
-                    </tr>
-                    <tr>
-                        <th><a th:text="#{user.label.mobileNumber}"></a></th>
-                        <td><input type="text" id="mobileNumber" name="mobileNumber" maxlength="100"></td>
-                    </tr>
-                    <tr>
-                        <th th:text="#{user.label.avatar}"/>
-                        <td>
-                            <div id="dropZoneFiles"></div><br/><br/>
-                            <div th:text="#{user.label.FileSizeLimit}"></div>
-                            <div th:text="#{user.label.FileExtensionAllowed}"></div>
-                        </td>
-                    </tr>
-                </table>
+                <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
+                <label class="required" th:text="#{user.label.id}"></label>
+                <input type="text" id="userId" name="userId" maxlength="100" required="required">
+                <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.password}"></label>
+                <input type="password" id="password" name="password" maxlength="100" required="required">
+                <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.rePassword}"></label>
+                <input type="password" id="rePassword" name="rePassword" maxlength="100" required="required">
+                <label class="required" th:text="#{user.label.name}"></label>
+                <input type="text" id="userName" name="userName" maxlength="100" required="required">
+                <label class="required" th:text="#{user.label.email}"></label>
+                <input type="text" id="email" name="email" maxlength="100" required="required">
+                <label th:text="#{user.label.position}"></label>
+                <input type="text" id="position" name="position" maxlength="100">
+                <label type="hidden" th:text="#{user.label.department}"></label>
+                <input type="text" id="department" name="department" maxlength="100">
+                <label th:text="#{user.label.officeNumber}"></label>
+                <input type="text" id="officeNumber" name="officeNumber" maxlength="100">
+                <label th:text="#{user.label.mobileNumber}"></label>
+                <input type="text" id="mobileNumber" name="mobileNumber" maxlength="100">
+                <label th:text="#{user.label.avatar}"/>
+                <div id="dropZoneFiles"></div><br/><br/>
+                <div th:text="#{user.label.FileSizeLimit}"></div>
+                <div th:text="#{user.label.FileExtensionAllowed}"></div>
             </form>
-            <button class="btn btn-primary" id="userSignUp" th:text="#{login.btn.doSignUp}" onclick="userRegister()"></button>
-        </div>
-        <div id="password-guide">
-            <pre>
-            [ 아이디 생성 가이드 ]
-
-            1. 영문, 숫자, 특수문자(@, ., -, _)만 허용한다.
-
-            2. 허용된 특수문자는 맨 앞에 올수 없다.
-
-            3. 공백을 허용하지 않는다.
-
-            [ 비밀번호 생성 가이드 ]
-
-            1. 2가지 이상의 문자 구성(대문자, 소문자, 특수문자, 숫자)인 경우, 8자 이상 20자 미만, 1가지 종류의 문자 구성인 경우 10자 이상 20자 미만의 비밀번호 입력 제한 범위를 가진다.
-
-            2. 사용자의 ID를 포함하지 않는다.
-                   예) ID가 ITSM인 경우, ITS는 포함 가능, ITSM은 포함 불가.
-
-            3. 사용자의 이메일 ID를 포함하지 않는다.
-                   예) 이메일 ID가 ITSM인 경우, ITS는 포함 가능, ITSM은 포함 불가
-
-            4. 공백을 허용하지 않는다.
-            </pre>
+            <button class="btn btn-signup" id="userSignUp" th:text="#{login.btn.doSignUp}" onclick="userRegister()"></button>
         </div>
     </div>
 </div>
@@ -127,137 +54,130 @@
 <div id="divProgressBar" style="z-index: 1000; position: fixed; display: block; width: 100%; height: 100%; top: 50;  left: 0;  right: 0;  bottom: 0;  background-color: grey; opacity: 0.5; pointer-events: all;">
     <img id="aProgressBar" name="aProgressBar" th:src="@{/assets/media/image/loading_w_dark.gif}" style="position: absolute; left: 50%; top: 0; bottom:0; margin:auto;"/>
 </div>
-<div class="white-base" id="signUp">
+<script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
+<script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
+<script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
+<script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
+<script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+<script th:src="@{/assets/js/util/i18n-alice.js}"></script>
+<script th:src="@{/assets/js/util/validation-alice.js}"></script>
+<script th:src="@{/assets/js/util/util-alice.js}"></script>
+<script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
+<script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    window.onload = function() {
+        i18n.initMessages();
+        hiddenProgressBar();
 
-</div>
+        document.getElementById('avatarUUID').value = uuid();
+        var avatarUUID = document.getElementById('avatarUUID').value;
+        fileUploader.init({extra: {
+                formId: 'signUpForm',
+                dropZoneMaxFileSize: 0.2,
+                dropZoneUrl: '/certification/fileupload?target=avatar&fileName='+ avatarUUID,
+                dropZoneMaxFiles: 1,
+                acceptedFiles:".png,.jpeg,.jpg,.gif",
+                clickable: '.add-img-button'
+        }});
+    }
+    const STATUS_SUCCESS = "0";
+    const STATUS_ERROR_USER_ID_DUPLICATION = "1";
+    const STATUS_ERROR_EMAIL_DUPLICATION = "3";
 
+    // 사용자 등록
+    function userRegister() {
+        if (emptyValidation()) {
+            if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) {
+                return false;
+            } else {
+                // 아이디 validation Check
+                if (!isValidUserId("userId")) return false;
 
+                // 비밀번호 validation Check
+                if (!isValidPassword("password")) return false;
+                // 비밀번호 RSA 암호화
+                const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+                const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+                const rsa = new RSAKey();
+                rsa.setPublic(keyModule, keyExponent);
 
+                // 이메일 validation Check
+                if (!isValidEmail("email")) return false;
 
-    <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
-    <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
-    <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
-    <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
-    <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
-    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
-    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
-    <script th:src="@{/assets/js/util/util-alice.js}"></script>
-    <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
-    <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
-    <script type="text/javascript" th:inline="javascript">
-        /*<![CDATA[*/
-        window.onload = function() {
-            i18n.initMessages();
-            hiddenProgressBar();
-
-            document.getElementById('avatarUUID').value = uuid();
-            var avatarUUID = document.getElementById('avatarUUID').value;
-            fileUploader.init({extra: {
-                    formId: 'signUpForm',
-                    dropZoneMaxFileSize: 0.2,
-                    dropZoneUrl: '/certification/fileupload?target=avatar&fileName='+ avatarUUID,
-                    dropZoneMaxFiles: 1,
-                    acceptedFiles:".png,.jpeg,.jpg,.gif",
-                    clickable: '.add-img-button'
-            }});
-        }
-        const STATUS_SUCCESS = "0";
-        const STATUS_ERROR_USER_ID_DUPLICATION = "1";
-        const STATUS_ERROR_EMAIL_DUPLICATION = "3";
-
-        // 사용자 등록
-        function userRegister() {
-            if (emptyValidation()) {
-                if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) {
-                    return false;
-                } else {
-                    // 아이디 validation Check
-                    if (!isValidUserId("userId")) return false;
-
-                    // 비밀번호 validation Check
-                    if (!isValidPassword("password")) return false;
-                    // 비밀번호 RSA 암호화
-                    const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
-                    const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-                    const rsa = new RSAKey();
-                    rsa.setPublic(keyModule, keyExponent);
-
-                    // 이메일 validation Check
-                    if (!isValidEmail("email")) return false;
-
-                    let avatarUUID = document.getElementById('avatarUUID').value;
-                    if (document.getElementsByClassName('dz-image').item(0) === null) {
-                        avatarUUID = '';
-                    }
-
-                    const password = document.getElementById("password").value;
-                    const registerInfo = {
-                        userId: document.getElementById("userId").value,
-                        password: rsa.encrypt(password),
-                        userName: document.getElementById("userName").value,
-                        email: document.getElementById("email").value,
-                        position: document.getElementById("position").value,
-                        department: document.getElementById("department").value,
-                        officeNumber: document.getElementById("officeNumber").value,
-                        mobileNumber: document.getElementById("mobileNumber").value,
-                        fileSeq: document.getElementsByName('fileSeq').value,
-                        avatarUUID: avatarUUID
-                    };
-                    // 등록
-                    restSubmit("POST", "/certification/register",true,registerInfo);
+                let avatarUUID = document.getElementById('avatarUUID').value;
+                if (document.getElementsByClassName('dz-image').item(0) === null) {
+                    avatarUUID = '';
                 }
+
+                const password = document.getElementById("password").value;
+                const registerInfo = {
+                    userId: document.getElementById("userId").value,
+                    password: rsa.encrypt(password),
+                    userName: document.getElementById("userName").value,
+                    email: document.getElementById("email").value,
+                    position: document.getElementById("position").value,
+                    department: document.getElementById("department").value,
+                    officeNumber: document.getElementById("officeNumber").value,
+                    mobileNumber: document.getElementById("mobileNumber").value,
+                    fileSeq: document.getElementsByName('fileSeq').value,
+                    avatarUUID: avatarUUID
+                };
+                // 등록
+                restSubmit("POST", "/certification/register",true,registerInfo);
             }
         }
-        // 빈 값 체크
-        function emptyValidation() {
-            if (isEmpty('userId', 'user.msg.enterUserId')) return false;
-            if (isEmpty('password', 'user.msg.enterUserPassword')) return false;
-            if (isEmpty('rePassword', 'user.msg.enterUserRePassword')) return false;
-            if (isEmpty('userName', 'user.msg.enterUserName')) return false;
-            if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
-            return true;
-        }
+    }
+    // 빈 값 체크
+    function emptyValidation() {
+        if (isEmpty('userId', 'user.msg.enterUserId')) return false;
+        if (isEmpty('password', 'user.msg.enterUserPassword')) return false;
+        if (isEmpty('rePassword', 'user.msg.enterUserRePassword')) return false;
+        if (isEmpty('userName', 'user.msg.enterUserName')) return false;
+        if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
+        return true;
+    }
 
-        function uuid() {
-            function s4() {
-                return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    function uuid() {
+        function s4() {
+            return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
         }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
 
-        // 데이터 전송
-        function restSubmit(method, url, async, data) {
-            const opt = {
-                method: method,
-                url: url,
-                async: async,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function(response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            aliceJs.alert([[#{user.msg.signUp}]], function() {
-                                location.href = "/login";
-                            });
-                            break;
-                        case STATUS_ERROR_USER_ID_DUPLICATION:
-                            aliceJs.alert([[#{user.msg.sameUserId}]]);
-                            break;
-                        case STATUS_ERROR_EMAIL_DUPLICATION:
-                            aliceJs.alert([[#{user.msg.sameEmail}]]);
-                            break;
-                        default :
-                            aliceJs.alert([[#{user.msg.signUpFail}]]);
-                            break;
-                    }
+    // 데이터 전송
+    function restSubmit(method, url, async, data) {
+        const opt = {
+            method: method,
+            url: url,
+            async: async,
+            params: JSON.stringify(data),
+            contentType: 'application/json',
+            callbackFunc: function(response) {
+                switch (response.responseText) {
+                    case STATUS_SUCCESS:
+                        aliceJs.alert([[#{user.msg.signUp}]], function() {
+                            location.href = "/login";
+                        });
+                        break;
+                    case STATUS_ERROR_USER_ID_DUPLICATION:
+                        aliceJs.alert([[#{user.msg.sameUserId}]]);
+                        break;
+                    case STATUS_ERROR_EMAIL_DUPLICATION:
+                        aliceJs.alert([[#{user.msg.sameEmail}]]);
+                        break;
+                    default :
+                        aliceJs.alert([[#{user.msg.signUpFail}]]);
+                        break;
                 }
-            };
-            aliceJs.sendXhr(opt);
-        }
-        function deptPopUp() {
-            window.open('/users/department/view-pop', null, 'width=400, height=700');
-        }
-        /*]]>*/
-    </script>
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+    function deptPopUp() {
+        window.open('/users/department/view-pop', null, 'width=400, height=700');
+    }
+    /*]]>*/
+</script>
 </body>
 </html>

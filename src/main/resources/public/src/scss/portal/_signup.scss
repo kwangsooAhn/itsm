@@ -1,18 +1,99 @@
-.signupPortal {
-    position: relative;
+label, input {
+    display: block;
 }
 
-#signupMainImage {
-    background-color: $alice-primary;
-    position: fixed;
-    height: 73.75rem;
-    width: 80.3125rem;
+.alicePortal {
+    overflow: auto;
 }
 
-#signupMainForm {
-    margin-left: 80.3125rem;
-    width: 39.6875rem;
-    position: absolute;
-    left: 0px;
-    top: 0px;
+.signup {
+    &-logo {
+        position: absolute;
+        z-index: 99999999;
+        top: 5rem;
+        left: 5rem;
+    }
+
+    &-background {
+        background-color: $alice-primary;
+        height: 73.75rem;
+        width: 80.3125rem;
+        top: 0;
+        left: 0;
+    }
+
+    &-login-face {
+        position: relative;
+        top: 53.1875rem;
+        left:  28.3750rem;
+
+        .btn {
+            border: 1px solid;
+            border-radius: 1px;
+            display: inline-block;
+            text-align: center;
+            vertical-align: middle;
+            padding: 0.75rem 0.625rem;
+
+            &-primary {
+                background-color: $alice-primary;
+                border-color: #FFFFFF;
+                color: #FFFFFF;
+                min-width: 11.75rem;
+                margin-left: 2.5rem;
+            }
+        }
+    }
+
+    &-login-note {
+        font-size: 1.25rem;
+        font-weight: 500;
+        color: #FFFFFF;
+    }
+
+    &-main-image {
+        position: relative;
+        z-index: 99999999;
+        top: 6.1875rem;
+        left: 11.125rem;
+    }
+
+    &-form {
+        margin: 5.6875rem 8.5938rem 0rem 88.9063rem;
+        width: 39.6875rem;
+        position: absolute;
+        top: 0;
+
+        h1 {
+            font-weight: bold;
+            font-size: 2.1875rem;
+            color: #3E4752;
+            margin-bottom: 3.3125rem;
+        }
+
+        label {
+            color: #3E4752;
+            font-size: 0.8750rem; // 14px
+            margin-bottom: 0.5rem; // 8px
+            margin-top: 1rem; // 16px
+        }
+
+        input {
+            padding-left: 0.625rem; // 10px
+            width: 21.625rem; // 346px
+            height: 2.25rem; // 36px
+            border: 0.0625rem solid #C8CED8; // 1px
+            border-radius: 0.0625rem; // 1px
+            font-size: 0.8759rem; // 14px
+            &:focus {
+                outline: 0.125rem solid $alice-primary; // 2px
+                border-radius: 0.0625rem; // 1px
+            }
+        }
+    }
 }
+
+.required {
+
+}
+
