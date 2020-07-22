@@ -1133,15 +1133,18 @@
 
                                 //속성명 및 도움말 추가
                                 let fieldTemplate =
-                                    `< class="property-name"${fieldProp.type === 'checkbox-boolean' ? " for='checkbox-" + componentData.componentId + "-"  + fieldProp.id + "'" : ""}>${fieldProp.name}` +
-                                        `${typeof fieldProp.help === 'undefined' ? '' : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`}` +
+                                    //`< class="property-name"${fieldProp.type === 'checkbox-boolean' ? " for='checkbox-" + componentData.componentId + "-"  + fieldProp.id + "'" : ""}>${fieldProp.name}` +
+                                    //    `${typeof fieldProp.help === 'undefined' ? '' : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`}` +
+                                    //`</label>`;
+                                    `< class="property-name"${fieldProp.type === 'checkbox-boolean' ? `for='checkbox-${componentData.componentId}-${fieldProp.id}'` : ''}>${fieldProp.name}` +
+                                    `${typeof fieldProp.help === 'undefined' ? '' : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`}` +
                                     `</label>`;
 
                                 // 상세속성 추가
                                 switch (fieldProp.type) {
                                     case 'checkbox-boolean':
                                         fieldTemplate +=
-                                            `<input type='checkbox' class='property-value' id= 'checkbox-${componentData.componentId}-${fieldProp.id}' name='${fieldProp.id}' ${fieldProp.value ? 'checked' : ''}>`;
+                                            `<input type='checkbox' class='property-value' id='checkbox-${componentData.componentId}-${fieldProp.id}' name='${fieldProp.id}' ${fieldProp.value ? 'checked' : ''}>`;
                                         break;
                                     case 'customcode':
                                         const fieldCustomCodeOptions = customCodeList.map(function (code) {
