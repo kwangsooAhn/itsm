@@ -134,16 +134,6 @@
                                    th:checked="${users?.useYn == null || users?.useYn == true}">
                             <span class="slider round"></span>
                         </label>
-    <!--                    <label>-->
-    <!--                        <input id="usageStatusUse" name="type" type="radio"-->
-    <!--                               th:checked="${users?.useYn == null || users?.useYn == true}"-->
-    <!--                               th:text="#{user.usageStatusFlag.use}"/>-->
-    <!--                    </label>-->
-    <!--                    <label>-->
-    <!--                        <input id="usageStatusUnUse" name="type" type="radio"-->
-    <!--                               th:checked="${users?.useYn == false}"-->
-    <!--                               th:text="#{user.usageStatusFlag.unused}"/>-->
-    <!--                    </label>-->
                         <span class="switch_label" th:text="#{user.msg.usageStatus}"></span>
                     </div>
                     <div class="btn_wrap">
@@ -179,10 +169,6 @@
                 clickable: '.add-img-button'
             }});
         };
-
-        function toggle(e){
-        	console.log(e.checked);
-        }
 
         function onlyNumber(event) {
             event = event || window.event;
