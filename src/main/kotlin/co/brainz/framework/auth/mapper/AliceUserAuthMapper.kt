@@ -5,8 +5,10 @@
 
 package co.brainz.framework.auth.mapper
 
+import co.brainz.framework.auth.dto.AliceIpVerificationDto
 import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.auth.entity.AliceIpVerificationEntity
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.user.dto.UserDto
 import org.mapstruct.Mapper
@@ -41,4 +43,10 @@ interface AliceUserAuthMapper {
         Mapping(target = "avatarPath", ignore = true)
     )
     fun toUserDto(aliceUserEntity: AliceUserEntity): UserDto
+
+    @Mappings(
+        Mapping(source = "createUser.userKey", target = "createUser"),
+        Mapping(source = "updateUser.userKey", target = "updateUser")
+    )
+    fun toIpVerificationDto(ipVerificationEntity: AliceIpVerificationEntity): AliceIpVerificationDto
 }
