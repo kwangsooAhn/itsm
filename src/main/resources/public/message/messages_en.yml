@@ -172,6 +172,7 @@ board:
     detail: "Board Detail"
     disable: "Disable"
     enable: "Enable"
+    list: "Board List"
     manager: "Board Manager"
     modify: "Board Modify"
     name: "Board Name"
@@ -189,6 +190,7 @@ board:
     enterBoardTitle: "Please enter the board name."
     enterCategoryName: "Please enter the category name."
     enterSortSize: "Please enter a sorting order of 100 or less."
+    description: "View, add, or edit board's information."
 
 # Code
 code:

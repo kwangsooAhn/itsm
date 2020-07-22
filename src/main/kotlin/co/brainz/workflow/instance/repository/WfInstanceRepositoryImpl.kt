@@ -12,7 +12,7 @@ import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
-import co.brainz.workflow.tag.entity.QWfTagEntity
+import co.brainz.workflow.tag.entity.QWfTagMapEntity
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfCandidateEntity
 import co.brainz.workflow.token.entity.QWfTokenDataEntity
@@ -35,7 +35,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val tokenData: QWfTokenDataEntity = QWfTokenDataEntity.wfTokenDataEntity
     val candidate: QWfCandidateEntity = QWfCandidateEntity.wfCandidateEntity
     val comment: QWfCommentEntity = QWfCommentEntity.wfCommentEntity
-    val tag: QWfTagEntity = QWfTagEntity.wfTagEntity
+    val tagMap: QWfTagMapEntity = QWfTagMapEntity.wfTagMapEntity
     val folder: QWfFolderEntity = QWfFolderEntity.wfFolderEntity
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val searchDataCount: Long = WfTokenConstants.searchDataCount
@@ -266,7 +266,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         instances.forEach { instanceIds.add(it.instanceId) }
 
         // Delete instance relation data.
-        delete(tag).where(tag.instance.`in`(instances)).execute()
+        delete(tagMap).where(tagMap.instance.`in`(instances)).execute()
         delete(candidate).where(candidate.token.`in`(tokens)).execute()
         delete(tokenData).where(tokenData.token.`in`(tokens)).execute()
         delete(token).where(token.instance.`in`(instances)).execute()

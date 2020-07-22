@@ -12,7 +12,7 @@ import javax.persistence.Table
 data class AliceIpVerificationEntity(
     @Id
     @Column(name = "ip_addr", length = 128)
-    var ipAddr: String,
+    var ipAddr: String = "",
 
     @Column(name = "ip_explain", length = 512)
     var ipExplain: String? = null

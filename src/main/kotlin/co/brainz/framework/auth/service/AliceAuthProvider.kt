@@ -11,6 +11,8 @@ import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.util.AliceUtil
+import co.brainz.framework.exception.AliceErrorConstants
+import co.brainz.framework.exception.AliceException
 import java.security.PrivateKey
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -60,6 +62,9 @@ class AliceAuthProvider(
         } catch (e: EmptyResultDataAccessException) {
             logger.error("{}", e.message)
             throw UsernameNotFoundException("Not registered User Data.")
+        } catch (e: Exception) {
+            logger.error("{}", e.message)
+            throw AliceException(AliceErrorConstants.ERR, "Unknown error.")
         }
 
         if (!passwordEncoder.matches(password, aliceUser.password)) {
