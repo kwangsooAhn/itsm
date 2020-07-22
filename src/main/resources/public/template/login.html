@@ -5,6 +5,7 @@
     <link th:href="@{/assets/css/reset.css}" rel="stylesheet"/>
     <link th:href="@{/assets/theme/default/css/alice-itsm.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
     <title>Login</title>
 </head>
 <body>
@@ -13,9 +14,9 @@
     <input type="hidden" id="password" name="password"/>
 </form>
 <div class="white-base">
-  <img th:src="@{/assets/media/icons/logo_blue.png}" alt="Alice">
   <div class="login-base">
-      <p th:text="#{login.label.login}"></p>
+      <div class="logo"></div>
+      <!--<p th:text="#{login.label.login}"></p>
       <div class="login-form">
         <img th:src="@{/assets/media/icons/icon_id.png}" alt="Alice">
         <input type="text" id="uid" name="uid" th:placeholder="#{login.label.id}"/>
@@ -31,14 +32,30 @@
       </div>
       <button class="btn btn-primary" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin();"></button>
       <a class="btn btn-danger"  href="/oauth/google/login" th:text="#{login.btn.googleLogin}"></a>
-      <a class="btn btn-warning" href="/oauth/kakao/login" th:text="#{login.btn.kakaoLogin}"></a>
+      <a class="btn btn-warning" href="/oauth/kakao/login" th:text="#{login.btn.kakaoLogin}"></a>-->
   </div>
-  <div class="signup-face">
-    <p th:text="#{login.label.signupNote}"></p>
-    <a class="btn btn-primary" href="/certification/signup" id="userSignUp" th:text="#{login.btn.userSignUp}"></a>
+  <div class="login-container">
+      <h3 class="sign-in">Sign In</h3>
+      <div class="">
+          <div>아이디</div>
+          <div>비밀번호</div>
+          <div>버튼</div>
+          <div>---</div>
+          <button>구글 로그인</button>
+          <button>카카오 로그인</button>
+      </div>
+      <div>
+          <span>계정 만들기</span>
+          <span>비밀번호 찾기</span>
+          <span>아이디 찾기</span>
+      </div>
+     <!-- <div class="signup-face">
+          <p th:text="#{login.label.signupNote}"></p>
+          <a class="btn btn-primary" href="/certification/signup" id="userSignUp" th:text="#{login.btn.userSignUp}"></a>
+      </div>
+      &lt;!&ndash;/*@thymesVar id="errorMsg" type=""*/&ndash;&gt;
+      <div th:text="${errorMsg}"></div>-->
   </div>
-  <!--/*@thymesVar id="errorMsg" type=""*/-->
-  <div th:text="${errorMsg}"></div>
 </div>
 <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
