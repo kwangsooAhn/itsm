@@ -21,7 +21,7 @@
             <th th:text="#{common.label.writeDate}"></th>
         </tr>
         <tr th:if="${#arrays.isEmpty(customCodeList)}">
-            <td colspan="6" th:text="#{common.msg.noData}"></td>
+            <td colspan="4" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:each="customCode, i : ${customCodeList}" th:if="${i.count} < 11">
             <td class="align-left">
