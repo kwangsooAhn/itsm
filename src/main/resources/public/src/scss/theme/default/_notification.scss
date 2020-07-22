@@ -1,23 +1,20 @@
 /* 알림 임시 css */
 .notification-menu {
-    margin-right: 10px;
-    height: 50px;
+    height: 4.25rem; // 68px
     position: relative;
     display: inline-block;
     .count {
         position: absolute;
-        top: -7px;
-        left: 14px;
-        padding: 1px 4px;
+        top: -0.125rem; // -2px
+        left: 1.25rem; // 20px
         border-radius: 50%;
-        color: white;
-        font-size: 12px;
+        font-size: 0.75rem; // 12px
         display: none;
         cursor: pointer;
     }
     img, button {
-        width: 24px;
-        height: 24px;
+        width: 1.5rem; // 24px
+        height: 1.5rem; // 24px
         margin: 0;
         border: none;
         background-color: transparent;
@@ -25,48 +22,48 @@
     }
     .notification-container {
         position: absolute;
-        border: 1px solid #dce1e8;
+        border: 0.063rem solid #dce1e8; // 1px
         background-color: #ffffff;
-        width: 350px;
-        right: -1px;
-        top: 46px;
+        width: 21.875rem; // 350px
+        right: -0.063rem; // -1px
+        top: 4rem; // 64px
         color: black;
         display: none;
         font-weight: normal;
-        font-size: 12px;
+        font-size: 0.75rem; // 12px
         .notification-header {
-            height: 32px;
-            line-height: 30px;
+            height: 2rem; // 32px
+            line-height: 1.875rem; // 30px
             color: #ffffff;
             background-color: #0050ff;
             display: flex;
             align-items: baseline;
-            padding-left: 18px;
-            padding-right: 10px;
+            padding-left: 1.125rem; // 18px
+            padding-right: 0.625rem; // 10px
             span {
-                font-size: 12px;
+                font-size: 0.75rem; // 12px
                 display: inline-block;
             }
             span.title {
-                width: 34px;
-                font-size: 14px;
-                line-height: 32px;
+                width: 2.125rem; // 34px
+                font-size: 0.875rem; // 14px
+                line-height: 2rem; // 32px
             }
             span.count {
-                width: 34px;
+                width: 2.125rem; // 34px
             }
             span.message {
-                width: 250px;
-                padding-left: 4px;
+                width: 15.625rem; // 250px
+                padding-left: 0.25rem; // 4px
             }
             span.close {
-                width: 34px;
+                width: 2.125rem; // 34px
                 text-align: center;
             }
         }
         .notification-body {
             overflow: auto;
-            max-height: 234px;
+            max-height: 14.625rem; // 234px
             button {
                 float: right;
                 &.remove {
@@ -80,18 +77,17 @@
                 cursor: pointer;
             }
             .notification {
-                height: 55px;
-                border-bottom: 1px solid #dce1e8;
-                padding: 11px;
+                height: 3.438rem; // 55px
+                border-bottom: 0.063rem solid #dce1e8; // 1px
+                padding: 0.688rem; // 11px
                 &:last-child {
                     border-bottom: none;
                 }
                 &[is-confirm=false] {
-                    //background-color: #b3d7ff3b;
                 }
                 &.nodata {
-                    height: 55px;
-                    padding-left: 18px;
+                    height: 3.438rem; // 55px
+                    padding-left: 1.125rem; // 18px
                     border: none;
                 }
             }
@@ -104,13 +100,13 @@
 }
 
 .alice-toastify {
-    width: 410px;
-    height: 71px;
-    padding: 11px !important;
+    width: 25.625rem; // 410px
+    height: 4.438rem; // 71px
+    padding: 0.688rem !important; // 11px
     .toast-close {
         position: absolute;
-        top: 9px;
-        right: 11px;
+        top: 0.563rem; // 9px
+        right: 0.688rem; // 11px
     }
 }
 
@@ -121,56 +117,58 @@
         background-color: #ffffff;
         input[type="checkbox"] {
             -webkit-appearance: none;
-            border: 1.5px solid #0242eb;
-            padding: 6px;
-            border-radius: 3px;
+            border: 0.094rem solid #0242eb; // 1.5px
+            padding: 0.375rem; // 6px
+            border-radius: 0.188rem; // 3px
             display: inline-block;
             position: relative;
             cursor: pointer;
             &:checked {
                 background-color: #e9ecee;
-                border: 1px solid #adb8c0;
+                border: 0.063rem solid #adb8c0; // 1px
                 color: #99a1a7;
                 cursor: unset;
             }
             &:checked::after {
                 content: '\2714';
-                font-size: 12px;
+                font-size: 0.75rem; // 12px
                 position: absolute;
-                top: -1px;
-                left: 1px;
+                top: -0.063rem; // -1px
+                left: 0.063rem; // 1px
                 color: #99a1a7;
             }
         }
     }
     span {
         &.title {
-            font-size: 14px;
+            font-size: 0.875rem; // 14px
             font-weight: bold;
-            line-height: 14px;
-            max-width: 190px;
-            height: 20px;
-            padding-left: 11px;
+            line-height: 0.875rem; // 14px
+            max-width: 11.875rem; // 190px
+            height: 1.25rem; // 20px
+            padding-left: 0.688rem; // 11px
         }
         &.message {
-            font-size: 12px;
-            max-width: 390px;
-            line-height: 12px;
-            height: 20px;
-            padding-left: 23px;
+            font-size: 0.75rem; // 12px
+            max-width: 24.375rem; // 390px
+            line-height: 0.75rem; // 12px
+            height: 1.25rem; // 20px
+            padding-left: 1.438rem; // 23px
         }
         &.date {
-            font-size: 12px;
+            font-size: 0.75rem; // 12px
             vertical-align: top;
-            line-height: 16px;
-            height: 18px;
-            padding-left: 23px;
+            line-height: 1rem; // 16px
+            height: 1.125rem; // 18px
+            padding-left: 1.438rem; // 23px
         }
     }
 }
+
 .notification-content.confirm {
-    color: #bfbfbf;
+    color: #747c86;
 }
+
 .notification-content:hover {
     background-color: #eaf1f7;
 }

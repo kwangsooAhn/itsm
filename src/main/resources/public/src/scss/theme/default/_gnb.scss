@@ -30,10 +30,9 @@
     float: right;
     /* 상단 알람 */
     .notice {
-        //padding:8px 15px; 
-        padding-left: 116px;
+        padding-left: 122px;
         background: url($icon-folder-path + "icon_notice.svg") no-repeat center center;
-        display: inline-block; border-right: 1px solid #D2D9E2; vertical-align: middle;
+        vertical-align: middle;
         &-num {
             width: 14px;
             margin-top: 24px;
@@ -43,7 +42,7 @@
         }
     }
     .user-info {
-        display: inline-block; padding:12px 15px;vertical-align: middle; background: url($icon-folder-path + "icon_userinfo_arrow_d.svg") no-repeat center right;
+        float:right; border-left: 1px solid #D2D9E2; display: inline-block; padding:12px 15px;vertical-align: middle; background: url($icon-folder-path + "icon_userinfo_arrow_d.svg") no-repeat center right;
         & ul li {display: inline-block;vertical-align: middle;}
         .my-edit {display: none;}
         .user-name {padding: 10px;display: inline-block; }

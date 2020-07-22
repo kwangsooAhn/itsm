@@ -5,7 +5,7 @@
         <span class="title" th:text="#{notification.label.notification}"></span>
         <span id="total"></span>
         <span class="message" th:text="#{notification.msg.description}"></span>
-        <span class="close">X</span>
+        <span class="close"></span>
     </div>
     <div class="notification-body">
         <div class="notification nodata" th:if="${#arrays.isEmpty(notificationList)}" >
