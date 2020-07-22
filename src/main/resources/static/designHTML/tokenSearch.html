@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html  lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+        <meta http-equiv="Content-Style-Type" content="text/css">
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+        <title>문서함</title>
+        <!-- new2020 Z-itsm3.0 css -->
+        <link rel="stylesheet" type="text/css" href="../../public/assets/css/reset.css" />
+        <link rel="stylesheet" type="text/css" href="../../public/assets/theme/default/css/alice-itsm.css" />
+    </head>
+    <body>
+        <div class="wrap-screen"> 
+            <!--메인 왼쪽메뉴 열림-->
+            <div id="left-open" class="left-open-menu">
+                <div class="logo-open"></div>
+                <div class="gnb-open">
+                    <ul> 
+                        <li><a href="#"><span class="gnb01">나의업무</span></a>
+                            <div class="snb snb-mywork">
+                                <ul>
+                                    <li><a href="#"><span class="snb0100">이미지관리</span></a></li>
+                                    <li><a href="#"><span class="snb0101">문서함</span></a></li>
+                                    <li><a href="#"><span class="snb0102">신청서 작성</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                        <li ><a href="#"><span class="gnb02">포탈서비스</span></a>
+                            <div class="snb snb-portal">
+                                <ul>
+                                    <li><a href="#"><span class="snb0201">공지사항</span></a></li>
+                                    <li><a href="#"><span class="snb0202">FAQ</span></a></li>
+                                    <li><a href="#"><span class="snb0203">자료실</span></a></li>
+                                    <li><a href="#"><span class="snb0204">게시판</span></a></li>
+                                </ul>
+                            </div>
+                        </li> 
+                        <li class="toggle"><a href="#"><span class="gnb03">시스템 관리</span></a>
+                            <div class="snb snb-system toggle-container">
+                                <ul>
+                                    <li><a href="#"><span class="snb0301">사용자</span></a></li>
+                                    <li><a href="#"><span class="snb0302">권한</span></a></li>
+                                    <li><a href="#"><span class="snb0303">역할</span></a></li>
+                                    <li><a href="#"><span class="snb0304">게시판</span></a></li>
+                                    <li><a href="#"><span class="snb0305">코드</span></a></li>
+                                </ul>
+                            </div>    
+                        </li>
+                        <li class="toggle"><a href="#"><span class="gnb04">업무흐름관리</span></a>
+                            <div class="snb snb-workflow toggle-container active">
+                                <ul>
+                                    <li><a href="#"><span class="snb0401">프로세스</span></a></li>
+                                    <li><a href="#"><span class="snb0402">문서양식</span></a></li>
+                                    <li><a href="#"><span class="snb0403">워크플로우</span></a></li>
+                                    <li><a href="#"><span class="snb0404">커스텀코드</span></a></li>
+                                    <li><a href="#"><span class="snb0405">대시보드</span></a></li>
+                                </ul>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="btn-menuclose"></div>
+            </div>
+            <!--상단 메뉴-->
+                <div class="top-menu">
+                    <div class="breadcrumb">
+                        <ul>
+                            <li><span class="home"></span></li>
+                            <li class="arrow-r"><span >시스템관리</span></li>
+                            <li class="arrow-r"><span class="bread-end">사용자</span></li>
+                        </ul>
+                    </div>
+                    <div class="top-config"> 
+                        <div class="notice"><span class="notice-num">99+</span></div>
+                        <div class="user-info">
+                            <ul>
+                                <li><span class="user-profile"></span></li>
+                                <li><span class="user-name">Hello,Andrew</span>
+                                    <div class="my-edit active">
+                                        <ul>
+                                            <li><a href="#"><span class="my-modify">자기정보 수정</span></a></li>
+                                            <li><a href="#"><span class="my-logout">로그아웃</span></a></li>
+                                        </ul>
+                                    </div>
+                                </li>
+                                <li><span class="arrow-d"></span></li>
+                            </ul>
+                        </div>
+                    </div>       
+                </div>
+            <!--컨테이너 내용-->
+            <div class="container-tokensearch">
+                <div class="contents">
+                    <div class="contents-title">
+                        <span class="title-txt">문서함</span>
+                        <span class="title-description">나와 관련된 모든 문서를 조회합니다.</span>
+                    </div>
+                    <div class="contents-body">
+                        <div class="menubar">
+                            <div class="menubar-left">
+                                <select class="" aria-placeholder="처리할 문서">
+                                <option value="장애신고서1">장애신고서1</option>
+                                <option value="장애신고서2">장애신고서2</option>
+                                <option value="장애신고서3">장애신고서3</option>
+                                <option value="장애신고서4">장애신고서4</option>
+                                </select>
+                                <select class="" aria-placeholder="처리할 문서">
+                                <option value="장애신고서1">장애신고서1</option>
+                                <option value="장애신고서2">장애신고서2</option>
+                                <option value="장애신고서3">장애신고서3</option>
+                                <option value="장애신고서4">장애신고서4</option>
+                                </select>
+                                <input class="search" placeholder="권한명/권한 설명">
+                                <span class="icon-search"></span>
+                                <input class="icon-month" type="txt" placeholder="2020-07-20" >
+                                <span>~</span>
+                                <input class="icon-month" type="txt" placeholder="2020-07-20" >
+                            </div>
+                            <div class="menubar-right">
+                                <span class="txt-num">1,234건</span>
+                            </div>
+                        </div>
+                        <div class="list">
+                            <div class="list-wrap">
+                                <table>
+                                    <colgroup>
+                                        <col width="28px">
+                                        <col width="230px">
+                                        <col width="470px">
+                                        <col width="60px">
+                                        <col width="88px">
+                                        <col width="100px">
+                                        <col width="120px">
+                                        <col width="300px">
+                                    </colgroup>
+                                <tr>
+                                    <td><span class="token-color"></span></td>
+                                    <td>
+                                        <span class="code-name">장애신고서</span>
+                                        <span class="code-num">CSR-20200420-002</span>
+                                    </td>
+                                    <td>
+                                        <span class="token-title">이메일이 안됩니다.</span>
+                                        <span class="token-txt">CSR-20200420-002</span>
+                                    </td>
+                                    <td><span class="profile-photo"></span></td>
+                                    <td>정희찬</td>
+                                    <td>3일전</td>
+                                    <td>접수중</td>
+                                    <td>
+                                        <span class="list-hashtag">#급해요</span>
+                                        <span class="list-hashtag">#디자인팀</span>
+                                        <span class="list-hashtag">#이메일</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="token-color"></span></td>
+                                    <td>
+                                        <span class="code-name">장애신고서</span>
+                                        <span class="code-num">CSR-20200420-002</span>
+                                    </td>
+                                    <td>
+                                        <span class="token-title">이메일이 안됩니다.</span>
+                                        <span class="token-txt">CSR-20200420-002</span>
+                                    </td>
+                                    <td><span class="profile-photo"></span></td>
+                                    <td>정희찬</td>
+                                    <td>3일전</td>
+                                    <td>접수중</td>
+                                    <td>
+                                        <span class="list-hashtag">#급해요</span>
+                                        <span class="list-hashtag">#디자인팀</span>
+                                        <span class="list-hashtag">#이메일</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="token-color"></span></td>
+                                    <td>
+                                        <span class="code-name">장애신고서</span>
+                                        <span class="code-num">CSR-20200420-002</span>
+                                    </td>
+                                    <td>
+                                        <span class="token-title">이메일이 안됩니다.</span>
+                                        <span class="token-txt">CSR-20200420-002</span>
+                                    </td>
+                                    <td><span class="profile-photo"></span></td>
+                                    <td>정희찬</td>
+                                    <td>3일전</td>
+                                    <td>접수중</td>
+                                    <td>
+                                        <span class="list-hashtag">#급해요</span>
+                                        <span class="list-hashtag">#디자인팀</span>
+                                        <span class="list-hashtag">#이메일</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="token-color"></span></td>
+                                    <td>
+                                        <span class="code-name">장애신고서</span>
+                                        <span class="code-num">CSR-20200420-002</span>
+                                    </td>
+                                    <td>
+                                        <span class="token-title">이메일이 안됩니다.</span>
+                                        <span class="token-txt">CSR-20200420-002</span>
+                                    </td>
+                                    <td><span class="profile-photo"></span></td>
+                                    <td>정희찬</td>
+                                    <td>3일전</td>
+                                    <td>접수중</td>
+                                    <td>
+                                        <span class="list-hashtag">#급해요</span>
+                                        <span class="list-hashtag">#디자인팀</span>
+                                        <span class="list-hashtag">#이메일</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="token-color"></span></td>
+                                    <td>
+                                        <span class="code-name">장애신고서</span>
+                                        <span class="code-num">CSR-20200420-002</span>
+                                    </td>
+                                    <td>
+                                        <span class="token-title">이메일이 안됩니다.</span>
+                                        <span class="token-txt">CSR-20200420-002</span>
+                                    </td>
+                                    <td><span class="profile-photo"></span></td>
+                                    <td>정희찬</td>
+                                    <td>3일전</td>
+                                    <td>접수중</td>
+                                    <td>
+                                        <span class="list-hashtag">#급해요</span>
+                                        <span class="list-hashtag">#디자인팀</span>
+                                        <span class="list-hashtag">#이메일</span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td><span class="token-color"></span></td>
+                                    <td>
+                                        <span class="code-name">장애신고서</span>
+                                        <span class="code-num">CSR-20200420-002</span>
+                                    </td>
+                                    <td>
+                                        <span class="token-title">이메일이 안됩니다.</span>
+                                        <span class="token-txt">CSR-20200420-002</span>
+                                    </td>
+                                    <td><span class="profile-photo"></span></td>
+                                    <td>정희찬</td>
+                                    <td>3일전</td>
+                                    <td>접수중</td>
+                                    <td>
+                                        <span class="list-hashtag">#급해요</span>
+                                        <span class="list-hashtag">#디자인팀</span>
+                                        <span class="list-hashtag">#이메일</span>
+                                    </td>
+                                </tr>
+                            </table>
+                            </div>
+                        </div>
+                        <div class="menubar-bottom">
+                            <div class="list-count"><span>총:127명</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
