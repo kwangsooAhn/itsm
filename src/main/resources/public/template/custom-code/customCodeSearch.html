@@ -4,62 +4,57 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{customCode.label.customCode}"></title>
+    <title th:text="#{menu.workflow.customCode}"></title>
     <meta charset="UTF-8">
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
-            <h1 th:text="#{customCode.label.customCode}"></h1>
-            <div align="right">
-                <button type="button" onclick="location.href='/custom-codes/new'"
-                    sec:authorize="hasAuthority('custom.code.create')" th:text="#{common.btn.register}"></button>
+    <div class="wrap-screen">
+        <div class="container">
+            <div class="contents">
+                <div class="contents-title">
+                    <span class="title-txt" th:text="#{customCode.label.list}"></span>
+                    <span class="title-description" th:text="#{customCode.msg.description}"></span>
+                </div>
+                <div class="contents-body">
+                    <div class="usermanage-menubar">
+                        <div class="menubar-right">
+                            <button class="btn-add" onclick="location.href='/custom-codes/new'"
+                                sec:authorize="hasAuthority('custom.code.create')"></button>
+                        </div>
+                    </div>
+                    <div class="list" id="customCodeList"></div>
+                    <div class="menubar-bottom">
+                        <div class="paging">
+                            <ul>
+                                <li><span class="btn-prev"></span></li>
+                                <li><span class="btn-num">1</span></li>
+                                <li><span class="btn-num">2</span></li>
+                                <li><span class="btn-num">3</span></li>
+                                <li><span class="btn-num">···</span></li>
+                                <li><span class="btn-num">6</span></li>
+                                <li><span class="btn-next"></span></li>
+                            </ul>
+                        </div>
+                        <div class="list-count"><span>총:127건</span></div>
+                    </div>
+                </div>
             </div>
         </div>
-        <hr>
-        <div id="customCodeList" style="margin-top: 20px"></div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
-        //상태값
-        const STATUS_SUCCESS = '0';
-        const STATUS_ERROR_CUSTOM_CODE_USED = '1';
-
         window.onload = function() {
             restSubmit('get', '/custom-codes/list', function(result) {
                 document.getElementById('customCodeList').innerHTML = result;
-                var customCodeDtEle = document.querySelectorAll('td[name=customCodeDt]');
+                var customCodeDtEle = document.querySelectorAll('td[name=createDt]');
                 for (let i = 0; i < customCodeDtEle.length; i++) {
                     customCodeDtEle[i].textContent = i18n.userDateTime(customCodeDtEle[i].textContent);
                 }
             });
         };
-
-        //delete custom code
-        function deleteCustomCode(customCodeId) {
-            restSubmit('delete', '/rest/custom-codes/' + customCodeId, function (result) {
-                switch (result) {
-                    case STATUS_SUCCESS:
-                        aliceJs.alert('[[#{common.msg.delete}]]', function () {
-                            window.location.reload();
-                        });
-                        break;
-                    case STATUS_ERROR_CUSTOM_CODE_USED:
-                        aliceJs.alert('[[#{customCode.msg.customCodeUsed}]]', function () {
-                            window.location.reload();
-                        });
-                        break;
-                    default:
-                        aliceJs.alert('[[#{common.msg.fail}]]', function () {
-                            window.location.reload();
-                        });
-                        break;
-                }
-            });
-        }
 
         //REST API
         function restSubmit(method, url, result) {
