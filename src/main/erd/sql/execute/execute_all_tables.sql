@@ -123,6 +123,8 @@ COMMENT ON COLUMN awf_avatar.create_dt IS '등록일';
 COMMENT ON COLUMN awf_avatar.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_avatar.update_dt IS '수정일';
 
+insert into awf_avatar values('0509e09412534a6e98f04ca79abb6424', 'FILE', 'profile_sample.jpg', false, '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+
 /**
  * 코드정보
  */
@@ -1690,12 +1692,14 @@ CREATE TABLE awf_user
 	lang varchar(100),
 	time_format varchar(100),
 	theme varchar(100) DEFAULT 'default',
+    avatar_id varchar(128) NOT NULL,
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
 	CONSTRAINT awf_user_pk PRIMARY KEY (user_key),
-	CONSTRAINT awf_user_uk UNIQUE (user_id )
+	CONSTRAINT awf_user_uk UNIQUE (user_id ),
+    CONSTRAINT awf_user_fk FOREIGN KEY (avatar_id) REFERENCES awf_avatar (avatar_id)
 );
 
 COMMENT ON TABLE awf_user IS '사용자정보';
@@ -1719,10 +1723,11 @@ COMMENT ON COLUMN awf_user.oauth_key IS 'OAUTH인증키';
 COMMENT ON COLUMN awf_user.lang IS '언어';
 COMMENT ON COLUMN awf_user.time_format IS '시간포맷';
 COMMENT ON COLUMN awf_user.theme IS '테마';
+COMMENT ON COLUMN awf_user.avatar_id IS '아바타 아이디';
 COMMENT ON COLUMN awf_user.create_user_key IS '등록자';
-COMMENT ON COLUMN awf_user.create_dt IS '등록일';
+COMMENT ON COLUMN awf_user.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_user.update_user_key IS '수정자';
-COMMENT ON COLUMN awf_user.update_dt IS '수정일';
+COMMENT ON COLUMN awf_user.update_dt IS '수정일시';
 
 insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$QsZ1uzooTk2yEkWIiV8tyOUc/UODpMrjdReNUQnNWm0SpjyPVOy26', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 

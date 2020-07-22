@@ -27,3 +27,5 @@ COMMENT ON COLUMN awf_avatar.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_avatar.create_dt IS '등록일';
 COMMENT ON COLUMN awf_avatar.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_avatar.update_dt IS '수정일';
+
+insert into awf_avatar values('0509e09412534a6e98f04ca79abb6424', 'FILE', 'profile_sample.jpg', false, '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
