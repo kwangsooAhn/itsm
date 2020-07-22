@@ -75,7 +75,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   color: #94a6bf;
   font-weight: 300;
 }
-
 .container .contents .contents-body {
   background: white;
   padding: 4% 8%;
@@ -182,15 +181,17 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   line-height: 15px;
 }
 
-.container .contents .user-register-contents-body .user-role-checkbox-wrap {
-  display: inline-block;
-  width: 160px;
-}
-
 .container .contents .user-register-contents-body .user-role-checkbox-list {
   margin-top: 37px;
   margin-left: 10px;
   margin-bottom: 51px;
+}
+
+.container .contents .user-register-contents-body .user-role-checkbox-wrap {
+  margin-top: 15px;
+  margin-left: 10px;
+  display: inline-block;
+  width: 162px;
 }
 
 .container .contents .user-register-contents-body .user-role-checkbox-list-middle {
@@ -322,8 +323,8 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
 .container .contents .user-register-contents-body .slider:before {
   position: absolute;
   content: "";
-  height: 18px;
-  width: 18px;
+  height: 17px;
+  width: 17px;
   left: 4px;
   bottom: 4px;
   background-color: white;
@@ -433,7 +434,14 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   border: 1px solid #c8ced8;
   border-radius: 2px;
   font-size: 13px;
-  margin-right: 5px;
+  color: #3e4752;
+}
+.container .contents .search-selectBox {
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid #c8ced8;
+  border-radius: 2px;
+  font-size: 13px;
   color: #3e4752;
 }
 .container .contents .list-wrap {

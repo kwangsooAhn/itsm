@@ -645,7 +645,7 @@ user:
     time: "시간 유형"
     timeFormat: "날짜/시간 유형"
     timezone: "타임존"
-    usageStatus: "사용 여부"
+    usageStatus: "사용자 사용 여부"
     user: "사용자"
   msg:
     createUser: "사용자가 등록되었습니다."
@@ -664,6 +664,7 @@ user:
     sameUserId: "동일한 아이디가 존재합니다."
     signUp: "가입되었습니다.<br/>가입 시 등록한 메일에서 인증을 진행하세요."
     signUpFail: "가입 실패되었습니다."
+    usageStatus: "※ 미사용 시, 로그인 및 모든 시스템 사용이 불가능합니다."
   platform:
     alice: "Alice"
     google: "Google"

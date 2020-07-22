@@ -664,6 +664,7 @@ user:
     sameUserId: "The same ID exists."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
+    usageStatus: "※ If not using it, you won't be able to log in and use all systems."
   platform:
     alice: "Alice"
     google: "Google"
