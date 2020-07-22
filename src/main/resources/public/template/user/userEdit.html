@@ -115,13 +115,15 @@
                     </div>
                 </div>
                 <span class="profile-title" th:text="#{user.label.role}"></span>
-                <div class="profile-manage user-role-checkbox-list-bottom">
-                    <ui class="user-register-top-list" th:each="role : ${roles}">
-                        <p class="user-role-checkbox-wrap">
-                            <input class="user-role-checkbox" type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}" th:checked="*{role.checked}">
-                            <label class="checkbox-label" th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
-                        </p>
-                    </ui>
+                <div class="profile-manage">
+                    <div class="user-role-checkbox-list">
+                        <ui class="user-role-checkbox-wrap user-role-checkbox-list-middle" th:each="role : ${roles}">
+                            <p class="user-role-checkbox-block">
+                                <input class="user-role-checkbox" type="checkbox" th:id="|roles*{roleStat.index}|" name="roles" th:value="*{role.roleId}" th:checked="*{role.checked}">
+                                <label class="checkbox-label" th:for="|roles*{roleStat.index}|" th:text="*{role.roleName}"></label>
+                            </p>
+                        </ui>
+                    </div>
                 </div>
                 <span class="profile-title" th:text="#{user.label.usageStatus}"></span>
                 <div class="profile-manage">
