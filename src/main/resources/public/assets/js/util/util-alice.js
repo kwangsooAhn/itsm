@@ -12,6 +12,10 @@ const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
  *
  * @param elementId 에러를 출력할 장소 element id
  * @param text response text
+ *
+ * 2020-07-20 Jung Hee Chan
+ * - printError div를 만들어서 에러 내용을 상세히 찍는 부분은 그대로 살려둔다. 다만 화면에 출력하는 부분만 주석처리 함.
+ * - 향후 단순 alert이 아닌 상세 리포팅 모달이 필요한 경우 아래 모듈을 발전시켜 사용할 예정이다.
  */
 aliceJs.xhrErrorResponse = function (elementId, text) {
     let elmNode = document.getElementById(elementId);
@@ -52,7 +56,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
         keyTd.innerText = obj.key;
         valueTd.innerText = obj.text;
     });
-    elmNode.appendChild(table);
+    //elmNode.appendChild(table);
     console.log(data);
     aliceJs.alert('[' + data.status + ']' + data.error + '<br/>' + data.message)
 };
@@ -435,12 +439,98 @@ function delFileCheck() {
  */
 aliceJs.alert = function(message, callbackFunc) {
     const myModal = new gModal({
-        title: 'Alert',
-        body: '<div style="text-align: center;">' + message + '</div>',
+        message: message,
+        type: 'gmodal-icon-info',
         buttons: [
             {
-                content: 'OK',
-                classes: 'gmodal-button-green',
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.alertSuccess = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-success',
+        buttons: [
+            {
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open alert dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.AlertWarning = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-warning',
+        buttons: [
+            {
+                content: '닫기',
+                bindKey: 13, /* Enter */
+                callback: function(modal) {
+                    if (typeof callbackFunc === 'function') {
+                        callbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
+ * open error dialog.
+ *
+ * @param message message
+ * @param callbackFunc callback function
+ */
+aliceJs.AlertDanger = function(message, callbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-danger',
+        buttons: [
+            {
+                content: '닫기',
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -466,12 +556,11 @@ aliceJs.alert = function(message, callbackFunc) {
  */
 aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
     const myModal = new gModal({
-        title: 'Confirm',
-        body: '<div style="text-align: center;">' + message + '</div>',
+        message: message,
+        type: 'gmodal-icon-confirm',
         buttons: [
             {
                 content: 'Cancel',
-                classes: 'gmodal-button-red',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -481,7 +570,7 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                 }
             },{
                 content: 'OK',
-                classes: 'gmodal-button-green',
+                classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {

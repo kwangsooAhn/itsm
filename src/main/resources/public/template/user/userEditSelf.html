@@ -86,7 +86,13 @@
                     </tr>
                     <tr>
                         <th th:text="#{user.label.department}"></th>
-                        <td><input type="text" id="department" name="department" th:value="${users.department}" maxlength="100"/></td>
+                        <td>
+                            <input type="text" id="department" name="department" th:value="${deptCodeDetail?.codeValue}"
+                                   readonly/>
+                            <input type="hidden" id="departmentCode" name="departmentCode"
+                                   th:value="${deptCodeDetail?.code}"/>
+                            <button type="button" th:text="#{department.btn.selection}" onclick="deptPopUp();"/>
+                        </td>
                     </tr>
                     <tr>
                         <th th:text="#{user.label.officeNumber}"></th>
@@ -226,6 +232,11 @@
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
 
         function restSubmit(method, url) {
+            let avatarUUID = document.getElementById('avatarUUID').value;
+            if (document.getElementsByClassName('dz-image').item(0) === null) {
+                avatarUUID = '';
+            }
+
             if (!validation()) {
                 return false;
             }
@@ -235,7 +246,7 @@
                 userName: document.getElementById('userName').value,
                 email: document.getElementById('email').value,
                 position: document.getElementById('position').value,
-                department: document.getElementById('department').value,
+                department: document.getElementById('departmentCode').value,
                 officeNumber: document.getElementById('officeNumber').value,
                 mobileNumber: document.getElementById('mobileNumber').value,
                 timezone: document.getElementById('timezone').value,
@@ -243,7 +254,7 @@
                 theme: document.getElementById('theme').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
                 fileSeq: document.getElementsByName('fileSeq').value,
-                avatarUUID: document.getElementById('avatarUUID').value
+                avatarUUID: avatarUUID
             };
             const password = document.getElementById('password').value;
             if (password !== '') {
@@ -305,6 +316,10 @@
                 return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
             }
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        }
+
+        function deptPopUp() {
+            window.open('/users/department/view-pop', null, 'width=400, height=700');
         }
         /*]]>*/
     </script>

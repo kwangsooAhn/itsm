@@ -1,6 +1,6 @@
 {
     "editbox": {},
-    "text": {
+    "inputbox": {
         "dataAttribute": [
             {
                 "id": "mappingId",
@@ -25,7 +25,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -53,7 +53,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -173,7 +173,7 @@
                 "id": "regexpMsg",
                 "name": "Error Message",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -182,7 +182,7 @@
                 "id": "lengthMin",
                 "name": "Min Length",
                 "value": "0",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": "number"
@@ -191,7 +191,7 @@
                 "id": "lengthMax",
                 "name": "Max Length",
                 "value": "30",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": "number"
@@ -223,7 +223,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -251,7 +251,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -321,7 +321,7 @@
                 "id": "rows",
                 "name": "Rows",
                 "value": "3",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": "number|min[2]"
@@ -350,7 +350,7 @@
                 "id": "lengthMin",
                 "name": "Min Length",
                 "value": "0",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": "number"
@@ -359,14 +359,14 @@
                 "id": "lengthMax",
                 "name": "Max Length",
                 "value": "500",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": "number"
             }
         ]
     },
-    "select": {
+    "dropdown": {
         "dataAttribute": [
             {
                 "id": "mappingId",
@@ -391,7 +391,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -419,7 +419,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -523,7 +523,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -551,7 +551,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -673,7 +673,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -701,7 +701,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -823,7 +823,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -833,7 +833,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px" ,
                 "validate": "number|min[10]"
@@ -915,7 +915,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -924,7 +924,7 @@
             {
                 "id": "path",
                 "name": "Image Path",
-                "value": "https://placehold.it/720X100",
+                "value": "",
                 "type": "image",
                 "code": "",
                 "unit": "",
@@ -934,7 +934,7 @@
                 "id": "width",
                 "name": "Width",
                 "value": "720",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number"
@@ -943,7 +943,7 @@
                 "id": "height",
                 "name": "Height",
                 "value": "100",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number"
@@ -984,7 +984,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -994,7 +994,7 @@
                 "id": "thickness",
                 "name": "Thickness",
                 "value": "1",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number"
@@ -1043,7 +1043,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -1071,7 +1071,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -1192,7 +1192,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -1220,7 +1220,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -1341,7 +1341,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -1369,7 +1369,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -1490,7 +1490,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -1518,7 +1518,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -1611,7 +1611,7 @@
                 "id": "displayType",
                 "name": "Display Type",
                 "value": "",
-                "type": "hidden",
+                "type": "editable",
                 "code": "",
                 "unit": ""
             }
@@ -1639,7 +1639,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
