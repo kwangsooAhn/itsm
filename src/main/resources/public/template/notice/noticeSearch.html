@@ -19,7 +19,7 @@
                     <div class="usermanage-menubar">
                         <div class="menubar-left">
                             <input class="search" id="searchValue" type="text" maxlength="100"
-                                th:placeholder="#{notice.label.searchPlaceholder}"/>
+                                   th:placeholder="#{notice.label.searchPlaceholder}"/>
                             <span class="icon-search"></span>
                             <input class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                             <span>~</span>
@@ -27,7 +27,8 @@
                         </div>
                         <div class="menubar-right">
                             <button class="btn-add" onclick="location.href='/notices/new'"
-                                sec:authorize="hasAuthority('notice.create')"></button>
+                                    sec:authorize="hasAuthority('notice.create')">
+                            </button>
                         </div>
                     </div>
                     <div class="list" id="noticeList"></div>

@@ -140,14 +140,14 @@
         </div>
         <div align="right">
             <button style="margin-right: 5px;" onclick="location.href='/custom-codes/search'"
-                th:text="#{common.btn.list}"></button>
-            <button th:if="${customCode == null}" onclick="actionCustomCode('post')"
-                th:text="#{common.btn.save}"></button>
+                    th:text="#{common.btn.list}"></button>
+            <button th:if="${customCode == null}" sec:authorize="hasAuthority('custom.code.create')"
+                    onclick="actionCustomCode('post')" th:text="#{common.btn.save}"></button>
             <button th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.update')"
-                th:disabled="${!customCode.enabled}" onclick="actionCustomCode('put')" th:text="#{common.btn.modify}">
+                    th:disabled="${!customCode.enabled}" onclick="actionCustomCode('put')" th:text="#{common.btn.modify}">
             </button>
             <button th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.delete')"
-                th:disabled="${!customCode.enabled}" onclick="actionCustomCode('delete')" th:text="#{common.btn.delete}">
+                    th:disabled="${!customCode.enabled}" onclick="actionCustomCode('delete')" th:text="#{common.btn.delete}">
             </button>
         </div>
     </div>

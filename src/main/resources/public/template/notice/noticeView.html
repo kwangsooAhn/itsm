@@ -21,7 +21,7 @@
                 <td colspan="3" style="text-align:left; width:500px; height:250px;"><span th:text="${notice?.noticeContents}"></span></td>
             </tr>
             <tr>
-                <th th:text="#{common.label.attachFile}">첨부파일</th>
+                <th th:text="#{common.label.attachFile}"></th>
                 <td colspan="3">
                     <div id="dropZoneFiles"></div>
                     <div id="dropZoneUploadedFiles"></div>
@@ -29,21 +29,33 @@
             </tr>
             <tr>
                 <th th:text="#{common.label.createUser}"></th>
-                <td colspan="3"><span th:text="${notice?.aliceUserEntity.userName}"/></span></td>
+                <td colspan="3"><span th:text="${notice?.aliceUserEntity.userName}"></span></td>
             </tr>
             <tr style = "display:none;">
                 <th th:text="#{notice.label.popUpNoticeSettings}"></th>
                 <td>
                     <div>
-                        <label><input type="radio" id = "popRadioBtUp" name="popYn" th:value="${notice.popYn}" onclick ="return(false);" th:text="#{notice.label.set}"></label>
-                        <label><input type="radio" id = "popRadioBtDown" name="popYn" th:value="${notice.popYn}" onclick ="return(false);" th:text="#{notice.label.notSet}"></label>
+                        <label>
+                            <input type="radio" id = "popRadioBtUp" name="popYn" th:value="${notice.popYn}"
+                                   onclick ="return(false);" th:text="#{notice.label.set}">
+                        </label>
+                        <label>
+                            <input type="radio" id = "popRadioBtDown" name="popYn" th:value="${notice.popYn}"
+                                   onclick ="return(false);" th:text="#{notice.label.notSet}">
+                        </label>
                     </div>
                 </td>
                 <th th:text="#{notice.label.topNoticeSettings}"></th>
                 <td>
                     <div>
-                        <label><input type="radio" id = "topRadioBtUp" name="topNoticeYn" th:value="${notice.topNoticeYn}" onclick ="return(false);" th:text="#{notice.label.set}"></label>
-                        <label><input type="radio" id = "topRadioBtDown" name="topNoticeYn" th:value="${notice.topNoticeYn}" onclick ="return(false);" th:text="#{notice.label.notSet}"></label>
+                        <label>
+                            <input type="radio" id = "topRadioBtUp" name="topNoticeYn" th:value="${notice.topNoticeYn}"
+                                   onclick ="return(false);" th:text="#{notice.label.set}">
+                        </label>
+                        <label>
+                            <input type="radio" id = "topRadioBtDown" name="topNoticeYn" th:value="${notice.topNoticeYn}"
+                                   onclick ="return(false);" th:text="#{notice.label.notSet}">
+                        </label>
                     </div>
                 </td>
             </tr>
@@ -57,15 +69,21 @@
                 </tr>
                 <tr>
                     <th th:text="#{notice.label.width}"></th>
-                    <td colspan="2"><span th:text="${notice?.popWidth}"/></span></td>
+                    <td colspan="2"><span th:text="${notice?.popWidth}"></span></td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.label.strtDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(notice.popStrtDt,dateformat)}" ></span></td>
+                    <td colspan="2">
+                        <span th:with="dateformat=${#authentication.details.timeFormat}"
+                              th:text="${#temporals.format(notice.popStrtDt,dateformat)}"></span>
+                    </td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.label.endDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}"  th:text="${#temporals.format(notice.popEndDt,dateformat)}"/></span></td>
+                    <td colspan="2">
+                        <span th:with="dateformat=${#authentication.details.timeFormat}"
+                              th:text="${#temporals.format(notice.popEndDt,dateformat)}"></span>
+                    </td>
                 </tr>
             </table>
         </div>
@@ -75,18 +93,22 @@
                 <tr>
                     <th rowspan="4" th:text="#{notice.label.topNoticeSettingsInfo}"></th>
                     <th th:text="#{notice.label.strtDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(notice.topNoticeStrtDt,dateformat)}"></span></td>
+                    <td colspan="2">
+                        <span th:with="dateformat=${#authentication.details.timeFormat}"
+                              th:text="${#temporals.format(notice.topNoticeStrtDt,dateformat)}"></span>
+                    </td>
                 </tr>
                 <tr>
                     <th th:text="#{notice.label.endDt}"></th>
-                    <td colspan="2"><span th:with="dateformat=${#authentication.details.timeFormat}" th:text="${#temporals.format(notice.topNoticeEndDt,dateformat)}"></span></td>
+                    <td colspan="2">
+                        <span th:with="dateformat=${#authentication.details.timeFormat}"
+                              th:text="${#temporals.format(notice.topNoticeEndDt,dateformat)}"></span>
+                    </td>
                 </tr>
             </table>
         </div>
         <div style = "float:right;">
             <button type="button" onclick="location.href='/notices/search'" th:text="#{common.btn.list}"></button>
-            <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" th:onclick ="'location.href =\'' + @{/notices/{id}/edit(id=${notice.NoticeNo})}+'\''" th:text="#{common.btn.modify}"></button>
-            <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete" th:onclick="restSubmit('DELETE',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{common.btn.delete}"></button>
         </div>
         </form>
     </div>
@@ -117,21 +139,6 @@
                 document.getElementById('topNoticeTab').style.display = 'none';
             }
             fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});
-        }
-
-        //RESTFUL API
-        function restSubmit(method, url, async) {
-            const opt = {
-                method: method,
-                url: url,
-                async: async,
-                callbackFunc: function() {
-                    aliceJs.alert('삭제 처리되었습니다.', function() {
-                        window.location.href = '/notices/search';
-                    });
-                }
-            };
-            aliceJs.sendXhr(opt);
         }
         /* ]]> */
     </script>
