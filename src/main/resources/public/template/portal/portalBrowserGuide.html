@@ -1,49 +1,27 @@
-<!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <style>
-        @font-face {
-            font-family: "Noto Sans KR";
-            font-style: normal;
-            font-weight: 500;
-            src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format("opentype");
-        }
-
-        body {
-            background-color: #EFF4FA;
-            margin: 0px;
-        }
-    </style>
+    <meta http-equiv="Content-Type" content="text/css; charset=UTF-8"/>
+    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
 </head>
-<body>
-<p th:text="#{portal.label.browserGuidePhrase}"
-   style="font-size: 30px; font-family: 'Noto Sans KR', sans-serif; text-align: center; margin: 277px 315px 46px 315px; height: 58px; width: 1290px;"></p>
+<body class="guide-body">
+<p class="guide-p" th:text="#{portal.label.browserGuidePhrase}"></p>
 
-<a href="https://www.google.com/intl/ko/chrome/" target="_blank"
-   style="padding: 63px; margin: 0px 15px 0px 15px; position: relative; left: 300px; background-color: white; display: inline-block; height: 174px; width: 174px; text-decoration: none;"><img
-        th:src="@{/assets/media/image/testgoogle.png}"
-        style="width: 174px; height: 174px; position: relative; bottom: 10px;">
-    <p style="position: relative; text-align: center; margin: 0px; width: 174px; height: 30px; top: -10px; font-family: 'Noto Sans KR', sans-serif; font-size: 20px;">Chrome</p>
+<a class="guide-a" href="https://www.google.com/intl/ko/chrome/" target="_blank"><img
+        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_chrome.png}"/>
+    <p class="guide-p" th:text="#{portal.label.chrome}"/>
 </a>
-<a href="https://www.mozilla.org/ko/firefox/new/" target="_blank"
-   style="padding: 63px; margin: 0px 15px 0px 15px; position: relative; left: 300px; background-color: white; display: inline-block; height: 174px; width: 174px; text-decoration: none;"><img
-        th:src="@{/assets/media/image/testgoogle.png}"
-        style="width: 174px; height: 174px; position: relative; bottom: 10px;">
-    <p style="position: relative; text-align: center; margin: 0px; width: 174px; height: 30px; top: -10px; font-family: 'Noto Sans KR', sans-serif; font-size: 20px;">Firefox</p>
+<a class="guide-a" href="https://www.mozilla.org/ko/firefox/new/" target="_blank"><img
+        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_firefox.png}"/>
+    <p class="guide-p" th:text="#{portal.label.firefox}"/>
 </a>
-<a href="https://www.microsoft.com/ko-kr/edge" target="_blank"
-   style="padding: 63px; margin: 0px 15px 0px 15px; position: relative; left: 300px; background-color: white; display: inline-block; height: 174px; width: 174px; text-decoration: none;"><img
-        th:src="@{/assets/media/image/testgoogle.png}"
-        style="width: 174px; height: 174px; position: relative; bottom: 10px;">
-    <p style="position: relative; text-align: center; margin: 0px; width: 174px; height: 30px; top: -10px; font-family: 'Noto Sans KR', sans-serif; font-size: 20px;">Ms Edge</p>
+<a class="guide-a" href="https://www.microsoft.com/ko-kr/edge" target="_blank"><img
+        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_msedge.png}"/>
+    <p class="guide-p" th:text="#{portal.label.msEdge}"/>
 </a>
-<a href="https://support.apple.com/ko_KR/downloads/safari" target="_blank"
-   style="padding: 63px; margin: 0px 15px 0px 15px; position: relative; left: 300px; background-color: white; display: inline-block; height: 174px; width: 174px; text-decoration: none;"><img
-        th:src="@{/assets/media/image/testgoogle.png}"
-        style="width: 174px; height: 174px; position: relative; bottom: 10px;">
-    <p style="position: relative; text-align: center; margin: 0px; width: 174px; height: 30px; top: -10px; font-family: 'Noto Sans KR', sans-serif; font-size: 20px;">Safari</p>
+<a class="guide-a" href="https://support.apple.com/ko_KR/downloads/safari" target="_blank"><img
+        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_safari.png}"/>
+    <p class="guide-p" th:text="#{portal.label.safari}"/>
 </a>
 </body>
 </html>
