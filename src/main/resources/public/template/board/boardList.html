@@ -1,65 +1,44 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-            text-align: center;
-        }
-        table tr td:nth-child(3) {
-            text-align: left;
-        }
-        table th {
-            border: 1px solid;
-        }
-        table td {
-            border-top: 1px solid #e7e7e7;
-            border-left: 1px solid;
-        }
-    </style>
 </head>
 <body>
-<div>
-    <table class="table-hover">
+<div class="list-wrap">
+    <table>
         <colgroup>
-            <col width="10%">
-            <col width="15%">
-            <col width="30%">
-            <col width="10%">
-            <col width="10%">
-            <col width="10%">
-            <col width="15%">
+            <col width="120px">
+            <col width="180px">
+            <col width="360px">
+            <col width="120px">
+            <col width="120px">
+            <col width="120px">
+            <col width="180px">
         </colgroup>
-        <thead>
+        <tbody>
             <tr>
                 <th th:text="#{board.label.number}"></th>
                 <th th:text="#{board.label.category}"></th>
                 <th th:text="#{common.label.title}"></th>
                 <th th:text="#{board.label.commentCount}"></th>
                 <th th:text="#{board.label.readCount}"></th>
-                <th th:text="#{common.label.createUser}"></th>
-                <th th:text="#{common.label.createDate}"></th>
+                <th th:text="#{common.label.writer}"></th>
+                <th th:text="#{common.label.writeDate}"></th>
             </tr>
-        </thead>
-        <tbody>
             <tr th:if="${#arrays.isEmpty(boardList)}">
-                <td colspan="9" th:text="#{common.msg.noData}"></td>
+                <td colspan="7" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr th:unless="${#arrays.isEmpty(boardList)}" th:each="board: ${boardList}">
-                <td style="text-align:center" th:text="${board.boardSeq}"></td>
-                <td style="text-align:center" th:text="${board.boardCategoryName}"></td>
-                <td style="text-align:left">
-                    <div th:if="${board.boardLevelId} > 0" th:each="depth : ${#numbers.sequence(1, board.boardLevelId)}"
-                         th:text="${board.boardLevelId} == ${depth} ? 'L' : '&nbsp;&nbsp;&nbsp;&nbsp;'" style="float:left;"></div>
+            <tr th:each="board, i: ${boardList}" th:if="${i.count} < 11">
+                <td th:text="${board.boardSeq}"></td>
+                <td th:text="${board.boardCategoryName}"></td>
+                <td class="align-left">
                     <a th:href="@{/boards/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
                 </td>
-                <td style="text-align:center" th:text="${board.replyCount}"></td>
-                <td style="text-align:center" th:text="${board.readCount}"></td>
+                <td th:text="${board.replyCount}"></td>
+                <td th:text="${board.readCount}"></td>
                 <td th:text="${board.createUser.userName}"></td>
-                <td th:name="boardDt" th:text="${board.createDt}"></td>
+                <td th:text="${board.createDt}" th:name="boardDt"></td>
             </tr>
         </tbody>
     </table>

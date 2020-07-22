@@ -28,7 +28,7 @@ class CodeRestController(private val codeService: CodeService) {
      * 코드 데이터 상세 정보 조회
      */
     @GetMapping("/{code}")
-    fun getCodes(@PathVariable code: String): CodeDetailDto {
+    fun getCodes(@PathVariable code: String): CodeDetailDto? {
         return codeService.getDetailCodes(code)
     }
 

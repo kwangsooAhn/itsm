@@ -3,8 +3,8 @@ package co.brainz.workflow.tag.service
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.provider.dto.RestTemplateTagDto
 import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
-import co.brainz.workflow.tag.entity.WfTagDataEntity
 import co.brainz.workflow.tag.entity.WfTagEntity
+import co.brainz.workflow.tag.entity.WfTagMapEntity
 import co.brainz.workflow.tag.repository.WfTagDataRepository
 import co.brainz.workflow.tag.repository.WfTagRepository
 import org.springframework.stereotype.Service
@@ -27,13 +27,13 @@ class WfTagService(
      * Insert Tag.
      */
     fun insertTag(restTemplateTagDto: RestTemplateTagDto): Boolean {
-        val wfTagEntity = WfTagEntity(
+        val wfTagMapEntity = WfTagMapEntity(
             tagId = ""
         )
-        wfTagEntity.instance =
+        wfTagMapEntity.instance =
             restTemplateTagDto.instanceId.let { wfInstanceRepository.findByInstanceId(it) }
-        val dataEntity = wfTagRepository.save(wfTagEntity)
-        val wfTagDataEntity = WfTagDataEntity(
+        val dataEntity = wfTagRepository.save(wfTagMapEntity)
+        val wfTagDataEntity = WfTagEntity(
             tagId = dataEntity.tagId,
             tagContent = restTemplateTagDto.tagContent
         )
