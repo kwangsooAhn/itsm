@@ -1,20 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/css; charset=UTF-8"/>
+    <meta charset="UTF-8">
+    <title th:text="#{error.label.error}"></title>
 </head>
 <body style="width: 1920px; height: 947px; margin: 0px; padding: 0px; overflow: hidden;">
 <div style="width: 1920px; height: 947px;">
     <div style="width: 50%; height: 100%; float: left; background-color: #EFF4FA">
-        <img th:src="@{/assets/media/image/error/graphic_error.png}">
+        <img th:src="@{/assets/media/image/error/graphic_error.png}"/>
     </div>
     <div style=" width: 50%; height: 100%; float: right; background-color: #FFFFFF">
-        <img th:src="@{/assets/media/image/error/logo_alice.png}" style="position: relative; margin: 213px 0px 78px 122px;">
-        <p style="margin: 0px 0px 24px 122px; font-size: 35px; color: #47556a; font-weight: 500;">요청하신 페이지를 처리 중에 오류가 발생했습니다.</p>
-        <p style="margin: 0px 0px 34px 122px; font-size: 35px; color: #47556a; font-weight: 500;">서비스 이용에 불편을 드려 죄송합니다.</p>
-        <p style="margin: 0px 0px 68px 122px; font-size: 28px; color: #0050FF; font-weight: 400;">에러코드:ERR-00005(Not Found resource)</p>
-        <p style="margin: 0px 0px 107px 122px; font-size: 20px; color: #657388; font-weight: 400;">지속적인 장애가 발생할 경우 관리자에게 문의해주세요.</p>
-        <button style="background-color: #0050FF; outline-color: #0048E6; font-size: 20px;">이전 화면으로 돌아가기</button>
+        <img th:src="@{/assets/media/image/error/logo_alice.png}"
+             style="position: relative; margin: 213px 0px 78px 122px;"/>
+        <p th:text="#{error.label.topPhrase}"
+           style="margin: 0px 0px 24px 122px; font-size: 35px; color: #47556a; font-weight: 500;"/>
+        <p th:text="#{error.label.middlePhrase}"
+           style="margin: 0px 0px 34px 122px; font-size: 35px; color: #47556a; font-weight: 500;"/>
+        <p th:text="|#{error.label.errorCode} : ${error} (${status})|"
+           style="margin: 0px 0px 68px 122px; font-size: 28px; color: #0050FF; font-weight: 400;"/>
+        <p th:text="#{error.label.bottomPhrase}"
+           style="margin: 0px 0px 107px 122px; font-size: 20px; color: #657388; font-weight: 400;"/>
+        <button th:text="#{error.btn.return}"
+                style="background-color: #0050FF; border-color: #0048E6; color: #FFFFFF; font-size: 20px; margin-left: 122px; width: 360px; height: 55px; border-radius: 1px; border-width: 1px;"/>
     </div>
 </div>
 </body>
