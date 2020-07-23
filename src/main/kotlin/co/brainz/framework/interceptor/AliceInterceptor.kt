@@ -25,7 +25,7 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa) : HandlerInte
 
     @Throws(Exception::class)
     override fun preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Any): Boolean {
-        userAgentCheck(request, response)
+        //userAgentCheck(request, response)
         // URL 접근 확인
         urlAccessAuthCheck(request)
         return true
