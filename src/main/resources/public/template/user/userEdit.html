@@ -44,26 +44,17 @@
                         </div>
                         <div  th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                             <div class="user-register-top-list">
-                                <div class="input-title-guide">
-                                    <p class="input-title required" th:text="#{user.label.id}"></p>
-                                    <span class="btn-info"></span>
-                                </div>
+                                <p class="input-title required" th:text="#{user.label.id}"></p>
                                 <input class="user-register-input" id="userId" name="userId"
                                        maxlength="100" th:value="${users?.userId}" required="required"/>
                             </div>
                             <div class="profile-input-body-list">
-                                <div class="input-title-guide">
-                                    <p class="input-title required" th:text="#{user.label.password}"></p>
-                                    <span class="btn-info"></span>
-                                </div>
+                                <p class="input-title required" th:text="#{user.label.password}"></p>
                                 <input class="user-register-input" type="password" id="password" name="password"
                                        maxlength="100" autocomplete="new-password" required="required"/>
                             </div>
                             <div class="profile-input-body-list">
-                                <div class="input-title-guide">
-                                    <p class="input-title required" th:text="#{user.label.rePassword}"></p>
-                                    <span class="btn-info"></span>
-                                </div>
+                                <p class="input-title required" th:text="#{user.label.rePassword}"></p>
                                 <input class="user-register-input" type="password" id="rePassword" name="rePassword"
                                        maxlength="100" autocomplete="new-password" required="required"/>
                             </div>
@@ -75,7 +66,6 @@
                         </div>
                         <div class="profile-input-body-list">
                             <p class="input-title required" th:text="#{user.label.email}"></p>
-                            <span class="btn-info"></span>
                             <input class="user-register-input" id="email" name="email"
                                    th:value="${users?.email}" maxlength="100" required="required">
                         </div>
@@ -91,7 +81,7 @@
 	                        <input type="hidden" id="departmentCode" name="departmentCode"
 	                               th:value="${deptCodeDetail?.code}"/>
                             <button class="input-button" type="button" onclick="deptPopUp();"
-                                    th:text="#{department.btn.selection}" />
+                                    th:text="#{department.btn.selection}"></button>
                         </div>
                         <div class="profile-input-body-list">
                             <p class="input-title" th:text="#{user.label.officeNumber}"></p>
