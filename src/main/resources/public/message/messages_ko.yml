@@ -624,6 +624,7 @@ user:
     all: "전체"
     avatar: "아바타"
     createUser: "사용자 등록"
+    customSetting: "맞춤설정"
     date: "날짜 유형"
     department: "부서"
     editUserInfo: "회원 정보 수정"

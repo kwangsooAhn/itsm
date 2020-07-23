@@ -41,41 +41,53 @@
                                     <p class="input-title required" th:text="#{user.label.id}"></p>
                                     <span class="btn-info"></span>
                                 </div>
-                                <input class="user-register-input" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/>
+                                <input class="user-register-input" id="userId" name="userId"
+                                       maxlength="100" th:value="${users?.userId}" required="required"/>
                             </div>
                             <div class="profile-input-body-list">
                                 <div class="input-title-guide">
                                     <p class="input-title required" th:text="#{user.label.password}"></p>
                                     <span class="btn-info"></span>
                                 </div>
-                                    <input class="user-register-input" type="password" id="password" name="password" maxlength="100" autocomplete="new-password" required="required"/>
+                                <input class="user-register-input" type="password" id="password" name="password"
+                                       maxlength="100" autocomplete="new-password" required="required"/>
                             </div>
                             <div class="profile-input-body-list">
                             <div class="input-title-guide">
                                 <p class="input-title required" th:text="#{user.label.rePassword}"></p>
                                 <span class="btn-info"></span>
                             </div>
-                                <input class="user-register-input" type="password" id="rePassword" name="rePassword" maxlength="100" autocomplete="new-password" required="required"/>
+                                <input class="user-register-input" type="password" id="rePassword" name="rePassword"
+                                       maxlength="100" autocomplete="new-password" required="required"/>
                             </div>
                         </div>
                         <div class="profile-input-body-list">
                             <span class="input-title required" th:text="#{user.label.name}"></span>
-                            <input class="user-register-input" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/>
+                            <input class="user-register-input" id="userName" name="userName"
+                                   th:value="${users?.userName}" maxlength="100" required="required"/>
                         </div>
                         <div class="profile-input-body-list">
-                            <span class="input-title required" th:text="#{user.label.email}"></span>
-                            <input class="user-register-input" id="email" name="email" th:value="${users?.email}" maxlength="100" required="required">
+                            <div class="input-title-guide">
+                                <p class="input-title required" th:text="#{user.label.email}"></p>
+                                <span class="btn-info"></span>
+                                <span th:text="#{user.msg.emailAlert}" hidden></span>
+                            </div>
+                            <input class="user-register-input" id="email" name="email"
+                                   th:value="${users?.email}" maxlength="100" required="required">
                         </div>
                         <div class="profile-input-body-list">
                             <span class="input-title" th:text="#{user.label.position}"></span>
-                            <input class="user-register-input" id="position" name="position" th:value="${users?.position}" maxlength="100">
+                            <input class="user-register-input" id="position" name="position"
+                                   th:value="${users?.position}" maxlength="100">
                         </div>
                         <div class="profile-input-body-list">
                             <span class="input-title" th:text="#{user.label.department}"></span>
-                            <input class="user-register-input" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
+                            <input class="user-register-input" id="department" name="department"
+                                   th:value="${deptCodeDetail?.codeValue}" readonly>
                             <input type="hidden" id="departmentCode" name="departmentCode"
                                    th:value="${deptCodeDetail?.code}"/>
-                            <button class="input-button" type="button" th:text="#{department.btn.selection}" onclick="deptPopUp();"/>
+                            <button class="input-button" type="button" onclick="deptPopUp();"
+                                    th:text="#{department.btn.selection}" />
                         </div>
                         <div class="profile-input-body-list">
                             <span class="input-title" th:text="#{user.label.officeNumber}"></span>
@@ -88,7 +100,7 @@
                                    onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                         </div>
                     </div>
-                    <span class="profile-title">맞춤설정</span>
+                    <span class="profile-title" th:text="#{user.label.customSetting}"></span>
                     <div class="profile-manage">
                         <div class="user-register-top-list">
                             <span class="input-title required" th:text="#{user.label.timezone}"></span>
@@ -122,15 +134,6 @@
                                         th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"></option>
                             </select>
                         </div>
-                    </div>
-                    <span class="profile-title" th:text="#{user.label.usageStatus}"></span>
-                    <div class="profile-manage">
-                        <label class="switch">
-                            <input type="checkbox" id="usageStatus" name="usageStatus" onclick="toggle(this);"
-                                   th:checked="${users?.useYn == null || users?.useYn == true}">
-                            <span class="slider round"></span>
-                        </label>
-                        <span class="switch_label" th:text="#{user.msg.usageStatus}"></span>
                     </div>
                     <div class="btn_wrap">
                         <button class="btn_register" type="button" th:text="#{user.label.editUserInfo}"

@@ -624,6 +624,7 @@ user:
     all: "All"
     avatar: "Avatar"
     createUser: "User Registration"
+    customSetting: "Custom Settings"
     date: "Date Format"
     department: "Department"
     editUserInfo: "Edit User Information"
