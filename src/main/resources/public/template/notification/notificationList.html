@@ -17,18 +17,18 @@
                 th:id="${notification.notificationId}" th:attr="instance-id=${notification.instanceId}"
                 th:attrappend="is-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
                 th:classappend="${notification.confirmYn} ? confirm">
-                <div>
+                <div class="title">
                     <label><input type="checkbox" th:checked="${notification.confirmYn}"
                                   th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"
                                   th:disabled="${notification.confirmYn}"/></label>
-                    <span class="title text-ellipsis" th:text="${notification.title}"
+                    <span class="title text-ellipsis" th:text="${notification.title}" th:classappend="${notification.confirmYn} ? confirm"
                         th:onclick="openTokenPage([[${notification.notificationId}]], [[${notification.instanceId}]])"></span>
                     <button class="remove" th:onclick="deleteNotification([[${notification.notificationId}]])"></button>
                 </div>
-                <div>
+                <div class="message">
                     <span class="message text-ellipsis" th:text="${notification.message}"></span>
                 </div>
-                <div>
+                <div class="date">
                     <span class="date" th:text="${#temporals.format(notification.createDt, dateformat)}"
                           th:with="dateformat=${#authentication.details.timeFormat}"></span>
                 </div>
