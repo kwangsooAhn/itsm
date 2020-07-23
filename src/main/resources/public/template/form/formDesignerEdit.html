@@ -51,7 +51,7 @@
         <span class="separator"></span>
         <th:block th:if="${#strings.isEmpty(isView)}">
             <a href="javascript:void(0);" onclick="editor.save(true);">
-                <img th:src="@{/assets/media/icons/form/topmenu/icon_save out.png}"/>
+                <img th:src="@{/assets/media/icons/form/topmenu/icon_save_out.png}"/>
                 <!--<label th:text="#{form.label.saveExit}"></label>-->
             </a>
             <span class="separator"></span>
@@ -200,7 +200,7 @@
             <table></table>
         </div>
         <div class="property-group" id="validate">
-            <h3><span th:text="#{form.properties.validate}"></span></h3>
+            <h3><label th:text="#{form.properties.validate}"></label></h3>
         </div>
     </div>
 </template>

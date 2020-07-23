@@ -232,18 +232,18 @@
 
         const displayType = property['dataAttribute']['displayType'];
         const optionsTemplate = property.option.map(function (opt) {
-            return `<div class="field-radio">` +
+            return `<label class="field-radio" for='radio-${opt.value}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
                     `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}"` + 
                     `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
-                    `${displayType === 'readonly' ? ' disabled' : ''}>` +
-                    `<label for='radio-${opt.value}-${opt.seq}'>${opt.name}</label>` :
-                    `<label for='radio-${opt.value}-${opt.seq}'>${opt.name}</label>` +
+                    `${displayType === 'readonly' ? ' disabled' : ''}><span></span>` +
+                    `<span>${opt.name}</span>` :
+                    `<span>${opt.name}</span>` +
                     `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}"` +
                     `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
-                    `${displayType === 'readonly' ? ' disabled' : ''}>`
+                    `${displayType === 'readonly' ? ' disabled' : ''}><span></span>`
                  }` +
-                `</div>`;
+                `</label>`;
         }).join('');
 
         this.template =
@@ -283,18 +283,18 @@
         const displayType = property['dataAttribute']['displayType'];
         const checkboxValueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
         const optionsTemplate = property.option.map(function (opt) {
-            return `<div class="field-checkbox">` +
+            return `<label class="field-checkbox"  for='checkbox-${opt.value}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
                     `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}"` + 
                     `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
-                    `${displayType === 'readonly' ? ' disabled' : ''}>` +
-                    `<label for='checkbox-${opt.value}-${opt.seq}'>${opt.name}</label>` :
-                    `<label for='checkbox-${opt.value}-${opt.seq}'>${opt.name}</label>` +
+                    `${displayType === 'readonly' ? ' disabled' : ''}><span></span>` +
+                    `<span>${opt.name}</span>` :
+                    `<span>${opt.name}</span>` +
                     `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}"` +
                     `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
-                    `${displayType === 'readonly' ? ' disabled' : ''}>`
+                    `${displayType === 'readonly' ? ' disabled' : ''}><span></span>`
                 }` +
-                `</div>`;
+                `</label>`;
         }).join('');
 
         this.template =
