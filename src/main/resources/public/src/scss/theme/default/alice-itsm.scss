@@ -53,16 +53,18 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family: 'Noto Sans K
                     td {height: 45px;vertical-align: middle;text-align: center;
                         &:first-child{width:30px;}
                     }
+                    a {cursor: pointer;}
                     &:hover {background: rgba(0, 80, 255, 0.05);}
-                    &:first-child {background: rgba(0, 80, 255, 0);}
                 }
             }
+            & thead {background: rgba(0, 80, 255, 0);}
             // 리스트 출력용 아바타 이미지
             .profile-photo {height:27px; width:27px; border-radius: 50%; background: rgba(240, 240, 240, 1);}
             .tr-notice {background: rgba(255,255,0, 0.2);}
             .align-center {text-align: center;}
             .align-left {text-align: left;}
             .align-right {text-align: right;}
+            .
         }
         .search {
             width:305px;height:30px; background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
@@ -87,6 +89,14 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family: 'Noto Sans K
         &:hover {
             background: rgba(0, 80, 255, 1) url($icon-folder-path + "icon_add_ov.svg") no-repeat center center;
             color: $alice-primary; border: rgba(64, 158, 230, 0.05) 1px solid;
+        }
+    }
+    .btn-basic {
+        display:inline-block; position:relative; top:5.5px; cursor: pointer; text-align: center; padding: 3px 10px !important;
+        padding: 10px; border-radius: 2px; border: 1px solid rgba(170, 170, 170, 1); text-align: center;
+        color: #393e45;
+        &:hover {
+            font-weight: 600;
         }
     }
 }

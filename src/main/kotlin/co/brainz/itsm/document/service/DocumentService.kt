@@ -2,7 +2,7 @@ package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.itsm.form.service.FormService
-import co.brainz.itsm.process.service.ProcessService
+import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayDto
@@ -26,7 +26,7 @@ import org.springframework.util.MultiValueMap
 class DocumentService(
     private val restTemplate: RestTemplateProvider,
     private val formService: FormService,
-    private val processService: ProcessService
+    private val processAdminService: ProcessAdminService
 ) {
 
     private val objMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -178,7 +178,7 @@ class DocumentService(
         processStatus.add(RestTemplateConstants.ProcessStatus.PUBLISH.value)
         processStatus.add(RestTemplateConstants.ProcessStatus.USE.value)
         processParams["status"] = processStatus.joinToString(",")
-        return processService.getProcesses(processParams)
+        return processAdminService.getProcesses(processParams)
     }
 
     /**

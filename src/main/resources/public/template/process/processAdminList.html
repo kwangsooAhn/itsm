@@ -3,28 +3,58 @@
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-        }
-        table tr:nth-child(1) td {
-            border-top: 1px solid;
-        }
-        table td {
-            border-top: 1px solid #e7e7e7;
-            border-left: 1px solid;
-            text-align: center;
-            padding: 3px;
-            height: 40px;
-        }
-        table td:nth-child(1), table td:nth-child(2) {
-            text-align: left;
-        }
-    </style>
 </head>
 <body>
+<div class="list-wrap">
+    <table>
+        <colgroup>
+            <col style="width:250px">
+            <col style="width:100px">
+            <col style="width:100px">
+            <col style="width:150px">
+            <col style="width:300px">
+            <col style="width:150px">
+            <col style="width:150px">
+        </colgroup>
+        <thead>
+        <tr>
+            <th th:text="#{process.label.name}"</th>
+            <th th:text="#{process.label.simulation}"></th>
+            <th th:text="#{common.label.update}"></th>
+            <th th:text="#{process.label.state}"></th>
+            <th th:text="#{process.label.description}"></th>
+            <th th:text="#{common.label.writer}"></th>
+            <th th:text="#{common.label.writeDate}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="align-left" th:if="${#arrays.isEmpty(processList)}">
+            <td colspan="7" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr th:each="process, i: ${processList}" th:if="${i.count} < 11">
+            <td th:class="align-left">
+                <a href="javascript:void(0);" th:text="${process.name}"
+                   th:attr="onclick=|openProcessDesignerView('${process.id}')|"></a>
+            </td>
+            <td>
+                <a th:attr="onclick=|openProcessDesignerView('${process.id}')|">
+                    <img src="../assets/media/icons/process/list/icon_preview.png"></a>
+            </td>
+            <td>
+                <a sec:authorize="hasAuthority('process.update')" th:disabled="${!process.enabled}"
+                   th:attr="onclick=|openProcessDesignerEdit('${process.id}')|">
+                    <img src="../assets/media/icons/process/list/icon_edit.png"></a>
+            </td>
+            <td th:text="#{${process.status}}"></td>
+            <td class="align-left" th:text="${process.description}"></td>
+            <td th:text="${process.createUserName}"></td>
+            <td th:name="createDt" th:text="${process.createDt}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+<!--<body>
     <div>
         <table class="table-hover">
             <colgroup>
@@ -75,5 +105,5 @@
             </tbody>
         </table>
     </div>
-</body>
+</body>-->
 </html>
