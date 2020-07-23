@@ -32,7 +32,7 @@
                     <span class="profile-title" th:text="#{user.label.profile}"></span>
                     <div class="profile-manage">
                         <div class="avatar_section_wrap">
-                            <span class= "avatar_title" th:text="#{user.label.avatar}"></span>
+                            <span class="avatar_title" th:text="#{user.label.avatar}"></span>
                             <span class="avatar_section">
                                 <div class="avatar_text" id="dropZoneFiles"></div><br/><br/>
                             </span>
@@ -42,40 +42,55 @@
                                 <span class="avatar_far_bottom_text" th:text="#{user.label.FileExtensionAllowed}"></span>
                             </div>
                         </div>
-                        <div class="user-register-top-list" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
-                            <span class= "input-title required" th:text="#{user.label.id}"></span>
-                            <input class="user-register-input" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/>
-                        </div>
-                        <div class="profile-input-body-list" th:style="${users?.userKey == null || (users?.userKey != null && !users?.platform.equals('user.platform.alice'))} ? 'display: none' : ''">
-                            <span class= "input-title required" th:text="#{user.label.password}"></span>
-                            <input class="user-register-input" type="password" id="password" name="password" maxlength="100" autocomplete="new-password" required="required"/>
-                        </div>
-                        <div class="profile-input-body-list" th:style="${users?.userKey == null || (users?.userKey != null && !users?.platform.equals('user.platform.alice'))} ? 'display: none' : ''">
-                            <span class= "input-title required" th:text="#{user.label.rePassword}"></span>
-                            <input class="user-register-input" type="password" id="rePassword" name="rePassword" maxlength="100" autocomplete="new-password" required="required"/>
+                        <div  th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
+                            <div class="user-register-top-list">
+                                <div class="input-title-guide">
+                                    <p class="input-title required" th:text="#{user.label.id}"></p>
+                                    <span class="btn-info"></span>
+                                </div>
+                                <input class="user-register-input" id="userId" name="userId" maxlength="100" th:value="${users?.userId}" required="required"/>
+                            </div>
+                            <div class="profile-input-body-list">
+                                <div class="input-title-guide">
+                                    <p class="input-title required" th:text="#{user.label.password}"></p>
+                                    <span class="btn-info"></span>
+                                </div>
+                                <input class="user-register-input" type="password" id="password" name="password" maxlength="100" autocomplete="new-password" required="required"/>
+                            </div>
+                            <div class="profile-input-body-list">
+                                <div class="input-title-guide">
+                                    <p class="input-title required" th:text="#{user.label.rePassword}"></p>
+                                    <span class="btn-info"></span>
+                                </div>
+                                <input class="user-register-input" type="password" id="rePassword" name="rePassword" maxlength="100" autocomplete="new-password" required="required"/>
+                            </div>
                         </div>
                         <div class="profile-input-body-list">
-                            <span class= "input-title required" th:text="#{user.label.name}"></span>
+                            <span class="input-title required" th:text="#{user.label.name}"></span>
                             <input class="user-register-input" id="userName" name="userName" th:value="${users?.userName}" maxlength="100" required="required"/>
                         </div>
                         <div class="profile-input-body-list">
-                            <span class= "input-title required" th:text="#{user.label.email}"></span>
+                            <span class="input-title required" th:text="#{user.label.email}"></span>
                             <input class="user-register-input" id="email" name="email" th:value="${users?.email}" maxlength="100" required="required">
                         </div>
                         <div class="profile-input-body-list">
-                            <span class= "input-title" th:text="#{user.label.position}"></span>
+                            <span class="input-title" th:text="#{user.label.position}"></span>
                             <input class="user-register-input" id="position" name="position" th:value="${users?.position}" maxlength="100">
                         </div>
                         <div class="profile-input-body-list">
-                            <span class= "input-title" th:text="#{user.label.department}"></span>
-                            <input class="user-register-input" id="department" name="department" th:value="${users?.department}" maxlength="100"></div>
+                            <span class="input-title" th:text="#{user.label.department}"></span>
+                            <input class="user-register-input" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
+	                        <input type="hidden" id="departmentCode" name="departmentCode"
+	                               th:value="${deptCodeDetail?.code}"/>
+	                        <button class="input-button" type="button" th:text="#{department.btn.selection}" onclick="deptPopUp();"/>
+                        </div>
                         <div class="profile-input-body-list">
-                            <span class= "input-title" th:text="#{user.label.officeNumber}"></span>
+                            <span class="input-title" th:text="#{user.label.officeNumber}"></span>
                             <input class="user-register-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
                                    onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                         </div>
                         <div class="profile-input-bottom-list">
-                            <span class= "input-title" th:text="#{user.label.mobileNumber}"></span>
+                            <span class="input-title" th:text="#{user.label.mobileNumber}"></span>
                             <input class="user-register-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                    onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                         </div>
@@ -83,7 +98,7 @@
                     <span class="profile-title">맞춤설정</span>
                     <div class="profile-manage">
                         <div class="user-register-top-list">
-                            <span class= "input-title required" th:text="#{user.label.timezone}"></span>
+                            <span class="input-title required" th:text="#{user.label.timezone}"></span>
                             <select class="custom-setting-top-select" name="timezone" id="timezone">
                                 <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
                                         th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone}"></option>
@@ -214,7 +229,7 @@
                 email: document.getElementById('email').value,
                 useYn: document.getElementById('usageStatus').checked,
                 position: document.getElementById('position').value,
-                department: document.getElementById('department').value,
+                department: document.getElementById('departmentCode').value,
                 officeNumber: document.getElementById('officeNumber').value,
                 mobileNumber: document.getElementById('mobileNumber').value,
                 timezone: document.getElementById('timezone').value,
@@ -293,6 +308,10 @@
                 return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
             }
             return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+        }
+
+        function deptPopUp() {
+            window.open('/users/department/view-pop', null, 'width=400, height=700');
         }
         /*]]>*/
     </script>

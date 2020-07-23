@@ -137,6 +137,20 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   display: block;
 }
 
+.container .contents .user-register-contents-body .input-title-guide {
+  display: flex;
+  vertical-align: middle;
+}
+
+.container .contents .user-register-contents-body .input-button {
+  width: 60px;
+  height: 30px;
+  background: #FFF;
+  border: 1px solid #C8CED8;
+  margin-left: -63px;
+  font-size: 14px;
+}
+
 .container .contents .user-register-contents-body .custom-setting-top-select {
   width: 678px;
   height: 26px;
@@ -494,6 +508,17 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   background: #0050ff url("../icons/icon_add_ov.svg") no-repeat center center;
   color: #0050ff;
   border: rgba(64, 158, 230, 0.05) 1px solid;
+}
+
+.container .btn-info {
+  background: url("../icons/icon_info.png") no-repeat right;
+  padding: 0 0 0 5px;
+  width: 15px;
+  height: 15px;
+}
+
+.container .btn-info:hover {
+  background: url("../icons/icon_info_select.png") no-repeat right;
 }
 
 /* Date compoent 기본 */
