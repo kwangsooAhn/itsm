@@ -2,26 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
     <title th:text="#{error.label.error}"></title>
 </head>
-<body style="width: 1920px; height: 947px; margin: 0px; padding: 0px; overflow: hidden;">
-<div style="width: 1920px; height: 947px;">
-    <div style="width: 50%; height: 100%; float: left; background-color: #EFF4FA">
+<body class="error-body">
+<div class="error-div">
+    <div class="div-left">
         <img th:src="@{/assets/media/image/error/graphic_error.png}"/>
     </div>
-    <div style=" width: 50%; height: 100%; float: right; background-color: #FFFFFF">
-        <img th:src="@{/assets/media/image/error/logo_alice.png}"
-             style="position: relative; margin: 213px 0px 78px 122px;"/>
-        <p th:text="#{error.label.topPhrase}"
-           style="margin: 0px 0px 24px 122px; font-size: 35px; color: #47556a; font-weight: 500;"/>
-        <p th:text="#{error.label.middlePhrase}"
-           style="margin: 0px 0px 34px 122px; font-size: 35px; color: #47556a; font-weight: 500;"/>
-        <p th:text="|#{error.label.errorCode} : ${error} (${status})|"
-           style="margin: 0px 0px 68px 122px; font-size: 28px; color: #0050FF; font-weight: 400;"/>
-        <p th:text="#{error.label.bottomPhrase}"
-           style="margin: 0px 0px 107px 122px; font-size: 20px; color: #657388; font-weight: 400;"/>
-        <button th:text="#{error.btn.return}"
-                style="background-color: #0050FF; border-color: #0048E6; color: #FFFFFF; font-size: 20px; margin-left: 122px; width: 360px; height: 55px; border-radius: 1px; border-width: 1px;"/>
+    <div class="div-right">
+        <img th:src="@{/assets/media/image/error/logo_alice.png}" class="error-img">
+        <p th:text="#{error.label.topPhrase}" class="error-p1"/>
+        <p th:text="#{error.label.middlePhrase}" class="error-p2"/>
+        <p th:text="|#{error.label.errorCode} : ${error} (${status})|" class="error-p3"/>
+        <p th:text="#{error.label.bottomPhrase}" class="error-p4"/>
+        <button th:text="#{error.btn.return}" class="error-btn"></button>
     </div>
 </div>
 </body>
