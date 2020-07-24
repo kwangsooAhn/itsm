@@ -89,3 +89,136 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   font-weight: 500;
   color: #47556a;
 }
+
+.portal-search {
+  background-image: url("../media/image/portalSearch/graphic_top_background.png");
+  width: 100%;
+  height: 20.625rem;
+}
+.portal-search .logo-container {
+  height: 12.938rem;
+}
+.portal-search .logo-container .logo {
+  display: inline-block;
+  float: left;
+  width: 19.25rem;
+  height: 1.625rem;
+  margin: 1.25rem 0 0 1.063rem;
+  background-image: url("../media/image/portalSearch/alice_logo.png");
+}
+.portal-search .logo-container .login {
+  display: inline-block;
+  float: right;
+  width: 6.25rem;
+  height: 0.938rem;
+  color: #ffffff;
+  text-align: right;
+  font-size: 0.938rem;
+  font-weight: 500;
+  margin: 1.5rem 1.25rem 0 0;
+  cursor: pointer;
+}
+.portal-search .search-container {
+  margin-left: 40.938rem;
+}
+.portal-search .search-container div {
+  width: 38.125rem;
+}
+.portal-search .search-container div .title {
+  color: #ffffff;
+  font-size: 1.875rem;
+  font-weight: bold;
+  text-align: center;
+  height: 1.75rem;
+  margin-bottom: 1.25rem;
+}
+.portal-search .search-container div input {
+  padding: 0 2.5rem 0 0.938rem;
+  width: 100%;
+  height: 2.5rem;
+  box-sizing: border-box;
+  border: none;
+  color: rgba(122, 133, 148, 0.55);
+  font-weight: 400;
+  font-size: 0.938rem;
+}
+.portal-search .search-container div input.icon {
+  background-image: url("../media/image/portalSearch/icon_search.png");
+  background-position: 35.75rem;
+  background-repeat: no-repeat;
+}
+
+.search-part {
+  background-color: #eff4fa;
+  width: 100%;
+  height: 38.563rem;
+}
+.search-part ul {
+  text-align: center;
+}
+.search-part ul li {
+  display: inline-block;
+  width: 28.75rem;
+  height: 30.063rem;
+  background-color: #ffffff;
+  margin-top: 4.25rem;
+  margin-right: 0.938rem;
+}
+.search-part ul li:last-child {
+  margin-right: 0;
+}
+.search-part ul li.part-box .header {
+  height: 12rem;
+  padding-top: 4rem;
+}
+.search-part ul li.part-box .header .icon {
+  height: 6.563rem;
+  background-size: 6.563rem 6.563rem;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.search-part ul li.part-box .header .icon.notice {
+  background-image: url("../media/image/portalSearch/grpahic_notice.png");
+}
+.search-part ul li.part-box .header .icon.faq {
+  background-image: url("../media/image/portalSearch/grpahic_question.png");
+}
+.search-part ul li.part-box .header .icon.download {
+  background-image: url("../media/image/portalSearch/grpahic_dateroom.png");
+}
+.search-part ul li.part-box .header .title {
+  padding-top: 1.5rem;
+  height: 1.438rem;
+  padding-bottom: 2.5rem;
+  font-size: 1.563rem;
+  font-weight: 500;
+  color: #47556a;
+  border: none;
+}
+.search-part ul li.part-box .list {
+  padding: 0 2.656rem 0 2.656rem;
+  height: 11.25rem;
+}
+.search-part ul li.part-box .list table {
+  font-size: 0.813rem;
+  color: #67717f;
+  font-weight: 400;
+  width: 100%;
+  height: 100%;
+}
+.search-part ul li.part-box .list table th, .search-part ul li.part-box .list table td {
+  height: 2.125rem;
+  padding: 0 1.25rem 0 1.25rem;
+  vertical-align: middle;
+  text-align: left;
+  border-bottom: 0.063rem solid #eff4fa;
+}
+.search-part ul li.part-box .list table th:first-child, .search-part ul li.part-box .list table td:first-child {
+  border-top: 0.063rem solid #eff4fa;
+}
+.search-part ul li.part-box .list table th:hover, .search-part ul li.part-box .list table td:hover {
+  background-color: #eff4fa;
+}
+.search-part ul li.part-box .list table a {
+  text-decoration: none;
+}
