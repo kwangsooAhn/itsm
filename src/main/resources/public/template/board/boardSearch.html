@@ -8,48 +8,44 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="wrap-screen">
-        <div class="container">
-            <div class="contents">
-                <div class="contents-title">
-                    <span class="title-txt" th:text="#{board.label.list}"></span>
-                    <span class="title-description" th:text="#{board.msg.description}"></span>
+    <div class="contents">
+        <div class="contents-title">
+            <span class="title-txt" th:text="#{board.label.list}"></span>
+            <span class="title-description" th:text="#{board.msg.description}"></span>
+        </div>
+        <div class="contents-body">
+            <div class="usermanage-menubar">
+                <div class="menubar-left">
+                    <select th:class="search-selectBox" id="boardAdmin">
+                        <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
+                            th:text="#{${boardAdmin.boardAdminTitle}}"></option>
+                    </select>
+                    <input th:class="search" id="search" type="text" maxlength="100"
+                        th:placeholder="#{board.label.searchBoardPlaceholder}">
+                    <span th:class="icon-search"></span>
+                    <input th:class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <span>~</span>
+                    <input th:class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
                 </div>
-                <div class="contents-body">
-                    <div class="usermanage-menubar">
-                        <div class="menubar-left">
-                            <select th:class="search-selectBox" id="boardAdmin">
-                                <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
-                                    th:text="#{${boardAdmin.boardAdminTitle}}"></option>
-                            </select>
-                            <input th:class="search" id="search" type="text" maxlength="100"
-                                th:placeholder="#{board.label.searchBoardPlaceholder}">
-                            <span th:class="icon-search"></span>
-                            <input th:class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
-                            <span>~</span>
-                            <input th:class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
-                        </div>
-                        <div class="menubar-right">
-                            <button class="btn-add" onclick="openBoardAdd()"
-                                sec:authorize="hasAuthority('board.create')"></button>
-                        </div>
-                    </div>
-                    <div class="list" id="boardList"></div>
-                    <div class="menubar-bottom">
-                        <div class="paging">
-                            <ul>
-                                <li><span class="btn-prev"></span></li>
-                                <li><span class="btn-num">1</span></li>
-                                <li><span class="btn-num">2</span></li>
-                                <li><span class="btn-num">3</span></li>
-                                <li><span class="btn-num">···</span></li>
-                                <li><span class="btn-num">6</span></li>
-                                <li><span class="btn-next"></span></li>
-                            </ul>
-                        </div>
-                        <div class="list-count"><span>총:127건</span></div>
-                    </div>
+                <div class="menubar-right">
+                    <button class="btn-add" onclick="openBoardAdd()"
+                        sec:authorize="hasAuthority('board.create')"></button>
                 </div>
+            </div>
+            <div class="list" id="boardList"></div>
+            <div class="menubar-bottom">
+                <div class="paging">
+                    <ul>
+                        <li><span class="btn-prev"></span></li>
+                        <li><span class="btn-num">1</span></li>
+                        <li><span class="btn-num">2</span></li>
+                        <li><span class="btn-num">3</span></li>
+                        <li><span class="btn-num">···</span></li>
+                        <li><span class="btn-num">6</span></li>
+                        <li><span class="btn-next"></span></li>
+                    </ul>
+                </div>
+                <div class="list-count"><span>총:127건</span></div>
             </div>
         </div>
     </div>

@@ -215,9 +215,10 @@ customCode:
   label:
     code: "코드"
     condition: "조건"
-    customCode: "사용자 정의 코드"
+    customCode: "커스텀 코드"
     lastUpdateDate: "마지막 수정일시"
-    name: "사용자 정의 코드 명"
+    list: "커스텀 코드 목록"
+    name: "커스텀 코드 명"
     pCode: "부모 코드"
     searchColumn: "검색 컬럼 명"
     table: "테이블"
@@ -227,8 +228,9 @@ customCode:
   msg:
     addCondition: "{0}개 이하만 추가 가능합니다."
     customCodeUsed: "사용 중인 사용자 정의 코드입니다."
+    description: "커스텀 코드를 조회하거나 추가, 변경할 수 있습니다."
     duplicateCustomCodeName: "동일한 사용자 정의 코드 명이 존재합니다."
-    enterCustomCode: "사용자 정의 코드 명을 입력하세요."
+    enterCustomCode: "커스텀 코드 명을 입력하세요."
     enterPCode: "부모 코드를 입력하세요."
     enterSearchColumn: "검색 컬럼 명을 입력하세요."
     enterSearchTerm: "검색어를 입력하세요."
@@ -318,11 +320,14 @@ download:
 
 # Error
 error:
+  btn:
+    return: "이전 화면으로 돌아가기"
   label:
-    exceptionType: "예외 종류"
-    knownError: "정의된 에러"
-    message: "메시지"
-    path: "호출 URL"
+    error: "에러 페이지"
+    errorCode: "에러 코드"
+    topPhrase: "요청하신 페이지를 처리 중에 오류가 발생했습니다."
+    middlePhrase: "서비스 이용에 불편을 드려 죄송합니다."
+    bottomPhrase: "지속적인 장애가 발생할 경우 관리자에게 문의해주세요."
 
 # FAQ
 faq:

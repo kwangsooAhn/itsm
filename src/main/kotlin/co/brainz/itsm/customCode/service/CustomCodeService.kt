@@ -55,7 +55,6 @@ class CustomCodeService(
     fun getCustomCodeList(): List<CustomCodeDto> {
         val customCodeEntityList = customCodeRepository.findByOrderByCustomCodeNameAsc()
         val customCodeList = mutableListOf<CustomCodeDto>()
-        val usedCustomCodeIdList = getUsedCustomCodeIdList()
         val customCodeTableList = getCustomCodeTableList()
         for (customCodeEntity in customCodeEntityList) {
             val customCode = customCodeMapper.toCustomCodeDto(customCodeEntity)
@@ -64,7 +63,6 @@ class CustomCodeService(
                     customCode.targetTableName = it.customCodeTableName
                 }
             }
-            customCode.enabled = (usedCustomCodeIdList.indexOf(customCodeEntity.customCodeId) == -1)
             customCodeList.add(customCode)
         }
         return customCodeList
@@ -78,7 +76,9 @@ class CustomCodeService(
      */
     fun getCustomCode(customCodeId: String): CustomCodeDto {
         val customCodeEntity = customCodeRepository.findById(customCodeId).orElse(CustomCodeEntity())
+        val usedCustomCodeIdList = getUsedCustomCodeIdList()
         val customCodeDto = customCodeMapper.toCustomCodeDto(customCodeEntity)
+        customCodeDto.enabled = (usedCustomCodeIdList.indexOf(customCodeEntity.customCodeId) == -1)
         when (customCodeDto.type) {
             CustomCodeConstants.Type.TABLE.code -> {
                 customCodeDto.targetTableName =
