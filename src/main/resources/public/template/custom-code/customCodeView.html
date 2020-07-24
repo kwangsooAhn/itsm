@@ -46,51 +46,49 @@
             <h1 th:text="#{customCode.label.customCode}"></h1>
         </div>
         <hr>
-        <div id="container">
-            <!-- 타입: 공통-->
-            <table id="type-common-container">
-                <tbody>
-                <tr>
-                    <td th:text="#{customCode.label.name}"></td>
-                    <td th:text="${customCode.customCodeName}"></td>
-                </tr>
-                <tr>
-                    <td th:text="#{customCode.label.type}"></td>
-                    <td th:text="#{|customCode.label.${customCode.type}|}"></td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- 타입: table-->
-            <table id="type-table-container" th:if="${customCode.type == 'table'}">
-                <tbody>
-                <tr>
-                    <td th:text="#{customCode.label.targetTable}"></td>
-                    <td th:text="|${customCode.targetTableName}(${customCode.targetTable})|"></td>
-                </tr>
-                <tr>
-                    <td th:text="#{customCode.label.searchColumn}"></td>
-                    <td th:text="|${customCode.searchColumnName}(${customCode.searchColumn})|"></td>
-                </tr>
-                <tr>
-                    <td th:text="#{customCode.label.valueColumn}"></td>
-                    <td th:text="|${customCode.valueColumnName}(${customCode.valueColumn})|"></td>
-                </tr>
-                <tr>
-                    <td th:text="#{customCode.label.condition}"></td>
-                    <td id="condition"></td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- 타입: 코드 -->
-            <table id="type-code-container" th:if="${customCode.type == 'code'}">
-                <tbody>
-                <tr>
-                    <td th:text="#{customCode.label.pCode}"></td>
-                    <td th:text="${customCode.pCode}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <!-- 타입: 공통-->
+        <table id="type-common-container">
+            <tbody>
+            <tr>
+                <td th:text="#{customCode.label.name}"></td>
+                <td th:text="${customCode.customCodeName}"></td>
+            </tr>
+            <tr>
+                <td th:text="#{customCode.label.type}"></td>
+                <td th:text="#{|customCode.label.${customCode.type}|}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- 타입: table-->
+        <table id="type-table-container" th:if="${customCode.type == 'table'}">
+            <tbody>
+            <tr>
+                <td th:text="#{customCode.label.targetTable}"></td>
+                <td th:text="|${customCode.targetTableName}(${customCode.targetTable})|"></td>
+            </tr>
+            <tr>
+                <td th:text="#{customCode.label.searchColumn}"></td>
+                <td th:text="|${customCode.searchColumnName}(${customCode.searchColumn})|"></td>
+            </tr>
+            <tr>
+                <td th:text="#{customCode.label.valueColumn}"></td>
+                <td th:text="|${customCode.valueColumnName}(${customCode.valueColumn})|"></td>
+            </tr>
+            <tr>
+                <td th:text="#{customCode.label.condition}"></td>
+                <td id="condition"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- 타입: 코드 -->
+        <table id="type-code-container" th:if="${customCode.type == 'code'}">
+            <tbody>
+            <tr>
+                <td th:text="#{customCode.label.pCode}"></td>
+                <td th:text="${customCode.pCode}"></td>
+            </tr>
+            </tbody>
+        </table>
         <div align="right">
             <button onclick="location.href='/custom-codes/search'" th:text="#{common.btn.list}"></button>
         </div>
