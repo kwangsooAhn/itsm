@@ -563,6 +563,7 @@ process:
   label:
     create: "Create Process"
     description: "Description"
+    detail: "Detail Process"
     edit: "Edit Process"
     imageDownload: "Image Download"
     import: "Process Import"

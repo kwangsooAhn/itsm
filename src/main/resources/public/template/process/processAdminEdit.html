@@ -2,8 +2,10 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title th:text="#{process.label.register}"></title>
+    <title th:if="${processInfo?.id}" th:text="#{process.label.edit}"></title>
+    <title th:if="!${processInfo?.id}" th:text="#{process.label.create}"></title>
     <th:block th:replace="layout/fragments/commonHead"></th:block>
+    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
     <!-- 임시 style -->
     <style>
         table th {
@@ -17,6 +19,11 @@
 <body>
     <div style="margin: 10px 0 0 10px;">
         <table>
+            <tr>
+                <td>
+                    <input type="hidden" id="process_status" th:value="${processInfo?.status}" />
+                </td>
+            </tr>
             <tr>
                 <th th:text="|#{process.label.name} *|"></th>
             </tr>
@@ -32,52 +39,65 @@
             <tr>
                 <td>
                     <textarea id="process_desc" style="height:100px;" maxlength="500" tabindex="2"
-                              th:value="${processInfo?.description}"></textarea>
+                              th:text="${processInfo?.description}"></textarea>
                 </td>
             </tr>
         </table>
         <div>
-            <button sec:authorize="hasAnyAuthority('process.create', 'process.update')"
-                    th:text="#{process.btn.export}" th:disabled="${!processInfo.enabled}"
-                    th:attr="onclick=|workflowUtil.export('${processInfo.id}', 'process')|"></button>
-            <button type="button" th:text="#{common.btn.save}" onclick="javascript:insertProcess();"></button>
-            <button sec:authorize="hasAuthority('process.delete')"
-                    th:text="#{common.btn.delete}" th:disabled="${!processInfo.enabled}"
-                    th:attr="onclick=|deleteProcess('${processInfo.id}')|"></button>
-            <button type="button" th:text="#{common.btn.close}" onclick="javascript:window.close();"></button>
+            <button th:if="!${processInfo?.id}" th:attr="onclick=|saveProcess()|"
+                    th:text="#{common.btn.register}"></button>
+            <button th:if="${processInfo?.id}" sec:authorize="hasAnyAuthority('process.create', 'process.update')"
+                    th:disabled="${!processInfo?.enabled}"
+                    th:attr="onclick=|workflowUtil.export('${processInfo?.id}', 'process')|"
+                    th:text="#{process.btn.export}"></button>
+            <button th:if="${processInfo?.id}" sec:authorize="hasAuthority('process.update')"
+                    th:disabled="${!processInfo?.enabled}"
+                    th:attr="onclick=|saveProcess('${processInfo?.id}')|" th:text="#{common.btn.modify}"></button>
+            <button th:if="${processInfo?.id}" sec:authorize="hasAuthority('process.delete')"
+                    th:disabled="${!processInfo?.enabled}"
+                    th:attr="onclick=|deleteProcess('${processInfo?.id}')|" th:text="#{common.btn.delete}"></button>
+            <button th:attr="onclick=|window.close()|" th:text="#{common.btn.close}"></button>
         </div>
     </div>
 </body>
 <script type="text/javascript">
-    //프로세스 등록
-    function insertProcess() {
-        //빈 값 체크
+    // 프로세스 등록/수정
+    function saveProcess(processId) {
+        // 빈 값 체크
         if (emptyValidation()) {
             const processInfo = {
                 processName: document.getElementById('process_name').value,
                 processDesc: document.getElementById('process_desc').value
             };
-            //등록
-            restSubmit('POST', '/rest/processes-admin', processInfo);
+
+            if (processId === undefined) {
+                // 등록
+                restSubmit('POST', '/rest/processes-admin', processInfo);
+            } else {
+                // 수정
+                processInfo.processId = processId;
+                processInfo.processStatus = document.getElementById('process_status').value;
+                restSubmit('PUT', '/rest/processes-admin/' + processId, processInfo);
+            }
         }
     }
 
-    //프로세스 삭제
+    // 프로세스 삭제
     function deleteProcess(processId) {
         restSubmit('DELETE', '/rest/processes/' + processId, function() {
             aliceJs.alert('[[#{common.msg.delete}]]', function() {
-                location.reload();
+                window.close();
             });
         });
     }
 
-    //빈 값 체크
+    // 빈 값 체크
     function emptyValidation() {
         if (isEmpty('process_name', 'process.msg.enterProcessName')) { return false; }
         return true;
     }
 
-    //REST API
+    // REST API
     function restSubmit(method, url, data) {
         const opt = {
             method: method,
@@ -87,18 +107,19 @@
             callbackFunc: function(response) {
                 opener.location.reload();
                 window.close();
+                if (method === 'POST') {
+                    let processId = response.responseText;
+                    sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
 
-                let processId = response.responseText;
-                sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
-
-                const _width = 1800,
-                      _height = 920;
-                //중앙 배치
-                const _left = Math.ceil((window.screen.width - _width) / 2);
-                const _top = Math.ceil((window.screen.height - _height) / 4);
-                let specs = 'left=' + _left + ',top=' + _top;
-                specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                window.open('/processes/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                    const _width = 1800,
+                        _height = 920;
+                    // 중앙 배치
+                    const _left = Math.ceil((window.screen.width - _width) / 2);
+                    const _top = Math.ceil((window.screen.height - _height) / 4);
+                    let specs = 'left=' + _left + ',top=' + _top;
+                    specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                    window.open('/processes/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                }
             }
         };
         aliceJs.sendXhr(opt);

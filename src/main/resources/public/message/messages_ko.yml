@@ -563,6 +563,7 @@ process:
   label:
     create: "프로세스 등록"
     description: "설명"
+    detail: "프로세스 상세"
     edit: "프로세스 편집"
     imageDownload: "이미지로 저장하기"
     import: "프로세스 IMPORT"

@@ -52,14 +52,14 @@ class ProcessRestAdminController(
     }
 
     /**
-     * 프로세스 업데이트.
+     * 프로세스 수정
      */
-    @PutMapping("/{processId}/data")
+    @PutMapping("/{processId}")
     fun updateProcess(
-        @RequestBody restTemplateProcessElementDto: RestTemplateProcessElementDto,
+        @RequestBody restTemplateProcessDto: RestTemplateProcessDto,
         @PathVariable processId: String
     ): Boolean {
-        return processService.updateProcessData(processId, restTemplateProcessElementDto)
+        return processAdminService.updateProcess(processId, restTemplateProcessDto)
     }
 
     /**

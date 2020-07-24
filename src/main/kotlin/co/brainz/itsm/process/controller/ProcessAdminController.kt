@@ -60,8 +60,7 @@ class ProcessAdminController(private val processAdminService: ProcessAdminServic
      */
     @GetMapping("/{processId}/view")
     fun getProcessView(@PathVariable processId: String, model: Model): String {
-        model.addAttribute("processId", processId)
-        model.addAttribute("isView", true)
+        model.addAttribute("processInfo", processAdminService.getProcessAdmin(processId))
         return processViewPage
     }
 }

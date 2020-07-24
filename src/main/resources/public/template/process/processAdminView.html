@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{process.label.register}"></title>
-    <th:block th:replace="layout/fragments/commonHead"></th:block>
+    <title th:text="#{process.label.detail}"></title>
     <!-- 임시 style -->
     <style>
         table th {
@@ -14,72 +13,24 @@
     </style>
 </head>
 <body>
-    <div style="margin: 10px 0 0 10px;">
-        <table>
-            <tr>
-                <th th:text="|#{process.label.name} *|"></th>
-            </tr>
-            <tr>
-                <td><input type="text" id="process_name" maxlength="50" required="required" tabindex="1"/></td>
-            </tr>
-            <tr>
-                <th th:text="#{process.label.description}"></th>
-            </tr>
-            <tr>
-                <td><textarea id="process_desc" style="height:100px;" maxlength="500" tabindex="2"></textarea></td>
-            </tr>
-        </table>
-        <div>
-            <button type="button" th:text="#{common.btn.save}" onclick="javascript:insertProcess();"></button>
-            <button type="button" th:text="#{common.btn.close}" onclick="javascript:window.close();"></button>
-        </div>
+<div style="margin: 10px 0 0 10px;">
+    <table>
+        <tr>
+            <th th:text="|#{process.label.name} *|"></th>
+        </tr>
+        <tr>
+            <td><span th:text="${processInfo?.name}"></span></td>
+        </tr>
+        <tr>
+            <th th:text="#{process.label.description}"></th>
+        </tr>
+        <tr>
+            <td><span th:text="${processInfo?.description}"></span></td>
+        </tr>
+    </table>
+    <div>
+        <button th:attr="onclick=|window.close()|" th:text="#{common.btn.close}"></button>
     </div>
+</div>
 </body>
-<script type="text/javascript">
-    //프로세스 등록
-    function insertProcess() {
-        //빈 값 체크
-        if (emptyValidation()) {
-            const processInfo = {
-                processName: document.getElementById('process_name').value,
-                processDesc: document.getElementById('process_desc').value
-            };
-            //등록
-            restSubmit('POST', '/rest/processes', processInfo);
-        }
-    }
-
-    //빈 값 체크
-    function emptyValidation() {
-        if (isEmpty('process_name', 'process.msg.enterProcessName')) { return false; }
-        return true;
-    }
-
-    //REST API
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function(response) {
-                opener.location.reload();
-                window.close();
-
-                let processId = response.responseText;
-                sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
-
-                const _width = 1800,
-                      _height = 920;
-                //중앙 배치
-                const _left = Math.ceil((window.screen.width - _width) / 2);
-                const _top = Math.ceil((window.screen.height - _height) / 4);
-                let specs = 'left=' + _left + ',top=' + _top;
-                specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                window.open('/processes/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
-</script>
 </html>

@@ -1,16 +1,20 @@
 package co.brainz.itsm.process.service
 
+import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.slf4j.LoggerFactory
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.LinkedMultiValueMap
+import java.time.LocalDateTime
 
 @Service
 @Transactional
@@ -50,4 +54,22 @@ class ProcessAdminService(
             mapper.typeFactory.constructType(RestTemplateProcessViewDto::class.java)
         )
     }
+
+    /**
+     * [processId], [restTemplateProcessDto]를 받아서 프로세스 마스터 데이터 업데이트.
+     */
+    fun updateProcess(processId: String, restTemplateProcessDto: RestTemplateProcessDto): Boolean {
+        val userDetails = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        restTemplateProcessDto.updateDt = LocalDateTime.now()
+        restTemplateProcessDto.updateUserKey = userDetails.userKey
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Process.PUT_PROCESS.url.replace(
+                restTemplate.getKeyRegex(),
+                processId
+            )
+        )
+        val responseEntity = restTemplate.update(url, restTemplateProcessDto)
+        return responseEntity.body.toString().isNotEmpty()
+    }
+
 }
