@@ -1,0 +1,91 @@
+@charset "UTF-8";
+body, h1, h2, h3, h4, h5, h6, input, textarea, select {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 15px;
+}
+
+/*
+   OTF/TTF는 Chrome 6+, Firefox 3.5, Opera 10+, Safari 3-5
+   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+
+*/
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 100;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 300;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 400;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 500;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 700;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format("opentype");
+}
+@font-face {
+  font-family: "Noto Sans KR";
+  font-style: normal;
+  font-weight: 900;
+  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format("opentype");
+}
+.guide-body {
+  background-color: #EFF4FA;
+  margin: 0rem;
+  height: 41.875rem;
+  width: 120rem;
+}
+
+.guide-p {
+  font-size: 1.875rem;
+  text-align: center;
+  margin: 17.3125rem 19.6875rem 2.875rem 19.6875rem;
+  height: 3.625rem;
+  width: 80.625rem;
+  font-weight: 500;
+  color: #47556a;
+}
+
+.guide-a {
+  padding: 3.9375rem;
+  margin: 0rem 0.9375rem 0rem 0.9375rem;
+  position: relative;
+  left: 18.75rem;
+  background-color: white;
+  display: inline-block;
+  height: 10.875rem;
+  width: 10.875rem;
+  text-decoration: none;
+}
+.guide-a .guide-img {
+  width: 10.875rem;
+  height: 10.875rem;
+  position: relative;
+  bottom: 0.625rem;
+}
+.guide-a .guide-p {
+  position: relative;
+  text-align: center;
+  margin: 0rem;
+  width: 10.875rem;
+  height: 1.875rem;
+  top: -0.625rem;
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: #47556a;
+}
