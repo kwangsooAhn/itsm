@@ -215,9 +215,10 @@ customCode:
   label:
     code: "코드"
     condition: "조건"
-    customCode: "사용자 정의 코드"
+    customCode: "커스텀 코드"
     lastUpdateDate: "마지막 수정일시"
-    name: "사용자 정의 코드 명"
+    list: "커스텀 코드 목록"
+    name: "커스텀 코드 명"
     pCode: "부모 코드"
     searchColumn: "검색 컬럼 명"
     table: "테이블"
@@ -227,8 +228,9 @@ customCode:
   msg:
     addCondition: "{0}개 이하만 추가 가능합니다."
     customCodeUsed: "사용 중인 사용자 정의 코드입니다."
+    description: "커스텀 코드를 조회하거나 추가, 변경할 수 있습니다."
     duplicateCustomCodeName: "동일한 사용자 정의 코드 명이 존재합니다."
-    enterCustomCode: "사용자 정의 코드 명을 입력하세요."
+    enterCustomCode: "커스텀 코드 명을 입력하세요."
     enterPCode: "부모 코드를 입력하세요."
     enterSearchColumn: "검색 컬럼 명을 입력하세요."
     enterSearchTerm: "검색어를 입력하세요."

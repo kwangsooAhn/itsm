@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
@@ -140,10 +141,14 @@
         <div align="right">
             <button style="margin-right: 5px;" onclick="location.href='/custom-codes/search'"
                     th:text="#{common.btn.list}"></button>
-            <button th:if="${customCode?.customCodeId}" onclick="saveCustomCode('put')"
-                    th:text="#{common.btn.modify}"></button>
-            <button th:unless="${customCode?.customCodeId}" onclick="saveCustomCode('post')"
-                    th:text="#{common.btn.save}"></button>
+            <button th:if="${customCode == null}" sec:authorize="hasAuthority('custom.code.create')"
+                    onclick="actionCustomCode('post')" th:text="#{common.btn.save}"></button>
+            <button th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.update')"
+                    th:disabled="${!customCode.enabled}" onclick="actionCustomCode('put')" th:text="#{common.btn.modify}">
+            </button>
+            <button th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.delete')"
+                    th:disabled="${!customCode.enabled}" onclick="actionCustomCode('delete')" th:text="#{common.btn.delete}">
+            </button>
         </div>
     </div>
 </th:block>
@@ -283,38 +288,42 @@
             }
         }
 
-        //insert/update Custom Code
-        function saveCustomCode(method) {
-            const type = getTypeId();
-            if (emptyCheck(type)) {
-                let data = {
-                    customCodeName: document.getElementById('customCodeName').value,
-                    type: type,
-                };
-                if (type === 'table') {
-                    data.targetTable = document.getElementById('targetTable').value;
-                    data.searchColumn = document.getElementById('searchColumn').value;
-                    data.valueColumn = document.getElementById('valueColumn').value;
+        //insert/update/delete Custom Code
+        function actionCustomCode(method) {
+            if (method === 'post' || method === 'put') {
+                const type = getTypeId();
+                if (emptyCheck(type)) {
+                    let data = {
+                        customCodeName: document.getElementById('customCodeName').value,
+                        type: type,
+                    };
+                    if (type === 'table') {
+                        data.targetTable = document.getElementById('targetTable').value;
+                        data.searchColumn = document.getElementById('searchColumn').value;
+                        data.valueColumn = document.getElementById('valueColumn').value;
 
-                    let conditionData = {};
-                    let div = document.getElementById('condition').childNodes;
-                    for (let i = 0; i < div.length; i++) {
-                        let selectValue = div[i].getElementsByTagName('select')[0].value;
-                        if (typeof conditionData[selectValue] === 'undefined') {
-                            conditionData[selectValue] = div[i].getElementsByTagName('input')[0].value;
-                        } else {
-                            aliceJs.alert(i18n.get('customCode.msg.selectNotDuplicateSearchColumn'));
-                            return false;
+                        let conditionData = {};
+                        let div = document.getElementById('condition').childNodes;
+                        for (let i = 0; i < div.length; i++) {
+                            let selectValue = div[i].getElementsByTagName('select')[0].value;
+                            if (typeof conditionData[selectValue] === 'undefined') {
+                                conditionData[selectValue] = div[i].getElementsByTagName('input')[0].value;
+                            } else {
+                                aliceJs.alert(i18n.get('customCode.msg.selectNotDuplicateSearchColumn'));
+                                return false;
+                            }
                         }
+                        data.condition = JSON.stringify(conditionData);
+                    } else {
+                        data.pCode = document.getElementById('pCode').value;
                     }
-                    data.condition = JSON.stringify(conditionData);
-                } else {
-                    data.pCode = document.getElementById('pCode').value;
+                    if (method === 'put') {
+                        data.customCodeId = /*[[${customCode?.customCodeId}]]*/'';
+                    }
+                    restSubmit(method, '/rest/custom-codes', data);
                 }
-                if (method === 'put') {
-                    data.customCodeId = /*[[${customCode?.customCodeId}]]*/'';
-                }
-                restSubmit(method, '/rest/custom-codes', data);
+            } else if (method === 'delete') {
+                restSubmit(method, '/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'');
             }
         }
 
@@ -326,24 +335,40 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
-                    switch (response.responseText) {
-                        case STATUS_SUCCESS:
-                            aliceJs.alert(i18n.get('common.msg.save'), function () {
-                                location.href = '/custom-codes/search';
-                            });
-                            break;
-                        case STATUS_ERROR_CUSTOM_CODE_USED:
-                            aliceJs.alert(i18n.get('customCode.msg.customCodeUsed'));
-                            break;
-                        case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                            aliceJs.alert(i18n.get('customCode.msg.customCodeNameDuplication'));
-                            break;
-                        case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
-                            aliceJs.alert(i18n.get('customCode.msg.pCodeNotExist'));
-                            break;
-                        default :
-                            aliceJs.alert(i18n.get('common.msg.fail'));
-                            break;
+                    if (method === 'post' || method === 'put') {
+                        switch (response.responseText) {
+                            case STATUS_SUCCESS:
+                                aliceJs.alert(i18n.get('common.msg.save'), function () {
+                                    location.href = '/custom-codes/search';
+                                });
+                                break;
+                            case STATUS_ERROR_CUSTOM_CODE_USED:
+                                aliceJs.alert(i18n.get('customCode.msg.customCodeUsed'));
+                                break;
+                            case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
+                                aliceJs.alert(i18n.get('customCode.msg.customCodeNameDuplication'));
+                                break;
+                            case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
+                                aliceJs.alert(i18n.get('customCode.msg.pCodeNotExist'));
+                                break;
+                            default :
+                                aliceJs.alert(i18n.get('common.msg.fail'));
+                                break;
+                        }
+                    } else if (method === 'delete'){
+                        switch (response.responseText) {
+                            case STATUS_SUCCESS:
+                                aliceJs.alert(i18n.get('common.msg.delete'), function () {
+                                    location.href = '/custom-codes/search';
+                                });
+                                break;
+                            case STATUS_ERROR_CUSTOM_CODE_USED:
+                                aliceJs.alert(i18n.get('customCode.msg.customCodeUsed'));
+                                break;
+                            default:
+                                aliceJs.alert(i18n.get('common.msg.fail'));
+                                break;
+                        }
                     }
                 }
             };

@@ -3,70 +3,37 @@
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-            text-align: center;
-        }
-        table tr td:nth-child(1) {
-            text-align: left;
-        }
-        table th {
-            border: 1px solid;
-        }
-        table td {
-            border-top: 1px solid #e7e7e7;
-            border-left: 1px solid;
-        }
-    </style>
 </head>
 <body>
-<div>
-    <table class="table-hover">
+<div class="list-wrap">
+    <table>
         <colgroup>
-            <col width="35%">
-            <col width="15%">
-            <col width="15%">
-            <col width="17%">
-            <col width="8%">
-            <col width="5%">
-            <col width="5%">
+            <col width="600px">
+            <col width="240px">
+            <col width="180px">
+            <col width="180px">
         </colgroup>
-        <thead>
-            <tr>
-                <th th:text="#{customCode.label.name}"></th>
-                <th th:text="#{customCode.label.type}"></th>
-                <th th:text="#{common.label.createUser}"></th>
-                <th th:text="#{customCode.label.lastUpdateDate}"></th>
-                <th th:text="#{common.label.updateUser}"></th>
-                <th th:text="#{common.btn.modify}"></th>
-                <th th:text="#{common.btn.delete}"></th>
-            </tr>
-        </thead>
         <tbody>
-            <tr th:if="${#arrays.isEmpty(customCodeList)}">
-                <td colspan="6" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <tr th:unless="${#arrays.isEmpty(customCodeList)}" th:each="customCode: ${customCodeList}">
-                <td><a th:text="${customCode.customCodeName}"
-                       th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a></td>
-                <td th:text="#{|customCode.label.${customCode.type}|}"></td>
-                <td th:text="${customCode.createUserName}"></td>
-                <td th:if="${customCode.updateDt == null && customCode.updateUserName == null}" th:name="customCodeDt"
-                    th:text="${customCode.createDt}"></td>
-                <td th:if="${customCode.updateDt == null && customCode.updateUserName == null}" th:text="${customCode.createUserName}"/>
-                <td th:unless="${customCode.updateDt == null && customCode.updateUserName == null}" th:name="customCodeDt"
-                    th:text="${customCode.updateDt}"></td>
-                <td th:unless="${customCode.updateDt == null && customCode.updateUserName == null}" th:text="${customCode.updateUserName}"/>
-                <td><button th:disabled="${!customCode.enabled}" th:text="#{common.btn.modify}"
-                            th:onclick="'location.href=\'' + @{/custom-codes/{id}/edit(id=${customCode.customCodeId})} + '\''"
-                            sec:authorize="hasAuthority('custom.code.update')"></button></td>
-                <td><button th:disabled="${!customCode.enabled}" th:text="#{common.btn.delete}"
-                            th:attr="onclick=|deleteCustomCode('${customCode.customCodeId}')|"
-                            sec:authorize="hasAuthority('custom.code.delete')"></button></td>
-            </tr>
+        <tr>
+            <th th:text="#{customCode.label.name}"></th>
+            <th th:text="#{customCode.label.type}"></th>
+            <th th:text="#{common.label.writer}"></th>
+            <th th:text="#{common.label.writeDate}"></th>
+        </tr>
+        <tr th:if="${#arrays.isEmpty(customCodeList)}">
+            <td colspan="4" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr th:each="customCode, i : ${customCodeList}" th:if="${i.count} < 11">
+            <td class="align-left">
+                <a sec:authorize="!hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
+                   th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a>
+                <a sec:authorize="hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
+                   th:href="@{/custom-codes/{id}/edit(id=${customCode.customCodeId})}"></a>
+            </td>
+            <td th:text="#{|customCode.label.${customCode.type}|}"></td>
+            <td th:text="${customCode.createUserName}"></td>
+            <td th:name="createDt" th:text="${customCode.createDt}"></td>
+        </tr>
         </tbody>
     </table>
 </div>
