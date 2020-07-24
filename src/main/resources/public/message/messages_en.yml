@@ -320,11 +320,14 @@ download:
 
 # Error
 error:
+  btn:
+    return: "RETURN TO PREVIOUS SCREEN"
   label:
-    exceptionType: "Exception Type"
-    knownError: "Known Error"
-    message: "Message"
-    path: "URL"
+    error: "Error Page"
+    errorCode: "Error Code"
+    topPhrase: "An error occurred while processing the requested page."
+    middlePhrase: "We are sorry for the inconvenience in using the service."
+    bottomPhrase: "In case of continuous failure, please contact the administrator."
 
 # FAQ
 faq:
