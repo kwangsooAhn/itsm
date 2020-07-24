@@ -29,6 +29,17 @@ interface AliceRepositoryCustom {
     }
 
     /**
+     * in 쿼리
+     */
+    fun inner(entityValue: StringPath, input: List<String>?): BooleanExpression? {
+        return if (input == null || input.isEmpty()) {
+            null
+        } else {
+            entityValue.`in`(input)
+        }
+    }
+
+    /**
      * 쿼리에 사용할 수 있도록 문자열을 치환.
      *
      * escape 문자는 \ 사용.

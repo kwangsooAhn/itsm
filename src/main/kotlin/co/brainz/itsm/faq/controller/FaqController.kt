@@ -2,6 +2,7 @@ package co.brainz.itsm.faq.controller
 
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.faq.constants.FaqConstants
+import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.service.FaqService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
@@ -11,7 +12,6 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
 
 /**
  * ### FAQ 관련 뷰 화면 호출 처리용 클래스.
@@ -54,13 +54,8 @@ class FaqController(private val faqService: FaqService, private val codeService:
      * FAQ 검색 결과 리스트 화면 호출 처리
      */
     @GetMapping("/list")
-    fun getFaqList(@RequestParam(value = "searchValue", defaultValue = "") searchValue: String, model: Model): String {
-        if (searchValue.isEmpty()) {
-            model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
-        } else {
-            model.addAttribute("faqGroupList", faqService.findFaqGroups(searchValue))
-        }
-        model.addAttribute("faqs", faqService.findAll())
+    fun getFaqList(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
+        model.addAttribute("faqs", faqService.findAll(faqSearchRequestDto))
         return faqListPage
     }
 

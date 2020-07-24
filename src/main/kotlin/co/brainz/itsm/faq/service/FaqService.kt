@@ -1,13 +1,21 @@
 package co.brainz.itsm.faq.service
 
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
+import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.mapper.FaqMapper
 import co.brainz.itsm.faq.repository.FaqRepository
+import net.rakugakibox.util.YamlResourceBundle
 import org.mapstruct.factory.Mappers
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+import org.springframework.context.MessageSource
+import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.ResourceBundle
 
 /**
  * ### FAQ 관련 서비스 레이어 클래스.
@@ -17,20 +25,16 @@ import org.springframework.transaction.annotation.Transactional
  * @author Jung heechan
  */
 @Service
-class FaqService(private val faqRepository: FaqRepository) {
+class FaqService(private val faqRepository: FaqRepository, private val messageSource: MessageSource) {
 
-    val faqMapper: FaqMapper = Mappers.getMapper(FaqMapper::class.java)
+    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val faqMapper: FaqMapper = Mappers.getMapper(FaqMapper::class.java)
 
     /**
-     * FAQ 전체 데이터 조회
+     * FAQ 목록을 조회한다.
      */
-    fun findAll(): List<FaqListDto> {
-        val faqEntities = faqRepository.getFaqList()
-        val faqList: MutableList<FaqListDto> = mutableListOf()
-        faqEntities.forEach {
-            faqList.add(faqMapper.toFaqListDto(it))
-        }
-        return faqList
+    fun findAll(faqSearchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
+        return faqRepository.findFaqs(faqSearchRequestDto)
     }
 
     /**

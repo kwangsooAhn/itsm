@@ -69,6 +69,12 @@ common:
         terminate: "terminate"
         waiting: "waiting"
         withdraw: "withdraw"
+    faq:
+      category:
+        all: "All"
+        etc: "Etc"
+        setting: "Setting"
+        techSupport: "Tech support"
 
 # Auth
 auth:
@@ -324,13 +330,13 @@ error:
 
 # FAQ
 faq:
+  label:
+    searchPlaceholder: "Category/Title"
+    category: "Category"
+    title: "Title"
+    content: "Content"
   msg:
     description: "Frequently asked questions and answers."
-  category:
-    all: "All"
-    etc: "ETC"
-    setting: "Setting"
-    techSupport: "Technical Support"
 
 # FileUpload
 fileupload:
