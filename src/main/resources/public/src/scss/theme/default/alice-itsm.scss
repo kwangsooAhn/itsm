@@ -132,9 +132,10 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family: 'Noto Sans K
                         &:first-child{width:30px;}
                     }
                     &:hover {background: rgba(0, 80, 255, 0.05);}
-                    &:first-child {background: rgba(0, 80, 255, 0);}
                 }
             }
+            & thead {background: rgba(0, 80, 255, 0);}
+            & a {cursor: pointer;}
             // 리스트 출력용 아바타 이미지
             .profile-photo {height:27px; width:27px; border-radius: 50%; background: rgba(240, 240, 240, 1); cursor: pointer;}
             .tr-notice {background: rgba(255,255,0, 0.2);}
@@ -180,6 +181,14 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family: 'Noto Sans K
     .btn-info {
         background: url("../icons/icon_info.png") no-repeat right;padding: 0 0 0 5px;width: 15px;height: 15px;
         &:hover {background: url("../icons/icon_info_select.png") no-repeat right;}
+    }
+    .btn-basic {
+        display:inline-block; position:relative; top:5.5px; cursor: pointer; text-align: center; padding: 3px 10px !important;
+        padding: 10px; border-radius: 2px; border: 1px solid rgba(170, 170, 170, 1); text-align: center;
+        color: #393e45;
+        &:hover {
+            font-weight: 600;
+        }
     }
 }
 
