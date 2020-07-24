@@ -36,13 +36,18 @@ class ProcessAdminService(
     /**
      * [processId]를 받아서 프로세스 마스터 데이터 조회.
      */
-    fun getProcessAdmin(processId: String): String {
+    fun getProcessAdmin(processId: String): RestTemplateProcessViewDto {
         val url = RestTemplateUrlDto(
-            callUrl = RestTemplateConstants.Process.GET_PROCESS_DATA.url.replace(
+            //callUrl = RestTemplateConstants.Process.GET_PROCESS_DATA.url.replace(
+            callUrl = RestTemplateConstants.Process.GET_PROCESS.url.replace(
                 restTemplate.getKeyRegex(),
                 processId
             )
         )
-        return restTemplate.get(url)
+
+        return mapper.readValue(
+            restTemplate.get(url),
+            mapper.typeFactory.constructType(RestTemplateProcessViewDto::class.java)
+        )
     }
 }

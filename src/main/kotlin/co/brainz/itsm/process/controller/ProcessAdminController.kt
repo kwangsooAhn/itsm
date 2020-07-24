@@ -51,7 +51,7 @@ class ProcessAdminController(private val processAdminService: ProcessAdminServic
      */
     @GetMapping("/{processId}/edit")
     fun getProcessEdit(@PathVariable processId: String, model: Model): String {
-        model.addAttribute("processData", processAdminService.getProcessAdmin(processId))
+        model.addAttribute("processInfo", processAdminService.getProcessAdmin(processId))
         return processEditPage
     }
 

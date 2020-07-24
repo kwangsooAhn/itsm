@@ -91,17 +91,22 @@
         }
 
         //프로세스 삭제
-        function deleteProcess(processId) {
+        /*function deleteProcess(processId) {
             restSubmit('DELETE', '/rest/processes/' + processId, function() {
                 aliceJs.alert('[[#{common.msg.delete}]]', function() {
                     location.reload();
                 });
             });
-        }
+        }*/
 
         //프로세스 신규 추가 화면 오픈
-        function openProcessEdit() {
-            window.open('/processes-admin/new', 'process_new', 'width=550, height=300');
+        function openProcessEdit(processId) {
+            console.log(processId);
+            if (processId !== undefined) {
+                window.open('/processes-admin/' + processId + '/edit', 'process_edit', 'width=550, height=300');
+            } else {
+                window.open('/processes-admin/new', 'process_new', 'width=550, height=300');
+            }
         }
 
         //프로세스 디자이너 편집화면 오픈

@@ -33,8 +33,10 @@
         </tr>
         <tr th:each="process, i: ${processList}" th:if="${i.count} < 11">
             <td th:class="align-left">
+<!--                <a href="javascript:void(0);" th:text="${process.name}"
+                   th:attr="onclick=|openProcessDesignerView('${process.id}')|"></a>-->
                 <a href="javascript:void(0);" th:text="${process.name}"
-                   th:attr="onclick=|openProcessDesignerView('${process.id}')|"></a>
+                   th:attr="onclick=|openProcessEdit('${process.id}')|"></a>
             </td>
             <td>
                 <a th:attr="onclick=|openProcessDesignerView('${process.id}')|">
