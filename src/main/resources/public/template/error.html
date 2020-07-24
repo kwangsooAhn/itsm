@@ -8,10 +8,10 @@
 <body class="error-body">
 <div class="error-div">
     <div class="error-div-left">
-        <img th:src="@{/public/assets/media/image/error/error_caution.png}"/>
+        <img th:src="@{/assets/media/image/error/error_caution.png}"/>
     </div>
     <div class="error-div-right">
-        <img th:src="@{/public/assets/media/image/error/error_logo_alice.png}" class="error-img">
+        <img th:src="@{/assets/media/image/error/error_logo_alice.png}" class="error-img">
         <p th:text="#{error.label.topPhrase}" class="error-top-txt"/>
         <p th:text="#{error.label.middlePhrase}" class="error-middle-txt"/>
         <p th:text="|#{error.label.errorCode} : ${error} (${status})|" class="error-code-txt"/>
