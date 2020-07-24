@@ -11,21 +11,26 @@
 <body>
 <div class="alicePortal">
     <img class="signup-logo" th:src="@{/assets/media/image/signup/alice_logo.png}" alt="Alice">
+    <div class="signup-login-face">
+        <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
+        <a class="signup-btn signup-btn-login" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
+    </div>
     <div class="signup-background">
-        <div class="signup-login-face">
-            <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
-            <a class="btn btn-primary" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
-        </div>
         <img class="signup-main-image" th:src="@{/assets/media/image/signup/graphic_signup.png}" alt="SignupBackgroud">
     </div>
     <div class="signup-form">
         <h1 th:text="#{login.label.userSignUp}"></h1>
         <div class="signup-base">
+            <div class="tooltip">Hover over me
+                <span class="tooltiptext">Tooltip text</span>
+            </div>
             <form id="signUpForm" method="post" onsubmit="return false">
                 <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
                 <label class="required" th:text="#{user.label.id}"></label>
+                <div class="help-tooltip"><span class="tooltip-contents">아이디는 이쁘게 지어야 합니다.</span></div>
                 <input type="text" id="userId" name="userId" maxlength="100" required="required">
                 <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.password}"></label>
+                <span class="help-tooltip"><p>비밀번호는 어렵게 만들어요~</p></span>
                 <input type="password" id="password" name="password" maxlength="100" required="required">
                 <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.rePassword}"></label>
                 <input type="password" id="rePassword" name="rePassword" maxlength="100" required="required">
@@ -33,20 +38,26 @@
                 <input type="text" id="userName" name="userName" maxlength="100" required="required">
                 <label class="required" th:text="#{user.label.email}"></label>
                 <input type="text" id="email" name="email" maxlength="100" required="required">
-                <label th:text="#{user.label.position}"></label>
-                <input type="text" id="position" name="position" maxlength="100">
-                <label type="hidden" th:text="#{user.label.department}"></label>
-                <input type="text" id="department" name="department" maxlength="100">
+                <!--                <label th:text="#{user.label.position}"></label>
+                                <input type="text" id="position" name="position" maxlength="100">
+                                <label type="hidden" th:text="#{user.label.department}"></label>
+                                <input type="text" id="department" name="department" maxlength="100">
                 <label th:text="#{user.label.officeNumber}"></label>
-                <input type="text" id="officeNumber" name="officeNumber" maxlength="100">
+                <input type="text" id="officeNumber" name="officeNumber" maxlength="100">-->
                 <label th:text="#{user.label.mobileNumber}"></label>
                 <input type="text" id="mobileNumber" name="mobileNumber" maxlength="100">
                 <label th:text="#{user.label.avatar}"/>
-                <div id="dropZoneFiles"></div><br/><br/>
-                <div th:text="#{user.label.FileSizeLimit}"></div>
-                <div th:text="#{user.label.FileExtensionAllowed}"></div>
+                <div class="avatar-upload">
+                    <div class="avatar-upload-dz">
+                        <div id="dropZoneFiles"></div>
+                    </div>
+                    <div class="avatar-upload-description">
+                        <span th:text="#{user.label.FileSizeLimit}"></span>
+                        <span th:text="#{user.label.FileExtensionAllowed}"></span>
+                    </div>
+                </div>
             </form>
-            <button class="btn btn-signup" id="userSignUp" th:text="#{login.btn.doSignUp}" onclick="userRegister()"></button>
+            <button class="signup-btn signup-btn-submit" id="userSignUp" th:text="#{login.btn.doSignUp}" onclick="userRegister()"></button>
         </div>
     </div>
 </div>
@@ -78,7 +89,7 @@
                 dropZoneUrl: '/certification/fileupload?target=avatar&fileName='+ avatarUUID,
                 dropZoneMaxFiles: 1,
                 acceptedFiles:".png,.jpeg,.jpg,.gif",
-                clickable: '.add-img-button'
+                type: 'avatarFileUploader' // avatar 전용
         }});
     }
     const STATUS_SUCCESS = "0";

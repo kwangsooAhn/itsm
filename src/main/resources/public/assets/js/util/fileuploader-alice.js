@@ -38,22 +38,26 @@ const fileUploader = (function () {
         }
 
         if (extraParam.dropZoneMaxFiles === undefined) {
-            extraParam.dropZoneMaxFiles = null
+            extraParam.dropZoneMaxFiles = null;
         }
 
         if (extraParam.clickable === undefined) {
-            extraParam.clickable = '.add-file-button'
+            extraParam.clickable = '.add-file-button';
         }
 
         if (extraParam.acceptedFiles === undefined) {
-            extraParam.acceptedFiles = null
+            extraParam.acceptedFiles = null;
+        }
+
+        if (extraParam.type === undefined) {
+            extraParam.type = 'dropzone';
         }
 
         // 파일 추가 버튼 정의 및 추가
         const dropZoneFiles = document.getElementById(''+ dropZoneFilesId +'');
         dropZoneFiles.className = 'fileEditorable';
 
-        if (extraParam.clickable === '.add-file-button') {
+        if (extraParam.clickable === '.add-file-button' && extraParam.type !== 'avatarFileUploader') {
             const addFileSpan = document.createElement('span');
             addFileSpan.className = 'add-file-button';
             const addFileBtn = document.createElement('button');
@@ -66,7 +70,7 @@ const fileUploader = (function () {
         // 파일 드랍 영역 및 파일을 보여줄 장소 정의
         const fileDropZone = document.createElement('div');
         fileDropZone.id = 'dropZoneFileUpload';
-        fileDropZone.className = 'dropzone';
+        fileDropZone.className = extraParam.type;
 
         // 파일 템플릿 생성
         const thumbnailData = document.createElement('img');

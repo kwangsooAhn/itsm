@@ -140,40 +140,29 @@ label, input {
 
 .alicePortal {
   overflow: auto;
+  height: 100vh;
+  width: 100vw;
 }
 
 .signup-logo {
   position: absolute;
-  z-index: 99999999;
   top: 5rem;
   left: 5rem;
 }
 .signup-background {
   background-color: #0050ff;
-  height: 73.75rem;
+  height: 100%;
   width: 80.3125rem;
-  top: 0;
-  left: 0;
 }
 .signup-login-face {
-  position: relative;
+  position: absolute;
   top: 53.1875rem;
   left: 28.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
 }
-.signup-login-face .btn {
-  border: 1px solid;
-  border-radius: 1px;
-  display: inline-block;
-  text-align: center;
-  vertical-align: middle;
-  padding: 0.75rem 0.625rem;
-}
-.signup-login-face .btn-primary {
-  background-color: #0050ff;
-  border-color: #FFFFFF;
+.signup-login-face a:visited {
   color: #FFFFFF;
-  min-width: 11.75rem;
-  margin-left: 2.5rem;
 }
 .signup-login-note {
   font-size: 1.25rem;
@@ -181,14 +170,13 @@ label, input {
   color: #FFFFFF;
 }
 .signup-main-image {
-  position: relative;
-  z-index: 99999999;
+  position: absolute;
   top: 6.1875rem;
   left: 11.125rem;
 }
 .signup-form {
-  margin: 5.6875rem 8.5938rem 0rem 88.9063rem;
-  width: 39.6875rem;
+  margin: 5.6875rem 8rem 0rem 88.9063rem;
+  width: 22.5rem;
   position: absolute;
   top: 0;
 }
@@ -199,14 +187,16 @@ label, input {
   margin-bottom: 3.3125rem;
 }
 .signup-form label {
+  display: inline-block;
   color: #3E4752;
   font-size: 0.875rem;
+  font-weight: 500;
   margin-bottom: 0.5rem;
   margin-top: 1rem;
 }
 .signup-form input {
   padding-left: 0.625rem;
-  width: 22.375rem;
+  width: 21.625rem;
   height: 2.25rem;
   border: 0.0625rem solid #C8CED8;
   border-radius: 0.0625rem;
@@ -215,4 +205,367 @@ label, input {
 .signup-form input:focus {
   outline: 0.125rem solid #0050ff;
   border-radius: 0.0625rem;
+}
+.signup-btn {
+  border: 1px solid;
+  border-radius: 1px;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  padding: 0.75rem 0.625rem;
+}
+.signup-btn-login {
+  background-color: #0050ff;
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+  min-width: 11.75rem;
+  margin-left: 2.5rem;
+}
+.signup-btn-submit {
+  background-color: #0050ff;
+  border-color: #0048E6;
+  color: #FFFFFF;
+  min-width: 22.5rem;
+}
+
+.required:after {
+  content: "*";
+  color: #E83828;
+}
+
+.avatarFileUploader {
+  box-sizing: border-box;
+  min-height: 150px;
+  border: 0.0625rem solid #C8CED8;
+  background: white;
+  padding: 20px 20px;
+  width: 9.375rem;
+}
+.avatarFileUploader * {
+  box-sizing: border-box;
+}
+.avatarFileUploader .dz-clickable {
+  cursor: pointer;
+}
+.avatarFileUploader .dz-clickable * {
+  cursor: default;
+}
+.avatarFileUploader .dz-clickable .dz-message {
+  cursor: pointer;
+}
+.avatarFileUploader .dz-clickable .dz-message * {
+  cursor: pointer;
+}
+.avatarFileUploader .dz-started .dz-message {
+  display: none;
+}
+.avatarFileUploader .dz-drag-hover {
+  border-style: solid;
+}
+.avatarFileUploader .dz-drag-hover .dz-message {
+  opacity: 0.5;
+}
+.avatarFileUploader .dz-message {
+  text-align: center;
+  margin: 2em 0;
+}
+.avatarFileUploader .dz-preview {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin: 16px;
+  min-height: 100px;
+}
+.avatarFileUploader .dz-preview:hover {
+  z-index: 1000;
+}
+.avatarFileUploader .dz-preview:hover .dz-details {
+  opacity: 1;
+}
+.avatarFileUploader .dz-preview .dz-file-preview .dz-image {
+  border-radius: 20px;
+  background: #999;
+  background: linear-gradient(to bottom, #eee, #ddd);
+}
+.avatarFileUploader .dz-preview .dz-file-preview .dz-details {
+  opacity: 1;
+}
+.avatarFileUploader .dz-preview .dz-image-preview {
+  background: white;
+}
+.avatarFileUploader .dz-preview .dz-image-preview .dz-details {
+  -webkit-transition: opacity 0.2s linear;
+  -moz-transition: opacity 0.2s linear;
+  -ms-transition: opacity 0.2s linear;
+  -o-transition: opacity 0.2s linear;
+  transition: opacity 0.2s linear;
+}
+.avatarFileUploader .dz-preview .dz-remove {
+  font-size: 14px;
+  text-align: center;
+  display: block;
+  cursor: pointer;
+  border: none;
+}
+.avatarFileUploader .dz-preview .dz-remove:hover {
+  text-decoration: underline;
+}
+.avatarFileUploader .dz-preview .dz-remove:hover .dz-details {
+  opacity: 1;
+}
+.avatarFileUploader .dz-preview .dz-details {
+  z-index: 20;
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  font-size: 13px;
+  min-width: 100%;
+  max-width: 100%;
+  padding: 2em 1em;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.9);
+  line-height: 150%;
+}
+.avatarFileUploader .dz-preview .dz-details .dz-size {
+  margin-bottom: 1em;
+  font-size: 16px;
+}
+.avatarFileUploader .dz-preview .dz-details .dz-size span {
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 0 0.4em;
+  border-radius: 3px;
+}
+.avatarFileUploader .dz-preview .dz-details .dz-filename {
+  white-space: nowrap;
+}
+.avatarFileUploader .dz-preview .dz-details .dz-filename:hover span {
+  border: 1px solid rgba(200, 200, 200, 0.8);
+  background-color: rgba(255, 255, 255, 0.8);
+}
+.avatarFileUploader .dz-preview .dz-details .dz-filename:not(:hover) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.avatarFileUploader .dz-preview .dz-details .dz-filename:not(:hover) span {
+  border: 1px solid transparent;
+}
+.avatarFileUploader .dz-preview .dz-details .dz-filename span {
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 0 0.4em;
+  border-radius: 3px;
+}
+.avatarFileUploader .dz-preview:hover .dz-image img {
+  -webkit-transform: scale(1.05, 1.05);
+  -moz-transform: scale(1.05, 1.05);
+  -ms-transform: scale(1.05, 1.05);
+  -o-transform: scale(1.05, 1.05);
+  transform: scale(1.05, 1.05);
+  -webkit-filter: blur(8px);
+  filter: blur(8px);
+}
+.avatarFileUploader .dz-preview .dz-image {
+  border-radius: 20px;
+  overflow: hidden;
+  width: 120px;
+  height: 120px;
+  position: relative;
+  display: block;
+  z-index: 10;
+}
+.avatarFileUploader .dz-preview .dz-image img {
+  display: block;
+}
+.avatarFileUploader .dz-preview .dz-error .dz-error-mark {
+  opacity: 1;
+  -webkit-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+  -moz-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+  -ms-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+  -o-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+  animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.avatarFileUploader .dz-preview .dz-success .dz-success-mark {
+  -webkit-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+  -moz-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+  -ms-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+  -o-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+  animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.avatarFileUploader .dz-preview .dz-success-mark, .avatarFileUploader .dz-preview .dz-error-mark {
+  pointer-events: none;
+  opacity: 0;
+  z-index: 500;
+  position: absolute;
+  display: block;
+  top: 50%;
+  left: 50%;
+  margin-left: -27px;
+  margin-top: -27px;
+}
+.avatarFileUploader .dz-preview .dz-success-mark svg, .avatarFileUploader .dz-preview .dz-error-mark svg {
+  display: block;
+  width: 54px;
+  height: 54px;
+}
+.avatarFileUploader .dz-preview .dz-processing .dz-progress {
+  opacity: 1;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -ms-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+.avatarFileUploader .dz-preview .dz-complete .dz-progress {
+  opacity: 0;
+  -webkit-transition: opacity 0.4s ease-in;
+  -moz-transition: opacity 0.4s ease-in;
+  -ms-transition: opacity 0.4s ease-in;
+  -o-transition: opacity 0.4s ease-in;
+  transition: opacity 0.4s ease-in;
+}
+.avatarFileUploader .dz-preview:not(.dz-processing) .dz-progress {
+  -webkit-animation: pulse 6s ease infinite;
+  -moz-animation: pulse 6s ease infinite;
+  -ms-animation: pulse 6s ease infinite;
+  -o-animation: pulse 6s ease infinite;
+  animation: pulse 6s ease infinite;
+}
+.avatarFileUploader .dz-preview .dz-progress {
+  opacity: 1;
+  z-index: 1000;
+  pointer-events: none;
+  position: absolute;
+  height: 16px;
+  left: 50%;
+  top: 50%;
+  margin-top: -8px;
+  width: 80px;
+  margin-left: -40px;
+  background: rgba(255, 255, 255, 0.9);
+  -webkit-transform: scale(1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.avatarFileUploader .dz-preview .dz-progress .dz-upload {
+  background: #333;
+  background: linear-gradient(to bottom, #666, #444);
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  -webkit-transition: width 300ms ease-in-out;
+  -moz-transition: width 300ms ease-in-out;
+  -ms-transition: width 300ms ease-in-out;
+  -o-transition: width 300ms ease-in-out;
+  transition: width 300ms ease-in-out;
+}
+.avatarFileUploader .dz-preview .dz-error .dz-error-message {
+  display: block;
+}
+.avatarFileUploader .dz-preview .dz-error:hover .dz-error-message {
+  opacity: 1;
+  pointer-events: auto;
+}
+.avatarFileUploader .dz-preview .dz-error-message {
+  pointer-events: none;
+  z-index: 1000;
+  position: absolute;
+  display: block;
+  display: none;
+  opacity: 0;
+  -webkit-transition: opacity 0.3s ease;
+  -moz-transition: opacity 0.3s ease;
+  -ms-transition: opacity 0.3s ease;
+  -o-transition: opacity 0.3s ease;
+  transition: opacity 0.3s ease;
+  border-radius: 8px;
+  font-size: 13px;
+  top: 140px;
+  left: -10px;
+  width: 140px;
+  background: #be2626;
+  background: linear-gradient(to bottom, #be2626, #a92222);
+  padding: 0.5em 1.2em;
+  color: white;
+}
+.avatarFileUploader .dz-preview .dz-error-message:after {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 64px;
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid #be2626;
+}
+
+.avatar-upload {
+  margin-bottom: 1.25rem;
+}
+.avatar-upload-dz {
+  display: inline-block;
+  margin-right: 0.625rem;
+}
+.avatar-upload-description {
+  display: inline-block;
+  vertical-align: top;
+}
+.avatar-upload-description span {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.8125rem;
+  color: #7A8594;
+}
+
+/*.help-tooltip {
+    display: inline-block;
+    margin-left: 0.3125rem; // 5px
+    width: 15px;
+    height: 15px;
+    vertical-align: middle;
+
+    &:before {
+        content: url($image-folder-path + "icon_info.png");
+    }
+
+    .tooltip-contents {
+        display: none;
+        background-color: yellow;
+    }
+
+    &:hover {
+        content: url($image-folder-path + "icon_info_select.png");
+        .tooltip-contents {
+            display: block;
+        }
+    }
+}*/
+.help-tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+  content: url("../media/image/icon_info.png");
+}
+
+.help-tooltip .tooltip-contents {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+}
+
+.help-tooltip:hover {
+  content: url("../media/image/icon_info_select.png");
+}
+
+.help-tooltip:hover .tooltip-contents {
+  visibility: visible;
 }
