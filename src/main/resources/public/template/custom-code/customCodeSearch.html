@@ -9,36 +9,32 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="wrap-screen">
-        <div class="container">
-            <div class="contents">
-                <div class="contents-title">
-                    <span class="title-txt" th:text="#{customCode.label.list}"></span>
-                    <span class="title-description" th:text="#{customCode.msg.description}"></span>
+    <div class="contents">
+        <div class="contents-title">
+            <span class="title-txt" th:text="#{customCode.label.list}"></span>
+            <span class="title-description" th:text="#{customCode.msg.description}"></span>
+        </div>
+        <div class="contents-body">
+            <div class="usermanage-menubar">
+                <div class="menubar-right">
+                    <button class="btn-add" onclick="location.href='/custom-codes/new'"
+                            sec:authorize="hasAuthority('custom.code.create')"></button>
                 </div>
-                <div class="contents-body">
-                    <div class="usermanage-menubar">
-                        <div class="menubar-right">
-                            <button class="btn-add" onclick="location.href='/custom-codes/new'"
-                                    sec:authorize="hasAuthority('custom.code.create')"></button>
-                        </div>
-                    </div>
-                    <div class="list" id="customCodeList"></div>
-                    <div class="menubar-bottom">
-                        <div class="paging">
-                            <ul>
-                                <li><span class="btn-prev"></span></li>
-                                <li><span class="btn-num">1</span></li>
-                                <li><span class="btn-num">2</span></li>
-                                <li><span class="btn-num">3</span></li>
-                                <li><span class="btn-num">···</span></li>
-                                <li><span class="btn-num">6</span></li>
-                                <li><span class="btn-next"></span></li>
-                            </ul>
-                        </div>
-                        <div class="list-count"><span>총:127건</span></div>
-                    </div>
+            </div>
+            <div class="list" id="customCodeList"></div>
+            <div class="menubar-bottom">
+                <div class="paging">
+                    <ul>
+                        <li><span class="btn-prev"></span></li>
+                        <li><span class="btn-num">1</span></li>
+                        <li><span class="btn-num">2</span></li>
+                        <li><span class="btn-num">3</span></li>
+                        <li><span class="btn-num">···</span></li>
+                        <li><span class="btn-num">6</span></li>
+                        <li><span class="btn-next"></span></li>
+                    </ul>
                 </div>
+                <div class="list-count"><span>총:127건</span></div>
             </div>
         </div>
     </div>
