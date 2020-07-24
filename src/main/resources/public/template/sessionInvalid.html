@@ -2,39 +2,49 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <style type="text/css">
-        body { text-align: center; }
-    </style>
+    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
 </head>
-<body>
-<img th:src="@{/assets/media/image/session_id.jpg}"/>
-<h3>[[#{login.msg.sessionExpired}]]</h3>
-<h3><span id="counter"></span></h3>
-<button type="button" id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}"/>
+<body class="session-body">
+<div class="session-div">
+    <div class="session-div-left">
+        <img th:src="@{/assets/media/image/session/session_screen.png}"/>
+    </div>
+    <div class="session-div-right">
+        <img th:src="@{/assets/media/image/session/session_logo_alice.png}"
+             class="session-img">
+        <p th:text="#{login.msg.sessionExpired}" class="session-sessionExpired-txt"></p>
+        <p class="session-p">
+            <span id="counter" class="session-count-txt"></span>
+            <span th:text="#{login.msg.redirectedLoginPage}" class="session-returnLogin-txt"></span>
+        </p>
+        <button id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}" th:onclick="location.href='/login'"
+                class="session-btn"></button>
+    </div>
+</div>
 <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
-    window.onload = function() {
+    window.onload = function () {
         let count = [[${counter}]],
-            timer,
-            counterMsg = [[#{login.msg.redirectedLoginPage}]];
+            timer;
 
-        setCounterMsg(count);
+        setCounter(count);
         document.querySelector('#gotoLoginPage').addEventListener('click', gotoLoginPage);
-        const counting = function() {
+        const counting = function () {
             clearTimeout(timer);
             if (count !== 1) {
                 count -= 1;
-                setCounterMsg(count);
+                setCounter(count);
                 timer = setTimeout(counting, 1000);
             } else {
-                gotoLoginPage();
+                console.log("test");
+                /*gotoLoginPage();*/
             }
         };
         timer = setTimeout(counting, 1000);
 
-        function setCounterMsg(count) {
-            document.querySelector('#counter').textContent = counterMsg.replace('{0}', count);
+        function setCounter(count) {
+            document.querySelector('#counter').textContent = count;
         }
 
         function gotoLoginPage() {

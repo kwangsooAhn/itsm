@@ -175,3 +175,81 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   border-width: 0.0625rem;
   /* 1px */
 }
+
+.session-body {
+  width: 120rem;
+  /* 1920px */
+  height: 59.1875rem;
+  /* 947px */
+  margin: 0rem;
+  /* 0px */
+  padding: 0rem;
+  /* 0px */
+  font-size: 0rem;
+  /* 0px */
+  overflow: auto;
+}
+
+.session-div {
+  width: 120rem;
+  /* 1920px */
+  height: 59.1875rem;
+  /* 947px */
+}
+.session-div .session-div-left {
+  width: 50%;
+  height: 100%;
+  float: left;
+}
+.session-div .session-div-right {
+  width: 50%;
+  height: 100%;
+  float: right;
+}
+.session-div .session-div-right .session-img {
+  position: relative;
+  margin: 16.1875rem 0rem 4.875rem 7.625rem;
+  /* 259px 0px 78px 122px */
+}
+.session-div .session-div-right .session-sessionExpired-txt {
+  margin: 0rem 0rem 1.5rem 7.625rem;
+  /* 0px 0px 24px 122px */
+  font-size: 2.1875rem;
+  /* 35px */
+  color: #47556a;
+  font-weight: 500;
+}
+.session-div .session-div-right .session-p {
+  margin: 0rem 0rem 10.3125rem 7.625rem;
+  /* 0px 0px 165px 122px */
+}
+.session-div .session-div-right .session-p .session-count-txt {
+  font-size: 2.1875rem;
+  /* 35px */
+  color: #0050ff;
+  font-weight: 500;
+}
+.session-div .session-div-right .session-p .session-returnLogin-txt {
+  color: #47556a;
+  font-size: 2.1875rem;
+  /* 35px */
+  font-weight: 500;
+}
+
+.session-btn {
+  background-color: #0050FF;
+  border-color: #0048E6;
+  color: #FFFFFF;
+  font-size: 1.25rem;
+  /* 20px */
+  margin-left: 7.625rem;
+  /* 122px */
+  width: 22.5rem;
+  /* 360px */
+  height: 3.4375rem;
+  /* 55px */
+  border-radius: 0.0625rem;
+  /* 1px */
+  border-width: 0.0625rem;
+  /* 1px */
+}
