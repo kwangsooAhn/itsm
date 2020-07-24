@@ -26,9 +26,9 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family: 'Noto Sans K
     .contents {
         min-width:1260px; min-height:820px; display:block; padding: 20px 136px 37px 136px;
         .contents-title {
-            padding: 20px 0;
+            padding: 20px 0 20px 5px;
             .title-txt {display:block; font-size: 30px; color:#47556a; padding: 10px 0; font-weight: 600;}
-            .title-description {font-size: 15px; color:#94a6bf; font-weight: 300;}
+            .title-description {font-size: 15px; color:#94a6bf; font-weight: 400;}
         }
         .contents-body {background: rgba(255, 255, 255, 1); padding: 4% 8%;}
 
@@ -56,16 +56,16 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family: 'Noto Sans K
                     &-guide {display: flex;vertical-align: middle;}
                 &-button {width: 60px;height: 30px;background: rgba(255, 255, 255, 1);border: 1px solid #C8CED8;margin-left: -63px;font-size: 14px;}
             }
-            .custom-setting-top-select {width: 678px;height: 26px;margin-top: 8px;border: 1px solid #C8CED8;}
-            .select-date-time {width: 244px;height: 26px;border: 1px solid #C8CED8;margin-top: 8px;}
-            .hour-select {width: 85px;height: 26px;color: black;border: 1px solid #C8CED8;margin-left: 5px;}
-            .language-select {width: 244px;height: 30px;border: 1px solid #C8CED8;font: size 14px;margin-top: 15px;}
-            .theme-color-select {margin-top: 15px;width: 244px;height: 30px;border: 1px solid #C8CED8;margin-bottom: 62px;}
+            .custom-setting-top-select {width: 678px;height: 26px;margin-top: 8px;padding-left: 5px;border: 1px solid #C8CED8;}
+            .select-date-time {width: 244px;height: 26px;border: 1px solid #C8CED8;margin-top: 8px;padding-left: 5px;}
+            .hour-select {width: 85px;height: 26px;color: black;border: 1px solid #C8CED8;margin-left: 5px;padding-left: 5px;}
+            .language-select {width: 244px;height: 30px;border: 1px solid #C8CED8;font-size 14px;margin-top: 15px;padding-left: 5px;}
+            .theme-color-select {margin-top: 15px;width: 244px;height: 30px;border: 1px solid #C8CED8;margin-bottom: 62px;padding-left: 5px;}
             .user-role-checkbox {
                 width: 15px;height: 15px;line-height: 15px;
                 &-wrap {margin-top: 15px;margin-left: 10px;display: inline-block;width: 162px;}
                 &-list {
-                    margin-top: 37px;margin-left: 10px;margin-bottom: 51px;
+                    margin-top: 22px;margin-left: 10px;margin-bottom: 62px;
                     &-middle {margin-top: 15px;margin-left: 10px;}
                     &-bottom {margin-top: 15px;margin-left: 10px;margin-bottom: 51px;}
                 }
@@ -196,9 +196,9 @@ select {
 input {
 	border: 1px solid #c8ced8;
 	&:focus {border: 1px solid #0050ff;}
-    .search {width: 305px;height: 30px;background: url("../media/icons/icon_search.svg") no-repeat center right;padding: 0 10px;border-radius: 2px;font-size: 13px;}
-    .user-register-input {width: 340px;height: 26px;margin-top: 8px;}
-    .auth {
+    &.search {width: 305px;height: 30px;background: url("../media/icons/icon_search.svg") no-repeat center right;padding: 0 10px;border-radius: 2px;font-size: 13px;}
+    &.user-register-input {width: 340px;height: 26px;margin-top: 8px;padding-left: 10px;}
+    &.auth {
         &-name {width: 340px;height: 30px;}
         &-id {width: 340px;height: 30px;}
         &-txt {width: 340px;height: 166px;}
@@ -207,7 +207,7 @@ input {
     }
 }
 label {
-    .auth {
+    &.auth {
         &-name {display: block;}
         &-id {display: inline-block;}
         &-txt {display: block;}

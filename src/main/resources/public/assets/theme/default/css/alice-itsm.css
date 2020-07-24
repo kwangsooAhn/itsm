@@ -61,7 +61,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   padding: 20px 136px 37px 136px;
 }
 .container .contents .contents-title {
-  padding: 20px 0;
+  padding: 20px 0 20px 5px;
 }
 .container .contents .contents-title .title-txt {
   display: block;
@@ -73,7 +73,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
 .container .contents .contents-title .title-description {
   font-size: 15px;
   color: #94a6bf;
-  font-weight: 300;
+  font-weight: 400;
 }
 .container .contents .contents-body {
   background: white;
@@ -155,6 +155,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   width: 678px;
   height: 26px;
   margin-top: 8px;
+  padding-left: 5px;
   border: 1px solid #C8CED8;
 }
 
@@ -163,6 +164,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   height: 26px;
   border: 1px solid #C8CED8;
   margin-top: 8px;
+  padding-left: 5px;
 }
 
 .container .contents .user-register-contents-body .hour-select {
@@ -171,14 +173,16 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   color: black;
   border: 1px solid #C8CED8;
   margin-left: 5px;
+  padding-left: 5px;
 }
 
 .container .contents .user-register-contents-body .language-select {
   width: 244px;
   height: 30px;
   border: 1px solid #C8CED8;
-  font: size 14px;
+  font-size 14px;
   margin-top: 15px;
+  padding-left: 5px;
 }
 
 .container .contents .user-register-contents-body .theme-color-select {
@@ -187,6 +191,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   height: 30px;
   border: 1px solid #C8CED8;
   margin-bottom: 62px;
+  padding-left: 5px;
 }
 
 .container .contents .user-register-contents-body .user-role-checkbox {
@@ -196,9 +201,9 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
 }
 
 .container .contents .user-register-contents-body .user-role-checkbox-list {
-  margin-top: 37px;
+  margin-top: 22px;
   margin-left: 10px;
-  margin-bottom: 51px;
+  margin-bottom: 62px;
 }
 
 .container .contents .user-register-contents-body .user-role-checkbox-wrap {
@@ -564,6 +569,7 @@ input.user-register-input {
   width: 340px;
   height: 26px;
   margin-top: 8px;
+  padding-left: 10px;
 }
 
 input.auth-name {
