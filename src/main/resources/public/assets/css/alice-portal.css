@@ -102,41 +102,41 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   width: 1920px;
   height: 947px;
 }
-.error-div .div-left {
+.error-div .error-div-left {
   width: 50%;
   height: 100%;
   float: left;
   background-color: #EFF4FA;
 }
-.error-div .div-right {
+.error-div .error-div-right {
   width: 50%;
   height: 100%;
   float: right;
   background-color: #FFFFFF;
 }
-.error-div .div-right .error-img {
+.error-div .error-div-right .error-img {
   position: relative;
   margin: 213px 0px 78px 122px;
 }
-.error-div .div-right .error-p1 {
+.error-div .error-div-right .error-top-txt {
   margin: 0px 0px 24px 122px;
   font-size: 35px;
   color: #47556a;
   font-weight: 500;
 }
-.error-div .div-right .error-p2 {
+.error-div .error-div-right .error-middle-txt {
   margin: 0px 0px 34px 122px;
   font-size: 35px;
   color: #47556a;
   font-weight: 500;
 }
-.error-div .div-right .error-p3 {
+.error-div .error-div-right .error-code-txt {
   margin: 0px 0px 68px 122px;
   font-size: 28px;
   color: #0050FF;
   font-weight: 400;
 }
-.error-div .div-right .error-p4 {
+.error-div .error-div-right .error-bottom-txt {
   margin: 0px 0px 107px 122px;
   font-size: 20px;
   color: #657388;

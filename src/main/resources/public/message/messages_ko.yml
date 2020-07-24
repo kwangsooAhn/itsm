@@ -321,7 +321,7 @@ error:
   btn:
     return: "이전 화면으로 돌아가기"
   label:
-    error: "에러"
+    error: "에러 페이지"
     errorCode: "에러 코드"
     topPhrase: "요청하신 페이지를 처리 중에 오류가 발생했습니다."
     middlePhrase: "서비스 이용에 불편을 드려 죄송합니다."

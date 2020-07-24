@@ -321,7 +321,7 @@ error:
   btn:
     return: "RETURN TO PREVIOUS SCREEN"
   label:
-    error: "Error"
+    error: "Error Page"
     errorCode: "Error Code"
     topPhrase: "An error occurred while processing the requested page."
     middlePhrase: "We are sorry for the inconvenience in using the service."

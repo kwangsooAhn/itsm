@@ -10,14 +10,14 @@
   width: 1920px;
   height: 947px;
 
-  .div-left {
+  .error-div-left {
     width: 50%;
     height: 100%;
     float: left;
     background-color: #EFF4FA;
   }
 
-  .div-right {
+  .error-div-right {
     width: 50%;
     height: 100%;
     float: right;
@@ -28,25 +28,28 @@
       margin: 213px 0px 78px 122px;
     }
 
-    .error-p1 {
+    .error-top-txt {
       margin: 0px 0px 24px 122px;
       font-size: 35px;
       color: #47556a;
       font-weight: 500;
     }
-    .error-p2 {
+
+    .error-middle-txt {
       margin: 0px 0px 34px 122px;
       font-size: 35px;
       color: #47556a;
       font-weight: 500;
     }
-    .error-p3 {
+
+    .error-code-txt {
       margin: 0px 0px 68px 122px;
       font-size: 28px;
       color: #0050FF;
       font-weight: 400;
     }
-    .error-p4 {
+
+    .error-bottom-txt {
       margin: 0px 0px 107px 122px;
       font-size: 20px;
       color: #657388;
