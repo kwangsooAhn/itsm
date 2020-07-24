@@ -160,9 +160,10 @@
 
     // show notification popup.
     function showNotification(param) {
-        let text = '<span class="title text-ellipsis">' + param.title + '</span>' +
-            '<span class="date">' + param.date +'</span>' +
-            '<br><span class="message text-ellipsis">' + param.message + '</span>';
+        let text = '<div class="icon"></div>' +
+			'<div class="content"><div class="title">' + param.title + '</div>' +
+			'<div class="message text-ellipsis">' + param.message + '</div>' +
+			'<div class="date">' + param.date + '</div></div>';
         Toastify({
             text: text,
             duration: 5000,
@@ -170,7 +171,7 @@
             gravity: 'bottom',
             position: 'right',
             stopOnFocus: true,
-            className: 'alice-toastify notification-content',
+            className: 'alice-toastify alice-toastify-content',
             onShow: function() {
                 updateNotification(param.notificationId, 'display');
             },

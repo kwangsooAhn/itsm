@@ -883,14 +883,63 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 .alice-toastify {
-  width: 25.625rem;
-  height: 4.438rem;
-  padding: 0.688rem !important;
+  width: 350px;
+  height: 80px;
+  padding: 0 !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25) !important;
+  border-radius: 0.063rem !important;
+}
+.alice-toastify.toastify-right {
+  right: 10px;
 }
 .alice-toastify .toast-close {
   position: absolute;
-  top: 0.563rem;
-  right: 0.688rem;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  opacity: 1;
+  top: 11px;
+  right: 11px;
+  background-image: url("../icons/icon_close.png");
+}
+.alice-toastify.alice-toastify-content {
+  border: 1px solid #c8ced8;
+}
+.alice-toastify.alice-toastify-content div.icon {
+  float: left;
+  width: 80px;
+  height: 100%;
+  background-image: url("../icons/graphic_under_notification.png");
+  background-repeat: no-repeat;
+}
+.alice-toastify.alice-toastify-content div.content {
+  float: left;
+  width: 250px;
+  height: 100%;
+  padding-left: 20px;
+}
+.alice-toastify.alice-toastify-content div.content div {
+  font-size: 11px;
+  font-weight: 400;
+}
+.alice-toastify.alice-toastify-content div.content div.title {
+  padding-top: 13px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #3e4752;
+}
+.alice-toastify.alice-toastify-content div.content div.title label {
+  display: none;
+}
+.alice-toastify.alice-toastify-content div.content div.message {
+  padding-top: 4px;
+  color: #666f7a;
+}
+.alice-toastify.alice-toastify-content div.content div.date {
+  padding-top: 14px;
+  color: #98a1ac;
+  padding-bottom: 14px;
 }
 
 .notification-content div.title {
