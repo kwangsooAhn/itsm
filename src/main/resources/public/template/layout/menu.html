@@ -57,49 +57,6 @@
 			</div>
 		</div>
 	</div>
-	<!--원본-->
-	<!--    <nav class="navbar navbar-expand-lg bg-primary alice-navbar">-->
-	<!--        <a class="navbar-brand" href="#">-->
-	<!--            <img th:src="@{/assets/media/icons/logo.png}" width="40" height="40" alt="Alice">-->
-	<!--        </a>-->
-	<!--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarSupportedContent"-->
-	<!--                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">-->
-	<!--            <span class="navbar-toggler-icon"></span>-->
-	<!--        </button>-->
-	<!--        <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-	<!--            <ul id="main-menu" class="mr-auto">-->
-	<!--                <li th:each="topMenu : ${#authentication.details.menus}"-->
-	<!--                    th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu'">-->
-	<!--                    <a class="nav-link" th:text="#{|menu.${topMenu.menuId}.parent|}"></a>-->
-	<!--                    <ul class="sub-menu">-->
-	<!--                        <li th:each="subMenu : ${#authentication.details.menus}"-->
-	<!--                            th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId}">-->
-	<!--                            <a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}" onclick="showProgressBar()"></a>-->
-	<!--                        </li>-->
-	<!--                    </ul>-->
-	<!--                </li>-->
-	<!--            </ul>-->
-	<!--            <div class="alice-navbar-profile">-->
-	<!--                <div class="notification-menu">-->
-	<!--                    <img th:src="@{/assets/media/icons/icon_notification.png}">-->
-	<!--                    <span id="count" class="count"></span>-->
-	<!--                    <div id="notification-container" class="notification-container"></div>-->
-	<!--                </div>-->
-	<!--                <button class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown" onclick="profile_menu();">-->
-	<!--                    Hello, <span sec:authentication="details.userName"></span>-->
-	<!--                    <img th:src="@{/assets/media/image/avatar/{userKey}(userKey=${#authentication.details.userKey})}" width="50px" height="50px" border="1"-->
-	<!--                         th:onerror="'this.onerror=null; this.src=\'' + @{/assets/media/image/avatar/profile_sample.jpg} + '\';'" alt="profile pic"/>-->
-	<!--                    <span class="caret"></span>-->
-	<!--                </button>-->
-	<!--                <div id="profile-menu">-->
-	<!--                    <ul>-->
-	<!--                        <li><a href="javascript:logout()" th:text="#{common.btn.logout}"></a></li>-->
-	<!--                        <li><a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}" th:text="#{menu.setting.editMyInfo}"></a></li>-->
-	<!--                    </ul>-->
-	<!--                </div>-->
-	<!--            </div>-->
-	<!--        </div>&lt;!&ndash; collapse navbar-collapse &ndash;&gt;-->
-	<!--    </nav>-->
 	<div>
 		<form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
 	</div>
