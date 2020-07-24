@@ -217,6 +217,7 @@ customCode:
     condition: "Condition"
     customCode: "Custom Code"
     lastUpdateDate: "Last Update Date"
+    list: "Custom Code List"
     name: "Custom Code Name"
     pCode: "Parent Code"
     searchColumn: "Search Column Name"
@@ -227,6 +228,7 @@ customCode:
   msg:
     addCondition: "Only {0} or less can be added."
     customCodeUsed: "The Custom code is being used."
+    description: "View, add, or edit Custom Code's information."
     duplicateCustomCodeName: "The same custom code name exists."
     enterCustomCode: "Please enter a custom code name."
     enterPCode: "Please enter your parental code."
