@@ -160,7 +160,8 @@ class InitTestData {
      */
     fun setDocuments(
         customDataList: MutableList<WfDocumentEntity>?,
-        process: WfProcessEntity?, form: WfFormEntity?,
+        process: WfProcessEntity?,
+        form: WfFormEntity?,
         numbering: AliceNumberingRuleEntity?,
         user: AliceUserEntity?
     ) {

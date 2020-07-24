@@ -10,9 +10,9 @@ import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
-import co.brainz.framework.util.AliceUtil
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.util.AliceUtil
 import java.security.PrivateKey
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
