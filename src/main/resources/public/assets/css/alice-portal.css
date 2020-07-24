@@ -91,16 +91,16 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 .error-body {
-  width: 120rem;
-  height: 59.1875rem;
-  margin: 0rem;
-  padding: 0rem;
+  width: 120rem; /* 1920px */
+  height: 59.1875rem; /* 947px */
+  margin: 0rem; /* 0px */
+  padding: 0rem; /* 0px */
   overflow: hidden;
 }
 
 .error-div {
-  width: 120rem;
-  height: 59.1875rem;
+  width: 120rem; /* 1920px */
+  height: 59.1875rem; /* 947px */
 }
 .error-div .error-div-left {
   width: 50%;
@@ -116,29 +116,29 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 .error-div .error-div-right .error-img {
   position: relative;
-  margin: 13.3125rem 0rem 4.875rem 7.625rem;
+  margin: 13.3125rem 0rem 4.875rem 7.625rem; /* 213px 0px 78px 122px */
 }
 .error-div .error-div-right .error-top-txt {
-  margin: 0rem 0rem 1.5rem 7.625rem;
-  font-size: 2.1875rem;
+  margin: 0rem 0rem 1.5rem 7.625rem; /* 0px 0px 24px 122px */
+  font-size: 2.1875rem; /* 35px */
   color: #47556a;
   font-weight: 500;
 }
 .error-div .error-div-right .error-middle-txt {
-  margin: 0rem 0rem 2.125rem 7.625rem;
-  font-size: 2.1875rem;
+  margin: 0rem 0rem 2.125rem 7.625rem; /* 0px 0px 34px 122px */
+  font-size: 2.1875rem; /* 35px */
   color: #47556a;
   font-weight: 500;
 }
 .error-div .error-div-right .error-code-txt {
-  margin: 0rem 0rem 4.25rem 7.625rem;
-  font-size: 1.75rem;
+  margin: 0rem 0rem 4.25rem 7.625rem; /* 0px 0px 68px 122px */
+  font-size: 1.75rem; /* 28px */
   color: #0050FF;
   font-weight: 400;
 }
 .error-div .error-div-right .error-bottom-txt {
-  margin: 0rem 0rem 6.6875rem 7.625rem;
-  font-size: 1.25rem;
+  margin: 0rem 0rem 6.6875rem 7.625rem; /* 0px 0px 107px 122px */
+  font-size: 1.25rem; /* 20px */
   color: #657388;
   font-weight: 400;
 }
@@ -147,10 +147,10 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-color: #0050FF;
   border-color: #0048E6;
   color: #FFFFFF;
-  font-size: 1.25rem;
-  margin-left: 7.625rem;
-  width: 22.5rem;
-  height: 3.4375rem;
-  border-radius: 0.0625rem;
-  border-width: 0.0625rem;
+  font-size: 1.25rem; /* 20px */
+  margin-left: 7.625rem; /* 122px */
+  width: 22.5rem; /* 360px */
+  height: 3.4375rem; /* 55px */
+  border-radius: 0.0625rem; /* 1px */
+  border-width: 0.0625rem; /* 1px */
 }
