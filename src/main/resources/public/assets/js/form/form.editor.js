@@ -1149,8 +1149,8 @@
 
                 // 옵션이 존재할 경우 이벤트 핸들러 등록
                 if (group === 'option') {
-                    groupElem.querySelector('.plus').addEventListener('click', addOptionHandler, false);
                     groupElem.querySelector('.minus').addEventListener('click', removeOptionHandler, false);
+                    groupElem.querySelector('.plus').addEventListener('click', addOptionHandler, false);
                 }
                 // 세부 속성 추가
                 if (Array.isArray(properties[group])) {

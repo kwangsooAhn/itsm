@@ -60,31 +60,32 @@
                 weight: $properties-large-title-font-weight;
             }
         }
-        /*div { // 옵션
-            position: absolute;
-            bottom: 50%;
-            right: 0;
-            padding: 0 1.125rem; // 18px
-            background-color: #ffffff;
-            button {
-                width: 1.125rem;          //18px
-                height: 1.125rem;         //18px
-                outline: 0;
-                margin-right: 0.125rem;   //2px;
-                border: 0.0625rem solid #c8ced8;
-                background-color: #ffffff;
-                padding: 0;
-            }
-        } */
     }
     // 옵션
     &[id="option"] { position: relative; }
-    // 옵션 버튼
-    button[class="plus"]::before {
-        content: '+';
-    }
-    button[class="minus"]::before {
-        content: '-';
+    .property-group-option {
+        position: absolute;
+        display: flex;
+        right: 0;
+        top: -7px; // 7px
+        padding: 0 20px 0 7px; // 0 20px 0 7px
+        background-color: #ffffff;
+        button {
+            width: 15px;          // 15px
+            height: 15px;         // 15px
+            outline: 0;
+            margin-right: 0.0625rem;   //1px;
+            border: 0.0625rem solid $properties-border-color;
+            background-color: #ffffff;
+            padding: 0;
+        }
+        // 옵션 버튼
+        button[class="minus"]::before {
+            content: '-';
+        }
+        button[class="plus"]::before {
+            content: '+';
+        }
     }
     // 하위 속성
     .property-field {

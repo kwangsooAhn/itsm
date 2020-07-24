@@ -1,4 +1,3 @@
-@charset "UTF-8";
 @import url(reset.css);
 @font-face {
   font-family: "Noto Sans";
@@ -101,7 +100,6 @@ body {
     }
 }*/
 .container {
-  position: relative;
   width: 100vw;
   height: 100vh;
 }
@@ -165,8 +163,8 @@ body {
   top: 2.188rem;
   width: calc(100vw - 16.25rem);
   height: calc(100vh - 2.188rem);
-  min-width: 77.5rem;
-  min-height: 59.062rem;
+  min-width: calc(100vw - 16.25rem);
+  min-height: calc(100vh - 2.188rem);
 }
 
 .content.form .drawing-board {
@@ -208,7 +206,7 @@ body {
   top: 2.188rem;
   width: 16.25rem;
   height: calc(100vh - 2.188rem);
-  min-height: 59.062rem;
+  min-height: calc(100vh - 2.188rem);
 }
 
 .toolbar {
@@ -491,7 +489,6 @@ body {
 .component .field-group .field-content .field-checkbox input[type=checkbox] + span {
   position: relative;
   cursor: pointer;
-  padding: 0;
 }
 
 .component .field-group .field-content .field-checkbox input[type=checkbox] + span:before {
@@ -1081,22 +1078,6 @@ body {
   border-bottom: 0.063rem solid #c8ced8;
   line-height: 0.1em;
   margin: 0.9375rem 0.9375rem 0 0.9375rem;
-  /*div { // 옵션
-            position: absolute;
-            bottom: 50%;
-            right: 0;
-            padding: 0 1.125rem; // 18px
-            background-color: #ffffff;
-            button {
-                width: 1.125rem;          //18px
-                height: 1.125rem;         //18px
-                outline: 0;
-                margin-right: 0.125rem;   //2px;
-                border: 0.0625rem solid #c8ced8;
-                background-color: #ffffff;
-                padding: 0;
-            }
-        } */
 }
 
 .property-group h3 label {
@@ -1111,12 +1092,33 @@ body {
   position: relative;
 }
 
-.property-group button[class="plus"]::before {
-  content: '+';
+.property-group .property-group-option {
+  position: absolute;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  right: 0;
+  top: -7px;
+  padding: 0 20px 0 7px;
+  background-color: #ffffff;
 }
 
-.property-group button[class="minus"]::before {
+.property-group .property-group-option button {
+  width: 15px;
+  height: 15px;
+  outline: 0;
+  margin-right: 0.0625rem;
+  border: 0.0625rem solid #c8ced8;
+  background-color: #ffffff;
+  padding: 0;
+}
+
+.property-group .property-group-option button[class="minus"]::before {
   content: '-';
+}
+
+.property-group .property-group-option button[class="plus"]::before {
+  content: '+';
 }
 
 .property-group .property-field {
@@ -1629,7 +1631,7 @@ body {
 }
 
 .property-group .property-field div.property-field-toggle {
-  width: 80px;
+  width: 5rem;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1662,8 +1664,8 @@ body {
 
 .property-group .property-field div.property-field-toggle ~ input[type=text],
 .property-group .property-field div.property-field-toggle ~ select {
-  width: 133px;
-  margin-left: 7px;
+  width: 8.313rem;
+  margin-left: 0.4375rem;
 }
 
 .property-group .property-field span.property-field-unit {

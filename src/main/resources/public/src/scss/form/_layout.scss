@@ -1,6 +1,5 @@
 // 전체 layout
 .container {
-    position: relative;
     width: 100vw;
     height: 100vh;
     // 폼 양식
@@ -40,8 +39,8 @@
         top: $toolbar-height;
         width: calc(100vw - #{$form-aside-width});
         height: calc(100vh - #{$toolbar-height});
-        min-width: #{$form-container-width - $form-aside-width};
-        min-height: #{$form-container-height - $toolbar-height};
+        min-width: calc(100vw - #{$form-aside-width});
+        min-height: calc(100vh - #{$toolbar-height});
 
         .drawing-board {
             width: $form-drawing-board-width;
@@ -67,6 +66,6 @@
         top: $toolbar-height;
         width: $form-aside-width;
         height: calc(100vh - #{$toolbar-height});
-        min-height: #{$form-container-height - $toolbar-height};
+        min-height: calc(100vh - #{$toolbar-height});
     }
 }
