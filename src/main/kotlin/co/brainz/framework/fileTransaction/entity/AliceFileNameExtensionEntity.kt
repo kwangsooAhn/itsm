@@ -12,5 +12,5 @@ import javax.persistence.Table
 data class AliceFileNameExtensionEntity(
     @Id
     @Column(name = "file_name_extension", length = 128)
-    var fileNameExtension: String
+    var fileNameExtension: String = ""
 ) : Serializable, AliceMetaEntity()

@@ -6,10 +6,12 @@
 package co.brainz.framework.fileTransaction.controller
 
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.fileTransaction.dto.AliceFileNameExtensionDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
-import co.brainz.framework.fileTransaction.entity.AliceFileNameExtensionEntity
+import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import javax.servlet.http.HttpServletRequest
+import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.core.io.InputStreamResource
 import org.springframework.http.HttpHeaders
@@ -30,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile
 class AliceFileController(private val aliceFileService: AliceFileService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
+    private val fileMapper: AliceFileMapper = Mappers.getMapper(AliceFileMapper::class.java)
 
     /**
      * 파일 업로드.
@@ -86,8 +89,13 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
      * 파일 허용 확장자 목록가져오기
      */
     @GetMapping("/rest/fileNameExtensionList")
-    fun getFileNameExtension(): List<AliceFileNameExtensionEntity> {
-        return aliceFileService.getFileNameExtension()
+    fun getFileNameExtension(): List<AliceFileNameExtensionDto> {
+        val fileNameExtensions = mutableListOf<AliceFileNameExtensionDto>()
+        val foundFileNameExtensions = aliceFileService.getFileNameExtension()
+        for (foundFileNameExtension in foundFileNameExtensions) {
+            fileNameExtensions.add(fileMapper.toAliceFileNameExtensionDto(foundFileNameExtension))
+        }
+        return fileNameExtensions
     }
 
     /**
