@@ -47,7 +47,6 @@ class ProcessAdminService(
                 processId
             )
         )
-
         return mapper.readValue(
             restTemplate.get(url),
             mapper.typeFactory.constructType(RestTemplateProcessViewDto::class.java)
