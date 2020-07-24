@@ -67,25 +67,19 @@
         position: absolute;
         display: flex;
         right: 0;
-        top: -7px; // 7px
-        padding: 0 20px 0 7px; // 0 20px 0 7px
+        top: -0.4375rem; // -7px
+        padding: 0 1.25rem 0 0.4375rem; // 0 20px 0 7px
         background-color: #ffffff;
         button {
-            width: 15px;          // 15px
-            height: 15px;         // 15px
-            outline: 0;
+            width: 0.9375rem;          // 15px
+            height: 0.9375rem;         // 15px
             margin-right: 0.0625rem;   //1px;
             border: 0.0625rem solid $properties-border-color;
-            background-color: #ffffff;
             padding: 0;
         }
         // 옵션 버튼
-        button[class="minus"]::before {
-            content: '-';
-        }
-        button[class="plus"]::before {
-            content: '+';
-        }
+        button[class="minus"] { @include background("#{$asset-path}/form/editor/icon_option_minus.png"); }
+        button[class="plus"] { @include background("#{$asset-path}/form/editor/icon_option_plus.png"); }
     }
     // 하위 속성
     .property-field {
@@ -99,7 +93,6 @@
             display: inline-block;
             flex-shrink: 0;
             flex-grow: 0;
-            //width: 13.75rem;  // 220px
             vertical-align: top;
             margin-bottom: 0.375rem;
             color: $properties-small-title-font-color;
@@ -194,6 +187,7 @@
             height: 1.563rem; // 25px
             border: 0.0625rem solid $properties-border-color; // 1px
             padding-left: $properties-indent-padding-left;
+            color: $properties-value-font-color;
         }
 
         input[type=checkbox] {
@@ -245,7 +239,9 @@
             }
         }
 
-        div.property-field-position {
+        // 텍스트, 아이콘로 이루어진 버튼 그룹
+        div.property-field-text,
+        div.property-field-icon {
             width: 100%;
             display: flex;
             button {
@@ -257,13 +253,39 @@
                 &:not(:last-of-type) {
                     border-right: 0;
                 }
-                outline: 0;
+                &.active {
+                    color: #0050ff;
+                    background-color: #ffffff;
+                    border-color: #0050ff;
+                    + button { border-left-color: #0050ff }
+                }
             }
-            button.active {
-                color: #0050ff;
-                background-color: #ffffff;
-                border-color: #0050ff;
-                + button { border-left-color: #0050ff }
+        }
+        
+        &[id="display-position"] {
+            div.property-field-icon {
+                button[id="left"] {
+                    border-left-width: 0.0625rem;
+                    @include background("#{$asset-path}/form/editor/icon_left.png"); 
+                }
+                button[id="right"] { @include background("#{$asset-path}/form/editor/icon_right.png"); }
+                button[id="left"].active { background-image: url("#{$asset-path}/form/editor/icon_left_select.png"); }
+                button[id="right"].active { background-image: url("#{$asset-path}/form/editor/icon_right_select.png"); }
+            }
+        }
+
+        &[id="display-align"] {
+            div.property-field-icon {
+                button[id="left"] {
+                    border-left-width: 0.0625rem;
+                    @include background("#{$asset-path}/form/editor/icon_align_left.png"); 
+                }
+
+                button[id="center"] { @include background("#{$asset-path}/form/editor/icon_align_center.png"); }
+                button[id="right"] { @include background("#{$asset-path}/form/editor/icon_align_right.png"); }
+                button[id="left"].active { background-image: url("#{$asset-path}/form/editor/icon_align_left_select.png"); }
+                button[id="center"].active { background-image: url("#{$asset-path}/form/editor/icon_align_center_select.png"); }
+                button[id="right"].active { background-image: url("#{$asset-path}/form/editor/icon_align_right_select.png"); }
             }
         }
 
@@ -272,7 +294,7 @@
             width: 78%;
             height: 0.0625rem; // 1px
             background-color: $properties-border-color;
-            outline: none;
+            outline: 0;
         
             &::-webkit-slider-thumb {
                 -webkit-appearance: none;
@@ -304,6 +326,7 @@
                 }
             }
         }
+
         // color picker
         div.property-field-color-picker {
             width: 100%;
@@ -381,9 +404,6 @@
                         background: #fff;
                         cursor: pointer;
                     }
-                    /*&::-webkit-slider-runnable-track {
-                        -webkit-appearance: none;
-                    }*/
                     &::-moz-range-thumb {
                         width: 0.625rem;     //10px
                         height:  0.625rem;
@@ -403,11 +423,8 @@
                     background: #c8ced8;
                     border: initial;
                     padding: initial;
-                    outline: none;
-                    margin: {
-                        left: 0.594rem; // 9.5px
-                        right: 0.625rem; // 10px
-                    }
+                    outline: 0;
+                    margin-left: 0.594rem; // 9.5px
                 }
                 input.slide-input {
                     width: 1.75rem; // 28px
@@ -420,6 +437,7 @@
                     width: 0.813rem; // 13px
                     height: 1.25rem; // 20px
                     line-height: 1.25rem; // 20px
+                    color: $properties-value-font-color;
                 }
             }
         }
@@ -431,7 +449,6 @@
                 width: 1.563rem;    //25px
                 height: 1.563rem;
                 border: 0.0625rem solid $properties-border-color;
-                outline: 0;
                 &:not(:last-of-type) {
                     border-right: 0;
                 }
@@ -483,7 +500,6 @@
                 &:not(:last-of-type) {
                     border-right: 0;
                 }
-                outline: 0;
             }
             button.active {
                 color: #0050ff;
@@ -498,12 +514,87 @@
             }
         }
 
+        // image path
+        div.property-field-image {
+            width: 100%;
+            display: flex;
+            input[type=text] {
+                border-right: 0;
+            }
+            button {
+                flex: 1 1 auto;
+                width: 1.875rem; // 30px
+                border: 0.0625rem solid $properties-border-color;
+                @include background("#{$asset-path}/form/editor/icon_search.png");
+            }
+
+        }
+
+        // default
+        &.vertical {
+            flex-direction: column;
+            align-items: flex-start;
+            input[type=text] {
+                width: 2.5rem;  //40px
+                margin: 0 0.3125rem;
+                //timepicker
+                &[class="timepicker"],
+                &[class="datepicker"],
+                &[class="datetimepicker"] {
+                    width: 12.5rem; // 200px
+                }
+            }
+            label {
+                margin: 0 0.3125rem 0 0.3125rem;    //0px 5px 0px 5px
+            }
+            .vertical-group {
+                display: inline-flex;
+                align-items: center;
+                margin: 0.375rem 0;  //6px 0
+                .picker-wrapper {
+                    display: inline-block;
+                }
+                select {
+                    margin-left: 0.625rem;    //10px
+                }
+            }
+        }
+
+        .picker-wrapper-date {
+            width: 100%;
+        }
+
         // 단위
         span.property-field-unit {
             position: absolute;
             top: 50%;
             right: 0.4375rem; // 7px
             color: $properties-value-font-color;
+        }
+    }
+    // 테이블
+    table.property-field-table {
+        margin: 0.8125rem 1.25rem;  //13px 20px
+        border: 0.063rem solid $properties-border-color; // 1px
+        color: $properties-value-font-color;
+        tr {
+            height: 1.563rem;    //25px
+            td, th {
+                text-align: center;
+                vertical-align: middle;
+                border: 0.063rem solid $properties-border-color; // 1px
+                input[type=text] {
+                    width: 5.938rem; //95px
+                    border: none;
+                    padding: 0;
+                    text-align: center;
+                    color: $properties-value-font-color;
+                }
+                input[type=checkbox] {
+                    width: 1.563rem; // 25px
+                    outline: 0;
+                }
+            }
         }
     }
 }

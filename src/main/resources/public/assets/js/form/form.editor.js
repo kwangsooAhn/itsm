@@ -795,8 +795,9 @@
      * @param {Number} [index] 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
      */
     function changePropertiesValue(value, group, field, index) {
-        let histories = [];
+        if (typeof group === 'undefined' || group === '') { return false; }
 
+        let histories = [];
         for (let i = 0, len = selectedComponentIds.length; i < len; i++) {
             const compIdx = getComponentIndex(selectedComponentIds[i]);
             let componentData = editor.data.components[compIdx];
@@ -894,12 +895,12 @@
     }
 
     /**
-     * 컴포넌트 세부 속성에  button click 이벤트 (Position)
+     * 컴포넌트 세부 속성에  button click 이벤트 (Position, Align 등 버튼이 고정)
      * @param e 이벤트
      */
-    function togglePositionButtonClickHandler(e) {
+    function toggleOptionButtonClickHandler(e) {
         const elem = e.target;
-        const parentElem = elem.parentNode; // property-field-position
+        const parentElem = elem.parentNode; // property-field-position, property-field-align
         let changePropertiesArr = parentElem.parentNode.id.split('-'); // property-field
         const isActive = elem.classList.contains('active');
         if (!isActive) {
@@ -980,7 +981,7 @@
      * @param e 이벤트
      */
     function addOptionHandler(e) {
-        const tb = e.target.parentNode.querySelector('table');
+        const tb = e.target.parentNode.parentNode.parentNode.querySelector('table');
         const row = document.createElement('tr');
         const rowCount = tb.rows.length;
         const firstRow = tb.rows[0];
@@ -988,15 +989,18 @@
 
         row.innerHTML = lastRow.innerHTML;
         let rowData = {};
-        for (let i = 1; i < firstRow.cells.length; i++) {
+        for (let i = 0; i < firstRow.cells.length; i++) {
             const cell = row.cells[i];
             const inputCell = cell.querySelector('input');
-            inputCell.addEventListener('change', function(e) {
-                changePropertiesValue(e.target.value, tb.parentNode.id, e.target.parentNode.id, rowCount - 1);
-            }, false);
-            if (cell.id === 'seq') {
+            if (inputCell.type === 'checkbox') { // seq
                 inputCell.value = rowCount;
             } else {
+                inputCell.addEventListener('change', function(e) {
+                    let changeCell = e.target;
+                    let changeTd = changeCell.parentNode;
+                    let changeRow = changeTd.parentNode;
+                    changePropertiesValue(changeCell.value, tb.parentNode.id, changeTd.id, changeRow.childNodes[0].childNodes[0].value - 1);
+                }, false);
                 inputCell.value = firstRow.cells[i].getAttribute('data-default');
             }
             rowData[cell.id] = inputCell.value;
@@ -1010,7 +1014,7 @@
      * @param e
      */
     function removeOptionHandler(e) {
-        const tb = e.target.parentNode.querySelector('table');
+        const tb = e.target.parentNode.parentNode.parentNode.querySelector('table');
         const compIdx = getComponentIndex(selectedComponentIds[0]);
         let removeOptionData = JSON.parse(JSON.stringify(editor.data.components[compIdx][tb.parentNode.id]));
         let minusCnt = 0;
@@ -1018,15 +1022,14 @@
         for (let i = 1; i < rowCount; i++) {
             let row = tb.rows[i];
             let chkBox = row.cells[0].childNodes[0];
-            let seqCell = row.cells[1].childNodes[0];
             if (chkBox.checked && rowCount > 2) {
                 tb.deleteRow(i);
                 removeOptionData.splice(i - 1, 1);
                 rowCount--;
                 i--;
                 minusCnt++;
-            } else if (seqCell.value !== i) {
-                seqCell.value = i;
+            } else if (chkBox.value !== i) {
+                chkBox.value = i;
                 removeOptionData[i - 1].seq = i;
             }
         }
@@ -1100,6 +1103,7 @@
                 const emptyPanel = componentElem.querySelector('.property-empty');
                 if (!emptyPanel.classList.contains('on')) {
                     emptyPanel.classList.add('on');
+                    propertiesPanel.appendChild(componentElem);
                 }
                 return false;
             }
@@ -1122,8 +1126,8 @@
                 componentTitleElem.classList.add('on');
             }
         }
-        console.log(properties);
-        // TODO: 세부 속성을 출력한다.
+
+        // 세부 속성을 출력한다.
         let buttonGroupExist = false;
         let buttonGroupElem = null;
         Object.keys(properties).forEach(function(group) {
@@ -1195,20 +1199,23 @@
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
-                                    case 'button-option': // position
+                                    case 'button-option-text': // position
+                                    case 'button-option-icon': // image 컴포넌트 정렬
+                                        let optionType = fieldProp.type.split('-')[2];
+
                                         const fieldOptions = fieldProp.option.map(function (opt) {
-                                            return `<button type="button" id="${opt.id}" class="${fieldProp.value === opt.id ? 'active' : ''}">${opt.name}</button>`;
+                                            return `<button type="button" id="${opt.id}" class="${fieldProp.value === opt.id ? 'active' : ''}">${optionType === 'text' ? opt.name : ''}</button>`;
                                         }).join('');
 
                                         fieldTemplate =
                                             `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
-                                            `<div class="property-field-position">${fieldOptions}</div>`;
+                                            `<div class="property-field-${optionType}">${fieldOptions}</div>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         // 버튼 이벤트 핸들러 추가
-                                        const buttonElemList = fieldGroupElem.querySelector('.property-field-position').children;
+                                        const buttonElemList = fieldGroupElem.querySelector('.property-field-' + optionType).children;
                                         for (let i = 0, len = buttonElemList.length; i < len; i++) {
-                                            buttonElemList[i].addEventListener('click', togglePositionButtonClickHandler, false);
+                                            buttonElemList[i].addEventListener('click', toggleOptionButtonClickHandler, false);
                                         }
                                         break;
                                     case 'customcode':
@@ -1229,8 +1236,10 @@
                                     case 'image':
                                         fieldTemplate =
                                             `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>` +
-                                            `<input type='text' class='property-value' value='${fieldProp.value}'>
-                                            <button type='button' onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1200, height=700");'>select</button>`;
+                                            `<div class="property-field-image">` +
+                                                `<input type='text' class='property-value' value='${fieldProp.value}'>` +
+                                                `<button type='button' onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1200, height=700");'></button>` +
+                                            `</div>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
@@ -1390,19 +1399,24 @@
                         } else { // type === table
                             const tableElem = groupElem.querySelector('table');
                             if (tableElem !== null) {
-                                let fieldTemplate = ``;
                                 // 테이블 Header 추가
-                                const tableHeaderOptions = fieldProp.items.map(function(opt) { return `<th data-default='${opt.value}'>${opt.name}</th>`; }).join('');
-                                fieldTemplate += `<tr><th></th>${tableHeaderOptions}</tr>`;
+                                const tableHeaderOptions = fieldProp.items.map(function(opt, index) {
+                                    return `<th data-default="${opt.value}">${index === 0 ? '': opt.name}</th>`;
+                                }).join('');
+                                let fieldTableTemplate = `<tr>${tableHeaderOptions}</tr>`;
+
                                 // 테이블 Row 추가
                                 const tableRowOptions = componentData.option.map(function(opt) {
-                                    return `<tr><td><input type='checkbox'></td>${fieldProp.items.map(function(item) { 
-                                        return `<td id='${item.id}'><input type='text' value='${opt[item.id]}' ${item.id === 'seq' ? "readonly" : ""}/></td>`;
+                                    return `<tr>${fieldProp.items.map(function(item, index) {
+                                        return `<td id="${item.id}">` +
+                                        `<input type="${index === 0 ? 'checkbox' : 'text'}" value="${opt[item.id]}"/>` +
+                                        `</td>`;
                                     }).join('')}</tr>`;
                                 }).join('');
-                                fieldTemplate += tableRowOptions;
 
-                                tableElem.insertAdjacentHTML('beforeend', fieldTemplate);
+                                fieldTableTemplate += tableRowOptions;
+
+                                tableElem.insertAdjacentHTML('beforeend', fieldTableTemplate);
                             }
                         }
                     });
@@ -1437,7 +1451,7 @@
                     const parentElem = elem.parentNode;
                     if (parentElem.classList.contains('picker-wrapper') || parentElem.classList.contains('wdp-hour-el-container')) { return false; }
                     if (parentElem.tagName === 'TD') { // option
-                        const seqCell = parentElem.parentNode.cells[1].childNodes[0];
+                        const seqCell = parentElem.parentNode.cells[0].childNodes[0];
                         changePropertiesValue(elem.value, 'option', parentElem.id, Number(seqCell.value) - 1);
                     } else {
                         const changePropertiesArr = parentElem.id.split('-');

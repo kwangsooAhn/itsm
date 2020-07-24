@@ -35,7 +35,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -233,7 +233,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -401,7 +401,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -533,7 +533,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -630,7 +630,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "right",
-                "type": "button-option",
+                "type": "button-option-icon",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
                 "code": "",
                 "unit": ""
@@ -683,7 +683,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -780,7 +780,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "right",
-                "type": "button-option",
+                "type": "button-option-icon",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
                 "code": "",
                 "unit": ""
@@ -952,7 +952,7 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-icon",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
                 "code": "",
                 "unit": ""
@@ -1053,7 +1053,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1202,7 +1202,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1351,7 +1351,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1500,7 +1500,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1621,7 +1621,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
