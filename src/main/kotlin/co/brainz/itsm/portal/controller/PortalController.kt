@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 class PortalController(private val portalService: PortalService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val portalMainPage: String = "portal/portalMains"
+    private val portalMainPage: String = "portal/portalMain"
     private val portalListPage: String = "portal/portalList"
     private val portalBrowserGuidePage: String = "portal/portalBrowserGuide"
 
