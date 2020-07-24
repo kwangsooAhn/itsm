@@ -41,6 +41,8 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family: 'Noto Sans K
         // 사용자 정보
         .user-register-contents-body {
             background: rgba(255, 255, 255, 1); padding: 88px 351px 96px 351px;
+            input {font-size:14px;}
+            select {font-size:14px;}
             .required::after {color: #E83828;content: "\002a";}
             .profile {
                 &-title {font-size: 20px;padding: 0px 0px 11px 0px;}
@@ -197,7 +199,7 @@ input {
 	border: 1px solid #c8ced8;
 	&:focus {border: 1px solid #0050ff;}
     &.search {width: 305px;height: 30px;background: url("../media/icons/icon_search.svg") no-repeat center right;padding: 0 10px;border-radius: 2px;font-size: 13px;}
-    &.user-register-input {width: 340px;height: 26px;margin-top: 8px;padding-left: 10px;}
+    &.user-register-input {width: 340px;height: 26px;margin-top: 8px;padding-left: 10px;font-size: 14px;}
     &.auth {
         &-name {width: 340px;height: 30px;}
         &-id {width: 340px;height: 30px;}

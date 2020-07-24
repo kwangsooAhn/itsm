@@ -151,6 +151,14 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, button {
   font-size: 14px;
 }
 
+ .user-register-contents-body input {
+	 font-size: 14px;
+}
+
+ .user-register-contents-body select {
+	 font-size: 14px;
+}
+
 .container .contents .user-register-contents-body .custom-setting-top-select {
   width: 678px;
   height: 26px;
