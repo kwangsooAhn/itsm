@@ -21,16 +21,23 @@
     <div class="signup-form">
         <h1 th:text="#{login.label.userSignUp}"></h1>
         <div class="signup-base">
-            <div class="tooltip">Hover over me
-                <span class="tooltiptext">Tooltip text</span>
-            </div>
             <form id="signUpForm" method="post" onsubmit="return false">
                 <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
                 <label class="required" th:text="#{user.label.id}"></label>
-                <div class="help-tooltip"><span class="tooltip-contents">아이디는 이쁘게 지어야 합니다.</span></div>
+                <div class="help-tooltip">
+                    <span class="help-tooltip-icon"></span>
+                    <div class="tooltip-contents">
+                        <span th:utext="#{user.tooltip.idRule}"></span>
+                    </div>
+                </div>
                 <input type="text" id="userId" name="userId" maxlength="100" required="required">
                 <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.password}"></label>
-                <span class="help-tooltip"><p>비밀번호는 어렵게 만들어요~</p></span>
+                <div class="help-tooltip">
+                    <span class="help-tooltip-icon"></span>
+                    <div class="tooltip-contents">
+                        <span th:utext="#{user.tooltip.pwRule}"></span>
+                    </div>
+                </div>
                 <input type="password" id="password" name="password" maxlength="100" required="required">
                 <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.rePassword}"></label>
                 <input type="password" id="rePassword" name="rePassword" maxlength="100" required="required">
@@ -38,12 +45,6 @@
                 <input type="text" id="userName" name="userName" maxlength="100" required="required">
                 <label class="required" th:text="#{user.label.email}"></label>
                 <input type="text" id="email" name="email" maxlength="100" required="required">
-                <!--                <label th:text="#{user.label.position}"></label>
-                                <input type="text" id="position" name="position" maxlength="100">
-                                <label type="hidden" th:text="#{user.label.department}"></label>
-                                <input type="text" id="department" name="department" maxlength="100">
-                <label th:text="#{user.label.officeNumber}"></label>
-                <input type="text" id="officeNumber" name="officeNumber" maxlength="100">-->
                 <label th:text="#{user.label.mobileNumber}"></label>
                 <input type="text" id="mobileNumber" name="mobileNumber" maxlength="100">
                 <label th:text="#{user.label.avatar}"/>
@@ -89,6 +90,7 @@
                 dropZoneUrl: '/certification/fileupload?target=avatar&fileName='+ avatarUUID,
                 dropZoneMaxFiles: 1,
                 acceptedFiles:".png,.jpeg,.jpg,.gif",
+                clickable: '.add-img-button',
                 type: 'avatarFileUploader' // avatar 전용
         }});
     }

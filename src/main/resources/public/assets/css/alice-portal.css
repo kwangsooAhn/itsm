@@ -89,6 +89,10 @@ button {
   cursor: pointer;
 }
 
+label, input {
+  display: block;
+}
+
 body, h1, h2, h3, h4, h5, h6, input, textarea, select, botton {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 15px;
@@ -134,14 +138,39 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, botton {
   font-weight: 900;
   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format("opentype");
 }
-label, input {
-  display: block;
-}
-
 .alicePortal {
   overflow: auto;
   height: 100vh;
   width: 100vw;
+}
+
+h1 {
+  font-weight: bold;
+  font-size: 2.1875rem;
+  color: #3E4752;
+  margin-bottom: 3.3125rem;
+}
+
+label {
+  display: inline-block;
+  color: #3E4752;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  margin-top: 1rem;
+}
+
+input {
+  padding-left: 0.625rem;
+  width: 21.625rem;
+  height: 2.25rem;
+  border: 0.0625rem solid #C8CED8;
+  border-radius: 0.0625rem;
+  font-size: 0.8759rem;
+}
+input:focus {
+  outline: 0.125rem solid #0050ff;
+  border-radius: 0.0625rem;
 }
 
 .signup-logo {
@@ -179,32 +208,6 @@ label, input {
   width: 22.5rem;
   position: absolute;
   top: 0;
-}
-.signup-form h1 {
-  font-weight: bold;
-  font-size: 2.1875rem;
-  color: #3E4752;
-  margin-bottom: 3.3125rem;
-}
-.signup-form label {
-  display: inline-block;
-  color: #3E4752;
-  font-size: 0.875rem;
-  font-weight: 500;
-  margin-bottom: 0.5rem;
-  margin-top: 1rem;
-}
-.signup-form input {
-  padding-left: 0.625rem;
-  width: 21.625rem;
-  height: 2.25rem;
-  border: 0.0625rem solid #C8CED8;
-  border-radius: 0.0625rem;
-  font-size: 0.8759rem;
-}
-.signup-form input:focus {
-  outline: 0.125rem solid #0050ff;
-  border-radius: 0.0625rem;
 }
 .signup-btn {
   border: 1px solid;
@@ -519,79 +522,43 @@ label, input {
   color: #7A8594;
 }
 
-/*.help-tooltip {
-    display: inline-block;
-    margin-left: 0.3125rem; // 5px
-    width: 15px;
-    height: 15px;
-    vertical-align: middle;
-
-    &:before {
-        content: url($image-folder-path + "icon_info.png");
-    }
-
-    .tooltip-contents {
-        display: none;
-        background-color: yellow;
-    }
-
-    &:hover {
-        content: url($image-folder-path + "icon_info_select.png");
-        .tooltip-contents {
-            display: block;
-        }
-    }
-}*/
 .help-tooltip {
-  position: relative;
   display: inline-block;
+  margin-left: 0.3125rem;
+  width: 0.9375rem;
+  height: 0.9375rem;
+  vertical-align: middle;
 }
-
-.help-tooltip:before {
+.help-tooltip .help-tooltip-icon:before {
   content: url("../media/image/icon_info.png");
 }
-
 .help-tooltip .tooltip-contents {
   visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  /* Position the tooltip */
+  background-color: white;
+  width: 22.5rem;
+  font-size: 0.8125rem;
+  color: #0050ff;
+  border: 0.0625rem solid #0050ff;
+  border-radius: 0.0625rem;
+  padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
   position: absolute;
   z-index: 1;
+  box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
+  line-height: 1.25rem;
 }
-
-.help-tooltip:hover {
-  /*content: url($image-folder-path + "icon_info_select.png");*/
-  content: "*";
-}
-
 .help-tooltip:hover .tooltip-contents {
   visibility: visible;
+  -webkit-transform-origin: 100% 0%;
+  transform-origin: 100% 0%;
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
 }
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-  content: url("../media/image/icon_info.png");
-}
-
-.tooltip .tooltiptext {
-  visibility: hidden;
-  width: 120px;
-  background-color: black;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px 0;
-  /* Position the tooltip */
-  position: absolute;
-  z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
+.help-tooltip:hover .help-tooltip-icon {
+  content: url("../media/image/icon_info_select.png");
 }

@@ -1,77 +1,45 @@
-/*.help-tooltip {
+.help-tooltip {
     display: inline-block;
     margin-left: 0.3125rem; // 5px
-    width: 15px;
-    height: 15px;
+    width: 0.9375rem; // 15px
+    height: 0.9375rem; // 15px
     vertical-align: middle;
 
-    &:before {
+    .help-tooltip-icon:before {
         content: url($image-folder-path + "icon_info.png");
     }
 
     .tooltip-contents {
-        display: none;
-        background-color: yellow;
+        visibility: hidden;
+        background-color: white;
+        width: 22.5rem; // 60px
+        font-size: 0.8125rem; // 13x;
+        color: $alice-primary;
+        border: 0.0625rem solid $alice-primary; // 1px
+        border-radius: 0.0625rem; // 1px
+        padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
+        position: absolute;
+        z-index: 1;
+        box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2); // 5px
+        line-height: 1.25rem; // 20px
     }
 
     &:hover {
-        content: url($image-folder-path + "icon_info_select.png");
         .tooltip-contents {
-            display: block;
+            visibility: visible;
+            -webkit-transform-origin: 100% 0%;
+            transform-origin: 100% 0%;
+            -webkit-animation-delay: 0s;
+            animation-delay: 0s;
+            -webkit-animation-duration: 0.3s;
+            animation-duration: 0.3s;
+            -webkit-animation-name: fadeIn;
+            animation-name: fadeIn;
+            -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+        }
+        .help-tooltip-icon {
+            content: url($image-folder-path + "icon_info_select.png");
         }
     }
-}*/
-.help-tooltip {
-    position: relative;
-    display: inline-block;
-}
-
-.help-tooltip:before {
-    content: url($image-folder-path + "icon_info.png");
-}
-
-.help-tooltip .tooltip-contents {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-}
-.help-tooltip:hover {
-    /*content: url($image-folder-path + "icon_info_select.png");*/
-    content: '*';
-}
-
-.help-tooltip:hover .tooltip-contents {
-    visibility: visible;
-}
-
-.tooltip {
-    position: relative;
-    display: inline-block;
-    content: url($image-folder-path + "icon_info.png");
-}
-
-.tooltip .tooltiptext {
-    visibility: hidden;
-    width: 120px;
-    background-color: black;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 5px 0;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
 }

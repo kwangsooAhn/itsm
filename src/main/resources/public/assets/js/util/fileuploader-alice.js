@@ -137,11 +137,14 @@ const fileUploader = (function () {
         // 파일 업로드 영역에 드랍 영역 정의
         document.getElementById(''+ dropZoneFilesId +'').appendChild(fileDropZone);
 
+        // TO-DO
+        // 2020.07.25 Jung Hee Chan
+        // avatar 업로드는 기능 정리 필요. 일단 디자인 작업을 위해서 버튼 춢력은 주석 처리.
         if (extraParam.clickable == '.add-img-button') {
             const addFileSpan = document.createElement('span');
             addFileSpan.className = 'add-img-button';
             const addFileBtn = document.createElement('button');
-            addFileBtn.innerText = '아바타 추가';
+            //addFileBtn.innerText = '아바타 추가';
             addFileBtn.setAttribute('type', 'button');
             addFileSpan.appendChild(addFileBtn);
             dropZoneFiles.appendChild(addFileSpan);

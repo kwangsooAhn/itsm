@@ -1,18 +1,8 @@
-label, input {
-    display: block;
-}
-
-.alicePortal {
-    overflow: auto;
-    height: 100vh;
-    width: 100vw;
-}
-
 .signup {
     &-logo {
         position: absolute;
-        top: 5rem;
-        left: 5rem;
+        top: 5rem; // 80px
+        left: 5rem; // 80px
     }
 
     &-background {
@@ -40,60 +30,31 @@ label, input {
 
     &-main-image {
         position: absolute;
-        top: 6.1875rem;
-        left: 11.125rem;
+        top: 6.1875rem; // 99px
+        left: 11.125rem; // 178px
     }
 
     &-form {
-        margin: 5.6875rem 8.0rem 0rem 88.9063rem;
-        width: 22.5rem;
+        margin: 5.6875rem 8.0rem 0rem 88.9063rem; // 91px 128px 0 1422.5px
+        width: 22.5rem; // 360px
         position: absolute;
         top: 0;
-
-        h1 {
-            font-weight: bold;
-            font-size: 2.1875rem;
-            color: #3E4752;
-            margin-bottom: 3.3125rem;
-        }
-
-        label {
-            display: inline-block;
-            color: #3E4752;
-            font-size: 0.8750rem; // 14px
-            font-weight: 500; // Medium
-            margin-bottom: 0.5rem; // 8px
-            margin-top: 1rem; // 16px
-        }
-
-        input {
-            padding-left: 0.625rem; // 10px
-            width: 21.625rem; // 346px
-            height: 2.25rem; // 36px
-            border: 0.0625rem solid #C8CED8; // 1px
-            border-radius: 0.0625rem; // 1px
-            font-size: 0.8759rem; // 14px
-            &:focus {
-                outline: 0.125rem solid $alice-primary; // 2px
-                border-radius: 0.0625rem; // 1px
-            }
-        }
     }
 
     &-btn {
-        border: 1px solid;
-        border-radius: 1px;
+        border: 1px solid; // 0.0625px
+        border-radius: 1px; // 0.0625px
         display: inline-block;
         text-align: center;
         vertical-align: middle;
-        padding: 0.75rem 0.625rem;
+        padding: 0.75rem 0.625rem; // 12px 10px
 
         &-login {
             background-color: $alice-primary;
             border-color: #FFFFFF;
             color: #FFFFFF;
             min-width: 11.75rem; // 210px
-            margin-left: 2.5rem;
+            margin-left: 2.5rem; // 40px
         }
 
         &-submit {
@@ -109,4 +70,3 @@ label, input {
     content: "*";
     color: #E83828;
 }
-
