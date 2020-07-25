@@ -172,6 +172,7 @@ board:
     detail: "게시판 상세"
     disable: "미사용"
     enable: "사용"
+    list: "게시판 목록"
     manager: "게시판 관리"
     modify: "게시판 수정"
     name: "게시판 명"
@@ -189,6 +190,7 @@ board:
     enterBoardTitle: "게시판 명을 입력하세요."
     enterCategoryName: "카테고리 명을 입력하세요."
     enterSortSize: "정렬순서를 100 이하로 입력하세요."
+    description: "게시판을 조회 하거나 추가, 변경 할 수 있습니다."
 
 # Code
 code:
@@ -213,9 +215,10 @@ customCode:
   label:
     code: "코드"
     condition: "조건"
-    customCode: "사용자 정의 코드"
+    customCode: "커스텀 코드"
     lastUpdateDate: "마지막 수정일시"
-    name: "사용자 정의 코드 명"
+    list: "커스텀 코드 목록"
+    name: "커스텀 코드 명"
     pCode: "부모 코드"
     searchColumn: "검색 컬럼 명"
     table: "테이블"
@@ -225,8 +228,9 @@ customCode:
   msg:
     addCondition: "{0}개 이하만 추가 가능합니다."
     customCodeUsed: "사용 중인 사용자 정의 코드입니다."
+    description: "커스텀 코드를 조회하거나 추가, 변경할 수 있습니다."
     duplicateCustomCodeName: "동일한 사용자 정의 코드 명이 존재합니다."
-    enterCustomCode: "사용자 정의 코드 명을 입력하세요."
+    enterCustomCode: "커스텀 코드 명을 입력하세요."
     enterPCode: "부모 코드를 입력하세요."
     enterSearchColumn: "검색 컬럼 명을 입력하세요."
     enterSearchTerm: "검색어를 입력하세요."
@@ -316,11 +320,14 @@ download:
 
 # Error
 error:
+  btn:
+    return: "이전 화면으로 돌아가기"
   label:
-    exceptionType: "예외 종류"
-    knownError: "정의된 에러"
-    message: "메시지"
-    path: "호출 URL"
+    error: "에러 페이지"
+    errorCode: "에러 코드"
+    topPhrase: "요청하신 페이지를 처리 중에 오류가 발생했습니다."
+    middlePhrase: "서비스 이용에 불편을 드려 죄송합니다."
+    bottomPhrase: "지속적인 장애가 발생할 경우 관리자에게 문의해주세요."
 
 # FAQ
 faq:
@@ -621,6 +628,8 @@ user:
   label:
     all: "전체"
     avatar: "아바타"
+    createUser: "사용자 등록"
+    customSetting: "맞춤설정"
     date: "날짜 유형"
     department: "부서"
     editUserInfo: "회원 정보 수정"
@@ -630,11 +639,12 @@ user:
     id: "아이디"
     lang: "언어"
     list: "사용자 목록"
-    mobileNumber: "핸드폰 번호"
+    mobileNumber: "휴대폰 번호"
     name: "이름"
     officeNumber: "사무실 번호"
     password: "비밀번호"
     position: "직책"
+    profile: "프로필"
     rePassword: "비밀번호 재확인"
     role: "사용자 역할"
     searchPlaceholder: "아이디/이름/직책/부서/전화번호"
@@ -643,11 +653,13 @@ user:
     time: "시간 유형"
     timeFormat: "날짜/시간 유형"
     timezone: "타임존"
-    usageStatus: "사용 여부"
+    usageStatus: "사용자 사용 여부"
     user: "사용자"
   msg:
     createUser: "사용자가 등록되었습니다."
     description: "사용자를 조회하거나 추가, 변경할 수 있습니다."
+    descriptionCreate: "사용자를 등록할 수 있습니다."
+    descriptionUpdate: "사용자의 정보를 수정합니다."
     emailAlert: "이메일 변경 시, 인증 절차가 필요합니다."
     emailWithUpdate: "이메일 정보를 포함한 회원 정보가 수정되었습니다."
     enterUserEmail: "이메일을 입력하세요."
@@ -660,6 +672,7 @@ user:
     sameUserId: "동일한 아이디가 존재합니다."
     signUp: "가입되었습니다.<br/>가입 시 등록한 메일에서 인증을 진행하세요."
     signUpFail: "가입 실패되었습니다."
+    usageStatus: "※ 미사용 시, 로그인 및 모든 시스템 사용이 불가능합니다."
   tooltip:
     idRule: "※ 영문,숫자,특수문자(@, ., -, _) 사용 가능.<br/>
     ※ 허용된 특수문자는 맨 앞에 올 수 없다.<br/>
@@ -693,7 +706,7 @@ validation:
     elementNotExist: "해당 엘리먼트 요소는 존재하지 않습니다."
     pwContainsEmail: "비밀번호에 이메일 아이디가 포함되어 있습니다."
     pwContainsId: "비밀번호에 아이디가 포함되어 있습니다."
-    pwContainsInnerMobileNumber: "비밀번호에 사용자의 핸드폰 번호가 포함되어 있습니다."
+    pwContainsInnerMobileNumber: "비밀번호에 사용자의 휴대폰 번호가 포함되어 있습니다."
     pwNotContainSpace: "비밀번호에 공백을 포함할 수 없습니다."
     pwOneBetween10And20: "1가지 문자 구성의 경우 10자~20자의 비밀번호를 설정해야 합니다."
     pwTwoBetween8And20: "2가지 문자 구성의 경우 8자~20자의 비밀번호를 설정해야 합니다."

@@ -1,33 +1,23 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>ERROR</title>
+    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
+    <title th:text="#{error.label.error}"></title>
 </head>
-<body>
-<table>
-    <tbody>
-    <tr>
-        <td th:text="#{common.label.title}"></td>
-        <td th:text="|${error} (${status})|"></td>
-    </tr>
-    <tr>
-        <td th:text="#{error.label.message}"></td>
-        <td th:text="${message}"></td>
-    </tr>
-    <tr>
-        <td th:text="#{error.label.path}"></td>
-        <td th:text="${path}"></td>
-    </tr>
-    <tr th:unless="${exceptionType} == null">
-        <td th:text="#{error.label.exceptionType}"></td>
-        <td th:text="${exceptionType}"></td>
-    </tr>
-    <tr th:unless="${knownError} == null">
-        <td th:text="#{common.label.knownError}"></td>
-        <td th:text="${knownError}"></td>
-    </tr>
-    </tbody>
-</table>
+<body class="error-body">
+<div class="error-div">
+    <div class="error-div-left">
+        <img th:src="@{/assets/media/image/error/error_caution.png}"/>
+    </div>
+    <div class="error-div-right">
+        <img th:src="@{/assets/media/image/error/error_logo_alice.png}" class="error-img">
+        <p th:text="#{error.label.topPhrase}" class="error-top-txt"/>
+        <p th:text="#{error.label.middlePhrase}" class="error-middle-txt"/>
+        <p th:text="|#{error.label.errorCode} : ${error} (${status})|" class="error-code-txt"/>
+        <p th:text="#{error.label.bottomPhrase}" class="error-bottom-txt"/>
+        <button th:text="#{error.btn.return}" class="error-btn" th:onclick="|javascript:history.go(-1)|"></button>
+    </div>
+</div>
 </body>
 </html>

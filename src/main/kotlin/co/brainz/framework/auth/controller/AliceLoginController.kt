@@ -1,11 +1,14 @@
 package co.brainz.framework.auth.controller
 
+import co.brainz.framework.auth.dto.AliceIpVerificationDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceIpVerificationService
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
@@ -31,6 +34,8 @@ class AliceLoginController(
     @Value("\${ip.access.control}")
     lateinit var ipAccessControlValue: String
 
+    private val userMapper: AliceUserAuthMapper = Mappers.getMapper(AliceUserAuthMapper::class.java)
+
     /**
      * 로그인 페이지로 이동한다.
      *
@@ -46,7 +51,11 @@ class AliceLoginController(
         var clientIp: String? = request.getHeader("X-Forwarded-For")
 
         if (ipAccessControlValue == "true") {
-            val ipList = aliceIpVerificationService.getIpList()
+            val _ipList = aliceIpVerificationService.getIpList()
+            val ipList = mutableListOf<AliceIpVerificationDto>()
+            for (_ip in _ipList) {
+                ipList.add(userMapper.toIpVerificationDto(_ip))
+            }
 
             // Client의 ip 정보를 확인한다.
             if (clientIp == null) {

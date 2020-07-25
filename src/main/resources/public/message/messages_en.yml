@@ -172,6 +172,7 @@ board:
     detail: "Board Detail"
     disable: "Disable"
     enable: "Enable"
+    list: "Board List"
     manager: "Board Manager"
     modify: "Board Modify"
     name: "Board Name"
@@ -189,6 +190,7 @@ board:
     enterBoardTitle: "Please enter the board name."
     enterCategoryName: "Please enter the category name."
     enterSortSize: "Please enter a sorting order of 100 or less."
+    description: "View, add, or edit board's information."
 
 # Code
 code:
@@ -215,6 +217,7 @@ customCode:
     condition: "Condition"
     customCode: "Custom Code"
     lastUpdateDate: "Last Update Date"
+    list: "Custom Code List"
     name: "Custom Code Name"
     pCode: "Parent Code"
     searchColumn: "Search Column Name"
@@ -225,6 +228,7 @@ customCode:
   msg:
     addCondition: "Only {0} or less can be added."
     customCodeUsed: "The Custom code is being used."
+    description: "View, add, or edit Custom Code's information."
     duplicateCustomCodeName: "The same custom code name exists."
     enterCustomCode: "Please enter a custom code name."
     enterPCode: "Please enter your parental code."
@@ -316,11 +320,14 @@ download:
 
 # Error
 error:
+  btn:
+    return: "RETURN TO PREVIOUS SCREEN"
   label:
-    exceptionType: "Exception Type"
-    knownError: "Known Error"
-    message: "Message"
-    path: "URL"
+    error: "Error Page"
+    errorCode: "Error Code"
+    topPhrase: "An error occurred while processing the requested page."
+    middlePhrase: "We are sorry for the inconvenience in using the service."
+    bottomPhrase: "In case of continuous failure, please contact the administrator."
 
 # FAQ
 faq:
@@ -621,12 +628,14 @@ user:
   label:
     all: "All"
     avatar: "Avatar"
+    createUser: "User Registration"
+    customSetting: "Custom Settings"
     date: "Date Format"
     department: "Department"
     editUserInfo: "Edit User Information"
     email: "Email"
-    FileExtensionAllowed: "File Extension Allowed : 200KB"
-    FileSizeLimit: "File Size Limit : 200KB"
+    FileExtensionAllowed: "※ File Extension Allowed : 200KB"
+    FileSizeLimit: "※ File Size Limit : 200KB"
     id: "User ID"
     lang: "Language"
     list: "User List"
@@ -635,6 +644,7 @@ user:
     officeNumber: "officeNumber"
     password: "Password"
     position: "Position"
+    profile: "Profile"
     rePassword: "rePassword"
     role: "User Role"
     searchPlaceholder: "ID/Name/Position/Dept/Number"
@@ -648,6 +658,8 @@ user:
   msg:
     createUser: "User is registered."
     description: "View, add, or edit user's information."
+    descriptionCreate: "Fill out the form to register the user."
+    descriptionUpdate: "Modify user information."
     emailAlert: "When you change your email, you need to verify."
     emailWithUpdate: "Member information, including email information, has been modified."
     enterUserEmail: "Please enter your Email."
@@ -660,6 +672,7 @@ user:
     sameUserId: "The same ID exists."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
+    usageStatus: "※ If not using it, you won't be able to log in and use all systems."
   tooltip:
     idRule: "※ Letters, numbers, and special characters (@, -, _) can be used.<br/>
     ※ Special characters can not be allowed to come to the front.<br/>
