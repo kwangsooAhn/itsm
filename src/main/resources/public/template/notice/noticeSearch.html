@@ -8,44 +8,41 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="wrap-screen">
-        <div class="container">
-            <div class="contents">
-                <div class="contents-title">
-                    <span class="title-txt" th:text="#{notice.label.list}"></span>
-                    <span class="title-description" th:text="#{notice.msg.description}"></span>
+    <div class="contents">
+        <div class="contents-title">
+            <span class="title-txt" th:text="#{notice.label.list}"></span>
+            <span class="title-description" th:text="#{notice.msg.description}"></span>
+        </div>
+        <div class="contents-body">
+            <div class="usermanage-menubar">
+                <div class="menubar-left">
+                    <input class="search" id="searchValue" type="text" maxlength="100"
+                           th:placeholder="#{notice.label.searchPlaceholder}"/>
+                    <span class="icon-search"></span>
+                    <input class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <span>~</span>
+                    <input class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
                 </div>
-                <div class="contents-body">
-                    <div class="usermanage-menubar">
-                        <div class="menubar-left">
-                            <input class="search" id="searchValue" type="text" maxlength="100"
-                                th:placeholder="#{notice.label.searchPlaceholder}"/>
-                            <span class="icon-search"></span>
-                            <input class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
-                            <span>~</span>
-                            <input class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
-                        </div>
-                        <div class="menubar-right">
-                            <button class="btn-add" onclick="location.href='/notices/new'"
-                                sec:authorize="hasAuthority('notice.create')"></button>
-                        </div>
-                    </div>
-                    <div class="list" id="noticeList"></div>
-                    <div class="menubar-bottom">
-                        <div class="paging">
-                            <ul>
-                                <li><span class="btn-prev"></span></li>
-                                <li><span class="btn-num">1</span></li>
-                                <li><span class="btn-num">2</span></li>
-                                <li><span class="btn-num">3</span></li>
-                                <li><span class="btn-num">···</span></li>
-                                <li><span class="btn-num">6</span></li>
-                                <li><span class="btn-next"></span></li>
-                            </ul>
-                        </div>
-                        <div class="list-count"><span>총:127건</span></div>
-                    </div>
+                <div class="menubar-right">
+                    <button class="btn-add" onclick="location.href='/notices/new'"
+                            sec:authorize="hasAuthority('notice.create')">
+                    </button>
                 </div>
+            </div>
+            <div class="list" id="noticeList"></div>
+            <div class="menubar-bottom">
+                <div class="paging">
+                    <ul>
+                        <li><span class="btn-prev"></span></li>
+                        <li><span class="btn-num">1</span></li>
+                        <li><span class="btn-num">2</span></li>
+                        <li><span class="btn-num">3</span></li>
+                        <li><span class="btn-num">···</span></li>
+                        <li><span class="btn-num">6</span></li>
+                        <li><span class="btn-next"></span></li>
+                    </ul>
+                </div>
+                <div class="list-count"><span>총:127건</span></div>
             </div>
         </div>
     </div>
