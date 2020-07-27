@@ -1,39 +1,32 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org"
+>
 <head>
-    <style>
-        .faqGroup {
-            font-weight: 700;
-            font-size: 1.25rem;
-            width: 100%;
-        }
-        .faqTitle {
-            font-weight: 400;
-            font-size: 1rem;
-            border-bottom: 1px solid #7fc4fd;
-            margin-left: 2rem;
-        }
-        .faqContent {
-            margin-left: 2rem;
-            display: inline-block;
-            font-style: italic;
-            color: #6c757d;
-        }
-        #highlight {
-            background-color: #f1f9ff;
-        }
-    </style>
+    <meta charset="UTF-8">
 </head>
 <body>
-<details class="faqGroup" th:each="faqGroup :${faqGroupList}" th:id="${faqGroup}">
-    <summary th:text="#{${faqGroup}}"></summary>
-    <details class="faqTitle" th:each="faqT :${faqs}" th:if="${faqT.faqGroup} == ${faqGroup}" th:id="${faqT.faqId}">
-        <summary th:text="${faqT.faqTitle}"></summary>
-        <div th:each="faqC : ${faqs}" th:if="${faqC.faqId} == ${faqT.faqId}" >
-            <p class="faqContent" th:text="${faqC.faqContent}"></p>
-        </div>
-    </details>
-</details>
+<div class="list-wrap">
+    <table>
+        <colgroup>
+            <col style="width: 1rem">
+            <col style="width: 1rem">
+        </colgroup>
+        <thead>
+        <tr>
+            <th th:text="#{faq.label.category}"></th>
+            <th th:text="#{faq.label.title}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#arrays.isEmpty(faqs)}">
+            <td colspan="2" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr th:unless="${#arrays.isEmpty(faqs)}" th:each="faq, i: ${faqs}">
+            <td th:text="#{${faq.faqGroup}}"></td>
+            <td th:text="${faq.faqTitle}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
