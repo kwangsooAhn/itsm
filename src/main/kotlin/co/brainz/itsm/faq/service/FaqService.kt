@@ -29,7 +29,7 @@ class FaqService(private val faqRepository: FaqRepository, private val messageSo
     /**
      * FAQ 목록을 조회한다.
      */
-    fun findAll(faqSearchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
+    fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
         return faqRepository.findFaqs(faqSearchRequestDto)
     }
 
