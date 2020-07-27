@@ -1212,6 +1212,44 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .list-wrap-auth-edit form-left {
   float: left;
 }
+
+.container .contents .list-wrap-edit table {
+	 margin: 0 0 10px 0;
+}
+.container .contents .list-wrap-edit table th {
+	 background: rgba(204, 211, 217, 0.1);
+	 text-align: left;
+}
+.container .contents .list-wrap-edit table tr .edit-name {
+	 width: 1000px;
+	 text-align: right;
+	 border-right: 1px solid #c8ced8;
+	 padding: 0 10px;
+}
+.container .contents .list-wrap-edit table tr .edit-date {
+	 width: 130px;
+	 padding: 0 10px;
+}
+.container .contents .list-wrap-edit table tr .edit-txtarea {
+	 height: 150px;
+	 min-height: 150px;
+	 padding: 10px;
+	 text-align: left;
+	 vertical-align: text-top;
+}
+.container .contents .list-wrap-edit table tr td.file-attachment {
+	 width: 80px;
+	 padding: 0 10px;
+	 border-right: 1px solid #c8ced8;
+}
+.container .contents .list-wrap-edit table tr td.file-attach-input {
+	 text-align: left;
+	 padding: 0 10px;
+}
+.container .contents .list-wrap-edit table tr:hover {
+	 background: none;
+}
+
 .container .contents .list-count {
   float: right;
   color: #67717F;
@@ -1227,6 +1265,20 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   height: 100%;
   padding: 90px 0 0 80px;
   background: #eaf1f7;
+}
+.container .btn {
+  display: inline-block;
+  font-size: 13px;
+  color: #0050ff;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid #0050ff;
+  text-align: center;
+}
+.container .btn:hover {
+  background: #0050ff;
+  color: #fff;
+  border: 1px solid #0050ff;
 }
 .container .btn-add {
   display: inline-block;
@@ -1249,6 +1301,17 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 .container .btn-info:hover {
   background: url("../icons/icon_info_select.png") no-repeat right;
+}
+.container .btn-gray {
+  padding: 7px 12px;
+  border: 1px solid #BEC5CE;
+  color: #3D4752;
+  border-radius: 2px;
+  font-size: 13px;
+}
+.container .btn-gray:hover {
+  background-color: #BEC5CE;
+  color: white;
 }
 
 /* Date compoent 기본 */
@@ -1338,3 +1401,13 @@ textarea {
   width: 695px;
   border: 1px solid #c8ced8;
 }
+
+/* 플롯 정렬 */
+.float-left{float: left;}
+.float-right{float: right;}
+.float-clear{clear: both;}
+
+/* 텍스트 정렬 */
+.align-center {text-align: center;}
+.align-left {text-align: left;}
+.align-right {text-align: right;}

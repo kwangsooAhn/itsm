@@ -4,13 +4,54 @@
     xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title>공지사항 리스트</title>
+    <title>공지사항 등록/수정</title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="container">
-        <br />
+    <div class="contents">
+        <div class="contents-title">
+            <span class="title-txt" th:text="#{menu.portal.notice}"></span>
+            <span class="title-description" th:text="#{notice.msg.description}"></span>
+        </div>
         <form id="frm" method="post">
+            <div class="contents-body">
+                <div class="usermanage-menubar">
+                    <div class="menubar-left">
+                        <input class="search" placeholder="아이디/이름/직책/부서/전화번호">
+                        <span class="icon-search"></span>
+                    </div>
+                    <div class="menubar-right">
+                        <span class="btn-add"></span>
+                    </div>
+                </div>
+                <div class="list">
+                    <div class="list-wrap-edit">
+                        <table>
+                            <tr>
+                                <th colspan="3">제목</th>
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="edit-name">작성자이름</td>
+                                <td class="edit-date">2020-07-17 14:45:56</td>
+                            </tr>
+                            <tr>
+                                <td class="edit-txtarea" colspan="3">본문</td>
+                            </tr>
+                            <tr>
+                                <td class="file-attachment">첨부파일</td>
+                                <td class="file-attach-input" colspan="2"><input class="notice-file-attach" type="file" aria-placeholder="첨부파일이 없습니다."></td>
+                            </tr>
+                        </table>
+                        <div class="menubar-bottom">
+                            <div class="float-right">
+                                <span class="btn-gray"><a href="#">목록</a></span>
+                                <span class="btn"><a href="#">수정</a></span>
+                                <span class="btn-gray"><a href="#">삭제</a></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <table class="table" border="1">
                 <tr>
                     <th th:text="#{common.label.title}"></th>

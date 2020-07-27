@@ -688,7 +688,7 @@ user:
 validation:
   msg:
     checkEmailFormat: "이메일 형식에 맞게 입력하세요."
-    checkRgbFormat: "RGB 형식에 맞게 입력하세요."
+    checkRgbFormat: "RGB 형식에 맞게 입력하세ㄱ요."
     checkUserIdFormat: "사용자 아이디 형식에 맞게 입력해주세요."
     elementNotExist: "해당 엘리먼트 요소는 존재하지 않습니다."
     pwContainsEmail: "비밀번호에 이메일 아이디가 포함되어 있습니다."
