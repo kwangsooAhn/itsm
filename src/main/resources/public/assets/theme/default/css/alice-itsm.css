@@ -17,13 +17,14 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
+time, mark, audio, video, input, select {
   margin: 0;
   padding: 0;
   border: 0;
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  box-sizing: border-box;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -137,7 +138,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 option:hover {
-  background-color: #F2F6FF;
+  background-color: rgba(0, 80, 255, 0.05);
 }
 option:visited {
   color: #0050ff;
@@ -157,11 +158,12 @@ select {
   border: 0.0625rem solid #C8CED8;
   border-radius: 0.0625rem;
   padding: 0 10px;
-  margin-left: 5px;
+  margin-right: 0.0625rem;
   vertical-align: middle;
 }
 select:focus {
-  border: 0.0625rem solid #0050ff;
+  outline: 0.0625rem solid #0050ff;
+  border-radius: 0.0625rem;
 }
 
 input {
@@ -171,11 +173,16 @@ input {
   border: 0.0625rem solid #C8CED8;
   border-radius: 0.0625rem;
   padding: 0 10px;
-  margin-left: 5px;
+  margin-right: 0.0625rem;
   vertical-align: middle;
 }
 input:focus {
-  border: 0.0625rem solid #0050ff;
+  outline: 0.0625rem solid #0050ff;
+  border-radius: 0.0625rem;
+}
+input.alice-date {
+  width: 8.125rem;
+  background: url("../icons/icon_calendar.png") no-repeat 6.25rem 0.4rem;
 }
 
 textarea {
