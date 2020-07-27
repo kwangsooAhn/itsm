@@ -23,7 +23,7 @@
         </tr>
         <tr th:unless="${#arrays.isEmpty(faqs)}" th:each="faq: ${faqs}">
             <td th:text="#{|common.code.${faq.faqGroup}|}"></td>
-            <td th:text="${faq.faqTitle}"></td>
+            <td class="align-left" th:text="${faq.faqTitle}"></td>
         </tr>
         </tbody>
     </table>
