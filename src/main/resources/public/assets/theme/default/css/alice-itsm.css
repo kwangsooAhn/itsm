@@ -253,9 +253,6 @@ textarea {
   background: white;
   padding: 4% 8%;
 }
-.container .contents .contents-search-body {
-  background: white;
-}
 .container .contents .menubar-left {
   float: left;
 }
@@ -712,6 +709,16 @@ textarea {
 }
 .container .btn-info:hover {
   background: url("../icons/icon_info_select.png") no-repeat right;
+}
+
+.contents-search-body {
+  background: white;
+  padding: 20px 45px;
+}
+.contents-search-body:after {
+  content: "";
+  display: block;
+  clear: both;
 }
 
 .paging {

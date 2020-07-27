@@ -12,8 +12,8 @@
             <span class="title-txt" th:text="#{token.label.list}"></span>
             <span class="title-description" th:text="#{token.msg.description}"></span>
         </div>
-        <div class="contents-search-body">
-            <div class="contents-left">
+        <div class="token-search">
+            <div class="menubar-left">
                 <form id="frmSearch">
                     <select name="searchTokenType" id="searchTokenType">
                         <option value="token.type.todo" th:text="#{token.type.todo}" selected />
@@ -31,11 +31,8 @@
                     <span id="totalCount"></span>
                 </form>
             </div>
-            <div class="contents-right">
-
-            </div>
         </div>
-        <div class="content-list" id="tokenList">
+        <div class="token-list" id="tokenList">
         </div>
     </div>
 </th:block>

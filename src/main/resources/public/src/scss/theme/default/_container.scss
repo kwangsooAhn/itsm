@@ -13,18 +13,12 @@
             .title-description {font-size: 15px; color:#94a6bf; font-weight: 400;}
         }
         .contents-body {background: rgba(255, 255, 255, 1); padding: 4% 8%;}
-        .contents-search-body {background: rgba(255, 255, 255, 1);}
 
         .menubar {
             &-left {float: left;}
             &-right {float: right;}
             &-bottom {display: inline-block; width: 100%;}
         }
-
-        // 2020-07-27 Jung Hee Chan
-        // 아래꺼로 사용하고 모두 교체하면 위에껀 삭제.
-        &-left {float: left;}
-        &-right {float: right;}
 
         // 사용자 정보
         .user-register-contents-body {
@@ -131,34 +125,6 @@
             .align-right {text-align: right;}
         }
 
-        // 2020-07-27 Jung Hee Chan
-        // 아래꺼로 사용하고 모두 교체하면 위에껀 삭제.
-        &-list {
-            clear: both;
-            & table {
-                width: 100%;
-                & span {display: block;margin-left: 30px;}
-                & tr {
-                    color: #67717f;font-size: 13px;border-bottom: 1px solid #d2d9e2;padding: 0 16px;
-                    th {
-                        height: 38px;color: #3e4752;font-size: 14px;border-bottom: 2px solid #d2d9e2;
-                        vertical-align: middle;border-top: 1px solid #d2d9e2;
-                    }
-                    td {height: 45px;vertical-align: middle;text-align: center;
-                        &:first-child{width:30px;}
-                    }
-                    &:hover {background: rgba(0, 80, 255, 0.05);}
-                    &:first-child {background: rgba(0, 80, 255, 0);}
-                }
-            }
-            // 리스트 출력용 아바타 이미지
-            .profile-photo {height:27px; width:27px; border-radius: 50%; background: rgba(240, 240, 240, 1); cursor: pointer;}
-            .tr-notice {background: rgba(255,255,0, 0.2);}
-            .align-center {text-align: center;}
-            .align-left {text-align: left;}
-            .align-right {text-align: right;}
-        }
-
         .search {
             width:305px;height:30px; background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
             padding: 0 10px; border: 1px solid rgba(200, 206, 216, 1); border-radius: 2px; font-size: 13px;
@@ -184,10 +150,6 @@
         }
         .list-count {float: right; color: #67717F; font-size: 13px; padding: 10px 10px;display: block;}
         .txt-num {color: #717B89;text-align: right;}
-
-        &-search {
-
-        }
     }
     &-close {height:100%; padding:90px 0 0 80px; background: rgba(234, 241, 247, 1);}
     .btn-add {
