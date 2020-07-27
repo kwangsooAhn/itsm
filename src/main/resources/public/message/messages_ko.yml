@@ -623,6 +623,7 @@ token:
     write: "처리할 문서"
   msg:
     tag: "태그를 입력하세요."
+    description: "나와 관련된 모든 문서를 조회합니다."
   type:
     completed: "완료된 문서"
     progress: "진행 중 문서"

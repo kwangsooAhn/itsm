@@ -1,2 +1,15 @@
 $icon-folder-path: "../icons/";
 $alice-primary:#0050ff !default;
+
+$color-line: #C8CED8;
+$color-title: #3E4752;
+$color-input-text: #67717F;
+
+$form-background-color: #FFFFFF;
+$form-line: $color-line;
+$form-border: 0.0625rem; // 1px
+$form-border-radius: 0.0625rem; // 1px
+$form-font-size: 0.875rem; // 14px
+$form-font-color: $color-input-text;
+
+$column-2: 13.75rem; // 220px
