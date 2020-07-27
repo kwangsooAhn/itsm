@@ -370,10 +370,12 @@ form:
     redo: "작업 재실행"
     saveExit: "저장하고 나가기"
     searchPlaceholder: "문서 양식 이름 / 문서 양식 설명"
+    state: "상태"
     templatesList: "템플릿 목록"
     undo: "작업 취소"
   msg:
     enterFormName: "문서 양식 이름을 입력하세요."
+    description: "문서 양식을 조회 하거나 추가, 변경 할 수 있습니다."
     failedFormDelete: "문서 양식을 삭제할 수 없습니다. 발행된 신청서가 있는 지 확인하세요."
     fileExtensionNotAllow: "IMPORT 파일은 {0} 확장자만 허용됩니다."
     fileNameDuplication: "동일한 파일 명이 존재합니다."

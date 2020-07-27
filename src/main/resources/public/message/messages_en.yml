@@ -370,10 +370,12 @@ form:
     redo: "Redo"
     saveExit: "Save and Exit"
     searchPlaceholder: "Form Name / Form Description"
+    state: "State"
     templatesList: "Templates List"
     undo: "Undo"
   msg:
     enterFormName: "Please enter a form name."
+    description: "View, add, or edit Form's information."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
     fileNameDuplication: "The same file name exists."
