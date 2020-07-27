@@ -1147,8 +1147,11 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .list table tr:hover {
   background: rgba(0, 80, 255, 0.05);
 }
-.container .contents .list table tr:first-child {
+.container .contents .list thead {
   background: rgba(0, 80, 255, 0);
+}
+.container .contents .list a {
+  cursor: pointer;
 }
 .container .contents .list .profile-photo {
   height: 27px;
@@ -1249,6 +1252,22 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 .container .btn-info:hover {
   background: url("../icons/icon_info_select.png") no-repeat right;
+}
+.container .btn-basic {
+  display: inline-block;
+  position: relative;
+  top: 5.5px;
+  cursor: pointer;
+  text-align: center;
+  padding: 3px 10px !important;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid #aaaaaa;
+  text-align: center;
+  color: #393e45;
+}
+.container .btn-basic:hover {
+  font-weight: 600;
 }
 
 /* Date compoent 기본 */
