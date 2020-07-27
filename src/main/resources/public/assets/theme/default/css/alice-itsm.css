@@ -1,14 +1,96 @@
 @charset "UTF-8";
-@import url("notification.css");
-body, h1, h2, h3, h4, h5, h6, input, textarea, select {
-  font-family: "Noto Sans KR", sans-serif;
-  font-size: 15px;
+/* 순서 변경에 유의할 것 */
+/* CSS Document */
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, input, select {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
 }
 
-/*
-   OTF/TTF는 Chrome 6+, Firefox 3.5, Opera 10+, Safari 3-5
-   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+ 
-*/
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+input, button, select, optgroup, textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
 @font-face {
   font-family: "Noto Sans KR";
   font-style: normal;
@@ -45,6 +127,75 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   font-weight: 900;
   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format("opentype");
 }
+body, h1, h2, h3, h4, h5, h6, input, textarea, select {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 15px;
+}
+
+/* Date compoent 기본 */
+.picker-wrapper-date {
+  display: inline;
+}
+
+option:hover {
+  background-color: rgba(0, 80, 255, 0.05);
+}
+option:visited {
+  color: #0050ff;
+  background-color: white;
+}
+option:active {
+  color: #0050ff;
+}
+option:focus {
+  color: #0050ff;
+}
+
+select {
+  height: 1.875rem;
+  color: #67717F;
+  font-size: 0.875rem;
+  border: 0.0625rem solid #C8CED8;
+  border-radius: 0.0625rem;
+  padding: 0 10px;
+  margin-right: 0.0625rem;
+  vertical-align: middle;
+}
+select:focus {
+  outline: 0.0625rem solid #0050ff;
+  border-radius: 0.0625rem;
+}
+
+input {
+  height: 1.875rem;
+  color: #67717F;
+  font-size: 0.875rem;
+  border: 0.0625rem solid #C8CED8;
+  border-radius: 0.0625rem;
+  padding: 0 10px;
+  margin-right: 0.0625rem;
+  vertical-align: middle;
+}
+input:focus {
+  outline: 0.0625rem solid #0050ff;
+  border-radius: 0.0625rem;
+}
+input.alice-date {
+  width: 8.125rem;
+  background: url("../icons/icon_calendar.png") no-repeat 6.25rem 0.4rem;
+}
+
+textarea {
+  margin: 10px 0 15px 0;
+  display: block;
+  border: 1px solid #C8CED8;
+  color: #67717F;
+}
+
+.column-2 {
+  width: 13.75rem;
+}
+
 .wrap-screen {
   position: relative;
   background: #eaf1f7;
@@ -370,11 +521,8 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .list table tr:hover {
   background: rgba(0, 80, 255, 0.05);
 }
-.container .contents .list thead {
+.container .contents .list table tr:first-child {
   background: rgba(0, 80, 255, 0);
-}
-.container .contents .list a {
-  cursor: pointer;
 }
 .container .contents .list .profile-photo {
   height: 27px;
@@ -476,110 +624,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .btn-info:hover {
   background: url("../icons/icon_info_select.png") no-repeat right;
 }
-.container .btn-basic {
-  display: inline-block;
-  position: relative;
-  top: 5.5px;
-  cursor: pointer;
-  text-align: center;
-  padding: 3px 10px !important;
-  padding: 10px;
-  border-radius: 2px;
-  border: 1px solid #aaaaaa;
-  text-align: center;
-  color: #393e45;
-}
-.container .btn-basic:hover {
-  font-weight: 600;
-}
-
-/* Date compoent 기본 */
-.picker-wrapper-date {
-  display: inline;
-}
-
-option:hover {
-  background-color: #F2F6FF;
-}
-option:visited {
-  color: #0050ff;
-  background-color: white;
-}
-option:active {
-  color: #0050ff;
-}
-option:focus {
-  color: #0050ff;
-}
-
-select:focus {
-  border: 1px solid #0050ff;
-}
-
-input {
-  border: 1px solid #c8ced8;
-}
-input:focus {
-  border: 1px solid #0050ff;
-}
-input.search {
-  width: 305px;
-  height: 30px;
-  background: url("../media/icons/icon_search.svg") no-repeat center right;
-  padding: 0 10px;
-  border-radius: 2px;
-  font-size: 13px;
-}
-input.user-register-input {
-  width: 340px;
-  height: 26px;
-  margin-top: 8px;
-  padding-left: 10px;
-  font-size: 14px;
-}
-input.auth-name {
-  width: 340px;
-  height: 30px;
-}
-input.auth-id {
-  width: 340px;
-  height: 30px;
-}
-input.auth-txt {
-  width: 340px;
-  height: 166px;
-}
-input.auth-list {
-  width: 340px;
-  height: 216px;
-  border: 1px solid #C8CED8;
-}
-input.auth-url {
-  width: 340px;
-  height: 216px;
-  border: 1px solid #C8CED8;
-}
-
-label.auth-name {
-  display: block;
-}
-label.auth-id {
-  display: inline-block;
-}
-label.auth-txt {
-  display: block;
-}
-label.auth-list {
-  display: block;
-}
-label.auth-url {
-  width: 340px;
-}
-
-textarea {
-  width: 695px;
-  border: 1px solid #c8ced8;
-}
 
 .paging {
   display: block;
@@ -632,6 +676,73 @@ textarea {
   background: rgba(64, 158, 230, 0.05) url("../icons/icon_paging_next_ov.svg") no-repeat center center;
   color: #0050ff;
   border: rgba(64, 158, 230, 0.05) 1px solid;
+}
+
+.token-list {
+  clear: both;
+}
+.token-list table {
+  width: 100%;
+}
+.token-list table span {
+  display: block;
+  margin-left: 30px;
+}
+.token-list table tr {
+  color: #67717f;
+  font-size: 13px;
+  border-bottom: 1px solid #d2d9e2;
+  padding: 0 16px;
+}
+.token-list table tr th {
+  height: 38px;
+  color: #3e4752;
+  font-size: 14px;
+  border-bottom: 2px solid #d2d9e2;
+  vertical-align: middle;
+  border-top: 1px solid #d2d9e2;
+}
+.token-list table tr td {
+  height: 45px;
+  vertical-align: middle;
+  text-align: center;
+}
+.token-list table tr td:first-child {
+  width: 30px;
+}
+.token-list table tr:hover {
+  background: rgba(0, 80, 255, 0.05);
+}
+.token-list table tr:first-child {
+  background: rgba(0, 80, 255, 0);
+}
+.token-list .profile-photo {
+  height: 27px;
+  width: 27px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  cursor: pointer;
+}
+.token-list .tr-notice {
+  background: rgba(255, 255, 0, 0.2);
+}
+.token-list .align-center {
+  text-align: center;
+}
+.token-list .align-left {
+  text-align: left;
+}
+.token-list .align-right {
+  text-align: right;
+}
+.token-search {
+  background: white;
+  padding: 20px 45px;
+}
+.token-search:after {
+  content: "";
+  display: block;
+  clear: both;
 }
 
 /* 상단 바 */
@@ -1157,4 +1268,118 @@ textarea {
   bottom: 60px;
 }
 
-/*# sourceMappingURL=alice-itsm.css.map */
+/* 알림 임시 css */
+.notification-menu img, .notification-menu button {
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.notification-menu .notification-container {
+  position: absolute;
+  border: 1px solid black;
+  background-color: white;
+  width: 420px;
+  top: 60px;
+  color: black;
+  display: none;
+  font-weight: normal;
+  font-size: 14px;
+}
+
+.notification-menu .notification-container .notification-header {
+  height: 46px;
+}
+
+.notification-menu .notification-container .notification-header hr {
+  margin: 0;
+}
+
+.notification-menu .notification-container .notification-header span.title {
+  padding: 15px 0 15px 10px;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.notification-menu .notification-container .notification-body {
+  overflow: auto;
+  max-height: 213px;
+}
+
+.notification-menu .notification-container .notification-body button {
+  float: right;
+}
+
+.notification-menu .notification-container .notification-body button.check {
+  background-image: url("/assets/media/icons/icon_check.png");
+}
+
+.notification-menu .notification-container .notification-body button.remove {
+  background-image: url("/assets/media/icons/icon_remove.png");
+}
+
+.notification-menu .notification-container .notification-body span.title:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.notification-menu .notification-container .notification-body .notification {
+  height: 71px;
+  border-bottom: 1px solid black;
+  padding: 11px;
+}
+
+.notification-menu .notification-container .notification-body .notification:last-child {
+  border-bottom: none;
+}
+
+.notification-menu .notification-container .notification-body .notification[is-confirm=false] {
+  background-color: #b3d7ff3b;
+}
+
+.notification-menu:hover .notification-container {
+  display: block;
+}
+
+.alice-toastify {
+  width: 410px;
+  height: 71px;
+  padding: 11px !important;
+}
+
+.alice-toastify .toast-close {
+  position: absolute;
+  top: 9px;
+  right: 11px;
+}
+
+.notification-content span.date {
+  font-size: 14px;
+  margin-left: 5px;
+  vertical-align: top;
+  line-height: 24px;
+}
+
+.notification-content span.title {
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 24px;
+  max-width: 190px;
+}
+
+.notification-content span.message {
+  font-size: 16px;
+  max-width: 390px;
+  line-height: 22px;
+}
+
+.text-ellipsis {
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
