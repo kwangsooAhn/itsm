@@ -12,29 +12,27 @@
             <span class="title-txt" th:text="#{token.label.list}"></span>
             <span class="title-description" th:text="#{token.msg.description}"></span>
         </div>
-        <div class="contents-body">
-            <div class="contents-search">
-                <div class="contents-left">
-                    <form id="frmSearch">
-                        <select name="searchTokenType" id="searchTokenType">
-                            <option value="token.type.todo" th:text="#{token.type.todo}" selected />
-                            <option value="token.type.requested" th:text="#{token.type.requested}" />
-                            <option value="token.type.progress" th:text="#{token.type.progress}" />
-                            <option value="token.type.completed" th:text="#{token.type.completed}" />
-                        </select>
-                        <select name="searchDocumentId" id="searchDocumentId">
-                            <option value="" th:text="#{token.label.all}" selected="selected" />
-                            <option th:each="document: ${documentList}" th:value="${document.documentId}" th:text="${document.documentName}" />
-                        </select>
-                        <input type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
-                        <input type="text" id="searchFromDt" name="searchFromDt" class="alice-date" readonly="readonly" />
-                        <input type="text" id="searchToDt" name="searchToDt" class="alice-date" readonly="readonly" />
-                        <span id="totalCount"></span>
-                    </form>
-                </div>
-                <div class="contents-right">
+        <div class="contents-search-body">
+            <div class="contents-left">
+                <form id="frmSearch">
+                    <select name="searchTokenType" id="searchTokenType">
+                        <option value="token.type.todo" th:text="#{token.type.todo}" selected />
+                        <option value="token.type.requested" th:text="#{token.type.requested}" />
+                        <option value="token.type.progress" th:text="#{token.type.progress}" />
+                        <option value="token.type.completed" th:text="#{token.type.completed}" />
+                    </select>
+                    <select name="searchDocumentId" id="searchDocumentId">
+                        <option value="" th:text="#{token.label.all}" selected="selected" />
+                        <option th:each="document: ${documentList}" th:value="${document.documentId}" th:text="${document.documentName}" />
+                    </select>
+                    <input type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
+                    <input type="text" id="searchFromDt" name="searchFromDt" class="alice-date" readonly="readonly" />
+                    <input type="text" id="searchToDt" name="searchToDt" class="alice-date" readonly="readonly" />
+                    <span id="totalCount"></span>
+                </form>
+            </div>
+            <div class="contents-right">
 
-                </div>
             </div>
         </div>
         <div class="content-list" id="tokenList">
