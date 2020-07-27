@@ -1514,7 +1514,7 @@
                              let parentElem =  elem.parentNode;
                             if (changeElem.type === 'range') {
                                 parentElem =  elem.parentNode.parentNode;
-                                const slider = parentElem.querySelector('input[type="range"]');
+                                const slider = parentElem.querySelector('input[type="text"]');
                                 slider.value = elem.value;
                             }
                             const changePropertiesArr = parentElem.id.split('-');

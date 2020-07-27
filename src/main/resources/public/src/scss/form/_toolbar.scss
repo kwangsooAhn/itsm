@@ -13,7 +13,7 @@
         width: $toolbar-logo-width;
         height: $toolbar-real-height;
         float: left;
-        @include background("#{$asset-path}/form/topmenu/logo.png");
+        @include background("topmenu/logo.png");
     }
 
     span.name { // 문구

@@ -41,83 +41,83 @@
                     cursor: pointer;
                 }
             }
-            &.inputbox div a { @include background("#{$asset-path}/form/context-menu/inputbox.png"); }
-            &.textarea div a { @include background("#{$asset-path}/form/context-menu/textbox.png"); }
-            &.dropdown div a { @include background("#{$asset-path}/form/context-menu/dropdown.png"); }
-            &.radio div a { @include background("#{$asset-path}/form/context-menu/radio.png"); }
-            &.checkbox div a { @include background("#{$asset-path}/form/context-menu/checkbox.png"); }
-            &.label div a { @include background("#{$asset-path}/form/context-menu/label.png"); }
-            &.image div a { @include background("#{$asset-path}/form/context-menu/image.png"); }
-            &.divider div a { @include background("#{$asset-path}/form/context-menu/divider.png"); }
-            &.date div a { @include background("#{$asset-path}/form/context-menu/date.png"); }
-            &.time div a { @include background("#{$asset-path}/form/context-menu/time.png"); }
-            &.datetime div a { @include background("#{$asset-path}/form/context-menu/datetime.png"); }
-            &.fileupload div a { @include background("#{$asset-path}/form/context-menu/fileupload.png"); }
-            &.custom-code div a { @include background("#{$asset-path}/form/context-menu/custom-code.png"); }
+            &.inputbox div a { @include background("context-menu/inputbox.png"); }
+            &.textarea div a { @include background("context-menu/textbox.png"); }
+            &.dropdown div a { @include background("context-menu/dropdown.png"); }
+            &.radio div a { @include background("context-menu/radio.png"); }
+            &.checkbox div a { @include background("context-menu/checkbox.png"); }
+            &.label div a { @include background("context-menu/label.png"); }
+            &.image div a { @include background("context-menu/image.png"); }
+            &.divider div a { @include background("context-menu/divider.png"); }
+            &.date div a { @include background("context-menu/date.png"); }
+            &.time div a { @include background("context-menu/time.png"); }
+            &.datetime div a { @include background("context-menu/datetime.png"); }
+            &.fileupload div a { @include background("context-menu/fileupload.png"); }
+            &.custom-code div a { @include background("context-menu/custom-code.png"); }
             // 마우스 오버, 선택시 아이콘 변경
             &.inputbox.active, &.inputbox:hover { 
                 div a { 
-                    background-image: url("#{$asset-path}/form/context-menu/inputbox_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/inputbox_select.png"); 
                 }
             }
             &.textarea.active, &.textarea:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/textbox_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/textbox_select.png"); 
                 }
             }
             &.dropdown.active, &.dropdown:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/dropdown_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/dropdown_select.png"); 
                 }
             }
             &.radio.active, &.radio:hover {
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/radio_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/radio_select.png"); 
                 }
             }
             &.checkbox.active, &.checkbox:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/checkbox_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/checkbox_select.png"); 
                 }
             }
             &.label.active, &.label:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/label_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/label_select.png"); 
                 }
             }
             &.image.active, &.image:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/image_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/image_select.png"); 
                 }
             }
             &.divider.active, &.divider:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/divider_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/divider_select.png"); 
                 }
             }
             &.date.active, &.date:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/date_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/date_select.png"); 
                 }
             }
             &.time.active, &.time:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/time_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/time_select.png"); 
                 }
             }
             &.datetime.active, &.datetime:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/datetime_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/datetime_select.png"); 
                 }
             }
             &.fileupload.active, &.fileupload:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/fileupload_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/fileupload_select.png"); 
                 }
             }
             &.custom-code.active, &.custom-code:hover { 
                 div a {
-                    background-image: url("#{$asset-path}/form/context-menu/custom-code_select.png"); 
+                    background-image: url("#{$form-asset-path}/context-menu/custom-code_select.png"); 
                 }
             }
         }

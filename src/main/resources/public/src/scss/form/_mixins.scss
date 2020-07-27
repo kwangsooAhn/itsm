@@ -15,7 +15,7 @@
     background-size: initial;
     background-repeat: no-repeat;
     background-position: center center;
-    background-image: url($path);
+    background-image: url("#{$form-asset-path}/" + $path);
 }
 
 @mixin scrollbar-hidden { // 스크롤은 동작하되 스크롤바는 숨김

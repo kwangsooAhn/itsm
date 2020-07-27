@@ -1,5 +1,96 @@
 @charset "UTF-8";
-@import url(reset.css);
+/* CSS Document */
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+input, button, select, optgroup, textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
+/* Form Designer Default Font Setting */
 @font-face {
   font-family: "Noto Sans";
   src: url(font/NotoSansKR-Regular.woff) format("woff");
@@ -18,14 +109,7 @@
   font-weight: 500;
 }
 
-*,
-*::before,
-*::after {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
-
-body {
+body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   color: #000000;
   font-family: "Noto Sans";
   font-size: 0.688rem;
@@ -33,6 +117,13 @@ body {
 }
 
 /* 전체 layout */
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
 .container {
   width: 100vw;
   height: 100vh;
@@ -169,7 +260,7 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/topmenu/logo.png");
+  background-image: url("../../media/icons/form/topmenu/logo.png");
 }
 
 .toolbar span.name {
@@ -242,7 +333,7 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_move.png");
+  background-image: url("../../media/icons/form/editor/icon_move.png");
 }
 
 .component .field-group {
@@ -460,8 +551,16 @@ body {
   background: #0050ff;
   width: 0.125rem;
   height: 0.125rem;
-  -webkit-box-shadow: 0.125rem 0 0 #0050ff,  0.25rem 0 0 #0050ff,  0.25rem -0.125rem 0 #0050ff,  0.25rem -0.25rem 0 #0050ff,  0.25rem -0.375rem 0 #0050ff;
-          box-shadow: 0.125rem 0 0 #0050ff,  0.25rem 0 0 #0050ff,  0.25rem -0.125rem 0 #0050ff,  0.25rem -0.25rem 0 #0050ff,  0.25rem -0.375rem 0 #0050ff;
+  -webkit-box-shadow: 0.125rem 0 0 #0050ff, 
+ 0.25rem 0 0 #0050ff, 
+ 0.25rem -0.125rem 0 #0050ff, 
+ 0.25rem -0.25rem 0 #0050ff, 
+ 0.25rem -0.375rem 0 #0050ff;
+          box-shadow: 0.125rem 0 0 #0050ff, 
+ 0.25rem 0 0 #0050ff, 
+ 0.25rem -0.125rem 0 #0050ff, 
+ 0.25rem -0.25rem 0 #0050ff, 
+ 0.25rem -0.375rem 0 #0050ff;
   -webkit-transform: rotate(45deg);
           transform: rotate(45deg);
 }
@@ -513,7 +612,7 @@ body {
 }
 
 .component .field-group .field-content .img-placeholder img {
-  content: url("../media/icons/form/editor/icon_image.png");
+  content: url("../../media/icons/form/editor/icon_image.png");
 }
 
 .component .field-group .field-content .img-placeholder p {
@@ -599,44 +698,44 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/tooltip-menu/add.png");
+  background-image: url("../../media/icons/form/tooltip-menu/add.png");
 }
 
 .component .tooltip-menu .menu .menu-item.copy a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/tooltip-menu/copy.png");
+  background-image: url("../../media/icons/form/tooltip-menu/copy.png");
 }
 
 .component .tooltip-menu .menu .menu-item.delete a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/tooltip-menu/delete.png");
+  background-image: url("../../media/icons/form/tooltip-menu/delete.png");
 }
 
 .component .tooltip-menu .menu .menu-item.add a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/tooltip-menu/new.png");
+  background-image: url("../../media/icons/form/tooltip-menu/new.png");
 }
 
 .component .tooltip-menu .menu .menu-item.list:hover a {
-  background-image: url("../media/icons/form/tooltip-menu/add_select.png");
+  background-image: url("tooltip-menu/add_select.png");
 }
 
 .component .tooltip-menu .menu .menu-item.copy:hover a {
-  background-image: url("../media/icons/form/tooltip-menu/copy_select.png");
+  background-image: url("tooltip-menu/copy_select.png");
 }
 
 .component .tooltip-menu .menu .menu-item.delete:hover a {
-  background-image: url("../media/icons/form/tooltip-menu/delete_select.png");
+  background-image: url("tooltip-menu/delete_select.png");
 }
 
 .component .tooltip-menu .menu .menu-item.add:hover a {
-  background-image: url("../media/icons/form/tooltip-menu/new_select.png");
+  background-image: url("tooltip-menu/new_select.png");
 }
 
 .component .tooltip-menu .menu-item.list {
@@ -790,143 +889,143 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/inputbox.png");
+  background-image: url("../../media/icons/form/context-menu/inputbox.png");
 }
 
 .context-menu .menu .menu-item.textarea div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/textbox.png");
+  background-image: url("../../media/icons/form/context-menu/textbox.png");
 }
 
 .context-menu .menu .menu-item.dropdown div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/dropdown.png");
+  background-image: url("../../media/icons/form/context-menu/dropdown.png");
 }
 
 .context-menu .menu .menu-item.radio div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/radio.png");
+  background-image: url("../../media/icons/form/context-menu/radio.png");
 }
 
 .context-menu .menu .menu-item.checkbox div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/checkbox.png");
+  background-image: url("../../media/icons/form/context-menu/checkbox.png");
 }
 
 .context-menu .menu .menu-item.label div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/label.png");
+  background-image: url("../../media/icons/form/context-menu/label.png");
 }
 
 .context-menu .menu .menu-item.image div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/image.png");
+  background-image: url("../../media/icons/form/context-menu/image.png");
 }
 
 .context-menu .menu .menu-item.divider div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/divider.png");
+  background-image: url("../../media/icons/form/context-menu/divider.png");
 }
 
 .context-menu .menu .menu-item.date div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/date.png");
+  background-image: url("../../media/icons/form/context-menu/date.png");
 }
 
 .context-menu .menu .menu-item.time div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/time.png");
+  background-image: url("../../media/icons/form/context-menu/time.png");
 }
 
 .context-menu .menu .menu-item.datetime div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/datetime.png");
+  background-image: url("../../media/icons/form/context-menu/datetime.png");
 }
 
 .context-menu .menu .menu-item.fileupload div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/fileupload.png");
+  background-image: url("../../media/icons/form/context-menu/fileupload.png");
 }
 
 .context-menu .menu .menu-item.custom-code div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/context-menu/custom-code.png");
+  background-image: url("../../media/icons/form/context-menu/custom-code.png");
 }
 
 .context-menu .menu .menu-item.inputbox.active div a, .context-menu .menu .menu-item.inputbox:hover div a {
-  background-image: url("../media/icons/form/context-menu/inputbox_select.png");
+  background-image: url("../../media/icons/form/context-menu/inputbox_select.png");
 }
 
 .context-menu .menu .menu-item.textarea.active div a, .context-menu .menu .menu-item.textarea:hover div a {
-  background-image: url("../media/icons/form/context-menu/textbox_select.png");
+  background-image: url("../../media/icons/form/context-menu/textbox_select.png");
 }
 
 .context-menu .menu .menu-item.dropdown.active div a, .context-menu .menu .menu-item.dropdown:hover div a {
-  background-image: url("../media/icons/form/context-menu/dropdown_select.png");
+  background-image: url("../../media/icons/form/context-menu/dropdown_select.png");
 }
 
 .context-menu .menu .menu-item.radio.active div a, .context-menu .menu .menu-item.radio:hover div a {
-  background-image: url("../media/icons/form/context-menu/radio_select.png");
+  background-image: url("../../media/icons/form/context-menu/radio_select.png");
 }
 
 .context-menu .menu .menu-item.checkbox.active div a, .context-menu .menu .menu-item.checkbox:hover div a {
-  background-image: url("../media/icons/form/context-menu/checkbox_select.png");
+  background-image: url("../../media/icons/form/context-menu/checkbox_select.png");
 }
 
 .context-menu .menu .menu-item.label.active div a, .context-menu .menu .menu-item.label:hover div a {
-  background-image: url("../media/icons/form/context-menu/label_select.png");
+  background-image: url("../../media/icons/form/context-menu/label_select.png");
 }
 
 .context-menu .menu .menu-item.image.active div a, .context-menu .menu .menu-item.image:hover div a {
-  background-image: url("../media/icons/form/context-menu/image_select.png");
+  background-image: url("../../media/icons/form/context-menu/image_select.png");
 }
 
 .context-menu .menu .menu-item.divider.active div a, .context-menu .menu .menu-item.divider:hover div a {
-  background-image: url("../media/icons/form/context-menu/divider_select.png");
+  background-image: url("../../media/icons/form/context-menu/divider_select.png");
 }
 
 .context-menu .menu .menu-item.date.active div a, .context-menu .menu .menu-item.date:hover div a {
-  background-image: url("../media/icons/form/context-menu/date_select.png");
+  background-image: url("../../media/icons/form/context-menu/date_select.png");
 }
 
 .context-menu .menu .menu-item.time.active div a, .context-menu .menu .menu-item.time:hover div a {
-  background-image: url("../media/icons/form/context-menu/time_select.png");
+  background-image: url("../../media/icons/form/context-menu/time_select.png");
 }
 
 .context-menu .menu .menu-item.datetime.active div a, .context-menu .menu .menu-item.datetime:hover div a {
-  background-image: url("../media/icons/form/context-menu/datetime_select.png");
+  background-image: url("../../media/icons/form/context-menu/datetime_select.png");
 }
 
 .context-menu .menu .menu-item.fileupload.active div a, .context-menu .menu .menu-item.fileupload:hover div a {
-  background-image: url("../media/icons/form/context-menu/fileupload_select.png");
+  background-image: url("../../media/icons/form/context-menu/fileupload_select.png");
 }
 
 .context-menu .menu .menu-item.custom-code.active div a, .context-menu .menu .menu-item.custom-code:hover div a {
-  background-image: url("../media/icons/form/context-menu/custom-code_select.png");
+  background-image: url("../../media/icons/form/context-menu/custom-code_select.png");
 }
 
 .context-menu.on {
@@ -1155,14 +1254,14 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_option_minus.png");
+  background-image: url("../../media/icons/form/editor/icon_option_minus.png");
 }
 
 .property-group .property-group-option button[class="plus"] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_option_plus.png");
+  background-image: url("../../media/icons/form/editor/icon_option_plus.png");
 }
 
 .property-group .property-field {
@@ -1348,22 +1447,22 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_left.png");
+  background-image: url("../../media/icons/form/editor/icon_left.png");
 }
 
 .property-group .property-field[id="display-position"] div.property-field-icon button[id="right"] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_right.png");
+  background-image: url("../../media/icons/form/editor/icon_right.png");
 }
 
 .property-group .property-field[id="display-position"] div.property-field-icon button[id="left"].active {
-  background-image: url("../media/icons/form/editor/icon_left_select.png");
+  background-image: url("../../media/icons/form/editor/icon_left_select.png");
 }
 
 .property-group .property-field[id="display-position"] div.property-field-icon button[id="right"].active {
-  background-image: url("../media/icons/form/editor/icon_right_select.png");
+  background-image: url("../../media/icons/form/editor/icon_right_select.png");
 }
 
 .property-group .property-field[id="display-align"] div.property-field-icon button[id="left"] {
@@ -1371,33 +1470,33 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_align_left.png");
+  background-image: url("../../media/icons/form/editor/icon_align_left.png");
 }
 
 .property-group .property-field[id="display-align"] div.property-field-icon button[id="center"] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_align_center.png");
+  background-image: url("../../media/icons/form/editor/icon_align_center.png");
 }
 
 .property-group .property-field[id="display-align"] div.property-field-icon button[id="right"] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_align_right.png");
+  background-image: url("../../media/icons/form/editor/icon_align_right.png");
 }
 
 .property-group .property-field[id="display-align"] div.property-field-icon button[id="left"].active {
-  background-image: url("../media/icons/form/editor/icon_align_left_select.png");
+  background-image: url("../../media/icons/form/editor/icon_align_left_select.png");
 }
 
 .property-group .property-field[id="display-align"] div.property-field-icon button[id="center"].active {
-  background-image: url("../media/icons/form/editor/icon_align_center_select.png");
+  background-image: url("../../media/icons/form/editor/icon_align_center_select.png");
 }
 
 .property-group .property-field[id="display-align"] div.property-field-icon button[id="right"].active {
-  background-image: url("../media/icons/form/editor/icon_align_right_select.png");
+  background-image: url("../../media/icons/form/editor/icon_align_right_select.png");
 }
 
 .property-group .property-field input[type=range] {
@@ -1608,33 +1707,33 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_bold.png");
+  background-image: url("../../media/icons/form/editor/icon_bold.png");
 }
 
 .property-group .property-field div.property-field-button button[id="italic"] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_italic.png");
+  background-image: url("../../media/icons/form/editor/icon_italic.png");
 }
 
 .property-group .property-field div.property-field-button button[id="underline"] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_underline.png");
+  background-image: url("../../media/icons/form/editor/icon_underline.png");
 }
 
 .property-group .property-field div.property-field-button button[id="bold"].active {
-  background-image: url("../media/icons/form/editor/icon_bold_select.png");
+  background-image: url("../../media/icons/form/editor/icon_bold_select.png");
 }
 
 .property-group .property-field div.property-field-button button[id="italic"].active {
-  background-image: url("../media/icons/form/editor/icon_italic_select.png");
+  background-image: url("../../media/icons/form/editor/icon_italic_select.png");
 }
 
 .property-group .property-field div.property-field-button button[id="underline"].active {
-  background-image: url("../media/icons/form/editor/icon_underline_select.png");
+  background-image: url("../../media/icons/form/editor/icon_underline_select.png");
 }
 
 .property-group .property-field div.property-field-button div {
@@ -1653,33 +1752,33 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_align_left.png");
+  background-image: url("../../media/icons/form/editor/icon_align_left.png");
 }
 
 .property-group .property-field div.property-field-button div button[id="center"] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_align_center.png");
+  background-image: url("../../media/icons/form/editor/icon_align_center.png");
 }
 
 .property-group .property-field div.property-field-button div button[id="right"] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_align_right.png");
+  background-image: url("../../media/icons/form/editor/icon_align_right.png");
 }
 
 .property-group .property-field div.property-field-button div button[id="left"].active {
-  background-image: url("../media/icons/form/editor/icon_align_left_select.png");
+  background-image: url("../../media/icons/form/editor/icon_align_left_select.png");
 }
 
 .property-group .property-field div.property-field-button div button[id="center"].active {
-  background-image: url("../media/icons/form/editor/icon_align_center_select.png");
+  background-image: url("../../media/icons/form/editor/icon_align_center_select.png");
 }
 
 .property-group .property-field div.property-field-button div button[id="right"].active {
-  background-image: url("../media/icons/form/editor/icon_align_right_select.png");
+  background-image: url("../../media/icons/form/editor/icon_align_right_select.png");
 }
 
 .property-group .property-field[id="display-default"] .property-name {
@@ -1751,7 +1850,7 @@ body {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_search.png");
+  background-image: url("../../media/icons/form/editor/icon_search.png");
 }
 
 .property-group .property-field div.property-field-image button:focus {

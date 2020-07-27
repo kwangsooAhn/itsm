@@ -186,8 +186,8 @@
             padding: 0;
         }
         // 옵션 버튼
-        button[class="minus"] { @include background("#{$asset-path}/form/editor/icon_option_minus.png"); }
-        button[class="plus"] { @include background("#{$asset-path}/form/editor/icon_option_plus.png"); }
+        button[class="minus"] { @include background("editor/icon_option_minus.png"); }
+        button[class="plus"] { @include background("editor/icon_option_plus.png"); }
     }
 
     // 하위 속성
@@ -324,11 +324,11 @@
             div.property-field-icon {
                 button[id="left"] {
                     border-left-width: 0.0625rem;
-                    @include background("#{$asset-path}/form/editor/icon_left.png"); 
+                    @include background("editor/icon_left.png"); 
                 }
-                button[id="right"] { @include background("#{$asset-path}/form/editor/icon_right.png"); }
-                button[id="left"].active { background-image: url("#{$asset-path}/form/editor/icon_left_select.png"); }
-                button[id="right"].active { background-image: url("#{$asset-path}/form/editor/icon_right_select.png"); }
+                button[id="right"] { @include background("editor/icon_right.png"); }
+                button[id="left"].active { background-image: url("#{$form-asset-path}/editor/icon_left_select.png"); }
+                button[id="right"].active { background-image: url("#{$form-asset-path}/editor/icon_right_select.png"); }
             }
         }
 
@@ -336,14 +336,14 @@
             div.property-field-icon {
                 button[id="left"] {
                     border-left-width: 0.0625rem;
-                    @include background("#{$asset-path}/form/editor/icon_align_left.png"); 
+                    @include background("editor/icon_align_left.png"); 
                 }
 
-                button[id="center"] { @include background("#{$asset-path}/form/editor/icon_align_center.png"); }
-                button[id="right"] { @include background("#{$asset-path}/form/editor/icon_align_right.png"); }
-                button[id="left"].active { background-image: url("#{$asset-path}/form/editor/icon_align_left_select.png"); }
-                button[id="center"].active { background-image: url("#{$asset-path}/form/editor/icon_align_center_select.png"); }
-                button[id="right"].active { background-image: url("#{$asset-path}/form/editor/icon_align_right_select.png"); }
+                button[id="center"] { @include background("editor/icon_align_center.png"); }
+                button[id="right"] { @include background("editor/icon_align_right.png"); }
+                button[id="left"].active { background-image: url("#{$form-asset-path}/editor/icon_align_left_select.png"); }
+                button[id="center"].active { background-image: url("#{$form-asset-path}/editor/icon_align_center_select.png"); }
+                button[id="right"].active { background-image: url("#{$form-asset-path}/editor/icon_align_right_select.png"); }
             }
         }
 
@@ -521,14 +521,14 @@
             }
             button[id="bold"] { 
                 border-left-width: 0.0625rem;
-                @include background("#{$asset-path}/form/editor/icon_bold.png");
+                @include background("editor/icon_bold.png");
             }
-            button[id="italic"] { @include background("#{$asset-path}/form/editor/icon_italic.png"); }
-            button[id="underline"] { @include background("#{$asset-path}/form/editor/icon_underline.png"); }
+            button[id="italic"] { @include background("editor/icon_italic.png"); }
+            button[id="underline"] { @include background("editor/icon_underline.png"); }
 
-            button[id="bold"].active { background-image: url("#{$asset-path}/form/editor/icon_bold_select.png"); }
-            button[id="italic"].active { background-image: url("#{$asset-path}/form/editor/icon_italic_select.png"); }
-            button[id="underline"].active { background-image: url("#{$asset-path}/form/editor/icon_underline_select.png"); }
+            button[id="bold"].active { background-image: url("#{$form-asset-path}/editor/icon_bold_select.png"); }
+            button[id="italic"].active { background-image: url("#{$form-asset-path}/editor/icon_italic_select.png"); }
+            button[id="underline"].active { background-image: url("#{$form-asset-path}/editor/icon_underline_select.png"); }
 
             div {
                 display: inline-flex;
@@ -539,15 +539,15 @@
                 
                 button[id="left"] {
                     border-left-width: 0.0625rem;
-                    @include background("#{$asset-path}/form/editor/icon_align_left.png"); 
+                    @include background("editor/icon_align_left.png"); 
                 }
 
-                button[id="center"] { @include background("#{$asset-path}/form/editor/icon_align_center.png"); }
-                button[id="right"] { @include background("#{$asset-path}/form/editor/icon_align_right.png"); }
+                button[id="center"] { @include background("editor/icon_align_center.png"); }
+                button[id="right"] { @include background("editor/icon_align_right.png"); }
 
-                button[id="left"].active { background-image: url("#{$asset-path}/form/editor/icon_align_left_select.png"); }
-                button[id="center"].active { background-image: url("#{$asset-path}/form/editor/icon_align_center_select.png"); }
-                button[id="right"].active { background-image: url("#{$asset-path}/form/editor/icon_align_right_select.png"); }
+                button[id="left"].active { background-image: url("#{$form-asset-path}/editor/icon_align_left_select.png"); }
+                button[id="center"].active { background-image: url("#{$form-asset-path}/editor/icon_align_center_select.png"); }
+                button[id="right"].active { background-image: url("#{$form-asset-path}/editor/icon_align_right_select.png"); }
             }
         }
 
@@ -598,7 +598,7 @@
                 flex: 1 1 auto;
                 width: 1.875rem; // 30px
                 border: 0.0625rem solid $properties-border-color;
-                @include background("#{$asset-path}/form/editor/icon_search.png");
+                @include background("editor/icon_search.png");
                 &:focus {
                     outline: none !important;
                 }
