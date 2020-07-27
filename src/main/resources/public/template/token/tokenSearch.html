@@ -4,94 +4,36 @@
       layout:decorator="layout/defaultLayout">
 <head>
     <meta charset="UTF-8">
-    <style>
-        /* 임시 CSS */
-        form > select {
-            width: 250px;
-            height: 30px;
-            padding: 1px 2px;
-        }
-        form > span#totalCount {
-            display: inline-block;
-            float: right;
-            width: 100px;
-            height: 20px;
-            text-align: right;
-        }
-
-        div.document {
-            width: 100%;
-            border: 2px solid lightgrey;
-            display: flex;
-            margin: 30px 0;
-        }
-
-        div.document > div.document-color {
-            width: 20px;
-        }
-
-        div.document > div.document-content {
-            display: flex;
-            padding: 20px;
-        }
-
-        div.document > div.document-content > span {
-            float: left;
-            margin: auto;
-        }
-
-        div.document-content > span.document-name {
-            width: 300px;
-        }
-        div.document-content > span.document-name > span:first-child {
-            font-weight: bolder;
-            font-size: 1.1rem;
-        }
-        div.document-content > span.document-topic {
-            width: 400px;
-        }
-        div.document-content > span.document-user {
-            width: 150px;
-            text-align: center;
-        }
-        div.document-content > span.document-create-dt {
-            width: 150px;
-            text-align: center;
-        }
-        div.document-content > span.document-status {
-            width: 100px;
-            text-align: center;
-        }
-        div.document-content > span.document-tag {
-            width: 150px;
-            text-align: right;
-        }
-    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <h1 th:text="#{token.label.list}"></h1>
-        <hr>
-        <div>
-            <form id="frmSearch">
-                <select name="searchTokenType" id="searchTokenType">
-                    <option value="token.type.todo" th:text="#{token.type.todo}" selected />
-                    <option value="token.type.requested" th:text="#{token.type.requested}" />
-                    <option value="token.type.progress" th:text="#{token.type.progress}" />
-                    <option value="token.type.completed" th:text="#{token.type.completed}" />
-                </select>
-                <select name="searchDocumentId" id="searchDocumentId">
-                    <option value="" th:text="#{token.label.all}" selected="selected" />
-                    <option th:each="document: ${documentList}" th:value="${document.documentId}" th:text="${document.documentName}" />
-                </select>
-                <input type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
-                <input type="text" id="searchFromDt" name="searchFromDt" class="alice-date" readonly="readonly" />
-                <input type="text" id="searchToDt" name="searchToDt" class="alice-date" readonly="readonly" />
-                <span id="totalCount"></span>
-            </form>
+    <div class="contents">
+        <div class="contents-title">
+            <span class="title-txt" th:text="#{token.label.list}"></span>
+            <span class="title-description" th:text="#{token.msg.description}"></span>
         </div>
-        <div id="tokenList" style="margin-top: 20px"></div>
+        <div class="token-search">
+            <div class="menubar-left">
+                <form id="frmSearch">
+                    <select class="column-2" name="searchTokenType" id="searchTokenType">
+                        <option value="token.type.todo" th:text="#{token.type.todo}" selected />
+                        <option value="token.type.requested" th:text="#{token.type.requested}" />
+                        <option value="token.type.progress" th:text="#{token.type.progress}" />
+                        <option value="token.type.completed" th:text="#{token.type.completed}" />
+                    </select>
+                    <select class="column-2" name="searchDocumentId" id="searchDocumentId">
+                        <option value="" th:text="#{token.label.all}" selected="selected" />
+                        <option th:each="document: ${documentList}" th:value="${document.documentId}" th:text="${document.documentName}" />
+                    </select>
+                    <input class="column-2" type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
+                    <input type="text" id="searchFromDt" name="searchFromDt" class="alice-date" readonly="readonly" />
+                    <input type="text" id="searchToDt" name="searchToDt" class="alice-date" readonly="readonly" />
+                    <span id="totalCount"></span>
+                </form>
+            </div>
+        </div>
+        <div class="token-list" id="tokenList">
+        </div>
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">

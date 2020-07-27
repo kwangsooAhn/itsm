@@ -1,0 +1,53 @@
+/* Date compoent 기본 */
+.picker-wrapper-date {display: inline;}
+
+option {
+    &:hover {background-color: rgba(0, 80, 255, 0.05);}
+    &:visited{color:$alice-primary;background-color: white;}
+    &:active{color:$alice-primary;}
+    &:focus{color:$alice-primary}
+}
+
+select {
+    height: 1.875rem; // 30px
+    color:$form-font-color;
+    font-size: $form-font-size;
+    border: $form-border solid $form-line;
+    border-radius: $form-border-radius;
+    padding: 0 10px;
+    margin-right: 0.0625rem; // 1px
+    vertical-align: middle;
+    &:focus {
+        outline: $form-border solid $alice-primary;
+        border-radius: $form-border-radius;
+    }
+}
+
+input {
+    height: 1.875rem; // 30px
+    color:$form-font-color;
+    font-size: $form-font-size;
+    border: $form-border solid $form-line;
+    border-radius: $form-border-radius;
+    padding: 0 10px;
+    margin-right: 0.0625rem; // 1px
+    vertical-align: middle;
+    &:focus {
+        outline: $form-border solid $alice-primary;
+        border-radius: $form-border-radius;
+    }
+    &.alice-date {
+        width: 8.125rem; // 130px
+        background: url($icon-folder-path + "icon_calendar.png") no-repeat 6.25rem 0.4rem; // 100px 6.4px
+    }
+}
+
+label {
+}
+
+textarea{
+    margin:10px 0 15px 0;
+    display:block;
+    border: 1px solid $form-line;
+    color: $form-font-color;
+}
