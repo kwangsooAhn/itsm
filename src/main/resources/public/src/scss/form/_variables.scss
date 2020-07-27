@@ -62,12 +62,22 @@ $properties-title-font-color: #ffffff;
 $properties-title-font-weight: bold;
 
 // properties detail
-$properties-border-color: #c8ced8;
+$properties-border-color: #c8ced8; // default
+$properties-background-color: #ffffff; // default
+$properties-value-font-color: #67717F; // default 
 $properties-large-title-font-size: 0.75rem; // 12px
-$properties-large-title-font-color: #000000;
+$properties-large-title-font-color: #3E4752;
 $properties-large-title-font-weight: 500;
 $properties-small-title-font-size: 0.6875rem; // 11px
 $properties-small-title-font-color: #68717c;
 $properties-small-title-font-weight: normal;
 $properties-indent-padding-left: 0.438rem; // 7px input, select 등 들여쓰기
-$properties-value-font-color: #68717c;
+$properties-active-font-color: #0050ff;
+$properties-active-border-color: #0050ff;
+$properties-active-background-color: #ffffff;
+$properties-inactive-font-color: #a4adb8;
+$properties-inactive-border-color: #c8ced8;
+$properties-inactive-background-color: #F7F9FA;
+$properties-disabled-font-color: #aeb7c2;
+$properties-disabled-border-color: #c8ced8;
+$properties-disabled-background-color: #f2f5fa;

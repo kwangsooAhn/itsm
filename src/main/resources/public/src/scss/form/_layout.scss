@@ -1,4 +1,4 @@
-// 전체 layout
+/* 전체 layout */
 .container {
     width: 100vw;
     height: 100vh;
@@ -47,6 +47,12 @@
             max-width: $form-drawing-board-width;
             margin-top: $form-drawing-board-top-margin;
             padding: 6.25rem 4.063rem 0 4.063rem; // 100px 65px 0px 65px;
+            &[data-readonly=true] { // 폼 양식 화면에서 수정을 막음
+                input[type=text],
+                textarea,
+                button,
+                .ql-toolbar { pointer-events: none; }
+            }
         }
     }
 }

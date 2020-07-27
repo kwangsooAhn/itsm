@@ -1,4 +1,4 @@
-// 컴포넌트
+/* 컴포넌트 */
 :root {
     --data-column: 12;
     --data-row: 2;
@@ -87,6 +87,7 @@
 
             .ql-snow {
                 border-color: $component-border-color;
+                background-color: #ffffff;
                 .ql-editor.ql-blank::before {
                     content: attr(data-placeholder);
                 }
@@ -105,8 +106,7 @@
 
             // select box
             select {
-                width: auto;
-                min-width: 25%;
+                min-width: 9.375rem; // 150px
                 height: 1.563rem; // 25px
                 border: 0.0625rem solid $component-border-color; // 1px
                 padding-left: $component-indent-padding-left;
@@ -229,6 +229,20 @@
                     }
                 }
             }
+            &.vertical {
+                .field-radio,
+                .field-checkbox {
+                    display: table;
+                    margin-bottom: 0.625rem; //10px
+                    &:last-of-type {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            &.left { text-align: left; }
+            &.center { text-align: center; }
+            &.right { text-align: right; }
 
             //image 컴포넌트
             .img-placeholder {
@@ -391,11 +405,4 @@
 .component[data-displayType="hidden"] { display: none; }
 .component[data-displayType]:not([data-displayType="editableRequired"]) {
     .field-group .field-label span[class="required"] { display: none; } // 필수값 표시 숨김
-}
-// 폼 양식 화면에서 수정을 막음
-.component[data-readonly=true] {
-    input[type=text],
-    textarea,
-    button,
-    .ql-toolbar { pointer-events: none; }
 }

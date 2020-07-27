@@ -829,30 +829,26 @@
      */
     function setDateFormat(e) {
         let el = e.target || e;
-        let parentEl = e.target ? el.parentNode : el.parentNode.parentNode;
-        if (parentEl.classList.contains('property-field')) {
-            let changePropertiesArr = el.name.split('-');
-            changePropertiesValue(el.value, changePropertiesArr[0], changePropertiesArr[1]);
-        } else {
-            let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
-            if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
+        let parentEl = e.target ? el.parentNode.parentNode : el.parentNode.parentNode.parentNode;
+        let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
+        if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
 
-            let checkedPropertiesArr = checkedRadio.name.split('-');
-            let changeValue = checkedRadio.value;
-            if (changeValue === 'none' || changeValue === 'now') {
-                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+        let checkedPropertiesArr = checkedRadio.name.split('-');
+        let changeValue = checkedRadio.value;
+        if (changeValue === 'none' || changeValue === 'now') {
+            changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+        } else {
+            let inputCells = parentEl.querySelectorAll('input[type="text"]');
+            if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
+                changeValue += ('|' + inputCells[0].value);
             } else {
-                let inputCells = parentEl.querySelectorAll('input[type="text"]');
-                if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
-                    changeValue += ('|' + inputCells[0].value);
-                } else {
-                    for (let i = 0, len = inputCells.length; i < len; i++ ) {
-                        changeValue += ('|' + inputCells[i].value);
-                    }
+                for (let i = 0, len = inputCells.length; i < len; i++ ) {
+                    changeValue += ('|' + inputCells[i].value);
                 }
-                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
             }
+            changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
         }
+
     }
 
     /**
@@ -861,11 +857,11 @@
      * @param data 컴포넌트 데이터
      */
     function changeCustomCodeHandler(e, data) {
-        let customCodeDataSelect = (typeof data !== 'undefined') ? e : propertiesPanel.querySelector('input[id=code]').parentNode.querySelector('select');
+        let customCodeDataSelect = (typeof data !== 'undefined') ? e : propertiesPanel.querySelector('input[id=code]').parentNode.parentNode.querySelector('select');
         let customCode = (typeof data !== 'undefined') ? data.customCode : e.target.value;
         customCodeDataSelect.innerHTML = '';
         if (typeof data === 'undefined' && typeof e.target !== 'undefined' && e.target.id === 'customCode') {
-            const changePropertiesArr = e.target.parentNode.id.split('.');
+            const changePropertiesArr = e.target.parentNode.id.split('-');
             changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
         }
 
@@ -885,7 +881,7 @@
                     if (customCodeDataSelect.selectedIndex !== -1) {
                         val += customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text;
                     }
-                    const targetName = targetRadio.name.split('.');
+                    const targetName = targetRadio.name.split('-');
                     changePropertiesValue(val, targetName[0], targetName[1]);
                 }
             },
@@ -994,12 +990,14 @@
             const inputCell = cell.querySelector('input');
             if (inputCell.type === 'checkbox') { // seq
                 inputCell.value = rowCount;
+                inputCell.id = 'checkbox-' + rowCount;
+                inputCell.parentNode.setAttribute('for', 'checkbox-' + rowCount);
             } else {
                 inputCell.addEventListener('change', function(e) {
                     let changeCell = e.target;
                     let changeTd = changeCell.parentNode;
                     let changeRow = changeTd.parentNode;
-                    changePropertiesValue(changeCell.value, tb.parentNode.id, changeTd.id, changeRow.childNodes[0].childNodes[0].value - 1);
+                    changePropertiesValue(changeCell.value, tb.parentNode.id, changeTd.id, changeRow.childNodes[0].childNodes[0].childNodes[0].value - 1);
                 }, false);
                 inputCell.value = firstRow.cells[i].getAttribute('data-default');
             }
@@ -1021,7 +1019,7 @@
         let rowCount = tb.rows.length;
         for (let i = 1; i < rowCount; i++) {
             let row = tb.rows[i];
-            let chkBox = row.cells[0].childNodes[0];
+            let chkBox = row.cells[0].childNodes[0].childNodes[0];
             if (chkBox.checked && rowCount > 2) {
                 tb.deleteRow(i);
                 removeOptionData.splice(i - 1, 1);
@@ -1030,6 +1028,8 @@
                 minusCnt++;
             } else if (chkBox.value !== i) {
                 chkBox.value = i;
+                chkBox.id = 'checkbox-' + i;
+                chkBox.parentNode.setAttribute('for', 'checkbox-' + i);
                 removeOptionData[i - 1].seq = i;
             }
         }
@@ -1235,10 +1235,10 @@
                                         break;
                                     case 'image':
                                         fieldTemplate =
-                                            `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
                                             `<div class="property-field-image">` +
-                                                `<input type='text' class='property-value' value='${fieldProp.value}'>` +
-                                                `<button type='button' onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1200, height=700");'></button>` +
+                                                `<input type="text" class="property-value" value="${fieldProp.value}">` +
+                                                `<button type="button" onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1200, height=700");'></button>` +
                                             `</div>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1286,14 +1286,25 @@
                                                 optionDefaultArr = defaultFormatArr;
                                             }
                                             let labelName = opt.name.split('{0}');
+                                            return `<div class='vertical-group radio-datetime'>` +
+                                                `<label for="${opt.id}">` +
+                                                    `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
+                                                    `${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><span>" + labelName[1] + "</span>" : ""}` +
+                                                    `${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><span id='" + opt.id + "-day'>" + labelName[1] + "</span>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><span id='" + opt.id + "-hour'>" + labelName[2] + "</span>" : ""}` +
+                                                    `${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "'/>" : ""}` +
+                                                    `${opt.id === 'now' || opt.id === 'none' ? "<span>" + labelName[0] + "</span>" : ""}`+
+                                                `</label>` +
+                                            `</div>`;
 
-                                            return `<div class='vertical-group radio-datetime'>
+                                            /*return `<div class='vertical-group radio-datetime'>
                                             <input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} />
                                             ${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><label for='" + opt.id + "'>" + labelName[1] + "</label>" : ""}
+
                                             ${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-day'>" + labelName[1] + "</label>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-hour'>" + labelName[2] + "</label>" : ""}
+
                                             ${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
                                             ${opt.id === 'now' || opt.id === 'none' ? "<label for='" + opt.id + "'>" + labelName[0] + "</label>" : ""}
-                                            </div>`;
+                                            </div>`;*/
                                         }).join('');
 
                                         fieldTemplate = `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>${fieldDatetimeOptions}`;
@@ -1304,13 +1315,15 @@
                                         fieldGroupElem.classList.add('vertical');
                                         const fieldValueArr = fieldProp.value.split('|');
                                         const fieldRadioOptions = fieldProp.option.map(function (opt) {
-                                            return `<div class='vertical-group'>
-                                            <input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""}/>
-                                            <label for='${opt.id}'>${opt.name}</label>
-                                            ${opt.id !== 'none' ? "<br/><select>" + opt.items.map(function (item) {
+                                            return `<div class="vertical-group radio-custom">` +
+                                            `<label for="${opt.id}">` +
+                                                `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
+                                                `<span>${opt.name}</span>` +
+                                            `</label>` +
+                                            `${opt.id !== 'none' ? "<select>" + opt.items.map(function (item) {
                                                 return `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`
-                                            }).join('') + "</select>" : ""}
-                                            </div>`;
+                                            }).join('') + "</select>" : ""}` +
+                                            `</div>`;
                                         }).join('');
 
                                         fieldTemplate = `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>${fieldRadioOptions}`;
@@ -1318,7 +1331,7 @@
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
 
                                         //custom-code 초기화
-                                        const customCodeDataSelect = fieldGroupElem.querySelector('input[id=code]').parentNode.querySelector('select');
+                                        const customCodeDataSelect = fieldGroupElem.querySelector('input[id=code]').parentNode.parentNode.querySelector('select');
                                         changeCustomCodeHandler(customCodeDataSelect, componentData[group]);
 
                                         break;
@@ -1405,11 +1418,18 @@
                                 }).join('');
                                 let fieldTableTemplate = `<tr>${tableHeaderOptions}</tr>`;
 
+                                ;
+
                                 // 테이블 Row 추가
                                 const tableRowOptions = componentData.option.map(function(opt) {
                                     return `<tr>${fieldProp.items.map(function(item, index) {
                                         return `<td id="${item.id}">` +
-                                        `<input type="${index === 0 ? 'checkbox' : 'text'}" value="${opt[item.id]}"/>` +
+                                        `${index === 0 ? 
+                                        `<label for="checkbox-${index + 1}">` +
+                                            `<input type="checkbox" id="checkbox-${index + 1}" value="${opt[item.id]}" />` +
+                                            `<span></span>` +
+                                        `</label>` : 
+                                        `<input type="text" value="${opt[item.id]}"/>`}` +
                                         `</td>`;
                                     }).join('')}</tr>`;
                                 }).join('');
@@ -1448,12 +1468,15 @@
             } else {
                 inputElems[i].addEventListener('focusout', function (e) {
                     const elem = e.target;
-                    const parentElem = elem.parentNode;
-                    if (parentElem.classList.contains('picker-wrapper') || parentElem.classList.contains('wdp-hour-el-container')) { return false; }
+                    let parentElem = elem.parentNode;
+                    if (parentElem.classList.contains('picker-wrapper') || parentElem.classList.contains('wdp-hour-el-container')) { return false; } // date picker 제외
                     if (parentElem.tagName === 'TD') { // option
-                        const seqCell = parentElem.parentNode.cells[0].childNodes[0];
+                        const seqCell = parentElem.parentNode.cells[0].childNodes[0].childNodes[0];
                         changePropertiesValue(elem.value, 'option', parentElem.id, Number(seqCell.value) - 1);
                     } else {
+                        if (parentElem.id === '') {
+                            parentElem = parentElem.parentNode;
+                        }
                         const changePropertiesArr = parentElem.id.split('-');
                         let changeValue = elem.value;
                         if (elem.classList.contains('session')) { changeValue = elem.id + '|' + elem.value; }
@@ -1488,22 +1511,24 @@
                             elem.value = aliceJs.hexToRgba(elem.value, opacity);
                             changePropertiesValue( elem.value, changePropertiesArr[0], changePropertiesArr[1]);
                         } else {
-                            const changePropertiesArr = elem.parentNode.id.split('-');
+                             let parentElem =  elem.parentNode;
                             if (changeElem.type === 'range') {
-                                const slider = document.getElementById(elem.id + '-value');
+                                parentElem =  elem.parentNode.parentNode;
+                                const slider = parentElem.querySelector('input[type="range"]');
                                 slider.value = elem.value;
                             }
+                            const changePropertiesArr = parentElem.id.split('-');
                             changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
                         }
                     }, false);
                     break;
                 case 'radio':
-                    if (changeElem.parentNode.classList.contains('radio-datetime')) { // date picker
+                    if (changeElem.parentNode.parentNode.classList.contains('radio-datetime')) { // date picker
                         changeElem.addEventListener('change', setDateFormat, false);
                     } else {
                         changeElem.addEventListener('change', function (e) {
                             const elem = e.target;
-                            const parentElem = elem.parentNode;
+                            const parentElem = elem.parentNode.parentNode; // vertical-group
                             const changePropertiesArr = parentElem.parentNode.id.split('-');
                             let val = (elem.id !== 'none') ? elem.id + '|' + parentElem.querySelector('select').value : elem.id;
                             if (elem.checked && elem.id !== 'none') {

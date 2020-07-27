@@ -480,15 +480,15 @@
             //연속하여 선택된 컴포넌트 중 하나에 drag 하고자 하는 경우
             if (editor.selectedComponentIds.length > 1 && editor.selectedComponentIds.indexOf(targetComponent.id) !== -1) { return false; }
 
-            let components = document.querySelectorAll('.selected');
+            let components = document.querySelectorAll('.component.selected');
             let histories = [];
             for (let i = 0, len = components.length; i < len; i++) {
                 let moveComponent =  components[i];
                 targetComponent.insertAdjacentHTML('beforebegin', moveComponent.outerHTML);
-                targetComponent.parentNode.removeChild(moveComponent);
 
                 const compIdx = editor.getComponentIndex(moveComponent.id);
                 histories.push({0: JSON.parse(JSON.stringify(editor.data.components[compIdx])), 1: {}});
+                targetComponent.parentNode.removeChild(moveComponent);
             }
             targetComponent.parentNode.removeChild(lastComponent);
             lastComponent = null;

@@ -1,4 +1,15 @@
-// 제목: form, 컴포넌트 이름 등
+/* 우측 properties panel */
+@include keyframe (HideList) {
+    from { transform: scaleY(1); }
+      to { transform: scaleY(0); }
+}
+
+@include keyframe (fadeIn) {
+    0% { opacity:0; }
+    100% { opacity:100%; }
+}
+
+// 제목: form, 컴포넌트 이름
 .properties-title {
     display: none;
     height: $properties-title-height;
@@ -31,19 +42,115 @@
     }
 }
 
-@include keyframe (HideList) {
-    from { transform: scaleY(1); }
-      to { transform: scaleY(0); }
-}
-
-@include keyframe (fadeIn) {
-    0% { opacity:0; }
-    100% { opacity:100%; }
-}
 .property-group {
     display: none;
     border-bottom: 0.063rem solid $properties-border-color; // 1px
     &.on { display: block; }
+
+    // input box 공통
+    input[type=text] {
+        width: 100%; 
+        height: 1.563rem;    //25px
+        border: 0.0625rem solid $properties-border-color; // 1px
+        background-color: $properties-background-color;
+        padding-left: $properties-indent-padding-left;
+        color: $properties-value-font-color;
+        &:read-only {
+            color: $properties-disabled-font-color;
+            background-color: $properties-disabled-background-color;
+        }
+        &:focus {
+            outline: none !important;
+            border: 0.0625rem solid $properties-active-border-color;
+        }
+    }
+
+    // checkbox 공통
+    input[type=checkbox] {
+        display: none;
+        + span {
+            position: relative;
+            cursor: pointer;
+            padding: 0;
+            margin-left: 0.9375rem; // 15px
+            &:before {
+                content: '';
+                margin-right: 0.3125rem; // 5px
+                display: inline-block;
+                border-radius: 0.125rem; // 2px
+                border: 0.0625rem solid $component-border-color;
+                width: 0.8125rem; // 13px
+                height: 0.8125rem; // 13px
+                vertical-align: middle;
+            }
+            &:empty {
+                &:before {
+                    margin-right: 0;
+                }
+            }
+        }
+        &:checked {
+            + span {
+                &:before {
+                background-color: $properties-background-color;
+                border: 0.0625rem solid $properties-active-border-color; // 1px
+                }
+                &:after {
+                    content: '';
+                    position: absolute;
+                    left: 0.125rem; // 2px
+                    top: 0.5625rem; // 9px
+                    background: $properties-active-border-color;
+                    width: 0.125rem; // 2px
+                    height: 0.125rem; // 2px
+                    box-shadow: 
+                        0.125rem 0 0 $properties-active-border-color, 
+                        0.25rem 0 0 $properties-active-border-color, 
+                        0.25rem -0.125rem 0 $properties-active-border-color, 
+                        0.25rem -0.25rem 0 $properties-active-border-color, 
+                        0.25rem -0.375rem 0 $properties-active-border-color;
+                    transform: rotate(45deg);
+                }
+            }
+        }
+    }
+
+    // radio button 공통
+    input[type=radio] {
+        display: none;
+        + span {
+            &:before {
+                content: '';
+                border-radius: 100%;
+                border: 0.0625rem solid $properties-border-color; // 1px
+                display: inline-block;
+                width: 0.8125rem; // 13px
+                height: 0.8125rem; // 13px
+                position: relative;
+                top: -0.0625rem; // -1px
+                margin-right: 0.3125rem; // 5px 
+                vertical-align: middle;
+                cursor: pointer;
+                text-align: center;
+            }
+        }
+        &:checked {
+            + span {
+                &:before {
+                    background-color: $properties-active-border-color;
+                    box-shadow: inset 0 0 0 0.125rem $properties-active-background-color; // 2px
+                    border: 0.0625rem solid $properties-active-border-color; // 1px
+                }
+            }
+        }
+        &:focus {
+            + span {
+                &:before {
+                    border-color: $properties-active-border-color;
+                }
+            }
+        }
+    }
 
 
     // 소제목: Data Attribute, Label, Display, Option 등
@@ -61,6 +168,7 @@
             }
         }
     }
+
     // 옵션
     &[id="option"] { position: relative; }
     .property-group-option {
@@ -81,6 +189,7 @@
         button[class="minus"] { @include background("#{$asset-path}/form/editor/icon_option_minus.png"); }
         button[class="plus"] { @include background("#{$asset-path}/form/editor/icon_option_plus.png"); }
     }
+
     // 하위 속성
     .property-field {
         position: relative;
@@ -117,8 +226,8 @@
                 cursor: help;
                 &:before { content: '?'; }
                 &:hover {
-                    color: #0050ff;
-                    border-color: #0050ff;
+                    color: $properties-active-font-color;
+                    border-color: $properties-active-border-color;
                     p {
                         display: block;
                         transform-origin: 100% 0%;
@@ -159,19 +268,6 @@
             }        
         }
 
-        input[type=text] {
-            width: 100%; 
-            height: 1.563rem;    //25px
-            border: 0.0625rem solid $properties-border-color; // 1px
-            background-color: #ffffff;
-            padding-left: $properties-indent-padding-left;
-            color: $properties-value-font-color;
-            &:read-only {
-                color: #aeb7c2;
-                background-color: #f2f5fa;
-            }
-        }
-
         textarea { 
             width: 100%; 
             border: 0.0625rem solid $properties-border-color; // 1px
@@ -180,6 +276,10 @@
             padding-left: $properties-indent-padding-left;
             color: $properties-value-font-color;
             @include scrollbar-hidden;
+            &:focus {
+                outline: none !important;
+                border: 0.0625rem solid $properties-active-border-color;
+            }
         }
 
         select {
@@ -188,54 +288,9 @@
             border: 0.0625rem solid $properties-border-color; // 1px
             padding-left: $properties-indent-padding-left;
             color: $properties-value-font-color;
-        }
-
-        input[type=checkbox] {
-            display: none;
-            + span {
-                position: relative;
-                cursor: pointer;
-                padding: 0;
-                margin-left: 0.9375rem; // 15px
-                &:before {
-                    content: '';
-                    margin-right: 0.3125rem; // 5px
-                    display: inline-block;
-                    border-radius: 0.125rem; // 2px
-                    border: 0.0625rem solid $component-border-color;
-                    width: 0.8125rem; // 13px
-                    height: 0.8125rem; // 13px
-                    vertical-align: middle;
-                }
-                &:empty {
-                    &:before {
-                        margin-right: 0;
-                    }
-                }
-            }
-            &:checked {
-                + span {
-                    &:before {
-                      background-color: #ffffff;
-                      border: 0.0625rem solid #0050ff; // 1px
-                    }
-                    &:after {
-                        content: '';
-                        position: absolute;
-                        left: 0.125rem; // 2px
-                        top: 0.5625rem; // 9px
-                        background: #0050ff;
-                        width: 0.125rem; // 2px
-                        height: 0.125rem; // 2px
-                        box-shadow: 
-                            0.125rem 0 0 #0050ff, 
-                            0.25rem 0 0 #0050ff, 
-                            0.25rem -0.125rem 0 #0050ff, 
-                            0.25rem -0.25rem 0 #0050ff, 
-                            0.25rem -0.375rem 0 #0050ff;
-                        transform: rotate(45deg);
-                    }
-                }
+            &:focus {
+                outline: none !important;
+                border: 0.0625rem solid $properties-active-border-color;
             }
         }
 
@@ -247,17 +302,20 @@
             button {
                 flex: 1 1 0;
                 height: 1.563rem; // 25px
-                color: #a4adb8;
-                background-color: #f5f6fa;
+                color: $properties-inactive-font-color;
+                background-color: $properties-inactive-background-color;
                 border: 0.0625rem solid $properties-border-color; // 1px
                 &:not(:last-of-type) {
                     border-right: 0;
                 }
                 &.active {
-                    color: #0050ff;
-                    background-color: #ffffff;
-                    border-color: #0050ff;
-                    + button { border-left-color: #0050ff }
+                    color: $properties-active-font-color;
+                    background-color: $properties-active-background-color;
+                    border-color: $properties-active-border-color;
+                    + button { border-left-color: $properties-active-border-color }
+                }
+                &:focus {
+                    outline: none !important;
                 }
             }
         }
@@ -303,7 +361,7 @@
                 height: 0.625rem;
                 border: 0.0625rem solid $properties-border-color; // 1px
                 border-radius: 50%;
-                background: #ffffff;
+                background: $properties-background-color;
                 cursor: pointer;
             }
             
@@ -312,7 +370,7 @@
                 height:  0.625rem;
                 border: 0.0625rem solid $properties-border-color; // 1px
                 border-radius: 50%;
-                background: #ffffff;
+                background: $properties-background-color;
                 cursor: pointer;
             }
             + input[type=text] {
@@ -322,7 +380,7 @@
                 padding: 0;
                 &:read-only {
                     color: $properties-value-font-color;
-                    background-color: #ffffff;
+                    background-color: $properties-background-color;
                 }
             }
         }
@@ -353,7 +411,7 @@
         }
         // color picker popup
         div.color-palette {
-            background-color: #ffffff;
+            background-color: $properties-background-color;
             width: 11.875rem; // 190px
             height: 4.938rem; // 79px
             margin-top: 0.188rem;  // 3px
@@ -378,7 +436,7 @@
             }
         }
         div.color-palette-opacity {
-            background-color: #ffffff;
+            background-color: $properties-background-color;
             width: 11.875rem; // 190px
             border: 0.063rem solid $properties-border-color; // 1px
             border-top: none;
@@ -442,7 +500,7 @@
             }
         }
 
-        // button
+        // bold, italic, underline, align 으로 이루어진 버튼 그룹
         div.property-field-button {
             display: inline-flex;
             button {
@@ -453,8 +511,12 @@
                     border-right: 0;
                 }
                 &.active {
-                    border-color: #0050ff;
-                    + button { border-left-color: #0050ff }
+                    background-color: $properties-active-background-color;
+                    border-color: $properties-active-border-color;
+                    + button { border-left-color: $properties-active-border-color }
+                }
+                &:focus {
+                    outline: none !important;
                 }
             }
             button[id="bold"] { 
@@ -471,6 +533,9 @@
             div {
                 display: inline-flex;
                 margin-left: 5px; // 5px
+                button {
+                    background-color: $properties-inactive-background-color;
+                }
                 
                 button[id="left"] {
                     border-left-width: 0.0625rem;
@@ -494,18 +559,21 @@
             button {
                 flex: 1 1 0;
                 height: 1.563rem; // 25px
-                color: #a4adb8;
-                background-color: #f5f6fa;
+                color: $properties-inactive-font-color;
+                background-color: $properties-inactive-background-color;
                 border: 0.0625rem solid $properties-border-color; // 1px
                 &:not(:last-of-type) {
                     border-right: 0;
                 }
+                &:focus {
+                    outline: none !important;
+                }
             }
             button.active {
-                color: #0050ff;
-                background-color: #ffffff;
-                border-color: #0050ff;
-                + button { border-left-color: #0050ff }
+                color: $properties-active-font-color;
+                background-color: $properties-active-background-color;
+                border-color: $properties-active-border-color;
+                + button { border-left-color: $properties-active-border-color }
             }
             ~ input[type=text],
             ~ select { 
@@ -520,12 +588,20 @@
             display: flex;
             input[type=text] {
                 border-right: 0;
+                &:focus {
+                    + button {
+                        border-right-color: $properties-active-border-color;
+                    }
+                }
             }
             button {
                 flex: 1 1 auto;
                 width: 1.875rem; // 30px
                 border: 0.0625rem solid $properties-border-color;
                 @include background("#{$asset-path}/form/editor/icon_search.png");
+                &:focus {
+                    outline: none !important;
+                }
             }
 
         }
@@ -536,27 +612,28 @@
             align-items: flex-start;
             input[type=text] {
                 width: 2.5rem;  //40px
-                margin: 0 0.3125rem;
+                margin: 0 0.3125rem 0 0; // 5px
                 //timepicker
                 &[class="timepicker"],
                 &[class="datepicker"],
                 &[class="datetimepicker"] {
-                    width: 12.5rem; // 200px
+                    width: 12.06rem; // 193px
+                    margin: 0;
                 }
             }
-            label {
-                margin: 0 0.3125rem 0 0.3125rem;    //0px 5px 0px 5px
-            }
+            //label { margin: 0 0.3125rem 0 0.3125rem; }    //0px 5px 0px 5px
             .vertical-group {
+                width: 100%;
                 display: inline-flex;
                 align-items: center;
+                flex-wrap: wrap;
                 margin: 0.375rem 0;  //6px 0
-                .picker-wrapper {
+                .picker-wrapper-date {
                     display: inline-block;
+                    width: auto;
                 }
-                select {
-                    margin-left: 0.625rem;    //10px
-                }
+                span { margin-right: 0.3125rem; } // 5px
+                select { margin-top: 0.3125rem; } // 5px
             }
         }
 
@@ -572,6 +649,7 @@
             color: $properties-value-font-color;
         }
     }
+
     // 테이블
     table.property-field-table {
         margin: 0.8125rem 1.25rem;  //13px 20px
@@ -588,11 +666,9 @@
                     border: none;
                     padding: 0;
                     text-align: center;
-                    color: $properties-value-font-color;
                 }
-                input[type=checkbox] {
-                    width: 1.563rem; // 25px
-                    outline: 0;
+                span {
+                    margin: 0 6px;
                 }
             }
         }

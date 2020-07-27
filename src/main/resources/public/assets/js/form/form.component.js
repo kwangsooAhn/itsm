@@ -386,13 +386,12 @@
                     const responseText = xhr.responseText;
                     if (responseText !== '') {
                         const image = JSON.parse(responseText);
-                        const componentElement = parent.querySelector('.component');
-                        componentElement.querySelector('img').src = 'data:image/' + image.extension + ';base64,' + image.data;
+                        parent.querySelector('.field-img').src = 'data:image/' + image.extension + ';base64,' + image.data;
                     }
                 }
             });
         } else {
-            parent.querySelector('img').src = imageSrc;
+            parent.querySelector('.field-img').src = imageSrc;
         }
     }
 
