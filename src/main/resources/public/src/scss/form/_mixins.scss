@@ -1,0 +1,25 @@
+@mixin keyframe ($animation_name) {
+    @keyframes #{$animation_name} {
+        @content;
+    }
+}
+
+@mixin animation ($delay, $duration, $name, $timing) {
+    animation-delay: $delay;
+    animation-duration: $duration;
+    animation-name: $name;
+    animation-timing-function: $timing;
+}
+
+@mixin background($path) {
+    background-size: initial;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-image: url("#{$form-asset-path}/" + $path);
+}
+
+@mixin scrollbar-hidden { // 스크롤은 동작하되 스크롤바는 숨김
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    &::-webkit-scrollbar { display: none; /* Chrome, Safari, Opera*/ }
+}
