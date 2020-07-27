@@ -1,60 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
 <head>
-    <title>공지사항 등록/수정</title>
+    <title>공지사항 리스트</title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
-            <span class="title-txt" th:text="#{menu.portal.notice}"></span>
-            <span class="title-description" th:text="#{notice.msg.description}"></span>
-        </div>
-            <div class="contents-body">
-                <div class="list">
-                    <div class="list-wrap-edit">
-                        <table>
-                            <tr>
-	                            <th colspan="3" >
-		                            <input id="noticeTitle" name="noticeTitle" type="text"
-		                                   th:value="${notice?.noticeTitle}" maxlength="128"/>
-	                            </th>
-                            </tr>
-                            <tr>
-                                <td colspan="2" class="edit-name">
-	                                <span sec:authentication="details.userName"></span>
-                                </td>
-                                <td class="edit-date">
-                                    <span th:id="spanCreateDt" th:text="${notice.createDt}"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="edit-txtarea" colspan="3">
-                                    <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="7"
-                                              th:text="${notice?.noticeContents}"></textarea>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="file-attachment" th:text="#{common.label.attachFile}"></td>
-                                <td class="file-attach-input" colspan="2"><input class="file-attach" type="file" aria-placeholder="첨부파일이 없습니다."></td>
-                            </tr>
-                        </table>
-                        <div class="menubar-bottom">
-                            <div class="float-right">
-                                <span class="btn-gray"><a href="#">목록</a></span>
-                                <span class="btn"><a href="#">수정</a></span>
-                                <span class="btn-gray"><a href="#">삭제</a></span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
+    <div class="container">
+        <br />
         <form id="frm" method="post">
-			<!--원본-->
             <table class="table" border="1">
                 <tr>
                     <th th:text="#{common.label.title}"></th>
@@ -217,7 +173,7 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="topNoticeEndDtCal"
-                                                data-target-input="nearest">
+                                                 data-target-input="nearest">
                                                 <input type="text" id="topNoticeEndDt" name="topNoticeEndDt"
                                                        class="form-control datetimepicker-input"
                                                        data-target="#topNoticeEndDtCal">
@@ -257,11 +213,7 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-        const noticeCreateDt = document.getElementById('spanCreateDt');
-
         window.onload = function() {
-            noticeCreateDt.textContent = i18n.userDateTime(noticeCreateDt.textContent);
-
             if (/*[[${notice?.noticeNo}]]*/ != null) {
                 if (document.getElementsByName('popYn')[0].value === 'true') {
                     document.getElementById('popRadioBtUp').checked = true;

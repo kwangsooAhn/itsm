@@ -1214,43 +1214,49 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 .container .contents .list-wrap-edit table {
- margin: 0 0 10px 0;
+  margin: 0 0 10px 0;
+}
+.container .contents .list-wrap-edit table span {
+  margin: 0 auto;
 }
 .container .contents .list-wrap-edit table th {
- background: rgba(204, 211, 217, 0.1);
- text-align: left;
- font-size: 14px;
- padding-left: 15px;
+  background: rgba(204, 211, 217, 0.1);
+  text-align: left;
+  font-size: 14px;
+  padding-left: 15px;
 }
 .container .contents .list-wrap-edit table tr td {
- font-size: 13px;
- padding: 0 15px;
- margin: 0 auto;
+  font-size: 13px;
+  padding: 0 15px;
 }
 .container .contents .list-wrap-edit table tr td.edit-name {
- width: 1000px;
- text-align: right;
- border-right: 1px solid #c8ced8;
+  width: 1000px;
+  text-align: right;
+  border-right: 1px solid #c8ced8;
 }
 .container .contents .list-wrap-edit table tr td.edit-date {
- width: 130px;
+  width: 130px;
 }
-.container .contents .list-wrap-edit table tr td.edit-txtarea {
- height: 150px;
- min-height: 150px;
- padding: 10px;
- text-align: left;
- vertical-align: text-top;
+.container .contents .list-wrap-edit table tr td.edit-textarea {
+  height: 150px;
+  min-height: 150px;
+  padding: 15px;
+  text-align: left;
+  vertical-align: text-top;
+}
+.container .contents .list-wrap-edit table tr td.edit-textarea textarea {
+  width: 100%;
+  min-height: 140px;
 }
 .container .contents .list-wrap-edit table tr td.file-attachment {
- width: 80px;
- border-right: 1px solid #c8ced8;
+  width: 80px;
+  border-right: 1px solid #c8ced8;
 }
 .container .contents .list-wrap-edit table tr td.file-attach-input {
- text-align: left;
+  text-align: left;
 }
 .container .contents .list-wrap-edit table tr:hover {
- background: none;
+  background: none;
 }
 
 .container .contents .list-count {

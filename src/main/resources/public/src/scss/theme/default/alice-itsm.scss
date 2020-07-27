@@ -155,18 +155,19 @@
                 }
             }
             &-edit {
-                table{
+                table {
                     margin: 0 0 10px 0;
+                    span {margin: 0 auto;}
                     & th {background: rgba(204, 211, 217, 0.1); text-align: left;font-size: 14px;padding-left: 15px;}
                     & tr td {
                         padding: 0 15px;font-size: 13px;margin: 0 auto;
-                        &.edit-name{width:1000px; text-align: right; border-right: 1px solid #C8CED8;}
-                        &.edit-date{width:130px;}
-                        &.edit-txtarea{height: 150px; min-height: 150px;text-align: left; vertical-align: text-top;}
-                        &.file-attachment{width:80px;border-right: 1px solid #C8CED8; }
-                        &.file-attach-input{text-align: left;}
+                        &.edit-name {width:1000px; text-align: right; border-right: 1px solid #C8CED8;}
+                        &.edit-date {width:130px;}
+                        &.edit-textarea {height: 150px; min-height: 150px;text-align: left; vertical-align: text-top;}
+                        &.file-attachment {width:80px;border-right: 1px solid #C8CED8; }
+                        &.file-attach-input {text-align: left;}
                     }
-                    & tr:hover{background: none;}
+                    & tr:hover {background: none;}
                 }
             }
         }

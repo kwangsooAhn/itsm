@@ -8,63 +8,49 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="container">
-        <div class="contents">
-            <div class="contents-title">
-                <span class="title-txt">공지사항 조회</span>
-                <span class="title-description" th:text="#{notice.msg.description}"></span>
-            </div>
+    <div class="contents">
+        <div class="contents-title">
+            <span class="title-txt" th:text="#{menu.portal.notice}"></span>
+            <span class="title-description" th:text="#{notice.msg.description}"></span>
         </div>
-        <form id="frm" method="post">
-        <table class="table" border="1">
-            <tr>
-                <th th:text="#{common.label.title}"></th>
-                <td colspan="3"><span th:text="${notice?.noticeTitle}"></span></td>
-            </tr>
-            <tr>
-                <th th:text="#{common.label.contents}"></th>
-                <td colspan="3" style="text-align:left; width:500px; height:250px;"><span th:text="${notice?.noticeContents}"></span></td>
-            </tr>
-            <tr>
-                <th th:text="#{common.label.attachFile}"></th>
-                <td colspan="3">
-                    <div id="dropZoneFiles"></div>
-                    <div id="dropZoneUploadedFiles"></div>
-                </td>
-            </tr>
-            <tr>
-                <th th:text="#{common.label.createUser}"></th>
-                <td colspan="3"><span th:text="${notice?.aliceUserEntity.userName}"></span></td>
-            </tr>
-            <tr style="display:none;">
-                <th th:text="#{notice.label.popUpNoticeSettings}"></th>
-                <td>
-                    <div>
-                        <label>
-                            <input type="radio" id = "popRadioBtUp" name="popYn" th:value="${notice.popYn}"
-                                   onclick ="return(false);" th:text="#{notice.label.set}">
-                        </label>
-                        <label>
-                            <input type="radio" id = "popRadioBtDown" name="popYn" th:value="${notice.popYn}"
-                                   onclick ="return(false);" th:text="#{notice.label.notSet}">
-                        </label>
+        <div class="contents-body">
+            <form id="frm" method="post">
+                <div class="list">
+                    <div class="list-wrap-edit">
+                        <table>
+                            <tr>
+                                <th colspan="3"><span th:text="${notice?.noticeTitle}"></span></th>
+                            </tr>
+                            <tr>
+                                <td class="edit-name" colspan="2">
+                                    <span sec:authentication="details.userName"></span>
+                                </td>
+                                <td class="edit-date">
+                                    <span th:id="spanCreateDt" th:text="${notice.createDt}"></span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="edit-textarea" colspan="3"><span th:text="${notice?.noticeContents}"></span></td>
+                            </tr>
+                            <tr>
+                                <td class="file-attachment" th:text="#{common.label.attachFile}"></td>
+                                <td class="file-attach-input" colspan="2">
+                                    <div id="dropZoneFiles"></div>
+                                    <div id="dropZoneUploadedFiles"></div>
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="menubar-bottom">
+                            <div class="float-right">
+                                <span class="btn-gray"><a href="/notices/search" th:text="#{common.btn.list}"></a></span>
+                            </div>
+                        </div>
                     </div>
-                </td>
-                <th th:text="#{notice.label.topNoticeSettings}"></th>
-                <td>
-                    <div>
-                        <label>
-                            <input type="radio" id = "topRadioBtUp" name="topNoticeYn" th:value="${notice.topNoticeYn}"
-                                   onclick ="return(false);" th:text="#{notice.label.set}">
-                        </label>
-                        <label>
-                            <input type="radio" id = "topRadioBtDown" name="topNoticeYn" th:value="${notice.topNoticeYn}"
-                                   onclick ="return(false);" th:text="#{notice.label.notSet}">
-                        </label>
-                    </div>
-                </td>
-            </tr>
-        </table>
+                </div>
+            </form>
+        </div>
+
+        <!--원본-->
         <div id="popTab" style="display:none;">
             <table class="table" border="1">
                 <tr>
@@ -92,7 +78,6 @@
                 </tr>
             </table>
         </div>
-
         <div id="topNoticeTab" style="display:none;">
             <table class="table" border="1">
                 <tr>
@@ -112,17 +97,16 @@
                 </tr>
             </table>
         </div>
-        <div style="float:right;">
-            <button type="button" onclick="location.href='/notices/search'" th:text="#{common.btn.list}"></button>
-        </div>
-        </form>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
+        const noticeCreateDt = document.getElementById('spanCreateDt');
+
         window.onload = function() {
+            noticeCreateDt.textContent = i18n.userDateTime(noticeCreateDt.textContent);
             // 게시물 삭제 처리 시, validation 체크.
             const noticeNo = /*[[${notice.noticeNo}]]*/;
             if (noticeNo === null) {
