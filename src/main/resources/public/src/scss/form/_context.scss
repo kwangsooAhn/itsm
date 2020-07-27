@@ -1,0 +1,128 @@
+/* 컨텍스트 메뉴 */
+// editbox 컴포넌트에서 키를 입력하거나 툴팁에서 리스트 아이콘 클릭시 호출
+.context-menu {
+    display: none;
+    position: absolute;
+    width: $context-menu-width;
+    max-height: $context-menu-height;
+    background-color: $context-menu-background-color;
+    border: solid 0.0625rem $context-menu-border-color; // 1px
+    box-shadow: -0.0625rem 0 0.4375rem 0 rgba(222,233,247,0.3);// -1px 0px 7px 0px rgba(222,233,247,0.3);
+    font-size: $context-menu-font-size;
+    color: $context-menu-font-color;
+    overflow: auto;
+    @include scrollbar-hidden;
+
+    .menu {
+        padding: 0 0.625rem; // 0 10px
+        margin: 0;
+        .menu-item {
+            border-bottom: solid 0.0625rem $context-menu-border-color; // 1px
+            div {
+                height: 2.188rem; // 35px
+                line-height: 2.188rem;
+                margin: 0.3125rem 0; // 5px 0
+                a {
+                    margin: 0 0.9375rem 0 0.3125rem; // 0 15px 0 5px
+                    padding: 0 0.625rem 0.3125rem 0.625rem; // 0 10px 5px 10px
+                }
+                label { 
+                    pointer-events: none;
+                    margin: 0;
+                }
+            }
+            &:last-child { border: none; }
+            &.disabled { pointer-events: none; opacity: 0.7; }
+            &.active,
+            &:hover {
+                div {
+                    background-color: rgba(140, 174, 222, 0.1);
+                    color: #0050ff;
+                    cursor: pointer;
+                }
+            }
+            &.inputbox div a { @include background("context-menu/inputbox.png"); }
+            &.textarea div a { @include background("context-menu/textbox.png"); }
+            &.dropdown div a { @include background("context-menu/dropdown.png"); }
+            &.radio div a { @include background("context-menu/radio.png"); }
+            &.checkbox div a { @include background("context-menu/checkbox.png"); }
+            &.label div a { @include background("context-menu/label.png"); }
+            &.image div a { @include background("context-menu/image.png"); }
+            &.divider div a { @include background("context-menu/divider.png"); }
+            &.date div a { @include background("context-menu/date.png"); }
+            &.time div a { @include background("context-menu/time.png"); }
+            &.datetime div a { @include background("context-menu/datetime.png"); }
+            &.fileupload div a { @include background("context-menu/fileupload.png"); }
+            &.custom-code div a { @include background("context-menu/custom-code.png"); }
+            // 마우스 오버, 선택시 아이콘 변경
+            &.inputbox.active, &.inputbox:hover { 
+                div a { 
+                    background-image: url("#{$form-asset-path}/context-menu/inputbox_select.png"); 
+                }
+            }
+            &.textarea.active, &.textarea:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/textbox_select.png"); 
+                }
+            }
+            &.dropdown.active, &.dropdown:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/dropdown_select.png"); 
+                }
+            }
+            &.radio.active, &.radio:hover {
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/radio_select.png"); 
+                }
+            }
+            &.checkbox.active, &.checkbox:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/checkbox_select.png"); 
+                }
+            }
+            &.label.active, &.label:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/label_select.png"); 
+                }
+            }
+            &.image.active, &.image:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/image_select.png"); 
+                }
+            }
+            &.divider.active, &.divider:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/divider_select.png"); 
+                }
+            }
+            &.date.active, &.date:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/date_select.png"); 
+                }
+            }
+            &.time.active, &.time:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/time_select.png"); 
+                }
+            }
+            &.datetime.active, &.datetime:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/datetime_select.png"); 
+                }
+            }
+            &.fileupload.active, &.fileupload:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/fileupload_select.png"); 
+                }
+            }
+            &.custom-code.active, &.custom-code:hover { 
+                div a {
+                    background-image: url("#{$form-asset-path}/context-menu/custom-code_select.png"); 
+                }
+            }
+        }
+    }
+
+    &.on { display: block; }
+}
+
