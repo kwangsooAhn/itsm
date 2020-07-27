@@ -1,4 +1,4 @@
-token {
+.token {
     &-list {
         clear: both;
         & table {
@@ -25,7 +25,7 @@ token {
         .align-right {text-align: right;}
     }
 
-    .token-search {
+    &-search {
         background: rgba(255, 255, 255, 1);
         padding: 20px 45px;
         &:after {

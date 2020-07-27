@@ -1,0 +1,43 @@
+/* Date compoent 기본 */
+.picker-wrapper-date {display: inline;}
+
+option {
+    &:hover {background-color: #F2F6FF;}
+    &:visited{color:$alice-primary;background-color: white;}
+    &:active{color:$alice-primary;}
+    &:focus{color:$alice-primary}
+}
+
+select {
+    height: 1.875rem; // 30px
+    color:$form-font-color;
+    font-size: $form-font-size;
+    border: $form-border solid $form-line;
+    border-radius: $form-border-radius;
+    padding: 0 10px;
+    margin-left: 5px;
+    vertical-align: middle;
+    &:focus {border: $form-border solid $alice-primary;}
+}
+
+input {
+    height: 1.875rem; // 30px
+    color:$form-font-color;
+    font-size: $form-font-size;
+    border: $form-border solid $form-line;
+    border-radius: $form-border-radius;
+    padding: 0 10px;
+    margin-left: 5px;
+    vertical-align: middle;
+    &:focus {border: $form-border solid $alice-primary;}
+}
+
+label {
+}
+
+textarea{
+    margin:10px 0 15px 0;
+    display:block;
+    border: 1px solid $form-line;
+    color: $form-font-color;
+}

@@ -150,73 +150,43 @@ option:focus {
   color: #0050ff;
 }
 
+select {
+  height: 1.875rem;
+  color: #67717F;
+  font-size: 0.875rem;
+  border: 0.0625rem solid #C8CED8;
+  border-radius: 0.0625rem;
+  padding: 0 10px;
+  margin-left: 5px;
+  vertical-align: middle;
+}
 select:focus {
-  border: 1px solid #0050ff;
+  border: 0.0625rem solid #0050ff;
 }
 
 input {
-  border: 1px solid #c8ced8;
+  height: 1.875rem;
+  color: #67717F;
+  font-size: 0.875rem;
+  border: 0.0625rem solid #C8CED8;
+  border-radius: 0.0625rem;
+  padding: 0 10px;
+  margin-left: 5px;
+  vertical-align: middle;
 }
 input:focus {
-  border: 1px solid #0050ff;
-}
-input.search {
-  width: 305px;
-  height: 30px;
-  background: url("../media/icons/icon_search.svg") no-repeat center right;
-  padding: 0 10px;
-  border-radius: 2px;
-  font-size: 13px;
-}
-input.user-register-input {
-  width: 340px;
-  height: 26px;
-  margin-top: 8px;
-  padding-left: 10px;
-  font-size: 14px;
-}
-input.auth-name {
-  width: 340px;
-  height: 30px;
-}
-input.auth-id {
-  width: 340px;
-  height: 30px;
-}
-input.auth-txt {
-  width: 340px;
-  height: 166px;
-}
-input.auth-list {
-  width: 340px;
-  height: 216px;
-  border: 1px solid #C8CED8;
-}
-input.auth-url {
-  width: 340px;
-  height: 216px;
-  border: 1px solid #C8CED8;
-}
-
-label.auth-name {
-  display: block;
-}
-label.auth-id {
-  display: inline-block;
-}
-label.auth-txt {
-  display: block;
-}
-label.auth-list {
-  display: block;
-}
-label.auth-url {
-  width: 340px;
+  border: 0.0625rem solid #0050ff;
 }
 
 textarea {
-  width: 695px;
-  border: 1px solid #c8ced8;
+  margin: 10px 0 15px 0;
+  display: block;
+  border: 1px solid #C8CED8;
+  color: #67717F;
+}
+
+.column-2 {
+  width: 13.75rem;
 }
 
 .wrap-screen {
@@ -262,12 +232,6 @@ textarea {
 .container .contents .menubar-bottom {
   display: inline-block;
   width: 100%;
-}
-.container .contents-left {
-  float: left;
-}
-.container .contents-right {
-  float: right;
 }
 .container .contents .user-register-contents-body {
   background: white;
@@ -572,63 +536,6 @@ textarea {
 .container .contents .list .align-right {
   text-align: right;
 }
-.container .contents-list {
-  clear: both;
-}
-.container .contents-list table {
-  width: 100%;
-}
-.container .contents-list table span {
-  display: block;
-  margin-left: 30px;
-}
-.container .contents-list table tr {
-  color: #67717f;
-  font-size: 13px;
-  border-bottom: 1px solid #d2d9e2;
-  padding: 0 16px;
-}
-.container .contents-list table tr th {
-  height: 38px;
-  color: #3e4752;
-  font-size: 14px;
-  border-bottom: 2px solid #d2d9e2;
-  vertical-align: middle;
-  border-top: 1px solid #d2d9e2;
-}
-.container .contents-list table tr td {
-  height: 45px;
-  vertical-align: middle;
-  text-align: center;
-}
-.container .contents-list table tr td:first-child {
-  width: 30px;
-}
-.container .contents-list table tr:hover {
-  background: rgba(0, 80, 255, 0.05);
-}
-.container .contents-list table tr:first-child {
-  background: rgba(0, 80, 255, 0);
-}
-.container .contents-list .profile-photo {
-  height: 27px;
-  width: 27px;
-  border-radius: 50%;
-  background: #f0f0f0;
-  cursor: pointer;
-}
-.container .contents-list .tr-notice {
-  background: rgba(255, 255, 0, 0.2);
-}
-.container .contents-list .align-center {
-  text-align: center;
-}
-.container .contents-list .align-left {
-  text-align: left;
-}
-.container .contents-list .align-right {
-  text-align: right;
-}
 .container .contents .search {
   width: 305px;
   height: 30px;
@@ -711,16 +618,6 @@ textarea {
   background: url("../icons/icon_info_select.png") no-repeat right;
 }
 
-.contents-search-body {
-  background: white;
-  padding: 20px 45px;
-}
-.contents-search-body:after {
-  content: "";
-  display: block;
-  clear: both;
-}
-
 .paging {
   display: block;
   float: left;
@@ -772,6 +669,73 @@ textarea {
   background: rgba(64, 158, 230, 0.05) url("../icons/icon_paging_next_ov.svg") no-repeat center center;
   color: #0050ff;
   border: rgba(64, 158, 230, 0.05) 1px solid;
+}
+
+.token-list {
+  clear: both;
+}
+.token-list table {
+  width: 100%;
+}
+.token-list table span {
+  display: block;
+  margin-left: 30px;
+}
+.token-list table tr {
+  color: #67717f;
+  font-size: 13px;
+  border-bottom: 1px solid #d2d9e2;
+  padding: 0 16px;
+}
+.token-list table tr th {
+  height: 38px;
+  color: #3e4752;
+  font-size: 14px;
+  border-bottom: 2px solid #d2d9e2;
+  vertical-align: middle;
+  border-top: 1px solid #d2d9e2;
+}
+.token-list table tr td {
+  height: 45px;
+  vertical-align: middle;
+  text-align: center;
+}
+.token-list table tr td:first-child {
+  width: 30px;
+}
+.token-list table tr:hover {
+  background: rgba(0, 80, 255, 0.05);
+}
+.token-list table tr:first-child {
+  background: rgba(0, 80, 255, 0);
+}
+.token-list .profile-photo {
+  height: 27px;
+  width: 27px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  cursor: pointer;
+}
+.token-list .tr-notice {
+  background: rgba(255, 255, 0, 0.2);
+}
+.token-list .align-center {
+  text-align: center;
+}
+.token-list .align-left {
+  text-align: left;
+}
+.token-list .align-right {
+  text-align: right;
+}
+.token-search {
+  background: white;
+  padding: 20px 45px;
+}
+.token-search:after {
+  content: "";
+  display: block;
+  clear: both;
 }
 
 /* 상단 바 */
