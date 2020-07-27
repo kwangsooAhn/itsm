@@ -11,10 +11,7 @@ import org.springframework.stereotype.Repository
  * @author Jung heechan
  */
 @Repository
-interface FaqRepository : JpaRepository<FaqEntity, String> {
-
-    @Query("select f from FaqEntity f join fetch f.createUser left outer join fetch f.updateUser order by f.faqGroup desc ")
-    fun getFaqList(): MutableList<FaqEntity>
+interface FaqRepository : FaqRepositoryCustom, JpaRepository<FaqEntity, String> {
 
     @Query("select distinct(f.faqGroup) as faqGroup from FaqEntity f order by f.faqGroup desc")
     fun getAllFaqGroupList(): List<String>
