@@ -1214,40 +1214,43 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 .container .contents .list-wrap-edit table {
-	 margin: 0 0 10px 0;
+ margin: 0 0 10px 0;
 }
 .container .contents .list-wrap-edit table th {
-	 background: rgba(204, 211, 217, 0.1);
-	 text-align: left;
+ background: rgba(204, 211, 217, 0.1);
+ text-align: left;
+ font-size: 14px;
+ padding-left: 15px;
 }
-.container .contents .list-wrap-edit table tr .edit-name {
-	 width: 1000px;
-	 text-align: right;
-	 border-right: 1px solid #c8ced8;
-	 padding: 0 10px;
+.container .contents .list-wrap-edit table tr td {
+ font-size: 13px;
+ padding: 0 15px;
+ margin: 0 auto;
 }
-.container .contents .list-wrap-edit table tr .edit-date {
-	 width: 130px;
-	 padding: 0 10px;
+.container .contents .list-wrap-edit table tr td.edit-name {
+ width: 1000px;
+ text-align: right;
+ border-right: 1px solid #c8ced8;
 }
-.container .contents .list-wrap-edit table tr .edit-txtarea {
-	 height: 150px;
-	 min-height: 150px;
-	 padding: 10px;
-	 text-align: left;
-	 vertical-align: text-top;
+.container .contents .list-wrap-edit table tr td.edit-date {
+ width: 130px;
+}
+.container .contents .list-wrap-edit table tr td.edit-txtarea {
+ height: 150px;
+ min-height: 150px;
+ padding: 10px;
+ text-align: left;
+ vertical-align: text-top;
 }
 .container .contents .list-wrap-edit table tr td.file-attachment {
-	 width: 80px;
-	 padding: 0 10px;
-	 border-right: 1px solid #c8ced8;
+ width: 80px;
+ border-right: 1px solid #c8ced8;
 }
 .container .contents .list-wrap-edit table tr td.file-attach-input {
-	 text-align: left;
-	 padding: 0 10px;
+ text-align: left;
 }
 .container .contents .list-wrap-edit table tr:hover {
-	 background: none;
+ background: none;
 }
 
 .container .contents .list-count {
@@ -1379,6 +1382,28 @@ input.auth-url {
   width: 340px;
   height: 216px;
   border: 1px solid #C8CED8;
+}
+input.reference-count {
+  width: 716px;
+  height: 30px;
+  margin: 8px 0 15px 0;
+  color: #3e4752;
+}
+input.reference-count.disable {
+  background: #f7f9fa;
+  height: 30px;
+  border: 1px solid #c8ced8;
+}
+input.file-attach {
+  border: none;
+}
+input.date-token {
+  width: 130px;
+  height: 28px;
+  font-size: 13px;
+  color: #67717f;
+  padding: 0 10px;
+  background: url("../icons/icon_token_select_monthly.svg") no-repeat center right;
 }
 
 label.auth-name {

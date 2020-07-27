@@ -157,13 +157,14 @@
             &-edit {
                 table{
                     margin: 0 0 10px 0;
-                    & th {background: rgba(204, 211, 217, 0.1); text-align: left;}
-                    & tr {
-                        .edit-name{width:1000px; text-align: right; border-right: 1px solid #C8CED8;padding: 0 10px;}
-                        .edit-date{width:130px; padding: 0 10px;}
-                        .edit-txtarea{height: 150px; min-height: 150px;padding: 10px; text-align: left; vertical-align: text-top;}
-                        & td.file-attachment{width:80px; padding: 0 10px;border-right: 1px solid #C8CED8; }
-                        & td.file-attach-input{text-align: left; padding: 0 10px;}
+                    & th {background: rgba(204, 211, 217, 0.1); text-align: left;font-size: 14px;padding-left: 15px;}
+                    & tr td {
+                        padding: 0 15px;font-size: 13px;margin: 0 auto;
+                        &.edit-name{width:1000px; text-align: right; border-right: 1px solid #C8CED8;}
+                        &.edit-date{width:130px;}
+                        &.edit-txtarea{height: 150px; min-height: 150px;text-align: left; vertical-align: text-top;}
+                        &.file-attachment{width:80px;border-right: 1px solid #C8CED8; }
+                        &.file-attach-input{text-align: left;}
                     }
                     & tr:hover{background: none;}
                 }
@@ -219,6 +220,15 @@ input {
         &-txt {width: 340px;height: 166px;}
         &-list {width: 340px;height: 216px;border: 1px solid #C8CED8;}
         &-url {width: 340px;height: 216px;	border: 1px solid #C8CED8;}
+    }
+    &.reference-count {
+    	width: 716px;height: 30px;margin: 8px 0 15px 0;color: #3e4752;
+        &.disable {background: #f7f9fa;height: 30px;border: 1px solid #c8ced8;}
+    }
+    &.file-attach {border: none;}
+    &.date-token {
+        width: 130px;height: 28px;font-size: 13px;color: #67717f;padding: 0 10px;
+    	background: url("../icons/icon_token_select_monthly.svg") no-repeat center right;
     }
 }
 label {
