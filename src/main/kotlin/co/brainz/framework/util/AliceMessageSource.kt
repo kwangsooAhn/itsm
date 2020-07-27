@@ -37,7 +37,6 @@ class AliceMessageSource {
      *      techSupport: "기술지원"
      */
     fun getUserInputToCodes(codeRange: String, input: String): MutableList<String> {
-        // messageSource.getMessage(code, args, LocaleContextHolder.getLocale())
         val codes: MutableMap<String, String> = mutableMapOf()
         val resourceBundle = this.getResourceBundle()
         val keys = resourceBundle.keys

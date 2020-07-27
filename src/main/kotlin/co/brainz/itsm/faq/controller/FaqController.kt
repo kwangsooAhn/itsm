@@ -54,8 +54,8 @@ class FaqController(private val faqService: FaqService, private val codeService:
      * FAQ 검색 결과 리스트 화면 호출 처리
      */
     @GetMapping("/list")
-    fun getFaqList(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
-        model.addAttribute("faqs", faqService.findAll(faqSearchRequestDto))
+    fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
+        model.addAttribute("faqs", faqService.getFaqs(faqSearchRequestDto))
         return faqListPage
     }
 

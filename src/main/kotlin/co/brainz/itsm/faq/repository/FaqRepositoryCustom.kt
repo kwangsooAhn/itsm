@@ -4,7 +4,6 @@ import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 
-
 interface FaqRepositoryCustom : AliceRepositoryCustom {
 
     /**

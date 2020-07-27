@@ -36,7 +36,7 @@ class FaqRestController(private val faqService: FaqService) {
      */
     @GetMapping("/", "")
     fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
-        return faqService.findAll(faqSearchRequestDto)
+        return faqService.getFaqs(faqSearchRequestDto)
     }
 
     /**

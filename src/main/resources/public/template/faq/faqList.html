@@ -21,8 +21,8 @@
         <tr th:if="${#arrays.isEmpty(faqs)}">
             <td colspan="2" th:text="#{common.msg.noData}"></td>
         </tr>
-        <tr th:unless="${#arrays.isEmpty(faqs)}" th:each="faq, i: ${faqs}">
-            <td th:text="#{${faq.faqGroup}}"></td>
+        <tr th:unless="${#arrays.isEmpty(faqs)}" th:each="faq: ${faqs}">
+            <td th:text="#{|common.code.${faq.faqGroup}|}"></td>
             <td th:text="${faq.faqTitle}"></td>
         </tr>
         </tbody>
