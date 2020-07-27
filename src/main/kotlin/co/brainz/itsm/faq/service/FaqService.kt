@@ -1,21 +1,17 @@
 package co.brainz.itsm.faq.service
 
-import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.mapper.FaqMapper
 import co.brainz.itsm.faq.repository.FaqRepository
-import net.rakugakibox.util.YamlResourceBundle
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.context.MessageSource
-import org.springframework.context.i18n.LocaleContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import java.util.ResourceBundle
 
 /**
  * ### FAQ 관련 서비스 레이어 클래스.
