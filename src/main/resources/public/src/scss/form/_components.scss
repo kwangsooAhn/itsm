@@ -1,0 +1,408 @@
+/* 컴포넌트 */
+:root {
+    --data-column: 12;
+    --data-row: 2;
+}
+.component {
+    position: relative;
+    display: flex; 
+    align-items: center; 
+    width: 100%; 
+    max-width: 100%;
+    border: solid 0.0625rem #ffffff; // 1px
+    padding: 1.25rem 2.125rem 1.25rem 0.8125rem;    // 20px 34.8px 20px 13px
+    color: $component-font-color;
+    font: {
+        family: $component-font-family;
+        size: $component-font-size;
+        weight: $component-font-weight;
+    }
+
+    // drag and drop icon
+    .move-handler { 
+        width:  0.8125rem; // 13px
+        height: 0.8125rem; // 13px
+        margin: 0 0.5rem 0 0; // 0 8.8px 0 0
+        content: '';
+        cursor: move;
+        opacity: 0;
+        @include background("editor/icon_move.png");
+    }
+    // label + display
+    .field-group {
+        display: flex; 
+        flex-wrap: wrap; 
+        align-items: center;
+        width: 100%; 
+        // 라벨
+        .field-label {
+            flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+            padding-right: 0.938rem; // 15px;
+            // 라벨 정렬
+            &.left { text-align: left; }
+            &.center { text-align: center; }
+            &.right { text-align: right; }
+            &.hidden { display: none; }
+
+            .label { display: inline-block; }
+            span[class="required"] {
+                padding-left: 0.3125rem; //5px
+                color: #fc5f6b;
+                font-weight: bold;
+            }
+        }
+
+        // 라벨 위치가 top일 경우 라벨 위치 조정용 필드
+        .field-empty {
+            flex-basis: calc(100% * (#{$column-row} - var(--data-column, #{$column-row})));
+            &:not(.top) { display: none; }
+        }
+
+        .field-content {
+            flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+            &.horizontal div { display: inline-block; }
+            // inputbox
+            input[type=text] {
+                width: 100%; 
+                height: 1.563rem;    //25px
+                border: 0.0625rem solid $component-border-color; // 1px
+                background-color: #ffffff;
+                padding-left: $component-indent-padding-left;
+            }
+
+            // textarea
+            textarea { 
+                width: 100%; 
+                border: 0.0625rem solid $component-border-color; // 1px
+                line-height: 1.563rem; // 25px
+                resize: none;
+                padding-left: $component-indent-padding-left;
+                @include scrollbar-hidden;
+            }
+
+            // text editor
+            .editor-container {
+                height: calc(1.563rem * var(--data-row)); // quill editor 높이 : 25 * row 갯수
+            }
+
+            .ql-snow {
+                border-color: $component-border-color;
+                background-color: #ffffff;
+                .ql-editor.ql-blank::before {
+                    content: attr(data-placeholder);
+                }
+            }
+
+            .quill-wrap {
+                .ql-active {
+                    border: 0.0625rem solid $component-border-color !important;  //1px
+                    border-radius: 0.25rem   //4px
+                }
+                button,
+                .ql-picker { 
+                    margin-right: 0.125rem //2px 
+                }
+            }
+
+            // select box
+            select {
+                min-width: 9.375rem; // 150px
+                height: 1.563rem; // 25px
+                border: 0.0625rem solid $component-border-color; // 1px
+                padding-left: $component-indent-padding-left;
+            }
+
+            //radio button
+            .field-radio {
+                margin: 0 0.625rem 0 0; // 0px 10px 0px 0px
+                span:first-of-type { padding-right: 0.4375rem; } // 7px
+                input[type=radio] {
+                    display: none;
+                    + span {
+                        &:before {
+                            content: '';
+                            border-radius: 100%;
+                            border: 0.0625rem solid $component-border-color; // 1px
+                            display: inline-block;
+                            width: 0.8125rem; // 13px
+                            height: 0.8125rem; // 13px
+                            position: relative;
+                            top: -0.0625rem; // -1px
+                            margin-right: 0.3125rem; // 5px 
+                            vertical-align: middle;
+                            cursor: pointer;
+                            text-align: center;
+                        }
+                        &:empty {
+                            &:before {
+                                margin-right: 0;
+                            }
+                        }
+                    }
+                    &:checked {
+                        + span {
+                            &:before {
+                                background-color: #0050ff;
+                                box-shadow: inset 0 0 0 0.125rem #ffffff; // 2px
+                                border: 0.0625rem solid #0050ff; // 1px
+                            }
+                        }
+                    }
+                    &:focus {
+                        + span {
+                            &:before {
+                                border-color: #0050ff;
+                            }
+                        }
+                    }
+                    &:disabled {
+                        + span {
+                            color: darken(#f4f4f4, 25%);
+                            &:before {
+                                box-shadow: inset 0 0 0 0.125rem #f4f4f4; // 2px
+                                border-color: darken(#f4f4f4, 25%);
+                                background: darken(#f4f4f4, 25%);
+                            }
+                        }
+                    }
+                }
+            }
+
+            //checkbox 
+            .field-checkbox {
+                margin: 0 0.625rem 0 0; // 0px 10px 0px 0px
+                span:first-of-type { padding-right: 0.4375rem; }
+                input[type=checkbox] {
+                    display: none;
+                    + span {
+                        position: relative;
+                        cursor: pointer;
+                        &:before {
+                            content: '';
+                            margin-right: 0.3125rem; // 5px
+                            display: inline-block;
+                            border-radius: 0.125rem; // 2px
+                            border: 0.0625rem solid $component-border-color;
+                            width: 0.8125rem; // 13px
+                            height: 0.8125rem; // 13px
+                            vertical-align: middle;
+                        }
+                        &:empty {
+                            &:before {
+                                margin-right: 0;
+                            }
+                        }
+                    }
+                    &:checked {
+                        + span {
+                            &:before {
+                              background-color: #ffffff;
+                              border: 0.0625rem solid #0050ff; // 1px
+                            }
+                            &:after {
+                                content: '';
+                                position: absolute;
+                                left: 0.125rem; // 2px
+                                top: 0.5625rem; // 9px
+                                background: #0050ff;
+                                width: 0.125rem; // 2px
+                                height: 0.125rem; // 2px
+                                box-shadow: 
+                                    0.125rem 0 0 #0050ff, 
+                                    0.25rem 0 0 #0050ff, 
+                                    0.25rem -0.125rem 0 #0050ff, 
+                                    0.25rem -0.25rem 0 #0050ff, 
+                                    0.25rem -0.375rem 0 #0050ff;
+                                transform: rotate(45deg);
+                            }
+                        }
+                    }
+                    &:disabled {
+                        + span {
+                            color: darken(#f4f4f4, 25%);
+                            &:before {
+                                box-shadow: inset 0 0 0 0.125rem #f4f4f4; // 2px
+                                border-color: darken(#f4f4f4, 25%);
+                                background: darken(#f4f4f4, 25%);
+                            }
+                        }
+                    }
+                }
+            }
+            &.vertical {
+                .field-radio,
+                .field-checkbox {
+                    display: table;
+                    margin-bottom: 0.625rem; //10px
+                    &:last-of-type {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            &.left { text-align: left; }
+            &.center { text-align: center; }
+            &.right { text-align: right; }
+
+            //image 컴포넌트
+            .img-placeholder {
+                display: none;
+                height: 8.75rem;    // 140px
+                border: 0.0625rem dashed $component-border-color; // 1px
+                background-color: #FBFBFB;
+                color: #C8CED8;
+                text-align: center;
+                font-size:  0.75rem;    // 12px
+                margin: 0 1.875rem; // 0 30px
+                padding: 1.25rem 0 0.625rem 0; // 20px 0 10px 0
+                img {
+                    content: url("#{$form-asset-path}/editor/icon_image.png");
+                }
+                p {
+                    margin: 0.625rem 0 0 0; // 10px 0 0 0
+                }
+            }
+
+            .field-img[src=""] {
+                display: none;
+                + .img-placeholder {
+                    display: block;
+                }
+            }
+
+            //divider
+            hr { border-bottom-width: 0; }
+
+            //custom-code
+            &.custom-code { display: flex; }
+            input[type=button] {
+                flex: 1 1 auto;
+                width: 4.375rem;     // 70px
+                height: 1.563rem;    // 25px
+                white-space: nowrap;
+                border: 0.0625rem solid #C8CED8; // 1px
+                border-left: 0;
+                background-color: #ffffff;
+            }
+
+            //fileupload
+            .dropbox { 
+                height: 8.75rem;    //140px
+                line-height: 8.75rem;
+                background-color: #FBFBFB;
+                border: 0.0625rem solid $component-border-color; // 1px
+                text-align: center;
+                font-size:  0.9375rem;    //15px
+                color: #C8CED8;
+                overflow: hidden;
+                span {
+                    color: #0050ff;
+                    text-decoration: underline;
+                }
+            }
+        }
+    }
+    // tooltip menu
+    .tooltip-menu {
+        visibility: hidden;
+        position: absolute;
+        background-color: #ffffff;
+        height: 1.875rem; // 30px;
+        box-shadow: 0 0 0 0.0625rem #8caede inset; // 1px
+        bottom: 100%;
+        right: -0.0625rem; // -1px
+        .menu {
+            margin: 0 0.125rem; // 0 2px
+            padding: 0.5625rem 0 0 0; // 9px 0 0 0
+            .menu-item {
+                display: inline-block;
+                a {
+                    margin: 0 0.25rem; // 0 4px
+                    padding: 0 0.5rem; // 0 8px
+                }
+                &:hover { cursor: pointer; }
+
+                &.list a { @include background("tooltip-menu/add.png"); }
+                &.copy a { @include background("tooltip-menu/copy.png"); }
+                &.delete a { @include background("tooltip-menu/delete.png"); }
+                &.add a { @include background("tooltip-menu/new.png"); }
+                // 마우스 오버시 아이콘 변경
+                &.list:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/add_select.png"); }
+                &.copy:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/copy_select.png"); }
+                &.delete:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/delete_select.png"); }
+                &.add:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/new_select.png"); }
+            }
+
+        }
+        .menu-item.list { // tooltip 메뉴의 list 항목 미출력
+            display: none;
+        }
+    }
+}
+
+// editbox 컴포넌트
+.component[data-type="editbox"] {
+    padding: 0 2.125rem 0 0.8125rem;    // 0px 34.8px 0px 13px
+
+    .field-group[contenteditable=true] {
+        height: 4.063rem;          //65px
+        line-height: 4.063rem;
+        color: #AEB7C2;
+        cursor: text;
+        &:empty::before { // 입력된 값이 없으면 placeholder 표시
+            content: attr(placeholder); 
+            display: block;
+        }
+    }
+    // toomtip menu
+    .tooltip-menu {
+        .menu-item.list { // tooltip 메뉴의 list 항목 출력
+            display: inline-block;
+        }
+    }
+}
+
+// 컴포넌트 select
+.component.selected {
+    background-color: rgba(140, 174, 222, 0.1);
+    border: solid 0.0625rem #8caede; // 1px
+    .tooltip-menu {
+        visibility: visible;
+        .menu-item.hidden {
+            display: none;
+        }
+    }
+    &.adjoin {
+        border-bottom-color: rgba(140, 174, 222, 0);
+    }
+    + .component.selected { // 인접 컴포넌트
+        border-width: 0.0625rem; // 1px
+        border-style: solid;
+        border-color: rgba(140, 174, 222, 0) #8caede #8caede #8caede;
+        &.adjoin {
+            border-bottom-color: rgba(140, 174, 222, 0);
+        }
+    }
+    ~ .component.selected { // 첫번째 선택된 컴포넌트를 제외하고 tooltip 미출력
+        .tooltip-menu { visibility: hidden; }
+    }
+}
+
+// 컴포넌트 drag
+.component.over { 
+    border-top: 0.125rem dashed #0050ff; 
+    * { pointer-events: none; }
+}
+
+// 컴포넌트 마우스 오버
+.component:hover {
+    .move-handler { opacity: 1; }
+    [data-type="editbox"] { cursor: text; }
+    [data-type]:not([data-type="editbox"]) { cursor: pointer; }
+}
+
+// 컴포넌트 display Type에 따른 처리 :  'editable', 'editableRequired', 'readonly', 'hidden'
+.component[data-displayType="hidden"] { display: none; }
+.component[data-displayType]:not([data-displayType="editableRequired"]) {
+    .field-group .field-label span[class="required"] { display: none; } // 필수값 표시 숨김
+}
