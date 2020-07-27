@@ -723,19 +723,19 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 .component .tooltip-menu .menu .menu-item.list:hover a {
-  background-image: url("tooltip-menu/add_select.png");
+  background-image: url("../../media/icons/form/tooltip-menu/add_select.png");
 }
 
 .component .tooltip-menu .menu .menu-item.copy:hover a {
-  background-image: url("tooltip-menu/copy_select.png");
+  background-image: url("../../media/icons/form/tooltip-menu/copy_select.png");
 }
 
 .component .tooltip-menu .menu .menu-item.delete:hover a {
-  background-image: url("tooltip-menu/delete_select.png");
+  background-image: url("../../media/icons/form/tooltip-menu/delete_select.png");
 }
 
 .component .tooltip-menu .menu .menu-item.add:hover a {
-  background-image: url("tooltip-menu/new_select.png");
+  background-image: url("../../media/icons/form/tooltip-menu/new_select.png");
 }
 
 .component .tooltip-menu .menu-item.list {

@@ -327,10 +327,10 @@
                 &.delete a { @include background("tooltip-menu/delete.png"); }
                 &.add a { @include background("tooltip-menu/new.png"); }
                 // 마우스 오버시 아이콘 변경
-                &.list:hover a { background-image: url("tooltip-menu/add_select.png"); }
-                &.copy:hover a { background-image: url("tooltip-menu/copy_select.png"); }
-                &.delete:hover a { background-image: url("tooltip-menu/delete_select.png"); }
-                &.add:hover a { background-image: url("tooltip-menu/new_select.png"); }
+                &.list:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/add_select.png"); }
+                &.copy:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/copy_select.png"); }
+                &.delete:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/delete_select.png"); }
+                &.add:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/new_select.png"); }
             }
 
         }
