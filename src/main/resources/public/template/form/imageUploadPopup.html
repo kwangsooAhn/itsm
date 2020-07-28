@@ -130,7 +130,7 @@
             return false;
         }
         if (window.opener && !window.opener.closed) {
-            const pathGroupElem = window.opener.document.getElementById('properties-panel').querySelector('#path');
+            const pathGroupElem = window.opener.document.getElementById('properties-panel').querySelector('#display-path');
             if (pathGroupElem) {
                 const pathElem =  pathGroupElem.querySelector('input[type="text"]');
                 if (pathElem) {
@@ -149,7 +149,7 @@
         if (!window.opener || window.opener.closed) { return false; }
 
         let component = window.opener.document.getElementById(componentId);
-        let componentImgElem =  component.querySelector('img');
+        let componentImgElem =  component.querySelector('.field-img');
         document.querySelectorAll('.dz-preview').forEach(function(elem) {
             let thumbnailElem = elem.querySelector('.dz-image > img');
             if (thumbnailElem !== null && componentImgElem.src === thumbnailElem.src) {
