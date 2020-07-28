@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{process.label.detail}"></title>
+    <!-- 임시 style -->
+    <style>
+        table th {
+            text-align: left;
+        }
+        table td > input, textarea, select {
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+<div style="margin: 10px 0 0 10px;">
+    <table>
+        <tr>
+            <th th:text="|#{process.label.name} *|"></th>
+        </tr>
+        <tr>
+            <td><span th:text="${processInfo?.name}"></span></td>
+        </tr>
+        <tr>
+            <th th:text="#{process.label.description}"></th>
+        </tr>
+        <tr>
+            <td><span th:text="${processInfo?.description}"></span></td>
+        </tr>
+    </table>
+    <div>
+        <button th:attr="onclick=|window.close()|" th:text="#{common.btn.close}"></button>
+    </div>
+</div>
+</body>
+</html>
