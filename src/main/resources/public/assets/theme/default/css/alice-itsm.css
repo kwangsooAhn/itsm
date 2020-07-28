@@ -198,6 +198,7 @@ textarea {
 .wrap-screen {
   position: relative;
   background: #eaf1f7;
+  height: 100vh;
 }
 
 .container {
@@ -1404,5 +1405,3 @@ textarea {
   white-space: nowrap;
   overflow: hidden;
 }
-
-/*# sourceMappingURL=alice-itsm.css.map */
