@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -16,19 +16,19 @@
 <body>
 <th:block layout:fragment="content">
     <div class="contents">
-        <div class="contents-title">
-            <div th:if="!${users?.userKey}">
-                <span class="title-txt" th:text="#{user.label.createUser}"></span>
-                <span class="title-description" th:text="#{user.msg.descriptionCreate}"></span>
-            </div>
-            <div th:if="${users?.userKey}">
-                <span class="title-txt" th:text="#{user.label.editUserInfo}"></span>
-                <span class="title-description" th:text="#{user.msg.descriptionUpdate}"></span>
-            </div>
-        </div>
         <form id="userEditSelfForm" method="post" onsubmit ="return false">
             <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
+            <div class="contents-title">
+                <div th:if="!${users?.userKey}">
+                    <span class="title-txt" th:text="#{user.label.createUser}"></span>
+                    <span class="title-description" th:text="#{user.msg.descriptionCreate}"></span>
+                </div>
+                <div th:if="${users?.userKey}">
+                    <span class="title-txt" th:text="#{user.label.editUserInfo}"></span>
+                    <span class="title-description" th:text="#{user.msg.descriptionUpdate}"></span>
+                </div>
+            </div>
             <div class="user-register-contents-body">
                 <span class="profile-title" th:text="#{user.label.profile}"></span>
                 <div class="profile-manage">
@@ -81,15 +81,15 @@
                                th:value="${deptCodeDetail?.codeValue}" readonly>
                         <input type="hidden" id="departmentCode" name="departmentCode"
                                th:value="${deptCodeDetail?.code}"/>
-                        <button class="input-button" type="button" onclick="deptPopUp();"
-                                th:text="#{department.btn.selection}"></button>
+                        <input class="input-button" type="button" onclick="deptPopUp();"
+                               th:value="#{department.btn.selection}"/>
                     </div>
                     <div class="profile-input-body-list">
                         <p class="input-title" th:text="#{user.label.officeNumber}"></p>
                         <input class="user-register-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                     </div>
-                    <div class="profile-input-bottom-list">
+                    <div class="profile-input-body-list">
                         <p class="input-title" th:text="#{user.label.mobileNumber}"></p>
                         <input class="user-register-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">

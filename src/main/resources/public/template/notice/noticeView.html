@@ -9,99 +9,98 @@
 <body>
 <th:block layout:fragment="content">
     <div class="contents">
-        <div class="contents-title">
-            <span class="title-txt" th:text="#{menu.portal.notice}"></span>
-            <span class="title-description" th:text="#{notice.msg.description}"></span>
-        </div>
-        <div class="contents-body">
-            <form id="frm" method="post">
-                <div class="list">
-                    <div class="list-wrap-edit">
-                        <table>
-                            <colgroup>
-                                <col width="80px">
-                                <col width="*">
-                                <col width="140px">
-                            </colgroup>
-                            <tr>
-                                <th colspan="3"><span th:text="${notice?.noticeTitle}"></span></th>
-                            </tr>
-                            <tr>
-                                <td class="edit-name align-right" colspan="2">
-                                    <span sec:authentication="details.userName"></span>
-                                </td>
-                                <td class="edit-date">
-                                    <span th:id="spanCreateDt" th:text="${notice.createDt}"></span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td class="edit-textarea" colspan="3"><span th:text="${notice?.noticeContents}"></span></td>
-                            </tr>
-                            <tr>
-                                <td class="file-attachment" th:text="#{common.label.attachFile}"></td>
-                                <td class="file-attach-input" colspan="2">
-                                    <div id="dropZoneFiles"></div>
-                                    <div id="dropZoneUploadedFiles"></div>
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="menubar-bottom">
-                            <div class="float-right">
-                                <span class="btn-gray"><a href="/notices/search" th:text="#{common.btn.list}"></a></span>
+        <form id="frm" method="post">
+            <div class="contents-title">
+                <span class="title-txt" th:text="#{menu.portal.notice}"></span>
+                <span class="title-description" th:text="#{notice.msg.description}"></span>
+            </div>
+            <div class="contents-body">
+                    <div class="list">
+                        <div class="list-wrap-edit">
+                            <table>
+                                <colgroup>
+                                    <col width="80px">
+                                    <col width="*">
+                                    <col width="140px">
+                                </colgroup>
+                                <tr>
+                                    <th colspan="3"><span th:text="${notice?.noticeTitle}"></span></th>
+                                </tr>
+                                <tr>
+                                    <td class="edit-name align-right" colspan="2">
+                                        <span sec:authentication="details.userName"></span>
+                                    </td>
+                                    <td class="edit-date">
+                                        <span th:id="spanCreateDt" th:text="${notice.createDt}"></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="edit-textarea" colspan="3"><span th:text="${notice?.noticeContents}"></span></td>
+                                </tr>
+                                <tr>
+                                    <th class="file-attachment" th:text="#{common.label.attachFile}"></th>
+                                    <td class="file-attach-input" colspan="2">
+                                        <div id="dropZoneFiles"></div>
+                                        <div id="dropZoneUploadedFiles"></div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div class="menubar-bottom">
+                                <div class="float-right">
+                                    <span class="btn-gray"><a href="/notices/search" th:text="#{common.btn.list}"></a></span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
-        </div>
+            </div>
+            <div id="popTab" style="display:none;">
+                <table class="table" border="1">
+                    <tr>
+                        <th rowspan="4" th:text="#{notice.label.popUpNoticeSettingsInfo}"></th>
+                        <th th:text="#{notice.label.height}"></th>
+                        <td colspan="2"><span th:text="${notice?.popHeight}"></span></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{notice.label.width}"></th>
+                        <td colspan="2"><span th:text="${notice?.popWidth}"></span></td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{notice.label.strtDt}"></th>
+                        <td colspan="2">
+                            <span th:with="dateformat=${#authentication.details.timeFormat}"
+                                  th:text="${#temporals.format(notice.popStrtDt,dateformat)}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{notice.label.endDt}"></th>
+                        <td colspan="2">
+                            <span th:with="dateformat=${#authentication.details.timeFormat}"
+                                  th:text="${#temporals.format(notice.popEndDt,dateformat)}"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
 
-        <!--원본-->
-        <div id="popTab" style="display:none;">
-            <table class="table" border="1">
-                <tr>
-                    <th rowspan="4" th:text="#{notice.label.popUpNoticeSettingsInfo}"></th>
-                    <th th:text="#{notice.label.height}"></th>
-                    <td colspan="2"><span th:text="${notice?.popHeight}"></span></td>
-                </tr>
-                <tr>
-                    <th th:text="#{notice.label.width}"></th>
-                    <td colspan="2"><span th:text="${notice?.popWidth}"></span></td>
-                </tr>
-                <tr>
-                    <th th:text="#{notice.label.strtDt}"></th>
-                    <td colspan="2">
-                        <span th:with="dateformat=${#authentication.details.timeFormat}"
-                              th:text="${#temporals.format(notice.popStrtDt,dateformat)}"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <th th:text="#{notice.label.endDt}"></th>
-                    <td colspan="2">
-                        <span th:with="dateformat=${#authentication.details.timeFormat}"
-                              th:text="${#temporals.format(notice.popEndDt,dateformat)}"></span>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <div id="topNoticeTab" style="display:none;">
-            <table class="table" border="1">
-                <tr>
-                    <th rowspan="4" th:text="#{notice.label.topNoticeSettingsInfo}"></th>
-                    <th th:text="#{notice.label.strtDt}"></th>
-                    <td colspan="2">
-                        <span th:with="dateformat=${#authentication.details.timeFormat}"
-                              th:text="${#temporals.format(notice.topNoticeStrtDt,dateformat)}"></span>
-                    </td>
-                </tr>
-                <tr>
-                    <th th:text="#{notice.label.endDt}"></th>
-                    <td colspan="2">
-                        <span th:with="dateformat=${#authentication.details.timeFormat}"
-                              th:text="${#temporals.format(notice.topNoticeEndDt,dateformat)}"></span>
-                    </td>
-                </tr>
-            </table>
-        </div>
+            <div id="topNoticeTab" style="display:none;">
+                <table class="table" border="1">
+                    <tr>
+                        <th rowspan="4" th:text="#{notice.label.topNoticeSettingsInfo}"></th>
+                        <th th:text="#{notice.label.strtDt}"></th>
+                        <td colspan="2">
+                            <span th:with="dateformat=${#authentication.details.timeFormat}"
+                                  th:text="${#temporals.format(notice.topNoticeStrtDt,dateformat)}"></span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th th:text="#{notice.label.endDt}"></th>
+                        <td colspan="2">
+                            <span th:with="dateformat=${#authentication.details.timeFormat}"
+                                  th:text="${#temporals.format(notice.topNoticeEndDt,dateformat)}"></span>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
     </div>
 </th:block>
 </body>

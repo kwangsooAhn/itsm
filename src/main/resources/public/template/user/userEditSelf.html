@@ -54,10 +54,10 @@
                                    maxlength="100" autocomplete="new-password" required="required"/>
                         </div>
                         <div class="profile-input-body-list">
-                        <div class="input-title-guide">
-                            <p class="input-title required" th:text="#{user.label.rePassword}"></p>
-                            <span class="btn-info"></span>
-                        </div>
+                            <div class="input-title-guide">
+                                <p class="input-title required" th:text="#{user.label.rePassword}"></p>
+                                <span class="btn-info"></span>
+                            </div>
                             <input class="user-register-input" type="password" id="rePassword" name="rePassword"
                                    maxlength="100" autocomplete="new-password" required="required"/>
                         </div>
@@ -87,15 +87,15 @@
                                th:value="${deptCodeDetail?.codeValue}" readonly>
                         <input type="hidden" id="departmentCode" name="departmentCode"
                                th:value="${deptCodeDetail?.code}"/>
-                        <button class="input-button" type="button" onclick="deptPopUp();"
-                                th:text="#{department.btn.selection}"></button>
+                        <input class="input-button" type="button" onclick="deptPopUp();"
+                                th:value="#{department.btn.selection}"/>
                     </div>
                     <div class="profile-input-body-list">
                         <span class="input-title" th:text="#{user.label.officeNumber}"></span>
                         <input class="user-register-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                     </div>
-                    <div class="profile-input-bottom-list">
+                    <div class="profile-input-body-list">
                         <span class="input-title" th:text="#{user.label.mobileNumber}"></span>
                         <input class="user-register-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">

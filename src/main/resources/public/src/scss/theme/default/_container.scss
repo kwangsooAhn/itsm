@@ -1,7 +1,7 @@
 // *********************************************************************************************************************
 // CONTENTS (container > contents > title, body)
 // *********************************************************************************************************************
-.wrap-screen{position: relative;background: rgba(234, 241, 247, 1);}
+.wrap-screen{position: relative;min-height: 100vh;background: rgba(234, 241, 247, 1);}
 
 .container {
     height:100%; padding:60px 0 0 220px;
@@ -23,28 +23,30 @@
         // 사용자 정보
         .user-register-contents-body {
             background: rgba(255, 255, 255, 1); padding: 88px 351px 96px 351px;
-            input {font-size:14px;}
-            select {font-size:14px;}
+            input {font-size: 14px;height: 30px;width: 340px;margin-top: 8px;}
+            select {font-size:14px;margin-top: 8px;}
             .required::after {color: #E83828;content: "\002a";}
             .profile {
                 &-title {font-size: 20px;padding: 0px 0px 11px 0px;}
                 &-manage {margin-top: 11px;border-top: 2px solid #C8CED8;width: 698px;}
                 &-input {
-                    &-body-list {margin-top: 15px;margin-left: 10px;}
-                    &-bottom-list {margin-top: 15px;margin-left: 10px;margin-bottom: 62px;}
+                    &-body-list {
+                        margin-top: 15px;margin-left: 10px;
+                        &:last-child {margin-bottom: 62px;}
+                    }
                 }
             }
             .user-register-top-list {margin-top: 37px;margin-left: 10px;}
             .input {
-                &-title {font-size: 14px;display: inline-block;}
+                &-title {font-size: 14px;display: block;padding: 10px 0;}
                 &-guide {display: flex;vertical-align: middle;}
                 &-button {width: 60px;height: 30px;background: rgba(255, 255, 255, 1);border: 1px solid #C8CED8;margin-left: -63px;font-size: 14px;}
             }
-            .custom-setting-top-select {width: 678px;height: 26px;margin-top: 8px;padding-left: 5px;border: 1px solid #C8CED8;}
-            .select-date-time {width: 244px;height: 26px;border: 1px solid #C8CED8;margin-top: 8px;padding-left: 5px;}
+            .custom-setting-top-select {width: 678px;height: 26px;padding-left: 5px;border: 1px solid #C8CED8;}
+            .select-date-time {width: 244px;height: 26px;border: 1px solid #C8CED8;padding-left: 5px;}
             .hour-select {width: 85px;height: 26px;color: black;border: 1px solid #C8CED8;margin-left: 5px;padding-left: 5px;}
-            .language-select {width: 244px;height: 30px;border: 1px solid #C8CED8;font-size: 14px;margin-top: 15px;padding-left: 5px;}
-            .theme-color-select {margin-top: 15px;width: 244px;height: 30px;border: 1px solid #C8CED8;margin-bottom: 62px;padding-left: 5px;}
+            .language-select {width: 244px;height: 30px;border: 1px solid #C8CED8;font-size: 14px;padding-left: 5px;}
+            .theme-color-select {width: 244px;height: 30px;border: 1px solid #C8CED8;padding-left: 5px;}
             .user-role-checkbox {
                 width: 15px;height: 15px;line-height: 15px;
                 &-wrap {margin-top: 15px;margin-left: 10px;display: inline-block;width: 162px;}
@@ -139,7 +141,7 @@
             font-size: 13px; color: #3e4752;
         }
         .list-wrap {
-            padding: 15px 0; height:490px;
+            padding: 15px 0;display: table;height:490px;
             &-auth {
                 padding: 15px 35px 15px 0;width: 534px;float: left;border-right: 1px solid #D2D9E2;
                 &-edit {
@@ -154,7 +156,7 @@
                     & tr td {
                         padding: 0 15px;font-size: 13px;margin: 0 auto;
                         &.edit-name {width:1000px; text-align: right; border-right: 1px solid #C8CED8;}
-                        &.edit-textarea {height: 150px; min-height: 150px;text-align: left; vertical-align: text-top;}
+                        &.edit-textarea {height: 150px; min-height: 150px;padding: 15px;text-align: left; vertical-align: text-top;}
                         &.file-attachment {border-right: 1px solid #C8CED8; }
                         &.file-attach-input {text-align: left;}
                     }
