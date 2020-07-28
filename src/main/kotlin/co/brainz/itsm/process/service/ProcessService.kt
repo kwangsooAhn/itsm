@@ -7,7 +7,6 @@ import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
-import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -20,7 +19,6 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.util.LinkedMultiValueMap
 import org.w3c.dom.Element
 import org.w3c.dom.Node
 import org.w3c.dom.NodeList
@@ -34,18 +32,6 @@ class ProcessService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-
-    /**
-     * 프로세스 데이터 목록 조회.
-     */
-    fun getProcesses(params: LinkedMultiValueMap<String, String>): List<RestTemplateProcessViewDto> {
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Process.GET_PROCESSES.url, parameters = params)
-        val responseBody = restTemplate.get(url)
-        return mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateProcessViewDto::class.java)
-        )
-    }
 
     /**
      * 프로세스 데이터 조회.

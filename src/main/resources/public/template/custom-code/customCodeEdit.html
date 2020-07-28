@@ -67,77 +67,75 @@
             <h1 th:text="#{customCode.label.customCode}"></h1>
         </div>
         <hr>
-        <div id="container" style="margin-bottom: 20px;">
-            <!-- 타입: 공통-->
-            <table id="type-common-container">
-                <tbody>
-                <tr>
-                    <td class="required" th:text="#{customCode.label.name}"></td>
-                    <td>
-                        <input type="text" id="customCodeName" required="required" maxlength="100"
-                               th:value="${customCode?.customCodeName}">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="required" th:text="#{customCode.label.type}"></td>
-                    <td>
-                        <label>
-                            <input id="table" name="type" type="radio"
-                                   th:checked="${customCode?.type == null || customCode?.type == 'table'}"
-                                   th:text="#{customCode.label.table}" onclick="changeContainer('table')">
-                        </label>
-                        <label>
-                            <input id="code" name="type" type="radio"
-                                   th:checked="${customCode?.type == 'code'}"
-                                   th:text="#{customCode.label.code}" onclick="changeContainer('code')">
-                        </label>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- 타입: table-->
-            <table id="type-table-container"
-                   th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
-                <tbody>
-                <tr>
-                    <td class="required" th:text="#{customCode.label.targetTable}"></td>
-                    <td>
-                        <select id="targetTable">
-                            <option th:each="customCodeTable: ${customCodeTableList}"
-                                    th:value="${customCodeTable.customCodeTable}"
-                                    th:text="|${customCodeTable.customCodeTableName}(${customCodeTable.customCodeTable})|"
-                                    th:selected="${customCodeTable.customCodeTable} == ${customCode?.targetTable}">
-                            </option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td class="required" th:text="#{customCode.label.searchColumn}"></td>
-                    <td><select id="searchColumn"></select></td>
-                </tr>
-                <tr>
-                    <td class="required" th:text="#{customCode.label.valueColumn}"></td>
-                    <td><select id="valueColumn"></select></td>
-                </tr>
-                <tr>
-                    <td>
-                        <label th:text="#{customCode.label.condition}"></label>
-                        <button class="plus" onclick="addCondition()"></button>
-                    </td>
-                    <td id="condition" style="padding: 0 10px;"></td>
-                </tr>
-                </tbody>
-            </table>
-            <!-- 타입: 코드 -->
-            <table id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
-                <tbody>
-                <tr>
-                    <td class="required" th:text="#{customCode.label.pCode}"></td>
-                    <td><input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <!-- 타입: 공통-->
+        <table id="type-common-container">
+            <tbody>
+            <tr>
+                <td class="required" th:text="#{customCode.label.name}"></td>
+                <td>
+                    <input type="text" id="customCodeName" required="required" maxlength="100"
+                           th:value="${customCode?.customCodeName}">
+                </td>
+            </tr>
+            <tr>
+                <td class="required" th:text="#{customCode.label.type}"></td>
+                <td>
+                    <label>
+                        <input id="table" name="type" type="radio"
+                               th:checked="${customCode?.type == null || customCode?.type == 'table'}"
+                               th:text="#{customCode.label.table}" onclick="changeContainer('table')">
+                    </label>
+                    <label>
+                        <input id="code" name="type" type="radio"
+                               th:checked="${customCode?.type == 'code'}"
+                               th:text="#{customCode.label.code}" onclick="changeContainer('code')">
+                    </label>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- 타입: table-->
+        <table id="type-table-container"
+               th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
+            <tbody>
+            <tr>
+                <td class="required" th:text="#{customCode.label.targetTable}"></td>
+                <td>
+                    <select id="targetTable">
+                        <option th:each="customCodeTable: ${customCodeTableList}"
+                                th:value="${customCodeTable.customCodeTable}"
+                                th:text="|${customCodeTable.customCodeTableName}(${customCodeTable.customCodeTable})|"
+                                th:selected="${customCodeTable.customCodeTable} == ${customCode?.targetTable}">
+                        </option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="required" th:text="#{customCode.label.searchColumn}"></td>
+                <td><select id="searchColumn"></select></td>
+            </tr>
+            <tr>
+                <td class="required" th:text="#{customCode.label.valueColumn}"></td>
+                <td><select id="valueColumn"></select></td>
+            </tr>
+            <tr>
+                <td>
+                    <label th:text="#{customCode.label.condition}"></label>
+                    <button class="plus" onclick="addCondition()"></button>
+                </td>
+                <td id="condition" style="padding: 0 10px;"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- 타입: 코드 -->
+        <table id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
+            <tbody>
+            <tr>
+                <td class="required" th:text="#{customCode.label.pCode}"></td>
+                <td><input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}"></td>
+            </tr>
+            </tbody>
+        </table>
         <div align="right">
             <button style="margin-right: 5px;" onclick="location.href='/custom-codes/search'"
                     th:text="#{common.btn.list}"></button>

@@ -24,8 +24,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -35,7 +35,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -61,7 +61,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -134,8 +134,8 @@
                 "value": "none|",
                 "type": "session",
                 "option": [
-                    {"id": "none", "name": "직접입력"},
-                    {"id": "select", "name": "자동입력",
+                    {"id": "none", "name": "직접"},
+                    {"id": "select", "name": "자동",
                         "items" : [
                             {"id": "userId", "name": "아이디"},
                             {"id": "userName", "name": "이름"},
@@ -222,8 +222,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -233,7 +233,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -259,7 +259,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -390,8 +390,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -401,7 +401,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -427,7 +427,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -522,8 +522,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -533,7 +533,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -559,7 +559,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -630,7 +630,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "right",
-                "type": "select",
+                "type": "button-option-icon",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
                 "code": "",
                 "unit": ""
@@ -672,8 +672,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -683,7 +683,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -709,7 +709,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -780,7 +780,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "right",
-                "type": "select",
+                "type": "button-option-icon",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
                 "code": "",
                 "unit": ""
@@ -822,8 +822,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -841,7 +841,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -914,8 +914,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -952,7 +952,7 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-icon",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
                 "code": "",
                 "unit": ""
@@ -983,8 +983,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -1002,8 +1002,8 @@
             {
                 "id": "color",
                 "name": "Color",
-                "value": "#000000",
-                "type": "rgb",
+                "value": "rgb(0, 0, 0, 1)",
+                "type": "rgba",
                 "code": "",
                 "unit": ""
             },
@@ -1042,8 +1042,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -1053,7 +1053,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1079,7 +1079,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1191,8 +1191,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -1202,7 +1202,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1228,7 +1228,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1340,8 +1340,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -1351,7 +1351,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1377,7 +1377,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1489,8 +1489,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -1500,7 +1500,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1526,7 +1526,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1610,8 +1610,8 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
-                "type": "editable",
+                "value": "editable",
+                "type": "hidden",
                 "code": "",
                 "unit": ""
             }
@@ -1621,7 +1621,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1647,7 +1647,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""

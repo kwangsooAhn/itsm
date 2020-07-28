@@ -16,7 +16,7 @@
             <col width="120px">
             <col width="180px">
         </colgroup>
-        <tbody>
+        <thead>
             <tr>
                 <th th:text="#{board.label.number}"></th>
                 <th th:text="#{board.label.category}"></th>
@@ -26,6 +26,8 @@
                 <th th:text="#{common.label.writer}"></th>
                 <th th:text="#{common.label.writeDate}"></th>
             </tr>
+        </thead>
+        <tbody>
             <tr th:if="${#arrays.isEmpty(boardList)}">
                 <td colspan="7" th:text="#{common.msg.noData}"></td>
             </tr>

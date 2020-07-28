@@ -1,8 +1,11 @@
 /**
-* @projectDescription Form Desigener Context menu Library
-*
-* @author woodajung
-* @version 1.0
+ * @projectDescription Form Desigener Context menu Library
+ *
+ * @author woodajung
+ * @version 1.0
+ *
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -317,7 +320,7 @@
      */
     function onKeyUpHandler(e) {
         isCtrlPressed = false;
-        if (clickInsideElement(e, 'alice-form-properties-panel')) { return false; }
+        if (clickInsideElement(e, 'aside')) { return false; }
 
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
         if (selectedItem && (userKeyCode === keycode.arrowUp || userKeyCode === keycode.arrowDown)) { return false; }
@@ -358,7 +361,7 @@
      */
     function onLeftClickHandler(e) {
         //상단메뉴 및 우측 세부 속성창을 클릭한 경우, 아무 동작도 하지 않는다.
-        if (clickInsideElement(e, 'alice-form-properties-panel') || clickInsideElement(e, 'alice-form-toolbar')) {
+        if (clickInsideElement(e, 'aside') || clickInsideElement(e, 'toolbar')) {
             contextMenuOff();
             return false;
         }
@@ -369,7 +372,7 @@
             menuItemListener(clickedElem);
         } else {
             contextMenuOff();
-            if (e.target.classList.contains('alice-form-panel') || e.target.classList.contains('drawing-board')) {
+            if (e.target.classList.contains('content') || e.target.classList.contains('drawing-board')) {
                 editor.showFormProperties();
             }
             itemInContext = clickInsideElement(e, 'component');
@@ -477,15 +480,15 @@
             //연속하여 선택된 컴포넌트 중 하나에 drag 하고자 하는 경우
             if (editor.selectedComponentIds.length > 1 && editor.selectedComponentIds.indexOf(targetComponent.id) !== -1) { return false; }
 
-            let components = document.querySelectorAll('.selected');
+            let components = document.querySelectorAll('.component.selected');
             let histories = [];
             for (let i = 0, len = components.length; i < len; i++) {
                 let moveComponent =  components[i];
                 targetComponent.insertAdjacentHTML('beforebegin', moveComponent.outerHTML);
-                targetComponent.parentNode.removeChild(moveComponent);
 
                 const compIdx = editor.getComponentIndex(moveComponent.id);
                 histories.push({0: JSON.parse(JSON.stringify(editor.data.components[compIdx])), 1: {}});
+                targetComponent.parentNode.removeChild(moveComponent);
             }
             targetComponent.parentNode.removeChild(lastComponent);
             lastComponent = null;

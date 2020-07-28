@@ -69,6 +69,12 @@ common:
         terminate: "terminate"
         waiting: "waiting"
         withdraw: "withdraw"
+    faq:
+      category:
+        all: "All"
+        etc: "Etc"
+        setting: "Setting"
+        techSupport: "Tech support"
 
 # Auth
 auth:
@@ -331,13 +337,13 @@ error:
 
 # FAQ
 faq:
+  label:
+    searchPlaceholder: "Category/Title"
+    category: "Category"
+    title: "Title"
+    content: "Content"
   msg:
     description: "Frequently asked questions and answers."
-  category:
-    all: "All"
-    etc: "ETC"
-    setting: "Setting"
-    techSupport: "Technical Support"
 
 # FileUpload
 fileupload:
@@ -563,6 +569,7 @@ process:
   label:
     create: "Create Process"
     description: "Description"
+    detail: "Detail Process"
     edit: "Edit Process"
     imageDownload: "Image Download"
     import: "Process Import"
@@ -570,12 +577,14 @@ process:
     list: "Process List"
     name: "Process Name"
     processMap: "Process Map"
+    state: "State"
     redo: "Redo"
     searchPlaceholder: "Process Name / Process Description"
     simulation: "Simulation"
     templatesList: "Templates List"
     undo: "Undo"
   msg:
+    description: "View, add, or edit process's information."
     enterProcessName: "Please enter a process name."
     fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
     selectImportFile: "Please select an import file."
@@ -617,6 +626,7 @@ token:
     write: "My Document"
   msg:
     tag: "Insert tags."
+    description: "View all documents relating to me."
   type:
     completed: "Completed Documents"
     progress: "Document in progress"
@@ -628,12 +638,14 @@ user:
   label:
     all: "All"
     avatar: "Avatar"
+    createUser: "User Registration"
+    customSetting: "Custom Settings"
     date: "Date Format"
     department: "Department"
     editUserInfo: "Edit User Information"
     email: "Email"
-    FileExtensionAllowed: "File Extension Allowed : 200KB"
-    FileSizeLimit: "File Size Limit : 200KB"
+    FileExtensionAllowed: "※ File Extension Allowed : 200KB"
+    FileSizeLimit: "※ File Size Limit : 200KB"
     id: "User ID"
     lang: "Language"
     list: "User List"
@@ -642,6 +654,7 @@ user:
     officeNumber: "officeNumber"
     password: "Password"
     position: "Position"
+    profile: "Profile"
     rePassword: "rePassword"
     role: "User Role"
     searchPlaceholder: "ID/Name/Position/Dept/Number"
@@ -655,6 +668,8 @@ user:
   msg:
     createUser: "User is registered."
     description: "View, add, or edit user's information."
+    descriptionCreate: "Fill out the form to register the user."
+    descriptionUpdate: "Modify user information."
     emailAlert: "When you change your email, you need to verify."
     emailWithUpdate: "Member information, including email information, has been modified."
     enterUserEmail: "Please enter your Email."
@@ -667,6 +682,7 @@ user:
     sameUserId: "The same ID exists."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
+    usageStatus: "※ If not using it, you won't be able to log in and use all systems."
   platform:
     alice: "Alice"
     google: "Google"

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{menu.workflow.process}"></title>
+    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="contents">
+        <div class="contents-title">
+            <span class="title-txt" th:text="#{process.label.list}"></span>
+            <span class="title-description" th:text="#{process.msg.description}"></span>
+        </div>
+        <div class="contents-body">
+            <div class="usermanage-menubar">
+                <div class="menubar-left">
+                    <input class="search" id="search" type="text" maxlength="100"
+                           th:placeholder="#{process.label.searchPlaceholder}">
+                    <span class="icon-search"></span>
+                </div>
+                <div class="menubar-right">
+                    <button th:class="btn-import" onclick="openProcessImport();"
+                            sec:authorize="hasAuthority('process.create')"></button>
+                    <button th:class="btn-add" onclick="openProcessEdit();"
+                            sec:authorize="hasAuthority('process.create')"></button>
+                </div>
+            </div>
+            <div class="list" id="processList"></div>
+            <div class="menubar-bottom">
+                <div class="paging">
+                    <ul>
+                        <li><span class="btn-prev"></span></li>
+                        <li><span class="btn-num">1</span></li>
+                        <li><span class="btn-num">2</span></li>
+                        <li><span class="btn-num">3</span></li>
+                        <li><span class="btn-num">···</span></li>
+                        <li><span class="btn-num">6</span></li>
+                        <li><span class="btn-next"></span></li>
+                    </ul>
+                </div>
+                <div class="list-count"><span>총:127건</span></div>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            getProcessList(document.getElementById('search').value, true);
+        }
+
+        document.getElementById('search').onkeyup = function() {
+            getProcessList(this.value, false);
+        };
+
+        // 프로세스 리스트 조회
+        function getProcessList(search, showProgressbar) {
+            restSubmit('GET', '/processes-admin/list?search=' + encodeURIComponent(search.trim()), function(result) {
+                document.getElementById('processList').innerHTML = result;
+                var processDtEle = document.querySelectorAll('td[name=createDt]');
+                for (let i = 0; i < processDtEle.length; i++) {
+                    processDtEle[i].textContent = i18n.userDateTime(processDtEle[i].textContent);
+                }
+            }, showProgressbar);
+        }
+
+        // 프로세스 신규 추가 화면 오픈
+        function openProcessEdit(processId) {
+            if (processId !== undefined) {
+                window.open('/processes-admin/' + processId + '/edit', 'process_edit', 'width=550, height=300');
+            } else {
+                window.open('/processes-admin/new', 'process_new', 'width=550, height=300');
+            }
+        }
+
+        // 프로세스 상세 화면 오픈
+        function openProcessView(processId) {
+            window.open('/processes-admin/' + processId + '/view', 'process_edit', 'width=550, height=300');
+        }
+
+        // 프로세스 디자이너 편집화면 오픈
+        function openProcessDesignerEdit(processId) {
+            const _width = 1800,
+                  _height = 920;
+            //중앙 배치
+            const _left = Math.ceil((window.screen.width - _width) / 2);
+            const _top = Math.ceil((window.screen.height - _height) / 4);
+
+            let specs = 'left=' + _left + ',top=' + _top;
+            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+            window.open('/processes/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
+        }
+
+        // 프로세스 디자이너 상세화면 오픈
+        function openProcessDesignerView(processId) {
+            const _width = 1800,
+                  _height = 920;
+            //중앙 배치
+            const _left = Math.ceil((window.screen.width - _width) / 2);
+            const _top = Math.ceil((window.screen.height - _height) / 4);
+
+            let specs = 'left=' + _left + ',top=' + _top;
+            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+            window.open('/processes/' + processId + '/view', 'process_' + processId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
+        }
+
+        // 프로세스 IMPORT 화면 오픈
+        function openProcessImport() {
+            window.open('/processes/import', 'process_import', 'width=600, height=350');
+        }
+
+        // REST API
+        function restSubmit(method, url, result, showProgressbar) {
+            const opt = {
+                method: method,
+                url: url,
+                showProgressbar: showProgressbar,
+                callbackFunc: function(response) {
+                    result(response.responseText);
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+    </script>
+</th:block>
+</html>
