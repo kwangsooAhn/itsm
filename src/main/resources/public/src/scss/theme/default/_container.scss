@@ -36,7 +36,7 @@
             }
             .user-register-top-list {margin-top: 37px;margin-left: 10px;}
             .input {
-                &-title {font-size: 14px;display: block;}
+                &-title {font-size: 14px;display: inline-block;}
                 &-guide {display: flex;vertical-align: middle;}
                 &-button {width: 60px;height: 30px;background: rgba(255, 255, 255, 1);border: 1px solid #C8CED8;margin-left: -63px;font-size: 14px;}
             }
@@ -144,7 +144,21 @@
                 padding: 15px 35px 15px 0;width: 534px;float: left;border-right: 1px solid #D2D9E2;
                 &-edit {
                     padding: 15px 0 15px 35px;
-                    form-left {float: left;}
+                }
+            }
+            &-edit {
+                table {
+                    margin: 0 0 10px 0;
+                    span {margin: 0 auto;}
+                    & th {background: rgba(204, 211, 217, 0.1);padding-left: 15px;}
+                    & tr td {
+                        padding: 0 15px;font-size: 13px;margin: 0 auto;
+                        &.edit-name {width:1000px; text-align: right; border-right: 1px solid #C8CED8;}
+                        &.edit-textarea {height: 150px; min-height: 150px;text-align: left; vertical-align: text-top;}
+                        &.file-attachment {border-right: 1px solid #C8CED8; }
+                        &.file-attach-input {text-align: left;}
+                    }
+                    & tr:hover {background: none;}
                 }
             }
         }
@@ -152,16 +166,33 @@
         .txt-num {color: #717B89;text-align: right;}
     }
     &-close {height:100%; padding:90px 0 0 80px; background: rgba(234, 241, 247, 1);}
-    .btn-add {
-        display:inline-block; background: url($icon-folder-path + "icon_add.svg") no-repeat center center;
-        padding: 10px; border-radius: 2px; border: 1px solid rgba(0, 80, 255, 1); text-align: center;
-        &:hover {
-            background: rgba(0, 80, 255, 1) url($icon-folder-path + "icon_add_ov.svg") no-repeat center center;
-            color: $alice-primary; border: rgba(64, 158, 230, 0.05) 1px solid;
+    .btn {
+        display: inline-block; font-size: 13px; color: #0050ff; padding: 10px; border-radius: 2px;
+        border: 1px solid #0050ff; text-align: center;
+        &:hover {background: #0050ff; color: #fff; border: 1px solid #0050ff;}
+        &-add {
+            display:inline-block; background: url($icon-folder-path + "icon_add.svg") no-repeat center center;
+            padding: 10px; border-radius: 2px; border: 1px solid rgba(0, 80, 255, 1); text-align: center;
+            &:hover {
+                background: rgba(0, 80, 255, 1) url($icon-folder-path + "icon_add_ov.svg") no-repeat center center;
+                color: $alice-primary; border: rgba(64, 158, 230, 0.05) 1px solid;
+            }
+        }
+        &-info {
+            background: url("../icons/icon_info.png") no-repeat right;display: inline-block;margin: 0 0 0 5px;width: 15px;height: 15px;
+            &:hover {background: url("../icons/icon_info_select.png") no-repeat right;}
+        }
+        &-gray {
+            padding: 7px 12px; border: 1px solid #BEC5CE; color: #3D4752; border-radius: 2px; font-size: 13px;
+            &:hover {background-color: #BEC5CE; color: white;}
         }
     }
-    .btn-info {
-        background: url("../icons/icon_info.png") no-repeat right;padding: 0 0 0 5px;width: 15px;height: 15px;
-        &:hover {background: url("../icons/icon_info_select.png") no-repeat right;}
-    }
+    // 플롯 정렬
+    .float-left{float: left;}
+    .float-right{float: right;}
+    .float-clear{clear: both;}
+    // 텍스트 정렬
+    .align-center {text-align: center;}
+    .align-left {text-align: left;}
+    .align-right {text-align: right;}
 }

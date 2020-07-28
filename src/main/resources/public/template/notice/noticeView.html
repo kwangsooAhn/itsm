@@ -18,11 +18,16 @@
                 <div class="list">
                     <div class="list-wrap-edit">
                         <table>
+                            <colgroup>
+                                <col width="80px">
+                                <col width="*">
+                                <col width="140px">
+                            </colgroup>
                             <tr>
                                 <th colspan="3"><span th:text="${notice?.noticeTitle}"></span></th>
                             </tr>
                             <tr>
-                                <td class="edit-name" colspan="2">
+                                <td class="edit-name align-right" colspan="2">
                                     <span sec:authentication="details.userName"></span>
                                 </td>
                                 <td class="edit-date">

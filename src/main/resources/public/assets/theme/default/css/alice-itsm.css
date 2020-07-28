@@ -127,7 +127,7 @@ button {
   font-weight: 900;
   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format("opentype");
 }
-body, h1, h2, h3, h4, h5, h6, input, textarea, select {
+body, input, textarea, select {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 15px;
 }
@@ -278,7 +278,7 @@ textarea {
 }
 .container .contents .user-register-contents-body .input-title {
   font-size: 14px;
-  display: block;
+  display: inline-block;
 }
 .container .contents .user-register-contents-body .input-guide {
   display: flex;
@@ -583,8 +583,38 @@ textarea {
 .container .contents .list-wrap-auth-edit {
   padding: 15px 0 15px 35px;
 }
-.container .contents .list-wrap-auth-edit form-left {
-  float: left;
+.container .contents .list-wrap-edit table {
+  margin: 0 0 10px 0;
+}
+.container .contents .list-wrap-edit table span {
+  margin: 0 auto;
+}
+.container .contents .list-wrap-edit table th {
+  background: rgba(204, 211, 217, 0.1);
+  padding-left: 15px;
+}
+.container .contents .list-wrap-edit table tr td {
+  padding: 0 15px;
+  font-size: 13px;
+  margin: 0 auto;
+}
+.container .contents .list-wrap-edit table tr td.edit-name {
+  border-right: 1px solid #c8ced8;
+}
+.container .contents .list-wrap-edit table tr td.edit-textarea {
+  height: 150px;
+  min-height: 150px;
+  text-align: left;
+  vertical-align: text-top;
+}
+.container .contents .list-wrap-edit table tr td.file-attachment {
+  border-right: 1px solid #c8ced8;
+}
+.container .contents .list-wrap-edit table tr td.file-attach-input {
+  text-align: left;
+}
+.container .contents .list-wrap-edit table tr:hover {
+  background: none;
 }
 .container .contents .list-count {
   float: right;
@@ -602,6 +632,20 @@ textarea {
   padding: 90px 0 0 80px;
   background: #eaf1f7;
 }
+.container .btn {
+  display: inline-block;
+  font-size: 13px;
+  color: #0050ff;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid #0050ff;
+  text-align: center;
+}
+.container .btn:hover {
+  background: #0050ff;
+  color: #fff;
+  border: 1px solid #0050ff;
+}
 .container .btn-add {
   display: inline-block;
   background: url("../icons/icon_add.svg") no-repeat center center;
@@ -617,13 +661,32 @@ textarea {
 }
 .container .btn-info {
   background: url("../icons/icon_info.png") no-repeat right;
-  padding: 0 0 0 5px;
+  display: inline-block;
+  margin: 0 0 0 5px;
   width: 15px;
   height: 15px;
 }
 .container .btn-info:hover {
   background: url("../icons/icon_info_select.png") no-repeat right;
 }
+.container .btn-gray {
+  padding: 7px 12px;
+  border: 1px solid #BEC5CE;
+  color: #3D4752;
+  border-radius: 2px;
+  font-size: 13px;
+}
+.container .btn-gray:hover {
+  background-color: #BEC5CE;
+  color: white;
+}
+.container .float-left{float: left;}
+.container .float-right{float: right;}
+.container .float-clear{clear: both;}
+// 텍스트 정렬
+.container .align-center {text-align: center;}
+.container .align-left {text-align: left;}
+.container .align-right {text-align: right;}
 
 .paging {
   display: block;
