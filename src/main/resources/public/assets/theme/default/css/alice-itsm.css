@@ -525,6 +525,9 @@ textarea {
 .container .contents .list table tr:first-child {
   background: rgba(0, 80, 255, 0);
 }
+.container .contents .list a {
+  cursor: pointer;
+}
 .container .contents .list .profile-photo {
   height: 27px;
   width: 27px;
