@@ -25,15 +25,15 @@
             <div class="user-register-contents-body">
                 <span class="profile-title" th:text="#{user.label.profile}"></span>
                 <div class="profile-manage">
-                    <div class="avatar_section_wrap">
-                        <span class="avatar_title" th:text="#{user.label.avatar}"></span>
-                        <span class="avatar_section">
+                    <div class="avatar-section-wrap">
+                        <span class="avatar-title" th:text="#{user.label.avatar}"></span>
+                        <span class="avatar-section">
                                 <div class="avatar_text" id="dropZoneFiles"></div><br/><br/>
                             </span>
-                        <div class="avatar_bottom_text_wrap">
+                        <div class="avatar-bottom-text-wrap">
                             <span class="avatar_bottom_text" th:text="#{user.label.FileSizeLimit}"></span>
                             <br>
-                            <span class="avatar_far_bottom_text" th:text="#{user.label.FileExtensionAllowed}"></span>
+                            <span class="avatar-far-bottom-text" th:text="#{user.label.FileExtensionAllowed}"></span>
                         </div>
                     </div>
                     <div  th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
@@ -136,8 +136,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="btn_wrap">
-                    <button class="btn_register" type="button" th:text="#{user.label.editUserInfo}"
+                <div class="btn-wrap">
+                    <button class="btn-register" type="button" th:text="#{user.label.editUserInfo}"
                             th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
                 </div>
             </div>

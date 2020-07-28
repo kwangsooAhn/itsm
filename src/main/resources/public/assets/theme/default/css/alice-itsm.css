@@ -257,20 +257,17 @@ textarea {
 }
 .container .contents .user-register-contents-body .required::after {
   color: #E83828;
-  content: "\002a";
+  content: "*";
 }
-
 .container .contents .user-register-contents-body .profile-title {
   font-size: 20px;
   padding: 0px 0px 11px 0px;
 }
-
 .container .contents .user-register-contents-body .profile-manage {
   margin-top: 11px;
   border-top: 2px solid #C8CED8;
   width: 698px;
 }
-
 .container .contents .user-register-contents-body .profile-input-body-list {
   margin-top: 15px;
   margin-left: 10px;
@@ -278,45 +275,38 @@ textarea {
 .container .contents .user-register-contents-body .profile-input-body-list:last-child {
   margin-bottom: 62px;
 }
-
 .container .contents .user-register-contents-body .user-register-top-list {
   margin-top: 37px;
   margin-left: 10px;
 }
-
 .container .contents .user-register-contents-body .input-title {
   font-size: 14px;
   display: block;
 }
-
 .container .contents .user-register-contents-body .input-title-guide {
   display: flex;
   vertical-align: middle;
 }
-
 .container .contents .user-register-contents-body .input-button {
   width: 60px;
   height: 30px;
-  background: #FFF;
+  background: white;
   border: 1px solid #C8CED8;
   margin-left: -63px;
   font-size: 14px;
 }
-
 .container .contents .user-register-contents-body .custom-setting-top-select {
   width: 678px;
   height: 26px;
   padding-left: 5px;
   border: 1px solid #C8CED8;
 }
-
 .container .contents .user-register-contents-body .select-date-time {
   width: 244px;
   height: 26px;
   border: 1px solid #C8CED8;
   padding-left: 5px;
 }
-
 .container .contents .user-register-contents-body .hour-select {
   width: 85px;
   height: 26px;
@@ -325,7 +315,6 @@ textarea {
   margin-left: 5px;
   padding-left: 5px;
 }
-
 .container .contents .user-register-contents-body .language-select {
   width: 244px;
   height: 30px;
@@ -334,14 +323,12 @@ textarea {
   margin-top: 15px;
   padding-left: 5px;
 }
-
 .container .contents .user-register-contents-body .theme-color-select {
   width: 244px;
   height: 30px;
   border: 1px solid #C8CED8;
   padding-left: 5px;
 }
-
 .container .contents .user-register-contents-body .user-role-checkbox {
   width: 15px;
   height: 15px;
@@ -379,44 +366,32 @@ textarea {
 }
 
 .container .contents .user-register-contents-body .checkbox-label {
-  vertical-align: 2px;
+  vertical-align: -5px;
   margin-left: 10px;
   margin-right: 14px;
 }
 
-.container .contents .user-register-contents-body .btn_wrap {
+.container .contents .user-register-contents-body .btn-wrap {
   margin-top: 32px;
   text-align: right;
   margin-right: 10px;
   font-size: 13px;
 }
 
-.container .contents .user-register-contents-body .btn_register {
-  padding: 6px 12px;
+.container .contents .user-register-contents-body .btn-register {
+  padding: 10px;
   border: 1px solid #0050ff;
   color: #0050ff;
   border-radius: 3px;
   margin-right: 5px;
 }
 
-.container .contents .user-register-contents-body .btn_list {
-  padding: 6px 12px;
-  border: 1px solid #BEC5CE;
-  color: #3D4752;
-  border-radius: 3px;
-}
-
-.container .contents .user-register-contents-body .btn_register:hover {
+.container .contents .user-register-contents-body .btn-register:hover {
   background-color: #0050ff;
   color: white;
 }
 
-.container .contents .user-register-contents-body .btn_list:hover {
-  background-color: #BEC5CE;
-  color: white;
-}
-
-.container .contents .user-register-contents-body .avatar_section {
+.container .contents .user-register-contents-body .avatar-section {
   float: right;
   padding: 53px 75px 53px 75px;
   border: 1px solid #D2D9E2;
@@ -426,17 +401,17 @@ textarea {
   background-color: #FDFDFD;
 }
 
-.container .contents .user-register-contents-body .avatar_section_wrap {
+.container .contents .user-register-contents-body .avatar-section-wrap {
   float: right;
   margin-top: 37px;
 }
 
-.container .contents .user-register-contents-body .avatar_title {
+.container .contents .user-register-contents-body .avatar-title {
   display: block;
   font-size: 14px;
 }
 
-.container .contents .user-register-contents-body .avatar_text {
+.container .contents .user-register-contents-body avatar-text {
   display: block;
   margin-top: 96px;
   text-align: center;
@@ -444,18 +419,18 @@ textarea {
   color: #7A8594;
 }
 
-.container .contents .user-register-contents-body .avatar_bottom_text_wrap {
+.container .contents .user-register-contents-body .avatar-bottom-text-wrap {
   display: block;
   margin-top: 253px;
   font-size: 13px;
 }
 
-.container .contents .user-register-contents-body .avatar_far_bottom_text {
+.container .contents .user-register-contents-body .avatar-far-bottom-text {
   display: block;
   margin-top: 8px;
 }
 
-.container .contents .user-register-contents-body .browse_link {
+.container .contents .user-register-contents-body .browse-link {
   text-decoration: underline;
   color: #0050ff;
 }
@@ -659,6 +634,9 @@ textarea {
 }
 .container .contents .list-wrap-edit table tr td.file-attachment {
   border-right: 1px solid #c8ced8;
+  background: #fff;
+  font-weight: 400;
+  padding: 0 15px;
 }
 .container .contents .list-wrap-edit table tr td.file-attach-input {
   text-align: left;
@@ -714,7 +692,7 @@ textarea {
 
 .container .btn-info {
   background: url("../icons/icon_info.png") no-repeat right;
-  padding: 0 0 0 5px;
+  margin-left: 5px;
   width: 15px;
   height: 15px;
 }
@@ -727,7 +705,6 @@ textarea {
   border: 1px solid #BEC5CE;
   color: #3D4752;
   border-radius: 2px;
-  font-size: 13px;
 }
 .container .btn-gray:hover {
   background-color: #BEC5CE;
