@@ -2,6 +2,7 @@ package co.brainz.itsm.faq.controller
 
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
+import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.service.FaqService
 import javax.servlet.http.HttpServletRequest
@@ -25,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController
  * @see co.brainz.itsm.faq.controller.FaqController
  */
 @RestController
-@RequestMapping("rest/faqs")
+@RequestMapping("/rest/faqs")
 class FaqRestController(private val faqService: FaqService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -34,8 +35,8 @@ class FaqRestController(private val faqService: FaqService) {
      * FAQ 리스트 데이터 조회
      */
     @GetMapping("/", "")
-    fun getFaqs(request: HttpServletRequest): List<FaqListDto> {
-        return faqService.findAll()
+    fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
+        return faqService.getFaqs(faqSearchRequestDto)
     }
 
     /**

@@ -15,7 +15,7 @@
                 <col width="280px">
                 <col width="150px">
             </colgroup>
-            <tbody>
+            <thead>
                 <tr>
                     <th th:text="#{common.label.title}"></th>
                     <th th:text="#{notice.label.popUp}"></th>
@@ -24,6 +24,8 @@
                     <th th:text="#{notice.label.noticePeriod}"></th>
                     <th th:text="#{common.label.writeDate}"></th>
                 </tr>
+            </thead>
+            <tbody>
                 <tr th:if="${#arrays.isEmpty(noticeList)}">
                     <td colspan="6" th:text="#{common.msg.noData}"></td>
                 </tr>

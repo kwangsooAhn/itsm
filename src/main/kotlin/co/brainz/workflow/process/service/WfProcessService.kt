@@ -148,18 +148,18 @@ class WfProcessService(
     /**
      * 프로세스 변경.
      */
-    fun updateProcess(restTemplateProcessViewDto: RestTemplateProcessViewDto): Boolean {
-        val processEntity = wfProcessRepository.findByProcessId(restTemplateProcessViewDto.id) ?: throw AliceException(
+    fun updateProcess(restTemplateProcessDto: RestTemplateProcessDto): Boolean {
+        val processEntity = wfProcessRepository.findByProcessId(restTemplateProcessDto.processId) ?: throw AliceException(
             AliceErrorConstants.ERR_00005,
             AliceErrorConstants.ERR_00005.message + "[Process Entity]"
         )
-        processEntity.processName = restTemplateProcessViewDto.name.toString()
-        processEntity.processStatus = restTemplateProcessViewDto.status.toString()
-        processEntity.processDesc = restTemplateProcessViewDto.description
-        processEntity.updateUser = restTemplateProcessViewDto.updateUserKey?.let {
+        processEntity.processName = restTemplateProcessDto.processName
+        processEntity.processStatus = restTemplateProcessDto.processStatus
+        processEntity.processDesc = restTemplateProcessDto.processDesc
+        processEntity.updateUser = restTemplateProcessDto.updateUserKey?.let {
             aliceUserRepository.findAliceUserEntityByUserKey(it)
         }
-        processEntity.updateDt = restTemplateProcessViewDto.updateDt
+        processEntity.updateDt = restTemplateProcessDto.updateDt
         wfProcessRepository.save(processEntity)
         return true
     }

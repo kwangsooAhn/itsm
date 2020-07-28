@@ -69,6 +69,12 @@ common:
         terminate: "terminate"
         waiting: "waiting"
         withdraw: "withdraw"
+    faq:
+      category:
+        all: "All"
+        etc: "Etc"
+        setting: "Setting"
+        techSupport: "Tech support"
 
 # Auth
 auth:
@@ -331,13 +337,13 @@ error:
 
 # FAQ
 faq:
+  label:
+    searchPlaceholder: "Category/Title"
+    category: "Category"
+    title: "Title"
+    content: "Content"
   msg:
     description: "Frequently asked questions and answers."
-  category:
-    all: "All"
-    etc: "ETC"
-    setting: "Setting"
-    techSupport: "Technical Support"
 
 # FileUpload
 fileupload:
@@ -563,6 +569,7 @@ process:
   label:
     create: "Create Process"
     description: "Description"
+    detail: "Detail Process"
     edit: "Edit Process"
     imageDownload: "Image Download"
     import: "Process Import"
@@ -570,12 +577,14 @@ process:
     list: "Process List"
     name: "Process Name"
     processMap: "Process Map"
+    state: "State"
     redo: "Redo"
     searchPlaceholder: "Process Name / Process Description"
     simulation: "Simulation"
     templatesList: "Templates List"
     undo: "Undo"
   msg:
+    description: "View, add, or edit process's information."
     enterProcessName: "Please enter a process name."
     fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
     selectImportFile: "Please select an import file."
