@@ -22,9 +22,9 @@
                     <span class="icon-search"></span>
                 </div>
                 <div class="menubar-right">
-                    <button class="btn-basic" type="button" onclick="openFormImport();"
+                    <button class="btn-import" type="button" onclick="openFormImport();"
                             sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
-                    <button class="btn-add" onclick="location.href='/forms/new'"
+                    <button class="btn-add" onclick="openFormEdit();"
                             sec:authorize="hasAuthority('form.create')"></button>
                 </div>
             </div>
@@ -76,7 +76,7 @@
     
         //폼 리스트 조회
         function getFormList(search, showProgressbar) {
-            restSubmit('GET', '/forms/list?search=' + search.trim(), function(result) {
+            restSubmit('GET', '/forms-admin/list?search=' + search.trim(), function(result) {
                 document.getElementById('formList').innerHTML = result;
                 var formDtEle = document.querySelectorAll('td[name=createDt]');
                 for (let i = 0; i < formDtEle.length; i++) {
@@ -100,7 +100,7 @@
     
         //폼 신규 추가 화면 오픈
         function openFormEdit() {
-            window.open('/forms/new', 'form_new', 'width=550, height=300');
+            window.open('/forms-admin/new', 'form_new', 'width=550, height=300');
         }
     
         //폼 디자이너 편집화면 오픈

@@ -33,8 +33,7 @@
             </tr>
             <tr th:each="form, i: ${formList}" th:if="${i.count} < 11">
                 <td th:class="align-left">
-                    <a href="javascript:void(0);" th:text="${form.name}"
-                       th:attr="onclick=|openFormDesignerView('${form.id}')|"></a>
+                    <a th:attr="onclick=|openFormDesignerView('${form.id}')|" th:text="${form.name}"></a>
                 </td>
                 <td>
                     <a th:attr="onclick=|openFormDesignerView('${form.id}')|">
@@ -42,8 +41,8 @@
                 </td>
                 <td>
                     <a sec:authorize="hasAuthority('form.update')" th:disabled="${!form.editable}"
-                       th:attr="onclick=|openProcessDesignerEdit('${form.id}')|">
-                        <img src="../assets/media/icons/process/list/icon_edit.png"></a>
+                       th:attr="onclick=|openFormDesignerEdit('${form.id}')|">
+                       <img src="../assets/media/icons/process/list/icon_edit.png"></a>
                 </td>
                 <td th:text="#{${form.status}}"></td>
                 <td th:class="align-left" th:text="${form.desc}"></td>
