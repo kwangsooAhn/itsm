@@ -24,7 +24,7 @@ class NoticeController(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeSearchPage: String = "notice/noticeSearch"
-    private val noticeListPage: String = "notice/noticeLists"
+    private val noticeListPage: String = "notice/noticeList"
     private val noticeEditPage: String = "notice/noticeEdit"
     private val noticeViewPage: String = "notice/noticeView"
     private val noticePopUpPage: String = "notice/noticePopUp"
