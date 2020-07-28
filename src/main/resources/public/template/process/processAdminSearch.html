@@ -22,9 +22,8 @@
                     <span class="icon-search"></span>
                 </div>
                 <div class="menubar-right">
-                    <button th:class="btn-basic" sec:authorize="hasAuthority('process.create')"
-                            onclick="openProcessImport();"
-                            th:text="#{process.btn.import}"></button>
+                    <button th:class="btn-import" onclick="openProcessImport();"
+                            sec:authorize="hasAuthority('process.create')"></button>
                     <button th:class="btn-add" onclick="openProcessEdit();"
                             sec:authorize="hasAuthority('process.create')"></button>
                 </div>
