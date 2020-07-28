@@ -33,7 +33,7 @@
                                     <span sec:authentication="details.userName"></span>
                                 </td>
                                 <td class="edit-date">
-                                    <span th:id="spanCreateDt" th:text="${notice.createDt}"></span>
+                                    <span id="spanCreateDt" th:text="${notice.createDt}"></span>
                                 </td>
                             </tr>
                             <tr>
@@ -49,7 +49,7 @@
                         </table>
                         <div class="menubar-bottom">
                             <div class="float-right">
-                                <button class="btn-gray" th:text="#{common.btn.list}" onclick="location.href='/users/search'"></button>
+                                <button class="btn-gray" th:text="#{common.btn.list}" onclick="location.href='/notices/search'"></button>
                             </div>
                         </div>
                     </div>
@@ -63,6 +63,7 @@
     <script th:inline="javascript">
         /*<![CDATA[ */
         const noticeCreateDt = document.getElementById('spanCreateDt');
+
         window.onload = function() {
             noticeCreateDt.textContent = i18n.userDateTime(noticeCreateDt.textContent);
             // 게시물 삭제 처리 시, validation 체크.
@@ -71,7 +72,7 @@
                 aliceJs.alert('이미 삭제된 게시물 입니다.');
                 return history.go(-1);
             }
-            fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/, editor: false}});
+            fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});
         }
         /* ]]> */
     </script>
