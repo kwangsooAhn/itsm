@@ -371,7 +371,7 @@
             processData.description = document.getElementById('process_description').value;
             aliceJs.sendXhr({
                 method: 'POST',
-                url: '/rest/processes' + '?saveType=saveas',
+                url: '/rest/processes-admin' + '?saveType=saveas',
                 callbackFunc: function(xhr) {
                     if (xhr.responseText !== '') {
                         aliceJs.alert(i18n.get('common.msg.save'), function() {

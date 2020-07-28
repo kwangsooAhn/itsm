@@ -571,6 +571,7 @@ process:
   label:
     create: "프로세스 등록"
     description: "설명"
+    detail: "프로세스 상세"
     edit: "프로세스 편집"
     imageDownload: "이미지로 저장하기"
     import: "프로세스 IMPORT"
@@ -578,12 +579,14 @@ process:
     list: "프로세스 목록"
     name: "프로세스 이름"
     processMap: "프로세스맵"
+    state: "상태"
     redo: "작업재실행"
     searchPlaceholder: "프로세스 이름 / 프로세스 설명"
     simulation: "미리보기"
     templatesList: "템플릿 목록"
     undo: "작업취소"
   msg:
+    description: "프로세스를 조회 하거나 추가, 변경 할 수 있습니다."
     enterProcessName: "프로세스 이름을 입력하세요."
     fileExtensionNotAllow: "IMPORT 파일은 {0} 확장자만 허용됩니다."
     selectImportFile: "IMPORT 파일을 선택하세요."
