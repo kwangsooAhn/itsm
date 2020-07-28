@@ -5,7 +5,6 @@ import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.ComponentDetail
 import co.brainz.workflow.provider.dto.RestTemplateFormComponentListDto
-import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.type.TypeFactory
@@ -16,22 +15,12 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
-import org.springframework.util.LinkedMultiValueMap
 
 @Service
 class FormService(private val restTemplate: RestTemplateProvider) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-
-    fun findForms(params: LinkedMultiValueMap<String, String>): List<RestTemplateFormDto> {
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.GET_FORMS.url, parameters = params)
-        val responseBody = restTemplate.get(urlDto)
-        return mapper.readValue(
-            responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateFormDto::class.java)
-        )
-    }
 
     fun getFormData(formId: String): String {
         val urlDto = RestTemplateUrlDto(
@@ -43,23 +32,9 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return restTemplate.get(urlDto)
     }
 
-    fun createForm(restTemplateFormDto: RestTemplateFormDto): String {
-        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
-        restTemplateFormDto.status = RestTemplateConstants.FormStatus.EDIT.value
-        restTemplateFormDto.createUserKey = aliceUserDto.userKey
-        restTemplateFormDto.createDt = LocalDateTime.now()
-        restTemplateFormDto.updateDt = LocalDateTime.now()
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM.url)
-        val responseEntity = restTemplate.create(url, restTemplateFormDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {
-                val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
-                dataDto.id
-            }
-            false -> ""
-        }
-    }
-
+    /**
+     * [formId], 를 받아서 문서양식을 삭제한다.
+     */
     fun deleteForm(formId: String): ResponseEntity<String> {
         val urlDto = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Form.DELETE_FORM.url.replace(
@@ -70,6 +45,9 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return restTemplate.delete(urlDto)
     }
 
+    /**
+     * [formId], [formData]를 받아서 문서양식을 저장한다.
+     */
     fun saveFormData(formId: String, formData: String): Boolean {
         val formComponentListDto = makeFormComponentListDto(formData)
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
@@ -82,21 +60,9 @@ class FormService(private val restTemplate: RestTemplateProvider) {
         return responseEntity.body.toString().isNotEmpty()
     }
 
-    fun saveAsForm(formData: String): String {
-        val formComponentListDto = makeFormComponentListDto(formData)
-        formComponentListDto.status = RestTemplateConstants.FormStatus.EDIT.value
-
-        val urlDto = RestTemplateUrlDto(callUrl = RestTemplateConstants.Form.POST_FORM_SAVE_AS.url)
-        val responseEntity = restTemplate.createToSave(urlDto, formComponentListDto)
-        return when (responseEntity.body.toString().isNotEmpty()) {
-            true -> {
-                val dataDto = mapper.readValue(responseEntity.body.toString(), RestTemplateFormDto::class.java)
-                dataDto.id
-            }
-            false -> ""
-        }
-    }
-
+    /**
+     * [formData]를 받아서 문서양식을 반환한다.
+     */
     fun makeFormComponentListDto(formData: String): RestTemplateFormComponentListDto {
         val map = mapper.readValue(formData, LinkedHashMap::class.java)
         val components: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(

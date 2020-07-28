@@ -364,6 +364,7 @@ form:
     create: "문서 양식 등록"
     customCodeTarget: "대상 선택"
     description: "설명"
+    detail: "문서양식 상세"
     edit: "문서 양식 편집"
     export: "내보내기"
     form: "문서 양식"

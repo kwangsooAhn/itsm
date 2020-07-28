@@ -364,6 +364,7 @@ form:
     create: "Create Form"
     customCodeTarget: "Target Select"
     description: "Description"
+    detail: "Detail Form"
     edit: "Edit Form"
     export: "Export"
     form: "Form"

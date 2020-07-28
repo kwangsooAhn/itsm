@@ -70,7 +70,7 @@ class WfFormService(
      */
     fun form(formId: String): RestTemplateFormDto {
         val formEntity = wfFormRepository.findWfFormEntityByFormId(formId).get()
-        val restTemplateFormDto = wfFormMapper.toFormDto(formEntity)
+        val restTemplateFormDto = wfFormMapper.toFormViewDto(formEntity)
         when (restTemplateFormDto.status) {
             WfFormConstants.FormStatus.EDIT.value,
             WfFormConstants.FormStatus.PUBLISH.value -> restTemplateFormDto.editable = true

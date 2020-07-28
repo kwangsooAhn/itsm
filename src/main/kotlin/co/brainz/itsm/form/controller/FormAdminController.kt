@@ -1,6 +1,6 @@
 package co.brainz.itsm.form.controller
 
-import co.brainz.itsm.form.service.FormService
+import co.brainz.itsm.form.service.FormAdminService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
@@ -19,18 +19,12 @@ import org.springframework.web.bind.annotation.RequestMapping
  */
 @Controller
 @RequestMapping("/forms-admin")
-class FormAdminController(
-    private val formService: FormService
-) {
+class FormAdminController(private val formAdminService: FormAdminService) {
 
-    private val formSearchPage: String = "form/formSearch"
-    private val formListPage: String = "form/formList"
-    private val formEditPage: String = "form/formEdit"
-    private val formViewPage: String = "form/formView"
-    //private val formDesignerEditPage: String = "form/formDesignerEdit"
-    //private val formEditPreviewPage: String = "form/formEditPreview"
-    //private val imageUploadPopupPage: String = "form/imagePopup"
-    //private val formImportPage: String = "form/formImport"
+    private val formSearchPage: String = "form/formAdminSearch"
+    private val formListPage: String = "form/formAdminList"
+    private val formEditPage: String = "form/formAdminEdit"
+    private val formViewPage: String = "form/formAdminView"
 
     /**
      * 폼 리스트 검색 호출 화면.
@@ -47,7 +41,7 @@ class FormAdminController(
     fun getFormList(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search") ?: ""
-        model.addAttribute("formList", formService.findForms(params))
+        model.addAttribute("formList", formAdminService.findForms(params))
         return formListPage
     }
 
@@ -56,7 +50,7 @@ class FormAdminController(
      */
     @GetMapping("/{formId}/view")
     fun getFormView(@PathVariable formId: String, model: Model): String {
-        model.addAttribute("formId", formId)
+        model.addAttribute("formInfo", formAdminService.getFormAdmin(formId))
         return formViewPage
     }
 
@@ -73,46 +67,8 @@ class FormAdminController(
      */
     @GetMapping("/{formId}/edit")
     fun getFormEdit(@PathVariable formId: String, model: Model): String {
+        model.addAttribute("formInfo", formAdminService.getFormAdmin(formId))
         model.addAttribute("formId", formId)
         return formEditPage
     }
-
-    /*
-    /**
-     * 폼 디자이너 미리보기 화면.
-     */
-    @GetMapping("/{formId}/preview")
-    fun getFormEditPreview(@PathVariable formId: String, model: Model): String {
-        model.addAttribute("formId", formId)
-        return formEditPreviewPage
-    }
-
-    /**
-     * 폼 디자이너 상세화면.
-     */
-    @GetMapping("/{formId}/view")
-    fun getFormDesignerView(@PathVariable formId: String, model: Model): String {
-        model.addAttribute("formId", formId)
-        model.addAttribute("isView", true)
-        return formDesignerEditPage
-    }
-
-    /**
-     * 이미지 컴포넌트 팝업 화면.
-     */
-    @GetMapping("/imageUpload/{componentId}/view")
-    fun getImageUploadPopup(@PathVariable componentId: String, model: Model): String {
-        model.addAttribute("componentId", componentId)
-        model.addAttribute("imageList", fileService.getImageFileList())
-        return imageUploadPopupPage
-    }
-
-    /**
-     * 폼 Import 화면.
-     */
-    @GetMapping("/import")
-    fun getFormImport(request: HttpServletRequest, model: Model): String {
-        return formImportPage
-    }
-     */
 }
