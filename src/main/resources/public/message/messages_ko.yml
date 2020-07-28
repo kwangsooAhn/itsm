@@ -69,6 +69,12 @@ common:
         terminate: "종료"
         waiting: "대기 중"
         withdraw: "회수"
+    faq:
+      category:
+        all: "전체"
+        etc: "기타"
+        setting: "설정"
+        techSupport: "기술 지원"
 
 # Auth
 auth:
@@ -331,13 +337,13 @@ error:
 
 # FAQ
 faq:
+  label:
+    searchPlaceholder: "카테고리/제목"
+    category: "카테고리"
+    title: "제목"
+    content: "내용"
   msg:
     description: "자주 묻는 질문과 답변입니다."
-  category:
-    all: "전체"
-    etc: "기타"
-    setting: "설정"
-    techSupport: "기술지원"
 
 # FileUpload
 fileupload:
@@ -617,6 +623,7 @@ token:
     write: "처리할 문서"
   msg:
     tag: "태그를 입력하세요."
+    description: "나와 관련된 모든 문서를 조회합니다."
   type:
     completed: "완료된 문서"
     progress: "진행 중 문서"
