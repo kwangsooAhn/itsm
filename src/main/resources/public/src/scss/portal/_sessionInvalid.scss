@@ -1,6 +1,6 @@
 .session-body {
-  width: 120rem; /* 1920px */
-  height: 59.1875rem; /* 947px */
+  width: 100vw;
+  height: 100vh;
   margin: 0rem; /* 0px */
   padding: 0rem; /* 0px */
   font-size: 0rem; /* 0px */
@@ -8,18 +8,24 @@
 }
 
 .session-div {
-  width: 120rem; /* 1920px */
-  height: 59.1875rem; /* 947px */
+  width: 100vw;
+  height: 100vh;
 
   .session-div-left {
-    width: 50%;
-    height: 100%;
+    width: 50vw;
+    height: 100vh;
     float: left;
+    background-color: #eff4fa;
+
+    .session-img {
+      width: 60rem; /* 960px */
+      height: 58.5625rem /* 937px */
+    }
   }
 
   .session-div-right {
-    width: 50%;
-    height: 100%;
+    width: 50vw;
+    height: 100vh;
     float: right;
 
     .session-img {
