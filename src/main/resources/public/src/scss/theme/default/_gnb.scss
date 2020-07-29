@@ -52,9 +52,9 @@
         }
         &.active{
             .my-edit{
-                display: block; padding: 5px; position: absolute; top:70px; right:10px; background: rgba(255, 255, 255, 1);
+                display: list-item; padding: 5px; position: absolute; top:70px; right:10px; background: rgba(255, 255, 255, 1);
                 & ul li{
-                    padding: 10px 0; display: list-item;
+                    padding: 10px 0; display: block;
                     &:hover{background: rgba(0, 80, 255, 0.05);}
                     & span{padding:0 40px;}
                 }

@@ -503,6 +503,7 @@ menu:
 notice:
   label:
     endDt: "종료일"
+    edit: "공지사항 수정"
     height: "높이"
     list: "공지사항 관리"
     modifyCompleted: "수정 완료"
@@ -517,6 +518,7 @@ notice:
     strtDt: "시작일"
     topNoticeSettings: "상단 공지 설정"
     topNoticeSettingsInfo: "상단 공지 설정 정보"
+    view: "공지사항 조회"
     width: "넓이"
   msg:
     checkPopHeightRange: "높이는 500px부터 1000px 사이의 값만 입력 가능합니다."
