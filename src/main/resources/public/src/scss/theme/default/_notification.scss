@@ -81,7 +81,7 @@
                 cursor: pointer;
             }
             .notification {
-                height: 3.375rem; // 54px
+                height: 4.875rem; // 78px
                 border-bottom: 0.063rem solid #dce1e8; // 1px
                 padding: 0.75rem 0.938rem 0.75rem 0.938rem; // 12px 15px 12px 15px
                 &[is-confirm=false] {
@@ -118,7 +118,7 @@
         background-image: url('../icons/icon_close.png');
     }
     &.alice-toastify-content {
-        border: 1px solid #c8ced8;
+        border: 0.063rem solid #c8ced8; // 1px
         div.icon {
             float: left;
             width: 5rem; // 80px
@@ -160,22 +160,21 @@
 .notification-content {
     div {
         &.title {
-            padding-bottom: 0.375rem; // 6px
-            height: 0.813rem; // 13px
+            padding-bottom: 0.313rem; // 5px
         }
         &.message {
-            padding-bottom: 1rem; // 16px
-            height: 0.625rem; // 10px
+            padding-bottom: 0.875rem; // 14px
         }
         &.date {
-            padding-bottom: 0.75rem; // 12px
-            height: 0.625rem; // 10px
+            padding-bottom: 0.5rem; // 8px
         }
         label {
             display: flex;
             float: left;
             background-color: #ffffff;
             input[type="checkbox"] {
+                width: 0.813rem; // 13px
+                height: 0.813rem; // 13px
                 -webkit-appearance: none;
                 border: 0.063rem solid #0050ff; // 1px
                 padding: 0.313rem; // 5px
