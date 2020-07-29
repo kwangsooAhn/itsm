@@ -549,13 +549,7 @@ textarea {
   text-align: right;
 }
 .container .contents .search {
-  width: 305px;
-  height: 30px;
   background: url("../icons/icon_search.svg") no-repeat center right;
-  padding: 0 10px;
-  border: 1px solid #c8ced8;
-  border-radius: 2px;
-  font-size: 13px;
 }
 .container .contents .search-date {
   width: 120px;
@@ -702,41 +696,8 @@ textarea {
 
 .token-list {
   clear: both;
-}
-.token-list table {
-  width: 100%;
-}
-.token-list table span {
-  display: block;
-  margin-left: 30px;
-}
-.token-list table tr {
-  color: #67717f;
-  font-size: 13px;
-  border-bottom: 1px solid #d2d9e2;
-  padding: 0 16px;
-}
-.token-list table tr th {
-  height: 38px;
-  color: #3e4752;
-  font-size: 14px;
-  border-bottom: 2px solid #d2d9e2;
-  vertical-align: middle;
-  border-top: 1px solid #d2d9e2;
-}
-.token-list table tr td {
-  height: 45px;
-  vertical-align: middle;
-  text-align: center;
-}
-.token-list table tr td:first-child {
-  width: 30px;
-}
-.token-list table tr:hover {
-  background: rgba(0, 80, 255, 0.05);
-}
-.token-list table tr:first-child {
-  background: rgba(0, 80, 255, 0);
+  overflow-y: auto;
+  margin-top: 0.625rem;
 }
 .token-list .profile-photo {
   height: 27px;
@@ -757,14 +718,66 @@ textarea {
 .token-list .align-right {
   text-align: right;
 }
+.token-list-item {
+  margin: 0.625rem 0;
+  padding: 0.625rem;
+  border-bottom: 0.0625rem solid #EAF1F7;
+  min-height: 6.8125rem;
+  background-color: #FFFFFF;
+}
+.token-list-item:hover {
+  background: rgba(0, 80, 255, 0.05);
+}
+.token-list-item div {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 1.874rem;
+}
+.token-list .document-color {
+  min-height: 5.5rem;
+  width: 0.5rem;
+  margin-left: 0;
+}
+.token-list .document-content {
+  width: 12.5rem;
+  color: #3E4752;
+}
+.token-list .document-content p {
+  padding: 0.25rem 0;
+}
+.token-list .document-topic {
+  width: 23.75rem;
+  color: #3E4752;
+}
+.token-list .document-user {
+  width: 6.25rem;
+  color: #67717F;
+}
+.token-list .document-create-dt {
+  width: 9.375rem;
+  color: #67717F;
+}
+.token-list .document-status {
+  width: 5.625rem;
+  color: #67717F;
+}
+.token-list .document-tag {
+  width: 18.125rem;
+  color: #67717F;
+}
 .token-search {
   background: white;
-  padding: 20px 45px;
+  padding: 1.25rem 2.8125rem;
+  height: 4.375rem;
 }
 .token-search:after {
   content: "";
   display: block;
   clear: both;
+}
+
+.total-count {
+  line-height: 2;
 }
 
 /* 상단 바 */

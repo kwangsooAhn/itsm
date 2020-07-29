@@ -1,37 +1,61 @@
 .token {
     &-list {
         clear: both;
-        & table {
-            width: 100%;
-            & span {display: block;margin-left: 30px;}
-            & tr {
-                color: #67717f;font-size: 13px;border-bottom: 1px solid #d2d9e2;padding: 0 16px;
-                th {
-                    height: 38px;color: #3e4752;font-size: 14px;border-bottom: 2px solid #d2d9e2;
-                    vertical-align: middle;border-top: 1px solid #d2d9e2;
-                }
-                td {height: 45px;vertical-align: middle;text-align: center;
-                    &:first-child{width:30px;}
-                }
-                &:hover {background: rgba(0, 80, 255, 0.05);}
-                &:first-child {background: rgba(0, 80, 255, 0);}
-            }
-        }
+        overflow-y: auto;
+        margin-top: 0.625rem; // 10px
+
         // 리스트 출력용 아바타 이미지
         .profile-photo {height:27px; width:27px; border-radius: 50%; background: rgba(240, 240, 240, 1); cursor: pointer;}
         .tr-notice {background: rgba(255,255,0, 0.2);}
         .align-center {text-align: center;}
         .align-left {text-align: left;}
         .align-right {text-align: right;}
+
+        &-item {
+            margin: 0.625rem 0; // 10px
+            padding: 0.625rem; // 10px
+            border-bottom: 0.0625rem solid #EAF1F7; // 1px
+            min-height: 6.8125rem; // 109px
+            background-color: #FFFFFF;
+            &:hover {background: rgba(0, 80, 255, 0.05);}
+            div {
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 1.874rem; // 30px
+            }
+        }
+
+        .document {
+            &-color {
+                min-height: 5.5rem; // 88px
+                width: 0.5rem; // 8px
+                margin-left: 0;
+            }
+            &-content {
+                width: 12.5rem; // 200px
+                color: #3E4752;
+                p {padding: 0.25rem 0;} // 4px
+            }
+            &-topic {width: 23.75rem;color: #3E4752;} // 380px
+            &-user {width: 6.25rem;color: #67717F;} // 100px
+            &-create-dt {width: 9.375rem;color: #67717F;} // 150px
+            &-status {width: 5.625rem;color: #67717F;} // 90px
+            &-tag {width: 18.125rem;color: #67717F;} // 290px
+        }
     }
 
     &-search {
         background: rgba(255, 255, 255, 1);
-        padding: 20px 45px;
+        padding: 1.25rem 2.8125rem; // 20px 45px
+        height: 4.375rem; // 70px
         &:after {
             content: "";
             display: block;
             clear:both;
         }
     }
+}
+
+.total-count {
+    line-height: 2;
 }
