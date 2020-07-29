@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title>공지사항 조회</title>
+    <title th:text="#{notice.label.view}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -21,26 +21,30 @@
                             <colgroup>
                                 <col width="90px">
                                 <col width="*">
-                                <col width="140px">
+                                <col width="140rem">
                             </colgroup>
-                            <tr>
+                            <tr class="edit-title">
                                 <th class="align-left" colspan="3">
                                     <span th:text="${notice?.noticeTitle}"></span>
                                 </th>
                             </tr>
                             <tr>
-                                <td class="edit-name align-right" colspan="2">
-                                    <span sec:authentication="details.userName"></span>
+                                <td class="align-right" colspan="2">
+                                    <span class="edit-name" sec:authentication="details.userName"></span>
                                 </td>
                                 <td class="edit-date">
                                     <span id="spanCreateDt" th:text="${notice.createDt}"></span>
                                 </td>
                             </tr>
                             <tr>
-                                <td class="edit-textarea" colspan="3"><span th:text="${notice?.noticeContents}"></span></td>
+                                <td class="edit-textarea" colspan="3">
+                                    <span th:text="${notice?.noticeContents}"></span>
+                                </td>
                             </tr>
                             <tr>
-                                <td class="file-attachment" th:text="#{common.label.attachFile}"></td>
+                                <td>
+                                    <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
+                                </td>
                                 <td class="file-attach-input" colspan="2">
                                     <div id="dropZoneFiles"></div>
                                     <div id="dropZoneUploadedFiles"></div>

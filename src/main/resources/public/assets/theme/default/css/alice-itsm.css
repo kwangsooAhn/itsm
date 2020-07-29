@@ -596,12 +596,16 @@ textarea {
   padding-left: 15px;
 }
 .container .contents .list-wrap-edit table tr td {
-  padding: 0 15px;
-  font-size: 13px;
+  font-size: 14px;
   margin: 0 auto;
 }
-.container .contents .list-wrap-edit table tr td.edit-name {
+.container .contents .list-wrap-edit table tr td .edit-name {
   border-right: 1px solid #c8ced8;
+  padding: 3px 15px;
+}
+.container .contents .list-wrap-edit table tr td .file-attachment {
+  border-right: 1px solid #c8ced8;
+  padding: 3px 15px;
 }
 .container .contents .list-wrap-edit table tr td.edit-textarea {
   height: 150px;
@@ -610,14 +614,12 @@ textarea {
   text-align: left;
   vertical-align: text-top;
 }
-.container .contents .list-wrap-edit table tr td.file-attachment {
-  border-right: 1px solid #c8ced8;
-  background: #fff;
-  font-weight: 400;
-  padding: 0 15px;
-}
 .container .contents .list-wrap-edit table tr td.file-attach-input {
   text-align: left;
+  padding: 0 15px;
+}
+.container .contents .list-wrap-edit table tr.edit-title {
+  height: 56px;
 }
 .container .contents .list-wrap-edit table tr:hover {
   background: none;
@@ -678,6 +680,8 @@ textarea {
   background: url("../icons/icon_info_select.png") no-repeat right;
 }
 .container .btn-gray {
+  width: 64px;
+  height: 30px;
   padding: 7px 12px;
   border: 1px solid #BEC5CE;
   color: #3D4752;

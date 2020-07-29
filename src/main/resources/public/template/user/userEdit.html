@@ -43,7 +43,7 @@
                             <span class="avatar-far-bottom-text" th:text="#{user.label.FileExtensionAllowed}"></span>
                         </div>
                     </div>
-                    <div  th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
+                    <div th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <div class="user-register-top-list">
                             <p class="input-title required" th:text="#{user.label.id}"></p>
                             <input class="user-register-input" id="userId" name="userId"

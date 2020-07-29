@@ -66,7 +66,7 @@
             .avatar-section {float: right;padding: 53px 75px 53px 75px;border: 1px solid #D2D9E2;margin-top: 8px;font-size: 13px;background: white no-repeat center 53px;background-color: #FDFDFD;}
             .avatar-section-wrap {float: right;margin-top: 37px;}
             .avatar-title {display: block;font-size: 14px;}
-            avatar-text {display: block;margin-top: 96px;text-align: center;font-size: 13px;color: #7A8594;}
+            .avatar-text {display: block;margin-top: 96px;text-align: center;font-size: 13px;color: #7A8594;}
             .avatar-bottom-text-wrap {display: block;margin-top: 253px;font-size: 13px;}
             .avatar-far-bottom-text {display: block;margin-top: 8px;}
             .browse-link {text-decoration: underline;color: #0050ff;}
@@ -152,12 +152,13 @@
                     span {margin: 0 auto;}
                     & th {background: rgba(204, 211, 217, 0.1);padding-left: 15px;}
                     & tr td {
-                        padding: 0 15px;font-size: 13px;margin: 0 auto;
-                        &.edit-name {width:1000px; text-align: right; border-right: 1px solid #C8CED8;}
+                        font-size: 14px;margin: 0 auto;
+                        .edit-name {border-right: 1px solid #C8CED8;padding: 3px 15px;}
+                        .file-attachment {border-right: 1px solid #C8CED8;padding: 3px 15px;}
                         &.edit-textarea {height: 150px; min-height: 150px;padding: 15px;text-align: left; vertical-align: text-top;}
-                        &.file-attachment {border-right: 1px solid #C8CED8;font-weight: 400;padding: 0 15px;}
-                        &.file-attach-input {text-align: left;}
+                        &.file-attach-input {text-align: left;padding: 0 15px;}
                     }
+                    & tr.edit-title {height: 56px;}
                     & tr:hover {background: none;}
                 }
             }
@@ -193,7 +194,7 @@
             &:hover {background: url("../icons/icon_info_select.png") no-repeat right;}
         }
         &-gray {
-            padding: 7px 12px; border: 1px solid #BEC5CE; color: #3D4752; border-radius: 2px;font-size: 14px;
+            width: 64px;height: 30px;padding: 7px 12px; border: 1px solid #BEC5CE; color: #3D4752; border-radius: 2px;font-size: 14px;
             &:hover {background-color: #BEC5CE; color: white;}
         }
     }

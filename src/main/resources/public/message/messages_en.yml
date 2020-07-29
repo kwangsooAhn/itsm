@@ -503,6 +503,7 @@ menu:
 notice:
   label:
     endDt: "End Date"
+    edit: "Edit Notice"
     height: "Height"
     list: "Notice List"
     modifyCompleted: "Modify Completed"
@@ -517,6 +518,7 @@ notice:
     strtDt: "Start Date"
     topNoticeSettings: "Top Notice Settings"
     topNoticeSettingsInfo: "Top Notice Settings Info"
+    view: "Notice"
     width: "Width"
   msg:
     checkPopHeightRange: "The height can only be a value between 500px and 1000px."
