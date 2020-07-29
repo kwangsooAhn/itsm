@@ -25,15 +25,15 @@
             <div class="user-register-contents-body">
                 <span class="profile-title" th:text="#{user.label.profile}"></span>
                 <div class="profile-manage">
-                    <div class="avatar_section_wrap">
-                        <span class="avatar_title" th:text="#{user.label.avatar}"></span>
-                        <span class="avatar_section">
+                    <div class="avatar-section-wrap">
+                        <span class="avatar-title" th:text="#{user.label.avatar}"></span>
+                        <span class="avatar-section">
                                 <div class="avatar_text" id="dropZoneFiles"></div><br/><br/>
                             </span>
-                        <div class="avatar_bottom_text_wrap">
+                        <div class="avatar-bottom-text-wrap">
                             <span class="avatar_bottom_text" th:text="#{user.label.FileSizeLimit}"></span>
                             <br>
-                            <span class="avatar_far_bottom_text" th:text="#{user.label.FileExtensionAllowed}"></span>
+                            <span class="avatar-far-bottom-text" th:text="#{user.label.FileExtensionAllowed}"></span>
                         </div>
                     </div>
                     <div  th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
@@ -54,10 +54,10 @@
                                    maxlength="100" autocomplete="new-password" required="required"/>
                         </div>
                         <div class="profile-input-body-list">
-                        <div class="input-title-guide">
-                            <p class="input-title required" th:text="#{user.label.rePassword}"></p>
-                            <span class="btn-info"></span>
-                        </div>
+                            <div class="input-title-guide">
+                                <p class="input-title required" th:text="#{user.label.rePassword}"></p>
+                                <span class="btn-info"></span>
+                            </div>
                             <input class="user-register-input" type="password" id="rePassword" name="rePassword"
                                    maxlength="100" autocomplete="new-password" required="required"/>
                         </div>
@@ -87,15 +87,15 @@
                                th:value="${deptCodeDetail?.codeValue}" readonly>
                         <input type="hidden" id="departmentCode" name="departmentCode"
                                th:value="${deptCodeDetail?.code}"/>
-                        <button class="input-button" type="button" onclick="deptPopUp();"
-                                th:text="#{department.btn.selection}"></button>
+                        <input class="input-button" type="button" onclick="deptPopUp();"
+                                th:value="#{department.btn.selection}"/>
                     </div>
                     <div class="profile-input-body-list">
                         <span class="input-title" th:text="#{user.label.officeNumber}"></span>
                         <input class="user-register-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                     </div>
-                    <div class="profile-input-bottom-list">
+                    <div class="profile-input-body-list">
                         <span class="input-title" th:text="#{user.label.mobileNumber}"></span>
                         <input class="user-register-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
@@ -136,8 +136,8 @@
                         </select>
                     </div>
                 </div>
-                <div class="btn_wrap">
-                    <button class="btn_register" type="button" th:text="#{user.label.editUserInfo}"
+                <div class="btn-wrap">
+                    <button class="btn-register" type="button" th:text="#{user.label.editUserInfo}"
                             th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
                 </div>
             </div>

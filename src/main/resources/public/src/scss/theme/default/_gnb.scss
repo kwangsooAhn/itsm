@@ -30,15 +30,19 @@
     float: right;
     /* 상단 알람 */
     .notice {
-        padding:8px 15px; background: url($icon-folder-path + "icon_notice.svg") no-repeat center center;
-        display: inline-block; border-right: 1px solid #D2D9E2; vertical-align: middle;
+        padding-left: 122px;
+        background: url($icon-folder-path + "icon_notice.svg") no-repeat center center;
+        vertical-align: middle;
         &-num {
-            padding: 2px 8px; border-radius: 20px; border: 1px solid $alice-primary;
-            margin-left: 80px; color: $alice-primary;
+            width: 30px;
+            margin-top: 26px;
+            padding: 2px 8px 2px 8px; border-radius: 20px; border: 1.2px solid $alice-primary;
+            margin-left: 60px; color: $alice-primary;
+            text-align: center;
         }
     }
     .user-info {
-        display: inline-block; padding:12px 15px;vertical-align: middle; background: url($icon-folder-path + "icon_userinfo_arrow_d.svg") no-repeat center right;
+        float:right; border-left: 1px solid #D2D9E2; display: inline-block; padding:12px 15px;vertical-align: middle; background: url($icon-folder-path + "icon_userinfo_arrow_d.svg") no-repeat center right;
         & ul li {display: inline-block;vertical-align: middle;}
         .my-edit {display: none;}
         .user-name {padding: 10px;display: inline-block; }
@@ -48,9 +52,9 @@
         }
         &.active{
             .my-edit{
-                display: block; padding: 5px; position: absolute; top:70px; right:10px; background: rgba(255, 255, 255, 1);
+                display: list-item; padding: 5px; position: absolute; top:70px; right:10px; background: rgba(255, 255, 255, 1);
                 & ul li{
-                    padding: 10px 0; display: list-item;
+                    padding: 10px 0; display: block;
                     &:hover{background: rgba(0, 80, 255, 0.05);}
                     & span{padding:0 40px;}
                 }
@@ -179,11 +183,11 @@
 
 /* GNB 메뉴 열렸을 때 */
 .left-open-menu{width:220px; height:100%; background:$alice-primary; position: fixed; left: 0; z-index: 999;}
-.logo-open{height:60px; background:rgba(255, 255, 255, 0.1) url($icon-folder-path + "icon_logo_open.svg") no-repeat 20px center;}
+.logo-open{height:60px; background:rgba(255, 255, 255, 0.1) url($icon-folder-path + "icon_menu_open_logo.png") no-repeat 20px center;}
 
 /* GNB 메뉴 닫혔을 때 */
 .left-close-menu{width:60px; height:100%; background:$alice-primary; position: fixed; left: 0; z-index: 999;}
-.logo-close{height:60px; background:rgba(255, 255, 255, 0.1) url($icon-folder-path + "icon_logo_close.svg") no-repeat 20px center;}
+.logo-close{height:60px; background:rgba(255, 255, 255, 0.1) url($icon-folder-path + "icon_menu_close_logo.png") no-repeat 20px center;}
 
 /* 토글메뉴 리스트 */
 .toggle-container {display: none;}
