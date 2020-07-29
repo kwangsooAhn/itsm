@@ -75,9 +75,9 @@ class WfProcessRestController(
     @PutMapping("/{processId}")
     fun updateProcess(
         @PathVariable processId: String,
-        @RequestBody restTemplateProcessViewDto: RestTemplateProcessViewDto
+        @RequestBody restTemplateProcessDto: RestTemplateProcessDto
     ): Boolean {
-        return wfProcessService.updateProcess(restTemplateProcessViewDto)
+        return wfProcessService.updateProcess(restTemplateProcessDto)
     }
 
     /**

@@ -1,13 +1,95 @@
 @charset "UTF-8";
-body, h1, h2, h3, h4, h5, h6, input, textarea, select {
-  font-family: "Noto Sans KR", sans-serif;
-  font-size: 15px;
+/* CSS Document */
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video, input, select {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+  box-sizing: border-box;
 }
 
-/*
-   OTF/TTF는 Chrome 6+, Firefox 3.5, Opera 10+, Safari 3-5
-   WOFF는 크롬6+,Firefox 3.6+, IE 9+, Safari5.1+ 
-*/
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: "";
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+input, button, select, optgroup, textarea {
+  margin: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
 @font-face {
   font-family: "Noto Sans KR";
   font-style: normal;
@@ -44,9 +126,79 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   font-weight: 900;
   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format("opentype");
 }
+body, h1, h2, h3, h4, h5, h6, input, textarea, select {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 15px;
+}
+
+/* Date compoent 기본 */
+.picker-wrapper-date {
+  display: inline;
+}
+
+option:hover {
+  background-color: rgba(0, 80, 255, 0.05);
+}
+option:visited {
+  color: #0050ff;
+  background-color: white;
+}
+option:active {
+  color: #0050ff;
+}
+option:focus {
+  color: #0050ff;
+}
+
+select {
+  height: 1.875rem;
+  color: #67717F;
+  font-size: 0.875rem;
+  border: 0.0625rem solid #C8CED8;
+  border-radius: 0.0625rem;
+  padding: 0 10px;
+  margin-right: 0.0625rem;
+  vertical-align: middle;
+}
+select:focus {
+  outline: 0.0625rem solid #0050ff;
+  border-radius: 0.0625rem;
+}
+
+input {
+  height: 1.875rem;
+  color: #67717F;
+  font-size: 0.875rem;
+  border: 0.0625rem solid #C8CED8;
+  border-radius: 0.0625rem;
+  padding: 0 10px;
+  margin-right: 0.0625rem;
+  vertical-align: middle;
+}
+input:focus {
+  outline: 0.0625rem solid #0050ff;
+  border-radius: 0.0625rem;
+}
+input.alice-date {
+  width: 8.125rem;
+  background: url("../icons/icon_calendar.png") no-repeat 6.25rem 0.4rem;
+}
+
+textarea {
+  margin: 10px 0 15px 0;
+  display: block;
+  border: 1px solid #C8CED8;
+  color: #67717F;
+}
+
+.column-2 {
+  width: 13.75rem;
+}
+
 .wrap-screen {
   position: relative;
   background: #eaf1f7;
+  height: 100vh;
 }
 
 .container {
@@ -87,6 +239,8 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .menubar-bottom {
   display: inline-block;
   width: 100%;
+  position: relative;
+  top: 30px;
 }
 .container .contents .user-register-contents-body {
   background: white;
@@ -372,6 +526,9 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 .container .contents .list table tr:first-child {
   background: rgba(0, 80, 255, 0);
 }
+.container .contents .list a {
+  cursor: pointer;
+}
 .container .contents .list .profile-photo {
   height: 27px;
   width: 27px;
@@ -401,7 +558,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   font-size: 13px;
 }
 .container .contents .search-date {
-  width: 100px;
+  width: 120px;
   height: 30px;
   background: url("../icons/icon_calendar.png") no-repeat 100px 8px;
   padding: 0 10px;
@@ -463,6 +620,23 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   color: #0050ff;
   border: rgba(64, 158, 230, 0.05) 1px solid;
 }
+.container .btn-import {
+  display: inline-block;
+  background: white url("../icons/icon_import.svg") no-repeat center center;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid #c8ced8;
+  text-align: center;
+  position: relative;
+  right: 3px;
+}
+.container .btn-import:hover {
+  background: #e9ebed url("../icons/icon_import_ov.svg") no-repeat center center;
+  color: #e9ebed;
+  border: #c8ced8 1px solid;
+  position: relative;
+  right: 3px;
+}
 .container .btn-info {
   background: url("../icons/icon_info.png") no-repeat right;
   padding: 0 0 0 5px;
@@ -471,94 +645,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 .container .btn-info:hover {
   background: url("../icons/icon_info_select.png") no-repeat right;
-}
-
-/* Date compoent 기본 */
-.picker-wrapper-date {
-  display: inline;
-}
-
-option:hover {
-  background-color: #F2F6FF;
-}
-option:visited {
-  color: #0050ff;
-  background-color: white;
-}
-option:active {
-  color: #0050ff;
-}
-option:focus {
-  color: #0050ff;
-}
-
-select:focus {
-  border: 1px solid #0050ff;
-}
-
-input {
-  border: 1px solid #c8ced8;
-}
-input:focus {
-  border: 1px solid #0050ff;
-}
-input.search {
-  width: 305px;
-  height: 30px;
-  background: url("../media/icons/icon_search.svg") no-repeat center right;
-  padding: 0 10px;
-  border-radius: 2px;
-  font-size: 13px;
-}
-input.user-register-input {
-  width: 340px;
-  height: 26px;
-  margin-top: 8px;
-  padding-left: 10px;
-  font-size: 14px;
-}
-input.auth-name {
-  width: 340px;
-  height: 30px;
-}
-input.auth-id {
-  width: 340px;
-  height: 30px;
-}
-input.auth-txt {
-  width: 340px;
-  height: 166px;
-}
-input.auth-list {
-  width: 340px;
-  height: 216px;
-  border: 1px solid #C8CED8;
-}
-input.auth-url {
-  width: 340px;
-  height: 216px;
-  border: 1px solid #C8CED8;
-}
-
-label.auth-name {
-  display: block;
-}
-label.auth-id {
-  display: inline-block;
-}
-label.auth-txt {
-  display: block;
-}
-label.auth-list {
-  display: block;
-}
-label.auth-url {
-  width: 340px;
-}
-
-textarea {
-  width: 695px;
-  border: 1px solid #c8ced8;
 }
 
 .paging {
@@ -612,6 +698,73 @@ textarea {
   background: rgba(64, 158, 230, 0.05) url("../icons/icon_paging_next_ov.svg") no-repeat center center;
   color: #0050ff;
   border: rgba(64, 158, 230, 0.05) 1px solid;
+}
+
+.token-list {
+  clear: both;
+}
+.token-list table {
+  width: 100%;
+}
+.token-list table span {
+  display: block;
+  margin-left: 30px;
+}
+.token-list table tr {
+  color: #67717f;
+  font-size: 13px;
+  border-bottom: 1px solid #d2d9e2;
+  padding: 0 16px;
+}
+.token-list table tr th {
+  height: 38px;
+  color: #3e4752;
+  font-size: 14px;
+  border-bottom: 2px solid #d2d9e2;
+  vertical-align: middle;
+  border-top: 1px solid #d2d9e2;
+}
+.token-list table tr td {
+  height: 45px;
+  vertical-align: middle;
+  text-align: center;
+}
+.token-list table tr td:first-child {
+  width: 30px;
+}
+.token-list table tr:hover {
+  background: rgba(0, 80, 255, 0.05);
+}
+.token-list table tr:first-child {
+  background: rgba(0, 80, 255, 0);
+}
+.token-list .profile-photo {
+  height: 27px;
+  width: 27px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  cursor: pointer;
+}
+.token-list .tr-notice {
+  background: rgba(255, 255, 0, 0.2);
+}
+.token-list .align-center {
+  text-align: center;
+}
+.token-list .align-left {
+  text-align: left;
+}
+.token-list .align-right {
+  text-align: right;
+}
+.token-search {
+  background: white;
+  padding: 20px 45px;
+}
+.token-search:after {
+  content: "";
+  display: block;
+  clear: both;
 }
 
 /* 상단 바 */
@@ -677,23 +830,20 @@ textarea {
   /* 상단바 프로필 메뉴 */
 }
 .top-config .notice {
-  padding-left: 122px;
+  padding: 8px 15px;
   background: url("../icons/icon_notice.svg") no-repeat center center;
+  display: inline-block;
+  border-right: 1px solid #D2D9E2;
   vertical-align: middle;
 }
 .top-config .notice-num {
-  width: 14px;
-  margin-top: 26px;
-  padding: 2px 8px 2px 8px;
+  padding: 2px 8px;
   border-radius: 20px;
-  border: 1.2px solid #0050ff;
-  margin-left: 60px;
+  border: 1px solid #0050ff;
+  margin-left: 80px;
   color: #0050ff;
-  text-align: center;
 }
 .top-config .user-info {
-  float: right;
-  border-left: 1px solid #D2D9E2;
   display: inline-block;
   padding: 12px 15px;
   vertical-align: middle;
@@ -1141,232 +1291,135 @@ textarea {
 }
 
 /* 알림 임시 css */
-.notification-menu {
-  height: 4.25rem;
-  position: relative;
-  display: inline-block;
-}
-.notification-menu .count {
-  position: absolute;
-  top: -0.125rem;
-  left: 1.25rem;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  display: none;
-  cursor: pointer;
-}
 .notification-menu img, .notification-menu button {
-  width: 1.125rem;
-  height: 1.125rem;
+  width: 24px;
+  height: 24px;
   margin: 0;
   border: none;
   background-color: transparent;
   cursor: pointer;
 }
+
 .notification-menu .notification-container {
   position: absolute;
-  border: 0.063rem solid #c8ced8;
-  background-color: #ffffff;
-  width: 21.875rem;
-  right: -0.063rem;
-  top: 4rem;
+  border: 1px solid black;
+  background-color: white;
+  width: 420px;
+  top: 60px;
   color: black;
   display: none;
   font-weight: normal;
-  font-size: 0.75rem;
-  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
+  font-size: 14px;
 }
+
 .notification-menu .notification-container .notification-header {
-  height: 2.25rem;
-  line-height: 1.875rem;
-  color: #ffffff;
-  background-color: #0050ff;
-  display: flex;
-  align-items: baseline;
-  padding-left: 0.938rem;
-  padding-right: 0.938rem;
-  font-weight: 400;
+  height: 46px;
 }
-.notification-menu .notification-container .notification-header span {
-  font-size: 0.688rem;
-  display: inline-block;
+
+.notification-menu .notification-container .notification-header hr {
+  margin: 0;
 }
+
 .notification-menu .notification-container .notification-header span.title {
-  width: 2.125rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  line-height: 2rem;
+  padding: 15px 0 15px 10px;
+  display: inline-block;
+  font-size: 20px;
+  font-weight: bold;
 }
-.notification-menu .notification-container .notification-header span.count {
-  width: 2.125rem;
-}
-.notification-menu .notification-container .notification-header span.message {
-  width: 15.625rem;
-  padding-left: 0.25rem;
-}
-.notification-menu .notification-container .notification-header span.close {
-  width: 2.125rem;
-  text-align: center;
-}
+
 .notification-menu .notification-container .notification-body {
   overflow: auto;
-  max-height: 14.625rem;
+  max-height: 213px;
 }
+
 .notification-menu .notification-container .notification-body button {
   float: right;
 }
-.notification-menu .notification-container .notification-body button.remove {
-  margin-top: -0.188rem;
-  background-image: url("../icons/icon_notification_delete.png");
-  background-repeat: no-repeat;
-  opacity: 0.6;
+
+.notification-menu .notification-container .notification-body button.check {
+  background-image: url("/assets/media/icons/icon_check.png");
 }
+
+.notification-menu .notification-container .notification-body button.remove {
+  background-image: url("/assets/media/icons/icon_remove.png");
+}
+
 .notification-menu .notification-container .notification-body span.title:hover {
   text-decoration: underline;
   cursor: pointer;
 }
+
 .notification-menu .notification-container .notification-body .notification {
-  height: 3.375rem;
-  border-bottom: 0.063rem solid #dce1e8;
-  padding: 0.75rem 0.938rem 0.75rem 0.938rem;
+  height: 71px;
+  border-bottom: 1px solid black;
+  padding: 11px;
 }
-.notification-menu .notification-container .notification-body .notification.nodata {
-  border: none;
+
+.notification-menu .notification-container .notification-body .notification:last-child {
+  border-bottom: none;
 }
+
+.notification-menu .notification-container .notification-body .notification[is-confirm=false] {
+  background-color: #b3d7ff3b;
+}
+
 .notification-menu:hover .notification-container {
   display: block;
 }
 
 .alice-toastify {
-  width: 21.875rem;
-  height: 5rem;
-  padding: 0 !important;
-  background: #ffffff !important;
-  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25) !important;
-  border-radius: 0.063rem !important;
+  width: 410px;
+  height: 71px;
+  padding: 11px !important;
 }
-.alice-toastify.toastify-right {
-  right: 0.625rem;
-}
+
 .alice-toastify .toast-close {
   position: absolute;
-  width: 1.125rem;
-  height: 1.125rem;
-  padding: 0;
-  opacity: 1;
-  top: 0.688rem;
-  right: 0.688rem;
-  background-image: url("../icons/icon_close.png");
-}
-.alice-toastify.alice-toastify-content {
-  border: 1px solid #c8ced8;
-}
-.alice-toastify.alice-toastify-content div.icon {
-  float: left;
-  width: 5rem;
-  height: 100%;
-  background-image: url("../icons/graphic_under_notification.png");
-  background-repeat: no-repeat;
-}
-.alice-toastify.alice-toastify-content div.content {
-  float: left;
-  width: 15.625rem;
-  height: 100%;
-  padding-left: 1.25rem;
-}
-.alice-toastify.alice-toastify-content div.content div {
-  font-size: 0.688rem;
-  font-weight: 400;
-}
-.alice-toastify.alice-toastify-content div.content div.title {
-  padding-top: 0.813rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #3e4752;
-}
-.alice-toastify.alice-toastify-content div.content div.title label {
-  display: none;
-}
-.alice-toastify.alice-toastify-content div.content div.message {
-  padding-top: 0.25rem;
-  color: #666f7a;
-}
-.alice-toastify.alice-toastify-content div.content div.date {
-  padding-top: 0.875rem;
-  color: #98a1ac;
-  padding-bottom: 0.875rem;
+  top: 9px;
+  right: 11px;
 }
 
-.notification-content div.title {
-  padding-bottom: 0.375rem;
-  height: 0.813rem;
-}
-.notification-content div.message {
-  padding-bottom: 1rem;
-  height: 0.625rem;
-}
-.notification-content div.date {
-  padding-bottom: 0.75rem;
-  height: 0.625rem;
-}
-.notification-content div label {
-  display: flex;
-  float: left;
-  background-color: #ffffff;
-}
-.notification-content div label input[type=checkbox] {
-  -webkit-appearance: none;
-  border: 0.063rem solid #0050ff;
-  padding: 0.313rem;
-  border-radius: 0.063rem;
-  display: inline-block;
-  position: relative;
-  cursor: pointer;
-}
-.notification-content div label input[type=checkbox]:checked {
-  border: 0.063rem solid #c8ced8;
-  color: #c8ced8;
-  cursor: unset;
-}
-.notification-content div label input[type=checkbox]:checked::after {
-  content: "✔";
-  font-size: 0.688rem;
-  position: absolute;
-  top: -0.063rem;
-  left: 0.063rem;
-  color: #c8ced8;
-}
-.notification-content div span {
+.notification-content span.date {
+  font-size: 14px;
+  margin-left: 5px;
   vertical-align: top;
-}
-.notification-content div span.title {
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: #3E4752;
-  max-width: 11.875rem;
-  padding-left: 0.625rem;
-}
-.notification-content div span.title.confirm {
-  color: #6b747f;
-}
-.notification-content div span.message {
-  font-size: 0.688rem;
-  color: #666f7a;
-  max-width: 24.375rem;
-  padding-left: 1.438rem;
-}
-.notification-content div span.date {
-  font-size: 0.688rem;
-  color: #98a1ac;
-  padding-left: 1.438rem;
+  line-height: 24px;
 }
 
-.notification-content.confirm {
-  color: #747c86;
+.notification-content span.title {
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 24px;
+  max-width: 190px;
 }
 
-.notification-content:hover {
-  background-color: rgba(0, 80, 255, 0.05);
+.notification-content span.message {
+  font-size: 16px;
+  max-width: 390px;
+  line-height: 22px;
+}
+  height: 100vh;
+  position: relative;
+  top: 30px;
+.container .contents .user-register-contents-body .input-guide {
+  background: white;
+.container .contents .user-register-contents-body .user-role-checkbox-list {
+  margin-top: 22px;
+  margin-left: 10px;
+  margin-bottom: 62px;
+}
+  overflow: hidden;
+.container .contents .user-register-contents-body .btn_register:hover {
+  background-color: #0050ff;
+  color: white;
+}
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+.container .contents .user-register-contents-body input:focus + .slider {
+  -webkit-box-shadow: 0 0 1px #707579;
+  box-shadow: 0 0 1px #707579;
 }
 
 .text-ellipsis {

@@ -1,0 +1,37 @@
+.token {
+    &-list {
+        clear: both;
+        & table {
+            width: 100%;
+            & span {display: block;margin-left: 30px;}
+            & tr {
+                color: #67717f;font-size: 13px;border-bottom: 1px solid #d2d9e2;padding: 0 16px;
+                th {
+                    height: 38px;color: #3e4752;font-size: 14px;border-bottom: 2px solid #d2d9e2;
+                    vertical-align: middle;border-top: 1px solid #d2d9e2;
+                }
+                td {height: 45px;vertical-align: middle;text-align: center;
+                    &:first-child{width:30px;}
+                }
+                &:hover {background: rgba(0, 80, 255, 0.05);}
+                &:first-child {background: rgba(0, 80, 255, 0);}
+            }
+        }
+        // 리스트 출력용 아바타 이미지
+        .profile-photo {height:27px; width:27px; border-radius: 50%; background: rgba(240, 240, 240, 1); cursor: pointer;}
+        .tr-notice {background: rgba(255,255,0, 0.2);}
+        .align-center {text-align: center;}
+        .align-left {text-align: left;}
+        .align-right {text-align: right;}
+    }
+
+    &-search {
+        background: rgba(255, 255, 255, 1);
+        padding: 20px 45px;
+        &:after {
+            content: "";
+            display: block;
+            clear:both;
+        }
+    }
+}

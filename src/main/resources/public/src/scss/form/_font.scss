@@ -1,0 +1,25 @@
+/* Form Designer Default Font Setting */
+@font-face {
+    font-family: "Noto Sans";
+    src: url(font/NotoSansKR-Regular.woff) format('woff');
+    font-weight: normal;
+}
+@font-face {
+    font-family: "Noto Sans";
+    src: url(font/NotoSansKR-Bold.woff) format('woff');
+    font-weight: bold;
+}
+@font-face {
+    font-family: "Noto Sans";
+    src: url(font/NotoSansKR-Medium.woff) format('woff');
+    font-weight: 500;
+}
+
+body, h1, h2, h3, h4, h5, h6, input, textarea, select {
+    color: $form-font-color;
+    font: {
+        family: $form-font-family;
+        size: $form-font-size;
+        weight: $form-font-weight;
+    }
+}
