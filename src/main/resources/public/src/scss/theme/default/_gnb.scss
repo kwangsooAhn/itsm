@@ -30,15 +30,19 @@
     float: right;
     /* 상단 알람 */
     .notice {
-        padding:8px 15px; background: url($icon-folder-path + "icon_notice.svg") no-repeat center center;
-        display: inline-block; border-right: 1px solid #D2D9E2; vertical-align: middle;
+        padding-left: 122px;
+        background: url($icon-folder-path + "icon_notice.svg") no-repeat center center;
+        vertical-align: middle;
         &-num {
-            padding: 2px 8px; border-radius: 20px; border: 1px solid $alice-primary;
-            margin-left: 80px; color: $alice-primary;
+            width: 30px;
+            margin-top: 26px;
+            padding: 2px 8px 2px 8px; border-radius: 20px; border: 1.2px solid $alice-primary;
+            margin-left: 60px; color: $alice-primary;
+            text-align: center;
         }
     }
     .user-info {
-        display: inline-block; padding:12px 15px;vertical-align: middle; background: url($icon-folder-path + "icon_userinfo_arrow_d.svg") no-repeat center right;
+        float:right; border-left: 1px solid #D2D9E2; display: inline-block; padding:12px 15px;vertical-align: middle; background: url($icon-folder-path + "icon_userinfo_arrow_d.svg") no-repeat center right;
         & ul li {display: inline-block;vertical-align: middle;}
         .my-edit {display: none;}
         .user-name {padding: 10px;display: inline-block; }

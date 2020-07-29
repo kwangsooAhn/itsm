@@ -1,7 +1,7 @@
 // *********************************************************************************************************************
 // CONTENTS (container > contents > title, body)
 // *********************************************************************************************************************
-.wrap-screen{position: relative;background: rgba(234, 241, 247, 1);}
+.wrap-screen{position: relative;background: rgba(234, 241, 247, 1);height: 100vh;}
 
 .container {
     height:100%; padding:60px 0 0 220px;
@@ -127,8 +127,7 @@
         }
 
         .search {
-            width:305px;height:30px; background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
-            padding: 0 10px; border: 1px solid rgba(200, 206, 216, 1); border-radius: 2px; font-size: 13px;
+            background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
         }
         .search-date {
             width:120px;height:30px; background: url($icon-folder-path + "icon_calendar.png") no-repeat 100px 8px;

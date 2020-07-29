@@ -2,9 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
-<head>
-    <meta charset="UTF-8">
-</head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents">
@@ -25,11 +22,13 @@
                         <option value="" th:text="#{token.label.all}" selected="selected" />
                         <option th:each="document: ${documentList}" th:value="${document.documentId}" th:text="${document.documentName}" />
                     </select>
-                    <input class="column-2" type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
+                    <input class="search column-2" type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
                     <input type="text" id="searchFromDt" name="searchFromDt" class="alice-date" readonly="readonly" />
                     <input type="text" id="searchToDt" name="searchToDt" class="alice-date" readonly="readonly" />
-                    <span id="totalCount"></span>
                 </form>
+            </div>
+            <div class="menubar-right test">
+                <span class="total-count" id="totalCount"></span>
             </div>
         </div>
         <div class="token-list" id="tokenList">
@@ -60,7 +59,7 @@
             searchTokenList(false);
         });
 
-        document.querySelector('.alice-container').addEventListener('scroll', function(e) {
+        document.querySelector('.token-list').addEventListener('scroll', function(e) {
             const contentHeight = document.getElementById('tokenList').parentElement.offsetHeight;
             if (this.scrollTop - 100 === contentHeight - this.offsetHeight) { // 100은 뭐지?
                 searchTokenList(true);
@@ -72,7 +71,7 @@
             if (!isScroll) {
                 tokenListElement.innerHTML = '';
             }
-            let listDocumentCount = tokenListElement.querySelectorAll('.document').length
+            let listDocumentCount = tokenListElement.querySelectorAll('.token-list-item').length
             aliceJs.sendXhr({
                 method: 'get',
                 url: '/rest/tokens?'+ aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + listDocumentCount,
@@ -82,7 +81,7 @@
                     if (tokenList.length > 0) {
                         totalCount = tokenList[0].totalCount;
                     }
-                    document.getElementById('totalCount').textContent = i18n.get("common.label.count", totalCount);
+                    document.getElementById('totalCount').textContent = i18n.msg("common.label.count", totalCount);
                     tokenList.forEach(function(token) {
                         tokenListElement.innerHTML = tokenListElement.innerHTML + getTokenTemplate(token);
                     });
@@ -97,25 +96,30 @@
 
         function getTokenTemplate(token) {
             return `
-                <div class="document">
+                <div class="token-list-item">
                     <div class="document-color" style="background-color: ${token.documentColor}"></div>
                     <div class="document-content">
-                        <span class="document-name">
-                            <span>${token.documentName}</span>
-                            <br/>
-                            <span>${token.documentNo}</span>
-                        </span>
-                        <span class="document-topic">${token.topics.map(topic => `<p>${topic}</p>`).join('')}</span>
-                        <span class="document-user">${token.createUserName}</span>
-                        <span class="document-create-dt">${i18n.userDateTime(token.createDt)}</span>
-                        <span class="document-status">${token.elementName}</span>
-                        <span class="document-tag">
-                            ${
-                                /*[# th:if="${@utilService.hasAnyRole(#httpServletRequest, 'token.create')}"]*/
-                                `<button type="button" onclick="openTokenEdit('${token.tokenId}')">${i18n.get('common.btn.write')}</button>`
-                                /*[/]*/
-                            }
-                        </span>
+                        ${
+                        /*[# th:if="${@utilService.hasAnyRole(#httpServletRequest, 'token.create')}"]*/
+                        `<a href="javascript:openTokenEdit('${token.tokenId}')">`
+                        /*[/]*/
+                        }
+                            <p class="document-name">${token.documentName}</p>
+                            <p class="document-no">${token.documentNo}</p>
+                        ${
+                        /*[# th:if="${@utilService.hasAnyRole(#httpServletRequest, 'token.create')}"]*/
+                        `</a>`
+                        /*[/]*/
+                        }
+                    </div>
+                    <div class="document-topic">
+                        ${token.topics.map(topic => `<p>${topic}</p>`).join('')}
+                    </div>
+                    <div class="document-user">${token.createUserName}</div>
+                    <div class="document-create-dt">${i18n.userDateTime(token.createDt)}</div>
+                    <div class="document-status">${token.elementName}</div>
+                    <div>
+                        <span class="document-tag"></span>
                     </div>
                 </div>
             `;
