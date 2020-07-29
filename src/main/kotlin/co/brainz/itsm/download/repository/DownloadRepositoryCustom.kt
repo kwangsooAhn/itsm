@@ -11,4 +11,6 @@ interface DownloadRepositoryCustom {
         fromDt: LocalDateTime,
         toDt: LocalDateTime
     ): List<DownloadEntity>
+
+    fun findDownloadTopList(limit: Long): List<DownloadEntity>
 }

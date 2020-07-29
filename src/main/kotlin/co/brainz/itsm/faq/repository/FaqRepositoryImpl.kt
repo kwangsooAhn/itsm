@@ -1,8 +1,3 @@
-/*
- * Copyright 2020 Brainzcompany Co., Ltd.
- * https://www.brainz.co.kr
- *
- */
 package co.brainz.itsm.faq.repository
 
 import co.brainz.framework.util.AliceMessageSource
@@ -16,8 +11,9 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class FaqRepositoryCustomImpl(private val messageSource: AliceMessageSource) : FaqRepositoryCustom,
-    QuerydslRepositorySupport(FaqEntity::class.java) {
+class FaqRepositoryImpl(
+    private val messageSource: AliceMessageSource
+) : QuerydslRepositorySupport(FaqEntity::class.java), FaqRepositoryCustom {
 
     /**
      * FAQ 목록을 조회한다.
@@ -45,5 +41,14 @@ class FaqRepositoryCustomImpl(private val messageSource: AliceMessageSource) : F
                 entity.faqContent
             )
         ).fetch()
+    }
+
+    override fun findFaqTopList(limit: Long): List<FaqEntity> {
+        val faq = QFaqEntity.faqEntity
+
+        return from(faq).distinct()
+            .orderBy(faq.createDt.desc())
+            .limit(limit)
+            .fetch()
     }
 }
