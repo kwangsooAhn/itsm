@@ -20,12 +20,12 @@
                         <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
                             th:text="#{${boardAdmin.boardAdminTitle}}"></option>
                     </select>
-                    <input th:class="search" id="search" type="text" maxlength="100"
+                    <input class="search column-2" id="search" type="text" maxlength="100"
                         th:placeholder="#{board.label.searchBoardPlaceholder}">
-                    <span th:class="icon-search"></span>
-                    <input th:class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <span class="icon-search"></span>
+                    <input class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                     <span>~</span>
-                    <input th:class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
+                    <input class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
                 </div>
                 <div class="menubar-right">
                     <button class="btn-add" onclick="openBoardAdd()"
