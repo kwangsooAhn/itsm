@@ -1,0 +1,28 @@
+h1 {
+    font-weight: bold;
+    font-size: 2.1875rem; // 35px
+    color: #3E4752;
+    margin-bottom: 3.3125rem; // 53px
+}
+
+label {
+    display: inline-block;
+    color: #3E4752;
+    font-size: 0.8750rem; // 14px
+    font-weight: 500; // Medium
+    margin-bottom: 0.5rem; // 8px
+    margin-top: 1rem; // 16px
+}
+
+input {
+    padding-left: 0.625rem; // 10px
+    width: 21.625rem; // 346px
+    height: 2.25rem; // 36px
+    border: 0.0625rem solid #C8CED8; // 1px
+    border-radius: 0.0625rem; // 1px
+    font-size: 0.8759rem; // 14px
+    &:focus {
+        outline: 0.125rem solid $alice-primary; // 2px
+        border-radius: 0.0625rem; // 1px
+    }
+}

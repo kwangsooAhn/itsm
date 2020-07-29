@@ -504,6 +504,7 @@ menu:
 notice:
   label:
     endDt: "End Date"
+    edit: "Edit Notice"
     height: "Height"
     list: "Notice List"
     modifyCompleted: "Modify Completed"
@@ -518,6 +519,7 @@ notice:
     strtDt: "Start Date"
     topNoticeSettings: "Top Notice Settings"
     topNoticeSettingsInfo: "Top Notice Settings Info"
+    view: "Notice"
     width: "Width"
   msg:
     checkPopHeightRange: "The height can only be a value between 500px and 1000px."
@@ -684,6 +686,19 @@ user:
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
     usageStatus: "※ If not using it, you won't be able to log in and use all systems."
+  tooltip:
+    idRule: "※ Letters, numbers, and special characters (@, -, _) can be used.<br/>
+    ※ Special characters can not be allowed to come to the front.<br/>
+    ※ Do not allow spaces."
+    pwRule: "※ At least two types of characters (upper case, lower case, special characters, numbers),
+    &nbsp;&nbsp;&nbsp;&nbsp;More than 8 characters, less than 8 characters, if one kind character used, 10~20 length limit
+    ※ Do not include your ID.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) If the ID is alice, alic comprises available, alice is not included.<br/><br/>
+    ※ Do not include your email ID.<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID alice, alic comprises available<br/>
+    ※ Do not allow spaces.<br/>"
+
+
   platform:
     alice: "Alice"
     google: "Google"

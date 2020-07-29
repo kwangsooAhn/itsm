@@ -198,7 +198,7 @@ textarea {
 .wrap-screen {
   position: relative;
   background: #eaf1f7;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .container {
@@ -252,9 +252,13 @@ textarea {
 }
 .container .contents .user-register-contents-body input {
   font-size: 14px;
+  height: 30px;
+  width: 340px;
+  margin-top: 8px;
 }
 .container .contents .user-register-contents-body select {
   font-size: 14px;
+  margin-top: 8px;
 }
 .container .contents .user-register-contents-body .required::after {
   color: #E83828;
@@ -273,9 +277,7 @@ textarea {
   margin-top: 15px;
   margin-left: 10px;
 }
-.container .contents .user-register-contents-body .profile-input-bottom-list {
-  margin-top: 15px;
-  margin-left: 10px;
+.container .contents .user-register-contents-body .profile-input-body-list:last-child {
   margin-bottom: 62px;
 }
 .container .contents .user-register-contents-body .user-register-top-list {
@@ -286,7 +288,7 @@ textarea {
   font-size: 14px;
   display: block;
 }
-.container .contents .user-register-contents-body .input-guide {
+.container .contents .user-register-contents-body .input-title-guide {
   display: flex;
   vertical-align: middle;
 }
@@ -301,7 +303,6 @@ textarea {
 .container .contents .user-register-contents-body .custom-setting-top-select {
   width: 678px;
   height: 26px;
-  margin-top: 8px;
   padding-left: 5px;
   border: 1px solid #C8CED8;
 }
@@ -309,7 +310,6 @@ textarea {
   width: 244px;
   height: 26px;
   border: 1px solid #C8CED8;
-  margin-top: 8px;
   padding-left: 5px;
 }
 .container .contents .user-register-contents-body .hour-select {
@@ -329,11 +329,9 @@ textarea {
   padding-left: 5px;
 }
 .container .contents .user-register-contents-body .theme-color-select {
-  margin-top: 15px;
   width: 244px;
   height: 30px;
   border: 1px solid #C8CED8;
-  margin-bottom: 62px;
   padding-left: 5px;
 }
 .container .contents .user-register-contents-body .user-role-checkbox {
@@ -341,16 +339,16 @@ textarea {
   height: 15px;
   line-height: 15px;
 }
+.container .contents .user-register-contents-body .user-role-checkbox-list {
+  margin-top: 22px;
+  margin-left: 10px;
+  margin-bottom: 62px;
+}
 .container .contents .user-register-contents-body .user-role-checkbox-wrap {
   margin-top: 15px;
   margin-left: 10px;
   display: inline-block;
   width: 162px;
-}
-.container .contents .user-register-contents-body .user-role-checkbox-list {
-  margin-top: 22px;
-  margin-left: 10px;
-  margin-bottom: 62px;
 }
 .container .contents .user-register-contents-body .user-role-checkbox-list-middle {
   margin-top: 15px;
@@ -367,24 +365,24 @@ textarea {
   overflow: hidden;
 }
 .container .contents .user-register-contents-body .checkbox-label {
-  vertical-align: 2px;
+  vertical-align: -5px;
   margin-left: 10px;
   margin-right: 14px;
 }
-.container .contents .user-register-contents-body .btn_wrap {
+.container .contents .user-register-contents-body .btn-wrap {
   margin-top: 32px;
   text-align: right;
   margin-right: 10px;
   font-size: 13px;
 }
-.container .contents .user-register-contents-body .btn_register {
-  padding: 6px 12px;
+.container .contents .user-register-contents-body .btn-register {
+  padding: 10px;
   border: 1px solid #0050ff;
   color: #0050ff;
   border-radius: 3px;
   margin-right: 5px;
 }
-.container .contents .user-register-contents-body .btn_register:hover {
+.container .contents .user-register-contents-body .btn-register:hover {
   background-color: #0050ff;
   color: white;
 }
@@ -398,7 +396,7 @@ textarea {
   background-color: #BEC5CE;
   color: white;
 }
-.container .contents .user-register-contents-body .avatar_section {
+.container .contents .user-register-contents-body .avatar-section {
   float: right;
   padding: 53px 75px 53px 75px;
   border: 1px solid #D2D9E2;
@@ -407,31 +405,31 @@ textarea {
   background: white no-repeat center 53px;
   background-color: #FDFDFD;
 }
-.container .contents .user-register-contents-body .avatar_section_wrap {
+.container .contents .user-register-contents-body .avatar-section-wrap {
   float: right;
   margin-top: 37px;
 }
-.container .contents .user-register-contents-body .avatar_title {
+.container .contents .user-register-contents-body .avatar-title {
   display: block;
   font-size: 14px;
 }
-.container .contents .user-register-contents-body .avatar_text {
+.container .contents .user-register-contents-body avatar-text {
   display: block;
   margin-top: 96px;
   text-align: center;
   font-size: 13px;
   color: #7A8594;
 }
-.container .contents .user-register-contents-body .avatar_bottom_text_wrap {
+.container .contents .user-register-contents-body .avatar-bottom-text-wrap {
   display: block;
   margin-top: 253px;
   font-size: 13px;
 }
-.container .contents .user-register-contents-body .avatar_far_bottom_text {
+.container .contents .user-register-contents-body .avatar-far-bottom-text {
   display: block;
   margin-top: 8px;
 }
-.container .contents .user-register-contents-body .browse_link {
+.container .contents .user-register-contents-body .browse-link {
   text-decoration: underline;
   color: #0050ff;
 }
@@ -651,6 +649,46 @@ textarea {
 .container .contents .list-wrap-auth-edit ul li.checked {
   font-weight: bold;
 }
+
+.container .contents .list-wrap-edit table {
+  margin: 0 0 15px 0;
+}
+.container .contents .list-wrap-edit table span {
+  margin: 0 auto;
+}
+.container .contents .list-wrap-edit table th {
+  background: rgba(204, 211, 217, 0.1);
+  padding-left: 15px;
+}
+.container .contents .list-wrap-edit table tr td {
+  font-size: 14px;
+  margin: 0 auto;
+}
+.container .contents .list-wrap-edit table tr td .edit-name {
+  border-right: 1px solid #c8ced8;
+  padding: 3px 15px;
+}
+.container .contents .list-wrap-edit table tr td .file-attachment {
+  border-right: 1px solid #c8ced8;
+  padding: 3px 15px;
+}
+.container .contents .list-wrap-edit table tr td.edit-textarea {
+  height: 150px;
+  min-height: 150px;
+  padding: 15px;
+  text-align: left;
+  vertical-align: text-top;
+}
+.container .contents .list-wrap-edit table tr td.file-attach-input {
+  text-align: left;
+  padding: 0 15px;
+}
+.container .contents .list-wrap-edit table tr.edit-title {
+  height: 56px;
+}
+.container .contents .list-wrap-edit table tr:hover {
+  background: none;
+}
 .container .contents .list-count {
   float: right;
   color: #67717F;
@@ -699,12 +737,133 @@ textarea {
 }
 .container .btn-info {
   background: url("../icons/icon_info.png") no-repeat right;
-  padding: 0 0 0 5px;
+  margin-left: 5px;
   width: 15px;
   height: 15px;
 }
 .container .btn-info:hover {
   background: url("../icons/icon_info_select.png") no-repeat right;
+}
+.container .btn-gray {
+  width: 64px;
+  height: 30px;
+  padding: 7px 12px;
+  border: 1px solid #BEC5CE;
+  color: #3D4752;
+  border-radius: 2px;
+  font-size: 14px;
+}
+.container .btn-gray:hover {
+  background-color: #BEC5CE;
+  color: white;
+}
+.container .float-left{float: left;}
+.container .float-right{float: right;}
+.container .float-clear{clear: both;}
+.container .align-center {text-align: center;}
+.container .align-left {text-align: left;}
+.container .align-right {text-align: right;}
+
+/* Date compoent 기본 */
+.picker-wrapper-date {
+  display: inline;
+}
+
+option:hover {
+  background-color: #F2F6FF;
+}
+
+option:visited {
+  color: #0050ff;
+  background-color: white;
+}
+
+option:active {
+  color: #0050ff;
+}
+
+option:focus {
+  color: #0050ff;
+}
+
+select:focus {
+  border: 1px solid #0050ff;
+}
+
+input {
+  border: 1px solid #c8ced8;
+}
+
+input.search {
+  width: 305px;
+  height: 30px;
+  background: url("../media/icons/icon_search.svg") no-repeat center right;
+  padding: 0 10px;
+  border-radius: 2px;
+  font-size: 13px;
+}
+
+input.user-register-input {
+  width: 340px;
+  height: 26px;
+  margin-top: 8px;
+  padding-left: 10px;
+}
+
+input.auth-name {
+  width: 340px;
+  height: 30px;
+}
+
+input.auth-id {
+  width: 340px;
+  height: 30px;
+}
+
+input.auth-txt {
+  width: 340px;
+  height: 166px;
+}
+
+input.auth-list {
+  width: 340px;
+  height: 216px;
+  border: 1px solid #C8CED8;
+}
+
+input.auth-url {
+  width: 340px;
+  height: 216px;
+  border: 1px solid #C8CED8;
+}
+
+input:focus {
+  border: 1px solid #0050ff;
+}
+
+label.auth-name {
+  display: block;
+}
+
+label.auth-id {
+  display: inline-block;
+}
+
+label.auth-txt {
+  display: block;
+}
+
+label.auth-list {
+  display: block;
+}
+
+label.auth-url {
+  width: 340px;
+}
+
+textarea {
+  width: 695px;
+  border: 1px solid #c8ced8;
 }
 
 .paging {
@@ -762,41 +921,8 @@ textarea {
 
 .token-list {
   clear: both;
-}
-.token-list table {
-  width: 100%;
-}
-.token-list table span {
-  display: block;
-  margin-left: 30px;
-}
-.token-list table tr {
-  color: #67717f;
-  font-size: 13px;
-  border-bottom: 1px solid #d2d9e2;
-  padding: 0 16px;
-}
-.token-list table tr th {
-  height: 38px;
-  color: #3e4752;
-  font-size: 14px;
-  border-bottom: 2px solid #d2d9e2;
-  vertical-align: middle;
-  border-top: 1px solid #d2d9e2;
-}
-.token-list table tr td {
-  height: 45px;
-  vertical-align: middle;
-  text-align: center;
-}
-.token-list table tr td:first-child {
-  width: 30px;
-}
-.token-list table tr:hover {
-  background: rgba(0, 80, 255, 0.05);
-}
-.token-list table tr:first-child {
-  background: rgba(0, 80, 255, 0);
+  overflow-y: auto;
+  margin-top: 0.625rem;
 }
 .token-list .profile-photo {
   height: 27px;
@@ -817,14 +943,66 @@ textarea {
 .token-list .align-right {
   text-align: right;
 }
+.token-list-item {
+  margin: 0.625rem 0;
+  padding: 0.625rem;
+  border-bottom: 0.0625rem solid #EAF1F7;
+  min-height: 6.8125rem;
+  background-color: #FFFFFF;
+}
+.token-list-item:hover {
+  background: rgba(0, 80, 255, 0.05);
+}
+.token-list-item div {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 1.874rem;
+}
+.token-list .document-color {
+  min-height: 5.5rem;
+  width: 0.5rem;
+  margin-left: 0;
+}
+.token-list .document-content {
+  width: 12.5rem;
+  color: #3E4752;
+}
+.token-list .document-content p {
+  padding: 0.25rem 0;
+}
+.token-list .document-topic {
+  width: 23.75rem;
+  color: #3E4752;
+}
+.token-list .document-user {
+  width: 6.25rem;
+  color: #67717F;
+}
+.token-list .document-create-dt {
+  width: 9.375rem;
+  color: #67717F;
+}
+.token-list .document-status {
+  width: 5.625rem;
+  color: #67717F;
+}
+.token-list .document-tag {
+  width: 18.125rem;
+  color: #67717F;
+}
 .token-search {
   background: white;
-  padding: 20px 45px;
+  padding: 1.25rem 2.8125rem;
+  height: 4.375rem;
 }
 .token-search:after {
   content: "";
   display: block;
   clear: both;
+}
+
+.total-count {
+  line-height: 2;
 }
 
 /* 상단 바 */
@@ -890,20 +1068,23 @@ textarea {
   /* 상단바 프로필 메뉴 */
 }
 .top-config .notice {
-  padding: 8px 15px;
+  padding-left: 122px;
   background: url("../icons/icon_notice.svg") no-repeat center center;
-  display: inline-block;
-  border-right: 1px solid #D2D9E2;
   vertical-align: middle;
 }
 .top-config .notice-num {
-  padding: 2px 8px;
+  width: 30px;
+  margin-top: 26px;
+  padding: 2px 8px 2px 8px;
   border-radius: 20px;
-  border: 1px solid #0050ff;
-  margin-left: 80px;
+  border: 1.2px solid #0050ff;
+  margin-left: 60px;
   color: #0050ff;
+  text-align: center;
 }
 .top-config .user-info {
+  float: right;
+  border-left: 1px solid #D2D9E2;
   display: inline-block;
   padding: 12px 15px;
   vertical-align: middle;
@@ -1301,7 +1482,7 @@ textarea {
 
 .logo-open {
   height: 60px;
-  background: rgba(255, 255, 255, 0.1) url("../icons/icon_logo_open.svg") no-repeat 20px center;
+  background: rgba(255, 255, 255, 0.1) url("../icons/icon_menu_open_logo.png") no-repeat 20px center;
 }
 
 /* GNB 메뉴 닫혔을 때 */
@@ -1316,7 +1497,7 @@ textarea {
 
 .logo-close {
   height: 60px;
-  background: rgba(255, 255, 255, 0.1) url("../icons/icon_logo_close.svg") no-repeat 20px center;
+  background: rgba(255, 255, 255, 0.1) url("../icons/icon_menu_close_logo.png") no-repeat 20px center;
 }
 
 /* 토글메뉴 리스트 */
@@ -1351,112 +1532,231 @@ textarea {
 }
 
 /* 알림 임시 css */
+.notification-menu {
+  height: 4.25rem;
+  position: relative;
+  display: inline-block;
+}
+.notification-menu .count {
+  position: absolute;
+  top: -0.125rem;
+  left: 1.25rem;
+  border-radius: 50%;
+  font-size: 0.75rem;
+  display: none;
+  cursor: pointer;
+}
 .notification-menu img, .notification-menu button {
-  width: 24px;
-  height: 24px;
+  width: 1.125rem;
+  height: 1.125rem;
   margin: 0;
   border: none;
   background-color: transparent;
   cursor: pointer;
 }
-
 .notification-menu .notification-container {
   position: absolute;
-  border: 1px solid black;
-  background-color: white;
-  width: 420px;
-  top: 60px;
+  border: 0.063rem solid #c8ced8;
+  background-color: #ffffff;
+  width: 21.875rem;
+  right: -0.063rem;
+  top: 4rem;
   color: black;
   display: none;
   font-weight: normal;
-  font-size: 14px;
+  font-size: 0.75rem;
+  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
 }
-
 .notification-menu .notification-container .notification-header {
-  height: 46px;
+  height: 2.25rem;
+  line-height: 1.875rem;
+  color: #ffffff;
+  background-color: #0050ff;
+  display: flex;
+  align-items: baseline;
+  padding-left: 0.938rem;
+  padding-right: 0.938rem;
+  font-weight: 400;
 }
-
-.notification-menu .notification-container .notification-header hr {
-  margin: 0;
-}
-
-.notification-menu .notification-container .notification-header span.title {
-  padding: 15px 0 15px 10px;
+.notification-menu .notification-container .notification-header span {
+  font-size: 0.688rem;
   display: inline-block;
-  font-size: 20px;
-  font-weight: bold;
 }
-
+.notification-menu .notification-container .notification-header span.title {
+  width: 2.125rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 2rem;
+}
+.notification-menu .notification-container .notification-header span.count {
+  width: 2.125rem;
+}
+.notification-menu .notification-container .notification-header span.message {
+  width: 15.625rem;
+  padding-left: 0.25rem;
+}
+.notification-menu .notification-container .notification-header span.close {
+  width: 2.125rem;
+  text-align: center;
+}
 .notification-menu .notification-container .notification-body {
   overflow: auto;
-  max-height: 213px;
+  max-height: 14.625rem;
 }
-
 .notification-menu .notification-container .notification-body button {
   float: right;
 }
-
-.notification-menu .notification-container .notification-body button.check {
-  background-image: url("/assets/media/icons/icon_check.png");
-}
-
 .notification-menu .notification-container .notification-body button.remove {
-  background-image: url("/assets/media/icons/icon_remove.png");
+  margin-top: -0.188rem;
+  background-image: url("../icons/icon_notification_delete.png");
+  background-repeat: no-repeat;
+  opacity: 0.6;
 }
-
 .notification-menu .notification-container .notification-body span.title:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-
 .notification-menu .notification-container .notification-body .notification {
-  height: 71px;
-  border-bottom: 1px solid black;
-  padding: 11px;
+  height: 4.875rem;
+  border-bottom: 0.063rem solid #dce1e8;
+  padding: 0.75rem 0.938rem 0.75rem 0.938rem;
 }
-
-.notification-menu .notification-container .notification-body .notification:last-child {
-  border-bottom: none;
+.notification-menu .notification-container .notification-body .notification.nodata {
+  border: none;
 }
-
-.notification-menu .notification-container .notification-body .notification[is-confirm=false] {
-  background-color: #b3d7ff3b;
-}
-
 .notification-menu:hover .notification-container {
   display: block;
 }
 
 .alice-toastify {
-  width: 410px;
-  height: 71px;
-  padding: 11px !important;
+  width: 21.875rem;
+  height: 5rem;
+  padding: 0 !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25) !important;
+  border-radius: 0.063rem !important;
 }
-
+.alice-toastify.toastify-right {
+  right: 0.625rem;
+}
 .alice-toastify .toast-close {
   position: absolute;
-  top: 9px;
-  right: 11px;
+  width: 1.125rem;
+  height: 1.125rem;
+  padding: 0;
+  opacity: 1;
+  top: 0.688rem;
+  right: 0.688rem;
+  background-image: url("../icons/icon_close.png");
+}
+.alice-toastify.alice-toastify-content {
+  border: 0.063rem solid #c8ced8;
+}
+.alice-toastify.alice-toastify-content div.icon {
+  float: left;
+  width: 5rem;
+  height: 100%;
+  background-image: url("../icons/graphic_under_notification.png");
+  background-repeat: no-repeat;
+}
+.alice-toastify.alice-toastify-content div.content {
+  float: left;
+  width: 15.625rem;
+  height: 100%;
+  padding-left: 1.25rem;
+}
+.alice-toastify.alice-toastify-content div.content div {
+  font-size: 0.688rem;
+  font-weight: 400;
+}
+.alice-toastify.alice-toastify-content div.content div.title {
+  padding-top: 0.813rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #3e4752;
+}
+.alice-toastify.alice-toastify-content div.content div.title label {
+  display: none;
+}
+.alice-toastify.alice-toastify-content div.content div.message {
+  padding-top: 0.25rem;
+  color: #666f7a;
+}
+.alice-toastify.alice-toastify-content div.content div.date {
+  padding-top: 0.875rem;
+  color: #98a1ac;
+  padding-bottom: 0.875rem;
 }
 
-.notification-content span.date {
-  font-size: 14px;
-  margin-left: 5px;
+.notification-content div.title {
+  padding-bottom: 0.313rem;
+}
+.notification-content div.message {
+  padding-bottom: 0.875rem;
+}
+.notification-content div.date {
+  padding-bottom: 0.5rem;
+}
+.notification-content div label {
+  display: flex;
+  float: left;
+  background-color: #ffffff;
+}
+.notification-content div label input[type=checkbox] {
+  width: 0.813rem;
+  height: 0.813rem;
+  -webkit-appearance: none;
+  border: 0.063rem solid #0050ff;
+  padding: 0.313rem;
+  border-radius: 0.063rem;
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+}
+.notification-content div label input[type=checkbox]:checked {
+  border: 0.063rem solid #c8ced8;
+  color: #c8ced8;
+  cursor: unset;
+}
+.notification-content div label input[type=checkbox]:checked::after {
+  content: "✔";
+  font-size: 0.688rem;
+  position: absolute;
+  top: -0.063rem;
+  left: 0.063rem;
+  color: #c8ced8;
+}
+.notification-content div span {
   vertical-align: top;
-  line-height: 24px;
+}
+.notification-content div span.title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #3E4752;
+  max-width: 11.875rem;
+  padding-left: 0.625rem;
+}
+.notification-content div span.title.confirm {
+  color: #6b747f;
+}
+.notification-content div span.message {
+  font-size: 0.688rem;
+  color: #666f7a;
+  max-width: 24.375rem;
+  padding-left: 1.438rem;
+}
+.notification-content div span.date {
+  font-size: 0.688rem;
+  color: #98a1ac;
+  padding-left: 1.438rem;
 }
 
-.notification-content span.title {
-  font-size: 17px;
-  font-weight: bold;
-  line-height: 24px;
-  max-width: 190px;
+.notification-content.confirm {
+  color: #747c86;
 }
 
-.notification-content span.message {
-  font-size: 16px;
-  max-width: 390px;
-  line-height: 22px;
+.notification-content:hover {
+  background-color: rgba(0, 80, 255, 0.05);
 }
 
 .text-ellipsis {
