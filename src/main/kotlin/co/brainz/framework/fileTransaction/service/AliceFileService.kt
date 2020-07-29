@@ -108,8 +108,8 @@ class AliceFileService(
     }
 
     /**
-     * 임시 업로드된 파일을 업로드한다.
-     * 임시 업로드 경로에 업로드된 파일을 업로드하고 파일관리테이블에 uploaded 상태를 true 변경하여 조회가 가능하도록 한다.
+     * 임시 경로에 업로드된 파일을 실제 경로에 업로드하고 파일관리테이블에 uploaded 상태를 true 변경하여 조회가 가능하도록 한다.
+     * 업로드 간 삭제할 파일이 있다면 동시에 같이 삭제한다.
      */
     fun upload(aliceFileDto: AliceFileDto) {
         for (fileSeq in aliceFileDto.fileSeq.orEmpty()) {
@@ -132,6 +132,9 @@ class AliceFileService(
                 Files.move(filePath, tempPath, StandardCopyOption.REPLACE_EXISTING)
                 throw AliceException(AliceErrorConstants.ERR, e.message)
             }
+        }
+        for (delFileSeq in aliceFileDto.delFileSeq.orEmpty()) {
+            delete(aliceFileOwnMapRepository.findByFileLocEntityFileSeq(delFileSeq).fileLocEntity)
         }
     }
 

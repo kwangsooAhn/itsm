@@ -342,6 +342,7 @@ faq:
     category: "Category"
     title: "Title"
     content: "Content"
+    description: "Frequently asked questions and answers."
   msg:
     description: "Frequently asked questions and answers."
 

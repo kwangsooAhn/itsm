@@ -1,57 +1,65 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
     <title>FAQ 편집</title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="container" style="width: 70%; margin: 50px auto;">
-        <h1 th:text="#{menu.portal.faq}"></h1>
-        <p th:text="#{faq.msg.description}"></p>
-        <hr>
+    <div class="contents">
         <form id="faqForm" method="post" onsubmit="return false">
             <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
-            <table>
-                <colgroup>
-                    <col width="20%">
-                    <col width="*">
-                </colgroup>
-                <tr>
-                    <th class="required" th:text="#{common.label.group}">*그룹</th>
-                    <td>
-                        <select id="faqGroup" name="faqGroup">
-                            <option th:each="faqGroup :${faqGroupList}" th:text="#{${faqGroup.code}}"
+
+            <div class="contents-title">
+                <div>
+                    <span class="title-txt" th:text="#{menu.portal.faq}"></span>
+                    <span class="title-description" th:text="#{faq.label.description}"></span>
+                </div>
+            </div>
+            <div class="user-register-contents-body">
+                <span class="profile-title" th:text="#{menu.portal.faq}"></span>
+                <div class="profile-manage">
+                    <div class="profile-input-body-list">
+                        <p class="input-title required" th:text="#{common.label.group}"></p>
+                        <select id="faqGroup" name="faqGroup" required="required">
+                            <option th:each="faqGroup :${faqGroupList}" th:text="#{|common.code.${faqGroup.code}|}"
                                     th:value="${faqGroup.code}" th:selected="${faqGroup.code} == ${faq?.faqGroup}">
                             </option>
                         </select>
-                    </td>
-                </tr>
-                <tr>
-                    <th class="required" th:text="#{common.btn.title}">제목</th>
-                    <td><input id="faqTitle" name="faqTitle" type="text" th:value="${faq?.faqTitle}" maxlength="200"
-                               required="required"/></td>
-                </tr>
-                <tr>
-                    <th class="required" th:text="#{common.label.contents}">내용</th>
-                    <td><textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"></textarea></td>
-                </tr>
-            </table>
+                    </div>
+                    <div class="profile-input-body-list">
+                        <p class="input-title required" th:text="#{common.label.title}"></p>
+                        <input class="user-register-input" id="faqTitle" name="faqTitle" th:value="${faq?.faqTitle}"
+                               maxlength="100" required="required"/>
+                    </div>
+                    <div class="profile-input-body-list">
+                        <p class="input-title required" th:text="#{common.label.contents}"></p>
+                        <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"></textarea>
+                    </div>
+                    <div class="profile-input-body-list">
+                        <p class="input-title required" th:text="#{common.label.attachFile}"></p>
+                        <div id="dropZoneFiles"></div>
+                        <div id="dropZoneUploadedFiles"></div>
+                    </div>
+                </div>
+                <div class="btn_wrap">
+                    <button class="btn_register" type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{common.btn.list}">
+                        목록
+                    </button>
 
-            <div class="button">
-                <button type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{common.btn.list}">목록
-                </button>
-                <button sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}" id="btnRegist"
-                        th:text="#{common.btn.save}">저장
-                </button>
-                <button sec:authorize="hasAuthority('faq.update')" th:if="${faq?.faqId}" id="btnUpdate"
-                        th:text="#{common.btn.save}">저장
-                </button>
-                <button sec:authorize="hasAuthority('faq.delete')" th:if="${faq?.faqId}" id="btnDelete"
-                        th:text="#{common.btn.delete}">삭제
-                </button>
+                    <button class="btn_register" sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}" id="btnRegist"
+                            th:text="#{common.btn.save}">저장
+                    </button>
+                    <button class="btn_register" sec:authorize="hasAuthority('faq.update')" th:if="${faq?.faqId}" id="btnUpdate"
+                            th:text="#{common.btn.save}">저장
+                    </button>
+                    <button class="btn_register" sec:authorize="hasAuthority('faq.delete')" th:if="${faq?.faqId}" id="btnDelete"
+                            th:text="#{common.btn.delete}">삭제
+                    </button>
+                </div>
+
             </div>
         </form>
     </div>
@@ -60,7 +68,41 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
-        window.onload = function() {
+        /**
+         * url을 요청한다.
+         */
+        function restSubmit(method, url) {
+            if (!validation()) {
+                return;
+            }
+            const opt = {
+                method: method,
+                url: url,
+                params: aliceJs.formDataToJson(document.getElementById("faqForm")),
+                contentType: 'application/json',
+                callbackFunc: function () {
+                    aliceJs.alertSuccess('[[#{common.msg.save}]]', function () {
+                        window.location.href = "/faqs/search";
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        /**
+         * 유효성을 검사한다.
+         */
+        function validation() {
+            if (isEmpty('faqTitle', 'common.msg.enterTitle')) {
+                return;
+            }
+            if (isEmpty('faqContent', 'common.msg.enterContents')) {
+                return;
+            }
+            return true;
+        }
+
+        window.onload = function () {
             if ("[[${faq?.faqId}]]" === "") {
                 document.getElementById("btnRegist").addEventListener("click", function () {
                     restSubmit("post", "[[@{/rest/faqs}]]");
@@ -73,39 +115,9 @@
                     restSubmit("delete", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]");
                 });
             }
+            fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
         };
 
-        function restSubmit(method, url) {
-            const formData = new FormData(document.getElementById("faqForm"));
-            var object = {};
-
-            if (!validation()) {
-                return false;
-            }
-
-            formData.forEach(function(value, key) {
-                object[key] = value;
-            });
-
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(object),
-                contentType: 'application/json',
-                callbackFunc: function() {
-                    aliceJs.alert("Success", function() {
-                        window.location.href = "/faqs/search";
-                    });
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        function validation() {
-            if (isEmpty('faqTitle', 'common.msg.enterTitle')) { return false; }
-            if (isEmpty('faqContent', 'common.msg.enterContents')) { return false; }
-            return true;
-        }
         /*]]>*/
     </script>
 </th:block>
