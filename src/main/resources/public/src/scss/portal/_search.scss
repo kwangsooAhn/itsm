@@ -25,7 +25,6 @@
       cursor: pointer;
     }
   }
-
   .search-container {
     margin-left: 40.938rem; // 655px
     div {
@@ -76,20 +75,20 @@
       }
       &.part-box {
         .header {
-          height: 12rem; // 192px
+          height: 16rem; // 256px
           padding-top: 4rem; // 64px
           .icon {
             height: 6.563rem; // 105px
             background-size: 6.563rem 6.563rem; // 105px
             background-repeat: no-repeat;
             background-position: center;
-            &.notice {
+            &.top-notice {
               background-image: url("../media/image/portalSearch/grpahic_notice.png");
             }
-            &.faq {
+            &.top-faq {
               background-image: url("../media/image/portalSearch/grpahic_question.png");
             }
-            &.download {
+            &.top-download {
               background-image: url("../media/image/portalSearch/grpahic_dateroom.png");
             }
           }

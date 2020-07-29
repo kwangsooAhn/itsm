@@ -254,7 +254,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   margin-right: 0;
 }
 .search-part ul li.part-box .header {
-  height: 12rem;
+  height: 16rem;
   padding-top: 4rem;
 }
 .search-part ul li.part-box .header .icon {
@@ -263,13 +263,13 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-repeat: no-repeat;
   background-position: center;
 }
-.search-part ul li.part-box .header .icon.notice {
+.search-part ul li.part-box .header .icon.top-notice {
   background-image: url("../media/image/portalSearch/grpahic_notice.png");
 }
-.search-part ul li.part-box .header .icon.faq {
+.search-part ul li.part-box .header .icon.top-faq {
   background-image: url("../media/image/portalSearch/grpahic_question.png");
 }
-.search-part ul li.part-box .header .icon.download {
+.search-part ul li.part-box .header .icon.top-download {
   background-image: url("../media/image/portalSearch/grpahic_dateroom.png");
 }
 .search-part ul li.part-box .header .title {
