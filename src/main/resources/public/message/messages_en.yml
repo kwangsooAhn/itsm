@@ -85,6 +85,7 @@ auth:
     manage: "Role management"
     referenceCount: "Role reference count"
   msg:
+    description: "Manage available menus and URLs by grouping them with permissions."
     duplicateAuthId: "Duplicate auth id! Please enter other auth id."
     duplicateAuthName: "Duplicate auth name! Please enter other auth name."
     enterAuthId: "Please enter a auth id."
