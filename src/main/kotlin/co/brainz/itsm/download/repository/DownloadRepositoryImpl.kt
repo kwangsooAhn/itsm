@@ -38,4 +38,17 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
 
         return query.fetch()
     }
+
+    override fun findDownloadTopList(limit: Long): List<DownloadEntity> {
+        val download = QDownloadEntity.downloadEntity
+        val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
+        val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
+
+        return from(download).distinct()
+            .leftJoin(fileMap).on(download.downloadId.eq(fileMap.ownId))
+            .leftJoin(fileLoc).on(fileMap.fileLocEntity.fileSeq.eq(fileLoc.fileSeq))
+            .orderBy(download.downloadSeq.desc())
+            .limit(limit)
+            .fetch()
+    }
 }
