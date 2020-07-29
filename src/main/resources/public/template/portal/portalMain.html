@@ -9,49 +9,51 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="portal-search">
-        <div class="logo-container">
-            <div class="logo"></div>
-            <div class="login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
-            <div class="login" sec:authorize="isAnonymous()" onclick="location.href='/login'" th:text="#{portal.label.login}"></div>
-        </div>
-        <div class="search-container">
-            <div>
-                <div class="title" th:text="#{portal.label.topPhrase}"></div>
-                <input class="icon" type="text" id="searchValue" name="searchValue" onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0'); "/>
+    <div class="alice-portal search">
+        <div class="portal-search">
+            <div class="logo-container">
+                <div class="logo"></div>
+                <div class="login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
+                <div class="login" sec:authorize="isAnonymous()" onclick="location.href='/login'" th:text="#{portal.label.login}"></div>
+            </div>
+            <div class="search-container">
+                <div>
+                    <div class="title" th:text="#{portal.label.topPhrase}"></div>
+                    <input class="icon" type="text" id="searchValue" name="searchValue" onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0'); "/>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="search-part">
-        <ul>
-            <li class="part-box">
-                <div class="header">
-                    <div class="icon top-notice"></div>
-                    <div class="title" th:text="#{menu.portal.notice}"></div>
-                </div>
-                <div class="list">
-                    <table id="notice"></table>
-                </div>
-            </li>
-            <li class="part-box">
-                <div class="header">
-                    <div class="icon top-faq"></div>
-                    <div class="title" th:text="#{menu.portal.faq}"></div>
-                </div>
-                <div class="list">
-                    <table id="faq"></table>
-                </div>
-            </li>
-            <li class="part-box">
-                <div class="header">
-                    <div class="icon top-download"></div>
-                    <div class="title" th:text="#{menu.portal.download}"></div>
-                </div>
-                <div class="list">
-                    <table id="download"></table>
-                </div>
-            </li>
-        </ul>
+        <div class="search-part">
+            <ul>
+                <li class="part-box">
+                    <div class="header">
+                        <div class="icon top-notice"></div>
+                        <div class="title" th:text="#{menu.portal.notice}"></div>
+                    </div>
+                    <div class="list">
+                        <table id="notice"></table>
+                    </div>
+                </li>
+                <li class="part-box">
+                    <div class="header">
+                        <div class="icon top-faq"></div>
+                        <div class="title" th:text="#{menu.portal.faq}"></div>
+                    </div>
+                    <div class="list">
+                        <table id="faq"></table>
+                    </div>
+                </li>
+                <li class="part-box">
+                    <div class="header">
+                        <div class="icon top-download"></div>
+                        <div class="title" th:text="#{menu.portal.download}"></div>
+                    </div>
+                    <div class="list">
+                        <table id="download"></table>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
 </th:block>
 </body>
