@@ -588,7 +588,6 @@ textarea {
 }
 .container .contents .list-wrap {
   padding: 15px 0;
-  display: table;
   height: 490px;
 }
 
