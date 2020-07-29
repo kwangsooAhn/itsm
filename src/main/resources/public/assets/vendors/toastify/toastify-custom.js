@@ -114,7 +114,7 @@
       if (this.options.close === true) {
         // Create a span for close element
         var closeElement = document.createElement("span");
-        closeElement.innerHTML = "X";
+        // closeElement.innerHTML = "X";
 
         closeElement.className = "toast-close";
 
@@ -272,16 +272,16 @@
   Toastify.reposition = function() {
     // Top margins with gravity
     var topLeftOffsetSize = {
-      top: 15,
-      bottom: 15,
+      top: 10,
+      bottom: 10,
     };
     var topRightOffsetSize = {
-      top: 15,
-      bottom: 15,
+      top: 10,
+      bottom: 10,
     };
     var offsetSize = {
-      top: 15,
-      bottom: 15,
+      top: 10,
+      bottom: 10,
     };
 
     // Get all toast messages on the DOM
@@ -301,7 +301,7 @@
       var height = allToasts[i].offsetHeight;
       classUsed = classUsed.substr(9, classUsed.length-1)
       // Spacing between toasts
-      var offset = 15;
+      var offset = 10;
 
       var width = window.innerWidth > 0 ? window.innerWidth : screen.width;
 
