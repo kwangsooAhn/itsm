@@ -1,7 +1,7 @@
 // *********************************************************************************************************************
 // CONTENTS (container > contents > title, body)
 // *********************************************************************************************************************
-.wrap-screen{position: relative;background: rgba(234, 241, 247, 1);}
+.wrap-screen{position: relative;background: rgba(234, 241, 247, 1);height: 100vh;}
 
 .container {
     height:100%; padding:60px 0 0 220px;
@@ -17,7 +17,7 @@
         .menubar {
             &-left {float: left;}
             &-right {float: right;}
-            &-bottom {display: inline-block; width: 100%;}
+            &-bottom {display: inline-block; width: 100%; position: relative; top: 30px;}
         }
 
         // 사용자 정보
@@ -117,6 +117,7 @@
                     &:first-child {background: rgba(0, 80, 255, 0);}
                 }
             }
+            & a {cursor: pointer;}
             // 리스트 출력용 아바타 이미지
             .profile-photo {height:27px; width:27px; border-radius: 50%; background: rgba(240, 240, 240, 1); cursor: pointer;}
             .tr-notice {background: rgba(255,255,0, 0.2);}
@@ -130,7 +131,7 @@
             padding: 0 10px; border: 1px solid rgba(200, 206, 216, 1); border-radius: 2px; font-size: 13px;
         }
         .search-date {
-            width:100px;height:30px; background: url($icon-folder-path + "icon_calendar.png") no-repeat 100px 8px;
+            width:120px;height:30px; background: url($icon-folder-path + "icon_calendar.png") no-repeat 100px 8px;
             padding: 0 10px; border: 1px solid rgba(200, 206, 216, 1); border-radius: 2px; font-size: 13px;
             color: #3e4752;
         }
@@ -158,6 +159,16 @@
         &:hover {
             background: rgba(0, 80, 255, 1) url($icon-folder-path + "icon_add_ov.svg") no-repeat center center;
             color: $alice-primary; border: rgba(64, 158, 230, 0.05) 1px solid;
+        }
+    }
+    .btn-import {
+        display:inline-block; background: rgba(255, 255, 255, 1) url($icon-folder-path + "icon_import.svg") no-repeat center center;
+        padding: 10px; border-radius: 2px; border: 1px solid rgba(200, 206, 216, 1); text-align: center;
+        position:relative; right: 3px;
+        &:hover {
+            background: rgba(233, 235, 237, 1) url($icon-folder-path + "icon_import_ov.svg") no-repeat center center;
+            color: rgba(233, 235, 237, 1); border: rgba(200, 206, 216, 1) 1px solid;
+            position:relative; right: 3px;
         }
     }
     .btn-info {
