@@ -183,11 +183,11 @@
 
 /* GNB 메뉴 열렸을 때 */
 .left-open-menu{width:220px; height:100%; background:$alice-primary; position: fixed; left: 0; z-index: 999;}
-.logo-open{height:60px; background:rgba(255, 255, 255, 0.1) url($icon-folder-path + "icon_logo_open.svg") no-repeat 20px center;}
+.logo-open{height:60px; background:rgba(255, 255, 255, 0.1) url($icon-folder-path + "icon_menu_open_logo.png") no-repeat 20px center;}
 
 /* GNB 메뉴 닫혔을 때 */
 .left-close-menu{width:60px; height:100%; background:$alice-primary; position: fixed; left: 0; z-index: 999;}
-.logo-close{height:60px; background:rgba(255, 255, 255, 0.1) url($icon-folder-path + "icon_logo_close.svg") no-repeat 20px center;}
+.logo-close{height:60px; background:rgba(255, 255, 255, 0.1) url($icon-folder-path + "icon_menu_close_logo.png") no-repeat 20px center;}
 
 /* 토글메뉴 리스트 */
 .toggle-container {display: none;}
