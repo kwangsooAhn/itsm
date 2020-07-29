@@ -17,7 +17,7 @@
         left:  28.3750rem;
         font-size: 0.875rem; // 14px
         font-weight: 500; // Medium
-        a:visited {
+        a:visited, a:link {
             color: #FFFFFF;
         }
     }
@@ -26,6 +26,7 @@
         font-size: 1.25rem; // 20px
         font-weight: 500; // Medium
         color: #FFFFFF;
+        vertical-align: middle;
     }
 
     &-main-image {
