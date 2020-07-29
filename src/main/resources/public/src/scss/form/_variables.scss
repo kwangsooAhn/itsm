@@ -1,0 +1,83 @@
+// 공통
+$form-font-family: "Noto Sans";
+$form-font-color: #000000;
+$form-font-size: 0.688rem; // 11px
+$form-font-weight: normal;
+$form-asset-path: "../../media/icons/form";
+
+// toolbar
+$toolbar-height: 2.188rem; // 35px
+$toolbar-top-bottom-padding: 0.563rem; // 9px
+$toolbar-real-height: $toolbar-height - ($toolbar-top-bottom-padding * 2);
+$toolbar-background-color: #0050ff;
+$toolbar-font-size: 0.75rem; // 12px
+$toolbar-font-color: #ffffff;
+$toolbar-logo-width: 5.625rem; // 90px
+$toolbar-separator-color: #3079ff;
+
+// container
+$container-background-color: #f2f5fa;
+// container > form 
+$form-container-width: 93.75rem;    // 1500px
+$form-container-height: 61.25rem;    // 980px
+// container > document
+$document-container-width: 93.75rem;    // 1500px
+$document-container-height: 61.25rem;    // 980px
+
+// content > drawing-board
+$drawing-board-background-color: #ffffff;
+// content > form > drawing-board
+$form-drawing-board-width: 59.38rem; // 950px
+$form-drawing-board-top-margin: 6.563rem; // 105px
+
+// aside
+$aside-background-color: #ffffff;
+// aside > form
+$form-aside-width: 16.25rem; // 260px
+
+// 폼을 나누는 갯수
+$column-row: 12; 
+
+// component 
+$component-font-family: "Noto Sans";
+$component-font-size: 0.688rem; // 11px
+$component-font-color: #000000;
+$component-font-weight: normal;
+$component-border-color: #C8CED8;
+$component-indent-padding-left: 0.438rem; // 7px 컴포넌트 들여쓰기
+
+// context
+$context-menu-width: 11.88rem; // 190px 
+$context-menu-height: 14.06rem; // 225px
+$context-menu-background-color: #ffffff;
+$context-menu-font-size: 0.875rem; // 14px
+$context-menu-font-color: #68717c;
+$context-menu-border-color: #c8ced8;
+
+// properties title
+$properties-title-height: 2.5rem; // 40px
+$properties-title-background-color: #2669ff;
+$properties-title-font-size: 0.875rem; // 14px
+$properties-title-font-color: #ffffff;
+$properties-title-font-weight: bold;
+
+// properties detail
+$properties-border-color: #c8ced8; // default
+$properties-background-color: #ffffff; // default
+$properties-value-font-color: #67717F; // default 
+$properties-large-title-font-size: 0.75rem; // 12px
+$properties-large-title-font-color: #3E4752;
+$properties-large-title-font-weight: 500;
+$properties-small-title-font-size: 0.6875rem; // 11px
+$properties-small-title-font-color: #68717c;
+$properties-small-title-font-weight: normal;
+$properties-indent-padding-left: 0.438rem; // 7px input, select 등 들여쓰기
+$properties-active-font-color: #0050ff;
+$properties-active-border-color: #0050ff;
+$properties-active-background-color: #ffffff;
+$properties-inactive-font-color: #a4adb8;
+$properties-inactive-border-color: #c8ced8;
+$properties-inactive-background-color: #F7F9FA;
+$properties-disabled-font-color: #aeb7c2;
+$properties-disabled-border-color: #c8ced8;
+$properties-disabled-background-color: #f2f5fa;
