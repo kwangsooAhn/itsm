@@ -194,8 +194,24 @@ textarea {
   background-color: #FFFFFF;
 }
 
+.column-1 {
+  width: 5rem;
+}
+
 .column-2 {
-  width: 13.75rem;
+  width: 10rem;
+}
+
+.column-3 {
+  width: 15rem;
+}
+
+.column-4 {
+  width: 20rem;
+}
+
+.column-5 {
+  width: 25rem;
 }
 
 .wrap-screen {
