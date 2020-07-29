@@ -198,7 +198,7 @@ textarea {
 .wrap-screen {
   position: relative;
   background: #eaf1f7;
-  height: 100vh;
+  min-height: 100vh;
 }
 
 .container {
@@ -248,9 +248,13 @@ textarea {
 }
 .container .contents .user-register-contents-body input {
   font-size: 14px;
+  height: 30px;
+  width: 340px;
+  margin-top: 8px;
 }
 .container .contents .user-register-contents-body select {
   font-size: 14px;
+  margin-top: 8px;
 }
 .container .contents .user-register-contents-body .required::after {
   color: #E83828;
@@ -269,9 +273,7 @@ textarea {
   margin-top: 15px;
   margin-left: 10px;
 }
-.container .contents .user-register-contents-body .profile-input-bottom-list {
-  margin-top: 15px;
-  margin-left: 10px;
+.container .contents .user-register-contents-body .profile-input-body-list:last-child {
   margin-bottom: 62px;
 }
 .container .contents .user-register-contents-body .user-register-top-list {
@@ -282,7 +284,7 @@ textarea {
   font-size: 14px;
   display: block;
 }
-.container .contents .user-register-contents-body .input-guide {
+.container .contents .user-register-contents-body .input-title-guide {
   display: flex;
   vertical-align: middle;
 }
@@ -297,7 +299,6 @@ textarea {
 .container .contents .user-register-contents-body .custom-setting-top-select {
   width: 678px;
   height: 26px;
-  margin-top: 8px;
   padding-left: 5px;
   border: 1px solid #C8CED8;
 }
@@ -305,7 +306,6 @@ textarea {
   width: 244px;
   height: 26px;
   border: 1px solid #C8CED8;
-  margin-top: 8px;
   padding-left: 5px;
 }
 .container .contents .user-register-contents-body .hour-select {
@@ -325,11 +325,9 @@ textarea {
   padding-left: 5px;
 }
 .container .contents .user-register-contents-body .theme-color-select {
-  margin-top: 15px;
   width: 244px;
   height: 30px;
   border: 1px solid #C8CED8;
-  margin-bottom: 62px;
   padding-left: 5px;
 }
 .container .contents .user-register-contents-body .user-role-checkbox {
@@ -337,16 +335,16 @@ textarea {
   height: 15px;
   line-height: 15px;
 }
+.container .contents .user-register-contents-body .user-role-checkbox-list {
+  margin-top: 22px;
+  margin-left: 10px;
+  margin-bottom: 62px;
+}
 .container .contents .user-register-contents-body .user-role-checkbox-wrap {
   margin-top: 15px;
   margin-left: 10px;
   display: inline-block;
   width: 162px;
-}
-.container .contents .user-register-contents-body .user-role-checkbox-list {
-  margin-top: 22px;
-  margin-left: 10px;
-  margin-bottom: 62px;
 }
 .container .contents .user-register-contents-body .user-role-checkbox-list-middle {
   margin-top: 15px;
@@ -363,24 +361,24 @@ textarea {
   overflow: hidden;
 }
 .container .contents .user-register-contents-body .checkbox-label {
-  vertical-align: 2px;
+  vertical-align: -5px;
   margin-left: 10px;
   margin-right: 14px;
 }
-.container .contents .user-register-contents-body .btn_wrap {
+.container .contents .user-register-contents-body .btn-wrap {
   margin-top: 32px;
   text-align: right;
   margin-right: 10px;
   font-size: 13px;
 }
-.container .contents .user-register-contents-body .btn_register {
-  padding: 6px 12px;
+.container .contents .user-register-contents-body .btn-register {
+  padding: 10px;
   border: 1px solid #0050ff;
   color: #0050ff;
   border-radius: 3px;
   margin-right: 5px;
 }
-.container .contents .user-register-contents-body .btn_register:hover {
+.container .contents .user-register-contents-body .btn-register:hover {
   background-color: #0050ff;
   color: white;
 }
@@ -394,7 +392,7 @@ textarea {
   background-color: #BEC5CE;
   color: white;
 }
-.container .contents .user-register-contents-body .avatar_section {
+.container .contents .user-register-contents-body .avatar-section {
   float: right;
   padding: 53px 75px 53px 75px;
   border: 1px solid #D2D9E2;
@@ -403,31 +401,31 @@ textarea {
   background: white no-repeat center 53px;
   background-color: #FDFDFD;
 }
-.container .contents .user-register-contents-body .avatar_section_wrap {
+.container .contents .user-register-contents-body .avatar-section-wrap {
   float: right;
   margin-top: 37px;
 }
-.container .contents .user-register-contents-body .avatar_title {
+.container .contents .user-register-contents-body .avatar-title {
   display: block;
   font-size: 14px;
 }
-.container .contents .user-register-contents-body .avatar_text {
+.container .contents .user-register-contents-body avatar-text {
   display: block;
   margin-top: 96px;
   text-align: center;
   font-size: 13px;
   color: #7A8594;
 }
-.container .contents .user-register-contents-body .avatar_bottom_text_wrap {
+.container .contents .user-register-contents-body .avatar-bottom-text-wrap {
   display: block;
   margin-top: 253px;
   font-size: 13px;
 }
-.container .contents .user-register-contents-body .avatar_far_bottom_text {
+.container .contents .user-register-contents-body .avatar-far-bottom-text {
   display: block;
   margin-top: 8px;
 }
-.container .contents .user-register-contents-body .browse_link {
+.container .contents .user-register-contents-body .browse-link {
   text-decoration: underline;
   color: #0050ff;
 }
@@ -549,7 +547,13 @@ textarea {
   text-align: right;
 }
 .container .contents .search {
+  width: 305px;
+  height: 30px;
   background: url("../icons/icon_search.svg") no-repeat center right;
+  padding: 0 10px;
+  border: 1px solid #c8ced8;
+  border-radius: 2px;
+  font-size: 13px;
 }
 .container .contents .search-date {
   width: 120px;
@@ -584,6 +588,46 @@ textarea {
 }
 .container .contents .list-wrap-auth-edit form-left {
   float: left;
+}
+
+.container .contents .list-wrap-edit table {
+  margin: 0 0 15px 0;
+}
+.container .contents .list-wrap-edit table span {
+  margin: 0 auto;
+}
+.container .contents .list-wrap-edit table th {
+  background: rgba(204, 211, 217, 0.1);
+  padding-left: 15px;
+}
+.container .contents .list-wrap-edit table tr td {
+  font-size: 14px;
+  margin: 0 auto;
+}
+.container .contents .list-wrap-edit table tr td .edit-name {
+  border-right: 1px solid #c8ced8;
+  padding: 3px 15px;
+}
+.container .contents .list-wrap-edit table tr td .file-attachment {
+  border-right: 1px solid #c8ced8;
+  padding: 3px 15px;
+}
+.container .contents .list-wrap-edit table tr td.edit-textarea {
+  height: 150px;
+  min-height: 150px;
+  padding: 15px;
+  text-align: left;
+  vertical-align: text-top;
+}
+.container .contents .list-wrap-edit table tr td.file-attach-input {
+  text-align: left;
+  padding: 0 15px;
+}
+.container .contents .list-wrap-edit table tr.edit-title {
+  height: 56px;
+}
+.container .contents .list-wrap-edit table tr:hover {
+  background: none;
 }
 .container .contents .list-count {
   float: right;
@@ -633,12 +677,133 @@ textarea {
 }
 .container .btn-info {
   background: url("../icons/icon_info.png") no-repeat right;
-  padding: 0 0 0 5px;
+  margin-left: 5px;
   width: 15px;
   height: 15px;
 }
 .container .btn-info:hover {
   background: url("../icons/icon_info_select.png") no-repeat right;
+}
+.container .btn-gray {
+  width: 64px;
+  height: 30px;
+  padding: 7px 12px;
+  border: 1px solid #BEC5CE;
+  color: #3D4752;
+  border-radius: 2px;
+  font-size: 14px;
+}
+.container .btn-gray:hover {
+  background-color: #BEC5CE;
+  color: white;
+}
+.container .float-left{float: left;}
+.container .float-right{float: right;}
+.container .float-clear{clear: both;}
+.container .align-center {text-align: center;}
+.container .align-left {text-align: left;}
+.container .align-right {text-align: right;}
+
+/* Date compoent 기본 */
+.picker-wrapper-date {
+  display: inline;
+}
+
+option:hover {
+  background-color: #F2F6FF;
+}
+
+option:visited {
+  color: #0050ff;
+  background-color: white;
+}
+
+option:active {
+  color: #0050ff;
+}
+
+option:focus {
+  color: #0050ff;
+}
+
+select:focus {
+  border: 1px solid #0050ff;
+}
+
+input {
+  border: 1px solid #c8ced8;
+}
+
+input.search {
+  width: 305px;
+  height: 30px;
+  background: url("../media/icons/icon_search.svg") no-repeat center right;
+  padding: 0 10px;
+  border-radius: 2px;
+  font-size: 13px;
+}
+
+input.user-register-input {
+  width: 340px;
+  height: 26px;
+  margin-top: 8px;
+  padding-left: 10px;
+}
+
+input.auth-name {
+  width: 340px;
+  height: 30px;
+}
+
+input.auth-id {
+  width: 340px;
+  height: 30px;
+}
+
+input.auth-txt {
+  width: 340px;
+  height: 166px;
+}
+
+input.auth-list {
+  width: 340px;
+  height: 216px;
+  border: 1px solid #C8CED8;
+}
+
+input.auth-url {
+  width: 340px;
+  height: 216px;
+  border: 1px solid #C8CED8;
+}
+
+input:focus {
+  border: 1px solid #0050ff;
+}
+
+label.auth-name {
+  display: block;
+}
+
+label.auth-id {
+  display: inline-block;
+}
+
+label.auth-txt {
+  display: block;
+}
+
+label.auth-list {
+  display: block;
+}
+
+label.auth-url {
+  width: 340px;
+}
+
+textarea {
+  width: 695px;
+  border: 1px solid #c8ced8;
 }
 
 .paging {
@@ -1257,7 +1422,7 @@ textarea {
 
 .logo-open {
   height: 60px;
-  background: rgba(255, 255, 255, 0.1) url("../icons/icon_logo_open.svg") no-repeat 20px center;
+  background: rgba(255, 255, 255, 0.1) url("../icons/icon_menu_open_logo.png") no-repeat 20px center;
 }
 
 /* GNB 메뉴 닫혔을 때 */
@@ -1272,7 +1437,7 @@ textarea {
 
 .logo-close {
   height: 60px;
-  background: rgba(255, 255, 255, 0.1) url("../icons/icon_logo_close.svg") no-repeat 20px center;
+  background: rgba(255, 255, 255, 0.1) url("../icons/icon_menu_close_logo.png") no-repeat 20px center;
 }
 
 /* 토글메뉴 리스트 */
