@@ -89,11 +89,11 @@
             const count = document.getElementById('count');
             const noConfirmNotification = notificationDiv.querySelectorAll('div[is-confirm=false]');
             count.innerText = noConfirmNotification.length.toString();
-<!--            if (noConfirmNotification.length !== 0) {-->
-<!--                count.style.display = 'block';-->
-<!--            } else {-->
-<!--                count.style.display = 'none';-->
-<!--            }-->
+            if (noConfirmNotification.length !== 0) {
+                count.style.display = 'block';
+            } else {
+				count.style.display = 'none';
+			}
             document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
                 notificationDiv.querySelectorAll('div.notification:not(.noData)').length + ')';
 
@@ -114,9 +114,10 @@
 
     // show notification popup.
     function showNotification(param) {
-        let text = '<span class="title text-ellipsis">' + param.title + '</span>' +
-            '<span class="date">' + param.date +'</span>' +
-            '<br><span class="message text-ellipsis">' + param.message + '</span>';
+        let text = '<div class="icon"></div>' +
+			'<div class="content"><div class="title">' + param.title + '</div>' +
+			'<div class="message text-ellipsis">' + param.message + '</div>' +
+			'<div class="date">' + param.date + '</div></div>';
         Toastify({
             text: text,
             duration: 5000,
@@ -124,7 +125,7 @@
             gravity: 'bottom',
             position: 'right',
             stopOnFocus: true,
-            className: 'alice-toastify notification-content',
+            className: 'alice-toastify alice-toastify-content',
             onShow: function() {
                 updateNotification(param.notificationId, 'display');
             },
