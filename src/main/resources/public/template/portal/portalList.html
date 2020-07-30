@@ -4,7 +4,6 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <link th:href="@{/assets/css/reset.css}" rel="stylesheet"/>
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
 </head>
 <body>
@@ -48,25 +47,6 @@
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
-    const topSize = 5;
-
-    window.onload = function() {
-        restSubmit('get', '/rest/portal/top?limit=' + topSize);
-    }
-
-    function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            contentType: 'application/json; charset=utf-8',
-            showProgressbar: false,
-            callbackFunc: function(response) {
-                setTopList(JSON.parse(response.responseText));
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
-
     function locationSubmit(method, url) {
         const data = {
             searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
