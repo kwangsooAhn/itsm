@@ -159,6 +159,7 @@ select {
   padding: 0 10px;
   margin-right: 0.0625rem;
   vertical-align: middle;
+  background-color: #FFFFFF;
 }
 select:focus {
   outline: 0.0625rem solid #0050ff;
@@ -174,6 +175,7 @@ input {
   padding: 0 10px;
   margin-right: 0.0625rem;
   vertical-align: middle;
+  background-color: #FFFFFF;
 }
 input:focus {
   outline: 0.0625rem solid #0050ff;
@@ -189,10 +191,27 @@ textarea {
   display: block;
   border: 1px solid #C8CED8;
   color: #67717F;
+  background-color: #FFFFFF;
+}
+
+.column-1 {
+  width: 5rem;
 }
 
 .column-2 {
-  width: 13.75rem;
+  width: 10rem;
+}
+
+.column-3 {
+  width: 15rem;
+}
+
+.column-4 {
+  width: 20rem;
+}
+
+.column-5 {
+  width: 25rem;
 }
 
 .wrap-screen {
