@@ -583,6 +583,7 @@ input:focus {
   background-size: 1.875rem;
   background-position-x: left;
   background-position-y: center;
+  padding-right: 0.938rem;
 }
 .portal-result-layer .result-background .result-content .container .list .row .type-icon.notice {
   background-image: url("../media/image/portalSearch/grpahic_notice.png");
@@ -594,7 +595,7 @@ input:focus {
   background-image: url("../media/image/portalSearch/grpahic_dateroom.png");
 }
 .portal-result-layer .result-background .result-content .container .list .row .content-box {
-  width: 58.625rem;
+  width: 57.688rem;
 }
 .portal-result-layer .result-background .result-content .container .list .row .content-box .title {
   color: #3e4752;

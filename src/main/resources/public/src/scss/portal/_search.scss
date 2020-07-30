@@ -214,6 +214,7 @@
                   background-size: 1.875rem; // 30px
                   background-position-x: left;
                   background-position-y: center;
+                  padding-right: 0.938rem; // 15px
                   &.notice {
                     background-image: url($image-folder-path + "portalSearch/grpahic_notice.png");
                   }
@@ -225,7 +226,7 @@
                   }
                 }
                 .content-box {
-                  width: 58.625rem; // 938px
+                  width: 57.688rem; // 923px
                   .title {
                     color: #3e4752;
                     text-decoration: underline;
