@@ -222,7 +222,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/topmenu/logo.png");
+  background-image: url("../media/icons/form/topmenu/logo.png");
 }
 .toolbar span.name {
   float: left;
@@ -284,7 +284,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_move.png");
+  background-image: url("../media/icons/form/editor/icon_move.png");
 }
 .component .field-group {
   display: flex;
@@ -495,7 +495,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   padding: 1.25rem 0 0.625rem 0;
 }
 .component .field-group .field-content .img-placeholder img {
-  content: url("../../media/icons/form/editor/icon_image.png");
+  content: url("../media/icons/form/editor/icon_image.png");
 }
 .component .field-group .field-content .img-placeholder p {
   margin: 0.625rem 0 0 0;
@@ -562,37 +562,37 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/tooltip-menu/add.png");
+  background-image: url("../media/icons/form/tooltip-menu/add.png");
 }
 .component .tooltip-menu .menu .menu-item.copy a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/tooltip-menu/copy.png");
+  background-image: url("../media/icons/form/tooltip-menu/copy.png");
 }
 .component .tooltip-menu .menu .menu-item.delete a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/tooltip-menu/delete.png");
+  background-image: url("../media/icons/form/tooltip-menu/delete.png");
 }
 .component .tooltip-menu .menu .menu-item.add a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/tooltip-menu/new.png");
+  background-image: url("../media/icons/form/tooltip-menu/new.png");
 }
 .component .tooltip-menu .menu .menu-item.list:hover a {
-  background-image: url("../../media/icons/form/tooltip-menu/add_select.png");
+  background-image: url("../media/icons/form/tooltip-menu/add_select.png");
 }
 .component .tooltip-menu .menu .menu-item.copy:hover a {
-  background-image: url("../../media/icons/form/tooltip-menu/copy_select.png");
+  background-image: url("../media/icons/form/tooltip-menu/copy_select.png");
 }
 .component .tooltip-menu .menu .menu-item.delete:hover a {
-  background-image: url("../../media/icons/form/tooltip-menu/delete_select.png");
+  background-image: url("../media/icons/form/tooltip-menu/delete_select.png");
 }
 .component .tooltip-menu .menu .menu-item.add:hover a {
-  background-image: url("../../media/icons/form/tooltip-menu/new_select.png");
+  background-image: url("../media/icons/form/tooltip-menu/new_select.png");
 }
 .component .tooltip-menu .menu-item.list {
   display: none;
@@ -722,118 +722,118 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/inputbox.png");
+  background-image: url("../media/icons/form/context-menu/inputbox.png");
 }
 .context-menu .menu .menu-item.textarea div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/textbox.png");
+  background-image: url("../media/icons/form/context-menu/textbox.png");
 }
 .context-menu .menu .menu-item.dropdown div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/dropdown.png");
+  background-image: url("../media/icons/form/context-menu/dropdown.png");
 }
 .context-menu .menu .menu-item.radio div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/radio.png");
+  background-image: url("../media/icons/form/context-menu/radio.png");
 }
 .context-menu .menu .menu-item.checkbox div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/checkbox.png");
+  background-image: url("../media/icons/form/context-menu/checkbox.png");
 }
 .context-menu .menu .menu-item.label div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/label.png");
+  background-image: url("../media/icons/form/context-menu/label.png");
 }
 .context-menu .menu .menu-item.image div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/image.png");
+  background-image: url("../media/icons/form/context-menu/image.png");
 }
 .context-menu .menu .menu-item.divider div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/divider.png");
+  background-image: url("../media/icons/form/context-menu/divider.png");
 }
 .context-menu .menu .menu-item.date div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/date.png");
+  background-image: url("../media/icons/form/context-menu/date.png");
 }
 .context-menu .menu .menu-item.time div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/time.png");
+  background-image: url("../media/icons/form/context-menu/time.png");
 }
 .context-menu .menu .menu-item.datetime div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/datetime.png");
+  background-image: url("../media/icons/form/context-menu/datetime.png");
 }
 .context-menu .menu .menu-item.fileupload div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/fileupload.png");
+  background-image: url("../media/icons/form/context-menu/fileupload.png");
 }
 .context-menu .menu .menu-item.custom-code div a {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/context-menu/custom-code.png");
+  background-image: url("../media/icons/form/context-menu/custom-code.png");
 }
 .context-menu .menu .menu-item.inputbox.active div a, .context-menu .menu .menu-item.inputbox:hover div a {
-  background-image: url("../../media/icons/form/context-menu/inputbox_select.png");
+  background-image: url("../media/icons/form/context-menu/inputbox_select.png");
 }
 .context-menu .menu .menu-item.textarea.active div a, .context-menu .menu .menu-item.textarea:hover div a {
-  background-image: url("../../media/icons/form/context-menu/textbox_select.png");
+  background-image: url("../media/icons/form/context-menu/textbox_select.png");
 }
 .context-menu .menu .menu-item.dropdown.active div a, .context-menu .menu .menu-item.dropdown:hover div a {
-  background-image: url("../../media/icons/form/context-menu/dropdown_select.png");
+  background-image: url("../media/icons/form/context-menu/dropdown_select.png");
 }
 .context-menu .menu .menu-item.radio.active div a, .context-menu .menu .menu-item.radio:hover div a {
-  background-image: url("../../media/icons/form/context-menu/radio_select.png");
+  background-image: url("../media/icons/form/context-menu/radio_select.png");
 }
 .context-menu .menu .menu-item.checkbox.active div a, .context-menu .menu .menu-item.checkbox:hover div a {
-  background-image: url("../../media/icons/form/context-menu/checkbox_select.png");
+  background-image: url("../media/icons/form/context-menu/checkbox_select.png");
 }
 .context-menu .menu .menu-item.label.active div a, .context-menu .menu .menu-item.label:hover div a {
-  background-image: url("../../media/icons/form/context-menu/label_select.png");
+  background-image: url("../media/icons/form/context-menu/label_select.png");
 }
 .context-menu .menu .menu-item.image.active div a, .context-menu .menu .menu-item.image:hover div a {
-  background-image: url("../../media/icons/form/context-menu/image_select.png");
+  background-image: url("../media/icons/form/context-menu/image_select.png");
 }
 .context-menu .menu .menu-item.divider.active div a, .context-menu .menu .menu-item.divider:hover div a {
-  background-image: url("../../media/icons/form/context-menu/divider_select.png");
+  background-image: url("../media/icons/form/context-menu/divider_select.png");
 }
 .context-menu .menu .menu-item.date.active div a, .context-menu .menu .menu-item.date:hover div a {
-  background-image: url("../../media/icons/form/context-menu/date_select.png");
+  background-image: url("../media/icons/form/context-menu/date_select.png");
 }
 .context-menu .menu .menu-item.time.active div a, .context-menu .menu .menu-item.time:hover div a {
-  background-image: url("../../media/icons/form/context-menu/time_select.png");
+  background-image: url("../media/icons/form/context-menu/time_select.png");
 }
 .context-menu .menu .menu-item.datetime.active div a, .context-menu .menu .menu-item.datetime:hover div a {
-  background-image: url("../../media/icons/form/context-menu/datetime_select.png");
+  background-image: url("../media/icons/form/context-menu/datetime_select.png");
 }
 .context-menu .menu .menu-item.fileupload.active div a, .context-menu .menu .menu-item.fileupload:hover div a {
-  background-image: url("../../media/icons/form/context-menu/fileupload_select.png");
+  background-image: url("../media/icons/form/context-menu/fileupload_select.png");
 }
 .context-menu .menu .menu-item.custom-code.active div a, .context-menu .menu .menu-item.custom-code:hover div a {
-  background-image: url("../../media/icons/form/context-menu/custom-code_select.png");
+  background-image: url("../media/icons/form/context-menu/custom-code_select.png");
 }
 .context-menu.on {
   display: block;
@@ -1004,13 +1004,13 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_option_minus.png");
+  background-image: url("../media/icons/form/editor/icon_option_minus.png");
 }
 .property-group .property-group-option button[class=plus] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_option_plus.png");
+  background-image: url("../media/icons/form/editor/icon_option_plus.png");
 }
 .property-group .property-field {
   position: relative;
@@ -1157,47 +1157,47 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_left.png");
+  background-image: url("../media/icons/form/editor/icon_left.png");
 }
 .property-group .property-field[id=display-position] div.property-field-icon button[id=right] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_right.png");
+  background-image: url("../media/icons/form/editor/icon_right.png");
 }
 .property-group .property-field[id=display-position] div.property-field-icon button[id=left].active {
-  background-image: url("../../media/icons/form/editor/icon_left_select.png");
+  background-image: url("../media/icons/form/editor/icon_left_select.png");
 }
 .property-group .property-field[id=display-position] div.property-field-icon button[id=right].active {
-  background-image: url("../../media/icons/form/editor/icon_right_select.png");
+  background-image: url("../media/icons/form/editor/icon_right_select.png");
 }
 .property-group .property-field[id=display-align] div.property-field-icon button[id=left] {
   border-left-width: 0.0625rem;
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_align_left.png");
+  background-image: url("../media/icons/form/editor/icon_align_left.png");
 }
 .property-group .property-field[id=display-align] div.property-field-icon button[id=center] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_align_center.png");
+  background-image: url("../media/icons/form/editor/icon_align_center.png");
 }
 .property-group .property-field[id=display-align] div.property-field-icon button[id=right] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_align_right.png");
+  background-image: url("../media/icons/form/editor/icon_align_right.png");
 }
 .property-group .property-field[id=display-align] div.property-field-icon button[id=left].active {
-  background-image: url("../../media/icons/form/editor/icon_align_left_select.png");
+  background-image: url("../media/icons/form/editor/icon_align_left_select.png");
 }
 .property-group .property-field[id=display-align] div.property-field-icon button[id=center].active {
-  background-image: url("../../media/icons/form/editor/icon_align_center_select.png");
+  background-image: url("../media/icons/form/editor/icon_align_center_select.png");
 }
 .property-group .property-field[id=display-align] div.property-field-icon button[id=right].active {
-  background-image: url("../../media/icons/form/editor/icon_align_right_select.png");
+  background-image: url("../media/icons/form/editor/icon_align_right_select.png");
 }
 .property-group .property-field input[type=range] {
   -webkit-appearance: none;
@@ -1370,28 +1370,28 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_bold.png");
+  background-image: url("../media/icons/form/editor/icon_bold.png");
 }
 .property-group .property-field div.property-field-button button[id=italic] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_italic.png");
+  background-image: url("../media/icons/form/editor/icon_italic.png");
 }
 .property-group .property-field div.property-field-button button[id=underline] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_underline.png");
+  background-image: url("../media/icons/form/editor/icon_underline.png");
 }
 .property-group .property-field div.property-field-button button[id=bold].active {
-  background-image: url("../../media/icons/form/editor/icon_bold_select.png");
+  background-image: url("../media/icons/form/editor/icon_bold_select.png");
 }
 .property-group .property-field div.property-field-button button[id=italic].active {
-  background-image: url("../../media/icons/form/editor/icon_italic_select.png");
+  background-image: url("../media/icons/form/editor/icon_italic_select.png");
 }
 .property-group .property-field div.property-field-button button[id=underline].active {
-  background-image: url("../../media/icons/form/editor/icon_underline_select.png");
+  background-image: url("../media/icons/form/editor/icon_underline_select.png");
 }
 .property-group .property-field div.property-field-button div {
   display: inline-flex;
@@ -1405,28 +1405,28 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_align_left.png");
+  background-image: url("../media/icons/form/editor/icon_align_left.png");
 }
 .property-group .property-field div.property-field-button div button[id=center] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_align_center.png");
+  background-image: url("../media/icons/form/editor/icon_align_center.png");
 }
 .property-group .property-field div.property-field-button div button[id=right] {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_align_right.png");
+  background-image: url("../media/icons/form/editor/icon_align_right.png");
 }
 .property-group .property-field div.property-field-button div button[id=left].active {
-  background-image: url("../../media/icons/form/editor/icon_align_left_select.png");
+  background-image: url("../media/icons/form/editor/icon_align_left_select.png");
 }
 .property-group .property-field div.property-field-button div button[id=center].active {
-  background-image: url("../../media/icons/form/editor/icon_align_center_select.png");
+  background-image: url("../media/icons/form/editor/icon_align_center_select.png");
 }
 .property-group .property-field div.property-field-button div button[id=right].active {
-  background-image: url("../../media/icons/form/editor/icon_align_right_select.png");
+  background-image: url("../media/icons/form/editor/icon_align_right_select.png");
 }
 .property-group .property-field[id=display-default] .property-name {
   width: 100%;
@@ -1478,7 +1478,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../../media/icons/form/editor/icon_search.png");
+  background-image: url("../media/icons/form/editor/icon_search.png");
 }
 .property-group .property-field div.property-field-image button:focus {
   outline: none !important;
