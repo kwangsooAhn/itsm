@@ -373,10 +373,10 @@
                     return false;
                 }
 
-                delFileCheck();
-
                 const fileSeq = [];
+                const delFileSeq = [];
                 document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
+                document.getElementsByName('delFileSeq').forEach(elm => delFileSeq.push(elm.value));
                 jsonData = JSON.stringify({
                     noticeNo: noticeNo,
                     noticeTitle: document.getElementById('noticeTitle').value,
@@ -389,7 +389,8 @@
                     topNoticeYn: document.getElementsByName('topNoticeYn')[0].value,
                     topNoticeStrtDt: i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value),
                     topNoticeEndDt: i18n.systemDateTime(document.getElementById('topNoticeEndDt').value),
-                    fileSeq: fileSeq
+                    fileSeq: fileSeq,
+                    delFileSeq: delFileSeq
                 });
             }
             const opt = {
@@ -400,11 +401,11 @@
                 contentType: 'application/json',
                 callbackFunc: function() {
                     if (method === 'put') {
-                        aliceJs.alert(i18n.get('common.msg.modify'), function() {
+                        aliceJs.alertSuccess(i18n.get('common.msg.modify'), function() {
                             window.location = '/notices/search';
                         });
                     } else if (method === 'delete') {
-                        aliceJs.alert(i18n.get('common.msg.delete'), function() {
+                        aliceJs.alertSuccess(i18n.get('common.msg.delete'), function() {
                             window.location = '/notices/search';
                         });
                     }

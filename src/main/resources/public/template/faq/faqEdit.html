@@ -75,10 +75,12 @@
             if (!validation()) {
                 return;
             }
+
+            let formObj = aliceJs.formDataToObject(document.getElementById("faqForm"))
             const opt = {
                 method: method,
                 url: url,
-                params: aliceJs.formDataToJson(document.getElementById("faqForm")),
+                params: JSON.stringify(formObj),
                 contentType: 'application/json',
                 callbackFunc: function () {
                     aliceJs.alertSuccess('[[#{common.msg.save}]]', function () {
