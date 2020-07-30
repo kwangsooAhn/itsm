@@ -369,13 +369,6 @@ input:focus {
   /* 1px */
 }
 
-.portal-search-logo {
-  position: absolute;
-  top: 1.063rem;
-  left: 1.25rem;
-}
-.portal-search-layer {
-  background-color: #eff4fa;
 .session-body {
   width: 100vw;
   height: 100vh;
@@ -456,7 +449,13 @@ input:focus {
   /* 1px */
 }
 
-.portal-search {
+.portal-search-logo {
+  position: absolute;
+  top: 1.063rem;
+  left: 1.25rem;
+}
+.portal-search-layer {
+  background-color: #eff4fa;
   background-image: url("../media/image/portalSearch/graphic_top_background.png");
   background-repeat: no-repeat;
   height: 100%;
