@@ -21,7 +21,7 @@
                         <option th:each="category: ${categoryList}" th:value="${category.code}"
                                 th:text="#{${category.code}}"></option>
                     </select>
-                    <input type="text" id="search" name="search" class="search column-2" maxlength="100"
+                    <input type="text" id="search" name="search" class="search column-3" maxlength="100"
                            th:placeholder="#{download.label.searchPlaceholder}">
                     <span class="icon-search"></span>
                     <input type="text" id="fromDt" name="fromDt" class="alice-date" readonly="readonly"/>
