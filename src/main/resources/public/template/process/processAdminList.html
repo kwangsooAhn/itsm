@@ -33,7 +33,8 @@
             </tr>
             <tr th:each="process, i: ${processList}" th:if="${i.count} < 11">
                 <td th:class="align-left">
-                    <a sec:authorize="!hasAuthority('process.update')" th:text="${process.name}"
+                    <a sec:authorize="hasAnyAuthority('process.read', 'process.create', 'process.delete')"
+                       th:text="${process.name}"
                        th:attr="onclick=|openProcessView('${process.id}')|"></a>
                     <a sec:authorize="hasAuthority('process.update')" th:text="${process.name}"
                        th:attr="onclick=|openProcessEdit('${process.id}')|"></a>

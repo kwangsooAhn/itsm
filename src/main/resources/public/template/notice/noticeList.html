@@ -32,8 +32,9 @@
                 <tr class="tr-notice" th:each="topNotice, i: ${topNoticeList}"
                     th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
                     <td class="align-left">
-                        <a sec:authorize="!hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
-                           th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}"></a>
+                        <a sec:authorize="hasAnyAuthority('notice.read', 'notice.create', 'notice.delete')"
+                           th:text="${topNotice.noticeTitle}" th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}">
+                        </a>
                         <a sec:authorize="hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
                            th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}"></a>
                     </td>
@@ -47,8 +48,8 @@
                 </tr>
                 <tr th:each="notice, z : ${noticeList}" th:if="${z.count} < 8">
                     <td class="align-left">
-                        <a sec:authorize="!hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
-                           th:href="@{/notices/{id}/view(id=${notice.noticeNo})}"></a>
+                        <a sec:authorize="hasAnyAuthority('notice.read', 'notice.create', 'notice.delete')"
+                           th:text="${notice.noticeTitle}" th:href="@{/notices/{id}/view(id=${notice.noticeNo})}"></a>
                         <a sec:authorize="hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
                            th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}"></a>
                     </td>
