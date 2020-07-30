@@ -15,14 +15,14 @@
             <span class="title-description" th:text="#{customCode.msg.description}"></span>
         </div>
         <div class="contents-body">
-            <div class="usermanage-menubar">
-                <div class="menubar-right">
+            <div class="search-area">
+                <div class="search-area-right">
                     <button class="btn-add" onclick="location.href='/custom-codes/new'"
                             sec:authorize="hasAuthority('custom.code.create')"></button>
                 </div>
             </div>
             <div class="list" id="customCodeList"></div>
-            <div class="menubar-bottom">
+            <div class="search-area-bottom">
                 <div class="paging">
                     <ul>
                         <li><span class="btn-prev"></span></li>

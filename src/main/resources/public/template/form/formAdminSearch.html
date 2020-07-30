@@ -11,38 +11,20 @@
 <th:block layout:fragment="content">
     <div class="contents">
         <div class="contents-title">
-            <span class="title-txt" th:text="#{form.label.list}"></span>
+            <h1 th:text="#{form.label.list}"></h1>
             <span class="title-description" th:text="#{form.msg.description}"></span>
         </div>
         <div class="contents-body">
-            <div class="usermanage-menubar">
-                <div class="menubar-left">
-                    <input class="search column-3" id="search" type="text" maxlength="100"
-                           th:placeholder="#{form.label.searchPlaceholder}" >
-                    <span class="icon-search"></span>
+            <div class="search-area">
+                <div class="search-area-left">
+                    <input class="search column-3" id="search" type="text" maxlength="100" th:placeholder="#{form.label.searchPlaceholder}"/>
                 </div>
-                <div class="menubar-right">
-                    <button class="btn-import" type="button" onclick="openFormImport();"
-                            sec:authorize="hasAuthority('form.create')"></button>
-                    <button class="btn-add" onclick="openFormEdit();"
-                            sec:authorize="hasAuthority('form.create')"></button>
+                <div class="search-area-right">
+                    <button class="btn-import" type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')"/>
+                    <button class="btn-add" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')"/>
                 </div>
             </div>
             <div class="list" id="formList"></div>
-            <div class="menubar-bottom">
-                <div class="paging">
-                    <ul>
-                        <li><span class="btn-prev"></span></li>
-                        <li><span class="btn-num">1</span></li>
-                        <li><span class="btn-num">2</span></li>
-                        <li><span class="btn-num">3</span></li>
-                        <li><span class="btn-num">···</span></li>
-                        <li><span class="btn-num">6</span></li>
-                        <li><span class="btn-next"></span></li>
-                    </ul>
-                </div>
-                <div class="list-count"><span>총:127건</span></div>
-            </div>
         </div>
     </div>
 </th:block>

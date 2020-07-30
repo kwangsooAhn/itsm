@@ -10,7 +10,7 @@
             <span class="title-description" th:text="#{token.msg.description}"></span>
         </div>
         <div class="token-search">
-            <div class="menubar-left">
+            <div class="search-area-left">
                 <form id="frmSearch">
                     <select class="column-3" name="searchTokenType" id="searchTokenType">
                         <option value="token.type.todo" th:text="#{token.type.todo}" selected />
@@ -27,7 +27,7 @@
                     <input type="text" id="searchToDt" name="searchToDt" class="search-date column-2" readonly="readonly" />
                 </form>
             </div>
-            <div class="menubar-right test">
+            <div class="search-area-right">
                 <span class="total-count" id="totalCount"></span>
             </div>
         </div>

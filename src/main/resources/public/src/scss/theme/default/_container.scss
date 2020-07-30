@@ -9,12 +9,11 @@
         min-width:1260px; min-height:820px; display:block; padding: 20px 136px 37px 136px;
         .contents-title {
             padding: 20px 0 20px 5px;
-            .title-txt {display:block; font-size: 30px; color:#47556a; padding: 10px 0; font-weight: 600;}
             .title-description {font-size: 15px; color:#94a6bf; font-weight: 400;}
         }
         .contents-body {background: rgba(255, 255, 255, 1); padding: 4% 8%;}
 
-        .menubar {
+        .search-area {
             &-left {float: left;}
             &-right {float: right;}
             &-bottom {display: inline-block; width: 100%; position: relative; top: 30px;}
