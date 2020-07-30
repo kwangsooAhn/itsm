@@ -314,11 +314,13 @@ download:
   label:
     category: "Category"
     download: "Download"
+    list: "Download List"
     searchPlaceholder: "Title / Create User / Attach File Name"
     seq: "Number"
     views: "Views"
   msg:
     selectCategory: "Please select a category."
+    description: "View, add, or edit download's information."
   category:
     all: "All"
     companyPolicy: "Company Policy"
