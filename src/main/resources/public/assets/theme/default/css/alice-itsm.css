@@ -165,7 +165,6 @@ select:focus {
   outline: 0.0625rem solid #0050ff;
   border-radius: 0.0625rem;
 }
-
 input {
   height: 1.875rem;
   color: #67717F;
@@ -181,9 +180,17 @@ input:focus {
   outline: 0.0625rem solid #0050ff;
   border-radius: 0.0625rem;
 }
-input.alice-date {
-  width: 8.125rem;
-  background: url("../icons/icon_calendar.png") no-repeat 6.25rem 0.4rem;
+input.search {
+  background: url("../icons/icon_search.svg") no-repeat center right;
+}
+input.search-datetime {
+  background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
+}
+input.search-date {
+  background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
+}
+input.search-time {
+  background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
 }
 
 textarea {
@@ -554,27 +561,6 @@ textarea {
 }
 .container .contents .list .align-right {
   text-align: right;
-}
-.container .contents .search {
-  background: url("../icons/icon_search.svg") no-repeat center right;
-}
-.container .contents .search-date {
-  width: 120px;
-  height: 30px;
-  background: url("../icons/icon_calendar.png") no-repeat 100px 8px;
-  padding: 0 10px;
-  border: 1px solid #c8ced8;
-  border-radius: 2px;
-  font-size: 13px;
-  color: #3e4752;
-}
-.container .contents .search-selectBox {
-  height: 32px;
-  padding: 0 10px;
-  border: 1px solid #c8ced8;
-  border-radius: 2px;
-  font-size: 13px;
-  color: #3e4752;
 }
 .container .contents .list-wrap {
   padding: 15px 0;
