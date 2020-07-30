@@ -263,12 +263,6 @@ textarea {
 .container .contents .search-area-right {
   float: right;
 }
-.container .contents .search-area-bottom {
-  display: inline-block;
-  width: 100%;
-  position: relative;
-  top: 30px;
-}
 .container .contents .user-register-contents-body {
   background: white;
   padding: 88px 351px 96px 351px;

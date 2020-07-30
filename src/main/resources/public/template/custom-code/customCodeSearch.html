@@ -17,25 +17,10 @@
         <div class="contents-body">
             <div class="search-area">
                 <div class="search-area-right">
-                    <button class="btn-add" onclick="location.href='/custom-codes/new'"
-                            sec:authorize="hasAuthority('custom.code.create')"></button>
+                    <button class="btn-add" onclick="location.href='/custom-codes/new'" sec:authorize="hasAuthority('custom.code.create')"/>
                 </div>
             </div>
             <div class="list" id="customCodeList"></div>
-            <div class="search-area-bottom">
-                <div class="paging">
-                    <ul>
-                        <li><span class="btn-prev"></span></li>
-                        <li><span class="btn-num">1</span></li>
-                        <li><span class="btn-num">2</span></li>
-                        <li><span class="btn-num">3</span></li>
-                        <li><span class="btn-num">···</span></li>
-                        <li><span class="btn-num">6</span></li>
-                        <li><span class="btn-next"></span></li>
-                    </ul>
-                </div>
-                <div class="list-count"><span>총:127건</span></div>
-            </div>
         </div>
     </div>
 </th:block>
