@@ -23,8 +23,8 @@
                         <option th:each="document: ${documentList}" th:value="${document.documentId}" th:text="${document.documentName}" />
                     </select>
                     <input class="search column-3" type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
-                    <input type="text" id="searchFromDt" name="searchFromDt" class="alice-date" readonly="readonly" />
-                    <input type="text" id="searchToDt" name="searchToDt" class="alice-date" readonly="readonly" />
+                    <input type="text" id="searchFromDt" name="searchFromDt" class="search-date column-2" readonly="readonly" />
+                    <input type="text" id="searchToDt" name="searchToDt" class="search-date column-2" readonly="readonly" />
                 </form>
             </div>
             <div class="menubar-right test">
