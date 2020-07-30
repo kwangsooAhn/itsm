@@ -1,7 +1,7 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.itsm.form.service.FormService
+import co.brainz.itsm.form.service.FormAdminService
 import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
@@ -25,7 +25,7 @@ import org.springframework.util.MultiValueMap
 @Service
 class DocumentService(
     private val restTemplate: RestTemplateProvider,
-    private val formService: FormService,
+    private val formAdminService: FormAdminService,
     private val processAdminService: ProcessAdminService
 ) {
 
@@ -164,7 +164,7 @@ class DocumentService(
         formStatus.add(RestTemplateConstants.FormStatus.PUBLISH.value)
         formStatus.add(RestTemplateConstants.FormStatus.USE.value)
         formParams["status"] = formStatus.joinToString(",")
-        return formService.findForms(formParams)
+        return formAdminService.findForms(formParams)
     }
 
     /**

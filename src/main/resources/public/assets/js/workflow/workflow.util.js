@@ -519,7 +519,7 @@ workflowUtil.loadProcessFromXML = function(data) {
  */
 workflowUtil.saveImportData = function(type, data) {
     let result = false;
-    let saveUrl = '/rest/forms' + '?saveType=saveas';
+    let saveUrl = '/rest/forms-admin' + '?saveType=saveas';
     if (type === 'process') {
         saveUrl = '/rest/processes-admin' + '?saveType=saveas';
     }
