@@ -27,8 +27,7 @@
             </tr>
             <tr th:each="customCode, i : ${customCodeList}" th:if="${i.count} < 11">
                 <td class="align-left">
-                    <a sec:authorize="hasAnyAuthority('custom.code.read','custom.code.create','custom.code.delete')"
-                       th:text="${customCode.customCodeName}"
+                    <a sec:authorize="!hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
                        th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a>
                     <a sec:authorize="hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
                        th:href="@{/custom-codes/{id}/edit(id=${customCode.customCodeId})}"></a>

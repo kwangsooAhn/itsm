@@ -33,7 +33,7 @@
             </tr>
             <tr th:each="form, i: ${formList}" th:if="${i.count} < 11">
                 <td th:class="align-left">
-                    <a sec:authorize="hasAnyAuthority('form.read', 'form.create', 'form.delete')" th:text="${form.name}"
+                    <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
                        th:attr="onclick=|openFormView('${form.id}')|"></a>
                     <a sec:authorize="hasAuthority('form.update')" th:text="${form.name}"
                        th:attr="onclick=|openFormEdit('${form.id}')|"></a>
