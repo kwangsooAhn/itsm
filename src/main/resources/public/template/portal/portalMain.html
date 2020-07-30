@@ -84,33 +84,11 @@
         for (let i = 0; i < topSize; i++) {
             let row = document.createElement('tr');
             let cell = document.createElement('td');
-            if (data !== undefined){
-                switch (element.id) {
-                    case 'notice' :
-                        if (data[i] !== undefined) {
-                            let content = document.createElement('a');
-                            content.setAttribute('href', '#N');
-                            content.textContent = data[i].noticeTitle;
-                            cell.appendChild(content);
-                        }
-                        break;
-                    case 'faq' :
-                        if (data[i] !== undefined) {
-                            let content = document.createElement('a');
-                            content.setAttribute('href', '#N');
-                            content.textContent = data[i].faqTitle;
-                            cell.appendChild(content);
-                        }
-                        break;
-                    case 'download' :
-                        if (data[i] !== undefined) {
-                            let content = document.createElement('a');
-                            content.setAttribute('href', '#N');
-                            content.textContent = data[i].downloadTitle;
-                            cell.appendChild(content);
-                        }
-                        break;
-                }
+            if (data[i] !== undefined) {
+                let content = document.createElement('a');
+                content.setAttribute('href', '#N');
+                content.textContent = data[i][element.id + 'Title'];
+                cell.appendChild(content);
             }
             row.appendChild(cell);
             element.appendChild(row);
