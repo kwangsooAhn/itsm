@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div class="list-wrap">
+    <table>
+        <colgroup>
+            <col style="width:16.67rem"><!--250px-->
+            <col style="width:6.667rem"><!--100px-->
+            <col style="width:6.667rem"><!--100px-->
+            <col style="width:10rem"><!--150px-->
+            <col style="width:20rem"><!--300px-->
+            <col style="width:10rem"><!--150px-->
+            <col style="width:10rem"><!--150px-->
+        </colgroup>
+        <thead>
+            <tr>
+                <th th:text="#{form.label.name}"></th>
+                <th th:text="#{form.label.preview}"></th>
+                <th th:text="#{common.label.update}"></th>
+                <th th:text="#{form.label.state}"></th>
+                <th th:text="#{form.label.description}"></th>
+                <th th:text="#{common.label.writer}"></th>
+                <th th:text="#{common.label.writeDate}"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="align-left" th:if="${#arrays.isEmpty(formList)}">
+                <td colspan="7" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr th:each="form, i: ${formList}" th:if="${i.count} < 11">
+                <td th:class="align-left">
+                    <a sec:authorize="hasAnyAuthority('form.read', 'form.create', 'form.delete')" th:text="${form.name}"
+                       th:attr="onclick=|openFormView('${form.id}')|"></a>
+                    <a sec:authorize="hasAuthority('form.update')" th:text="${form.name}"
+                       th:attr="onclick=|openFormEdit('${form.id}')|"></a>
+                </td>
+                <td>
+                    <a th:attr="onclick=|openFormDesignerView('${form.id}')|">
+                        <img src="../assets/media/icons/process/list/icon_preview.png"></a>
+                </td>
+                <td>
+                    <a sec:authorize="hasAuthority('form.update')" th:disabled="${!form.editable}"
+                       th:attr="onclick=|openFormDesignerEdit('${form.id}')|">
+                       <img src="../assets/media/icons/process/list/icon_edit.png"></a>
+                </td>
+                <td th:text="#{${form.status}}"></td>
+                <td th:class="align-left" th:text="${form.desc}"></td>
+                <td th:text="${form.createUserName}"></td>
+                <td th:name="createDt" th:text="${form.createDt}"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
