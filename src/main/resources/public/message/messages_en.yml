@@ -314,11 +314,13 @@ download:
   label:
     category: "Category"
     download: "Download"
+    list: "Download List"
     searchPlaceholder: "Title / Create User / Attach File Name"
     seq: "Number"
     views: "Views"
   msg:
     selectCategory: "Please select a category."
+    description: "View, add, or edit download's information."
   category:
     all: "All"
     companyPolicy: "Company Policy"
@@ -465,7 +467,7 @@ login:
     enterPassword: "Please enter your password."
     invalidUserOrPassword: "This is an unregistered ID or an incorrect password."
     ipAccessDenied: "This IP is not accessible."
-    redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
+    redirectedLoginPage: "seconds after, you will be redirected to the login page."
     sessionExpired: "Your session has expired."
     unKnownError: "An unknown error has occurred. Please contact the administrator."
 
@@ -503,6 +505,7 @@ menu:
 notice:
   label:
     endDt: "End Date"
+    edit: "Edit Notice"
     height: "Height"
     list: "Notice List"
     modifyCompleted: "Modify Completed"
@@ -517,6 +520,7 @@ notice:
     strtDt: "Start Date"
     topNoticeSettings: "Top Notice Settings"
     topNoticeSettingsInfo: "Top Notice Settings Info"
+    view: "Notice"
     width: "Width"
   msg:
     checkPopHeightRange: "The height can only be a value between 500px and 1000px."

@@ -126,7 +126,7 @@ button {
   font-weight: 900;
   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format("opentype");
 }
-body, h1, h2, h3, h4, h5, h6, input, textarea, select {
+body, input, textarea, select {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 15px;
 }
@@ -159,6 +159,7 @@ select {
   padding: 0 10px;
   margin-right: 0.0625rem;
   vertical-align: middle;
+  background-color: #FFFFFF;
 }
 select:focus {
   outline: 0.0625rem solid #0050ff;
@@ -174,6 +175,7 @@ input {
   padding: 0 10px;
   margin-right: 0.0625rem;
   vertical-align: middle;
+  background-color: #FFFFFF;
 }
 input:focus {
   outline: 0.0625rem solid #0050ff;
@@ -189,16 +191,33 @@ textarea {
   display: block;
   border: 1px solid #C8CED8;
   color: #67717F;
+  background-color: #FFFFFF;
+}
+
+.column-1 {
+  width: 5rem;
 }
 
 .column-2 {
-  width: 13.75rem;
+  width: 10rem;
+}
+
+.column-3 {
+  width: 15rem;
+}
+
+.column-4 {
+  width: 20rem;
+}
+
+.column-5 {
+  width: 25rem;
 }
 
 .wrap-screen {
   position: relative;
+  min-height: 100vh;
   background: #eaf1f7;
-  height: 100vh;
 }
 
 .container {
@@ -248,9 +267,13 @@ textarea {
 }
 .container .contents .user-register-contents-body input {
   font-size: 14px;
+  height: 30px;
+  width: 340px;
+  margin-top: 8px;
 }
 .container .contents .user-register-contents-body select {
   font-size: 14px;
+  margin-top: 8px;
 }
 .container .contents .user-register-contents-body .required::after {
   color: #E83828;
@@ -269,9 +292,7 @@ textarea {
   margin-top: 15px;
   margin-left: 10px;
 }
-.container .contents .user-register-contents-body .profile-input-bottom-list {
-  margin-top: 15px;
-  margin-left: 10px;
+.container .contents .user-register-contents-body .profile-input-body-list:last-child {
   margin-bottom: 62px;
 }
 .container .contents .user-register-contents-body .user-register-top-list {
@@ -281,8 +302,9 @@ textarea {
 .container .contents .user-register-contents-body .input-title {
   font-size: 14px;
   display: block;
+  padding: 10px 0;
 }
-.container .contents .user-register-contents-body .input-guide {
+.container .contents .user-register-contents-body .input-title-guide {
   display: flex;
   vertical-align: middle;
 }
@@ -297,7 +319,6 @@ textarea {
 .container .contents .user-register-contents-body .custom-setting-top-select {
   width: 678px;
   height: 26px;
-  margin-top: 8px;
   padding-left: 5px;
   border: 1px solid #C8CED8;
 }
@@ -305,7 +326,6 @@ textarea {
   width: 244px;
   height: 26px;
   border: 1px solid #C8CED8;
-  margin-top: 8px;
   padding-left: 5px;
 }
 .container .contents .user-register-contents-body .hour-select {
@@ -321,15 +341,12 @@ textarea {
   height: 30px;
   border: 1px solid #C8CED8;
   font-size: 14px;
-  margin-top: 15px;
   padding-left: 5px;
 }
 .container .contents .user-register-contents-body .theme-color-select {
-  margin-top: 15px;
   width: 244px;
   height: 30px;
   border: 1px solid #C8CED8;
-  margin-bottom: 62px;
   padding-left: 5px;
 }
 .container .contents .user-register-contents-body .user-role-checkbox {
@@ -363,38 +380,28 @@ textarea {
   overflow: hidden;
 }
 .container .contents .user-register-contents-body .checkbox-label {
-  vertical-align: 2px;
+  vertical-align: -5px;
   margin-left: 10px;
   margin-right: 14px;
 }
-.container .contents .user-register-contents-body .btn_wrap {
+.container .contents .user-register-contents-body .btn-wrap {
   margin-top: 32px;
   text-align: right;
   margin-right: 10px;
   font-size: 13px;
 }
-.container .contents .user-register-contents-body .btn_register {
+.container .contents .user-register-contents-body .btn-register {
   padding: 6px 12px;
   border: 1px solid #0050ff;
   color: #0050ff;
   border-radius: 3px;
   margin-right: 5px;
 }
-.container .contents .user-register-contents-body .btn_register:hover {
+.container .contents .user-register-contents-body .btn-register:hover {
   background-color: #0050ff;
   color: white;
 }
-.container .contents .user-register-contents-body .btn_list {
-  padding: 6px 12px;
-  border: 1px solid #BEC5CE;
-  color: #3D4752;
-  border-radius: 3px;
-}
-.container .contents .user-register-contents-body .btn_list:hover {
-  background-color: #BEC5CE;
-  color: white;
-}
-.container .contents .user-register-contents-body .avatar_section {
+.container .contents .user-register-contents-body .avatar-section {
   float: right;
   padding: 53px 75px 53px 75px;
   border: 1px solid #D2D9E2;
@@ -403,31 +410,31 @@ textarea {
   background: white no-repeat center 53px;
   background-color: #FDFDFD;
 }
-.container .contents .user-register-contents-body .avatar_section_wrap {
+.container .contents .user-register-contents-body .avatar-section-wrap {
   float: right;
   margin-top: 37px;
 }
-.container .contents .user-register-contents-body .avatar_title {
+.container .contents .user-register-contents-body .avatar-title {
   display: block;
   font-size: 14px;
 }
-.container .contents .user-register-contents-body .avatar_text {
+.container .contents .user-register-contents-body .avatar-text {
   display: block;
   margin-top: 96px;
   text-align: center;
   font-size: 13px;
   color: #7A8594;
 }
-.container .contents .user-register-contents-body .avatar_bottom_text_wrap {
+.container .contents .user-register-contents-body .avatar-bottom-text-wrap {
   display: block;
   margin-top: 253px;
   font-size: 13px;
 }
-.container .contents .user-register-contents-body .avatar_far_bottom_text {
+.container .contents .user-register-contents-body .avatar-far-bottom-text {
   display: block;
   margin-top: 8px;
 }
-.container .contents .user-register-contents-body .browse_link {
+.container .contents .user-register-contents-body .browse-link {
   text-decoration: underline;
   color: #0050ff;
 }
@@ -582,8 +589,44 @@ textarea {
 .container .contents .list-wrap-auth-edit {
   padding: 15px 0 15px 35px;
 }
-.container .contents .list-wrap-auth-edit form-left {
-  float: left;
+.container .contents .list-wrap-edit table {
+  margin: 0 0 15px 0;
+}
+.container .contents .list-wrap-edit table span {
+  margin: 0 auto;
+}
+.container .contents .list-wrap-edit table th {
+  background: rgba(204, 211, 217, 0.1);
+  padding-left: 15px;
+}
+.container .contents .list-wrap-edit table tr td {
+  font-size: 14px;
+  margin: 0 auto;
+}
+.container .contents .list-wrap-edit table tr td .edit-name {
+  border-right: 1px solid #C8CED8;
+  padding: 3px 15px;
+}
+.container .contents .list-wrap-edit table tr td .file-attachment {
+  border-right: 1px solid #C8CED8;
+  padding: 3px 15px;
+}
+.container .contents .list-wrap-edit table tr td.edit-textarea {
+  height: 150px;
+  min-height: 150px;
+  padding: 15px;
+  text-align: left;
+  vertical-align: text-top;
+}
+.container .contents .list-wrap-edit table tr td.file-attach-input {
+  text-align: left;
+  padding: 0 15px;
+}
+.container .contents .list-wrap-edit table tr.edit-title {
+  height: 56px;
+}
+.container .contents .list-wrap-edit table tr:hover {
+  background: none;
 }
 .container .contents .list-count {
   float: right;
@@ -600,6 +643,20 @@ textarea {
   height: 100%;
   padding: 90px 0 0 80px;
   background: #eaf1f7;
+}
+.container .btn {
+  display: inline-block;
+  font-size: 13px;
+  color: #0050ff;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid #0050ff;
+  text-align: center;
+}
+.container .btn:hover {
+  background: #0050ff;
+  color: #fff;
+  border: 1px solid #0050ff;
 }
 .container .btn-add {
   display: inline-block;
@@ -633,12 +690,44 @@ textarea {
 }
 .container .btn-info {
   background: url("../icons/icon_info.png") no-repeat right;
-  padding: 0 0 0 5px;
+  display: inline-block;
+  margin-left: 5px;
   width: 15px;
   height: 15px;
 }
 .container .btn-info:hover {
   background: url("../icons/icon_info_select.png") no-repeat right;
+}
+.container .btn-gray {
+  width: 64px;
+  height: 30px;
+  padding: 7px 12px;
+  border: 1px solid #BEC5CE;
+  color: #3D4752;
+  border-radius: 2px;
+  font-size: 14px;
+}
+.container .btn-gray:hover {
+  background-color: #BEC5CE;
+  color: white;
+}
+.container .float-left {
+  float: left;
+}
+.container .float-right {
+  float: right;
+}
+.container .float-clear {
+  clear: both;
+}
+.container .align-center {
+  text-align: center;
+}
+.container .align-left {
+  text-align: left;
+}
+.container .align-right {
+  text-align: right;
 }
 
 .paging {
@@ -885,7 +974,7 @@ textarea {
   vertical-align: middle;
 }
 .top-config .user-info.active .my-edit {
-  display: block;
+  display: list-item;
   padding: 5px;
   position: absolute;
   top: 70px;
@@ -894,7 +983,7 @@ textarea {
 }
 .top-config .user-info.active .my-edit ul li {
   padding: 10px 0;
-  display: list-item;
+  display: block;
 }
 .top-config .user-info.active .my-edit ul li:hover {
   background: rgba(0, 80, 255, 0.05);

@@ -1,44 +1,27 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-            text-align: center;
-        }
-        table tr td:nth-child(3) {
-            text-align: left;
-        }
-        table th {
-            border: 1px solid;
-        }
-        table td {
-            border-top: 1px solid #e7e7e7;
-            border-left: 1px solid;
-        }
-    </style>
 </head>
 <body>
-<div>
-    <table class="table-hover">
+<div class="list-wrap">
+    <table>
         <colgroup>
-            <col width="10%">
-            <col width="10%">
-            <col width="40%">
-            <col width="10%">
-            <col width="20%">
-            <col width="10%">
+            <col style="width:2.5rem"><!--20px-->
+            <col style="width:7.5rem"><!--120px-->
+            <col style="width:35rem"><!--580px-->
+            <col style="width:7.5rem"><!--120px-->
+            <col style="width:15rem"><!--240px-->
+            <col style="width:7.5rem"><!--120px-->
         </colgroup>
         <thead>
             <tr>
                 <th th:text="#{download.label.seq}"></th>
                 <th th:text="#{download.label.category}"></th>
                 <th th:text="#{common.label.title}"></th>
-                <th th:text="#{common.label.createUser}"></th>
-                <th th:text="#{common.label.createDate}"></th>
+                <th th:text="#{common.label.writer}"></th>
+                <th th:text="#{common.label.writeDate}"></th>
                 <th th:text="#{download.label.views}"></th>
             </tr>
         </thead>
@@ -46,11 +29,16 @@
             <tr th:if="${#arrays.isEmpty(downloadList)}">
                 <td colspan="6" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr th:unless="${#arrays.isEmpty(downloadList)}" th:each="download: ${downloadList}">
+            <tr th:each="download, i: ${downloadList}" th:if="${i.count} < 11">
                 <td th:text="|${download.downloadSeq}|"></td>
                 <td th:text="#{${download.downloadCategory}}"></td>
-                <td><a th:text="${download.downloadTitle}"
-                       th:href="@{/downloads/{id}/view(id=${download.downloadId})}"></a></td>
+                <td class="align-left">
+                    <a sec:authorize="hasAnyAuthority('download.read','download.create','download.delete')"
+                       th:text="${download.downloadTitle}" th:href="@{/downloads/{id}/view(id=${download.downloadId})}">
+                    </a>
+                    <a sec:authorize="hasAuthority('download.update')" th:text="${download.downloadTitle}"
+                       th:href="@{/downloads/{id}/edit(id=${download.downloadId})}"></a>
+                </td>
                 <td th:text="${download.createUserName}"></td>
                 <td th:name="createDt" th:text="${download.createDt}"></td>
                 <td th:text="${download.views}"></td>
