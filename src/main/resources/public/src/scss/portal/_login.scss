@@ -1,37 +1,131 @@
-.login-base {
-    float: left;
-    width: 1285px;
-    height: 1180px;
-    background: {
-        //color: transparent;
-        color: #0050FF;
-        size: cover;
-        repeat: no-repeat;
-        position: center center;
-        image: url("../media/image/portal/alice.png");
-    };
-    .logo {
+.login {
+    &-logo {
         position: absolute;
-        width: 178px;
-        height: 110px;
-        background-color: #0050FF;
-        background: {
-            color: transparent;
-            size: initial;
-            repeat: no-repeat;
-            position: center center;
-            image: url("../media/image/portal/logo.png");
-        };
+        top: 5rem; // 80px
+        left: 5rem; // 80px
     }
-}
-.login-container {
-    float: left;
-    width: 635px;
-    height: 1180px;
-    background-color: #ffffff;
-    .sign-in {
-        font-weight: bold;
-        font-size: 20px;
 
+    &-background {
+        background-color: $alice-primary;
+        height: 100%;
+        width: 80.3125rem;
+    }
+
+    &-form {
+        margin: 11.688rem 8.0rem 0 88.9063rem; // 187px 128px 0 1422.5px
+        width: 22.5rem; // 360px
+        position: absolute;
+        top: 0;
+
+        h1 {
+            height: 2.313rem; // 37px
+            margin-bottom: 3.75rem; // 60px
+            text-align: center;
+        }
+
+        .login-base-form {
+            margin-bottom: 0.531rem; // 8.5px
+        }
+    }
+
+    &-btn {
+        border: 0.063rem solid; // 1px
+        border-radius: 0.063rem; // 1px
+        display: inline-block;
+        text-align: center;
+        font-size: 0.875rem; // 14px
+        vertical-align: middle;
+        padding: 0.75rem 0.625rem; // 12px 10px
+
+        &-submit {
+            background-color: $alice-primary;
+            border-color: #0048E6;
+            color: #FFFFFF;
+            min-width: 22.5rem; // 360px
+        }
+
+        &-google {
+            background-color: #ffffff;
+            border-color: #c8ced8;
+            color: #3E4752;
+            min-width: 22.5rem; // 360px
+
+            &-icon {
+                background-image: url($image-folder-path + "login/icon_google.png");
+                background-size: 1.188rem; // 19px
+                background-repeat: no-repeat;
+                background-position-y: center;
+                background-position-x: 0.625rem; // 10px
+            }
+        }
+
+        &-kakao {
+            background-color: #ffde00;
+            border-color: #EBCC00;
+            color: #3E4752;
+            min-width: 22.5rem; // 360px
+
+            &-icon {
+                background-image: url($image-folder-path + "login/icon_kakao.png");
+                background-size: 1.188rem; // 19px
+                background-repeat: no-repeat;
+                background-position-y: center;
+                background-position-x: 0.625rem; // 10px
+            }
+        }
+    }
+
+    &-divide {
+        display: flex;
+        flex-basis: 100%;
+        align-items: center;
+        color: #7b8593;
+        font-size: 0.875rem; // 14px
+        margin: 4.25rem 0 2.875rem 0; // 68px 0 46px 0
+
+        &::before {
+            content: '';
+            flex-grow: 1;
+            background: #7b8593;
+            height: 0.063rem; // 1px
+            margin-right: 1rem; // 16px
+        }
+
+        &::after {
+            content: '';
+            flex-grow: 1;
+            background: #7b8593;
+            height: 0.063rem; // 1px
+            margin-left: 1rem; // 16px
+        }
+    }
+
+    &-platform {
+        button {
+            margin-bottom: 0.531rem; // 8.5px
+
+            &:last-child {
+                margin: 0;
+            }
+        }
+    }
+
+    &-other {
+        margin-top: 6.188rem; // 99px
+        height: 1.063rem; // 17px
+        display: flex;
+        font-size: 0.875rem; // 14px
+        font-weight: 400;
+        color: #7b8593;
+        text-align: center;
+
+        &-signUp, &-findPwd, &-findId {
+            flex: 1;
+            border-right: 0.063rem solid #7b8593; // 1px
+
+            &:last-child {
+                border: none;
+            }
+        }
     }
 }
