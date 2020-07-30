@@ -42,22 +42,26 @@ const fileUploader = (function () {
         }
 
         if (extraParam.dropZoneMaxFiles === undefined) {
-            extraParam.dropZoneMaxFiles = null
+            extraParam.dropZoneMaxFiles = null;
         }
 
         if (extraParam.clickable === undefined) {
-            extraParam.clickable = '.add-file-button'
+            extraParam.clickable = '.add-file-button';
         }
 
         if (extraParam.acceptedFiles === undefined) {
-            extraParam.acceptedFiles = null
+            extraParam.acceptedFiles = null;
+        }
+
+        if (extraParam.type === undefined) {
+            extraParam.type = 'dropzone';
         }
 
         // 파일 추가 버튼 정의 및 추가
         const dropZoneFiles = document.getElementById(''+ dropZoneFilesId +'');
         dropZoneFiles.className = 'fileEditorable';
 
-        if (extraParam.clickable === '.add-file-button') {
+        if (extraParam.clickable === '.add-file-button' && extraParam.type !== 'avatarFileUploader') {
             const addFileSpan = document.createElement('span');
             addFileSpan.className = 'add-file-button';
             const addFileBtn = document.createElement('button');
@@ -70,7 +74,7 @@ const fileUploader = (function () {
         // 파일 드랍 영역 및 파일을 보여줄 장소 정의
         const fileDropZone = document.createElement('div');
         fileDropZone.id = 'dropZoneFileUpload';
-        fileDropZone.className = 'dropzone';
+        fileDropZone.className = extraParam.type;
 
         // 파일 템플릿 생성
         const thumbnailData = document.createElement('img');
@@ -137,11 +141,14 @@ const fileUploader = (function () {
         // 파일 업로드 영역에 드랍 영역 정의
         document.getElementById(''+ dropZoneFilesId +'').appendChild(fileDropZone);
 
+        // TO-DO
+        // 2020.07.25 Jung Hee Chan
+        // avatar 업로드는 기능 정리 필요. 일단 디자인 작업을 위해서 버튼 춢력은 주석 처리.
         if (extraParam.clickable == '.add-img-button') {
             const addFileSpan = document.createElement('span');
             addFileSpan.className = 'add-img-button';
             const addFileBtn = document.createElement('button');
-            addFileBtn.innerText = '아바타 추가';
+            //addFileBtn.innerText = '아바타 추가';
             addFileBtn.setAttribute('type', 'button');
             addFileSpan.appendChild(addFileBtn);
             dropZoneFiles.appendChild(addFileSpan);

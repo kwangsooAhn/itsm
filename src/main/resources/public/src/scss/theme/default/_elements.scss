@@ -10,31 +10,33 @@ option {
 
 select {
     height: 1.875rem; // 30px
-    color:$form-font-color;
-    font-size: $form-font-size;
-    border: $form-border solid $form-line;
-    border-radius: $form-border-radius;
+    color:$element-font-color;
+    font-size: $element-font-size;
+    border: $element-border solid $element-line;
+    border-radius: $element-border-radius;
     padding: 0 10px;
     margin-right: 0.0625rem; // 1px
     vertical-align: middle;
+    background-color: $element-background-color;
     &:focus {
-        outline: $form-border solid $alice-primary;
-        border-radius: $form-border-radius;
+        outline: $element-border solid $alice-primary;
+        border-radius: $element-border-radius;
     }
 }
 
 input {
     height: 1.875rem; // 30px
-    color:$form-font-color;
-    font-size: $form-font-size;
-    border: $form-border solid $form-line;
-    border-radius: $form-border-radius;
+    color:$element-font-color;
+    font-size: $element-font-size;
+    border: $element-border solid $element-line;
+    border-radius: $element-border-radius;
     padding: 0 10px;
     margin-right: 0.0625rem; // 1px
     vertical-align: middle;
+    background-color: $element-background-color;
     &:focus {
-        outline: $form-border solid $alice-primary;
-        border-radius: $form-border-radius;
+        outline: $element-border solid $alice-primary;
+        border-radius: $element-border-radius;
     }
     &.alice-date {
         width: 8.125rem; // 130px
@@ -48,6 +50,7 @@ label {
 textarea{
     margin:10px 0 15px 0;
     display:block;
-    border: 1px solid $form-line;
-    color: $form-font-color;
+    border: 1px solid $element-line;
+    color: $element-font-color;
+    background-color: $element-background-color;
 }
