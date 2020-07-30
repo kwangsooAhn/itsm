@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title>공지사항 리스트</title>
+    <title th:text="#{notice.label.edit}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -14,11 +14,17 @@
             <table class="table" border="1">
                 <tr>
                     <th th:text="#{common.label.title}"></th>
-                    <td colspan="3"><input id="noticeTitle" name="noticeTitle" type="text" th:value="${notice?.noticeTitle}" maxlength="128"/></td>
+                    <td colspan="3">
+                        <input id="noticeTitle" name="noticeTitle" type="text" th:value="${notice?.noticeTitle}"
+                               maxlength="128"/>
+                    </td>
                 </tr>
                 <tr>
                     <th th:text="#{common.label.contents}"></th>
-                    <td colspan="3"><textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="7" style="width: 750px; resize: none;" th:text="${notice?.noticeContents}"></textarea></td>
+                    <td colspan="3">
+                        <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="7" style="width: 750px; resize: none;"
+                                  th:text="${notice?.noticeContents}"></textarea>
+                    </td>
                 </tr>
                 <tr>
                     <th th:text="#{common.label.attachFile}">첨부파일</th>
@@ -35,15 +41,32 @@
                     <th th:text="#{notice.label.popUpNoticeSettings}"></th>
                     <td>
                         <div>
-                            <label><input type="radio" id="popRadioBtUp" name="popYn" th:value="${notice?.popYn != null} ? ${notice.popYn} : true" checked="checked" onchange="setDisplay('popTab',true)" th:text="#{notice.label.set}"/></label>
-                            <label><input type="radio" id="popRadioBtDown" name="popYn" th:value="${notice?.popYn != null} ? ${notice.popYn} : false" onchange="setDisplay('popTab',false)" th:text="#{notice.label.notSet}"/></label>
+                            <label>
+                                <input type="radio" id="popRadioBtUp" name="popYn"
+                                       th:value="${notice?.popYn != null} ? ${notice.popYn} : true" checked="checked"
+                                       onchange="setDisplay('popTab',true)" th:text="#{notice.label.set}"/>
+                            </label>
+                            <label>
+                                <input type="radio" id="popRadioBtDown" name="popYn"
+                                       th:value="${notice?.popYn != null} ? ${notice.popYn} : false"
+                                       onchange="setDisplay('popTab',false)" th:text="#{notice.label.notSet}"/>
+                            </label>
                         </div>
                     </td>
                     <th th:text="#{notice.label.topNoticeSettings}"></th>
                     <td>
                         <div>
-                            <label><input type="radio" id="topRadioBtUp" name="topNoticeYn" th:value="${notice?.topNoticeYn != null} ? ${notice.topNoticeYn} : true" checked="checked" onchange="setDisplay('topNoticeTab',true)" th:text="#{notice.label.set}"/></label>
-                            <label><input type="radio" id="topRadioBtDown" name="topNoticeYn" th:value="${notice?.topNoticeYn != null} ? ${notice.topNoticeYn} : false" onchange="setDisplay('topNoticeTab',false)" th:text="#{notice.label.notSet}"/></label>
+                            <label>
+                                <input type="radio" id="topRadioBtUp" name="topNoticeYn"
+                                       th:value="${notice?.topNoticeYn != null} ? ${notice.topNoticeYn} : true"
+                                       checked="checked" onchange="setDisplay('topNoticeTab',true)"
+                                       th:text="#{notice.label.set}"/>
+                            </label>
+                            <label>
+                                <input type="radio" id="topRadioBtDown" name="topNoticeYn"
+                                       th:value="${notice?.topNoticeYn != null} ? ${notice.topNoticeYn} : false"
+                                       onchange="setDisplay('topNoticeTab',false)" th:text="#{notice.label.notSet}"/>
+                            </label>
                         </div>
                     </td>
                 </tr>
@@ -53,11 +76,18 @@
                     <tr>
                         <th rowspan="4" th:text="#{notice.label.popUpNoticeSettingsInfo}"></th>
                         <th th:text="#{notice.label.height}"></th>
-                        <th colspan="2"><input type="number" id="popHeight" name="popHeight" th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" />px</th>
+                        <th colspan="2">
+                            <input type="number" id="popHeight" name="popHeight"
+                                   th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
+                                   oninput="maxLengthCheck(this)" />px
+                        </th>
                     </tr>
                     <tr>
                         <th th:text="#{notice.label.width}"></th>
-                        <td colspan="2"><input type="number" id="popWidth" name="popWidth" th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4" oninput="maxLengthCheck(this)" />px</td>
+                        <td colspan="2">
+                            <input type="number" id="popWidth" name="popWidth"
+                                   th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
+                                   oninput="maxLengthCheck(this)" />px</td>
                     </tr>
                     <tr>
                         <th th:text="#{notice.label.strtDt}"></th>
@@ -67,8 +97,11 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="popStrtDtCal" data-target-input="nearest">
-                                                <input type="text" id="popStrtDt" name="popStrtDt" class="form-control datetimepicker-input" data-target="#popStrtDtCal"/>
-                                                <div class="input-group-append" data-target="#popStrtDtCal" data-toggle="datetimepicker">
+                                                <input type="text" id="popStrtDt" name="popStrtDt"
+                                                       class="form-control datetimepicker-input"
+                                                       data-target="#popStrtDtCal"/>
+                                                <div class="input-group-append" data-target="#popStrtDtCal"
+                                                     data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
@@ -88,8 +121,10 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="popEndDtCal" data-target-input="nearest">
-                                                <input type="text" id="popEndDt" name="popEndDt" class="form-control datetimepicker-input" data-target="#popEndDtCal"/>
-                                                <div class="input-group-append" data-target="#popEndDtCal" data-toggle="datetimepicker">
+                                                <input type="text" id="popEndDt" name="popEndDt"
+                                                       class="form-control datetimepicker-input" data-target="#popEndDtCal"/>
+                                                <div class="input-group-append" data-target="#popEndDtCal"
+                                                     data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
@@ -103,7 +138,6 @@
                     </tr>
                 </table>
             </div>
-
             <div id="topNoticeTab">
                 <table class="table" border="1">
                     <tr>
@@ -115,8 +149,11 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="topNoticeStrtDtCal" data-target-input="nearest">
-                                                <input type="text" id="topNoticeStrtDt" name="topNoticeStrtDt" class="form-control datetimepicker-input" data-target="#topNoticeStrtDtCal"/>
-                                                <div class="input-group-append" data-target="#topNoticeStrtDtCal" data-toggle="datetimepicker">
+                                                <input type="text" id="topNoticeStrtDt" name="topNoticeStrtDt"
+                                                       class="form-control datetimepicker-input"
+                                                       data-target="#topNoticeStrtDtCal"/>
+                                                <div class="input-group-append" data-target="#topNoticeStrtDtCal"
+                                                     data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
@@ -136,9 +173,12 @@
                                     <div class="col-sm-6">
                                         <div class="form-group">
                                             <div class="input-group date" id="topNoticeEndDtCal"
-                                                data-target-input="nearest">
-                                                <input type="text" id="topNoticeEndDt" name="topNoticeEndDt" class="form-control datetimepicker-input" data-target="#topNoticeEndDtCal"/>
-                                                <div class="input-group-append" data-target="#topNoticeEndDtCal" data-toggle="datetimepicker">
+                                                 data-target-input="nearest">
+                                                <input type="text" id="topNoticeEndDt" name="topNoticeEndDt"
+                                                       class="form-control datetimepicker-input"
+                                                       data-target="#topNoticeEndDtCal">
+                                                <div class="input-group-append" data-target="#topNoticeEndDtCal"
+                                                     data-toggle="datetimepicker">
                                                     <div class="input-group-text">
                                                         <i class="fa fa-calendar"></i>
                                                     </div>
@@ -154,8 +194,17 @@
             </div>
             <div style="float: right;">
                 <button type="button" onclick="location.href='/notices/search'" th:text="#{common.btn.list}"></button>
-                <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert" th:onclick="restSubmit('post',[[@{/rest/notices}]])" th:text="#{common.btn.register}"></button>
-                <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update" th:onclick="restSubmit('put',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])" th:text="#{notice.label.modifyCompleted}"></button>
+                <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert"
+                        th:onclick="restSubmit('post',[[@{/rest/notices}]])" th:text="#{common.btn.register}">
+                </button>
+                <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update"
+                        th:onclick="restSubmit('put',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])"
+                        th:text="#{notice.label.modifyCompleted}">
+                </button>
+                <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
+                        th:onclick="restSubmit('delete',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])"
+                        th:text="#{common.btn.delete}">
+                </button>
             </div>
         </form>
     </div>
@@ -302,7 +351,7 @@
                 params: jsonData,
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    aliceJs.alert('글이 등록되었습니다.', function() {
+                    aliceJs.alert(i18n.get('common.msg.register'), function() {
                         window.location.href = '/notices/search';
                     });
 
@@ -316,31 +365,33 @@
     <script th:inline="javascript" th:if="${notice?.noticeNo}">
         /*<![CDATA[ */
         function restSubmit(method, url, async) {
-            const noticeNo = /*[[${notice.noticeNo}]]*/;
+            let jsonData = '';
+            if (method === 'put') {
+                const noticeNo = /*[[${notice.noticeNo}]]*/;
 
-            if (!validation()) {
-                return false;
+                if (!validation()) {
+                    return false;
+                }
+
+                delFileCheck();
+
+                const fileSeq = [];
+                document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
+                jsonData = JSON.stringify({
+                    noticeNo: noticeNo,
+                    noticeTitle: document.getElementById('noticeTitle').value,
+                    noticeContents: document.getElementById('noticeContents').value,
+                    popYn: document.getElementsByName('popYn')[0].value,
+                    popStrtDt: i18n.systemDateTime(document.getElementById('popStrtDt').value),
+                    popEndDt: i18n.systemDateTime(document.getElementById('popEndDt').value),
+                    popWidth: document.getElementById('popWidth').value,
+                    popHeight: document.getElementById('popHeight').value,
+                    topNoticeYn: document.getElementsByName('topNoticeYn')[0].value,
+                    topNoticeStrtDt: i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value),
+                    topNoticeEndDt: i18n.systemDateTime(document.getElementById('topNoticeEndDt').value),
+                    fileSeq: fileSeq
+                });
             }
-
-            delFileCheck();
-
-            const fileSeq = [];
-            document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
-            const jsonData = JSON.stringify({
-                noticeNo: noticeNo,
-                noticeTitle: document.getElementById('noticeTitle').value,
-                noticeContents: document.getElementById('noticeContents').value,
-                popYn: document.getElementsByName('popYn')[0].value,
-                popStrtDt: i18n.systemDateTime(document.getElementById('popStrtDt').value),
-                popEndDt: i18n.systemDateTime(document.getElementById('popEndDt').value),
-                popWidth: document.getElementById('popWidth').value,
-                popHeight: document.getElementById('popHeight').value,
-                topNoticeYn: document.getElementsByName('topNoticeYn')[0].value,
-                topNoticeStrtDt: i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value),
-                topNoticeEndDt: i18n.systemDateTime(document.getElementById('topNoticeEndDt').value),
-                fileSeq: fileSeq
-            });
-
             const opt = {
                 method: method,
                 url: url,
@@ -348,9 +399,15 @@
                 params: jsonData,
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    aliceJs.alert('글이 수정되었습니다.', function() {
-                        window.location = '/notices/search';
-                    });
+                    if (method === 'put') {
+                        aliceJs.alert(i18n.get('common.msg.modify'), function() {
+                            window.location = '/notices/search';
+                        });
+                    } else if (method === 'delete') {
+                        aliceJs.alert(i18n.get('common.msg.delete'), function() {
+                            window.location = '/notices/search';
+                        });
+                    }
                 }
             };
             aliceJs.sendXhr(opt)

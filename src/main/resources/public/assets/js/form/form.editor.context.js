@@ -1,8 +1,11 @@
 /**
-* @projectDescription Form Desigener Context menu Library
-*
-* @author woodajung
-* @version 1.0
+ * @projectDescription Form Desigener Context menu Library
+ *
+ * @author woodajung
+ * @version 1.0
+ *
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
 */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -12,9 +15,8 @@
     'use strict';
 
     const keycode = { arrowUp: 38, arrowDown: 40, enter: 13, ctrl: 17 };
-    let menu = null,           // 컨텍스트 메뉴
-        flag = 0,              // 0:menu off, 1:menu on
-
+    let contextMenu = null,           // 컨텍스트 메뉴
+        menuOn = false,
         itemInContext = null,  // 해당 element가 컨텍스트 메뉴를 출력하는 객체인지 여부 판단
 
         searchItems = [],      // '/' 검색시 일치하는 item 리스트
@@ -28,72 +30,32 @@
 
     /**
      * context menu on
-     * @param {Object} state {1=control 메뉴 on, 2=component 메뉴 on}
      */
-    function menuOn(state) {
-        if (flag === 1) { return false; }
+    function contextMenuOn() {
+        if (menuOn) { return false; }
         
-        flag = 1;
-        menu.classList.add('on');
-        menu.scrollTop = 0;
-
-        // 비활성 메뉴 활성화
-        let controlMenu = document.getElementById('context-menu-control');
-        const menuItems = controlMenu.querySelectorAll('li');
-        for (let i = 0, len = menuItems.length; i < len; i++) {
-            if (menuItems[i].classList.contains('disabled')) {
-                menuItems[i].classList.remove('disabled');
-            }
-        }
-        // 메뉴 on
-        let componentMenu = document.getElementById('context-menu-component');
-        if (state === 1 && !controlMenu.classList.contains('active')) {
-            controlMenu.classList.add('active');
-            componentMenu.classList.remove('active');
-        } else if (state === 2 && !componentMenu.classList.contains('active')) {
-            componentMenu.classList.add('active');
-            controlMenu.classList.remove('active');
-        }
-
-        // editbox 컴포넌트 1개만 존재할 경우 삭제 메뉴 비활성화
-        if (document.querySelectorAll('.component').length === 1 &&
-            document.querySelector('.component').getAttribute('data-type') === aliceForm.defaultType) {
-            const controlMenuDeleteItem = controlMenu.querySelector('[data-action="delete"]'); // 컨텍스트 메뉴 - 삭제
-            if (!controlMenuDeleteItem.classList.contains('disabled')) {
-                controlMenuDeleteItem.classList.add('disabled');
-            }
-        }
-
-        // 다중 컴포넌트 선택일 경우, 위/아래 컴포넌트 추가 메뉴 비활성화
-        if (editor.selectedComponentIds.length > 1) {
-            const controlMenuAddUpItem = controlMenu.querySelector('[data-action="addEditboxUp"]'); // 컨텍스트 메뉴 - 위에 editbox 추가
-            if (!controlMenuAddUpItem.classList.contains('disabled')) {
-                controlMenuAddUpItem.classList.add('disabled');
-            }
-            const controlMenuAddDownItem = controlMenu.querySelector('[data-action="addEditboxDown"]'); // 컨텍스트 메뉴 - 아래에 editbot 추가
-            if (!controlMenuAddDownItem.classList.contains('disabled')) {
-                controlMenuAddDownItem.classList.add('disabled');
-            }
-
-        }
+        menuOn = true;
+        contextMenu.classList.add('on');
+        contextMenu.scrollTop = 0;
     }
 
     /**
      * context menu off
      */
-    function menuOff() {
-        if (flag === 0) { return false; }
+    function contextMenuOff() {
+        if (!menuOn) { return false; }
 
-        flag = 0;
-        menu.classList.remove('on');
+        menuOn = false;
+        contextMenu.classList.remove('on');
+
         searchItems = [];
         selectedItem = null;
         selectedItemIdx = -1;
 
         // 메뉴 검색 초기화
-        const componentMenu = document.getElementById('context-menu-component');
-        for (let i = 0, len = componentMenu.children.length; i < len; i++) {
-            const item = componentMenu.children[i];
+        const menuItems = contextMenu.querySelectorAll('.menu-item');
+        for (let i = 0, len = menuItems.length; i < len; i++) {
+            const item = menuItems[i];
 
             if (item.style.display === 'none') {
                 item.style.display = 'block';
@@ -117,14 +79,13 @@
      * @return {Boolean} 검색어와 일치하는 component 메뉴가 존재하면 true 아니면 false
      */
     function menuItemSearch(searchText) {
-        const componentMenu = document.getElementById('context-menu-component');
+        const menuItems = contextMenu.querySelectorAll('.menu-item');
         let rslt = false;
         let tempText = searchText.replace('/', '');
         tempText = tempText.replace(/\s/gi, '').toLowerCase();
         searchItems = [];
-        
-        for (let i = 0, len = componentMenu.children.length; i < len; i++) {
-            const item = componentMenu.children[i];
+        for (let i = 0, len = menuItems.length; i < len; i++) {
+            const item = menuItems[i];
 
             if (item.classList.contains('active')) { item.classList.remove('active'); }
             if (searchText === '/') {
@@ -209,15 +170,14 @@
      * 키보드 위 아래 키로 컨텍스트 메뉴 scroll시 위치 재조정
      */
     function setScrollMenu() {
-        let contextHeight = menu.offsetHeight;
-        let contextScrollTop = menu.scrollTop;
+        let contextHeight = contextMenu.offsetHeight;
+        let contextScrollTop = contextMenu.scrollTop;
         let viewPort = contextScrollTop + contextHeight;
-        let elem = menu.getElementsByClassName('active')[0];
-        let itemHeight = elem.querySelector('.active').offsetHeight;
+        let itemHeight = contextMenu.querySelector('.active').offsetHeight;
         let contextOffset = itemHeight * selectedItemIdx;
 
         if (contextOffset < contextScrollTop || (contextOffset + itemHeight) > viewPort) {
-            menu.scrollTop = contextOffset;
+            contextMenu.scrollTop = contextOffset;
         }
     }
 
@@ -225,28 +185,41 @@
      * 컨텍스트 메뉴 위치 재조정
      * @param {Object} e 이벤트
      */
-    function setPositionMenu(e) {
+    function setPositionContextMenu(e) {
         let clickCoords = getPosition(e);
         let clickCoordsX = clickCoords.x;
         let clickCoordsY = clickCoords.y;
         
-        let menuWidth = menu.offsetWidth + 4;
-        let menuHeight = menu.offsetHeight + 4;
+        let menuWidth = contextMenu.offsetWidth + 4;
+        let menuHeight = contextMenu.offsetHeight + 4;
         
         let windowWidth = window.innerWidth;
         let windowHeight = window.innerHeight;
         
         if ( (windowWidth - clickCoordsX) < menuWidth ) {
-            menu.style.left = windowWidth - menuWidth + 'px';
+            contextMenu.style.left = windowWidth - menuWidth + 'px';
         } else {
-            menu.style.left = clickCoordsX + 'px';
+            contextMenu.style.left = clickCoordsX + 'px';
         }
         
         if ( (windowHeight - clickCoordsY) < menuHeight ) {
-            menu.style.top = windowHeight - menuHeight + 'px';
+            contextMenu.style.top = windowHeight - menuHeight + 'px';
         } else {
-            menu.style.top = clickCoordsY + 'px';
+            contextMenu.style.top = clickCoordsY + 'px';
         }
+    }
+
+    /**
+     * 컨텍스트 메뉴 위치를 tooltip 위치로 조정
+     * @param target 선택한 컴포넌트
+     */
+    function setPositionTooltipMenu(target) {
+        const clientRect = target.getBoundingClientRect(), // DomRect 구하기 (각종 좌표값이 들어있는 객체)
+        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
+        scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        contextMenu.style.top = (clientRect.top + scrollTop + 3) + 'px';
+        contextMenu.style.left = (clientRect.right + scrollLeft - 190 - 3) + 'px'; // 190은 컨텍스트 너비, 3은 여백
     }
     
     /**
@@ -283,7 +256,7 @@
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
         isCtrlPressed = ( userKeyCode === keycode.ctrl );
 
-        if (flag === 1 && selectedItem) { //컨텍스트 메뉴를 오픈한체 키보드 ↑, ↓, enter 클릭시 동작
+        if (menuOn && selectedItem) { //컨텍스트 메뉴를 오픈한체 키보드 ↑, ↓, enter 클릭시 동작
             let len = searchItems.length - 1;
 
             switch (userKeyCode) {
@@ -329,7 +302,7 @@
      */
     function onKeyPressHandler(e) {
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
-        if (userKeyCode === keycode.enter && flag === 0) {
+        if (userKeyCode === keycode.enter && !menuOn) {
             e.preventDefault();
             // editbox 에서 enter키를 입력하면 editbox를 아래 추가한다.
             if (e.target.isContentEditable) {
@@ -347,7 +320,7 @@
      */
     function onKeyUpHandler(e) {
         isCtrlPressed = false;
-        if (clickInsideElement(e, 'alice-form-properties-panel')) { return false; }
+        if (clickInsideElement(e, 'aside')) { return false; }
 
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
         if (selectedItem && (userKeyCode === keycode.arrowUp || userKeyCode === keycode.arrowDown)) { return false; }
@@ -365,10 +338,10 @@
                 let text = box.textContent;
                 if (text.length > 0 && text.charAt(0) !== '/') { return false; }
                 if (text.length > 0 && menuItemSearch(text)) {
-                    menuOn(2);
-                    setPositionMenu(e);
+                    contextMenuOn();
+                    setPositionContextMenu(e);
                 } else {
-                    menuOff();
+                    contextMenuOff();
                 }
             }
         }
@@ -379,23 +352,7 @@
      * @param {Object} e 이벤트객체
      */
     function onRightClickHandler(e) {
-        menuOff();
-
-        //상단메뉴 및 우측 세부 속성창을 클릭한 경우, 아무 동작도 하지 않는다.
-        if (clickInsideElement(e, 'alice-form-properties-panel') || clickInsideElement(e, 'alice-form-toolbar')) { return false; }
-
-        itemInContext = clickInsideElement(e, 'component');
-        if (itemInContext) {
-            e.preventDefault();
-            menuOn(1);
-            setPositionMenu(e);
-            if (editor.selectedComponentIds.indexOf(itemInContext.id) === -1) {
-                editor.selectedComponentIds.length = 0;
-                editor.selectedComponentIds.push(itemInContext.id);
-
-                editor.showComponentProperties();
-            }
-        }
+        contextMenuOff();
     }
     
     /**
@@ -404,29 +361,22 @@
      */
     function onLeftClickHandler(e) {
         //상단메뉴 및 우측 세부 속성창을 클릭한 경우, 아무 동작도 하지 않는다.
-        if (clickInsideElement(e, 'alice-form-properties-panel') || clickInsideElement(e, 'alice-form-toolbar')) {
-            if (flag === 1) {
-                menuOff();
-            }
+        if (clickInsideElement(e, 'aside') || clickInsideElement(e, 'toolbar')) {
+            contextMenuOff();
             return false;
         }
 
-        const clickedElem = clickInsideElement(e, 'context-item-link');
-        if (clickedElem) { // control context 메뉴가 오픈된 상태에서 해당 메뉴 선택한 경우
+        const clickedElem = clickInsideElement(e, 'menu-item');
+        if (clickedElem) { // 컨텍스트 메뉴가 오픈된 상태에서 해당 메뉴 선택한 경우
             e.preventDefault();
             menuItemListener(clickedElem);
         } else {
-            menuOff();
-            if (e.target.classList.contains('alice-form-panel') || e.target.classList.contains('drawing-board')) {
+            contextMenuOff();
+            if (e.target.classList.contains('content') || e.target.classList.contains('drawing-board')) {
                 editor.showFormProperties();
             }
             itemInContext = clickInsideElement(e, 'component');
             if (itemInContext) {
-                const box = itemInContext.querySelector('[contenteditable=true]');
-                if (box && e.target.classList.contains('add-icon')) { //+ 아이콘 클릭시 전체 컴포넌트 컨텍스트 메뉴
-                    menuOn(2);
-                    setPositionMenu(e);
-                }
                 if (isCtrlPressed) {  //배열에 담음
                     const removeIdx = editor.selectedComponentIds.indexOf(itemInContext.id);
                     if (removeIdx === -1) {
@@ -444,22 +394,32 @@
     }
     
     /**
+     * 마우스 스크롤 이벤트 핸들러
+     * @param {Object} e 이벤트객체
+     */
+    function onMouseScrollHandler(e) {
+        // 컨텍스트 메뉴가 표시된 상태에서 스크롤을 실행하면 컨텍스트 메뉴를 닫아준다.
+        if (e.target !== contextMenu) {
+            contextMenuOff();
+        }
+    }
+
+    /**
      * 마우스 down 이벤트 핸들러
      * @param {Object} e 이벤트객체
      */
     function onMouseDownHandler(e) {
-        if (e.target.classList.contains('add-icon')) { return false; }
-        if (e.target.classList.contains('move-icon')) {
+        if (e.target.classList.contains('move-handler')) {
             e.target.parentNode.setAttribute('draggable', 'true');
         }
     }
-    
+
     /**
      * drag 이벤트 핸들러
      * @param {Object} e 이벤트객체
      */
     function onDragStartHandler(e) {
-        menuOff();
+        contextMenuOff();
 
         dragComponent = e.target;
         if (dragComponent) {
@@ -471,7 +431,7 @@
                 editor.showComponentProperties();
             }
             //맨 마지막에 추가되길 원할 경우 필요한 drag 영역
-            lastComponent = document.createElement('component');
+            lastComponent = document.createElement('div');
             lastComponent.classList.add('component');
             lastComponent.style.height = '2px';
             dragComponent.parentNode.appendChild(lastComponent);
@@ -520,18 +480,19 @@
             //연속하여 선택된 컴포넌트 중 하나에 drag 하고자 하는 경우
             if (editor.selectedComponentIds.length > 1 && editor.selectedComponentIds.indexOf(targetComponent.id) !== -1) { return false; }
 
-            let components = document.querySelectorAll('.selected');
+            let components = document.querySelectorAll('.component.selected');
             let histories = [];
             for (let i = 0, len = components.length; i < len; i++) {
                 let moveComponent =  components[i];
                 targetComponent.insertAdjacentHTML('beforebegin', moveComponent.outerHTML);
-                targetComponent.parentNode.removeChild(moveComponent);
 
                 const compIdx = editor.getComponentIndex(moveComponent.id);
                 histories.push({0: JSON.parse(JSON.stringify(editor.data.components[compIdx])), 1: {}});
+                targetComponent.parentNode.removeChild(moveComponent);
             }
             targetComponent.parentNode.removeChild(lastComponent);
             lastComponent = null;
+
             //재정렬
             editor.reorderComponent();
             componentDragOff();
@@ -571,46 +532,46 @@
      * @param {HTMLElement} elem 컨텍스트 메뉴의 item 중 선택된 elem 객체
      */
     function menuItemListener(elem) {
-        menuOff();
+        contextMenuOff();
         let clickedComponent = itemInContext;
-        editor.hideComponentProperties();
-        
         switch (elem.getAttribute('data-action')) {
-            case 'copy': //컴포넌트 복사
+            case 'list': // 컴포넌트 전체 목록 출력
+                contextMenuOn();
+                setPositionTooltipMenu(clickedComponent);
+                break;
+            case 'copy': // 컴포넌트 복사
                 editor.copyComponent(clickedComponent.id);
                 break;
-            case 'delete': //컴포넌트 삭제
+            case 'delete': // 컴포넌트 삭제
                 editor.deleteComponent();
                 break;
-            case 'addEditboxUp': //위에 editbox 컴포넌트 추가
-                editor.addEditboxUp(clickedComponent.id);
-                break;
-            case 'addEditboxDown': //아래에 editbox 컴포넌트 추가
+            case 'add': // 바로 아래에 editbox 컴포넌트 추가
                 editor.addEditboxDown(clickedComponent.id);
                 break;
             default:
                 editor.addComponent(elem.getAttribute('data-action'), clickedComponent.id);
+                itemInContext = null;
         }
-        itemInContext = null;
     }
 
     /**
      * context menu 초기화 및 이벤트 등록
      */
     function init() {
-        menu = document.getElementById('context-menu');
-        itemInContext = menu;
-
-        menu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
+        contextMenu = document.getElementById('context-menu');
+        contextMenu.addEventListener('mousewheel', function (e) { //컨텍스트 메뉴에 스크롤이 잡히도록 추가
             let d = -e.deltaY || e.detail;
             this.scrollTop += ( d < 0 ? 1 : -1 ) * 30;
             e.preventDefault();
         }, false);
+        itemInContext = contextMenu;
+
         document.addEventListener('keydown', onKeyDownHandler, false);
         document.addEventListener('keypress', onKeyPressHandler, false);
         document.addEventListener('keyup', onKeyUpHandler, false);
         document.addEventListener('contextmenu', onRightClickHandler, false);
         document.addEventListener('click', onLeftClickHandler, false);
+        document.getElementById('form-panel').addEventListener('mousewheel', onMouseScrollHandler, false);
         
         //컴포넌트 drag & drop 이벤트
         document.addEventListener('mousedown', onMouseDownHandler, false);
@@ -622,7 +583,7 @@
         document.addEventListener('dragleave', onDragLeaveHandler, false);
         document.addEventListener('dragend', onDragEndHandler, false);
         
-        window.onresize = function(e) { menuOff(); };
+        window.onresize = function(e) { contextMenuOff(); };
     }
     
     exports.init = init;

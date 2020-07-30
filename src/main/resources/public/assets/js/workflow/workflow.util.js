@@ -521,7 +521,7 @@ workflowUtil.saveImportData = function(type, data) {
     let result = false;
     let saveUrl = '/rest/forms' + '?saveType=saveas';
     if (type === 'process') {
-        saveUrl = '/rest/processes' + '?saveType=saveas';
+        saveUrl = '/rest/processes-admin' + '?saveType=saveas';
     }
     aliceJs.sendXhr({
         method: 'POST',

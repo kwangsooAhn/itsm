@@ -1,6 +1,6 @@
 {
     "editbox": {},
-    "text": {
+    "inputbox": {
         "dataAttribute": [
             {
                 "id": "mappingId",
@@ -24,7 +24,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -35,7 +35,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -53,7 +53,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -61,7 +61,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -134,8 +134,8 @@
                 "value": "none|",
                 "type": "session",
                 "option": [
-                    {"id": "none", "name": "직접입력"},
-                    {"id": "select", "name": "자동입력",
+                    {"id": "none", "name": "직접"},
+                    {"id": "select", "name": "자동",
                         "items" : [
                             {"id": "userId", "name": "아이디"},
                             {"id": "userName", "name": "이름"},
@@ -173,7 +173,7 @@
                 "id": "regexpMsg",
                 "name": "Error Message",
                 "value": "",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": ""
@@ -182,7 +182,7 @@
                 "id": "lengthMin",
                 "name": "Min Length",
                 "value": "0",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": "number"
@@ -191,7 +191,7 @@
                 "id": "lengthMax",
                 "name": "Max Length",
                 "value": "30",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": "number"
@@ -222,7 +222,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -233,7 +233,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -251,7 +251,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -259,7 +259,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -321,7 +321,7 @@
                 "id": "rows",
                 "name": "Rows",
                 "value": "3",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": "number|min[2]"
@@ -350,7 +350,7 @@
                 "id": "lengthMin",
                 "name": "Min Length",
                 "value": "0",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": "number"
@@ -359,14 +359,14 @@
                 "id": "lengthMax",
                 "name": "Max Length",
                 "value": "500",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "",
                 "validate": "number"
             }
         ]
     },
-    "select": {
+    "dropdown": {
         "dataAttribute": [
             {
                 "id": "mappingId",
@@ -390,7 +390,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -401,7 +401,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -419,7 +419,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -427,7 +427,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -522,7 +522,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -533,7 +533,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -551,7 +551,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -559,7 +559,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -630,7 +630,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "right",
-                "type": "select",
+                "type": "button-option-icon",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
                 "code": "",
                 "unit": ""
@@ -672,7 +672,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -683,7 +683,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -701,7 +701,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -709,7 +709,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -780,7 +780,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "right",
-                "type": "select",
+                "type": "button-option-icon",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
                 "code": "",
                 "unit": ""
@@ -822,7 +822,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -833,7 +833,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px" ,
                 "validate": "number|min[10]"
@@ -841,7 +841,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -914,7 +914,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -924,7 +924,7 @@
             {
                 "id": "path",
                 "name": "Image Path",
-                "value": "https://placehold.it/720X100",
+                "value": "",
                 "type": "image",
                 "code": "",
                 "unit": "",
@@ -934,7 +934,7 @@
                 "id": "width",
                 "name": "Width",
                 "value": "720",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number"
@@ -943,7 +943,7 @@
                 "id": "height",
                 "name": "Height",
                 "value": "100",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number"
@@ -952,7 +952,7 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-icon",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
                 "code": "",
                 "unit": ""
@@ -983,7 +983,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -994,7 +994,7 @@
                 "id": "thickness",
                 "name": "Thickness",
                 "value": "1",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number"
@@ -1002,8 +1002,8 @@
             {
                 "id": "color",
                 "name": "Color",
-                "value": "#000000",
-                "type": "rgb",
+                "value": "rgb(0, 0, 0, 1)",
+                "type": "rgba",
                 "code": "",
                 "unit": ""
             },
@@ -1042,7 +1042,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -1053,7 +1053,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1071,7 +1071,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -1079,7 +1079,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1191,7 +1191,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -1202,7 +1202,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1220,7 +1220,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -1228,7 +1228,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1340,7 +1340,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -1351,7 +1351,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1369,7 +1369,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -1377,7 +1377,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1489,7 +1489,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -1500,7 +1500,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1518,7 +1518,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -1526,7 +1526,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1610,7 +1610,7 @@
             {
                 "id": "displayType",
                 "name": "Display Type",
-                "value": "",
+                "value": "editable",
                 "type": "hidden",
                 "code": "",
                 "unit": ""
@@ -1621,7 +1621,7 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "select",
+                "type": "button-option-text",
                 "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
                 "code": "",
                 "unit": ""
@@ -1639,7 +1639,7 @@
                 "id": "size",
                 "name": "Font Size",
                 "value": "12",
-                "type": "inputbox-underline",
+                "type": "inputbox",
                 "code": "",
                 "unit": "px",
                 "validate": "number|min[10]"
@@ -1647,7 +1647,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "#000000",
+                "value": "rgb(0, 0, 0)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""

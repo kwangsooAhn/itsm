@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
 </head>
@@ -14,7 +15,7 @@
                 <col width="280px">
                 <col width="150px">
             </colgroup>
-            <tbody>
+            <thead>
                 <tr>
                     <th th:text="#{common.label.title}"></th>
                     <th th:text="#{notice.label.popUp}"></th>
@@ -23,13 +24,19 @@
                     <th th:text="#{notice.label.noticePeriod}"></th>
                     <th th:text="#{common.label.writeDate}"></th>
                 </tr>
+            </thead>
+            <tbody>
                 <tr th:if="${#arrays.isEmpty(noticeList)}">
                     <td colspan="6" th:text="#{common.msg.noData}"></td>
                 </tr>
-                <tr th:unless="${#arrays.isEmpty(noticeList)}" class="tr-notice"
-                    th:each="topNotice, i : ${topNoticeList}" th:if="${i.count} < 4">
+                <tr class="tr-notice" th:each="topNotice, i: ${topNoticeList}"
+                    th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
                     <td class="align-left">
-                        <a th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}" th:text="${topNotice.noticeTitle}"/>
+                        <a sec:authorize="hasAnyAuthority('notice.read','notice.create','notice.delete')"
+                           th:text="${topNotice.noticeTitle}" th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}">
+                        </a>
+                        <a sec:authorize="hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
+                           th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}"></a>
                     </td>
                     <td th:if="${topNotice.popYn}"><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|">
                         <img src="../assets/media/icons/btn_popup.png"></a></td>
@@ -41,7 +48,10 @@
                 </tr>
                 <tr th:each="notice, z : ${noticeList}" th:if="${z.count} < 8">
                     <td class="align-left">
-                        <a th:href="@{/notices/{id}/view(id=${notice.noticeNo})}" th:text="${notice.noticeTitle}"></a>
+                        <a sec:authorize="hasAnyAuthority('notice.read', 'notice.create', 'notice.delete')"
+                           th:text="${notice.noticeTitle}" th:href="@{/notices/{id}/view(id=${notice.noticeNo})}"></a>
+                        <a sec:authorize="hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
+                           th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}"></a>
                     </td>
                     <td th:if="${notice.popYn}">
                         <a th:attr="onclick=|openPopUp('${notice.noticeNo}')|">

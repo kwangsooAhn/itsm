@@ -1,4 +1,6 @@
-body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family: 'Noto Sans KR', sans-serif; font-size: 15px;}
+@import "_reset.scss";
+
+body, h1, h2, h3, h4, h5, h6, input, textarea, select, botton {font-family: 'Noto Sans KR', sans-serif; font-size: 15px;}
 
 /*
    OTF/TTF는 Chrome 6+, Firefox 3.5, Opera 10+, Safari 3-5
@@ -11,6 +13,19 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {font-family: 'Noto Sans K
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');}
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
 
+.alicePortal {
+    overflow: auto;
+    height: 100vh;
+    width: 100vw;
+}
+
+@import "_variables.scss";
+@import "_mixin.scss";
+@import "_element.scss";
 @import "_browserGuide.scss";
 @import "_signup.scss";
-@import "_login.scss";
+@import "_error.scss";
+@import "_sessionInvalid.scss";
+@import "_search.scss";
+@import "_avatarFileUploader.scss";
+@import "_tooltip.scss";

@@ -1,14 +1,27 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/css; charset=UTF-8"/>
+    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
 </head>
-<body>
-<p th:text="#{portal.label.browserGuidePhrase}"></p>
-<a href="https://www.google.com/intl/ko/chrome/" th:text="#{portal.label.chrome}" target="_blank"></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://www.mozilla.org/ko/firefox/new/" th:text="#{portal.label.firefox}" target="_blank"></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://www.microsoft.com/ko-kr/edge" th:text="#{portal.label.msEdge}" target="_blank"></a>&nbsp;&nbsp;&nbsp;&nbsp;
-<a href="https://support.apple.com/ko_KR/downloads/safari" th:text="#{portal.label.safari}" target="_blank"></a>
+<body class="guide-body">
+<p class="guide-p" th:text="#{portal.label.browserGuidePhrase}"></p>
+
+<a class="guide-a" href="https://www.google.com/intl/ko/chrome/" target="_blank"><img
+        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_chrome.png}"/>
+    <p class="guide-p" th:text="#{portal.label.chrome}"/>
+</a>
+<a class="guide-a" href="https://www.mozilla.org/ko/firefox/new/" target="_blank"><img
+        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_firefox.png}"/>
+    <p class="guide-p" th:text="#{portal.label.firefox}"/>
+</a>
+<a class="guide-a" href="https://www.microsoft.com/ko-kr/edge" target="_blank"><img
+        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_msedge.png}"/>
+    <p class="guide-p" th:text="#{portal.label.msEdge}"/>
+</a>
+<a class="guide-a" href="https://support.apple.com/ko_KR/downloads/safari" target="_blank"><img
+        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_safari.png}"/>
+    <p class="guide-p" th:text="#{portal.label.safari}"/>
+</a>
 </body>
 </html>

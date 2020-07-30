@@ -371,7 +371,7 @@
             processData.description = document.getElementById('process_description').value;
             aliceJs.sendXhr({
                 method: 'POST',
-                url: '/rest/processes' + '?saveType=saveas',
+                url: '/rest/processes-admin' + '?saveType=saveas',
                 callbackFunc: function(xhr) {
                     if (xhr.responseText !== '') {
                         aliceJs.alert(i18n.get('common.msg.save'), function() {
@@ -388,34 +388,19 @@
             });
         };
 
-        const saveAsModal = new gModal({
-            title: i18n.get('common.btn.saveAs'),
-            body: createDialogContent(),
-            buttons: [
-                {
-                    content: i18n.get('common.btn.cancel'),
-                    classes: 'gmodal-button-red',
-                    bindKey: false, /* no key! */
-                    callback: function(modal) {
-                        modal.hide();
-                    }
-                }, {
-                    content: i18n.get('common.btn.save'),
-                    classes: 'gmodal-button-green',
-                    bindKey: false, /* no key! */
-                    callback: function(modal) {
-                        if (checkRequired()) {
-                            saveAs();
-                            modal.hide();
-                        }
-                    }
-                }
-            ],
-            close: {
-                closable: false,
+        /**
+         * 다른 이름으로 저장하기 모달 저장 CallBack.
+         */
+        const saveAsCallBack = function() {
+            if (checkRequired()) {
+                saveAs();
             }
-        });
-        saveAsModal.show();
+        }
+
+        /**
+         * 다른 이름으로 저장하기 모달.
+         */
+        const saveAsModal = aliceJs.confirm(createDialogContent(), () => saveAsCallBack(), () => '');
     }
 
     /**

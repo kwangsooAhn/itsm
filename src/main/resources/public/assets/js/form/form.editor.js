@@ -3,6 +3,9 @@
  *
  * @author woodajung
  * @version 1.0
+ *
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
  */
 (function (global, factory) {
     typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
@@ -51,7 +54,6 @@
         { 'keys': 'ctrl+q', 'command': 'editor.save(true);', 'force': false },                //폼 양식 저장하고 나가기
         { 'keys': 'insert', 'command': 'editor.copyComponent();', 'force': false },           //컴포넌트를 복사하여 바로 아래 추가
         { 'keys': 'ctrl+x,delete', 'command': 'editor.deleteComponent();', 'force': false },  //컴포넌트 삭제
-        { 'keys': 'ctrl+pageup', 'command': 'editor.addEditboxUp();', 'force': false },       //위에 컴포넌트 새로 만들기
         { 'keys': 'ctrl+pagedown', 'command': 'editor.addEditboxDown();', 'force': false },   //아래 컴포넌트 새로 만들기
         { 'keys': 'ctrl+home', 'command': 'editor.selectFirstComponent();', 'force': false }, //첫번째 컴포넌트 선택
         { 'keys': 'ctrl+end', 'command': 'editor.selectLastComponent();', 'force': false },   //마지막 컴포넌트 선택
@@ -285,34 +287,19 @@
             });
         };
 
-        const saveAsModal = new gModal({
-            title: i18n.get('common.btn.saveAs'),
-            body: createDialogContent(),
-            buttons: [
-                {
-                    content: i18n.get('common.btn.cancel'),
-                    classes: 'gmodal-button-red',
-                    bindKey: false, /* no key! */
-                    callback: function(modal) {
-                        modal.hide();
-                    }
-                }, {
-                    content: i18n.get('common.btn.save'),
-                    classes: 'gmodal-button-green',
-                    bindKey: false, /* no key! */
-                    callback: function(modal) {
-                        if (checkRequired()) {
-                            saveAs();
-                            modal.hide();
-                        }
-                    }
-                }
-            ],
-            close: {
-                closable: false,
+        /**
+         * 다른 이름으로 저장하기 모달 저장 CallBack.
+         */
+        const saveAsCallBack = function() {
+            if (checkRequired()) {
+                saveAs();
             }
-        });
-        saveAsModal.show();
+        }
+
+        /**
+         * 다른 이름으로 저장하기 모달.
+         */
+        const saveAsModal = aliceJs.confirm(createDialogContent(), () => saveAsCallBack(), () => '');
     }
 
     /**
@@ -334,13 +321,11 @@
                         }
                     }
                 } else { // add component
-                    let defaultComponentAttr = component.getData(changeData.type);
-                    let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, JSON.parse(JSON.stringify(changeData)));
-                    let element = component.draw(changeData.type, formPanel, mergeComponentAttr);
+                    let componentObj = component.draw(changeData.type, changeData);
                     const compOrder = Number(changeData.display.order) - 1;
                     let targetElement = formPanel.querySelectorAll('.component').item(compOrder);
-                    targetElement.parentNode.insertBefore(element.domElem, targetElement);
-                    setComponentData(element.attr);
+                    targetElement.parentNode.insertBefore(componentObj.domElem, targetElement);
+                    setComponentData(componentObj.property);
                 }
                 reorderComponent();
             } else { // modify
@@ -350,18 +335,18 @@
                         changeFormName();
                     }
                 } else { // component
-                    let element = component.draw(changeData.type, formPanel, JSON.parse(JSON.stringify(changeData)));
-                    let compAttr = element.attr;
-                    setComponentData(compAttr);
-                    let targetElement = document.getElementById(compAttr.componentId);
+                    let componentObj = component.draw(changeData.type, JSON.parse(JSON.stringify(changeData)));
+                    let compProp = componentObj.property;
+                    setComponentData(compProp);
+                    let targetElement = document.getElementById(compProp.componentId);
                     if (originData.display.order !== changeData.display.order) {
                         targetElement.innerHTML = '';
                         targetElement.remove();
                         const compOrder = Number(changeData.display.order) - 1;
                         let nextElement = formPanel.querySelectorAll('.component').item(compOrder);
-                        nextElement.parentNode.insertBefore(element.domElem, nextElement);
+                        nextElement.parentNode.insertBefore(componentObj.domElem, nextElement);
                     } else {
-                        targetElement.parentNode.insertBefore(element.domElem, targetElement);
+                        targetElement.parentNode.insertBefore(componentObj.domElem, targetElement);
                         targetElement.innerHTML = '';
                         targetElement.remove();
                     }
@@ -419,29 +404,36 @@
         if (type !== undefined) { //기존 editbox를 지운후, 해당 컴포넌트 추가
             let histories = [];
             let elem = document.getElementById(id);
-            let replaceEditbox = editor.data.components.filter(function(comp) { return comp.componentId === id; });
-            let replaceComp = component.draw(type, formPanel);
-            let compAttr = replaceComp.attr;
-            compAttr.componentId = id;
-            setComponentData(compAttr);
+            let replaceEditbox = editor.data.components.filter(function (comp) {
+                return comp.componentId === id;
+            });
+            let replaceObj = component.draw(type);
+            let compProp = replaceObj.property;
+            compProp.componentId = id;
+            setComponentData(compProp);
 
-            replaceComp.domElem.id = id;
-            elem.parentNode.insertBefore(replaceComp.domElem, elem);
+            replaceObj.domElem.id = id;
+            elem.parentNode.insertBefore(replaceObj.domElem, elem);
             elem.innerHTML = '';
             elem.remove();
 
             reorderComponent();
 
-            let addCompAttr = editor.data.components.filter(function(comp) { return comp.componentId === id; });
-            histories.push({0: JSON.parse(JSON.stringify(replaceEditbox[0])), 1: JSON.parse(JSON.stringify(addCompAttr[0]))});
+            let addCompAttr = editor.data.components.filter(function (comp) {
+                return comp.componentId === id;
+            });
+            histories.push({
+                0: JSON.parse(JSON.stringify(replaceEditbox[0])),
+                1: JSON.parse(JSON.stringify(addCompAttr[0]))
+            });
 
-            addEditboxDown(id, function(attr) {
+            addEditboxDown(id, function (attr) {
                 histories.push({0: {}, 1: JSON.parse(JSON.stringify(attr))});
                 history.saveHistory(histories);
             });
-        } else {
-            let editbox = component.draw(aliceForm.defaultType, formPanel);
-            setComponentData(editbox.attr);
+        } else { // Enter 키를 누를 경우 editbox를 추가한다.
+            let editbox = component.draw(aliceForm.defaultType);
+            setComponentData(editbox.property);
             editbox.domElem.querySelector('[contenteditable=true]').focus();
             selectedComponentIds.length = 0;
             selectedComponentIds.push(editbox.id);
@@ -464,16 +456,16 @@
             if (copyElemId === editor.data.components[i].componentId) {
                 let copyData = JSON.parse(JSON.stringify(editor.data.components[i]));
                 copyData.componentId = workflowUtil.generateUUID();
-                let comp = component.draw(copyData.type, formPanel, copyData);
-                setComponentData(comp.attr);
-                elem.parentNode.insertBefore(comp.domElem, elem.nextSibling);
+                let componentObj = component.draw(copyData.type, copyData);
+                setComponentData(componentObj.property);
+                elem.parentNode.insertBefore(componentObj.domElem, elem.nextSibling);
                 //재정렬
                 reorderComponent();
                 if (copyData.type === aliceForm.defaultType) {
-                    comp.domElem.querySelector('[contenteditable=true]').focus();
+                    componentObj.domElem.querySelector('[contenteditable=true]').focus();
                 }
-                comp.domElem.click();
-                let copyCompAttr = editor.data.components.filter(function(c) { return c.componentId === comp.id; });
+                componentObj.domElem.click();
+                let copyCompAttr = editor.data.components.filter(function(c) { return c.componentId === componentObj.id; });
                 history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(copyCompAttr[0]))}]);
                 break;
             }
@@ -502,6 +494,8 @@
             histories.push({0: JSON.parse(JSON.stringify(editor.data.components[compIdx])), 1: {}});
             editor.data.components.splice(compIdx, 1);
         }
+        previousComponentIds.length = 0;
+
         // 이력 재정렬
         if (histories.length > 1) {
             histories.sort(function (a, b) {
@@ -514,9 +508,9 @@
         let focusIdx = Math.min.apply(null, delIdx);
         let components = document.querySelectorAll('.component');
         if (components.length === 0) { // 컴포넌트 없을 경우 editbox 컴포넌트 신규 추가한다.
-            const editbox = component.draw(aliceForm.defaultType, formPanel);
-            histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.attr))});
-            setComponentData(editbox.attr);
+            const editbox = component.draw(aliceForm.defaultType);
+            histories.push({0: {}, 1: JSON.parse(JSON.stringify(editbox.property))});
+            setComponentData(editbox.property);
             focusElem = editbox.domElem;
         } else {
             focusElem = components[focusIdx - 1];
@@ -646,32 +640,6 @@
     }
 
     /**
-     * elemId 선택한 element Id를 기준으로 위에 editbox 추가 후 data의 display order 변경
-     * @param {String} elemId 선택한 element Id
-     */
-    function addEditboxUp(elemId) {
-        if (typeof elemId === 'undefined' && selectedComponentIds.length > 1) { return false; } //다중 선택일 경우 동작 안함
-        let addElemId = elemId || selectedComponentIds[0];
-        let elem = document.getElementById(addElemId);
-        if (elem === null) { return; }
-
-        let editbox = component.draw(aliceForm.defaultType, formPanel);
-        setComponentData(editbox.attr);
-        elem.parentNode.insertBefore(editbox.domElem, elem);
-
-        // 컴포넌트 순서 재정렬
-        reorderComponent();
-
-        editbox.domElem.querySelector('[contenteditable=true]').focus();
-        selectedComponentIds.length = 0;
-        selectedComponentIds.push(editbox.id);
-        showComponentProperties();
-
-        let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.componentId === editbox.id; });
-        history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
-    }
-
-    /**
      * elemId 선택한 element Id를 기준으로 아래에 editbox 추가 후 data의 display order 변경
      * @param {String} elemId 선택한 element Id
      * @param {Function} callbackFunc callback function
@@ -684,24 +652,22 @@
 
         let editbox = null;
         if (elem.nextSibling !== null) {
-            editbox = component.draw(aliceForm.defaultType, formPanel);
-            setComponentData(editbox.attr);
+            editbox = component.draw(aliceForm.defaultType);
+            setComponentData(editbox.property);
             elem.parentNode.insertBefore(editbox.domElem, elem.nextSibling);
         } else { //마지막에 추가된 경우
-            editbox = component.draw(aliceForm.defaultType, formPanel);
-            setComponentData(editbox.attr);
+            editbox = component.draw(aliceForm.defaultType);
+            setComponentData(editbox.property);
             elem.parentNode.appendChild(editbox.domElem);
         }
         // 컴포넌트 순서 재정렬
         reorderComponent();
 
         editbox.domElem.querySelector('[contenteditable=true]').focus();
-        selectedComponentIds.length = 0;
-        selectedComponentIds.push(editbox.id);
-        showComponentProperties();
+        editbox.domElem.click();
 
         if (typeof callbackFunc === 'function') {
-            callbackFunc(editbox.attr);
+            callbackFunc(editbox.property);
         } else {
             let addEditboxCompAttr = editor.data.components.filter(function(comp) { return comp.componentId === editbox.id; });
             history.saveHistory([{0: {}, 1: JSON.parse(JSON.stringify(addEditboxCompAttr[0]))}]);
@@ -802,9 +768,9 @@
      */
     function redrawComponent(data) {
         const id = data.componentId;
-        let element = component.draw(data.type, formPanel, data);
+        let element = component.draw(data.type, data);
         if (element) {
-            let compAttr = element.attr;
+            let compAttr = element.property;
             compAttr.componentId = id;
             setComponentData(compAttr);
 
@@ -829,8 +795,9 @@
      * @param {Number} [index] 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
      */
     function changePropertiesValue(value, group, field, index) {
-        let histories = [];
+        if (typeof group === 'undefined' || group === '') { return false; }
 
+        let histories = [];
         for (let i = 0, len = selectedComponentIds.length; i < len; i++) {
             const compIdx = getComponentIndex(selectedComponentIds[i]);
             let componentData = editor.data.components[compIdx];
@@ -862,30 +829,26 @@
      */
     function setDateFormat(e) {
         let el = e.target || e;
-        let parentEl = e.target ? el.parentNode : el.parentNode.parentNode;
-        if (parentEl.classList.contains('property-field')) {
-            let changePropertiesArr = el.name.split('-');
-            changePropertiesValue(el.value, changePropertiesArr[0], changePropertiesArr[1]);
-        } else {
-            let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
-            if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
+        let parentEl = e.target ? el.parentNode.parentNode : el.parentNode.parentNode.parentNode;
+        let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
+        if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
 
-            let checkedPropertiesArr = checkedRadio.name.split('-');
-            let changeValue = checkedRadio.value;
-            if (changeValue === 'none' || changeValue === 'now') {
-                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+        let checkedPropertiesArr = checkedRadio.name.split('-');
+        let changeValue = checkedRadio.value;
+        if (changeValue === 'none' || changeValue === 'now') {
+            changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+        } else {
+            let inputCells = parentEl.querySelectorAll('input[type="text"]');
+            if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
+                changeValue += ('|' + inputCells[0].value);
             } else {
-                let inputCells = parentEl.querySelectorAll('input[type="text"]');
-                if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
-                    changeValue += ('|' + inputCells[0].value);
-                } else {
-                    for (let i = 0, len = inputCells.length; i < len; i++ ) {
-                        changeValue += ('|' + inputCells[i].value);
-                    }
+                for (let i = 0, len = inputCells.length; i < len; i++ ) {
+                    changeValue += ('|' + inputCells[i].value);
                 }
-                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
             }
+            changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
         }
+
     }
 
     /**
@@ -894,11 +857,11 @@
      * @param data 컴포넌트 데이터
      */
     function changeCustomCodeHandler(e, data) {
-        let customCodeDataSelect = (typeof data !== 'undefined') ? e : propertiesPanel.querySelector('input[id=code]').parentNode.querySelector('select');
+        let customCodeDataSelect = (typeof data !== 'undefined') ? e : propertiesPanel.querySelector('input[id=code]').parentNode.parentNode.querySelector('select');
         let customCode = (typeof data !== 'undefined') ? data.customCode : e.target.value;
         customCodeDataSelect.innerHTML = '';
         if (typeof data === 'undefined' && typeof e.target !== 'undefined' && e.target.id === 'customCode') {
-            const changePropertiesArr = e.target.parentNode.id.split('.');
+            const changePropertiesArr = e.target.parentNode.id.split('-');
             changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
         }
 
@@ -918,13 +881,65 @@
                     if (customCodeDataSelect.selectedIndex !== -1) {
                         val += customCodeDataSelect.options[customCodeDataSelect.selectedIndex].text;
                     }
-                    const targetName = targetRadio.name.split('.');
+                    const targetName = targetRadio.name.split('-');
                     changePropertiesValue(val, targetName[0], targetName[1]);
                 }
             },
             contentType: 'application/json; charset=utf-8',
             showProgressbar: false
         });
+    }
+
+    /**
+     * 컴포넌트 세부 속성에  button click 이벤트 (Position, Align 등 버튼이 고정)
+     * @param e 이벤트
+     */
+    function toggleOptionButtonClickHandler(e) {
+        const elem = e.target;
+        const parentElem = elem.parentNode; // property-field-position, property-field-align
+        let changePropertiesArr = parentElem.parentNode.id.split('-'); // property-field
+        const isActive = elem.classList.contains('active');
+        if (!isActive) {
+            for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
+                let child = parentElem.childNodes[i];
+                if (child.classList.contains('active')) {
+                    child.classList.remove('active');
+                }
+            }
+            elem.classList.add('active');
+            changePropertiesValue(elem.id, changePropertiesArr[0], changePropertiesArr[1]);
+        }
+    }
+
+    function toggleSessionButtonClickHandler(e) {
+        const elem = e.target; // 선택된 toggle 버튼
+        const parentElem = elem.parentNode; // property-field-toggle
+        const parentGroupElem = parentElem.parentNode; // property-field
+        let changePropertiesArr = parentGroupElem.id.split('-'); // property-field
+        const isActive = elem.classList.contains('active');
+        if (!isActive) {
+            let defaultValue = '';
+            for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
+                const child = parentElem.childNodes[i];
+                const toggleElem = parentGroupElem.querySelector('#' + child.name);
+                if (child.name === elem.name) {
+                    elem.classList.add('active');
+                    toggleElem.style.display = 'block';
+                    if (toggleElem.tagName === 'SELECT') {
+                        toggleElem.options[0].selected = true;
+                        defaultValue = toggleElem.options[0].value + '|' + toggleElem.options[0].text;
+                    } else {
+                        defaultValue = toggleElem.value;
+                    }
+                } else {
+                    if (child.classList.contains('active')) {
+                        child.classList.remove('active');
+                    }
+                    toggleElem.style.display = 'none';
+                }
+            }
+            changePropertiesValue(elem.name + '|' + defaultValue, changePropertiesArr[0], changePropertiesArr[1]);
+        }
     }
 
     /**
@@ -962,7 +977,7 @@
      * @param e 이벤트
      */
     function addOptionHandler(e) {
-        const tb = e.target.parentNode.querySelector('table');
+        const tb = e.target.parentNode.parentNode.parentNode.querySelector('table');
         const row = document.createElement('tr');
         const rowCount = tb.rows.length;
         const firstRow = tb.rows[0];
@@ -970,15 +985,20 @@
 
         row.innerHTML = lastRow.innerHTML;
         let rowData = {};
-        for (let i = 1; i < firstRow.cells.length; i++) {
+        for (let i = 0; i < firstRow.cells.length; i++) {
             const cell = row.cells[i];
             const inputCell = cell.querySelector('input');
-            inputCell.addEventListener('change', function(e) {
-                changePropertiesValue(e.target.value, tb.parentNode.id, e.target.parentNode.id, rowCount - 1);
-            }, false);
-            if (cell.id === 'seq') {
+            if (inputCell.type === 'checkbox') { // seq
                 inputCell.value = rowCount;
+                inputCell.id = 'checkbox-' + rowCount;
+                inputCell.parentNode.setAttribute('for', 'checkbox-' + rowCount);
             } else {
+                inputCell.addEventListener('change', function(e) {
+                    let changeCell = e.target;
+                    let changeTd = changeCell.parentNode;
+                    let changeRow = changeTd.parentNode;
+                    changePropertiesValue(changeCell.value, tb.parentNode.id, changeTd.id, changeRow.childNodes[0].childNodes[0].childNodes[0].value - 1);
+                }, false);
                 inputCell.value = firstRow.cells[i].getAttribute('data-default');
             }
             rowData[cell.id] = inputCell.value;
@@ -992,23 +1012,24 @@
      * @param e
      */
     function removeOptionHandler(e) {
-        const tb = e.target.parentNode.querySelector('table');
+        const tb = e.target.parentNode.parentNode.parentNode.querySelector('table');
         const compIdx = getComponentIndex(selectedComponentIds[0]);
         let removeOptionData = JSON.parse(JSON.stringify(editor.data.components[compIdx][tb.parentNode.id]));
         let minusCnt = 0;
         let rowCount = tb.rows.length;
         for (let i = 1; i < rowCount; i++) {
             let row = tb.rows[i];
-            let chkBox = row.cells[0].childNodes[0];
-            let seqCell = row.cells[1].childNodes[0];
+            let chkBox = row.cells[0].childNodes[0].childNodes[0];
             if (chkBox.checked && rowCount > 2) {
                 tb.deleteRow(i);
                 removeOptionData.splice(i - 1, 1);
                 rowCount--;
                 i--;
                 minusCnt++;
-            } else if (seqCell.value !== i) {
-                seqCell.value = i;
+            } else if (chkBox.value !== i) {
+                chkBox.value = i;
+                chkBox.id = 'checkbox-' + i;
+                chkBox.parentNode.setAttribute('for', 'checkbox-' + i);
                 removeOptionData[i - 1].seq = i;
             }
         }
@@ -1023,10 +1044,9 @@
     function showComponentProperties() {
         if (previousComponentIds.toString() === selectedComponentIds.toString()) { return false; }
         hideComponentProperties();
-
-        previousComponentIds = selectedComponentIds.slice();
         if (selectedComponentIds.length === 0) { return false; }
-
+        previousComponentIds = selectedComponentIds.slice();
+        
         // 하나만 선택되었고, 현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
         const selectedComponentElem = document.getElementById(selectedComponentIds[0]);
         if (selectedComponentElem === null) { return false; }
@@ -1041,6 +1061,22 @@
             let selectedElem = document.getElementById(selectedComponentIds[i]);
             if (selectedElem !== null) {
                 selectedElem.classList.add('selected');
+                if (len > 1) {
+                    // 선택된 컴포넌트가 여러개면, 상단에 tooptip menu에 delete 항목만 표시
+                    const menuItems = selectedElem.querySelectorAll('.menu-item');
+                    for (let j = 0, menuLen = menuItems.length; j < menuLen; j++) {
+                        if (!menuItems[j].classList.contains('delete')) {
+                            menuItems[j].classList.add('hidden');
+                        }
+                    }
+
+                    // 선택된 컴포넌트가 인접할 경우 border 없애기
+                    if (selectedElem.previousSibling !== null &&
+                        selectedComponentIds.indexOf(selectedElem.previousSibling.id) !== -1 &&
+                        !selectedElem.previousSibling.classList.contains('adjoin')) {
+                        selectedElem.previousSibling.classList.add('adjoin');
+                    }
+                }
                 const componentType = selectedElem.getAttribute('data-type');
                 if (selectedComponentTypes.indexOf(componentType) === -1) {
                     selectedComponentTypes.push(componentType);
@@ -1053,11 +1089,10 @@
 
         // 선택된 첫번째 컴포넌트의 속성을 출력한다.
         let compIdx = getComponentIndex(selectedComponentIds[0]);
-        if (compIdx === -1) { return false; }
-
         let componentData = editor.data.components[compIdx];
         let properties = initProperties(componentData);
-        const componentTemplate = document.getElementById('component-properties');
+
+        const componentTemplate = document.getElementById('component-template');
         const componentElem = componentTemplate.content.cloneNode(true);
 
         // 1. 컴포넌트가 2개 이상이면 dataAttribute 속성은 보여주지 않는다.
@@ -1065,15 +1100,15 @@
         if (selectedComponentIds.length > 1) {
             // 3. 서로 다른 컴포넌트이고, Divider, Image, Label가 포함되어 있다면 아무 속성도 출력하지 않는다.
             if ((selectedComponentTypes.length > 1 && isHideComponent) || (selectedComponentTypes.length === 1 && selectedComponentTypes[0] === aliceForm.defaultType)) {
-                const infoElem = document.createElement('div');
-                infoElem.classList.add('property-group', 'info-msg');
-                const infoText = document.createTextNode(i18n.get('form.msg.information'));
-                infoElem.appendChild(infoText);
-                propertiesPanel.appendChild(infoElem);
+                const emptyPanel = componentElem.querySelector('.property-empty');
+                if (!emptyPanel.classList.contains('on')) {
+                    emptyPanel.classList.add('on');
+                    propertiesPanel.appendChild(componentElem);
+                }
                 return false;
             }
             if (properties.hasOwnProperty('dataAttribute')) { delete properties.dataAttribute; }
-            // 4. label, image, divider 는 display 속성을 모두 보여준다.
+            // 4. label, image, divider 는 display의 column 속성만 보여준다.
             if (properties.hasOwnProperty('display') && !isHideComponent) {
                 properties.display = properties.display.filter(function (c) {
                     return c.id.includes('column');
@@ -1084,23 +1119,30 @@
 
         } else {
             // 5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
-            const componentTitleData = component.getTitle(componentData.type);
-            const componentTitleElem = componentElem.querySelector('.property-title');
-            componentTitleElem.textContent = componentTitleData.name;
-            componentTitleElem.style.display = 'block';
+            const componentTitleElem = componentElem.querySelector('.properties-title');
+            if (!componentTitleElem.classList.contains('on')) {
+                const componentTitleData = component.getName(componentData.type);
+                componentTitleElem.insertAdjacentHTML('beforeend', `<h2>${componentTitleData.name}</h2>`);
+                componentTitleElem.classList.add('on');
+            }
         }
+
         // 세부 속성을 출력한다.
         let buttonGroupExist = false;
         let buttonGroupElem = null;
         Object.keys(properties).forEach(function(group) {
             const groupElem = componentElem.querySelector('#' + group);
             if (groupElem !== null) {
-                groupElem.style.display = 'block';
-                if (group === 'option') { // 이벤트 핸들러 등록
-                    groupElem.querySelector('.plus').addEventListener('click', addOptionHandler, false);
+                // 표시하고자 하는 property group을 보여준다.
+                if (!groupElem.classList.contains('on')) { groupElem.classList.add('on'); }
+
+                // 옵션이 존재할 경우 이벤트 핸들러 등록
+                if (group === 'option') {
                     groupElem.querySelector('.minus').addEventListener('click', removeOptionHandler, false);
+                    groupElem.querySelector('.plus').addEventListener('click', addOptionHandler, false);
                 }
-                if (Array.isArray(properties[group])) {// 세부 속성 추가
+                // 세부 속성 추가
+                if (Array.isArray(properties[group])) {
                     Object.keys(properties[group]).forEach(function(field) {
                         const fieldProp = properties[group][field];
                         if (typeof fieldProp.id !== 'undefined' && fieldProp.type !== 'hidden') {
@@ -1134,47 +1176,104 @@
                                 fieldGroupElem.setAttribute('id', group + '-' + fieldProp.id);
                                 groupElem.appendChild(fieldGroupElem);
 
-                                //속성명 및 도움말 추가
-                                let fieldTemplate =
-                                    `<span class='property-field-name'>${fieldProp.name}${typeof fieldProp.help === 'undefined' ? '' : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`}</span>`;
+                                //도움말 추가
+                                const tooltipTemplate = (typeof fieldProp.help === 'undefined') ? `` : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`;
+                                let fieldTemplate = ``;
 
                                 // 상세속성 추가
                                 switch (fieldProp.type) {
-                                    case 'checkbox-boolean':
-                                        fieldTemplate +=
-                                            `<input type='checkbox' class='property-field-value' name='${fieldProp.id}' ${fieldProp.value ? 'checked' : ''}>`;
+                                    case 'inputbox':
+                                        fieldTemplate =
+                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<input type="text" class="property-value" value="${fieldProp.value}"/>`;
+
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
+                                        break;
+                                    case 'checkbox-boolean': // 라벨 클릭시에 체크박스가 동작한다.
+                                        fieldTemplate =
+                                            `<label class="property-name" for="checkbox-${componentData.componentId}-${fieldProp.id}">` +
+                                                `<span>${fieldProp.name}</span>${tooltipTemplate}` +
+                                                `<input type="checkbox" class="property-value" id="checkbox-${componentData.componentId}-${fieldProp.id}" name="${fieldProp.id}" ${fieldProp.value ? 'checked' : ''}>` +
+                                                `<span></span>` +
+                                            `</label>`;
+
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
+                                        break;
+                                    case 'button-option-text': // position
+                                    case 'button-option-icon': // image 컴포넌트 정렬
+                                        let optionType = fieldProp.type.split('-')[2];
+
+                                        const fieldOptions = fieldProp.option.map(function (opt) {
+                                            return `<button type="button" id="${opt.id}" class="${fieldProp.value === opt.id ? 'active' : ''}">${optionType === 'text' ? opt.name : ''}</button>`;
+                                        }).join('');
+
+                                        fieldTemplate =
+                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<div class="property-field-${optionType}">${fieldOptions}</div>`;
+
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
+                                        // 버튼 이벤트 핸들러 추가
+                                        const buttonElemList = fieldGroupElem.querySelector('.property-field-' + optionType).children;
+                                        for (let i = 0, len = buttonElemList.length; i < len; i++) {
+                                            buttonElemList[i].addEventListener('click', toggleOptionButtonClickHandler, false);
+                                        }
                                         break;
                                     case 'customcode':
                                         const fieldCustomCodeOptions = customCodeList.map(function (code) {
                                             return `<option value='${code.customCodeId}' ${fieldProp.value === code.customCodeId ? "selected='selected'" : ""}>${code.customCodeName}</option>`;
                                         }).join('');
-                                        fieldTemplate +=
-                                            `<select class='property-field-value' id='${fieldProp.id}'>${fieldCustomCodeOptions}</select>`;
+
+                                        fieldTemplate =
+                                            `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<select class='property-value' id='${fieldProp.id}'>${fieldCustomCodeOptions}</select>`;
+
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         // 첫번째 커스텀 코드를 저장
                                         if (fieldProp.value === '' && customCodeList.length > 0) {
                                             changePropertiesValue(customCodeList[0].customCodeId, group, fieldProp.id);
                                         }
                                         break;
                                     case 'image':
-                                        fieldTemplate +=
-                                            `<input type='text' class='property-field-value' value='${fieldProp.value}'>
-                                            <button type='button' onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1200, height=700");'>select</button>`;
-                                        break;
-                                    case 'inputbox':
-                                    case 'inputbox-underline':
-                                        fieldTemplate +=
-                                            `<input type='text' class='property-field-value${fieldProp.type === "inputbox-underline" ? " underline" : ""}' value='${fieldProp.value}'/>`;
+                                        fieldTemplate =
+                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<div class="property-field-image">` +
+                                                `<input type="text" class="property-value" value="${fieldProp.value}">` +
+                                                `<button type="button" onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1200, height=700");'></button>` +
+                                            `</div>`;
+
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
                                     case 'rgb':
-                                        fieldTemplate +=
-                                            `<span class='selected-color-layer'><span class='selected-color' style='background-color: ${fieldProp.value};'></span></span>
-                                            <input type='text' class='property-field-value underline color' id='${group}-${fieldProp.id}-value'  value='${fieldProp.value}' readonly>`;
+                                    case 'rgba':
+                                        fieldTemplate =
+                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<div class="property-field-color-picker">` +
+                                                `<span class="selected-color-layer"><span class="selected-color" style="background-color: ${fieldProp.value};"></span></span>` +
+                                                `<input type="text" class="property-value color" id="${group}-${fieldProp.id}-value"  value="${fieldProp.value}" readonly>` +
+                                            `</div>`;
 
-                                        let colorPaletteLayer = `<div id="${group + "-" + fieldProp.id}-colorPaletteLayer">
-                                                <div id='${group + "-" + fieldProp.id}-colorPalette' class='color-palette'></div>
-                                                <div id='${group + "-" + fieldProp.id}-colorPalette-opacity' class='color-palette-opacity'></div>
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
+
+                                        let colorPaletteLayer = `<div id="${group + '-' + fieldProp.id}-colorPaletteLayer">
+                                                <div id="${group + '-' + fieldProp.id}-colorPalette" class="color-palette"></div>
+                                                <div id="${group + '-' + fieldProp.id}-colorPalette-opacity" class="color-palette-opacity"></div>
                                                 </div>`;
-                                        groupElem.insertAdjacentHTML('beforeend', colorPaletteLayer);
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', colorPaletteLayer);
+
+                                        // color palette 초기화
+                                        let option = {
+                                            isOpacity: (fieldProp.type === 'rgba'), // 불투명도 사용여부
+                                            data: {
+                                                isSelected: true, // 기존 색상 선택 여부
+                                                selectedClass: 'selected', // 기존 값 색상에 css 적용 (테두리)
+                                                value: fieldProp.value // 기존 값
+                                            }
+                                        };
+
+                                        colorPalette.initColorPalette(fieldGroupElem.querySelector('#' + group + '-' + fieldProp.id + '-colorPaletteLayer'),
+                                            fieldGroupElem.querySelector('.selected-color'),
+                                            fieldGroupElem.querySelector('#' + group + '-' + fieldProp.id + '-value'),
+                                            option);
                                         break;
                                     case 'radio-datetime':
                                         fieldGroupElem.classList.add('vertical');
@@ -1187,32 +1286,54 @@
                                                 optionDefaultArr = defaultFormatArr;
                                             }
                                             let labelName = opt.name.split('{0}');
+                                            return `<div class='vertical-group radio-datetime'>` +
+                                                `<label for="${opt.id}">` +
+                                                    `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
+                                                    `${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><span>" + labelName[1] + "</span>" : ""}` +
+                                                    `${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><span id='" + opt.id + "-day'>" + labelName[1] + "</span>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><span id='" + opt.id + "-hour'>" + labelName[2] + "</span>" : ""}` +
+                                                    `${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "'/>" : ""}` +
+                                                    `${opt.id === 'now' || opt.id === 'none' ? "<span>" + labelName[0] + "</span>" : ""}`+
+                                                `</label>` +
+                                            `</div>`;
 
-                                            return `<div class='vertical-group radio-datetime'>
+                                            /*return `<div class='vertical-group radio-datetime'>
                                             <input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} />
-                                            ${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><label for='" + opt.id + "'>" + labelName[1] + "</label>" : ""}
-                                            ${opt.id === 'datetime' ? "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-day'>" + labelName[1] + "</label>" + "<input type='text' class='property-field-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-hour'>" + labelName[2] + "</label>" : ""}
+                                            ${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><label for='" + opt.id + "'>" + labelName[1] + "</label>" : ""}
+
+                                            ${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-day'>" + labelName[1] + "</label>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-hour'>" + labelName[2] + "</label>" : ""}
+
                                             ${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
                                             ${opt.id === 'now' || opt.id === 'none' ? "<label for='" + opt.id + "'>" + labelName[0] + "</label>" : ""}
-                                            </div>`;
+                                            </div>`;*/
                                         }).join('');
 
-                                        fieldTemplate += fieldDatetimeOptions;
+                                        fieldTemplate = `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>${fieldDatetimeOptions}`;
+
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
                                     case 'radio-custom':
                                         fieldGroupElem.classList.add('vertical');
                                         const fieldValueArr = fieldProp.value.split('|');
                                         const fieldRadioOptions = fieldProp.option.map(function (opt) {
-                                            return `<div class='vertical-group'>
-                                            <input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""}/>
-                                            <label for='${opt.id}'>${opt.name}</label>
-                                            ${opt.id !== 'none' ? "<br/><select>" + opt.items.map(function (item) {
+                                            return `<div class="vertical-group radio-custom">` +
+                                            `<label for="${opt.id}">` +
+                                                `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
+                                                `<span>${opt.name}</span>` +
+                                            `</label>` +
+                                            `${opt.id !== 'none' ? "<select>" + opt.items.map(function (item) {
                                                 return `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`
-                                            }).join('') + "</select>" : ""}
-                                            </div>`;
+                                            }).join('') + "</select>" : ""}` +
+                                            `</div>`;
                                         }).join('');
 
-                                        fieldTemplate += fieldRadioOptions;
+                                        fieldTemplate = `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>${fieldRadioOptions}`;
+
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
+
+                                        //custom-code 초기화
+                                        const customCodeDataSelect = fieldGroupElem.querySelector('input[id=code]').parentNode.parentNode.querySelector('select');
+                                        changeCustomCodeHandler(customCodeDataSelect, componentData[group]);
+
                                         break;
                                     case 'select':
                                         let fieldSelectOptions = ``;
@@ -1222,64 +1343,68 @@
                                          fieldSelectOptions += fieldProp.option.map(function (opt) {
                                             return `<option value='${opt.id}' ${fieldProp.value === opt.id && selectedComponentIds.length === 1 ? "selected='selected'" : ""}>${opt.name}</option>`;
                                         }).join('');
-                                        fieldTemplate +=
-                                            `<select class='property-field-value'>${fieldSelectOptions}</select>`;
+                                        fieldTemplate =
+                                            `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<select class='property-value'>${fieldSelectOptions}</select>`;
+
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
                                     case 'slider':
-                                        fieldTemplate +=
-                                            `<input type='range' class='property-field-value' id='${group + "-" + fieldProp.id}' min='1' max='12' value='${fieldProp.value}'/>
-                                             <input type='text' class='underline' id='${group + "-" + fieldProp.id}-value' value='${fieldProp.value}' readonly/>`;
+                                        fieldTemplate =
+                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<div class="property-field-range">` +
+                                                `<input type="range" class="property-value" id="${group + '-' + fieldProp.id}" min="1" max="12" value="${fieldProp.value}"/>` +
+                                                `<input type="text" id="${group + '-' + fieldProp.id}-value" value="${fieldProp.value}" readonly/>` +
+                                            `</div>`;
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
                                     case 'session':
+                                        fieldTemplate = `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>`;
                                         const propValueArr = fieldProp.value.split('|');
                                         const fieldSessionOptions = fieldProp.option.map(function (opt) {
-                                            return `<option value='${opt.id}' ${propValueArr[0] === opt.id ? "selected='selected'" : ""}>${opt.name}</option>`;
+                                            return `<button type="button" name="${opt.id}" class="${propValueArr[0]  === opt.id ? 'active' : ''}">${opt.name}</button>`;
                                         }).join('');
-                                        fieldTemplate +=
-                                            `<select class='property-field-value' id='toggle'>${fieldSessionOptions}</select>`;
+                                        fieldTemplate += `<div class="property-field-toggle">${fieldSessionOptions}</div>`;
 
-                                        fieldTemplate += `<input type='text' class='${fieldProp.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? propValueArr[1] : ""}'/>`;
-
+                                        // 직접 입력할 경우 input box
+                                        fieldTemplate += `<input type='text' class='property-value ${fieldProp.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? propValueArr[1] : ""}'/>`;
+                                        // 자동 입력일 경우 select box
                                         const fieldSubOptions = fieldProp.option[1].items.map(function (opt) {
                                             return `<option value='${opt.id}' ${propValueArr[1] === opt.id ? "selected='selected'" : ""}>${opt.name}</option>`;
                                         }).join('');
                                         fieldTemplate +=
-                                            `<select class='${fieldProp.type}' id='select' style='${propValueArr[0] === "select" ? "" : "display: none;"}'>${fieldSubOptions}</select>`;
+                                            `<select class='property-value ${fieldProp.type}' id='select' style='${propValueArr[0] === "select" ? "" : "display: none;"}'>${fieldSubOptions}</select>`;
+
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
+
+                                        // 버튼 이벤트 핸들러 추가
+                                        const toggleButtons = fieldGroupElem.querySelector('.property-field-toggle').children;
+                                        for (let i = 0, len = toggleButtons.length; i < len; i++) {
+                                            toggleButtons[i].addEventListener('click', toggleSessionButtonClickHandler, false);
+                                        }
                                         break;
                                     case 'datepicker':
                                     case 'timepicker':
                                     case 'datetimepicker':
-                                        fieldTemplate +=
-                                            `<input type='text' class='${fieldProp.type} property-field-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}-${fieldProp.id}' value='${fieldProp.value}'>`;
+                                        fieldTemplate =
+                                            `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<input type='text' class='${fieldProp.type} property-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}-${fieldProp.id}' value='${fieldProp.value}'>`;
+
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
                                 }
                                 // 단위 추가
                                 if (typeof fieldProp.unit !== 'undefined' && fieldProp.unit !== '') {
-                                    fieldTemplate += `<span class='property-field-unit'>${fieldProp.unit}</span>`;
-                                }
-
-                                fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
-
-                                // color palette 초기화
-                                if (fieldProp.type === 'rgb') {
-                                    colorPalette.initColorPalette(groupElem.querySelector('#' + group + '-' + fieldProp.id + '-colorPaletteLayer'),
-                                        fieldGroupElem.querySelector('.selected-color'),
-                                        fieldGroupElem.querySelector('#' + group + '-' + fieldProp.id + '-value'));
-                                }
-
-                                //custom-code 초기화
-                                if (fieldProp.type === 'radio-custom') {
-                                    const customCodeDataSelect = fieldGroupElem.querySelector('input[id=code]').parentNode.querySelector('select');
-                                    changeCustomCodeHandler(customCodeDataSelect, componentData[group]);
+                                    fieldGroupElem.insertAdjacentHTML('beforeend', `<span class='property-field-unit'>${fieldProp.unit}</span>`);
                                 }
                             }
 
                             // 유효성 검증 추가
                             if (typeof fieldProp.validate !== 'undefined' && fieldProp.validate !== '') {
-                                validateCheck(fieldGroupElem.querySelector('.property-field-value'), fieldProp.validate);
+                                validateCheck(fieldGroupElem.querySelector('.property-value'), fieldProp.validate);
                             }
                             if (typeof fieldProp.option !== 'undefined') {
-                                const fieldValueElem = fieldGroupElem.querySelector('.property-field-value');
+                                const fieldValueElem = fieldGroupElem.querySelector('.property-value');
                                 if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
                                     validateCheck(fieldValueElem, fieldValueElem.getAttribute('data-validate'));
                                 }
@@ -1287,19 +1412,31 @@
                         } else { // type === table
                             const tableElem = groupElem.querySelector('table');
                             if (tableElem !== null) {
-                                let fieldTemplate = ``;
                                 // 테이블 Header 추가
-                                const tableHeaderOptions = fieldProp.items.map(function(opt) { return `<th data-default='${opt.value}'>${opt.name}</th>`; }).join('');
-                                fieldTemplate += `<tr><th></th>${tableHeaderOptions}</tr>`;
+                                const tableHeaderOptions = fieldProp.items.map(function(opt, index) {
+                                    return `<th data-default="${opt.value}">${index === 0 ? '': opt.name}</th>`;
+                                }).join('');
+                                let fieldTableTemplate = `<tr>${tableHeaderOptions}</tr>`;
+
+                                ;
+
                                 // 테이블 Row 추가
                                 const tableRowOptions = componentData.option.map(function(opt) {
-                                    return `<tr><td><input type='checkbox'></td>${fieldProp.items.map(function(item) { 
-                                        return `<td id='${item.id}'><input type='text' value='${opt[item.id]}' ${item.id === 'seq' ? "readonly" : ""}/></td>`;
-                                    }).join('')}</tr>`; 
+                                    return `<tr>${fieldProp.items.map(function(item, index) {
+                                        return `<td id="${item.id}">` +
+                                        `${index === 0 ? 
+                                        `<label for="checkbox-${index + 1}">` +
+                                            `<input type="checkbox" id="checkbox-${index + 1}" value="${opt[item.id]}" />` +
+                                            `<span></span>` +
+                                        `</label>` : 
+                                        `<input type="text" value="${opt[item.id]}"/>`}` +
+                                        `</td>`;
+                                    }).join('')}</tr>`;
                                 }).join('');
-                                fieldTemplate += tableRowOptions;
 
-                                tableElem.insertAdjacentHTML('beforeend', fieldTemplate);
+                                fieldTableTemplate += tableRowOptions;
+
+                                tableElem.insertAdjacentHTML('beforeend', fieldTableTemplate);
                             }
                         }
                     });
@@ -1331,12 +1468,15 @@
             } else {
                 inputElems[i].addEventListener('focusout', function (e) {
                     const elem = e.target;
-                    const parentElem = elem.parentNode;
-                    if (parentElem.classList.contains('picker-wrapper') || parentElem.classList.contains('wdp-hour-el-container')) { return false; }
+                    let parentElem = elem.parentNode;
+                    if (parentElem.classList.contains('picker-wrapper') || parentElem.classList.contains('wdp-hour-el-container')) { return false; } // date picker 제외
                     if (parentElem.tagName === 'TD') { // option
-                        const seqCell = parentElem.parentNode.cells[1].childNodes[0];
+                        const seqCell = parentElem.parentNode.cells[0].childNodes[0].childNodes[0];
                         changePropertiesValue(elem.value, 'option', parentElem.id, Number(seqCell.value) - 1);
                     } else {
+                        if (parentElem.id === '') {
+                            parentElem = parentElem.parentNode;
+                        }
                         const changePropertiesArr = parentElem.id.split('-');
                         let changeValue = elem.value;
                         if (elem.classList.contains('session')) { changeValue = elem.id + '|' + elem.value; }
@@ -1351,9 +1491,9 @@
             const changeElem = changeElems[i];
             switch (changeElem.type) {
                 case 'checkbox':
-                    if (changeElem.classList.contains('property-field-value')) {
+                    if (changeElem.classList.contains('property-value')) {
                         changeElem.addEventListener('change', function (e) {
-                            const changePropertiesArr = e.target.parentNode.id.split('-');
+                            const changePropertiesArr = e.target.parentNode.parentNode.id.split('-');
                             changePropertiesValue(e.target.checked, changePropertiesArr[0], changePropertiesArr[1]);
                         }, false);
                     }
@@ -1361,21 +1501,34 @@
                 case 'range':
                 case 'text':
                     changeElem.addEventListener('change', function(e) {
-                        const changePropertiesArr = e.target.parentNode.id.split('-');
-                        if (changeElem.type === 'range') {
-                            const slider = document.getElementById(e.target.id + '-value');
-                            slider.value = this.value;
+                        let elem  = e.target;
+                        if (elem.classList.contains('color')) { // color picker
+                            const changePropertiesArr = elem.id.split('-');
+                            let opacity = (typeof elem.dataset['opacity'] !== 'undefined' && elem.dataset['opacity'] !== '') ? Number(elem.dataset['opacity']) / 100 : 1;
+                            if (!aliceJs.isHexCode(elem.value)) {
+                                elem.value = aliceJs.rgbaToHex(elem.value); // opacity 값 갱신하기 위해 Hex로 변환
+                            }
+                            elem.value = aliceJs.hexToRgba(elem.value, opacity);
+                            changePropertiesValue( elem.value, changePropertiesArr[0], changePropertiesArr[1]);
+                        } else {
+                             let parentElem =  elem.parentNode;
+                            if (changeElem.type === 'range') {
+                                parentElem =  elem.parentNode.parentNode;
+                                const slider = parentElem.querySelector('input[type="text"]');
+                                slider.value = elem.value;
+                            }
+                            const changePropertiesArr = parentElem.id.split('-');
+                            changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
                         }
-                        changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
                     }, false);
                     break;
                 case 'radio':
-                    if (changeElem.parentNode.classList.contains('radio-datetime')) { // date picker
+                    if (changeElem.parentNode.parentNode.classList.contains('radio-datetime')) { // date picker
                         changeElem.addEventListener('change', setDateFormat, false);
                     } else {
                         changeElem.addEventListener('change', function (e) {
                             const elem = e.target;
-                            const parentElem = elem.parentNode;
+                            const parentElem = elem.parentNode.parentNode; // vertical-group
                             const changePropertiesArr = parentElem.parentNode.id.split('-');
                             let val = (elem.id !== 'none') ? elem.id + '|' + parentElem.querySelector('select').value : elem.id;
                             if (elem.checked && elem.id !== 'none') {
@@ -1391,27 +1544,6 @@
                 default: //select
                     if (changeElem.id === 'customCode') {
                         changeElem.addEventListener('change', changeCustomCodeHandler, false);
-                    } else if (changeElem.id === 'toggle') {
-                        changeElem.addEventListener('change', function (e) {
-                            const elem = e.target;
-                            const parentElem = elem.parentNode;
-                            const changePropertiesArr = parentElem.id.split('-');
-                            let defaultValue = '';
-                            for (let j = 0; j < elem.options.length; j++) {
-                                const toggleElem = parentElem.querySelector('#' + elem.options[j].value);
-                                if (elem.value === toggleElem.id) {
-                                    toggleElem.style.display = 'block';
-                                    if (toggleElem.tagName === 'SELECT') {
-                                        defaultValue = toggleElem.options[0].value + '|' + toggleElem.options[0].text;
-                                    } else {
-                                        defaultValue = toggleElem.value;
-                                    }
-                                } else {
-                                    toggleElem.style.display = 'none';
-                                }
-                            }
-                            changePropertiesValue(elem.value + '|' + defaultValue, changePropertiesArr[0], changePropertiesArr[1]);
-                        }, false);
                     } else {
                         changeElem.addEventListener('change', function (e) {
                             const elem = e.target;
@@ -1447,14 +1579,28 @@
     function hideComponentProperties() {
         propertiesPanel.innerHTML = '';
         if (previousComponentIds.length > 0) {
-            //기존 선택된 컴포넌트 css 삭제
-            const components = document.querySelectorAll('.component');
-            for (let i = 0, len = components.length; i < len; i++) {
-                let elem = components[i];
-                if (elem.classList.contains('selected')) {
-                    elem.classList.remove('selected');
+            for (let i = 0, len = previousComponentIds.length; i < len; i++) {
+                let previousSelectedElem = document.getElementById(previousComponentIds[i]);
+                if (len > 1) {
+                    // 기존 상단 tooltip menu 에 hidden 항목 삭제
+                    const menuItems = previousSelectedElem.querySelectorAll('.menu-item');
+                    for (let j = 0, menuLen = menuItems.length; j < menuLen; j++) {
+                        if (menuItems[j].classList.contains('hidden')) {
+                            menuItems[j].classList.remove('hidden');
+                        }
+                    }
+                    if (previousSelectedElem.previousSibling !== null &&
+                        previousComponentIds.indexOf(previousSelectedElem.previousSibling.id) !== -1 &&
+                        previousSelectedElem.previousSibling.classList.contains('adjoin')) {
+                        previousSelectedElem.previousSibling.classList.remove('adjoin');
+                    }
+                }
+                // 기존 선택된 컴포넌트 css 삭제
+                if (previousSelectedElem.classList.contains('selected')) {
+                    previousSelectedElem.classList.remove('selected');
                 }
             }
+            previousComponentIds.length = 0;
         }
     }
     /**
@@ -1464,10 +1610,10 @@
      */
     function showFormProperties(elemId) {
         hideComponentProperties();
-
         if (typeof elemId !== 'undefined' && elemId !== '') {
             if (!document.getElementById(elemId).classList.contains('selected')) {
                 document.getElementById(elemId).classList.add('selected'); //현재 선택된 컴포넌트 css 추가
+                previousComponentIds.push(elemId);
             }
         } else {
             selectedComponentIds.length = 0;
@@ -1475,7 +1621,7 @@
         }
         let formProperties = editor.data;
         //폼 속성 출력
-        const formTemplate = document.getElementById('form-properties');
+        const formTemplate = document.getElementById('form-template');
         const formElem = formTemplate.content.cloneNode(true);
         const formNodes = formElem.querySelectorAll('.property-field');
         formNodes.forEach(function(node) {
@@ -1516,7 +1662,6 @@
                             }, false);
                             break;
                     }
-                    return true;
                 }
             });
         });
@@ -1536,26 +1681,23 @@
             }
             //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
             for (let i = 0, len = editor.data.components.length; i < len; i ++) {
-                let componentAttr = editor.data.components[i];
-                let defaultComponentAttr = component.getData(componentAttr.type);
-                let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
-                setComponentData(mergeComponentAttr);
-                component.draw(componentAttr.type, formPanel, mergeComponentAttr);
+                let componentProp = editor.data.components[i];
+                let componentObj = component.draw(componentProp.type, componentProp);
+                setComponentData(componentObj.property);
             }
         }
 
         //모든 컴포넌트를 그린 후 마지막에 editbox 추가
-        let editboxComponent = component.draw(aliceForm.defaultType, formPanel);
-        setComponentData(editboxComponent.attr);
+        let editboxComponentObj = component.draw(aliceForm.defaultType);
+        setComponentData(editboxComponentObj.property);
         savedData = JSON.parse(JSON.stringify(editor.data));
 
         //첫번째 컴포넌트 선택
-        const firstComponent = document.getElementById('panel-form').querySelectorAll('.component')[0];
+        const firstComponent = document.getElementById('form-panel').querySelectorAll('.component')[0];
+        firstComponent.click();
         if (firstComponent.getAttribute('data-type') === aliceForm.defaultType) { //editbox 컴포넌트일 경우 input box 안에 포커싱
             firstComponent.querySelector('[contenteditable=true]').focus();
         }
-        selectedComponentIds.push(firstComponent.id);
-        showComponentProperties();
 
         //폼 이름 출력
         changeFormName();
@@ -1579,11 +1721,14 @@
      */
     function init(formId, flag) {
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
-        formPanel = document.getElementById('panel-form');
+        formPanel = document.getElementById('form-panel');
         formPanel.setAttribute('data-readonly', true);
-        propertiesPanel = document.getElementById('panel-properties');
+        propertiesPanel = document.getElementById('properties-panel');
 
         if (flag === 'true') { isView = false; }
+
+        //컴포넌트 메뉴 초기화
+        component.init(formPanel);
 
         //컨텍스트 메뉴 초기화
         context.init();
@@ -1632,7 +1777,6 @@
     exports.selectUpComponent = selectUpComponent;
     exports.selectDownComponent = selectDownComponent;
     exports.reorderComponent = reorderComponent;
-    exports.addEditboxUp = addEditboxUp;
     exports.addEditboxDown = addEditboxDown;
     exports.getComponentIndex = getComponentIndex;
     exports.setComponentData = setComponentData;
