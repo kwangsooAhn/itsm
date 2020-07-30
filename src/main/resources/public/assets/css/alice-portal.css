@@ -473,7 +473,7 @@ input:focus {
 }
 .portal-search-layer .search-content {
   width: 38.125rem;
-  height: 20.625rem;
+  height: 20rem;
   margin-left: 40.938rem;
 }
 .portal-search-layer .search-content .title {
@@ -627,7 +627,7 @@ input:focus {
   background-repeat: no-repeat;
 }
 .portal-result-layer .result-background {
-  height: 39rem;
+  height: 38.375rem;
 }
 .portal-result-layer .result-background .result-content {
   width: 62rem;
