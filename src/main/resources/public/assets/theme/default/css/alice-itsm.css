@@ -1861,11 +1861,7 @@ textarea {
 
 /* date picker css */
 .picker-wrapper-date {
-  display: inline;
-}
-
-.picker-main {
-  background-image: url("../../../media/icons/datepicker/icon_calendar.png") no-repeat 96% center;
+  display: inline-block;
 }
 
 .picker-modal {
@@ -1877,6 +1873,7 @@ textarea {
   -webkit-box-shadow: 0 0 0.3125rem0 rgba(30, 47, 63, 0.2);
           box-shadow: 0 0 0.3125rem0 rgba(30, 47, 63, 0.2);
   text-align: center;
+  z-index: 1;
 }
 
 .picker-modal.active {
@@ -1955,6 +1952,8 @@ textarea {
   width: 9.375rem;
   color: #5A6364;
   font-size: 0.688rem;
+  margin: 0;
+  padding: 0;
 }
 
 .picker-modal-content-date-months .date-next {
@@ -2053,6 +2052,7 @@ textarea {
   text-align: center;
   margin: 0.375rem 0;
   border: 0.0625rem solid #C8CED8;
+  padding: 0;
 }
 
 .picker-modal-content-time div input[type=text]:focus {

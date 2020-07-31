@@ -20,12 +20,9 @@ $datepicker-button-background-color: #ffffff;
 $datepicker-active-color: #0050ff;
 
 .picker-wrapper-date {
-    display: inline;
+    display: inline-block;
 }
 
-.picker-main { // input box
-    background-image: url("#{$datepicker-asset-path}/icon_calendar.png") no-repeat 96% center;
-}
 .picker-modal {
     font-family: $datepicker-font-family;
     display: none;
@@ -34,6 +31,7 @@ $datepicker-active-color: #0050ff;
     border: solid 0.0625rem $datepicker-border-color; // 1px
     box-shadow: 0 0 0.3125rem0 rgba(30, 47, 63, 0.2); // 5px
     text-align: center;
+    z-index: 1;
 
     &.active { display: block; }
 
@@ -100,6 +98,8 @@ $datepicker-active-color: #0050ff;
                     width: 9.375rem; // 150px
                     color: #5A6364;
                     font-size: 0.688rem; // 11px
+                    margin: 0;
+                    padding: 0;
                 }
 
                 .date-next {
@@ -188,6 +188,7 @@ $datepicker-active-color: #0050ff;
                     text-align: center;
                     margin: 0.375rem 0; // 6.5px
                     border: 0.0625rem solid $datepicker-border-color; // 1px
+                    padding: 0;
 
                     &:focus {
                         outline: none !important;

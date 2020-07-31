@@ -91,6 +91,7 @@
 
         this.open = this.open.bind(this);
         this.close = this.close.bind(this);
+        this.setPosition = this.setPosition.bind(this);
         this.clickWindow = this.clickWindow.bind(this);
         this.changeTarget = this.changeTarget.bind(this);
         this.prevMonth = this.prevMonth.bind(this);
@@ -164,9 +165,11 @@
         open: function() {
             if (!this.el.classList.contains('active')) {
                 this.el.classList.add('active');
-
+                this.setPosition();
                 // Detects the target if it's the picker element, if not, closes the picker
                 document.addEventListener('mousedown', this.clickWindow, false);
+                window.addEventListener('scroll', this.setPosition, false);
+                window.addEventListener('resize', this.setPosition, false);
             }
         },
         // Picker close.
@@ -189,6 +192,8 @@
                 }
                 // remove event
                 document.removeEventListener('mousedown', this.clickWindow, false);
+                window.removeEventListener('scroll', this.setPosition, false);
+                window.removeEventListener('resize', this.setPosition, false);
             }
         },
         // Picker Position.
@@ -325,7 +330,7 @@
             let digitHour = document.createElement('input');
             digitHour.type = 'text';
             digitHour.className = 'digit';
-            digitHour.id = 'time-hour';
+            digitHour.id = this.id + '-time-hour';
             digitHour.value = _this.selectLuxon.toFormat(_this.hourFormat);
             digitHour.maxLength = 2;
             digitHour.addEventListener('focusout', _this.setHour, false);
@@ -356,7 +361,7 @@
             let digitMinute = document.createElement('input');
             digitMinute.type = 'text';
             digitMinute.className = 'digit';
-            digitMinute.id = 'time-minute';
+            digitMinute.id = this.id + '-time-minute';
             digitMinute.value = _this.selectLuxon.toFormat(_this.minuteFormat);
             digitMinute.maxLength = 2;
             digitMinute.addEventListener('focusout', _this.setMinute, false);
@@ -514,10 +519,10 @@
 
             this.selectLuxon = this.selectLuxon.set(changeTimeOffset);
 
-            const hourInput = this.el.querySelector('#time-hour');
+            const hourInput = this.el.querySelector('#' + this.id + '-time-hour');
             hourInput.value = this.selectLuxon.toFormat(this.hourFormat);
 
-            const minuteInput = this.el.querySelector('#time-minute');
+            const minuteInput = this.el.querySelector('#' + this.id + '-time-minute');
             minuteInput.value = this.selectLuxon.toFormat(this.minuteFormat);
 
             this.changeDisplay();
@@ -525,7 +530,7 @@
         // Time picker 에서 input box (Hour) 변경시 처리.
         setHour: function() {
             let rtn = false;
-            const hourInput = this.el.querySelector('#time-hour');
+            const hourInput = this.el.querySelector('#' + this.id + '-time-hour');
             const inputValue = hourInput.value;
             // 12 시간제 1 ~ 12 까지만 입력가능
             // 24 시간제 0 ~ 23 까지만 입력가능
@@ -548,7 +553,7 @@
         // Time picker 에서 input box (Minute) 변경시 처리.
         setMinute: function() {
              let rtn = false;
-             const minuteInput = this.el.querySelector('#time-minute');
+             const minuteInput = this.el.querySelector('#' + this.id + '-time-minute');
              const inputValue = minuteInput.value;
              // 0 ~ 59 까지 입력가능
              if (numberRegex.test(inputValue)) {
@@ -606,9 +611,6 @@
 
         // initialization picker
         let picker = new Picker(options);
-
-        // initialization picker position
-        picker.setPosition();
 
         // click event add
         targetElement.addEventListener('click', picker.open, false);
