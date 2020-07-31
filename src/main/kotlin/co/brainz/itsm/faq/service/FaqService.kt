@@ -1,5 +1,7 @@
 package co.brainz.itsm.faq.service
 
+import co.brainz.framework.fileTransaction.dto.AliceFileDto
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
@@ -9,7 +11,6 @@ import co.brainz.itsm.faq.repository.FaqRepository
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.context.MessageSource
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -21,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional
  * @author Jung heechan
  */
 @Service
-class FaqService(private val faqRepository: FaqRepository, private val messageSource: MessageSource) {
+class FaqService(private val faqRepository: FaqRepository, private val aliceFileService: AliceFileService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val faqMapper: FaqMapper = Mappers.getMapper(FaqMapper::class.java)
@@ -66,6 +67,7 @@ class FaqService(private val faqRepository: FaqRepository, private val messageSo
         )
 
         faqRepository.save(faqEntity)
+        aliceFileService.upload(AliceFileDto(ownId = faqDto.faqId, fileSeq = faqDto.fileSeq))
     }
 
     /**
@@ -74,12 +76,11 @@ class FaqService(private val faqRepository: FaqRepository, private val messageSo
     @Transactional
     fun updateFaq(faqId: String, faqDto: FaqDto) {
         val faqEntity = faqRepository.getOne(faqId)
-
         faqEntity.faqGroup = faqDto.faqGroup
         faqEntity.faqTitle = faqDto.faqTitle
         faqEntity.faqContent = faqDto.faqContent
-
         faqRepository.save(faqEntity)
+        aliceFileService.upload(AliceFileDto(ownId = faqId, fileSeq = faqDto.fileSeq, delFileSeq = faqDto.delFileSeq))
     }
 
     /**
@@ -88,5 +89,6 @@ class FaqService(private val faqRepository: FaqRepository, private val messageSo
     @Transactional
     fun deleteFaq(faqId: String) {
         faqRepository.deleteById(faqId)
+        aliceFileService.delete(faqId)
     }
 }

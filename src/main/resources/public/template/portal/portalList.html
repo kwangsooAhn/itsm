@@ -1,52 +1,58 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
 </head>
 <body>
-<div class= "container" style="padding-top:100px;">
-    <table class="table table-hover" style="text-align:center">
-        <tbody id="tbody">
-        <div class="container" style="text-align:center;">
-            <tr th:each="portalList : ${portalList}">
-                <dl>
-                    <dt th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></dt>
-                    <dd style="padding-left:15px;" th:if="${portalList.portalContent != null && portalList.tableName != 'download'}" th:text="${portalList.portalContent}"></dd>
-                    <dd></dd>
-                </dl>
-            </tr>
+<div class="alicePortal">
+    <img class="portal-result-logo" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
+    <div class="portal-result-layer">
+        <div class="top-background">
+            <div class="login-content">
+                <div class="login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
+                <div class="login" sec:authorize="isAnonymous()" onclick="location.href='/login'" th:text="#{portal.label.login}"></div>
+            </div>
         </div>
-        </tbody>
-    </table>
-    <nav style="text-align: center;">
-        <ul class="container"
-            th:with="start=${T(Math).floor(pageNumber / 10) * 10 + 1}, last=(${start + 9 < totalPages ? start + 9 : totalPages})">
-            <li th:if="${hasPrevious}" style="display:inline-block; cursor:pointer;">
-                <a th:onclick="restSubmit('get',[[@{/portal/list/?page=0}]])" aria-label="First">
-                    <span aria-hidden="true">First</span>
-                </a>
-            </li>
-            <li th:if="${hasPrevious}" style="display:inline-block; cursor:pointer;">
-                <a th:onclick="restSubmit('get', [[@{/portal/list/?page={page}(page=${pageNumber} - 1)}]])" aria-label="Previous">
-                    <span aria-hidden="true">&lt;</span>
-                </a>
-            </li>
-            <li th:if="${totalCount} > 0" th:each="page: ${#numbers.sequence(start, last)}" style="display:inline-block; cursor:pointer;"
-                th:styleappend="${page == pageNumber + 1} ? 'font-weight:bold'" th:class="${page == pageNumber + 1} ? 'active'">
-                <a th:text="${page}" th:onclick="restSubmit('get', [[@{/portal/list/?page={page}(page=${page} - 1)}]])" style="padding:10px;"></a>
-            </li>
-            <li th:if="${hasBefore}"  style="display:inline-block; cursor:pointer;">
-                <a th:onclick="restSubmit('get', [[@{/portal/list/?page={page}(page=${pageNumber} + 1)}]])" aria-label="Next">
-                    <span aria-hidden="true">&gt;</span>
-                </a>
-            </li>
-            <li th:if="${hasBefore}" style="display:inline-block; cursor:pointer;">
-                <a th:onclick="restSubmit('get', [[@{/portal/list/?page={page}(page=${totalPages} - 1)}]])" aria-label="Last">
-                    <span aria-hidden="true">Last</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+        <div class="search-background">
+            <div class="search-content">
+                <div class="title" th:text="#{portal.label.topPhrase}"></div>
+                <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${#httpServletRequest.getParameter('searchValue')}"
+                       onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0');"/>
+            </div>
+        </div>
+        <div class="result-background">
+            <div class="result-content">
+                <div class="container">
+                    <div class="list">
+                        <div class="row" th:each="portalList : ${portalList}">
+                            <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
+                            <div class="content-box">
+                                <div class="title text-ellipsis"><a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a></div>
+                                <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
+                            </div>
+                        </div>
+                        <div class="row" th:if="${#arrays.isEmpty(portalList)}">
+                            <div class="no-data" th:text="#{common.msg.noData}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
+<script th:src="@{/assets/js/util/util-alice.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[ */
+    function locationSubmit(method, url) {
+        const data = {
+            searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
+        };
+        location.href = url + '&searchValue=' + data.searchValue;
+    }
+    /* ]]> */
+</script>
 </html>

@@ -7,12 +7,16 @@
  * @param param.extra 추가로 사용할 매개변수
  *        - formId 임시로 업로드한 파일명을 실제로 사용하기 위해 request 에 포함하여 전달할 form id (form tag)
  *        - task 현재 문서에 보여주기 위한 파일을 가져올 sql key
+ *        - fileAttrName 서버로 전달하여 업로드 할 fileSeq input hidden 의 속성 이름
+ *        - delFileAttrName 서버로 전달하여 삭제할 fileSeq input hidden 의 속성 이름
  */
 const fileUploader = (function () {
     "use strict";
 
-    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId;
+    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId, fileAttrName, delFileAttrName;
     const setExtraParam = function (param) {
+        delFileAttrName = 'delFileSeq'
+        fileAttrName = 'fileSeq'
         extraParam = param;
     };
 
@@ -38,22 +42,26 @@ const fileUploader = (function () {
         }
 
         if (extraParam.dropZoneMaxFiles === undefined) {
-            extraParam.dropZoneMaxFiles = null
+            extraParam.dropZoneMaxFiles = null;
         }
 
         if (extraParam.clickable === undefined) {
-            extraParam.clickable = '.add-file-button'
+            extraParam.clickable = '.add-file-button';
         }
 
         if (extraParam.acceptedFiles === undefined) {
-            extraParam.acceptedFiles = null
+            extraParam.acceptedFiles = null;
+        }
+
+        if (extraParam.type === undefined) {
+            extraParam.type = 'dropzone';
         }
 
         // 파일 추가 버튼 정의 및 추가
         const dropZoneFiles = document.getElementById(''+ dropZoneFilesId +'');
         dropZoneFiles.className = 'fileEditorable';
 
-        if (extraParam.clickable === '.add-file-button') {
+        if (extraParam.clickable === '.add-file-button' && extraParam.type !== 'avatarFileUploader') {
             const addFileSpan = document.createElement('span');
             addFileSpan.className = 'add-file-button';
             const addFileBtn = document.createElement('button');
@@ -66,7 +74,7 @@ const fileUploader = (function () {
         // 파일 드랍 영역 및 파일을 보여줄 장소 정의
         const fileDropZone = document.createElement('div');
         fileDropZone.id = 'dropZoneFileUpload';
-        fileDropZone.className = 'dropzone';
+        fileDropZone.className = extraParam.type;
 
         // 파일 템플릿 생성
         const thumbnailData = document.createElement('img');
@@ -133,11 +141,14 @@ const fileUploader = (function () {
         // 파일 업로드 영역에 드랍 영역 정의
         document.getElementById(''+ dropZoneFilesId +'').appendChild(fileDropZone);
 
+        // TO-DO
+        // 2020.07.25 Jung Hee Chan
+        // avatar 업로드는 기능 정리 필요. 일단 디자인 작업을 위해서 버튼 춢력은 주석 처리.
         if (extraParam.clickable == '.add-img-button') {
             const addFileSpan = document.createElement('span');
             addFileSpan.className = 'add-img-button';
             const addFileBtn = document.createElement('button');
-            addFileBtn.innerText = '아바타 추가';
+            //addFileBtn.innerText = '아바타 추가';
             addFileBtn.setAttribute('type', 'button');
             addFileSpan.appendChild(addFileBtn);
             dropZoneFiles.appendChild(addFileSpan);
@@ -232,7 +243,7 @@ const fileUploader = (function () {
                             // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
                             delBtn.addEventListener('click', function (e) {
                                 const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]');
-                                delFile.setAttribute('name', 'delFileSeq');
+                                delFile.setAttribute('name', delFileAttrName);
                                 delFile.parentElement.style.display = 'none';
                             });
                         });
@@ -306,7 +317,7 @@ const fileUploader = (function () {
 
                     const seq = document.createElement('input');
                     seq.setAttribute('type', 'hidden');
-                    seq.setAttribute('name', 'fileSeq');
+                    seq.setAttribute('name', fileAttrName);
                     seq.value = response.file.fileSeq;
                     file.previewElement.appendChild(seq);
                 });

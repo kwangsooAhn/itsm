@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface NoticeRepository : JpaRepository<NoticeEntity, String> {
+interface NoticeRepository : JpaRepository<NoticeEntity, String>, NoticeRepositoryCustom {
 
     @Query("select a from NoticeEntity a join fetch a.createUser left outer join a.updateUser where (a.topNoticeStrtDt < now() and a.topNoticeEndDt > now() and a.topNoticeYn = true) order by a.createDt desc")
     fun findTopNoticeList(): MutableList<NoticeEntity>

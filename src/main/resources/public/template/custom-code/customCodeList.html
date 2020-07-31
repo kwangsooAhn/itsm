@@ -8,32 +8,34 @@
 <div class="list-wrap">
     <table>
         <colgroup>
-            <col width="600px">
-            <col width="240px">
-            <col width="180px">
-            <col width="180px">
+            <col style="width:37.5rem"><!--600px-->
+            <col style="width:15rem"><!--240px-->
+            <col style="width:11.25rem"><!--180px-->
+            <col style="width:11.25rem"><!--180px-->
         </colgroup>
+        <thead>
+            <tr>
+                <th th:text="#{customCode.label.name}"></th>
+                <th th:text="#{customCode.label.type}"></th>
+                <th th:text="#{common.label.writer}"></th>
+                <th th:text="#{common.label.writeDate}"></th>
+            </tr>
+        </thead>
         <tbody>
-        <tr>
-            <th th:text="#{customCode.label.name}"></th>
-            <th th:text="#{customCode.label.type}"></th>
-            <th th:text="#{common.label.writer}"></th>
-            <th th:text="#{common.label.writeDate}"></th>
-        </tr>
-        <tr th:if="${#arrays.isEmpty(customCodeList)}">
-            <td colspan="4" th:text="#{common.msg.noData}"></td>
-        </tr>
-        <tr th:each="customCode, i : ${customCodeList}" th:if="${i.count} < 11">
-            <td class="align-left">
-                <a sec:authorize="!hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
-                   th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a>
-                <a sec:authorize="hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
-                   th:href="@{/custom-codes/{id}/edit(id=${customCode.customCodeId})}"></a>
-            </td>
-            <td th:text="#{|customCode.label.${customCode.type}|}"></td>
-            <td th:text="${customCode.createUserName}"></td>
-            <td th:name="createDt" th:text="${customCode.createDt}"></td>
-        </tr>
+            <tr th:if="${#arrays.isEmpty(customCodeList)}">
+                <td colspan="4" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr th:each="customCode, i : ${customCodeList}" th:if="${i.count} < 11">
+                <td class="align-left">
+                    <a sec:authorize="!hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
+                       th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a>
+                    <a sec:authorize="hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
+                       th:href="@{/custom-codes/{id}/edit(id=${customCode.customCodeId})}"></a>
+                </td>
+                <td th:text="#{|customCode.label.${customCode.type}|}"></td>
+                <td th:text="${customCode.createUserName}"></td>
+                <td th:name="createDt" th:text="${customCode.createDt}"></td>
+            </tr>
         </tbody>
     </table>
 </div>

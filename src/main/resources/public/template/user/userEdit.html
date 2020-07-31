@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -21,29 +21,29 @@
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
             <div class="contents-title">
                 <div th:if="!${users?.userKey}">
-                    <span class="title-txt" th:text="#{user.label.createUser}"></span>
+                    <h1 th:text="#{user.label.createUser}"></h1>
                     <span class="title-description" th:text="#{user.msg.descriptionCreate}"></span>
                 </div>
                 <div th:if="${users?.userKey}">
-                    <span class="title-txt" th:text="#{user.label.editUserInfo}"></span>
+                    <h1 th:text="#{user.label.editUserInfo}"></h1>
                     <span class="title-description" th:text="#{user.msg.descriptionUpdate}"></span>
                 </div>
             </div>
             <div class="user-register-contents-body">
                 <span class="profile-title" th:text="#{user.label.profile}"></span>
                 <div class="profile-manage">
-                    <div class="avatar_section_wrap">
-                        <span class="avatar_title" th:text="#{user.label.avatar}"></span>
-                        <span class="avatar_section">
+                    <div class="avatar-section-wrap">
+                        <span class="avatar-title" th:text="#{user.label.avatar}"></span>
+                        <span class="avatar-section">
                             <div class="avatar_text" id="dropZoneFiles"></div><br/><br/>
                         </span>
-                        <div class="avatar_bottom_text_wrap">
+                        <div class="avatar-bottom-text-wrap">
                             <span class="avatar_bottom_text" th:text="#{user.label.FileSizeLimit}"></span>
                             <br>
-                            <span class="avatar_far_bottom_text" th:text="#{user.label.FileExtensionAllowed}"></span>
+                            <span class="avatar-far-bottom-text" th:text="#{user.label.FileExtensionAllowed}"></span>
                         </div>
                     </div>
-                    <div  th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
+                    <div th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <div class="user-register-top-list">
                             <p class="input-title required" th:text="#{user.label.id}"></p>
                             <input class="user-register-input" id="userId" name="userId"
@@ -81,15 +81,15 @@
                                th:value="${deptCodeDetail?.codeValue}" readonly>
                         <input type="hidden" id="departmentCode" name="departmentCode"
                                th:value="${deptCodeDetail?.code}"/>
-                        <button class="input-button" type="button" onclick="deptPopUp();"
-                                th:text="#{department.btn.selection}"></button>
+                        <input class="input-button" type="button" onclick="deptPopUp();"
+                               th:value="#{department.btn.selection}"/>
                     </div>
                     <div class="profile-input-body-list">
                         <p class="input-title" th:text="#{user.label.officeNumber}"></p>
                         <input class="user-register-input" id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                     </div>
-                    <div class="profile-input-bottom-list">
+                    <div class="profile-input-body-list">
                         <p class="input-title" th:text="#{user.label.mobileNumber}"></p>
                         <input class="user-register-input" id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
@@ -153,12 +153,12 @@
                     </label>
                     <span class="switch_label" th:text="#{user.msg.usageStatus}"></span>
                 </div>
-                <div class="btn_wrap">
-                    <button class="btn_register" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
+                <div class="btn-wrap">
+                    <button class="btn-register" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
                             th:onclick="restSubmit('post', [[@{/rest/users}]])"></button>
-                    <button class="btn_register" type="button" th:if="${users?.userKey}" th:text="#{user.label.editUserInfo}"
+                    <button class="btn-register" type="button" th:if="${users?.userKey}" th:text="#{user.label.editUserInfo}"
                             th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])"></button>
-                    <button class="btn_list" th:text="#{common.btn.list}" onclick="location.href='/users/search'"></button>
+                    <button class="btn-gray" th:text="#{common.btn.list}" onclick="location.href='/users/search'"></button>
                 </div>
             </div>
         </form>

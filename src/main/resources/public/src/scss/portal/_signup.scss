@@ -1,0 +1,73 @@
+.signup {
+    &-logo {
+        position: absolute;
+        top: 5rem; // 80px
+        left: 5rem; // 80px
+    }
+
+    &-background {
+        background-color: $alice-primary;
+        height: 100%;
+        width: 80.3125rem;
+    }
+
+    &-login-face {
+        position: absolute;
+        top: 53.1875rem;
+        left:  28.3750rem;
+        font-size: 0.875rem; // 14px
+        font-weight: 500; // Medium
+        a:visited, a:link {
+            color: #FFFFFF;
+        }
+    }
+
+    &-login-note {
+        font-size: 1.25rem; // 20px
+        font-weight: 500; // Medium
+        color: #FFFFFF;
+        vertical-align: middle;
+    }
+
+    &-main-image {
+        position: absolute;
+        top: 6.1875rem; // 99px
+        left: 11.125rem; // 178px
+    }
+
+    &-form {
+        margin: 5.6875rem 8.0rem 0rem 88.9063rem; // 91px 128px 0 1422.5px
+        width: 22.5rem; // 360px
+        position: absolute;
+        top: 0;
+    }
+
+    &-btn {
+        border: 1px solid; // 0.0625px
+        border-radius: 1px; // 0.0625px
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        padding: 0.75rem 0.625rem; // 12px 10px
+
+        &-login {
+            background-color: $alice-primary;
+            border-color: #FFFFFF;
+            color: #FFFFFF;
+            min-width: 11.75rem; // 210px
+            margin-left: 2.5rem; // 40px
+        }
+
+        &-submit {
+            background-color: $alice-primary;
+            border-color: #0048E6;
+            color: #FFFFFF;
+            min-width: 22.5rem; // 360px
+        }
+    }
+}
+
+.required:after {
+    content: "*";
+    color: #E83828;
+}

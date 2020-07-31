@@ -1,0 +1,67 @@
+/* Date compoent 기본 */
+.picker-wrapper-date {display: inline;}
+
+option {
+    &:hover {background-color: rgba(0, 80, 255, 0.05);}
+    &:visited{color:$alice-primary;background-color: white;}
+    &:active{color:$alice-primary;}
+    &:focus{color:$alice-primary}
+}
+
+select {
+    height: 1.875rem; // 30px
+    color:$element-font-color;
+    font-size: $element-font-size;
+    border: $element-border solid $element-line;
+    border-radius: $element-border-radius;
+    padding: 0 10px;
+    margin-right: 0.0625rem; // 1px
+    vertical-align: middle;
+    background-color: $element-background-color;
+    &:focus {
+        outline: $element-border solid $alice-primary;
+        border-radius: $element-border-radius;
+    }
+    &.search-selectBox {
+    }
+}
+
+input {
+    height: 1.875rem; // 30px
+    color:$element-font-color;
+    font-size: $element-font-size;
+    border: $element-border solid $element-line;
+    border-radius: $element-border-radius;
+    padding: 0 10px;
+    margin-right: 0.0625rem; // 1px
+    vertical-align: middle;
+    background-color: $element-background-color;
+    &:focus {
+        outline: $element-border solid $alice-primary;
+        border-radius: $element-border-radius;
+    }
+
+    &.search {
+        background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
+    }
+    &.search-datetime {
+        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
+    }
+    &.search-date {
+        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
+    }
+    &.search-time {
+        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
+    }
+}
+
+label {
+}
+
+textarea{
+    margin:10px 0 15px 0;
+    display:block;
+    border: 1px solid $element-line;
+    color: $element-font-color;
+    background-color: $element-background-color;
+}

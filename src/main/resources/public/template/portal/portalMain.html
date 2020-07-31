@@ -4,78 +4,103 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
+    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg bg-primary alice-navbar">
-    <a class="navbar-brand" href="#"><img th:src="@{/assets/media/icons/logo_portal.png}" width="35" height="35" alt="Alice"></a>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" th:text="#{portal.label.mainPhrase}"></div>
-    <div sec:authorize="isAuthenticated()" class="alice-navbar-profile" onclick="location.href='/layout'" style="cursor:pointer;" th:text="#{portal.label.main}"></div>
-    <div sec:authorize="isAnonymous()" class="alice-navbar-profile" onclick="location.href='/login'" style="float:right;cursor:pointer;" th:text="#{portal.label.login}"></div>
-</nav>
-<th:block layout:fragment="content">
-    <div class="navbar navbar-expand-lg bg-primary alice-navbar" id="portalPartA">
-        <div class="container">
-            <div class="pull-right" id="portalPartB" style="margin:0px auto; margin-top:150px; text-align:center; display:block;">
-                <div id = "portalPartD" style="padding-bottom:20px; font-size:x-large; font-weight:bold;" th:text="#{portal.label.topPhrase}"></div>
-                <input type="text" id="searchValue" name="searchValue" style="width:500px; height:40px; font-size:20px;" onKeydown="javascript:if(event.keyCode == 13) restSubmit('get', '/portal/list?page=0'); "/>
-                <button type="button" id="btnSearch" name="btnSearch" th:onclick="restSubmit('get', '/portal/list?page=0')" style="height:40px;" th:text="#{portal.label.search}"></button>
-            </div>
+<div class="alicePortal">
+    <img class="portal-search-logo" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
+    <div class="portal-search-layer">
+        <div class="login-content">
+            <div class="login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
+            <div class="login" sec:authorize="isAnonymous()" onclick="location.href='/login'" th:text="#{portal.label.login}"></div>
         </div>
-    </div>
-    <div>
-        <div id="portalPartC" class="container">
-            <ul style="text-align:center;">
-                <li style="display:inline-block; text-align:center; margin:55px; width:250px; height:100px; background-color:#F6F6F6;">
-                    <img th:src="@{/assets/media/icons/icon_portal_click.png}" width="50" height="50" style="margin-top:10px;">
-                    <p style="font-size:x-large; color:#004085;" th:text="#{portal.label.notice}"></p>
+        <div class="search-content">
+            <div class="title" th:text="#{portal.label.topPhrase}"></div>
+            <input class="icon" type="text" id="searchValue" name="searchValue" onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0'); "/>
+        </div>
+        <div class="part-content">
+            <ul>
+                <li class="part-box">
+                    <div class="header">
+                        <div class="icon top-notice"></div>
+                        <div class="title" th:text="#{menu.portal.notice}"></div>
+                    </div>
+                    <div class="list">
+                        <table id="notice"></table>
+                    </div>
                 </li>
-                <li style="display:inline-block; text-align:center; margin:55px; width:250px; height:100px; background-color:#F6F6F6;">
-                    <img th:src="@{/assets/media/icons/icon_portal_click.png}" width="50" height="50" style="margin-top:10px;">
-                    <p style="font-size:x-large; color:#004085;" th:text="#{portal.label.faq}"></p>
+                <li class="part-box">
+                    <div class="header">
+                        <div class="icon top-faq"></div>
+                        <div class="title" th:text="#{menu.portal.faq}"></div>
+                    </div>
+                    <div class="list">
+                        <table id="faq"></table>
+                    </div>
                 </li>
-                <li style="display:inline-block; text-align:center; margin:55px; width:250px; height:100px; background-color:#F6F6F6;">
-                    <img th:src="@{/assets/media/icons/icon_portal_click.png}" width="50" height="50" style="margin-top:10px;">
-                    <p style="font-size:x-large; color:#004085;" th:text="#{portal.label.download}"></p>
+                <li class="part-box">
+                    <div class="header">
+                        <div class="icon top-download"></div>
+                        <div class="title" th:text="#{menu.portal.download}"></div>
+                    </div>
+                    <div class="list">
+                        <table id="download"></table>
+                    </div>
                 </li>
             </ul>
         </div>
     </div>
-    <div id="portalList"></div>
-    <div class="container" style="margin:0px auto; margin-top:250px; text-align:center; display:block;">
-        <span style="font-size:x-large; font-weight:bold; color:#6c757d" th:text="#{portal.label.bottomPhrase}"></span>&nbsp;&nbsp;&nbsp;
-        <a href="#" style="font-size:x-large; font-weight:bold; color:#004085" th:text="#{portal.label.bottomLeftPhrase}"></a>
-    </div>
-</th:block>
+</div>
 </body>
-<th:block layout:fragment="pageScript">
-    <link th:href="@{/assets/theme/default/css/alice-itsm.css}" rel="stylesheet"/>
-    <script th:src="@{/assets/js/util/util-alice.js}"></script>
-    <script th:inline="javascript">
-        /*<![CDATA[ */
-        function restSubmit(method, url) {
-            document.getElementById('portalPartA').classList.remove('navbar');
-            document.getElementById('portalPartA').classList.remove('navbar-expand-lg');
-            document.getElementById('portalPartA').classList.remove('bg-primary');
-            document.getElementById('portalPartA').classList.remove('alice-navbar');
-            document.getElementById('portalPartB').style.removeProperty('margin-top');
-            document.getElementById('portalPartC').style.display = 'none';
-            document.getElementById('portalPartD').style.color = '#004085';
+<script th:src="@{/assets/js/util/util-alice.js}"></script>
+<script th:inline="javascript">
+    /*<![CDATA[ */
+    const topSize = 5;
 
-            const data = {
-                searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
-            };
+    window.onload = function() {
+        restSubmit('get', '/rest/portal/top?limit=' + topSize);
+    }
 
-            const getUrl = url + '&searchValue=' + data.searchValue;
-            const opt = {
-                method: method,
-                url: getUrl,
-                callbackFunc: function(response) {
-                    document.getElementById('portalList').innerHTML = response.responseText;
-                }
-            };
-            aliceJs.sendXhr(opt);
+    function restSubmit(method, url) {
+        const opt = {
+            method: method,
+            url: url,
+            contentType: 'application/json; charset=utf-8',
+            showProgressbar: false,
+            callbackFunc: function(response) {
+                setTopList(JSON.parse(response.responseText));
+            }
+        };
+        aliceJs.sendXhr(opt);
+    }
+
+    function setTopList(data) {
+        makeTopList(data['notice'], document.getElementById('notice'));
+        makeTopList(data['faq'], document.getElementById('faq'));
+        makeTopList(data['download'], document.getElementById('download'));
+    }
+
+    function makeTopList(data, element) {
+        for (let i = 0; i < topSize; i++) {
+            let row = document.createElement('tr');
+            let cell = document.createElement('td');
+            if (data[i] !== undefined) {
+                let content = document.createElement('a');
+                content.setAttribute('href', '#N');
+                content.textContent = data[i][element.id + 'Title'];
+                cell.appendChild(content);
+            }
+            row.appendChild(cell);
+            element.appendChild(row);
         }
-        /* ]]> */
-    </script>
-</th:block>
+    }
+
+    function locationSubmit(method, url) {
+        const data = {
+            searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
+        };
+        location.href = url + '&searchValue=' + data.searchValue;
+    }
+    /* ]]> */
+</script>
 </html>

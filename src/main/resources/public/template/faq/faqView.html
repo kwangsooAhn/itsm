@@ -3,13 +3,13 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title>FAQ 상세</title>
+    <title th:text="#{faq.label.detail}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
 <div class="container" style="width: 70%; margin: 50px auto;">
     <h1 th:text="#{menu.portal.faq}"></h1>
-    <p th:text="#{faq.msg.description}"></p>
+    <p th:text="#{faq.label.description}"></p>
     <div id="faqSearch" style="margin: 30px 0;">
         <select align="left" id="searchKeyword" onchange="loadXMLDoc(this.value)">
             <option th:text="#{faq.category.all}" value="" selected></option>
