@@ -92,37 +92,37 @@ button {
 
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Thin.woff") format("woff");
+  src: url("../font/NotoSansKR-Thin.otf") format("otf");
   font-style: normal;
   font-weight: 100;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Light.woff") format("woff");
+  src: url("../font/NotoSansKR-Light.otf") format("otf");
   font-style: normal;
   font-weight: 300;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Regular.woff") format("woff");
+  src: url("../font/NotoSansKR-Regular.otf") format("otf");
   font-style: normal;
   font-weight: 400;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Medium.woff") format("woff");
+  src: url("../font/NotoSansKR-Medium.otf") format("otf");
   font-style: normal;
   font-weight: 500;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Bold.woff") format("woff");
+  src: url("../font/NotoSansKR-Bold.otf") format("otf");
   font-style: normal;
   font-weight: 700;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Black.woff") format("woff");
+  src: url("../font/NotoSansKR-Black.otf") format("otf");
   font-style: normal;
   font-weight: 900;
 }
@@ -248,13 +248,6 @@ textarea {
 .container .contents .contents-title {
   padding: 20px 0 20px 5px;
 }
-.container .contents .contents-title .title-txt {
-  display: block;
-  font-size: 30px;
-  color: #47556a;
-  padding: 10px 0;
-  font-weight: 600;
-}
 .container .contents .contents-title .title-description {
   font-size: 15px;
   color: #94a6bf;
@@ -264,17 +257,11 @@ textarea {
   background: white;
   padding: 4% 8%;
 }
-.container .contents .menubar-left {
+.container .contents .search-area-left {
   float: left;
 }
-.container .contents .menubar-right {
+.container .contents .search-area-right {
   float: right;
-}
-.container .contents .menubar-bottom {
-  display: inline-block;
-  width: 100%;
-  position: relative;
-  top: 30px;
 }
 .container .contents .user-register-contents-body {
   background: white;
