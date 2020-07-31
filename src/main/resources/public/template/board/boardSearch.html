@@ -59,7 +59,9 @@
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('toDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function() { picker.open(); });
+                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function() {
+                        picker.open();
+                    });
                 } else {
                     getBoardList();
                 }

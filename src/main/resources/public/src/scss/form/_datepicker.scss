@@ -1,0 +1,265 @@
+/* date picker css */
+$datepicker-asset-path: "../media/icons/datepicker";
+$datepicker-font-family: "Noto Sans";
+$datepicker-border-color: #C8CED8;
+$datepicker-title-font-color: #464F50;
+$datepicker-title-font-size: 0.875rem; // 14px
+$datepicker-title-font-weight: bold;
+$datepicker-title-background-color: #ffffff;
+$datepicker-sub-title-font-color: #868F9A;
+$datepicker-sub-title-font-size: 0.688rem; // 11px
+$datepicker-sub-title-font-weight: 500;
+$datepicker-sub-title-background-color: #F7F7F7;
+$datepicker-content-font-size: 0.625rem; // 10px
+$datepicker-content-font-weight: 500;
+$datepicker-content-background-color: #ffffff;
+$datepicker-button-font-color: #68717C;
+$datepicker-button-font-size: 0.688rem; // 11px
+$datepicker-button-font-weight: normal;
+$datepicker-button-background-color: #ffffff;
+$datepicker-active-color: #0050ff;
+
+.picker-wrapper-date {
+    display: inline;
+}
+
+.picker-main { // input box
+    background-image: url("#{$datepicker-asset-path}/icon_calendar.png") no-repeat 96% center;
+}
+.picker-modal {
+    font-family: $datepicker-font-family;
+    display: none;
+    position: fixed;
+    background-color: #ffffff;
+    border: solid 0.0625rem $datepicker-border-color; // 1px
+    box-shadow: 0 0 0.3125rem0 rgba(30, 47, 63, 0.2); // 5px
+    text-align: center;
+
+    &.active { display: block; }
+
+    &-title {
+        height: 2.5rem; // 40px
+        color: $datepicker-title-font-color;
+        font-size: $datepicker-title-font-size;
+        font-weight: $datepicker-title-font-weight;
+        background-color: $datepicker-title-background-color;
+        border-bottom: solid 0.0625rem $datepicker-border-color; // 1px
+        padding: 0.688rem 0; // 11px
+
+        img.close {
+            position: absolute;
+            right: 0.375rem; // 6px
+            width: 1.125rem; // 18px
+            height: 1.125rem; // 18px
+            content: url("#{$datepicker-asset-path}/icon_close.png");
+            cursor: pointer;
+        }
+    }
+
+    &-sub-title {
+        color: $datepicker-sub-title-font-color;
+        font-size: $datepicker-sub-title-font-size;
+        font-weight: $datepicker-sub-title-font-weight;
+        background-color: $datepicker-sub-title-background-color;
+        border-bottom: solid 0.0625rem $datepicker-border-color; // 1px
+        padding: 0.4375rem 0; // 7px
+    }
+
+    &-content {
+        display: flex;
+        border-bottom: solid 0.0625rem $datepicker-border-color; // 1px
+        padding: 1rem 0 0 0; // 16px
+        font-size: $datepicker-content-font-size;
+        font-weight: $datepicker-content-font-weight;
+        background-color: $datepicker-content-background-color;
+        &-date {
+            display: none;
+            width: 15.63rem; // 250px
+
+            &.active { 
+                display: inline-block;
+                + div.active {
+                    border-left: solid 0.0625rem $datepicker-border-color; // 1px
+                }
+            }
+
+            &-months {
+                height: 1.125rem; // 18px
+                line-height: 1.125rem; // 18px
+                margin: 0 2rem; // 0 32px
+
+                img { vertical-align: middle; }
+
+                .date-prev {
+                    cursor: pointer;
+                    content: url("#{$datepicker-asset-path}/icon_arrow_left.png");
+                }
+
+                span {
+                    display: inline-block;
+                    width: 9.375rem; // 150px
+                    color: #5A6364;
+                    font-size: 0.688rem; // 11px
+                }
+
+                .date-next {
+                    cursor: pointer;
+                    content: url("#{$datepicker-asset-path}/icon_arrow_right.png");
+                }
+
+            }
+
+            &-calendar {
+                padding: 0.25rem 1.75rem; // 4px 28px
+                color: #C2CBD6; // 전월, 이월
+
+                .calendar-cell {
+                    display: inline-block;
+                    width: 1.063rem; // 17px
+                    height: 1.063rem; // 17px
+                    line-height: 0.8125rem; // 13px
+                    padding: 0.0625rem; // 1px
+                    margin: 0.25rem; // 4px
+                    text-align: center;
+
+                    &.calendar-title {
+                        color: rgba(120, 129, 140, 0.65);
+                        padding-top: 0;
+                        pointer-events: none;
+                    }
+
+                    &:not(.calendar-title) {
+                        cursor: pointer;
+                    }
+
+                    &.active { // 현재 월
+                        color: #78778C;
+                    }
+
+                    &.selected {
+                        background-color: $datepicker-active-color;
+                        color: #ffffff;
+                        border-radius: 48%;
+
+                    }
+                }
+            }
+        }
+        &-time {
+            display: none;
+            padding: 1.188rem 2.25rem; // 19px 36px
+
+            &.active { display: flex; }
+
+            div {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+
+                img {
+                    width: 1.125rem; // 18px
+                    height: 1.125rem; // 18px
+
+                    &.arrow-up {
+                        cursor: pointer;
+                        content: url("../media/icons/datepicker/icon_arrow_top.png");
+
+                        &:hover {
+                            content: url("../media/icons/datepicker/icon_arrow_top_select.png");
+                        }
+                    }
+
+                    &.arrow-down {
+                        cursor: pointer;
+                        content: url("../media/icons/datepicker/icon_arrow_under.png");
+
+                        &:hover {
+                            content: url("../media/icons/datepicker/icon_arrow_under_select.png");
+                        }
+                    }
+                }
+
+                input[type=text] {
+                    width: 3rem; // 48px
+                    height: 3.125rem; // 50px
+                    color: #505964;
+                    font-size: 1.438rem; //23px
+                    font-weight: 500;
+                    text-align: center;
+                    margin: 0.375rem 0; // 6.5px
+                    border: 0.0625rem solid $datepicker-border-color; // 1px
+
+                    &:focus {
+                        outline: none !important;
+                        border: 0.0625rem solid $datepicker-active-color;
+                    }
+                }
+
+                &.hour-group,
+                &.minute-group {
+                    display: flex;
+                    align-items: center;
+                }
+
+                &.separator { // 구분자 : 
+                    width: 1.438rem; // 23px
+                    color: #505964;
+                    font-size: 1.438rem; // 23px
+                    font-weight: 500;
+                }
+
+                &.button-group {
+                    button {
+                        width: 3rem; // 48px
+                        height: 1.563rem; // 25px
+                        color: #AAB3B4;
+                        font-size: 0.875rem; // 14px
+                        font-weight: 500;
+                        margin-left: 0.625rem; // 10px
+                        background-color: #F7F7F7;
+                        border: 0.0625rem solid $datepicker-border-color;
+                        padding: 0;
+                        cursor: pointer;
+
+                        &.active {
+                            color: $datepicker-active-color;
+                            background-color: #ffffff;
+                            border: 0.0625rem solid $datepicker-active-color;
+                            + button { border-top-color: $datepicker-active-color; }
+                        }
+
+                        &:not(:last-of-type) {
+                            border-bottom: 0;
+                        }
+
+                        &:focus {
+                            outline: none !important;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    &-button {
+        height: 2.5rem; // 40px
+        float: right;
+        margin-right: 0.4375rem; // 7px
+        button {
+            width: 2.688rem; // 43px;
+            height: 1.563rem; // 25px
+            color: $datepicker-button-font-color;
+            font-size: $datepicker-button-font-size;
+            font-weight: $datepicker-button-font-weight;
+            margin: 0.4375rem 0.1875rem 0.4375rem 0; // 7.5px 3px 7.5px 0
+            background-color: $datepicker-button-background-color;
+            border: 0.0625rem solid $datepicker-border-color;
+            border-radius: 0.0625rem; // 1px
+            padding: 0;
+            cursor: pointer;
+            &:focus {
+                outline: none !important;
+            }
+        }
+    }
+}
