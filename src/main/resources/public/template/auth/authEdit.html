@@ -13,7 +13,7 @@
             <span class="title-txt" th:text="#{auth.label.manage}"></span>
             <span class="title-description" th:text="#{auth.msg.description}"></span>
         </div>
-        <div class="contents-body">
+        <div class="contents-body-auth">
             <div class="auth-menubar">
                 <div class="menubar-left">
                     <input class="search" th:placeholder="#{auth.msg.searchPlaceholder}">
@@ -30,14 +30,14 @@
                     <table>
                         <thead>
                         <tr>
-                            <th>권한명</th>
-                            <th>권한아이디</th>
-                            <th>설명</th>
+                            <th th:text="#{auth.label.authName}"></th>
+                            <th th:text="#{auth.label.authId}"></th>
+                            <th th:text="#{auth.label.authDesc}"></th>
                         </tr>
                         </thead>
                         <tbody>
                             <tr th:each="auth : ${authList}">
-                                <td name="alink" th:text="${auth.authName}" th:id="${auth.authId}"></td>
+                                <td name="authName" th:text="${auth.authName}" th:id="${auth.authId}"></td>
                                 <td th:text="${auth.authId}"></td>
                                 <td th:text="${auth.authDesc}" class="align-left"></td>
                             </tr>
@@ -46,34 +46,42 @@
                 </div>
                 <div class="list-wrap-auth-edit float-right">
                     <div class="float-left">
-                        <label class="auth-name">권한명</label>
-                        <input class="auth-name" type="text" placeholder="" aria-label="권한명"><span class="icon-help"></span>
-                        <label class="auth-id">권한아이디</label>
-                        <input class="auth-id" type="text" aria-label="권한아이디">
+                        <label class="auth-name" th:text="#{auth.label.authName}"></label>
+                        <input class="auth-name" id="txtAuthName" name="txtAuthName" type="text"><span class="icon-help"></span>
+                        <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
+                        <label class="auth-id" th:text="#{auth.label.authId}"></label>
+                        <input class="auth-id" id="txtAuthId" name="txtAuthId" type="text">
                     </div>
                     <div class="float-clear">
-                        <label class="auth-desc">설명</label>
-                        <textarea class="auth-desc" aria-label="설명"></textarea>
+                        <label class="auth-desc" th:text="#{auth.label.authDesc}"></label>
+                        <textarea class="auth-desc"></textarea>
+                        <textarea class="auth-desc" id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7"
+                                  th:text="${authDetail?.authDesc}"></textarea>
                     </div>
                     <div class="float-left">
                         <div class="auth-list">
-                            <label class="auth-url">사용 URL</label>
+                            <label class="auth-url" th:text="#{auth.label.urlList}"></label>
                             <ul>
-                                <li class="checked"><input type="checkbox" checked >[get]/board-admin/category/list</li>
-                                <li><input type="checkbox">[get]/board-admin/category/list</li>
+                                <li th:each="url : ${urlList}">
+                                    <input type="checkbox" name="authUrl" th:id="${url?.url}"
+                                           th:text="|[${url?.method}] ${url?.url}|" th:value="${url?.url}">
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div class="float-right">
                         <div class="auth-list">
-                            <label class="auth-list">사용 메뉴 목록</label>
+                            <label class="auth-list" th:text="#{auth.label.menuList}"></label>
                             <ul>
-                                <li><input type="checkbox">문서양식</li>
+		                        <li th:each="menu : ${menuList}">
+			                        <input type="checkbox" name="authMenu" th:id="${menu?.menuId}"
+			                               th:value="${menu?.menuId}" th:text="#{|menu.${menu?.menuId}|}">
+		                        </li>
                             </ul>
                         </div>
                     </div>
                     <div class="float-clear">
-                        <label class="reference-count">역할 참조 개수</label>
+                        <label class="reference-count" th:text="#{auth.label.referenceCount}"></label>
                         <input class="reference-count disable" type="text">
                     </div>
                 </div>
@@ -99,80 +107,80 @@
 <!--            <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnCreate" name="btnCreate"-->
 <!--                    th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>-->
 <!--        </div>-->
-        <hr>
-        <div style="height: 600px;width: inherit;display: -webkit-inline-box;">
-            <div style="width:20%;height: inherit;border:1px solid;margin-right: 1rem;overflow:overlay;">
-                <ul>
-                    <li th:each="auth : ${authList}">
-                        <a name="alink" th:text="${auth.authName}" th:id="${auth.authId}" style="cursor: pointer;"></a>
-                    </li>
-                </ul>
-            </div>
-            <table border="1" style="">
-                <colgroup>
-                    <col width="15%">
-                    <col width="40%">
-                    <col width="10%">
-                    <col width="*">
-                </colgroup>
-                <tr>
-                    <th class="required" th:text="#{auth.label.authId}"></th>
-                    <td colspan="3"><input id="txtAuthId" name="txtAuthId" type="text" th:value="${authDetail?.authId}" maxlength="100"/></td>
-                </tr>
-                <tr>
-                    <th class="required" th:text="#{auth.label.authName}"></th>
-                    <td colspan="3">
-                        <input id="txtAuthName" name="txtAuthName" type="text" th:value="${authDetail?.authName}" maxlength="100"/>
-                        <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
-                    </td>
-                </tr>
-                <tr>
-                    <th th:text="#{auth.label.authDesc}"></th>
-                    <td colspan="3">
-                        <textarea id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7" style="width: -webkit-fill-available; resize: none;" th:text="${authDetail?.authDesc}"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <th th:text="#{auth.label.referenceCount}"></th>
-                    <td colspan="3"><span id="roleAuthMapCount" name="roleAuthMapCount"></span></td>
-                </tr>
-                <tr>
-                    <th th:text="#{common.label.createUser}"></th>
-                    <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${authDetail?.createUserKey}"></span></td>
-                    <th th:text="#{common.label.updateUser}"></th>
-                    <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${authDetail?.updateUserKey}"></span></td>
-                </tr>
-                <tr>
-                    <th th:text="#{common.label.createDate}"></th>
-                    <td><span id="spanCreateDt" name="spanCreateDt"></span></td>
-                    <th th:text="#{common.label.updateDate}"></th>
-                    <td><span id="spanUpdateDt" name="spanUpdateDt"></span></td>
-                </tr>
-                <tr>
-                    <th colspan="2"><span>메뉴 목록</span></th>
-                    <th colspan="2"><span>URL 목록</span></th>
-                </tr>
-                <tr>
-                    <td colspan="2" style="overflow:overlay;">
-                        <ul style="overflow:overlay;height: 200px;">
-                            <li th:each="menu : ${menuList}">
-                                <input type="checkbox" name="authMenu" th:id="${menu?.menuId}" th:value="${menu?.menuId}" >
-                                <span th:text="#{|menu.${menu?.menuId}|}"></span>
-                            </li>
-                        </ul>
-                    </td>
-                    <td colspan="2" style="overflow:overlay;">
-                        <ul style="overflow:overlay;height: 200px;">
-                            <li th:each="url : ${urlList}">
-                                <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
-                                <span th:text="|[${url?.method}] ${url?.url}|"></span>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-            </table>
-        </div>
-        <hr>
+<!--        <hr>-->
+<!--        <div style="height: 600px;width: inherit;display: -webkit-inline-box;">-->
+<!--            <div style="width:20%;height: inherit;border:1px solid;margin-right: 1rem;overflow:overlay;">-->
+<!--                <ul>-->
+<!--                    <li th:each="auth : ${authList}">-->
+<!--                        <a name="alink" th:text="${auth.authName}" th:id="${auth.authId}" style="cursor: pointer;"></a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--            </div>-->
+<!--            <table border="1" style="">-->
+<!--                <colgroup>-->
+<!--                    <col width="15%">-->
+<!--                    <col width="40%">-->
+<!--                    <col width="10%">-->
+<!--                    <col width="*">-->
+<!--                </colgroup>-->
+<!--                <tr>-->
+<!--                    <th class="required" th:text="#{auth.label.authId}"></th>-->
+<!--                    <td colspan="3"><input id="txtAuthId" name="txtAuthId" type="text" th:value="${authDetail?.authId}" maxlength="100"/></td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <th class="required" th:text="#{auth.label.authName}"></th>-->
+<!--                    <td colspan="3">-->
+<!--                        <input id="txtAuthName" name="txtAuthName" type="text" th:value="${authDetail?.authName}" maxlength="100"/>-->
+<!--                        <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <th th:text="#{auth.label.authDesc}"></th>-->
+<!--                    <td colspan="3">-->
+<!--                        <textarea id="txtAuthDesc" name="txtAuthDesc" maxlength="200" rows="7" style="width: -webkit-fill-available; resize: none;" th:text="${authDetail?.authDesc}"></textarea>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <th th:text="#{auth.label.referenceCount}"></th>-->
+<!--                    <td colspan="3"><span id="roleAuthMapCount" name="roleAuthMapCount"></span></td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <th th:text="#{common.label.createUser}"></th>-->
+<!--                    <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${authDetail?.createUserKey}"></span></td>-->
+<!--                    <th th:text="#{common.label.updateUser}"></th>-->
+<!--                    <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${authDetail?.updateUserKey}"></span></td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <th th:text="#{common.label.createDate}"></th>-->
+<!--                    <td><span id="spanCreateDt" name="spanCreateDt"></span></td>-->
+<!--                    <th th:text="#{common.label.updateDate}"></th>-->
+<!--                    <td><span id="spanUpdateDt" name="spanUpdateDt"></span></td>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <th colspan="2"><span>메뉴 목록</span></th>-->
+<!--                    <th colspan="2"><span>URL 목록</span></th>-->
+<!--                </tr>-->
+<!--                <tr>-->
+<!--                    <td colspan="2" style="overflow:overlay;">-->
+<!--                        <ul style="overflow:overlay;height: 200px;">-->
+<!--                            <li th:each="menu : ${menuList}">-->
+<!--                                <input type="checkbox" name="authMenu" th:id="${menu?.menuId}" th:value="${menu?.menuId}" >-->
+<!--                                <span th:text="#{|menu.${menu?.menuId}|}"></span>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </td>-->
+<!--                    <td colspan="2" style="overflow:overlay;">-->
+<!--                        <ul style="overflow:overlay;height: 200px;">-->
+<!--                            <li th:each="url : ${urlList}">-->
+<!--                                <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">-->
+<!--                                <span th:text="|[${url?.method}] ${url?.url}|"></span>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--            </table>-->
+<!--        </div>-->
+<!--        <hr>-->
         <!-- buttons -->
 <!--        <table style="float:right">-->
 <!--            <tr>-->
@@ -219,7 +227,7 @@
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             } else {
-                let first = document.querySelector('a[name=alink]');
+                let first = document.querySelector('td[name=authName]');
                 onGetDetail(first.getAttribute('id'));
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
@@ -229,7 +237,7 @@
                 }
             }
 
-            let authList = document.querySelectorAll('a[name=alink]');
+            let authList = document.querySelectorAll('td[name=authName]');
             for(let i = 0; i < authList.length; i++) {
                 authList[i].addEventListener('click', function(){
                 if (AUTH_UPDATE) {
@@ -328,7 +336,7 @@
 
             let authIds = [];
             let authNames = [];
-            let validList = document.querySelectorAll('a[name=alink]')
+            let validList = document.querySelectorAll('td[name=authName]')
             for(let i = 0; i < validList.length; i++) {
                 authIds.push(validList[i].id);
                 authNames.push(validList[i].text);

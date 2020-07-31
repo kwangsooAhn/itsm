@@ -83,7 +83,9 @@ auth:
     authId: "권한 아이디"
     authName: "권한 명"
     manage: "권한 관리"
+    menuList: "사용 메뉴 목록"
     referenceCount: "역할 참조 개수"
+    urlList: "사용 URL"
   msg:
     description: "사용할 수 있는 메뉴와 URL을 권한으로 묶어서 관리합니다."
     duplicateAuthId: "중복되는 아이디가 있습니다. 다른 권한 아이디를 입력하세요."

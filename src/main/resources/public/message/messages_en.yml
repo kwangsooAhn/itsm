@@ -83,7 +83,9 @@ auth:
     authId: "Auth ID"
     authName: "Auth Name"
     manage: "Role Management"
+    menuList: "Usable Menu List"
     referenceCount: "Role Reference Count"
+    urlList: "Usable Url"
   msg:
     description: "Manage available menus and URLs by grouping them with permissions."
     duplicateAuthId: "Duplicate auth id! Please enter other auth id."

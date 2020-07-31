@@ -155,7 +155,6 @@
                     }
                 }
                 &-edit {
-                    float: right;
                     padding: 15px 0 0 6px;
                     ul {
                         width: 330px;
@@ -164,12 +163,8 @@
                         border: 1px solid #C8CED8;
                         padding: 10px;
                         margin: 8px 0 15px 0;
-                        li {
-                            line-height: 2;
-                        }
-                        li.checked {
-                            font-weight: bold;
-                        }
+                        li {line-height: 2;}
+                        li.checked {font-weight: bold;}
                     }
                 }
             }
