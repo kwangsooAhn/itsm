@@ -55,7 +55,7 @@
                     <button class="btn-register" sec:authorize="hasAuthority('faq.update')" th:if="${faq?.faqId}" id="btnUpdate"
                             th:text="#{common.btn.save}">저장
                     </button>
-                    <button class="btn_register" sec:authorize="hasAuthority('faq.delete')" th:if="${faq?.faqId}" id="btnDelete"
+                    <button class="btn-register" sec:authorize="hasAuthority('faq.delete')" th:if="${faq?.faqId}" id="btnDelete"
                             th:text="#{common.btn.delete}">삭제
                     </button>
                 </div>
