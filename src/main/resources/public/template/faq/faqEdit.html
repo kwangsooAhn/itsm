@@ -44,15 +44,15 @@
                         <div id="dropZoneUploadedFiles"></div>
                     </div>
                 </div>
-                <div class="btn_wrap">
-                    <button class="btn_register" type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{common.btn.list}">
+                <div class="btn-wrap">
+                    <button class="btn-gray" type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{common.btn.list}">
                         목록
                     </button>
 
-                    <button class="btn_register" sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}" id="btnRegist"
+                    <button class="btn-register" sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}" id="btnRegist"
                             th:text="#{common.btn.save}">저장
                     </button>
-                    <button class="btn_register" sec:authorize="hasAuthority('faq.update')" th:if="${faq?.faqId}" id="btnUpdate"
+                    <button class="btn-register" sec:authorize="hasAuthority('faq.update')" th:if="${faq?.faqId}" id="btnUpdate"
                             th:text="#{common.btn.save}">저장
                     </button>
                     <button class="btn_register" sec:authorize="hasAuthority('faq.delete')" th:if="${faq?.faqId}" id="btnDelete"
