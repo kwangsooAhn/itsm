@@ -345,6 +345,8 @@ faq:
     title: "Title"
     content: "Content"
     description: "Frequently asked questions and answers."
+    edit: "FAQ edit"
+    detail: "FAQ detail"
 
 # FileUpload
 fileupload:
