@@ -202,11 +202,13 @@ input.search-time {
 }
 
 textarea {
+  padding: 0 0.625rem;
   margin: 10px 0 15px 0;
   display: block;
   border: 1px solid #C8CED8;
   color: #67717F;
   background-color: #FFFFFF;
+  font-size: 0.875rem;
 }
 
 .column-1 {
@@ -276,6 +278,7 @@ textarea {
 .container .contents .user-register-contents-body select {
   font-size: 14px;
   margin-top: 8px;
+  width: 340px;
 }
 .container .contents .user-register-contents-body .required::after {
   color: #E83828;
@@ -296,6 +299,10 @@ textarea {
 }
 .container .contents .user-register-contents-body .profile-input-body-list:last-child {
   margin-bottom: 62px;
+}
+.container .contents .user-register-contents-body .profile-input-body-list textarea {
+  width: 42.5rem;
+  height: 11.25rem;
 }
 .container .contents .user-register-contents-body .user-register-top-list {
   margin-top: 37px;
@@ -393,11 +400,11 @@ textarea {
   font-size: 13px;
 }
 .container .contents .user-register-contents-body .btn-register {
-  padding: 6px 12px;
+  padding: 7px 12px;
   border: 1px solid #0050ff;
   color: #0050ff;
-  border-radius: 3px;
-  margin-right: 5px;
+  border-radius: 2px;
+  font-size: 0.875rem;
 }
 .container .contents .user-register-contents-body .btn-register:hover {
   background-color: #0050ff;
