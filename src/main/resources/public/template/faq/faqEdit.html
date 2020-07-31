@@ -13,7 +13,7 @@
             <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
             <div class="contents-title">
                 <div>
-                    <span class="title-txt" th:text="#{faq.label.edit}"></span>
+                    <h1 th:text="#{faq.label.edit}"></h1>
                     <span class="title-description" th:text="#{faq.label.description}"></span>
                 </div>
             </div>
@@ -44,14 +44,14 @@
                     </div>
                 </div>
                 <div class="btn-wrap float-right">
-                    <button class="btn-register" sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}"
-                            id="btnRegist" th:text="#{common.btn.save}">저장</button>
-                    <button class="btn-register" sec:authorize="hasAuthority('faq.update')" th:if="${faq?.faqId}"
-                            id="btnUpdate" th:text="#{common.btn.save}">저장</button>
-                    <button class="btn-register" sec:authorize="hasAuthority('faq.delete')" th:if="${faq?.faqId}"
-                            id="btnDelete" th:text="#{common.btn.delete}">삭제</button>
-                    <button class="btn-gray" type="button" id="btnList" onclick="location.href='/faqs/search'"
-                            th:text="#{common.btn.list}">목록</button>
+                    <button type="button" class="btn-gray" id="btnList" onclick="location.href='/faqs/search'"
+                            th:text="#{common.btn.list}"></button>
+                    <button type="button" class="btn-register" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
+                            th:if="!${faq?.faqId}" th:text="#{common.btn.save}"></button>
+                    <button type="button" class="btn-register" id="btnUpdate" sec:authorize="hasAuthority('faq.update')"
+                            th:if="${faq?.faqId}" th:text="#{common.btn.save}"></button>
+                    <button type="button" class="btn-gray" id="btnDelete" sec:authorize="hasAuthority('faq.delete')"
+                            th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
                 </div>
             </div>
         </form>
