@@ -315,11 +315,13 @@ download:
   label:
     category: "Category"
     download: "Download"
+    list: "Download List"
     searchPlaceholder: "Title / Create User / Attach File Name"
     seq: "Number"
     views: "Views"
   msg:
     selectCategory: "Please select a category."
+    description: "View, add, or edit download's information."
   category:
     all: "All"
     companyPolicy: "Company Policy"
@@ -365,6 +367,7 @@ form:
     create: "Create Form"
     customCodeTarget: "Target Select"
     description: "Description"
+    detail: "Detail Form"
     edit: "Edit Form"
     export: "Export"
     form: "Form"
@@ -377,10 +380,12 @@ form:
     redo: "Redo"
     saveExit: "Save and Exit"
     searchPlaceholder: "Form Name / Form Description"
+    state: "State"
     templatesList: "Templates List"
     undo: "Undo"
   msg:
     enterFormName: "Please enter a form name."
+    description: "View, add, or edit Form's information."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
     fileNameDuplication: "The same file name exists."
@@ -466,7 +471,7 @@ login:
     enterPassword: "Please enter your password."
     invalidUserOrPassword: "This is an unregistered ID or an incorrect password."
     ipAccessDenied: "This IP is not accessible."
-    redirectedLoginPage: "After {0} seconds you will be redirected to the login page."
+    redirectedLoginPage: "seconds after, you will be redirected to the login page."
     sessionExpired: "Your session has expired."
     unKnownError: "An unknown error has occurred. Please contact the administrator."
 

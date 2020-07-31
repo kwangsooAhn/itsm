@@ -6,25 +6,25 @@
 <th:block layout:fragment="content">
     <div class="contents">
         <div class="contents-title">
-            <span class="title-txt" th:text="#{token.label.list}"></span>
+            <h1 th:text="#{token.label.list}"></h1>
             <span class="title-description" th:text="#{token.msg.description}"></span>
         </div>
         <div class="token-search">
             <div class="menubar-left">
                 <form id="frmSearch">
-                    <select class="column-2" name="searchTokenType" id="searchTokenType">
+                    <select class="column-3" name="searchTokenType" id="searchTokenType">
                         <option value="token.type.todo" th:text="#{token.type.todo}" selected />
                         <option value="token.type.requested" th:text="#{token.type.requested}" />
                         <option value="token.type.progress" th:text="#{token.type.progress}" />
                         <option value="token.type.completed" th:text="#{token.type.completed}" />
                     </select>
-                    <select class="column-2" name="searchDocumentId" id="searchDocumentId">
+                    <select class="column-3" name="searchDocumentId" id="searchDocumentId">
                         <option value="" th:text="#{token.label.all}" selected="selected" />
                         <option th:each="document: ${documentList}" th:value="${document.documentId}" th:text="${document.documentName}" />
                     </select>
-                    <input class="search column-2" type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
-                    <input type="text" id="searchFromDt" name="searchFromDt" class="alice-date" readonly="readonly" />
-                    <input type="text" id="searchToDt" name="searchToDt" class="alice-date" readonly="readonly" />
+                    <input class="search column-3" type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
+                    <input type="text" id="searchFromDt" name="searchFromDt" class="search-date column-2" readonly="readonly" />
+                    <input type="text" id="searchToDt" name="searchToDt" class="search-date column-2" readonly="readonly" />
                 </form>
             </div>
             <div class="menubar-right test">

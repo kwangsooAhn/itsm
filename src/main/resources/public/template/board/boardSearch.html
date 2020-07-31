@@ -10,7 +10,7 @@
 <th:block layout:fragment="content">
     <div class="contents">
         <div class="contents-title">
-            <span class="title-txt" th:text="#{board.label.list}"></span>
+            <h1 th:text="#{board.label.list}"></h1>
             <span class="title-description" th:text="#{board.msg.description}"></span>
         </div>
         <div class="contents-body">
@@ -20,12 +20,12 @@
                         <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
                             th:text="#{${boardAdmin.boardAdminTitle}}"></option>
                     </select>
-                    <input class="search column-2" id="search" type="text" maxlength="100"
+                    <input class="search column-3" id="search" type="text" maxlength="100"
                         th:placeholder="#{board.label.searchBoardPlaceholder}">
                     <span class="icon-search"></span>
-                    <input class="search-date" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                     <span>~</span>
-                    <input class="search-date" type="text" id="toDt" name="toDt" readonly="readonly"/>
+                    <input class="search-date column-2" type="text" id="toDt" name="toDt" readonly="readonly"/>
                 </div>
                 <div class="menubar-right">
                     <button class="btn-add" onclick="openBoardAdd()"

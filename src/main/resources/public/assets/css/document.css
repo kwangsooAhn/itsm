@@ -10766,30 +10766,6 @@ a.text-dark:hover, a.text-dark:focus {
   }
 }
 
-@font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareL.woff) format("woff");
-  font-weight: 300;
-}
-
-@font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareR.woff) format("woff");
-  font-weight: 400;
-}
-
-@font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareB.woff) format("woff");
-  font-weight: 700;
-}
-
-@font-face {
-  font-family: NanumSquare;
-  src: url(NanumSquareEB.woff) format("woff");
-  font-weight: 800;
-}
-
 .drawing-board {
   display: -webkit-box;
   display: -ms-flexbox;

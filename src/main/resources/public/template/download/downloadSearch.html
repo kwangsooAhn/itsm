@@ -4,31 +4,51 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{download.label.download}"></title>
-    <meta charset="UTF-8">
+    <title th:text="#{menu.portal.download}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
-            <h1 th:text="#{download.label.download}"></h1>
-            <div style="margin-top: 10px">
-                <select id="category" style="width: 230px; height: 30px">
-                    <option value="all" th:text="#{download.category.all}"></option>
-                    <option th:each="category: ${categoryList}" th:value="${category.code}"
-                        th:text="#{${category.code}}"></option>
-                </select>
-                <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100"
-                    th:placeholder="#{download.label.searchPlaceholder}">
-                <input type="text" id="fromDt" name="fromDt" readonly="readonly"/>
-                <span>~</span>
-                <input type="text" id="toDt" name="toDt" readonly="readonly"/>
-                <button style="float: right" onclick="location.href='/downloads/new'"
-                    sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.register}" ></button>
+    <div class="contents">
+        <div class="contents-title">
+            <h1 th:text="#{download.label.list}"></h1>
+            <span class="title-description" th:text="#{download.msg.description}"></span>
+        </div>
+        <div class="contents-body">
+            <div class="usermanage-menubar">
+                <div class="menubar-left">
+                    <select id="category" class="column-2">
+                        <option value="all" th:text="#{download.category.all}"></option>
+                        <option th:each="category: ${categoryList}" th:value="${category.code}"
+                                th:text="#{${category.code}}"></option>
+                    </select>
+                    <input type="text" id="search" name="search" class="search column-3" maxlength="100"
+                           th:placeholder="#{download.label.searchPlaceholder}">
+                    <span class="icon-search"></span>
+                    <input type="text" id="fromDt" name="fromDt" class="alice-date" readonly="readonly"/>
+                    <span>~</span>
+                    <input type="text" id="toDt" name="toDt" class="alice-date" readonly="readonly"/>
+                </div>
+                <div class="menubar-right">
+                    <button class="btn-add" onclick="location.href='/downloads/new'"
+                            sec:authorize="hasAuthority('download.create')"></button>
+                </div>
+            </div>
+            <div class="list" id="downloadList"></div>
+            <div class="menubar-bottom">
+                <div class="paging">
+                    <ul>
+                        <li><span class="btn-prev"></span></li>
+                        <li><span class="btn-num">1</span></li>
+                        <li><span class="btn-num">2</span></li>
+                        <li><span class="btn-num">3</span></li>
+                        <li><span class="btn-num">···</span></li>
+                        <li><span class="btn-num">6</span></li>
+                        <li><span class="btn-next"></span></li>
+                    </ul>
+                </div>
+                <div class="list-count"><span>총:127명</span></div>
             </div>
         </div>
-        <hr>
-        <div id="downloadList" style="margin-top: 20px"></div>
     </div>
 </th:block>
 </body>
@@ -83,7 +103,7 @@
             restSubmit('get', '/downloads/list?' + urlParam, showProgressbar);
         }
 
-        //REST API
+        // REST API
         function restSubmit(method, url, showProgressbar) {
             const opt = {
                 method: method,

@@ -92,43 +92,51 @@ button {
 
 @font-face {
   font-family: "Noto Sans KR";
+  src: url("../font/NotoSansKR-Thin.woff") format("woff");
   font-style: normal;
   font-weight: 100;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Thin.otf) format("opentype");
 }
 @font-face {
   font-family: "Noto Sans KR";
+  src: url("../font/NotoSansKR-Light.woff") format("woff");
   font-style: normal;
   font-weight: 300;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Light.otf) format("opentype");
 }
 @font-face {
   font-family: "Noto Sans KR";
+  src: url("../font/NotoSansKR-Regular.woff") format("woff");
   font-style: normal;
   font-weight: 400;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Regular.otf) format("opentype");
 }
 @font-face {
   font-family: "Noto Sans KR";
+  src: url("../font/NotoSansKR-Medium.woff") format("woff");
   font-style: normal;
   font-weight: 500;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Medium.otf) format("opentype");
 }
 @font-face {
   font-family: "Noto Sans KR";
+  src: url("../font/NotoSansKR-Bold.woff") format("woff");
   font-style: normal;
   font-weight: 700;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format("opentype");
 }
 @font-face {
   font-family: "Noto Sans KR";
+  src: url("../font/NotoSansKR-Black.woff") format("woff");
   font-style: normal;
   font-weight: 900;
-  src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format("opentype");
 }
-body, h1, h2, h3, h4, h5, h6, input, textarea, select {
+body, input, textarea, select {
   font-family: "Noto Sans KR", sans-serif;
-  font-size: 15px;
+  font-size: 0.9375rem;
+}
+
+h1 {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 1.875rem;
+  color: #47556A;
+  padding: 0.625rem 0rem;
+  font-weight: 600;
 }
 
 /* Date compoent 기본 */
@@ -159,12 +167,12 @@ select {
   padding: 0 10px;
   margin-right: 0.0625rem;
   vertical-align: middle;
+  background-color: #FFFFFF;
 }
 select:focus {
   outline: 0.0625rem solid #0050ff;
   border-radius: 0.0625rem;
 }
-
 input {
   height: 1.875rem;
   color: #67717F;
@@ -174,14 +182,23 @@ input {
   padding: 0 10px;
   margin-right: 0.0625rem;
   vertical-align: middle;
+  background-color: #FFFFFF;
 }
 input:focus {
   outline: 0.0625rem solid #0050ff;
   border-radius: 0.0625rem;
 }
-input.alice-date {
-  width: 8.125rem;
-  background: url("../icons/icon_calendar.png") no-repeat 6.25rem 0.4rem;
+input.search {
+  background: url("../icons/icon_search.svg") no-repeat center right;
+}
+input.search-datetime {
+  background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
+}
+input.search-date {
+  background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
+}
+input.search-time {
+  background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
 }
 
 textarea {
@@ -189,16 +206,33 @@ textarea {
   display: block;
   border: 1px solid #C8CED8;
   color: #67717F;
+  background-color: #FFFFFF;
+}
+
+.column-1 {
+  width: 5rem;
 }
 
 .column-2 {
-  width: 13.75rem;
+  width: 10rem;
+}
+
+.column-3 {
+  width: 15rem;
+}
+
+.column-4 {
+  width: 20rem;
+}
+
+.column-5 {
+  width: 25rem;
 }
 
 .wrap-screen {
   position: relative;
-  background: #eaf1f7;
   min-height: 100vh;
+  background: #eaf1f7;
 }
 
 .container {
@@ -287,6 +321,7 @@ textarea {
 .container .contents .user-register-contents-body .input-title {
   font-size: 14px;
   display: block;
+  padding: 10px 0;
 }
 .container .contents .user-register-contents-body .input-title-guide {
   display: flex;
@@ -325,7 +360,6 @@ textarea {
   height: 30px;
   border: 1px solid #C8CED8;
   font-size: 14px;
-  margin-top: 15px;
   padding-left: 5px;
 }
 .container .contents .user-register-contents-body .theme-color-select {
@@ -339,16 +373,16 @@ textarea {
   height: 15px;
   line-height: 15px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-list {
-  margin-top: 22px;
-  margin-left: 10px;
-  margin-bottom: 62px;
-}
 .container .contents .user-register-contents-body .user-role-checkbox-wrap {
   margin-top: 15px;
   margin-left: 10px;
   display: inline-block;
   width: 162px;
+}
+.container .contents .user-register-contents-body .user-role-checkbox-list {
+  margin-top: 22px;
+  margin-left: 10px;
+  margin-bottom: 62px;
 }
 .container .contents .user-register-contents-body .user-role-checkbox-list-middle {
   margin-top: 15px;
@@ -376,7 +410,7 @@ textarea {
   font-size: 13px;
 }
 .container .contents .user-register-contents-body .btn-register {
-  padding: 10px;
+  padding: 6px 12px;
   border: 1px solid #0050ff;
   color: #0050ff;
   border-radius: 3px;
@@ -384,16 +418,6 @@ textarea {
 }
 .container .contents .user-register-contents-body .btn-register:hover {
   background-color: #0050ff;
-  color: white;
-}
-.container .contents .user-register-contents-body .btn_list {
-  padding: 6px 12px;
-  border: 1px solid #BEC5CE;
-  color: #3D4752;
-  border-radius: 3px;
-}
-.container .contents .user-register-contents-body .btn_list:hover {
-  background-color: #BEC5CE;
   color: white;
 }
 .container .contents .user-register-contents-body .avatar-section {
@@ -413,7 +437,7 @@ textarea {
   display: block;
   font-size: 14px;
 }
-.container .contents .user-register-contents-body avatar-text {
+.container .contents .user-register-contents-body .avatar-text {
   display: block;
   margin-top: 96px;
   text-align: center;
@@ -550,33 +574,6 @@ textarea {
 .container .contents .list .align-right {
   text-align: right;
 }
-.container .contents .search {
-  width: 305px;
-  height: 30px;
-  background: url("../icons/icon_search.svg") no-repeat center right;
-  padding: 0 10px;
-  border: 1px solid #c8ced8;
-  border-radius: 2px;
-  font-size: 13px;
-}
-.container .contents .search-date {
-  width: 120px;
-  height: 30px;
-  background: url("../icons/icon_calendar.png") no-repeat 100px 8px;
-  padding: 0 10px;
-  border: 1px solid #c8ced8;
-  border-radius: 2px;
-  font-size: 13px;
-  color: #3e4752;
-}
-.container .contents .search-selectBox {
-  height: 32px;
-  padding: 0 10px;
-  border: 1px solid #c8ced8;
-  border-radius: 2px;
-  font-size: 13px;
-  color: #3e4752;
-}
 .container .contents .list-wrap {
   padding: 15px 0;
   height: 490px;
@@ -665,11 +662,11 @@ textarea {
   margin: 0 auto;
 }
 .container .contents .list-wrap-edit table tr td .edit-name {
-  border-right: 1px solid #c8ced8;
+  border-right: 1px solid #C8CED8;
   padding: 3px 15px;
 }
 .container .contents .list-wrap-edit table tr td .file-attachment {
-  border-right: 1px solid #c8ced8;
+  border-right: 1px solid #C8CED8;
   padding: 3px 15px;
 }
 .container .contents .list-wrap-edit table tr td.edit-textarea {
@@ -705,6 +702,20 @@ textarea {
   padding: 90px 0 0 80px;
   background: #eaf1f7;
 }
+.container .btn {
+  display: inline-block;
+  font-size: 13px;
+  color: #0050ff;
+  padding: 10px;
+  border-radius: 2px;
+  border: 1px solid #0050ff;
+  text-align: center;
+}
+.container .btn:hover {
+  background: #0050ff;
+  color: #fff;
+  border: 1px solid #0050ff;
+}
 .container .btn-add {
   display: inline-block;
   background: url("../icons/icon_add.svg") no-repeat center center;
@@ -737,6 +748,7 @@ textarea {
 }
 .container .btn-info {
   background: url("../icons/icon_info.png") no-repeat right;
+  display: inline-block;
   margin-left: 5px;
   width: 15px;
   height: 15px;
@@ -757,113 +769,23 @@ textarea {
   background-color: #BEC5CE;
   color: white;
 }
-.container .float-left{float: left;}
-.container .float-right{float: right;}
-.container .float-clear{clear: both;}
-.container .align-center {text-align: center;}
-.container .align-left {text-align: left;}
-.container .align-right {text-align: right;}
-
-/* Date compoent 기본 */
-.picker-wrapper-date {
-  display: inline;
+.container .float-left {
+  float: left;
 }
-
-option:hover {
-  background-color: #F2F6FF;
+.container .float-right {
+  float: right;
 }
-
-option:visited {
-  color: #0050ff;
-  background-color: white;
+.container .float-clear {
+  clear: both;
 }
-
-option:active {
-  color: #0050ff;
+.container .align-center {
+  text-align: center;
 }
-
-option:focus {
-  color: #0050ff;
+.container .align-left {
+  text-align: left;
 }
-
-select:focus {
-  border: 1px solid #0050ff;
-}
-
-input {
-  border: 1px solid #c8ced8;
-}
-
-input.search {
-  width: 305px;
-  height: 30px;
-  background: url("../media/icons/icon_search.svg") no-repeat center right;
-  padding: 0 10px;
-  border-radius: 2px;
-  font-size: 13px;
-}
-
-input.user-register-input {
-  width: 340px;
-  height: 26px;
-  margin-top: 8px;
-  padding-left: 10px;
-}
-
-input.auth-name {
-  width: 340px;
-  height: 30px;
-}
-
-input.auth-id {
-  width: 340px;
-  height: 30px;
-}
-
-input.auth-txt {
-  width: 340px;
-  height: 166px;
-}
-
-input.auth-list {
-  width: 340px;
-  height: 216px;
-  border: 1px solid #C8CED8;
-}
-
-input.auth-url {
-  width: 340px;
-  height: 216px;
-  border: 1px solid #C8CED8;
-}
-
-input:focus {
-  border: 1px solid #0050ff;
-}
-
-label.auth-name {
-  display: block;
-}
-
-label.auth-id {
-  display: inline-block;
-}
-
-label.auth-txt {
-  display: block;
-}
-
-label.auth-list {
-  display: block;
-}
-
-label.auth-url {
-  width: 340px;
-}
-
-textarea {
-  width: 695px;
-  border: 1px solid #c8ced8;
+.container .align-right {
+  text-align: right;
 }
 
 .paging {
@@ -1110,7 +1032,7 @@ textarea {
   vertical-align: middle;
 }
 .top-config .user-info.active .my-edit {
-  display: block;
+  display: list-item;
   padding: 5px;
   position: absolute;
   top: 70px;
@@ -1119,7 +1041,7 @@ textarea {
 }
 .top-config .user-info.active .my-edit ul li {
   padding: 10px 0;
-  display: list-item;
+  display: block;
 }
 .top-config .user-info.active .my-edit ul li:hover {
   background: rgba(0, 80, 255, 0.05);

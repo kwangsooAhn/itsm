@@ -5,20 +5,19 @@
       layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{menu.portal.faq}"></title>
-    <link th:href="@{/assets/css/reset.css}" rel="stylesheet"/>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents">
         <div class="contents-title">
-            <span class="title-txt" th:text="#{menu.portal.faq}"></span>
+            <h1>th:text="#{menu.portal.faq}"></h1>
             <span class="title-description" th:text="#{faq.msg.description}"></span>
         </div>
         <div class="contents-body">
             <div class="usermanage-menubar">
                 <div class="menubar-left">
                     <form id="searchFrm">
-                        <input class="search column-2" id="search" name="search" type="text" maxlength="100"
+                        <input class="search column-3" id="search" name="search" type="text" maxlength="100"
                                th:placeholder="#{faq.label.searchPlaceholder}">
                         <span class="icon-search"></span>
                     </form>
