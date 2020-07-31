@@ -43,8 +43,8 @@
             // initialization date picker/
             document.getElementById('searchFromDt').value = i18n.getDate({'months':-1});
             document.getElementById('searchToDt').value = i18n.getDate();
-            dateTimePicker.initDatePicker('searchFromDt', i18n.dateFormat, i18n.lang, () => searchTokenList(false));
-            dateTimePicker.initDatePicker('searchToDt', i18n.dateFormat, i18n.lang, () => searchTokenList(false));
+            dateTimePicker.initDatePicker('searchFromDt', () => searchTokenList(false));
+            dateTimePicker.initDatePicker('searchToDt', () => searchTokenList(false));
             // add search condition event handler.
             document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function(element) {
                 element.addEventListener('change', () => searchTokenList(false), false);

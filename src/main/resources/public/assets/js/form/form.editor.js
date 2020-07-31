@@ -1449,15 +1449,15 @@
         const datepickerElems = propertiesPanel.querySelectorAll('.datepicker');
         let i, len;
         for (i = 0, len = datepickerElems.length; i < len; i++) {
-            dateTimePicker.initDatePicker(datepickerElems[i].id, i18n.dateFormat, i18n.lang, setDateFormat);
+            dateTimePicker.initDatePicker(datepickerElems[i].id, setDateFormat);
         }
         const timepickerElems = propertiesPanel.querySelectorAll('.timepicker');
         for (i = 0, len = timepickerElems.length; i < len; i++) {
-            dateTimePicker.initTimePicker(timepickerElems[i].id, i18n.timeFormat, i18n.lang, setDateFormat);
+            dateTimePicker.initTimePicker(timepickerElems[i].id, setDateFormat);
         }
         const datetimepickerElems = propertiesPanel.querySelectorAll('.datetimepicker');
         for (i = 0, len = datetimepickerElems.length; i < len; i++) {
-            dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, i18n.dateFormat, i18n.timeFormat, i18n.lang, setDateFormat);
+            dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, setDateFormat);
         }
 
         // focustout 이벤트 추가

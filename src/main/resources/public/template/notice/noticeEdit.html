@@ -256,8 +256,8 @@
                     document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
                     document.getElementById('popStrtDt').value = popStrtDtVal ? i18n.userDateTime(popStrtDtVal) : i18n.getDateTime();
                     document.getElementById('popEndDt').value = popEndDtVal ? i18n.userDateTime(popEndDtVal) : i18n.getDateTime({'days':30});
-                    dateTimePicker.initDateTimePicker('popStrtDt', i18n.dateFormat, i18n.timeFormat, i18n.lang);
-                    dateTimePicker.initDateTimePicker('popEndDt', i18n.dateFormat, i18n.timeFormat, i18n.lang);
+                    dateTimePicker.initDateTimePicker('popStrtDt');
+                    dateTimePicker.initDateTimePicker('popEndDt');
                     document.getElementsByName('popYn')[0].value = true;
                 } else if (name === 'topNoticeTab') {
                     const topNoticeStrtDtVal = /*[[${notice?.topNoticeStrtDt}]]*/;
@@ -265,8 +265,8 @@
                     document.getElementById('topNoticeStrtDt').value = topNoticeStrtDtVal ? i18n.userDateTime(topNoticeStrtDtVal) : i18n.getDateTime();
                     document.getElementById('topNoticeEndDt').value = topNoticeEndDtVal ? i18n.userDateTime(topNoticeEndDtVal) : i18n.getDateTime({'days':30});
                     document.getElementsByName('topNoticeYn')[0].value = true;
-                    dateTimePicker.initDateTimePicker('topNoticeStrtDt', i18n.dateFormat, i18n.timeFormat, i18n.lang);
-                    dateTimePicker.initDateTimePicker('topNoticeEndDt', i18n.dateFormat, i18n.timeFormat, i18n.lang);
+                    dateTimePicker.initDateTimePicker('topNoticeStrtDt');
+                    dateTimePicker.initDateTimePicker('topNoticeEndDt');
                 }
                 document.getElementById(name).style.display = '';
             } else {
