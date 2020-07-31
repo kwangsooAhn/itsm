@@ -11,7 +11,6 @@
     <div class="contents">
         <form id="faqForm" method="post" onsubmit="return false">
             <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
-
             <div class="contents-title">
                 <div>
                     <span class="title-txt" th:text="#{menu.portal.faq}"></span>
@@ -48,7 +47,6 @@
                     <button class="btn_register" type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{common.btn.list}">
                         목록
                     </button>
-
                     <button class="btn_register" sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}" id="btnRegist"
                             th:text="#{common.btn.save}">저장
                     </button>
@@ -59,7 +57,6 @@
                             th:text="#{common.btn.delete}">삭제
                     </button>
                 </div>
-
             </div>
         </form>
     </div>
@@ -119,7 +116,6 @@
             }
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
         };
-
         /*]]>*/
     </script>
 </th:block>
