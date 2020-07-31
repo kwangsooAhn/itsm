@@ -21,9 +21,9 @@
                         <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
                     </select>
                     <input type="text" id="search" name="search" class="search column-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
-                    <input type="text" id="fromDt" name="fromDt" class="alice-date" readonly="readonly"/>
+                    <input type="text" id="fromDt" name="fromDt" class="search-date column-2" readonly="readonly"/>
                     <span>~</span>
-                    <input type="text" id="toDt" name="toDt" class="alice-date" readonly="readonly"/>
+                    <input type="text" id="toDt" name="toDt" class="search-date column-2" readonly="readonly"/>
                 </div>
                 <div class="search-area-right">
                     <button class="btn-add" onclick="location.href='/downloads/new'" sec:authorize="hasAuthority('download.create')"/>
