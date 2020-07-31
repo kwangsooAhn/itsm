@@ -33,8 +33,8 @@
                 <td th:text="|${download.downloadSeq}|"></td>
                 <td th:text="#{${download.downloadCategory}}"></td>
                 <td class="align-left">
-                    <a sec:authorize="hasAnyAuthority('download.read','download.create','download.delete')"
-                       th:text="${download.downloadTitle}" th:href="@{/downloads/{id}/view(id=${download.downloadId})}">
+                    <a sec:authorize="!hasAuthority('download.update')" th:text="${download.downloadTitle}"
+                       th:href="@{/downloads/{id}/view(id=${download.downloadId})}">
                     </a>
                     <a sec:authorize="hasAuthority('download.update')" th:text="${download.downloadTitle}"
                        th:href="@{/downloads/{id}/edit(id=${download.downloadId})}"></a>

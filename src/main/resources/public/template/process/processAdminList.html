@@ -8,13 +8,13 @@
 <div class="list-wrap">
     <table>
         <colgroup>
-            <col style="width:250px">
-            <col style="width:100px">
-            <col style="width:100px">
-            <col style="width:150px">
-            <col style="width:300px">
-            <col style="width:150px">
-            <col style="width:150px">
+            <col style="width:15.63rem"><!--250px-->
+            <col style="width:6.25rem"><!--100px-->
+            <col style="width:6.25rem"><!--100px-->
+            <col style="width:9.375rem"><!--150px-->
+            <col style="width:18.75rem"><!--300px-->
+            <col style="width:9.375rem"><!--150px-->
+            <col style="width:9.375rem"><!--150px-->
         </colgroup>
         <thead>
             <tr>
@@ -33,8 +33,7 @@
             </tr>
             <tr th:each="process, i: ${processList}" th:if="${i.count} < 11">
                 <td th:class="align-left">
-                    <a sec:authorize="hasAnyAuthority('process.read','process.create','process.delete')"
-                       th:text="${process.name}"
+                    <a sec:authorize="!hasAuthority('process.update')" th:text="${process.name}"
                        th:attr="onclick=|openProcessView('${process.id}')|"></a>
                     <a sec:authorize="hasAuthority('process.update')" th:text="${process.name}"
                        th:attr="onclick=|openProcessEdit('${process.id}')|"></a>
