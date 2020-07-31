@@ -21,5 +21,6 @@ data class NoticeDto(
     var updateDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
     var aliceUserEntity: AliceUserEntity? = null,
-    var fileSeq: List<Long>? = null
+    var fileSeq: List<Long>? = null,
+    var delFileSeq: List<Long>? = null
 ) : Serializable

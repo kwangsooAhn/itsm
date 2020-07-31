@@ -345,8 +345,8 @@ faq:
     title: "제목"
     content: "내용"
     description: "자주 묻는 질문과 답변입니다."
-  msg:
-    description: "자주 묻는 질문과 답변입니다."
+    edit: "FAQ 편집"
+    detail: "FAQ 상세"
 
 # FileUpload
 fileupload:

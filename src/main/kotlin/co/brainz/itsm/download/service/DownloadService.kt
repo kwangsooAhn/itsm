@@ -54,7 +54,13 @@ class DownloadService(
     @Transactional
     fun saveDownload(downloadDto: DownloadDto) {
         val downloadEntity = downloadRepository.save(downloadMapper.toDownloadEntity(downloadDto))
-        aliceFileService.upload(AliceFileDto(downloadEntity.downloadId, downloadDto.fileSeqList))
+        aliceFileService.upload(
+            AliceFileDto(
+                ownId = downloadEntity.downloadId,
+                fileSeq = downloadDto.fileSeqList,
+                delFileSeq = downloadDto.delFileSeqList
+            )
+        )
     }
 
     /**

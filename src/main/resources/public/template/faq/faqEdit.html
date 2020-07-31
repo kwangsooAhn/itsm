@@ -4,14 +4,13 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title>FAQ 편집</title>
+    <title th:text="#{faq.label.edit}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents">
         <form id="faqForm" method="post" onsubmit="return false">
             <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
-
             <div class="contents-title">
                 <div>
                     <span class="title-txt" th:text="#{menu.portal.faq}"></span>
@@ -48,6 +47,7 @@
                     <button class="btn-gray" type="button" id="btnList" onclick="location.href='/faqs/search'" th:text="#{common.btn.list}">
                         목록
                     </button>
+                    <button class="btn_register" sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}" id="btnRegist"
 
                     <button class="btn-register" sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}" id="btnRegist"
                             th:text="#{common.btn.save}">저장
@@ -59,7 +59,6 @@
                             th:text="#{common.btn.delete}">삭제
                     </button>
                 </div>
-
             </div>
         </form>
     </div>
@@ -75,14 +74,16 @@
             if (!validation()) {
                 return;
             }
+
+            let formObj = aliceJs.formDataToObject(document.getElementById('faqForm'))
             const opt = {
                 method: method,
                 url: url,
-                params: aliceJs.formDataToJson(document.getElementById("faqForm")),
+                params: JSON.stringify(formObj),
                 contentType: 'application/json',
                 callbackFunc: function () {
                     aliceJs.alertSuccess('[[#{common.msg.save}]]', function () {
-                        window.location.href = "/faqs/search";
+                        window.location.href = '/faqs/search';
                     });
                 }
             };
@@ -103,21 +104,20 @@
         }
 
         window.onload = function () {
-            if ("[[${faq?.faqId}]]" === "") {
-                document.getElementById("btnRegist").addEventListener("click", function () {
-                    restSubmit("post", "[[@{/rest/faqs}]]");
+            if ('[[${faq?.faqId}]]' === '') {
+                document.getElementById('btnRegist').addEventListener('click', function () {
+                    restSubmit('post', '[[@{/rest/faqs}]]');
                 });
             } else {
-                document.getElementById("btnUpdate").addEventListener("click", function () {
-                    restSubmit("put", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]");
+                document.getElementById('btnUpdate').addEventListener('click', function () {
+                    restSubmit('put', '[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]');
                 });
-                document.getElementById("btnDelete").addEventListener("click", function () {
-                    restSubmit("delete", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]");
+                document.getElementById('btnDelete').addEventListener('click', function () {
+                    restSubmit('delete', '[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]');
                 });
             }
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
         };
-
         /*]]>*/
     </script>
 </th:block>
