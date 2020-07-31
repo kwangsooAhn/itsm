@@ -345,8 +345,6 @@ faq:
     title: "Title"
     content: "Content"
     description: "Frequently asked questions and answers."
-  msg:
-    description: "Frequently asked questions and answers."
 
 # FileUpload
 fileupload:
