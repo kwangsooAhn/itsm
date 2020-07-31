@@ -4,24 +4,101 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title>권한 관리</title>
+    <title th:text="#{auth.label.manage}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents">
         <div class="contents-title">
-            <span class="title-txt" th:text="auth.label.manage"></span>
-            <span class="title-description" th:text="auth.msg.description"></span>
+            <span class="title-txt" th:text="#{auth.label.manage}"></span>
+            <span class="title-description" th:text="#{auth.msg.description}"></span>
+        </div>
+        <div class="contents-body">
+            <div class="auth-menubar">
+                <div class="menubar-left">
+                    <input class="search" th:placeholder="#{auth.msg.searchPlaceholder}">
+                    <span class="icon-search"></span>
+                    <span class="txt-num">32건</span>
+                </div>
+                <div class="menubar-right">
+                    <button class="btn-add" id="btnCreate" name="btnCreate" type="button"
+                            sec:authorize="hasAuthority('auth.create')" th:onclick="|javascript:onCreate()|" ></button>
+                </div>
+            </div>
+            <div class="list">
+                <div class="list-wrap-auth float-left">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>권한명</th>
+                            <th>권한아이디</th>
+                            <th>설명</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="auth : ${authList}">
+                                <td name="alink" th:text="${auth.authName}" th:id="${auth.authId}"></td>
+                                <td th:text="${auth.authId}"></td>
+                                <td th:text="${auth.authDesc}" class="align-left"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="list-wrap-auth-edit float-right">
+                    <div class="float-left">
+                        <label class="auth-name">권한명</label>
+                        <input class="auth-name" type="text" placeholder="" aria-label="권한명"><span class="icon-help"></span>
+                        <label class="auth-id">권한아이디</label>
+                        <input class="auth-id" type="text" aria-label="권한아이디">
+                    </div>
+                    <div class="float-clear">
+                        <label class="auth-desc">설명</label>
+                        <textarea class="auth-desc" aria-label="설명"></textarea>
+                    </div>
+                    <div class="float-left">
+                        <div class="auth-list">
+                            <label class="auth-url">사용 URL</label>
+                            <ul>
+                                <li class="checked"><input type="checkbox" checked >[get]/board-admin/category/list</li>
+                                <li><input type="checkbox">[get]/board-admin/category/list</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="float-right">
+                        <div class="auth-list">
+                            <label class="auth-list">사용 메뉴 목록</label>
+                            <ul>
+                                <li><input type="checkbox">문서양식</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="float-clear">
+                        <label class="reference-count">역할 참조 개수</label>
+                        <input class="reference-count disable" type="text">
+                    </div>
+                </div>
+                <div class="menubar-bottom float-right">
+                    <button sec:authorize="hasAuthority('auth.delete')"
+                            class="btn" type="button" id="btnDelete" name="btnDelete"
+                            th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                    <button sec:authorize="hasAuthority('auth.update')"
+                            class="btn" type="button" id="btnUpdate" name="btnUpdate"
+                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
+                    <button sec:authorize="hasAuthority('auth.create')"
+                            class="btn" type="button" id="btnRegist" name="btnRegist"
+                            th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                </div>
+            </div>
         </div>
     </div>
 
     <!--원본-->
     <div style="width: 70%; margin: 50px auto auto auto;">
-        <h1 th:text="#{menu.config.auth}"></h1>
-        <div align="right">
-            <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnCreate" name="btnCreate"
-                    th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
-        </div>
+<!--        <h1 th:text="#{menu.config.auth}"></h1>-->
+<!--        <div align="right">-->
+<!--            <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnCreate" name="btnCreate"-->
+<!--                    th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>-->
+<!--        </div>-->
         <hr>
         <div style="height: 600px;width: inherit;display: -webkit-inline-box;">
             <div style="width:20%;height: inherit;border:1px solid;margin-right: 1rem;overflow:overlay;">
@@ -97,22 +174,22 @@
         </div>
         <hr>
         <!-- buttons -->
-        <table style="float:right">
-            <tr>
-                <td>
-                    <button sec:authorize="hasAuthority('auth.delete')" type="button" id="btnDelete" name="btnDelete"
-                            th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
-                </td>
-                <td>
-                    <button sec:authorize="hasAuthority('auth.update')" type="button" id="btnUpdate" name="btnUpdate"
-                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
-                </td>
-                <td>
-                    <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnRegist" name="btnRegist"
-                            th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-                </td>
-            </tr>
-        </table>
+<!--        <table style="float:right">-->
+<!--            <tr>-->
+<!--                <td>-->
+<!--                    <button sec:authorize="hasAuthority('auth.delete')" type="button" id="btnDelete" name="btnDelete"-->
+<!--                            th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <button sec:authorize="hasAuthority('auth.update')" type="button" id="btnUpdate" name="btnUpdate"-->
+<!--                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                    <button sec:authorize="hasAuthority('auth.create')" type="button" id="btnRegist" name="btnRegist"-->
+<!--                            th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>-->
+<!--                </td>-->
+<!--            </tr>-->
+<!--        </table>-->
     </div>
 </th:block>
 </body>

@@ -581,9 +581,8 @@ textarea {
 .container .contents .list-wrap-auth {
   padding: 15px 15px 15px 0;
   width: 534px;
-  height: 490px;
-  float: left;
   border-right: 1px solid #D2D9E2;
+  display: inline-block;
 }
 .container .contents .list-wrap-auth table thead {
   display: block;
@@ -622,7 +621,7 @@ textarea {
 .container .contents .list-wrap-auth table tbody tr.active {
   border-left: 3px solid #0050ff;
   -webkit-box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;
-          box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;
+  box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;
 }
 .container .contents .list-wrap-auth table tbody tr.active td {
   color: #0050ff;
@@ -646,7 +645,6 @@ textarea {
 .container .contents .list-wrap-auth-edit ul li.checked {
   font-weight: bold;
 }
-
 .container .contents .list-wrap-edit table {
   margin: 0 0 15px 0;
 }

@@ -131,9 +131,46 @@
         .list-wrap {
             padding: 15px 0;height:490px;
             &-auth {
-                padding: 15px 35px 15px 0;width: 534px;float: left;border-right: 1px solid #D2D9E2;
+                padding: 15px 35px 15px 0;width: 534px;border-right: 1px solid #D2D9E2; display: inline-block;
+                table {
+                    thead {display: block;
+                        tr th {
+                            &:nth-of-type(1) {width: 130px;}
+                            &:nth-of-type(2) {width: 130px;}
+                            &:nth-of-type(3) {width: 240px;}
+                        }
+                    }
+                    tbody {
+                        display: block;height: 470px;overflow-y: scroll;
+                        tr td {
+                            span {display: block;max-height: 16px;line-height: 1.6;max-height: 16px;text-overflow: ellipsis;overflow: hidden;}
+                            &:nth-of-type(1) {width: 130px;}
+                            &:nth-of-type(2) {width: 130px;}
+                            &:nth-of-type(3) {width: 240px;}
+                        }
+                        tr.active {
+                            border-left: 3px solid #0050ff;-webkit-box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;
+                            td {color: #0050ff;font-weight: bold;}
+                        }
+                    }
+                }
                 &-edit {
-                    padding: 15px 0 15px 35px;
+                    float: right;
+                    padding: 15px 0 0 6px;
+                    ul {
+                        width: 330px;
+                        height: 170px;
+                        overflow-y: scroll;
+                        border: 1px solid #C8CED8;
+                        padding: 10px;
+                        margin: 8px 0 15px 0;
+                        li {
+                            line-height: 2;
+                        }
+                        li.checked {
+                            font-weight: bold;
+                        }
+                    }
                 }
             }
             &-edit {

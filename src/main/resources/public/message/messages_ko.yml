@@ -90,6 +90,7 @@ auth:
     duplicateAuthName: "중복된 권한 명이 있습니다. 다른 권한 명을 입력하세요."
     enterAuthId: "권한 아이디를 입력하세요."
     enterAuthName: "권한 명을 입력하세요."
+    searchPlaceholder: "권한 명 / 권한 설명"
   auth:
     read: "권한 조회"
     create: "권한 등록"
