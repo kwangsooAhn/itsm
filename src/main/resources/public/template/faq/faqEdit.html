@@ -43,7 +43,7 @@
                         <div id="dropZoneUploadedFiles"></div>
                     </div>
                 </div>
-                <div class="btn-wrap">
+                <div class="btn-wrap float-right">
                     <button class="btn-register" sec:authorize="hasAuthority('faq.create')" th:if="!${faq?.faqId}"
                             id="btnRegist" th:text="#{common.btn.save}">저장</button>
                     <button class="btn-register" sec:authorize="hasAuthority('faq.update')" th:if="${faq?.faqId}"
