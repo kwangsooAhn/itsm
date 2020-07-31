@@ -344,8 +344,9 @@ faq:
     category: "Category"
     title: "Title"
     content: "Content"
-  msg:
     description: "Frequently asked questions and answers."
+    edit: "FAQ edit"
+    detail: "FAQ detail"
 
 # FileUpload
 fileupload:

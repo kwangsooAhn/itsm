@@ -89,16 +89,16 @@
         function saveDownload(method) {
             if (emptyCheck()) {
                 let fileSeqList = [];
-                document.getElementsByName('fileSeq').forEach(function(elem) {
-                    fileSeqList.push(elem.value);
-                });
+                let delFileSeqList = [];
+                document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
+                document.getElementsByName('delFileSeq').forEach(elem => delFileSeqList.push(elem.value));
                 const data = {
                     downloadCategory: document.getElementById('downloadCategory').value,
                     downloadTitle: document.getElementById('downloadTitle').value,
-                    fileSeqList: fileSeqList
+                    fileSeqList: fileSeqList,
+                    delFileSeqList: delFileSeqList
                 };
                 if (method === 'put') {
-                    delFileCheck();
                     data.downloadId = /*[[${download?.downloadId}]]*/'';
                     data.views = /*[[${download?.views}]]*/'';
                 }

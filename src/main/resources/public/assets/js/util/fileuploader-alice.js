@@ -7,12 +7,16 @@
  * @param param.extra 추가로 사용할 매개변수
  *        - formId 임시로 업로드한 파일명을 실제로 사용하기 위해 request 에 포함하여 전달할 form id (form tag)
  *        - task 현재 문서에 보여주기 위한 파일을 가져올 sql key
+ *        - fileAttrName 서버로 전달하여 업로드 할 fileSeq input hidden 의 속성 이름
+ *        - delFileAttrName 서버로 전달하여 삭제할 fileSeq input hidden 의 속성 이름
  */
 const fileUploader = (function () {
     "use strict";
 
-    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId;
+    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId, fileAttrName, delFileAttrName;
     const setExtraParam = function (param) {
+        delFileAttrName = 'delFileSeq'
+        fileAttrName = 'fileSeq'
         extraParam = param;
     };
 
@@ -239,7 +243,7 @@ const fileUploader = (function () {
                             // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
                             delBtn.addEventListener('click', function (e) {
                                 const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]');
-                                delFile.setAttribute('name', 'delFileSeq');
+                                delFile.setAttribute('name', delFileAttrName);
                                 delFile.parentElement.style.display = 'none';
                             });
                         });
@@ -313,7 +317,7 @@ const fileUploader = (function () {
 
                     const seq = document.createElement('input');
                     seq.setAttribute('type', 'hidden');
-                    seq.setAttribute('name', 'fileSeq');
+                    seq.setAttribute('name', fileAttrName);
                     seq.value = response.file.fileSeq;
                     file.previewElement.appendChild(seq);
                 });

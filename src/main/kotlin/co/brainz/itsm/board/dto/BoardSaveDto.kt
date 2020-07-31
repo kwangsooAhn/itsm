@@ -13,5 +13,6 @@ data class BoardSaveDto(
     var boardOrderSeq: Long? = 0,
     var boardTitle: String? = "",
     var boardContents: String? = "",
-    var fileSeqList: List<Long>? = null
+    var fileSeqList: List<Long>? = null,
+    var delFileSeqList: List<Long>? = null
 )

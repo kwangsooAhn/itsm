@@ -11,7 +11,7 @@
     <div class="contents">
         <div class="contents-title">
             <h1 th:text="#{menu.portal.faq}"></h1>
-            <span class="title-description" th:text="#{faq.msg.description}"></span>
+            <span class="title-description" th:text="#{faq.label.description}"></span>
         </div>
         <div class="contents-body">
             <div class="search-area">
@@ -32,6 +32,10 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
+
+        /**
+         * FAQ 검색
+         */
         const searchFaqs = function () {
             const search = aliceJs.serialize(document.getElementById('searchFrm'));
             const opt = {
