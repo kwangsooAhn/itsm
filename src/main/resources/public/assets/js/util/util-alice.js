@@ -165,6 +165,26 @@ aliceJs.serializeObject = function (form) {
 };
 
 /**
+ * 폼 데이터를 json 으로 변환하여 리턴한다.
+ * 폼 데이터중 첨부파일의 seq가 있는 경우 배열로 넘기기 위해 별도의 처리를 한다.
+ * @param form
+ * @returns {{}}
+ */
+aliceJs.formDataToObject = function (form) {
+    let formDataObject = {fileSeq:[], delFileSeq:[]};
+    const formData = new FormData(form);
+    formData.forEach(function(value, key) {
+
+        if (key === 'fileSeq' || key === 'delFileSeq') {
+            formDataObject[key].push(value);
+        } else {
+            formDataObject[key] = value;
+        }
+    });
+    return formDataObject
+}
+
+/**
  * 비동기 호출 및 응답시 사용한다.
  *
  *
@@ -412,23 +432,6 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
         v_date = year+'-'+month+'-'+day+' '+ hour+':'+min;
     }
     return v_date;
-}
-
-/*
- * 첨부파일 삭제
- */
-function delFileCheck() {
-    const f_length = document.getElementsByName('delFileSeq').length;
-    if (f_length > 0) {
-        document.getElementsByName('delFileSeq').forEach(function(elm) {
-            const delOpt = {
-                method: 'delete',
-                url: '/filedel?seq=' + Number(elm.value)
-            };
-            aliceJs.sendXhr(delOpt);
-        });
-    }
-    return true;
 }
 
 /**

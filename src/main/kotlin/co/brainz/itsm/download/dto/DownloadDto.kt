@@ -9,6 +9,7 @@ data class DownloadDto(
     var downloadCategory: String = "",
     var downloadTitle: String = "",
     var fileSeqList: List<Long>? = null,
+    var delFileSeqList: List<Long>? = null,
     var views: Long = 0,
     var createDt: LocalDateTime? = null,
     var createUserName: String? = null,

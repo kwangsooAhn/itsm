@@ -160,10 +160,11 @@
         //게시판 저장
         function saveBoard(method, kind) {
             if (isEmpty('boardTitle', 'board.msg.enterBoardTitle')) return;
+
             let fileSeqList = [];
-            document.getElementsByName('fileSeq').forEach(function(elem) {
-                fileSeqList.push(elem.value);
-            });
+            let delFileSeqList = [];
+            document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
+            document.getElementsByName('delFileSeq').forEach(elm => delFileSeqList.push(elm.value));
 
             let boardCategoryId = '';
             if (categoryYn) {
@@ -176,6 +177,7 @@
                 boardTitle: document.getElementById('boardTitle').value,
                 boardContents: JSON.stringify(boardContents.getContents()),
                 fileSeqList: fileSeqList,
+                delFileSeqList: delFileSeqList,
                 boardCategoryId: boardCategoryId
             };
 
@@ -202,7 +204,7 @@
             } else if (method === 'delete') {
                 resultMsg = i18n.get('common.msg.delete');
             }
-            delFileCheck();
+
             const opt = {
                 method: method,
                 url: url,
@@ -210,7 +212,7 @@
                 contentType: 'application/json',
                 callbackFunc: function(response) {
                     if (method === 'put' || method === 'post' || method === 'delete') {
-                        aliceJs.alert(resultMsg, function () {
+                        aliceJs.alertSuccess(resultMsg, function () {
                             searchBoard();
                         });
                     } else if (method === 'get') {

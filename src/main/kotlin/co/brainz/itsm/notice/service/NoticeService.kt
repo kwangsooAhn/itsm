@@ -74,7 +74,7 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
 
     @Transactional
     fun insertNotice(noticeDto: NoticeDto) {
-        val noticeEntity = NoticeEntity(
+        val noticeToSave = NoticeEntity(
             noticeDto.noticeNo,
             noticeDto.noticeTitle,
             noticeDto.noticeContents,
@@ -87,8 +87,14 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
             noticeDto.topNoticeStrtDt,
             noticeDto.topNoticeEndDt
         )
-        val resultNoticeEntity = noticeRepository.save(noticeEntity)
-        aliceFileService.upload(AliceFileDto(resultNoticeEntity.noticeNo, noticeDto.fileSeq))
+        val savedNotice = noticeRepository.save(noticeToSave)
+        aliceFileService.upload(
+            AliceFileDto(
+                ownId = savedNotice.noticeNo,
+                fileSeq = noticeDto.fileSeq,
+                delFileSeq = noticeDto.delFileSeq
+            )
+        )
     }
 
     @Transactional
@@ -105,7 +111,13 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
         noticeEntity.topNoticeEndDt = noticeDto.topNoticeEndDt
         noticeEntity.topNoticeYn = noticeDto.topNoticeYn
         noticeRepository.save(noticeEntity)
-        aliceFileService.upload(AliceFileDto(noticeEntity.noticeNo, noticeDto.fileSeq))
+        aliceFileService.upload(
+            AliceFileDto(
+                ownId = noticeEntity.noticeNo,
+                fileSeq = noticeDto.fileSeq,
+                delFileSeq = noticeDto.delFileSeq
+            )
+        )
     }
 
     @Transactional
