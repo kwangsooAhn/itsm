@@ -268,7 +268,7 @@
             data.desc = document.getElementById('form_description').value;
             aliceJs.sendXhr({
                 method: 'POST',
-                url: '/rest/forms' + '?saveType=saveas',
+                url: '/rest/forms-admin' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
                         aliceJs.alert(i18n.get('common.msg.save'), function () {

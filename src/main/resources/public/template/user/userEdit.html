@@ -21,11 +21,11 @@
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
             <div class="contents-title">
                 <div th:if="!${users?.userKey}">
-                    <span class="title-txt" th:text="#{user.label.createUser}"></span>
+                    <h1 th:text="#{user.label.createUser}"></h1>
                     <span class="title-description" th:text="#{user.msg.descriptionCreate}"></span>
                 </div>
                 <div th:if="${users?.userKey}">
-                    <span class="title-txt" th:text="#{user.label.editUserInfo}"></span>
+                    <h1 th:text="#{user.label.editUserInfo}"></h1>
                     <span class="title-description" th:text="#{user.msg.descriptionUpdate}"></span>
                 </div>
             </div>

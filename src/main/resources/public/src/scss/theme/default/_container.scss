@@ -9,15 +9,13 @@
         min-width:1260px; min-height:820px; display:block; padding: 20px 136px 37px 136px;
         .contents-title {
             padding: 20px 0 20px 5px;
-            .title-txt {display:block; font-size: 30px; color:#47556a; padding: 10px 0; font-weight: 600;}
             .title-description {font-size: 15px; color:#94a6bf; font-weight: 400;}
         }
         .contents-body {background: rgba(255, 255, 255, 1); padding: 4% 8%;}
 
-        .menubar {
+        .search-area {
             &-left {float: left;}
             &-right {float: right;}
-            &-bottom {display: inline-block; width: 100%; position: relative; top: 30px;}
         }
 
         // 사용자 정보
@@ -125,18 +123,6 @@
             .align-right {text-align: right;}
         }
 
-        .search {
-            background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
-        }
-        .search-date {
-            width:120px;height:30px; background: url($icon-folder-path + "icon_calendar.png") no-repeat 100px 8px;
-            padding: 0 10px; border: 1px solid rgba(200, 206, 216, 1); border-radius: 2px; font-size: 13px;
-            color: #3e4752;
-        }
-        .search-selectBox {
-            height:32px; padding: 0 10px; border: 1px solid rgba(200, 206, 216, 1); border-radius: 2px;
-            font-size: 13px; color: #3e4752;
-        }
         .list-wrap {
             padding: 15px 0;height:490px;
             &-auth {

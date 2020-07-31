@@ -1,25 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-            layout:decorator="layout/defaultLayout">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{form.label.list}"></title>
+    <title th:text="#{menu.workflow.form}"></title>
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <h1 th:text="#{form.label.list}"></h1>
-        <div align="right">
-            <button type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')"
-                    th:text="#{form.btn.import}"></button>
-            <button type="button" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')"
-                    th:text="#{common.btn.register}"></button>
-            <input type="text" id="search" style="width: 270px" th:placeholder="#{form.label.searchPlaceholder}">
+    <div class="contents">
+        <div class="contents-title">
+            <h1 th:text="#{form.label.list}"></h1>
+            <span class="title-description" th:text="#{form.msg.description}"></span>
         </div>
-        <hr>
-        <div id="formList" style="margin-top: 20px"></div>
+        <div class="contents-body">
+            <div class="search-area">
+                <div class="search-area-left">
+                    <input class="search column-3" id="search" type="text" maxlength="100" th:placeholder="#{form.label.searchPlaceholder}"/>
+                </div>
+                <div class="search-area-right">
+                    <button class="btn-import" type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')"/>
+                    <button class="btn-add" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')"/>
+                </div>
+            </div>
+            <div class="list" id="formList"></div>
+        </div>
     </div>
 </th:block>
 </body>
@@ -34,35 +40,31 @@
             getFormList(this.value, false);
         };
     
-        //폼 리스트 조회
+        // 폼 리스트 조회
         function getFormList(search, showProgressbar) {
-            restSubmit('GET', '/forms/list?search=' + search.trim(), function(result) {
+            restSubmit('GET', '/forms-admin/list?search=' + search.trim(), function(result) {
                 document.getElementById('formList').innerHTML = result;
-                var formDtEle = document.querySelectorAll('td[name=formDt]');
+                let formDtEle = document.querySelectorAll('td[name=createDt]');
                 for (let i = 0; i < formDtEle.length; i++) {
                     formDtEle[i].textContent = i18n.userDateTime(formDtEle[i].textContent);
                 }
             }, showProgressbar);
         }
-    
-        //폼 삭제
-        function deleteForm(formId) {
-            restSubmit('DELETE', '/rest/forms/' + formId, function(result) {
-                if (result === 'true') {
-                    aliceJs.alert('[[#{common.msg.delete}]]', function() {
-                        location.reload();
-                    });
-                } else {
-                    aliceJs.alert('[[#{form.msg.failedFormDelete}]]');
-                }
-            });
+
+        // 폼 신규 추가 화면 오픈
+        function openFormEdit(formId) {
+            if (formId !== undefined) {
+                window.open('/forms-admin/' + formId + '/edit', 'form_edit', 'width=550, height=300');
+            } else {
+                window.open('/forms-admin/new', 'form_new', 'width=550, height=300');
+            }
         }
-    
-        //폼 신규 추가 화면 오픈
-        function openFormEdit() {
-            window.open('/forms/new', 'form_new', 'width=550, height=300');
+
+        // 폼 상세 화면 오픈
+        function openFormView(formId) {
+            window.open('/forms-admin/' + formId + '/view', 'form_view', 'width=550, height=300');
         }
-    
+
         //폼 디자이너 편집화면 오픈
         function openFormDesignerEdit(formId) {
             const _width = 1500,
@@ -76,6 +78,7 @@
             window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
+        //폼 디자이너 미리보기화면 오픈
         function openFormDesignerView(formId) {
             const _width = 1500,
                   _height = 920;
@@ -87,6 +90,7 @@
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
             window.open('/forms/' + formId + '/view', 'form_' + formId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
+
         //폼 IMPORT 화면 오픈
         function openFormImport() {
             window.open('/forms/import', 'form_import', 'width=600, height=350');
