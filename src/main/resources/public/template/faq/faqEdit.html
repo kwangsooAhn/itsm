@@ -73,7 +73,7 @@
                 return;
             }
 
-            let formObj = aliceJs.formDataToObject(document.getElementById("faqForm"))
+            let formObj = aliceJs.formDataToObject(document.getElementById('faqForm'))
             const opt = {
                 method: method,
                 url: url,
@@ -81,7 +81,7 @@
                 contentType: 'application/json',
                 callbackFunc: function () {
                     aliceJs.alertSuccess('[[#{common.msg.save}]]', function () {
-                        window.location.href = "/faqs/search";
+                        window.location.href = '/faqs/search';
                     });
                 }
             };
@@ -102,16 +102,16 @@
         }
 
         window.onload = function () {
-            if ("[[${faq?.faqId}]]" === "") {
-                document.getElementById("btnRegist").addEventListener("click", function () {
-                    restSubmit("post", "[[@{/rest/faqs}]]");
+            if ('[[${faq?.faqId}]]' === '') {
+                document.getElementById('btnRegist').addEventListener('click', function () {
+                    restSubmit('post', '[[@{/rest/faqs}]]');
                 });
             } else {
-                document.getElementById("btnUpdate").addEventListener("click", function () {
-                    restSubmit("put", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]");
+                document.getElementById('btnUpdate').addEventListener('click', function () {
+                    restSubmit('put', '[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]');
                 });
-                document.getElementById("btnDelete").addEventListener("click", function () {
-                    restSubmit("delete", "[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]");
+                document.getElementById('btnDelete').addEventListener('click', function () {
+                    restSubmit('delete', '[[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]');
                 });
             }
             fileUploader.init({extra: {formId: 'faqForm', ownId: '[[${faq?.faqId}]]'}});
