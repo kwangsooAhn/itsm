@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="#{form.label.detail}"></title>
+    <th:block th:replace="layout/fragments/commonHead"></th:block>
+    <!-- 임시 style -->
+    <style>
+        table th {
+            text-align: left;
+        }
+        table td > input, textarea, select {
+            width: 500px;
+        }
+    </style>
+</head>
+<body>
+    <div style="margin: 10px 0 0 10px;">
+        <table>
+            <tr>
+                <th th:text="|#{form.label.name} *|"></th>
+            </tr>
+            <tr>
+                <td><span th:text="${formInfo?.name}"></span></td>
+            </tr>
+            <tr>
+                <th th:text="#{form.label.description}"></th>
+            </tr>
+            <tr>
+                <td><span th:text="${formInfo?.desc}"></span></td>
+            </tr>
+        </table>
+        <div>
+            <button type="button" th:text="#{common.btn.close}" onclick="window.close();"></button>
+        </div>
+    </div>
+</body>
+</html>

@@ -22,6 +22,8 @@ select {
         outline: $element-border solid $alice-primary;
         border-radius: $element-border-radius;
     }
+    &.search-selectBox {
+    }
 }
 
 input {
@@ -38,9 +40,18 @@ input {
         outline: $element-border solid $alice-primary;
         border-radius: $element-border-radius;
     }
-    &.alice-date {
-        width: 8.125rem; // 130px
-        background: url($icon-folder-path + "icon_calendar.png") no-repeat 6.25rem 0.4rem; // 100px 6.4px
+
+    &.search {
+        background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
+    }
+    &.search-datetime {
+        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
+    }
+    &.search-date {
+        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
+    }
+    &.search-time {
+        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
     }
 }
 
