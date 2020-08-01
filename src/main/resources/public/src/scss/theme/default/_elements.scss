@@ -1,4 +1,23 @@
 /* Date compoent 기본 */
+
+body, input, textarea, select {
+    font-family: $default-font-family;
+    font-size: 0.9375rem; // 15px
+}
+
+h1 {
+    font-family: $default-font-family;
+    font-size: 1.875rem; // 30px
+    color: #47556A;
+    padding: 0.625rem 0rem; // 10px
+    font-weight: 600;
+}
+
+h3 {
+    font-family: $default-font-family;
+    font-size: 20px;
+}
+
 .picker-wrapper-date {display: inline;}
 
 option {

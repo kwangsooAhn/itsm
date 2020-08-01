@@ -24,7 +24,7 @@
             </div>
             <div class="contents-body">
                 <div class="edit-area">
-                    <span class="profile-title" th:text="#{user.label.profile}"></span>
+                    <h3 th:text="#{user.label.profile}"></h3>
                     <div class="profile-manage">
                         <div class="avatar-section-wrap">
                             <span class="avatar-title" th:text="#{user.label.avatar}"></span>
@@ -102,7 +102,7 @@
                                    onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                         </div>
                     </div>
-                    <span class="profile-title" th:text="#{user.label.customSetting}"></span>
+                    <h3 th:text="#{user.label.customSetting}"></h3>
                     <div class="profile-manage">
                         <div class="user-register-top-list">
                             <span class="input-title required" th:text="#{user.label.timezone}"></span>

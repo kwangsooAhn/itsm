@@ -67,7 +67,7 @@
     }
 }
 
-.required:after {
-    content: "*";
+.required::after {
+    content: "\002a"; // *
     color: #E83828;
 }

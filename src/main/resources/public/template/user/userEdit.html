@@ -31,7 +31,7 @@
         <div class="contents-body">
             <form id="userEditSelfForm" method="post" onsubmit ="return false">
                 <div class="edit-area">
-                    <span class="profile-title" th:text="#{user.label.profile}"></span>
+                    <h3 th:text="#{user.label.profile}"></h3>
                     <div class="profile-manage">
                         <div class="avatar-section-wrap">
                             <span class="avatar-title" th:text="#{user.label.avatar}"></span>
@@ -96,7 +96,7 @@
                                    onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                         </div>
                     </div>
-                    <span class="profile-title" th:text="#{user.label.customSetting}"></span>
+                    <h3 th:text="#{user.label.customSetting}"></h3>
                     <div class="profile-manage">
                         <div class="user-register-top-list">
                             <p class="input-title required" th:text="#{user.label.timezone}"></p>
@@ -131,7 +131,7 @@
                             </select>
                         </div>
                     </div>
-                    <span class="profile-title" th:text="#{user.label.role}"></span>
+                    <h3 th:text="#{user.label.role}"></h3>
                     <div class="profile-manage">
                         <div class="user-role-checkbox-list">
                             <ui class="user-role-checkbox-wrap" th:each="role : ${roles}">
@@ -145,7 +145,7 @@
                             </ui>
                         </div>
                     </div>
-                    <span class="profile-title" th:text="#{user.label.usageStatus}"></span>
+                    <h3 th:text="#{user.label.usageStatus}"></h3>
                     <div class="profile-manage">
                         <label class="switch">
                             <input type="checkbox" id="usageStatus" name="usageStatus" onclick="toggle(this);"
