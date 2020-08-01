@@ -1,0 +1,198 @@
+// *********************************************************************************************************************
+// CONTENTS (container > contents > title, body)
+// *********************************************************************************************************************
+.wrap-screen{position: relative;min-height: 100vh;background: rgba(234, 241, 247, 1);}
+
+.container {
+    height:100%; padding:60px 0 0 220px;
+    .contents {
+        min-width:1260px; min-height:820px; display:block; padding: 20px 136px 37px 136px;
+        .contents-title {
+            padding: 20px 0 20px 5px;
+            .title-description {font-size: 15px; color:#94a6bf; font-weight: 400;}
+        }
+        .contents-body {background: rgba(255, 255, 255, 1); padding: 4% 8%;}
+
+        .search-area {
+            &-left {float: left;}
+            &-right {float: right;}
+        }
+
+        // 사용자 정보
+        .user-register-contents-body {
+            background: rgba(255, 255, 255, 1); padding: 88px 351px 96px 351px;
+            input {font-size: 14px;height: 30px;width: 340px;margin-top: 8px;}
+            select {font-size:14px; margin-top: 8px; width: 340px;}
+            .required::after {color: #E83828;content: "\002a";}
+            .profile {
+                &-title {font-size: 20px;padding: 0px 0px 11px 0px;}
+                &-manage {margin-top: 11px;border-top: 2px solid #C8CED8;width: 698px;}
+                &-input {
+                    &-body-list {
+                        margin-top: 15px;margin-left: 10px;
+                        &:last-child {margin-bottom: 62px;}
+                        textarea {
+                            width: 42.5rem;
+                            height: 11.25rem;
+                        }
+                    }
+                }
+            }
+            .user-register-top-list {margin-top: 37px;margin-left: 10px;}
+            .input {
+                &-title {font-size: 14px;display: block;padding: 10px 0;}
+                &-title-guide {display: flex;vertical-align: middle;}
+                &-button {width: 60px;height: 30px;background: rgba(255, 255, 255, 1);border: 1px solid #C8CED8;margin-left: -63px;font-size: 14px;}
+            }
+            .custom-setting-top-select {width: 678px;height: 26px;padding-left: 5px;border: 1px solid #C8CED8;}
+            .select-date-time {width: 244px;height: 26px;border: 1px solid #C8CED8;padding-left: 5px;}
+            .hour-select {width: 85px;height: 26px;color: black;border: 1px solid #C8CED8;margin-left: 5px;padding-left: 5px;}
+            .language-select {width: 244px;height: 30px;border: 1px solid #C8CED8;font-size: 14px;padding-left: 5px;}
+            .theme-color-select {width: 244px;height: 30px;border: 1px solid #C8CED8;padding-left: 5px;}
+            .user-role-checkbox {
+                width: 15px;height: 15px;line-height: 15px;
+                &-wrap {margin-top: 15px;margin-left: 10px;display: inline-block;width: 162px;}
+                &-list {
+                    margin-top: 22px;margin-left: 10px;margin-bottom: 62px;
+                    &-middle {margin-top: 15px;margin-left: 10px;}
+                    &-bottom {margin-top: 15px;margin-left: 10px;margin-bottom: 51px;}
+                }
+                &-block {text-overflow: ellipsis;white-space: nowrap;overflow: hidden;}
+            }
+            .checkbox-label {vertical-align: -5px;margin-left: 10px;margin-right: 14px;}
+
+            .btn-wrap {margin-top: 32px;text-align: right;margin-right: 10px;font-size: 13px;}
+            .btn-register {padding: 7px 12px;border: 1px solid #0050ff;color: #0050ff;border-radius: 2px; font-size: 0.875rem;
+                &:hover {background-color: #0050ff;color: rgba(255, 255, 255, 1);}
+            }
+            .avatar-section {float: right;padding: 53px 75px 53px 75px;border: 1px solid #D2D9E2;margin-top: 8px;font-size: 13px;background: white no-repeat center 53px;background-color: #FDFDFD;}
+            .avatar-section-wrap {float: right;margin-top: 37px;}
+            .avatar-title {display: block;font-size: 14px;}
+            .avatar-text {display: block;margin-top: 96px;text-align: center;font-size: 13px;color: #7A8594;}
+            .avatar-bottom-text-wrap {display: block;margin-top: 253px;font-size: 13px;}
+            .avatar-far-bottom-text {display: block;margin-top: 8px;}
+            .browse-link {text-decoration: underline;color: #0050ff;}
+            .switch {
+                position: relative;display: inline-block;width: 60px;height: 25px;margin-top: 29px;margin-left: 10px;
+                input {opacity: 1;width: 0;height: 0;}
+            }
+            .slider {
+                position: absolute;cursor: pointer;top: 0;left: 0;right: 0;bottom: 0;background-color: #ccc;-webkit-transition: .4s;transition: .4s;
+                &:before {
+                    position: absolute;content: "";height: 17px;width: 17px;left: 4px;bottom: 4px;
+                    background-color: rgba(255, 255, 255, 1);-webkit-transition: .4s;transition: .4s;
+                }
+            }
+            input {
+                &:checked + .slider {
+                    background-color: #0050ff;
+                    &:before {-webkit-transform: translateX(33px);transform: translateX(33px);}
+                }
+                &:focus + .slider {
+                    -webkit-box-shadow: 0 0 1px #707579;box-shadow: 0 0 1px #707579;
+                }
+            }
+            .slider.round {
+                border-radius: 34px;
+                &::before {border-radius: 50%;}
+            }
+            .switch_label {vertical-align: -4px;margin-left: 17px;color: #7A8594;}
+        }
+
+        // 테이블 리스트 타입 속성
+        .list {
+            clear: both;
+            & table {
+                width: 100%;
+                & span {display: block;margin-left: 30px;}
+                & tr {
+                    color: #67717f;font-size: 13px;border-bottom: 1px solid #d2d9e2;padding: 0 16px;
+                    th {
+                        height: 38px;color: #3e4752;font-size: 14px;border-bottom: 2px solid #d2d9e2;
+                        vertical-align: middle;border-top: 1px solid #d2d9e2;
+                    }
+                    td {height: 45px;vertical-align: middle;text-align: center;
+                        &:first-child{width:30px;}
+                    }
+                    &:hover {background: rgba(0, 80, 255, 0.05);}
+                    &:first-child {background: rgba(0, 80, 255, 0);}
+                }
+            }
+            & a {cursor: pointer;}
+            // 리스트 출력용 아바타 이미지
+            .profile-photo {height:27px; width:27px; border-radius: 50%; background: rgba(240, 240, 240, 1); cursor: pointer;}
+            .tr-notice {background: rgba(255,255,0, 0.2);}
+            .align-center {text-align: center;}
+            .align-left {text-align: left;}
+            .align-right {text-align: right;}
+        }
+
+        .list-wrap {
+            padding: 15px 0;height:490px;
+            &-auth {
+                padding: 15px 35px 15px 0;width: 534px;float: left;border-right: 1px solid #D2D9E2;
+                &-edit {
+                    padding: 15px 0 15px 35px;
+                }
+            }
+            &-edit {
+                table {
+                    margin: 0 0 15px 0;
+                    span {margin: 0 auto;}
+                    & th {background: rgba(204, 211, 217, 0.1);padding-left: 15px;}
+                    & tr td {
+                        font-size: 14px;margin: 0 auto;
+                        .edit-name {border-right: 1px solid #C8CED8;padding: 3px 15px;}
+                        .file-attachment {border-right: 1px solid #C8CED8;padding: 3px 15px;}
+                        &.edit-textarea {height: 150px; min-height: 150px;padding: 15px;text-align: left; vertical-align: text-top;}
+                        &.file-attach-input {text-align: left;padding: 0 15px;}
+                    }
+                    & tr.edit-title {height: 56px;}
+                    & tr:hover {background: none;}
+                }
+            }
+        }
+        .list-count {float: right; color: #67717F; font-size: 13px; padding: 10px 10px;display: block;}
+        .txt-num {color: #717B89;text-align: right;}
+    }
+    &-close {height:100%; padding:90px 0 0 80px; background: rgba(234, 241, 247, 1);}
+    .btn {
+        display: inline-block; font-size: 13px; color: #0050ff; padding: 10px; border-radius: 2px;
+        border: 1px solid #0050ff; text-align: center;
+        &:hover {background: #0050ff; color: #fff; border: 1px solid #0050ff;}
+        &-add {
+            display:inline-block; background: url($icon-folder-path + "icon_add.svg") no-repeat center center;
+            padding: 10px; border-radius: 2px; border: 1px solid rgba(0, 80, 255, 1); text-align: center;
+            &:hover {
+                background: rgba(0, 80, 255, 1) url($icon-folder-path + "icon_add_ov.svg") no-repeat center center;
+                color: $alice-primary; border: rgba(64, 158, 230, 0.05) 1px solid;
+            }
+        }
+        &-import {
+            display:inline-block; background: rgba(255, 255, 255, 1) url($icon-folder-path + "icon_import.svg") no-repeat center center;
+            padding: 10px; border-radius: 2px; border: 1px solid rgba(200, 206, 216, 1); text-align: center;
+            position:relative; right: 3px;
+            &:hover {
+                background: rgba(233, 235, 237, 1) url($icon-folder-path + "icon_import_ov.svg") no-repeat center center;
+                color: rgba(233, 235, 237, 1); border: rgba(200, 206, 216, 1) 1px solid;
+                position:relative; right: 3px;
+            }
+        }
+        &-info {
+            background: url("../icons/icon_info.png") no-repeat right;display: inline-block;margin-left: 5px;width: 15px;height: 15px;
+            &:hover {background: url("../icons/icon_info_select.png") no-repeat right;}
+        }
+        &-gray {
+            width: 64px;height: 30px;padding: 7px 12px; border: 1px solid #BEC5CE; color: #3D4752; border-radius: 2px;font-size: 14px;
+            &:hover {background-color: #BEC5CE; color: white;}
+        }
+    }
+    // 플롯 정렬
+    .float-left{float: left;}
+    .float-right{float: right;}
+    .float-clear{clear: both;}
+    // 텍스트 정렬
+    .align-center {text-align: center;}
+    .align-left {text-align: left;}
+    .align-right {text-align: right;}
+}
