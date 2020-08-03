@@ -486,10 +486,27 @@ textarea {
 .container .contents .contents-body .edit-area .slider.round::before {
   border-radius: 50%;
 }
-.container .contents .contents-body .edit-area .switch_label {
+.container .contents .contents-body .edit-area .switch-label {
   vertical-align: -4px;
   margin-left: 17px;
   color: #7A8594;
+}
+.container .contents .contents-body-auth {
+  background: white;
+  padding: 4% 4%;
+  display: inline-block;
+}
+.container .contents .contents-body-auth .search-area .search{
+  width: 19.0625rem;
+  height: 1.875rem;
+  padding: 0 0.625rem;
+  font-size: 0.875rem;
+  color: #707B8A;
+}
+.container .contents .contents-body-auth .search-area .txt-num{
+  color: #717B89;
+  text-align: right;
+  padding-left: 9.75rem;
 }
 .container .contents .list {
   clear: both;
@@ -512,8 +529,9 @@ textarea {
   color: #3e4752;
   font-size: 14px;
   border-bottom: 2px solid #d2d9e2;
-  vertical-align: middle;
   border-top: 1px solid #d2d9e2;
+  vertical-align: middle;
+  padding: 5px 15px;
 }
 .container .contents .list table tr td {
   height: 45px;
@@ -556,13 +574,120 @@ textarea {
   height: 490px;
 }
 .container .contents .list-wrap-auth {
-  padding: 15px 35px 15px 0;
-  width: 534px;
+  padding: 0.9375rem 0.9375rem 0.9375rem 0;
+  width: 33.375rem;
+  height: 30.625rem;
   float: left;
-  border-right: 1px solid #D2D9E2;
+  border-right: 0.0625rem solid #d2d9e2;
+}
+.container .contents .list-wrap-auth table thead {
+  display: block;
+}
+.container .contents .list-wrap-auth table thead tr {
+  height: 2.375rem;
+  color: #3e4752;
+  font-size: 0.875rem;
+  border-bottom: 0.125rem solid #d2d9e2;
+  vertical-align: middle;
+  border-top: 0.0625rem solid #d2d9e2;
+  padding: 0.3125rem 0.9375rem;
+}
+.container .contents .list-wrap-auth table thead tr th:nth-of-type(1) {
+  width: 8.125rem;
+}
+.container .contents .list-wrap-auth table thead tr th:nth-of-type(2) {
+  width: 8.125rem;
+}
+.container .contents .list-wrap-auth table thead tr th:nth-of-type(3) {
+  width: 15rem;
+}
+.container .contents .list-wrap-auth table tbody {
+  display: block;
+  height: 28.125rem;
+  overflow-y: scroll;
+}
+.container .contents .list-wrap-auth table tbody tr td:nth-of-type(1) {
+  width: 8.125rem;
+}
+.container .contents .list-wrap-auth table tbody tr td:nth-of-type(2) {
+  width: 8.125rem;
+}
+.container .contents .list-wrap-auth table tbody tr td:nth-of-type(3) {
+  width: 16.25rem;
+}
+.container .contents .list-wrap-auth table tbody tr td span {
+  display: block;
+  max-height: 1rem;
+  line-height: 1.6;
+  max-height: 1rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.container .contents .list-wrap-auth table tbody tr.active {
+  border-left: 0.1875rem solid #0050ff;
+  -webkit-box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;
+  box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;
+}
+.container .contents .list-wrap-auth table tbody tr.active td {
+  color: #0050ff;
+  font-weight: 700;
 }
 .container .contents .list-wrap-auth-edit {
-  padding: 15px 0 15px 35px;
+  float: right;
+  padding: 0.9375rem 0 0 0.375rem;
+}
+.container .contents .list-wrap-auth-edit label {
+  display: block;
+  color: #3e4752;
+  font-size: 0.875rem;
+}
+.container .contents .list-wrap-auth-edit input.auth-name {
+  width: 21.875rem;
+  height: 1.875rem;
+  margin: 0.5rem 0.875rem 0.9375rem 0;
+}
+.container .contents .list-wrap-auth-edit input.auth-id {
+  width: 21.875rem;
+  height: 1.875rem;
+  margin: 0.5rem 0 0.9375rem 0;
+}
+.container .contents .list-wrap-auth-edit input.auth-list {
+  height: 13.5rem;
+  border: 0.0625rem solid #c8ced8;
+}
+.container .contents .list-wrap-auth-edit input.auth-url {
+  height: 13.5rem;
+  border: 0.0625rem solid #c8ced8;
+}
+.container .contents .list-wrap-auth-edit input.reference-count {
+  width: 44.75rem;
+  height: 1.875rem;
+  color: #3e4752;
+  background: #f7f9fa;
+  margin: 0.5rem 0.875rem 0.9375rem 0;
+  border: 0.0625rem solid #c8ced8;
+}
+.container .contents .list-wrap-auth-edit textarea.auth-desc {
+  width: 44.75rem;
+  height: 6.875rem;
+  margin: 0.625rem 0 0.948rem 0;
+  display: block;
+  border: 0.0625rem solid #c8ced8;
+  color: #3e4752;
+}
+.container .contents .list-wrap-auth-edit ul {
+  width: 21.875rem;
+  height: 10.625rem;
+  overflow-y: scroll;
+  border: 0.0625rem solid #c8ced8;
+  padding: 0.625rem;
+  margin: 0.5rem 0 0.9375rem 0;
+}
+.container .contents .list-wrap-auth-edit ul li {
+  line-height: 2;
+}
+.container .contents .list-wrap-auth-edit ul li.checked {
+  font-weight: bold;
 }
 .container .contents .list-wrap-edit table {
   margin: 0 0 15px 0;
@@ -613,6 +738,13 @@ textarea {
 .container .contents .txt-num {
   color: #717B89;
   text-align: right;
+  padding-left:9.75rem;
+}
+.container .contents .btn-bar {
+  display: block;
+  width: 100%;
+  text-align: right;
+  margin-top: 0.9375rem;
 }
 .container .contents .required::after {
   color: #E83828;
