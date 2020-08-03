@@ -98,6 +98,7 @@
         // 테이블 리스트 타입 속성
         .list {
             clear: both;
+            padding-top: 15px;
             & table {
                 width: 100%;
                 & span {display: block;margin-left: 30px;}
@@ -124,7 +125,10 @@
         }
 
         .list-wrap {
-            padding: 15px 0;height:490px;
+            // padding: 15px 0;
+            height: 400px;
+            // height:490px;
+            overflow-y: auto;
             &-auth {
                 padding: 15px 35px 15px 0;width: 534px;float: left;border-right: 1px solid #D2D9E2;
                 &-edit {
