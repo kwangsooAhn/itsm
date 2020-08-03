@@ -449,22 +449,23 @@ image:
 login:
   btn:
     doSignUp: "가입하기"
-    googleLogin: "Google 아이디로 로그인"
+    googleLogin: "구글 계정으로 로그인"
     gotoLoginPage: "로그인 페이지로 가기"
-    kakaoLogin: "Kakao 아이디로 로그인"
+    kakaoLogin: "카카오 계정으로 로그인"
     login: "로그인"
     userSignUp: "회원가입"
   label:
-    findId: "아이디를 잊으셨나요?"
-    findPassword: "비밀번호를 잊으셨나요?"
+    findId: "아이디 찾기"
+    findPassword: "비밀번호 찾기"
     gotoMainPage: "메인화면으로 이동"
     id: "아이디"
     login: "로그인"
     loginNote: "계정이 있으신가요?"
     password: "패스워드"
     requiredLogin: "로그인이 필요합니다."
-    signupNote: "처음이신가요?"
+    signupNote: "계정 만들기"
     userSignUp: "회원가입"
+    or: "또는"
   msg:
     disabledUser: "계정이 비활성화되었습니다. 관리자에게 문의하세요."
     enterId: "아이디를 입력하세요."
@@ -728,3 +729,8 @@ validation:
     pwNotContainSpace: "비밀번호에 공백을 포함할 수 없습니다."
     pwOneBetween10And20: "1가지 문자 구성의 경우 10자~20자의 비밀번호를 설정해야 합니다."
     pwTwoBetween8And20: "2가지 문자 구성의 경우 8자~20자의 비밀번호를 설정해야 합니다."
+
+# Project
+project:
+  label:
+    name: "Zenius ITSM"
