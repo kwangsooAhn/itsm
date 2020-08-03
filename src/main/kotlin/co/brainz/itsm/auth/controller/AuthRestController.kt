@@ -27,7 +27,7 @@ class AuthRestController(private val authService: AuthService) {
      */
     @GetMapping("/", "")
     fun getAuths(): MutableList<AliceAuthEntity> {
-        return authService.getAuthList("")
+        return authService.getAuthList()
     }
 
     /**
