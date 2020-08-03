@@ -264,12 +264,6 @@ textarea {
   background: white;
   padding: 4% 8%;
 }
-.container .contents .contents-body .search-area-left {
-  float: left;
-}
-.container .contents .contents-body .search-area-right {
-  float: right;
-}
 .container .contents .contents-body .edit-area {
   padding: 31px 237px 31px 237px;
 }
@@ -623,6 +617,12 @@ textarea {
 .container .contents .required::after {
   color: #E83828;
   content: "*";
+}
+.container .contents .search-area-left {
+  float: left;
+}
+.container .contents .search-area-right {
+  float: right;
 }
 .container-close {
   height: 100%;
