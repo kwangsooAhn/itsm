@@ -59,6 +59,7 @@ common:
     selectBeforeDateTime: "{0} 날짜 시간 이전으로 선택하세요."
     selectBeforeTime: "{0} 시간 이전으로 선택하세요."
     update: "변경되었습니다."
+    processedOrDelete: "이미 처리되었거나 삭제되었습니다."
   code:
     token:
       status:
@@ -347,6 +348,8 @@ faq:
     description: "자주 묻는 질문과 답변입니다."
     edit: "FAQ 편집"
     detail: "FAQ 상세"
+    list: "FAQ 목록"
+    faq: "FAQ"
 
 # FileUpload
 fileupload:

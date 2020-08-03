@@ -59,6 +59,7 @@ common:
     selectBeforeDateTime: "Please select before {0} datetime."
     selectBeforeTime: "Please select before {0} time."
     update: "Changed."
+    processedOrDelete: "Already processed or deleted."
   code:
     token:
       status:
@@ -347,6 +348,8 @@ faq:
     description: "Frequently asked questions and answers."
     edit: "FAQ edit"
     detail: "FAQ detail"
+    list: "FAQ list"
+    faq: "FAQ"
 
 # FileUpload
 fileupload:

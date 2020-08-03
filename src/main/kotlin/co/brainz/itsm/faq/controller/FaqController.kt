@@ -65,7 +65,7 @@ class FaqController(private val faqService: FaqService, private val codeService:
     @GetMapping("/{faqId}/view")
     fun getFaqView(@PathVariable faqId: String, model: Model): String {
         model.addAttribute("faqGroupList", faqService.findAllFaqGroups())
-        model.addAttribute("faq", faqService.findOne(faqId))
+        model.addAttribute("faq", faqService.getFaq(faqId))
         return faqViewPage
     }
 
@@ -76,7 +76,7 @@ class FaqController(private val faqService: FaqService, private val codeService:
     fun getFaqEdit(@PathVariable faqId: String, model: Model): String {
         model.addAttribute("faqGroupList", codeService.selectCodeByParent(FaqConstants.FAQ_CATEGORY_P_CODE))
         if (faqId != "") {
-            model.addAttribute("faq", faqService.findOne(faqId))
+            model.addAttribute("faq", faqService.getFaq(faqId))
         }
         return faqEditPage
     }
