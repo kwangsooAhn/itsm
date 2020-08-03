@@ -1017,6 +1017,31 @@
         }
     }
 
+    function changePropertyScriptType(scriptTypeObject, value) {
+        let scriptObject = document.getElementById('script-type');
+        console.log(value);
+        console.log(scriptObject);
+        //console.log(scriptTypeObject);
+        //console.log(value);
+    }
+
+    function setMultipleInputTable(inputObject, dataList) {
+        inputObject.style.display = 'none';
+        inputObject.classList.add('multiple');
+        let dataInput = document.createElement('input');
+        dataInput.className = '';
+        inputObject.parentNode.insertBefore(dataInput, inputObject.nextSibling);
+
+        let btnAdd = document.createElement('button');
+        btnAdd.innerText = 'ADD';
+        btnAdd.addEventListener('click', function() {
+           console.log('vvvvvvvv');
+        });
+        inputObject.parentNode.insertBefore(btnAdd, dataInput.nextSibling);
+        console.log('ff');
+
+    }
+
     /**
      * 다중 선택 속성 테이블을 생성한다.
      *
@@ -1263,6 +1288,10 @@
                         case 'target-document-list':
                             setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
                             break;
+                        case 'script-option-list' :
+                            console.log('aaaaaa');
+                            setMultipleInputTable(elementObject, documents);
+                            break;
                     }
                 }
             }
@@ -1293,6 +1322,14 @@
             let assigneeTypeObject = propertiesContainer.querySelector('#assignee-type');
             if (assigneeTypeObject) {
                 changePropertyAssigneeType(assigneeTypeObject, elemData.assignee);
+            }
+        }
+        if (selectedElement.classed('scriptTask')) {
+            let scriptTypeObject = propertiesContainer.querySelector('#script-type');
+            if (scriptTypeObject) {
+                changePropertyScriptType(scriptTypeObject, elemData['script-type']);
+                // 여기서.... 하위 옵션을 만들어 넣는다???
+
             }
         }
 
@@ -1443,6 +1480,11 @@
                 if (property.id === 'assignee-type') {
                     elementObject.addEventListener('change', function() {
                         changePropertyAssigneeType(this);
+                    });
+                }
+                if (property.id === 'script-type') {
+                    elementObject.addEventListener('change', function() {
+                        changePropertyScriptType(this);
                     });
                 }
                 propertyContainer.appendChild(elementObject);
