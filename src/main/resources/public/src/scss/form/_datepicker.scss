@@ -66,7 +66,7 @@ $datepicker-active-color: #0050ff;
     &-content {
         display: flex;
         border-bottom: solid 0.0625rem $datepicker-border-color; // 1px
-        padding: 1rem 0 0 0; // 16px
+        padding: 1rem 0 1rem 0; // 16px
         font-size: $datepicker-content-font-size;
         font-weight: $datepicker-content-font-weight;
         background-color: $datepicker-content-background-color;
@@ -83,7 +83,6 @@ $datepicker-active-color: #0050ff;
 
             &-months {
                 height: 1.125rem; // 18px
-                line-height: 1.125rem; // 18px
                 margin: 0 2rem; // 0 32px
 
                 img { vertical-align: middle; }
@@ -93,7 +92,7 @@ $datepicker-active-color: #0050ff;
                     content: url("#{$datepicker-asset-path}/icon_arrow_left.png");
                 }
 
-                span {
+                .date-text {
                     display: inline-block;
                     width: 9.375rem; // 150px
                     color: #5A6364;
@@ -110,16 +109,16 @@ $datepicker-active-color: #0050ff;
             }
 
             &-calendar {
-                padding: 0.25rem 1.75rem; // 4px 28px
+                padding: 0.25rem 1.625rem 0 1.625rem; // 4px 26px 0 26px
                 color: #C2CBD6; // 전월, 이월
 
                 .calendar-cell {
                     display: inline-block;
-                    width: 1.063rem; // 17px
-                    height: 1.063rem; // 17px
+                    width: 1.125rem; // 18px
+                    height: 1.125rem; // 18px
                     line-height: 0.8125rem; // 13px
                     padding: 0.0625rem; // 1px
-                    margin: 0.25rem; // 4px
+                    margin: 0.3125rem; // 5px
                     text-align: center;
 
                     &.calendar-title {
@@ -151,10 +150,12 @@ $datepicker-active-color: #0050ff;
 
             &.active { display: flex; }
 
-            div {
+            .hour-group,
+            .minute-group {
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+                align-items: center;
 
                 img {
                     width: 1.125rem; // 18px
@@ -179,7 +180,7 @@ $datepicker-active-color: #0050ff;
                     }
                 }
 
-                input[type=text] {
+                .digit {
                     width: 3rem; // 48px
                     height: 3.125rem; // 50px
                     color: #505964;
@@ -195,49 +196,49 @@ $datepicker-active-color: #0050ff;
                         border: 0.0625rem solid $datepicker-active-color;
                     }
                 }
+            }
+            .button-group {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
 
-                &.hour-group,
-                &.minute-group {
-                    display: flex;
-                    align-items: center;
-                }
-
-                &.separator { // 구분자 : 
-                    width: 1.438rem; // 23px
-                    color: #505964;
-                    font-size: 1.438rem; // 23px
+                button {
+                    width: 3rem; // 48px
+                    height: 1.563rem; // 25px
+                    color: #AAB3B4;
+                    font-size: 0.875rem; // 14px
                     font-weight: 500;
-                }
+                    margin-left: 0.625rem; // 10px
+                    background-color: #F7F7F7;
+                    border: 0.0625rem solid $datepicker-border-color;
+                    padding: 0;
+                    cursor: pointer;
 
-                &.button-group {
-                    button {
-                        width: 3rem; // 48px
-                        height: 1.563rem; // 25px
-                        color: #AAB3B4;
-                        font-size: 0.875rem; // 14px
-                        font-weight: 500;
-                        margin-left: 0.625rem; // 10px
-                        background-color: #F7F7F7;
-                        border: 0.0625rem solid $datepicker-border-color;
-                        padding: 0;
-                        cursor: pointer;
+                    &.active {
+                        color: $datepicker-active-color;
+                        background-color: #ffffff;
+                        border: 0.0625rem solid $datepicker-active-color;
+                        + button { border-top-color: $datepicker-active-color; }
+                    }
 
-                        &.active {
-                            color: $datepicker-active-color;
-                            background-color: #ffffff;
-                            border: 0.0625rem solid $datepicker-active-color;
-                            + button { border-top-color: $datepicker-active-color; }
-                        }
+                    &:not(:last-of-type) {
+                        border-bottom: 0;
+                    }
 
-                        &:not(:last-of-type) {
-                            border-bottom: 0;
-                        }
-
-                        &:focus {
-                            outline: none !important;
-                        }
+                    &:focus {
+                        outline: none !important;
                     }
                 }
+            }
+
+            .separator { // 구분자 : 
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                width: 1.438rem; // 23px
+                color: #505964;
+                font-size: 1.438rem; // 23px
+                font-weight: 500;
             }
         }
     }

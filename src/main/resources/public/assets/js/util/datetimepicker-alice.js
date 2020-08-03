@@ -215,9 +215,9 @@
             }
 
             if (y >= h && _y > 0) {
-                this.el.style.top = rect.top - oh + 'px';
+                this.el.style.top = rect.top - oh - 3 + 'px'; // 3은 간격
             } else {
-                this.el.style.top = rect.top + rect.height + 'px';
+                this.el.style.top = rect.top + rect.height +  3 + 'px';
             }
         },
         // Date picker 생성 및 초기화 처리.
@@ -238,6 +238,7 @@
 
             // text
             const currentText = document.createElement('span');
+            currentText.className = 'date-text';
             currentText.setAttribute('data-value', _this.selectLuxon.toFormat('yyyyMMdd'));
             currentText.textContent = _this.selectLuxon.toFormat("yyyy-MM"); //  2020-06
             monthPanel.appendChild(currentText);

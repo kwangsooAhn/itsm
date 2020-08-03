@@ -827,12 +827,11 @@
      * default 값을 none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등으로 저장한다.
      * @param {Object} e 이벤트 대상
      */
-    function setDateFormat(e) {
+    function setDateFormat(e, picker) {
         let el = e.target || e;
-        let parentEl = e.target ? el.parentNode.parentNode : el.parentNode.parentNode.parentNode;
+        let parentEl = el.parentNode.parentNode;
         let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
-        if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
-
+        if (checkedRadio === null || parentEl.querySelector('input[type=radio]').id !== checkedRadio.id) { return false; }
         let checkedPropertiesArr = checkedRadio.name.split('-');
         let changeValue = checkedRadio.value;
         if (changeValue === 'none' || changeValue === 'now') {
@@ -848,7 +847,6 @@
             }
             changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
         }
-
     }
 
     /**
@@ -1291,20 +1289,10 @@
                                                     `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
                                                     `${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><span>" + labelName[1] + "</span>" : ""}` +
                                                     `${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><span id='" + opt.id + "-day'>" + labelName[1] + "</span>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><span id='" + opt.id + "-hour'>" + labelName[2] + "</span>" : ""}` +
-                                                    `${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "'/>" : ""}` +
                                                     `${opt.id === 'now' || opt.id === 'none' ? "<span>" + labelName[0] + "</span>" : ""}`+
                                                 `</label>` +
+                                                `${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "'/>" : ""}` +
                                             `</div>`;
-
-                                            /*return `<div class='vertical-group radio-datetime'>
-                                            <input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} />
-                                            ${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><label for='" + opt.id + "'>" + labelName[1] + "</label>" : ""}
-
-                                            ${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-day'>" + labelName[1] + "</label>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-hour'>" + labelName[2] + "</label>" : ""}
-
-                                            ${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
-                                            ${opt.id === 'now' || opt.id === 'none' ? "<label for='" + opt.id + "'>" + labelName[0] + "</label>" : ""}
-                                            </div>`;*/
                                         }).join('');
 
                                         fieldTemplate = `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>${fieldDatetimeOptions}`;

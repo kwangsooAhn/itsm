@@ -1833,11 +1833,11 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   display: flex;
 }
 
-.property-group .property-field div.property-field-image input[type=text] {
+.property-group .property-field div.property-field-image .property-value {
   border-right: 0;
 }
 
-.property-group .property-field div.property-field-image input[type=text]:focus + button {
+.property-group .property-field div.property-field-image .property-value:focus + button {
   border-right-color: #0050ff;
 }
 
@@ -1867,14 +1867,9 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
           align-items: flex-start;
 }
 
-.property-group .property-field.vertical input[type=text] {
+.property-group .property-field.vertical .property-value {
   width: 2.5rem;
   margin: 0 0.3125rem 0 0;
-}
-
-.property-group .property-field.vertical input[type=text][class="timepicker"], .property-group .property-field.vertical input[type=text][class="datepicker"], .property-group .property-field.vertical input[type=text][class="datetimepicker"] {
-  width: 12.06rem;
-  margin: 0;
 }
 
 .property-group .property-field.vertical .vertical-group {
@@ -1895,7 +1890,14 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   width: auto;
 }
 
-.property-group .property-field.vertical .vertical-group span {
+.property-group .property-field.vertical .vertical-group .picker-wrapper-date [class*="timepicker"],
+.property-group .property-field.vertical .vertical-group .picker-wrapper-date [class*="datepicker"],
+.property-group .property-field.vertical .vertical-group .picker-wrapper-date [class*="datetimepicker"] {
+  width: 12.31rem;
+  margin: 0;
+}
+
+.property-group .property-field.vertical .vertical-group label span {
   margin-right: 0.3125rem;
 }
 
@@ -1905,6 +1907,12 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 
 .property-group .property-field .picker-wrapper-date {
   width: 100%;
+}
+
+.property-group .property-field .picker-wrapper-date [class*="timepicker"],
+.property-group .property-field .picker-wrapper-date [class*="datepicker"],
+.property-group .property-field .picker-wrapper-date [class*="datetimepicker"] {
+  background: url("../media/icons/form/editor/icon_calendar.png") no-repeat 95% 50%;
 }
 
 .property-group .property-field span.property-field-unit {
@@ -1995,7 +2003,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   display: -ms-flexbox;
   display: flex;
   border-bottom: solid 0.0625rem #C8CED8;
-  padding: 1rem 0 0 0;
+  padding: 1rem 0 1rem 0;
   font-size: 0.625rem;
   font-weight: 500;
   background-color: #ffffff;
@@ -2016,7 +2024,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 
 .picker-modal-content-date-months {
   height: 1.125rem;
-  line-height: 1.125rem;
   margin: 0 2rem;
 }
 
@@ -2029,7 +2036,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   content: url("../media/icons/datepicker/icon_arrow_left.png");
 }
 
-.picker-modal-content-date-months span {
+.picker-modal-content-date-months .date-text {
   display: inline-block;
   width: 9.375rem;
   color: #5A6364;
@@ -2044,17 +2051,17 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
 }
 
 .picker-modal-content-date-calendar {
-  padding: 0.25rem 1.75rem;
+  padding: 0.25rem 1.625rem 0 1.625rem;
   color: #C2CBD6;
 }
 
 .picker-modal-content-date-calendar .calendar-cell {
   display: inline-block;
-  width: 1.063rem;
-  height: 1.063rem;
+  width: 1.125rem;
+  height: 1.125rem;
   line-height: 0.8125rem;
   padding: 0.0625rem;
-  margin: 0.25rem;
+  margin: 0.3125rem;
   text-align: center;
 }
 
@@ -2089,7 +2096,71 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   display: flex;
 }
 
-.picker-modal-content-time div {
+.picker-modal-content-time .hour-group,
+.picker-modal-content-time .minute-group {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.picker-modal-content-time .hour-group img,
+.picker-modal-content-time .minute-group img {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.picker-modal-content-time .hour-group img.arrow-up,
+.picker-modal-content-time .minute-group img.arrow-up {
+  cursor: pointer;
+  content: url("../media/icons/datepicker/icon_arrow_top.png");
+}
+
+.picker-modal-content-time .hour-group img.arrow-up:hover,
+.picker-modal-content-time .minute-group img.arrow-up:hover {
+  content: url("../media/icons/datepicker/icon_arrow_top_select.png");
+}
+
+.picker-modal-content-time .hour-group img.arrow-down,
+.picker-modal-content-time .minute-group img.arrow-down {
+  cursor: pointer;
+  content: url("../media/icons/datepicker/icon_arrow_under.png");
+}
+
+.picker-modal-content-time .hour-group img.arrow-down:hover,
+.picker-modal-content-time .minute-group img.arrow-down:hover {
+  content: url("../media/icons/datepicker/icon_arrow_under_select.png");
+}
+
+.picker-modal-content-time .hour-group .digit,
+.picker-modal-content-time .minute-group .digit {
+  width: 3rem;
+  height: 3.125rem;
+  color: #505964;
+  font-size: 1.438rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0.375rem 0;
+  border: 0.0625rem solid #C8CED8;
+  padding: 0;
+}
+
+.picker-modal-content-time .hour-group .digit:focus,
+.picker-modal-content-time .minute-group .digit:focus {
+  outline: none !important;
+  border: 0.0625rem solid #0050ff;
+}
+
+.picker-modal-content-time .button-group {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -2102,63 +2173,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
           justify-content: center;
 }
 
-.picker-modal-content-time div img {
-  width: 1.125rem;
-  height: 1.125rem;
-}
-
-.picker-modal-content-time div img.arrow-up {
-  cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_top.png");
-}
-
-.picker-modal-content-time div img.arrow-up:hover {
-  content: url("../media/icons/datepicker/icon_arrow_top_select.png");
-}
-
-.picker-modal-content-time div img.arrow-down {
-  cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_under.png");
-}
-
-.picker-modal-content-time div img.arrow-down:hover {
-  content: url("../media/icons/datepicker/icon_arrow_under_select.png");
-}
-
-.picker-modal-content-time div input[type=text] {
-  width: 3rem;
-  height: 3.125rem;
-  color: #505964;
-  font-size: 1.438rem;
-  font-weight: 500;
-  text-align: center;
-  margin: 0.375rem 0;
-  border: 0.0625rem solid #C8CED8;
-  padding: 0;
-}
-
-.picker-modal-content-time div input[type=text]:focus {
-  outline: none !important;
-  border: 0.0625rem solid #0050ff;
-}
-
-.picker-modal-content-time div.hour-group, .picker-modal-content-time div.minute-group {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-
-.picker-modal-content-time div.separator {
-  width: 1.438rem;
-  color: #505964;
-  font-size: 1.438rem;
-  font-weight: 500;
-}
-
-.picker-modal-content-time div.button-group button {
+.picker-modal-content-time .button-group button {
   width: 3rem;
   height: 1.563rem;
   color: #AAB3B4;
@@ -2171,22 +2186,39 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   cursor: pointer;
 }
 
-.picker-modal-content-time div.button-group button.active {
+.picker-modal-content-time .button-group button.active {
   color: #0050ff;
   background-color: #ffffff;
   border: 0.0625rem solid #0050ff;
 }
 
-.picker-modal-content-time div.button-group button.active + button {
+.picker-modal-content-time .button-group button.active + button {
   border-top-color: #0050ff;
 }
 
-.picker-modal-content-time div.button-group button:not(:last-of-type) {
+.picker-modal-content-time .button-group button:not(:last-of-type) {
   border-bottom: 0;
 }
 
-.picker-modal-content-time div.button-group button:focus {
+.picker-modal-content-time .button-group button:focus {
   outline: none !important;
+}
+
+.picker-modal-content-time .separator {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 1.438rem;
+  color: #505964;
+  font-size: 1.438rem;
+  font-weight: 500;
 }
 
 .picker-modal-button {
