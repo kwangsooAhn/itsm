@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-	<div class="menu">
-		<div class="gnb">
-			<ul>
-				<li th:each="topMenu : ${#authentication.details.menus}"
-						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu'">
-					<span th:class=${topMenu.menuId}><a th:text="#{|menu.${topMenu.menuId}.parent|}"></a></span>
-					<div class="snb snb-mywork">
-						<ul>
-							<li th:each="subMenu : ${#authentication.details.menus}"
-									th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId}">
-								<span th:class="${#strings.substringAfter(subMenu.menuId,'.')}">
-									<a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}" onclick="showProgressBar()"></a>
-								</span>
-							</li>
-						</ul>
-					</div>
-				</li>
-			</ul>
-		</div>
-	</div>
+<div class="logo"></div>
+<div class="navigation">
+    <div class="breadcrumb">
+    </div>
+    <div class="nav-config">
+        <div class="notice notification-menu">
+            <span class="notice-num count" id="count"></span>
+            <div id="notification-container" class="notification-container"></div>
+        </div>
+        <div class="user-info dropdown-toggle" type="button" data-toggle="dropdown" onclick="profile_menu();">
+            <ul>
+                <li><img class="user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" width="50px" height="50px" border="1" alt="profile pic"/></li>
+                <li>Hello, <span class="user-name" sec:authentication="details.userName"></span>
+                    <div class="my-edit" id="profile-menu">
+                        <ul>
+                            <li><a href="javascript:logout()" th:text="#{common.btn.logout}"><span class="my-modify"/></a></li>
+                            <li><a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}" th:text="#{menu.setting.editMyInfo}"><span class="my-logout"/></a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li><span class="arrow-d"></span></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div>
+    <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
+</div>
 </body>
 <script type="text/javascript" th:inline="javascript">
     let notificationDiv = null;
@@ -57,8 +65,8 @@
             if (noConfirmNotification.length !== 0) {
                 count.style.display = 'block';
             } else {
-				count.style.display = 'none';
-			}
+                count.style.display = 'none';
+            }
             document.getElementById('total').innerText = '(' + noConfirmNotification.length + '/' +
                 notificationDiv.querySelectorAll('div.notification:not(.noData)').length + ')';
 
@@ -80,9 +88,9 @@
     // show notification popup.
     function showNotification(param) {
         let text = '<div class="icon"></div>' +
-			'<div class="content"><div class="title">' + param.title + '</div>' +
-			'<div class="message text-ellipsis">' + param.message + '</div>' +
-			'<div class="date">' + param.date + '</div></div>';
+            '<div class="content"><div class="title">' + param.title + '</div>' +
+            '<div class="message text-ellipsis">' + param.message + '</div>' +
+            '<div class="date">' + param.date + '</div></div>';
         Toastify({
             text: text,
             duration: 5000,
