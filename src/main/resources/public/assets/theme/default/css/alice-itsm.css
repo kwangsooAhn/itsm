@@ -1874,8 +1874,8 @@ textarea {
   position: fixed;
   background-color: #ffffff;
   border: solid 0.0625rem #C8CED8;
-  -webkit-box-shadow: 0 0 0.3125rem0 rgba(30, 47, 63, 0.2);
-          box-shadow: 0 0 0.3125rem0 rgba(30, 47, 63, 0.2);
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
+          box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
   text-align: center;
   z-index: 1;
 }
@@ -2036,23 +2036,23 @@ textarea {
 .picker-modal-content-time .hour-group img.arrow-up,
 .picker-modal-content-time .minute-group img.arrow-up {
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_top.png");
+  content: url("../../../media/icons/datepicker/icon_arrow_top.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-up:hover,
 .picker-modal-content-time .minute-group img.arrow-up:hover {
-  content: url("../media/icons/datepicker/icon_arrow_top_select.png");
+  content: url("../../../media/icons/datepicker/icon_arrow_top_select.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-down,
 .picker-modal-content-time .minute-group img.arrow-down {
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_under.png");
+  content: url("../../../media/icons/datepicker/icon_arrow_under.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-down:hover,
 .picker-modal-content-time .minute-group img.arrow-down:hover {
-  content: url("../media/icons/datepicker/icon_arrow_under_select.png");
+  content: url("../../../media/icons/datepicker/icon_arrow_under_select.png");
 }
 
 .picker-modal-content-time .hour-group .digit,

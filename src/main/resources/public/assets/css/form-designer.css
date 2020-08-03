@@ -1960,8 +1960,8 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select {
   position: fixed;
   background-color: #ffffff;
   border: solid 0.0625rem #C8CED8;
-  -webkit-box-shadow: 0 0 0.3125rem0 rgba(30, 47, 63, 0.2);
-          box-shadow: 0 0 0.3125rem0 rgba(30, 47, 63, 0.2);
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
+          box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
   text-align: center;
   z-index: 1;
 }

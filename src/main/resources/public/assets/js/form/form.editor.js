@@ -633,7 +633,7 @@
      * 세부 속성 편집: 제일 처음으로 이동
      */
     function selectProperties() {
-        const selectElems = propertiesPanel.querySelectorAll('input[type="text"]:not([readonly]), select');
+        const selectElems = propertiesPanel.querySelectorAll('input[type=text]:not([readonly]), select');
         if (selectElems.length === 0) { return false; }
 
         selectElems[0].focus();
@@ -827,7 +827,7 @@
      * default 값을 none, now, date|-3, time|2, datetime|7|0, datetimepicker|2020-03-20 09:00 등으로 저장한다.
      * @param {Object} e 이벤트 대상
      */
-    function setDateFormat(e, picker) {
+    function setDateFormat(e) {
         let el = e.target || e;
         let parentEl = el.parentNode.parentNode;
         let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
@@ -837,7 +837,7 @@
         if (changeValue === 'none' || changeValue === 'now') {
             changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
         } else {
-            let inputCells = parentEl.querySelectorAll('input[type="text"]');
+            let inputCells = parentEl.querySelectorAll('input[type=text]');
             if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
                 changeValue += ('|' + inputCells[0].value);
             } else {
@@ -1449,7 +1449,7 @@
         }
 
         // focustout 이벤트 추가
-        const inputElems = propertiesPanel.querySelectorAll('input[type="text"]:not([readonly])');
+        const inputElems = propertiesPanel.querySelectorAll('input[type=text]:not([readonly])');
         for (i = 0, len = inputElems.length; i < len; i++) {
             if (inputElems[i].id === 'date' || inputElems[i].id === 'time' || inputElems[i].id === 'datetime-day' || inputElems[i].id === 'datetime-hour') {
                 inputElems[i].addEventListener('focusout', setDateFormat, false);
@@ -1474,7 +1474,7 @@
             }
         }
         // change 이벤트 추가
-        const changeElems =  propertiesPanel.querySelectorAll('input[type="checkbox"], input[type="range"], input[type="radio"], select, input[class*="color"]');
+        const changeElems =  propertiesPanel.querySelectorAll('input[type=checkbox], input[type=range], input[type=radio], select, input[class*="color"]');
         for (i = 0, len = changeElems.length; i < len; i++) {
             const changeElem = changeElems[i];
             switch (changeElem.type) {
@@ -1502,7 +1502,7 @@
                              let parentElem =  elem.parentNode;
                             if (changeElem.type === 'range') {
                                 parentElem =  elem.parentNode.parentNode;
-                                const slider = parentElem.querySelector('input[type="text"]');
+                                const slider = parentElem.querySelector('input[type=text]');
                                 slider.value = elem.value;
                             }
                             const changePropertiesArr = parentElem.id.split('-');
