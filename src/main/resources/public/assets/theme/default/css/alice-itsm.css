@@ -126,6 +126,7 @@ button {
   font-style: normal;
   font-weight: 900;
 }
+/* Date compoent 기본 */
 body, input, textarea, select {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 0.9375rem;
@@ -139,7 +140,11 @@ h1 {
   font-weight: 600;
 }
 
-/* Date compoent 기본 */
+h3 {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 20px;
+}
+
 .picker-wrapper-date {
   display: inline;
 }
@@ -202,11 +207,13 @@ input.search-time {
 }
 
 textarea {
+  padding: 0 0.625rem;
   margin: 10px 0 15px 0;
   display: block;
   border: 1px solid #C8CED8;
   color: #67717F;
   background-color: #FFFFFF;
+  font-size: 0.875rem;
 }
 
 .column-1 {
@@ -257,60 +264,33 @@ textarea {
   background: white;
   padding: 4% 8%;
 }
-.container .contents .search-area-left {
+.container .contents .contents-body .search-area-left {
   float: left;
 }
-.container .contents .search-area-right {
+.container .contents .contents-body .search-area-right {
   float: right;
 }
-.container .contents .user-register-contents-body {
-  background: white;
-  padding: 88px 351px 96px 351px;
+.container .contents .contents-body .edit-area {
+  padding: 31px 237px 31px 237px;
 }
-.container .contents .user-register-contents-body input {
-  font-size: 14px;
-  height: 30px;
+.container .contents .contents-body .edit-area input {
   width: 340px;
   margin-top: 8px;
 }
-.container .contents .user-register-contents-body select {
-  font-size: 14px;
+.container .contents .contents-body .edit-area select {
+  width: 340px;
   margin-top: 8px;
 }
-.container .contents .user-register-contents-body .required::after {
-  color: #E83828;
-  content: "*";
-}
-.container .contents .user-register-contents-body .profile-title {
-  font-size: 20px;
-  padding: 0px 0px 11px 0px;
-}
-.container .contents .user-register-contents-body .profile-manage {
-  margin-top: 11px;
-  border-top: 2px solid #C8CED8;
-  width: 698px;
-}
-.container .contents .user-register-contents-body .profile-input-body-list {
-  margin-top: 15px;
-  margin-left: 10px;
-}
-.container .contents .user-register-contents-body .profile-input-body-list:last-child {
-  margin-bottom: 62px;
-}
-.container .contents .user-register-contents-body .user-register-top-list {
-  margin-top: 37px;
-  margin-left: 10px;
-}
-.container .contents .user-register-contents-body .input-title {
+.container .contents .contents-body .edit-area .input-title {
   font-size: 14px;
   display: block;
   padding: 10px 0;
 }
-.container .contents .user-register-contents-body .input-title-guide {
+.container .contents .contents-body .edit-area .input-title-guide {
   display: flex;
   vertical-align: middle;
 }
-.container .contents .user-register-contents-body .input-button {
+.container .contents .contents-body .edit-area .input-button {
   width: 60px;
   height: 30px;
   background: white;
@@ -318,19 +298,39 @@ textarea {
   margin-left: -63px;
   font-size: 14px;
 }
-.container .contents .user-register-contents-body .custom-setting-top-select {
+.container .contents .contents-body .edit-area .profile-manage {
+  margin-top: 11px;
+  border-top: 2px solid #C8CED8;
+  width: 698px;
+}
+.container .contents .contents-body .edit-area .profile-input-body-list {
+  margin-top: 15px;
+  margin-left: 10px;
+}
+.container .contents .contents-body .edit-area .profile-input-body-list:last-child {
+  margin-bottom: 62px;
+}
+.container .contents .contents-body .edit-area .profile-input-body-list textarea {
+  width: 42.5rem;
+  height: 11.25rem;
+}
+.container .contents .contents-body .edit-area .user-register-top-list {
+  margin-top: 37px;
+  margin-left: 10px;
+}
+.container .contents .contents-body .edit-area .custom-setting-top-select {
   width: 678px;
   height: 26px;
   padding-left: 5px;
   border: 1px solid #C8CED8;
 }
-.container .contents .user-register-contents-body .select-date-time {
+.container .contents .contents-body .edit-area .select-date-time {
   width: 244px;
   height: 26px;
   border: 1px solid #C8CED8;
   padding-left: 5px;
 }
-.container .contents .user-register-contents-body .hour-select {
+.container .contents .contents-body .edit-area .hour-select {
   width: 85px;
   height: 26px;
   color: black;
@@ -338,72 +338,72 @@ textarea {
   margin-left: 5px;
   padding-left: 5px;
 }
-.container .contents .user-register-contents-body .language-select {
+.container .contents .contents-body .edit-area .language-select {
   width: 244px;
   height: 30px;
   border: 1px solid #C8CED8;
   font-size: 14px;
   padding-left: 5px;
 }
-.container .contents .user-register-contents-body .theme-color-select {
+.container .contents .contents-body .edit-area .theme-color-select {
   width: 244px;
   height: 30px;
   border: 1px solid #C8CED8;
   padding-left: 5px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox {
+.container .contents .contents-body .edit-area .user-role-checkbox {
   width: 15px;
   height: 15px;
   line-height: 15px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-wrap {
+.container .contents .contents-body .edit-area .user-role-checkbox-wrap {
   margin-top: 15px;
   margin-left: 10px;
   display: inline-block;
   width: 162px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-list {
+.container .contents .contents-body .edit-area .user-role-checkbox-list {
   margin-top: 22px;
   margin-left: 10px;
   margin-bottom: 62px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-list-middle {
+.container .contents .contents-body .edit-area .user-role-checkbox-list-middle {
   margin-top: 15px;
   margin-left: 10px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-list-bottom {
+.container .contents .contents-body .edit-area .user-role-checkbox-list-bottom {
   margin-top: 15px;
   margin-left: 10px;
   margin-bottom: 51px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-block {
+.container .contents .contents-body .edit-area .user-role-checkbox-block {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
-.container .contents .user-register-contents-body .checkbox-label {
+.container .contents .contents-body .edit-area .checkbox-label {
   vertical-align: -5px;
   margin-left: 10px;
   margin-right: 14px;
 }
-.container .contents .user-register-contents-body .btn-wrap {
+.container .contents .contents-body .edit-area .btn-wrap {
   margin-top: 32px;
   text-align: right;
   margin-right: 10px;
   font-size: 13px;
 }
-.container .contents .user-register-contents-body .btn-register {
-  padding: 6px 12px;
+.container .contents .contents-body .edit-area .btn-register {
+  padding: 7px 12px;
   border: 1px solid #0050ff;
   color: #0050ff;
-  border-radius: 3px;
-  margin-right: 5px;
+  border-radius: 2px;
+  font-size: 0.875rem;
 }
-.container .contents .user-register-contents-body .btn-register:hover {
+.container .contents .contents-body .edit-area .btn-register:hover {
   background-color: #0050ff;
   color: white;
 }
-.container .contents .user-register-contents-body .avatar-section {
+.container .contents .contents-body .edit-area .avatar-section {
   float: right;
   padding: 53px 75px 53px 75px;
   border: 1px solid #D2D9E2;
@@ -412,35 +412,35 @@ textarea {
   background: white no-repeat center 53px;
   background-color: #FDFDFD;
 }
-.container .contents .user-register-contents-body .avatar-section-wrap {
+.container .contents .contents-body .edit-area .avatar-section-wrap {
   float: right;
   margin-top: 37px;
 }
-.container .contents .user-register-contents-body .avatar-title {
+.container .contents .contents-body .edit-area .avatar-title {
   display: block;
   font-size: 14px;
 }
-.container .contents .user-register-contents-body .avatar-text {
+.container .contents .contents-body .edit-area .avatar-text {
   display: block;
   margin-top: 96px;
   text-align: center;
   font-size: 13px;
   color: #7A8594;
 }
-.container .contents .user-register-contents-body .avatar-bottom-text-wrap {
+.container .contents .contents-body .edit-area .avatar-bottom-text-wrap {
   display: block;
   margin-top: 253px;
   font-size: 13px;
 }
-.container .contents .user-register-contents-body .avatar-far-bottom-text {
+.container .contents .contents-body .edit-area .avatar-far-bottom-text {
   display: block;
   margin-top: 8px;
 }
-.container .contents .user-register-contents-body .browse-link {
+.container .contents .contents-body .edit-area .browse-link {
   text-decoration: underline;
   color: #0050ff;
 }
-.container .contents .user-register-contents-body .switch {
+.container .contents .contents-body .edit-area .switch {
   position: relative;
   display: inline-block;
   width: 60px;
@@ -448,12 +448,12 @@ textarea {
   margin-top: 29px;
   margin-left: 10px;
 }
-.container .contents .user-register-contents-body .switch input {
+.container .contents .contents-body .edit-area .switch input {
   opacity: 1;
   width: 0;
   height: 0;
 }
-.container .contents .user-register-contents-body .slider {
+.container .contents .contents-body .edit-area .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -464,7 +464,7 @@ textarea {
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
-.container .contents .user-register-contents-body .slider:before {
+.container .contents .contents-body .edit-area .slider:before {
   position: absolute;
   content: "";
   height: 17px;
@@ -475,24 +475,24 @@ textarea {
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
-.container .contents .user-register-contents-body input:checked + .slider {
+.container .contents .contents-body .edit-area input:checked + .slider {
   background-color: #0050ff;
 }
-.container .contents .user-register-contents-body input:checked + .slider:before {
+.container .contents .contents-body .edit-area input:checked + .slider:before {
   -webkit-transform: translateX(33px);
   transform: translateX(33px);
 }
-.container .contents .user-register-contents-body input:focus + .slider {
+.container .contents .contents-body .edit-area input:focus + .slider {
   -webkit-box-shadow: 0 0 1px #707579;
   box-shadow: 0 0 1px #707579;
 }
-.container .contents .user-register-contents-body .slider.round {
+.container .contents .contents-body .edit-area .slider.round {
   border-radius: 34px;
 }
-.container .contents .user-register-contents-body .slider.round::before {
+.container .contents .contents-body .edit-area .slider.round::before {
   border-radius: 50%;
 }
-.container .contents .user-register-contents-body .switch_label {
+.container .contents .contents-body .edit-area .switch_label {
   vertical-align: -4px;
   margin-left: 17px;
   color: #7A8594;
@@ -619,6 +619,10 @@ textarea {
 .container .contents .txt-num {
   color: #717B89;
   text-align: right;
+}
+.container .contents .required::after {
+  color: #E83828;
+  content: "*";
 }
 .container-close {
   height: 100%;
