@@ -92,40 +92,41 @@ button {
 
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Thin.woff") format("woff");
+  src: url("../font/NotoSansKR-Thin.otf") format("otf");
   font-style: normal;
   font-weight: 100;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Light.woff") format("woff");
+  src: url("../font/NotoSansKR-Light.otf") format("otf");
   font-style: normal;
   font-weight: 300;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Regular.woff") format("woff");
+  src: url("../font/NotoSansKR-Regular.otf") format("otf");
   font-style: normal;
   font-weight: 400;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Medium.woff") format("woff");
+  src: url("../font/NotoSansKR-Medium.otf") format("otf");
   font-style: normal;
   font-weight: 500;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Bold.woff") format("woff");
+  src: url("../font/NotoSansKR-Bold.otf") format("otf");
   font-style: normal;
   font-weight: 700;
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: url("../font/NotoSansKR-Black.woff") format("woff");
+  src: url("../font/NotoSansKR-Black.otf") format("otf");
   font-style: normal;
   font-weight: 900;
 }
+/* Date compoent 기본 */
 body, input, textarea, select {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 0.9375rem;
@@ -139,7 +140,11 @@ h1 {
   font-weight: 600;
 }
 
-/* Date compoent 기본 */
+h3 {
+  font-family: "Noto Sans KR", sans-serif;
+  font-size: 20px;
+}
+
 .picker-wrapper-date {
   display: inline;
 }
@@ -202,11 +207,13 @@ input.search-time {
 }
 
 textarea {
+  padding: 0 0.625rem;
   margin: 10px 0 15px 0;
   display: block;
   border: 1px solid #C8CED8;
   color: #67717F;
   background-color: #FFFFFF;
+  font-size: 0.875rem;
 }
 
 .column-1 {
@@ -248,13 +255,6 @@ textarea {
 .container .contents .contents-title {
   padding: 20px 0 20px 5px;
 }
-.container .contents .contents-title .title-txt {
-  display: block;
-  font-size: 30px;
-  color: #47556a;
-  padding: 10px 0;
-  font-weight: 600;
-}
 .container .contents .contents-title .title-description {
   font-size: 15px;
   color: #94a6bf;
@@ -264,70 +264,27 @@ textarea {
   background: white;
   padding: 4% 8%;
 }
-.container .contents .contents-body-auth {
-  background: white;
-  padding: 4% 4%;
+.container .contents .contents-body .edit-area {
+  padding: 31px 237px 31px 237px;
 }
-.container .contents .menubar-left {
-  float: left;
-}
-.container .contents .menubar-right {
-  float: right;
-}
-.container .contents .menubar-bottom {
-  display: inline-block;
-  width: 100%;
-  position: relative;
-  top: 30px;
-}
-.container .contents .user-register-contents-body {
-  background: white;
-  padding: 88px 351px 96px 351px;
-}
-.container .contents .user-register-contents-body input {
-  font-size: 14px;
-  height: 30px;
+.container .contents .contents-body .edit-area input {
   width: 340px;
   margin-top: 8px;
 }
-.container .contents .user-register-contents-body select {
-  font-size: 14px;
+.container .contents .contents-body .edit-area select {
+  width: 340px;
   margin-top: 8px;
 }
-.container .contents .user-register-contents-body .required::after {
-  color: #E83828;
-  content: "*";
-}
-.container .contents .user-register-contents-body .profile-title {
-  font-size: 20px;
-  padding: 0px 0px 11px 0px;
-}
-.container .contents .user-register-contents-body .profile-manage {
-  margin-top: 11px;
-  border-top: 2px solid #C8CED8;
-  width: 698px;
-}
-.container .contents .user-register-contents-body .profile-input-body-list {
-  margin-top: 15px;
-  margin-left: 10px;
-}
-.container .contents .user-register-contents-body .profile-input-body-list:last-child {
-  margin-bottom: 62px;
-}
-.container .contents .user-register-contents-body .user-register-top-list {
-  margin-top: 37px;
-  margin-left: 10px;
-}
-.container .contents .user-register-contents-body .input-title {
+.container .contents .contents-body .edit-area .input-title {
   font-size: 14px;
   display: block;
   padding: 10px 0;
 }
-.container .contents .user-register-contents-body .input-title-guide {
+.container .contents .contents-body .edit-area .input-title-guide {
   display: flex;
   vertical-align: middle;
 }
-.container .contents .user-register-contents-body .input-button {
+.container .contents .contents-body .edit-area .input-button {
   width: 60px;
   height: 30px;
   background: white;
@@ -335,19 +292,39 @@ textarea {
   margin-left: -63px;
   font-size: 14px;
 }
-.container .contents .user-register-contents-body .custom-setting-top-select {
+.container .contents .contents-body .edit-area .profile-manage {
+  margin-top: 11px;
+  border-top: 2px solid #C8CED8;
+  width: 698px;
+}
+.container .contents .contents-body .edit-area .profile-input-body-list {
+  margin-top: 15px;
+  margin-left: 10px;
+}
+.container .contents .contents-body .edit-area .profile-input-body-list:last-child {
+  margin-bottom: 62px;
+}
+.container .contents .contents-body .edit-area .profile-input-body-list textarea {
+  width: 42.5rem;
+  height: 11.25rem;
+}
+.container .contents .contents-body .edit-area .user-register-top-list {
+  margin-top: 37px;
+  margin-left: 10px;
+}
+.container .contents .contents-body .edit-area .custom-setting-top-select {
   width: 678px;
   height: 26px;
   padding-left: 5px;
   border: 1px solid #C8CED8;
 }
-.container .contents .user-register-contents-body .select-date-time {
+.container .contents .contents-body .edit-area .select-date-time {
   width: 244px;
   height: 26px;
   border: 1px solid #C8CED8;
   padding-left: 5px;
 }
-.container .contents .user-register-contents-body .hour-select {
+.container .contents .contents-body .edit-area .hour-select {
   width: 85px;
   height: 26px;
   color: black;
@@ -355,72 +332,72 @@ textarea {
   margin-left: 5px;
   padding-left: 5px;
 }
-.container .contents .user-register-contents-body .language-select {
+.container .contents .contents-body .edit-area .language-select {
   width: 244px;
   height: 30px;
   border: 1px solid #C8CED8;
   font-size: 14px;
   padding-left: 5px;
 }
-.container .contents .user-register-contents-body .theme-color-select {
+.container .contents .contents-body .edit-area .theme-color-select {
   width: 244px;
   height: 30px;
   border: 1px solid #C8CED8;
   padding-left: 5px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox {
+.container .contents .contents-body .edit-area .user-role-checkbox {
   width: 15px;
   height: 15px;
   line-height: 15px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-wrap {
+.container .contents .contents-body .edit-area .user-role-checkbox-wrap {
   margin-top: 15px;
   margin-left: 10px;
   display: inline-block;
   width: 162px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-list {
+.container .contents .contents-body .edit-area .user-role-checkbox-list {
   margin-top: 22px;
   margin-left: 10px;
   margin-bottom: 62px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-list-middle {
+.container .contents .contents-body .edit-area .user-role-checkbox-list-middle {
   margin-top: 15px;
   margin-left: 10px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-list-bottom {
+.container .contents .contents-body .edit-area .user-role-checkbox-list-bottom {
   margin-top: 15px;
   margin-left: 10px;
   margin-bottom: 51px;
 }
-.container .contents .user-register-contents-body .user-role-checkbox-block {
+.container .contents .contents-body .edit-area .user-role-checkbox-block {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
 }
-.container .contents .user-register-contents-body .checkbox-label {
+.container .contents .contents-body .edit-area .checkbox-label {
   vertical-align: -5px;
   margin-left: 10px;
   margin-right: 14px;
 }
-.container .contents .user-register-contents-body .btn-wrap {
+.container .contents .contents-body .edit-area .btn-wrap {
   margin-top: 32px;
   text-align: right;
   margin-right: 10px;
   font-size: 13px;
 }
-.container .contents .user-register-contents-body .btn-register {
-  padding: 6px 12px;
+.container .contents .contents-body .edit-area .btn-register {
+  padding: 7px 12px;
   border: 1px solid #0050ff;
   color: #0050ff;
-  border-radius: 3px;
-  margin-right: 5px;
+  border-radius: 2px;
+  font-size: 0.875rem;
 }
-.container .contents .user-register-contents-body .btn-register:hover {
+.container .contents .contents-body .edit-area .btn-register:hover {
   background-color: #0050ff;
   color: white;
 }
-.container .contents .user-register-contents-body .avatar-section {
+.container .contents .contents-body .edit-area .avatar-section {
   float: right;
   padding: 53px 75px 53px 75px;
   border: 1px solid #D2D9E2;
@@ -429,35 +406,35 @@ textarea {
   background: white no-repeat center 53px;
   background-color: #FDFDFD;
 }
-.container .contents .user-register-contents-body .avatar-section-wrap {
+.container .contents .contents-body .edit-area .avatar-section-wrap {
   float: right;
   margin-top: 37px;
 }
-.container .contents .user-register-contents-body .avatar-title {
+.container .contents .contents-body .edit-area .avatar-title {
   display: block;
   font-size: 14px;
 }
-.container .contents .user-register-contents-body .avatar-text {
+.container .contents .contents-body .edit-area .avatar-text {
   display: block;
   margin-top: 96px;
   text-align: center;
   font-size: 13px;
   color: #7A8594;
 }
-.container .contents .user-register-contents-body .avatar-bottom-text-wrap {
+.container .contents .contents-body .edit-area .avatar-bottom-text-wrap {
   display: block;
   margin-top: 253px;
   font-size: 13px;
 }
-.container .contents .user-register-contents-body .avatar-far-bottom-text {
+.container .contents .contents-body .edit-area .avatar-far-bottom-text {
   display: block;
   margin-top: 8px;
 }
-.container .contents .user-register-contents-body .browse-link {
+.container .contents .contents-body .edit-area .browse-link {
   text-decoration: underline;
   color: #0050ff;
 }
-.container .contents .user-register-contents-body .switch {
+.container .contents .contents-body .edit-area .switch {
   position: relative;
   display: inline-block;
   width: 60px;
@@ -465,12 +442,12 @@ textarea {
   margin-top: 29px;
   margin-left: 10px;
 }
-.container .contents .user-register-contents-body .switch input {
+.container .contents .contents-body .edit-area .switch input {
   opacity: 1;
   width: 0;
   height: 0;
 }
-.container .contents .user-register-contents-body .slider {
+.container .contents .contents-body .edit-area .slider {
   position: absolute;
   cursor: pointer;
   top: 0;
@@ -481,7 +458,7 @@ textarea {
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
-.container .contents .user-register-contents-body .slider:before {
+.container .contents .contents-body .edit-area .slider:before {
   position: absolute;
   content: "";
   height: 17px;
@@ -492,24 +469,24 @@ textarea {
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
-.container .contents .user-register-contents-body input:checked + .slider {
+.container .contents .contents-body .edit-area input:checked + .slider {
   background-color: #0050ff;
 }
-.container .contents .user-register-contents-body input:checked + .slider:before {
+.container .contents .contents-body .edit-area input:checked + .slider:before {
   -webkit-transform: translateX(33px);
   transform: translateX(33px);
 }
-.container .contents .user-register-contents-body input:focus + .slider {
+.container .contents .contents-body .edit-area input:focus + .slider {
   -webkit-box-shadow: 0 0 1px #707579;
   box-shadow: 0 0 1px #707579;
 }
-.container .contents .user-register-contents-body .slider.round {
+.container .contents .contents-body .edit-area .slider.round {
   border-radius: 34px;
 }
-.container .contents .user-register-contents-body .slider.round::before {
+.container .contents .contents-body .edit-area .slider.round::before {
   border-radius: 50%;
 }
-.container .contents .user-register-contents-body .switch_label {
+.container .contents .contents-body .edit-area .switch_label {
   vertical-align: -4px;
   margin-left: 17px;
   color: #7A8594;
@@ -579,70 +556,13 @@ textarea {
   height: 490px;
 }
 .container .contents .list-wrap-auth {
-  padding: 15px 15px 15px 0;
+  padding: 15px 35px 15px 0;
   width: 534px;
+  float: left;
   border-right: 1px solid #D2D9E2;
-  display: inline-block;
-}
-.container .contents .list-wrap-auth table thead {
-  display: block;
-}
-.container .contents .list-wrap-auth table thead tr th:nth-of-type(1) {
-  width: 130px;
-}
-.container .contents .list-wrap-auth table thead tr th:nth-of-type(2) {
-  width: 130px;
-}
-.container .contents .list-wrap-auth table thead tr th:nth-of-type(3) {
-  width: 240px;
-}
-.container .contents .list-wrap-auth table tbody {
-  display: block;
-  height: 470px;
-  overflow-y: scroll;
-}
-.container .contents .list-wrap-auth table tbody tr td span {
-  display: block;
-  max-height: 16px;
-  line-height: 1.6;
-  max-height: 16px;
-  text-overflow: ellipsis;
-  overflow: hidden;
-}
-.container .contents .list-wrap-auth table tbody tr td:nth-of-type(1) {
-  width: 130px;
-}
-.container .contents .list-wrap-auth table tbody tr td:nth-of-type(2) {
-  width: 130px;
-}
-.container .contents .list-wrap-auth table tbody tr td:nth-of-type(3) {
-  width: 240px;
-}
-.container .contents .list-wrap-auth table tbody tr.active {
-  border-left: 3px solid #0050ff;
-  -webkit-box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;
-  box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;
-}
-.container .contents .list-wrap-auth table tbody tr.active td {
-  color: #0050ff;
-  font-weight: bold;
 }
 .container .contents .list-wrap-auth-edit {
-  padding: 15px 0 0 6px;
-}
-.container .contents .list-wrap-auth-edit ul {
-  width: 330px;
-  height: 170px;
-  overflow-y: scroll;
-  border: 1px solid #C8CED8;
-  padding: 10px;
-  margin: 8px 0 15px 0;
-}
-.container .contents .list-wrap-auth-edit ul li {
-  line-height: 2;
-}
-.container .contents .list-wrap-auth-edit ul li.checked {
-  font-weight: bold;
+  padding: 15px 0 15px 35px;
 }
 .container .contents .list-wrap-edit table {
   margin: 0 0 15px 0;
@@ -693,6 +613,16 @@ textarea {
 .container .contents .txt-num {
   color: #717B89;
   text-align: right;
+}
+.container .contents .required::after {
+  color: #E83828;
+  content: "*";
+}
+.container .contents .search-area-left {
+  float: left;
+}
+.container .contents .search-area-right {
+  float: right;
 }
 .container-close {
   height: 100%;

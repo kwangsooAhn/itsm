@@ -1,0 +1,23 @@
+$icon-folder-path: "../icons/";
+$alice-primary:#0050ff !default;
+
+// Color palette
+$color-line: #C8CED8;
+$color-title: #3E4752;
+$color-text: #67717F;
+
+// DOM Elements
+$element-background-color: #FFFFFF;
+$element-line: $color-line;
+$element-border: 0.0625rem; // 1px
+$element-border-radius: 0.0625rem; // 1px
+$element-font-size: 0.875rem; // 14px
+$element-font-color: $color-text;
+
+// Column width
+$column-init: 5rem; // 80px
+$column-1: $column-init * 1; // 80px
+$column-2: $column-init * 2; // 160px
+$column-3: $column-init * 3; // 240px
+$column-4: $column-init * 4; // 320px
+$column-5: $column-init * 5; // 400px

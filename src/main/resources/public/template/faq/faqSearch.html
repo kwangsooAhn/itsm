@@ -10,40 +10,21 @@
 <th:block layout:fragment="content">
     <div class="contents">
         <div class="contents-title">
-            <h1>th:text="#{menu.portal.faq}"></h1>
-            <span class="title-description" th:text="#{faq.msg.description}"></span>
+            <h1 th:text="#{menu.portal.faq}"></h1>
+            <span class="title-description" th:text="#{faq.label.description}"></span>
         </div>
         <div class="contents-body">
-            <div class="usermanage-menubar">
-                <div class="menubar-left">
+            <div class="search-area">
+                <div class="search-area-left">
                     <form id="searchFrm">
-                        <input class="search column-3" id="search" name="search" type="text" maxlength="100"
-                               th:placeholder="#{faq.label.searchPlaceholder}">
-                        <span class="icon-search"></span>
+                        <input class="search column-3" id="search" name="search" type="text" maxlength="100" th:placeholder="#{faq.label.searchPlaceholder}"/>
                     </form>
                 </div>
-                <div class="menubar-right">
-                    <button class="btn-add" onclick="location.href='/faqs/new'"
-                            sec:authorize="hasAuthority('faq.create')"></button>
+                <div class="search-area-right">
+                    <button class="btn-add" onclick="location.href='/faqs/new'" sec:authorize="hasAuthority('faq.create')"/>
                 </div>
             </div>
-
             <div class="list" id="faqList"></div>
-
-            <div class="menubar-bottom">
-                <div class="paging">
-                    <ul>
-                        <li><span class="btn-prev"></span></li>
-                        <li><span class="btn-num">1</span></li>
-                        <li><span class="btn-num">2</span></li>
-                        <li><span class="btn-num">3</span></li>
-                        <li><span class="btn-num">···</span></li>
-                        <li><span class="btn-num">6</span></li>
-                        <li><span class="btn-next"></span></li>
-                    </ul>
-                </div>
-                <div class="list-count"><span>총:127명</span></div>
-            </div>
         </div>
     </div>
 </th:block>
@@ -51,6 +32,10 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
+
+        /**
+         * FAQ 검색
+         */
         const searchFaqs = function () {
             const search = aliceJs.serialize(document.getElementById('searchFrm'));
             const opt = {

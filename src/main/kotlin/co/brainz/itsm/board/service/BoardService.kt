@@ -81,7 +81,13 @@ class BoardService(
             boardContents = boardSaveDto.boardContents
         )
         val savedPortalBoardEntity = boardRepository.save(portalBoardEntity)
-        aliceFileService.upload(AliceFileDto(savedPortalBoardEntity.boardId, boardSaveDto.fileSeqList))
+        aliceFileService.upload(
+            AliceFileDto(
+                ownId = savedPortalBoardEntity.boardId,
+                fileSeq = boardSaveDto.fileSeqList,
+                delFileSeq = boardSaveDto.delFileSeqList
+            )
+        )
     }
 
     /**
@@ -259,6 +265,12 @@ class BoardService(
             savedPortalBoardEntity.boardAdmin.boardAdminId, savedPortalBoardEntity.boardGroupId,
             savedPortalBoardEntity.boardOrderSeq, savedPortalBoardEntity.boardSeq
         )
-        aliceFileService.upload(AliceFileDto(savedPortalBoardEntity.boardId, boardSaveDto.fileSeqList))
+        aliceFileService.upload(
+            AliceFileDto(
+                ownId = savedPortalBoardEntity.boardId,
+                fileSeq = boardSaveDto.fileSeqList,
+                delFileSeq = boardSaveDto.delFileSeqList
+            )
+        )
     }
 }

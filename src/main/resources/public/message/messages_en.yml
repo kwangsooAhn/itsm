@@ -348,8 +348,9 @@ faq:
     category: "Category"
     title: "Title"
     content: "Content"
-  msg:
     description: "Frequently asked questions and answers."
+    edit: "FAQ edit"
+    detail: "FAQ detail"
 
 # FileUpload
 fileupload:
@@ -458,16 +459,17 @@ login:
     login: "Login"
     userSignUp: "Sign Up"
   label:
-    findId: "Forgot ID?"
-    findPasswd: "Forgot Password?"
+    findId: "Find ID"
+    findPasswd: "Find Password"
     gotoMainPage: "Go to the main page"
     id: "ID"
     login: "Login"
     loginNote: "Do you have an account?"
     password: "Password"
     requiredLogin: "Login required"
-    signupNote: "Would you like to sign up?"
+    signupNote: "Sign up"
     userSignUp: "Sign Up"
+    or: "Or"
   msg:
     disabledUser: "Your account has been disabled. Please contact the administrator."
     enterId: "Please enter your ID."
@@ -731,3 +733,8 @@ validation:
     pwNotContainSpace: "Password cannot contain spaces."
     pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
     pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
+
+# Project
+project:
+  label:
+    name: "Zenius ITSM"
