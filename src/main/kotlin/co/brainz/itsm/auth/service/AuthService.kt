@@ -32,8 +32,8 @@ class AuthService(
     /**
      * 전체 권한 목록 조회
      */
-    fun getAuthList(): MutableList<AliceAuthEntity> {
-        return authRepository.findByOrderByAuthNameAsc()
+    fun getAuthList(search: String?): MutableList<AliceAuthEntity> {
+        return authRepository.findAuthSearch(search)
     }
 
     /**

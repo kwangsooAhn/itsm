@@ -14,20 +14,29 @@ class AuthController(private val authService: AuthService) {
 
     val logger = LoggerFactory.getLogger(AuthController::class.java)
     private val authEditPage: String = "auth/authEdit"
+    private val authListPage: String = "auth/authList"
 
     /**
-     * 역할  설정 뷰를 호출한다.
+     * 권한 설정 화면 호출처리.
      */
     @GetMapping("/edit", "")
     fun getRolelist(request: HttpServletRequest, model: Model): String {
 
-        val authAllList = authService.getAuthList()
         val menuAllList = authService.getMenuList()
         val urlAllList = authService.getUrlList()
-        model.addAttribute("authList", authAllList)
         model.addAttribute("menuList", menuAllList)
         model.addAttribute("urlList", urlAllList)
 
         return authEditPage
+    }
+
+    /**
+     * 권한 설정 검색 결과 리스트 화면 호출 처리.
+     */
+    @GetMapping("/list")
+    fun getAuthList(search: String, model: Model): String {
+        model.addAttribute("authList", authService.getAuthList(search))
+
+        return authListPage
     }
 }
