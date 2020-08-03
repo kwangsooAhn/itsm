@@ -278,7 +278,7 @@ input:focus {
   min-width: 22.5rem;
 }
 
-.required:after {
+.required::after {
   content: "*";
   color: #E83828;
 }

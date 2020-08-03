@@ -17,41 +17,43 @@
                     <span class="title-description" th:text="#{faq.label.description}"></span>
                 </div>
             </div>
-            <div class="user-register-contents-body">
-                <span class="profile-title" th:text="#{menu.portal.faq}"></span>
-                <div class="profile-manage">
-                    <div class="profile-input-body-list">
-                        <p class="input-title required" th:text="#{common.label.group}"></p>
-                        <select id="faqGroup" name="faqGroup" required="required">
-                            <option th:each="faqGroup :${faqGroupList}" th:text="#{|common.code.${faqGroup.code}|}"
-                                    th:value="${faqGroup.code}" th:selected="${faqGroup.code} == ${faq?.faqGroup}">
-                            </option>
-                        </select>
+            <div class="contents-body">
+                <div class="edit-area">
+                    <h3 th:text="#{menu.portal.faq}"></h3>
+                    <div class="profile-manage">
+                        <div class="profile-input-body-list">
+                            <p class="input-title required" th:text="#{common.label.group}"></p>
+                            <select id="faqGroup" name="faqGroup" required="required">
+                                <option th:each="faqGroup :${faqGroupList}" th:text="#{|common.code.${faqGroup.code}|}"
+                                        th:value="${faqGroup.code}" th:selected="${faqGroup.code} == ${faq?.faqGroup}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="profile-input-body-list">
+                            <p class="input-title required" th:text="#{common.label.title}"></p>
+                            <input class="user-register-input" id="faqTitle" name="faqTitle" th:value="${faq?.faqTitle}"
+                                   maxlength="100" required="required"/>
+                        </div>
+                        <div class="profile-input-body-list">
+                            <p class="input-title required" th:text="#{common.label.contents}"></p>
+                            <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"></textarea>
+                        </div>
+                        <div class="profile-input-body-list">
+                            <p class="input-title required" th:text="#{common.label.attachFile}"></p>
+                            <div id="dropZoneFiles"></div>
+                            <div id="dropZoneUploadedFiles"></div>
+                        </div>
                     </div>
-                    <div class="profile-input-body-list">
-                        <p class="input-title required" th:text="#{common.label.title}"></p>
-                        <input class="user-register-input" id="faqTitle" name="faqTitle" th:value="${faq?.faqTitle}"
-                               maxlength="100" required="required"/>
+                    <div class="btn-wrap float-right">
+                        <button type="button" class="btn-gray" id="btnList" onclick="location.href='/faqs/search'"
+                                th:text="#{common.btn.list}"></button>
+                        <button type="button" class="btn-register" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
+                                th:if="!${faq?.faqId}" th:text="#{common.btn.save}"></button>
+                        <button type="button" class="btn-register" id="btnUpdate" sec:authorize="hasAuthority('faq.update')"
+                                th:if="${faq?.faqId}" th:text="#{common.btn.save}"></button>
+                        <button type="button" class="btn-gray" id="btnDelete" sec:authorize="hasAuthority('faq.delete')"
+                                th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
                     </div>
-                    <div class="profile-input-body-list">
-                        <p class="input-title required" th:text="#{common.label.contents}"></p>
-                        <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"></textarea>
-                    </div>
-                    <div class="profile-input-body-list">
-                        <p class="input-title required" th:text="#{common.label.attachFile}"></p>
-                        <div id="dropZoneFiles"></div>
-                        <div id="dropZoneUploadedFiles"></div>
-                    </div>
-                </div>
-                <div class="btn-wrap float-right">
-                    <button type="button" class="btn-gray" id="btnList" onclick="location.href='/faqs/search'"
-                            th:text="#{common.btn.list}"></button>
-                    <button type="button" class="btn-register" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
-                            th:if="!${faq?.faqId}" th:text="#{common.btn.save}"></button>
-                    <button type="button" class="btn-register" id="btnUpdate" sec:authorize="hasAuthority('faq.update')"
-                            th:if="${faq?.faqId}" th:text="#{common.btn.save}"></button>
-                    <button type="button" class="btn-gray" id="btnDelete" sec:authorize="hasAuthority('faq.delete')"
-                            th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
                 </div>
             </div>
         </form>
