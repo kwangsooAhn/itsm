@@ -263,6 +263,7 @@ input:focus {
   text-align: center;
   vertical-align: middle;
   padding: 0.75rem 0.625rem;
+  font-size: 0.875rem;
 }
 .signup-btn-login {
   background-color: #0050ff;
@@ -278,7 +279,7 @@ input:focus {
   min-width: 22.5rem;
 }
 
-.required:after {
+.required::after {
   content: "*";
   color: #E83828;
 }
@@ -1026,4 +1027,117 @@ input:focus {
 }
 .help-tooltip:hover .help-tooltip-icon {
   content: url("../media/image/icon_info_select.png");
+}
+
+.login-logo {
+  position: absolute;
+  top: 5rem;
+  left: 5rem;
+}
+.login-background {
+  background-color: #0050ff;
+  height: 100%;
+  width: 80.3125rem;
+}
+.login-main-image {
+  height: 58.563rem;
+}
+.login-form {
+  margin: 11.688rem 8rem 0 88.9063rem;
+  width: 22.5rem;
+  position: absolute;
+  top: 0;
+}
+.login-form h1 {
+  height: 2.313rem;
+  margin-bottom: 3.75rem;
+  text-align: center;
+}
+.login-form .login-base-form {
+  margin-bottom: 0.531rem;
+}
+.login-btn {
+  border: 0.063rem solid;
+  border-radius: 0.063rem;
+  display: inline-block;
+  text-align: center;
+  font-size: 0.875rem;
+  vertical-align: middle;
+  padding: 0.75rem 0.625rem;
+}
+.login-btn-submit {
+  background-color: #0050ff;
+  border-color: #0048E6;
+  color: #FFFFFF;
+  min-width: 22.5rem;
+}
+.login-btn-google {
+  background-color: #ffffff;
+  border-color: #c8ced8;
+  color: #3E4752;
+  min-width: 22.5rem;
+}
+.login-btn-google-icon {
+  background-image: url("../media/image/login/icon_google.png");
+  background-size: 1.188rem;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: 0.625rem;
+}
+.login-btn-kakao {
+  background-color: #ffde00;
+  border-color: #EBCC00;
+  color: #3E4752;
+  min-width: 22.5rem;
+}
+.login-btn-kakao-icon {
+  background-image: url("../media/image/login/icon_kakao.png");
+  background-size: 1.188rem;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  background-position-x: 0.625rem;
+}
+.login-divide {
+  display: flex;
+  flex-basis: 100%;
+  align-items: center;
+  color: #7b8593;
+  font-size: 0.875rem;
+  margin: 4.25rem 0 2.875rem 0;
+}
+.login-divide::before {
+  content: "";
+  flex-grow: 1;
+  background: #7b8593;
+  height: 0.063rem;
+  margin-right: 1rem;
+}
+.login-divide::after {
+  content: "";
+  flex-grow: 1;
+  background: #7b8593;
+  height: 0.063rem;
+  margin-left: 1rem;
+}
+.login-platform button {
+  margin-bottom: 0.531rem;
+}
+.login-platform button:last-child {
+  margin: 0;
+}
+.login-other {
+  margin-top: 6.188rem;
+  height: 1.063rem;
+  display: flex;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #7b8593;
+  text-align: center;
+}
+.login-other-signUp, .login-other-findPwd, .login-other-findId {
+  flex: 1;
+  border-right: 0.063rem solid #7b8593;
+}
+.login-other-signUp:last-child, .login-other-findPwd:last-child, .login-other-findId:last-child {
+  border: none;
 }

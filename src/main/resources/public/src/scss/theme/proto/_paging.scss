@@ -1,0 +1,34 @@
+.paging{
+    display: block; float: left; padding-left: 40%;
+    & ul li{display: inline-block; padding: 10px 2px; vertical-align: middle;  text-align: center;}
+    .btn {
+        &-num {
+            width: 29px;height: 29px;background: rgba(64, 158, 230, 0);border: 1px solid rgba(255, 255, 255, 0);
+            border-radius: 50%;display: inline-block;vertical-align: middle;line-height: 29px;
+
+            &:hover {
+                background: rgba(64, 158, 230, 0.05);color: $alice-primary;
+                border: rgba(64, 158, 230, 0.05) 1px solid;
+            }
+        }
+
+        &-prev {
+            width: 29px;height: 29px;border: 1px solid #C8CED8;border-radius: 50%;display: inline-block;
+            background: url($icon-folder-path + "icon_paging_prev.svg") no-repeat center center;
+
+            &:hover {
+                background: rgba(64, 158, 230, 0.05) url($icon-folder-path + "icon_paging_prev_ov.svg") no-repeat center center;
+                color: $alice-primary;border: rgba(64, 158, 230, 0.05) 1px solid;
+            }
+        }
+
+        &-next {
+            width: 29px;height: 29px;background: url($icon-folder-path + "icon_paging_next.svg") no-repeat center center;
+            border: 1px solid #C8CED8;border-radius: 50%;display: inline-block;
+            &:hover {
+                background: rgba(64, 158, 230, 0.05) url($icon-folder-path + "icon_paging_next_ov.svg") no-repeat center center;
+                color: $alice-primary;border: rgba(64, 158, 230, 0.05) 1px solid;
+            }
+        }
+    }
+}
