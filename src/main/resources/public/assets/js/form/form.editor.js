@@ -633,7 +633,7 @@
      * 세부 속성 편집: 제일 처음으로 이동
      */
     function selectProperties() {
-        const selectElems = propertiesPanel.querySelectorAll('input[type="text"]:not([readonly]), select');
+        const selectElems = propertiesPanel.querySelectorAll('input[type=text]:not([readonly]), select');
         if (selectElems.length === 0) { return false; }
 
         selectElems[0].focus();
@@ -829,16 +829,15 @@
      */
     function setDateFormat(e) {
         let el = e.target || e;
-        let parentEl = e.target ? el.parentNode.parentNode : el.parentNode.parentNode.parentNode;
+        let parentEl = el.parentNode.parentNode;
         let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
-        if (checkedRadio === null || parentEl.firstElementChild.id !== checkedRadio.id) { return false; }
-
+        if (checkedRadio === null || parentEl.querySelector('input[type=radio]').id !== checkedRadio.id) { return false; }
         let checkedPropertiesArr = checkedRadio.name.split('-');
         let changeValue = checkedRadio.value;
         if (changeValue === 'none' || changeValue === 'now') {
             changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
         } else {
-            let inputCells = parentEl.querySelectorAll('input[type="text"]');
+            let inputCells = parentEl.querySelectorAll('input[type=text]');
             if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
                 changeValue += ('|' + inputCells[0].value);
             } else {
@@ -848,7 +847,6 @@
             }
             changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
         }
-
     }
 
     /**
@@ -1291,20 +1289,10 @@
                                                     `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
                                                     `${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><span>" + labelName[1] + "</span>" : ""}` +
                                                     `${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><span id='" + opt.id + "-day'>" + labelName[1] + "</span>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><span id='" + opt.id + "-hour'>" + labelName[2] + "</span>" : ""}` +
-                                                    `${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "'/>" : ""}` +
                                                     `${opt.id === 'now' || opt.id === 'none' ? "<span>" + labelName[0] + "</span>" : ""}`+
                                                 `</label>` +
+                                                `${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "'/>" : ""}` +
                                             `</div>`;
-
-                                            /*return `<div class='vertical-group radio-datetime'>
-                                            <input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} />
-                                            ${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><label for='" + opt.id + "'>" + labelName[1] + "</label>" : ""}
-
-                                            ${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><label for='" + opt.id + "-day'>" + labelName[1] + "</label>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><label for='" + opt.id + "-hour'>" + labelName[2] + "</label>" : ""}
-
-                                            ${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "' style='width: 13.2rem;'/>" : ""}
-                                            ${opt.id === 'now' || opt.id === 'none' ? "<label for='" + opt.id + "'>" + labelName[0] + "</label>" : ""}
-                                            </div>`;*/
                                         }).join('');
 
                                         fieldTemplate = `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>${fieldDatetimeOptions}`;
@@ -1449,19 +1437,19 @@
         const datepickerElems = propertiesPanel.querySelectorAll('.datepicker');
         let i, len;
         for (i = 0, len = datepickerElems.length; i < len; i++) {
-            dateTimePicker.initDatePicker(datepickerElems[i].id, i18n.dateFormat, i18n.lang, setDateFormat);
+            dateTimePicker.initDatePicker(datepickerElems[i].id, setDateFormat);
         }
         const timepickerElems = propertiesPanel.querySelectorAll('.timepicker');
         for (i = 0, len = timepickerElems.length; i < len; i++) {
-            dateTimePicker.initTimePicker(timepickerElems[i].id, i18n.timeFormat, i18n.lang, setDateFormat);
+            dateTimePicker.initTimePicker(timepickerElems[i].id, setDateFormat);
         }
         const datetimepickerElems = propertiesPanel.querySelectorAll('.datetimepicker');
         for (i = 0, len = datetimepickerElems.length; i < len; i++) {
-            dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, i18n.dateFormat, i18n.timeFormat, i18n.lang, setDateFormat);
+            dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, setDateFormat);
         }
 
         // focustout 이벤트 추가
-        const inputElems = propertiesPanel.querySelectorAll('input[type="text"]:not([readonly])');
+        const inputElems = propertiesPanel.querySelectorAll('input[type=text]:not([readonly])');
         for (i = 0, len = inputElems.length; i < len; i++) {
             if (inputElems[i].id === 'date' || inputElems[i].id === 'time' || inputElems[i].id === 'datetime-day' || inputElems[i].id === 'datetime-hour') {
                 inputElems[i].addEventListener('focusout', setDateFormat, false);
@@ -1486,7 +1474,7 @@
             }
         }
         // change 이벤트 추가
-        const changeElems =  propertiesPanel.querySelectorAll('input[type="checkbox"], input[type="range"], input[type="radio"], select, input[class*="color"]');
+        const changeElems =  propertiesPanel.querySelectorAll('input[type=checkbox], input[type=range], input[type=radio], select, input[class*="color"]');
         for (i = 0, len = changeElems.length; i < len; i++) {
             const changeElem = changeElems[i];
             switch (changeElem.type) {
@@ -1514,7 +1502,7 @@
                              let parentElem =  elem.parentNode;
                             if (changeElem.type === 'range') {
                                 parentElem =  elem.parentNode.parentNode;
-                                const slider = parentElem.querySelector('input[type="text"]');
+                                const slider = parentElem.querySelector('input[type=text]');
                                 slider.value = elem.value;
                             }
                             const changePropertiesArr = parentElem.id.split('-');

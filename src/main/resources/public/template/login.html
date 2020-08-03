@@ -2,42 +2,43 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <link th:href="@{/assets/theme/default/css/alice-itsm.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
-    <title>Login</title>
+    <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
+    <title th:text="#{project.label.name}"></title>
 </head>
 <body>
-<form id="loginForm" name="loginForm" th:action="@{/login}" method="post">
-    <input type="hidden" id="userId" name="userId"/>
-    <input type="hidden" id="password" name="password"/>
-</form>
-<div class="white-base">
-  <img th:src="@{/assets/media/icons/logo_blue.png}" alt="Alice">
-  <div class="login-base">
-      <p th:text="#{login.label.login}"></p>
-      <div class="login-form">
-        <img th:src="@{/assets/media/icons/icon_id.png}" alt="Alice">
-        <input type="text" id="uid" name="uid" th:placeholder="#{login.label.id}"/>
-      </div>
-      <div class="login-form">
-        <img th:src="@{/assets/media/icons/icon_pass.png}" alt="Alice">
-        <input type="password" id="upasswd" name="upasswd" th:placeholder="#{login.label.password}"/>
-      </div>
-      <div class="login-find">
-        <a href="" tabindex="-1" th:text="#{login.label.findId}"></a>
-        |
-        <a href="" tabindex="-1" th:text="#{login.label.findPassword}"></a>
-      </div>
-      <button class="btn btn-primary" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin();"></button>
-      <a class="btn btn-danger"  href="/oauth/google/login" th:text="#{login.btn.googleLogin}"></a>
-      <a class="btn btn-warning" href="/oauth/kakao/login" th:text="#{login.btn.kakaoLogin}"></a>
-  </div>
-  <div class="signup-face">
-    <p th:text="#{login.label.signupNote}"></p>
-    <a class="btn btn-primary" href="/certification/signup" id="userSignUp" th:text="#{login.btn.userSignUp}"></a>
-  </div>
-  <!--/*@thymesVar id="errorMsg" type=""*/-->
-  <div th:text="${errorMsg}"></div>
+<div class="alicePortal">
+    <img class="login-logo" th:src="@{/assets/media/image/signup/zenius_itsm_logo.png}" alt="Alice">
+    <div class="login-background">
+        <img class="login-main-image" th:src="@{/assets/media/image/login/graphic_login.png}" alt="LoginBackground">
+    </div>
+    <div class="login-form">
+        <h1 th:text="#{portal.label.login}"></h1>
+        <div class="login-base">
+            <form id="loginForm" name="loginForm" method="post" th:action="@{/login}">
+                <input type="hidden" id="userId" name="userId"/>
+                <input type="hidden" id="password" name="password"/>
+            </form>
+            <div class="login-base-form">
+                <label th:text="#{user.label.id}"></label>
+                <input type="text" id="uid" name="uid" maxlength="100" required="required">
+                <label tabindex="-1" th:text="#{user.label.password}"></label>
+                <input type="password" id="upasswd" name="upasswd" maxlength="100" required="required">
+            </div>
+            <button class="login-btn login-btn-submit" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
+        </div>
+        <div class="login-divide" th:text="#{login.label.or}"></div>
+        <div class="login-platform">
+            <button class="login-btn login-btn-google login-btn-google-icon" id="google" th:text="#{login.btn.googleLogin}" onclick="onPlatFormLogin(this.id)"></button>
+            <button class="login-btn login-btn-kakao login-btn-kakao-icon" id="kakao" th:text="#{login.btn.kakaoLogin}" onclick="onPlatFormLogin(this.id)"></button>
+        </div>
+        <div class="login-other">
+            <div class="login-other-signUp"><a href="/certification/signup" th:text="#{login.label.signupNote}"></a></div>
+            <div class="login-other-findPwd"><a href="#N" th:text="#{login.label.findPassword}"></a></div>
+            <div class="login-other-findId"><a href="#N" th:text="#{login.label.findId}"></a></div>
+        </div>
+    </div>
 </div>
 <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
 <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
@@ -46,7 +47,6 @@
 <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
 <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
-
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     i18n.initMessages();
@@ -103,6 +103,10 @@
             document.loginForm.submit();
             window._onLogin = false;
         }
+    }
+
+    function onPlatFormLogin(platform) {
+        location.href = '/oauth/' + platform + '/login';
     }
 
     function ipAccessCheck() {

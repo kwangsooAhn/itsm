@@ -37,8 +37,8 @@
             // initialization date picker
             document.getElementById('fromDt').value = i18n.getDate({'months': -1});
             document.getElementById('toDt').value = i18n.getDate();
-            dateTimePicker.initDatePicker('fromDt', i18n.dateFormat, i18n.lang, setDatePicker);
-            dateTimePicker.initDatePicker('toDt', i18n.dateFormat, i18n.lang, setDatePicker);
+            dateTimePicker.initDatePicker('fromDt', setDatePicker);
+            dateTimePicker.initDatePicker('toDt', setDatePicker);
             document.getElementById('searchValue').addEventListener('keyup', function () {
                 getNoticeList(false);
             });

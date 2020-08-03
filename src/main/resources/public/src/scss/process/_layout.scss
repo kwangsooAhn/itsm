@@ -1,0 +1,17 @@
+body {
+  font: {
+    family: $alice-font-family;
+    size: 0.688rem; // 11px
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+label {
+  display: inline-block;
+  margin-top: 0.25rem;
+}
