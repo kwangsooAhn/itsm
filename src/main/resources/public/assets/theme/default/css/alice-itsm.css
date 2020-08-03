@@ -513,6 +513,7 @@ textarea {
 }
 .container .contents .list {
   clear: both;
+  padding-top: 15px;
 }
 .container .contents .list table {
   width: 100%;
@@ -572,8 +573,8 @@ textarea {
   text-align: right;
 }
 .container .contents .list-wrap {
-  padding: 15px 0;
-  height: 490px;
+  height: 400px;
+  overflow-y: auto;
 }
 .container .contents .list-wrap-auth {
   padding: 15px 35px 15px 0;
@@ -1619,4 +1620,85 @@ textarea {
 }
 .picker-modal-button button:focus {
   outline: none !important;
+}
+
+.scrollbar > .os-scrollbar-horizontal {
+  right: 10px;
+  height: 10px;
+}
+.scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
+  min-width: 30px;
+}
+.scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  top: -6px;
+  bottom: -2px;
+}
+.scrollbar > .os-scrollbar-vertical {
+  bottom: 10px;
+  width: 10px;
+}
+.scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
+  min-height: 30px;
+}
+.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: block;
+  left: -6px;
+  right: -2px;
+}
+.scrollbar > .os-scrollbar-corner {
+  height: 10px;
+  width: 10px;
+  background-color: transparent;
+}
+.scrollbar > .os-scrollbar {
+  padding: 2px;
+  box-sizing: border-box;
+  background: transparent;
+}
+.scrollbar > .os-scrollbar > .os-scrollbar-track {
+  background: #00ca3c;
+}
+.scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  background: #d2d9e2;
+}
+.scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
+  background: rgba(0, 0, 0, 0.7);
+}
+.scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
+  background: blue;
+}
+.scrollbar > .os-scrollbar.os-scrollbar-unusable {
+  background: transparent;
+}
+
+.scrollbar.os-host-rtl > .os-scrollbar-horizontal {
+  left: 10px;
+  right: 0;
+}
+
+.scrollbar.os-host-transition > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+}
+
+.scrollbar.os-host-scrollbar-horizontal-hidden > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+  display: none;
+}
+
+.scrollbar.os-host-scrollbar-vertical-hidden > .os-scrollbar-vertical .os-scrollbar-handle:before {
+  display: none;
+}
+
+.os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
+  right: -6px;
+  left: -2px;
 }
