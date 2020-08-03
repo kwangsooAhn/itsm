@@ -483,7 +483,7 @@
 
         // data picker 초기화
         if (!isForm) {
-            dateTimePicker.initDatePicker('date-' + this.id, i18n.dateFormat, i18n.lang, function () {
+            dateTimePicker.initDatePicker('date-' + this.id, function () {
                 aliceDocument.checkValidate(document.getElementById('date-' + this.id));
             });
         }
@@ -551,7 +551,7 @@
 
         // time picker 초기화
         if (!isForm) {
-            dateTimePicker.initTimePicker('time-' + this.id, i18n.timeFormat, i18n.lang, function () {
+            dateTimePicker.initTimePicker('time-' + this.id, function () {
                 aliceDocument.checkValidate(document.getElementById('time-' + this.id));
             });
         }
@@ -620,7 +620,7 @@
 
         // datetime picker 초기화
         if (!isForm) {
-            dateTimePicker.initDateTimePicker('datetime-' + this.id, i18n.dateFormat, i18n.timeFormat, i18n.lang, function () {
+            dateTimePicker.initDateTimePicker('datetime-' + this.id, function () {
                 aliceDocument.checkValidate(document.getElementById('datetime-' + this.id));
             });
         }
