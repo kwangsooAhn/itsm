@@ -91,13 +91,22 @@
                     border-radius: 34px;
                     &::before {border-radius: 50%;}
                 }
-                .switch_label {vertical-align: -4px;margin-left: 17px;color: #7A8594;}
+                .switch-label {vertical-align: -4px;margin-left: 17px;color: #7A8594;}
+            }
+
+            &-auth {
+                background: white;padding: 4% 4%;display: inline-block;
+                .search-area {
+                    .search {width: 19.0625rem;height: 1.875rem;padding: 0 0.625rem;font-size: 0.875rem;color: #707B8A;}
+                    .txt-num {color: #717B89;text-align: right;padding-left:9.75rem;}
+                }
             }
         }
 
         // 테이블 리스트 타입 속성
         .list {
             clear: both;
+            padding-top: 15px;
             & table {
                 width: 100%;
                 & span {display: block;margin-left: 30px;}
@@ -124,13 +133,10 @@
         }
 
         .list-wrap {
-            padding: 15px 0;height:490px;
-            &-auth {
-                padding: 15px 35px 15px 0;width: 534px;float: left;border-right: 1px solid #D2D9E2;
-                &-edit {
-                    padding: 15px 0 15px 35px;
-                }
-            }
+            // padding: 15px 0;
+            height: 400px;
+            // height:490px;
+            overflow-y: auto;
             &-edit {
                 table {
                     margin: 0 0 15px 0;
@@ -147,9 +153,77 @@
                     & tr:hover {background: none;}
                 }
             }
+            &-auth {
+                padding: 0.9375rem 0.9375rem 0.9375rem 0;width: 33.375rem;height: 30.625rem;float: left;border-right: 0.0625rem solid #D2D9E2;
+                table {
+                    thead {
+                        display: block;
+                        tr {
+                            height: 2.375rem;
+                            color: #3e4752;
+                            font-size: 0.875rem;
+                            border-bottom: 0.125rem solid #D2D9E2;
+                            vertical-align: middle;
+                            border-top: 0.0625rem solid #D2D9E2;
+                            padding: 0.3125rem 0.9375rem;
+                            th {
+                                &:nth-of-type(1) {width: 8.125rem;}
+                                &:nth-of-type(2) {width: 8.125rem;}
+                                &:nth-of-type(3) {width: 15rem;}
+                            }
+                        }
+                    }
+                    tbody {
+                        display: block;height: 28.125rem;overflow-y: scroll;
+                        tr td {
+                            &:nth-of-type(1) {width: 8.125rem;}
+                            &:nth-of-type(2) {width: 8.125rem;}
+                            &:nth-of-type(3) {width: 16.25rem;}
+                            span {
+                                display: block;
+                                max-height: 1rem;
+                                line-height: 1.6;
+                                max-height: 1rem;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                            }
+                        }
+                        tr.active {
+                            border-left: 0.1875rem solid #0050ff;
+                            -webkit-box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;
+                            box-shadow: rgba(0, 80, 255, 0.1) 0 0 7px 0;
+                            td {color: #0050ff;font-weight: 700;}
+                        }
+                    }
+                }
+                &-edit {
+                    float: right;padding: 0.9375rem 0 0 0.375rem;
+                    label {display: block;color: #3E4752;font-size: 0.875rem;}
+                    input {
+                        &.auth-name {width: 21.875rem;height: 1.875rem;margin: 0.5rem 0.875rem 0.9375rem 0;}
+                        &.auth-id {width: 21.875rem;height: 1.875rem;margin: 0.5rem 0 0.9375rem 0;}
+                        &.auth-list {height: 13.5rem;border: 0.0625rem solid #C8CED8;}
+                        &.auth-url {height: 13.5rem;border: 0.0625rem solid #C8CED8;}
+                        &.reference-count {width: 44.75rem;height: 1.875rem;color: #3E4752;background: #f7f9fa;margin: 0.5rem 0.875rem 0.9375rem 0;border: 0.0625rem solid #c8ced8;}
+                    }
+                    textarea.auth-desc{
+                        width: 44.75rem;
+                        height: 6.875rem;
+                        margin: 0.625rem 0 0.948rem 0;
+                        display: block;
+                        border: 0.0625rem solid #C8CED8;
+                        color: #3E4752;
+                    }
+                    ul {
+                        width: 21.875rem;height: 10.625rem;overflow-y: scroll;border: 0.0625rem solid #C8CED8;padding: 0.625rem;margin: 0.5rem 0 0.9375rem 0;
+                        li {line-height: 2;}
+                        li.checked {font-weight: bold;}
+                    }
+                }
+            }
         }
         .list-count {float: right; color: #67717F; font-size: 13px; padding: 10px 10px;display: block;}
-        .txt-num {color: #717B89;text-align: right;}
+        .btn-bar {display: block;width: 100%;text-align: right;margin-top: 0.9375rem;}
         .required::after {
             color: #E83828;
             content: "\002a"; // *
@@ -165,6 +239,7 @@
         display: inline-block; font-size: 13px; color: #0050ff; padding: 10px; border-radius: 2px;
         border: 1px solid #0050ff; text-align: center;
         &:hover {background: #0050ff; color: #fff; border: 1px solid #0050ff;}
+        &:disabled {background: white;color: #c8ced8;border: 1px solid #c8ced8;cursor: auto;}
         &-add {
             display:inline-block; background: url($icon-folder-path + "icon_add.svg") no-repeat center center;
             padding: 10px; border-radius: 2px; border: 1px solid rgba(0, 80, 255, 1); text-align: center;
