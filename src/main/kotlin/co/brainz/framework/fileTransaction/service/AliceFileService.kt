@@ -43,6 +43,9 @@ import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
+import java.time.Instant
+import java.time.LocalDateTime
+import java.time.ZoneId
 
 /**
  * 파일 서비스 클래스
@@ -210,7 +213,8 @@ class AliceFileService(
                         size = super.humanReadableByteCount(it.size),
                         data = super.encodeToString(resizedBufferedImage, file.extension),
                         width = bufferedImage.width,
-                        height = bufferedImage.height
+                        height = bufferedImage.height,
+                        updateDt = LocalDateTime.now()
                     )
                 )
             }
@@ -248,7 +252,8 @@ class AliceFileService(
                     size = super.humanReadableByteCount(file.length()),
                     data = super.encodeToString(resizedBufferedImage, file.extension),
                     width = bufferedImage.width,
-                    height = bufferedImage.height
+                    height = bufferedImage.height,
+                    updateDt = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneId.systemDefault())
                 )
             )
         }
@@ -271,7 +276,8 @@ class AliceFileService(
                 size = super.humanReadableByteCount(file.length()),
                 data = Base64.getEncoder().encodeToString(file.readBytes()),
                 width = bufferedImage.width,
-                height = bufferedImage.height
+                height = bufferedImage.height,
+                updateDt = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneId.systemDefault())
             )
         } else {
             null

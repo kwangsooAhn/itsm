@@ -1,0 +1,111 @@
+@charset "UTF-8";
+/* 이미지 관리 */
+.thumbnail-container {
+  font-family: "Noto Sans KR";
+}
+
+.thumbnail-container .thumbnail {
+  display: inline-block;
+  width: 225px;
+  height: 290px;
+  margin: 5px 5px 0 0;
+  padding: 0;
+  border: solid 0.0625rem #EBEBEB;
+  background-color: #ffffff;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.thumbnail-container .thumbnail.selected {
+  border: solid 0.125rem #0050ff;
+}
+
+.thumbnail-container .thumbnail div.thumbnail-img {
+  display: inline-block;
+  width: 100%;
+  height: 145px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+.thumbnail-container .thumbnail div.thumbnail-info {
+  height: 105px;
+  padding: 13px 15px;
+}
+
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text {
+  height: 20px;
+  line-height: 20px;
+}
+
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text label {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #ACB4BF;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child label {
+  color: #586872;
+}
+
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child .fileName {
+  display: none;
+  color: #586872;
+  width: 195px;
+  height: 20px;
+  float: left;
+}
+
+.thumbnail-container .thumbnail div.thumbnail-bottom {
+  height: 40px;
+  line-height: 40px;
+  border-top: solid 0.0625rem #EBEBEB;
+}
+
+.thumbnail-container .thumbnail div.thumbnail-bottom label {
+  display: inline-block;
+  width: 180px;
+  color: #ACB4BF;
+  font-size: 16px;
+  font-weight: 400;
+  margin-left: 15px;
+}
+
+.thumbnail-container .thumbnail div.thumbnail-bottom img {
+  width: 15px;
+  height: 15px;
+  content: url("../theme/default/icons/icon_thumbnail_delete.png");
+}
+
+.thumbnail-container .thumbnail-nodata {
+  display: inline-block;
+  width: 225px;
+  height: 290px;
+  margin: 5px 5px 0 0;
+  padding: 90px 0 0 0;
+  border: 0.0625rem dashed #EBEBEB;
+  background-color: #FBFBFB;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.thumbnail-container .thumbnail-nodata .fileInput {
+  display: none;
+}
+
+.thumbnail-container .thumbnail-nodata img {
+  content: url("../theme/default/icons/icon_image.png");
+}
+
+.thumbnail-container .thumbnail-nodata p.thumbnail-nodata-text {
+  color: #ACB4BF;
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 20px;
+}

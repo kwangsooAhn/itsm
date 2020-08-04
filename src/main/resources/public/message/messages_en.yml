@@ -449,11 +449,13 @@ form:
 
 # Image
 image:
-  btn:
-    upload: "Image File Upload"
+  label:
+    list: "Image management"
+    upload: "Upload Your Image"
   msg:
-    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    description: "View, add, or delete image files."
     existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
+    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
 
 # Login
 login:
