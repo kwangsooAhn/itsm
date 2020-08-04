@@ -7,8 +7,8 @@
 			<ul>
 				<li th:each="topMenu : ${#authentication.details.menus}"
 						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu'">
-					<span th:class=${topMenu.menuId}><a th:text="#{|menu.${topMenu.menuId}.parent|}"></a></span>
-					<div class="snb snb-mywork">
+					<span th:class=${topMenu.menuId} onclick="accordionMenu(this);"><a th:text="#{|menu.${topMenu.menuId}.parent|}"></a></span>
+					<div th:id=${topMenu.menuId} class="snb snb-mywork">
 						<ul>
 							<li th:each="subMenu : ${#authentication.details.menus}"
 									th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId}">
@@ -23,4 +23,21 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript" th:inline="javascript">
+    function accordionMenu(element) {
+    	if (element.className === 'config' || element.className === 'workflow') {
+    		document.getElementById('config').style.display='none';
+    		document.getElementById('workflow').style.display='none';
+    		for (var i = 0; i < element.parentNode.childNodes.length; i++) {
+    			if (element.parentNode.childNodes[i].id === element.className) {
+    				if (element.parentNode.childNodes[i].style.display === 'none') {
+						element.parentNode.childNodes[i].style.display = 'block';
+					} else {
+						element.parentNode.childNodes[i].style.display = 'none';
+					}
+				}
+			}
+		}
+	}
+</script>
 </html>
