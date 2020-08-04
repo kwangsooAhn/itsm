@@ -1,5 +1,6 @@
 package co.brainz.itsm.faq.repository
 
+import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.dto.FaqListDto
@@ -7,6 +8,7 @@ import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import com.querydsl.core.types.Projections
+import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -19,26 +21,31 @@ class FaqRepositoryImpl(
      * FAQ 목록을 조회한다.
      */
     override fun findFaqs(searchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
-        val entity = QFaqEntity.faqEntity
+        val faq = QFaqEntity.faqEntity
+        val user = QAliceUserEntity.aliceUserEntity
 
         if (searchRequestDto.search?.isBlank() == false) {
             searchRequestDto.groupCodes =
                 messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, searchRequestDto.search!!)
         }
 
-        val query = from(entity)
+        val query = from(faq)
             .where(
-                super.likeIgnoreCase(entity.faqTitle, searchRequestDto.search)
-                    ?.or(super.inner(entity.faqGroup, searchRequestDto.groupCodes))
-            ).orderBy(entity.faqGroup.asc())
+                super.likeIgnoreCase(faq.faqTitle, searchRequestDto.search)
+                    ?.or(super.inner(faq.faqGroup, searchRequestDto.groupCodes))
+            ).orderBy(faq.faqGroup.asc())
 
         return query.select(
             Projections.constructor(
                 FaqListDto::class.java,
-                entity.faqId,
-                entity.faqGroup,
-                entity.faqTitle,
-                entity.faqContent
+                faq.faqId,
+                faq.faqGroup,
+                faq.faqTitle,
+                faq.faqContent,
+                faq.createDt,
+                JPAExpressions.select(user.userName).from(user).where(user.eq(faq.createUser)),
+                faq.updateDt,
+                JPAExpressions.select(user.userName).from(user).where(user.eq(faq.updateUser))
             )
         ).fetch()
     }

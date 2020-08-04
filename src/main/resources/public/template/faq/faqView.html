@@ -1,61 +1,81 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{faq.label.detail}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
-<div class="container" style="width: 70%; margin: 50px auto;">
-    <h1 th:text="#{menu.portal.faq}"></h1>
-    <p th:text="#{faq.label.description}"></p>
-    <div id="faqSearch" style="margin: 30px 0;">
-        <select align="left" id="searchKeyword" onchange="loadXMLDoc(this.value)">
-            <option th:text="#{faq.category.all}" value="" selected></option>
-            <option th:each="faqGroup :${faqGroupList}" th:text="#{${faqGroup}}" th:value="${faqGroup}"></option>
-        </select>
+    <div class="contents">
+        <div class="contents-title">
+            <h1 th:text="#{faq.label.faq}"></h1>
+            <span class="title-description" th:text="#{faq.label.description}"></span>
+        </div>
+        <div class="contents-body">
+            <div class="list">
+                <div class="list-wrap list-wrap-edit">
+                    <table>
+                        <colgroup>
+                            <col style="width: 6.45rem;">
+                            <col style="width: auto;">
+                            <col style="width: 10rem;">
+                        </colgroup>
+                        <tr class="edit-title">
+                            <th class="align-left" colspan="3">
+                                <span th:text="${faq?.faqTitle}"></span>
+                            </th>
+                        </tr>
+                        <tr>
+                            <td class="align-right" colspan="2">
+                                <span class="edit-name" th:text="${faq?.createUserName}"></span>
+                            </td>
+                            <td class="edit-date">
+                                <span id="spanCreateDt" th:text="${faq?.createDt}"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="edit-textarea" colspan="3">
+                                <span th:text="${faq?.faqContent}"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
+                            </td>
+                            <td class="file-attach-input" colspan="2">
+                                <div id="dropZoneFiles"></div>
+                                <div id="dropZoneUploadedFiles"></div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="btn_wrap float-right">
+                        <button class="btn-gray" type="button" onclick="location.href='/faqs/search'" th:text="#{common.btn.list}"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="faqList">
-    </div>
-</div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-    <script type="text/javascript">
-        window.onload = function() {
-            loadXMLDoc('');
-        }
+    <script type="text/javascript" th:inline="javascript">
+        /*<![CDATA[*/
+        window.onload = function () {
+            const createDt = document.getElementById('spanCreateDt');
+            createDt.textContent = i18n.userDateTime(createDt.textContent);
 
-        function loadXMLDoc(param) {
-            const opt = {
-                method: 'GET',
-                url: '/faqs/list?searchValue=' + param,
-                callbackFunc: function(response) {
-                    document.getElementById('faqList').innerHTML = response.responseText;
-                    if (param === '') {
-                        const group = document.getElementsByClassName('faqGroup');
-                        const title = document.getElementsByClassName('faqTitle');
-                        for (let i = 0; i < group.length; i++) {
-                            if (group[i].id === '[[${faq?.faqGroup}]]') {
-                                group[i].open = true;
-                                break;
-                            }
-                        }
-                        for (let i = 0; i < title.length; i++) {
-                            if (title[i].id === '[[${faq?.faqId}]]') {
-                                title[i].open = true;
-                                title[i].setAttribute('id', 'highlight')
-                                break;
-                            }
-                        }
-                    } else {
-                        document.getElementsByClassName('faqGroup')[0].open = true;
-                    }
-                }
-            };
-            aliceJs.sendXhr(opt);
+            const faqId = [[${faq?.faqId}]];
+            if (faqId === null) {
+                aliceJs.alert([[#{common.msg.processedOrDelete}]], function () {
+                    location.href = '/faqs/search';
+                });
+                return;
+            }
+            fileUploader.init({extra: {formId: 'frm', ownId: faqId, editor: false}});
         }
+        /*]]>*/
     </script>
 </th:block>
 </html>

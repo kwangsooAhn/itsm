@@ -43,8 +43,8 @@ class FaqRestController(private val faqService: FaqService) {
      * FAQ 1건 상세 조회
      */
     @GetMapping("/{faqId}")
-    fun getFaq(request: HttpServletRequest, @PathVariable faqId: String): FaqEntity {
-        return faqService.findOne(faqId)
+    fun getFaq(request: HttpServletRequest, @PathVariable faqId: String): FaqListDto? {
+        return faqService.getFaq(faqId)
     }
 
     /**
