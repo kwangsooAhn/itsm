@@ -11,6 +11,7 @@ import co.brainz.itsm.faq.repository.FaqRepository
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -51,8 +52,13 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
     /**
      * FAQ 데이터 상세 조회
      */
-    fun findOne(faqId: String): FaqEntity {
-        return faqRepository.findById(faqId).orElse(null)
+    fun getFaq(faqId: String): FaqListDto? {
+        val selectedFaq = faqRepository.findByIdOrNull(faqId)
+        return if (selectedFaq == null) {
+            null
+        } else {
+            faqMapper.toFaqListDto(selectedFaq)
+        }
     }
 
     /**

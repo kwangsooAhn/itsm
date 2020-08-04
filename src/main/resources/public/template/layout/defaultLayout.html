@@ -6,6 +6,7 @@
 	</head>
 	<body>
 		<div class="wrap-screen">
+			<th:block th:replace="layout/navigation">menu</th:block>
 			<th:block th:replace="layout/menu">menu</th:block>
 			<div class="container">
 				<th:block layout:fragment="content"></th:block>
