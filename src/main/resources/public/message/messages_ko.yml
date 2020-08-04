@@ -259,6 +259,16 @@ dashboard:
     running: "진행"
     wait: "대기"
 
+# DatePicker
+datepicker:
+  btn:
+    am: "AM"
+    pm: "PM"
+  label:
+    date: "Select Date"
+    datetime: "Select Date and Time"
+    hour: "Select Time"
+
 # Department:
 department:
   btn:

@@ -259,6 +259,16 @@ dashboard:
     running: "Running"
     wait: "Wait"
 
+# DatePicker
+datepicker:
+  btn:
+    am: "AM"
+    pm: "PM"
+  label:
+    date: "Select Date"
+    datetime: "Select Date and Time"
+    hour: "Select Time"
+
 # Department:
 department:
   btn:

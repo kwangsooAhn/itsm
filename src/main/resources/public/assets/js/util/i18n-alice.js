@@ -45,7 +45,7 @@
         if (offset === undefined) {
             offset = { 'days' : 0 };
         }
-        return convertToUserHourType(luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(i18n.dateTimeFormat));
+        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(i18n.dateTimeFormat);
     }
 
     function getDate(offset) {
@@ -59,7 +59,7 @@
         if (offset === undefined) {
             offset = { 'hours' : 0 };
         }
-        return convertToUserHourType(luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(i18n.timeFormat));
+        return luxon.DateTime.local().setZone(i18n.timezone).plus(offset).toFormat(i18n.timeFormat);
     }
 
     /**
@@ -120,6 +120,7 @@
     /**
      * 한글로 '오전','오후'로 표기된 내용을 DB에 넣기 위해 'AM','PM'으로 치환
      * datepicker 에서 '오전', '오후'로 시간 데이터를 표기하기 때문에 필요한 처리이며 datepicker 변경시 수정 필요
+     * 2020-08-03 datetimepicker-alice.js 수정 후 '오전', '오후' 대신 'AM','PM' 으로만 출력하기로 함 > 추후 변경될 수 있음
      *
      * @author Woo Da Jung
      * @since 2020-06-25
@@ -147,7 +148,7 @@
         if (beforeSystemDateTime === null || beforeSystemDateTime === '') {
             return ''
         } else {
-            return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(i18n.timezone).toFormat(i18n.dateTimeFormat));
+            return luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(i18n.timezone).toFormat(i18n.dateTimeFormat);
         }
     }
 
@@ -180,7 +181,7 @@
         if (beforeSystemTime === null || beforeSystemTime === '') {
             return ''
         } else {
-            return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemTime).toFormat(i18n.timeFormat));
+            return luxon.DateTime.fromISO(beforeSystemTime).toFormat(i18n.timeFormat);
         }
     }
 
@@ -193,21 +194,22 @@
      * @return {String} 변환된 데이터.
      */
     function convertToPrintFormat(beforeSystemDateTime) {
-        return convertToUserHourType(luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(i18n.timezone)
-            .toFormat(i18n.dateTimeFormat.replace(/(mm)/g, '$1:ss') + ' (z)'));
+        return luxon.DateTime.fromISO(beforeSystemDateTime, {zone: 'utc'}).setZone(i18n.timezone)
+            .toFormat(i18n.dateTimeFormat.replace(/(mm)/g, '$1:ss') + ' (z)');
     }
 
     /**
      * 12시간제이며 locale이 'ko' 일 경우, 한글로 '오전','오후'로 표기된 내용을 DB에 넣기 위해 'AM','PM'으로 치환
      * 'ko' 일 경우, 'AM','PM'로 표기된 내요을  한글로 '오전','오후'로 치환
      * datepicker 에서 '오전', '오후'로 시간 데이터를 표기하기 때문에 필요한 처리이며 datepicker 변경시 수정 필요
+     * 2020-08-03 datetimepicker-alice.js 수정 후 '오전', '오후' 대신 'AM','PM' 으로만 출력하기로 함 > 추후 변경될 수 있음
      *
      * @author Woo Da Jung
      * @since 2020-06-25
      * @param {String}  beforeTime 변환 대상 시간 데이터.
      * @return {String} 변환된 데이터.
      */
-    function convertToUserHourType(beforeTime) {
+    /*function convertToUserHourType(beforeTime) {
         if (i18n.lang === 'ko') {
             if (beforeTime.indexOf('PM') !== -1) {
                 beforeTime = beforeTime.replace('PM', '오후');
@@ -216,7 +218,7 @@
             }
         }
         return beforeTime;
-    }
+    }*/
 
     /**
      * 최소 날짜시간이 최대 날짜시간 보다 큰지 비교하여 조건에 부합할 경우 true를 반환한다.
@@ -311,7 +313,6 @@
     exports.userDateTime = convertToUserDateTime;
     exports.userDate = convertToUserDate;
     exports.userTime = convertToUserTime;
-    exports.userHourType = convertToUserHourType;
     exports.printFormat = convertToPrintFormat;
     exports.compareSystemDateTime = compareSystemDateTime;
     exports.compareSystemDate = compareSystemDate;

@@ -510,6 +510,7 @@ textarea {
 }
 .container .contents .list {
   clear: both;
+  padding-top: 15px;
 }
 .container .contents .list table {
   width: 100%;
@@ -570,8 +571,8 @@ textarea {
   text-align: right;
 }
 .container .contents .list-wrap {
-  padding: 15px 0;
-  height: 490px;
+  height: 400px;
+  overflow-y: auto;
 }
 .container .contents .list-wrap-auth {
   padding: 0.9375rem 0.9375rem 0.9375rem 0;
@@ -1751,4 +1752,314 @@ textarea {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+/* date picker css */
+.picker-wrapper-date {
+  display: inline-block;
+}
+
+.picker-modal {
+  font-family: "Noto Sans";
+  display: none;
+  position: fixed;
+  background-color: #ffffff;
+  border: solid 0.0625rem #C8CED8;
+  box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
+  text-align: center;
+  z-index: 1;
+}
+.picker-modal.active {
+  display: block;
+}
+.picker-modal-title {
+  height: 2.5rem;
+  color: #464F50;
+  font-size: 0.875rem;
+  font-weight: bold;
+  background-color: #ffffff;
+  border-bottom: solid 0.0625rem #C8CED8;
+  padding: 0.688rem 0;
+}
+.picker-modal-title img.close {
+  position: absolute;
+  right: 0.375rem;
+  width: 1.125rem;
+  height: 1.125rem;
+  content: url("../../../media/icons/datepicker/icon_close.png");
+  cursor: pointer;
+}
+.picker-modal-sub-title {
+  color: #868F9A;
+  font-size: 0.688rem;
+  font-weight: 500;
+  background-color: #F7F7F7;
+  border-bottom: solid 0.0625rem #C8CED8;
+  padding: 0.4375rem 0;
+}
+.picker-modal-content {
+  display: flex;
+  border-bottom: solid 0.0625rem #C8CED8;
+  padding: 1rem 0 1rem 0;
+  font-size: 0.625rem;
+  font-weight: 500;
+  background-color: #ffffff;
+}
+.picker-modal-content-date {
+  display: none;
+  width: 15.63rem;
+}
+.picker-modal-content-date.active {
+  display: inline-block;
+}
+.picker-modal-content-date.active + div.active {
+  border-left: solid 0.0625rem #C8CED8;
+}
+.picker-modal-content-date-months {
+  height: 1.125rem;
+  margin: 0 2rem;
+}
+.picker-modal-content-date-months img {
+  vertical-align: middle;
+}
+.picker-modal-content-date-months .date-prev {
+  cursor: pointer;
+  content: url("../../../media/icons/datepicker/icon_arrow_left.png");
+}
+.picker-modal-content-date-months .date-text {
+  display: inline-block;
+  width: 9.375rem;
+  color: #5A6364;
+  font-size: 0.688rem;
+  margin: 0;
+  padding: 0;
+}
+.picker-modal-content-date-months .date-next {
+  cursor: pointer;
+  content: url("../../../media/icons/datepicker/icon_arrow_right.png");
+}
+.picker-modal-content-date-calendar {
+  padding: 0.25rem 1.625rem 0 1.625rem;
+  color: #C2CBD6;
+}
+.picker-modal-content-date-calendar .calendar-cell {
+  display: inline-block;
+  width: 1.125rem;
+  height: 1.125rem;
+  line-height: 0.8125rem;
+  padding: 0.0625rem;
+  margin: 0.3125rem;
+  text-align: center;
+}
+.picker-modal-content-date-calendar .calendar-cell.calendar-title {
+  color: rgba(120, 129, 140, 0.65);
+  padding-top: 0;
+  pointer-events: none;
+}
+.picker-modal-content-date-calendar .calendar-cell:not(.calendar-title) {
+  cursor: pointer;
+}
+.picker-modal-content-date-calendar .calendar-cell.active {
+  color: #78778C;
+}
+.picker-modal-content-date-calendar .calendar-cell.selected {
+  background-color: #0050ff;
+  color: #ffffff;
+  border-radius: 48%;
+}
+.picker-modal-content-time {
+  display: none;
+  padding: 1.188rem 2.25rem;
+}
+.picker-modal-content-time.active {
+  display: flex;
+}
+.picker-modal-content-time .hour-group,
+.picker-modal-content-time .minute-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.picker-modal-content-time .hour-group img,
+.picker-modal-content-time .minute-group img {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+.picker-modal-content-time .hour-group img.arrow-up,
+.picker-modal-content-time .minute-group img.arrow-up {
+  cursor: pointer;
+  content: url("../../../media/icons/datepicker/icon_arrow_top.png");
+}
+.picker-modal-content-time .hour-group img.arrow-up:hover,
+.picker-modal-content-time .minute-group img.arrow-up:hover {
+  content: url("../../../media/icons/datepicker/icon_arrow_top_select.png");
+}
+.picker-modal-content-time .hour-group img.arrow-down,
+.picker-modal-content-time .minute-group img.arrow-down {
+  cursor: pointer;
+  content: url("../../../media/icons/datepicker/icon_arrow_under.png");
+}
+.picker-modal-content-time .hour-group img.arrow-down:hover,
+.picker-modal-content-time .minute-group img.arrow-down:hover {
+  content: url("../../../media/icons/datepicker/icon_arrow_under_select.png");
+}
+.picker-modal-content-time .hour-group .digit,
+.picker-modal-content-time .minute-group .digit {
+  width: 3rem;
+  height: 3.125rem;
+  color: #505964;
+  font-size: 1.438rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 0.375rem 0;
+  border: 0.0625rem solid #C8CED8;
+  padding: 0;
+}
+.picker-modal-content-time .hour-group .digit:focus,
+.picker-modal-content-time .minute-group .digit:focus {
+  outline: none !important;
+  border: 0.0625rem solid #0050ff;
+}
+.picker-modal-content-time .button-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.picker-modal-content-time .button-group button {
+  width: 3rem;
+  height: 1.563rem;
+  color: #AAB3B4;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-left: 0.625rem;
+  background-color: #F7F7F7;
+  border: 0.0625rem solid #C8CED8;
+  padding: 0;
+  cursor: pointer;
+}
+.picker-modal-content-time .button-group button.active {
+  color: #0050ff;
+  background-color: #ffffff;
+  border: 0.0625rem solid #0050ff;
+}
+.picker-modal-content-time .button-group button.active + button {
+  border-top-color: #0050ff;
+}
+.picker-modal-content-time .button-group button:not(:last-of-type) {
+  border-bottom: 0;
+}
+.picker-modal-content-time .button-group button:focus {
+  outline: none !important;
+}
+.picker-modal-content-time .separator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 1.438rem;
+  color: #505964;
+  font-size: 1.438rem;
+  font-weight: 500;
+}
+.picker-modal-button {
+  height: 2.5rem;
+  float: right;
+  margin-right: 0.4375rem;
+}
+.picker-modal-button button {
+  width: 2.688rem;
+  height: 1.563rem;
+  color: #68717C;
+  font-size: 0.688rem;
+  font-weight: normal;
+  margin: 0.4375rem 0.1875rem 0.4375rem 0;
+  background-color: #ffffff;
+  border: 0.0625rem solid #C8CED8;
+  border-radius: 0.0625rem;
+  padding: 0;
+  cursor: pointer;
+}
+.picker-modal-button button:focus {
+  outline: none !important;
+}
+
+.scrollbar > .os-scrollbar-horizontal {
+  right: 10px;
+  height: 10px;
+}
+.scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
+  min-width: 30px;
+}
+.scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  top: -6px;
+  bottom: -2px;
+}
+.scrollbar > .os-scrollbar-vertical {
+  bottom: 10px;
+  width: 10px;
+}
+.scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
+  min-height: 30px;
+}
+.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: block;
+  left: -6px;
+  right: -2px;
+}
+.scrollbar > .os-scrollbar-corner {
+  height: 10px;
+  width: 10px;
+  background-color: transparent;
+}
+.scrollbar > .os-scrollbar {
+  padding: 2px;
+  box-sizing: border-box;
+  background: transparent;
+}
+.scrollbar > .os-scrollbar > .os-scrollbar-track {
+  background: #00ca3c;
+}
+.scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  background: #d2d9e2;
+}
+.scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
+  background: rgba(0, 0, 0, 0.7);
+}
+.scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
+  background: blue;
+}
+.scrollbar > .os-scrollbar.os-scrollbar-unusable {
+  background: transparent;
+}
+
+.scrollbar.os-host-rtl > .os-scrollbar-horizontal {
+  left: 10px;
+  right: 0;
+}
+
+.scrollbar.os-host-transition > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+}
+
+.scrollbar.os-host-scrollbar-horizontal-hidden > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+  display: none;
+}
+
+.scrollbar.os-host-scrollbar-vertical-hidden > .os-scrollbar-vertical .os-scrollbar-handle:before {
+  display: none;
+}
+
+.os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
+  right: -6px;
+  left: -2px;
 }
