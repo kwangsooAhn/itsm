@@ -574,6 +574,45 @@ textarea {
   height: 400px;
   overflow-y: auto;
 }
+.container .contents .list-wrap-edit table {
+  margin: 0 0 15px 0;
+}
+.container .contents .list-wrap-edit table span {
+  margin: 0 auto;
+}
+.container .contents .list-wrap-edit table th {
+  background: rgba(204, 211, 217, 0.1);
+  padding-left: 15px;
+}
+.container .contents .list-wrap-edit table tr td {
+  font-size: 14px;
+  margin: 0 auto;
+}
+.container .contents .list-wrap-edit table tr td .edit-name {
+  border-right: 1px solid #C8CED8;
+  padding: 3px 15px;
+}
+.container .contents .list-wrap-edit table tr td .file-attachment {
+  border-right: 1px solid #C8CED8;
+  padding: 3px 15px;
+}
+.container .contents .list-wrap-edit table tr td.edit-textarea {
+  height: 150px;
+  min-height: 150px;
+  padding: 15px;
+  text-align: left;
+  vertical-align: text-top;
+}
+.container .contents .list-wrap-edit table tr td.file-attach-input {
+  text-align: left;
+  padding: 0 15px;
+}
+.container .contents .list-wrap-edit table tr.edit-title {
+  height: 56px;
+}
+.container .contents .list-wrap-edit table tr:hover {
+  background: none;
+}
 .container .contents .list-wrap-auth {
   padding: 0.9375rem 0.9375rem 0.9375rem 0;
   width: 33.375rem;
@@ -689,45 +728,6 @@ textarea {
 }
 .container .contents .list-wrap-auth-edit ul li.checked {
   font-weight: bold;
-}
-.container .contents .list-wrap-edit table {
-  margin: 0 0 15px 0;
-}
-.container .contents .list-wrap-edit table span {
-  margin: 0 auto;
-}
-.container .contents .list-wrap-edit table th {
-  background: rgba(204, 211, 217, 0.1);
-  padding-left: 15px;
-}
-.container .contents .list-wrap-edit table tr td {
-  font-size: 14px;
-  margin: 0 auto;
-}
-.container .contents .list-wrap-edit table tr td .edit-name {
-  border-right: 1px solid #C8CED8;
-  padding: 3px 15px;
-}
-.container .contents .list-wrap-edit table tr td .file-attachment {
-  border-right: 1px solid #C8CED8;
-  padding: 3px 15px;
-}
-.container .contents .list-wrap-edit table tr td.edit-textarea {
-  height: 150px;
-  min-height: 150px;
-  padding: 15px;
-  text-align: left;
-  vertical-align: text-top;
-}
-.container .contents .list-wrap-edit table tr td.file-attach-input {
-  text-align: left;
-  padding: 0 15px;
-}
-.container .contents .list-wrap-edit table tr.edit-title {
-  height: 56px;
-}
-.container .contents .list-wrap-edit table tr:hover {
-  background: none;
 }
 .container .contents .list-count {
   float: right;
