@@ -16,9 +16,9 @@
         <div class="contents-body-auth">
             <div class="search-area">
                 <div class="float-left">
-                    <input class="search" th:placeholder="#{auth.msg.searchPlaceholder}">
+                    <input id="search" class="search" th:placeholder="#{auth.msg.searchPlaceholder}">
                     <span class="icon-search"></span>
-                    <span class="txt-num">32건</span>
+                    <span id="totalCount" class="txt-num"></span>
                 </div>
                 <div class="float-right">
                     <button class="btn-add" id="btnCreate" name="btnCreate" type="button"
@@ -26,24 +26,7 @@
                 </div>
             </div>
             <div class="list">
-                <div class="list-wrap-auth float-left">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th th:text="#{auth.label.authName}"></th>
-                                <th th:text="#{auth.label.authId}"></th>
-                                <th th:text="#{auth.label.authDesc}"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="auth : ${authList}">
-                                <td name="authName" th:text="${auth.authName}" th:id="${auth.authId}"></td>
-                                <td th:text="${auth.authId}"></td>
-                                <td><span class="align-left" th:text="${auth.authDesc}"></span></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                <div class="list-wrap-auth float-left" id="authList"></div>
                 <div class="list-wrap-auth-edit">
                     <div class="float-left">
                         <label class="auth-name" th:text="#{auth.label.authName}"></label>
@@ -108,8 +91,13 @@
         let AUTH_DELETE = false;
         let AUTH_CREATE = false;
         let AUTH_UPDATE = false;
+        getAuthList(false);
 
-        window.addEventListener('load', function() {
+        window.onload = function () {
+            document.getElementById('search').addEventListener('keyup', function() {
+                getAuthList(false);
+            });
+
             if (document.getElementById('btnUpdate') !== null) {
                 AUTH_UPDATE = true;
             }
@@ -158,48 +146,7 @@
                     onGetDetail(this.id);
                 });
             }
-
-            function onGetDetail(roldId) {
-                const opt = {
-                    method: 'get',
-                    url: '/rest/auths/' +  roldId,
-                    callbackFunc: function(response) {
-                        let responseJson = JSON.parse(response.responseText)[0];
-                        document.getElementById('txtAuthId').value = responseJson.authId;
-                        document.getElementById('txtAuthName').value = responseJson.authName;
-                        document.getElementById('txtAuthNameOrg').value = responseJson.authName;
-                        document.getElementById('txtAuthDesc').value = responseJson.authDesc;
-
-                        let arrMenuList = responseJson.arrMenuList;
-                        Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function(authMenu) {
-                            authMenu.checked = false;
-                            for (let i = 0; i<arrMenuList.length; i++) {
-                                if (authMenu.id == arrMenuList[i].menuId) {
-                                    authMenu.checked = true;
-                                }
-                            }
-                        });
-
-                        let arrUrlList = responseJson.arrUrlList;
-                        Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function(authUrl) {
-                            authUrl.checked = false;
-                            for (let i = 0; i<arrUrlList.length; i++) {
-                                if (authUrl.id == arrUrlList[i].url) {
-                                    authUrl.checked = true;
-                                }
-                            }
-                        });
-
-                        document.getElementById('txtAuthId').setAttribute('readonly','true');
-                        document.getElementById('roleAuthMapCount').value = responseJson.roleAuthMapCount;
-                        if (AUTH_DELETE) {
-                            disabledButton(responseJson.roleAuthMapCount);
-                        }
-                    },
-                };
-                aliceJs.sendXhr(opt);
-            }
-        });
+        };
 
         /* 추가 버튼 */
         function onCreate() {
@@ -319,7 +266,7 @@
                             window.location.href ='/auths/edit';
                         });
                     }
-                  }
+            };
             aliceJs.sendXhr(opt);
         }
 
@@ -331,6 +278,78 @@
             } else {
                 btn.disabled = false;
             }
+        }
+
+        /** 권한 데이터 검색  **/
+        function getAuthList(showProgressbar) {
+            const data = {
+                search: encodeURIComponent(document.getElementById('search').value.trim())
+            };
+            const urlParam = 'search=' + data.search;
+            const opt = {
+                method: 'get',
+                url: '/auths/list?' + urlParam,
+                showProgressbar: showProgressbar,
+                callbackFunc: function(response) {
+                    document.getElementById('authList').innerHTML = response.responseText;
+
+                    let authList = document.querySelectorAll('td[name=authName]');
+                    document.getElementById('totalCount').textContent = i18n.msg("common.label.count", authList.length);
+                    for(let i = 0; i < authList.length; i++) {
+                        authList[i].addEventListener('click', function(){
+                            if (AUTH_UPDATE) {
+                                document.getElementById('btnUpdate').style.display = 'block';
+                            }
+                            if (AUTH_CREATE) {
+                                document.getElementById('btnRegist').style.display = 'none';
+                            }
+                            onGetDetail(this.id);
+                        });
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        function onGetDetail(roldId) {
+            const opt = {
+                method: 'get',
+                url: '/rest/auths/' +  roldId,
+                callbackFunc: function(response) {
+                    let responseJson = JSON.parse(response.responseText)[0];
+                    document.getElementById('txtAuthId').value = responseJson.authId;
+                    document.getElementById('txtAuthName').value = responseJson.authName;
+                    document.getElementById('txtAuthNameOrg').value = responseJson.authName;
+                    document.getElementById('txtAuthDesc').value = responseJson.authDesc;
+
+                    let arrMenuList = responseJson.arrMenuList;
+                    Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function(authMenu) {
+                        authMenu.checked = false;
+                        for (let i = 0; i<arrMenuList.length; i++) {
+                            if (authMenu.id == arrMenuList[i].menuId) {
+                                authMenu.checked = true;
+                            }
+                        }
+                    });
+
+                    let arrUrlList = responseJson.arrUrlList;
+                    Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function(authUrl) {
+                        authUrl.checked = false;
+                        for (let i = 0; i<arrUrlList.length; i++) {
+                            if (authUrl.id == arrUrlList[i].url) {
+                                authUrl.checked = true;
+                            }
+                        }
+                    });
+
+                    document.getElementById('txtAuthId').setAttribute('readonly','true');
+                    document.getElementById('roleAuthMapCount').value = responseJson.roleAuthMapCount;
+                    if (AUTH_DELETE) {
+                        disabledButton(responseJson.roleAuthMapCount);
+                    }
+                },
+            };
+            aliceJs.sendXhr(opt);
         }
         /*]]>*/
     </script>

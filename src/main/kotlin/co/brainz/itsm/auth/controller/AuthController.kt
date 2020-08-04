@@ -35,7 +35,7 @@ class AuthController(private val authService: AuthService) {
      */
     @GetMapping("/list")
     fun getAuthList(search: String, model: Model): String {
-        model.addAttribute("authList", authService.getAuthList(search))
+        model.addAttribute("authList", authService.getAuthSearchList(search))
 
         return authListPage
     }
