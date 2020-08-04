@@ -54,6 +54,7 @@
                 showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     document.getElementById('userList').innerHTML = response.responseText;
+                    OverlayScrollbars(document.querySelector('.list-wrap'), { className: 'scrollbar' });
                 }
             };
             aliceJs.sendXhr(opt);
