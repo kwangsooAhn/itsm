@@ -152,7 +152,7 @@
                                    th:checked="${users?.useYn == null || users?.useYn == true}">
                             <span class="slider round"></span>
                         </label>
-                        <span class="switch_label" th:text="#{user.msg.usageStatus}"></span>
+                        <span class="switch-label" th:text="#{user.msg.usageStatus}"></span>
                     </div>
                     <div class="btn-wrap">
                         <button class="btn-register" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
