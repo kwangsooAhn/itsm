@@ -235,6 +235,7 @@
         display: inline-block; font-size: 13px; color: #0050ff; padding: 10px; border-radius: 2px;
         border: 1px solid #0050ff; text-align: center;
         &:hover {background: #0050ff; color: #fff; border: 1px solid #0050ff;}
+        &:disabled {background: white;color: #c8ced8;border: 1px solid #c8ced8;cursor: auto;}
         &-add {
             display:inline-block; background: url($icon-folder-path + "icon_add.svg") no-repeat center center;
             padding: 10px; border-radius: 2px; border: 1px solid rgba(0, 80, 255, 1); text-align: center;

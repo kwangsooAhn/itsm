@@ -775,6 +775,12 @@ textarea {
   color: #fff;
   border: 1px solid #0050ff;
 }
+.container .btn:disabled {
+  background: white;
+  color: #c8ced8;
+  border: 1px solid #c8ced8;
+  cursor: auto;
+}
 .container .btn-add {
   display: inline-block;
   background: url("../icons/icon_add.svg") no-repeat center center;
