@@ -78,10 +78,11 @@
                 params: JSON.stringify(formObj),
                 contentType: 'application/json',
                 callbackFunc: function () {
-
-                    console.log(method)
-
-                    aliceJs.alertSuccess([[#{common.msg.save}]], function () {
+                    let resultMsg = [[#{common.msg.save}]];
+                    if (method.toLowerCase() === 'delete') {
+                        resultMsg = [[#{common.msg.delete}]];
+                    }
+                    aliceJs.alertSuccess(resultMsg, function () {
                         window.location.href = '/faqs/search';
                     });
                 }
