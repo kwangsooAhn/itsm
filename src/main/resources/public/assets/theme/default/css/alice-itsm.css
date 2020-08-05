@@ -937,7 +937,6 @@ textarea {
   width: 27px;
   border-radius: 50%;
   background: #f0f0f0;
-  cursor: pointer;
 }
 .token-list .tr-notice {
   background: rgba(255, 255, 0, 0.2);
