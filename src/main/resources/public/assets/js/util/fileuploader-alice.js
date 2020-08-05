@@ -9,32 +9,34 @@
  *        - task 현재 문서에 보여주기 위한 파일을 가져올 sql key
  *        - fileAttrName 서버로 전달하여 업로드 할 fileSeq input hidden 의 속성 이름
  *        - delFileAttrName 서버로 전달하여 삭제할 fileSeq input hidden 의 속성 이름
+ *        - clickable 파일 추가 버튼을 사용할 element 영역
  */
 const fileUploader = (function () {
     "use strict";
 
-    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId, fileAttrName, delFileAttrName;
+    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId, fileAttrName, delFileAttrName, dragAndDropZoneId, addFileBtnWrapClassName;
+
     const setExtraParam = function (param) {
-        delFileAttrName = 'delFileSeq'
-        fileAttrName = 'fileSeq'
+        delFileAttrName = 'delFileSeq';
+        fileAttrName = 'fileSeq';
+        dragAndDropZoneId = 'dropZoneFileUpload';
+        addFileBtnWrapClassName = 'add-file-button-wrap';
+
         extraParam = param;
     };
 
     const createDropZone = function () {
         /*<![CDATA[*/
-
         if (extraParam.dropZoneMaxFileSize === undefined) {
             extraParam.dropZoneMaxFileSize = 100;
         }
+
         if (extraParam.dropZoneFilesId === undefined) {
             extraParam.dropZoneFilesId = 'dropZoneFiles';
         }
-        dropZoneFilesId = extraParam.dropZoneFilesId;
 
-        if (extraParam.dropZoneUploadedFilesId !== undefined) {
-            dropZoneUploadedFilesId = extraParam.dropZoneUploadedFilesId;
-        } else {
-            dropZoneUploadedFilesId = 'dropZoneUploadedFiles';
+        if (extraParam.dropZoneUploadedFilesId === undefined) {
+            extraParam.dropZoneUploadedFilesId = 'dropZoneUploadedFiles';
         }
 
         if (extraParam.dropZoneUrl === undefined) {
@@ -46,7 +48,7 @@ const fileUploader = (function () {
         }
 
         if (extraParam.clickable === undefined) {
-            extraParam.clickable = '.add-file-button';
+            extraParam.clickable = 'add-file-button';
         }
 
         if (extraParam.acceptedFiles === undefined) {
@@ -57,24 +59,18 @@ const fileUploader = (function () {
             extraParam.type = 'dropzone';
         }
 
-        // 파일 추가 버튼 정의 및 추가
-        const dropZoneFiles = document.getElementById(''+ dropZoneFilesId +'');
+        dropZoneFilesId = extraParam.dropZoneFilesId;
+        dropZoneUploadedFilesId = extraParam.dropZoneUploadedFilesId;
+
+        // 드랍존 영역 가져오기.
+        const dropZoneFiles = document.getElementById(dropZoneFilesId);
         dropZoneFiles.className = 'fileEditorable';
 
-        if (extraParam.clickable === '.add-file-button' && extraParam.type !== 'avatarFileUploader') {
-            const addFileSpan = document.createElement('span');
-            addFileSpan.className = 'add-file-button';
-            const addFileBtn = document.createElement('button');
-            addFileBtn.innerText = 'ADD';
-            addFileBtn.setAttribute('type', 'button');
-            addFileSpan.appendChild(addFileBtn);
-            dropZoneFiles.appendChild(addFileSpan);
-        }
-
-        // 파일 드랍 영역 및 파일을 보여줄 장소 정의
-        const fileDropZone = document.createElement('div');
-        fileDropZone.id = 'dropZoneFileUpload';
-        fileDropZone.className = extraParam.type;
+        // 파일을 드래그앤드랍하여 업로드하는 영역을 정의
+        const dragAndDropZone = document.createElement('div');
+        dragAndDropZone.id = dragAndDropZoneId;
+        dragAndDropZone.className = extraParam.type;
+        document.getElementById(dropZoneFilesId).appendChild(dragAndDropZone);
 
         // 파일 템플릿 생성
         const thumbnailData = document.createElement('img');
@@ -88,21 +84,25 @@ const fileUploader = (function () {
         const progressData = document.createElement('span');
         progressData.dataset.dzUploadprogress = '';
         progressData.className = 'dz-upload';
-        const deleteButtonData = document.createElement('button');
-        deleteButtonData.className = 'dz-remove';
-        deleteButtonData.dataset.dzRemove = '';
-        deleteButtonData.innerText = 'DELETE';
 
-        const detail = document.createElement('div');
-        detail.className = 'dz-details';
+        const fileType = document.createElement('div');
+        fileType.className = 'dz-file-type';
+        const remove = document.createElement('div');
+        remove.className = 'dz-remove';
+        remove.dataset.dzRemove = '';
         const filename = document.createElement('div');
         filename.className = 'dz-filename';
         filename.appendChild(filenameData);
-
         const size = document.createElement('div');
         size.className = 'dz-size';
         size.appendChild(sizeData);
-        detail.appendChild(size).appendChild(filename);
+
+        const detail = document.createElement('div');
+        detail.className = 'dz-details';
+        detail.appendChild(fileType);
+        detail.appendChild(filename);
+        detail.appendChild(size);
+        detail.appendChild(remove);
 
         const thumbnail = document.createElement('div');
         thumbnail.className = 'dz-image';
@@ -128,23 +128,35 @@ const fileUploader = (function () {
         fileViewTemplate.setAttribute('id', 'fileTemplate');
         fileViewTemplate.setAttribute('name', 'fileTemplate');
         fileViewTemplate.className = 'dz-preview dz-file-preview';
-        fileViewTemplate.appendChild(thumbnail);
+        // fileViewTemplate.appendChild(thumbnail);
         fileViewTemplate.appendChild(detail);
         fileViewTemplate.appendChild(progress);
         fileViewTemplate.appendChild(errorMsg);
         fileViewTemplate.appendChild(successMark);
         fileViewTemplate.appendChild(errorMark);
-        fileViewTemplate.appendChild(deleteButtonData);
         const fileView = document.createElement('div');
         fileView.appendChild(fileViewTemplate);
 
-        // 파일 업로드 영역에 드랍 영역 정의
-        document.getElementById(''+ dropZoneFilesId +'').appendChild(fileDropZone);
+        // 파일을 업로드하기 위한 별도의 버튼 기능을 정의하고 추가 (드래그앤드랍 외에 버튼으로 파일 추가)
+        if (extraParam.clickable === 'add-file-button' && extraParam.type !== 'avatarFileUploader') {
+            const justText = document.createElement('span');
+            justText.textContent = 'or ';
 
-        // TO-DO
+            const addFileBtn = document.createElement('span');
+            addFileBtn.className = extraParam.clickable;
+            addFileBtn.textContent = 'browse';
+
+            const addFileBtnWrap = document.createElement('div');
+            addFileBtnWrap.className = addFileBtnWrapClassName
+            addFileBtnWrap.appendChild(justText);
+            addFileBtnWrap.appendChild(addFileBtn);
+            dragAndDropZone.appendChild(addFileBtnWrap);
+        }
+
+        // TO-DO (아바타용인가??) 파일을 드래그앤드랍 말고 업로드하기 위한 별도의 버튼 기능을 정의하고 추가
         // 2020.07.25 Jung Hee Chan
         // avatar 업로드는 기능 정리 필요. 일단 디자인 작업을 위해서 버튼 춢력은 주석 처리.
-        if (extraParam.clickable == '.add-img-button') {
+        if (extraParam.clickable === 'add-img-button') {
             const addFileSpan = document.createElement('span');
             addFileSpan.className = 'add-img-button';
             const addFileBtn = document.createElement('button');
@@ -155,8 +167,8 @@ const fileUploader = (function () {
         }
 
         // 파일 업로드 기능 정의
-        let dropzoneId = '#'+dropZoneFilesId+' #dropZoneFileUpload';
-        const myDropZone = new Dropzone(''+ dropzoneId +'', {
+        let dropzoneId = '#'+dropZoneFilesId+' #' + dragAndDropZoneId;
+        const myDropZone = new Dropzone(dropzoneId, {
             paramName: "file", // file 매개변수명
             params: extraParam || null, // 추가 매개변수
             maxFilesize: extraParam.dropZoneMaxFileSize, // 첨부파일 용량 제한
@@ -168,7 +180,9 @@ const fileUploader = (function () {
             acceptedFiles: extraParam.acceptedFiles,
             previewTemplate: fileView.innerHTML, // 기본 출력 템플릿 변경시 사용, API 참조 할 것.
             autoQueue: true, // Make sure the files aren't queued until manually added
-            clickable: extraParam.clickable, // Define the element that should be used as click trigger to select files.
+            clickable: '.' + extraParam.clickable, // Define the element that should be used as click trigger to select files.
+            createImageThumbnails: false,
+            allowNewFiles: false,
             headers: {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
             },
@@ -180,6 +194,7 @@ const fileUploader = (function () {
                                   +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
+
                         files.forEach(function (fileMap) {
                             let file = fileMap.fileLocDto;
 
@@ -196,38 +211,63 @@ const fileUploader = (function () {
                             }
 
                             // 파일 목록 생성
-                            const originName = document.createElement('span');
-                            originName.setAttribute('name', 'loadedFileNames');
-                            originName.style.cursor = 'pointer';
-                            originName.innerText = file.originName;
-                            const fileSize = document.createElement('span');
+                            const fileType = document.createElement('div');
+                            fileType.className = 'dz-file-type';
+
+                            // TODO 파일 종류에 따라서 변경해서 셋팅한다.
+                            fileType.style.backgroundImage = '/assets/theme/default/icons/icon_notice_document.svg';
+
+                            const fileName = document.createElement('div');
+                            fileName.className = 'dz-filename';
+                            fileName.setAttribute('name', 'loadedFileNames');
+                            fileName.style.cursor = 'pointer';
+                            const fileNameStr = document.createElement('span');
+                            fileNameStr.textContent = file.originName;
+                            fileName.appendChild(fileNameStr);
+
+                            const fileSize = document.createElement('div');
+                            fileSize.className = 'dz-size';
                             fileSize.setAttribute('name', 'loadedFileSize');
-                            fileSize.innerText = ' (' + convertedFileSize + ')';
+                            const fileSizeStr = document.createElement('span');
+                            fileSizeStr.textContent = convertedFileSize;
+                            fileSize.appendChild(fileSizeStr);
+
+                            const remove = document.createElement('div');
+                            remove.className = 'dz-remove';
+                            remove.style.backgroundImage = '/assets/theme/default/icons/icon_notice_delete.svg';
+                            remove.style.backgroundSize = '1.125rem';
+                            remove.style.backgroundRepeat = 'no-repeat';
+                            remove.style.backgroundPositionX = 'center';
+                            remove.style.backgroundPositionY = 'center';
                             const fileSeq = document.createElement('input');
                             fileSeq.setAttribute('type', 'hidden');
                             fileSeq.setAttribute('name', 'loadedFileSeq');
                             fileSeq.value = file.fileSeq;
-                            const delBtn = document.createElement('button');
-                            delBtn.setAttribute('type', 'button');
-                            delBtn.className = 'file-delete fileEditorable';
-                            delBtn.innerText = 'DELETE';
-                            const fileTag = document.createElement('div');
-                            fileTag.append(originName);
-                            fileTag.append(fileSize);
-                            fileTag.append(fileSeq);
-                            fileTag.append(delBtn);
-                            document.getElementById(''+dropZoneUploadedFilesId+'').appendChild(fileTag);
+                            const fileDetails = document.createElement('div');
+                            fileDetails.className = 'dz-details';
+                            fileDetails.append(fileType);
+                            fileDetails.append(fileName);
+                            fileDetails.append(fileSize);
+                            fileDetails.append(remove);
+                            fileDetails.append(fileSeq);
+                            const fileView = document.createElement('div');
+                            fileView.className = 'dz-preview dz-file-preview';
+                            fileView.appendChild(fileDetails);
+
+                            document.getElementById(dropZoneUploadedFilesId).className = 'dropzone';
+                            document.getElementById(dropZoneUploadedFilesId).appendChild(fileView);
+
                             // 파일 다운로드
-                            originName.addEventListener('click', function (e) {
-                                const thisEvent = e.target;
+                            fileName.addEventListener('click', function (e) {
+                                const $this = this
                                 const fileDownOpt = {
                                     method: 'get',
-                                    url: '/filedownload?seq=' + Number(thisEvent.parentElement.querySelector('input[name=loadedFileSeq]').value),
+                                    url: '/filedownload?seq=' + Number($this.parentElement.querySelector('input[name=loadedFileSeq]').value),
                                     callbackFunc: function (xhr) {
                                         const a = document.createElement('a');
                                         const url = window.URL.createObjectURL(xhr.response);
                                         a.href = url;
-                                        a.download = thisEvent.parentElement.querySelector('span[name=loadedFileNames').innerText;
+                                        a.download = $this.parentElement.querySelector('div[name=loadedFileNames] span').textContent;
                                         document.body.append(a);
                                         a.click();
                                         a.remove();
@@ -241,10 +281,10 @@ const fileUploader = (function () {
                             });
 
                             // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
-                            delBtn.addEventListener('click', function (e) {
+                            remove.addEventListener('click', function (e) {
                                 const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]');
                                 delFile.setAttribute('name', delFileAttrName);
-                                delFile.parentElement.style.display = 'none';
+                                delFile.closest('.dz-preview').style.display = 'none';
                             });
                         });
 
@@ -261,6 +301,9 @@ const fileUploader = (function () {
                 if (extraParam.dropZoneUrl === '/fileupload') {
                     aliceJs.sendXhr(opt);
                 }
+
+                const addFileBtn = document.querySelector('.' + addFileBtnWrapClassName)
+                document.querySelector('.dz-message').appendChild(addFileBtn)
 
                 //파일 확장자 목록 관련 출력
                 var fileNameExtensionList;
@@ -280,8 +323,7 @@ const fileUploader = (function () {
                 //all uploading files: .getUploadingFiles()
 
                 this.on("addedfile", function (file) {
-                    // Hookup the start button
-                    //file.previewElement.querySelector(".start").onclick = function() { _this.enqueueFile(file); };
+                    document.querySelector('.dz-message').style.display = 'none';
                 });
 
                 this.on("removedfile", function (file) {
@@ -300,13 +342,13 @@ const fileUploader = (function () {
                 });
 
                 this.on("success", function (file, response) {
-                    var fileName = file.name;
-                    var fileNameLength = file.name.length;
-                    var lastDot = fileName.lastIndexOf('.');
-                    var fileNameExtension = fileName.substring(lastDot+1, fileNameLength).toUpperCase();
-                    var array = [];
+                    const fileName = file.name;
+                    const fileNameLength = file.name.length;
+                    const lastDot = fileName.lastIndexOf('.');
+                    const fileNameExtension = fileName.substring(lastDot+1, fileNameLength).toUpperCase();
+                    const array = [];
 
-                    for (var i = 0; i < fileNameExtensionList.length; i++)  {
+                    for (let i = 0; i < fileNameExtensionList.length; i++)  {
                         array[i] = fileNameExtensionList[i].fileNameExtension;
                     }
 
@@ -332,8 +374,9 @@ const fileUploader = (function () {
                 });
 
                 this.on("complete", function (file) {
-                    //fileDropzone.removeFile(file);
-                    //fileDropzone.removeAllFiles(file);
+                    const dropzoneMessage = document.querySelector('.dz-message')
+                    document.querySelector('#dropZoneFileUpload').appendChild(dropzoneMessage);
+                    dropzoneMessage.style.display = 'block';
                 });
 
                 // Hide the total progress bar when nothing's uploading anymore
@@ -355,7 +398,7 @@ const fileUploader = (function () {
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
-                if (file.name == "justinbieber.jpg") {
+                if (file.name === "justinbieber.jpg") {
                     done("Naha, you don't.");
                 } else {
                     done();
