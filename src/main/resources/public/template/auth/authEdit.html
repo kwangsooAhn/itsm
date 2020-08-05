@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{auth.label.manage}"></title>
 </head>
@@ -91,13 +91,9 @@
         let AUTH_DELETE = false;
         let AUTH_CREATE = false;
         let AUTH_UPDATE = false;
-        getAuthList(false);
+        getAuthList(true);
 
         window.onload = function () {
-            document.getElementById('search').addEventListener('keyup', function() {
-                getAuthList(false);
-            });
-
             if (document.getElementById('btnUpdate') !== null) {
                 AUTH_UPDATE = true;
             }
@@ -146,6 +142,9 @@
                     onGetDetail(this.id);
                 });
             }
+            document.getElementById('search').addEventListener('keyup', function() {
+                getAuthList(false);
+            });
         };
 
         /* 추가 버튼 */
@@ -297,11 +296,19 @@
                     document.getElementById('totalCount').textContent = i18n.msg("common.label.count", authList.length);
                     for(let i = 0; i < authList.length; i++) {
                         authList[i].addEventListener('click', function(){
+                            let activeTr = document.querySelector('tr.active')
+                            if (activeTr !== null) {
+                                activeTr.classList.remove('active');
+                            }
+                            this.parentElement.classList.add('active');
                             if (AUTH_UPDATE) {
-                                document.getElementById('btnUpdate').style.display = 'block';
+                                document.getElementById('btnUpdate').style.display = 'inline-block';
                             }
                             if (AUTH_CREATE) {
                                 document.getElementById('btnRegist').style.display = 'none';
+                            }
+                            if (AUTH_DELETE) {
+                                document.getElementById('btnDelete').style.display = 'inline-block';
                             }
                             onGetDetail(this.id);
                         });
