@@ -1558,6 +1558,9 @@ textarea {
 .dropzone.dz-drag-hover .dz-message {
   opacity: 0.5;
 }
+.dropzone.dz-uploaded {
+  border: 0;
+}
 .dropzone .dz-message {
   text-align: center;
   margin: 2rem 0 3rem 0;
@@ -1622,12 +1625,13 @@ textarea {
   color: rgba(0, 0, 0, 0.9);
   line-height: 150%;
   display: grid;
-  grid-template-columns: 2.25rem auto 1.125rem;
+  grid-template-columns: 2.25rem min(36.25rem) 1.125rem;
   align-items: center;
 }
 .dropzone .dz-preview .dz-details .dz-filename {
   white-space: nowrap;
   text-align: left;
+  padding: 0 0.4em;
 }
 .dropzone .dz-preview .dz-details .dz-filename:hover span {
   border: 1px solid rgba(200, 200, 200, 0.8);
@@ -1642,15 +1646,14 @@ textarea {
 }
 .dropzone .dz-preview .dz-details .dz-filename span {
   background-color: rgba(255, 255, 255, 0.4);
-  padding: 0 0.4em;
   border-radius: 3px;
 }
 .dropzone .dz-preview .dz-details .dz-size {
   text-align: left;
+  padding: 0 0.4em;
 }
 .dropzone .dz-preview .dz-details .dz-size span {
   background-color: rgba(255, 255, 255, 0.4);
-  padding: 0 0.4em;
   border-radius: 3px;
 }
 .dropzone .dz-preview .dz-details .dz-file-type {
