@@ -5,13 +5,13 @@
 	<div class="menu">
 		<div class="gnb">
 			<ul>
-				<li th:each="topMenu : ${#authentication.details.menus}"
-						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu'">
+				<li  th:each="topMenu : ${#authentication.details.menus}"
+						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
 					<span th:class=${topMenu.menuId} onclick="accordionMenu(this);"><a th:text="#{|menu.${topMenu.menuId}.parent|}"></a></span>
 					<div th:id=${topMenu.menuId} class="snb snb-mywork">
 						<ul>
 							<li th:each="subMenu : ${#authentication.details.menus}"
-									th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId}">
+									th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
 								<span th:class="${#strings.substringAfter(subMenu.menuId,'.')}">
 									<a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}" onclick="showProgressBar()"></a>
 								</span>
