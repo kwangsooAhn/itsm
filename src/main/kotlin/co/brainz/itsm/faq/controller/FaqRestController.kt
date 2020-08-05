@@ -3,7 +3,6 @@ package co.brainz.itsm.faq.controller
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
-import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.service.FaqService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.Logger
