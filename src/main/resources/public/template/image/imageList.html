@@ -4,7 +4,6 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
-    <link th:href="@{/assets/css/thumbnail.css}" rel="stylesheet"/>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -14,10 +13,6 @@
             <span class="title-description" th:text="#{image.msg.description}"></span>
         </div>
         <div class="contents-body">
-            <!--<div sec:authorize="hasAuthority('image.create')" class="inputWrapper">
-                <label th:text="#{image.btn.upload}"/>
-                <input type="file" class="fileInput" id="image-upload-file" accept=".png,.gif,.jpeg,.jpg" multiple/>
-            </div>-->
             <div class="thumbnail-container"></div>
         </div>
     </div>
@@ -29,22 +24,21 @@
             /*[# th:each="image : ${imageList}"]*/
             addThumbnail(/*[[${image}]]*/);
             /*[/]*/
-            addThumbnailNodata();
+            addThumbnailUpload();
         }
 
         function addThumbnail(image) {
             const thumbnailContainer = document.querySelector('.thumbnail-container');
-            const thumbnailNodata = thumbnailContainer.querySelector('.thumbnail-nodata');
+            const thumbnailUpload = thumbnailContainer.querySelector('.thumbnail-upload');
             let thumbnailTemplate = `
-                <div class="thumbnail" onclick="selectImage(this);">
+                <div class="thumbnail">
                     <div class="thumbnail-img" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
                     <div class="thumbnail-info">
                         <p class="thumbnail-info-text">
                             <label ondblclick="renameImage(this);">${image.name}</label>
                             <input type="text" class="fileName" />
                         </p>
-                        <p class="thumbnail-info-text"><label>${image.size}</label></p>
-                        <p class="thumbnail-info-text"><label>${image.width} X ${image.height}</label></p>
+                        <p class="thumbnail-info-text"><label>${image.width} X ${image.height} ${image.size}</label></p>
                     </div>
                     <div class="thumbnail-bottom">
                         <label>${i18n.userDateTime(image.updateDt)}</label>
@@ -52,24 +46,24 @@
                     </div>
                 </div>
             `;
-            if (thumbnailNodata) {
-                thumbnailNodata.insertAdjacentHTML('beforebegin', thumbnailTemplate);
+            if (thumbnailUpload) {
+                thumbnailUpload.insertAdjacentHTML('beforebegin', thumbnailTemplate);
             } else {
                 thumbnailContainer.insertAdjacentHTML('beforeend', thumbnailTemplate);
             }
         }
 
-        function addThumbnailNodata() {
-            const thumbnailCnt = document.querySelector('.thumbnail-container').querySelectorAll('.thumbnail-nodata').length;
+        function addThumbnailUpload() {
+            const thumbnailCnt = document.querySelector('.thumbnail-container').querySelectorAll('.thumbnail-upload').length;
             if (thumbnailCnt === 0) {
-                let thumbnailNodataTemplate = `
-                    <div class="thumbnail-nodata" onclick="document.getElementById('image-upload-file').click();">
+                let thumbnailUploadTemplate = `
+                    <div class="thumbnail-upload" onclick="document.getElementById('image-upload-file').click();">
                         <img src="" />
-                        <p class="thumbnail-nodata-text">${i18n.get('image.label.upload')}</p>
+                        <p class="thumbnail-upload-text">${i18n.get('image.label.upload')}</p>
                         <input type="file" class="fileInput" id="image-upload-file" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);"/>
                     </div>
                 `;
-                document.querySelector('.thumbnail-container').insertAdjacentHTML('beforeend', thumbnailNodataTemplate);
+                document.querySelector('.thumbnail-container').insertAdjacentHTML('beforeend', thumbnailUploadTemplate);
             }
         }
 
@@ -115,7 +109,7 @@
                         callbackFunc: xhr => {
                             if (xhr.responseText === 'true') {
                                 labelObj.textContent = modifyName;
-                                labelObj.parentNode.querySelector('img').dataset.name = modifyName;
+                                labelObj.parentNode.parentNode.parentNode.querySelector('img').dataset.name = modifyName;
                             } else {
                                 aliceJs.alert(i18n.get("image.msg.failedRename"));
                             }
@@ -130,14 +124,6 @@
                 }
             }, false);
             inputObj.focus();
-        }
-
-        function selectImage(thumbnail) {
-            const thumbnails = document.querySelectorAll('.thumbnail');
-            for (let i = 0, len = thumbnails.length; i < len; i++) {
-                thumbnails.item(i).classList.remove('selected');
-            }
-            thumbnail.classList.add('selected');
         }
 
         function uploadImage(fileObj) {

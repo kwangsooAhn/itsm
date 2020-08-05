@@ -1236,7 +1236,7 @@
                                             `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
                                             `<div class="property-field-image">` +
                                                 `<input type="text" class="property-value" value="${fieldProp.value}">` +
-                                                `<button type="button" onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1200, height=700");'></button>` +
+                                                `<button type="button" id="imageUploadPop" onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1220, height=700");'></button>` +
                                             `</div>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);

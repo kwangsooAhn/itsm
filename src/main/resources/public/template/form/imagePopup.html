@@ -1,106 +1,75 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="form/formCore">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="_csrf" th:content="${_csrf.token}"/>
-    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-    <meta http-equiv="expire" content="-1"/>
-    <meta http-equiv="cache-control" content="no-cache"/>
-    <meta http-equiv="pragma" content="no-cache"/>
     <title th:text="#{form.component.image}"></title>
-    <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
-    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
-    <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
-    <script th:src="@{/assets/js/util/util-alice.js}"></script>
-    <!-- TODO: 임시 style -->
-    <style>
-        .thumbnail-container {
-            height: 650px;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-        .thumbnail-container > .thumbnail-nodata {
-            display: inline-block;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            color: gray;
-            font-weight: bolder;
-            font-size: 30px;
-        }
-        .thumbnail-container > .thumbnail {
-            display: inline-block;
-            float: left;
-            overflow: hidden;
-            width: 175px;
-            height: 280px;
-            margin-top: 10px;
-            margin-right: 20px;
-            border: 1px solid lightgrey;
-        }
-        .thumbnail-container > .thumbnail.selected {
-            border: 1px solid blue;
-        }
-        .thumbnail-container > .thumbnail > div.thumbnail-img {
-            display: inline-block;
-            width: 100%;
-            height: 180px;
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center center;
-        }
-        .thumbnail-container > .thumbnail > div.thumbnail-info > p {
-            height: 20px;
-            margin: 5px;
-            padding: 0;
-        }
-        .thumbnail-container > .thumbnail > div.thumbnail-info > p > label {
-            display: block;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-        }
-        .btn-container {
-            margin-top: 10px;
-        }
-        .btn-check-wrapper {
-            display: inline-block;
-            float: right;
-        }
-        .btn-upload-wrapper input[type=file] {
-            position: absolute;
-            left: 0;
-            top: 0;
-            opacity: 0;
-        }
-    </style>
+    <th:block layout:fragment="css">
+        <link th:href="@{/assets/css/thumbnail.css}" rel="stylesheet"/>
+    </th:block>
 </head>
 <body>
+<th:block layout:fragment="content">
     <div>
-        <div class="thumbnail-container" >
-            <div class="thumbnail-nodata" th:if="${#arrays.isEmpty(imageList)}">
-                <label th:text="#{common.msg.noData}"></label>
-            </div>
-            <div class="thumbnail" th:unless="${#arrays.isEmpty(imageList)}" th:each="image : ${imageList}" th:data-name="${image.name}" onclick="selectImage(this)">
-                <div class="thumbnail-img" th:style="'background-image: url(data:image/' + ${image.extension}  + ';base64,' + ${image.data} + ')'"></div>
-                <div class="thumbnail-info">
-                    <p><label th:text="${image.name}"></label></p>
-                    <p><label th:text="${image.size}"></label></p>
-                    <p><label th:text="${image.width} + ' X ' + ${image.height}"></label></p>
-                </div>
-            </div>
-        </div>
-        <div class="btn-container">
+        <div class="thumbnail-container"></div>
+       <div class="btn-container">
             <div class="btn-check-wrapper">
                 <button type="button" th:text="#{common.btn.check}" onclick="selectedImageSave();"></button>
                 <button type="button" th:text="#{common.btn.close}" onclick="window.close();"></button>
             </div>
         </div>
     </div>
+</th:block>
 </body>
-<script type="text/javascript">
-    /*<![CDATA[*/
-    i18n.initMessages();
+<th:block layout:fragment="script">
+    <script type="text/javascript" th:inline="javascript">
+    window.onload = function() {
+
+        // 썸네일 표시
+        /*[# th:each="image : ${imageList}"]*/
+        addThumbnail(/*[[${image}]]*/);
+        /*[/]*/
+
+        addThumbnailNodata();
+        initSelectImage();
+    };
+
+    /**
+     * 이미지 표시
+     */
+    function addThumbnail(image) {
+        const thumbnailContainer = document.querySelector('.thumbnail-container');
+        const thumbnailNodata = thumbnailContainer.querySelector('.thumbnail-nodata');
+        if (thumbnailNodata) { thumbnailNodata.remove(); }
+        let thumbnailTemplate = `
+            <div class="thumbnail" onclick="selectImage(this);">
+                <div class="thumbnail-img" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
+                <div class="thumbnail-info">
+                    <p class="thumbnail-info-text"><label>${image.name}</label></p>
+                    <p class="thumbnail-info-text"><label>${image.width} X ${image.height} ${image.size}</label></p>
+                </div>
+                <div class="thumbnail-bottom">
+                    <label>${i18n.userDateTime(image.updateDt)}</label>
+                </div>
+            </div>
+        `;
+        thumbnailContainer.insertAdjacentHTML('beforeend', thumbnailTemplate);
+    }
+
+    /**
+     * 이미지가 존재하지 않을 경우 안내 문구 표시
+     */
+    function addThumbnailNodata() {
+        const thumbnailCnt = document.querySelector('.thumbnail-container').querySelectorAll('.thumbnail').length;
+        if (thumbnailCnt === 0) {
+            let thumbnailNodataTemplate = `
+                <div class="thumbnail-nodata">
+                    <label>${i18n.get('common.msg.noData')}</label>
+                </div>
+            `;
+            document.querySelector('.thumbnail-container').insertAdjacentHTML('beforeend', thumbnailNodataTemplate);
+        }
+    }
 
     /**
      *  이미지 선택 후 확인 버튼 클릭시 호출
@@ -151,10 +120,7 @@
         }
         thumbnail.classList.add('selected');
     }
-
-    window.onload = function() {
-        initSelectImage();
-    };
-    /*]]>*/
-</script>
+    
+    </script>
+</th:block>
 </html>
