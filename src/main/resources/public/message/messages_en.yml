@@ -59,6 +59,7 @@ common:
     selectBeforeDateTime: "Please select before {0} datetime."
     selectBeforeTime: "Please select before {0} time."
     update: "Changed."
+    processedOrDelete: "Already processed or deleted."
   code:
     token:
       status:
@@ -81,14 +82,18 @@ auth:
   label:
     authDesc: "Auth Desc"
     authId: "Auth ID"
-    authName: "Auth name"
-    manage: "Role management"
-    referenceCount: "Role reference count"
+    authName: "Auth Name"
+    manage: "Role Management"
+    menuList: "Usable Menu List"
+    referenceCount: "Role Reference Count"
+    urlList: "Usable Url"
   msg:
+    description: "Manage available menus and URLs by grouping them with permissions."
     duplicateAuthId: "Duplicate auth id! Please enter other auth id."
     duplicateAuthName: "Duplicate auth name! Please enter other auth name."
     enterAuthId: "Please enter a auth id."
     enterAuthName: "Please enter a auth name."
+    searchPlaceholder: "Auth Name / Auth Desc"
   auth:
     read: "auth read"
     create: "auth create"
@@ -357,6 +362,8 @@ faq:
     description: "Frequently asked questions and answers."
     edit: "FAQ edit"
     detail: "FAQ detail"
+    list: "FAQ list"
+    faq: "FAQ"
 
 # FileUpload
 fileupload:

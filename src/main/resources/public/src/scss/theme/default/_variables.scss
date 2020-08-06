@@ -2,6 +2,19 @@ $icon-folder-path: "../icons/";
 $alice-primary:#0050ff !default;
 
 // Color palette
+$blue: #0098FF;
+$dark-blue: #0060A5;
+$light-gray: #EBEBEB;
+$gray: #ACB4BF;
+$blue-gray: #929AA6;
+$dark-gray: #586872;
+$light-black: #0098FF;
+$ground-black: #333D47;
+$focus-black: #283238;
+$white: #FFFFFF;
+$red: #FF405A;
+$green: #00C462;
+
 $color-line: #C8CED8;
 $color-title: #3E4752;
 $color-text: #67717F;
@@ -22,3 +35,8 @@ $column-2: $column-init * 2; // 160px
 $column-3: $column-init * 3; // 240px
 $column-4: $column-init * 4; // 320px
 $column-5: $column-init * 5; // 400px
+$column-6: $column-init * 6; // 480px
+$column-7: $column-init * 7; // 560px
+$column-8: $column-init * 8; // 640px
+$column-9: $column-init * 9; // 720px
+$column-10: $column-init * 10; // 800px
