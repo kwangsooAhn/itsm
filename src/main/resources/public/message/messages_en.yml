@@ -406,7 +406,6 @@ form:
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
     fileNameDuplication: "The same file name exists."
-    fileSelect: "Please select a file."
     fileuploadFailed: "File upload failed."
     information: "There are no common editable component detail attributes."
     max: "Please enter below {0}."
@@ -458,11 +457,13 @@ form:
 image:
   label:
     list: "Image management"
+    popupTitle: "Select Image"
     upload: "Upload Your Image"
   msg:
     description: "View, add, or delete image files."
     existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
     failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    fileSelect: "Please select a file."
 
 # Login
 login:
