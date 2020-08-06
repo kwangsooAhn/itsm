@@ -5,13 +5,13 @@
 	<div class="menu">
 		<div class="gnb">
 			<ul>
-				<li th:each="topMenu : ${#authentication.details.menus}"
-						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu'">
+				<li  th:each="topMenu : ${#authentication.details.menus}"
+						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
 					<span th:class=${topMenu.menuId} onclick="accordionMenu(this);"><a th:text="#{|menu.${topMenu.menuId}.parent|}"></a></span>
 					<div th:id=${topMenu.menuId} class="snb snb-mywork">
 						<ul>
 							<li th:each="subMenu : ${#authentication.details.menus}"
-									th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId}">
+									th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
 								<span th:class="${#strings.substringAfter(subMenu.menuId,'.')}">
 									<a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}" onclick="showProgressBar()"></a>
 								</span>
@@ -24,16 +24,23 @@
 	</div>
 </body>
 <script type="text/javascript" th:inline="javascript">
-    function accordionMenu(element) {
-    	if (element.className === 'config' || element.className === 'workflow') {
-    		document.getElementById('config').style.display='none';
-    		document.getElementById('workflow').style.display='none';
-    		for (var i = 0; i < element.parentNode.childNodes.length; i++) {
-    			if (element.parentNode.childNodes[i].id === element.className) {
-    				if (element.parentNode.childNodes[i].style.display === 'none') {
-						element.parentNode.childNodes[i].style.display = 'block';
-					} else {
+	window.onload = function() {
+		document.getElementById('config').style.display='none';
+		document.getElementById('workflow').style.display='none';
+	};
+
+	function accordionMenu(element) {
+		if (element.className === 'config' || element.className === 'workflow') {
+			document.getElementById('config').style.display='none';
+			document.getElementById('workflow').style.display='none';
+			for (var i = 0; i < element.parentNode.childNodes.length; i++) {
+				if (element.parentNode.childNodes[i].id === element.className) {
+					if (element.parentNode.childNodes[i].value === 'block') {
 						element.parentNode.childNodes[i].style.display = 'none';
+						element.parentNode.childNodes[i].value = 'none';
+					} else {
+						element.parentNode.childNodes[i].style.display = 'block';
+						element.parentNode.childNodes[i].value = 'block';
 					}
 				}
 			}
