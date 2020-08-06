@@ -68,7 +68,8 @@ object WfElementConstants {
         TARGET_DOCUMENT_LIST("target-document-list"),
         NAME("name"),
         ID("id"),
-        IS_DEFAULT("is-default")
+        IS_DEFAULT("is-default"),
+        SCRIPT_VALUE("script-value")
     }
 
     /**

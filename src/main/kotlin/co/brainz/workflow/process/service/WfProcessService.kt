@@ -98,6 +98,7 @@ class WfProcessService(
             val elementData = this.convertElementDataToDataType(elementEntity)
             this.convertElementDataToAssigneeType(elementData)
             this.convertElementDataToTargetDocumentList(elementData)
+            this.convertElementDataToScriptValue(elementData)
 
             elDto.data = elementData
 
@@ -368,6 +369,20 @@ class WfProcessService(
         val targetDocumentList = elementData[attrIdTargetDocumentList]
         if (targetDocumentList is String) {
             elementData[attrIdTargetDocumentList] = mutableListOf(targetDocumentList)
+        }
+    }
+
+    /**
+     * [elementData] 안에 script-value 는 list 타입으로 변환하여 리턴.
+     */
+    private fun convertElementDataToScriptValue(elementData: MutableMap<String, Any>) {
+        val attrIdScriptValue = WfElementConstants.AttributeId.SCRIPT_VALUE.value
+        if (elementData[attrIdScriptValue] == null) {
+            return
+        }
+        val scriptValueList = elementData[attrIdScriptValue]
+        if (scriptValueList is String) {
+            elementData[attrIdScriptValue] = mutableListOf(scriptValueList)
         }
     }
 }

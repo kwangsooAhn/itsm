@@ -1472,12 +1472,6 @@
                 changePropertyAssigneeType(assigneeTypeObject, elemData.assignee);
             }
         }
-        if (selectedElement.classed('scriptTask')) {
-            let scriptTypeObject = propertiesContainer.querySelector('#script-type');
-            if (scriptTypeObject) {
-                changePropertyScriptType(scriptTypeObject, elemData['script-value']);
-            }
-        }
 
         if (selectedElement.classed('connector')) { // 현재는 arrowConnector만 적용
             let actionFieldset = elementContainer.querySelector('fieldset[name=action]');
