@@ -371,6 +371,9 @@
             width: 8.563rem; // 137px
           }
 
+          input.file {
+            width: 10rem; // 160px
+          }
           button {
             border: 0.063rem solid #c8ced8;
             background-color: #ffffff;
@@ -421,6 +424,7 @@
                   background-color: #ffffff;
                   cursor: pointer;
                   position: relative;
+                  vertical-align: middle;
                 }
                 span.remove:after {
                   position: absolute;
@@ -543,6 +547,84 @@
                 height: 1.25rem; // 20px
                 line-height: 1.25rem; // 20px
               }
+            }
+          }
+
+          .script-container {
+            display: flex;
+            flex-wrap: wrap;
+
+            .btn-container {
+              width: 100%;
+              padding-top: 0.5rem;
+
+              &.right {
+                text-align: right;
+              }
+            }
+            .file-tooltip {
+              position: relative;
+              display: inline-block;
+              cursor: pointer;
+              margin-left: 0.188rem; // 3px
+
+              .file-tooltip-button {
+                display: inline-block;
+                width: 1.563rem; // 25px
+                height: 1.563rem; // 25px
+                border: 0.063rem solid #c8ced8;
+                background: {
+                  size: initial;
+                  repeat: no-repeat;
+                  image: url("../media/icons/process/editor/icon_search.png");
+                  position: center center;
+                };
+              }
+            }
+
+            table {
+              margin-top: 0.5rem; // 8px
+              width: 11.875rem; // 190px
+
+              tr {
+                border: {
+                  top: 0.063rem solid #c8ced8;
+                  bottom: 0.063rem solid #c8ced8;
+                }
+              }
+              tr:nth-child(even) {
+                background-color: #ffffff;
+              }
+              tr:nth-child(odd) {
+                background-color: #eff3f8
+              }
+
+              tr > th, td {
+                height: 1.563rem;  // 25px
+                vertical-align: middle
+              }
+
+              tr > td:first-child {
+                padding-left: 0.625rem;
+              }
+
+              tr > td:last-child {
+                text-align: right;
+                padding-right: 0.625rem;
+              }
+
+              label {
+                height: 0.938rem; // 15px
+                margin: 0;
+              }
+            }
+            .condition-txt {
+              width: 30%;
+              word-break: break-all;
+            }
+            .file-txt {
+              width: 50%;
+              word-break: break-all;
             }
           }
 

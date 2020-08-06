@@ -140,17 +140,22 @@
           ]
         },
         {
-          "title": "Data",
+          "title": "Script",
           "items": [
             {
-              "id": "script-type", "name": "Script Type", "type": "select", "default": "script.type.external.program", "required": "Y",
+              "id": "script-type", "name": "Type", "type": "select", "default": "script.type.document.attachFile", "required": "Y",
               "sub-list": [
-                {"id": "script.type.document.editor", "name": "Document Editor"},
-                {"id": "script.type.external.program", "name": "External Program"}
+                {"id": "script.type.document.attachFile", "name": "[문서편집] 첨부파일"},
+                {"id": "script.type.external.java", "name": "[외부프로그램] Java 호출"}
               ]
             },
-            {"id": "script", "name": "Script", "type": "inputbox", "default": "", "required": "Y"},
-            {"id": "script-option-list", "name": "script-option-list", "type": "inputbox", "default": "", "required": "N"}
+            {"id": "mappingId", "name": "Mapping ID", "type": "inputbox", "default": "", "required": "Y"}
+          ]
+        },
+        {
+          "title": "Action",
+          "items": [
+            {"id": "script-value", "name": "", "type": "inputbox", "default": "", "display": "none"}
           ]
         }
       ]

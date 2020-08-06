@@ -1017,29 +1017,176 @@
         }
     }
 
+    /**
+     * Script Type 에 따라 속성 항목을 변경한다.
+     *
+     * @param scriptTypeObject Script Type object
+     * @param value script-value
+     */
     function changePropertyScriptType(scriptTypeObject, value) {
-        let scriptObject = document.getElementById('script-type');
-        console.log(value);
-        console.log(scriptObject);
-        //console.log(scriptTypeObject);
-        //console.log(value);
+        let scriptObject = document.getElementById('script-value');
+        if (scriptObject.parentNode.querySelector('.script-container') !== null) {
+            scriptObject.parentNode.querySelector('.script-container').remove();
+        }
+        scriptObject.value = '';
+        setMultipleScriptData(scriptObject, scriptTypeObject.value, value);
     }
 
-    function setMultipleInputTable(inputObject, dataList) {
+    /**
+     * Sript Type의 하위 속성을 생성한다.
+     *
+     * @param inputObject 값을 넣는 input object(선택된 데이터가 'condition|fileName'의 콤마 구분으로 등록된다.)
+     * @param scriptType 선택된 Script Type
+     * @param valueAttr 선택된 값이 있을 경우 그 값을 전달한다.
+     */
+    function setMultipleScriptData(inputObject, scriptType, valueAttr) {
         inputObject.style.display = 'none';
         inputObject.classList.add('multiple');
-        let dataInput = document.createElement('input');
-        dataInput.className = '';
-        inputObject.parentNode.insertBefore(dataInput, inputObject.nextSibling);
 
-        let btnAdd = document.createElement('button');
-        btnAdd.innerText = 'ADD';
-        btnAdd.addEventListener('click', function() {
-           console.log('vvvvvvvv');
-        });
-        inputObject.parentNode.insertBefore(btnAdd, dataInput.nextSibling);
-        console.log('ff');
+        if (scriptType === 'script.type.document.attachFile') {
+            let detailContainer = document.createElement('div');
+            detailContainer.className = 'script-container';
 
+            // condition 생성
+            let conditionLabel = document.createElement('label');
+            conditionLabel.textContent = 'Condition';
+            detailContainer.appendChild(conditionLabel);
+
+            let conditionInput = document.createElement('input');
+            detailContainer.appendChild(conditionInput);
+
+            // file 생성
+            let fileLabel = document.createElement('label');
+            fileLabel.textContent = 'File';
+            detailContainer.appendChild(fileLabel);
+
+            let fileInput = document.createElement('input');
+            fileInput.id = 'script-file';
+            fileInput.className = 'file';
+            fileInput.readOnly = true;
+            detailContainer.appendChild(fileInput);
+
+            let fileBtnContainer = document.createElement('div');
+            fileBtnContainer.className = 'file-tooltip';
+            let fileBtn = document.createElement('span');
+            fileBtn.className = 'file-tooltip-button';
+            fileBtn.addEventListener('click', function() {
+                window.open('/processes/attachFile/view?callback=' + fileInput.id, 'fileUploadPop', 'width=1200, height=700');
+            });
+            fileBtnContainer.appendChild(fileBtn);
+            detailContainer.appendChild(fileBtnContainer);
+
+            // button
+            let btnContainer = document.createElement('div');
+            btnContainer.className = 'btn-container right';
+            let btnAdd = document.createElement('button');
+            btnAdd.textContent = 'ADD';
+
+            const saveData = function() {
+                let dataBody = inputObject.parentNode.querySelector('tbody');
+                let rows = dataBody.querySelectorAll('tr');
+                let scriptValue = '';
+                let rowLength = rows.length;
+                if (rowLength > 0) {
+                    for (let i = 0; i < rowLength; i++) {
+                        if (i !== 0) { scriptValue += ','; }
+                        scriptValue += rows[i].querySelector('.condition-txt').textContent;
+                        scriptValue += '|';
+                        scriptValue += rows[i].querySelector('.file-txt').textContent;
+                    }
+                }
+                inputObject.value = scriptValue;
+
+                const evt = document.createEvent('HTMLEvents');
+                evt.initEvent('change', false, true);
+                inputObject.dispatchEvent(evt);
+            };
+
+            btnAdd.addEventListener('click', function() {
+                if (conditionInput.value.trim() === '') {
+                    return false;
+                }
+                let dataBody = inputObject.parentNode.querySelector('tbody'),
+                    rows = dataBody.querySelectorAll('tr');
+                let isDuplicate = false,
+                    rowLength = rows.length;
+                if (rowLength > 0) {
+                    for (let i = 0; i < rowLength; i++) {
+                        if (conditionInput.value === rows[i].querySelector('.condition-txt').textContent) {
+                            isDuplicate = true;
+                            break;
+                        }
+                    }
+                }
+                if (!isDuplicate) {
+                    addDataRow(conditionInput.value, fileInput.value);
+                    conditionInput.value = '';
+                    fileInput.value = '';
+                }
+            });
+
+            const addDataRow = function(conditionValue, fileValue) {
+                let dataBody = inputObject.parentNode.querySelector('tbody');
+                let row = document.createElement('tr');
+                let conditionColumn = document.createElement('td');
+                conditionColumn.className = 'condition-txt';
+                conditionColumn.textContent = conditionValue;
+
+                let fileColumn = document.createElement('td');
+                fileColumn.className = 'file-txt';
+                fileColumn.textContent = fileValue;
+
+                let btnColumn = document.createElement('td');
+                let btnDel = document.createElement('span');
+                btnDel.className = 'remove';
+                btnDel.addEventListener('click', function() {
+                    this.parentNode.parentNode.remove();
+                    saveData();
+                });
+                btnColumn.appendChild(btnDel);
+
+                row.appendChild(conditionColumn);
+                row.appendChild(fileColumn);
+                row.appendChild(btnColumn);
+                dataBody.appendChild(row);
+
+                saveData();
+            }
+            btnContainer.appendChild(btnAdd);
+            detailContainer.appendChild(btnContainer);
+
+            // table
+            let dataTable = document.createElement('table');
+            dataTable.className = 'script-data';
+            let thead = document.createElement('thead');
+            let headRow = document.createElement('tr');
+            let headValueColumn = document.createElement('th');
+            let headReturnColumn = document.createElement('th');
+            let delColumn = document.createElement('th');
+            headValueColumn.textContent = 'Condition';
+            headReturnColumn.textContent = 'File';
+            headRow.appendChild(headValueColumn);
+            headRow.appendChild(headReturnColumn);
+            headRow.appendChild(delColumn);
+            thead.appendChild(headRow);
+            dataTable.appendChild(thead);
+            let tbody = document.createElement('tbody');
+            dataTable.appendChild(tbody);
+            detailContainer.appendChild(dataTable);
+
+            inputObject.parentNode.appendChild(detailContainer);
+
+            if (typeof valueAttr !== 'undefined' && valueAttr !== '') {
+                for (let i = 0, len = valueAttr.length; i < len; i++) {
+                    if (valueAttr[i] !== ''){
+                        let rowData = valueAttr[i].split('\|');
+                        addDataRow(rowData[0], rowData[1]);
+                    }
+                }
+            }
+        } else {
+            console.log('no data');
+        }
     }
 
     /**
@@ -1212,6 +1359,9 @@
                 }
                 labelObject.htmlFor = property.id;
                 labelObject.textContent = property.name;
+                if (property.display === 'none') {
+                    labelObject.style.display = 'none';
+                }
                 propertyContainer.appendChild(labelObject);
 
                 // property object (input, select, textarea ..)
@@ -1288,10 +1438,8 @@
                         case 'target-document-list':
                             setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
                             break;
-                        case 'script-option-list' :
-                            console.log('aaaaaa');
-                            setMultipleInputTable(elementObject, documents);
-                            break;
+                        case 'script-value' :
+                            setMultipleScriptData(elementObject, elemData['script-type'], elemData[property.id]);
                     }
                 }
             }
@@ -1327,9 +1475,7 @@
         if (selectedElement.classed('scriptTask')) {
             let scriptTypeObject = propertiesContainer.querySelector('#script-type');
             if (scriptTypeObject) {
-                changePropertyScriptType(scriptTypeObject, elemData['script-type']);
-                // 여기서.... 하위 옵션을 만들어 넣는다???
-
+                changePropertyScriptType(scriptTypeObject, elemData['script-value']);
             }
         }
 
