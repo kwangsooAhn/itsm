@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th th:text="#{auth.label.authName}"></th>
+        <th th:text="#{auth.label.authId}"></th>
+        <th th:text="#{auth.label.authDesc}"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="auth : ${authList}">
+        <td id="authName" name="authName" th:text="${auth.authName}" th:id="${auth.authId}"></td>
+        <td id="authId" name="authId" th:text="${auth.authId}"></td>
+        <td id="authDesc" name="authDesc" th:text="${auth.authDesc}" class="align-left"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

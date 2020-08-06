@@ -71,9 +71,8 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
             faqTitle = faqDto.faqTitle,
             faqContent = faqDto.faqContent
         )
-
-        faqRepository.save(faqEntity)
-        aliceFileService.upload(AliceFileDto(ownId = faqDto.faqId, fileSeq = faqDto.fileSeq))
+        val savedFaq = faqRepository.save(faqEntity)
+        aliceFileService.upload(AliceFileDto(ownId = savedFaq.faqId, fileSeq = faqDto.fileSeq))
     }
 
     /**

@@ -37,6 +37,13 @@ class AuthService(
     }
 
     /**
+     * 권한 정보 검색
+     */
+    fun getAuthSearchList(search: String): MutableList<AliceAuthEntity> {
+        return authRepository.findAuthSearch(search)
+    }
+
+    /**
      * 전체 메뉴 목록 조회
      */
     fun getMenuList(): MutableList<AliceMenuEntity> {
