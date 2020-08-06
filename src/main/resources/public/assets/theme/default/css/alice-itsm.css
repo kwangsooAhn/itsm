@@ -1564,6 +1564,7 @@ textarea {
 .dropzone .dz-message {
   text-align: center;
   margin: 2rem 0 3rem 0;
+  color: #7A8594;
 }
 .dropzone .dz-preview {
   position: relative;
@@ -1655,6 +1656,7 @@ textarea {
 .dropzone .dz-preview .dz-details .dz-size span {
   background-color: rgba(255, 255, 255, 0.4);
   border-radius: 3px;
+  color: #67717f;
 }
 .dropzone .dz-preview .dz-details .dz-file-type {
   height: 100%;
