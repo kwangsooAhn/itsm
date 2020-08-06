@@ -30,6 +30,7 @@ import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 import java.util.Base64
 import java.util.stream.Collectors
+import javax.activation.MimetypesFileTypeMap
 import javax.imageio.ImageIO
 import org.apache.tika.Tika
 import org.slf4j.LoggerFactory
@@ -79,12 +80,17 @@ class AliceFileService(
         val tempPath = super.getDir("temp", fileName)
         val filePath = super.getDir("uploadRoot", fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
+        val transferFile = File(multipartFile.originalFilename)
+        val mimeType = MimetypesFileTypeMap().getContentType(transferFile).toUpperCase()
 
         if (Files.notExists(tempPath.parent)) {
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")
         }
 
-        if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty) {
+        /**
+         * 파일 확장자 및 파일 Mine-Type 체크
+         */
+        if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty || !(mimeType.contains(fileNameExtension))) {
             throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
         }
 
