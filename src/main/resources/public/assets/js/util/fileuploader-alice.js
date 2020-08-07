@@ -312,13 +312,13 @@ const fileUploader = (function () {
                         var fileNameLength = file.name.length;
                         var lastDot = fileName.lastIndexOf('.');
                         var fileNameExtension = fileName.substring(lastDot+1, fileNameLength).toUpperCase();
-                        var array = [];
+                        var extensionValueArr = [];
 
                         for (var i = 0; i < fileNameExtensionList.length; i++)  {
-                            array[i] = fileNameExtensionList[i].fileNameExtension;
+                            extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
                         }
 
-                        if (!(array.includes(fileNameExtension))) {
+                        if (!(extensionValueArr.includes(fileNameExtension))) {
                             this.removeFile(file);
                             aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
                         }
