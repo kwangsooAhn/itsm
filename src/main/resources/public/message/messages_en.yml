@@ -427,7 +427,7 @@ form:
     label: "Label"
     radio: "Radio Button"
     dropdown: "Dropdown"
-    textarea: "Text Box"
+    textbox: "Text Box"
     time: "Time"
   help:
     custom-code-default: "You can set the default value displayed on the component.<br/>'Session' prints the user's session information.<br/>'Custom Code Data' prints the data of the code defined by the user."
