@@ -378,7 +378,6 @@
 
         // 이미지 팝업
         if (imageSrc.startsWith('file:///')) {
-            console.log(imageSrc);
             aliceJs.sendXhr({
                 method: 'get',
                 url: '/rest/images/' + imageSrc.split('file:///')[1],
