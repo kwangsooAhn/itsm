@@ -262,15 +262,15 @@
                 }
                 dialog.appendChild(title);
             }
+
             // 썸네일 이미지 파일 표시
+            const body = document.createElement('div');
+            body.className = 'thumbnail-modal-body';
+
+            const container = document.createElement('div');
+            container.className = 'thumbnail-container';
+            body.appendChild(container);
             if (this.options.files.length > 0) {
-                const body = document.createElement('div');
-                body.className = 'thumbnail-modal-body';
-
-                const container = document.createElement('div');
-                container.className = 'thumbnail-container';
-                body.appendChild(container);
-
                 for (let i = 0, len = this.options.files.length; i < len; i++) {
                     let file = this.options.files[i];
 
@@ -306,24 +306,7 @@
                     thumbnailBottom.className = 'thumbnail-bottom';
                     thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
                     thumbnail.appendChild(thumbnailBottom);
-
-                    /*let thumbnailTemplate = `
-                        <div class="thumbnail${typeof options.selectedPath !== 'undefined' &&  file.name === options.selectedPath ? ' selected' : ''}" data-name="${file.name}">
-                            <div class="thumbnail-img" style="background-image: url('data:image/${file.extension};base64,${file.data}');"></div>
-                            <div class="thumbnail-info">
-                                <p class="thumbnail-info-text"><label>${file.name}</label></p>
-                                <p class="thumbnail-info-text"><label>${file.width} X ${file.height} ${file.size}</label></p>
-                            </div>
-                            <div class="thumbnail-bottom">
-                                <label>${i18n.userDateTime(file.updateDt)}</label>
-                            </div>
-                        </div>
-                    `;
-                    container.insertAdjacentHTML('beforeend', thumbnailTemplate);
-                    container.querySelector('.thumbnail').addEventListener('click', this.select, false);
-                    */
                 }
-                dialog.appendChild(body);
             } else { // 썸네일이 존재하지 않을 경우 안내 문구 표시
                 let thumbnailNodataTemplate = `
                     <div class="thumbnail-nodata">
@@ -332,6 +315,8 @@
                 `;
                 container.insertAdjacentHTML('beforeend', thumbnailNodataTemplate);
             }
+            dialog.appendChild(body);
+            
             // 하단 버튼
             if (this.options.buttons.length > 0) {
                 const buttons = document.createElement('div');
