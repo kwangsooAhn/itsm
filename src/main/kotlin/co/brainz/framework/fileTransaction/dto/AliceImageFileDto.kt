@@ -1,5 +1,7 @@
 package co.brainz.framework.fileTransaction.dto
 
+import java.time.LocalDateTime
+
 data class AliceImageFileDto(
     var name: String,
     var fullpath: String,
@@ -7,5 +9,6 @@ data class AliceImageFileDto(
     var size: String,
     var data: String,
     var width: Int,
-    var height: Int
+    var height: Int,
+    var updateDt: LocalDateTime?
 )

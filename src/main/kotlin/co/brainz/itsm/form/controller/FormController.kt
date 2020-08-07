@@ -54,16 +54,6 @@ class FormController(private val fileService: AliceFileService) {
     }
 
     /**
-     * 이미지 컴포넌트 팝업 화면.
-     */
-    @GetMapping("/imageUpload/{componentId}/view")
-    fun getImageUploadPopup(@PathVariable componentId: String, model: Model): String {
-        model.addAttribute("componentId", componentId)
-        model.addAttribute("imageList", fileService.getImageFileList())
-        return imageUploadPopupPage
-    }
-
-    /**
      * 폼 Import 화면.
      */
     @GetMapping("/import")

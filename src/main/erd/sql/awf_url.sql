@@ -71,7 +71,6 @@ insert into awf_url values ('/faqs/new', 'get', 'FAQ 등록', 'TRUE');
 insert into awf_url values ('/faqs/search', 'get', 'FAQ 검색 화면 호출', 'TRUE');
 insert into awf_url values ('/faqs/{id}/edit', 'get', 'FAQ 수정', 'TRUE');
 insert into awf_url values ('/faqs/{id}/view', 'get', 'FAQ 보기', 'TRUE');
-insert into awf_url values ('/forms/imageUpload/{id}/view', 'get', '이미지 업로드 팝업 화면', 'TRUE');
 insert into awf_url values ('/forms/list', 'get', '폼 리스트 화면', 'TRUE');
 insert into awf_url values ('/forms/new', 'get', '폼 기본 정보 등록 화면', 'TRUE');
 insert into awf_url values ('/forms/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
@@ -156,6 +155,7 @@ insert into awf_url values ('/rest/images', 'post', '이미지 업로드', 'TRUE
 insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE');
 insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');
 insert into awf_url values ('/rest/images/{id}', 'delete', '이미지 삭제', 'TRUE');
+insert into awf_url values ('/rest/images/list', 'get', '이미지 전체 조회', 'FALSE');
 insert into awf_url values ('/rest/notices', 'get', '공지사항 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/notices', 'post', '공지사항 등록', 'TRUE');
 insert into awf_url values ('/rest/notices/{id}', 'get', '공지사항 상세 조회', 'TRUE');
