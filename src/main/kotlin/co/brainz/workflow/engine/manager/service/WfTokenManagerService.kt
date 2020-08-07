@@ -71,6 +71,13 @@ class WfTokenManagerService(
     }
 
     /**
+     * Get component entity from componentIds and mappingId.
+     */
+    fun getComponentIdInAndMappingId(componentIds: List<String>, mappingId: String): WfComponentEntity {
+        return wfComponentRepository.findByComponentIdInAndMappingId(componentIds, mappingId)
+    }
+
+    /**
      * Save all candidate.
      */
     fun saveAllCandidate(candidateEntities: MutableList<WfCandidateEntity>): List<WfCandidateEntity> {

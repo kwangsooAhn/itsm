@@ -3,6 +3,11 @@ package co.brainz.workflow.element.constants
 object WfElementConstants {
 
     /**
+     * Script Task에서 선택한 파일의 Root 디렉토리.
+     */
+    const val SCRIPT_FILE_PATH = "document"
+
+    /**
      * Element Type.
      */
     enum class ElementType(val value: String) {
@@ -69,7 +74,17 @@ object WfElementConstants {
         NAME("name"),
         ID("id"),
         IS_DEFAULT("is-default"),
-        SCRIPT_VALUE("script-value")
+        SCRIPT_VALUE("script-value"),
+        SCRIPT_TYPE("script-type"),
+        TARGET_MAPPING_ID("target-mapping-id"),
+        SOURCE_MAPPING_ID("source-mapping-id")
+    }
+
+    /**
+     * Script Task - Script Type.
+     */
+    enum class ScriptType(val value: String) {
+        DOCUMENT_ATTACH_FILE("script.type.document.attachFile")
     }
 
     /**

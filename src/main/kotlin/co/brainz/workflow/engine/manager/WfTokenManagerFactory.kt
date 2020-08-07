@@ -12,6 +12,7 @@ import co.brainz.workflow.engine.manager.impl.WfCommonEndEvent
 import co.brainz.workflow.engine.manager.impl.WfCommonStartEvent
 import co.brainz.workflow.engine.manager.impl.WfExclusiveGateway
 import co.brainz.workflow.engine.manager.impl.WfManualTask
+import co.brainz.workflow.engine.manager.impl.WfScriptTask
 import co.brainz.workflow.engine.manager.impl.WfSignalSend
 import co.brainz.workflow.engine.manager.impl.WfSubProcess
 import co.brainz.workflow.engine.manager.impl.WfUserTask
@@ -45,6 +46,9 @@ class WfTokenManagerFactory(
             }
             WfElementConstants.ElementType.EXCLUSIVE_GATEWAY.value -> {
                 WfExclusiveGateway(wfTokenManagerService)
+            }
+            WfElementConstants.ElementType.SCRIPT_TASK.value -> {
+                WfScriptTask(wfTokenManagerService)
             }
             else -> throw AliceException(AliceErrorConstants.ERR, "Element tokenManager not found.")
         }
