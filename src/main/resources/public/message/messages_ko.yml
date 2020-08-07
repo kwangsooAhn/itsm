@@ -426,7 +426,7 @@ form:
     label: "Label"
     radio: "Radio Button"
     dropdown: "Dropdown"
-    textarea: "Text Box"
+    textbox: "Text Box"
     time: "Time"
   help:
     custom-code-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Session'을 선택하는 경우 사용자의 세션 정보가 기본 값으로 출력됩니다.<br/>'Custom Code Data'로 선택하는 경우에는 사용자가 정의한 코드의 데이터를 기본 값으로 출력합니다."

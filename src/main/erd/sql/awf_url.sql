@@ -19,6 +19,7 @@ COMMENT ON COLUMN awf_url.url_desc IS '설명';
 COMMENT ON COLUMN awf_url.is_required_auth IS '권한 필수여부';
 
 insert into awf_url values ('/auths/edit', 'get', '역할  설정 뷰를 호출', 'TRUE');
+insert into awf_url values ('/auths/list', 'get', '권한 관리 목록', 'TRUE');
 insert into awf_url values ('/board-admin/category/list', 'get', '게시판 관리 카테고리 편집', 'TRUE');
 insert into awf_url values ('/board-admin/category/{id}/edit', 'get', '게시판 관리 카테고리 편집', 'TRUE');
 insert into awf_url values ('/board-admin/list', 'get', '게시판 관리 리스트 호출화면', 'TRUE');

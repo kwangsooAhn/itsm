@@ -17,7 +17,7 @@
     const componentNameList = [ //컴포넌트 명
             {'type': 'editbox', 'name': 'Edit Box', 'icon': ''},
             {'type': 'inputbox', 'name': 'Input Box', 'icon': ''},
-            {'type': 'textarea', 'name': 'Text Box', 'icon': ''},
+            {'type': 'textbox', 'name': 'Text Box', 'icon': ''},
             {'type': 'dropdown', 'name': 'Dropdown', 'icon': ''},
             {'type': 'radio', 'name': 'Radio Button', 'icon': ''},
             {'type': 'checkbox', 'name': 'Checkbox', 'icon': ''},
@@ -484,8 +484,8 @@
 
         // data picker 초기화
         if (!isForm) {
-            dateTimePicker.initDatePicker('date-' + this.id, function () {
-                aliceDocument.checkValidate(document.getElementById('date-' + this.id));
+            dateTimePicker.initDatePicker('date-' + property.componentId, function () {
+                aliceDocument.checkValidate(document.getElementById('date-' + property.componentId));
             });
         }
     }
@@ -552,8 +552,8 @@
 
         // time picker 초기화
         if (!isForm) {
-            dateTimePicker.initTimePicker('time-' + this.id, function () {
-                aliceDocument.checkValidate(document.getElementById('time-' + this.id));
+            dateTimePicker.initTimePicker('time-' + property.componentId, function () {
+                aliceDocument.checkValidate(document.getElementById('time-' + property.componentId));
             });
         }
     }
@@ -621,8 +621,8 @@
 
         // datetime picker 초기화
         if (!isForm) {
-            dateTimePicker.initDateTimePicker('datetime-' + this.id, function () {
-                aliceDocument.checkValidate(document.getElementById('datetime-' + this.id));
+            dateTimePicker.initDateTimePicker('datetime-' + property.componentId, function () {
+                aliceDocument.checkValidate(document.getElementById('datetime-' + property.componentId));
             });
         }
     }
@@ -655,7 +655,7 @@
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" id="fileupload"${displayType === 'editableRequired' ? ' required' : ''} style="--data-column: ${property.display.column};">` +
                     `<div id='dropZoneFiles-${this.id}'></div>` +
-                    `<div class="dropbox" id='dropZoneUploadedFiles-${this.id}}'>${isForm ? `Drop files here to upload or <span>browse</span>` : ``}</div>` +
+                    `<div class="dropbox" id='dropZoneUploadedFiles-${this.id}'>${isForm ? `Drop files here to upload or <span>browse</span>` : ``}</div>` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -702,6 +702,9 @@
         } else {
             if (defaultValueArr[0] !== 'none') {
                 defaultCustomData = defaultValueArr[1] + '|' + defaultValueArr[2];
+                if (!isForm) { // 임시
+                    defaultValue = defaultValueArr[2];
+                }
                 if (defaultValueArr[0] === 'session') {
                     switch (defaultValueArr[1]) {
                         case 'userName':
@@ -712,6 +715,9 @@
                             break;
                     }
                     defaultCustomData += '|' + aliceForm.session[defaultValueArr[1]];
+                    if (!isForm) { // 임시
+                        defaultValue = aliceForm.session[defaultValueArr[1]];
+                    }
                 }
             }
         }
@@ -741,11 +747,10 @@
 
         // custom-code 초기화
         if (!isForm) {
-            const componentElement = parent.querySelector('.component');
-            const searchBtn = componentElement.querySelector('#codeBtn-' + this.id);
+            const searchBtn = parent.querySelector('#codeBtn-' + property.componentId);
             searchBtn.addEventListener('click', function (e) {
                 e.stopPropagation();
-                const customCodeTextElem = componentElement.querySelector('#custom-code-' + property.componentId);
+                const customCodeTextElem = parent.querySelector('#custom-code-' + property.componentId);
                 if (defaultCustomData !== '') {
                     let customDataValue = defaultCustomData.split('|');
                     customCodeTextElem.value = (customDataValue.length > 1) ? customDataValue[1] : '';
@@ -756,7 +761,7 @@
                 };
                 const itemName = 'alice_custom-codes-search-' + property.componentId;
                 sessionStorage.setItem(itemName, JSON.stringify(customCodeData));
-                let url = '/custom-codes/' + attr.display.customCode + '/search';
+                let url = '/custom-codes/' + property.display.customCode + '/search';
                 window.open(url, itemName, 'width=500, height=655');
             });
         }
@@ -790,7 +795,7 @@
             case 'inputbox':
                 componentObject =  new InputBox(componentProperty);
                 break;
-            case 'textarea':
+            case 'textbox':
                 componentObject =  new TextBox(componentProperty);
                 break;
             case 'dropdown':
