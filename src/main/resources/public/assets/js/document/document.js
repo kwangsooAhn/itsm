@@ -24,11 +24,11 @@
     function getComponentTarget(componentElement) {
         let componentTarget;
         switch (componentElement.getAttribute('data-type')) {
-            case 'textarea':
+            case 'textbox':
                 componentTarget = componentElement.querySelector('.editor-container');
                 if (!componentTarget) { componentTarget = componentElement.querySelector('textarea'); }
                 break;
-            case 'select':
+            case 'dropdown':
                 componentTarget = componentElement.querySelector('select');
                 break;
             case 'radio':
@@ -90,17 +90,17 @@
             const nodeValue = attribute.nodeValue;
             if (nodeValue !== '') {
                 switch (attribute.nodeName) {
-                    case 'min-length':
-                    case 'max-length':
+                    case 'minlength':
+                    case 'maxlength':
                         let length = 0;
                         if (element.classList.contains('editor-container')) { // editor
                             length = Quill.find(element).getLength() - 1;
                         } else {
                             length = element.value.length;
                         }
-                        if (attribute.nodeName === 'min-length' && length < Number(nodeValue)) {
+                        if (attribute.nodeName === 'minlength' && length < Number(nodeValue)) {
                             message = i18n.get('document.msg.lengthMin', nodeValue);
-                        } else if (attribute.nodeName === 'max-length' && length > Number(nodeValue)) {
+                        } else if (attribute.nodeName === 'maxlength' && length > Number(nodeValue)) {
                             message = i18n.get('document.msg.lengthMax', nodeValue);
                         }
                         break;
@@ -184,6 +184,7 @@
      */
     function checkRequired(element) {
         let message = null;
+        console.log(element);
         switch (element.id) {
             case 'editor':
                 let textEditor = Quill.find(element);
@@ -202,14 +203,13 @@
                     message = i18n.get('document.msg.requiredFileupload');
                 }
                 break;
-            case 'custom-code':
-                if (element.value === '') {
-                    message = i18n.get('common.msg.requiredSelect');
-                }
-                break;
             default :
                 if (element.value === '') {
-                    message = i18n.get('common.msg.requiredEnter');
+                    if (element.classList.contains('custom-code-text')) { // custom-code
+                        message = i18n.get('common.msg.requiredSelect');
+                    } else {
+                        message = i18n.get('common.msg.requiredEnter');
+                    }
                 }
                 break;
         }
@@ -289,8 +289,8 @@
         const componentElements = documentContainer.querySelectorAll('.component');
         for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
-            if (componentDataType === 'text' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
-                componentDataType === 'textarea' || componentDataType === 'select' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
+            if (componentDataType === 'inputbox' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
+                componentDataType === 'textbox' || componentDataType === 'dropdown' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
                 componentDataType === 'fileupload' || componentDataType === 'custom-code') {
                 let componentId = componentElements[eIndex].getAttribute('id');
                 let componentValue = '';
@@ -298,7 +298,7 @@
                 let componentChild = '';
 
                 switch (componentDataType) {
-                    case 'text':
+                    case 'inputbox':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         componentValue = componentChild.item(0).value;
                         break;
@@ -326,7 +326,7 @@
                             componentValue = i18n.systemDateTime(componentChild.item(0).value);
                         }
                         break;
-                    case 'textarea':
+                    case 'textbox':
                         componentChild = componentElements[eIndex].querySelector('.editor-container');
                         if (componentChild) {
                             let textEditor = Quill.find(componentChild);
@@ -336,7 +336,7 @@
                             componentValue = componentChild.item(0).value;
                         }
                         break;
-                    case 'select':
+                    case 'dropdown':
                         componentChild = componentElements[eIndex].getElementsByTagName('select');
                         componentValue = componentChild.item(0).options[componentChild.item(0).selectedIndex].value;
                         break;
@@ -480,16 +480,13 @@
             }
             for (let i = 0, len = data.form.components.length; i < len; i++) {
                 //데이터로 전달받은 컴포넌트 속성과 기본 속성을 merge한 후 컴포넌트 draw
-                let componentAttr = data.form.components[i];
-                let defaultComponentAttr = component.getPropertiesWithType(componentAttr.type);
-                let mergeComponentAttr = aliceJs.mergeObject(defaultComponentAttr, componentAttr);
-                data.form.components[i] = mergeComponentAttr;
-
-                component.draw(componentAttr.type, mergeComponentAttr);
+                let componentProp = data.form.components[i];
+                let componentObj = component.draw(componentProp.type, componentProp);
+                data.form.components[i] = componentObj.property;
             }
             //유효성 검증 추가
             if (!documentContainer.hasAttribute('data-readonly')) {
-                const checkComponents = ['text', 'textarea', 'select', 'radio', 'checkbox'];
+                const checkComponents = ['inputbox', 'textbox', 'dropdown', 'radio', 'checkbox'];
                 const componentElements = document.querySelectorAll('.component');
                 for (let i = 0; i < componentElements.length; i++) {
                     let componentChild = getComponentTarget(componentElements[i]);
