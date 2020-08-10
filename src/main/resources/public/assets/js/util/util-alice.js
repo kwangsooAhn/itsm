@@ -435,6 +435,47 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
 }
 
 /**
+ * 파라미터로 받은 날짜 데이터 기준으로 얼마의 시간이 지났는지 계산하여 반환한다. (ex. n분 전, n일 전...)
+ * @param date 입력받는 날짜
+ */
+function dateFromNow(date) {
+    let target_date = new Date(date);
+    let now = new Date();
+    let convert_date = '';
+    let minus;
+    if (now.getFullYear() > target_date.getFullYear()) {
+        minus = now.getFullYear() - target_date.getFullYear();
+        convert_date = minus + "년 전";
+    } else if (now.getMonth() > target_date.getMonth()) {
+        minus = now.getMonth() - target_date.getMonth();
+        convert_date = minus + "달 전";
+    } else if (now.getDate() > target_date.getDate()) {
+        minus = now.getDate() - target_date.getDate();
+        convert_date = minus + "일 전";
+    } else if (now.getDate() === target_date.getDate()) {
+        let nowTime = now.getTime();
+        let writeTime = target_date.getTime();
+        if (nowTime > writeTime) {
+            sec = parseInt(nowTime - writeTime) / 1000;
+            day = parseInt(sec / 60 / 60 / 24);
+            sec = (sec - (day * 60 * 60 * 24));
+            hour = parseInt(sec / 60 / 60);
+            sec = (sec - (hour * 60 * 60));
+            min = parseInt(sec / 60);
+            sec = parseInt(sec - (min * 60));
+            if (hour > 0) {
+                convert_date = hour + "시간 전";
+            } else if(min > 0) {
+                convert_date = min + "분 전";
+            } else if(sec > 0) {
+                convert_date = sec + "초 전";
+            }
+        }
+    }
+    return convert_date;
+}
+
+/**
  * open alert dialog.
  *
  * @param message message
