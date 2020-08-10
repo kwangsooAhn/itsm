@@ -1120,7 +1120,7 @@
             const componentTitleElem = componentElem.querySelector('.properties-title');
             if (!componentTitleElem.classList.contains('on')) {
                 const componentTitleData = component.getName(componentData.type);
-                componentTitleElem.insertAdjacentHTML('beforeend', `<h2>${componentTitleData.name}</h2>`);
+                componentTitleElem.insertAdjacentHTML('beforeend', `<h3>${componentTitleData.name}</h3>`);
                 componentTitleElem.classList.add('on');
             }
         }

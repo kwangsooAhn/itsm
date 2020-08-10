@@ -6,79 +6,231 @@
           box-sizing: border-box;
 }
 
+body, h1, h2, h3, h4, h5, input, textarea, select {
+    font-family: $font-family;
+}
+
+h1 {
+    font-size: 36px;
+    line-height: 54px;
+    font-weight: 700; // bold
+    color: $light-black;
+}
+
+h2 {
+    font-size: 24px;
+    line-height: 36px;
+    font-weight: 500; // medium
+    color: $light-black;
+}
+
+h3 {
+    font-size: 18px;
+    line-height: 27px;
+    font-weight: 500; // medium
+    color: $light-black;
+}
+
+h4 {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400; // regular
+    color: $dark-gray;
+}
+
+h5 {
+    font-size: 14px;
+    line-height: 18px;
+    font-weight: 400; // regular
+    color: $warm-gray;
+}
+
+input, textarea, select {
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400; // regular
+    color: $dark-gray;
+    &::placeholder {
+        color: gray;
+    }
+}
+
 .container {
     width: 100vw;
     height: 100vh;
+    background-color: $container-background-color;
+
+    // 포커스가 잡힐 경우 테두리 삭제
+    & *:focus { outline: none !important; }
+    .toolbar {
+        width: 100vw;
+    }
+
+    .contents {
+        display: flex;
+        left: 0;
+        float: left;
+        // 실제 컴포넌트들이 그려지는 영역
+        .drawing-board {
+            display: flex; 
+            flex: 1 1 auto;
+            flex-direction: column;
+            align-items: center;
+            background-color: $drawing-board-background-color;
+            border: $drawing-board-border;
+            box-shadow: $drawing-board-box-shadow; 
+            overflow-y: auto;
+            @include scrollbar-hidden;
+        }
+    }
+
+    .aside {
+        display: flex;
+        flex: 0 0 auto;
+        flex-direction: column;
+        float: left;
+        right: 0;
+
+        .drawing-board {
+            display: flex; 
+            flex: 1 1 auto;
+            flex-direction: column;
+            align-items: center;
+            background-color: $drawing-board-background-color;
+            border: $drawing-board-border;
+            box-shadow: $drawing-board-box-shadow; 
+            overflow-y: auto;
+            @include scrollbar-hidden;
+        }
+    }
+
     // 폼 양식
     &.form {
         min-width: $form-container-width;
         min-height: $form-container-height;
-    }
-    // TODO: 신청서
-    &.document {
-        min-width: $document-container-width;
-        min-height: $document-container-height;
-    }
-}
 
-.content {
-    display: flex;
-    justify-content: center;
-    left: 0;
-    background-color: $container-background-color;
-    float: left;
-    // 실제 컴포넌트들이 그려지는 영역
-    .drawing-board {
-        display: flex; 
-        flex: 1 1 auto;
-        flex-direction: column;
-        align-items: center;
-        background-color: $drawing-board-background-color;
-        box-shadow: 0 0 0.625rem 0.0625rem rgba(222,233,247,0.6);// 0px 0px 10px 1px rgba(222,233,247,0.6); 
-        overflow: auto;
-        @include scrollbar-hidden;
-    }
-    // 포커스가 잡힐 경우 테두리 삭제
-    .drawing-board *:focus { outline: none !important; }
+        .contents {
+            justify-content: center;
+            top: $form-toolbar-height;
+            width: calc(100vw - #{$form-aside-width});
+            height: calc(100vh - #{$form-toolbar-height});
+            min-width: calc(100vw - #{$form-aside-width});
+            min-height: calc(100vh - #{$form-toolbar-height});
 
-     // 폼 양식
-     &.form {
-        top: $toolbar-height;
-        width: calc(100vw - #{$form-aside-width});
-        height: calc(100vh - #{$toolbar-height});
-        min-width: calc(100vw - #{$form-aside-width});
-        min-height: calc(100vh - #{$toolbar-height});
-
-        .drawing-board {
-            width: $form-drawing-board-width;
-            max-width: $form-drawing-board-width;
-            margin-top: $form-drawing-board-top-margin;
-            padding: 6.25rem 4.063rem 0 4.063rem; // 100px 65px 0px 65px;
-            &[data-readonly=true] { // 폼 양식 화면에서 수정을 막음
-                input[type=text],
-                textarea,
-                button,
-                .ql-toolbar { pointer-events: none; }
+            .drawing-board {
+                width: $form-drawing-board-width;
+                max-width: $form-drawing-board-width;
+                margin-top: $form-drawing-board-top-margin;
+                padding: 6.25rem 4.063rem 0 4.063rem; // 100px 65px 0px 65px;
+                &[data-readonly=true] { // 폼 양식 화면에서 수정을 막음
+                    input[type=text],
+                    textarea,
+                    button,
+                    .ql-toolbar { pointer-events: none; }
+                    .component .move-handler {
+                        display: inherit;
+                    }
+                }
             }
         }
-    }
-}
 
-.aside {
-    display: flex;
-    flex: 0 0 auto;
-    flex-direction: column;
-    float: left;
-    right: 0;
-    background-color: $aside-background-color;
-    box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(222,233,247,0.6);// -1px 15px 7px 0px rgba(222,233,247,0.6);
-    overflow: auto;
-    @include scrollbar-hidden;
-    // 폼 양식
-    &.form {
-        top: $toolbar-height;
-        width: $form-aside-width;
-        height: calc(100vh - #{$toolbar-height});
-        min-height: calc(100vh - #{$toolbar-height});
+        .aside {
+            top: $form-toolbar-height;
+            width: $form-aside-width;
+            height: calc(100vh - #{$form-toolbar-height});
+            min-height: calc(100vh - #{$form-toolbar-height});
+            background-color: $form-aside-background-color;
+            border-right: $form-aside-border;
+            box-shadow: $form-aside-box-shadow;
+            overflow-y: auto;
+            @include scrollbar-hidden;
+        }
+    }
+    
+    // 신청서
+    &.document {
+        display: flex;
+        justify-content: center;
+        .contents {
+            flex-direction: column;
+            height: 100vh;
+            min-height: 100vh;
+            .button-board {
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+                padding-bottom: 15px;
+                width: $document-content-drawing-board-width;
+                max-width: $document-content-drawing-board-width;
+                height: $document-button-board-height;
+                > .button-group {
+                    display: inline-block;
+                    button {
+                        margin-right: 10px;
+                    }
+                }
+    
+                button {
+                    width: 80px;     // 80px
+                    height:40px;    // 40px
+                    border: none;
+                    border-radius: 3px;
+                    background-color: $default-gray;
+                    color: $light-black;
+                    &:hover {
+                        background-color: $line-gray;
+                    }
+                }
+            }
+            .drawing-board {
+                width: $document-content-drawing-board-width;
+                max-width: $document-content-drawing-board-width;
+                height: calc(100vh - #{$document-button-board-height});
+                min-height: calc(100vh - #{$document-button-board-height});
+                padding: 6.25rem 4.063rem 0 4.063rem; // 100px 65px 0px 65px;
+            }
+        }
+
+        .aside {
+            margin-top: $document-button-board-height;
+            height: calc(100vh - #{$document-button-board-height});
+            min-height: calc(100vh - #{$document-button-board-height});
+            .drawing-board {
+                width: $document-aside-drawing-board-width;
+                max-width: $document-aside-drawing-board-width;
+                margin-left: 10px;
+                padding: 50px 60px 0 60px; // 50px 60px 0 60px
+
+                ul.menu {
+                    display: table-row;
+                    border-bottom: solid 0.0625rem $line-gray;
+                    margin-bottom: 30px; // 30px
+                    li.menu-item {
+                        display: table-cell;
+                        vertical-align: middle;
+                        text-align: center;
+                        width: 100px; // 100px
+                        height: 40px; // 40px
+                        font-size: 16px; // 16px
+                        font-weight: 500;  // medium
+                        color: $blue-gray;
+                        border-bottom: solid 4px $white;
+                        cursor: pointer;
+
+                        &.selected {
+                            color: $light-black;
+                            border-bottom: solid 4px $point-blue;
+                        }
+                    }
+                    div.menu-content {
+                        display: none;
+
+                        &.selected {
+                            display: inherit;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

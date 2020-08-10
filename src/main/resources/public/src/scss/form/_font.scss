@@ -1,25 +1,42 @@
 /* Form Designer Default Font Setting */
 @font-face {
-    font-family: "Noto Sans";
+    font-family: "Noto Sans KR";
+    src: url(font/NotoSansKR-Thin.woff) format('woff');
+    font-style: normal;
+    font-weight: 100;
+
+}
+@font-face {
+    font-family: "Noto Sans KR";
+    src: url(font/NotoSansKR-Light.woff) format('woff');
+    font-style: normal;
+    font-weight: 300;
+}
+
+@font-face {
+    font-family: "Noto Sans KR";
     src: url(font/NotoSansKR-Regular.woff) format('woff');
-    font-weight: normal;
+    font-style: normal;
+    font-weight: 400;
 }
+
 @font-face {
-    font-family: "Noto Sans";
-    src: url(font/NotoSansKR-Bold.woff) format('woff');
-    font-weight: bold;
-}
-@font-face {
-    font-family: "Noto Sans";
+    font-family: "Noto Sans KR";
     src: url(font/NotoSansKR-Medium.woff) format('woff');
+    font-style: normal;
     font-weight: 500;
 }
 
-body, h1, h2, h3, h4, h5, h6, input, textarea, select {
-    color: $form-font-color;
-    font: {
-        family: $form-font-family;
-        size: $form-font-size;
-        weight: $form-font-weight;
-    }
+@font-face {
+    font-family: "Noto Sans KR";
+    src: url(font/NotoSansKR-Bold.woff) format('woff');
+    font-style: normal;
+    font-weight: 700;
+}
+
+@font-face {
+    font-family: "Noto Sans KR";
+    src: url(font/NotoSansKR-Black.woff) format('woff');
+    font-style: normal;
+    font-weight: 900;
 }

@@ -6,8 +6,10 @@
     'use strict';
 
     let documentContainer = null;
+    let menuContainer = null;
     let buttonContainer = null;
     let commentContainer = null;
+    let isDocument = true; // 신청서 vs 처리할 문서
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
     const phoneRegular = /^([+]?[0-9])([-]?[0-9])*$/;
@@ -222,9 +224,6 @@
      * @param  buttonData : button 정보 값
      */
     function addButton(buttonData) {
-        const buttonEle = document.createElement('div');
-        buttonEle.style.margin = '10px';
-        buttonEle.style.textAlign = 'center';
         if (buttonData !== undefined && buttonData !== '') {
             buttonData.forEach(function(element) {
                 if (element.name !== '') {
@@ -233,18 +232,24 @@
                     buttonProcessEle.innerText = element.name;
                     buttonProcessEle.addEventListener('click', function () {
                        if (element.value === 'close') {
-                           window.close();
+                           if (opener !== null && opener !== undefined) {
+                               window.close();
+                           } else {
+                               if (isDocument) { // 신청서
+                                   window.open('/documents/search', '_self');
+                               } else { // 문서함
+                                   window.open('/tokens/search', '_self');
+                               }
+                           }
                        } else {
                            aliceDocument.save(element.value);
                        }
                     });
-                    buttonEle.appendChild(buttonProcessEle);
+                    if (buttonContainer !== null) {
+                        buttonContainer.appendChild(buttonProcessEle);
+                    }
                 }
             });
-        }
-
-        if (buttonContainer !== null) {
-            buttonContainer.appendChild(buttonEle);
         }
     }
 
@@ -447,8 +452,16 @@
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(actionMsg, function () {
-                        opener.location.reload();
-                        window.close();
+                        if (opener !== null && opener !== undefined) {
+                             opener.location.reload();
+                             window.close();
+                        } else {
+                            if (isDocument) { // 신청서
+                                window.open('/documents/search', '_self');
+                            } else { // 문서함
+                                window.open('/tokens/search', '_self');
+                            }
+                        }
                     });
                 } else {
                     aliceJs.alert(i18n.get('common.msg.fail'));
@@ -468,7 +481,7 @@
             data = JSON.parse(data);
         }
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
-        documentContainer = document.getElementById('document-container');
+        documentContainer = document.getElementById('document-panel');
         component.init(documentContainer);
 
         buttonContainer = document.getElementById('button-container');
@@ -523,6 +536,7 @@
 
         if (data.token !== undefined) {
             addIdComponent('tokenId', data.token.tokenId);
+            isDocument = false;
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
@@ -614,6 +628,33 @@
     }
 
     /**
+     * 탭 클릭시 일치하는 div 표시
+     * @param e 이벤트
+     */
+
+    function toggleTabClickHandler(e) {
+        const currentLi = e.target;
+        const isSelected = currentLi.classList.contains('selected');
+        if (!isSelected) {
+            const prevLi = currentLi.parentNode.querySelector('.selected');
+            if (prevLi) {
+                prevLi.classList.remove('selected');
+                const prevLiId = prevLi.getAttribute('data-tab');
+                const prevTab = menuContainer.querySelector('#' + prevLiId);
+                if (prevTab.classList.contains('selected')) {
+                    prevTab.classList.remove('selected');
+                }
+            }
+            const currentLiId = currentLi.getAttribute('data-tab');
+            currentLi.classList.add('selected');
+            const currentTab = menuContainer.querySelector('#' + currentLiId);
+            if (!currentTab.classList.contains('selected')) {
+                currentTab.classList.add('selected');
+            }
+        }
+    }
+
+    /**
      * init document.
      *
      * @param documentId 문서 id
@@ -651,12 +692,29 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
+                console.log(responseObject);
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
                 drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
         });
+
+        menuContainer = document.getElementById('menu-panel');
+
+        // add history.
+
+        // add related instances
+
+        // add comments
+
+        // add tags
+
+        // tab event
+        const toggleTabs = menuContainer.querySelector('ul.menu').children;
+        for (let i = 0, len = toggleTabs.length; i < len; i++) {
+            toggleTabs[i].addEventListener('click', toggleTabClickHandler, false);
+        }
     }
 
     /**

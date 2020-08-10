@@ -10,7 +10,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-<div class="container">
+<div class="container form">
     <div class="toolbar">
         <span class="logo"></span>
         <span class="name">Form Designer</span>
@@ -54,10 +54,10 @@
         </th:block>
         <span class="form-name"></span>
     </div>
-    <div class="content form">
+    <div class="contents">
         <div class="drawing-board" id="form-panel"></div>
     </div>
-    <div class="aside form" id="properties-panel"></div>
+    <div class="aside" id="properties-panel"></div>
 </div>
 <div class="context-menu" id="context-menu">
     <ul class="menu">
@@ -187,7 +187,7 @@
         </div>
         <div class="property-group" id="option">
             <h3>
-                <label th:text="#{form.properties.display}"></label>
+                <label th:text="#{form.properties.option}"></label>
                 <div class="property-group-option">
                     <button class="minus"></button>
                     <button class="plus"></button>
@@ -203,7 +203,7 @@
 <!-- 폼 properties 템플릿 -->
 <template id="form-template">
     <div class="properties-title on">
-        <h2>Form</h2>
+        <h3>Form</h3>
     </div>
     <div class="form-properties">
         <div class="property-group on">
