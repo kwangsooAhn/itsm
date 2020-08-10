@@ -149,14 +149,13 @@
                 {"id": "script.type.external.java", "name": "[외부프로그램] Java 호출"}
               ]
             },
-            {"id": "target-mapping-id", "name": "Target Mapping ID", "type": "inputbox", "default": "", "required": "Y"},
-            {"id": "source-mapping-id", "name": "Source Mapping ID", "type": "inputbox", "default": "", "required": "Y"}
+            {"id": "script-detail", "name": "", "type": "inputbox", "default": "", "display": "none"}
           ]
         },
         {
           "title": "Action",
           "items": [
-            {"id": "script-value", "name": "", "type": "inputbox", "default": "", "display": "none"}
+            {"id": "script-action", "name": "", "type": "inputbox", "default": "", "display": "none"}
           ]
         }
       ]

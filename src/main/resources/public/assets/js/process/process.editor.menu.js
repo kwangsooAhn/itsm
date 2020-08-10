@@ -1021,50 +1021,129 @@
      * Script Type 에 따라 속성 항목을 변경한다.
      *
      * @param scriptTypeObject Script Type object
-     * @param value script-value
+     * @param value script-action
      */
     function changePropertyScriptType(scriptTypeObject, value) {
-        let scriptObject = document.getElementById('script-value');
-        if (scriptObject.parentNode.querySelector('.script-container') !== null) {
-            scriptObject.parentNode.querySelector('.script-container').remove();
+        let scriptObject = document.getElementById('script-action');
+        if (scriptObject.parentNode.parentNode.querySelector('.script-detail-container') !== null) {
+            scriptObject.parentNode.parentNode.querySelector('.script-detail-container').remove();
+        }
+        if (scriptObject.parentNode.querySelector('.script-action-container') !== null) {
+            scriptObject.parentNode.querySelector('.script-action-container').remove();
         }
         scriptObject.value = '';
-        setMultipleScriptData(scriptObject, scriptTypeObject.value, value);
+        setMultipleScriptDetail(scriptObject, scriptTypeObject.value, value);
+        setMultipleScriptAction(scriptObject, scriptTypeObject.value, value);
     }
 
     /**
-     * Sript Type의 하위 속성을 생성한다.
+     *
+     * @param inputObject 값을 넣는 input object
+     * @param scriptType 선택된 Script Type
+     * @param valueAttr 선택된 값이 있을 경우 그 값을 전달한다.
+     */
+    function setMultipleScriptDetail(inputObject, scriptType, valueAttr) {
+        inputObject.style.display = 'none';
+        inputObject.classList.add('multiple');
+        if (scriptType === 'script.type.document.attachFile') {
+            //script 하단에 붙는 내용
+            let subContainer = document.createElement('div');
+            subContainer.className = 'script-detail-container';
+
+            let targetMappingProperties = document.createElement('div');
+            targetMappingProperties.className = 'properties';
+
+            let targetMappingRequiredLabel = document.createElement('label');
+            targetMappingRequiredLabel.className = 'required';
+            targetMappingRequiredLabel.textContent = '*';
+            targetMappingRequiredLabel.htmlFor = 'target-mapping-id';
+
+            let targetMappingLabel = document.createElement('label');
+            targetMappingLabel.textContent = 'Target Mapping ID'
+
+            let targetMappingInput = document.createElement('input');
+            targetMappingInput.id = 'target-mapping-id';
+            targetMappingInput.name = 'target-mapping-id';
+
+            targetMappingProperties.appendChild(targetMappingRequiredLabel);
+            targetMappingProperties.appendChild(targetMappingLabel);
+            targetMappingProperties.appendChild(targetMappingInput);
+
+            let sourceMappingProperties = document.createElement('div');
+            sourceMappingProperties.className = 'properties';
+
+            let sourceMappingRequiredLabel = document.createElement('label');
+            sourceMappingRequiredLabel.className = 'required';
+            sourceMappingRequiredLabel.textContent = '*';
+            sourceMappingRequiredLabel.htmlFor = 'source-mapping-id';
+
+            let sourceMappingLabel = document.createElement('label');
+            sourceMappingLabel.textContent = 'Source Mapping ID'
+
+            let sourceMappingInput = document.createElement('input');
+            sourceMappingInput.id = 'source-mapping-id';
+            sourceMappingInput.name = 'source-mapping-id';
+
+            sourceMappingProperties.appendChild(sourceMappingRequiredLabel);
+            sourceMappingProperties.appendChild(sourceMappingLabel);
+            sourceMappingProperties.appendChild(sourceMappingInput);
+
+            let keyupHandler = function() {
+                inputObject.value = targetMappingInput.value + '|' + sourceMappingInput.value;
+                const evt = document.createEvent('HTMLEvents');
+                evt.initEvent('change', false, true);
+                inputObject.dispatchEvent(evt);
+            };
+
+            targetMappingInput.addEventListener('keyup', keyupHandler);
+            sourceMappingInput.addEventListener('keyup', keyupHandler);
+
+            subContainer.appendChild(targetMappingProperties);
+            subContainer.appendChild(sourceMappingProperties);
+
+            inputObject.parentNode.parentNode.querySelector('#script-type').parentNode.after(subContainer);
+
+            if (typeof valueAttr !== 'undefined' && valueAttr !== '') {
+                let data = valueAttr[0].split('\|');
+                targetMappingInput.value = data[0];
+                sourceMappingInput.value = data[1];
+            }
+        }
+    }
+
+    /**
+     * Script Type의 하위 속성을 생성한다.
      *
      * @param inputObject 값을 넣는 input object(선택된 데이터가 'condition|fileName'의 콤마 구분으로 등록된다.)
      * @param scriptType 선택된 Script Type
      * @param valueAttr 선택된 값이 있을 경우 그 값을 전달한다.
      */
-    function setMultipleScriptData(inputObject, scriptType, valueAttr) {
+    function setMultipleScriptAction(inputObject, scriptType, valueAttr) {
         inputObject.style.display = 'none';
         inputObject.classList.add('multiple');
 
         if (scriptType === 'script.type.document.attachFile') {
-            let detailContainer = document.createElement('div');
-            detailContainer.className = 'script-container';
+            let actionContainer = document.createElement('div');
+            actionContainer.className = 'script-action-container';
 
             // condition 생성
             let conditionLabel = document.createElement('label');
             conditionLabel.textContent = 'Condition';
-            detailContainer.appendChild(conditionLabel);
+            actionContainer.appendChild(conditionLabel);
 
             let conditionInput = document.createElement('input');
-            detailContainer.appendChild(conditionInput);
+            actionContainer.appendChild(conditionInput);
 
             // file 생성
             let fileLabel = document.createElement('label');
             fileLabel.textContent = 'File';
-            detailContainer.appendChild(fileLabel);
+            actionContainer.appendChild(fileLabel);
 
             let fileInput = document.createElement('input');
             fileInput.id = 'script-file';
             fileInput.className = 'file';
             fileInput.readOnly = true;
-            detailContainer.appendChild(fileInput);
+            actionContainer.appendChild(fileInput);
 
             let fileBtnContainer = document.createElement('div');
             fileBtnContainer.className = 'file-tooltip';
@@ -1074,7 +1153,7 @@
                 window.open('/processes/attachFile/view?callback=' + fileInput.id, 'fileUploadPop', 'width=1200, height=700');
             });
             fileBtnContainer.appendChild(fileBtn);
-            detailContainer.appendChild(fileBtnContainer);
+            actionContainer.appendChild(fileBtnContainer);
 
             // button
             let btnContainer = document.createElement('div');
@@ -1153,7 +1232,7 @@
                 saveData();
             }
             btnContainer.appendChild(btnAdd);
-            detailContainer.appendChild(btnContainer);
+            actionContainer.appendChild(btnContainer);
 
             // table
             let dataTable = document.createElement('table');
@@ -1172,20 +1251,18 @@
             dataTable.appendChild(thead);
             let tbody = document.createElement('tbody');
             dataTable.appendChild(tbody);
-            detailContainer.appendChild(dataTable);
+            actionContainer.appendChild(dataTable);
 
-            inputObject.parentNode.appendChild(detailContainer);
+            inputObject.parentNode.appendChild(actionContainer);
 
             if (typeof valueAttr !== 'undefined' && valueAttr !== '') {
                 for (let i = 0, len = valueAttr.length; i < len; i++) {
-                    if (valueAttr[i] !== ''){
+                    if (valueAttr[i] !== '') {
                         let rowData = valueAttr[i].split('\|');
                         addDataRow(rowData[0], rowData[1]);
                     }
                 }
             }
-        } else {
-            console.log('no data');
         }
     }
 
@@ -1438,8 +1515,12 @@
                         case 'target-document-list':
                             setMultipleDatatable(elementObject, documents, {value: 'documentId', text: 'documentName'}, elemData[property.id]);
                             break;
-                        case 'script-value' :
-                            setMultipleScriptData(elementObject, elemData['script-type'], elemData[property.id]);
+                        case 'script-detail' :
+                            setMultipleScriptDetail(elementObject, elemData['script-type'], elemData[property.id]);
+                            break;
+                        case 'script-action' :
+                            setMultipleScriptAction(elementObject, elemData['script-type'], elemData[property.id]);
+                            break;
                     }
                 }
             }

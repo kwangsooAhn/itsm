@@ -6,6 +6,8 @@ import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import java.io.File
 
 class WfScriptTask(
@@ -50,17 +52,24 @@ class WfScriptTask(
 
         var targetMappingId = ""
         var sourceMappingId = ""
-        val scriptValueList: MutableList<String> = mutableListOf()
-        element.elementDataEntities.forEach { elementData ->
-            if (elementData.attributeId == WfElementConstants.AttributeId.TARGET_MAPPING_ID.value) {
-                targetMappingId = elementData.attributeValue
-            }
-            if (elementData.attributeId == WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value) {
-                sourceMappingId = elementData.attributeValue
-            }
-            // 테이블로 변경시 수정 필요
-            if (elementData.attributeId == WfElementConstants.AttributeId.SCRIPT_VALUE.value) {
-                scriptValueList.add(elementData.attributeValue)
+        val scriptActionList: MutableList<Map<String, Any>> = mutableListOf()
+        element.elementScriptDataEntities.forEach { scriptData ->
+            if (!scriptData.scriptValue.isNullOrEmpty()) {
+                val scriptObject = Gson().fromJson(scriptData.scriptValue, JsonObject::class.java)
+                targetMappingId = scriptObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value).asString
+                sourceMappingId = scriptObject.get(WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value).asString
+                val actionArray = scriptObject.get(WfElementConstants.AttributeId.ACTION.value).asJsonArray
+                actionArray.forEach { action ->
+                    val map = HashMap<String, Any>()
+                    val condition = action.asJsonObject.get(WfElementConstants.AttributeId.CONDITION.value).asString
+                    val conditionArray = condition.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
+                    if (conditionArray.size == 2) {
+                        map["operator"] = conditionArray[0]
+                        map["value"] = conditionArray[1]
+                    }
+                    map["file"] = action.asJsonObject.get(WfElementConstants.AttributeId.FILE.value).asString
+                    scriptActionList.add(map)
+                }
             }
         }
 
@@ -71,40 +80,36 @@ class WfScriptTask(
         val componentValue = wfTokenManagerService.getComponentValue(createTokenDto.tokenId, sourceComponentId)
 
         var attachFileName = ""
-        scriptValueList.forEach { scriptValue ->
-            val scriptValueArray = scriptValue.split("|")
-            val conditionArray = scriptValueArray[0].replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
-            if (conditionArray.size == 2) {
-                when (conditionArray[0]) {
-                    "=" -> {
-                        if (componentValue == conditionArray[1]) {
-                            attachFileName = scriptValueArray[1]
-                            return@forEach
-                        }
+        scriptActionList.forEach { action ->
+            when (action["operator"]) {
+                "=" -> {
+                    if (componentValue == action["value"]) {
+                        attachFileName = (action["file"] ?: "") as String
+                        return@forEach
                     }
-                    "<=" -> {
-                        if (componentValue.toInt() <= conditionArray[1].toInt()) {
-                            attachFileName = scriptValueArray[1]
-                            return@forEach
-                        }
+                }
+                "<=" -> {
+                    if (componentValue.toInt() <= (action["value"] ?: 0) as Int) {
+                        attachFileName = (action["file"] ?: "") as String
+                        return@forEach
                     }
-                    "<" -> {
-                        if (componentValue.toInt() < conditionArray[1].toInt()) {
-                            attachFileName = scriptValueArray[1]
-                            return@forEach
-                        }
+                }
+                "<" -> {
+                    if (componentValue.toInt() < (action["value"] ?: 0) as Int) {
+                        attachFileName = (action["file"] ?: "") as String
+                        return@forEach
                     }
-                    ">=" -> {
-                        if (componentValue.toInt() >= conditionArray[1].toInt()) {
-                            attachFileName = scriptValueArray[1]
-                            return@forEach
-                        }
+                }
+                ">=" -> {
+                    if (componentValue.toInt() >= (action["value"] ?: 0) as Int) {
+                        attachFileName = (action["file"] ?: "") as String
+                        return@forEach
                     }
-                    ">" -> {
-                        if (componentValue.toInt() > conditionArray[1].toInt()) {
-                            attachFileName = scriptValueArray[1]
-                            return@forEach
-                        }
+                }
+                ">" -> {
+                    if (componentValue.toInt() > (action["value"] ?: 0) as Int) {
+                        attachFileName = (action["file"] ?: "") as String
+                        return@forEach
                     }
                 }
             }

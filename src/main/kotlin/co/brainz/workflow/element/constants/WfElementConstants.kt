@@ -74,10 +74,14 @@ object WfElementConstants {
         NAME("name"),
         ID("id"),
         IS_DEFAULT("is-default"),
-        SCRIPT_VALUE("script-value"),
         SCRIPT_TYPE("script-type"),
         TARGET_MAPPING_ID("target-mapping-id"),
-        SOURCE_MAPPING_ID("source-mapping-id")
+        SOURCE_MAPPING_ID("source-mapping-id"),
+        SCRIPT_DETAIL("script-detail"),
+        SCRIPT_ACTION("script-action"),
+        CONDITION("condition"),
+        FILE("file"),
+        ACTION("action")
     }
 
     /**
