@@ -198,7 +198,7 @@
             }
         ]
     },
-    "textarea": {
+    "textbox": {
         "dataAttribute": [
             {
                 "id": "mappingId",

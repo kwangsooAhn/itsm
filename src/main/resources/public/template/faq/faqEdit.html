@@ -78,7 +78,11 @@
                 params: JSON.stringify(formObj),
                 contentType: 'application/json',
                 callbackFunc: function () {
-                    aliceJs.alertSuccess([[#{common.msg.save}]], function () {
+                    let resultMsg = [[#{common.msg.save}]];
+                    if (method.toLowerCase() === 'delete') {
+                        resultMsg = [[#{common.msg.delete}]];
+                    }
+                    aliceJs.alertSuccess(resultMsg, function () {
                         window.location.href = '/faqs/search';
                     });
                 }
@@ -100,7 +104,7 @@
         }
 
         window.onload = function () {
-            if ([[${faq?.faqId}]] === '') {
+            if ([[${faq?.faqId}]] === null) {
                 document.getElementById('btnRegist').addEventListener('click', function () {
                     restSubmit('post', [[@{/rest/faqs}]]);
                 });
@@ -112,7 +116,7 @@
                     restSubmit('delete', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
                 });
             }
-            fileUploader.init({extra: {formId: 'faqForm', ownId: [[${faq?.faqId}]]}});
+            fileUploader.init({extra: {ownId: [[${faq?.faqId}]]}});
         };
         /*]]>*/
     </script>
