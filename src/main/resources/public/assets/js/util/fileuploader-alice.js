@@ -308,6 +308,20 @@ const fileUploader = (function () {
 
                     this.on("addedfile", function (file) {
                         document.querySelector('.dz-message').style.display = 'none';
+                        var fileName = file.name;
+                        var fileNameLength = file.name.length;
+                        var lastDot = fileName.lastIndexOf('.');
+                        var fileNameExtension = fileName.substring(lastDot+1, fileNameLength).toUpperCase();
+                        var extensionValueArr = [];
+
+                        for (var i = 0; i < fileNameExtensionList.length; i++)  {
+                            extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
+                        }
+
+                        if (!(extensionValueArr.includes(fileNameExtension))) {
+                            this.removeFile(file);
+                            aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
+                        }
                     });
 
                     this.on("removedfile", function (file) {
@@ -326,21 +340,6 @@ const fileUploader = (function () {
                     });
 
                     this.on("success", function (file, response) {
-                        const fileName = file.name;
-                        const fileNameLength = file.name.length;
-                        const lastDot = fileName.lastIndexOf('.');
-                        const fileNameExtension = fileName.substring(lastDot + 1, fileNameLength).toUpperCase();
-                        const array = [];
-
-                        for (let i = 0; i < fileNameExtensionList.length; i++) {
-                            array[i] = fileNameExtensionList[i].fileNameExtension;
-                        }
-
-                        if (!(array.includes(fileNameExtension))) {
-                            this.removeFile(file);
-                            aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'))
-                        }
-
                         const seq = document.createElement('input');
                         seq.setAttribute('type', 'hidden');
                         seq.setAttribute('name', fileAttrName);

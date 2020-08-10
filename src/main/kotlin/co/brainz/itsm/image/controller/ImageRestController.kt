@@ -49,4 +49,12 @@ class ImageRestController(private val fileService: AliceFileService) {
     fun getFile(@PathVariable name: String): AliceImageFileDto? {
         return fileService.getImageFile(name)
     }
+
+    /**
+     * 이미지 파일 전체 목록 가져오기.
+     */
+    @GetMapping("/list")
+    fun getImageFileList(): List<AliceImageFileDto> {
+        return fileService.getImageFileList()
+    }
 }

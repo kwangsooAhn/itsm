@@ -563,7 +563,7 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
         type: 'gmodal-icon-confirm',
         buttons: [
             {
-                content: 'Cancel',
+                content: i18n.get('common.btn.cancel'),
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -572,7 +572,7 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                     modal.hide();
                 }
             },{
-                content: 'OK',
+                content: i18n.get('common.btn.check'),
                 classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
