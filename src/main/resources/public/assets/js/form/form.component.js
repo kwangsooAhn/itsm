@@ -258,7 +258,7 @@
                     `<span class="required">*</span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
-                `<div class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
+                `<div id="radio" class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
                 `${displayType === 'editableRequired' ? 'required' : ''}>${optionsTemplate}` +
                 `</div>` +
             `</div>` +
@@ -309,7 +309,7 @@
                         `<span class="required">*</span>` +
                     `</div>` +
                     `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
-                    `<div class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
+                    `<div id="chkbox" class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
                     `${displayType === 'editableRequired' ? 'required' : ''}>${optionsTemplate}` +
                     `</div>` +
                 `</div>` +
@@ -368,7 +368,7 @@
             `<div class="move-handler"></div>` +
                 `<div class="field-group">` +
                 `<div class="field-content ${property.display.align}">` +
-                    `<img class="field-img" src="" alt="" data-path="${imageSrc}" width="${property.display.width}" height="${property.display.height}">` +
+                    `<img class="field-img" id="imagebox-${this.id}" src="" alt="" data-path="${imageSrc}" width="${property.display.width}" height="${property.display.height}">` +
                     `<div class="img-placeholder"><img/><p>Select Your Image</p></div>` +
                 `</div>` +
             `</div>` +
@@ -386,12 +386,12 @@
                     const responseText = xhr.responseText;
                     if (responseText !== '') {
                         const image = JSON.parse(responseText);
-                        parent.querySelector('.field-img').src = 'data:image/' + image.extension + ';base64,' + image.data;
+                        parent.querySelector('#imagebox-' + property.componentId).src = 'data:image/' + image.extension + ';base64,' + image.data;
                     }
                 }
             });
         } else {
-            parent.querySelector('.field-img').src = imageSrc;
+            parent.querySelector('#imagebox-' + property.componentId).src = imageSrc;
         }
     }
 
@@ -735,7 +735,7 @@
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content custom-code" style="--data-column: ${property.display.column};">` +
-                    `<input type="text" id="custom-code-${this.id}" custom-data="${defaultCustomData}" value="${defaultValue}"` +
+                    `<input class="custom-code-text" type="text" id="custom-code-${this.id}" custom-data="${defaultCustomData}" value="${defaultValue}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''} readonly />` +
                     `<input type="button" id="codeBtn-${this.id}" value="${property.display.buttonText}">` +
                 `</div>` +

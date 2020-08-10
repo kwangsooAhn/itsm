@@ -1235,11 +1235,17 @@
                                         fieldTemplate =
                                             `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
                                             `<div class="property-field-image">` +
-                                                `<input type="text" class="property-value" value="${fieldProp.value}">` +
-                                                `<button type="button" onclick='window.open("/forms/imageUpload/${selectedComponentIds[0]}/view", "imageUploadPop", "width=1200, height=700");'></button>` +
+                                                `<input type="text" class="property-value" value="${fieldProp.value}" id="path-${selectedComponentIds[0]}">` +
+                                                `<button type="button" id="imageUploadPop"></button>` +
                                             `</div>`;
-
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
+
+                                        fieldGroupElem.querySelector('#imageUploadPop').addEventListener('click', function(e) {
+                                            thumbnail.init({
+                                                targetId: 'path-' + selectedComponentIds[0], 
+                                                selectedPath: fieldGroupElem.querySelector('#path-' + selectedComponentIds[0]).value
+                                            });
+                                        });
                                         break;
                                     case 'rgb':
                                     case 'rgba':
