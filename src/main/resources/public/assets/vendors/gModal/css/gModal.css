@@ -24,6 +24,7 @@
 }
 .gmodal-wrapper.gmodal-active{
     display:block;
+    z-index:999999999;
 }
 .gmodal-backdrop{
     z-index:999999998;
