@@ -49,7 +49,7 @@
             dateTimePicker.initDatePicker('toDt', setDatePicker);
             document.getElementById('boardAdmin').addEventListener('change', function() { getBoardList(); });
             document.getElementById('search').addEventListener('keyup', function() { getBoardList(); });
-            getBoardList();
+            getBoardList(false);
         };
 
         function setDatePicker(element, picker) {
@@ -63,29 +63,35 @@
                         picker.open();
                     });
                 } else {
-                    getBoardList();
+                    getBoardList(false);
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
                 } else {
-                    getBoardList();
+                    getBoardList(false);
                 }
             }
         }
 
         //게시판 조회
-        function getBoardList() {
+        function getBoardList(isScroll) {
             const searchOpt = {
                 boardAdminId: document.getElementById('boardAdmin').value,
                 search: document.getElementById('search').value.trim(),
                 fromDt: i18n.systemDate(document.getElementById('fromDt').value),
                 toDt: i18n.systemDate(document.getElementById('toDt').value, {'days':1})
             };
+
+            let listBoardCount = document.getElementById('boardList').childNodes.length;
+            if (!isScroll) {
+                document.getElementById('boardList').innerHTML = '';
+            }
+
             const urlParam = 'boardAdminId=' + searchOpt.boardAdminId + '&search=' + searchOpt.search +
-                '&fromDt=' + searchOpt.fromDt + '&toDt=' + searchOpt.toDt;
-            restSubmit('get', '/boards/list?' + urlParam);
+                '&fromDt=' + searchOpt.fromDt + '&toDt=' + searchOpt.toDt + '&offset=' + listBoardCount;
+            restSubmit('get', '/boards/list?' + urlParam, isScroll);
         }
 
         //게시판 관리 등록
@@ -94,7 +100,7 @@
         }
 
         //REST API
-        function restSubmit(method, url) {
+        function restSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
@@ -104,6 +110,14 @@
                     for (let i = 0; i < boardDtEle.length; i++) {
                         boardDtEle[i].textContent = i18n.userDateTime(boardDtEle[i].textContent);
                     }
+                    document.querySelector('.scroller-list-div').addEventListener('scroll', function(e) {
+                        let scrollHeight = document.querySelector('.scroller-list-div').scrollHeight;
+                        let scrollTop = document.querySelector('.scroller-list-div').scrollTop;
+                        let clientHeight = document.querySelector('.scroller-list-div').clientHeight
+                        if (scrollHeight - scrollTop === clientHeight) {
+                            getBoardList(true);
+                        }
+                    });
                 },
                 showProgressbar: false
             };
