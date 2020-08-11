@@ -452,13 +452,13 @@ function dateFormatFromNow(date) {
     } else {
         if (now.getFullYear() > p_date.getFullYear()) {
             diff = now.getFullYear() - p_date.getFullYear();
-            v_date = diff + "년 전";
+            v_date = diff + '년 전';
         } else if (now.getMonth() > p_date.getMonth()) {
             diff = now.getMonth() - p_date.getMonth();
-            v_date = diff + "달 전";
+            v_date = diff + '달 전';
         } else if (now.getDate() > p_date.getDate()) {
             diff = now.getDate() - p_date.getDate();
-            v_date = diff + "일 전";
+            v_date = diff + '일 전';
         } else if (now.getDate() === p_date.getDate()) {
             let nowTime = now.getTime();
             let writeTime = p_date.getTime();
@@ -471,11 +471,11 @@ function dateFormatFromNow(date) {
                 min = parseInt(sec / 60);
                 sec = parseInt(sec - (min * 60));
                 if (hour > 0) {
-                    v_date = hour + "시간 전";
-                } else if(min > 0) {
-                    v_date = min + "분 전";
-                } else if(sec > 0) {
-                    v_date = sec + "초 전";
+                    v_date = hour + '시간 전';
+                } else if (min > 0) {
+                    v_date = min + '분 전';
+                } else if (sec > 0) {
+                    v_date = sec + '초 전';
                 }
             }
         }
