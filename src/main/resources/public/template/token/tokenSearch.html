@@ -36,7 +36,7 @@
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">
-    <script type="text/javascript">
+    <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[ */
         window.addEventListener('load', function () {
             // initialization date picker/
@@ -119,7 +119,9 @@
                         <img class="profile-photo" alt="profile pic" src="${token.avatarPath}">
                         <span class="document-username">${token.createUserName}</span>
                     </div>
-                    <div class="document-create-dt">${i18n.userDateTime(token.createDt)}</div>
+                    <div class="document-create-dt">
+                        ${dateFormatFromNow(token.createDt)}
+                    </div>
                     <div class="document-status">${token.elementName}</div>
                     <div>
                         <span class="document-tag"></span>
