@@ -96,6 +96,11 @@ class WfInstanceService(
                 }
             }
 
+            val tags = mutableListOf<String>()
+            getInstanceTags(instance.instanceEntity.instanceId)?.forEach {
+                tags.add(it.value)
+            }
+
             tokens.add(
                 RestTemplateInstanceViewDto(
                     tokenId = instance.tokenEntity.tokenId,
@@ -104,6 +109,7 @@ class WfInstanceService(
                     documentName = instance.documentEntity.documentName,
                     documentDesc = instance.documentEntity.documentDesc,
                     topics = topics,
+                    tags = tags,
                     createDt = instance.instanceEntity.instanceStartDt,
                     assigneeUserKey = instance.tokenEntity.assigneeId,
                     assigneeUserName = "",

@@ -118,8 +118,8 @@
                     <div class="document-user">${token.createUserName}</div>
                     <div class="document-create-dt">${i18n.userDateTime(token.createDt)}</div>
                     <div class="document-status">${token.elementName}</div>
-                    <div>
-                        <span class="document-tag"></span>
+                    <div class="document-tag">
+                        ${token.tags.map(tag => `<p>${tag}</p>`).join('')}
                     </div>
                 </div>
             `;

@@ -27,12 +27,12 @@ class WfTagService(
      * Insert Tag.
      */
     fun insertTag(restTemplateTagDto: RestTemplateTagDto): Boolean {
-        val wfTagDataEntity = WfTagEntity(tagContent = restTemplateTagDto.tagContent)
-        val dataEntity = wfTagDataRepository.save(wfTagDataEntity)
-
-        val wfTagMapEntity = WfTagMapEntity(tagId = dataEntity.tagId)
-        wfTagMapEntity.instance =
-            restTemplateTagDto.instanceId.let { wfInstanceRepository.findByInstanceId(it) }
+        val wfTagEntity =
+            wfTagDataRepository.save(WfTagEntity(tagContent = restTemplateTagDto.tagContent))
+        val wfTagMapEntity = WfTagMapEntity(
+            tagId = wfTagEntity.tagId,
+            instance = restTemplateTagDto.instanceId.let { wfInstanceRepository.findByInstanceId(it) }
+        )
         wfTagRepository.save(wfTagMapEntity)
 
         return true
@@ -43,6 +43,7 @@ class WfTagService(
      */
     fun deleteTag(tagId: String): Boolean {
         wfTagRepository.deleteById(tagId)
+        wfTagDataRepository.deleteById(tagId)
         return true
     }
 }
