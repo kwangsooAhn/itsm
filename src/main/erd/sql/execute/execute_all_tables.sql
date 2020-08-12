@@ -96,7 +96,7 @@ insert into awf_auth values ('user.update', '사용자 변경', '', '0509e094125
 /**
  * 아바타
  */
-DROP TABLE IF EXISTS awf_avatar;
+DROP TABLE IF EXISTS awf_avatar cascade;
 
 CREATE TABLE awf_avatar
 (
@@ -1734,7 +1734,7 @@ COMMENT ON COLUMN awf_user.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_user.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_user.update_dt IS '수정일시';
 
-insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$QsZ1uzooTk2yEkWIiV8tyOUc/UODpMrjdReNUQnNWm0SpjyPVOy26', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$QsZ1uzooTk2yEkWIiV8tyOUc/UODpMrjdReNUQnNWm0SpjyPVOy26', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 
 /**
