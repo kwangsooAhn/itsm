@@ -44,8 +44,8 @@
                 width: 16.25rem; // 260px
                 color: #67717F;
                 span {
-                    background: #F1F6FC;
-                    color: #99A1AD;
+                    background: #F1F6FC; // 2안 : rgba(0, 152, 255, 0.1 );
+                    color: #99A1AD; // 2안 : rgba(0, 152, 255, 1 );
                     text-align: center;
                     margin: 0.25rem // 4px
                     border-radius: 0.0625rem // 1px

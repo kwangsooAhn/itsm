@@ -994,8 +994,8 @@ textarea {
 }
 .token-list .document-tag span {
   padding: 0.3125rem 0.9375rem;
-  background: #F1F6FC;
-  color: #99A1AD;
+  background: rgba(0, 152, 255, 0.1 ); // #F1F6FC;
+  color: #0098FF; // #99A1AD;
   text-align: center;
   margin: 0.25rem;
   border-radius: 0.0625rem;
