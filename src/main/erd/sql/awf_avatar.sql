@@ -1,7 +1,7 @@
 /**
  * 아바타
  */
-DROP TABLE IF EXISTS awf_avatar;
+DROP TABLE IF EXISTS awf_avatar cascade;
 
 CREATE TABLE awf_avatar
 (
