@@ -34,6 +34,7 @@
     left: 0;
     top: 60px;
     z-index: 999;
+    overflow: auto;
 }
 
 .breadcrumb {
@@ -87,42 +88,10 @@
     .my-logout{padding: 5px 20px; background: url($icon-folder-path + "icon_logout.svg") no-repeat 10px center; }
 }
 
-// *********************************************************************************************************************
-// LEFT (Menu)
-// *********************************************************************************************************************
-
-/* GNB 아이콘 */
-.my{ @include gnb-icon("icon_gnb01_mywork.svg")}
-.portal{ @include gnb-icon("icon_gnb02_portal.svg") }
-.config{ @include gnb-icon("icon_gnb03_sysmange.svg") }
-.workflow{ @include gnb-icon("icon_gnb04_wfmanage.svg") }
-
-/* SNB 아이콘 */
-.dashboard{ @include snb-icon("icon_gnb01_snb00_dashboard.svg") }
-.token{ @include snb-icon("icon_gnb01_snb01_docbox.svg") }
-.document{ @include snb-icon("icon_gnb01_snb02_edit.svg") }
-
-.notice{ @include snb-icon("icon_gnb02_snb01_notice.svg") }
-.faq{ @include snb-icon("icon_gnb02_snb02_faq.svg") }
-.download{ @include snb-icon("icon_gnb02_snb03_archive.svg") }
-.board{ @include snb-icon("icon_gnb02_snb04_board.svg") }
-
-.user{ @include snb-icon("icon_gnb03_snb01_usermanage.svg") }
-.auth{ @include snb-icon("icon_gnb03_snb02_authority.svg") }
-.role{ @include snb-icon("icon_gnb03_snb03_role.svg") }
-.boardAdmin{ @include snb-icon("icon_gnb03_snb04_sysboard.svg") }
-.code{ @include snb-icon("icon_gnb03_snb05_code.svg") }
-
-.process{ @include snb-icon("icon_gnb04_snb01_process.svg") }
-.form{ @include snb-icon("icon_gnb04_snb02_form.svg") }
-.workflowAdmin{ @include snb-icon("icon_gnb04_snb03_workflow.svg") }
-.customCode{ @include snb-icon("icon_gnb04_snb04_customcode.svg") }
-.image{ @include snb-icon("icon_gnb04_snb05_image.svg") }
-
-
-
 // GNB
 .gnb {
+    padding: 15px 20px 15px 20px;
+    vertical-align: middle;
     ul li {
         padding:10px 0; line-height: 1.6; color:#fff; font-weight: 300; opacity: 0.6;
         &:hover {opacity: 1; background: rgba(2, 66, 235, 1)}
@@ -130,6 +99,10 @@
             color:#fff; font-weight: 300; opacity: 0.6;
             &:hover{opacity: 1; background: rgba(255, 255, 255, 0.1);}
         }
+        .snb-set {
+            display: none;
+        }
+
         .snb{margin:16px 0 0 0; }
         &.toggle {
             line-height: 1.6; color:#fff; font-weight: 300; opacity: 0.6;
