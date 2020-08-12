@@ -178,6 +178,10 @@ insert into awf_url_auth_map values ('/processes/{id}/edit', 'get', 'process.cre
 insert into awf_url_auth_map values ('/processes/{id}/status', 'get', 'document.read');
 insert into awf_url_auth_map values ('/processes/{id}/view', 'get', 'process.create');
 insert into awf_url_auth_map values ('/processes/{id}/view', 'get', 'process.update');
+insert into awf_url_auth_map values ('/processes/attachFile/view', 'get', 'process.read');
+insert into awf_url_auth_map values ('/processes/attachFile/view', 'get', 'process.create');
+insert into awf_url_auth_map values ('/processes/attachFile/view', 'get', 'process.update');
+insert into awf_url_auth_map values ('/processes/attachFile/view', 'get', 'process.delete');
 insert into awf_url_auth_map values ('/rest/auths', 'post', 'auth.create');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.delete');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.update');
