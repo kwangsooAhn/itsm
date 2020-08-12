@@ -1028,6 +1028,7 @@ textarea {
   left: 0;
   top: 60px;
   z-index: 999;
+  overflow: auto;
 }
 
 .breadcrumb {
@@ -1114,138 +1115,10 @@ textarea {
   background: url("../icons/icon_logout.svg") no-repeat 10px center;
 }
 
-/* GNB 아이콘 */
-.my {
-  background: url("../icons/icon_gnb01_mywork.svg") no-repeat center left;
-  padding: 0 0 0 30px;
-  margin: 20px 10px;
+.gnb {
+  padding: 15px 20px 15px 20px;
   vertical-align: middle;
 }
-
-.portal {
-  background: url("../icons/icon_gnb02_portal.svg") no-repeat center left;
-  padding: 0 0 0 30px;
-  margin: 20px 10px;
-  vertical-align: middle;
-}
-
-.config {
-  background: url("../icons/icon_gnb03_sysmange.svg") no-repeat center left;
-  padding: 0 0 0 30px;
-  margin: 20px 10px;
-  vertical-align: middle;
-}
-
-.workflow {
-  background: url("../icons/icon_gnb04_wfmanage.svg") no-repeat center left;
-  padding: 0 0 0 30px;
-  margin: 20px 10px;
-  vertical-align: middle;
-}
-
-/* SNB 아이콘 */
-.dashboard {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb01_snb00_dashboard.svg") no-repeat left center;
-}
-
-.token {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb01_snb01_docbox.svg") no-repeat left center;
-}
-
-.document {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb01_snb02_edit.svg") no-repeat left center;
-}
-
-.notice {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb02_snb01_notice.svg") no-repeat left center;
-}
-
-.faq {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb02_snb02_faq.svg") no-repeat left center;
-}
-
-.download {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb02_snb03_archive.svg") no-repeat left center;
-}
-
-.board {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb02_snb04_board.svg") no-repeat left center;
-}
-
-.user {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb03_snb01_usermanage.svg") no-repeat left center;
-}
-
-.auth {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb03_snb02_authority.svg") no-repeat left center;
-}
-
-.role {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb03_snb03_role.svg") no-repeat left center;
-}
-
-.boardAdmin {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb03_snb04_sysboard.svg") no-repeat left center;
-}
-
-.code {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb03_snb05_code.svg") no-repeat left center;
-}
-
-.process {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb04_snb01_process.svg") no-repeat left center;
-}
-
-.form {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb04_snb02_form.svg") no-repeat left center;
-}
-
-.workflowAdmin {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb04_snb03_workflow.svg") no-repeat left center;
-}
-
-.customCode {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb04_snb04_customcode.svg") no-repeat left center;
-}
-
-.image {
-  padding: 0 0 0 36px;
-  margin: 0 0 0 36px;
-  background: url("../icons/icon_gnb04_snb05_image.svg") no-repeat left center;
-}
-
 .gnb ul li {
   padding: 10px 0;
   line-height: 1.6;
@@ -1265,6 +1138,9 @@ textarea {
 .gnb ul li ul li:hover {
   opacity: 1;
   background: rgba(255, 255, 255, 0.1);
+}
+.gnb ul li .snb-set {
+  display: none;
 }
 .gnb ul li .snb {
   margin: 16px 0 0 0;
@@ -2115,4 +1991,110 @@ textarea {
 .os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
   right: -6px;
   left: -2px;
+}
+
+/* 이미지 관리 */
+.thumbnail-container {
+  font-family: "Noto Sans KR";
+  height: 35.31rem;
+  overflow-y: auto;
+}
+.thumbnail-container .thumbnail {
+  display: inline-block;
+  width: 14.06rem;
+  height: 18.13rem;
+  margin: 0.125rem;
+  padding: 0;
+  box-shadow: 0 0 0.3125rem 0.0625rem #EBEBEB;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+.thumbnail-container .thumbnail:hover {
+  border-color: transparent;
+  box-shadow: 0 0 0 0.125rem #0098FF;
+  background-color: rgba(0, 152, 255, 0.05);
+}
+.thumbnail-container .thumbnail div.thumbnail-img {
+  display: inline-block;
+  width: 100%;
+  height: 9.063rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+.thumbnail-container .thumbnail div.thumbnail-info {
+  height: 6.563rem;
+  padding: 0.8125rem 0.9375rem;
+}
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text {
+  height: 1.375rem;
+  line-height: 1.375rem;
+}
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text label {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  color: #ACB4BF;
+  font-size: 1rem;
+  font-weight: 400;
+}
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child label {
+  color: #586872;
+  cursor: pointer;
+}
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child .fileName {
+  display: none;
+  color: #586872;
+  width: 12.19rem;
+  height: 1.25rem;
+  float: left;
+}
+.thumbnail-container .thumbnail div.thumbnail-bottom {
+  height: 2.5rem;
+  line-height: 2.5rem;
+  border-top: solid 0.0625rem #EBEBEB;
+}
+.thumbnail-container .thumbnail div.thumbnail-bottom label {
+  width: 1.25rem;
+  color: #ACB4BF;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-left: 0.9375rem;
+}
+.thumbnail-container .thumbnail div.thumbnail-bottom img {
+  width: 0.9375rem;
+  height: 0.9375rem;
+  content: url("../../../media/icons/thumbnail/icon_thumbnail_delete.png");
+  cursor: pointer;
+}
+.thumbnail-container .thumbnail-upload {
+  display: inline-block;
+  width: 14.06rem;
+  height: 18.13rem;
+  margin: 0.125rem;
+  padding: 5.625rem 0 0 0;
+  border: 0.0625rem dashed #EBEBEB;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  background-color: #F7F8F9;
+  text-align: center;
+  cursor: pointer;
+  overflow: hidden;
+}
+.thumbnail-container .thumbnail-upload:hover {
+  border-color: transparent;
+  box-shadow: 0 0 0 0.125rem #0098FF;
+  background-color: rgba(0, 152, 255, 0.05);
+}
+.thumbnail-container .thumbnail-upload .fileInput {
+  display: none;
+}
+.thumbnail-container .thumbnail-upload img {
+  content: url("../../../media/icons/thumbnail/icon_image.png");
+}
+.thumbnail-container .thumbnail-upload p.thumbnail-upload-text {
+  color: #ACB4BF;
+  font-size: 1rem;
+  font-weight: 400;
+  margin-top: 1.25rem;
 }

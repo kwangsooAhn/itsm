@@ -42,7 +42,7 @@
                 }
             }
             &.inputbox div a { @include background("context-menu/inputbox.png"); }
-            &.textarea div a { @include background("context-menu/textbox.png"); }
+            &.textbox div a { @include background("context-menu/textbox.png"); }
             &.dropdown div a { @include background("context-menu/dropdown.png"); }
             &.radio div a { @include background("context-menu/radio.png"); }
             &.checkbox div a { @include background("context-menu/checkbox.png"); }
@@ -60,7 +60,7 @@
                     background-image: url("#{$form-asset-path}/context-menu/inputbox_select.png"); 
                 }
             }
-            &.textarea.active, &.textarea:hover { 
+            &.textbox.active, &.textbox:hover { 
                 div a {
                     background-image: url("#{$form-asset-path}/context-menu/textbox_select.png"); 
                 }

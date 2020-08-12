@@ -406,7 +406,6 @@ form:
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
     fileNameDuplication: "The same file name exists."
-    fileSelect: "Please select a file."
     fileuploadFailed: "File upload failed."
     information: "There are no common editable component detail attributes."
     max: "Please enter below {0}."
@@ -427,7 +426,7 @@ form:
     label: "Label"
     radio: "Radio Button"
     dropdown: "Dropdown"
-    textarea: "Text Box"
+    textbox: "Text Box"
     time: "Time"
   help:
     custom-code-default: "You can set the default value displayed on the component.<br/>'Session' prints the user's session information.<br/>'Custom Code Data' prints the data of the code defined by the user."
@@ -456,11 +455,15 @@ form:
 
 # Image
 image:
-  btn:
-    upload: "Image File Upload"
+  label:
+    list: "Image management"
+    popupTitle: "Select Image"
+    upload: "Upload Your Image"
   msg:
-    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    description: "View, add, or delete image files."
     existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
+    failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
+    fileSelect: "Please select a file."
 
 # Login
 login:
@@ -495,17 +498,20 @@ login:
 
 # Menu
 menu:
-  my:
-    parent: "My Work"
-    dashboard: "Dashboard"
-    token: "My Document"
-    document: "Service Request"
-  portal:
-    parent: "Portal Service"
-    notice: "Notice"
-    faq: "FAQ"
-    download: "Download"
-    board: "Board"
+  dashboard:
+    parent: "Dashboard"
+  token:
+    parent: "My Document"
+  document:
+    parent: "Service Request"
+  notice:
+    parent: "Notice"
+  faq:
+    parent: "FAQ"
+  download:
+    parent: "Download"
+  board:
+    parent: "Board"
   config:
     parent: "System config"
     user: "User"

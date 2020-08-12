@@ -435,6 +435,55 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
 }
 
 /**
+ * 파라미터로 받은 날짜 데이터 기준으로 얼마의 시간이 지났는지 계산하여 반환한다. (ex. n분 전, n일 전...)
+ * @param date 입력받는 날짜
+ */
+function dateFormatFromNow(date) {
+    let v_date = '';
+    let p_date = new Date(date);
+    let now = new Date();
+    let diff, day, hour, min, sec;
+
+    const today = new Date();
+    const timeValue = new Date(date);
+
+    if (date === '' || date === null) {
+        return;
+    } else {
+        if (now.getFullYear() > p_date.getFullYear()) {
+            diff = now.getFullYear() - p_date.getFullYear();
+            v_date = diff + '년 전';
+        } else if (now.getMonth() > p_date.getMonth()) {
+            diff = now.getMonth() - p_date.getMonth();
+            v_date = diff + '달 전';
+        } else if (now.getDate() > p_date.getDate()) {
+            diff = now.getDate() - p_date.getDate();
+            v_date = diff + '일 전';
+        } else if (now.getDate() === p_date.getDate()) {
+            let nowTime = now.getTime();
+            let writeTime = p_date.getTime();
+            if (nowTime > writeTime) {
+                sec = parseInt(nowTime - writeTime) / 1000;
+                day = parseInt(sec / 60 / 60 / 24);
+                sec = (sec - (day * 60 * 60 * 24));
+                hour = parseInt(sec / 60 / 60);
+                sec = (sec - (hour * 60 * 60));
+                min = parseInt(sec / 60);
+                sec = parseInt(sec - (min * 60));
+                if (hour > 0) {
+                    v_date = hour + '시간 전';
+                } else if (min > 0) {
+                    v_date = min + '분 전';
+                } else if (sec > 0) {
+                    v_date = sec + '초 전';
+                }
+            }
+        }
+        return v_date;
+    }
+}
+
+/**
  * open alert dialog.
  *
  * @param message message
@@ -563,7 +612,7 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
         type: 'gmodal-icon-confirm',
         buttons: [
             {
-                content: 'Cancel',
+                content: i18n.get('common.btn.cancel'),
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -572,7 +621,7 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                     modal.hide();
                 }
             },{
-                content: 'OK',
+                content: i18n.get('common.btn.check'),
                 classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
