@@ -4,21 +4,10 @@
       layout:decorator="form/formCore">
 <head>
     <title th:text="#{form.label.preview}"></title>
-    <th:block layout:fragment="css">
-    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
-    </th:block>
 </head>
-<body>
-<th:block layout:fragment="content">
-<form id="frm" name="frm">
-<div class="drawing-board" id="document-panel" data-readonly="true"></div>
-<div id="button-container" style="display: none;"></div>
-</form>
-<div style="margin-top: 10px; text-align: center;">
-    <button th:text="#{common.btn.close}" onclick="window.close();"></button>
-</div>
+<th:block layout:fragment="css">
+    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
 </th:block>
-</body>
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/document/document.js}"></script>
     <script type="text/javascript">
@@ -30,4 +19,15 @@
         /*]]>*/
     </script>
 </th:block>
+<body>
+<th:block layout:fragment="content">
+    <form id="frm" name="frm">
+    <div class="drawing-board" id="document-panel" data-readonly="true"></div>
+    <div id="button-container" style="display: none;"></div>
+    </form>
+    <div style="margin-top: 10px; text-align: center;">
+        <button th:text="#{common.btn.close}" onclick="window.close();"></button>
+    </div>
+</th:block>
+</body>
 </html>

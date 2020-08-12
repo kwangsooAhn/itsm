@@ -5,9 +5,8 @@
             height: $form-toolbar-height;
             font-size: $form-toolbar-font-size;
             color: $form-toolbar-font-color;
+            padding: $form-toolbar-top-bottom-padding  $form-toolbar-margin-right;
             background-color: $form-toolbar-background-color;
-            padding-top: $form-toolbar-top-bottom-padding;
-            padding-bottom: $form-toolbar-top-bottom-padding;
             line-height: 1.0rem;
     
             span.logo { // 로고
@@ -19,27 +18,26 @@
     
             span.name { // 문구
                 float: left;
-                padding : 0 0.938rem; // 15px;
+                padding : 0 $form-toolbar-margin-right;
+                font-size: 18px;
+                font-weight: 500; // medium
+                line-height: $form-toolbar-real-height;
             }
     
             span.separator { // 아이콘 구분자  
                 width: 0.063rem; // 1px
                 height: $form-toolbar-real-height;
                 background-color: $form-toolbar-separator-color;
-                margin-right: 0.75rem; // 12px
+                margin-right: $form-toolbar-margin-right;
                 float: left;
             }
     
             a { // 아이콘
-                margin-right: 0.75rem; // 12px
                 height: $form-toolbar-real-height;
                 line-height: $form-toolbar-real-height;
+                margin-right: $form-toolbar-margin-right;
                 float: left;
                 img {
-                    cursor: pointer;
-                }
-                label {
-                    margin-left: 0.313rem;  // 5px
                     cursor: pointer;
                 }
             }
@@ -47,8 +45,10 @@
             span.form-name { // 상단 우측 이름
                 height: $form-toolbar-real-height;
                 line-height: $form-toolbar-real-height;
+                font-size: 16px;
+                font-weight: 500; // medium
+                line-height: $form-toolbar-real-height;
                 float: right;
-                margin-right: 0.938rem; // 15px
             }
         }
     }

@@ -6,7 +6,6 @@
     'use strict';
 
     let documentContainer = null;
-    let menuContainer = null;
     let buttonContainer = null;
     let commentContainer = null;
     let isDocument = true; // 신청서 vs 처리할 문서
@@ -15,6 +14,45 @@
     const phoneRegular = /^([+]?[0-9])([-]?[0-9])*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
+    const util = { // 공통 util
+        /**
+         * 특정 클래스 목록 조회
+         * @param el 대상객체
+         */
+        getClasses: function(el) {
+            return el.className.split(' ').filter(function(c) { return c.length > 0; });
+        },
+        /**
+         * 특정 클래스 존재 여부 체크
+         * @param el 대상객체
+         * @param className 클래스명
+         */
+        hasClass: function(el, className) {
+            return util.getClasses(el).indexOf(className) >= 0;
+        },
+        /**
+         * 특정 클래스 추가
+         * @param el 대상객체
+         * @param className 클래스명
+         */
+        addClass: function(el, className) {
+             if (!util.hasClass(el, className)) {
+                 el.className += ' ' + className;
+             }
+        },
+        /**
+         * 특정 클래스 삭제
+         * @param el 대상객체
+         * @param className 클래스명
+         */
+        removeClass: function(el, className) {
+            if (util.hasClass(el, className)) {
+              let classes = util.getClasses(el);
+              classes.splice(classes.indexOf(className), 1);
+              el.className = classes.join(' ');
+            }
+        }
+    };
 
     let dataForPrint = ''; // 프린트 출력용 저장 데이터
 
@@ -186,7 +224,6 @@
      */
     function checkRequired(element) {
         let message = null;
-        console.log(element);
         switch (element.id) {
             case 'editor':
                 let textEditor = Quill.find(element);
@@ -480,6 +517,7 @@
         if (typeof data === 'string') {
             data = JSON.parse(data);
         }
+
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
         documentContainer = document.getElementById('document-panel');
         component.init(documentContainer);
@@ -546,6 +584,7 @@
         if (data.instanceId !== undefined) {
             addCommentBox(data.instanceId);
         }
+        console.log(data);
     }
 
     /**
@@ -627,31 +666,93 @@
         aliceJs.sendXhr(opt);
     }
 
-    /**
-     * 탭 클릭시 일치하는 div 표시
-     * @param e 이벤트
-     */
 
-    function toggleTabClickHandler(e) {
-        const currentLi = e.target;
-        const isSelected = currentLi.classList.contains('selected');
-        if (!isSelected) {
-            const prevLi = currentLi.parentNode.querySelector('.selected');
-            if (prevLi) {
-                prevLi.classList.remove('selected');
-                const prevLiId = prevLi.getAttribute('data-tab');
-                const prevTab = menuContainer.querySelector('#' + prevLiId);
-                if (prevTab.classList.contains('selected')) {
-                    prevTab.classList.remove('selected');
-                }
+    /**
+     * 신청서, 처리할 문서 모달 Draw.
+     *
+     * @param data 문서 데이터
+     * @param id 문서 id
+     */
+    function modal(data, id) {
+        this.id = id;
+        this.data = data;
+
+        this.display = false;
+        this.show = function() { // 모달 표시
+            if (typeof this.wrapper !== 'undefined') {
+                util.addClass(this.wrapper, 'document-modal-active');
+                util.addClass(document.body, 'document-modal-active');
+                this.display = true;
             }
-            const currentLiId = currentLi.getAttribute('data-tab');
-            currentLi.classList.add('selected');
-            const currentTab = menuContainer.querySelector('#' + currentLiId);
-            if (!currentTab.classList.contains('selected')) {
-                currentTab.classList.add('selected');
+        };
+        this.hide = function() { // 모달 숨김
+            if (typeof this.wrapper !== 'undefined') {
+                util.removeClass(this.wrapper, 'document-modal-active');
+                util.removeClass(document.body, 'document-modal-active');
+                this.display = false;
+                this.destroy();
             }
+        };
+        this.create = function() {
+            if (typeof this.wrapper !== 'undefined') { return; }
+            let backdrop, dialog;
+
+            this.wrapper = document.createElement('div');
+            this.wrapper.className = 'document-modal-wrapper';
+            this.wrapper.id = 'document-modal-wrapper-' + this.id;
+
+            backdrop = document.createElement('div');
+            backdrop.className = 'document-modal-backdrop';
+
+            dialog = document.createElement('div');
+            dialog.className = 'document-modal-dialog';
+
+            const body = document.createElement('div');
+            body.className = 'document-modal-body';
+
+            const container = document.createElement('div');
+            container.classList.add('container', 'document');
+            body.appendChild(container);
+
+            const contents = document.createElement('div');
+            contents.className = 'contents';
+            container.appendChild(contents);
+
+            const buttonPanel = document.createElement('div');
+            buttonPanel.className = 'button-board';
+
+            const buttonGroup = document.createElement('div');
+            buttonGroup.className = 'button-group';
+            buttonGroup.id = 'button-container';
+
+            const printButton = document.createElement('button');
+            printButton.type = 'button';
+            printButton.innerText = i18n.get('common.btn.print');
+            printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
+
+            buttonGroup.appendChild(printButton);
+            buttonPanel.appendChild(buttonGroup);
+            container.appendChild(buttonPanel);
+
+            const documentPanel = document.createElement('div');
+            documentPanel.className = 'drawing-board';
+            documentPanel.id = 'document-panel';
+            container.appendChild(documentPanel);
+
+            dialog.appendChild(body);
+            this.wrapper.appendChild(backdrop);
+            this.wrapper.appendChild(dialog);
+            document.body.appendChild(this.wrapper);
+
+            drawDocument(this.data);
         }
+        this.destroy = function() { // 모달 제거
+            if (typeof this.wrapper !== 'undefined') {
+                document.body.removeChild(this.wrapper);
+                this.wrapper = undefined;
+            }
+        };
+        this.create();
     }
 
     /**
@@ -672,7 +773,9 @@
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
                 dataForPrint.documentId = documentId;
-                drawDocument(dataForPrint);
+                let documentModal = new modal(dataForPrint, documentId);
+                documentModal.show();
+                //drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -692,29 +795,12 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
-                console.log(responseObject);
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
                 drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
         });
-
-        menuContainer = document.getElementById('menu-panel');
-
-        // add history.
-
-        // add related instances
-
-        // add comments
-
-        // add tags
-
-        // tab event
-        const toggleTabs = menuContainer.querySelector('ul.menu').children;
-        for (let i = 0, len = toggleTabs.length; i < len; i++) {
-            toggleTabs[i].addEventListener('click', toggleTabClickHandler, false);
-        }
     }
 
     /**

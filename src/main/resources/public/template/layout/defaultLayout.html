@@ -2,7 +2,7 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" >
 	<head>
 		<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Zenius ITSM</title>
-		<th:block th:replace="layout/fragments/commonHead"></th:block>
+		<th:block th:replace="layout/fragments/commonHead :: commonHead"></th:block>
 	</head>
 	<body>
 		<div class="wrap-screen">

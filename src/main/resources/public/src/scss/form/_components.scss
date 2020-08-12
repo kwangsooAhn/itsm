@@ -373,10 +373,6 @@
                     display: none;
                 }
             }
-            .validate-error {
-                border: 1px solid $red !important;
-                color: $red !important;
-            }
         }
         
         // editbox 컴포넌트
@@ -456,6 +452,10 @@
                 color: $component-disabled-font-color !important;
                 pointer-events: none;
             }
+        }
+        .validate-error {
+            border: 1px solid $red !important;
+            color: $red !important;
         }
     }
 }

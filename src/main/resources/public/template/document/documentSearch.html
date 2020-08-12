@@ -6,6 +6,31 @@
 <head>
     <title th:text="#{document.label.list}"></title>
 </head>
+<th:block layout:fragment="css">
+    <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
+</th:block>
+<th:block layout:fragment="script">
+    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
+    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
+    <script th:src="@{/assets/js/form/form.core.js}"></script>
+    <script th:src="@{/assets/js/form/form.component.js}"></script>
+    <script th:src="@{/assets/js/document/document.js}"></script>
+    <script type="text/javascript">
+            (function() {
+                aliceForm.init();
+                aliceForm.initSession(JSON.stringify({
+                    userKey : '[[${#authentication.details.userKey}]]',
+                    userId : '[[${#authentication.details.userId}]]',
+                    userName: '[[${#authentication.details.userName}]]',
+                    email: '[[${#authentication.details.email}]]',
+                    position: '[[${#authentication.details.position}]]',
+                    department: '[[${#authentication.details.department}]]',
+                    officeNumber: '[[${#authentication.details.officeNumber}]]',
+                    mobileNumber: '[[${#authentication.details.mobileNumber}]]'
+                }));
+            })();
+        </script>
+</th:block>
 <body>
 <th:block layout:fragment="content">
     <div style="width: 70%; margin: 50px auto;">
@@ -42,7 +67,9 @@
         }
 
         function openDocument(documentId) {
-            window.open('/documents/' + documentId + '/publish', '_self');
+            //window.open('/documents/' + documentId + '/publish', '_self');
+            //window.open('/documents/' + documentId + '/publish', 'document_' + documentId, 'width=800, height=852');
+            aliceDocument.init(documentId);
         }
 
         function restSubmit(method, url, result, isShowProgressbar) {

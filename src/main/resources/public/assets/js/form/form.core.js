@@ -138,7 +138,9 @@
             url: '/assets/js/form/componentProperties.json',
             callbackFunc: function(xhr) {
                 Object.assign(componentProperties, JSON.parse(xhr.responseText));
-                callback.apply(null, params);
+                if (typeof callback === 'function') {
+                    callback.apply(null, params);
+                }
             },
             contentType: 'application/json; charset=utf-8'
         });

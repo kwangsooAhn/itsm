@@ -29,7 +29,7 @@ $container-background-color: $light-gray;
 
 // container > contents, aside > drawing-board
 $drawing-board-background-color: $white;
-$drawing-board-border: solid 0.0625rem $line-gray; // 1px
+$drawing-board-border: 0.0625rem solid $line-gray; // 1px
 $drawing-board-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
 
 /* form */
@@ -41,14 +41,15 @@ $form-container-width: 93.75rem;    // 1500px
 $form-container-height: 61.25rem;    // 980px
 
 // container > toolbar
-$form-toolbar-height: 2.188rem; // 35px
-$form-toolbar-top-bottom-padding: 0.563rem; // 9px
-$form-toolbar-real-height: $form-toolbar-height - ($form-toolbar-top-bottom-padding * 2);
+$form-toolbar-height: 3.125rem; // 50px
+$form-toolbar-top-bottom-padding: 0.75rem; // 12.5px
+$form-toolbar-real-height: $form-toolbar-height - ($form-toolbar-top-bottom-padding * 2); // 25px
 $form-toolbar-background-color: $point-blue;
 $form-toolbar-font-size: 0.75rem; // 12px
 $form-toolbar-font-color: $white;
-$form-toolbar-logo-width: 5.625rem; // 90px
+$form-toolbar-logo-width: 10.94rem; // 175px
 $form-toolbar-separator-color: $white;
+$form-toolbar-margin-right: 1.25rem; // 20px
 
 // container > contents > drawing-board
 $form-drawing-board-width: 59.38rem; // 950px
