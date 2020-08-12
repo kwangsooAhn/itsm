@@ -1139,6 +1139,9 @@ textarea {
   opacity: 1;
   background: rgba(255, 255, 255, 0.1);
 }
+.gnb ul li .snb-set {
+  display: none;
+}
 .gnb ul li .snb {
   margin: 16px 0 0 0;
 }
