@@ -5,19 +5,27 @@
 	<div class="menu">
 		<div class="gnb">
 			<ul>
-				<li  th:each="topMenu : ${#authentication.details.menus}"
+				<li th:each="topMenu : ${#authentication.details.menus}"
 						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
-					<span th:class=${topMenu.menuId} onclick="accordionMenu(this);"><a th:text="#{|menu.${topMenu.menuId}.parent|}"></a></span>
-					<div th:id=${topMenu.menuId} class="snb snb-mywork">
-						<ul>
-							<li th:each="subMenu : ${#authentication.details.menus}"
-									th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
-								<span th:class="${#strings.substringAfter(subMenu.menuId,'.')}">
-									<a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}" onclick="showProgressBar()"></a>
-								</span>
-							</li>
-						</ul>
-					</div>
+					<!--/* 그룹 메뉴 */-->
+					<a th:if="${#strings.isEmpty(topMenu.url)}" th:class="${topMenu.menuId}" onclick="accordionMenu(this);">
+						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
+						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+						<span class="arrow-left"></span>
+					</a>
+					<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="snb-set">
+						<li th:each="subMenu : ${#authentication.details.menus}"
+							th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
+							<a th:href="${subMenu.url}"  th:class="'snb ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()">
+								<span th:text="#{|menu.${subMenu.menuId}|}"></span>
+							</a>
+						</li>
+					</ul>
+					<!--/* 연결 메뉴 */-->
+					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" th:class="${topMenu.menuId}">
+						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
+						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+					</a>
 				</li>
 			</ul>
 		</div>
