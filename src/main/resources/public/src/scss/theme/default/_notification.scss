@@ -1,17 +1,8 @@
 /* 알림 임시 css */
-.notification-menu {
+.notification {
     height: 4.25rem; // 68px
     position: relative;
     display: inline-block;
-    .count {
-        position: absolute;
-        top: -0.125rem; // -2px
-        left: 1.25rem; // 20px
-        border-radius: 50%;
-        font-size: 0.75rem; // 12px
-        display: none;
-        cursor: pointer;
-    }
     img, button {
         width: 1.125rem; // 18px
         height: 1.125rem; // 18px
@@ -25,8 +16,8 @@
         border: 0.063rem solid #c8ced8; // 1px
         background-color: #ffffff;
         width: 21.875rem; // 350px
-        right: -0.063rem; // -1px
-        top: 4rem; // 64px
+        right: -20rem; // 320px
+        top: 15rem; // 240px
         color: black;
         display: none;
         font-weight: normal;
