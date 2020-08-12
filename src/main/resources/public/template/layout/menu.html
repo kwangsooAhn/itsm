@@ -17,7 +17,7 @@
 				<li th:each="topMenu : ${#authentication.details.menus}"
 						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
 					<!--/* 그룹 메뉴 */-->
-					<a th:if="${#strings.isEmpty(topMenu.url)}" class="gnb" onclick="accordionMenu(this);">
+					<a th:if="${#strings.isEmpty(topMenu.url)}" class="gnb" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}">
 						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 						<span class="arrow-left"></span>
@@ -41,27 +41,14 @@
 	</div>
 </body>
 <script type="text/javascript" th:inline="javascript">
-	window.onload = function() {
-		document.getElementById('config').style.display='none';
-		document.getElementById('workflow').style.display='none';
-	};
-
+/*<![CDATA[ */
 	function accordionMenu(element) {
-		if (element.className === 'config' || element.className === 'workflow') {
-			document.getElementById('config').style.display='none';
-			document.getElementById('workflow').style.display='none';
-			for (var i = 0; i < element.parentNode.childNodes.length; i++) {
-				if (element.parentNode.childNodes[i].id === element.className) {
-					if (element.parentNode.childNodes[i].value === 'block') {
-						element.parentNode.childNodes[i].style.display = 'none';
-						element.parentNode.childNodes[i].value = 'none';
-					} else {
-						element.parentNode.childNodes[i].style.display = 'block';
-						element.parentNode.childNodes[i].value = 'block';
-					}
-				}
-			}
+		if (document.getElementById(element.dataset.menugroup).style.display === 'block') {
+			document.getElementById(element.dataset.menugroup).style.display = 'none';
+		} else {
+			document.getElementById(element.dataset.menugroup).style.display = 'block';
 		}
 	}
+/* ]]> */
 </script>
 </html>
