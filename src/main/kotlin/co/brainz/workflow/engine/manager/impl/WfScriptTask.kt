@@ -1,5 +1,11 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.engine.manager.impl
 
+import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.WfTokenManager
@@ -8,7 +14,10 @@ import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import com.google.gson.Gson
 import com.google.gson.JsonObject
-import java.io.File
+import java.nio.file.Files
+import java.nio.file.StandardCopyOption
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 class WfScriptTask(
     wfTokenManagerService: WfTokenManagerService,
@@ -116,16 +125,35 @@ class WfScriptTask(
         }
 
         if (attachFileName.isNotEmpty()) {
-            val targetComponentId =
-                wfTokenManagerService.getComponentIdInAndMappingId(componentIds, targetMappingId).componentId
-            createTokenDto.data?.forEach { data ->
-                if (data.componentId == targetComponentId) {
-                    data.value = WfElementConstants.SCRIPT_FILE_PATH + File.separator + attachFileName
-                    return@forEach
+            val processFilePath = wfTokenManagerService.getProcessFilePath(attachFileName)
+            val fileName = wfTokenManagerService.getRandomFilename()
+            val uploadFilePath = wfTokenManagerService.getUploadFilePath(fileName)
+            Files.copy(processFilePath, uploadFilePath, StandardCopyOption.REPLACE_EXISTING)
+            if (Files.exists(uploadFilePath)) {
+                var aliceFileLocEntity = AliceFileLocEntity(
+                    fileSeq = 0,
+                    uploadedLocation = uploadFilePath.parent.toString(),
+                    sort = 0,
+                    randomName = fileName,
+                    originName = attachFileName,
+                    fileSize = uploadFilePath.toFile().length(),
+                    uploaded = true,
+                    fileOwner = super.assigneeId
+                )
+                aliceFileLocEntity = wfTokenManagerService.uploadProcessFile(aliceFileLocEntity)
+
+                // 토큰 데이터에 파일 seq 값을 저장
+                val targetComponentId =
+                    wfTokenManagerService.getComponentIdInAndMappingId(componentIds, targetMappingId).componentId
+                createTokenDto.data?.forEach { data ->
+                    if (data.componentId == targetComponentId) {
+                        data.value = aliceFileLocEntity.fileSeq.toString()
+                        return@forEach
+                    }
                 }
+                super.tokenEntity.tokenDataEntities =
+                    wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
             }
-            super.tokenEntity.tokenDataEntities =
-                wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
         }
     }
 }
