@@ -989,8 +989,16 @@ textarea {
   color: #67717F;
 }
 .token-list .document-tag {
-  width: 18.125rem;
+  width: 16.25rem;
   color: #67717F;
+}
+.token-list .document-tag span {
+  padding: 0.3125rem 0.9375rem;
+  background: #F1F6FC;
+  color: #99A1AD;
+  text-align: center;
+  margin: 0.25rem;
+  border-radius: 0.0625rem;
 }
 .token-search {
   background: white;
