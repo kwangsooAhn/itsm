@@ -30,6 +30,7 @@ common:
     fail: "실패"
     group: "그룹"
     list: "목록"
+    listCount: "건"
     modify: "수정"
     name: "이름"
     save: "저장"

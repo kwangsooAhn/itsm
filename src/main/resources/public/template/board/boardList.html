@@ -2,8 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<div class="scroller-list">
-    <div class="scroller-list-div">
+<head>
+    <meta charset="UTF-8">
+</head>
+<div class="scroller-wrap">
+    <div class="scroller-wrap-list">
         <table>
             <thead>
             <tr>
@@ -16,7 +19,7 @@
                 <th style="width:15%;" th:text="#{common.label.writeDate}"></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="list">
             <tr th:if="${#arrays.isEmpty(boardList)}">
                 <td colspan="7" th:text="#{common.msg.noData}"></td>
             </tr>
@@ -33,6 +36,10 @@
             </tr>
             </tbody>
         </table>
+    </div>
+    <div class="search-area-right">
+        <span class="total-count" id="totalCount" th:text="${boardCount}"></span>
+        <span class="total-count" th:text="#{common.label.listCount}"></span>
     </div>
 </div>
 </body>

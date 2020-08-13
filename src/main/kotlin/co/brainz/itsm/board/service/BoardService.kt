@@ -1,9 +1,16 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.board.service
 
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.board.dto.BoardCommentDto
 import co.brainz.itsm.board.dto.BoardDto
+import co.brainz.itsm.board.dto.BoardRestDto
 import co.brainz.itsm.board.dto.BoardSaveDto
 import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.dto.BoardViewDto
@@ -18,8 +25,8 @@ import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
 import co.brainz.itsm.boardAdmin.repository.BoardCategoryRepository
-import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+import java.time.LocalDateTime
 import javax.transaction.Transactional
 import org.springframework.stereotype.Service
 
@@ -45,15 +52,72 @@ class BoardService(
     }
 
     /**
-     * 게시판 목록 조회.
-     *
-     * @param boardSearchDto
-     * @return List<boardDto>
+     * [boardSearchDto]을 받아서 게시판 목록을 [List<boardDto>]으로 반환 한다.
      */
     fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardDto> {
         val fromDt = LocalDateTime.parse(boardSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(boardSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
-        return boardRepository.findByBoardList(boardSearchDto.boardAdminId, boardSearchDto.search, fromDt, toDt)
+        val offset = boardSearchDto.offset.toLong()
+
+        return boardRepository.findByBoardList(
+            boardSearchDto.boardAdminId,
+            boardSearchDto.search,
+            fromDt, toDt,
+            offset
+        )
+    }
+
+    /**
+     * [BoardSearchDto]를 받아서 게시판 전체 개수 구해서 건수를 [Long]반환 한다.
+     */
+    fun getBoardCount(boardSearchDto: BoardSearchDto): Long {
+        val fromDt = LocalDateTime.parse(boardSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
+        val toDt = LocalDateTime.parse(boardSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
+
+        return boardRepository.findByBoardCount(
+            boardSearchDto.boardAdminId,
+            boardSearchDto.search,
+            fromDt,
+            toDt
+        )
+    }
+
+    /**
+     * [boardSearchDto]를 받아서 게시판 추가할 데이터를 [List<BoardRestDto>]으로 반환 한다.
+     */
+    fun getRestBoardList(boardSearchDto: BoardSearchDto): List<BoardRestDto> {
+        val fromDt = LocalDateTime.parse(boardSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
+        val toDt = LocalDateTime.parse(boardSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
+        val offset = boardSearchDto.offset.toLong()
+        val _boardList: List<BoardDto> = boardRepository.findByBoardList(
+            boardSearchDto.boardAdminId,
+            boardSearchDto.search,
+            fromDt,
+            toDt,
+            offset
+        )
+
+        val totalCount = getBoardCount(boardSearchDto)
+        val boardList: MutableList<BoardRestDto> = mutableListOf()
+        _boardList.forEach { boardDto ->
+            boardList.add(
+                BoardRestDto(
+                    boardId = boardDto.boardId,
+                    boardAdminId = boardDto.boardAdminId,
+                    boardCategoryName = boardDto.boardCategoryName,
+                    boardSeq = boardDto.boardSeq,
+                    boardGroupId = boardDto.boardGroupId,
+                    boardLevelId = boardDto.boardLevelId,
+                    boardTitle = boardDto.boardTitle,
+                    replyCount = boardDto.replyCount,
+                    readCount = boardDto.readCount,
+                    totalCount = totalCount,
+                    createDt = boardDto.createDt,
+                    createUserName = boardDto.createUser?.userName
+                )
+            )
+        }
+        return boardList
     }
 
     /**

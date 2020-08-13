@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.board.controller
 
 import co.brainz.itsm.board.dto.BoardSearchDto
@@ -55,6 +61,7 @@ class BoardController(private val boardService: BoardService) {
     @GetMapping("/list")
     fun getBoardList(boardSearchDto: BoardSearchDto, model: Model): String {
         model.addAttribute("boardList", boardService.getBoardList(boardSearchDto))
+        model.addAttribute("boardCount", boardService.getBoardCount(boardSearchDto))
         return boardListPage
     }
 

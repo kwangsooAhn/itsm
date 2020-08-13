@@ -130,17 +130,17 @@
             .align-center {text-align: center;}
             .align-left {text-align: left;}
             .align-right {text-align: right;}
-            .scroller-list {
+            .scroller-wrap {
                 position:relative;
-                padding-top:38px;
-                &-div {
-                    max-height:400px;
+                padding-top:2.375rem; //38px
+                &-list {
+                    max-height:25rem; //400px
                     overflow-y:auto;
                     & thead {
                         display:inline-table;
                         position:absolute;
                         top:0;
-                        width:calc(100% - 17px);
+                        width:calc(100% - 1.063rem); //17px
                     }
                 }
             }

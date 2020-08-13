@@ -30,6 +30,7 @@ common:
     fail: "Fail"
     group: "Group"
     list: "List"
+    listCount: "total"
     modify: "Modify"
     name: "Name"
     save: "Save"
