@@ -20,7 +20,6 @@ class DocumentController(
 
     private val documentSearchPage: String = "document/documentSearch"
     private val documentListPage: String = "document/documentList"
-    private val documentPublishPage: String = "document/documentPublish"
     private val documentPrintPage: String = "document/documentPrint"
 
     /**
@@ -44,18 +43,6 @@ class DocumentController(
         restTemplateDocumentSearchListDto.searchDocumentType = DocumentConstants.DocumentType.APPLICATION_FORM.value
         model.addAttribute("documentList", documentService.getDocumentList(restTemplateDocumentSearchListDto))
         return documentListPage
-    }
-
-    /**
-     * 신청서 작성 화면.
-     *
-     * @param documentId
-     * @return String
-     */
-    @GetMapping("{documentId}/publish")
-    fun getDocumentWrite(@PathVariable documentId: String, model: Model): String {
-        model.addAttribute("documentId", documentId)
-        return documentPublishPage
     }
 
     /**

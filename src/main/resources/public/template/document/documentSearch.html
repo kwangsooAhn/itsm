@@ -6,23 +6,31 @@
 <head>
     <title th:text="#{document.label.list}"></title>
 </head>
-<body>
-<th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <h1 th:text="#{document.label.list}"></h1>
-        <form id="searchDocumentsFrm">
-            <div class="pull-right">
-                <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}" class="search"/>
-                <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}" class="search"/>
-                <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
-                <input sec:authorize="hasAuthority('document.read.admin')" type="hidden" id="viewType" name="viewType" value="admin">
-            </div>
-        </form>
-        <hr>
-        <div id="documentList" style="margin-top: 20px"></div>
-    </div>
+<th:block layout:fragment="cssLink">
+    <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
 </th:block>
-</body>
+<th:block layout:fragment="scriptLink">
+    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
+    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
+    <script th:src="@{/assets/js/form/form.core.js}"></script>
+    <script th:src="@{/assets/js/form/form.component.js}"></script>
+    <script th:src="@{/assets/js/document/document.js}"></script>
+    <script type="text/javascript">
+            (function() {
+                aliceForm.init();
+                aliceForm.initSession(JSON.stringify({
+                    userKey : '[[${#authentication.details.userKey}]]',
+                    userId : '[[${#authentication.details.userId}]]',
+                    userName: '[[${#authentication.details.userName}]]',
+                    email: '[[${#authentication.details.email}]]',
+                    position: '[[${#authentication.details.position}]]',
+                    department: '[[${#authentication.details.department}]]',
+                    officeNumber: '[[${#authentication.details.officeNumber}]]',
+                    mobileNumber: '[[${#authentication.details.mobileNumber}]]'
+                }));
+            })();
+        </script>
+</th:block>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
@@ -42,7 +50,7 @@
         }
 
         function openDocument(documentId) {
-            window.open('/documents/' + documentId + '/publish', 'document_' + documentId, 'width=800, height=852');
+            aliceDocument.init(documentId);
         }
 
         function restSubmit(method, url, result, isShowProgressbar) {
@@ -59,4 +67,21 @@
         /*]]>*/
     </script>
 </th:block>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <h1 th:text="#{document.label.list}"></h1>
+        <form id="searchDocumentsFrm">
+            <div class="pull-right">
+                <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}" class="search"/>
+                <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}" class="search"/>
+                <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
+                <input sec:authorize="hasAuthority('document.read.admin')" type="hidden" id="viewType" name="viewType" value="admin">
+            </div>
+        </form>
+        <hr>
+        <div id="documentList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+</body>
 </html>
