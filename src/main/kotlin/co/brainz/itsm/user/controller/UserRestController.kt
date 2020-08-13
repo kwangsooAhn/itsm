@@ -124,9 +124,17 @@ class UserRestController(
     }
 
     /**
+     * 전체 사용자 목록 조회.
+     */
+    @GetMapping("/", "")
+    fun getUsers(): MutableList<UserListDto> {
+        return userService.selectUserListOrderByName()
+    }
+
+    /**
      * 변경된 사용자 정보를 SecurityContextHolder에 update한다.
      */
-    fun createNewAuthentication(user: UserUpdateDto): Authentication {
+    private fun createNewAuthentication(user: UserUpdateDto): Authentication {
         var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(user.userKey))
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
         aliceUser.avatarPath = avatarService.makeAvatarPath(aliceUser.avatar)
@@ -134,13 +142,5 @@ class UserRestController(
             UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)
         return usernamePasswordAuthenticationToken
-    }
-
-    /**
-     * 전체 사용자 목록 조회.
-     */
-    @GetMapping("/", "")
-    fun getUsers(): MutableList<UserListDto> {
-        return userService.selectUserListOrderByName()
     }
 }

@@ -83,7 +83,7 @@ class AliceFileService(
         val tempPath = super.getDir("temp", fileName)
         val filePath = super.getDir("uploadRoot", fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
-        val transferFile = File(multipartFile.originalFilename)
+        val transferFile = File(multipartFile.originalFilename!!)
         val mimeType = MimetypesFileTypeMap().getContentType(transferFile).toUpperCase()
 
         if (Files.notExists(tempPath.parent)) {

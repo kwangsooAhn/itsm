@@ -2,6 +2,7 @@ package co.brainz.itsm.user.controller
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.code.service.CodeService
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import java.nio.file.Paths
 
 /**
  * 사용자 관리 클래스
@@ -27,7 +29,8 @@ import org.springframework.web.bind.annotation.RequestParam
 class UserController(
     private val codeService: CodeService,
     private val userService: UserService,
-    private val roleService: RoleService
+    private val roleService: RoleService,
+    private val avatarService: AliceAvatarService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -74,6 +77,10 @@ class UserController(
         var returnUrl = ""
         val userEntity = userService.selectUserKey(userKey)
         val users = userMapper.toUserDto(userEntity)
+        users.avatarId = userEntity.avatar.avatarId
+        users.avatarPath = avatarService.makeAvatarPath(userEntity.avatar)
+        users.avatarValue = userEntity.avatar.avatarValue
+        users.avatarSize = Paths.get(userEntity.avatar.uploadedLocation).toFile().length()
         val roleEntities = mutableSetOf<AliceRoleEntity>()
         val timeFormat = users.timeFormat!!.split(' ')
         val usersDate = timeFormat[0]
@@ -89,7 +96,7 @@ class UserController(
         val roles = roleService.getRoles(roleEntities)
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
-        if (users.department != "") {
+        if (users.department?.isBlank() == true) {
             val deptCodeDetail = codeService.getDetailCodes(users.department!!)
             model.addAttribute("deptCodeDetail", deptCodeDetail)
         }
