@@ -115,7 +115,10 @@
                     <div class="document-topic">
                         ${token.topics.map(topic => `<p>${topic}</p>`).join('')}
                     </div>
-                    <div class="document-user">${token.createUserName}</div>
+                    <div class="document-user">
+                        <img class="profile-photo" alt="profile pic" src="${token.avatarPath}">
+                        <span class="document-username">${token.createUserName}</span>
+                    </div>
                     <div class="document-create-dt">
                         ${dateFormatFromNow(token.createDt)}
                     </div>

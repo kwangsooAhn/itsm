@@ -18,6 +18,13 @@ $green: #00C462;
 $color-line: #C8CED8;
 $color-title: #3E4752;
 $color-text: #67717F;
+$menu-bg-color: $ground-black;
+$menu-bg-selected-color: $focus-black;
+$menu-bg-hover: $focus-black;
+$menu-color: $blue-gray;
+$menu-selected-color: $white;
+$menu-hover: $blue-gray;
+
 $default-font-family: 'Noto Sans KR', sans-serif;
 
 // DOM Elements
@@ -27,6 +34,8 @@ $element-border: 0.0625rem; // 1px
 $element-border-radius: 0.0625rem; // 1px
 $element-font-size: 0.875rem; // 14px
 $element-font-color: $color-text;
+
+$menu-font: 1rem; // 16px;
 
 // Column width
 $column-init: 5rem; // 80px
