@@ -211,6 +211,8 @@ input::placeholder, textarea::placeholder, select::placeholder {
   width: 100vw;
   height: 100vh;
   background-color: #F7F8F9;
+  padding: 0;
+  margin: 0;
 }
 
 .form-designer .container *:focus {
@@ -227,6 +229,9 @@ input::placeholder, textarea::placeholder, select::placeholder {
   display: flex;
   left: 0;
   float: left;
+  min-width: auto;
+  padding: 0;
+  margin: 0;
 }
 
 .form-designer .container .contents .drawing-board {
@@ -363,9 +368,9 @@ input::placeholder, textarea::placeholder, select::placeholder {
       -ms-flex-pack: end;
           justify-content: flex-end;
   padding-bottom: 0.9375rem;
-  width: 985px;
-  max-width: 985px;
-  height: 150px;
+  width: 61.56rem;
+  max-width: 61.56rem;
+  height: 9.375rem;
 }
 
 .form-designer .container.document .contents .button-board > .button-group {
@@ -377,17 +382,17 @@ input::placeholder, textarea::placeholder, select::placeholder {
 }
 
 .form-designer .container.document .contents .drawing-board {
-  width: 985px;
-  max-width: 985px;
-  height: calc(100vh - 150px);
-  min-height: calc(100vh - 150px);
+  width: 61.56rem;
+  max-width: 61.56rem;
+  height: calc(100vh - 9.375rem);
+  min-height: calc(100vh - 9.375rem);
   padding: 6.25rem 4.063rem 0 4.063rem;
 }
 
 .form-designer .container.document .aside {
-  margin-top: 150px;
-  height: calc(100vh - 150px);
-  min-height: calc(100vh - 150px);
+  margin-top: 9.375rem;
+  height: calc(100vh - 9.375rem);
+  min-height: calc(100vh - 9.375rem);
 }
 
 .form-designer .container.document .aside .drawing-board {
@@ -404,8 +409,8 @@ input::placeholder, textarea::placeholder, select::placeholder {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 540px;
-  max-width: 540px;
+  width: 33.75rem;
+  max-width: 33.75rem;
   margin-left: 0.625rem;
   padding: 3.125rem 3.75rem 0 3.75rem;
   background-color: #ffffff;
@@ -481,10 +486,10 @@ input::placeholder, textarea::placeholder, select::placeholder {
 }
 
 .form-designer .container.print .contents .drawing-board {
-  width: 985px;
-  max-width: 985px;
-  height: calc(100vh - 150px);
-  min-height: calc(100vh - 150px);
+  width: 61.56rem;
+  max-width: 61.56rem;
+  height: calc(100vh - 9.375rem);
+  min-height: calc(100vh - 9.375rem);
   padding: 6.25rem 4.063rem 0 4.063rem;
 }
 
@@ -493,9 +498,9 @@ input::placeholder, textarea::placeholder, select::placeholder {
 }
 
 .form-designer .container.print .aside {
-  margin-top: 150px;
-  height: calc(100vh - 150px);
-  min-height: calc(100vh - 150px);
+  margin-top: 9.375rem;
+  height: calc(100vh - 9.375rem);
+  min-height: calc(100vh - 9.375rem);
 }
 
 .form-designer .container.print .aside .drawing-board {
@@ -512,8 +517,8 @@ input::placeholder, textarea::placeholder, select::placeholder {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  width: 540px;
-  max-width: 540px;
+  width: 33.75rem;
+  max-width: 33.75rem;
   margin-left: 0.625rem;
   padding: 3.125rem 3.75rem 0 3.75rem;
   background-color: #ffffff;
@@ -780,8 +785,12 @@ button.point-fill:not(:disabled):active {
 
 .contents .drawing-board .component .field-group .field-label span[class="required"] {
   padding-left: 0.3125rem;
-  color: #FF405A;
   font-weight: 700;
+}
+
+.contents .drawing-board .component .field-group .field-label span[class="required"]::after {
+  color: #FF405A;
+  content: "\002a";
 }
 
 .contents .drawing-board .component .field-group .field-empty {

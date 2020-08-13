@@ -49,8 +49,11 @@
                     .label { display: inline-block; }
                     span[class="required"] {
                         padding-left: 0.3125rem; //5px
-                        color: $red;
                         font-weight: 700;
+                        &::after {
+                            color: $red;
+                            content: "\002a"; // *
+                        }
                     }
                 }
         

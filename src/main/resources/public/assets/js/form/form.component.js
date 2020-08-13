@@ -89,7 +89,7 @@
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                         `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -132,7 +132,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -205,7 +205,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -255,7 +255,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div id="radio" class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
@@ -306,7 +306,7 @@
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                         `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                        `<span class="required">*</span>` +
+                        `<span class="required"></span>` +
                     `</div>` +
                     `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                     `<div id="chkbox" class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
@@ -468,7 +468,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -536,7 +536,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -605,7 +605,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -649,7 +649,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" id="fileupload"${displayType === 'editableRequired' ? ' required' : ''} style="--data-column: ${property.display.column};">` +
@@ -731,7 +731,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content custom-code" style="--data-column: ${property.display.column};">` +

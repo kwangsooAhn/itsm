@@ -392,7 +392,7 @@
         sessionStorage.setItem(itemName, JSON.stringify({'form': editor.data}));
         let url = '/forms/' + editor.data.formId + '/preview';
         const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-        window.open(url, itemName, 'width=800,height=805,' + specs);
+        window.open(url, itemName, 'width=1200,height=900,' + specs);
     }
 
     /**

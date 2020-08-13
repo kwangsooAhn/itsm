@@ -61,6 +61,8 @@ input, textarea, select {
         width: 100vw;
         height: 100vh;
         background-color: $container-background-color;
+        padding: 0;
+        margin: 0;
 
         // 포커스가 잡힐 경우 테두리 삭제
         & *:focus { outline: none !important; }
@@ -73,6 +75,9 @@ input, textarea, select {
             display: flex;
             left: 0;
             float: left;
+            min-width: auto;
+            padding: 0;
+            margin: 0;
             // 실제 컴포넌트들이 그려지는 영역
             .drawing-board {
                 display: flex; 
