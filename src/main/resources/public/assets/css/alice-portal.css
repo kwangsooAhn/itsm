@@ -815,6 +815,7 @@ input:focus {
   line-height: 150%;
 }
 .dropzone .dz-preview .dz-details .dz-size {
+  display: none;
   text-align: center;
 }
 .dropzone .dz-preview .dz-details .dz-size span {
@@ -823,6 +824,7 @@ input:focus {
   color: #67717f;
 }
 .dropzone .dz-preview .dz-details .dz-filename {
+  display: none;
   white-space: nowrap;
 }
 .dropzone .dz-preview .dz-details .dz-filename span {
@@ -835,8 +837,6 @@ input:focus {
   -ms-transform: scale(1.05, 1.05);
   -o-transform: scale(1.05, 1.05);
   transform: scale(1.05, 1.05);
-  -webkit-filter: blur(8px);
-  filter: blur(8px);
 }
 .dropzone .dz-preview .dz-image {
   overflow: hidden;

@@ -135,6 +135,7 @@
             line-height: 150%;
 
             .dz-size {
+                display: none;
                 text-align: center;
 
                 span {
@@ -145,6 +146,7 @@
             }
 
             .dz-filename {
+                display: none;
                 white-space: nowrap;
 
                 span {
@@ -160,8 +162,8 @@
             -ms-transform: scale(1.05, 1.05);
             -o-transform: scale(1.05, 1.05);
             transform: scale(1.05, 1.05);
-            -webkit-filter: blur(8px);
-            filter: blur(8px);
+            //-webkit-filter: blur(8px);
+            //filter: blur(8px);
         }
 
         .dz-image {

@@ -1451,9 +1451,11 @@ textarea {
   display: none;
 }
 .dropzone.avatar .dz-preview .dz-details .dz-filename {
+  display: none;
   text-align: center;
 }
 .dropzone.avatar .dz-preview .dz-details .dz-size {
+  display: none;
   text-align: center;
 }
 .dropzone.avatar .dz-preview .dz-details .dz-size span {
@@ -1624,8 +1626,6 @@ textarea {
   -ms-transform: scale(1.05, 1.05);
   -o-transform: scale(1.05, 1.05);
   transform: scale(1.05, 1.05);
-  -webkit-filter: blur(8px);
-  filter: blur(8px);
 }
 .dropzone .dz-preview .dz-image {
   overflow: hidden;
