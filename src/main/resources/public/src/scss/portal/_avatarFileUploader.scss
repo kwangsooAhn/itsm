@@ -1,10 +1,14 @@
-.avatarFileUploader {
+.dropzone {
     box-sizing: border-box;
-    min-height: 150px;
+    height: 9.375rem;
     border: 0.0625rem solid #C8CED8; // 1px
-    background: white;
-    padding: 20px 20px;
     width: 9.375rem; // 150px
+    background-color: #FDFDFD;
+    background-image: url("../media/icons/form/editor/icon_image.png");
+    background-size: 2.813rem; // 45px;
+    background-repeat: no-repeat;
+    background-position-y: 1.688rem; // 27px
+    background-position-x: center;
 
     & * {
         box-sizing: border-box;
@@ -12,19 +16,23 @@
 
     .dz-clickable {
         cursor: pointer;
+        text-decoration: underline;
+        color: $alice-primary;
+
         & * {
             cursor: default;
         }
 
         .dz-message {
             cursor: pointer;
+
             & * {
                 cursor: pointer;
             }
         }
     }
 
-    .dz-started {
+    &.dz-started {
         .dz-message {
             display: none;
         }
@@ -32,40 +40,56 @@
 
     .dz-drag-hover {
         border-style: solid;
+
         .dz-message {
             opacity: 0.5;
         }
     }
 
+    .dz-uploaded {
+        border: 0;
+    }
+
     .dz-message {
         text-align: center;
-        margin: 2em 0;
+        margin: 5.625rem 0 0 0;
+        font-size: 0.8125rem; // 13px
+        color: #7A8594;
+
+        .add-file-button-wrap {
+            margin-top: 0.5rem;
+        }
     }
 
     .dz-preview {
         position: relative;
         display: inline-block;
         vertical-align: top;
-        margin: 16px;
-        min-height: 100px;
+        min-height: 9.375rem;
+
         &:hover {
             z-index: 1000;
+
             .dz-details {
                 opacity: 1;
             }
         }
+
         .dz-file-preview {
             .dz-image {
                 border-radius: 20px;
                 background: #999;
                 background: linear-gradient(to bottom, #eee, #ddd);
             }
+
             .dz-details {
                 opacity: 1;
             }
         }
+
         .dz-image-preview {
             background: white;
+
             .dz-details {
                 -webkit-transition: opacity 0.2s linear;
                 -moz-transition: opacity 0.2s linear;
@@ -74,19 +98,28 @@
                 transition: opacity 0.2s linear;
             }
         }
+
         .dz-remove {
-            font-size: 14px;
-            text-align: center;
-            display: block;
             cursor: pointer;
-            border: none;
+            text-align: center;
+            width: 1.125rem;
+            height: 1.125rem;
+            position: absolute;
+            top: 0;
+            left: 8.25rem;
+            background-color: rgba(255, 255, 255, 0.4);
+            background-image: url($icon-folder-path + "icon_close.png");
+
             &:hover {
                 text-decoration: underline;
+                background-color: rgba(255, 255, 255, 0.9);
+
                 .dz-details {
                     opacity: 1;
                 }
             }
         }
+
         .dz-details {
             z-index: 20;
             position: absolute;
@@ -96,39 +129,31 @@
             font-size: 13px;
             min-width: 100%;
             max-width: 100%;
-            padding: 2em 1em;
+            padding: 3rem 1rem;
             text-align: center;
             color: rgba(0, 0, 0, 0.9);
             line-height: 150%;
+
             .dz-size {
-                margin-bottom: 1em;
-                font-size: 16px;
+                text-align: center;
+
                 span {
                     background-color: rgba(255, 255, 255, 0.4);
-                    padding: 0 0.4em;
                     border-radius: 3px;
+                    color: #67717f;
                 }
             }
+
             .dz-filename {
                 white-space: nowrap;
-                &:hover span {
-                    border: 1px solid rgba(200, 200, 200, 0.8);
-                    background-color: rgba(255, 255, 255, 0.8);
-                }
-                &:not(:hover) {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    span {
-                        border: 1px solid transparent;
-                    }
-                }
+
                 span {
                     background-color: rgba(255, 255, 255, 0.4);
-                    padding: 0 0.4em;
                     border-radius: 3px;
                 }
             }
         }
+
         &:hover .dz-image img {
             -webkit-transform: scale(1.05, 1.05);
             -moz-transform: scale(1.05, 1.05);
@@ -138,18 +163,21 @@
             -webkit-filter: blur(8px);
             filter: blur(8px);
         }
+
         .dz-image {
-            border-radius: 20px;
+            //border-radius: 5px;
             overflow: hidden;
-            width: 120px;
-            height: 120px;
+            //width: 9.375rem;
+            //height: 9.375rem;
             position: relative;
             display: block;
             z-index: 10;
+
             img {
                 display: block;
             }
         }
+
         .dz-error .dz-error-mark {
             opacity: 1;
             -webkit-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
@@ -158,6 +186,7 @@
             -o-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
             animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
         }
+
         .dz-success .dz-success-mark {
             -webkit-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
             -moz-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
@@ -165,6 +194,7 @@
             -o-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
             animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
         }
+
         .dz-success-mark, .dz-error-mark {
             pointer-events: none;
             opacity: 0;
@@ -182,7 +212,8 @@
             width: 54px;
             height: 54px;
         }
-        .dz-processing .dz-progress {
+
+        &.dz-processing .dz-progress {
             opacity: 1;
             -webkit-transition: all 0.2s linear;
             -moz-transition: all 0.2s linear;
@@ -190,7 +221,8 @@
             -o-transition: all 0.2s linear;
             transition: all 0.2s linear;
         }
-        .dz-complete .dz-progress {
+
+        &.dz-complete .dz-progress {
             opacity: 0;
             -webkit-transition: opacity 0.4s ease-in;
             -moz-transition: opacity 0.4s ease-in;
@@ -198,6 +230,7 @@
             -o-transition: opacity 0.4s ease-in;
             transition: opacity 0.4s ease-in;
         }
+
         &:not(.dz-processing) .dz-progress {
             -webkit-animation: pulse 6s ease infinite;
             -moz-animation: pulse 6s ease infinite;
@@ -205,24 +238,25 @@
             -o-animation: pulse 6s ease infinite;
             animation: pulse 6s ease infinite;
         }
+
         .dz-progress {
             opacity: 1;
             z-index: 1000;
             pointer-events: none;
             position: absolute;
-            height: 16px;
+            height: 0.25rem;
             left: 50%;
-            top: 50%;
+            top: 90%;
             margin-top: -8px;
             width: 80px;
             margin-left: -40px;
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(190, 197, 206, 0.9);
             -webkit-transform: scale(1);
             border-radius: 8px;
             overflow: hidden;
+
             .dz-upload {
-                background: #333;
-                background: linear-gradient(to bottom, #666, #444);
+                background: linear-gradient(to bottom, #0050ff, #0050ff);
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -235,15 +269,18 @@
                 transition: width 300ms ease-in-out;
             }
         }
+
         .dz-error {
             .dz-error-message {
                 display: block;
             }
+
             &:hover .dz-error-message {
                 opacity: 1;
                 pointer-events: auto;
             }
         }
+
         .dz-error-message {
             pointer-events: none;
             z-index: 1000;
@@ -265,6 +302,7 @@
             background: linear-gradient(to bottom, #be2626, #a92222);
             padding: 0.5em 1.2em;
             color: white;
+
             &:after {
                 content: '';
                 position: absolute;
@@ -291,6 +329,7 @@
     &-description {
         display: inline-block;
         vertical-align: top;
+
         span {
             display: block;
             margin-bottom: 0.5rem;

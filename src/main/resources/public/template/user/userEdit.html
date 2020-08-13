@@ -1,17 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
-    <meta charset="UTF-8">
-    <style>
-        .dropzone {
-            width: 152px;
-            min-height: 0px;
-            height: 82px;
-        }
-    </style>
+    <title th:unless="${users?.userKey}" th:text="#{user.label.createUser}"></title>
+    <title th:if="${users?.userKey}" th:text="#{user.label.editUserInfo}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -36,10 +29,10 @@
                         <div class="avatar-section-wrap">
                             <span class="avatar-title" th:text="#{user.label.avatar}"></span>
                             <span class="avatar-section">
-                                <div class="avatar_text" id="dropZoneFiles"></div><br/><br/>
+                                <div class="avatar-text" id="avatarDropZone"></div>
                             </span>
                             <div class="avatar-bottom-text-wrap">
-                                <span class="avatar_bottom_text" th:text="#{user.label.FileSizeLimit}"></span>
+                                <span class="avatar-bottom-text" th:text="#{user.label.FileSizeLimit}"></span>
                                 <br>
                                 <span class="avatar-far-bottom-text" th:text="#{user.label.FileExtensionAllowed}"></span>
                             </div>
@@ -175,16 +168,28 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            const avatarUUID = uuid();
-            document.getElementById('avatarUUID').value = avatarUUID;
-            fileUploader.init({extra: {
-                formId: 'userEditSelfForm',
-                dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/fileupload?target=avatar&fileName=' + avatarUUID,
-                dropZoneMaxFiles: 1,
-                acceptedFiles: '.png,.jpeg,.jpg,.gif',
-                clickable: 'add-img-button'
-            }});
+            fileUploader.avatar({
+                extra: {
+                    dropZoneFilesId: 'avatarDropZone',
+                    type: 'avatar',
+                    dropZoneMaxFileSize: 0.2,
+                    dropZoneUrl: '/fileupload?target=avatar',
+                    dropZoneMaxFiles: 1,
+                    acceptedFiles: '.png,.jpeg,.jpg,.gif',
+                    enableImageThumbnails: true,
+                    thumbnailWidth: 300,
+                    thumbnailHeight: 300,
+                    dictDefaultMessage: 'Drop files here to upload',
+                    clickableLineMessage: 'or ',
+                    clickableMessage: 'browse',
+                    avatar: {
+                        id: [[${users?.avatarId}]],
+                        path: [[${users?.avatarPath}]],
+                        value: [[${users?.avatarValue}]],
+                        size: [[${users?.avatarSize}]]
+                    }
+                }
+            });
         };
 
         function onlyNumber(event) {
@@ -219,11 +224,6 @@
                 arrRoleValue.push(item.value);
             });
 
-            let avatarUUID = document.getElementById('avatarUUID').value;
-            if (document.getElementsByClassName('dz-image').item(0) === null) {
-                avatarUUID = '';
-            }
-
             const data = {
                 userKey: document.getElementById('userKey').value,
                 userId: document.getElementById('userId').value,
@@ -239,8 +239,7 @@
                 theme: document.getElementById('theme').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
                 roles: arrRoleValue,
-                fileSeq: document.getElementsByTagName('fileSeq').value,
-                avatarUUID: avatarUUID
+                avatarUUID: document.getElementById('avatarUUID').value
             };
             let password = document.getElementById('password').value;
             if (password !== '' && method === 'put') {
@@ -250,10 +249,6 @@
                 rsa.setPublic(keyModule, keyExponent);
                 data.password = rsa.encrypt(password);
             }
-
-            <!--임시-->
-            console.log(data);
-
             aliceJs.sendXhr({
                 method: method,
                 url: url,
@@ -305,12 +300,7 @@
             return true;
         }
 
-        function uuid() {
-            function s4() {
-                return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
-            }
-            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-        }
+
 
         function deptPopUp() {
             window.open('/users/department/view-pop', null, 'width=400, height=700');
