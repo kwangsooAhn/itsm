@@ -206,60 +206,22 @@ input::placeholder, textarea::placeholder, select::placeholder {
   color: gray;
 }
 
-button {
-  display: inline-block;
-  font-size: 1rem;
-  line-height: 1.5;
-  font-weight: 500;
-  text-align: center;
-  color: #3F4B56;
-  background-color: #ffffff;
-  border: 0.0625rem solid #EBEBEB;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  padding: 0.375rem 0.75rem;
-  border-radius: 0.1875rem;
-  white-space: nowrap;
-  vertical-align: middle;
-}
-
-button:focus, button:hover {
-  outline: 0;
-  color: #3F4B56;
-  background-color: rgba(230, 230, 230, 0.3);
-  border: 0.0625rem solid #EBEBEB;
-}
-
-button:disabled {
-  color: #3F4B56;
-  background-color: #ffffff;
-  border: 0.0625rem solid #EBEBEB;
-  opacity: 0.3;
-}
-
-button:not(:disabled):active {
-  color: #3F4B56;
-  background-color: #EBEBEB;
-  border: 0.0625rem solid #CCCED1;
-}
-
-.container {
+/* 폼 디자이너 팝업 layout  */
+.form-designer .container {
   width: 100vw;
   height: 100vh;
   background-color: #F7F8F9;
 }
 
-.container *:focus {
+.form-designer .container *:focus {
   outline: none !important;
 }
 
-.container .toolbar {
+.form-designer .container .toolbar {
   width: 100vw;
 }
 
-.container .contents {
+.form-designer .container .contents {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -267,7 +229,7 @@ button:not(:disabled):active {
   float: left;
 }
 
-.container .contents .drawing-board {
+.form-designer .container .contents .drawing-board {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -292,12 +254,12 @@ button:not(:disabled):active {
   /* Firefox */
 }
 
-.container .contents .drawing-board::-webkit-scrollbar {
+.form-designer .container .contents .drawing-board::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
 
-.container .aside {
+.form-designer .container .aside {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -312,42 +274,12 @@ button:not(:disabled):active {
   right: 0;
 }
 
-.container .aside .drawing-board {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  background-color: #ffffff;
-  border: 0.0625rem solid #EBEBEB;
-  -webkit-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
-          box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-.container .aside .drawing-board::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-
-.container.form {
+.form-designer .container.form {
   min-width: 93.75rem;
   min-height: 61.25rem;
 }
 
-.container.form .contents {
+.form-designer .container.form .contents {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
@@ -358,25 +290,25 @@ button:not(:disabled):active {
   min-height: calc(100vh - 3.125rem);
 }
 
-.container.form .contents .drawing-board {
+.form-designer .container.form .contents .drawing-board {
   width: 59.38rem;
   max-width: 59.38rem;
   margin-top: 6.563rem;
   padding: 6.25rem 4.063rem 0 4.063rem;
 }
 
-.container.form .contents .drawing-board[data-readonly=true] input[type=text],
-.container.form .contents .drawing-board[data-readonly=true] textarea,
-.container.form .contents .drawing-board[data-readonly=true] button,
-.container.form .contents .drawing-board[data-readonly=true] .ql-toolbar {
+.form-designer .container.form .contents .drawing-board[data-readonly=true] input[type=text],
+.form-designer .container.form .contents .drawing-board[data-readonly=true] textarea,
+.form-designer .container.form .contents .drawing-board[data-readonly=true] button,
+.form-designer .container.form .contents .drawing-board[data-readonly=true] .ql-toolbar {
   pointer-events: none;
 }
 
-.container.form .contents .drawing-board[data-readonly=true] .component .move-handler {
+.form-designer .container.form .contents .drawing-board[data-readonly=true] .component .move-handler {
   display: inherit;
 }
 
-.container.form .aside {
+.form-designer .container.form .aside {
   top: 3.125rem;
   width: 16.25rem;
   height: calc(100vh - 3.125rem);
@@ -392,121 +324,125 @@ button:not(:disabled):active {
   /* Firefox */
 }
 
-.container.form .aside::-webkit-scrollbar {
+.form-designer .container.form .aside::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
 
-.container.document {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.container.document .contents {
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  height: 100vh;
-  min-height: 100vh;
-}
-
-.container.document .contents .button-board {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  padding-bottom: 15px;
-  width: 985px;
-  max-width: 985px;
-  height: 150px;
-}
-
-.container.document .contents .button-board > .button-group {
+button {
   display: inline-block;
-}
-
-.container.document .contents .button-board > .button-group button {
-  margin-right: 10px;
-}
-
-.container.document .contents .button-board button {
-  width: 80px;
-  height: 40px;
-  border: none;
-  border-radius: 3px;
-  background-color: #E1E3E6;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 500;
+  text-align: center;
   color: #3F4B56;
+  background-color: transparent;
+  border: 0.0625rem solid transparent;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.1875rem;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  opacity: 1;
 }
 
-.container.document .contents .button-board button:hover {
+button:focus, button:hover {
+  outline: 0;
+  background-color: rgba(230, 230, 230, 0.3);
+}
+
+button:disabled {
+  background-color: #ffffff;
+  opacity: 0.3;
+}
+
+button:not(:disabled):active {
   background-color: #EBEBEB;
 }
 
-.container.document .contents .drawing-board {
-  width: 985px;
-  max-width: 985px;
-  height: calc(100vh - 150px);
-  min-height: calc(100vh - 150px);
-  padding: 6.25rem 4.063rem 0 4.063rem;
-}
-
-.container.document .aside {
-  margin-top: 150px;
-  height: calc(100vh - 150px);
-  min-height: calc(100vh - 150px);
-}
-
-.container.document .aside .drawing-board {
-  width: 540px;
-  max-width: 540px;
-  margin-left: 10px;
-  padding: 50px 60px 0 60px;
-}
-
-.container.document .aside .drawing-board ul.menu {
-  display: table-row;
-  border-bottom: solid 0.0625rem #EBEBEB;
-  margin-bottom: 30px;
-}
-
-.container.document .aside .drawing-board ul.menu li.menu-item {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  width: 100px;
-  height: 40px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #929AA6;
-  border-bottom: solid 4px #ffffff;
-  cursor: pointer;
-}
-
-.container.document .aside .drawing-board ul.menu li.menu-item.selected {
+button.default-line {
   color: #3F4B56;
-  border-bottom: solid 4px #0098FF;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
 }
 
-.container.document .aside .drawing-board ul.menu div.menu-content {
-  display: none;
+button.default-line:focus, button.default-line:hover {
+  outline: 0;
+  background-color: rgba(230, 230, 230, 0.3);
 }
 
-.container.document .aside .drawing-board ul.menu div.menu-content.selected {
-  display: inherit;
+button.default-line:disabled {
+  opacity: 0.3;
 }
 
-/* 상단 툴 바 */
-.container.form .toolbar {
+button.default-line:not(:disabled):active {
+  background-color: #EBEBEB;
+  border: 0.0625rem solid #CCCED1;
+}
+
+button.default-fill {
+  color: #3F4B56;
+  background-color: #E1E3E6;
+  border: 0.0625rem solid transparent;
+}
+
+button.default-fill:focus, button.default-fill:hover {
+  outline: 0;
+  background-color: #EBEBEB;
+}
+
+button.default-fill:disabled {
+  opacity: 0.3;
+}
+
+button.default-fill:not(:disabled):active {
+  background-color: #CCCED1;
+}
+
+button.point-line {
+  color: #0098FF;
+  background-color: #ffffff;
+  border: 0.0625rem solid #0098FF;
+}
+
+button.point-line:focus, button.point-line:hover {
+  outline: 0;
+  background-color: rgba(0, 152, 255, 0.1);
+}
+
+button.point-line:disabled {
+  opacity: 0.3;
+}
+
+button.point-line:not(:disabled):active {
+  background-color: #33ADFF;
+  opacity: 0.3;
+}
+
+button.point-fill {
+  color: #ffffff;
+  background-color: #0098FF;
+  border: 0.0625rem solid transparent;
+}
+
+button.point-fill:focus, button.point-fill:hover {
+  outline: 0;
+  background-color: #33ADFF;
+}
+
+button.point-fill:disabled {
+  opacity: 0.3;
+}
+
+button.point-fill:not(:disabled):active {
+  background-color: #0088E6;
+}
+
+/* 폼 디자이너 상단 툴 바 */
+.form-designer .container.form .toolbar {
   height: 3.125rem;
   font-size: 0.75rem;
   color: #ffffff;
@@ -515,7 +451,7 @@ button:not(:disabled):active {
   line-height: 1.0rem;
 }
 
-.container.form .toolbar span.logo {
+.form-designer .container.form .toolbar span.logo {
   width: 10.94rem;
   height: 1.625rem;
   float: left;
@@ -525,7 +461,7 @@ button:not(:disabled):active {
   background-image: url("../media/icons/form/topmenu/logo.png");
 }
 
-.container.form .toolbar span.name {
+.form-designer .container.form .toolbar span.name {
   float: left;
   padding: 0 1.25rem;
   font-size: 18px;
@@ -533,7 +469,7 @@ button:not(:disabled):active {
   line-height: 1.625rem;
 }
 
-.container.form .toolbar span.separator {
+.form-designer .container.form .toolbar span.separator {
   width: 0.063rem;
   height: 1.625rem;
   background-color: #ffffff;
@@ -541,18 +477,18 @@ button:not(:disabled):active {
   float: left;
 }
 
-.container.form .toolbar a {
+.form-designer .container.form .toolbar a {
   height: 1.625rem;
   line-height: 1.625rem;
   margin-right: 1.25rem;
   float: left;
 }
 
-.container.form .toolbar a img {
+.form-designer .container.form .toolbar a img {
   cursor: pointer;
 }
 
-.container.form .toolbar span.form-name {
+.form-designer .container.form .toolbar span.form-name {
   height: 1.625rem;
   line-height: 1.625rem;
   font-size: 16px;
@@ -2955,6 +2891,213 @@ button:not(:disabled):active {
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
   border-bottom: 6px solid #FF405A;
+}
+
+/* 신청서, 처리할 문서 모달 */
+body.document-modal-active {
+  overflow: hidden !important;
+}
+
+.document-modal-wrapper {
+  display: none;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.document-modal-wrapper.document-modal-active {
+  display: block;
+}
+
+.document-modal-wrapper .document-modal-backdrop {
+  z-index: 2001;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.document-modal-wrapper .document-modal-dialog {
+  z-index: 2001;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #F7F8F9;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.document-modal-wrapper .document-modal-dialog *:focus {
+  outline: none !important;
+}
+
+.document-modal-wrapper .document-modal-dialog .contents {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  left: 0;
+  float: left;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+.document-modal-wrapper .document-modal-dialog .contents .button-board {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding-bottom: 15px;
+  width: 985px;
+  max-width: 985px;
+  height: 150px;
+}
+
+.document-modal-wrapper .document-modal-dialog .contents .button-board > .button-group {
+  display: inline-block;
+}
+
+.document-modal-wrapper .document-modal-dialog .contents .button-board > .button-group button {
+  margin-right: 10px;
+}
+
+.document-modal-wrapper .document-modal-dialog .contents .drawing-board {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 985px;
+  max-width: 985px;
+  height: calc(100vh - 150px);
+  min-height: calc(100vh - 150px);
+  padding: 6.25rem 4.063rem 0 4.063rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  -webkit-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+          box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.document-modal-wrapper .document-modal-dialog .contents .drawing-board::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+.document-modal-wrapper .document-modal-dialog .aside {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  float: left;
+  right: 0;
+  margin-top: 150px;
+  height: calc(100vh - 150px);
+  min-height: calc(100vh - 150px);
+}
+
+.document-modal-wrapper .document-modal-dialog .aside .drawing-board {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 540px;
+  max-width: 540px;
+  margin-left: 10px;
+  padding: 50px 60px 0 60px;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  -webkit-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+          box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.document-modal-wrapper .document-modal-dialog .aside .drawing-board::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+.document-modal-wrapper .document-modal-dialog .aside .drawing-board ul.menu {
+  display: table-row;
+  border-bottom: solid 0.0625rem #EBEBEB;
+  margin-bottom: 30px;
+}
+
+.document-modal-wrapper .document-modal-dialog .aside .drawing-board ul.menu li.menu-item {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #929AA6;
+  border-bottom: solid 4px #ffffff;
+  cursor: pointer;
+}
+
+.document-modal-wrapper .document-modal-dialog .aside .drawing-board ul.menu li.menu-item.selected {
+  color: #3F4B56;
+  border-bottom: solid 4px #0098FF;
+}
+
+.document-modal-wrapper .document-modal-dialog .aside .drawing-board ul.menu div.menu-content {
+  display: none;
+}
+
+.document-modal-wrapper .document-modal-dialog .aside .drawing-board ul.menu div.menu-content.selected {
+  display: inherit;
 }
 
 body.thumbnail-modal-active {

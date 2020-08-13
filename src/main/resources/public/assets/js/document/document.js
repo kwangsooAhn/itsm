@@ -8,6 +8,7 @@
     let documentContainer = null;
     let buttonContainer = null;
     let commentContainer = null;
+    let documentModal = null;
     let isDocument = true; // 신청서 vs 처리할 문서
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
@@ -266,17 +267,14 @@
                 if (element.name !== '') {
                     let buttonProcessEle = document.createElement('button');
                     buttonProcessEle.type = 'button';
+                    buttonProcessEle.className = 'default-fill';
                     buttonProcessEle.innerText = element.name;
                     buttonProcessEle.addEventListener('click', function () {
                        if (element.value === 'close') {
                            if (opener !== null && opener !== undefined) {
                                window.close();
                            } else {
-                               if (isDocument) { // 신청서
-                                   window.open('/documents/search', '_self');
-                               } else { // 문서함
-                                   window.open('/tokens/search', '_self');
-                               }
+                               documentModal.hide();
                            }
                        } else {
                            aliceDocument.save(element.value);
@@ -493,11 +491,7 @@
                              opener.location.reload();
                              window.close();
                         } else {
-                            if (isDocument) { // 신청서
-                                window.open('/documents/search', '_self');
-                            } else { // 문서함
-                                window.open('/tokens/search', '_self');
-                            }
+                            documentModal.hide();
                         }
                     });
                 } else {
@@ -584,7 +578,6 @@
         if (data.instanceId !== undefined) {
             addCommentBox(data.instanceId);
         }
-        console.log(data);
     }
 
     /**
@@ -708,42 +701,35 @@
             dialog.className = 'document-modal-dialog';
 
             const body = document.createElement('div');
-            body.className = 'document-modal-body';
+            body.className = 'contents';
 
-            const container = document.createElement('div');
-            container.classList.add('container', 'document');
-            body.appendChild(container);
-
-            const contents = document.createElement('div');
-            contents.className = 'contents';
-            container.appendChild(contents);
-
+            // 상단 button 추가
             const buttonPanel = document.createElement('div');
             buttonPanel.className = 'button-board';
+            body.appendChild(buttonPanel);
 
             const buttonGroup = document.createElement('div');
             buttonGroup.className = 'button-group';
             buttonGroup.id = 'button-container';
-
+            buttonPanel.appendChild(buttonGroup);
+            // 인쇄 버튼
             const printButton = document.createElement('button');
             printButton.type = 'button';
+            printButton.className = 'default-fill';
             printButton.innerText = i18n.get('common.btn.print');
             printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
-
-            buttonGroup.appendChild(printButton);
-            buttonPanel.appendChild(buttonGroup);
-            container.appendChild(buttonPanel);
+            buttonPanel.appendChild(printButton);
 
             const documentPanel = document.createElement('div');
             documentPanel.className = 'drawing-board';
             documentPanel.id = 'document-panel';
-            container.appendChild(documentPanel);
+            body.appendChild(documentPanel);
 
             dialog.appendChild(body);
             this.wrapper.appendChild(backdrop);
             this.wrapper.appendChild(dialog);
             document.body.appendChild(this.wrapper);
-
+            // 문서 draw
             drawDocument(this.data);
         }
         this.destroy = function() { // 모달 제거
@@ -773,7 +759,7 @@
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
                 dataForPrint.documentId = documentId;
-                let documentModal = new modal(dataForPrint, documentId);
+                documentModal = new modal(dataForPrint, documentId);
                 documentModal.show();
                 //drawDocument(dataForPrint);
             },

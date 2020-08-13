@@ -1,0 +1,143 @@
+/* 신청서, 처리할 문서 모달 */
+body.document-modal-active {
+    overflow:hidden !important;
+}
+
+.document-modal-wrapper {
+    display:none;
+    overflow:auto;
+    position:fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    &.document-modal-active {
+        display:block;
+    }
+
+    .document-modal-backdrop { // 배경
+        z-index: 2001;
+        position:fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .document-modal-dialog {
+        z-index: 2001;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: $container-background-color;
+        display: flex;
+        justify-content: center;
+        //TODO: 애니메이션으로 스스륵 모달 띄우기
+
+        // 포커스가 잡힐 경우 테두리 삭제
+        & *:focus { outline: none !important; }
+
+        .contents {
+            display: flex;
+            flex-direction: column;
+            left: 0;
+            float: left;
+            height: 100vh;
+            min-height: 100vh;
+            overflow: auto;
+
+            .button-board {
+                display: flex;
+                align-items: flex-end;
+                justify-content: flex-end;
+                padding-bottom: 15px;
+                width: $document-content-drawing-board-width;
+                max-width: $document-content-drawing-board-width;
+                height: $document-button-board-height;
+                > .button-group {
+                    display: inline-block;
+                    button {
+                        margin-right: 10px;
+                    }
+                }
+            }
+
+            .drawing-board {
+                display: flex; 
+                flex: 1 1 auto;
+                flex-direction: column;
+                align-items: center;
+                width: $document-content-drawing-board-width;
+                max-width: $document-content-drawing-board-width;
+                height: calc(100vh - #{$document-button-board-height});
+                min-height: calc(100vh - #{$document-button-board-height});
+                padding: 6.25rem 4.063rem 0 4.063rem; // 100px 65px 0px 65px;
+                background-color: $drawing-board-background-color;
+                border: $drawing-board-border;
+                box-shadow: $drawing-board-box-shadow; 
+                overflow-y: auto;
+                @include scrollbar-hidden;
+            }
+        }
+        .aside {
+            display: flex;
+            flex: 0 0 auto;
+            flex-direction: column;
+            float: left;
+            right: 0;
+            margin-top: $document-button-board-height;
+            height: calc(100vh - #{$document-button-board-height});
+            min-height: calc(100vh - #{$document-button-board-height});
+
+            .drawing-board {
+                display: flex; 
+                flex: 1 1 auto;
+                flex-direction: column;
+                align-items: center;
+                width: $document-aside-drawing-board-width;
+                max-width: $document-aside-drawing-board-width;
+                margin-left: 10px;
+                padding: 50px 60px 0 60px; // 50px 60px 0 60px
+                background-color: $drawing-board-background-color;
+                border: $drawing-board-border;
+                box-shadow: $drawing-board-box-shadow;
+                overflow-y: auto;
+                @include scrollbar-hidden;
+
+                ul.menu {
+                    display: table-row;
+                    border-bottom: solid 0.0625rem $line-gray;
+                    margin-bottom: 30px; // 30px
+                    li.menu-item {
+                        display: table-cell;
+                        vertical-align: middle;
+                        text-align: center;
+                        width: 100px; // 100px
+                        height: 40px; // 40px
+                        font-size: 16px; // 16px
+                        font-weight: 500;  // medium
+                        color: $blue-gray;
+                        border-bottom: solid 4px $white;
+                        cursor: pointer;
+
+                        &.selected {
+                            color: $light-black;
+                            border-bottom: solid 4px $point-blue;
+                        }
+                    }
+                    div.menu-content {
+                        display: none;
+
+                        &.selected {
+                            display: inherit;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

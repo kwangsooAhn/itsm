@@ -6,10 +6,10 @@
 <head>
     <title th:text="#{document.label.list}"></title>
 </head>
-<th:block layout:fragment="css">
+<th:block layout:fragment="cssLink">
     <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
 </th:block>
-<th:block layout:fragment="script">
+<th:block layout:fragment="scriptLink">
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
     <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
     <script th:src="@{/assets/js/form/form.core.js}"></script>
@@ -31,23 +31,6 @@
             })();
         </script>
 </th:block>
-<body>
-<th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <h1 th:text="#{document.label.list}"></h1>
-        <form id="searchDocumentsFrm">
-            <div class="pull-right">
-                <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}" class="search"/>
-                <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}" class="search"/>
-                <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
-                <input sec:authorize="hasAuthority('document.read.admin')" type="hidden" id="viewType" name="viewType" value="admin">
-            </div>
-        </form>
-        <hr>
-        <div id="documentList" style="margin-top: 20px"></div>
-    </div>
-</th:block>
-</body>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
@@ -86,4 +69,21 @@
         /*]]>*/
     </script>
 </th:block>
+<body>
+<th:block layout:fragment="content">
+    <div style="width: 70%; margin: 50px auto;">
+        <h1 th:text="#{document.label.list}"></h1>
+        <form id="searchDocumentsFrm">
+            <div class="pull-right">
+                <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}" class="search"/>
+                <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}" class="search"/>
+                <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
+                <input sec:authorize="hasAuthority('document.read.admin')" type="hidden" id="viewType" name="viewType" value="admin">
+            </div>
+        </form>
+        <hr>
+        <div id="documentList" style="margin-top: 20px"></div>
+    </div>
+</th:block>
+</body>
 </html>

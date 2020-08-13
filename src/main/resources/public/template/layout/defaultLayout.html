@@ -3,6 +3,9 @@
 	<head>
 		<title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Zenius ITSM</title>
 		<th:block th:replace="layout/fragments/commonHead :: commonHead"></th:block>
+		<th:block layout:fragment="cssLink"></th:block>
+		<th:block layout:fragment="scriptLink"></th:block>
+		<th:block layout:fragment="pageScript"></th:block>
 	</head>
 	<body>
 		<div class="wrap-screen">
@@ -14,5 +17,4 @@
 		</div>
 		<footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
 	</body>
-	<th:block layout:fragment="pageScript"></th:block>
 </html>
