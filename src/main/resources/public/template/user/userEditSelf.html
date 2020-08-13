@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
 <head>
     <meta charset="UTF-8">
     <style>
@@ -89,7 +89,7 @@
                             <input type="hidden" id="departmentCode" name="departmentCode"
                                    th:value="${deptCodeDetail?.code}"/>
                             <input class="input-button" type="button" onclick="deptPopUp();"
-                                   th:value="#{department.btn.selection}"/>
+                                    th:value="#{department.btn.selection}"/>
                         </div>
                         <div class="profile-input-body-list">
                             <span class="input-title" th:text="#{user.label.officeNumber}"></span>
