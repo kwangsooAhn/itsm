@@ -8,12 +8,13 @@
     let documentContainer = null;
     let buttonContainer = null;
     let commentContainer = null;
+    let documentModal = null;
+    let isDocument = true; // 신청서 vs 처리할 문서
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
     const phoneRegular = /^([+]?[0-9])([-]?[0-9])*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
-
     let dataForPrint = ''; // 프린트 출력용 저장 데이터
 
     /**
@@ -184,7 +185,6 @@
      */
     function checkRequired(element) {
         let message = null;
-        console.log(element);
         switch (element.id) {
             case 'editor':
                 let textEditor = Quill.find(element);
@@ -222,29 +222,29 @@
      * @param  buttonData : button 정보 값
      */
     function addButton(buttonData) {
-        const buttonEle = document.createElement('div');
-        buttonEle.style.margin = '10px';
-        buttonEle.style.textAlign = 'center';
         if (buttonData !== undefined && buttonData !== '') {
             buttonData.forEach(function(element) {
                 if (element.name !== '') {
                     let buttonProcessEle = document.createElement('button');
                     buttonProcessEle.type = 'button';
+                    buttonProcessEle.className = 'default-fill';
                     buttonProcessEle.innerText = element.name;
                     buttonProcessEle.addEventListener('click', function () {
                        if (element.value === 'close') {
-                           window.close();
+                           if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
+                               window.close();
+                           } else {
+                               documentModal.hide();
+                           }
                        } else {
                            aliceDocument.save(element.value);
                        }
                     });
-                    buttonEle.appendChild(buttonProcessEle);
+                    if (buttonContainer !== null) {
+                        buttonContainer.appendChild(buttonProcessEle);
+                    }
                 }
             });
-        }
-
-        if (buttonContainer !== null) {
-            buttonContainer.appendChild(buttonEle);
         }
     }
 
@@ -447,8 +447,12 @@
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(actionMsg, function () {
-                        opener.location.reload();
-                        window.close();
+                        if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
+                             opener.location.reload();
+                             window.close();
+                        } else {
+                            documentModal.hide();
+                        }
                     });
                 } else {
                     aliceJs.alert(i18n.get('common.msg.fail'));
@@ -467,8 +471,9 @@
         if (typeof data === 'string') {
             data = JSON.parse(data);
         }
+
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
-        documentContainer = document.getElementById('document-container');
+        documentContainer = document.getElementById('document-panel');
         component.init(documentContainer);
 
         buttonContainer = document.getElementById('button-container');
@@ -523,6 +528,7 @@
 
         if (data.token !== undefined) {
             addIdComponent('tokenId', data.token.tokenId);
+            isDocument = false;
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
@@ -613,6 +619,85 @@
         aliceJs.sendXhr(opt);
     }
 
+
+    /**
+     * 신청서, 처리할 문서 모달 Draw.
+     *
+     * @param data 문서 데이터
+     * @param id 문서 id
+     */
+    function modal(data, id) {
+        this.id = id;
+        this.data = data;
+
+        this.show = function() { // 모달 표시
+            if (typeof this.wrapper !== 'undefined') {
+                this.wrapper.classList.add('document-modal-active');
+                document.body.classList.add('document-modal-active');
+            }
+        };
+        this.hide = function() { // 모달 숨김
+            if (typeof this.wrapper !== 'undefined') {
+                this.wrapper.classList.remove('document-modal-active');
+                document.body.classList.remove('document-modal-active');
+                this.destroy();
+            }
+        };
+        this.create = function() {
+            if (typeof this.wrapper !== 'undefined') { return; }
+            let backdrop, dialog;
+
+            this.wrapper = document.createElement('div');
+            this.wrapper.classList.add('document-modal-wrapper', 'form-designer');
+            this.wrapper.id = 'document-modal-wrapper-' + this.id;
+
+            backdrop = document.createElement('div');
+            backdrop.className = 'document-modal-backdrop';
+
+            dialog = document.createElement('div');
+            dialog.classList.add('document-modal-dialog', 'container', 'document');
+
+            const body = document.createElement('div');
+            body.className = 'contents';
+
+            // 상단 button 추가
+            const buttonPanel = document.createElement('div');
+            buttonPanel.className = 'button-board';
+            body.appendChild(buttonPanel);
+
+            const buttonGroup = document.createElement('div');
+            buttonGroup.className = 'button-group';
+            buttonGroup.id = 'button-container';
+            buttonPanel.appendChild(buttonGroup);
+            // 인쇄 버튼
+            const printButton = document.createElement('button');
+            printButton.type = 'button';
+            printButton.className = 'default-fill';
+            printButton.innerText = i18n.get('common.btn.print');
+            printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
+            buttonPanel.appendChild(printButton);
+
+            const documentPanel = document.createElement('div');
+            documentPanel.className = 'drawing-board';
+            documentPanel.id = 'document-panel';
+            body.appendChild(documentPanel);
+
+            dialog.appendChild(body);
+            this.wrapper.appendChild(backdrop);
+            this.wrapper.appendChild(dialog);
+            document.body.appendChild(this.wrapper);
+            // 문서 draw
+            drawDocument(this.data);
+        }
+        this.destroy = function() { // 모달 제거
+            if (typeof this.wrapper !== 'undefined') {
+                document.body.removeChild(this.wrapper);
+                this.wrapper = undefined;
+            }
+        };
+        this.create();
+    }
+
     /**
      * init document.
      *
@@ -631,7 +716,9 @@
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
                 dataForPrint.documentId = documentId;
-                drawDocument(dataForPrint);
+                documentModal = new modal(dataForPrint, documentId);
+                documentModal.show();
+                //drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
         });
