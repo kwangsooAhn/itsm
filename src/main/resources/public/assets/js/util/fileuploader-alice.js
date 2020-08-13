@@ -461,7 +461,7 @@ const fileUploader = (function () {
                 const addFileBtn = document.querySelector('.' + addFileBtnWrapClassName);
                 document.querySelector('.dz-message').appendChild(addFileBtn);
 
-                if (extraParam.avatar.id !== null) {
+                if (extraParam.avatar.id !== null && extraParam.avatar.size > 0) {
                     let mockFile = {
                         id: extraParam.avatar.id,
                         name: extraParam.avatar.value,
