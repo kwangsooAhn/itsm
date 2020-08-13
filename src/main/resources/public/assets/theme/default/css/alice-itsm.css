@@ -547,9 +547,8 @@ textarea {
   color: #3e4752;
   font-size: 14px;
   border-bottom: 2px solid #d2d9e2;
-  border-top: 1px solid #d2d9e2;
   vertical-align: middle;
-  padding: 5px 15px;
+  border-top: 1px solid #d2d9e2;
 }
 .container .contents .list table tr td {
   height: 45px;
@@ -928,7 +927,7 @@ textarea {
   height: 1.6875rem;
   width: 1.6875rem;
   border-radius: 50%;
-  background: rgba(240, 240, 240, 1);
+  background: #f0f0f0;
   margin-right: 0.3125rem;
 }
 .token-list .tr-notice {
@@ -970,7 +969,6 @@ textarea {
 .token-list .document-content p {
   padding: 0.25rem 0;
 }
-
 .token-list .document-no {
   width: 11.25rem;
   overflow: hidden;
@@ -984,22 +982,20 @@ textarea {
   align-items: center;
   justify-content: center;
 }
-
 .token-list .document-topic {
   width: 23.75rem;
   color: #3E4752;
 }
-
 .token-list .document-create-dt {
   width: 9.375rem;
   color: #67717F;
 }
 .token-list .document-status {
-  width: 5.625rem;
+  width: 7.5rem;
   color: #67717F;
 }
 .token-list .document-tag {
-  width: 18.125rem;
+  width: 20rem;
   color: #67717F;
 }
 .token-search {
