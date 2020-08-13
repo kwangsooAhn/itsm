@@ -12,12 +12,12 @@
 * 5) 현재는 2단계의 메뉴 깊이로 고정한다.
 */-->
 	<div class="menu">
-		<div class="gnb">
+		<div class="gnb-area">
 			<ul>
 				<li th:each="topMenu : ${#authentication.details.menus}"
 						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
 					<!--/* 그룹 메뉴 */-->
-					<a th:if="${#strings.isEmpty(topMenu.url)}" class="gnb" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}">
+					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb">
 						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 						<span class="arrow-left"></span>

@@ -129,7 +129,7 @@ button {
 /* Date compoent 기본 */
 body, input, textarea, select {
   font-family: "Noto Sans KR", sans-serif;
-  font-size: 0.9375rem;
+  font-size: 1rem;
 }
 
 h1 {
@@ -547,8 +547,9 @@ textarea {
   color: #3e4752;
   font-size: 14px;
   border-bottom: 2px solid #d2d9e2;
-  vertical-align: middle;
   border-top: 1px solid #d2d9e2;
+  vertical-align: middle;
+  padding: 5px 15px;
 }
 .container .contents .list table tr td {
   height: 45px;
@@ -924,11 +925,11 @@ textarea {
   margin-top: 0.625rem;
 }
 .token-list .profile-photo {
-  height: 27px;
-  width: 27px;
+  height: 1.6875rem;
+  width: 1.6875rem;
   border-radius: 50%;
-  background: #f0f0f0;
-  cursor: pointer;
+  background: rgba(240, 240, 240, 1);
+  margin-right: 0.3125rem;
 }
 .token-list .tr-notice {
   background: rgba(255, 255, 0, 0.2);
@@ -969,14 +970,26 @@ textarea {
 .token-list .document-content p {
   padding: 0.25rem 0;
 }
+
+.token-list .document-no {
+  width: 11.25rem;
+  overflow: hidden;
+  color: #8F99A7;
+  text-overflow: ellipsis;
+}
+.token-list .document-user {
+  width: 7.1875rem;
+  color: #67717F;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .token-list .document-topic {
   width: 23.75rem;
   color: #3E4752;
 }
-.token-list .document-user {
-  width: 6.25rem;
-  color: #67717F;
-}
+
 .token-list .document-create-dt {
   width: 9.375rem;
   color: #67717F;
@@ -1005,64 +1018,60 @@ textarea {
 }
 
 .navigation {
-  width: 100%;
-  height: 60px;
+  width: 13.75rem;
+  height: 6.25rem;
   background: white;
+  position: fixed;
+  bottom: 0;
+  z-index: 999999;
 }
 
 .logo {
-  width: 220px;
-  height: 60px;
-  background: #0050ff url("../icons/icon_menu_open_logo.png") no-repeat 20px center;
+  width: 13.75rem;
+  height: 3.8125rem;
+  background: #333D47 url("../icons/icon_menu_open_logo.png") no-repeat 1.25rem center;
   position: fixed;
 }
 
 .menu {
-  width: 220px;
+  width: 13.75rem;
   height: 100%;
-  background: #0050ff;
+  background: #333D47;
   position: fixed;
   left: 0;
-  top: 60px;
+  top: 3.8125rem;
+  bottom: 6.25rem;
   z-index: 999;
   overflow: auto;
 }
 
 .breadcrumb {
-  height: 60px;
-  padding: 0 0 0 240px;
-  color: #5c6776;
-  opacity: 0.57;
-  font-size: 13px;
-  float: left;
+  display: none;
 }
 
-/* 상단 알람 및 프로필 메뉴  */
 .nav-config {
   float: right;
   /* 상단 알람 */
   /* 상단바 프로필 메뉴 */
 }
-.nav-config .notice {
-  padding-left: 122px;
-  background: url("../icons/icon_notice.svg") no-repeat center center;
-  vertical-align: middle;
+.nav-config .notification {
+  margin-left: 1.25rem;
+  height: 3.125rem;
+  width: 100%;
+  background: url("../icons/icon_notice.svg") no-repeat left center;
 }
-.nav-config .notice-num {
-  width: 30px;
-  margin-top: 26px;
-  padding: 2px 8px 2px 8px;
-  border-radius: 20px;
-  border: 1.2px solid #0050ff;
-  margin-left: 60px;
-  color: #0050ff;
+.nav-config .notification-num {
+  margin: 1.125rem 0 1.0625rem 2.4375rem;
+  padding: 0.125rem 0.5rem 0.125rem 0.5rem;
+  border-radius: 1.25rem;
+  background-color: #0050ff;
+  color: #FFFFFF;
+  font-size: 0.75rem;
   text-align: center;
+  position: absolute;
 }
 .nav-config .user-info {
-  float: right;
-  border-left: 1px solid #D2D9E2;
   display: inline-block;
-  padding: 12px 15px;
   vertical-align: middle;
   background: url("../icons/icon_userinfo_arrow_d.svg") no-repeat center right;
 }
@@ -1087,21 +1096,21 @@ textarea {
 }
 .nav-config .user-info.active .my-edit {
   display: list-item;
-  padding: 5px;
+  padding: 0.3125rem;
   position: absolute;
-  top: 70px;
-  right: 10px;
+  top: -6.25rem;
+  right: -16.875rem;
   background: white;
 }
 .nav-config .user-info.active .my-edit ul li {
-  padding: 10px 0;
+  padding: 0.625rem 0;
   display: block;
 }
 .nav-config .user-info.active .my-edit ul li:hover {
   background: rgba(0, 80, 255, 0.05);
 }
 .nav-config .user-info.active .my-edit ul li span {
-  padding: 0 40px;
+  padding: 0 2.5rem;
 }
 .nav-config .my-modify {
   padding: 5px 20px;
@@ -1112,73 +1121,67 @@ textarea {
   background: url("../icons/icon_logout.svg") no-repeat 10px center;
 }
 
-.gnb {
+.gnb-area .gnb {
   padding: 15px 20px 15px 20px;
   vertical-align: middle;
 }
-.gnb ul li {
-  padding: 10px 0;
-  line-height: 1.6;
-  color: #fff;
-  font-weight: 300;
-  opacity: 0.6;
+.gnb-area > ul > li {
+  line-height: 1.3;
+  color: #929AA6;
+  font-weight: 500;
 }
-.gnb ul li:hover {
-  opacity: 1;
-  background: #0242eb;
+.gnb-area > ul > li:hover {
+  background: #283238;
 }
-.gnb ul li ul li {
-  color: #fff;
-  font-weight: 300;
-  opacity: 0.6;
-}
-.gnb ul li ul li:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
-}
-.gnb ul li .snb-set {
+.gnb-area > ul > li .snb-set {
   display: none;
 }
-.gnb ul li .snb {
-  margin: 16px 0 0 0;
+.gnb-area > ul > li:first-child {
+  margin-top: 5px;
 }
-.gnb ul li.toggle {
-  line-height: 1.6;
-  color: #fff;
-  font-weight: 300;
-  opacity: 0.6;
-  background: url("../icons/icon_arrow_d.svg") no-repeat right 7px;
+.gnb-area > ul > li > a {
+  display: flex;
+  cursor: pointer;
 }
-.gnb ul li.toggle:hover {
-  opacity: 1;
-  background: #0242eb url("../icons/icon_arrow_d.svg") no-repeat right 7px;
+.gnb-area > ul > li > a span {
+  padding-left: 19px;
+  display: inline-block;
 }
-.gnb ul li.toggle ul li {
-  color: #fff;
-  font-weight: 300;
-  opacity: 0.6;
+.gnb-area > ul > li > a span.arrow-left {
+  background: url("../icons/icon_arrow_left.svg") no-repeat center center;
+  padding: 0 6px 0 0;
+  float: right;
+  width: 6px;
+  height: 20px;
+  margin-left: auto;
 }
-.gnb ul li.toggle ul li:hover {
-  opacity: 1;
-  background: rgba(255, 255, 255, 0.1);
+.gnb-area > ul > li > ul > li {
+  font-size: 1rem;
+  color: #929AA6;
+  font-weight: 400;
+}
+.gnb-area > ul > li > ul > li:hover {
+  background: #283238;
+}
+.gnb-area > ul > li > ul > li > a {
+  display: block;
+  cursor: pointer;
+}
+.gnb-area > ul > li > ul > li > a span {
+  padding-left: 39px;
+  display: inline-block;
+}
+.gnb-area > ul > li > ul > li > a.snb {
+  padding: 8px 20px 8px 20px;
 }
 
 /* 알림 임시 css */
-.notification-menu {
+.notification {
   height: 4.25rem;
   position: relative;
   display: inline-block;
 }
-.notification-menu .count {
-  position: absolute;
-  top: -0.125rem;
-  left: 1.25rem;
-  border-radius: 50%;
-  font-size: 0.75rem;
-  display: none;
-  cursor: pointer;
-}
-.notification-menu img, .notification-menu button {
+.notification img, .notification button {
   width: 1.125rem;
   height: 1.125rem;
   margin: 0;
@@ -1186,20 +1189,20 @@ textarea {
   background-color: transparent;
   cursor: pointer;
 }
-.notification-menu .notification-container {
+.notification .notification-container {
   position: absolute;
   border: 0.063rem solid #c8ced8;
   background-color: #ffffff;
   width: 21.875rem;
-  right: -0.063rem;
-  top: 4rem;
+  right: -20rem;
+  top: 15rem;
   color: black;
   display: none;
   font-weight: normal;
   font-size: 0.75rem;
   box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
 }
-.notification-menu .notification-container .notification-header {
+.notification .notification-container .notification-header {
   height: 2.25rem;
   line-height: 1.875rem;
   color: #ffffff;
@@ -1210,53 +1213,53 @@ textarea {
   padding-right: 0.938rem;
   font-weight: 400;
 }
-.notification-menu .notification-container .notification-header span {
+.notification .notification-container .notification-header span {
   font-size: 0.688rem;
   display: inline-block;
 }
-.notification-menu .notification-container .notification-header span.title {
+.notification .notification-container .notification-header span.title {
   width: 2.125rem;
   font-size: 0.875rem;
   font-weight: 500;
   line-height: 2rem;
 }
-.notification-menu .notification-container .notification-header span.count {
+.notification .notification-container .notification-header span.count {
   width: 2.125rem;
 }
-.notification-menu .notification-container .notification-header span.message {
+.notification .notification-container .notification-header span.message {
   width: 15.625rem;
   padding-left: 0.25rem;
 }
-.notification-menu .notification-container .notification-header span.close {
+.notification .notification-container .notification-header span.close {
   width: 2.125rem;
   text-align: center;
 }
-.notification-menu .notification-container .notification-body {
+.notification .notification-container .notification-body {
   overflow: auto;
   max-height: 14.625rem;
 }
-.notification-menu .notification-container .notification-body button {
+.notification .notification-container .notification-body button {
   float: right;
 }
-.notification-menu .notification-container .notification-body button.remove {
+.notification .notification-container .notification-body button.remove {
   margin-top: -0.188rem;
   background-image: url("../icons/icon_notification_delete.png");
   background-repeat: no-repeat;
   opacity: 0.6;
 }
-.notification-menu .notification-container .notification-body span.title:hover {
+.notification .notification-container .notification-body span.title:hover {
   text-decoration: underline;
   cursor: pointer;
 }
-.notification-menu .notification-container .notification-body .notification {
+.notification .notification-container .notification-body .notification {
   height: 4.875rem;
   border-bottom: 0.063rem solid #dce1e8;
   padding: 0.75rem 0.938rem 0.75rem 0.938rem;
 }
-.notification-menu .notification-container .notification-body .notification.nodata {
+.notification .notification-container .notification-body .notification.nodata {
   border: none;
 }
-.notification-menu:hover .notification-container {
+.notification:hover .notification-container {
   display: block;
 }
 
