@@ -1185,7 +1185,7 @@
             };
 
             btnAdd.addEventListener('click', function() {
-                if (conditionInput.value.trim() === '') {
+                if (conditionInput.value.trim() === '' || fileInput.value.trim() === '') {
                     return false;
                 }
                 let dataBody = inputObject.parentNode.querySelector('tbody'),
@@ -1204,6 +1204,8 @@
                     addDataRow(conditionInput.value, fileInput.value);
                     conditionInput.value = '';
                     fileInput.value = '';
+                } else {
+                    aliceJs.alert(i18n.get('process.msg.duplicateData'));
                 }
             });
 
