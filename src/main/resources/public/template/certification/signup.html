@@ -49,7 +49,7 @@
                 <label th:text="#{user.label.avatar}"/>
                 <div class="avatar-upload">
                     <div class="avatar-upload-dz">
-                        <div id="dropZoneFiles"></div>
+                        <div id="avatarDropZone"></div>
                     </div>
                     <div class="avatar-upload-description">
                         <span th:text="#{user.label.FileSizeLimit}"></span>
@@ -81,17 +81,28 @@
         i18n.initMessages();
         hiddenProgressBar();
 
-        document.getElementById('avatarUUID').value = uuid();
-        var avatarUUID = document.getElementById('avatarUUID').value;
-        fileUploader.init({extra: {
-                formId: 'signUpForm',
+        fileUploader.avatar({
+            extra: {
+                dropZoneFilesId: 'avatarDropZone',
+                type: 'avatar',
                 dropZoneMaxFileSize: 0.2,
-                dropZoneUrl: '/certification/fileupload?target=avatar&fileName='+ avatarUUID,
+                dropZoneUrl: '/certification/fileupload?target=avatar',
                 dropZoneMaxFiles: 1,
-                acceptedFiles:".png,.jpeg,.jpg,.gif",
-                clickable: '.add-img-button',
-                type: 'avatarFileUploader' // avatar 전용
-        }});
+                acceptedFiles: '.png,.jpeg,.jpg,.gif',
+                enableImageThumbnails: true,
+                thumbnailWidth: 150,
+                thumbnailHeight: 150,
+                dictDefaultMessage: 'Drop files here to',
+                clickableLineMessage: 'upload or ',
+                clickableMessage: 'browse',
+                avatar: {
+                    id: [[${users?.avatarId}]],
+                    path: [[${users?.avatarPath}]],
+                    value: [[${users?.avatarValue}]],
+                    size: [[${users?.avatarSize}]]
+                }
+            }
+        });
     }
     const STATUS_SUCCESS = "0";
     const STATUS_ERROR_USER_ID_DUPLICATION = "1";
@@ -117,23 +128,15 @@
                 // 이메일 validation Check
                 if (!isValidEmail("email")) return false;
 
-                let avatarUUID = document.getElementById('avatarUUID').value;
-                if (document.getElementsByClassName('dz-image').item(0) === null) {
-                    avatarUUID = '';
-                }
-
                 const password = document.getElementById("password").value;
                 const registerInfo = {
                     userId: document.getElementById("userId").value,
                     password: rsa.encrypt(password),
                     userName: document.getElementById("userName").value,
                     email: document.getElementById("email").value,
-                    position: document.getElementById("position").value,
-                    department: document.getElementById("department").value,
-                    officeNumber: document.getElementById("officeNumber").value,
                     mobileNumber: document.getElementById("mobileNumber").value,
                     fileSeq: document.getElementsByName('fileSeq').value,
-                    avatarUUID: avatarUUID
+                    avatarUUID: document.getElementById('avatarUUID').value
                 };
                 // 등록
                 restSubmit("POST", "/certification/register",true,registerInfo);
@@ -148,13 +151,6 @@
         if (isEmpty('userName', 'user.msg.enterUserName')) return false;
         if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
         return true;
-    }
-
-    function uuid() {
-        function s4() {
-            return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
-        }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 
     // 데이터 전송
