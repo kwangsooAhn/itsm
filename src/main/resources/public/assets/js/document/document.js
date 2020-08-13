@@ -15,46 +15,6 @@
     const phoneRegular = /^([+]?[0-9])([-]?[0-9])*$/;
     const emailRegular = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
     const defaultAssigneeTypeForSave = 'assignee.type.assignee';
-    const util = { // 공통 util
-        /**
-         * 특정 클래스 목록 조회
-         * @param el 대상객체
-         */
-        getClasses: function(el) {
-            return el.className.split(' ').filter(function(c) { return c.length > 0; });
-        },
-        /**
-         * 특정 클래스 존재 여부 체크
-         * @param el 대상객체
-         * @param className 클래스명
-         */
-        hasClass: function(el, className) {
-            return util.getClasses(el).indexOf(className) >= 0;
-        },
-        /**
-         * 특정 클래스 추가
-         * @param el 대상객체
-         * @param className 클래스명
-         */
-        addClass: function(el, className) {
-             if (!util.hasClass(el, className)) {
-                 el.className += ' ' + className;
-             }
-        },
-        /**
-         * 특정 클래스 삭제
-         * @param el 대상객체
-         * @param className 클래스명
-         */
-        removeClass: function(el, className) {
-            if (util.hasClass(el, className)) {
-              let classes = util.getClasses(el);
-              classes.splice(classes.indexOf(className), 1);
-              el.className = classes.join(' ');
-            }
-        }
-    };
-
     let dataForPrint = ''; // 프린트 출력용 저장 데이터
 
     /**
@@ -271,7 +231,7 @@
                     buttonProcessEle.innerText = element.name;
                     buttonProcessEle.addEventListener('click', function () {
                        if (element.value === 'close') {
-                           if (opener !== null && opener !== undefined) {
+                           if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
                                window.close();
                            } else {
                                documentModal.hide();
@@ -487,7 +447,7 @@
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
                     aliceJs.alert(actionMsg, function () {
-                        if (opener !== null && opener !== undefined) {
+                        if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
                              opener.location.reload();
                              window.close();
                         } else {
@@ -670,19 +630,16 @@
         this.id = id;
         this.data = data;
 
-        this.display = false;
         this.show = function() { // 모달 표시
             if (typeof this.wrapper !== 'undefined') {
-                util.addClass(this.wrapper, 'document-modal-active');
-                util.addClass(document.body, 'document-modal-active');
-                this.display = true;
+                this.wrapper.classList.add('document-modal-active');
+                document.body.classList.add('document-modal-active');
             }
         };
         this.hide = function() { // 모달 숨김
             if (typeof this.wrapper !== 'undefined') {
-                util.removeClass(this.wrapper, 'document-modal-active');
-                util.removeClass(document.body, 'document-modal-active');
-                this.display = false;
+                this.wrapper.classList.remove('document-modal-active');
+                document.body.classList.remove('document-modal-active');
                 this.destroy();
             }
         };
