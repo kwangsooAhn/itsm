@@ -586,6 +586,20 @@ textarea {
 .container .contents .list .align-right {
   text-align: right;
 }
+.container .contents .list .scroller-wrap {
+  position: relative;
+  padding-top: 2.375rem;
+}
+.container .contents .list .scroller-wrap-list {
+  max-height: 25rem;
+  overflow-y: auto;
+}
+.container .contents .list .scroller-wrap-list thead {
+  display: inline-table;
+  position: absolute;
+  top: 0;
+  width: calc(100% - 1.063rem);
+}
 .container .contents .list-wrap {
   height: 400px;
   overflow-y: auto;
@@ -2171,3 +2185,5 @@ textarea {
   font-weight: 400;
   margin-top: 1.25rem;
 }
+
+/*# sourceMappingURL=alice-itsm.css.map */
