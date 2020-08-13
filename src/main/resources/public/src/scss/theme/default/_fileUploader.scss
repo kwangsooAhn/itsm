@@ -12,16 +12,10 @@
 
     &.avatar {
         box-sizing: border-box;
-        height: 9.375rem; // 150px;
         width: 18.75rem; // 300px;
         height: 18.75rem;
         padding: 0;
-        background-color: #FDFDFD;
-        background-image: url("../../../media/icons/form/editor/icon_image.png");
-        background-size: 5rem; // 80px;
-        background-repeat: no-repeat;
-        background-position-y: 5rem;
-        background-position-x: center;
+        @include background("icon_image.png", 5rem, no-repeat, center, 5rem, #FDFDFD);
 
         .dz-message {
             text-align: center;
@@ -82,7 +76,7 @@
                     position: absolute;
                     top: -10rem;
                     left: 8.75rem;
-                    background-image: url($icon-folder-path + "icon_close.png");
+                    @include backgroundImage("icon_close.png");
 
                     &:hover {
                         background-color: rgba(255, 255, 255, 0.9);
@@ -132,7 +126,7 @@
 
     .dz-message {
         text-align: center;
-        margin: 11.75rem 0 3rem 0;
+        margin: 1.875rem 0;
         color: #7A8594;
 
         .add-file-button-wrap {
@@ -188,16 +182,10 @@
             border: none;
             grid-column: 3;
             grid-row: 1 / span 2;
-            background-image: url($icon-folder-path + "icon_notice_delete.svg");
-            background-size: 1.125rem;
-            background-repeat: no-repeat;
-            background-position-y: center;
-            background-position-x: center;
-
+            @include backgroundImageAndSize("icon_notice_delete.svg", 1.125rem);
 
             &:hover {
                 //text-decoration: underline;
-                //
             }
         }
 
@@ -259,11 +247,7 @@
                 height: 100%;
                 grid-column: 1;
                 grid-row: 1 / span 2;
-                background-image: url($icon-folder-path + "icon_notice_document.svg");
-                background-size: 2.25rem;
-                background-repeat: no-repeat;
-                background-position-y: center;
-                background-position-x: center;
+                @include backgroundImageAndSize("icon_notice_document.svg", 2.25rem);
             }
         }
 

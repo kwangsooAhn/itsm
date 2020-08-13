@@ -1409,16 +1409,15 @@ textarea {
 }
 .dropzone.avatar {
   box-sizing: border-box;
-  height: 9.375rem;
   width: 18.75rem;
   height: 18.75rem;
   padding: 0;
-  background-color: #FDFDFD;
-  background-image: url("../../../media/icons/form/editor/icon_image.png");
+  background-image: url("../icons/icon_image.png");
   background-size: 5rem;
   background-repeat: no-repeat;
-  background-position-y: 5rem;
   background-position-x: center;
+  background-position-y: 5rem;
+  background-color: #FDFDFD;
 }
 .dropzone.avatar .dz-message {
   text-align: center;
@@ -1472,6 +1471,10 @@ textarea {
   top: -10rem;
   left: 8.75rem;
   background-image: url("../icons/icon_close.png");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
 }
 .dropzone.avatar .dz-preview .dz-details .dz-remove:hover {
   background-color: rgba(255, 255, 255, 0.9);
@@ -1507,7 +1510,7 @@ textarea {
 }
 .dropzone .dz-message {
   text-align: center;
-  margin: 11.75rem 0 3rem 0;
+  margin: 1.875rem 0;
   color: #7A8594;
 }
 .dropzone .dz-message .add-file-button-wrap {
@@ -1556,8 +1559,8 @@ textarea {
   background-image: url("../icons/icon_notice_delete.svg");
   background-size: 1.125rem;
   background-repeat: no-repeat;
-  background-position-y: center;
   background-position-x: center;
+  background-position-y: center;
 }
 .dropzone .dz-preview:hover .dz-details {
   opacity: 1;
@@ -1612,8 +1615,8 @@ textarea {
   background-image: url("../icons/icon_notice_document.svg");
   background-size: 2.25rem;
   background-repeat: no-repeat;
-  background-position-y: center;
   background-position-x: center;
+  background-position-y: center;
 }
 .dropzone .dz-preview:hover .dz-image img {
   -webkit-transform: scale(1.05, 1.05);
