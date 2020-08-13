@@ -1021,19 +1021,20 @@
      * Script Type 에 따라 속성 항목을 변경한다.
      *
      * @param scriptTypeObject Script Type object
-     * @param value script-action
      */
-    function changePropertyScriptType(scriptTypeObject, value) {
-        let scriptObject = document.getElementById('script-action');
-        if (scriptObject.parentNode.parentNode.querySelector('.script-detail-container') !== null) {
-            scriptObject.parentNode.parentNode.querySelector('.script-detail-container').remove();
+    function changePropertyScriptType(scriptTypeObject) {
+        let scriptDetailObject = document.getElementById('script-detail');
+        if (scriptDetailObject.parentNode.parentNode.querySelector('.script-detail-container') !== null) {
+            scriptDetailObject.parentNode.parentNode.querySelector('.script-detail-container').remove();
         }
-        if (scriptObject.parentNode.querySelector('.script-action-container') !== null) {
-            scriptObject.parentNode.querySelector('.script-action-container').remove();
+        let scriptActionObject = document.getElementById('script-action');
+        if (scriptActionObject.parentNode.querySelector('.script-action-container') !== null) {
+            scriptActionObject.parentNode.querySelector('.script-action-container').remove();
         }
-        scriptObject.value = '';
-        setMultipleScriptDetail(scriptObject, scriptTypeObject.value, value);
-        setMultipleScriptAction(scriptObject, scriptTypeObject.value, value);
+        scriptDetailObject.value = '';
+        scriptActionObject.value = '';
+        setMultipleScriptDetail(scriptDetailObject, scriptTypeObject.value);
+        setMultipleScriptAction(scriptActionObject, scriptTypeObject.value);
     }
 
     /**
@@ -1104,9 +1105,11 @@
             inputObject.parentNode.parentNode.querySelector('#script-type').parentNode.after(subContainer);
 
             if (typeof valueAttr !== 'undefined' && valueAttr !== '') {
-                let data = valueAttr[0].split('\|');
-                targetMappingInput.value = data[0];
-                sourceMappingInput.value = data[1];
+                if (valueAttr[0] !== '') {
+                    let data = valueAttr[0].split('\|');
+                    targetMappingInput.value = data[0];
+                    sourceMappingInput.value = data[1];
+                }
             }
         }
     }

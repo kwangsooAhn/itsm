@@ -145,8 +145,7 @@
             {
               "id": "script-type", "name": "Type", "type": "select", "default": "script.type.document.attachFile", "required": "Y",
               "sub-list": [
-                {"id": "script.type.document.attachFile", "name": "[문서편집] 첨부파일"},
-                {"id": "script.type.external.java", "name": "[외부프로그램] Java 호출"}
+                {"id": "script.type.document.attachFile", "name": "[문서편집] 첨부파일"}
               ]
             },
             {"id": "script-detail", "name": "", "type": "inputbox", "default": "", "display": "none"}
