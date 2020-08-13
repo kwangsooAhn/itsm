@@ -8,12 +8,23 @@
 <body>
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
-        <div class="print-header">
+        <div class="container print">
+            <div class="contents">
+                <div class="print-board">
+                    <img src="/assets/media/icons/logo_blue.png">
+                    <span id="printInfo"></span>
+                </div>
+                <div class="drawing-board" id="document-panel"></div>
+            </div>
+        </div>
+<!--        <div class="print-header">
             <img src="/assets/media/icons/logo_blue.png">
             <span id="printInfo"></span>
         </div>
+
         <hr class="print-hr">
-        <div id="document-panel" class="print-body"></div>
+        <div id="document-panel" class="print-body"></div>-->
+
     </form>
 </th:block>
 </body>

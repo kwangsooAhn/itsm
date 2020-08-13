@@ -308,6 +308,10 @@ input::placeholder, textarea::placeholder, select::placeholder {
   display: inherit;
 }
 
+.form-designer .container.form .contents .drawing-board[data-readonly=true] .component[data-type="editbox"] {
+  pointer-events: none;
+}
+
 .form-designer .container.form .aside {
   top: 3.125rem;
   width: 16.25rem;
@@ -329,6 +333,205 @@ input::placeholder, textarea::placeholder, select::placeholder {
   /* Chrome, Safari, Opera*/
 }
 
+.form-designer .container.document {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.form-designer .container.document .contents {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+.form-designer .container.document .contents .button-board {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding-bottom: 0.9375rem;
+  width: 985px;
+  max-width: 985px;
+  height: 150px;
+}
+
+.form-designer .container.document .contents .button-board > .button-group {
+  display: inline-block;
+}
+
+.form-designer .container.document .contents .button-board > .button-group button {
+  margin-right: 0.625rem;
+}
+
+.form-designer .container.document .contents .drawing-board {
+  width: 985px;
+  max-width: 985px;
+  height: calc(100vh - 150px);
+  min-height: calc(100vh - 150px);
+  padding: 6.25rem 4.063rem 0 4.063rem;
+}
+
+.form-designer .container.document .aside {
+  margin-top: 150px;
+  height: calc(100vh - 150px);
+  min-height: calc(100vh - 150px);
+}
+
+.form-designer .container.document .aside .drawing-board {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 540px;
+  max-width: 540px;
+  margin-left: 0.625rem;
+  padding: 3.125rem 3.75rem 0 3.75rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  -webkit-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+          box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.form-designer .container.document .aside .drawing-board::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+.form-designer .container.document .aside .drawing-board ul.menu {
+  display: table-row;
+  border-bottom: solid 0.0625rem #EBEBEB;
+  margin-bottom: 1.875rem;
+}
+
+.form-designer .container.document .aside .drawing-board ul.menu li.menu-item {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  width: 6.25rem;
+  height: 2.5rem;
+  font-size: 16px;
+  font-weight: 500;
+  color: #929AA6;
+  border-bottom: solid 0.25rem #ffffff;
+  cursor: pointer;
+}
+
+.form-designer .container.document .aside .drawing-board ul.menu li.menu-item.selected {
+  color: #3F4B56;
+  border-bottom: solid 0.25rem #0098FF;
+}
+
+.form-designer .container.document .aside .drawing-board ul.menu div.menu-content {
+  display: none;
+}
+
+.form-designer .container.document .aside .drawing-board ul.menu div.menu-content.selected {
+  display: inherit;
+}
+
+.form-designer .container.print .contents {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  height: 100vh;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+.form-designer .container.print .contents .print-board {
+  margin: 0.9375rem;
+  height: 2.813rem;
+}
+
+.form-designer .container.print .contents .print-board span {
+  float: right;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #000000;
+  text-align: right;
+}
+
+.form-designer .container.print .contents .drawing-board {
+  width: 985px;
+  max-width: 985px;
+  height: calc(100vh - 150px);
+  min-height: calc(100vh - 150px);
+  padding: 6.25rem 4.063rem 0 4.063rem;
+}
+
+.form-designer .container.print .contents .drawing-board .component {
+  page-break-inside: avoid;
+}
+
+.form-designer .container.print .aside {
+  margin-top: 150px;
+  height: calc(100vh - 150px);
+  min-height: calc(100vh - 150px);
+}
+
+.form-designer .container.print .aside .drawing-board {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  width: 540px;
+  max-width: 540px;
+  margin-left: 0.625rem;
+  padding: 3.125rem 3.75rem 0 3.75rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  -webkit-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+          box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.form-designer .container.print .aside .drawing-board::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
 button {
   display: inline-block;
   font-size: 1rem;
@@ -338,7 +541,6 @@ button {
   color: #3F4B56;
   background-color: transparent;
   border: 0.0625rem solid transparent;
-  padding: 0.375rem 0.75rem;
   border-radius: 0.1875rem;
   -webkit-user-select: none;
      -moz-user-select: none;
@@ -347,6 +549,8 @@ button {
   white-space: nowrap;
   vertical-align: middle;
   opacity: 1;
+  width: 5rem;
+  height: 2.5rem;
 }
 
 button:focus, button:hover {
@@ -2648,7 +2852,6 @@ button.point-fill:not(:disabled):active {
 
 .dropzone .dz-preview:hover {
   z-index: 1000;
-  cursor: pointer;
 }
 
 .dropzone .dz-preview:hover .dz-details {
@@ -2714,7 +2917,7 @@ button.point-fill:not(:disabled):active {
   white-space: nowrap;
   color: #586872;
   text-align: left;
-  padding: 0 0.4em;
+  padding: 0 0.4rem;
 }
 
 .dropzone .dz-preview .dz-details .dz-filename:not(:hover) {
@@ -2724,7 +2927,8 @@ button.point-fill:not(:disabled):active {
 
 .dropzone .dz-preview .dz-details .dz-size {
   text-align: left;
-  padding: 0 0.4em;
+  padding: 0 0.4rem;
+  color: #ACB4BF;
 }
 
 .dropzone .dz-preview .dz-details .dz-file-type {
@@ -2775,6 +2979,7 @@ button.point-fill:not(:disabled):active {
 
 .dropzone .dz-preview.dz-error .dz-error-mark {
   opacity: 1;
+  color: #FF405A;
   -webkit-animation-delay: 0s;
           animation-delay: 0s;
   -webkit-animation-duration: 3s;
@@ -2838,7 +3043,8 @@ button.point-fill:not(:disabled):active {
   height: 0.25rem;
   top: -1.375rem;
   left: 2.25rem;
-  width: 36.25rem;
+  width: calc(36.25rem - (0.4rem * 2));
+  margin: 0 0.4rem;
   background: #EBEBEB;
   border-radius: 8px;
   overflow: hidden;
@@ -2854,6 +3060,10 @@ button.point-fill:not(:disabled):active {
   width: 0;
   -webkit-transition: width 300ms ease-in-out;
   transition: width 300ms ease-in-out;
+}
+
+.dropzone .dz-preview.dz-error {
+  border-color: #FF405A;
 }
 
 .dropzone .dz-preview.dz-error .dz-error-message {
@@ -2874,8 +3084,9 @@ button.point-fill:not(:disabled):active {
   -webkit-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
   border-radius: 8px;
-  left: -10px;
-  width: 140px;
+  top: calc( -1 * 5rem);
+  left: 0;
+  width: auto;
   background: #FF405A;
   padding: 0.5em 1.2em;
   color: #ffffff;
@@ -2909,6 +3120,7 @@ body.document-modal-active {
 }
 
 .document-modal-wrapper.document-modal-active {
+  z-index: 2001;
   display: block;
 }
 
@@ -2927,177 +3139,6 @@ body.document-modal-active {
   top: 0;
   left: 0;
   right: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: #F7F8F9;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-}
-
-.document-modal-wrapper .document-modal-dialog *:focus {
-  outline: none !important;
-}
-
-.document-modal-wrapper .document-modal-dialog .contents {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  left: 0;
-  float: left;
-  height: 100vh;
-  min-height: 100vh;
-  overflow: auto;
-}
-
-.document-modal-wrapper .document-modal-dialog .contents .button-board {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: end;
-      -ms-flex-align: end;
-          align-items: flex-end;
-  -webkit-box-pack: end;
-      -ms-flex-pack: end;
-          justify-content: flex-end;
-  padding-bottom: 15px;
-  width: 985px;
-  max-width: 985px;
-  height: 150px;
-}
-
-.document-modal-wrapper .document-modal-dialog .contents .button-board > .button-group {
-  display: inline-block;
-}
-
-.document-modal-wrapper .document-modal-dialog .contents .button-board > .button-group button {
-  margin-right: 10px;
-}
-
-.document-modal-wrapper .document-modal-dialog .contents .drawing-board {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 985px;
-  max-width: 985px;
-  height: calc(100vh - 150px);
-  min-height: calc(100vh - 150px);
-  padding: 6.25rem 4.063rem 0 4.063rem;
-  background-color: #ffffff;
-  border: 0.0625rem solid #EBEBEB;
-  -webkit-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
-          box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-.document-modal-wrapper .document-modal-dialog .contents .drawing-board::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-
-.document-modal-wrapper .document-modal-dialog .aside {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 0;
-      -ms-flex: 0 0 auto;
-          flex: 0 0 auto;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  float: left;
-  right: 0;
-  margin-top: 150px;
-  height: calc(100vh - 150px);
-  min-height: calc(100vh - 150px);
-}
-
-.document-modal-wrapper .document-modal-dialog .aside .drawing-board {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-flex: 1;
-      -ms-flex: 1 1 auto;
-          flex: 1 1 auto;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  width: 540px;
-  max-width: 540px;
-  margin-left: 10px;
-  padding: 50px 60px 0 60px;
-  background-color: #ffffff;
-  border: 0.0625rem solid #EBEBEB;
-  -webkit-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
-          box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-.document-modal-wrapper .document-modal-dialog .aside .drawing-board::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-
-.document-modal-wrapper .document-modal-dialog .aside .drawing-board ul.menu {
-  display: table-row;
-  border-bottom: solid 0.0625rem #EBEBEB;
-  margin-bottom: 30px;
-}
-
-.document-modal-wrapper .document-modal-dialog .aside .drawing-board ul.menu li.menu-item {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-  width: 100px;
-  height: 40px;
-  font-size: 16px;
-  font-weight: 500;
-  color: #929AA6;
-  border-bottom: solid 4px #ffffff;
-  cursor: pointer;
-}
-
-.document-modal-wrapper .document-modal-dialog .aside .drawing-board ul.menu li.menu-item.selected {
-  color: #3F4B56;
-  border-bottom: solid 4px #0098FF;
-}
-
-.document-modal-wrapper .document-modal-dialog .aside .drawing-board ul.menu div.menu-content {
-  display: none;
-}
-
-.document-modal-wrapper .document-modal-dialog .aside .drawing-board ul.menu div.menu-content.selected {
-  display: inherit;
 }
 
 body.thumbnail-modal-active {

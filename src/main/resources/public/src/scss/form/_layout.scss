@@ -121,6 +121,9 @@ input, textarea, select {
                         .component .move-handler {
                             display: inherit;
                         }
+                        .component[data-type="editbox"] { 
+                            pointer-events: none;
+                        }
                     }
                 }
             }
@@ -135,6 +138,149 @@ input, textarea, select {
                 box-shadow: $form-aside-box-shadow;
                 overflow-y: auto;
                 @include scrollbar-hidden;
+            }
+        }
+        // 문서 양식
+        &.document {
+            display: flex;
+            justify-content: center;
+
+            .contents {
+                flex-direction: column;
+                height: 100vh;
+                min-height: 100vh;
+                overflow: auto;
+
+                .button-board {
+                    display: flex;
+                    align-items: flex-end;
+                    justify-content: flex-end;
+                    padding-bottom:  0.9375rem; // 15px
+                    width: $document-content-drawing-board-width;
+                    max-width: $document-content-drawing-board-width;
+                    height: $document-button-board-height;
+                    > .button-group {
+                        display: inline-block;
+                        button {
+                            margin-right: 0.625rem; // 10px
+                        }
+                    }
+                }
+
+                .drawing-board {
+                    width: $document-content-drawing-board-width;
+                    max-width: $document-content-drawing-board-width;
+                    height: calc(100vh - #{$document-button-board-height});
+                    min-height: calc(100vh - #{$document-button-board-height});
+                    padding: 6.25rem 4.063rem 0 4.063rem; // 100px 65px 0px 65px;
+                }
+            }
+            .aside {
+                margin-top: $document-button-board-height;
+                height: calc(100vh - #{$document-button-board-height});
+                min-height: calc(100vh - #{$document-button-board-height});
+
+                // TODO: 처리할 문서
+                .drawing-board {
+                    display: flex; 
+                    flex: 1 1 auto;
+                    flex-direction: column;
+                    align-items: center;
+                    width: $document-aside-drawing-board-width;
+                    max-width: $document-aside-drawing-board-width;
+                    margin-left: 0.625rem;
+                    padding: 3.125rem 3.75rem 0 3.75rem; // 50px 60px 0 60px
+                    background-color: $drawing-board-background-color;
+                    border: $drawing-board-border;
+                    box-shadow: $drawing-board-box-shadow;
+                    overflow-y: auto;
+                    @include scrollbar-hidden;
+    
+                    ul.menu {
+                        display: table-row;
+                        border-bottom: solid 0.0625rem $line-gray;
+                        margin-bottom: 1.875rem; // 30px
+                        li.menu-item {
+                            display: table-cell;
+                            vertical-align: middle;
+                            text-align: center;
+                            width: 6.25rem; // 100px
+                            height: 2.5rem; // 40px
+                            font-size: 16px; // 16px
+                            font-weight: 500;  // medium
+                            color: $blue-gray;
+                            border-bottom: solid 0.25rem $white; // 4px
+                            cursor: pointer;
+    
+                            &.selected {
+                                color: $light-black;
+                                border-bottom: solid 0.25rem $point-blue; // 4px
+                            }
+                        }
+                        div.menu-content {
+                            display: none;
+    
+                            &.selected {
+                                display: inherit;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // 프린트
+        &.print {
+            .contents {
+                flex-direction: column;
+                height: 100vh;
+                min-height: 100vh;
+                overflow: auto;
+
+                .print-board {
+                    margin: 0.9375rem; // 15px;
+                    height: 2.813rem; // 45px
+                    span {
+                        float: right;
+                        font-size: 16px;
+                        line-height: 24px;
+                        font-weight: 400; // regular
+                        color: $black;
+                        text-align: right;
+                    }
+                }
+
+                .drawing-board {
+                    width: $document-content-drawing-board-width;
+                    max-width: $document-content-drawing-board-width;
+                    height: calc(100vh - #{$document-button-board-height});
+                    min-height: calc(100vh - #{$document-button-board-height});
+                    padding: 6.25rem 4.063rem 0 4.063rem; // 100px 65px 0px 65px;
+                    .component {
+                        page-break-inside: avoid;
+                    }
+                }
+            }
+            .aside {
+                margin-top: $document-button-board-height;
+                height: calc(100vh - #{$document-button-board-height});
+                min-height: calc(100vh - #{$document-button-board-height});
+
+                // TODO: 처리할 문서
+                .drawing-board {
+                    display: flex; 
+                    flex: 1 1 auto;
+                    flex-direction: column;
+                    align-items: center;
+                    width: $document-aside-drawing-board-width;
+                    max-width: $document-aside-drawing-board-width;
+                    margin-left: 0.625rem;
+                    padding: 3.125rem 3.75rem 0 3.75rem; // 50px 60px 0 60px
+                    background-color: $drawing-board-background-color;
+                    border: $drawing-board-border;
+                    box-shadow: $drawing-board-box-shadow;
+                    overflow-y: auto;
+                    @include scrollbar-hidden;
+                }
             }
         }
     }
