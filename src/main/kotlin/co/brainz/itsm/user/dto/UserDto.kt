@@ -28,8 +28,5 @@ class UserDto(
     var lang: String? = null,
     var timeFormat: String? = null,
     var theme: String? = null,
-    var avatarId: String = "",
-    var avatarPath: String = "",
-    var avatarValue: String = "",
-    var avatarSize: Long = 0L
+    var avatarPath: String = ""
 ) : Serializable

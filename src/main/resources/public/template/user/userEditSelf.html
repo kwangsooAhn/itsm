@@ -1,9 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{user.label.editUserInfo}"></title>
+    <meta charset="UTF-8">
+    <style>
+        .dropzone {
+            width: 152px;
+            min-height: 0px;
+            height: 82px;
+        }
+    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -22,7 +29,7 @@
                         <div class="avatar-section-wrap">
                             <span class="avatar-title" th:text="#{user.label.avatar}"></span>
                             <span class="avatar-section">
-                                    <div class="avatar_text" id="avatarDropZone"></div><br/><br/>
+                                    <div class="avatar_text" id="dropZoneFiles"></div><br/><br/>
                                 </span>
                             <div class="avatar-bottom-text-wrap">
                                 <span class="avatar_bottom_text" th:text="#{user.label.FileSizeLimit}"></span>
@@ -82,7 +89,7 @@
                             <input type="hidden" id="departmentCode" name="departmentCode"
                                    th:value="${deptCodeDetail?.code}"/>
                             <input class="input-button" type="button" onclick="deptPopUp();"
-                                    th:value="#{department.btn.selection}"/>
+                                   th:value="#{department.btn.selection}"/>
                         </div>
                         <div class="profile-input-body-list">
                             <span class="input-title" th:text="#{user.label.officeNumber}"></span>
@@ -163,28 +170,16 @@
     <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
         window.onload = function() {
-            fileUploader.avatar({
-                extra: {
-                    dropZoneFilesId: 'avatarDropZone',
-                    type: 'avatar',
-                    dropZoneMaxFileSize: 0.2,
-                    dropZoneUrl: '/fileupload?target=avatar',
-                    dropZoneMaxFiles: 1,
-                    acceptedFiles: '.png,.jpeg,.jpg,.gif',
-                    enableImageThumbnails: true,
-                    thumbnailWidth: 300,
-                    thumbnailHeight: 300,
-                    dictDefaultMessage: 'Drop files here to upload',
-                    clickableLineMessage: 'or ',
-                    clickableMessage: 'browse',
-                    avatar: {
-                        id: [[${users?.avatarId}]],
-                        path: [[${users?.avatarPath}]],
-                        value: [[${users?.avatarValue}]],
-                        size: [[${users?.avatarSize}]]
-                    }
-                }
-            });
+            const avatarUUID = uuid();
+            document.getElementById('avatarUUID').value = avatarUUID;
+            fileUploader.init({extra: {
+                formId: 'userEditSelfForm',
+                dropZoneMaxFileSize: 0.2,
+                dropZoneUrl: '/fileupload?target=avatar&fileName=' + avatarUUID,
+                dropZoneMaxFiles: 1,
+                acceptedFiles: '.png,.jpeg,.jpg,.gif',
+                clickable: 'add-img-button'
+            }});
         };
 
         function onlyNumber(event) {
@@ -210,17 +205,14 @@
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
 
         function restSubmit(method, url) {
+            let avatarUUID = document.getElementById('avatarUUID').value;
+            if (document.getElementsByClassName('dz-image').item(0) === null) {
+                avatarUUID = '';
+            }
+
             if (!validation()) {
                 return false;
             }
-
-            console.log(document.getElementById('avatarUUID').value)
-            console.log('%s', document.getElementById('avatarUUID').value)
-            console.log('%o', document.getElementById('avatarUUID').value)
-            console.log('%o', document.getElementById('avatarUUID'))
-
-            return;
-
             const data = {
                 userKey: document.getElementById('userKey').value,
                 userId: document.getElementById('userId').value,
@@ -235,7 +227,7 @@
                 theme: document.getElementById('theme').value,
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
                 fileSeq: document.getElementsByName('fileSeq').value,
-                avatarUUID: document.getElementById('avatarUUID').value
+                avatarUUID: avatarUUID
             };
             const password = document.getElementById('password').value;
             if (password !== '') {
@@ -290,6 +282,13 @@
             if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
             if (!isValidEmail('email')) return false;
             return true;
+        }
+
+        function uuid() {
+            function s4() {
+                return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+            }
+            return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
         }
 
         function deptPopUp() {

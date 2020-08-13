@@ -118,7 +118,6 @@ class UserService(
                     attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val targetEntity = updateDataInput(userUpdateDto)
 
-                // TODO 남의 정보를 수정할 때 비밀번호를 바꿔주는 건 위험하므로 삭제 필요하다. -> 초기화하는 기능으로 변경필요.
                 when (userUpdateDto.password != null) {
                     targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
@@ -153,7 +152,6 @@ class UserService(
                     }
                 }
 
-                // TODO when 을 어색하게 쓰고 있다. 수정필요.
                 code = when (targetEntity.email == userEntity.email) {
                     true -> {
                         when (userEditType) {
