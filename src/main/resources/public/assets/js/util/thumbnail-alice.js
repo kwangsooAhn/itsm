@@ -31,7 +31,6 @@
             }
         }],
         close: {
-            closable: false, // X 버튼
             location: 'in',
             bindKey: 27,
             callback: function(modal) {
@@ -219,38 +218,6 @@
             dialog = document.createElement('div');
             dialog.className = 'thumbnail-modal-dialog';
 
-            // 상단 닫기 버튼
-            if (typeof this.options.close.closable !== 'undefined' && this.options.close.closable) {
-                const close = document.createElement('a');
-                close.setAttribute('href', 'javascript:void(0);');
-
-                if (typeof this.options.close.callback === 'undefined') {
-                    this.options.close.callback = function() {};
-                }
-
-                // close button click
-                close.modal = this;
-                close.callback = this.options.close.callback;
-                close.onclick = function(e) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    this.callback(this.modal);
-                    return false;
-                };
-
-                // close key binding
-                if (typeof this.options.close.bindKey === 'number') {
-                    this.bind(this.options.close.bindKey, this.options.close.callback);
-                }
-
-                if ( typeof this.options.close.location === 'undefined' || this.options.close.location == 'in') {
-                    close.className = 'thumbnail-modal-close-in';
-                    dialog.appendChild(close);
-                } else {
-                    close.className = 'thumbnail-modal-close-out';
-                    backdrop.appendChild(close);
-                }
-            }
             // 제목
             if (this.options.title instanceof Element || (typeof this.options.title === "string" && this.options.title != '')) {
                 const title = document.createElement('div');

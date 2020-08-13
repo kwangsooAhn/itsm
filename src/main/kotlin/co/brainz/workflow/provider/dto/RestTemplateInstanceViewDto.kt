@@ -18,5 +18,6 @@ data class RestTemplateInstanceViewDto(
     val documentId: String,
     val documentNo: String? = null,
     val documentColor: String?,
+    val avatarPath: String? = "",
     val totalCount: Long
 ) : Serializable

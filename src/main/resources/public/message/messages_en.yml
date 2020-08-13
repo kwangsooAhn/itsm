@@ -499,17 +499,20 @@ login:
 
 # Menu
 menu:
-  my:
-    parent: "My Work"
-    dashboard: "Dashboard"
-    token: "My Document"
-    document: "Service Request"
-  portal:
-    parent: "Portal Service"
-    notice: "Notice"
-    faq: "FAQ"
-    download: "Download"
-    board: "Board"
+  dashboard:
+    parent: "Dashboard"
+  token:
+    parent: "My Document"
+  document:
+    parent: "Service Request"
+  notice:
+    parent: "Notice"
+  faq:
+    parent: "FAQ"
+  download:
+    parent: "Download"
+  board:
+    parent: "Board"
   config:
     parent: "System config"
     user: "User"

@@ -112,7 +112,6 @@ insert into awf_url_auth_map values ('/documents/custom-code/{id}/data', 'post',
 insert into awf_url_auth_map values ('/documents/list', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/search', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'document.read');
-insert into awf_url_auth_map values ('/documents/{id}/publish', 'get', 'document.create');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.update');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.delete');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.create');

@@ -12,8 +12,19 @@
 const fileUploader = (function () {
     "use strict";
 
-    let extraParam, dropZoneFilesId, dropZoneUploadedFilesId, fileAttrName, delFileAttrName, dragAndDropZoneId, addFileBtnWrapClassName;
+    let extraParam, fileAttrName, delFileAttrName, dragAndDropZoneId,
+        addFileBtnWrapClassName;
 
+    const createUid = function () {
+        function s4() {
+            return ((1 + Math.random()) * 0x10000 | 0).toString(16).substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+    }
+    /**
+     * 호출하는 곳에서 전달하는 파라미터를 내부에서 사용할 수 있도록 셋업한다.
+     * @param param
+     */
     const setExtraParam = function (param) {
         delFileAttrName = 'delFileSeq'; // 서버로 전달하여 삭제할 fileSeq input hidden 의 속성 이름
         fileAttrName = 'fileSeq';       // 서버로 전달하여 업로드 할 fileSeq input hidden 의 속성 이름
@@ -21,10 +32,6 @@ const fileUploader = (function () {
         addFileBtnWrapClassName = 'add-file-button-wrap'; // 업로드 버튼 클릭 구역 wrapper
 
         extraParam = param;
-    };
-
-    const createDropZone = function () {
-        /*<![CDATA[*/
         if (extraParam.dropZoneMaxFileSize === undefined) {
             extraParam.dropZoneMaxFileSize = 100;
         }
@@ -53,24 +60,61 @@ const fileUploader = (function () {
             extraParam.acceptedFiles = null;
         }
 
-        if (extraParam.type === undefined) {
-            extraParam.type = 'dropzone';
+        extraParam.type = (extraParam.type === undefined) ? 'dropzone':'dropzone ' + extraParam.type
+        if (extraParam.type === 'avatar') {
+            extraParam.enableImageThumbnails = true;
         }
 
         if (extraParam.editor === undefined) {
             extraParam.editor = true;
         }
 
-        // 드랍존 영역 가져오기.
-        const dropZoneFiles = document.getElementById(extraParam.dropZoneFilesId);
-        const dropZoneUploadedFiles = document.getElementById(extraParam.dropZoneUploadedFilesId);
+        if (extraParam.enableImageThumbnails === undefined) {
+            extraParam.enableImageThumbnails = false;
+        }
 
-        // 파일을 드래그앤드랍하여 업로드하는 영역을 정의
+        if (extraParam.dictDefaultMessage === undefined) {
+            extraParam.dictDefaultMessage = 'Drop files here to upload'
+        }
+        if (extraParam.clickableLineMessage === undefined) {
+            extraParam.clickableLineMessage = 'or '
+        }
+        if (extraParam.clickableMessage === undefined) {
+            extraParam.clickableMessage = 'browse'
+        }
+    };
+
+
+    /**
+     * 파일을 드래그앤드랍, 클릭으로 업로드하는 영역을 정의한다.
+     * @param dropZoneFiles
+     */
+    const createDragAndDropZone = function (dropZoneFiles) {
         const dragAndDropZone = document.createElement('div');
         dragAndDropZone.id = dragAndDropZoneId;
         dragAndDropZone.className = extraParam.type;
-        document.getElementById(extraParam.dropZoneFilesId).appendChild(dragAndDropZone);
+        dropZoneFiles.appendChild(dragAndDropZone);
 
+        // 파일을 업로드하기 위한 별도의 버튼 기능을 정의하고 추가
+        const justText = document.createElement('span');
+        justText.textContent = extraParam.clickableLineMessage;
+
+        const addFileBtn = document.createElement('span');
+        addFileBtn.className = extraParam.clickable;
+        addFileBtn.textContent = extraParam.clickableMessage;
+
+        const addFileBtnWrap = document.createElement('div');
+        addFileBtnWrap.className = addFileBtnWrapClassName
+        addFileBtnWrap.appendChild(justText);
+        addFileBtnWrap.appendChild(addFileBtn);
+        dragAndDropZone.appendChild(addFileBtnWrap);
+    }
+
+    /**
+     * 업로드 영역의 dropzone template 을 생성하여 리턴한다.
+     * @returns {string}
+     */
+    const createTemplate = function () {
         // 파일 템플릿 생성
         const thumbnailData = document.createElement('img');
         thumbnailData.dataset.dzThumbnail = '';
@@ -136,34 +180,19 @@ const fileUploader = (function () {
         const fileView = document.createElement('div');
         fileView.appendChild(fileViewTemplate);
 
-        // 파일을 업로드하기 위한 별도의 버튼 기능을 정의하고 추가 (드래그앤드랍 외에 버튼으로 파일 추가)
-        if (extraParam.clickable === 'add-file-button' && extraParam.type !== 'avatarFileUploader') {
-            const justText = document.createElement('span');
-            justText.textContent = 'or ';
+        return fileView.innerHTML
+    }
 
-            const addFileBtn = document.createElement('span');
-            addFileBtn.className = extraParam.clickable;
-            addFileBtn.textContent = 'browse';
+    /**
+     * 파일업로드 드랍존 생성
+     */
+    const createFileUploader = function () {
 
-            const addFileBtnWrap = document.createElement('div');
-            addFileBtnWrap.className = addFileBtnWrapClassName
-            addFileBtnWrap.appendChild(justText);
-            addFileBtnWrap.appendChild(addFileBtn);
-            dragAndDropZone.appendChild(addFileBtnWrap);
-        }
+        // 드랍존 영역 가져오기.
+        const dropZoneFiles = document.getElementById(extraParam.dropZoneFilesId);
+        const dropZoneUploadedFiles = document.getElementById(extraParam.dropZoneUploadedFilesId);
 
-        // TO-DO (아바타용인가??) 파일을 드래그앤드랍 말고 업로드하기 위한 별도의 버튼 기능을 정의하고 추가
-        // 2020.07.25 Jung Hee Chan
-        // avatar 업로드는 기능 정리 필요. 일단 디자인 작업을 위해서 버튼 춢력은 주석 처리.
-        if (extraParam.clickable === 'add-img-button') {
-            const addFileSpan = document.createElement('span');
-            addFileSpan.className = 'add-img-button';
-            const addFileBtn = document.createElement('button');
-            //addFileBtn.innerText = '아바타 추가';
-            addFileBtn.setAttribute('type', 'button');
-            addFileSpan.appendChild(addFileBtn);
-            dropZoneFiles.appendChild(addFileSpan);
-        }
+        createDragAndDropZone(dropZoneFiles);
 
         // 파일 업로드 기능 정의
         let dropzoneId = '#'+extraParam.dropZoneFilesId+' #' + dragAndDropZoneId;
@@ -177,11 +206,10 @@ const fileUploader = (function () {
             autoProcessQueue: true, //자동업로드, processQueue() 사용
             addRemoveLinks: false,
             acceptedFiles: extraParam.acceptedFiles,
-            previewTemplate: fileView.innerHTML, // 기본 출력 템플릿 변경시 사용, API 참조 할 것.
+            previewTemplate: createTemplate(), // 기본 출력 템플릿 변경시 사용, API 참조 할 것.
             autoQueue: true, // Make sure the files aren't queued until manually added
             clickable: '.' + extraParam.clickable, // Define the element that should be used as click trigger to select files.
             createImageThumbnails: false,
-            allowNewFiles: false,
             headers: {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
             },
@@ -193,7 +221,6 @@ const fileUploader = (function () {
                                   +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
-
                         files.forEach(function (fileMap) {
                             let file = fileMap.fileLocDto;
 
@@ -394,13 +421,177 @@ const fileUploader = (function () {
                 }
             }
         });
-        /*]]>*/
+    };
+
+    /**
+     * 아바타 파일업로드를 위한 드랍존 생성.
+     */
+    const createAvatarUploader = function () {
+        // 드랍존 영역 가져오기.
+        const dropZoneFiles = document.getElementById(extraParam.dropZoneFilesId);
+        const dropZoneUploadedFiles = document.getElementById(extraParam.dropZoneUploadedFilesId);
+
+        createDragAndDropZone(dropZoneFiles);
+
+        // 파일 업로드 기능 정의
+        let dropzoneId = '#'+extraParam.dropZoneFilesId+' #' + dragAndDropZoneId;
+        const myDropZone = new Dropzone(dropzoneId, {
+            paramName: "file", // file 매개변수명
+            params: extraParam || null, // 추가 매개변수
+            maxFilesize: extraParam.dropZoneMaxFileSize, // 첨부파일 용량 제한
+            url: extraParam.dropZoneUrl,
+            maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
+            maxFiles: extraParam.dropZoneMaxFiles, // 첨부파일 개수 제한
+            autoProcessQueue: true, //자동업로드, processQueue() 사용
+            addRemoveLinks: false,
+            acceptedFiles: extraParam.acceptedFiles,
+            previewTemplate: createTemplate(), // 기본 출력 템플릿 변경시 사용, API 참조 할 것.
+            autoQueue: true, // Make sure the files aren't queued until manually added
+            clickable: '.' + extraParam.clickable, // Define the element that should be used as click trigger to select files.
+            createImageThumbnails: true,
+            thumbnailWidth: extraParam.thumbnailWidth,
+            thumbnailHeight: extraParam.thumbnailHeight,
+            dictDefaultMessage: extraParam.dictDefaultMessage,
+            headers: {
+                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
+            },
+            init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
+                let _this = this;
+
+                const addFileBtn = document.querySelector('.' + addFileBtnWrapClassName);
+                document.querySelector('.dz-message').appendChild(addFileBtn);
+
+                if (extraParam.avatar.id !== null && extraParam.avatar.size > 0) {
+                    let mockFile = {
+                        id: extraParam.avatar.id,
+                        name: extraParam.avatar.value,
+                        size: extraParam.avatar.size,
+                        dataURL: extraParam.avatar.path,
+                        status: Dropzone.ADDED,
+                        accepted: true,
+                        isNew: false
+                    };
+                    extraParam.fileName = extraParam.avatar.id
+                    document.getElementById('avatarUUID').value = extraParam.fileName;
+                    _this.files.push(mockFile);
+                    _this.emit("addedfile", mockFile);
+                    _this.createThumbnailFromUrl(mockFile,
+                        _this.options.thumbnailWidth,
+                        _this.options.thumbnailHeight,
+                        _this.options.thumbnailMethod, true, function (thumbnail) {
+                            _this.emit('thumbnail', mockFile, thumbnail);
+                        });
+                    _this.emit('complete', mockFile);
+                }
+
+                //파일 확장자 목록 관련 출력
+                let fileNameExtensionList;
+                const opt2 = {
+                    method: 'GET',
+                    url: '/rest/fileNameExtensionList',
+                    callbackFunc: function (response) {
+                        fileNameExtensionList = JSON.parse(response.responseText);
+                    }
+                };
+                aliceJs.sendXhr(opt2);
+
+                this.on("addedfile", function (file) {
+                    extraParam.fileName = createUid();
+                    document.getElementById('avatarUUID').value = extraParam.fileName;
+
+                    var fileName = file.name;
+                    var fileNameLength = file.name.length;
+                    var lastDot = fileName.lastIndexOf('.');
+                    var fileNameExtension = fileName.substring(lastDot+1, fileNameLength).toUpperCase();
+                    var extensionValueArr = [];
+
+                    for (var i = 0; i < fileNameExtensionList.length; i++)  {
+                        extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
+                    }
+
+                    if (!(extensionValueArr.includes(fileNameExtension))) {
+                        this.removeFile(file);
+                        aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
+                    }
+
+                });
+
+                this.on("removedfile", function (file) {
+                    extraParam.fileName = '';
+                    document.getElementById('avatarUUID').value = extraParam.fileName;
+                });
+
+                this.on("sending", function (file, xhr, formData) {
+                    // Show the total progress bar when upload starts
+                    //document.querySelector("#total-progress").style.opacity = "1";
+                    // And disable the start button
+                    //file.previewElement.querySelector(".start").setAttribute("disabled", "disabled");
+                });
+
+                // Update the total progress bar
+                this.on("totaluploadprogress", function (progress) {
+                    //document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
+                });
+
+                this.on("success", function (file, response) {
+                    const seq = document.createElement('input');
+                    seq.setAttribute('type', 'hidden');
+                    seq.setAttribute('name', fileAttrName);
+                    seq.value = response.file.fileSeq;
+                    file.previewElement.appendChild(seq);
+                });
+
+                this.on("error", function (file, errorMsg, xhr) {
+                    const res = JSON.parse(xhr.response);
+                    file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                    // file.previewElement.querySelector('.dz-success-mark').style.display = '';
+                    // file.previewElement.querySelector('.dz-success-mark').style.display = 'none';
+                    // aliceJs.xhrErrorResponse()
+                    // file.previewElement.querySelector('.dz-error-message').addClass("dz-error");
+                });
+
+                this.on("complete", function (file) {
+                    // const dropzoneMessage = document.querySelector('.dz-message')
+                    // document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
+                    // dropzoneMessage.style.display = 'block';
+                });
+
+                // Hide the total progress bar when nothing's uploading anymore
+                this.on("queuecomplete", function (progress) {
+                    //document.querySelector("#total-progress").style.opacity = "0";
+                });
+
+                this.on("canceled", function () {
+                });
+
+                this.on("maxfilesexceeded", function (file, maxFiles) {
+                    this.removeFile(file);
+                    aliceJs.alert(i18n.get('fileupload.msg.maxFileCount', maxFiles));
+                });
+
+                this.on("maxfilesizeexceeded", function (file, maxFileSize) {
+                    this.removeFile(file);
+                    aliceJs.alert(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
+                });
+            },
+            accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
+                if (file.name === "justinbieber.jpg") {
+                    done("Naha, you don't.");
+                } else {
+                    done();
+                }
+            }
+        });
     };
 
     return {
         init: function (param) {
             setExtraParam(param.extra);
-            createDropZone();
+            createFileUploader();
+        },
+        avatar: function (param) {
+            setExtraParam(param.extra);
+            createAvatarUploader();
         }
     }
 }());

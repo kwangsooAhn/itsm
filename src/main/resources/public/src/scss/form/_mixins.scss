@@ -4,11 +4,12 @@
     }
 }
 
-@mixin animation ($delay, $duration, $name, $timing) {
+@mixin animation ($delay, $duration, $name, $timing, $count:1) {
     animation-delay: $delay;
     animation-duration: $duration;
     animation-name: $name;
     animation-timing-function: $timing;
+    animation-iteration-count: $count;
 }
 
 @mixin background($path) {

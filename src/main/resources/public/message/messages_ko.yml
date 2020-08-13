@@ -499,17 +499,20 @@ login:
 
 # Menu
 menu:
-  my:
-    parent: "나의 업무"
-    dashboard: "대시보드"
-    token: "문서함"
-    document: "신청서"
-  portal:
-    parent: "포탈 서비스"
-    notice: "공지사항"
-    faq: "FAQ"
-    download: "자료실"
-    board: "게시판"
+  dashboard:
+    parent: "대시보드"
+  token:
+    parent: "문서함"
+  document:
+    parent: "신청서"
+  notice:
+    parent: "공지사항"
+  faq:
+    parent: "FAQ"
+  download:
+    parent: "자료실"
+  board:
+    parent: "게시판"
   config:
     parent: "시스템 관리"
     user: "사용자"

@@ -13,9 +13,10 @@
 .properties-title {
     display: none;
     height: $properties-title-height;
+    line-height: $properties-title-line-height;
     background-color: $properties-title-background-color;
 
-    h2 {
+    h3 {
         color: $properties-title-font-color;
         padding: 0.625rem 0 0.625rem 0.938rem; // 10.5px 0 10.5px 15px
         font: {

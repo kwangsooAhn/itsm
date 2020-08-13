@@ -2,49 +2,53 @@
 <html xmlns:th="http://www.thymeleaf.org"
 		xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
+<!--/*
+* 2020-08-05
+* Jung Hee Chan
+* 1) 메뉴는 그룹메뉴와 연결메뉴로 분류된다.
+* 2) 2가지의 메뉴는 URL을 가지고 있느냐로 구분된다.
+* 3) 연결메뉴는 실제 화면과 연결되는 URL정보를 가지고 있으며 그룹메뉴는 그렇지 않다.
+* 4) 그룹메뉴는 하위의 메뉴를 열거나 펼칠때만 사용되고 실제 연결은 모두 연결메뉴에서 담당한다.
+* 5) 현재는 2단계의 메뉴 깊이로 고정한다.
+*/-->
 	<div class="menu">
-		<div class="gnb">
+		<div class="gnb-area">
 			<ul>
-				<li  th:each="topMenu : ${#authentication.details.menus}"
+				<li th:each="topMenu : ${#authentication.details.menus}"
 						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
-					<span th:class=${topMenu.menuId} onclick="accordionMenu(this);"><a th:text="#{|menu.${topMenu.menuId}.parent|}"></a></span>
-					<div th:id=${topMenu.menuId} class="snb snb-mywork">
-						<ul>
-							<li th:each="subMenu : ${#authentication.details.menus}"
-									th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
-								<span th:class="${#strings.substringAfter(subMenu.menuId,'.')}">
-									<a th:href="${subMenu.url}" th:text="#{|menu.${subMenu.menuId}|}" onclick="showProgressBar()"></a>
-								</span>
-							</li>
-						</ul>
-					</div>
+					<!--/* 그룹 메뉴 */-->
+					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb">
+						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
+						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+						<span class="arrow-left"></span>
+					</a>
+					<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="snb-set">
+						<li th:each="subMenu : ${#authentication.details.menus}"
+							th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
+							<a th:href="${subMenu.url}"  th:class="'snb ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()">
+								<span th:text="#{|menu.${subMenu.menuId}|}"></span>
+							</a>
+						</li>
+					</ul>
+					<!--/* 연결 메뉴 */-->
+					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb">
+						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
+						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+					</a>
 				</li>
 			</ul>
 		</div>
 	</div>
 </body>
 <script type="text/javascript" th:inline="javascript">
-	window.onload = function() {
-		document.getElementById('config').style.display='none';
-		document.getElementById('workflow').style.display='none';
-	};
-
+/*<![CDATA[ */
 	function accordionMenu(element) {
-		if (element.className === 'config' || element.className === 'workflow') {
-			document.getElementById('config').style.display='none';
-			document.getElementById('workflow').style.display='none';
-			for (var i = 0; i < element.parentNode.childNodes.length; i++) {
-				if (element.parentNode.childNodes[i].id === element.className) {
-					if (element.parentNode.childNodes[i].value === 'block') {
-						element.parentNode.childNodes[i].style.display = 'none';
-						element.parentNode.childNodes[i].value = 'none';
-					} else {
-						element.parentNode.childNodes[i].style.display = 'block';
-						element.parentNode.childNodes[i].value = 'block';
-					}
-				}
-			}
+		if (document.getElementById(element.dataset.menugroup).style.display === 'block') {
+			document.getElementById(element.dataset.menugroup).style.display = 'none';
+		} else {
+			document.getElementById(element.dataset.menugroup).style.display = 'block';
 		}
 	}
+/* ]]> */
 </script>
 </html>
