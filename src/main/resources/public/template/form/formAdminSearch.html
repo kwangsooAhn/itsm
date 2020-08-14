@@ -5,8 +5,10 @@
     layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{menu.workflow.form}"></title>
-    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
 </head>
+<th:block layout:fragment="scriptLink">
+    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
+</th:block>
 <body>
 <th:block layout:fragment="content">
     <div class="contents">

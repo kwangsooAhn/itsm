@@ -1,6 +1,7 @@
 package co.brainz.workflow.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants
@@ -40,6 +41,7 @@ class WfInstanceService(
     private val wfTokenRepository: WfTokenRepository,
     private val wfCommentService: WfCommentService,
     private val wfDocumentRepository: WfDocumentRepository,
+    private val aliceAvatarService: AliceAvatarService,
     private val aliceNumberingService: AliceNumberingService,
     private val aliceUserRepository: AliceUserRepository,
     private val wfFolderService: WfFolderService,
@@ -96,6 +98,10 @@ class WfInstanceService(
                 }
             }
 
+            val avatarPath = instance.instanceEntity.instanceCreateUser?.avatar?.let {
+                aliceAvatarService.makeAvatarPath(it)
+            }
+
             val tags = mutableListOf<String>()
             getInstanceTags(instance.instanceEntity.instanceId)?.forEach {
                 tags.add(it.value)
@@ -118,6 +124,7 @@ class WfInstanceService(
                     documentId = instance.documentEntity.documentId,
                     documentNo = instance.instanceEntity.documentNo,
                     documentColor = instance.documentEntity.documentColor,
+                    avatarPath = avatarPath,
                     totalCount = queryResults.total
                 )
             )

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="form/formCore">
+        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+        layout:decorator="form/formCore">
 <head>
     <title th:text="#{form.label.edit}"></title>
     <meta http-equiv="expire" content="-1"/>
@@ -10,227 +10,227 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-<div class="container">
-    <div class="toolbar">
-        <span class="logo"></span>
-        <span class="name">Form Designer</span>
-        <th:block th:if="${#strings.isEmpty(isView)}">
+    <div class="container form">
+        <div class="toolbar">
+            <span class="logo"></span>
+            <span class="name">Form Designer</span>
+            <th:block th:if="${#strings.isEmpty(isView)}">
+                <span class="separator"></span>
+                <a href="javascript:void(0);" onclick="editor.save(false);">
+                    <img th:src="@{/assets/media/icons/form/topmenu/icon_save.png}"/>
+                    <!--<label th:text="#{common.btn.save}"></label>-->
+                </a>
+            </th:block>
             <span class="separator"></span>
-            <a href="javascript:void(0);" onclick="editor.save(false);">
-                <img th:src="@{/assets/media/icons/form/topmenu/icon_save.png}"/>
-                <!--<label th:text="#{common.btn.save}"></label>-->
+            <a href="javascript:void(0);" onclick="editor.saveAs();">
+                <img th:src="@{/assets/media/icons/form/topmenu/icon_save_as.png}"/>
+                <!--<label th:text="#{common.btn.saveAs}"></label>-->
             </a>
-        </th:block>
-        <span class="separator"></span>
-        <a href="javascript:void(0);" onclick="editor.saveAs();">
-            <img th:src="@{/assets/media/icons/form/topmenu/icon_save_as.png}"/>
-            <!--<label th:text="#{common.btn.saveAs}"></label>-->
-        </a>
-        <th:block th:if="${#strings.isEmpty(isView)}">
+            <th:block th:if="${#strings.isEmpty(isView)}">
+                <span class="separator"></span>
+                <a href="javascript:void(0);" onclick="editor.undo();">
+                    <img th:src="@{/assets/media/icons/form/topmenu/icon_before.png}"/>
+                    <!--<label th:text="#{form.label.undo}"></label>-->
+                </a>
+            </th:block>
+            <th:block th:if="${#strings.isEmpty(isView)}">
+                <span class="separator"></span>
+                <a href="javascript:void(0);" onclick="editor.redo();">
+                    <img th:src="@{/assets/media/icons/form/topmenu/icon_after.png}"/>
+                    <!--<label th:text="#{form.label.redo}"></label>-->
+                </a>
+            </th:block>
             <span class="separator"></span>
-            <a href="javascript:void(0);" onclick="editor.undo();">
-                <img th:src="@{/assets/media/icons/form/topmenu/icon_before.png}"/>
-                <!--<label th:text="#{form.label.undo}"></label>-->
+            <a href="javascript:void(0);" onclick="editor.preview();">
+                <img th:src="@{/assets/media/icons/form/topmenu/icon_preview.png}"/>
+                <!--<label th:text="#{form.label.preview}"></label>-->
             </a>
-        </th:block>
-        <th:block th:if="${#strings.isEmpty(isView)}">
-            <span class="separator"></span>
-            <a href="javascript:void(0);" onclick="editor.redo();">
-                <img th:src="@{/assets/media/icons/form/topmenu/icon_after.png}"/>
-                <!--<label th:text="#{form.label.redo}"></label>-->
-            </a>
-        </th:block>
-        <span class="separator"></span>
-        <a href="javascript:void(0);" onclick="editor.preview();">
-            <img th:src="@{/assets/media/icons/form/topmenu/icon_preview.png}"/>
-            <!--<label th:text="#{form.label.preview}"></label>-->
-        </a>
-        <th:block th:if="${#strings.isEmpty(isView)}">
-            <span class="separator"></span>
-            <a href="javascript:void(0);" onclick="editor.save(true);">
-                <img th:src="@{/assets/media/icons/form/topmenu/icon_save_out.png}"/>
-                <!--<label th:text="#{form.label.saveExit}"></label>-->
-            </a>
-        </th:block>
-        <span class="form-name"></span>
+            <th:block th:if="${#strings.isEmpty(isView)}">
+                <span class="separator"></span>
+                <a href="javascript:void(0);" onclick="editor.save(true);">
+                    <img th:src="@{/assets/media/icons/form/topmenu/icon_save_out.png}"/>
+                    <!--<label th:text="#{form.label.saveExit}"></label>-->
+                </a>
+            </th:block>
+            <span class="form-name"></span>
+        </div>
+        <div class="contents">
+            <div class="drawing-board" id="form-panel"></div>
+        </div>
+        <div class="aside" id="properties-panel"></div>
     </div>
-    <div class="content form">
-        <div class="drawing-board" id="form-panel"></div>
-    </div>
-    <div class="aside form" id="properties-panel"></div>
-</div>
-<div class="context-menu" id="context-menu">
-    <ul class="menu">
-        <li class="menu-item inputbox" data-action="inputbox">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.inputbox}"></label>
-            </div>
-        </li>
-        <li class="menu-item textbox" data-action="textbox">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.textbox}"></label>
-            </div>
-        </li>
-        <li class="menu-item dropdown" data-action="dropdown">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.dropdown}"></label>
-            </div>
-        </li>
-        <li class="menu-item radio" data-action="radio">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.radio}"></label>
-            </div>
-        </li>
-        <li class="menu-item checkbox" data-action="checkbox">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.checkbox}"></label>
-            </div>
-        </li>
-        <li class="menu-item label" data-action="label">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.label}"></label>
-            </div>
-        </li>
-        <li class="menu-item image" data-action="image">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.image}"></label>
-            </div>
-        </li>
-        <li class="menu-item divider" data-action="divider">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.divider}"></label>
-            </div>
-        </li>
-        <li class="menu-item date" data-action="date">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.date}"></label>
-            </div>
-        </li>
-        <li class="menu-item time" data-action="time">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.time}"></label>
-            </div>
-        </li>
-        <li class="menu-item datetime" data-action="datetime">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.datetime}"></label>
-            </div>
-        </li>
-        <li class="menu-item fileupload" data-action="fileupload">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.fileupload}"></label>
-            </div>
-        </li>
-        <li class="menu-item custom-code" data-action="custom-code">
-            <div>
-                <a href="javascript:void(0);"></a>
-                <label th:text="#{form.component.customCode}"></label>
-            </div>
-        </li>
-    </ul>
-</div>
-<!-- 툴팁 템플릿 -->
-<template id="tooltip-template">
-    <div class="tooltip-menu">
+    <div class="context-menu" id="context-menu">
         <ul class="menu">
-            <li class="menu-item list" data-action="list">
-                <a href="javascript:void(0);">
-                    <!--<label th:text="#{form.label.list}"></label>-->
-                </a>
+            <li class="menu-item inputbox" data-action="inputbox">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.inputbox}"></label>
+                </div>
             </li>
-            <li class="menu-item copy" data-action="copy">
-                <a href="javascript:void(0);">
-                    <!--<label th:text="#{form.label.copy}"></label>-->
-                </a>
+            <li class="menu-item textbox" data-action="textbox">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.textbox}"></label>
+                </div>
             </li>
-            <li class="menu-item delete" data-action="delete">
-                <a href="javascript:void(0);">
-                    <!--<label th:text="#{common.btn.delete}"></label>-->
-                </a>
+            <li class="menu-item dropdown" data-action="dropdown">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.dropdown}"></label>
+                </div>
             </li>
-            <li class="menu-item add" data-action="add">
-                <a href="javascript:void(0);">
-                    <!--<label th:text="#{form.label.addBelow}"></label>-->
-                </a>
+            <li class="menu-item radio" data-action="radio">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.radio}"></label>
+                </div>
+            </li>
+            <li class="menu-item checkbox" data-action="checkbox">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.checkbox}"></label>
+                </div>
+            </li>
+            <li class="menu-item label" data-action="label">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.label}"></label>
+                </div>
+            </li>
+            <li class="menu-item image" data-action="image">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.image}"></label>
+                </div>
+            </li>
+            <li class="menu-item divider" data-action="divider">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.divider}"></label>
+                </div>
+            </li>
+            <li class="menu-item date" data-action="date">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.date}"></label>
+                </div>
+            </li>
+            <li class="menu-item time" data-action="time">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.time}"></label>
+                </div>
+            </li>
+            <li class="menu-item datetime" data-action="datetime">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.datetime}"></label>
+                </div>
+            </li>
+            <li class="menu-item fileupload" data-action="fileupload">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.fileupload}"></label>
+                </div>
+            </li>
+            <li class="menu-item custom-code" data-action="custom-code">
+                <div>
+                    <a href="javascript:void(0);"></a>
+                    <label th:text="#{form.component.customCode}"></label>
+                </div>
             </li>
         </ul>
     </div>
-</template>
-<!-- 컴포넌트 properties 템플릿 -->
-<template id="component-template">
-    <div class="properties-title">
-    </div>
-    <div class="component-properties">
-        <div class="property-empty">
-            <h3 th:text="#{form.msg.information}"></h3>
+    <!-- 툴팁 템플릿 -->
+    <template id="tooltip-template">
+        <div class="tooltip-menu">
+            <ul class="menu">
+                <li class="menu-item list" data-action="list">
+                    <a href="javascript:void(0);">
+                        <!--<label th:text="#{form.label.list}"></label>-->
+                    </a>
+                </li>
+                <li class="menu-item copy" data-action="copy">
+                    <a href="javascript:void(0);">
+                        <!--<label th:text="#{form.label.copy}"></label>-->
+                    </a>
+                </li>
+                <li class="menu-item delete" data-action="delete">
+                    <a href="javascript:void(0);">
+                        <!--<label th:text="#{common.btn.delete}"></label>-->
+                    </a>
+                </li>
+                <li class="menu-item add" data-action="add">
+                    <a href="javascript:void(0);">
+                        <!--<label th:text="#{form.label.addBelow}"></label>-->
+                    </a>
+                </li>
+            </ul>
         </div>
-        <div class="property-group" id="dataAttribute">
-            <h3><label th:text="#{form.properties.dataAttribute}"></label></h3>
+    </template>
+    <!-- 컴포넌트 properties 템플릿 -->
+    <template id="component-template">
+        <div class="properties-title">
         </div>
-        <div class="property-group" id="label">
-            <h3><label th:text="#{form.properties.label}"></label></h3>
+        <div class="component-properties">
+            <div class="property-empty">
+                <h3 th:text="#{form.msg.information}"></h3>
+            </div>
+            <div class="property-group" id="dataAttribute">
+                <h3><label th:text="#{form.properties.dataAttribute}"></label></h3>
+            </div>
+            <div class="property-group" id="label">
+                <h3><label th:text="#{form.properties.label}"></label></h3>
+            </div>
+            <div class="property-group" id="display">
+                <h3><label th:text="#{form.properties.display}"></label></h3>
+            </div>
+            <div class="property-group" id="option">
+                <h3>
+                    <label th:text="#{form.properties.option}"></label>
+                    <div class="property-group-option">
+                        <button class="minus"></button>
+                        <button class="plus"></button>
+                    </div>
+                </h3>
+                <table class="property-field-table"></table>
+            </div>
+            <div class="property-group" id="validate">
+                <h3><label th:text="#{form.properties.validate}"></label></h3>
+            </div>
         </div>
-        <div class="property-group" id="display">
-            <h3><label th:text="#{form.properties.display}"></label></h3>
+    </template>
+    <!-- 폼 properties 템플릿 -->
+    <template id="form-template">
+        <div class="properties-title on">
+            <h3>Form</h3>
         </div>
-        <div class="property-group" id="option">
-            <h3>
-                <label th:text="#{form.properties.display}"></label>
-                <div class="property-group-option">
-                    <button class="minus"></button>
-                    <button class="plus"></button>
+        <div class="form-properties">
+            <div class="property-group on">
+                <div class="property-field" id="formId">
+                    <label class="property-name" for="formId" th:text="#{form.properties.id}"></label>
+                    <input type="text" class="property-value" readonly="true">
                 </div>
-            </h3>
-            <table class="property-field-table"></table>
-        </div>
-        <div class="property-group" id="validate">
-            <h3><label th:text="#{form.properties.validate}"></label></h3>
-        </div>
-    </div>
-</template>
-<!-- 폼 properties 템플릿 -->
-<template id="form-template">
-    <div class="properties-title on">
-        <h2>Form</h2>
-    </div>
-    <div class="form-properties">
-        <div class="property-group on">
-            <div class="property-field" id="formId">
-                <label class="property-name" for="formId" th:text="#{form.properties.id}"></label>
-                <input type="text" class="property-value" readonly="true">
-            </div>
-            <div class="property-field" id="name">
-                <label class="property-name" for="name" th:text="#{form.properties.name}"></label>
-                <input type="text" class="property-value" maxlength="20">
-            </div>
-            <div class="property-field" id="desc">
-                <label class="property-name" for="desc" th:text="#{form.properties.desc}"></label>
-                <textarea class="property-value" maxlength="200"></textarea>
-            </div>
-            <div class="property-field" id="status">
-                <label class="property-name" for="status" th:text="#{form.properties.status}"></label>
-                <select class="property-value">
-                    <option value="form.status.edit" th:text="#{form.status.edit}"></option>
-                    <option value="form.status.publish" th:text="#{form.status.publish}"></option>
-                    <option value="form.status.use" th:text="#{form.status.use}"></option>
-                    <option value="form.status.destroy" th:text="#{form.status.destroy}"></option>
-                </select>
+                <div class="property-field" id="name">
+                    <label class="property-name" for="name" th:text="#{form.properties.name}"></label>
+                    <input type="text" class="property-value" maxlength="20">
+                </div>
+                <div class="property-field" id="desc">
+                    <label class="property-name" for="desc" th:text="#{form.properties.desc}"></label>
+                    <textarea class="property-value" maxlength="200"></textarea>
+                </div>
+                <div class="property-field" id="status">
+                    <label class="property-name" for="status" th:text="#{form.properties.status}"></label>
+                    <select class="property-value">
+                        <option value="form.status.edit" th:text="#{form.status.edit}"></option>
+                        <option value="form.status.publish" th:text="#{form.status.publish}"></option>
+                        <option value="form.status.use" th:text="#{form.status.use}"></option>
+                        <option value="form.status.destroy" th:text="#{form.status.destroy}"></option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
-</template>
+    </template>
 </th:block>
 </body>
 <th:block layout:fragment="script">

@@ -1,0 +1,37 @@
+/* 신청서, 처리할 문서 모달 */
+body.document-modal-active {
+    overflow:hidden !important;
+}
+
+.document-modal-wrapper {
+    display:none;
+    overflow:auto;
+    position:fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
+    &.document-modal-active {
+        z-index: 2001;
+        display:block;
+    }
+
+    .document-modal-backdrop { // 배경
+        z-index: 2001;
+        position:fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+
+    .document-modal-dialog { // container
+        z-index: 2001;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        //TODO: 애니메이션으로 스스륵 모달 띄우기
+    }
+}
