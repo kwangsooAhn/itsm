@@ -60,7 +60,6 @@ insert into awf_url values ('/documents/custom-code/{id}/data', 'post', '커스�
 insert into awf_url values ('/documents/list', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
 insert into awf_url values ('/documents/{id}/print', 'get', '신청서 프린트 화면', 'TRUE');
-insert into awf_url values ('/documents/{id}/publish', 'get', '신청서 발행 화면', 'TRUE');
 insert into awf_url values ('/downloads/list', 'get', '자료실 리스트 화면', 'TRUE');
 insert into awf_url values ('/downloads/new', 'get', '자료실 신규 등록', 'TRUE');
 insert into awf_url values ('/downloads/search', 'get', '자료실 리스트 호출 화면', 'TRUE');
@@ -95,6 +94,7 @@ insert into awf_url values ('/processes/search', 'get', '프로세스 리스트 
 insert into awf_url values ('/processes/{id}/edit', 'get', '프로세스 디자이너 편집 화면', 'TRUE');
 insert into awf_url values ('/processes/{id}/status', 'get', '프로세스 상태', 'TRUE');
 insert into awf_url values ('/processes/{id}/view', 'get', '프로세스 디자이너 보기 화면', 'TRUE');
+insert into awf_url values ('/processes/attachFile/view', 'get', '첨부파일 선택 팝업', 'TRUE');
 insert into awf_url values ('/rest/auths', 'get', '권한 전체 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');

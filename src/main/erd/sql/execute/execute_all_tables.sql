@@ -1183,7 +1183,6 @@ insert into awf_url values ('/documents/custom-code/{id}/data', 'post', '커스�
 insert into awf_url values ('/documents/list', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
 insert into awf_url values ('/documents/{id}/print', 'get', '신청서 프린트 화면', 'TRUE');
-insert into awf_url values ('/documents/{id}/publish', 'get', '신청서 발행 화면', 'TRUE');
 insert into awf_url values ('/downloads/list', 'get', '자료실 리스트 화면', 'TRUE');
 insert into awf_url values ('/downloads/new', 'get', '자료실 신규 등록', 'TRUE');
 insert into awf_url values ('/downloads/search', 'get', '자료실 리스트 호출 화면', 'TRUE');
@@ -1439,7 +1438,6 @@ insert into awf_url_auth_map values ('/documents/custom-code/{id}/data', 'post',
 insert into awf_url_auth_map values ('/documents/list', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/search', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'document.read');
-insert into awf_url_auth_map values ('/documents/{id}/publish', 'get', 'document.create');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.update');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.delete');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.create');
@@ -2178,6 +2176,24 @@ COMMENT ON COLUMN wf_element_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN wf_element_data.attribute_value IS '속성값';
 COMMENT ON COLUMN wf_element_data.attribute_order IS '속성순서';
 COMMENT ON COLUMN wf_element_data.attribute_required IS '속성필수값';
+/**
+ * 엘리먼트타입이 ScripTask인 경우 세부 설정.
+ */
+DROP TABLE IF EXISTS wf_element_script_data cascade;
+
+CREATE TABLE wf_element_script_data
+(
+    element_id varchar(256) NOT NULL,
+    script_id varchar(256) NOT NULL,
+    script_value text,
+    CONSTRAINT wf_element_script_data_pk PRIMARY KEY (element_id, script_id),
+    CONSTRAINT wf_element_script_data_fk FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
+);
+
+COMMENT ON TABLE wf_element_script_data IS '엘리먼트(ScriptTask)세부설정';
+COMMENT ON COLUMN wf_element_script_data.element_id IS '엘리먼트아이디';
+COMMENT ON COLUMN wf_element_script_data.script_id IS '스크립트아이디';
+COMMENT ON COLUMN wf_element_script_data.script_value IS '속성값';
 /**
  * 문서폴더정보
  */

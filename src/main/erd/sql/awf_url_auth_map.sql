@@ -112,7 +112,6 @@ insert into awf_url_auth_map values ('/documents/custom-code/{id}/data', 'post',
 insert into awf_url_auth_map values ('/documents/list', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/search', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'document.read');
-insert into awf_url_auth_map values ('/documents/{id}/publish', 'get', 'document.create');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.update');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.delete');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.create');
@@ -178,6 +177,10 @@ insert into awf_url_auth_map values ('/processes/{id}/edit', 'get', 'process.cre
 insert into awf_url_auth_map values ('/processes/{id}/status', 'get', 'document.read');
 insert into awf_url_auth_map values ('/processes/{id}/view', 'get', 'process.create');
 insert into awf_url_auth_map values ('/processes/{id}/view', 'get', 'process.update');
+insert into awf_url_auth_map values ('/processes/attachFile/view', 'get', 'process.read');
+insert into awf_url_auth_map values ('/processes/attachFile/view', 'get', 'process.create');
+insert into awf_url_auth_map values ('/processes/attachFile/view', 'get', 'process.update');
+insert into awf_url_auth_map values ('/processes/attachFile/view', 'get', 'process.delete');
 insert into awf_url_auth_map values ('/rest/auths', 'post', 'auth.create');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.delete');
 insert into awf_url_auth_map values ('/rest/auths', 'get', 'auth.update');

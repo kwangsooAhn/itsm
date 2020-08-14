@@ -64,6 +64,8 @@ class AliceFileService(
     private val processStatusRootDirectory = "processes"
     private val imagesRootDirectory = "images"
     private val allowedImageExtensions = listOf("png", "gif", "jpg", "jpeg")
+    private val fileUploadRootDirectory = "uploadRoot"
+    private val processAttachFileRootDirectory = this.imagesRootDirectory
 
     /**
      * 파일 허용 확장자 목록 가져오기
@@ -81,9 +83,9 @@ class AliceFileService(
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val fileName = super.getRandomFilename()
         val tempPath = super.getDir("temp", fileName)
-        val filePath = super.getDir("uploadRoot", fileName)
+        val filePath = super.getDir(this.fileUploadRootDirectory, fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
-        val transferFile = File(multipartFile.originalFilename)
+        val transferFile = File(multipartFile.originalFilename!!)
         val mimeType = MimetypesFileTypeMap().getContentType(transferFile).toUpperCase()
 
         if (Files.notExists(tempPath.parent)) {
@@ -227,6 +229,20 @@ class AliceFileService(
         }
 
         return images
+    }
+
+    /**
+     * 업로드 경로.
+     */
+    fun getUploadFilePath(fileName: String): Path {
+        return super.getDir(this.fileUploadRootDirectory, fileName)
+    }
+
+    /**
+     * 프로세스 디자이너 첨부파일 경로.
+     */
+    fun getProcessFilePath(): Path {
+        return super.getWorkflowDir(this.processAttachFileRootDirectory)
     }
 
     /**
@@ -473,7 +489,6 @@ class AliceFileService(
 
         val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
         val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
-        val avatarUploadFile = File(avatarFilePath.toString())
 
         var avatarInfo = AliceAvatarEntity()
         val avatarUploadedLocation: String
@@ -484,24 +499,23 @@ class AliceFileService(
         }
 
         // 임시폴더에서 파일이 없으면 아바타를 등록/수정 하지 않았다고 본다.
-        if (tempFile.exists() && avatarUUID != "") {
-            if (avatarId != "" && avatarUploadFile.exists() && avatarInfo.uploaded) {
-                Files.delete(Paths.get(avatarInfo.uploadedLocation + File.separator + avatarInfo.avatarValue))
-            }
+        if (avatarUUID !== "" && tempFile.exists()) {
             Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
             avatarValue = avatarUUID
             avatarUploaded = true
             avatarUploadedLocation = avatarFilePath.toString()
+        } else if (avatarUUID !== "" && avatarInfo.uploaded) {
+            avatarValue = avatarInfo.avatarValue
+            avatarUploaded = avatarInfo.uploaded
+            avatarUploadedLocation = avatarInfo.uploadedLocation
         } else {
-            if (avatarId != "") {
-                avatarValue = avatarInfo.avatarValue
-                avatarUploaded = avatarInfo.uploaded
-                avatarUploadedLocation = avatarInfo.uploadedLocation
-            } else {
-                avatarValue = AliceUserConstants.AVATAR_BASIC_FILE_NAME
-                avatarUploaded = false
-                avatarUploadedLocation = AliceUserConstants.AVATAR_BASIC_FILE_PATH
+            val uploadedFile = Paths.get(avatarInfo.uploadedLocation)
+            if (uploadedFile.toFile().exists()) {
+                Files.delete(uploadedFile)
             }
+            avatarValue = AliceUserConstants.AVATAR_BASIC_FILE_NAME
+            avatarUploaded = false
+            avatarUploadedLocation = AliceUserConstants.AVATAR_BASIC_FILE_PATH
         }
 
         val avatarEntity = AliceAvatarEntity(
