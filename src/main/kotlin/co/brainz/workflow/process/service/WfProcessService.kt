@@ -6,6 +6,7 @@ import co.brainz.framework.exception.AliceException
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
+import co.brainz.workflow.element.entity.WfElementScriptDataEntity
 import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.process.mapper.WfProcessMapper
@@ -21,6 +22,9 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import java.util.UUID
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
@@ -98,6 +102,7 @@ class WfProcessService(
             val elementData = this.convertElementDataToDataType(elementEntity)
             this.convertElementDataToAssigneeType(elementData)
             this.convertElementDataToTargetDocumentList(elementData)
+            this.getElementDataToScriptValue(elementEntity, elementData)
 
             elDto.data = elementData
 
@@ -149,10 +154,11 @@ class WfProcessService(
      * 프로세스 변경.
      */
     fun updateProcess(restTemplateProcessDto: RestTemplateProcessDto): Boolean {
-        val processEntity = wfProcessRepository.findByProcessId(restTemplateProcessDto.processId) ?: throw AliceException(
-            AliceErrorConstants.ERR_00005,
-            AliceErrorConstants.ERR_00005.message + "[Process Entity]"
-        )
+        val processEntity =
+            wfProcessRepository.findByProcessId(restTemplateProcessDto.processId) ?: throw AliceException(
+                AliceErrorConstants.ERR_00005,
+                AliceErrorConstants.ERR_00005.message + "[Process Entity]"
+            )
         processEntity.processName = restTemplateProcessDto.processName
         processEntity.processStatus = restTemplateProcessDto.processStatus
         processEntity.processDesc = restTemplateProcessDto.processDesc
@@ -211,23 +217,29 @@ class WfProcessService(
                 val elementDataEntities = mutableListOf<WfElementDataEntity>()
                 it.data?.entries?.forEachIndexed { idx, data ->
                     val values: MutableList<String> = objMapper.readValue(objMapper.writeValueAsString(data.value))
-                    values.forEach { value ->
-                        val elementDataEntity =
-                            WfElementDataEntity(
-                                element = elementEntity,
-                                attributeId = data.key,
-                                attributeValue = value,
-                                attributeOrder = idx
-                            )
-                        it.required?.forEach { required ->
-                            if (required == data.key) {
-                                elementDataEntity.attributeRequired = true
+                    if (!isExceptionAttributeId(it.type, data)) {
+                        values.forEach { value ->
+                            val elementDataEntity =
+                                WfElementDataEntity(
+                                    element = elementEntity,
+                                    attributeId = data.key,
+                                    attributeValue = value,
+                                    attributeOrder = idx
+                                )
+                            it.required?.forEach { required ->
+                                if (required == data.key) {
+                                    elementDataEntity.attributeRequired = true
+                                }
                             }
+                            elementDataEntities.add(elementDataEntity)
                         }
-                        elementDataEntities.add(elementDataEntity)
                     }
                 }
                 elementEntity.elementDataEntities.addAll(elementDataEntities)
+                // Script 저장
+                if (it.type == WfElementConstants.ElementType.SCRIPT_TASK.value) {
+                    elementEntity.elementScriptDataEntities.add(this.setScriptTaskData(it, elementEntity))
+                }
                 elementEntities.add(elementEntity)
             }
 
@@ -243,6 +255,73 @@ class WfProcessService(
             wfProcessRepository.save(processEntity)
         }
         return true
+    }
+
+    /**
+     * ScriptTask 데이터 저장.
+     */
+    private fun setScriptTaskData(
+        restTemplateElementDto: RestTemplateElementDto,
+        elementEntity: WfElementEntity
+    ): WfElementScriptDataEntity {
+        val scriptJsonData = JsonObject()
+        restTemplateElementDto.data?.entries?.forEach { data ->
+            val scriptActions = JsonArray()
+            val values: MutableList<String> = objMapper.readValue(objMapper.writeValueAsString(data.value))
+            values.forEach { value ->
+                if (value.isNotEmpty()) {
+                    when (data.key) {
+                        WfElementConstants.AttributeId.SCRIPT_DETAIL.value -> {
+                            val scriptDetailArray = value.split("|")
+                            scriptJsonData.addProperty(
+                                WfElementConstants.AttributeId.TARGET_MAPPING_ID.value,
+                                scriptDetailArray[0]
+                            )
+                            scriptJsonData.addProperty(
+                                WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value,
+                                scriptDetailArray[1]
+                            )
+                        }
+                        WfElementConstants.AttributeId.SCRIPT_ACTION.value -> {
+                            val scriptActionArray = value.split("|")
+                            val action = JsonObject()
+                            action.addProperty(WfElementConstants.AttributeId.CONDITION.value, scriptActionArray[0])
+                            action.addProperty(WfElementConstants.AttributeId.FILE.value, scriptActionArray[1])
+                            scriptActions.add(action)
+                        }
+                    }
+                }
+            }
+            scriptJsonData.add("action", scriptActions)
+        }
+
+        return WfElementScriptDataEntity(
+            element = elementEntity,
+            scriptId = "",
+            scriptValue = Gson().toJson(scriptJsonData)
+        )
+    }
+
+    /**
+     * [elementType] 에 따라 [data] 의 특정 attributeId 값 존재 여부 체크.
+     */
+    private fun isExceptionAttributeId(elementType: String, data: MutableMap.MutableEntry<String, Any>): Boolean {
+        var isExist = false
+        when (elementType) {
+            WfElementConstants.ElementType.SCRIPT_TASK.value -> {
+                val scriptKeys = listOf(
+                    WfElementConstants.AttributeId.SCRIPT_DETAIL.value,
+                    WfElementConstants.AttributeId.SCRIPT_ACTION.value,
+                    WfElementConstants.AttributeId.TARGET_MAPPING_ID.value,
+                    WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value
+                )
+                if (scriptKeys.contains(data.key)) {
+                    isExist = true
+                }
+            }
+        }
+
+        return isExist
     }
 
     /**
@@ -368,6 +447,54 @@ class WfProcessService(
         val targetDocumentList = elementData[attrIdTargetDocumentList]
         if (targetDocumentList is String) {
             elementData[attrIdTargetDocumentList] = mutableListOf(targetDocumentList)
+        }
+    }
+
+    /**
+     * ScriptTask의 상세 데이터 조회.
+     */
+    private fun getElementDataToScriptValue(element: WfElementEntity, elementData: MutableMap<String, Any>) {
+        if (element.elementType == WfElementConstants.ElementType.SCRIPT_TASK.value) {
+            when (elementData[WfElementConstants.AttributeId.SCRIPT_TYPE.value]) {
+                WfElementConstants.ScriptType.DOCUMENT_ATTACH_FILE.value -> {
+                    this.getDocumentAttachFileData(element, elementData)
+                }
+            }
+        }
+    }
+
+    /**
+     * ScriptType 이 문서첨부파일인 경우 상세 데이터 조회.
+     */
+    private fun getDocumentAttachFileData(element: WfElementEntity, elementData: MutableMap<String, Any>) {
+        element.elementScriptDataEntities.forEach { data ->
+            val scriptValue = data.scriptValue ?: ""
+            if (scriptValue.isNotEmpty()) {
+                val valueObject = Gson().fromJson(scriptValue, JsonObject::class.java)
+                if (valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value) != null
+                    && valueObject.get(WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value) != null
+                ) {
+                    elementData[WfElementConstants.AttributeId.SCRIPT_DETAIL.value] = mutableListOf(
+                        valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value).asString +
+                                "|" +
+                                valueObject.get(WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value).asString
+                    )
+                }
+                if (valueObject.getAsJsonArray(WfElementConstants.AttributeId.ACTION.value) != null
+                    && valueObject.getAsJsonArray(WfElementConstants.AttributeId.ACTION.value).isJsonArray
+                ) {
+                    val actionArray =
+                        valueObject.getAsJsonArray(WfElementConstants.AttributeId.ACTION.value).asJsonArray
+                    val actionList: MutableList<String> = mutableListOf()
+                    actionArray.forEach { action ->
+                        actionList.add(
+                            action.asJsonObject.get(WfElementConstants.AttributeId.CONDITION.value).asString +
+                                    "|" + action.asJsonObject.get(WfElementConstants.AttributeId.FILE.value).asString
+                        )
+                    }
+                    elementData[WfElementConstants.AttributeId.SCRIPT_ACTION.value] = actionList
+                }
+            }
         }
     }
 }

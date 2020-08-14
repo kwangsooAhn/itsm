@@ -412,6 +412,9 @@ label {
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select.candidate {
   width: 8.563rem;
 }
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input.file {
+  width: 10rem;
+}
 .alice-process-properties-panel div.properties-container div.element-properties div.properties button {
   border: 0.063rem solid #c8ced8;
   background-color: #ffffff;
@@ -452,6 +455,7 @@ label {
   background-color: #ffffff;
   cursor: pointer;
   position: relative;
+  vertical-align: middle;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove:after {
   position: absolute;
@@ -564,6 +568,70 @@ label {
   width: 0.813rem;
   height: 1.25rem;
   line-height: 1.25rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container {
+  width: 100%;
+  padding-top: 0.5rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container.right {
+  text-align: right;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 0.188rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip .file-tooltip-button {
+  display: inline-block;
+  width: 1.563rem;
+  height: 1.563rem;
+  border: 0.063rem solid #c8ced8;
+  background-size: initial;
+  background-repeat: no-repeat;
+  background-image: url("../media/icons/process/editor/icon_search.png");
+  background-position: center center;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table {
+  margin-top: 0.5rem;
+  width: 11.875rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr {
+  border-top: 0.063rem solid #c8ced8;
+  border-bottom: 0.063rem solid #c8ced8;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr:nth-child(odd) {
+  background-color: #eff3f8;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > th, .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table td {
+  height: 1.563rem;
+  vertical-align: middle;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:first-child {
+  padding-left: 0.625rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:last-child {
+  text-align: right;
+  padding-right: 0.625rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table label {
+  height: 0.938rem;
+  margin: 0;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .condition-txt {
+  width: 30%;
+  word-break: break-all;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-txt {
+  width: 50%;
+  word-break: break-all;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip {
   position: relative;
