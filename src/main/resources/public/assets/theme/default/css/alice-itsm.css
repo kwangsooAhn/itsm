@@ -1146,13 +1146,18 @@ textarea {
   padding-left: 19px;
   display: inline-block;
 }
-.gnb-area > ul > li > a span.arrow-left {
-  background: url("../icons/icon_arrow_left.svg") no-repeat center center;
+.gnb-area > ul > li > a span.arrow {
   padding: 0 6px 0 0;
   float: right;
   width: 6px;
   height: 20px;
   margin-left: auto;
+}
+.gnb-area > ul > li > a span.arrow-right {
+  background: url("../icons/icon_arrow_r.svg") no-repeat center center;
+}
+.gnb-area > ul > li > a span.arrow-down {
+  background: url("../icons/icon_arrow_d.svg") no-repeat center center;
 }
 .gnb-area > ul > li > ul > li {
   font-size: 1rem;
@@ -1177,16 +1182,8 @@ textarea {
   color: #FFFFFF;
   background-color: #283238;
 }
-.gnb-area .active svg {
-  fill: red;
-  stroke: red;
-}
 .gnb-area .active-parent {
   color: #FFFFFF;
-}
-.gnb-area .active-parent svg {
-  fill: red;
-  stroke: red;
 }
 
 /* 알림 임시 css */
