@@ -1005,6 +1005,11 @@ textarea {
   text-align: center;
   margin: 0.25rem;
   border-radius: 0.0625rem;
+  max-width: 13.75rem;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .token-search {
   background: white;

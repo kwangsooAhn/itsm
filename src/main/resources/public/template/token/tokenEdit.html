@@ -126,7 +126,6 @@
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/document/document.js}"></script>
     <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
-
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
@@ -137,16 +136,16 @@
                     tokenDtEle[i].textContent = i18n.userDateTime(tokenDtEle[i].textContent);
                 }
             }
-        };
 
-        let tagInput = document.querySelector('input[name=tags]');
-        new Tagify(tagInput, {
-            pattern         : /^.{0,100}$/,
-            editTags        : false,
-            callbacks       : { 'add'    : onAddTag,
-                                'remove' : onRemoveTag },
-            placeholder     : '[[#{token.msg.tag}]]'
-        });
+            let tagInput = document.querySelector('input[name=tags]');
+            new Tagify(tagInput, {
+                pattern         : /^.{0,100}$/,
+                editTags        : false,
+                callbacks       : { 'add'    : onAddTag,
+                                    'remove' : onRemoveTag },
+                placeholder     : '[[#{token.msg.tag}]]'
+            });
+        };
 
         function onAddTag(tag) {
             const jsonData = {

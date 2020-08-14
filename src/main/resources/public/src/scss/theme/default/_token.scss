@@ -68,6 +68,11 @@
                     margin: 0.25rem // 4px
                     border-radius: 0.0625rem // 1px
                     padding: 0.3125rem 0.9375rem; // 5px 15px
+                    max-width: 13.75rem; // 220px
+                    display: inline-block;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
                 }
             }
         }
