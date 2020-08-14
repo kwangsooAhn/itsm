@@ -591,14 +591,14 @@ textarea {
   padding-top: 2.375rem;
 }
 .container .contents .list .scroller-wrap-list {
-  max-height: 25rem;
+  height: 25rem;
   overflow-y: auto;
 }
 .container .contents .list .scroller-wrap-list thead {
   display: inline-table;
   position: absolute;
   top: 0;
-  width: calc(100% - 1.063rem);
+  width: calc(100% - 0.0625rem);
 }
 .container .contents .list-wrap {
   height: 400px;
