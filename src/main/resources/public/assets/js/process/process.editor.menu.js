@@ -1194,7 +1194,8 @@
                     rowLength = rows.length;
                 if (rowLength > 0) {
                     for (let i = 0; i < rowLength; i++) {
-                        if (conditionInput.value === rows[i].querySelector('.condition-txt').textContent) {
+                        if (conditionInput.value === rows[i].querySelector('.condition-txt').textContent
+                            && fileInput.value === rows[i].querySelector('.file-txt').textContent) {
                             isDuplicate = true;
                             break;
                         }
