@@ -6,6 +6,11 @@
 package co.brainz.workflow.engine.manager.service
 
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
+import co.brainz.framework.fileTransaction.entity.AliceFileLocEntity
+import co.brainz.framework.fileTransaction.entity.AliceFileOwnMapEntity
+import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
+import co.brainz.framework.fileTransaction.repository.AliceFileOwnMapRepository
+import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.service.NotificationService
 import co.brainz.workflow.component.entity.WfComponentEntity
@@ -27,6 +32,9 @@ import co.brainz.workflow.token.entity.WfTokenEntity
 import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
+import java.io.File
+import java.nio.file.Path
+import java.nio.file.Paths
 import java.time.LocalDateTime
 import java.time.ZoneId
 import org.springframework.stereotype.Service
@@ -43,7 +51,10 @@ class WfTokenManagerService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfCandidateRepository: WfCandidateRepository,
     private val wfComponentRepository: WfComponentRepository,
-    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository
+    private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
+    private val aliceFileService: AliceFileService,
+    private val aliceFileLocRepository: AliceFileLocRepository,
+    private val aliceFileOwnMapRepository: AliceFileOwnMapRepository
 ) {
 
     /**
@@ -68,6 +79,13 @@ class WfTokenManagerService(
             tokenId,
             mappingId
         ).value.split("|")[0]
+    }
+
+    /**
+     * Get component entity from componentIds and mappingId.
+     */
+    fun getComponentIdInAndMappingId(componentIds: List<String>, mappingId: String): WfComponentEntity {
+        return wfComponentRepository.findByComponentIdInAndMappingId(componentIds, mappingId)
     }
 
     /**
@@ -124,6 +142,37 @@ class WfTokenManagerService(
      */
     fun saveToken(tokenEntity: WfTokenEntity): WfTokenEntity {
         return wfTokenRepository.save(tokenEntity)
+    }
+
+    /**
+     * 첨부파일 업로드 경로(파일명 포함).
+     */
+    fun getUploadFilePath(fileName: String): Path {
+        return aliceFileService.getUploadFilePath(fileName)
+    }
+
+    /**
+     * 프로세스 파일 경로.
+     */
+    fun getProcessFilePath(attachFileName: String): Path {
+        return Paths.get(aliceFileService.getProcessFilePath().toString() + File.separator + attachFileName)
+    }
+
+    /**
+     * 랜덤 파일명 생성.
+     */
+    fun getRandomFilename(): String {
+        return aliceFileService.getRandomFilename()
+    }
+
+    /**
+     * 파일 데이터 업로드.
+     */
+    fun uploadProcessFile(aliceFileLocEntity: AliceFileLocEntity): AliceFileLocEntity {
+        val fileLocEntity = aliceFileLocRepository.save(aliceFileLocEntity)
+        val fileOwnMapEntity = AliceFileOwnMapEntity(aliceFileLocEntity.fileOwner!!, fileLocEntity)
+        aliceFileOwnMapRepository.save(fileOwnMapEntity)
+        return fileLocEntity
     }
 
     /**
