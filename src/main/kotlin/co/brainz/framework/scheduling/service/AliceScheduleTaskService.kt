@@ -6,33 +6,27 @@ import java.util.TimeZone
 import java.util.concurrent.ScheduledFuture
 import javax.annotation.PostConstruct
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
+import org.springframework.core.env.Environment
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.support.CronTrigger
 import org.springframework.stereotype.Service
 
 @Service
-class AliceScheduleTaskService {
-    companion object {
-        private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
-    }
-
-    @Autowired
-    lateinit var scheduler: TaskScheduler
+class AliceScheduleTaskService(
+    private val scheduler: TaskScheduler,
+    private val aliceScheduleTaskRepository: AliceScheduleTaskRepository,
+    private val jdbcTemplate: JdbcTemplate,
+    private val environment: Environment
+) {
+    private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
 
     val taskMap: HashMap<Long, ScheduledFuture<*>?> = hashMapOf<Long, ScheduledFuture<*>?>()
 
-    @Autowired
-    lateinit var aliceScheduleTaskRepository: AliceScheduleTaskRepository
-
-    @Autowired
-    private lateinit var jdbcTemplate: JdbcTemplate
-
     @PostConstruct
-    public fun init() {
+    fun init() {
         jdbcTemplate.isResultsMapCaseInsensitive = true
     }
 

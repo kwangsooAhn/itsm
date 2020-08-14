@@ -56,6 +56,12 @@ spring:
   messages:
     basename: public/message/messages
     encoding: UTF-8
+  task:
+    scheduling:
+      pool:
+        size: 10
+      thread-name-prefix: "alice-scheduler"
+
 server:
   port: 443
   protocol: https
@@ -70,10 +76,13 @@ server:
   servlet:
     session:
       timeout: 60m
+
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\files
+
 # Extend Image URL Path
 file.image.uri: /fileImages
+
 # IP 접근 제한 기능 설정
 ip.access.control: true
 
