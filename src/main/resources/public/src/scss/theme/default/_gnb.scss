@@ -130,15 +130,12 @@
                 display: inline-block;
 
                 &.arrow {
-                    padding: 0 6px 0 0;
-                    float: right;
-                    width: 6px;
-                    height: 20px;
-                    margin-left: auto;
                     &-right {
+                        @include menuArrow;
                         background: url($icon-folder-path + "icon_arrow_r.svg") no-repeat center center;
                     }
                     &-down {
+                        @include menuArrow;
                         background: url($icon-folder-path + "icon_arrow_d.svg") no-repeat center center;
                     }
                 }

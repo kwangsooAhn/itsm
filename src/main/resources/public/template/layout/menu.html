@@ -21,7 +21,7 @@
 					   th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
 						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
-						<span class="arrow arrow-right"></span>
+						<span class="arrow-right"></span>
 					</a>
 					<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="snb-set">
 						<li th:each="subMenu : ${#authentication.details.menus}"
@@ -47,10 +47,10 @@
 	function accordionMenu(element) {
 		if (document.getElementById(element.dataset.menugroup).style.display === 'block') {
 			document.getElementById(element.dataset.menugroup).style.display = 'none';
-			element.querySelector('.arrow').className = 'arrow arrow-right';
+			element.querySelector('.arrow-down').className = 'arrow-right';
 		} else {
 			document.getElementById(element.dataset.menugroup).style.display = 'block';
-			element.querySelector('.arrow').className = 'arrow arrow-down';
+			element.querySelector('.arrow-right').className = 'arrow-down';
 		}
 	}
 

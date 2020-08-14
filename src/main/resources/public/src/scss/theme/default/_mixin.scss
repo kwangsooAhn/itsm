@@ -16,3 +16,11 @@
         background-color: $color;
     }
 }
+
+@mixin menuArrow {
+    padding: 0 6px 0 0;
+    float: right;
+    width: 6px;
+    height: 20px;
+    margin-left: auto;
+}
