@@ -12,25 +12,31 @@ import co.brainz.workflow.engine.manager.WfTokenManager
 import co.brainz.workflow.engine.manager.WfTokenManagerFactory
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
-import com.google.gson.Gson
-import com.google.gson.JsonObject
+import com.fasterxml.jackson.core.type.TypeReference
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.type.TypeFactory
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
+import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+
 
 class WfScriptTask(
     wfTokenManagerService: WfTokenManagerService,
     override var isAutoComplete: Boolean = true
 ) : WfTokenManager(wfTokenManagerService) {
 
+    val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+
     override fun createElementToken(createTokenDto: WfTokenDto): WfTokenDto {
         var scriptType = ""
         val element = wfTokenManagerService.getElement(createTokenDto.elementId)
-        element.elementDataEntities.forEach { data ->
-            if (data.attributeId == WfElementConstants.AttributeId.SCRIPT_TYPE.value) {
-                scriptType = data.attributeValue
-                return@forEach
+        run loop@{
+            element.elementDataEntities.forEach { data ->
+                if (data.attributeId == WfElementConstants.AttributeId.SCRIPT_TYPE.value) {
+                    scriptType = data.attributeValue
+                    return@loop
+                }
             }
         }
 
@@ -58,26 +64,33 @@ class WfScriptTask(
      * 3. [sourceMappingId] 값으로 매핑된 컴포넌트에 추가한다.
      */
     private fun setDocumentAttachFile(createTokenDto: WfTokenDto, element: WfElementEntity) {
-
         var targetMappingId = ""
         var sourceMappingId = ""
         val scriptActionList: MutableList<Map<String, Any>> = mutableListOf()
-        element.elementScriptDataEntities.forEach { scriptData ->
+        for (scriptData in element.elementScriptDataEntities) {
             if (!scriptData.scriptValue.isNullOrEmpty()) {
-                val scriptObject = Gson().fromJson(scriptData.scriptValue, JsonObject::class.java)
-                targetMappingId = scriptObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value).asString
-                sourceMappingId = scriptObject.get(WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value).asString
-                val actionArray = scriptObject.get(WfElementConstants.AttributeId.ACTION.value).asJsonArray
-                actionArray.forEach { action ->
-                    val map = HashMap<String, Any>()
-                    val condition = action.asJsonObject.get(WfElementConstants.AttributeId.CONDITION.value).asString
-                    val conditionArray = condition.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
-                    if (conditionArray.size == 2) {
-                        map["operator"] = conditionArray[0]
-                        map["value"] = conditionArray[1]
+                val scriptMap: Map<String, Any> =
+                    mapper.readValue(scriptData.scriptValue, object : TypeReference<Map<String, Any>>() {})
+                targetMappingId = scriptMap[WfElementConstants.AttributeId.TARGET_MAPPING_ID.value].toString()
+                sourceMappingId = scriptMap[WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value].toString()
+                if (scriptMap[WfElementConstants.AttributeId.ACTION.value] != null) {
+                    val actionList: MutableList<LinkedHashMap<String, Any>> = mapper.convertValue(
+                        scriptMap[WfElementConstants.AttributeId.ACTION.value],
+                        TypeFactory.defaultInstance()
+                            .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
+                    )
+                    for (action in actionList) {
+                        val map = HashMap<String, Any>()
+                        val condition = action[WfElementConstants.AttributeId.CONDITION.value].toString()
+                        val conditionArray =
+                            condition.replace("\\s+".toRegex(), "").split("(?=[a-zA-Z0-9])".toRegex(), 2)
+                        if (conditionArray.size == 2) {
+                            map["operator"] = conditionArray[0]
+                            map["value"] = conditionArray[1]
+                        }
+                        map["file"] = action[WfElementConstants.AttributeId.FILE.value].toString()
+                        scriptActionList.add(map)
                     }
-                    map["file"] = action.asJsonObject.get(WfElementConstants.AttributeId.FILE.value).asString
-                    scriptActionList.add(map)
                 }
             }
         }
@@ -145,12 +158,15 @@ class WfScriptTask(
                 // 토큰 데이터에 파일 seq 값을 저장
                 val targetComponentId =
                     wfTokenManagerService.getComponentIdInAndMappingId(componentIds, targetMappingId).componentId
-                createTokenDto.data?.forEach { data ->
-                    if (data.componentId == targetComponentId) {
-                        data.value = aliceFileLocEntity.fileSeq.toString()
-                        return@forEach
+                run loop@{
+                    createTokenDto.data?.forEach { data ->
+                        if (data.componentId == targetComponentId) {
+                            data.value = aliceFileLocEntity.fileSeq.toString()
+                            return@loop
+                        }
                     }
                 }
+
                 super.tokenEntity.tokenDataEntities =
                     wfTokenManagerService.saveAllTokenData(super.setTokenData(createTokenDto))
             }
