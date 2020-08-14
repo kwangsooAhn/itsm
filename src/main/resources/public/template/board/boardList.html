@@ -9,13 +9,13 @@
     <table>
         <thead>
         <tr>
-            <th style="width:120px;" th:text="#{board.label.number}"></th>
-            <th style="width:180px;" th:text="#{board.label.category}"></th>
-            <th style="width:360px;" th:text="#{common.label.title}"></th>
-            <th style="width:120px;" th:text="#{board.label.commentCount}"></th>
-            <th style="width:120px;" th:text="#{board.label.readCount}"></th>
-            <th style="width:120px;" th:text="#{common.label.writer}"></th>
-            <th style="width:180px;" th:text="#{common.label.writeDate}"></th>
+            <th style="width:10%;" th:text="#{board.label.number}"></th>
+            <th style="width:15%;" th:text="#{board.label.category}"></th>
+            <th style="width:30%;" th:text="#{common.label.title}"></th>
+            <th style="width:10%;" th:text="#{board.label.commentCount}"></th>
+            <th style="width:10%;" th:text="#{board.label.readCount}"></th>
+            <th style="width:10%;" th:text="#{common.label.writer}"></th>
+            <th style="width:15%;" th:text="#{common.label.writeDate}"></th>
         </tr>
         </thead>
         <tbody id="list">
@@ -23,15 +23,15 @@
             <td colspan="7" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:each="board : ${boardList}">
-            <td style="width:120px;" th:text="${board.boardSeq}"></td>
-            <td style="width:180px;" th:text="${board.boardCategoryName}"></td>
-            <td style="width:360px;" class="align-left">
+            <td style="width:10%;" th:text="${board.boardSeq}"></td>
+            <td style="width:15%;" th:text="${board.boardCategoryName}"></td>
+            <td style="width:30%;" class="align-left">
                 <a th:href="@{/boards/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
             </td>
-            <td style="width:120px;" th:text="${board.replyCount}"></td>
-            <td style="width:120px;" th:text="${board.readCount}"></td>
-            <td style="width:120px;" th:text="${board.createUser.userName}"></td>
-            <td style="width:180px;" th:text="${board.createDt}" th:name="boardDt"></td>
+            <td style="width:10%;" th:text="${board.replyCount}"></td>
+            <td style="width:10%;" th:text="${board.readCount}"></td>
+            <td style="width:10%;" th:text="${board.createUser.userName}"></td>
+            <td style="width:15%;" th:text="${board.createDt}" th:name="boardDt"></td>
         </tr>
         </tbody>
     </table>

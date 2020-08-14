@@ -407,15 +407,15 @@
             }
 
             .scroller-wrap {
-                height: 440px;
-                & thead {
-                    position: absolute;
+                height: 27.5rem; //440px
+                & table {
+                    position: relative;
+                    display: inline-table;
                 }
                 & tbody {
-                    height: 400px;
-                    //width: 100%;
-                    float: left;
-                    top: 40px;
+                    position: absolute;
+                    height: 25rem; //400px
+                    width: 100%;
                     & tr {
                         width: 100%;
                         display: table;
@@ -425,19 +425,10 @@
         }
 
         .list-wrap {
-            & thead {
-                position: absolute;
-            }
-            & tbody {
-                //overflow: auto;
-                height: 400px;
-                float: left;
-                top: 40px;
-                & tr {
-                    width: 100%;
-                    display: table;
-                }
-            }
+            // padding: 15px 0;
+            height: 400px;
+            // height:490px;
+            overflow-y: auto;
             &-edit {
                 table {
                     margin: 0 0 15px 0;

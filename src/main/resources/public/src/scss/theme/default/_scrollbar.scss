@@ -50,12 +50,12 @@
     background: transparent;
     >.os-scrollbar-track { // scrollbar 배경
       // background: transparent;
-      background: #00ca3c;
+      background: #d2d9e2;
       // border-radius: 10px; // scrollbar 배경 모서리 곡선
       >.os-scrollbar-handle {
         // border-radius: 10px;
         // background: rgba(0, 0, 0, 0.4);
-        background: #d2d9e2;
+        background: #7f94ad;
       }
       >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
         background: rgba(0, 0, 0, .7);

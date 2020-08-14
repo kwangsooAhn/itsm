@@ -587,31 +587,24 @@ textarea {
   text-align: right;
 }
 .container .contents .list .scroller-wrap {
-  height: 440px;
+  height: 27.5rem;
 }
-.container .contents .list .scroller-wrap thead {
-  position: absolute;
+.container .contents .list .scroller-wrap table {
+  position: relative;
+  display: inline-table;
 }
 .container .contents .list .scroller-wrap tbody {
-  height: 400px;
-  float: left;
-  top: 40px;
+  position: absolute;
+  height: 25rem;
+  width: 100%;
 }
 .container .contents .list .scroller-wrap tbody tr {
   width: 100%;
   display: table;
 }
-.container .contents .list-wrap thead {
-  position: absolute;
-}
-.container .contents .list-wrap tbody {
+.container .contents .list-wrap {
   height: 400px;
-  float: left;
-  top: 40px;
-}
-.container .contents .list-wrap tbody tr {
-  width: 100%;
-  display: table;
+  overflow-y: auto;
 }
 .container .contents .list-wrap-edit table {
   margin: 0 0 15px 0;
@@ -2052,10 +2045,10 @@ textarea {
   background: transparent;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track {
-  background: #00ca3c;
+  background: #d2d9e2;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #d2d9e2;
+  background: #7f94ad;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
   background: rgba(0, 0, 0, 0.7);
