@@ -126,19 +126,23 @@
                             boardDtEle[i].textContent = i18n.userDateTime(boardDtEle[i].textContent);
                         }
                     }
-                    //페이징 이벤트 소스 위치는 최소한 리스트 로딩이 완료 후에 작업이 되어야 한다.
-                    /*document.querySelector('.scroller-wrap-list').addEventListener('scroll', function() {
-                        let scrollHeight = document.querySelector('.scroller-wrap-list').scrollHeight;
-                        let scrollTop = document.querySelector('.scroller-wrap-list').scrollTop;
-                        let clientHeight = document.querySelector('.scroller-wrap-list').clientHeight;
-                        //스크롤이 맨 뒤에 있을 경우
-                        if (scrollHeight - scrollTop === clientHeight) {
-                            if (scrollerEventCheck()) {
-                                getBoardList(true);
+
+                    OverlayScrollbars(document.getElementById('list'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                //스크롤이 맨 마지막에 있을 경우
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (scrollerEventCheck()) {
+                                        getBoardList(true);
+                                    }
+                                }
                             }
                         }
-                    });*/
-                    OverlayScrollbars(document.getElementById('list'), { className: 'scrollbar' });
+                    });
                 },
                 showProgressbar: false
             };
@@ -157,7 +161,7 @@
 
         //Tr 동적 데이터 만들기
         function getDataTemplate(data) {
-            let table = document.getElementById('list');
+            let div = document.querySelector('.os-content');
             let tr = document.createElement('tr');
 
             let tdBoardSeq = document.createElement('td');
@@ -199,7 +203,7 @@
             tr.appendChild(tdReadCount);
             tr.appendChild(tdCreateUserName);
             tr.appendChild(tdCreateDt);
-            table.appendChild(tr);
+            div.appendChild(tr);
         }
 
         /* ]]> */
