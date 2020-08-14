@@ -127,7 +127,7 @@
                         }
                     }
                     //페이징 이벤트 소스 위치는 최소한 리스트 로딩이 완료 후에 작업이 되어야 한다.
-                    document.querySelector('.scroller-wrap-list').addEventListener('scroll', function() {
+                    /*document.querySelector('.scroller-wrap-list').addEventListener('scroll', function() {
                         let scrollHeight = document.querySelector('.scroller-wrap-list').scrollHeight;
                         let scrollTop = document.querySelector('.scroller-wrap-list').scrollTop;
                         let clientHeight = document.querySelector('.scroller-wrap-list').clientHeight;
@@ -137,7 +137,10 @@
                                 getBoardList(true);
                             }
                         }
-                    });
+                    });*/
+//list  document.getElementById('totalCount')
+                    //OverlayScrollbars(document.querySelector('.list-wrap'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.getElementById('list'), { className: 'scrollbar' });
                 },
                 showProgressbar: false
             };

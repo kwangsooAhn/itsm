@@ -587,22 +587,31 @@ textarea {
   text-align: right;
 }
 .container .contents .list .scroller-wrap {
-  position: relative;
-  padding-top: 2.375rem;
+  height: 440px;
 }
-.container .contents .list .scroller-wrap-list {
-  height: 25rem;
-  overflow-y: auto;
-}
-.container .contents .list .scroller-wrap-list thead {
-  display: inline-table;
+.container .contents .list .scroller-wrap thead {
   position: absolute;
-  top: 0;
-  width: calc(100% - 0.0625rem);
 }
-.container .contents .list-wrap {
+.container .contents .list .scroller-wrap tbody {
   height: 400px;
-  overflow-y: auto;
+  float: left;
+  top: 40px;
+}
+.container .contents .list .scroller-wrap tbody tr {
+  width: 100%;
+  display: table;
+}
+.container .contents .list-wrap thead {
+  position: absolute;
+}
+.container .contents .list-wrap tbody {
+  height: 400px;
+  float: left;
+  top: 40px;
+}
+.container .contents .list-wrap tbody tr {
+  width: 100%;
+  display: table;
 }
 .container .contents .list-wrap-edit table {
   margin: 0 0 15px 0;
@@ -1787,6 +1796,7 @@ textarea {
 }
 .picker-modal.active {
   display: block;
+  z-index: 999;
 }
 .picker-modal-title {
   height: 2.5rem;

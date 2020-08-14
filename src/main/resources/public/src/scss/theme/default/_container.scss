@@ -407,27 +407,37 @@
             }
 
             .scroller-wrap {
-                position:relative;
-                padding-top:2.375rem; //38px
-                &-list {
-                    height:25rem; //400px
-                    overflow-y:auto;
-                    & thead {
-                        display:inline-table;
-                        position:absolute;
-                        top:0;
-                        width:calc(100% - 0.0625rem); //1px
+                height: 440px;
+                & thead {
+                    position: absolute;
+                }
+                & tbody {
+                    height: 400px;
+                    //width: 100%;
+                    float: left;
+                    top: 40px;
+                    & tr {
+                        width: 100%;
+                        display: table;
                     }
                 }
             }
         }
 
         .list-wrap {
-            // padding: 15px 0;
-            height: 400px;
-            // height:490px;
-            overflow-y: auto;
-
+            & thead {
+                position: absolute;
+            }
+            & tbody {
+                //overflow: auto;
+                height: 400px;
+                float: left;
+                top: 40px;
+                & tr {
+                    width: 100%;
+                    display: table;
+                }
+            }
             &-edit {
                 table {
                     margin: 0 0 15px 0;
