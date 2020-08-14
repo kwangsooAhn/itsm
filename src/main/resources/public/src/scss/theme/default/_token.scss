@@ -59,11 +59,11 @@
             &-create-dt {width: 9.375rem;color: #67717F;} // 150px
             &-status {width: 7.5rem;color: #67717F;} // 120px
             &-tag {
-                width: 20rem; // 320px 16.25rem; // 260px
+                width: 14.375rem; // 230px
                 color: #67717F;
                 span {
-                    background: #F1F6FC; // 2안 : rgba(0, 152, 255, 0.1 );
-                    color: #99A1AD; // 2안 : rgba(0, 152, 255, 1 );
+                    background: rgba(0, 152, 255, 0.1 );
+                    color: rgba(0, 152, 255, 1 );
                     text-align: center;
                     margin: 0.25rem // 4px
                     border-radius: 0.0625rem // 1px
