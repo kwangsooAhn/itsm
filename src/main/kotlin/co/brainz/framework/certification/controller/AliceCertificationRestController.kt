@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 
 @RestController
-@RequestMapping("certification")
+@RequestMapping("/certification")
 class AliceCertificationRestController(
     private val aliceCertificationService: AliceCertificationService,
     private val aliceCertificationMailService: AliceCertificationMailService,

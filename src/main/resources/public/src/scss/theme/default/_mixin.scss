@@ -1,0 +1,18 @@
+@mixin backgroundImage($path) {
+    @include background($path, null, null, null, null, null)
+}
+
+@mixin backgroundImageAndSize($path, $size) {
+    @include background($path, $size, null, null, null, null)
+}
+
+@mixin background($path, $size, $repeat, $posX, $posY, $color) {
+    background-image: url($icon-folder-path + $path);
+    background-size: if($size == null, auto, $size);
+    background-repeat: if($repeat == null, no-repeat, $repeat);
+    background-position-x: if($posX == null, center, $posX);
+    background-position-y: if($posY == null, center, $posY);
+    @if ($color != null) {
+        background-color: $color;
+    }
+}

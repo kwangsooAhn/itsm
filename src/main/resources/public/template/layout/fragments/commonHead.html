@@ -1,56 +1,57 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<!-- meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="_csrf" th:content="${_csrf.token}"/>
-<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
-<link th:href="@{/assets/theme/{theme}/css/alice-itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
-<link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
-<link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
-<link th:href="@{/assets/vendors/toastify/toastify.css}" rel="stylesheet"/>
-<link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
-<script th:src="@{/assets/js/util/i18n-alice.js}"></script>
-<script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
-<script th:src="@{/assets/js/util/util-alice.js}"></script>
-<script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
-<script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
-<script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
-<script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
-<script th:src="@{/assets/vendors/quill/quill.js}"></script>
-<script th:src="@{/assets/vendors/toastify/toastify-custom.js}"></script>
-<script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
-<script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
-<script th:src="@{/assets/js/util/validation-alice.js}"></script>
-<script type="text/javascript">
-    /*<![CDATA[ */
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="commonHead">
+    <!-- meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <link th:href="@{/assets/theme/{theme}/css/alice-itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/quill/quill.snow.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/toastify/toastify.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
+    <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
+    <script th:src="@{/assets/js/util/util-alice.js}"></script>
+    <script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
+    <script th:src="@{/assets/js/util/datetimepicker-alice.js}"></script>
+    <script th:src="@{/assets/vendors/dropzone/dropzone.js}"></script>
+    <script th:src="@{/assets/js/util/fileuploader-alice.js}"></script>
+    <script th:src="@{/assets/vendors/quill/quill.js}"></script>
+    <script th:src="@{/assets/vendors/toastify/toastify-custom.js}"></script>
+    <script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
+    <script th:src="@{/assets/js/util/validation-alice.js}"></script>
+    <script type="text/javascript">
+        /*<![CDATA[ */
 
-    //Drag and Drop Prevent Event Listener
-    window.addEventListener('dragover', (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        e.dataTransfer.effectAllowed = 'none';
-        e.dataTransfer.dropEffect = 'none';
-    }, false);
+        //Drag and Drop Prevent Event Listener
+        window.addEventListener('dragover', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.effectAllowed = 'none';
+            e.dataTransfer.dropEffect = 'none';
+        }, false);
 
-    window.addEventListener('drop', (e) => {
-        e.stopPropagation();
-        e.preventDefault();
-        e.dataTransfer.effectAllowed = 'none';
-        e.dataTransfer.dropEffect = 'none';
-    }, false);
+        window.addEventListener('drop', (e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            e.dataTransfer.effectAllowed = 'none';
+            e.dataTransfer.dropEffect = 'none';
+        }, false);
 
-    (function() {
-        let parsedDateTimeFormat = '[[${#authentication.details.timeFormat}]]'.split(' ');
-        i18n.init(JSON.stringify({
-            dateTimeFormat: '[[${#authentication.details.timeFormat}]]',
-            dateFormat: parsedDateTimeFormat[0],
-            timeFormat: (parsedDateTimeFormat[2] !== undefined) ? parsedDateTimeFormat[1] + ' ' + parsedDateTimeFormat[2] : parsedDateTimeFormat[1],
-            lang: '[[${#authentication.details.lang}]]',
-            timezone: '[[${#authentication.details.timezone}]]'
-        }));
-    })();
+        (function() {
+            let parsedDateTimeFormat = '[[${#authentication.details.timeFormat}]]'.split(' ');
+            i18n.init(JSON.stringify({
+                dateTimeFormat: '[[${#authentication.details.timeFormat}]]',
+                dateFormat: parsedDateTimeFormat[0],
+                timeFormat: (parsedDateTimeFormat[2] !== undefined) ? parsedDateTimeFormat[1] + ' ' + parsedDateTimeFormat[2] : parsedDateTimeFormat[1],
+                lang: '[[${#authentication.details.lang}]]',
+                timezone: '[[${#authentication.details.timezone}]]'
+            }));
+        })();
 
-    /* ]]> */
-</script>
+        /* ]]> */
+    </script>
+</th:block>
 </html>

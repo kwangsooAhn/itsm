@@ -1183,7 +1183,6 @@ insert into awf_url values ('/documents/custom-code/{id}/data', 'post', '커스�
 insert into awf_url values ('/documents/list', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
 insert into awf_url values ('/documents/{id}/print', 'get', '신청서 프린트 화면', 'TRUE');
-insert into awf_url values ('/documents/{id}/publish', 'get', '신청서 발행 화면', 'TRUE');
 insert into awf_url values ('/downloads/list', 'get', '자료실 리스트 화면', 'TRUE');
 insert into awf_url values ('/downloads/new', 'get', '자료실 신규 등록', 'TRUE');
 insert into awf_url values ('/downloads/search', 'get', '자료실 리스트 호출 화면', 'TRUE');
@@ -1439,7 +1438,6 @@ insert into awf_url_auth_map values ('/documents/custom-code/{id}/data', 'post',
 insert into awf_url_auth_map values ('/documents/list', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/search', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'document.read');
-insert into awf_url_auth_map values ('/documents/{id}/publish', 'get', 'document.create');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.update');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.delete');
 insert into awf_url_auth_map values ('/downloads/list', 'get', 'download.create');

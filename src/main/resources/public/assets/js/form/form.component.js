@@ -89,7 +89,7 @@
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                         `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -132,7 +132,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -205,7 +205,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -255,7 +255,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div id="radio" class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
@@ -306,7 +306,7 @@
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                         `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                        `<span class="required">*</span>` +
+                        `<span class="required"></span>` +
                     `</div>` +
                     `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                     `<div id="chkbox" class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
@@ -468,7 +468,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -536,7 +536,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -605,7 +605,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
@@ -649,7 +649,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" id="fileupload"${displayType === 'editableRequired' ? ' required' : ''} style="--data-column: ${property.display.column};">` +
@@ -731,7 +731,7 @@
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
-                    `<span class="required">*</span>` +
+                    `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content custom-code" style="--data-column: ${property.display.column};">` +
@@ -862,43 +862,44 @@
      */
     function getPropertiesWithType(type, data) {
         let refineProperty = { 'display': {} };
-        
-        let defaultProperty = JSON.parse(JSON.stringify(aliceForm.componentProperties[type]));
-        Object.keys(defaultProperty).forEach(function(group) {
-            if (group === 'option') { //옵션 json 구조 변경
-                let options = [];
-                for (let i = 0, len = defaultProperty[group][0].items.length; i < len; i+=3) {
-                    let option = {};
-                    for (let j = i; j < i + len; j++) {
-                        let child = defaultProperty[group][0].items[j];
-                        option[child.id] = child.value;
-                    }
-                    options.push(option);
-                }
-                refineProperty[group] = options;
-            } else {
-                refineProperty[group] = {};
-                Object.keys(defaultProperty[group]).forEach(function(child) {
-                    const attributeItem = defaultProperty[group][child];
-                    let attributeItemValue = attributeItem.value;
-                    if (type === 'datetime' || type === 'date' || type === 'time') {
-                        if (/datetimeM*/.test(attributeItem.id)) {
-                            attributeItemValue = i18n.userDateTime(attributeItemValue);
-                        } else if (/dateM*/.test(attributeItem.id)) {
-                            attributeItemValue = i18n.userDate(attributeItemValue);
-                        } else if (/timeM*/.test(attributeItem.id)) {
-                            attributeItemValue = i18n.userTime(attributeItemValue);
-                        } else {
-                            attributeItemValue = attributeItem.value;
+        if (typeof aliceForm.componentProperties[type] !== 'undefined') {
+            let defaultProperty = JSON.parse(JSON.stringify(aliceForm.componentProperties[type]));
+            Object.keys(defaultProperty).forEach(function(group) {
+                if (group === 'option') { //옵션 json 구조 변경
+                    let options = [];
+                    for (let i = 0, len = defaultProperty[group][0].items.length; i < len; i+=3) {
+                        let option = {};
+                        for (let j = i; j < i + len; j++) {
+                            let child = defaultProperty[group][0].items[j];
+                            option[child.id] = child.value;
                         }
+                        options.push(option);
                     }
-                    refineProperty[group][attributeItem.id] = attributeItemValue;
-                });
-            }
-        });
+                    refineProperty[group] = options;
+                } else {
+                    refineProperty[group] = {};
+                    Object.keys(defaultProperty[group]).forEach(function(child) {
+                        const attributeItem = defaultProperty[group][child];
+                        let attributeItemValue = attributeItem.value;
+                        if (type === 'datetime' || type === 'date' || type === 'time') {
+                            if (/datetimeM*/.test(attributeItem.id)) {
+                                attributeItemValue = i18n.userDateTime(attributeItemValue);
+                            } else if (/dateM*/.test(attributeItem.id)) {
+                                attributeItemValue = i18n.userDate(attributeItemValue);
+                            } else if (/timeM*/.test(attributeItem.id)) {
+                                attributeItemValue = i18n.userTime(attributeItemValue);
+                            } else {
+                                attributeItemValue = attributeItem.value;
+                            }
+                        }
+                        refineProperty[group][attributeItem.id] = attributeItemValue;
+                    });
+                }
+            });
 
-        if (typeof data !== 'undefined') {
-            refineProperty = aliceJs.mergeObject(refineProperty, data) ;
+            if (typeof data !== 'undefined') {
+                refineProperty = aliceJs.mergeObject(refineProperty, data) ;
+            }
         }
         return refineProperty;
     }
@@ -932,7 +933,7 @@
 
     exports.init = init;
     exports.draw = draw;
-    exports.getPropertiesWithType = getPropertiesWithType;
+    //exports.getPropertiesWithType = getPropertiesWithType;
     exports.getLastIndex = getLastIndex;
     exports.setLastIndex = setLastIndex;
     exports.getName = getName;
