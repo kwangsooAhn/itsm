@@ -164,4 +164,19 @@
             }
         }
     }
+    .active {
+        color: $white;
+        background-color: $menu-bg-hover;
+        svg {
+            fill: red;
+            stroke: red;
+        }
+    }
+    .active-parent {
+        color: $white;
+        svg {
+            fill: red;
+            stroke: red;
+        }
+    }
 }

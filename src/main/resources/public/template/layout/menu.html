@@ -17,22 +17,37 @@
 				<li th:each="topMenu : ${#authentication.details.menus}"
 						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
 					<!--/* 그룹 메뉴 */-->
-					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb">
-						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
+					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb"
+					   th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
+						<!--<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">-->
+						<object type="image/svg+xml" data="/assets/theme/default/icons/icon_gnb_config.svg" class="test"></object>
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 						<span class="arrow-left"></span>
 					</a>
 					<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="snb-set">
 						<li th:each="subMenu : ${#authentication.details.menus}"
 							th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
-							<a th:href="${subMenu.url}"  th:class="'snb ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()">
+							<a th:href="${subMenu.url}"  th:class="'snb ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()"
+							   th:classappend="${subMenu.url} == ${session.active_url} ? active">
 								<span th:text="#{|menu.${subMenu.menuId}|}"></span>
 							</a>
 						</li>
 					</ul>
 					<!--/* 연결 메뉴 */-->
-					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb">
-						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
+					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb" th:classappend="${topMenu.url} == ${session.active_url} ? active">
+						<!--<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">-->
+						<svg x="0px" y="0px" width="28px" height="28px" viewBox="0 0 28 28" enable-background="new 0 0 28 28" xml:space="preserve">
+<g>
+	<path fill="#0050FF" d="M20.45,9.21c-0.9-3.52-2.91-5.5-5.95-5.69V2c0-0.28-0.22-0.5-0.5-0.5S13.5,1.72,13.5,2v1.52
+		C10.46,3.71,8.45,5.69,7.55,9.21c-0.02,0.059-1.729,5.246-2.92,8.862L4.5,18.46v0.005c-0.574,1.743-1,3.035-1,3.035
+		c0,0.55,0.45,1,1,1h19c0.55,0,1-0.45,1-1C24.5,21.5,20.48,9.3,20.45,9.21z M8.5,9.53l0.01-0.04l0.01-0.03
+		c0.79-3.09,2.471-4.75,4.98-4.94C13.66,4.51,13.83,4.5,14,4.5s0.34,0.01,0.5,0.02c2.51,0.19,4.19,1.851,4.98,4.94l0.01,0.03
+		l0.01,0.04c0.033,0.099,1.475,4.47,2.629,7.97H5.871C7.025,14,8.467,9.629,8.5,9.53z M4.55,21.5c0.173-0.521,0.543-1.643,0.991-3
+		h16.918c0.448,1.357,0.818,2.479,0.991,3H4.55z"/>
+	<path fill="#0050FF" d="M14,25.5c-1.3,0-2.41-0.84-2.82-2h-1.05c0.44,1.73,2.01,3,3.87,3s3.43-1.27,3.87-3h-1.05
+		C16.41,24.66,15.3,25.5,14,25.5z"/>
+</g>
+</svg>
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 					</a>
 				</li>
