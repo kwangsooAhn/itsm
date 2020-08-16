@@ -60,6 +60,8 @@
                         overflow-y: auto;
                         tr {
                             height: 2.875rem;
+                            width: 100%;
+                            display: table;
                             &:hover {
                                 background: $line-gray;
                             }
@@ -126,7 +128,6 @@
                     }
                 }
                 label {
-                    display: block;
                     margin: 5px 0 5px 0;
                     color: $light-black;
                 }

@@ -48,8 +48,8 @@
                         <div class="checkbox-list">
                             <ul>
                                 <li th:each="url : ${urlList}">
-                                    <input type="checkbox" name="authUrl" th:id="${url?.url}"
-                                           th:text="|[${url?.method}] ${url?.url}|" th:value="${url?.url}">
+                                    <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
+                                    <label th:for="${url?.url}" th:text="|[${url?.method}] ${url?.url}|"></label>
                                 </li>
                             </ul>
                         </div>
@@ -60,7 +60,8 @@
                             <ul>
                                 <li th:each="menu : ${menuList}">
                                     <input class="auth-list-check" type="checkbox" name="authMenu" th:id="${menu?.menuId}"
-                                           th:value="${menu?.menuId}" th:text="#{|menu.${menu?.menuId}|}">
+                                           th:value="${menu?.menuId}">
+                                    <label th:for="${menu?.menuId}" th:text="#{|menu.${menu?.menuId}|}"></label>
                                 </li>
                             </ul>
                         </div>
@@ -312,8 +313,9 @@
                             onGetDetail(this.id);
                         });
                     }
-                    let first = document.querySelector('td[name=authName]');
-                    onGetDetail(first.getAttribute('id'));
+                    //let first = document.querySelector('td[name=authName]');
+                    //onGetDetail(first.getAttribute('id'));
+                    document.querySelector('td[name=authName]').click();
                     OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
                 }
             };

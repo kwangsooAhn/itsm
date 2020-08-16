@@ -345,6 +345,8 @@ textarea {
 }
 .container .contents-list-edit > .list-area .list table tbody tr {
   height: 2.875rem;
+  width: 100%;
+  display: table;
 }
 .container .contents-list-edit > .list-area .list table tbody tr:hover {
   background: #EBEBEB;
@@ -407,7 +409,6 @@ textarea {
   color: #ACB4BF;
 }
 .container .contents-list-edit > .edit-area .form-set label {
-  display: block;
   margin: 5px 0 5px 0;
   color: #3F4B56;
 }
