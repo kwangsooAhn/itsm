@@ -16,7 +16,7 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
-time, mark, audio, video, input, select {
+time, mark, audio, video {
   margin: 0;
   padding: 0;
   border: 0;
@@ -126,6 +126,11 @@ button {
   font-style: normal;
   font-weight: 900;
 }
+@font-face {
+  font-family: 맑은고딕, Malgun Gothic, dotum, gulim, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+}
 /* Date compoent 기본 */
 body, input, textarea, select {
   font-family: "Noto Sans KR", sans-serif;
@@ -134,10 +139,18 @@ body, input, textarea, select {
 
 h1 {
   font-family: "Noto Sans KR", sans-serif;
-  font-size: 1.875rem;
-  color: #47556A;
-  padding: 0.625rem 0rem;
-  font-weight: 600;
+  font-size: 2.25rem;
+  color: #3F4B56;
+  padding: 0.625rem 0 0.625rem 0.3125rem;
+  font-weight: 700;
+}
+
+h5 {
+  font-family: 맑은고딕;
+  font-size: 0.875rem;
+  color: #7E848C;
+  padding: 0 0 0 0.625rem;
+  font-weight: 400;
 }
 
 h3 {
@@ -164,9 +177,9 @@ option:focus {
 }
 
 select {
-  height: 1.875rem;
-  color: #67717F;
-  font-size: 0.875rem;
+  height: 2.5rem;
+  color: #586872;
+  font-size: 1rem;
   border: 0.0625rem solid #C8CED8;
   border-radius: 0.0625rem;
   padding: 0 10px;
@@ -179,15 +192,18 @@ select:focus {
   border-radius: 0.0625rem;
 }
 input {
-  height: 1.875rem;
-  color: #67717F;
-  font-size: 0.875rem;
+  height: 2.5rem;
+  color: #586872;
+  font-size: 1rem;
   border: 0.0625rem solid #C8CED8;
   border-radius: 0.0625rem;
   padding: 0 10px;
   margin-right: 0.0625rem;
   vertical-align: middle;
   background-color: #FFFFFF;
+}
+input::placeholder {
+  color: #ACB4BF;
 }
 input:focus {
   outline: 0.0625rem solid #0050ff;
@@ -207,13 +223,12 @@ input.search-time {
 }
 
 textarea {
-  padding: 0 0.625rem;
-  margin: 10px 0 15px 0;
+  padding: 0.5rem 0.625rem;
   display: block;
   border: 1px solid #C8CED8;
-  color: #67717F;
+  color: #586872;
   background-color: #FFFFFF;
-  font-size: 0.875rem;
+  font-size: 1rem;
 }
 
 .column-1 {
@@ -256,15 +271,152 @@ textarea {
   width: 50rem;
 }
 
+.column-fluid {
+  width: 100%;
+}
+
 .wrap-screen {
   position: relative;
   min-height: 100vh;
-  background: #eaf1f7;
+}
+
+.flex {
+  display: flex;
+}
+
+.search-area {
+  height: 110px;
+  padding: 50px 0 20px 0;
+  display: flex;
+}
+.search-area .left {
+  flex: none;
+}
+.search-area .right {
+  margin-left: auto;
 }
 
 .container {
   height: 100%;
-  padding: 60px 0 0 220px;
+  padding: 0 0 0 220px;
+}
+.container .page-title {
+  display: flex;
+  align-items: baseline;
+}
+.container .contents-list-edit {
+  background: #F7F8F9;
+  display: flex;
+}
+.container .contents-list-edit > .list-area {
+  padding: 46px 60px 110px 60px;
+  height: 100vh;
+  flex: 1;
+}
+.container .contents-list-edit > .list-area .list {
+  padding-top: 20px;
+}
+.container .contents-list-edit > .list-area .list > table {
+  width: 100%;
+}
+.container .contents-list-edit > .list-area .list > table thead {
+  display: block;
+}
+.container .contents-list-edit > .list-area .list > table thead > tr {
+  height: 2.375rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+  display: flex;
+}
+.container .contents-list-edit > .list-area .list > table thead > tr th {
+  color: #3F4B56;
+  font-size: 1.125rem;
+  font-weight: 500;
+  vertical-align: middle;
+}
+.container .contents-list-edit > .list-area .list > table tbody {
+  display: block;
+  height: 565px;
+  overflow-y: auto;
+}
+.container .contents-list-edit > .list-area .list > table tbody > tr {
+  height: 2.875rem;
+}
+.container .contents-list-edit > .list-area .list > table tbody > tr:hover {
+  background: #EBEBEB;
+}
+.container .contents-list-edit > .list-area .list > table tbody > tr.active td {
+  color: #0060A5;
+  background: #EBEBEB;
+}
+.container .contents-list-edit > .list-area .list > table tbody > tr td {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  vertical-align: middle;
+}
+.container .contents-list-edit > .edit-area {
+  padding: 154px 35px 50px 0;
+  width: 610px;
+  background: white;
+  font-weight: 500;
+}
+.container .contents-list-edit > .edit-area .scroll-wrap {
+  height: 690px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 10px 0;
+}
+.container .contents-list-edit > .edit-area .scroll-wrap .form-wrap {
+  flex: 1;
+  overflow: auto;
+  padding: 0 30px 0 65px;
+}
+.container .contents-list-edit > .edit-area .form-set {
+  display: flex;
+  flex-direction: column;
+  margin-top: 11px;
+}
+.container .contents-list-edit > .edit-area .form-set li {
+  color: #586872;
+  font-weight: 400;
+}
+.container .contents-list-edit > .edit-area .form-set input {
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  color: #586872;
+  font-size: 1rem;
+}
+.container .contents-list-edit > .edit-area .form-set input[type=checkbox] {
+  margin-right: 0.625rem;
+  height: 1.5rem;
+}
+.container .contents-list-edit > .edit-area .form-set input:disabled {
+  background: #F7F8F9;
+  color: #ACB4BF;
+}
+.container .contents-list-edit > .edit-area .form-set label {
+  display: block;
+  margin: 5px 0 5px 0;
+  color: #3F4B56;
+}
+.container .contents-list-edit > .edit-area .form-set textarea {
+  display: block;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  resize: horizontal;
+  line-height: 1.3;
+}
+.container .contents-list-edit > .edit-area .form-set .checkbox-list {
+  height: 13.5rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  overflow-y: auto;
+  padding: 0.5rem 0.625rem;
+}
+.container .contents-list-edit > .edit-area .btn-bar {
+  padding: 10px 30px 0 0;
+  display: flex;
+  flex-direction: row-reverse;
 }
 .container .contents {
   min-width: 1260px;
@@ -2170,4 +2322,100 @@ textarea {
   font-size: 1rem;
   font-weight: 400;
   margin-top: 1.25rem;
+}
+
+button {
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 500;
+  text-align: center;
+  color: #3F4B56;
+  background-color: transparent;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.1875rem;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  opacity: 1;
+  padding: 0.5rem 1.5625rem;
+  margin-left: 0.3125rem;
+}
+button:disabled {
+  background-color: #FFFFFF;
+  opacity: 0.3;
+  cursor: default;
+}
+button:not(:disabled):active {
+  background-color: #EBEBEB;
+}
+button:not(:disabled):focus, button:not(:disabled):hover {
+  outline: 0;
+  background-color: rgba(230, 230, 230, 0.3);
+}
+button.default-line {
+  color: #3F4B56;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #EBEBEB;
+}
+button.default-line:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+button.default-line:not(:disabled):active {
+  background-color: #EBEBEB;
+  border: 0.0625rem solid #CCCED1;
+}
+button.default-line:not(:disabled):focus, button.default-line:not(:disabled):hover {
+  outline: 0;
+  background-color: rgba(230, 230, 230, 0.3);
+}
+button.default-fill {
+  color: #3F4B56;
+  background-color: #E1E3E6;
+  border: 0.0625rem solid transparent;
+}
+button.default-fill:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+button.default-fill:not(:disabled):active {
+  background-color: #CCCED1;
+}
+button.default-fill:not(:disabled):focus, button.default-fill:not(:disabled):hover {
+  outline: 0;
+  background-color: #EBEBEB;
+}
+button.point-line {
+  color: #0098FF;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #0098FF;
+}
+button.point-line:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+button.point-line:not(:disabled):active {
+  background-color: #33ADFF;
+  opacity: 0.3;
+}
+button.point-line:not(:disabled):focus, button.point-line:not(:disabled):hover {
+  outline: 0;
+  background-color: rgba(0, 152, 255, 0.1);
+}
+button.point-fill {
+  color: #FFFFFF;
+  background-color: #0098FF;
+  border: 0.0625rem solid transparent;
+}
+button.point-fill:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+button.point-fill:not(:disabled):active {
+  background-color: #0088E6;
+}
+button.point-fill:not(:disabled):focus, button.point-fill:not(:disabled):hover {
+  outline: 0;
+  background-color: #33ADFF;
 }

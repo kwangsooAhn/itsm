@@ -8,43 +8,44 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
-            <h1 th:text="#{auth.label.manage}"></h1>
-            <span class="title-description" th:text="#{auth.msg.description}"></span>
-        </div>
-        <div class="contents-body-auth">
+    <div class="contents-list-edit">
+        <div class="list-area">
+            <div class="page-title">
+                <h1 th:text="#{auth.label.manage}"></h1>
+                <h5 th:text="#{auth.msg.description}"></h5>
+            </div>
             <div class="search-area">
-                <div class="float-left">
-                    <input id="search" class="search" th:placeholder="#{auth.msg.searchPlaceholder}">
-                    <span class="icon-search"></span>
+                <div class="left">
+                    <input id="search" class="search column-5" th:placeholder="#{auth.msg.searchPlaceholder}">
                     <span id="totalCount" class="txt-num"></span>
                 </div>
-                <div class="float-right">
-                    <button class="btn-add" id="btnCreate" name="btnCreate" type="button"
-                            sec:authorize="hasAuthority('auth.create')" th:onclick="|javascript:onCreate()|" ></button>
+                <div class="right">
+                    <button class="default-fill" id="btnCreate" name="btnCreate" type="button"
+                            sec:authorize="hasAuthority('auth.create')" th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
                 </div>
             </div>
-            <div class="list">
-                <div class="list-wrap-auth float-left" id="authList"></div>
-                <div class="list-wrap-auth-edit">
-                    <div class="float-left">
-                        <label class="auth-name" th:text="#{auth.label.authName}"></label>
-                        <input class="auth-name" id="txtAuthName" name="txtAuthName" type="text">
+            <div class="list" id="authList"></div>
+        </div>
+        <div class="edit-area">
+            <div class="scroll-wrap">
+                <div class="form-wrap">
+                    <div class="form-set">
+                        <label th:text="#{auth.label.authName}"></label>
+                        <input id="txtAuthName" name="txtAuthName" type="text">
                         <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
                     </div>
-                    <div class="float-right">
-                        <label class="auth-id" th:text="#{auth.label.authId}"></label>
-                        <input class="auth-id" id="txtAuthId" name="txtAuthId" type="text">
+                    <div class="form-set">
+                        <label th:text="#{auth.label.authId}"></label>
+                        <input id="txtAuthId" name="txtAuthId" type="text">
                     </div>
-                    <div class="float-clear">
-                        <label class="auth-desc" th:text="#{auth.label.authDesc}"></label>
-                        <textarea class="auth-desc" id="txtAuthDesc" name="txtAuthDesc"
+                    <div class="form-set">
+                        <label th:text="#{auth.label.authDesc}"></label>
+                        <textarea id="txtAuthDesc" name="txtAuthDesc"
                                   maxlength="200" rows="7" th:text="${authDetail?.authDesc}"></textarea>
                     </div>
-                    <div class="float-left">
-                        <div class="auth-list">
-                            <label class="auth-url" th:text="#{auth.label.urlList}"></label>
+                    <div class="form-set">
+                        <label th:text="#{auth.label.urlList}"></label>
+                        <div class="checkbox-list">
                             <ul>
                                 <li th:each="url : ${urlList}">
                                     <input type="checkbox" name="authUrl" th:id="${url?.url}"
@@ -53,33 +54,33 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="float-right">
-                        <div class="auth-list">
-                            <label class="auth-list" th:text="#{auth.label.menuList}"></label>
+                    <div class="form-set">
+                        <label class="auth-list" th:text="#{auth.label.menuList}"></label>
+                        <div class="checkbox-list">
                             <ul>
-		                        <li th:each="menu : ${menuList}">
-			                        <input class="auth-list-check" type="checkbox" name="authMenu" th:id="${menu?.menuId}"
-			                               th:value="${menu?.menuId}" th:text="#{|menu.${menu?.menuId}|}">
-		                        </li>
+                                <li th:each="menu : ${menuList}">
+                                    <input class="auth-list-check" type="checkbox" name="authMenu" th:id="${menu?.menuId}"
+                                           th:value="${menu?.menuId}" th:text="#{|menu.${menu?.menuId}|}">
+                                </li>
                             </ul>
                         </div>
                     </div>
-                    <div class="float-clear">
-                        <label class="reference-count" th:text="#{auth.label.referenceCount}"></label>
-                        <input class="reference-count" id="roleAuthMapCount" name="roleAuthMapCount" type="text" disabled>
+                    <div class="form-set">
+                        <label th:text="#{auth.label.referenceCount}"></label>
+                        <input id="roleAuthMapCount" name="roleAuthMapCount" type="text" disabled>
                     </div>
                 </div>
-                <div class="btn-bar float-right">
-                    <button sec:authorize="hasAuthority('auth.delete')"
-                            class="btn" type="button" id="btnDelete" name="btnDelete"
-                            th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
-                    <button sec:authorize="hasAuthority('auth.update')"
-                            class="btn" type="button" id="btnUpdate" name="btnUpdate"
-                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
-                    <button sec:authorize="hasAuthority('auth.create')"
-                            class="btn" type="button" id="btnRegist" name="btnRegist"
-                            th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-                </div>
+            </div>
+            <div class="btn-bar">
+                <button sec:authorize="hasAuthority('auth.delete')"
+                        class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                        th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                <button sec:authorize="hasAuthority('auth.update')"
+                        class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
+                <button sec:authorize="hasAuthority('auth.create')"
+                        class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
             </div>
         </div>
     </div>
