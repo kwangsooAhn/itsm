@@ -1,12 +1,7 @@
-// *********************************************************************************************************************
-// CONTENTS (container > contents > title, body)
-// *********************************************************************************************************************
 .wrap-screen {
     position: relative;
     min-height: 100vh;
 }
-
-.flex { display: flex;}
 
 .search-area {
     height: 6.875rem; // 110px
@@ -19,15 +14,17 @@
         margin-left: 0.623rem; // 10px
     }
 }
+
+.page-title {
+    display: flex;
+    align-items: baseline;
+}
+
 .container {
     height: 100%;
     padding: 0 0 0 13.75rem; // 220px
 
-    .page-title {
-        display: flex;
-        align-items: baseline;
-    }
-
+    // 권한관리와 같이 리스트와 편집화면이 1개의 화면으로 구성되는 경우
     .contents-list-edit {
         @include contents-template();
         & > .list-area {
@@ -127,6 +124,16 @@
                 flex-direction: row-reverse;
             }
         }
+    }
+
+    // 사용자 목록과 같이 리스트 화면인 경우.
+    .contents-list {
+        @include contents-template();
+    }
+
+    // 공지사항 등록과 같이 입력화면인 경우.
+    contents-edit {
+        @include contents-template();
     }
 
     .contents {
