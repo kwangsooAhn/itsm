@@ -14,6 +14,10 @@
     display: flex;
     .left {flex:none;}
     .right {margin-left: auto;}
+    .txt-num {
+        color: $warm-gray;
+        margin-left: 10px;
+    }
 }
 .container {
     height: 100%;
@@ -33,7 +37,7 @@
             flex: 1;
             .list {
                 padding-top: 20px;
-                & > table {
+                table {
                     width: 100%;
                     thead {
                         display: block;
@@ -46,6 +50,7 @@
                                 font-size: 1.125rem; // 18px
                                 font-weight: 500;
                                 vertical-align: middle;
+                                text-align: left;
                             }
                         }
                     }
@@ -53,7 +58,7 @@
                         display: block;
                         height: 565px;
                         overflow-y: auto;
-                        & > tr {
+                        tr {
                             height: 2.875rem;
                             &:hover {
                                 background: $line-gray;
@@ -98,6 +103,7 @@
                 li {
                     color: $dark-gray;
                     font-weight: 400;
+                    height: 1.5rem; // 24px
                 }
                 input {
                     border: 0.0625rem solid $border-color;
@@ -106,7 +112,13 @@
                     font-size: 1rem; // 16px
                     &[type=checkbox] {
                         margin-right: 0.625rem; // 10px
-                        height: 1.5rem; // 24px
+                        width: 18px;
+                        height: 18px;
+                        border-radius: $element-border-radius;
+                        border: 0.0625rem solid $border-color;
+                        &:checked {
+                            background-color: $white;
+                        }
                     }
                     &:disabled {
                         background: $light-gray;

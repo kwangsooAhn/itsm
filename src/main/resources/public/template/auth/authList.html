@@ -7,16 +7,16 @@
 <table>
     <thead>
     <tr>
-        <th th:text="#{auth.label.authName}"></th>
-        <th th:text="#{auth.label.authId}"></th>
-        <th th:text="#{auth.label.authDesc}"></th>
+        <th width="25%" th:text="#{auth.label.authName}"></th>
+        <th width="25%" th:text="#{auth.label.authId}"></th>
+        <th width="50%" th:text="#{auth.label.authDesc}"></th>
     </tr>
     </thead>
-    <tbody>
+    <tbody class="list-body">
     <tr th:each="auth : ${authList}">
-        <td id="authName" name="authName" th:text="${auth.authName}" th:id="${auth.authId}"></td>
-        <td id="authId" name="authId" th:text="${auth.authId}"></td>
-        <td id="authDesc" name="authDesc" th:text="${auth.authDesc}" class="align-left"></td>
+        <td width="25%" id="authName" name="authName" th:text="${auth.authName}" th:id="${auth.authId}"></td>
+        <td width="25%" id="authId" name="authId" th:text="${auth.authId}"></td>
+        <td width="50%" id="authDesc" name="authDesc" th:text="${auth.authDesc}" class="align-left"></td>
     </tr>
     </tbody>
 </table>

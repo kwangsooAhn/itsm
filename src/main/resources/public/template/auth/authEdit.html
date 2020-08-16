@@ -113,8 +113,6 @@
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             } else {
-                let first = document.querySelector('td[name=authName]');
-                onGetDetail(first.getAttribute('id'));
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'inline-block';
                 }
@@ -314,6 +312,9 @@
                             onGetDetail(this.id);
                         });
                     }
+                    let first = document.querySelector('td[name=authName]');
+                    onGetDetail(first.getAttribute('id'));
+                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
                 }
             };
             aliceJs.sendXhr(opt);
@@ -355,6 +356,10 @@
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.roleAuthMapCount);
                     }
+                    OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
+                    Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
+                        OverlayScrollbars(target, { className: 'scrollbar' });
+                    })
                 },
             };
             aliceJs.sendXhr(opt);
