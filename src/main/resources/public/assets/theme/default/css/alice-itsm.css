@@ -302,10 +302,6 @@ textarea {
   min-height: 100vh;
 }
 
-.flex {
-  display: flex;
-}
-
 .search-area {
   height: 6.875rem;
   padding: 3.125rem 0 1.25rem 0;
@@ -322,13 +318,14 @@ textarea {
   margin-left: 0.623rem;
 }
 
+.page-title {
+  display: flex;
+  align-items: baseline;
+}
+
 .container {
   height: 100%;
   padding: 0 0 0 13.75rem;
-}
-.container .page-title {
-  display: flex;
-  align-items: baseline;
 }
 .container .contents-list-edit {
   background: #F7F8F9;
@@ -428,6 +425,14 @@ textarea {
   padding: 0.625rem 1.875rem 0 0;
   display: flex;
   flex-direction: row-reverse;
+}
+.container .contents-list {
+  background: #F7F8F9;
+  display: flex;
+}
+.container contents-edit {
+  background: #F7F8F9;
+  display: flex;
 }
 .container .contents {
   min-width: 78.75rem;
