@@ -70,7 +70,10 @@ input {
         outline: $element-border solid $alice-primary;
         border-radius: $element-border-radius;
     }
-
+    &:disabled {
+        background: $light-gray;
+        color: $gray;
+    }
     &.search {
         background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
     }
@@ -83,16 +86,31 @@ input {
     &.search-time {
         background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
     }
+    &[type=checkbox] {
+        margin-right: 0.625rem; // 10px
+        width: 1.125rem; // 18px
+        height: 1.125rem; // 18px
+        border-radius: $element-border-radius;
+        border: 0.0625rem solid $border-color; // 1px
+        &:checked {
+            background-color: $white;
+        }
+    }
 }
 
 label {
+    margin: 0.3125rem 0 0.3125rem 0; // 5px 0 5px 0
+    color: $light-black;
 }
 
 textarea{
     padding: 0.5rem 0.625rem; // 8px 10px
     display: block;
-    border: 1px solid $element-line;
+    border: 0.0625rem solid $border-color; // 1px
+    border-radius: $element-border-radius;
     color: $element-font-color;
     background-color: $element-background-color;
     font-size: $element-font-size;
+    resize: vertical;
+    line-height: 1.3;
 }

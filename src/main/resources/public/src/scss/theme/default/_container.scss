@@ -9,19 +9,19 @@
 .flex { display: flex;}
 
 .search-area {
-    height: 110px;
-    padding: 50px 0 20px 0;
+    height: 6.875rem; // 110px
+    padding: 3.125rem 0 1.25rem 0; // 50px 0 20px 0
     display: flex;
     .left {flex:none;}
     .right {margin-left: auto;}
     .txt-num {
         color: $warm-gray;
-        margin-left: 10px;
+        margin-left: 0.623rem; // 10px
     }
 }
 .container {
     height: 100%;
-    padding: 0 0 0 220px;
+    padding: 0 0 0 13.75rem; // 220px
 
     .page-title {
         display: flex;
@@ -30,19 +30,18 @@
 
     .contents-list-edit {
         @include contents-template();
-        display:flex;
         & > .list-area {
-            padding: 46px 60px 110px 60px;
+            padding: 2.875rem 3.75rem 6.875rem 3.75rem; // 46px 60px 110px 60px
             height: 100vh;
             flex: 1;
             .list {
-                padding-top: 20px;
+                padding-top: 1.25rem; // 20px
                 table {
                     width: 100%;
                     thead {
                         display: block;
                         & > tr {
-                            height: 2.375rem;
+                            height: 2.375rem; // 38px
                             border-bottom: .125rem solid $default-gray;
                             display: flex;
                             th {
@@ -51,16 +50,20 @@
                                 font-weight: 500;
                                 vertical-align: middle;
                                 text-align: left;
+                                &:first-child {
+                                    padding-left: 1.25rem; // 20px
+                                }
                             }
                         }
                     }
                     tbody {
                         display: block;
-                        height: 565px;
+                        height: 35.3125rem; // 565px;
                         overflow-y: auto;
+                        width: calc(100% + 1.625rem); // 26px
                         tr {
                             height: 2.875rem;
-                            width: 100%;
+                            width: calc(100% - 1.623rem); // 26px
                             display: table;
                             &:hover {
                                 background: $line-gray;
@@ -76,6 +79,9 @@
                                 font-size: 1rem; // 16px
                                 font-weight: 400;
                                 vertical-align: middle;
+                                &:first-child {
+                                    padding-left: 1.25rem; // 20px
+                                }
                             }
                         }
                     }
@@ -83,71 +89,40 @@
             }
         }
         & > .edit-area {
-            padding: 154px 35px 50px 0;
-            width: 610px;
+            padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
+            width: 38.125rem; // 610px
             background: white;
             font-weight: 500;
             & .scroll-wrap {
-                height: 690px;
+                height: 43.125rem; // 690px
                 display: flex;
                 flex-direction: column;
-                padding: 0 0 10px 0;
+                margin: 0 0 0.625rem 0; // 10px
                 .form-wrap {
                     flex: 1;
                     overflow: auto;
-                    padding: 0 30px 0 65px;
+                    padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
                 }
             }
             .form-set {
                 display: flex;
                 flex-direction: column;
-                margin-top: 11px;
+                margin-top: 0.6875rem; // 11px
                 li {
                     color: $dark-gray;
                     font-weight: 400;
                     height: 1.5rem; // 24px
                 }
-                input {
-                    border: 0.0625rem solid $border-color;
-                    border-radius: $element-border-radius;
-                    color: $dark-gray;
-                    font-size: 1rem; // 16px
-                    &[type=checkbox] {
-                        margin-right: 0.625rem; // 10px
-                        width: 18px;
-                        height: 18px;
-                        border-radius: $element-border-radius;
-                        border: 0.0625rem solid $border-color;
-                        &:checked {
-                            background-color: $white;
-                        }
-                    }
-                    &:disabled {
-                        background: $light-gray;
-                        color: $gray;
-                    }
-                }
-                label {
-                    margin: 5px 0 5px 0;
-                    color: $light-black;
-                }
-                textarea {
-                    display: block;
-                    border: 0.0625rem solid $border-color;
-                    border-radius: $element-border-radius;
-                    resize: horizontal;
-                    line-height: 1.3;
-                }
                 .checkbox-list {
-                    height: 13.5rem;
-                    border: 0.0625rem solid $border-color;
+                    height: 13.5rem; // 216px
+                    border: 0.0625rem solid $border-color; // 1px
                     border-radius: $element-border-radius;
                     overflow-y: auto;
                     padding: 0.5rem 0.625rem; // 8px 10px
                 }
             }
             .btn-bar {
-                padding: 10px 30px 0 0;
+                padding: 0.625rem 1.875rem 0 0; // 10px 30px 0 0
                 display: flex;
                 flex-direction: row-reverse;
             }
@@ -155,16 +130,16 @@
     }
 
     .contents {
-        min-width: 1260px;
-        min-height: 820px;
+        min-width: 78.75rem; // 1260px
+        min-height: 51.25rem; // 820px
         display: block;
-        padding: 20px 136px 37px 136px;
+        padding: 1.25rem 8.5rem 2.3125rem 8.5rem; // 20px 136px 37px 136px
 
         .contents-title {
-            padding: 20px 0 20px 5px;
+            padding: 1.25rem 0 1.25rem 0.3125rem; // 20px 0 20px 5px
 
             .title-description {
-                font-size: 15px;
+                font-size: 0.9375rem; // 15px
                 color: #94a6bf;
                 font-weight: 400;
             }

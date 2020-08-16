@@ -1,5 +1,6 @@
 @mixin contents-template() {
     background: $light-gray;
+    display: flex;
 }
 @mixin backgroundImage($path) {
     @include background($path, null, null, null, null, null)
