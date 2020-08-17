@@ -1,8 +1,9 @@
 /* Date compoent 기본 */
 
-body, input, textarea, select {
+body, input, textarea, select, span {
     font-family: $default-font-family;
     font-size: 1rem; // 16px
+    color: $element-font-color;
 }
 
 h1 {
@@ -13,17 +14,18 @@ h1 {
     font-weight: 700;
 }
 
+h3 {
+    font-family: $default-font-family;
+    color: $light-black;
+    font-size: 1.25rem; // 20px
+}
+
 h5 {
     font-family: 맑은고딕;
     font-size: 0.875rem; // 14px
     color: $warm-gray;
     padding: 0 0 0 .625rem; // 10px
     font-weight: 400;
-}
-
-h3 {
-    font-family: $default-font-family;
-    font-size: 20px;
 }
 
 .picker-wrapper-date {display: inline;}

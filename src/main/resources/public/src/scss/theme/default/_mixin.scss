@@ -1,4 +1,5 @@
 @mixin contents-template() {
+    height: 100vh;
     background: $light-gray;
     display: flex;
 }
@@ -72,6 +73,57 @@
                         }
                     }
                 }
+            }
+        }
+    }
+}
+
+@mixin view-template() {
+    .view {
+        padding: 3.125rem 19.375rem 0 19.375rem; // 50px 310px 0 310px
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        h3 {
+            padding-bottom: 0.625rem; // 10px
+            margin-bottom: 0.625rem; // 10px
+            border-bottom: .125rem solid $default-gray;
+        }
+        div {
+            display: flex;
+            span {
+                margin: auto 0;
+                &.vertical-bar {
+                    width: 1.875rem; // 30px
+                    height: 1.875rem; // 30px
+                    border-right: 0.0625rem solid $line-gray; // 1px
+                    margin-right: 1.875rem; // 30px
+                }
+            }
+            &.row-right {
+                justify-content: flex-end;
+                span {
+                    &:last-child {
+                        margin: auto 1.25rem auto 0; // 20px
+                    }
+                }
+            }
+
+            &.view-text {
+                min-height: 13.4375rem; // 215px
+                padding: 0.3125rem 1.25rem; // 5px 20px
+                margin-bottom: 0.75rem; // 12px
+            }
+
+            &.view-attach-file {
+                min-height: 3.125rem; // 50px
+                padding: 0.125rem 1.25rem; // 2px 20px
+                margin: auto 0;
+            }
+            &.horizontal-bar {
+                height: 0.0625rem; // 1px
+                margin: 10px 0;
+                background-color: $line-gray;
             }
         }
     }
