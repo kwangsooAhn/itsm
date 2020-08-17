@@ -60,6 +60,7 @@ input, button, select, optgroup, textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  box-sizing: border-box;
 }
 
 a:link {
@@ -215,15 +216,19 @@ input:disabled {
 }
 input.search {
   background: url("../icons/icon_search.svg") no-repeat center right;
+  background-color: #FFFFFF;
 }
 input.search-datetime {
   background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
+  background-color: #FFFFFF;
 }
 input.search-date {
   background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
+  background-color: #FFFFFF;
 }
 input.search-time {
   background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
+  background-color: #FFFFFF;
 }
 input[type=checkbox] {
   margin-right: 0.625rem;
@@ -323,9 +328,83 @@ textarea {
   align-items: baseline;
 }
 
+.tr-notice {
+  background: rgba(255, 255, 0, 0.2);
+}
+
+.no-data-found {
+  pointer-events: none;
+  background: #EBEBEB;
+}
+.no-data-found td {
+  text-align: center;
+}
+
 .container {
   height: 100%;
   padding: 0 0 0 13.75rem;
+}
+.container .contents-list {
+  background: #F7F8F9;
+  display: flex;
+  padding: 2.875rem 3.75rem 6.875rem 3.75rem;
+  height: 100vh;
+  flex-direction: column;
+}
+.container .contents-list .list {
+  padding-top: 1.25rem;
+}
+.container .contents-list .list table {
+  width: 100%;
+}
+.container .contents-list .list table thead {
+  display: block;
+}
+.container .contents-list .list table thead > tr {
+  height: 2.375rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+  display: flex;
+}
+.container .contents-list .list table thead > tr th {
+  color: #3F4B56;
+  font-size: 1.125rem;
+  font-weight: 500;
+  vertical-align: middle;
+  text-align: left;
+}
+.container .contents-list .list table thead > tr th:first-child {
+  padding-left: 1.25rem;
+}
+.container .contents-list .list table tbody {
+  display: block;
+  height: 35.3125rem;
+  overflow-y: auto;
+  width: 100%;
+}
+.container .contents-list .list table tbody tr {
+  height: 2.875rem;
+  width: 100%;
+  display: table;
+}
+.container .contents-list .list table tbody tr:hover {
+  background: #EBEBEB;
+}
+.container .contents-list .list table tbody tr.active td {
+  color: #0060A5;
+  background: #EBEBEB;
+}
+.container .contents-list .list table tbody tr td {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  vertical-align: middle;
+}
+.container .contents-list .list table tbody tr td:first-child {
+  padding-left: 1.25rem;
+}
+.container contents-edit {
+  background: #F7F8F9;
+  display: flex;
 }
 .container .contents-list-edit {
   background: #F7F8F9;
@@ -364,11 +443,11 @@ textarea {
   display: block;
   height: 35.3125rem;
   overflow-y: auto;
-  width: calc(100% + 1.625rem);
+  width: 100%;
 }
 .container .contents-list-edit > .list-area .list table tbody tr {
   height: 2.875rem;
-  width: calc(100% - 1.623rem);
+  width: 100%;
   display: table;
 }
 .container .contents-list-edit > .list-area .list table tbody tr:hover {
@@ -425,14 +504,6 @@ textarea {
   padding: 0.625rem 1.875rem 0 0;
   display: flex;
   flex-direction: row-reverse;
-}
-.container .contents-list {
-  background: #F7F8F9;
-  display: flex;
-}
-.container contents-edit {
-  background: #F7F8F9;
-  display: flex;
 }
 .container .contents {
   min-width: 78.75rem;
@@ -741,9 +812,6 @@ textarea {
   border-radius: 50%;
   background: #f0f0f0;
   cursor: pointer;
-}
-.container .contents .list .tr-notice {
-  background: rgba(255, 255, 0, 0.2);
 }
 .container .contents .list .align-center {
   text-align: center;
@@ -1937,7 +2005,7 @@ textarea {
   border: solid 0.0625rem #C8CED8;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
   text-align: center;
-  z-index: 1;
+  z-index: 999;
 }
 .picker-modal.active {
   display: block;

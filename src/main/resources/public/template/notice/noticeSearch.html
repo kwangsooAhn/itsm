@@ -8,25 +8,24 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
+    <div class="contents-list">
+        <div class="page-title">
             <h1 th:text="#{notice.label.list}"></h1>
-            <span class="title-description" th:text="#{notice.msg.description}"></span>
+            <h5 th:text="#{notice.msg.description}"></h5>
         </div>
-        <div class="contents-body">
-            <div class="search-area">
-                <div class="search-area-left">
-                    <input class="search column-3" id="searchValue" type="text" maxlength="100" th:placeholder="#{notice.label.searchPlaceholder}"/>
-                    <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
-                    <span>~</span>
-                    <input class="search-date column-2" type="text" id="toDt" name="toDt" readonly="readonly"/>
-                </div>
-                <div class="search-area-right">
-                    <button class="btn-add" onclick="location.href='/notices/new'" sec:authorize="hasAuthority('notice.create')"/>
-                </div>
+        <div class="search-area">
+            <div class="left">
+                <input class="search column-5" id="searchValue" type="text" maxlength="100" th:placeholder="#{notice.label.searchPlaceholder}"/>
+                <input class="search-date column-3" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                <span>~</span>
+                <input class="search-date column-3" type="text" id="toDt" name="toDt" readonly="readonly"/>
             </div>
-            <div class="list" id="noticeList"></div>
+            <div class="right">
+                <button class="default-fill" onclick="location.href='/notices/new'" type="button"
+                        sec:authorize="hasAuthority('notice.create')" th:text="#{common.btn.add}"></button>
+            </div>
         </div>
+        <div class="list" id="noticeList"></div>
     </div>
 </th:block>
 </body>
@@ -115,6 +114,8 @@
                             noticeDtList[i].textContent = '';
                         }
                     }
+                    var scrollInstance = OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar'});
+                    scrollInstance.scroll({ x : 26});
                 }
             };
             aliceJs.sendXhr(opt);

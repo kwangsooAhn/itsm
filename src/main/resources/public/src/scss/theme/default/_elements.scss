@@ -76,15 +76,19 @@ input {
     }
     &.search {
         background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
+        background-color: $element-background-color;
     }
     &.search-datetime {
-        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
+        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%;
+        background-color: $element-background-color;
     }
     &.search-date {
-        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
+        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%;
+        background-color: $element-background-color;
     }
     &.search-time {
-        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
+        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%;
+        background-color: $element-background-color;
     }
     &[type=checkbox] {
         margin-right: 0.625rem; // 10px

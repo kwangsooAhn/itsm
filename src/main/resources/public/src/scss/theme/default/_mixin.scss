@@ -20,3 +20,59 @@
         background-color: $color;
     }
 }
+
+@mixin list-template() {
+    .list {
+        padding-top: 1.25rem; // 20px
+        table {
+            width: 100%;
+            thead {
+                display: block;
+                & > tr {
+                    height: 2.375rem; // 38px
+                    border-bottom: .125rem solid $default-gray;
+                    display: flex;
+                    th {
+                        color: $light-black;
+                        font-size: 1.125rem; // 18px
+                        font-weight: 500;
+                        vertical-align: middle;
+                        text-align: left;
+                        &:first-child {
+                            padding-left: 1.25rem; // 20px
+                        }
+                    }
+                }
+            }
+            tbody {
+                display: block;
+                height: 35.3125rem; // 565px;
+                overflow-y: auto;
+                width: 100%; // 26px
+                tr {
+                    height: 2.875rem;
+                    width: 100%; // calc(100% - 1.623rem); // 26px
+                    display: table;
+                    &:hover {
+                        background: $line-gray;
+                    }
+                    &.active {
+                        td {
+                            color: $dark-blue;
+                            background: $line-gray;
+                        }
+                    }
+                    td {
+                        color: $dark-gray;
+                        font-size: 1rem; // 16px
+                        font-weight: 400;
+                        vertical-align: middle;
+                        &:first-child {
+                            padding-left: 1.25rem; // 20px
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
