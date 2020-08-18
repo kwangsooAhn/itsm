@@ -1,5 +1,6 @@
 package co.brainz.framework.scheduling.service
 
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.framework.scheduling.repository.AliceScheduleTaskRepository
 import java.util.TimeZone
@@ -8,7 +9,6 @@ import javax.annotation.PostConstruct
 import org.slf4j.LoggerFactory
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
-import org.springframework.core.env.Environment
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.scheduling.TaskScheduler
 import org.springframework.scheduling.support.CronTrigger
@@ -39,9 +39,11 @@ class AliceScheduleTaskService(
     fun addTaskToScheduler(id: Long, task: Runnable, taskInfo: AliceScheduleTaskEntity) {
         var scheduledTask: ScheduledFuture<*>? = null
         when (taskInfo.executeCycleType) {
-            "fixedDelay" -> scheduledTask = scheduler.scheduleWithFixedDelay(task, taskInfo.executeCyclePeriod)
-            "fixedRate" -> scheduledTask = scheduler.scheduleAtFixedRate(task, taskInfo.executeCyclePeriod)
-            "cron" -> scheduledTask = scheduler.schedule(
+            AliceConstants.ScheduleExecuteCycleType.FIXED_DELAY.code -> scheduledTask =
+                scheduler.scheduleWithFixedDelay(task, taskInfo.executeCyclePeriod)
+            AliceConstants.ScheduleExecuteCycleType.FIXED_RATE.code -> scheduledTask =
+                scheduler.scheduleAtFixedRate(task, taskInfo.executeCyclePeriod)
+            AliceConstants.ScheduleExecuteCycleType.CRON.code -> scheduledTask = scheduler.schedule(
                 task,
                 CronTrigger(taskInfo.cronExpression, TimeZone.getTimeZone(TimeZone.getDefault().id))
             )

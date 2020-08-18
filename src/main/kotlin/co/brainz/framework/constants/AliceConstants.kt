@@ -69,6 +69,15 @@ object AliceConstants {
     }
 
     /**
+     * 작업 스케줄러 실행 사이클 타입.
+     */
+    enum class ScheduleExecuteCycleType(val code: String) {
+        FIXED_DELAY("fixedDelay"),
+        FIXED_RATE("fixedRate"),
+        CRON("cron")
+    }
+
+    /**
      * 세션 만료시 로그인 페이지 자동 이동 시간.
      */
     const val SESSION_INVALID_AUTO_REDIRECT_TIME = 3
