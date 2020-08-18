@@ -77,17 +77,16 @@ class DeleteTempFile() : Runnable {
         val filePath = file.toPath()
         if (file.isDirectory) {
             val files = file.listFiles()
-            if (files == null || files.isEmpty()) {
-                Files.delete(filePath)
-            } else {
-                deleteFiles(files)
+            if (files !== null) {
+                this.deleteFiles(files)
             }
+            Files.deleteIfExists(filePath)
         } else {
             val attribute = Files.readAttributes(filePath, BasicFileAttributes::class.java)
             val fileDateTime = LocalDateTime.ofInstant(attribute.creationTime().toInstant(), ZoneId.of("UTC"))
             val passedOneDay = fileDateTime < this.oneDayAgo
             if (passedOneDay) {
-                Files.delete(filePath)
+                Files.deleteIfExists(filePath)
             }
         }
     }
