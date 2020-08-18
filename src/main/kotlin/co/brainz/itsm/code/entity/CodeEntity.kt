@@ -13,7 +13,7 @@ import org.hibernate.annotations.NotFound
 import org.hibernate.annotations.NotFoundAction
 
 @Entity
-@Table(name = "awf_code")
+@Table(name = "awf_code_hgjung")
 data class CodeEntity(
     @Id @Column(name = "code")
     var code: String = "",
