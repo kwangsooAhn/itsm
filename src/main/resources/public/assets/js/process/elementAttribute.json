@@ -140,9 +140,21 @@
           ]
         },
         {
-          "title": "Data",
+          "title": "Script",
           "items": [
-            {"id": "script", "name": "Script", "type": "inputbox", "default": "", "required": "Y"}
+            {
+              "id": "script-type", "name": "Type", "type": "select", "default": "script.type.document.attachFile", "required": "Y",
+              "sub-list": [
+                {"id": "script.type.document.attachFile", "name": "[문서편집] 첨부파일"}
+              ]
+            },
+            {"id": "script-detail", "name": "", "type": "inputbox", "default": "", "display": "none"}
+          ]
+        },
+        {
+          "title": "Action",
+          "items": [
+            {"id": "script-action", "name": "", "type": "inputbox", "default": "", "display": "none"}
           ]
         }
       ]

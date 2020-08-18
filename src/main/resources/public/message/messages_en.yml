@@ -621,6 +621,7 @@ process:
     fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
     selectImportFile: "Please select an import file."
     simulation: "Simulation check is complete."
+    duplicateData: "The same data exists."
   status:
     destroy: "Destroy"
     edit: "Edit"

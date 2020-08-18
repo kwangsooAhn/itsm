@@ -65,4 +65,12 @@ data class WfElementEntity(
         }
         return elementAttributeValue
     }
+
+    @OneToMany(
+        mappedBy = "element",
+        fetch = FetchType.LAZY,
+        cascade = [CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE],
+        orphanRemoval = true
+    )
+    val elementScriptDataEntities: MutableList<WfElementScriptDataEntity> = mutableListOf()
 }

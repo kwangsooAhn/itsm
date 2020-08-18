@@ -64,6 +64,8 @@ class AliceFileService(
     private val processStatusRootDirectory = "processes"
     private val imagesRootDirectory = "images"
     private val allowedImageExtensions = listOf("png", "gif", "jpg", "jpeg")
+    private val fileUploadRootDirectory = "uploadRoot"
+    private val processAttachFileRootDirectory = this.imagesRootDirectory
 
     /**
      * 파일 허용 확장자 목록 가져오기
@@ -81,7 +83,7 @@ class AliceFileService(
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         val fileName = super.getRandomFilename()
         val tempPath = super.getDir("temp", fileName)
-        val filePath = super.getDir("uploadRoot", fileName)
+        val filePath = super.getDir(this.fileUploadRootDirectory, fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
         val transferFile = File(multipartFile.originalFilename!!)
         val mimeType = MimetypesFileTypeMap().getContentType(transferFile).toUpperCase()
@@ -227,6 +229,20 @@ class AliceFileService(
         }
 
         return images
+    }
+
+    /**
+     * 업로드 경로.
+     */
+    fun getUploadFilePath(fileName: String): Path {
+        return super.getDir(this.fileUploadRootDirectory, fileName)
+    }
+
+    /**
+     * 프로세스 디자이너 첨부파일 경로.
+     */
+    fun getProcessFilePath(): Path {
+        return super.getWorkflowDir(this.processAttachFileRootDirectory)
     }
 
     /**
