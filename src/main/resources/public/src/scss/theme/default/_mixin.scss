@@ -128,3 +128,46 @@
         }
     }
 }
+
+@mixin edit-template() {
+    .edit {
+        padding: 3.125rem 21.875rem 3.125rem 21.875rem; // 50px 350px 50px 350px
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        & .scroll-wrap {
+            height: 43.125rem; // 690px
+            display: flex;
+            flex-direction: column;
+            .form-wrap {
+                flex: 1;
+                overflow: auto;
+                padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
+            }
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .form-set {
+            display: flex;
+            flex-direction: column;
+            margin-top: 0.6875rem; // 11px
+            li {
+                color: $dark-gray;
+                font-weight: 400;
+                height: 1.5rem; // 24px
+            }
+            label {
+                font-weight: 500;
+            }
+            .checkbox-list {
+                height: 13.5rem; // 216px
+                border: 0.0625rem solid $border-color; // 1px
+                border-radius: $element-border-radius;
+                overflow-y: auto;
+                padding: 0.5rem 0.625rem; // 8px 10px
+            }
+        }
+    }
+}

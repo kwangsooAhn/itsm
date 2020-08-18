@@ -58,11 +58,18 @@
     .contents-edit {
         @include contents-template();
         flex-direction: column;
+        @include edit-template();
+        .page-title {
+            padding: 2.875rem 3.75rem 6.875rem 3.75rem;
+            height: 10.3125rem; // 165px
+        }
+        .btn-bar {
+            padding: 2.5rem 0 0 0; // 40px 0 0 0
+        }
     }
 
     // 상세 조회 화면인 경우.
     .contents-view {
-        background: $light-gray;
         display: flex;
         flex-direction: column;
         @include view-template();
