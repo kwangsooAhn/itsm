@@ -129,13 +129,15 @@
                 padding-left: 19px;
                 display: inline-block;
 
-                &.arrow-left {
-                    background: url($icon-folder-path + "icon_arrow_left.svg") no-repeat center center;
-                    padding: 0 6px 0 0;
-                    float: right;
-                    width: 6px;
-                    height: 20px;
-                    margin-left: auto;
+                &.arrow {
+                    &-right {
+                        @include menuArrow;
+                        background: url($icon-folder-path + "icon_arrow_r.svg") no-repeat center center;
+                    }
+                    &-down {
+                        @include menuArrow;
+                        background: url($icon-folder-path + "icon_arrow_d.svg") no-repeat center center;
+                    }
                 }
             }
         }
@@ -163,5 +165,12 @@
                 }
             }
         }
+    }
+    .active {
+        color: $white;
+        background-color: $menu-bg-hover;
+    }
+    .active-parent {
+        color: $white;
     }
 }
