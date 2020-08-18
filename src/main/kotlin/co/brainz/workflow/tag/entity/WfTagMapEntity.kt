@@ -15,8 +15,7 @@ import org.hibernate.annotations.GenericGenerator
 @Entity
 @Table(name = "wf_tag_map")
 data class WfTagMapEntity(
-    @Id @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @Id
     @Column(name = "tag_id", length = 128)
     val tagId: String = "",
 

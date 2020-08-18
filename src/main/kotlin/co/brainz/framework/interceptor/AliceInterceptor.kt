@@ -1,6 +1,7 @@
 package co.brainz.framework.interceptor
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.exception.AliceErrorConstants
@@ -19,7 +20,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
  * 인터셉터 구현 클래스
  */
 @Component
-class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa) : HandlerInterceptorAdapter() {
+class AliceInterceptor(
+    private val aliceCryptoRsa: AliceCryptoRsa,
+    private val aliceMenuRepository: AliceMenuRepository
+) : HandlerInterceptorAdapter() {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -99,6 +103,14 @@ class AliceInterceptor(private val aliceCryptoRsa: AliceCryptoRsa) : HandlerInte
             session.setAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value, aliceCryptoRsa.getPrivateKey())
             request.setAttribute(AliceConstants.RsaKey.PUBLIC_MODULE.value, aliceCryptoRsa.getPublicKeyModulus())
             request.setAttribute(AliceConstants.RsaKey.PUBLIC_EXPONENT.value, aliceCryptoRsa.getPublicKeyExponent())
+        }
+
+        val requestUrl = request.requestURI
+        val menuEntity = aliceMenuRepository.findAliceMenuEntityByUrl(requestUrl)
+        if (menuEntity.isPresent) {
+            val session = request.getSession(true)
+            session.setAttribute("active_url_parent", menuEntity.get().pMenuId)
+            session.setAttribute("active_url", menuEntity.get().url)
         }
 
         var requestInfo = request.method + "|URI:" + request.requestURI
