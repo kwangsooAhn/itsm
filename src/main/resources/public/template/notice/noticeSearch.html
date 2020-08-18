@@ -114,8 +114,7 @@
                             noticeDtList[i].textContent = '';
                         }
                     }
-                    var scrollInstance = OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar'});
-                    scrollInstance.scroll({ x : 26});
+                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar'});
                 }
             };
             aliceJs.sendXhr(opt);

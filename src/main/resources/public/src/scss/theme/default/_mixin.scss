@@ -49,10 +49,10 @@
                 display: block;
                 height: 35.3125rem; // 565px;
                 overflow-y: auto;
-                width: 100%; // 26px
+                width: 100%;
                 tr {
                     height: 2.875rem;
-                    width: 100%; // calc(100% - 1.623rem); // 26px
+                    width: 100%;
                     display: table;
                     &:hover {
                         background: $line-gray;
