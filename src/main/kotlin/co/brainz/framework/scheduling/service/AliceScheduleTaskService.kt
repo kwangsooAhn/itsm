@@ -22,7 +22,7 @@ class AliceScheduleTaskService(
 ) {
     private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
 
-    val taskMap: HashMap<Long, ScheduledFuture<*>?> = hashMapOf<Long, ScheduledFuture<*>?>()
+    val taskMap: HashMap<Long, ScheduledFuture<*>?> = hashMapOf()
 
     @PostConstruct
     fun init() {
