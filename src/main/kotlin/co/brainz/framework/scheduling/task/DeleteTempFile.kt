@@ -5,7 +5,7 @@
 
 package co.brainz.framework.scheduling.task
 
-import co.brainz.framework.configuration.ApplicationContextProvider
+import co.brainz.framework.configuration.AliceApplicationContextProvider
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.fileTransaction.repository.AliceFileLocRepository
 import java.io.File
@@ -37,7 +37,7 @@ class DeleteTempFile() : Runnable {
      * /root/temp/
      */
     override fun run() {
-        val appContext = ApplicationContextProvider.getApplicationContext()
+        val appContext = AliceApplicationContextProvider.getApplicationContext()
         val environment = appContext.getBean(Environment::class.java)
         val aliceFileLocRepository = appContext.getBean(AliceFileLocRepository::class.java)
         fileRootDir = environment.getProperty("file.upload.dir").toString()

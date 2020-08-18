@@ -5,7 +5,7 @@ import org.springframework.context.ApplicationContextAware
 import org.springframework.stereotype.Component
 
 @Component
-class ApplicationContextProvider : ApplicationContextAware {
+class AliceApplicationContextProvider : ApplicationContextAware {
     companion object {
         private lateinit var applicationContext: ApplicationContext
 
@@ -15,6 +15,6 @@ class ApplicationContextProvider : ApplicationContextAware {
     }
 
     override fun setApplicationContext(applicationContext: ApplicationContext) {
-        ApplicationContextProvider.applicationContext = applicationContext
+        AliceApplicationContextProvider.applicationContext = applicationContext
     }
 }
