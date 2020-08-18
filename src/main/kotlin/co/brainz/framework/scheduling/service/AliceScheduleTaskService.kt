@@ -18,8 +18,7 @@ import org.springframework.stereotype.Service
 class AliceScheduleTaskService(
     private val scheduler: TaskScheduler,
     private val aliceScheduleTaskRepository: AliceScheduleTaskRepository,
-    private val jdbcTemplate: JdbcTemplate,
-    private val environment: Environment
+    private val jdbcTemplate: JdbcTemplate
 ) {
     private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
 
