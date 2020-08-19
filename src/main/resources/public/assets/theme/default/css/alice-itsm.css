@@ -450,6 +450,41 @@ textarea:focus {
   height: 100%;
   padding: 0 0 0 13.75rem;
 }
+.container-popup {
+  padding: 1.875rem 2.5rem 0 2.5rem;
+}
+.container-popup .view {
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+}
+.container-popup .view div {
+  display: flex;
+}
+.container-popup .view div span.vertical-bar {
+  width: 1.875rem;
+  height: 1.875rem;
+  border-right: 0.0625rem solid #EBEBEB;
+  margin-right: 1.875rem;
+}
+.container-popup .view div.view-text {
+  min-height: 13.4375rem;
+  padding: 0.3125rem 1.25rem;
+  margin-bottom: 0.75rem;
+}
+.container-popup .view div.view-text span {
+  margin: 0;
+}
+.container-popup .view div.view-attach-file {
+  min-height: 3.125rem;
+  padding: 0.125rem 1.25rem;
+  margin: auto 0;
+}
+.container-popup .view div.horizontal-bar {
+  height: 0.0625rem;
+  margin: 10px 0;
+  background-color: #EBEBEB;
+}
 .container .contents-list {
   height: 100vh;
   background: #F7F8F9;
@@ -562,11 +597,9 @@ textarea:focus {
   padding: 2.5rem 0 0 0;
 }
 .container .contents-view {
-  display: flex;
-  flex-direction: column;
+  padding: 3.125rem 19.375rem 0 19.375rem;
 }
 .container .contents-view .view {
-  padding: 3.125rem 19.375rem 0 19.375rem;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -584,6 +617,9 @@ textarea:focus {
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
   margin-bottom: 0.75rem;
+}
+.container .contents-view .view div.view-text span {
+  margin: 0;
 }
 .container .contents-view .view div.view-attach-file {
   min-height: 3.125rem;

@@ -88,7 +88,6 @@
 
 @mixin view-template() {
     .view {
-        padding: 3.125rem 19.375rem 0 19.375rem; // 50px 310px 0 310px
         background-color: white;
         display: flex;
         flex-direction: column;
@@ -107,6 +106,7 @@
                 min-height: 13.4375rem; // 215px
                 padding: 0.3125rem 1.25rem; // 5px 20px
                 margin-bottom: 0.75rem; // 12px
+                span {margin: 0;}
             }
 
             &.view-attach-file {
