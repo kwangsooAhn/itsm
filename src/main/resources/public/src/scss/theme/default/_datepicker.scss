@@ -31,7 +31,7 @@ $datepicker-active-color: #0050ff;
     border: solid 0.0625rem $datepicker-border-color; // 1px
     box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2); // 5px
     text-align: center;
-    z-index: 1;
+    z-index: 999;
 
     &.active { display: block; z-index: 999;}
 
