@@ -23,7 +23,9 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     if (elmNode == null) {
         elmNode = document.createElement('div');
         elmNode.setAttribute('id', 'printError');
-        document.getElementsByTagName('body').item(0).appendChild(elmNode);
+        if (document.getElementsByTagName('body').item(0) !== null) {
+            document.getElementsByTagName('body').item(0).appendChild(elmNode);
+        }
     }
 
     while (elmNode.hasChildNodes()) {
@@ -754,3 +756,39 @@ aliceJs.isHexCode = function(value) {
 aliceJs.isRgba = function(value) {
     return rgbaReg.test(value);
 }
+
+/**
+ * Replace all SVG images with inline SVG
+ *
+ */
+aliceJs.loadSvg = function() {
+    const svgList = document.querySelectorAll('img.load-svg');
+    for (let i = 0, len = svgList.length; i < len; i++) {
+        const img = svgList[i];
+        const imgId = img.id;
+        const imgClass = img.className;
+        const imgUrl = img.getAttribute('src');
+        if (typeof imgUrl === 'undefined' || imgUrl === '') { continue; }
+
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: imgUrl,
+            contentType: 'image/svg+xml; charset=utf-8',
+            callbackFunc: function(xhr) {
+                let svgFile = xhr.responseXML;
+                let svg = svgFile.documentElement;
+
+                if (typeof imgId !== 'undefined' && imgId !== '') {
+                    svg.setAttribute('id', imgId);
+                }
+
+                if (typeof imgClass !== 'undefined' && imgClass !== '') {
+                    svg.setAttribute('class', imgClass);
+                }
+
+                img.insertAdjacentHTML('beforebegin', svg.outerHTML);
+                img.remove();
+            }
+        });
+    }
+};
