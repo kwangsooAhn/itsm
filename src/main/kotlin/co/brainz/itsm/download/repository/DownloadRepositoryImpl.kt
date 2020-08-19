@@ -1,9 +1,17 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.download.repository
 
 import co.brainz.framework.fileTransaction.entity.QAliceFileLocEntity
 import co.brainz.framework.fileTransaction.entity.QAliceFileOwnMapEntity
+import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.entity.QDownloadEntity
+import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -15,8 +23,9 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         category: String,
         search: String,
         fromDt: LocalDateTime,
-        toDt: LocalDateTime
-    ): List<DownloadEntity> {
+        toDt: LocalDateTime,
+        offset: Long
+    ): QueryResults<DownloadEntity> {
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
@@ -35,8 +44,10 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
                 .and(download.createDt.goe(fromDt))
                 .and(download.createDt.lt(toDt))
         ).orderBy(download.downloadSeq.desc())
+            .limit(ItsmConstants.SEARCH_DATA_COUNT)
+            .offset(offset)
 
-        return query.fetch()
+        return query.fetchResults()
     }
 
     override fun findDownloadTopList(limit: Long): List<DownloadEntity> {

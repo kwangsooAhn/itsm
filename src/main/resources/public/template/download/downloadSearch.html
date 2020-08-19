@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{menu.portal.download}"></title>
 </head>
@@ -16,14 +16,18 @@
         <div class="contents-body">
             <div class="search-area">
                 <div class="search-area-left">
-                    <select id="category" class="column-2">
-                        <option value="all" th:text="#{download.category.all}"></option>
-                        <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
-                    </select>
-                    <input type="text" id="search" name="search" class="search column-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
-                    <input type="text" id="fromDt" name="fromDt" class="search-date column-2" readonly="readonly"/>
-                    <span>~</span>
-                    <input type="text" id="toDt" name="toDt" class="search-date column-2" readonly="readonly"/>
+                    <input type="hidden" name="isRole" sec:authorize="hasAuthority('download.update')" th:value="true"/>
+                    <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
+                    <form id="searchFrm">
+                        <select id="category" name="category" class="column-2">
+                            <option value="all" th:text="#{download.category.all}"></option>
+                            <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
+                        </select>
+                        <input type="text" id="search" name="search" class="search column-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
+                        <input type="text" id="fromDt" name="fromDt" class="search-date column-2" readonly="readonly"/>
+                        <span>~</span>
+                        <input type="text" id="toDt" name="toDt" class="search-date column-2" readonly="readonly"/>
+                    </form>
                 </div>
                 <div class="search-area-right">
                     <button class="btn-add" onclick="location.href='/downloads/new'" sec:authorize="hasAuthority('download.create')"/>
@@ -37,15 +41,16 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[*/
+        var offsetCount = 0;
         window.onload = function () {
             document.getElementById('fromDt').value = i18n.getDate({'months':-1});
             document.getElementById('toDt').value = i18n.getDate();
             dateTimePicker.initDatePicker('fromDt', setDatePicker);
             dateTimePicker.initDatePicker('toDt', setDatePicker);
-            document.getElementById('category').addEventListener('change', getDownloadList.bind(null, false), false);
-            document.getElementById('search').addEventListener('keyup', getDownloadList.bind(null, false), false);
+            document.getElementById('category').addEventListener('change', function() { getDownloadList(false); });
+            document.getElementById('search').addEventListener('keyup', function() { getDownloadList(false); });
 
-            getDownloadList(true);
+            getDownloadList(false);
         };
 
         function setDatePicker(element, picker) {
@@ -73,33 +78,125 @@
             }
         }
 
-        function getDownloadList(showProgressbar) {
-            const searchOpt = {
-                category: document.getElementById('category').value,
-                search: document.getElementById('search').value.trim(),
-                fromDt: i18n.systemDate(document.getElementById('fromDt').value),
-                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days':1})
-            };
-            const urlParam = 'category=' + searchOpt.category + '&search=' + searchOpt.search +
-                             '&fromDt=' + searchOpt.fromDt + '&toDt=' + searchOpt.toDt;
-            restSubmit('get', '/downloads/list?' + urlParam, showProgressbar);
+        function getDownloadList(isScroll) {
+            let urlParam = '';
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = 10;
+                }
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/downloads?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/downloads/list?' + urlParam, isScroll);
+            }
         }
 
         // REST API
-        function restSubmit(method, url, showProgressbar) {
+        function restSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
-                showProgressbar: showProgressbar,
+                async: false,
+                showProgressbar: false,
                 callbackFunc: function (response) {
-                    document.getElementById('downloadList').innerHTML = response.responseText;
-                    var downloadList = document.querySelectorAll('td[name=createDt]');
-                    for (let i = 0; i < downloadList.length; i++) {
-                        downloadList[i].textContent = i18n.userDateTime(downloadList[i].textContent);
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').textContent = dataList[0].totalCount;
+                            if (scrollerEventCheck()) {
+                                offsetCount = offsetCount + 10;
+                                dataList.forEach(function(data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.getElementById('downloadList').innerHTML = "";
+                        document.getElementById('downloadList').innerHTML = response.responseText;
+                        let downloadList = document.querySelectorAll('td[name=createDt]');
+                        for (let i = 0; i < downloadList.length; i++) {
+                            downloadList[i].textContent = i18n.userDateTime(downloadList[i].textContent);
+                        }
                     }
+
+                    OverlayScrollbars(document.getElementById('list'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                // 스크롤이 맨 마지막에 있을 경우
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (scrollerEventCheck()) {
+                                        getDownloadList(true);
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+
+        // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
+        function scrollerEventCheck() {
+            let scrollerCheck = false;
+            let totalCount = document.getElementById('totalCount').innerText;
+            if (offsetCount < totalCount) {
+                scrollerCheck = true;
+            }
+            return scrollerCheck;
+        }
+
+        // Tr 동적 데이터 만들기
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let tr = document.createElement('tr');
+
+            let tdDownloadSeq = document.createElement('td');
+            tdDownloadSeq.innerText = data.downloadSeq;
+            tdDownloadSeq.style.width = '5%';
+
+            let tdDownloadCategory = document.createElement('td');
+            tdDownloadCategory.innerText = i18n.get(data.downloadCategory);
+            tdDownloadCategory.style.width = '10%';
+
+            let tdDownloadTitle = document.createElement('td');
+            tdDownloadTitle.style.width = '45%';
+            tdDownloadTitle.className = 'align-left';
+            let aDownloadTitle = document.createElement('a');
+            if (document.getElementsByName('isRole').value === 'true') {
+                aDownloadTitle.href = '/downloads/'+ data.downloadCategory +'/view/'+ data.downloadId ;
+            } else {
+                aDownloadTitle.href = '/downloads/'+ data.downloadCategory +'/edit/'+ data.downloadId ;
+            }
+            aDownloadTitle.href = '/boards/'+ data.boardId +'/view';
+            aDownloadTitle.innerText = data.downloadTitle;
+            tdDownloadTitle.appendChild(aDownloadTitle);
+
+            let tdCreateUserName = document.createElement('td');
+            tdCreateUserName.innerText = data.createUserName;
+            tdCreateUserName.style.width = '10%';
+
+            let tdCreateDt = document.createElement('td');
+            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
+            tdCreateDt.style.width = '20%';
+
+            let tdView = document.createElement('td');
+            tdView.innerText = data.views;
+            tdView.style.width = '10%';
+
+            tr.appendChild(tdDownloadSeq);
+            tr.appendChild(tdDownloadCategory);
+            tr.appendChild(tdDownloadTitle);
+            tr.appendChild(tdCreateUserName);
+            tr.appendChild(tdCreateDt);
+            tr.appendChild(tdView);
+            div.appendChild(tr);
         }
         /*]]>*/
     </script>

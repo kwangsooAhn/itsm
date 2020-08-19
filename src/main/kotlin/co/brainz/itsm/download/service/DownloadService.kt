@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.download.service
 
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
@@ -30,18 +36,28 @@ class DownloadService(
     fun getDownloadList(downloadSearchDto: DownloadSearchDto): List<DownloadDto> {
         val fromDt = LocalDateTime.parse(downloadSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(downloadSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
-        val downloadEntity = when (downloadSearchDto.category) {
-            "all" -> downloadRepository.findDownloadEntityList("", downloadSearchDto.search, fromDt, toDt)
+        val offset = downloadSearchDto.offset
+        val queryResult = when (downloadSearchDto.category) {
+            "all" -> downloadRepository.findDownloadEntityList(
+                "",
+                downloadSearchDto.search,
+                fromDt,
+                toDt,
+                offset
+            )
             else -> downloadRepository.findDownloadEntityList(
                 downloadSearchDto.category,
                 downloadSearchDto.search,
                 fromDt,
-                toDt
+                toDt,
+                offset
             )
         }
         val downloadList = mutableListOf<DownloadDto>()
-        downloadEntity.forEach {
-            downloadList.add(downloadMapper.toDownloadDto(it))
+        for (download in queryResult.results) {
+            val downloadData = downloadMapper.toDownloadDto(download)
+            downloadData.totalCount = queryResult.total
+            downloadList.add(downloadData)
         }
         return downloadList
     }

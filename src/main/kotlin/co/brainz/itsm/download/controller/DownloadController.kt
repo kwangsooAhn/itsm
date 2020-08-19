@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.download.controller
 
 import co.brainz.itsm.code.service.CodeService
@@ -23,39 +29,40 @@ class DownloadController(
     private val downloadViewPage: String = "download/downloadView"
 
     /**
-     * 자료실 호출 화면.
+     * [model]를 받아서 자료실 호출 화면.
      *
-     * @param model
-     * @return String
      */
     @GetMapping("/search")
     fun getDownloadSearch(model: Model): String {
-        model.addAttribute("categoryList", codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE))
+        model.addAttribute(
+            "categoryList",
+            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)
+        )
         return downloadSearchPage
     }
 
     /**
-     * 자료실 리스트 화면.
+     * [downloadSearchDto], [model]를 받아서 자료실 리스트 화면 호출.
      *
-     * @param downloadSearchDto
-     * @param model
-     * @return String
      */
     @GetMapping("/list")
     fun getDownloadList(downloadSearchDto: DownloadSearchDto, model: Model): String {
-        model.addAttribute("downloadList", downloadService.getDownloadList(downloadSearchDto))
+        val result = downloadService.getDownloadList(downloadSearchDto)
+        model.addAttribute("downloadList", result)
+        model.addAttribute("downloadCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return downloadListPage
     }
 
     /**
-     * 자료실 신규 등록 화면.
+     * [model]를 받아서 자료실 신규 등록 화면 호출.
      *
-     * @param model
-     * @return String
      */
     @GetMapping("/new")
     fun getDownloadNew(model: Model): String {
-        model.addAttribute("categoryList", codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE))
+        model.addAttribute(
+            "categoryList",
+            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)
+        )
         return downloadEditPage
     }
 
@@ -82,7 +89,10 @@ class DownloadController(
     @GetMapping("/{downloadId}/edit")
     fun getDownloadEdit(@PathVariable downloadId: String, model: Model): String {
         model.addAttribute("download", downloadService.getDownload(downloadId, "edit"))
-        model.addAttribute("categoryList", codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE))
+        model.addAttribute(
+            "categoryList",
+            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)
+        )
         return downloadEditPage
     }
 }

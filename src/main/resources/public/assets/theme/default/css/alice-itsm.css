@@ -1025,7 +1025,7 @@ textarea:focus {
 }
 .container .contents .list .scroller-wrap tbody {
   position: absolute;
-  height: 26.25rem;
+  height: 25.88rem;
   width: 100%;
 }
 .container .contents .list .scroller-wrap tbody tr {
@@ -2498,7 +2498,6 @@ textarea:focus {
   background-color: transparent;
 }
 .scrollbar > .os-scrollbar {
-  padding: 2px;
   box-sizing: border-box;
   background: transparent;
 }
