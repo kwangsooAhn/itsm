@@ -92,11 +92,6 @@
         background-color: white;
         display: flex;
         flex-direction: column;
-        h3 {
-            padding-bottom: 0.625rem; // 10px
-            margin-bottom: 0.625rem; // 10px
-            border-bottom: .125rem solid $default-gray;
-        }
         div {
             display: flex;
             span {

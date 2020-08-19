@@ -151,6 +151,9 @@ h3 {
   font-family: "Noto Sans KR", sans-serif;
   color: #3F4B56;
   font-size: 1.25rem;
+  padding-bottom: 0.625rem;
+  margin-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
 }
 
 h4 {
@@ -562,11 +565,6 @@ textarea:focus {
   background-color: white;
   display: flex;
   flex-direction: column;
-}
-.container .contents-view .view h3 {
-  padding-bottom: 0.625rem;
-  margin-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
 }
 .container .contents-view .view div {
   display: flex;
@@ -1026,7 +1024,7 @@ textarea:focus {
 }
 .container .contents .list .scroller-wrap tbody {
   position: absolute;
-  height: 26.25rem;
+  height: 25.88rem;
   width: 100%;
 }
 .container .contents .list .scroller-wrap tbody tr {
@@ -2499,7 +2497,6 @@ textarea:focus {
   background-color: transparent;
 }
 .scrollbar > .os-scrollbar {
-  padding: 2px;
   box-sizing: border-box;
   background: transparent;
 }
@@ -2744,5 +2741,3 @@ button.point-fill:not(:disabled):focus, button.point-fill:not(:disabled):hover {
   outline: 0;
   background-color: #33ADFF;
 }
-
-/*# sourceMappingURL=alice-itsm.css.map */
