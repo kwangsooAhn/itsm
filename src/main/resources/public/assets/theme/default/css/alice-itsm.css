@@ -429,6 +429,7 @@ textarea:focus {
   color: #586872;
   background-color: #FFFFFF;
   font-size: 1rem;
+  font-weight: 400;
   resize: vertical;
   line-height: 1.3;
 }

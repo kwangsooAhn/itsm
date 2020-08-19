@@ -1147,7 +1147,7 @@
                             const fieldGroupElem = document.createElement('div');
                             fieldGroupElem.classList.add('property-field');
 
-                            if (fieldProp.type === 'button') { // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
+                            if (fieldProp.type === 'button-group') { // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
                                 if (!buttonGroupExist) {
                                     buttonGroupElem = document.createElement('div');
                                     buttonGroupElem.classList.add('property-field-button');
@@ -1158,7 +1158,9 @@
                                 }
                                 if (typeof fieldProp.option !== 'undefined') { //align
                                     const fieldButtonOptions = fieldProp.option.map(function (opt) {
-                                        return `<button type='button' id='${opt.id}' class='${fieldProp.value === opt.id ? "active" : ""}'></button>`;
+                                        return `<button type='button' id='${opt.id}' class='${fieldProp.value === opt.id ? "active" : ""}'>` +
+                                                   `<img class="load-svg" src="${opt.path}"/> ` +
+                                               `</button>`
                                     }).join('');
                                     buttonGroupElem.insertAdjacentHTML('beforeend', `<div id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
 
@@ -1167,7 +1169,10 @@
                                         buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
                                     }
                                 } else { //bold, italic, underline
-                                    buttonGroupElem.insertAdjacentHTML('beforeend', `<button type='button' id='${fieldProp.id}' class='${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'></button>`);
+                                    const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
+                                            `<img class="load-svg" src="${fieldProp.path}"/> ` +
+                                        `</button>`;
+                                    buttonGroupElem.insertAdjacentHTML('beforeend', buttonTemplate);
                                     buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', toggleButtonClickHandler, false);
                                 }
                             } else {
@@ -1197,12 +1202,14 @@
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
-                                    case 'button-option-text': // position
-                                    case 'button-option-icon': // image 컴포넌트 정렬
+                                    case 'button-option-text':
+                                    case 'button-option-icon':
                                         let optionType = fieldProp.type.split('-')[2];
 
                                         const fieldOptions = fieldProp.option.map(function (opt) {
-                                            return `<button type="button" id="${opt.id}" class="${fieldProp.value === opt.id ? 'active' : ''}">${optionType === 'text' ? opt.name : ''}</button>`;
+                                            return `<button type="button" id="${opt.id}" class="${fieldProp.value === opt.id ? 'active' : ''}">${optionType === 'text' ? opt.name : ''}` +
+                                                       `<img class="load-svg" src="${opt.path}"/> ` +
+                                                   `</button>`;
                                         }).join('');
 
                                         fieldTemplate =
@@ -1438,6 +1445,9 @@
             }
         });
         propertiesPanel.appendChild(componentElem);
+
+        // svg 로딩
+        aliceJs.loadSvg();
 
         // date picker 초기화
         const datepickerElems = propertiesPanel.querySelectorAll('.datepicker');

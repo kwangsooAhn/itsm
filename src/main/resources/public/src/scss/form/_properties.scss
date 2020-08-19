@@ -187,8 +187,8 @@
             padding: 0;
         }
         // 옵션 버튼
-        button[class="minus"] { @include background("editor/icon_option_minus.png"); }
-        button[class="plus"] { @include background("editor/icon_option_plus.png"); }
+        button[class="minus"] { @include background("editor/icon_option_minus.svg"); }
+        button[class="plus"] { @include background("editor/icon_option_plus.svg"); }
     }
 
     // 하위 속성
@@ -309,10 +309,16 @@
                 &:not(:last-of-type) {
                     border-right: 0;
                 }
+                svg {
+                    fill: $properties-inactive-font-color;
+                }
                 &.active {
                     color: $properties-active-font-color;
                     background-color: $properties-active-background-color;
                     border-color: $properties-active-border-color;
+                    svg {
+                        fill: $properties-active-font-color;
+                    }
                     + button { border-left-color: $properties-active-border-color }
                 }
                 &:focus {
@@ -321,30 +327,12 @@
             }
         }
         
-        &[id="display-position"] {
-            div.property-field-icon {
-                button[id="left"] {
-                    border-left-width: 0.0625rem;
-                    @include background("editor/icon_left.png"); 
-                }
-                button[id="right"] { @include background("editor/icon_right.png"); }
-                button[id="left"].active { background-image: url("#{$form-asset-path}/editor/icon_left_select.png"); }
-                button[id="right"].active { background-image: url("#{$form-asset-path}/editor/icon_right_select.png"); }
-            }
-        }
-
+        &[id="display-position"],
         &[id="display-align"] {
             div.property-field-icon {
                 button[id="left"] {
                     border-left-width: 0.0625rem;
-                    @include background("editor/icon_align_left.png"); 
                 }
-
-                button[id="center"] { @include background("editor/icon_align_center.png"); }
-                button[id="right"] { @include background("editor/icon_align_right.png"); }
-                button[id="left"].active { background-image: url("#{$form-asset-path}/editor/icon_align_left_select.png"); }
-                button[id="center"].active { background-image: url("#{$form-asset-path}/editor/icon_align_center_select.png"); }
-                button[id="right"].active { background-image: url("#{$form-asset-path}/editor/icon_align_right_select.png"); }
             }
         }
 
@@ -511,9 +499,15 @@
                 &:not(:last-of-type) {
                     border-right: 0;
                 }
+                svg {
+                    fill: $properties-inactive-font-color;
+                }
                 &.active {
                     background-color: $properties-active-background-color;
                     border-color: $properties-active-border-color;
+                    svg {
+                        fill: $properties-active-font-color;
+                    }
                     + button { border-left-color: $properties-active-border-color }
                 }
                 &:focus {
@@ -522,15 +516,7 @@
             }
             button[id="bold"] { 
                 border-left-width: 0.0625rem;
-                @include background("editor/icon_bold.png");
             }
-            button[id="italic"] { @include background("editor/icon_italic.png"); }
-            button[id="underline"] { @include background("editor/icon_underline.png"); }
-
-            button[id="bold"].active { background-image: url("#{$form-asset-path}/editor/icon_bold_select.png"); }
-            button[id="italic"].active { background-image: url("#{$form-asset-path}/editor/icon_italic_select.png"); }
-            button[id="underline"].active { background-image: url("#{$form-asset-path}/editor/icon_underline_select.png"); }
-
             div {
                 display: inline-flex;
                 margin-left: 5px; // 5px
@@ -540,15 +526,7 @@
                 
                 button[id="left"] {
                     border-left-width: 0.0625rem;
-                    @include background("editor/icon_align_left.png"); 
                 }
-
-                button[id="center"] { @include background("editor/icon_align_center.png"); }
-                button[id="right"] { @include background("editor/icon_align_right.png"); }
-
-                button[id="left"].active { background-image: url("#{$form-asset-path}/editor/icon_align_left_select.png"); }
-                button[id="center"].active { background-image: url("#{$form-asset-path}/editor/icon_align_center_select.png"); }
-                button[id="right"].active { background-image: url("#{$form-asset-path}/editor/icon_align_right_select.png"); }
             }
         }
 
@@ -599,7 +577,7 @@
                 flex: 1 1 auto;
                 width: 1.875rem; // 30px
                 border: 0.0625rem solid $properties-border-color;
-                @include background("editor/icon_search.png");
+                @include background("property/icon_search.svg");
                 &:focus {
                     outline: none !important;
                 }
