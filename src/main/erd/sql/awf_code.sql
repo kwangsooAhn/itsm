@@ -10,7 +10,7 @@ CREATE TABLE awf_code
 	code_value varchar(256),
 	code_name varchar(128),
 	code_desc varchar(512),
-	editable boolean,
+	editable boolean default false,
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -67,9 +67,9 @@ insert into awf_code values ('numbering.pattern.format', 'numbering.pattern', nu
 insert into awf_code values ('numbering.pattern.format.yyyyMMdd', 'numbering.pattern.format', 'yyyyMMdd', '날짜형패턴', null, false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('post', 'reception_type', '우편', '우편', null, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('reception_type', null, '접수유형', null, null, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.incident', 'document.group', '장애문의', '장애문의', null, true '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.inquiry', 'document.group', '단순문의', '단순문의', null, true '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_code values ('servicedesk.request', 'document.group', '서비스요청', '서비스요청', null, true '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('servicedesk.incident', 'document.group', '장애문의', '장애문의', null, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('servicedesk.inquiry', 'document.group', '단순문의', '단순문의', null, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('servicedesk.request', 'document.group', '서비스요청', '서비스요청', null, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('telephone', 'reception_type', '전화', '전화', null, true, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token', null, null, '토큰 관련 코드', null, false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('token.status', 'token', null, '토큰 상태 코드', null, false, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
