@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.faq.dto
 
 import java.io.Serializable
@@ -8,6 +14,7 @@ data class FaqListDto(
     var faqGroup: String = "",
     var faqTitle: String = "",
     var faqContent: String = "",
+    var totalCount: Long = 0,
     var createDt: LocalDateTime? = null,
     var createUserName: String? = "",
     var updateDt: LocalDateTime? = null,

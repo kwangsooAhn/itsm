@@ -1,14 +1,18 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.faq.repository
 
-import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.faq.constants.FaqConstants
-import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
-import com.querydsl.core.types.Projections
-import com.querydsl.jpa.JPAExpressions
+import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -20,10 +24,8 @@ class FaqRepositoryImpl(
     /**
      * FAQ 목록을 조회한다.
      */
-    override fun findFaqs(searchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
+    override fun findFaqs(searchRequestDto: FaqSearchRequestDto): QueryResults<FaqEntity> {
         val faq = QFaqEntity.faqEntity
-        val user = QAliceUserEntity.aliceUserEntity
-
         if (searchRequestDto.search?.isBlank() == false) {
             searchRequestDto.groupCodes =
                 messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, searchRequestDto.search!!)
@@ -34,20 +36,10 @@ class FaqRepositoryImpl(
                 super.likeIgnoreCase(faq.faqTitle, searchRequestDto.search)
                     ?.or(super.inner(faq.faqGroup, searchRequestDto.groupCodes))
             ).orderBy(faq.faqGroup.asc())
+            .limit(ItsmConstants.SEARCH_DATA_COUNT)
+            .offset(searchRequestDto.offset)
 
-        return query.select(
-            Projections.constructor(
-                FaqListDto::class.java,
-                faq.faqId,
-                faq.faqGroup,
-                faq.faqTitle,
-                faq.faqContent,
-                faq.createDt,
-                JPAExpressions.select(user.userName).from(user).where(user.eq(faq.createUser)),
-                faq.updateDt,
-                JPAExpressions.select(user.userName).from(user).where(user.eq(faq.updateUser))
-            )
-        ).fetch()
+        return query.fetchResults()
     }
 
     override fun findFaqTopList(limit: Long): List<FaqEntity> {
