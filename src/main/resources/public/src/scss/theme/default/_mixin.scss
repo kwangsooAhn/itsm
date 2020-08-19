@@ -95,20 +95,11 @@
         div {
             display: flex;
             span {
-                margin: auto 0;
                 &.vertical-bar {
                     width: 1.875rem; // 30px
                     height: 1.875rem; // 30px
                     border-right: 0.0625rem solid $line-gray; // 1px
                     margin-right: 1.875rem; // 30px
-                }
-            }
-            &.row-right {
-                justify-content: flex-end;
-                span {
-                    &:last-child {
-                        margin: auto 1.25rem auto 0; // 20px
-                    }
                 }
             }
 

@@ -170,6 +170,10 @@ h5 {
   font-weight: 400;
 }
 
+span {
+  margin: auto 0;
+}
+
 .picker-wrapper-date {
   display: inline;
 }
@@ -569,20 +573,11 @@ textarea:focus {
 .container .contents-view .view div {
   display: flex;
 }
-.container .contents-view .view div span {
-  margin: auto 0;
-}
 .container .contents-view .view div span.vertical-bar {
   width: 1.875rem;
   height: 1.875rem;
   border-right: 0.0625rem solid #EBEBEB;
   margin-right: 1.875rem;
-}
-.container .contents-view .view div.row-right {
-  justify-content: flex-end;
-}
-.container .contents-view .view div.row-right span:last-child {
-  margin: auto 1.25rem auto 0;
 }
 .container .contents-view .view div.view-text {
   min-height: 13.4375rem;
@@ -2740,4 +2735,12 @@ button.point-fill:not(:disabled):active {
 button.point-fill:not(:disabled):focus, button.point-fill:not(:disabled):hover {
   outline: 0;
   background-color: #33ADFF;
+}
+
+.row-right {
+  display: flex;
+  justify-content: flex-end;
+}
+.row-right span:last-child {
+  margin: auto 1.25rem auto 0;
 }
