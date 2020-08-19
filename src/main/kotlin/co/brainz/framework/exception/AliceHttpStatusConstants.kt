@@ -15,44 +15,45 @@ import org.apache.http.HttpStatus
 enum class AliceHttpStatusConstants(val status: Int, val reasonPhrase: String) {
 
     /**
-     * 전송 성공
+     * 200 성공
      */
     OK(HttpStatus.SC_OK, "OK"),
 
     /**
-     * 요청 실패. 서버가 요청사항을 처리할 수 없음.
+     * 400 클라이언트의 요청이 유효하지 않아 요청을 처리할 수 없음.
+     * - 서버 에러를 막기 위한 유효성 등이 여기에 포함됨.
      */
     BAD_REQUEST(HttpStatus.SC_BAD_REQUEST, "Bad Request"),
 
     /**
-     * 인증실패. 비로그인 사용자
+     * 401 인증되지 않은 클라이언트라 요청을 처리할 수 없음.
      */
     UNAUTHORIZED(HttpStatus.SC_UNAUTHORIZED, "Unauthorized"),
 
     /**
-     * 인증은 되었으나 리소스에 접근 권한이 없음
+     * 403 클라이언트가 인증은 되었으나 리소스에 접근 권한이 없음.
      */
     FORBIDDEN(HttpStatus.SC_FORBIDDEN, "Forbidden"),
 
     /**
-     * 리소스를 찾을 수 없음
+     * 404 클라이언트가 요청한 리소스를 찾을 수 없음.
+     * - 알려지지 않은 또는 알 수 없는 URL.
+     * - 올바른 URL 이나 조회된 자원이 없는 경우.
      */
     NOT_FOUND(HttpStatus.SC_NOT_FOUND, "Not Found"),
 
     /**
-     * 다양한 비지니스 원인으로 인해 요청한 작업이 불가능함
+     * 409 클라이언트의 요청으로 서버 내 충돌이 발생함.
+     * - 서버에 이미 있는 파일보다 오래된 파일을 업로드하여 버전이 충돌되는 경우.
+     * - 삭제하려는 데이터가 다른곳에서 사용중이라 삭제 불가한 경우
      */
-    NOT_ACCEPTABLE(HttpStatus.SC_NOT_ACCEPTABLE, "Not Acceptable"),
+    CONFLICT(HttpStatus.SC_CONFLICT, "Conflict"),
 
     /**
-     * 서버 오류. 400번대 외 기타 나머지 오류
+     * 500 서버 오류.
+     * - 서버에서 발생하는 처리 방법을 알 수 없는 기본 오류가 여기에 해당함.
      */
-    INTERNAL_SERVER_ERROR(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Internal Server Error"),
-
-    /**
-     * 요청을 수행할 수 있는 기능이 없음.
-     */
-    NOT_IMPLEMENTED(HttpStatus.SC_NOT_IMPLEMENTED, "Not Implemented")
+    INTERNAL_SERVER_ERROR(HttpStatus.SC_INTERNAL_SERVER_ERROR, "Internal Server Error")
     ;
 
     companion object {
@@ -63,10 +64,10 @@ enum class AliceHttpStatusConstants(val status: Int, val reasonPhrase: String) {
          */
         fun getHttpPhraseByStatus(status: Int): String {
             var phrase = ""
-            values().forEach {
-                if (it.status == status) {
-                    phrase = it.reasonPhrase
-                    return@forEach
+            for (httpStatus in values()) {
+                if (httpStatus.status == status) {
+                    phrase = httpStatus.reasonPhrase
+                    break
                 }
             }
             return phrase

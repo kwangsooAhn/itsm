@@ -96,7 +96,7 @@ class AliceFileService(
          * 파일 확장자 및 파일 Mine-Type 체크
          */
         if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty || !(mimeType.contains(fileNameExtension))) {
-            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
+            throw AliceException(AliceErrorConstants.ERR_00001, "The file extension is not allowed.")
         }
 
         multipartFile.transferTo(tempPath.toFile())
@@ -473,7 +473,7 @@ class AliceFileService(
         }
 
         if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty) {
-            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
+            throw AliceException(AliceErrorConstants.ERR_00001, "The file extension is not allowed.")
         }
 
         multipartFile.transferTo(filePath.toFile())
