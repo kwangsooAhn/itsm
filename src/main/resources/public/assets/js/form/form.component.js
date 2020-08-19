@@ -933,7 +933,6 @@
 
     exports.init = init;
     exports.draw = draw;
-    //exports.getPropertiesWithType = getPropertiesWithType;
     exports.getLastIndex = getLastIndex;
     exports.setLastIndex = setLastIndex;
     exports.getName = getName;

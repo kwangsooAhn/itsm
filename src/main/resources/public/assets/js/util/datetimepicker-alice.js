@@ -593,6 +593,16 @@
         options.inputEl = targetElement;
 
         // create target element container
+        // 2020-08-18 Jung Hee Chan
+        // 공지사항 수정화면처럼 date-picker를 dispay:none으로 했다가 풀어야 하는 경우에
+        // 보통 onload에 초기화를 하면서
+        // pciker-wrapper-date가 중복으로 계속 쌓여서 동작 오류가 발생하므로 부모 wrapper도 삭제.
+        if (targetElement.parentElement.className === 'picker-wrapper-date') {
+            let wrapElement = targetElement.parentElement;
+            wrapElement.parentElement.insertBefore(targetElement, wrapElement.nextSibling);
+            wrapElement.parentElement.removeChild(wrapElement);
+        }
+
         let targetContainer = document.createElement('div');
         targetContainer.className = 'picker-wrapper-date';
         targetElement.parentElement.insertBefore(targetContainer, targetElement.nextSibling);

@@ -9,14 +9,9 @@
                 padding: $form-toolbar-top-bottom-padding  $form-toolbar-margin-right;
                 background-color: $form-toolbar-background-color;
                 line-height: 1.0rem;
-        
-                span.logo { // 로고
-                    width: $form-toolbar-logo-width;
-                    height: $form-toolbar-real-height;
+                svg.logo { // 로고
                     float: left;
-                    @include background("topmenu/logo.png");
                 }
-        
                 span.name { // 문구
                     float: left;
                     padding : 0 $form-toolbar-margin-right;
@@ -31,6 +26,7 @@
                     background-color: $form-toolbar-separator-color;
                     margin-right: $form-toolbar-margin-right;
                     float: left;
+                    opacity: 0.3px;
                 }
         
                 a { // 아이콘

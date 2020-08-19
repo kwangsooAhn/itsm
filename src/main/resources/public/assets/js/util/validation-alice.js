@@ -8,7 +8,7 @@ const lowerCaseReg = /^[a-z]*$/;
 const numberReg = /^[0-9]*$/;
 const specialCharReg = /^[\{\}\[\]\/?.,;:|\)*~`!^\-_+<>@\#$%&\\\=\(\'\"]*$/;
 const rgbReg = /^\#([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$/;
-const idReg = /^[A-Za-z0-9+][A-Za-z0-9@\-_\.]*$/g;
+const idReg = /^[A-Za-z0-9+][A-Za-z0-9@\-_\.]*$/;
 
 /** @brief 해당 엘리먼트 아이디의 값이 null인 경우를 판별한다.
  *  @date 2020-03-03
@@ -49,7 +49,7 @@ function isNotNull(elementId, messageId) {
  */
 function isEmpty(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
-        if (document.getElementById(elementId).value === '') {
+        if (document.getElementById(elementId).value.trim() === '') {
             if (messageId !== undefined) {
                 aliceJs.alert(i18n.get(messageId));
             }

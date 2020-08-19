@@ -1,8 +1,10 @@
+// 전체 화면
 .wrap-screen {
     position: relative;
     min-height: 100vh;
 }
 
+// 검색 영역
 .search-area {
     height: 6.875rem; // 110px
     padding: 3.125rem 0 1.25rem 0; // 50px 0 20px 0
@@ -15,14 +17,84 @@
     }
 }
 
+// 페이지 제목
 .page-title {
     display: flex;
     align-items: baseline;
 }
 
+// 공지사항 상단 공지 (배경색 별도 처리)
+.tr-notice {
+    background: rgba(255, 255, 0, 0.2);
+}
+
+// 데이터 없을 때 테이블 처리
+.no-data-found {
+    pointer-events: none;
+    background: $line-gray;
+    td { text-align: center; }
+}
+
+// 버튼 영역
+.btn-bar {
+    padding: 0.625rem 0 0 0; // 10px 0 0 0
+    display: flex;
+    justify-content: flex-end;
+}
+
+.textarea-scroll-wrapper {
+    padding: 0.5rem 0.625rem; // 8px 10px
+    display: block;
+    border: 0.0625rem solid $border-color; // 1px
+    border-radius: $element-border-radius;
+    color: $element-font-color;
+    background-color: $element-background-color;
+    font-size: $element-font-size;
+    font-weight: 400;
+    resize: vertical;
+    line-height: 1.3;
+    &:focus-within {
+        outline: $element-border solid $alice-primary;
+        border-radius: $element-border-radius;
+    }
+}
+
 .container {
     height: 100%;
     padding: 0 0 0 13.75rem; // 220px
+
+    // 사용자 목록과 같이 리스트 화면인 경우.
+    .contents-list {
+        @include contents-template();
+        padding: 2.875rem 3.75rem 6.875rem 3.75rem;
+        flex-direction: column;
+        @include list-template();
+    }
+
+    // 공지사항 등록과 같이 입력화면인 경우.
+    .contents-edit {
+        @include contents-template();
+        flex-direction: column;
+        @include edit-template();
+        .page-title {
+            padding: 2.875rem 3.75rem 6.875rem 3.75rem;
+            height: 10.3125rem; // 165px
+        }
+        .btn-bar {
+            padding: 2.5rem 0 0 0; // 40px 0 0 0
+        }
+    }
+
+    // 상세 조회 화면인 경우.
+    .contents-view {
+        display: flex;
+        flex-direction: column;
+        @include view-template();
+        .page-title {
+            padding: 2.875rem 3.75rem 6.875rem 3.75rem;
+            height: 10.3125rem; // 165px
+        }
+    }
 
     // 권한관리와 같이 리스트와 편집화면이 1개의 화면으로 구성되는 경우
     .contents-list-edit {
@@ -31,59 +103,7 @@
             padding: 2.875rem 3.75rem 6.875rem 3.75rem; // 46px 60px 110px 60px
             height: 100vh;
             flex: 1;
-            .list {
-                padding-top: 1.25rem; // 20px
-                table {
-                    width: 100%;
-                    thead {
-                        display: block;
-                        & > tr {
-                            height: 2.375rem; // 38px
-                            border-bottom: .125rem solid $default-gray;
-                            display: flex;
-                            th {
-                                color: $light-black;
-                                font-size: 1.125rem; // 18px
-                                font-weight: 500;
-                                vertical-align: middle;
-                                text-align: left;
-                                &:first-child {
-                                    padding-left: 1.25rem; // 20px
-                                }
-                            }
-                        }
-                    }
-                    tbody {
-                        display: block;
-                        height: 35.3125rem; // 565px;
-                        overflow-y: auto;
-                        width: calc(100% + 1.625rem); // 26px
-                        tr {
-                            height: 2.875rem;
-                            width: calc(100% - 1.623rem); // 26px
-                            display: table;
-                            &:hover {
-                                background: $line-gray;
-                            }
-                            &.active {
-                                td {
-                                    color: $dark-blue;
-                                    background: $line-gray;
-                                }
-                            }
-                            td {
-                                color: $dark-gray;
-                                font-size: 1rem; // 16px
-                                font-weight: 400;
-                                vertical-align: middle;
-                                &:first-child {
-                                    padding-left: 1.25rem; // 20px
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            @include list-template();
         }
         & > .edit-area {
             padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
@@ -118,22 +138,7 @@
                     padding: 0.5rem 0.625rem; // 8px 10px
                 }
             }
-            .btn-bar {
-                padding: 0.625rem 1.875rem 0 0; // 10px 30px 0 0
-                display: flex;
-                flex-direction: row-reverse;
-            }
         }
-    }
-
-    // 사용자 목록과 같이 리스트 화면인 경우.
-    .contents-list {
-        @include contents-template();
-    }
-
-    // 공지사항 등록과 같이 입력화면인 경우.
-    contents-edit {
-        @include contents-template();
     }
 
     .contents {
@@ -515,9 +520,7 @@
                 cursor: pointer;
             }
 
-            .tr-notice {
-                background: rgba(255, 255, 0, 0.2);
-            }
+
 
             .align-center {
                 text-align: center;
@@ -530,6 +533,23 @@
             .align-right {
                 text-align: right;
             }
+
+            .scroller-wrap {
+                height: 28.75rem; //460px
+                & table {
+                    position: relative;
+                    display: inline-table;
+                }
+                & tbody {
+                    position: absolute;
+                    height: 25.88rem; //414px
+                    width: 100%;
+                    & tr {
+                        width: 100%;
+                        display: table;
+                    }
+                }
+            }
         }
 
         .list-wrap {
@@ -537,7 +557,6 @@
             height: 400px;
             // height:490px;
             overflow-y: auto;
-
             &-edit {
                 table {
                     margin: 0 0 15px 0;
