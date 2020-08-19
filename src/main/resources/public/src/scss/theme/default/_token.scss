@@ -58,7 +58,23 @@
             &-topic {width: 23.75rem;color: #3E4752;} // 380px
             &-create-dt {width: 9.375rem;color: #67717F;} // 150px
             &-status {width: 7.5rem;color: #67717F;} // 120px
-            &-tag {width: 20rem;color: #67717F;} // 320px
+            &-tag {
+                width: 13.75rem; // 220px
+                color: #67717F;
+                span {
+                    background: rgba(0, 152, 255, 0.1 );
+                    color: rgba(0, 152, 255, 1 );
+                    text-align: center;
+                    margin: 0.25rem; // 4px
+                    border-radius: 0.0625rem; // 1px
+                    padding: 0.3125rem 0.9375rem; // 5px 15px
+                    max-width: 13.75rem; // 220px
+                    display: inline-block;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
+            }
         }
     }
 

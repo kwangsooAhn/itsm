@@ -7,10 +7,18 @@ body, input, textarea, select {
 
 h1 {
     font-family: $default-font-family;
-    font-size: 1.875rem; // 30px
-    color: #47556A;
-    padding: 0.625rem 0rem; // 10px
-    font-weight: 600;
+    font-size: 2.25rem; // 36px
+    color: $light-black;
+    padding: 0.625rem 0 .625rem .3125rem; // 10px 0 10px 5px
+    font-weight: 700;
+}
+
+h5 {
+    font-family: 맑은고딕;
+    font-size: 0.875rem; // 14px
+    color: $warm-gray;
+    padding: 0 0 0 .625rem; // 10px
+    font-weight: 400;
 }
 
 h3 {
@@ -28,7 +36,7 @@ option {
 }
 
 select {
-    height: 1.875rem; // 30px
+    height: 2.5rem; // 40px
     color:$element-font-color;
     font-size: $element-font-size;
     border: $element-border solid $element-line;
@@ -46,7 +54,7 @@ select {
 }
 
 input {
-    height: 1.875rem; // 30px
+    height: 2.5rem; // 40px
     color:$element-font-color;
     font-size: $element-font-size;
     border: $element-border solid $element-line;
@@ -55,11 +63,17 @@ input {
     margin-right: 0.0625rem; // 1px
     vertical-align: middle;
     background-color: $element-background-color;
+    &::placeholder {
+        color: $placeholder-color;
+    }
     &:focus {
         outline: $element-border solid $alice-primary;
         border-radius: $element-border-radius;
     }
-
+    &:disabled {
+        background: $light-gray;
+        color: $gray;
+    }
     &.search {
         background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
     }
@@ -72,17 +86,31 @@ input {
     &.search-time {
         background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%
     }
+    &[type=checkbox] {
+        margin-right: 0.625rem; // 10px
+        width: 1.125rem; // 18px
+        height: 1.125rem; // 18px
+        border-radius: $element-border-radius;
+        border: 0.0625rem solid $border-color; // 1px
+        &:checked {
+            background-color: $white;
+        }
+    }
 }
 
 label {
+    margin: 0.5625rem 0 0.5625rem 0; // 5px 0 5px 0
+    color: $light-black;
 }
 
 textarea{
-    padding: 0 0.625rem;
-    margin: 10px 0 15px 0;
+    padding: 0.5rem 0.625rem; // 8px 10px
     display: block;
-    border: 1px solid $element-line;
+    border: 0.0625rem solid $border-color; // 1px
+    border-radius: $element-border-radius;
     color: $element-font-color;
     background-color: $element-background-color;
-    font-size: 0.875rem;
+    font-size: $element-font-size;
+    resize: vertical;
+    line-height: 1.3;
 }

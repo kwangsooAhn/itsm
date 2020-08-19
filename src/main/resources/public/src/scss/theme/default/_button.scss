@@ -1,0 +1,124 @@
+button { // 기본 버튼 : ghost
+    display: inline-block;
+    font-size: 1rem;
+    line-height: 1.5; // 24
+    font-weight: 500; // medium
+    text-align: center;
+    color: $light-black; 
+    background-color: transparent;
+    border: 0.0625rem solid transparent;
+    border-radius: 0.1875rem; // 3px
+    user-select: none;
+    white-space: nowrap;
+    vertical-align: middle;
+    opacity: 1;
+    padding: 0.5rem 1.5625rem; // 8px 25px
+    margin-left: 0.3125rem; // 5px
+
+    &:disabled {
+        background-color: $white;
+        opacity: 0.3;
+        cursor: default;
+    }
+
+    &:not(:disabled) {
+        &:active { // pressed
+            background-color: $line-gray;
+        }
+        &:focus,
+        &:hover {
+            outline: 0;
+            background-color: rgba(230, 230, 230, 0.3); // #E6E6E6
+        }
+    }
+
+    &.default-line {
+        color: $light-black;
+        background-color: $white;
+        border: 0.0625rem solid $line-gray; // 1px
+
+        &:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        &:not(:disabled) {
+            &:active { // pressed
+                background-color: $line-gray;
+                border: 0.0625rem solid $pressed-gray; // 1px
+            }
+            &:focus,
+            &:hover {
+                outline: 0;
+                background-color: rgba(230, 230, 230, 0.3);
+            }
+        }
+    }
+
+    &.default-fill {
+        color: $light-black; 
+        background-color: $default-gray;
+        border: 0.0625rem solid transparent; // 1px
+
+        &:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        &:not(:disabled) {
+            &:active { // pressed
+                background-color: $pressed-gray;
+            }
+            &:focus,
+            &:hover {
+                outline: 0;
+                background-color: $line-gray;
+            }
+        }
+    }
+
+    &.point-line {
+        color: $point-blue;
+        background-color: $white;
+        border: 0.0625rem solid $point-blue; // 1px
+
+        &:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        &:not(:disabled) {
+            &:active { // pressed
+                background-color: $hover-blue;
+                opacity: 0.3;
+            }
+            &:focus,
+            &:hover {
+                outline: 0;
+                background-color: rgba(0, 152, 255, 0.1);
+            }
+        }
+    }
+
+    &.point-fill {
+        color: $white;
+        background-color: $point-blue;
+        border: 0.0625rem solid transparent; // 1px
+
+        &:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        &:not(:disabled) {
+            &:active { // pressed
+                background-color: $pressed-blue;
+            }
+            &:focus,
+            &:hover {
+                outline: 0;
+                background-color: $hover-blue;
+            }
+        }
+    }
+}

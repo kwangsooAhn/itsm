@@ -6,6 +6,7 @@
 package co.brainz.framework.auth.repository
 
 import co.brainz.framework.auth.entity.AliceMenuEntity
+import java.util.Optional
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -27,4 +28,6 @@ interface AliceMenuRepository : JpaRepository<AliceMenuEntity, String> {
                 "ORDER BY m.sort"
     )
     fun findByUserKey(@Param("userKey") userKey: String): MutableSet<AliceMenuEntity>
+
+    fun findAliceMenuEntityByUrl(url: String): Optional<AliceMenuEntity>
 }

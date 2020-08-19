@@ -1,12 +1,12 @@
 package co.brainz.framework.scheduling.service
 
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.scheduling.entity.AliceScheduleTaskEntity
 import co.brainz.framework.scheduling.repository.AliceScheduleTaskRepository
 import java.util.TimeZone
 import java.util.concurrent.ScheduledFuture
 import javax.annotation.PostConstruct
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.event.ContextRefreshedEvent
 import org.springframework.context.event.EventListener
 import org.springframework.jdbc.core.JdbcTemplate
@@ -15,24 +15,17 @@ import org.springframework.scheduling.support.CronTrigger
 import org.springframework.stereotype.Service
 
 @Service
-class AliceScheduleTaskService {
-    companion object {
-        private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
-    }
+class AliceScheduleTaskService(
+    private val scheduler: TaskScheduler,
+    private val aliceScheduleTaskRepository: AliceScheduleTaskRepository,
+    private val jdbcTemplate: JdbcTemplate
+) {
+    private val logger = LoggerFactory.getLogger(AliceScheduleTaskService::class.java)
 
-    @Autowired
-    lateinit var scheduler: TaskScheduler
-
-    val taskMap: HashMap<Long, ScheduledFuture<*>?> = hashMapOf<Long, ScheduledFuture<*>?>()
-
-    @Autowired
-    lateinit var aliceScheduleTaskRepository: AliceScheduleTaskRepository
-
-    @Autowired
-    private lateinit var jdbcTemplate: JdbcTemplate
+    val taskMap: HashMap<Long, ScheduledFuture<*>?> = hashMapOf()
 
     @PostConstruct
-    public fun init() {
+    fun init() {
         jdbcTemplate.isResultsMapCaseInsensitive = true
     }
 
@@ -46,9 +39,11 @@ class AliceScheduleTaskService {
     fun addTaskToScheduler(id: Long, task: Runnable, taskInfo: AliceScheduleTaskEntity) {
         var scheduledTask: ScheduledFuture<*>? = null
         when (taskInfo.executeCycleType) {
-            "fixedDelay" -> scheduledTask = scheduler.scheduleWithFixedDelay(task, taskInfo.executeCyclePeriod)
-            "fixedRate" -> scheduledTask = scheduler.scheduleAtFixedRate(task, taskInfo.executeCyclePeriod)
-            "cron" -> scheduledTask = scheduler.schedule(
+            AliceConstants.ScheduleExecuteCycleType.FIXED_DELAY.code -> scheduledTask =
+                scheduler.scheduleWithFixedDelay(task, taskInfo.executeCyclePeriod)
+            AliceConstants.ScheduleExecuteCycleType.FIXED_RATE.code -> scheduledTask =
+                scheduler.scheduleAtFixedRate(task, taskInfo.executeCyclePeriod)
+            AliceConstants.ScheduleExecuteCycleType.CRON.code -> scheduledTask = scheduler.schedule(
                 task,
                 CronTrigger(taskInfo.cronExpression, TimeZone.getTimeZone(TimeZone.getDefault().id))
             )
