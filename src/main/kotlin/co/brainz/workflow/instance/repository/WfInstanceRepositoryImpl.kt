@@ -66,11 +66,11 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                         .from(elementDataSub)
                         .where(
                             token.element.eq(elementDataSub.element),
-                            elementDataSub.attributeId.eq("assignee-type"),
-                            elementDataSub.attributeValue.eq("assignee.type.candidate.users")
+                            elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE_TYPE.value),
+                            elementDataSub.attributeValue.eq(WfTokenConstants.AssigneeType.USERS.code)
                         )
                 ),
-                elementDataSub.attributeId.eq("assignee"),
+                elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE.value),
                 elementDataSub.attributeValue.eq(userKey)
             )
 
@@ -84,11 +84,11 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                         .from(elementDataSub)
                         .where(
                             token.element.eq(elementDataSub.element),
-                            elementDataSub.attributeId.eq("assignee-type"),
-                            elementDataSub.attributeValue.eq("assignee.type.candidate.groups")
+                            elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE_TYPE.value),
+                            elementDataSub.attributeValue.eq(WfTokenConstants.AssigneeType.GROUPS.code)
                         )
                 ),
-                elementDataSub.attributeId.eq("assignee"),
+                elementDataSub.attributeId.eq(WfElementConstants.AttributeId.ASSIGNEE.value),
                 elementDataSub.attributeValue.`in`(
                     JPAExpressions
                         .select(roleSub.role.roleId)
