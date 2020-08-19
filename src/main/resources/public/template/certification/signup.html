@@ -57,13 +57,16 @@
                     </div>
                 </div>
             </form>
-            <button class="signup-btn signup-btn-submit" id="userSignUp" th:text="#{login.btn.doSignUp}" onclick="userRegister()"></button>
+            <button class="signup-btn signup-btn-submit" id="userSignUp" th:text="#{login.btn.doSignUp}"
+                    onclick="userRegister()"></button>
         </div>
     </div>
 </div>
 
-<div id="divProgressBar" style="z-index: 1000; position: fixed; display: block; width: 100%; height: 100%; top: 50;  left: 0;  right: 0;  bottom: 0;  background-color: grey; opacity: 0.5; pointer-events: all;">
-    <img id="aProgressBar" name="aProgressBar" th:src="@{/assets/media/image/loading_w_dark.gif}" style="position: absolute; left: 50%; top: 0; bottom:0; margin:auto;"/>
+<div id="divProgressBar"
+     style="z-index:1000; position:fixed; display:block; width:100%; height:100%; top:50; left:0; right:0; bottom:0; background-color:grey; opacity:0.5; pointer-events:all;">
+    <img id="aProgressBar" name="aProgressBar" th:src="@{/assets/media/image/loading_w_dark.gif}"
+         style="position: absolute; left: 50%; top: 0; bottom:0; margin:auto;"/>
 </div>
 <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
 <script th:src="@{/assets/vendors/rsa/jsbn.js}"></script>
@@ -103,54 +106,33 @@
                 }
             }
         });
-    }
-    const STATUS_SUCCESS = "0";
-    const STATUS_ERROR_USER_ID_DUPLICATION = "1";
-    const STATUS_ERROR_EMAIL_DUPLICATION = "3";
+    };
+    const STATUS_SUCCESS = '0';
+    const STATUS_ERROR_USER_ID_DUPLICATION = '1';
+    const STATUS_ERROR_EMAIL_DUPLICATION = '3';
 
     // 사용자 등록
     function userRegister() {
-        if (emptyValidation()) {
-            if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) {
-                return false;
-            } else {
-                // 아이디 validation Check
-                if (!isValidUserId("userId")) return false;
+        if (validation()) {
 
-                // 비밀번호 validation Check
-                if (!isValidPassword("password")) return false;
-                // 비밀번호 RSA 암호화
-                const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
-                const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-                const rsa = new RSAKey();
-                rsa.setPublic(keyModule, keyExponent);
+            const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
+            const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
+            const rsa = new RSAKey();
+            rsa.setPublic(keyModule, keyExponent);
 
-                // 이메일 validation Check
-                if (!isValidEmail("email")) return false;
+            const password = document.getElementById('password').value;
+            const registerInfo = {
+                userId: document.getElementById('userId').value,
+                password: rsa.encrypt(password),
+                userName: document.getElementById('userName').value,
+                email: document.getElementById('email').value,
+                mobileNumber: document.getElementById('mobileNumber').value,
+                fileSeq: document.getElementsByName('fileSeq').value,
+                avatarUUID: document.getElementById('avatarUUID').value
+            };
 
-                const password = document.getElementById("password").value;
-                const registerInfo = {
-                    userId: document.getElementById("userId").value,
-                    password: rsa.encrypt(password),
-                    userName: document.getElementById("userName").value,
-                    email: document.getElementById("email").value,
-                    mobileNumber: document.getElementById("mobileNumber").value,
-                    fileSeq: document.getElementsByName('fileSeq').value,
-                    avatarUUID: document.getElementById('avatarUUID').value
-                };
-                // 등록
-                restSubmit("POST", "/certification/register",true,registerInfo);
-            }
+            restSubmit('POST', '/certification/register', true, registerInfo);
         }
-    }
-    // 빈 값 체크
-    function emptyValidation() {
-        if (isEmpty('userId', 'user.msg.enterUserId')) return false;
-        if (isEmpty('password', 'user.msg.enterUserPassword')) return false;
-        if (isEmpty('rePassword', 'user.msg.enterUserRePassword')) return false;
-        if (isEmpty('userName', 'user.msg.enterUserName')) return false;
-        if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
-        return true;
     }
 
     // 데이터 전송
@@ -165,7 +147,7 @@
                 switch (response.responseText) {
                     case STATUS_SUCCESS:
                         aliceJs.alert([[#{user.msg.signUp}]], function() {
-                            location.href = "/login";
+                            location.href = '/login';
                         });
                         break;
                     case STATUS_ERROR_USER_ID_DUPLICATION:
@@ -182,6 +164,22 @@
         };
         aliceJs.sendXhr(opt);
     }
+
+    // 빈 값 체크
+    function validation() {
+        if (isEmpty('userId', 'user.msg.enterUserId')) return false;
+        if (isEmpty('password', 'user.msg.enterUserPassword')) return false;
+        if (isEmpty('rePassword', 'user.msg.enterUserRePassword')) return false;
+        if (isEmpty('userName', 'user.msg.enterUserName')) return false;
+        if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
+        if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
+        if (!isValidUserId('userId')) return false;
+        if (!isValidPassword('password')) return false;
+        if (!isValidEmail('email')) return false;
+
+        return true;
+    }
+
     function deptPopUp() {
         window.open('/users/department/view-pop', null, 'width=400, height=700');
     }
