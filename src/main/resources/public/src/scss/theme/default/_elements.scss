@@ -18,6 +18,9 @@ h3 {
     font-family: $default-font-family;
     color: $light-black;
     font-size: 1.25rem; // 20px
+    padding-bottom: 0.625rem; // 10px
+    margin-bottom: 0.625rem; // 10px
+    border-bottom: .125rem solid $default-gray;
 }
 
 h4 {
