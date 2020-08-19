@@ -7,6 +7,8 @@ import co.brainz.workflow.comment.entity.QWfCommentEntity
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.component.entity.QWfComponentEntity
 import co.brainz.workflow.document.entity.QWfDocumentEntity
+import co.brainz.workflow.element.constants.WfElementConstants
+import co.brainz.workflow.element.entity.QWfElementDataEntity
 import co.brainz.workflow.folder.entity.QWfFolderEntity
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
@@ -14,7 +16,6 @@ import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.tag.entity.QWfTagMapEntity
 import co.brainz.workflow.token.constants.WfTokenConstants
-import co.brainz.workflow.token.entity.QWfCandidateEntity
 import co.brainz.workflow.token.entity.QWfTokenDataEntity
 import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.BooleanBuilder
@@ -33,7 +34,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
     val token: QWfTokenEntity = QWfTokenEntity.wfTokenEntity
     val tokenData: QWfTokenDataEntity = QWfTokenDataEntity.wfTokenDataEntity
-    val candidate: QWfCandidateEntity = QWfCandidateEntity.wfCandidateEntity
+
     val comment: QWfCommentEntity = QWfCommentEntity.wfCommentEntity
     val tagMap: QWfTagMapEntity = QWfTagMapEntity.wfTagMapEntity
     val folder: QWfFolderEntity = QWfFolderEntity.wfFolderEntity
@@ -51,30 +52,61 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         offset: Long
     ): QueryResults<WfInstanceListViewDto> {
 
-        val candidateSub = QWfCandidateEntity("candidateSub")
+        val elementDataSub = QWfElementDataEntity("elementDataSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
-        builder.and(instance.instanceStatus.`in`(status))
-        builder.and(token.tokenStatus.`in`(tokenStatus))
-        builder.and(
-            token.assigneeId.eq(userKey).or(
-                token.tokenId.`in`(
+
+        val assigneeUsers = JPAExpressions
+            .select(elementDataSub.element.elementId)
+            .from(elementDataSub)
+            .where(
+                elementDataSub.element.`in`(
                     JPAExpressions
-                        .select(candidateSub.token.tokenId)
-                        .from(candidateSub)
+                        .select(elementDataSub.element)
+                        .from(elementDataSub)
                         .where(
-                            candidateSub.token.tokenId.eq(token.tokenId),
-                            candidateSub.candidateValue.eq(userKey).or(
-                                candidateSub.candidateValue.`in`(
-                                    JPAExpressions
-                                        .select(roleSub.role.roleId)
-                                        .from(roleSub)
-                                        .where(roleSub.user.userKey.eq(userKey))
-                                )
-                            )
+                            token.element.eq(elementDataSub.element),
+                            elementDataSub.attributeId.eq("assignee-type"),
+                            elementDataSub.attributeValue.eq("assignee.type.candidate.users")
                         )
+                ),
+                elementDataSub.attributeId.eq("assignee"),
+                elementDataSub.attributeValue.eq(userKey)
+            )
+
+        val assigneeGroups = JPAExpressions
+            .select(elementDataSub.element.elementId)
+            .from(elementDataSub)
+            .where(
+                elementDataSub.element.`in`(
+                    JPAExpressions
+                        .select(elementDataSub.element)
+                        .from(elementDataSub)
+                        .where(
+                            token.element.eq(elementDataSub.element),
+                            elementDataSub.attributeId.eq("assignee-type"),
+                            elementDataSub.attributeValue.eq("assignee.type.candidate.groups")
+                        )
+                ),
+                elementDataSub.attributeId.eq("assignee"),
+                elementDataSub.attributeValue.`in`(
+                    JPAExpressions
+                        .select(roleSub.role.roleId)
+                        .from(roleSub)
+                        .where(roleSub.user.userKey.eq(userKey))
                 )
             )
+
+        builder.and(instance.instanceStatus.`in`(status))
+        builder.and(token.tokenStatus.`in`(tokenStatus))
+        builder.and(token.element.elementType.`in`(WfElementConstants.ElementType.USER_TASK.value))
+        builder.and(
+            token.assigneeId.eq(userKey)
+                .or(
+                    token.element.elementId.`in`(assigneeUsers)
+                ).or(
+                    token.element.elementId.`in`(assigneeGroups)
+                )
         )
 
         val query = getInstancesQuery()
@@ -267,7 +299,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
         // Delete instance relation data.
         delete(tagMap).where(tagMap.instance.`in`(instances)).execute()
-        delete(candidate).where(candidate.token.`in`(tokens)).execute()
         delete(tokenData).where(tokenData.token.`in`(tokens)).execute()
         delete(token).where(token.instance.`in`(instances)).execute()
         delete(folder).where(folder.instance.`in`(instances)).execute()
