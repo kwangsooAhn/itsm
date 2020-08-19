@@ -170,9 +170,9 @@
             tdDownloadTitle.className = 'align-left';
             let aDownloadTitle = document.createElement('a');
             if (document.getElementsByName('isRole').value === 'true') {
-                aDownloadTitle.href = '/downloads/'+ data.downloadCategory +'/view/'+ data.downloadId ;
+                aDownloadTitle.href = '/downloads/'+ data.downloadId +'/view/'+ data.downloadId ;
             } else {
-                aDownloadTitle.href = '/downloads/'+ data.downloadCategory +'/edit/'+ data.downloadId ;
+                aDownloadTitle.href = '/downloads/'+ data.downloadId +'/edit/'+ data.downloadId ;
             }
             aDownloadTitle.innerText = data.downloadTitle;
             tdDownloadTitle.appendChild(aDownloadTitle);

@@ -11,6 +11,8 @@ interface DownloadMapper {
     @Mappings(
         Mapping(source = "createUser.userName", target = "createUserName"),
         Mapping(source = "updateUser.userName", target = "updateUserName"),
+        Mapping(target = "delFileSeqList", ignore = true),
+        Mapping(target = "totalCount", ignore = true),
         Mapping(target = "fileSeqList", ignore = true)
     )
     fun toDownloadDto(downloadEntity: DownloadEntity): DownloadDto
