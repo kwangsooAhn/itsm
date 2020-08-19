@@ -797,7 +797,6 @@ aliceJs.slideUp = (target, duration = 500) => {
         target.style.removeProperty('overflow');
         target.style.removeProperty('transition-duration');
         target.style.removeProperty('transition-property');
-        //alert("!");
     }, duration);
 }
 
