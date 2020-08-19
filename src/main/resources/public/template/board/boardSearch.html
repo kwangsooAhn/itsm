@@ -50,8 +50,8 @@
             document.getElementById('toDt').value = i18n.getDate();
             dateTimePicker.initDatePicker('fromDt', setDatePicker);
             dateTimePicker.initDatePicker('toDt', setDatePicker);
-            document.getElementById('boardAdminId').addEventListener('change', function() { getBoardList(); });
-            document.getElementById('search').addEventListener('keyup', function() { getBoardList(); });
+            document.getElementById('boardAdminId').addEventListener('change', function() { getBoardList(false); });
+            document.getElementById('search').addEventListener('keyup', function() { getBoardList(false); });
             getBoardList(false);
         };
 
