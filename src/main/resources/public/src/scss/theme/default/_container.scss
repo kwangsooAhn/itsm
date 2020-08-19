@@ -63,6 +63,11 @@
     height: 100%;
     padding: 0 0 0 13.75rem; // 220px
 
+    &-popup {
+        padding: 1.875rem 2.5rem 0 2.5rem; // 30px 20px 0 20px
+        @include view-template();
+    }
+
     // 사용자 목록과 같이 리스트 화면인 경우.
     .contents-list {
         @include contents-template();
@@ -87,8 +92,7 @@
 
     // 상세 조회 화면인 경우.
     .contents-view {
-        display: flex;
-        flex-direction: column;
+        padding: 3.125rem 19.375rem 0 19.375rem; // 50px 310px 0 310px
         @include view-template();
         .page-title {
             padding: 2.875rem 3.75rem 6.875rem 3.75rem;
