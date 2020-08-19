@@ -1,7 +1,7 @@
 .scrollbar {
   >.os-scrollbar-horizontal {
     right: 10px;
-    height: 10px;
+    height: 12px;
     >.os-scrollbar-track {
       >.os-scrollbar-handle {
         min-width: 30px;
@@ -21,7 +21,7 @@
   }
   >.os-scrollbar-vertical {
     bottom: 10px;
-    width: 10px;
+    width: 12px;
     >.os-scrollbar-track {
       >.os-scrollbar-handle {
         min-height: 30px;
@@ -50,15 +50,15 @@
     background: transparent;
     >.os-scrollbar-track { // scrollbar 배경
       // background: transparent;
-      background: #00ca3c;
+      background: rgba(235, 235, 235, 0.6);
       // border-radius: 10px; // scrollbar 배경 모서리 곡선
       >.os-scrollbar-handle {
         // border-radius: 10px;
         // background: rgba(0, 0, 0, 0.4);
-        background: #d2d9e2;
+        background: $default-gray;
       }
       >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
-        background: rgba(0, 0, 0, .7);
+        background: $dark-gray;
         // background: yellow;
         // background: #d2d9e2;
         // opacity: 0.7;
@@ -68,7 +68,7 @@
       >.os-scrollbar-track {
         >.os-scrollbar-handle { // scrollbar 마우스 오버
           // background: rgba(0, 0, 0, .55);
-          background: blue;
+          background: $dark-gray;
         }
       }
     }

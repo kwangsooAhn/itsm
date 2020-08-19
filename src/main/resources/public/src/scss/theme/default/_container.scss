@@ -1,27 +1,152 @@
-// *********************************************************************************************************************
-// CONTENTS (container > contents > title, body)
-// *********************************************************************************************************************
 .wrap-screen {
     position: relative;
     min-height: 100vh;
-    background: rgba(234, 241, 247, 1);
+}
+
+.search-area {
+    height: 6.875rem; // 110px
+    padding: 3.125rem 0 1.25rem 0; // 50px 0 20px 0
+    display: flex;
+    .left {flex:none;}
+    .right {margin-left: auto;}
+    .txt-num {
+        color: $warm-gray;
+        margin-left: 0.623rem; // 10px
+    }
+}
+
+.page-title {
+    display: flex;
+    align-items: baseline;
 }
 
 .container {
     height: 100%;
-    padding: 60px 0 0 220px;
+    padding: 0 0 0 13.75rem; // 220px
+
+    // 권한관리와 같이 리스트와 편집화면이 1개의 화면으로 구성되는 경우
+    .contents-list-edit {
+        @include contents-template();
+        & > .list-area {
+            padding: 2.875rem 3.75rem 6.875rem 3.75rem; // 46px 60px 110px 60px
+            height: 100vh;
+            flex: 1;
+            .list {
+                padding-top: 1.25rem; // 20px
+                table {
+                    width: 100%;
+                    thead {
+                        display: block;
+                        & > tr {
+                            height: 2.375rem; // 38px
+                            border-bottom: .125rem solid $default-gray;
+                            display: flex;
+                            th {
+                                color: $light-black;
+                                font-size: 1.125rem; // 18px
+                                font-weight: 500;
+                                vertical-align: middle;
+                                text-align: left;
+                                &:first-child {
+                                    padding-left: 1.25rem; // 20px
+                                }
+                            }
+                        }
+                    }
+                    tbody {
+                        display: block;
+                        height: 35.3125rem; // 565px;
+                        overflow-y: auto;
+                        width: calc(100% + 1.625rem); // 26px
+                        tr {
+                            height: 2.875rem;
+                            width: calc(100% - 1.623rem); // 26px
+                            display: table;
+                            &:hover {
+                                background: $line-gray;
+                            }
+                            &.active {
+                                td {
+                                    color: $dark-blue;
+                                    background: $line-gray;
+                                }
+                            }
+                            td {
+                                color: $dark-gray;
+                                font-size: 1rem; // 16px
+                                font-weight: 400;
+                                vertical-align: middle;
+                                &:first-child {
+                                    padding-left: 1.25rem; // 20px
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        & > .edit-area {
+            padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
+            width: 38.125rem; // 610px
+            background: white;
+            font-weight: 500;
+            & .scroll-wrap {
+                height: 43.125rem; // 690px
+                display: flex;
+                flex-direction: column;
+                margin: 0 0 0.625rem 0; // 10px
+                .form-wrap {
+                    flex: 1;
+                    overflow: auto;
+                    padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
+                }
+            }
+            .form-set {
+                display: flex;
+                flex-direction: column;
+                margin-top: 0.6875rem; // 11px
+                li {
+                    color: $dark-gray;
+                    font-weight: 400;
+                    height: 1.5rem; // 24px
+                }
+                .checkbox-list {
+                    height: 13.5rem; // 216px
+                    border: 0.0625rem solid $border-color; // 1px
+                    border-radius: $element-border-radius;
+                    overflow-y: auto;
+                    padding: 0.5rem 0.625rem; // 8px 10px
+                }
+            }
+            .btn-bar {
+                padding: 0.625rem 1.875rem 0 0; // 10px 30px 0 0
+                display: flex;
+                flex-direction: row-reverse;
+            }
+        }
+    }
+
+    // 사용자 목록과 같이 리스트 화면인 경우.
+    .contents-list {
+        @include contents-template();
+    }
+
+    // 공지사항 등록과 같이 입력화면인 경우.
+    contents-edit {
+        @include contents-template();
+    }
 
     .contents {
-        min-width: 1260px;
-        min-height: 820px;
+        min-width: 78.75rem; // 1260px
+        min-height: 51.25rem; // 820px
         display: block;
-        padding: 20px 136px 37px 136px;
+        padding: 1.25rem 8.5rem 2.3125rem 8.5rem; // 20px 136px 37px 136px
 
         .contents-title {
-            padding: 20px 0 20px 5px;
+            padding: 1.25rem 0 1.25rem 0.3125rem; // 20px 0 20px 5px
 
             .title-description {
-                font-size: 15px;
+                font-size: 0.9375rem; // 15px
                 color: #94a6bf;
                 font-weight: 400;
             }
