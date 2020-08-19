@@ -12,8 +12,8 @@ button { // 기본 버튼 : ghost
     white-space: nowrap;
     vertical-align: middle;
     opacity: 1;
-    width: 5rem;     // 80px
-    height: 2.5rem;    // 40px
+    cursor: pointer;
+    padding: 0.4375rem 1.5rem; // 7px 24px
 
     &:focus,
     &:hover {
@@ -24,6 +24,7 @@ button { // 기본 버튼 : ghost
     &:disabled {
         background-color: $white;
         opacity: 0.3;
+        cursor: default;
     }
 
     &:not(:disabled) {

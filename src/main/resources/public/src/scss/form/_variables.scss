@@ -37,16 +37,12 @@ $drawing-board-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 1
 $form-asset-path: "../media/icons/form";
 $column-row: 12;  // 폼을 나누는 갯수
 
-// container
-$form-container-width: 93.75rem;    // 1500px
-$form-container-height: 61.25rem;    // 980px
-
 // container > toolbar
-$form-toolbar-height: 3.125rem; // 50px
-$form-toolbar-top-bottom-padding: 0.75rem; // 12.5px
+$form-toolbar-height: 3.125rem; // 50px 
+$form-toolbar-top-bottom-padding: 0.9375rem; // 15px
 $form-toolbar-real-height: $form-toolbar-height - ($form-toolbar-top-bottom-padding * 2); // 25px
 $form-toolbar-background-color: $point-blue;
-$form-toolbar-font-size: 0.75rem; // 12px
+$form-toolbar-font-size: 1.125rem; // 18px
 $form-toolbar-font-color: $white;
 $form-toolbar-logo-width: 10.94rem; // 175px
 $form-toolbar-separator-color: $white;
@@ -59,7 +55,6 @@ $form-drawing-board-top-margin: 6.563rem; // 105px
 // container > aside
 $form-aside-background-color: $white;
 $form-aside-width: 16.25rem; // 260px
-$form-aside-border: solid 0.0625rem $line-gray; // 1px
 $form-aside-box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6);// -1px 15px 7px 0px $pressed-gray, 불투명도 60%;
 
 // component 
@@ -81,17 +76,20 @@ $component-disabled-background-color: $light-gray;
 $component-disabled-font-color: $gray;
 $component-focus-border-color: $point-blue;
 
-// context
+// context menu
 $context-menu-width: 11.88rem; // 190px 
 $context-menu-height: 14.06rem; // 225px
 $context-menu-background-color: $white;
 $context-menu-font-size: 0.875rem; // 14px
-$context-menu-font-color: #68717c;
-$context-menu-border-color: #c8ced8;
+$context-menu-font-color: $dark-gray;
+$context-menu-border: 0.0625rem solid $line-gray; // 1px
+$context-menu-box-shadow: 0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
+$context-menu-focus-background-color: rgba(135, 206, 255, 0.1);
+$context-menu-focus-font-color: $point-blue;
 
 // properties title
 $properties-title-height: 3.125rem; // 50px
-$properties-title-background-color: $point-blue;
+$properties-title-background-color: $hover-blue;
 $properties-title-font-size: 18px; // 18px
 $properties-title-line-height: 27px;
 $properties-title-font-color: $white;
@@ -108,12 +106,12 @@ $properties-small-title-font-size: 0.6875rem; // 11px
 $properties-small-title-font-color: #68717c;
 $properties-small-title-font-weight: normal;
 $properties-indent-padding-left: 0.438rem; // 7px input, select 등 들여쓰기
-$properties-active-font-color: #0050ff;
-$properties-active-border-color: #0050ff;
+$properties-active-font-color: $point-blue;
+$properties-active-border-color: $point-blue;
 $properties-active-background-color: $white;
-$properties-inactive-font-color: #a4adb8;
-$properties-inactive-border-color: #c8ced8;
-$properties-inactive-background-color: #F7F9FA;
+$properties-inactive-font-color: $gray;
+$properties-inactive-border-color: $line-gray;
+$properties-inactive-background-color: $light-gray;
 $properties-disabled-font-color: #aeb7c2;
 $properties-disabled-border-color: #c8ced8;
 $properties-disabled-background-color: #f2f5fa;
