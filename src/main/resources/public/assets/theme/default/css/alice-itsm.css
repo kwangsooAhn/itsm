@@ -258,7 +258,7 @@ input[type=checkbox]:checked {
 }
 
 label {
-  margin: 0.3125rem 0 0.3125rem 0;
+  margin: 0.5625rem 0 0.5625rem 0;
   color: #3F4B56;
 }
 
@@ -1413,8 +1413,21 @@ textarea:focus {
   color: #67717F;
 }
 .token-list .document-tag {
-  width: 20rem;
+  width: 13.75rem;
   color: #67717F;
+}
+.token-list .document-tag span {
+  background: rgba(0, 152, 255, 0.1);
+  color: #0098ff;
+  text-align: center;
+  margin: 0.25rem;
+  border-radius: 0.0625rem;
+  padding: 0.3125rem 0.9375rem;
+  max-width: 13.75rem;
+  display: inline-block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .token-search {
   background: white;
@@ -1561,13 +1574,21 @@ textarea:focus {
   padding-left: 19px;
   display: inline-block;
 }
-.gnb-area > ul > li > a span.arrow-left {
-  background: url("../icons/icon_arrow_left.svg") no-repeat center center;
+.gnb-area > ul > li > a span.arrow-right {
   padding: 0 6px 0 0;
   float: right;
   width: 6px;
   height: 20px;
   margin-left: auto;
+  background: url("../icons/icon_arrow_r.svg") no-repeat center center;
+}
+.gnb-area > ul > li > a span.arrow-down {
+  padding: 0 6px 0 0;
+  float: right;
+  width: 6px;
+  height: 20px;
+  margin-left: auto;
+  background: url("../icons/icon_arrow_d.svg") no-repeat center center;
 }
 .gnb-area > ul > li > ul > li {
   font-size: 1rem;
@@ -1587,6 +1608,13 @@ textarea:focus {
 }
 .gnb-area > ul > li > ul > li > a.snb {
   padding: 8px 20px 8px 20px;
+}
+.gnb-area .active {
+  color: #FFFFFF;
+  background-color: #283238;
+}
+.gnb-area .active-parent {
+  color: #FFFFFF;
 }
 
 /* 알림 임시 css */

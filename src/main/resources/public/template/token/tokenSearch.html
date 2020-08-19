@@ -123,8 +123,8 @@
                         ${dateFormatFromNow(token.createDt)}
                     </div>
                     <div class="document-status">${token.elementName}</div>
-                    <div>
-                        <span class="document-tag"></span>
+                    <div class="document-tag">
+                        ${token.tags.map(tag => `<span>${tag}</span>`).join('')}
                     </div>
                 </div>
             `;

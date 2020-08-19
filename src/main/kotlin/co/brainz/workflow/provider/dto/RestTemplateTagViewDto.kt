@@ -4,5 +4,5 @@ import java.io.Serializable
 
 data class RestTemplateTagViewDto(
     val id: String?,
-    val value: String? = ""
+    val value: String = ""
 ) : Serializable

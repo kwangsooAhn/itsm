@@ -31,3 +31,5 @@ COMMENT ON COLUMN awf_scheduled_task_mst.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_scheduled_task_mst.create_dt IS '등록일';
 COMMENT ON COLUMN awf_scheduled_task_mst.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_scheduled_task_mst.update_dt IS '수정일';
+
+insert into awf_scheduled_task_mst values ('0', '0 0 12 * * *', 'co.brainz.framework.scheduling.task.DeleteTempFile', 0, 'cron', null, 'class', now(), null, '0509e09412534a6e98f04ca79abb6424', null);

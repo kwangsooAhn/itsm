@@ -17,21 +17,23 @@
 				<li th:each="topMenu : ${#authentication.details.menus}"
 						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
 					<!--/* 그룹 메뉴 */-->
-					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb">
+					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb"
+					   th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
 						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
-						<span class="arrow-left"></span>
+						<span class="arrow-right"></span>
 					</a>
 					<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="snb-set">
 						<li th:each="subMenu : ${#authentication.details.menus}"
 							th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
-							<a th:href="${subMenu.url}"  th:class="'snb ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()">
+							<a th:href="${subMenu.url}"  th:class="'snb ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()"
+							   th:classappend="${subMenu.url} == ${session.active_url} ? active">
 								<span th:text="#{|menu.${subMenu.menuId}|}"></span>
 							</a>
 						</li>
 					</ul>
 					<!--/* 연결 메뉴 */-->
-					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb">
+					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb" th:classappend="${topMenu.url} == ${session.active_url} ? active">
 						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 					</a>
@@ -44,11 +46,20 @@
 /*<![CDATA[ */
 	function accordionMenu(element) {
 		if (document.getElementById(element.dataset.menugroup).style.display === 'block') {
-			document.getElementById(element.dataset.menugroup).style.display = 'none';
+			element.querySelector('.arrow-down').className = 'arrow-right';
 		} else {
-			document.getElementById(element.dataset.menugroup).style.display = 'block';
+			element.querySelector('.arrow-right').className = 'arrow-down';
 		}
+		aliceJs.slideToggle(document.getElementById(element.dataset.menugroup), 200);
 	}
+
+	window.addEventListener('DOMContentLoaded', function(){
+		if (document.querySelector('.active-parent') != null) {
+			const evt = document.createEvent('HTMLEvents');
+			evt.initEvent('click', false, true);
+			document.querySelector('.active-parent').dispatchEvent(evt);
+		}
+	});
 /* ]]> */
 </script>
 </html>
