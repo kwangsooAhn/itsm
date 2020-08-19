@@ -132,42 +132,46 @@ button {
   font-style: normal;
   font-weight: 400;
 }
-/* Date compoent 기본 */
-body, input, textarea, select, span {
+body, input, textarea, select, div, span, l, textarea {
+  color: #586872;
   font-family: "Noto Sans KR", sans-serif;
   font-size: 1rem;
-  color: #586872;
 }
 
 h1 {
-  font-family: "Noto Sans KR", sans-serif;
-  font-size: 2.25rem;
   color: #3F4B56;
-  padding: 0.625rem 0 0.625rem 0.3125rem;
+  font-size: 2.25rem;
   font-weight: 700;
+  padding: 0.625rem 0 0.625rem 0.3125rem;
+}
+
+h2 {
+  color: #3F4B56;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
 
 h3 {
-  font-family: "Noto Sans KR", sans-serif;
   color: #3F4B56;
-  font-size: 1.25rem;
+  font-size: 1.125rem;
+  font-weight: 500;
   padding-bottom: 0.625rem;
   margin-bottom: 0.625rem;
   border-bottom: 0.125rem solid #E1E3E6;
 }
 
 h4 {
-  font-family: "Noto Sans KR", sans-serif;
+  color: #586872;
   font-size: 1rem;
   font-weight: 400;
 }
 
 h5 {
+  color: #7E848C;
   font-family: 맑은고딕;
   font-size: 0.875rem;
-  color: #7E848C;
-  padding: 0 0 0 0.625rem;
   font-weight: 400;
+  padding: 0 0 0 0.625rem;
 }
 
 span {
@@ -194,7 +198,6 @@ option:focus {
 
 select {
   height: 2.5rem;
-  color: #586872;
   font-size: 1rem;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
@@ -209,7 +212,6 @@ select:focus {
 }
 input {
   height: 2.5rem;
-  color: #586872;
   font-size: 1rem;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
@@ -274,7 +276,6 @@ textarea {
   display: block;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
-  color: #586872;
   background-color: #FFFFFF;
   font-size: 1rem;
   resize: vertical;
