@@ -49,7 +49,7 @@ function isNotNull(elementId, messageId) {
  */
 function isEmpty(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
-        if (document.getElementById(elementId).value === '') {
+        if (document.getElementById(elementId).value.trim() === '') {
             if (messageId !== undefined) {
                 aliceJs.alert(i18n.get(messageId));
             }
