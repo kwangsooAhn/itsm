@@ -33,7 +33,7 @@ $datepicker-active-color: #0050ff;
     text-align: center;
     z-index: 999;
 
-    &.active { display: block; }
+    &.active { display: block; z-index: 999;}
 
     &-title {
         height: 2.5rem; // 40px

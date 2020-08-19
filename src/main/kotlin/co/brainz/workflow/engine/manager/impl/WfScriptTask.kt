@@ -20,7 +20,6 @@ import com.fasterxml.jackson.module.kotlin.KotlinModule
 import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
-
 class WfScriptTask(
     wfTokenManagerService: WfTokenManagerService,
     override var isAutoComplete: Boolean = true

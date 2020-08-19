@@ -1017,6 +1017,22 @@ textarea:focus {
 .container .contents .list .align-right {
   text-align: right;
 }
+.container .contents .list .scroller-wrap {
+  height: 28.75rem;
+}
+.container .contents .list .scroller-wrap table {
+  position: relative;
+  display: inline-table;
+}
+.container .contents .list .scroller-wrap tbody {
+  position: absolute;
+  height: 26.25rem;
+  width: 100%;
+}
+.container .contents .list .scroller-wrap tbody tr {
+  width: 100%;
+  display: table;
+}
 .container .contents .list-wrap {
   height: 400px;
   overflow-y: auto;
@@ -2232,6 +2248,7 @@ textarea:focus {
 }
 .picker-modal.active {
   display: block;
+  z-index: 999;
 }
 .picker-modal-title {
   height: 2.5rem;
@@ -2727,3 +2744,5 @@ button.point-fill:not(:disabled):focus, button.point-fill:not(:disabled):hover {
   outline: 0;
   background-color: #33ADFF;
 }
+
+/*# sourceMappingURL=alice-itsm.css.map */
