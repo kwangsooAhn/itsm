@@ -7,7 +7,7 @@
 package co.brainz.itsm.board.controller
 
 import co.brainz.itsm.board.dto.BoardCommentDto
-import co.brainz.itsm.board.dto.BoardRestDto
+import co.brainz.itsm.board.dto.BoardListDto
 import co.brainz.itsm.board.dto.BoardSaveDto
 import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.service.BoardService
@@ -28,8 +28,8 @@ class BoardRestController(private val boardService: BoardService) {
      * [BoardSearchDto]를 받아서 게시판 추가할 데이터를 데이터 반환 [List<BoardRestDto>]
      */
     @GetMapping("")
-    fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardRestDto> {
-        return boardService.getRestBoardList(boardSearchDto)
+    fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardListDto> {
+        return boardService.getBoardList(boardSearchDto)
     }
 
     /**

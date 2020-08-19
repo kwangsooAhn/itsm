@@ -13,5 +13,5 @@ data class BoardSearchDto(
     var search: String = "",
     var fromDt: String = "",
     var toDt: String = "",
-    var offset: String = ""
+    var offset: Long = 0
 ) : Serializable

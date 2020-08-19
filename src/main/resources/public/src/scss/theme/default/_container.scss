@@ -532,14 +532,14 @@
             }
 
             .scroller-wrap {
-                height: 27.5rem; //440px
+                height: 28.75rem; //460px
                 & table {
                     position: relative;
                     display: inline-table;
                 }
                 & tbody {
                     position: absolute;
-                    height: 25rem; //400px
+                    height: 26.25rem; //420px
                     width: 100%;
                     & tr {
                         width: 100%;

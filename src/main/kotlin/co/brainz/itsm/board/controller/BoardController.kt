@@ -60,8 +60,9 @@ class BoardController(private val boardService: BoardService) {
      */
     @GetMapping("/list")
     fun getBoardList(boardSearchDto: BoardSearchDto, model: Model): String {
-        model.addAttribute("boardList", boardService.getBoardList(boardSearchDto))
-        model.addAttribute("boardCount", boardService.getBoardCount(boardSearchDto))
+        val result = boardService.getBoardList(boardSearchDto)
+        model.addAttribute("boardList", result)
+        model.addAttribute("boardCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return boardListPage
     }
 

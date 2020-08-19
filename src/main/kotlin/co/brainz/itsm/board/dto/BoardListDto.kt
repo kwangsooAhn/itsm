@@ -8,7 +8,7 @@ package co.brainz.itsm.board.dto
 
 import java.time.LocalDateTime
 
-data class BoardRestDto(
+data class BoardListDto(
     var boardId: String = "",
     var boardAdminId: String = "",
     var boardCategoryName: String? = "",
