@@ -22,10 +22,8 @@
                 </div>
                 <div class="form-set">
                     <label th:text="#{common.label.contents}" for="noticeContents"></label>
-                    <div class="textarea-scroll-wrapper">
-                        <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="7"
-                                  th:text="${notice?.noticeContents}"></textarea>
-                    </div>
+                    <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11" class="textarea-scroll-wrapper"
+                              th:text="${notice?.noticeContents}"></textarea>
                 </div>
                 <div class="form-set">
                     <label th:text="#{common.label.attachFile}"></label>
@@ -119,14 +117,14 @@
             setDisplay('topNoticeTab',document.getElementById('topNoticeYn'));
             fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
             OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), { className: 'scrollbar' });
-
-            //OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
             OverlayScrollbars(document.querySelectorAll('#noticeContents'), {
-                className: 'os-theme-minimal-dark',
+                className: 'scrollbar',
+                resize: 'vertical',
                 sizeAutoCapable: true,
                 textarea: {
                     dynHeight: false,
-                    dynWidth: false
+                    dynWidth: false,
+                    inheritedAttrs: "class"
                 }
             });
         }

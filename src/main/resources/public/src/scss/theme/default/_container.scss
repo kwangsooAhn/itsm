@@ -43,7 +43,19 @@
 }
 
 .textarea-scroll-wrapper {
-    width: 100%;
+    padding: 0.5rem 0.625rem; // 8px 10px
+    display: block;
+    border: 0.0625rem solid $border-color; // 1px
+    border-radius: $element-border-radius;
+    color: $element-font-color;
+    background-color: $element-background-color;
+    font-size: $element-font-size;
+    resize: vertical;
+    line-height: 1.3;
+    &:focus-within {
+        outline: $element-border solid $alice-primary;
+        border-radius: $element-border-radius;
+    }
 }
 
 .container {

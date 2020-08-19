@@ -422,7 +422,19 @@ textarea:focus {
 }
 
 .textarea-scroll-wrapper {
-  width: 100%;
+  padding: 0.5rem 0.625rem;
+  display: block;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  color: #586872;
+  background-color: #FFFFFF;
+  font-size: 1rem;
+  resize: vertical;
+  line-height: 1.3;
+}
+.textarea-scroll-wrapper:focus-within {
+  outline: 0.0625rem solid #0050ff;
+  border-radius: 0.0625rem;
 }
 
 .container {
