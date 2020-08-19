@@ -533,6 +533,23 @@
             .align-right {
                 text-align: right;
             }
+
+            .scroller-wrap {
+                height: 28.75rem; //460px
+                & table {
+                    position: relative;
+                    display: inline-table;
+                }
+                & tbody {
+                    position: absolute;
+                    height: 25.88rem; //414px
+                    width: 100%;
+                    & tr {
+                        width: 100%;
+                        display: table;
+                    }
+                }
+            }
         }
 
         .list-wrap {
@@ -540,7 +557,6 @@
             height: 400px;
             // height:490px;
             overflow-y: auto;
-
             &-edit {
                 table {
                     margin: 0 0 15px 0;

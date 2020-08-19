@@ -105,6 +105,7 @@ insert into awf_url values ('/rest/board-admin', 'put', '게시판 관리 변경
 insert into awf_url values ('/rest/board-admin/category', 'post', '게시판 관리 변경', 'TRUE');
 insert into awf_url values ('/rest/board-admin/category/{id}', 'delete', '카테고리 관리 삭제', 'TRUE');
 insert into awf_url values ('/rest/board-admin/{id}', 'delete', '게시판 관리 삭제', 'TRUE');
+insert into awf_url values ('/rest/boards', 'get', '게시판리스트 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/boards', 'post', '게시판 등록', 'TRUE');
 insert into awf_url values ('/rest/boards', 'put', '게시판 변경', 'TRUE');
 insert into awf_url values ('/rest/boards/comments', 'put', '게시판 댓글 수정', 'TRUE');

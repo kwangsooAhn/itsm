@@ -471,8 +471,8 @@ class WfProcessService(
             val scriptValue = data.scriptValue ?: ""
             if (scriptValue.isNotEmpty()) {
                 val valueObject = Gson().fromJson(scriptValue, JsonObject::class.java)
-                if (valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value) != null
-                    && valueObject.get(WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value) != null
+                if (valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value) != null &&
+                    valueObject.get(WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value) != null
                 ) {
                     elementData[WfElementConstants.AttributeId.SCRIPT_DETAIL.value] = mutableListOf(
                         valueObject.get(WfElementConstants.AttributeId.TARGET_MAPPING_ID.value).asString +
@@ -480,8 +480,8 @@ class WfProcessService(
                                 valueObject.get(WfElementConstants.AttributeId.SOURCE_MAPPING_ID.value).asString
                     )
                 }
-                if (valueObject.getAsJsonArray(WfElementConstants.AttributeId.ACTION.value) != null
-                    && valueObject.getAsJsonArray(WfElementConstants.AttributeId.ACTION.value).isJsonArray
+                if (valueObject.getAsJsonArray(WfElementConstants.AttributeId.ACTION.value) != null &&
+                    valueObject.getAsJsonArray(WfElementConstants.AttributeId.ACTION.value).isJsonArray
                 ) {
                     val actionArray =
                         valueObject.getAsJsonArray(WfElementConstants.AttributeId.ACTION.value).asJsonArray
