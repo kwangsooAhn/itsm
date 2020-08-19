@@ -421,6 +421,10 @@ textarea:focus {
   justify-content: flex-end;
 }
 
+.textarea-scroll-wrapper {
+  width: 100%;
+}
+
 .container {
   height: 100%;
   padding: 0 0 0 13.75rem;
@@ -490,7 +494,7 @@ textarea:focus {
   flex-direction: column;
 }
 .container .contents-edit .edit {
-  padding: 3.125rem 21.875rem 3.125rem 21.875rem;
+  padding: 3.125rem 22.5rem 3.125rem 22.5rem;
   background-color: white;
   display: flex;
   flex-direction: column;

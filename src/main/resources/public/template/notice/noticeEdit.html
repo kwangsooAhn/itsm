@@ -22,8 +22,10 @@
                 </div>
                 <div class="form-set">
                     <label th:text="#{common.label.contents}" for="noticeContents"></label>
-                    <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="7" class="scroll-wrap"
-                              th:text="${notice?.noticeContents}"></textarea>
+                    <div class="textarea-scroll-wrapper">
+                        <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="7"
+                                  th:text="${notice?.noticeContents}"></textarea>
+                    </div>
                 </div>
                 <div class="form-set">
                     <label th:text="#{common.label.attachFile}"></label>
@@ -116,8 +118,16 @@
             setDisplay('popTab',document.getElementById('popYn'));
             setDisplay('topNoticeTab',document.getElementById('topNoticeYn'));
             fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
-            Array.prototype.forEach.call(document.querySelectorAll('.scroll-wrap'), function(target) {
-                OverlayScrollbars(target, { className: 'scrollbar'});
+            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), { className: 'scrollbar' });
+
+            //OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+            OverlayScrollbars(document.querySelectorAll('#noticeContents'), {
+                className: 'os-theme-minimal-dark',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false
+                }
             });
         }
 
