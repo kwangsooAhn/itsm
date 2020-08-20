@@ -45,6 +45,7 @@ input {
     color: $input-font-color;
     border: $input-border;
     background-color: $input-bg-color;
+    height: 2.5rem;    // 40px
 
     &::placeholder {
         color: $input-placeholder-color;
@@ -76,6 +77,7 @@ textarea {
     color: $textarea-font-color;
     border: $textarea-border;
     background-color: $textarea-bg-color;
+    line-height: 2.5rem; // 40px
 
     &::placeholder {
         color: $textarea-placeholder-color;
@@ -107,7 +109,8 @@ select {
     color: $select-font-color;
     border: $select-border;
     background-color: $select-bg-color;
-
+    height: 2.5rem; // 40px
+    
     &:focus,
     &:hover {
         outline: 0;
@@ -130,130 +133,138 @@ label,
     color: $label-font-color;
 }
 
-input[type=radio] {
-    display: none;
-    + span {
-        cursor: pointer;
-        &:before {
-            content: '';
-            display: inline-block;
-            border-radius: 50%;
-            border: $radio-border;
-            width: 1.125rem; // 18px
-            height: 1.125rem; // 18px
-            position: relative;
-            top: -0.0625rem; // -1px
-            margin-right: 0.3125rem; // 5px 
-            vertical-align: middle;
-            text-align: center;
-            background-color: $radio-bg-color;
-        }
-        &:after {
-            content: '';
-            position: absolute;
-            top: 2px;
-            left: 0;
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background-color: transparent;
-        }
-        &:empty {
-            &:before {
-                margin-right: 0;
-            }
-        }
-    }
-    &:checked {
+label.radio-group {
+    position: relative;
+    font-size: $radio-font-size;
+    line-height: $radio-line-height;
+    font-weight: $radio-font-weight;
+    color: $input-font-color;
+    input[type=radio] {
+        display: none;
         + span {
+            cursor: pointer;
             &:before {
-                border-color: $radio-pressed-border-color;
+                content: '';
+                display: inline-block;
+                border-radius: 50%;
+                border: $radio-border;
+                width: 1.125rem; // 18px
+                height: 1.125rem; // 18px
+                position: relative;
+                top: -0.0625rem; // -1px
+                margin-right: 0.3125rem; // 5px 
+                vertical-align: middle;
+                text-align: center;
+                background-color: $radio-bg-color;
             }
             &:after {
-                background-color: $radio-pressed-color;
-                transform: translate(4px, 7px) scale(1);
+                content: '';
+                position: absolute;
+                top: 2px;
+                left: 0;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: transparent;
+            }
+            &:empty {
+                &:before {
+                    margin-right: 0;
+                }
             }
         }
-    }
-    &:hover,
-    &:focus {
-        + span {
-            &:before {
-                outline: none;
-                border-color: $radio-focus-border-color;
-                box-shadow: $radio-focus-box-shadow;
+        &:checked {
+            + span {
+                &:before {
+                    border-color: $radio-pressed-border-color;
+                }
+                &:after {
+                    background-color: $radio-pressed-color;
+                    transform: translate(4px, 7px) scale(1);
+                }
             }
         }
-    }
-    &:disabled {
-        + span {
-            color: $radio-disabled-color;
-            &:before {
-                border-color: $radio-disabled-bg-color;
+        &:hover,
+        &:focus {
+            + span {
+                &:before {
+                    border-color: $radio-focus-border-color;
+                    box-shadow: $radio-focus-box-shadow;
+                }
             }
-            &:after {
-                background-color: $radio-disabled-bg-color;
+        }
+        &:disabled {
+            + span {
+                color: $radio-disabled-color;
+                &:before {
+                    border-color: $radio-disabled-bg-color;
+                }
+                &:after {
+                    background-color: $radio-disabled-bg-color;
+                }
             }
         }
     }
 }
 
-input[type=checkbox] {
-    display: none;
-    + span {
-        position: relative;
-        cursor: pointer;
-        &:before {
-            content: '';
-            margin-right: 0.3125rem; // 5px
-            display: inline-block;
-            border-radius: 0.125rem; // 2px
-            border: $checkbox-border;
-            width: 1.125rem; // 18px
-            height: 1.125rem; // 18px
-            vertical-align: middle;
-            background-color: $checkbox-bg-color;
-        }
-        &:empty {
-            &:before {
-                margin-right: 0;
-            }
-        }
-    }
-    &:checked {
+label.checkbox-group {
+    font-size: $checkbox-font-size;
+    line-height: $checkbox-line-height;
+    font-weight: $checkbox-font-weight;
+    color: $checkbox-font-color;
+    input[type=checkbox] {
+        display: none;
         + span {
+            position: relative;
+            cursor: pointer;
             &:before {
-              border-color: $checkbox-pressed-border-color;
-            }
-            &:after {
                 content: '';
-                position: absolute;
-                top: 6px;
-                left: 0;
-                width: 12px;
-                height: 6px;
-                border: solid 2px $checkbox-pressed-color;
-                border-right: none;
-                border-top: none;
-                transform: translate(3px, 4px) rotate(-45deg);
+                margin-right: 0.3125rem; // 5px
+                display: inline-block;
+                border-radius: 0.125rem; // 2px
+                border: $checkbox-border;
+                width: 1.125rem; // 18px
+                height: 1.125rem; // 18px
+                vertical-align: middle;
+                background-color: $checkbox-bg-color;
+            }
+            &:empty {
+                &:before {
+                    margin-right: 0;
+                }
             }
         }
-    }
-    &:hover,
-    &:focus {
-        + span {
-            &:after {
-                outline: none;
-                border-color: $checkbox-focus-border-color;
-                box-shadow: $checkbox-focus-box-shadow
+        &:checked {
+            + span {
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 6px;
+                    left: 0;
+                    width: 12px;
+                    height: 6px;
+                    border: solid 2px $checkbox-pressed-color;
+                    border-right: none;
+                    border-top: none;
+                    transform: translate(3px, 4px) rotate(-45deg);
+                }
             }
         }
-    }
-    &:disabled {
-        + span {
-            color: $checkbox-disabled-color;
-            &:before {
-                background-color: $checkbox-disabled-bg-color;
+        &:hover,
+        &:focus {
+            + span {
+                &::before {
+                    border-color: $checkbox-focus-border-color;
+                    box-shadow: $checkbox-focus-box-shadow;
+                }
+            }
+        }
+        &:disabled {
+            + span {
+                color: $checkbox-disabled-color;
+                &:before {
+                    background-color: $checkbox-disabled-bg-color;
+                }
             }
         }
     }
@@ -270,13 +281,14 @@ input[type=checkbox] {
 
     .move-handler {  // drag and drop icon
         display: none;
-        width:  0.8125rem; // 13px
-        height: 0.8125rem; // 13px
+        width:  0.625rem; // 10px
+        height: 0.75rem; // 12px
         margin: 0 0.5rem 0 0; // 0 8.8px 0 0
         content: '';
         cursor: move;
         opacity: 0;
-        @include background("editor/icon_move.png");
+        background: $component-move-handler-color;
+        mask-image: url("#{$form-asset-path}/editor/icon_component_move.svg");
     }
 
     .field-group { // label + display
@@ -318,14 +330,12 @@ input[type=checkbox] {
             &.horizontal div { display: inline-block; }
 
             > input[type=text] {
-                width: 100%; 
-                height: 2.5rem;    // 40px
+                width: 100%;
                 padding-left: $component-indent-padding-left;
             }
 
             textarea { 
                 width: 100%;
-                line-height: 2.5rem; // 40px
                 resize: none;
                 padding-left: $component-indent-padding-left;
                 @include scrollbar-hidden;
@@ -354,38 +364,35 @@ input[type=checkbox] {
                 }
             }
 
+            select {
+                min-width: 17.19rem; // 275px
+                padding-left: $component-indent-padding-left;
+            }
+
+            .datepicker,
+            .datetimepicker {
+                background: $input-bg-color url("#{$datepicker-asset-path}/icon_calendar.svg") no-repeat 98% 50%;
+            }
+            .timepicker {
+                background: $input-bg-color url("#{$datepicker-asset-path}/icon_clock.svg") no-repeat 98% 50%;
+            }
+
             .picker-wrapper-date { // datepicker
                 width: 100%;
                 .picker-main {
                     width: 100%; 
                     height: 2.5rem;    // 40px
-                    background: url("#{$form-asset-path}/editor/icon_calendar.png") no-repeat 98% 50%;
                 }
-            }
-
-            select {
-                min-width: 17.19rem; // 275px
-                height: 2.5rem; // 40px
-                padding-left: $component-indent-padding-left;
             }
 
             //radio button
             .field-radio {
-                position: relative;
-                font-size: $radio-font-size;
-                line-height: $radio-line-height;
-                font-weight: $radio-font-weight;
-                color: $input-font-color;
                 margin: 0 0.625rem 0 0; // 0px 10px 0px 0px
                 span:first-of-type { padding-right: 0.4375rem; } // 7px
             }
 
             //checkbox 
             .field-checkbox {
-                font-size: $checkbox-font-size;
-                line-height: $checkbox-line-height;
-                font-weight: $checkbox-font-weight;
-                color: $checkbox-font-color;
                 margin: 0 0.625rem 0 0; // 0px 10px 0px 0px
                 span:first-of-type { padding-right: 0.4375rem; }
             }
@@ -413,8 +420,8 @@ input[type=checkbox] {
                 font-weight: $img-font-weight;
                 color: $img-placeholder-color;
                 height: 8.75rem;    // 140px
-                border: $img-bg-color;
-                background-color: $light-gray;
+                border: $img-border;
+                background-color: $img-bg-color;
                 text-align: center;
                 margin: 0 1.875rem; // 0 30px
                 padding: 1.25rem 0 0.625rem 0; // 20px 0 10px 0
@@ -455,22 +462,6 @@ input[type=checkbox] {
                     cursor: pointer;
                 }
             }
-
-            //fileupload
-            .dropbox { 
-                height: 8.75rem;    //140px
-                line-height: 8.75rem;
-                background-color: $light-gray;
-                border: 0.0625rem solid $component-border-color; // 1px
-                text-align: center;
-                font-size:  0.9375rem;    //15px
-                color: $gray;
-                overflow: hidden; 
-                span {
-                    color: $point-blue;
-                    text-decoration: underline;
-                }
-            }
         }
     }
 
@@ -478,9 +469,9 @@ input[type=checkbox] {
     .tooltip-menu {
         visibility: hidden;
         position: absolute;
-        background-color: $component-content-background-color;
+        background-color: $component-bg-color;
         height: 2.5rem; // 40px;
-        box-shadow: 0 0 0 0.0625rem $component-selected-border-color inset; // 1px
+        box-shadow: 0 0 0 0.0625rem $component-pressed-border-color inset; // 1px
         bottom: 100%;
         right: -0.0625rem; // -1px
         .menu {
@@ -515,11 +506,11 @@ input[type=checkbox] {
     padding: 0 2.125rem 0 0.8125rem;    // 0px 34.8px 0px 13px
 
     .field-group[contenteditable=true] {
+        font-size: $editbox-font-size;
+        font-weight: $editbox-font-weight;
+        color: $editbox-font-color;
         height: 5.625rem;          //90px
         line-height: 5.625rem;
-        color: $blue-gray;
-        font-size: $component-content-font-size;
-        font-weight: $component-content-font-weight;
         cursor: text;
         &:empty::before { // 입력된 값이 없으면 placeholder 표시
             content: attr(placeholder); 
@@ -536,10 +527,13 @@ input[type=checkbox] {
 
 // 컴포넌트 select
 .component.selected {
-    background-color: $component-selected-background-color;
-    border: solid 0.0625rem $component-selected-border-color; // 1px
+    background-color: $component-pressed-bg-color;
+    border: solid 0.0625rem $component-pressed-border-color; // 1px
+    .move-handler {
+        background: $component-pressed-border-color;
+    }
     .field-group[contenteditable=true] {
-        color: $component-selected-border-color;
+        color: $editbox-pressed-color;
     }
     .tooltip-menu {
         visibility: visible;
@@ -553,7 +547,7 @@ input[type=checkbox] {
     + .component.selected { // 인접 컴포넌트
         border-width: 0.0625rem; // 1px
         border-style: solid;
-        border-color: rgba(135, 206, 255, 0) $component-selected-border-color $component-selected-border-color $component-selected-border-color;
+        border-color: rgba(135, 206, 255, 0) $component-pressed-border-color $component-pressed-border-color $component-pressed-border-color;
         &.adjoin {
             border-bottom-color: rgba(135, 206, 255, 0);
         }
@@ -583,7 +577,7 @@ input[type=checkbox] {
 }
 .component[data-displayType="readonly"] {
     input[type=text], textarea, select {
-        background-color: $component-disabled-background-color !important; 
+        background-color: $component-disabled-bg-color !important; 
         color: $component-disabled-font-color !important;
         pointer-events: none;
     }
