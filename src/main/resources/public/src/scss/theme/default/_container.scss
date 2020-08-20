@@ -54,6 +54,7 @@
         .view { padding: 0;}
     }
 
+    @import "contents/_contents-token.scss";
     @import "contents/_contents-list.scss";
     @import "contents/_contents-edit.scss";
     @import "contents/_contents-view.scss";

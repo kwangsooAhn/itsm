@@ -2,6 +2,5 @@
 .contents-list {
     @include contents-template();
     padding: 2.875rem 3.75rem 2.875rem 3.75rem;
-    flex-direction: column;
     @include list-template();
 }

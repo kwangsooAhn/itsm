@@ -1,6 +1,7 @@
 // 권한관리와 같이 리스트와 편집화면이 1개의 화면으로 구성되는 경우
 .contents-list-edit {
     @include contents-template();
+    flex-direction: row;
 
     // list-edit 타입 화면에서 페이지 제목은 list-area 내부에 들어가므로 초기화 필요.
 /*    .page-title {

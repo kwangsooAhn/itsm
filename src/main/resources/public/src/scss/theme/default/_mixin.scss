@@ -2,6 +2,7 @@
     height: 100vh;
     background: $light-gray;
     display: flex;
+    flex-direction: column;
 }
 @mixin backgroundImage($path) {
     @include background($path, null, null, null, null, null)
