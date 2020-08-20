@@ -9,14 +9,13 @@ package co.brainz.itsm.download.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class DownloadDto(
+data class DownloadListDto(
     var downloadId: String = "",
     var downloadSeq: Long = 0,
     var downloadCategory: String = "",
     var downloadTitle: String = "",
-    var fileSeqList: List<Long>? = null,
-    var delFileSeqList: List<Long>? = null,
     var views: Int = 0,
+    var totalCount: Long = 0,
     var createDt: LocalDateTime? = null,
     var createUserName: String? = null,
     var updateDt: LocalDateTime? = null,

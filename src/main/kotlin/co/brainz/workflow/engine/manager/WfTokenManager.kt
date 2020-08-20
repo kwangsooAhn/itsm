@@ -11,7 +11,6 @@ import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.engine.manager.service.WfTokenManagerService
 import co.brainz.workflow.token.constants.WfTokenConstants
-import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
 import java.time.LocalDateTime
@@ -110,7 +109,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
     /**
      * Set Assignee + Candidate.
      */
-    protected fun setCandidate(token: WfTokenEntity) {
+    private fun setCandidate(token: WfTokenEntity) {
         val assigneeType =
             this.getAttributeValue(
                 token.element.elementDataEntities,
@@ -122,7 +121,7 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
             }
             WfTokenConstants.AssigneeType.USERS.code,
             WfTokenConstants.AssigneeType.GROUPS.code -> {
-                this.setAssigneeUsersAndGroups(token, assigneeType)
+
             }
             else -> {
                 token.assigneeId = this.assigneeId
@@ -175,33 +174,6 @@ abstract class WfTokenManager(val wfTokenManagerService: WfTokenManagerService) 
         }
         token.assigneeId = assigneeId
         wfTokenManagerService.saveToken(token)
-    }
-
-    /**
-     * Set assignee users & groups.
-     */
-    private fun setAssigneeUsersAndGroups(token: WfTokenEntity, assigneeType: String) {
-        val candidates =
-            this.getAttributeValues(
-                token.element.elementDataEntities,
-                WfElementConstants.AttributeId.ASSIGNEE.value
-            )
-        if (candidates.isNotEmpty()) {
-            val wfCandidateEntities = mutableListOf<WfCandidateEntity>()
-            candidates.forEach { candidate ->
-                val wfCandidateEntity = WfCandidateEntity(
-                    token = token,
-                    candidateType = assigneeType,
-                    candidateValue = candidate
-                )
-                wfCandidateEntities.add(wfCandidateEntity)
-            }
-            wfTokenManagerService.saveAllCandidate(wfCandidateEntities)
-            token.candidate = wfCandidateEntities
-        } else {
-            token.assigneeId = this.assigneeId
-            wfTokenManagerService.saveToken(token)
-        }
     }
 
     /**
