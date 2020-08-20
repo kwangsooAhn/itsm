@@ -38,7 +38,7 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
             query.where(download.downloadCategory.eq(category))
         }
 
-        query.where(
+        val queryResult: QueryResults<DownloadEntity> = query.where(
             download.downloadTitle.containsIgnoreCase(search)
                 .or(fileLoc.originName.containsIgnoreCase(search))
                 .or(download.createUser.userName.containsIgnoreCase(search))
@@ -47,15 +47,15 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         ).orderBy(download.downloadSeq.desc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
             .offset(offset)
+            .fetchResults()
 
-        val queryResult: QueryResults<DownloadEntity> = query.fetchResults()
         val downloadList = mutableListOf<DownloadListDto>()
         for (data in queryResult.results) {
             val downloadDto = DownloadListDto(
                 downloadId = data.downloadId,
                 downloadSeq = data.downloadSeq,
                 downloadCategory = data.downloadCategory,
-                downloadTitle = data.downloadCategory,
+                downloadTitle = data.downloadTitle,
                 views = data.views,
                 totalCount = queryResult.total,
                 createDt = data.createDt,
