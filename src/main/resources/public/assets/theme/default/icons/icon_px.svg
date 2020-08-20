@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="24" viewBox="0 0 18 24">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #acb4bf;
+        font-size: 16px;
+        font-family: NotoSansKR-Regular, Noto Sans KR;
+      }
+    </style>
+  </defs>
+  <text id="px" class="cls-1" transform="translate(18 19)"><tspan x="-17.584" y="0">px</tspan></text>
+</svg>
