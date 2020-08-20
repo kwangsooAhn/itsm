@@ -50,6 +50,8 @@
     &-popup {
         padding: 1.875rem 2.5rem 0 2.5rem; // 30px 20px 0 20px
         @include view-template();
+        // view class padding 초기화
+        .view { padding: 0;}
     }
 
     @import "contents/_contents-list.scss";

@@ -472,6 +472,9 @@ textarea:focus {
   margin: 10px 0;
   background-color: #EBEBEB;
 }
+.container-popup .view {
+  padding: 0;
+}
 .container .contents-list {
   height: 100vh;
   background: #F7F8F9;
