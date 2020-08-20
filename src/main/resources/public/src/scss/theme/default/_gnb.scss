@@ -107,20 +107,20 @@
             background-color: $menu-bg-hover;
             span {
                 color: $white;
-            }
-            svg {
-                fill: $white;
+                &.icon-gnb {
+                    background: $point-blue;
+                }
             }
         }
         &.active-parent {
             span {
                 color: $white;
+                &.icon-gnb{
+                    background: $point-blue;
+                }
                 &.arrow-right, &.arrow-down {
                     background: $white;
                 }
-            }
-            svg {
-                fill: $white;
             }
         }
     }
@@ -156,11 +156,13 @@
                 &.arrow {
                     &-right {
                         @include menuArrow;
-                        -webkit-mask: url($icon-folder-path + "icon_arrow_l.svg") no-repeat center center;
+                        -webkit-mask: url($icon-arrow-left) no-repeat center center;
+                        mask-image: url($icon-arrow-left);
                     }
                     &-down {
                         @include menuArrow;
-                        -webkit-mask: url($icon-folder-path + "icon_arrow_d.svg") no-repeat center center;
+                        -webkit-mask: url($icon-arrow-bottom) no-repeat center center;
+                        mask-image: url($icon-arrow-bottom);
                     }
                 }
             }
@@ -194,5 +196,45 @@
                 }
             }
         }
+    }
+}
+
+.icon-gnb {
+    @include menuIcon;
+    &-board {
+        -webkit-mask: url($icon-gnb-board) no-repeat center center;
+        mask-image: url($icon-gnb-board);
+    }
+    &-dashboard {
+        -webkit-mask: url($icon-gnb-dashboard) no-repeat center center;
+        mask-image: url($icon-gnb-dashboard);
+    }
+    &-document {
+        -webkit-mask: url($icon-gnb-document) no-repeat center center;
+        mask-image: url($icon-gnb-document);
+    }
+    &-download {
+        -webkit-mask: url($icon-gnb-download) no-repeat center center;
+        mask-image: url($icon-gnb-download);
+    }
+    &-faq {
+        -webkit-mask: url($icon-gnb-faq) no-repeat center center;
+        mask-image: url($icon-gnb-faq);
+    }
+    &-notice {
+        -webkit-mask: url($icon-gnb-notice) no-repeat center center;
+        mask-image: url($icon-gnb-notice);
+    }
+    &-config {
+        -webkit-mask: url($icon-gnb-config) no-repeat center center;
+        mask-image: url($icon-gnb-config);
+    }
+    &-workflow {
+        -webkit-mask: url($icon-gnb-workflow) no-repeat center center;
+        mask-image: url($icon-gnb-workflow);
+    }
+    &-token {
+        -webkit-mask: url($icon-gnb-token) no-repeat center center;
+        mask-image: url($icon-gnb-token);
     }
 }

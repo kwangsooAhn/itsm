@@ -19,7 +19,7 @@
 					<!--/* 그룹 메뉴 */-->
 					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb"
 					   th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
-						<img class="load-svg" th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
+						<span th:class="'icon-gnb icon-gnb-' + ${topMenu.menuId}"></span>
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 						<span class="arrow-right"></span>
 					</a>
@@ -34,7 +34,7 @@
 					</ul>
 					<!--/* 연결 메뉴 */-->
 					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb" th:classappend="${topMenu.url} == ${session.active_url} ? active">
-						<img class="load-svg" th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
+						<span th:class="'icon-gnb icon-gnb-' + ${topMenu.menuId}"></span>
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 					</a>
 				</li>
@@ -54,7 +54,7 @@
 	}
 
 	window.addEventListener('DOMContentLoaded', function(){
-		aliceJs.loadSvg();
+		//aliceJs.loadSvg();
 		if (document.querySelector('.active-parent') != null) {
 			const evt = document.createEvent('HTMLEvents');
 			evt.initEvent('click', false, true);
