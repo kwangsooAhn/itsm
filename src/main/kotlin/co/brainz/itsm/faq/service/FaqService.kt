@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.faq.service
 
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
@@ -32,7 +38,14 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
      * FAQ 목록을 조회한다.
      */
     fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
-        return faqRepository.findFaqs(faqSearchRequestDto)
+        val queryResult = faqRepository.findFaqs(faqSearchRequestDto)
+        val faqList = mutableListOf<FaqListDto>()
+        for (faq in queryResult.results) {
+            val faqData = faqMapper.toFaqListDto(faq)
+            faqData.totalCount = queryResult.total
+            faqList.add(faqData)
+        }
+        return faqList
     }
 
     /**
