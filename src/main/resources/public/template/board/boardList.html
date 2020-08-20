@@ -1,49 +1,44 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
 </head>
 <body>
-<div class="list-wrap">
+<div class="scroller-wrap">
     <table>
-        <colgroup>
-            <col style="width:7.5rem"><!--120px-->
-            <col style="width:11.25rem"><!--180px-->
-            <col style="width:22.5rem"><!--360px-->
-            <col style="width:7.5rem"><!--120px-->
-            <col style="width:7.5rem"><!--120px-->
-            <col style="width:7.5rem"><!--120px-->
-            <col style="width:11.25rem"><!--180px-->
-        </colgroup>
         <thead>
-            <tr>
-                <th th:text="#{board.label.number}"></th>
-                <th th:text="#{board.label.category}"></th>
-                <th th:text="#{common.label.title}"></th>
-                <th th:text="#{board.label.commentCount}"></th>
-                <th th:text="#{board.label.readCount}"></th>
-                <th th:text="#{common.label.writer}"></th>
-                <th th:text="#{common.label.writeDate}"></th>
-            </tr>
+        <tr>
+            <th style="width:10%;" th:text="#{board.label.number}"></th>
+            <th style="width:15%;" th:text="#{board.label.category}"></th>
+            <th style="width:30%;" th:text="#{common.label.title}"></th>
+            <th style="width:10%;" th:text="#{board.label.commentCount}"></th>
+            <th style="width:10%;" th:text="#{board.label.readCount}"></th>
+            <th style="width:10%;" th:text="#{common.label.writer}"></th>
+            <th style="width:15%;" th:text="#{common.label.writeDate}"></th>
+        </tr>
         </thead>
-        <tbody>
-            <tr th:if="${#arrays.isEmpty(boardList)}">
-                <td colspan="7" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <tr th:each="board, i: ${boardList}" th:if="${i.count} < 11">
-                <td th:text="${board.boardSeq}"></td>
-                <td th:text="${board.boardCategoryName}"></td>
-                <td class="align-left">
-                    <a th:href="@{/boards/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
-                </td>
-                <td th:text="${board.replyCount}"></td>
-                <td th:text="${board.readCount}"></td>
-                <td th:text="${board.createUser.userName}"></td>
-                <td th:text="${board.createDt}" th:name="boardDt"></td>
-            </tr>
+        <tbody id="list">
+        <tr th:if="${#arrays.isEmpty(boardList)}">
+            <td colspan="7" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr th:each="board : ${boardList}">
+            <td style="width:10%;" th:text="${board.boardSeq}"></td>
+            <td style="width:15%;" th:text="${board.boardCategoryName}"></td>
+            <td style="width:30%;" class="align-left">
+                <a th:href="@{/boards/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
+            </td>
+            <td style="width:10%;" th:text="${board.replyCount}"></td>
+            <td style="width:10%;" th:text="${board.readCount}"></td>
+            <td style="width:10%;" th:text="${board.createUserName}"></td>
+            <td style="width:15%;" th:text="${board.createDt}" th:name="boardDt"></td>
+        </tr>
         </tbody>
     </table>
+</div>
+<div class="search-area-right">
+    <span class="total-count" id="totalCount" th:text="${boardCount}"></span>
+    <span class="total-count" th:text="#{common.label.totalCount}"></span>
 </div>
 </body>
 </html>

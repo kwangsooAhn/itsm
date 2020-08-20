@@ -35,6 +35,7 @@ common:
     save: "저장"
     tag: "태그"
     title: "제목"
+    totalCount: "건"
     update: "변경"
     updateDate: "수정 일시"
     updateUser: "수정자"

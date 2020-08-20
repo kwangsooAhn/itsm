@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.download.dto
 
 import java.io.Serializable
@@ -10,7 +16,7 @@ data class DownloadDto(
     var downloadTitle: String = "",
     var fileSeqList: List<Long>? = null,
     var delFileSeqList: List<Long>? = null,
-    var views: Long = 0,
+    var views: Int = 0,
     var createDt: LocalDateTime? = null,
     var createUserName: String? = null,
     var updateDt: LocalDateTime? = null,

@@ -1,52 +1,74 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/popupLayout">
 <head>
-<meta charset="UTF-8">
+    <title th:text="#{notice.label.view}"></title>
 </head>
 <body>
-    <div class="container">
-        <table class="table" border="1">
-            <tr>
-                <th th:text="#{common.label.title}"></th>
-                <td colspan="3" th:text="${noticePopUp.noticeTitle}"></td>
-            </tr>
-            <tr>
-                <th th:text="#{common.label.contents}"></th>
-                <td colspan="3" th:text="${noticePopUp.noticeContents}"></td>
-            </tr>
-            <tr>
-                <th th:text="#{common.label.createUser}"></th>
-                <td colspan="3" th:text="${noticePopUp.createUserKey}"></td>
-            </tr>
-        </table>
-    </div>
-    
+<th:block layout:fragment="content">
+    <form id="frm" method="post">
+        <div class="view">
+            <h3 th:text="${noticePopUp?.noticeTitle}"></h3>
+            <div class="row-right">
+                <span id="spanCreateDt" th:text="${noticePopUp?.createDt}"></span>
+                <span class="vertical-bar"></span>
+                <span sec:authentication="details.userName"></span>
+            </div>
+            <div class="horizontal-bar"></div>
+            <div class="view-text"><span th:text="${noticePopUp?.noticeContents}"></span></div>
+            <div class="horizontal-bar"></div>
+            <div class="view-attach-file">
+                <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
+                <span class="vertical-bar"></span>
+                <div class="file-attach-input">
+                    <div id="dropZoneFiles"></div>
+                    <div id="dropZoneUploadedFiles"></div>
+                </div>
+            </div>
+            <div class="horizontal-bar"></div>
+        </div>
+    </form>
     <div align="right" th:if="!${isPopUp}">
         <input type="checkbox" name="close" value="OK" onclick="closePop(1);" />오늘 하루 이창을 열지 않음
     </div>
-    
-<script th:inline="javascript">
-    
-    function closePop(expiredays) {
-    	var winName = window.name
-    	setCookie(winName, "done", expiredays);
-    	self.close();
-    }
+    <script th:inline="javascript">
+        /*<![CDATA[ */
+        const noticeCreateDt = document.getElementById('spanCreateDt');
 
-    //create cookie
-    function setCookie(name, value, expiredays) {
-    	//todo 기간변수
-    	var msOfDay = 86400000;
-    	var addMilliSecond = 54000000;
-    	var todayDate = new Date();
-    	var targetDate = new Date(parseInt(todayDate.getTime() / msOfDay) * msOfDay + addMilliSecond);
+        window.onload = function() {
+            noticeCreateDt.textContent = i18n.userDateTime(noticeCreateDt.textContent);
+            // 게시물 삭제 처리 시, validation 체크.
+            const noticeNo = /*[[${noticePopUp.noticeNo}]]*/;
+            if (noticeNo === null) {
+                aliceJs.alert('이미 삭제된 게시물 입니다.');
+                return history.go(-1);
+            }
+            fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});
+        }
 
-    	if (targetDate > new Date()) {
-    		expiredays = expiredays - 1;
-    	}
-    	targetDate.setDate(targetDate.getDate() + expiredays);
-    	document.cookie = name + "=" + escape(value) + '; path=/; expires=' + targetDate.toGMTString() + ';';
-    }
-</script>
+        function closePop(expiredays) {
+            var winName = window.name
+            setCookie(winName, "done", expiredays);
+            self.close();
+        }
+
+        //create cookie
+        function setCookie(name, value, expiredays) {
+            //todo 기간변수
+            var msOfDay = 86400000;
+            var addMilliSecond = 54000000;
+            var todayDate = new Date();
+            var targetDate = new Date(parseInt(todayDate.getTime() / msOfDay) * msOfDay + addMilliSecond);
+
+            if (targetDate > new Date()) {
+                expiredays = expiredays - 1;
+            }
+            targetDate.setDate(targetDate.getDate() + expiredays);
+            document.cookie = name + "=" + escape(value) + '; path=/; expires=' + targetDate.toGMTString() + ';';
+        }
+        /* ]]> */
+    </script>
 </body>
 </html>

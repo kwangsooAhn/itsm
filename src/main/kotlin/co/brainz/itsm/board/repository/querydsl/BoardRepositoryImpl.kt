@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.board.repository.querydsl
 
 import co.brainz.itsm.board.dto.BoardDto
@@ -6,6 +12,8 @@ import co.brainz.itsm.board.entity.QPortalBoardCommentEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
 import co.brainz.itsm.board.entity.QPortalBoardReadEntity
 import co.brainz.itsm.boardAdmin.entity.QPortalBoardCategoryEntity
+import co.brainz.itsm.constants.ItsmConstants
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
@@ -19,8 +27,9 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         boardAdminId: String,
         search: String,
         fromDt: LocalDateTime,
-        toDt: LocalDateTime
-    ): MutableList<BoardDto> {
+        toDt: LocalDateTime,
+        offset: Long
+    ): QueryResults<BoardDto> {
         val board = QPortalBoardEntity.portalBoardEntity
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
@@ -57,6 +66,8 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
                 board.createDt.lt(toDt)
             )
             .orderBy(board.boardGroupId.desc(), board.boardOrderSeq.asc())
-            .fetch()
+            .limit(ItsmConstants.SEARCH_DATA_COUNT)
+            .offset(offset)
+            .fetchResults()
     }
 }

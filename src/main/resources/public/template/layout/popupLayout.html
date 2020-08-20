@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Zenius ITSM</title>
+    <th:block th:replace="layout/fragments/commonHead :: commonHead"></th:block>
+    <th:block layout:fragment="cssLink"></th:block>
+    <th:block layout:fragment="scriptLink"></th:block>
+</head>
+<body>
+<div class="wrap-screen">
+    <div class="container-popup">
+        <th:block layout:fragment="content"></th:block>
+    </div>
+</div>
+<th:block layout:fragment="pageScript"></th:block>
+</body>
+</html>

@@ -197,6 +197,7 @@ insert into awf_url_auth_map values ('/rest/board-admin', 'post', 'board.admin.c
 insert into awf_url_auth_map values ('/rest/board-admin/category', 'post', 'board.admin.create');
 insert into awf_url_auth_map values ('/rest/board-admin/category/{id}', 'delete', 'board.admin.delete');
 insert into awf_url_auth_map values ('/rest/board-admin/{id}', 'delete', 'board.admin.delete');
+insert into awf_url_auth_map values ('/rest/boards', 'get', 'board.read');
 insert into awf_url_auth_map values ('/rest/boards', 'put', 'board.update');
 insert into awf_url_auth_map values ('/rest/boards', 'post', 'board.create');
 insert into awf_url_auth_map values ('/rest/boards/comments', 'put', 'board.update');
@@ -244,6 +245,7 @@ insert into awf_url_auth_map values ('/rest/documents-admin/{id}', 'get', 'docum
 insert into awf_url_auth_map values ('/rest/documents-admin/{id}/display', 'put', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/documents-admin/{id}/display', 'get', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/documents/{id}/data', 'get', 'document.create');
+insert into awf_url_auth_map values ('/rest/downloads', 'get', 'download.read');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'download.update');
 insert into awf_url_auth_map values ('/rest/downloads', 'put', 'download.update');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'download.read');

@@ -40,7 +40,7 @@
                     </div>
                     <div class="form-set">
                         <label th:text="#{auth.label.authDesc}"></label>
-                        <textarea id="txtAuthDesc" name="txtAuthDesc"
+                        <textarea id="txtAuthDesc" name="txtAuthDesc" class="textarea-scroll-wrapper"
                                   maxlength="200" rows="7" th:text="${authDetail?.authDesc}"></textarea>
                     </div>
                     <div class="form-set">
@@ -146,8 +146,18 @@
                 getAuthList(false);
             });
 
-            sortMenuList();
+            OverlayScrollbars(document.querySelector('#txtAuthDesc'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
 
+            sortMenuList();
         };
 
         /* 추가 버튼 */
