@@ -1,8 +1,15 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.download.service
 
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.download.dto.DownloadDto
+import co.brainz.itsm.download.dto.DownloadListDto
 import co.brainz.itsm.download.dto.DownloadSearchDto
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.mapper.DownloadMapper
@@ -22,28 +29,21 @@ class DownloadService(
     private val downloadMapper: DownloadMapper = Mappers.getMapper(DownloadMapper::class.java)
 
     /**
-     * 자료실 목록 조회.
+     * [downloadSearchDto]를 받아서 자료실 목록를 [List<DownloadListDto>] 반환한다.
      *
-     * @param downloadSearchDto
-     * @return List<DownloadDto>
      */
-    fun getDownloadList(downloadSearchDto: DownloadSearchDto): List<DownloadDto> {
+    fun getDownloadList(downloadSearchDto: DownloadSearchDto): List<DownloadListDto> {
         val fromDt = LocalDateTime.parse(downloadSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(downloadSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
-        val downloadEntity = when (downloadSearchDto.category) {
-            "all" -> downloadRepository.findDownloadEntityList("", downloadSearchDto.search, fromDt, toDt)
-            else -> downloadRepository.findDownloadEntityList(
-                downloadSearchDto.category,
-                downloadSearchDto.search,
-                fromDt,
-                toDt
-            )
-        }
-        val downloadList = mutableListOf<DownloadDto>()
-        downloadEntity.forEach {
-            downloadList.add(downloadMapper.toDownloadDto(it))
-        }
-        return downloadList
+        val offset = downloadSearchDto.offset
+
+        return downloadRepository.findDownloadEntityList(
+            downloadSearchDto.category,
+            downloadSearchDto.search,
+            fromDt,
+            toDt,
+            offset
+        )
     }
 
     /**
