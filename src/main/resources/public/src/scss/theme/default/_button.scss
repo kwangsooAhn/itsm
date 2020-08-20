@@ -12,8 +12,9 @@ button { // 기본 버튼 : ghost
     white-space: nowrap;
     vertical-align: middle;
     opacity: 1;
-    padding: 0.5rem 1.5625rem; // 8px 25px
+    padding: 0 1.5625rem; // 25px
     margin-left: 0.3125rem; // 5px
+    height: 2.5rem; // 40px
 
     &:disabled {
         background-color: $white;
