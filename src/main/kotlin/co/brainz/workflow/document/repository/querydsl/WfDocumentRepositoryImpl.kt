@@ -10,7 +10,8 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class WfDocumentRepositoryImpl : QuerydslRepositorySupport(RestTemplateDocumentSearchListDto::class.java),
+class WfDocumentRepositoryImpl :
+    QuerydslRepositorySupport(RestTemplateDocumentSearchListDto::class.java),
     WfDocumentRepositoryCustom {
 
     override fun findByDocuments(searchDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
@@ -34,10 +35,18 @@ class WfDocumentRepositoryImpl : QuerydslRepositorySupport(RestTemplateDocumentS
                 } else {
                     super.eq(document.documentStatus, searchDto.searchDocumentStatus)
                 },
-                super.likeIgnoreCase(document.documentName, searchDto.searchDocuments)
-                    ?.or(super.likeIgnoreCase(document.documentDesc, searchDto.searchDocuments)),
-                super.likeIgnoreCase(document.process.processName, searchDto.searchProcessName),
-                super.likeIgnoreCase(document.form.formName, searchDto.searchFormName)
+                super.likeIgnoreCase(document.documentName, searchDto.searchDocuments?.trim())
+                    ?.or(
+                        super.likeIgnoreCase(
+                            document.documentDesc,
+                            searchDto.searchDocuments?.trim()
+                        )
+                    ),
+                super.likeIgnoreCase(
+                    document.process.processName,
+                    searchDto.searchProcessName?.trim()
+                ),
+                super.likeIgnoreCase(document.form.formName, searchDto.searchFormName?.trim())
             ).orderBy(document.documentName.asc())
 
         return query.select(
