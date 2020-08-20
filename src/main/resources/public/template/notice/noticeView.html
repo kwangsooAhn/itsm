@@ -9,35 +9,37 @@
 <body>
 <th:block layout:fragment="content">
     <div class="contents-view">
-        <form id="frm" method="post">
+        <div class="header">
             <div class="page-title">
                 <h1 th:text="#{notice.label.list}"></h1>
                 <h5 th:text="#{notice.msg.viewDescription}"></h5>
             </div>
-            <div class="view">
-                <h3 th:text="${notice?.noticeTitle}"></h3>
-                <div class="row-right">
-                    <span id="spanCreateDt" th:text="${notice.createDt}"></span>
-                    <span class="vertical-bar"></span>
-                    <span sec:authentication="details.userName"></span>
-                </div>
-                <div class="horizontal-bar"></div>
-                <div class="view-text"><span th:text="${notice?.noticeContents}"></span></div>
-                <div class="horizontal-bar"></div>
-                <div class="view-attach-file">
-                    <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
-                    <span class="vertical-bar"></span>
+        </div>
+        <div class="view">
+            <h3 th:text="${notice?.noticeTitle}"></h3>
+            <div class="row-right">
+                <span id="spanCreateDt" th:text="${notice.createDt}"></span>
+                <span class="vertical-bar"></span>
+                <span sec:authentication="details.userName"></span>
+            </div>
+            <div class="horizontal-bar"></div>
+            <div class="view-text"><span th:text="${notice?.noticeContents}"></span></div>
+            <div class="horizontal-bar"></div>
+            <div class="view-attach-file">
+                <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
+                <span class="vertical-bar"></span>
+                <form id="frm" method="post">
                     <div class="file-attach-input">
                         <div id="dropZoneFiles"></div>
                         <div id="dropZoneUploadedFiles"></div>
                     </div>
-                </div>
-                <div class="horizontal-bar"></div>
-                <div class="btn-bar">
-                    <button class="default-line" type="button" onclick="location.href='/notices/search'" th:text="#{common.btn.list}"></button>
-                </div>
+                </form>
             </div>
-        </form>
+            <div class="horizontal-bar"></div>
+            <div class="btn-bar">
+                <button class="default-line" type="button" onclick="location.href='/notices/search'" th:text="#{common.btn.list}"></button>
+            </div>
+        </div>
     </div>
 </th:block>
 </body>

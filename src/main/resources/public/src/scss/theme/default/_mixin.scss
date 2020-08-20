@@ -98,10 +98,13 @@
 }
 
 @mixin view-template() {
+    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; } // 46px 60px 46px 60px
     .view {
+        padding: 3.125rem 19.375rem 3.125rem 19.375rem; // 50px 310px 50px 310px
         background-color: white;
         display: flex;
         flex-direction: column;
+        flex-grow: 1;
         div {
             display: flex;
             span {
@@ -123,7 +126,6 @@
             &.view-attach-file {
                 min-height: 3.125rem; // 50px
                 padding: 0.125rem 1.25rem; // 2px 20px
-                margin: auto 0;
             }
             &.horizontal-bar {
                 height: 0.0625rem; // 1px
@@ -135,6 +137,7 @@
 }
 
 @mixin edit-template() {
+    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; } // 46px 60px 46px 60px
     .edit {
         padding: 3.125rem 22.5rem 3.125rem 22.5rem; // 50px 360px 50px 360px
         background-color: white;

@@ -1,0 +1,6 @@
+// 상세 조회 화면인 경우.
+.contents-view {
+    @include contents-template();
+    flex-direction: column;
+    @include view-template();
+}
