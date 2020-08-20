@@ -412,7 +412,7 @@ textarea:focus {
 }
 
 .tr-notice {
-  background: rgba(255, 255, 0, 0.2);
+  background-color: rgba(135, 206, 255, 0.15);
 }
 
 .no-data-found {
