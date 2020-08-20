@@ -38,10 +38,12 @@
             &:hover {
                 div {
                     background-color: $context-menu-focus-background-color;
-                    color: $context-menu-focus-font-color;
                     cursor: pointer;
                     svg {
                         fill: $context-menu-focus-font-color;
+                    }
+                    label {
+                        color: $context-menu-focus-font-color;
                     }
                 }
             }

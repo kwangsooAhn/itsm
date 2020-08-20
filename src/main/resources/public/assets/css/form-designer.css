@@ -23,6 +23,8 @@ time, mark, audio, video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -136,7 +138,12 @@ button {
   font-weight: 900;
 }
 
-/* 전체 layout */
+/* 폼 디자이너 팝업 layout
+ * container - toolbar : 상단 메뉴
+ *           - contents : 왼쪽 패널
+ *                   - drawing-board : 실제 컴포넌트들이 그려지는 영역
+ *           - aside : 오른쪽 패널
+ */
 *,
 *::before,
 *::after {
@@ -144,75 +151,16 @@ button {
           box-sizing: border-box;
 }
 
-body, h1, h2, h3, h4, h5, input, textarea, select, button {
+body {
   font-family: "Noto Sans KR";
 }
 
-h1 {
-  font-size: 36px;
-  line-height: 54px;
-  font-weight: 700;
-  color: #3F4B56;
-}
-
-h2 {
-  font-size: 24px;
-  line-height: 36px;
-  font-weight: 500;
-  color: #3F4B56;
-}
-
-h3 {
-  font-size: 18px;
-  line-height: 27px;
-  font-weight: 500;
-  color: #3F4B56;
-}
-
-h4 {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-  color: #586872;
-}
-
-h5 {
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 400;
-  color: #7E848C;
-}
-
-input, textarea, select {
-  font-size: 1rem;
-  line-height: 1.5;
-  font-weight: 400;
-  color: #586872;
-}
-
-input::-webkit-input-placeholder, textarea::-webkit-input-placeholder, select::-webkit-input-placeholder {
-  color: gray;
-}
-
-input:-ms-input-placeholder, textarea:-ms-input-placeholder, select:-ms-input-placeholder {
-  color: gray;
-}
-
-input::-ms-input-placeholder, textarea::-ms-input-placeholder, select::-ms-input-placeholder {
-  color: gray;
-}
-
-input::placeholder, textarea::placeholder, select::placeholder {
-  color: gray;
-}
-
-/* 폼 디자이너 팝업 layout  */
 .form-designer .container {
   width: 100vw;
   height: 100vh;
-  background-color: #F7F8F9;
   padding: 0;
   margin: 0;
+  background-color: #F7F8F9;
 }
 
 .form-designer .container *:focus {
@@ -221,6 +169,50 @@ input::placeholder, textarea::placeholder, select::placeholder {
 
 .form-designer .container .toolbar {
   width: 100vw;
+  height: 3.125rem;
+  font-size: 18px;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: #0098FF;
+  padding: 0.9375rem 1.25rem;
+}
+
+.form-designer .container .toolbar svg.logo {
+  float: left;
+}
+
+.form-designer .container .toolbar span.name {
+  float: left;
+  padding: 0 1.25rem;
+  line-height: 1.25rem;
+}
+
+.form-designer .container .toolbar span.separator {
+  width: 0.063rem;
+  height: 1.25rem;
+  background-color: #ffffff;
+  margin-right: 1.25rem;
+  float: left;
+  opacity: 0.3;
+}
+
+.form-designer .container .toolbar a {
+  height: 1.25rem;
+  line-height: 1.25rem;
+  margin-right: 1.25rem;
+  float: left;
+}
+
+.form-designer .container .toolbar a img {
+  cursor: pointer;
+}
+
+.form-designer .container .toolbar span.form-name {
+  height: 1.25rem;
+  line-height: 1.25rem;
+  font-size: 16px;
+  line-height: 1.25rem;
+  float: right;
 }
 
 .form-designer .container .contents {
@@ -304,6 +296,7 @@ input::placeholder, textarea::placeholder, select::placeholder {
 
 .form-designer .container.form .contents .drawing-board[data-readonly=true] input[type=text],
 .form-designer .container.form .contents .drawing-board[data-readonly=true] textarea,
+.form-designer .container.form .contents .drawing-board[data-readonly=true] select,
 .form-designer .container.form .contents .drawing-board[data-readonly=true] button,
 .form-designer .container.form .contents .drawing-board[data-readonly=true] .ql-toolbar {
   pointer-events: none;
@@ -532,16 +525,17 @@ input::placeholder, textarea::placeholder, select::placeholder {
   /* Chrome, Safari, Opera*/
 }
 
+/* button 공통 */
 button {
   display: inline-block;
-  font-size: 1rem;
-  line-height: 1.5;
+  font-size: 16px;
+  line-height: 24px;
   font-weight: 500;
-  text-align: center;
   color: #3F4B56;
   background-color: transparent;
   border: 0.0625rem solid transparent;
   border-radius: 0.1875rem;
+  text-align: center;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -646,64 +640,289 @@ button.point-fill:not(:disabled):active {
   background-color: #0088E6;
 }
 
-/* 폼 디자이너 상단 툴 바 */
-.form-designer .container.form .toolbar {
-  height: 3.125rem;
-  font-size: 1.125rem;
-  color: #ffffff;
-  padding: 0.9375rem 1.25rem;
-  background-color: #0098FF;
-  line-height: 1.0rem;
-}
-
-.form-designer .container.form .toolbar svg.logo {
-  float: left;
-}
-
-.form-designer .container.form .toolbar span.name {
-  float: left;
-  padding: 0 1.25rem;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 1.25rem;
-}
-
-.form-designer .container.form .toolbar span.separator {
-  width: 0.063rem;
-  height: 1.25rem;
-  background-color: #ffffff;
-  margin-right: 1.25rem;
-  float: left;
-  opacity: 0.3px;
-}
-
-.form-designer .container.form .toolbar a {
-  height: 1.25rem;
-  line-height: 1.25rem;
-  margin-right: 1.25rem;
-  float: left;
-}
-
-.form-designer .container.form .toolbar a img {
-  cursor: pointer;
-}
-
-.form-designer .container.form .toolbar span.form-name {
-  height: 1.25rem;
-  line-height: 1.25rem;
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.25rem;
-  float: right;
-}
-
 /* 컴포넌트 */
 :root {
   --data-column: 12;
   --data-row: 2;
 }
 
-.contents .drawing-board .component {
+h1 {
+  font-size: 36px;
+  line-height: 54px;
+  font-weight: 700;
+  color: #3F4B56;
+}
+
+h2 {
+  font-size: 24px;
+  line-height: 36px;
+  font-weight: 500;
+  color: #3F4B56;
+}
+
+h3 {
+  font-size: 18px;
+  line-height: 27px;
+  font-weight: 500;
+  color: #3F4B56;
+}
+
+h4 {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #586872;
+}
+
+h5 {
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 400;
+  color: #7E848C;
+}
+
+input {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #586872;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
+}
+
+input::-webkit-input-placeholder {
+  color: #ACB4BF;
+}
+
+input:-ms-input-placeholder {
+  color: #ACB4BF;
+}
+
+input::-ms-input-placeholder {
+  color: #ACB4BF;
+}
+
+input::placeholder {
+  color: #ACB4BF;
+}
+
+input:focus, input:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+          box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+input:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  cursor: default;
+}
+
+input.validate-error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
+}
+
+textarea {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #586872;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
+}
+
+textarea::-webkit-input-placeholder {
+  color: #ACB4BF;
+}
+
+textarea:-ms-input-placeholder {
+  color: #ACB4BF;
+}
+
+textarea::-ms-input-placeholder {
+  color: #ACB4BF;
+}
+
+textarea::placeholder {
+  color: #ACB4BF;
+}
+
+textarea:focus, textarea:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+          box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+textarea:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  cursor: default;
+}
+
+textarea.validate-error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
+}
+
+select {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #586872;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
+}
+
+select:focus, select:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+          box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+select:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  cursor: default;
+}
+
+label,
+.label {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: #3F4B56;
+}
+
+input[type=radio] {
+  display: none;
+}
+
+input[type=radio] + span {
+  cursor: pointer;
+}
+
+input[type=radio] + span:before {
+  content: '';
+  display: inline-block;
+  border-radius: 50%;
+  border: 0.0625rem solid #EBEBEB;
+  width: 1.125rem;
+  height: 1.125rem;
+  position: relative;
+  top: -0.0625rem;
+  margin-right: 0.3125rem;
+  vertical-align: middle;
+  text-align: center;
+  background-color: #ffffff;
+}
+
+input[type=radio] + span:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+input[type=radio] + span:empty:before {
+  margin-right: 0;
+}
+
+input[type=radio]:checked + span:before {
+  border-color: #EBEBEB;
+}
+
+input[type=radio]:checked + span:after {
+  background-color: #0098FF;
+  -webkit-transform: translate(4px, 7px) scale(1);
+          transform: translate(4px, 7px) scale(1);
+}
+
+input[type=radio]:hover + span:before, input[type=radio]:focus + span:before {
+  outline: none;
+  border-color: #0098FF;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+          box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+input[type=radio]:disabled + span {
+  color: #ACB4BF;
+}
+
+input[type=radio]:disabled + span:before {
+  border-color: #F7F8F9;
+}
+
+input[type=radio]:disabled + span:after {
+  background-color: #F7F8F9;
+}
+
+input[type=checkbox] {
+  display: none;
+}
+
+input[type=checkbox] + span {
+  position: relative;
+  cursor: pointer;
+}
+
+input[type=checkbox] + span:before {
+  content: '';
+  margin-right: 0.3125rem;
+  display: inline-block;
+  border-radius: 0.125rem;
+  border: 0.0625rem solid #EBEBEB;
+  width: 1.125rem;
+  height: 1.125rem;
+  vertical-align: middle;
+  background-color: #ffffff;
+}
+
+input[type=checkbox] + span:empty:before {
+  margin-right: 0;
+}
+
+input[type=checkbox]:checked + span:before {
+  border-color: #EBEBEB;
+}
+
+input[type=checkbox]:checked + span:after {
+  content: '';
+  position: absolute;
+  top: 6px;
+  left: 0;
+  width: 12px;
+  height: 6px;
+  border: solid 2px #0098FF;
+  border-right: none;
+  border-top: none;
+  -webkit-transform: translate(3px, 4px) rotate(-45deg);
+          transform: translate(3px, 4px) rotate(-45deg);
+}
+
+input[type=checkbox]:hover + span:after, input[type=checkbox]:focus + span:after {
+  outline: none;
+  border-color: #0098FF;
+  -webkit-box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+          box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+input[type=checkbox]:disabled + span {
+  color: #ACB4BF;
+}
+
+input[type=checkbox]:disabled + span:before {
+  background-color: #F7F8F9;
+}
+
+.component {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -713,12 +932,11 @@ button.point-fill:not(:disabled):active {
           align-items: center;
   width: 100%;
   max-width: 100%;
-  border: solid 0.0625rem #ffffff;
+  border: 0.0625rem solid transparent;
   padding: 1.25rem 2.125rem 1.25rem 0.8125rem;
-  font-family: "Noto Sans KR";
 }
 
-.contents .drawing-board .component .move-handler {
+.component .move-handler {
   display: none;
   width: 0.8125rem;
   height: 0.8125rem;
@@ -732,7 +950,7 @@ button.point-fill:not(:disabled):active {
   background-image: url("../media/icons/form/editor/icon_move.png");
 }
 
-.contents .drawing-board .component .field-group {
+.component .field-group {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -744,84 +962,69 @@ button.point-fill:not(:disabled):active {
   width: 100%;
 }
 
-.contents .drawing-board .component .field-group .field-label {
-  color: #3F4B56;
-  font-size: 16px;
-  line-height: 27px;
-  font-weight: 500;
+.component .field-group .field-label {
   -ms-flex-preferred-size: calc((100% * var(--data-column, 12)) / 12);
       flex-basis: calc((100% * var(--data-column, 12)) / 12);
   padding-right: 0.938rem;
 }
 
-.contents .drawing-board .component .field-group .field-label.left {
+.component .field-group .field-label.left {
   text-align: left;
 }
 
-.contents .drawing-board .component .field-group .field-label.center {
+.component .field-group .field-label.center {
   text-align: center;
 }
 
-.contents .drawing-board .component .field-group .field-label.right {
+.component .field-group .field-label.right {
   text-align: right;
 }
 
-.contents .drawing-board .component .field-group .field-label.hidden {
+.component .field-group .field-label.hidden {
   display: none;
 }
 
-.contents .drawing-board .component .field-group .field-label .label {
+.component .field-group .field-label .label {
   display: inline-block;
 }
 
-.contents .drawing-board .component .field-group .field-label span[class="required"] {
+.component .field-group .field-label span[class="required"] {
   padding-left: 0.3125rem;
   font-weight: 700;
 }
 
-.contents .drawing-board .component .field-group .field-label span[class="required"]::after {
+.component .field-group .field-label span[class="required"]::after {
   color: #FF405A;
   content: "\002a";
 }
 
-.contents .drawing-board .component .field-group .field-empty {
+.component .field-group .field-empty {
   -ms-flex-preferred-size: calc(100% * (12 - var(--data-column, 12)));
       flex-basis: calc(100% * (12 - var(--data-column, 12)));
 }
 
-.contents .drawing-board .component .field-group .field-empty:not(.top) {
+.component .field-group .field-empty:not(.top) {
   display: none;
 }
 
-.contents .drawing-board .component .field-group .field-content {
-  color: #586872;
-  font-size: 16px;
-  line-height: 27px;
-  font-weight: 400;
+.component .field-group .field-content {
   -ms-flex-preferred-size: calc((100% * var(--data-column, 12)) / 12);
       flex-basis: calc((100% * var(--data-column, 12)) / 12);
 }
 
-.contents .drawing-board .component .field-group .field-content.horizontal div {
+.component .field-group .field-content.horizontal div {
   display: inline-block;
 }
 
-.contents .drawing-board .component .field-group .field-content > input[type=text] {
+.component .field-group .field-content > input[type=text] {
   width: 100%;
   height: 2.5rem;
-  border: 0.0625rem solid #EBEBEB;
-  background-color: #ffffff;
   padding-left: 10px;
 }
 
-.contents .drawing-board .component .field-group .field-content > input[type=text]:focus {
-  border: 0.0625rem solid #0098FF;
-}
-
-.contents .drawing-board .component .field-group .field-content textarea {
+.component .field-group .field-content textarea {
   width: 100%;
   line-height: 2.5rem;
-  border: 0.0625rem solid #EBEBEB;
   resize: none;
   padding-left: 10px;
   -ms-overflow-style: none;
@@ -830,199 +1033,99 @@ button.point-fill:not(:disabled):active {
   /* Firefox */
 }
 
-.contents .drawing-board .component .field-group .field-content textarea::-webkit-scrollbar {
+.component .field-group .field-content textarea::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
 
-.contents .drawing-board .component .field-group .field-content textarea:focus {
-  border: 0.0625rem solid #0098FF;
-}
-
-.contents .drawing-board .component .field-group .field-content .editor-container {
+.component .field-group .field-content .editor-container {
   height: calc(2.5rem * var(--data-row));
 }
 
-.contents .drawing-board .component .field-group .field-content .ql-snow {
-  border-color: #EBEBEB;
+.component .field-group .field-content .ql-snow {
+  border: 0.0625rem solid #EBEBEB;
   background-color: #ffffff;
 }
 
-.contents .drawing-board .component .field-group .field-content .ql-snow .ql-editor.ql-blank::before {
+.component .field-group .field-content .ql-snow .ql-editor.ql-blank::before {
   content: attr(data-placeholder);
 }
 
-.contents .drawing-board .component .field-group .field-content .quill-wrap .ql-active {
+.component .field-group .field-content .quill-wrap .ql-active {
   border: 0.0625rem solid #EBEBEB !important;
   border-radius: 0.25rem;
 }
 
-.contents .drawing-board .component .field-group .field-content .quill-wrap button,
-.contents .drawing-board .component .field-group .field-content .quill-wrap .ql-picker {
+.component .field-group .field-content .quill-wrap button,
+.component .field-group .field-content .quill-wrap .ql-picker {
   margin-right: 0.125rem;
 }
 
-.contents .drawing-board .component .field-group .field-content .picker-wrapper-date {
+.component .field-group .field-content .picker-wrapper-date {
   width: 100%;
 }
 
-.contents .drawing-board .component .field-group .field-content .picker-wrapper-date .picker-main {
+.component .field-group .field-content .picker-wrapper-date .picker-main {
   width: 100%;
   height: 2.5rem;
-  border: 0.0625rem solid #EBEBEB;
-  background-color: #ffffff;
-  padding-left: 10px;
   background: url("../media/icons/form/editor/icon_calendar.png") no-repeat 98% 50%;
 }
 
-.contents .drawing-board .component .field-group .field-content .picker-wrapper-date .picker-main:focus {
-  border: 0.0625rem solid #0098FF;
-}
-
-.contents .drawing-board .component .field-group .field-content select {
-  min-width: 9.375rem;
+.component .field-group .field-content select {
+  min-width: 17.19rem;
   height: 2.5rem;
-  border: 0.0625rem solid #EBEBEB;
   padding-left: 10px;
 }
 
-.contents .drawing-board .component .field-group .field-content select:focus {
-  border: 0.0625rem solid #0098FF;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-radio {
+.component .field-group .field-content .field-radio {
+  position: relative;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #586872;
   margin: 0 0.625rem 0 0;
 }
 
-.contents .drawing-board .component .field-group .field-content .field-radio span:first-of-type {
+.component .field-group .field-content .field-radio span:first-of-type {
   padding-right: 0.4375rem;
 }
 
-.contents .drawing-board .component .field-group .field-content .field-radio input[type=radio] {
-  display: none;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-radio input[type=radio] + span:before {
-  content: '';
-  border-radius: 100%;
-  border: 0.0625rem solid #EBEBEB;
-  display: inline-block;
-  width: 0.8125rem;
-  height: 0.8125rem;
-  position: relative;
-  top: -0.0625rem;
-  margin-right: 0.3125rem;
-  vertical-align: middle;
-  cursor: pointer;
-  text-align: center;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-radio input[type=radio] + span:empty:before {
-  margin-right: 0;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-radio input[type=radio]:checked + span:before {
-  background-color: #0098FF;
-  -webkit-box-shadow: inset 0 0 0 0.125rem #ffffff;
-          box-shadow: inset 0 0 0 0.125rem #ffffff;
-  border: 0.0625rem solid #0098FF;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-radio input[type=radio]:focus + span:before {
-  border-color: #0098FF;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-radio input[type=radio]:disabled + span {
-  color: #ACB4BF;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-radio input[type=radio]:disabled + span:before {
-  background: #F7F8F9;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-checkbox {
+.component .field-group .field-content .field-checkbox {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #586872;
   margin: 0 0.625rem 0 0;
 }
 
-.contents .drawing-board .component .field-group .field-content .field-checkbox span:first-of-type {
+.component .field-group .field-content .field-checkbox span:first-of-type {
   padding-right: 0.4375rem;
 }
 
-.contents .drawing-board .component .field-group .field-content .field-checkbox input[type=checkbox] {
-  display: none;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-checkbox input[type=checkbox] + span {
-  position: relative;
-  cursor: pointer;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-checkbox input[type=checkbox] + span:before {
-  content: '';
-  margin-right: 0.3125rem;
-  display: inline-block;
-  border-radius: 0.125rem;
-  border: 0.0625rem solid #EBEBEB;
-  width: 0.8125rem;
-  height: 0.8125rem;
-  vertical-align: middle;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-checkbox input[type=checkbox] + span:empty:before {
-  margin-right: 0;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-checkbox input[type=checkbox]:checked + span:before {
-  background-color: #ffffff;
-  border: 0.0625rem solid #0098FF;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-checkbox input[type=checkbox]:checked + span:after {
-  content: '';
-  position: absolute;
-  left: 0.125rem;
-  top: 0.5625rem;
-  background: #0098FF;
-  width: 0.125rem;
-  height: 0.125rem;
-  -webkit-box-shadow: 0.125rem 0 0 #0098FF, 0.25rem 0 0 #0098FF, 0.25rem -0.125rem 0 #0098FF, 0.25rem -0.25rem 0 #0098FF, 0.25rem -0.375rem 0 #0098FF;
-          box-shadow: 0.125rem 0 0 #0098FF, 0.25rem 0 0 #0098FF, 0.25rem -0.125rem 0 #0098FF, 0.25rem -0.25rem 0 #0098FF, 0.25rem -0.375rem 0 #0098FF;
-  -webkit-transform: rotate(45deg);
-          transform: rotate(45deg);
-}
-
-.contents .drawing-board .component .field-group .field-content .field-checkbox input[type=checkbox]:disabled + span {
-  color: #ACB4BF;
-}
-
-.contents .drawing-board .component .field-group .field-content .field-checkbox input[type=checkbox]:disabled + span:before {
-  background: #F7F8F9;
-}
-
-.contents .drawing-board .component .field-group .field-content.vertical .field-radio,
-.contents .drawing-board .component .field-group .field-content.vertical .field-checkbox {
+.component .field-group .field-content.vertical .field-radio,
+.component .field-group .field-content.vertical .field-checkbox {
   display: table;
   margin-bottom: 0.625rem;
 }
 
-.contents .drawing-board .component .field-group .field-content.vertical .field-radio:last-of-type,
-.contents .drawing-board .component .field-group .field-content.vertical .field-checkbox:last-of-type {
+.component .field-group .field-content.vertical .field-radio:last-of-type,
+.component .field-group .field-content.vertical .field-checkbox:last-of-type {
   margin-bottom: 0;
 }
 
-.contents .drawing-board .component .field-group .field-content.left {
+.component .field-group .field-content.left {
   text-align: left;
 }
 
-.contents .drawing-board .component .field-group .field-content.center {
+.component .field-group .field-content.center {
   text-align: center;
 }
 
-.contents .drawing-board .component .field-group .field-content.right {
+.component .field-group .field-content.right {
   text-align: right;
 }
 
-.contents .drawing-board .component .field-group .field-content .img-placeholder {
+.component .field-group .field-content .img-placeholder {
   display: none;
   height: 8.75rem;
   border: 0.0625rem dashed #EBEBEB;
@@ -1034,41 +1137,41 @@ button.point-fill:not(:disabled):active {
   padding: 1.25rem 0 0.625rem 0;
 }
 
-.contents .drawing-board .component .field-group .field-content .img-placeholder img {
+.component .field-group .field-content .img-placeholder img {
   content: url("../media/icons/form/editor/icon_imageupload_s.svg");
 }
 
-.contents .drawing-board .component .field-group .field-content .img-placeholder p {
+.component .field-group .field-content .img-placeholder p {
   margin: 0.625rem 0 0 0;
 }
 
-.contents .drawing-board .component .field-group .field-content .field-img[src=""] {
+.component .field-group .field-content .field-img[src=""] {
   display: none;
 }
 
-.contents .drawing-board .component .field-group .field-content .field-img[src=""] + .img-placeholder {
+.component .field-group .field-content .field-img[src=""] + .img-placeholder {
   display: block;
 }
 
-.contents .drawing-board .component .field-group .field-content hr {
+.component .field-group .field-content hr {
   border-bottom-width: 0;
 }
 
-.contents .drawing-board .component .field-group .field-content.custom-code {
+.component .field-group .field-content.custom-code {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 
-.contents .drawing-board .component .field-group .field-content.custom-code input[type=text]:-moz-read-only {
+.component .field-group .field-content.custom-code input[type=text]:-moz-read-only {
   pointer-events: none;
 }
 
-.contents .drawing-board .component .field-group .field-content.custom-code input[type=text]:read-only {
+.component .field-group .field-content.custom-code input[type=text]:read-only {
   pointer-events: none;
 }
 
-.contents .drawing-board .component .field-group .field-content.custom-code input[type=button] {
+.component .field-group .field-content.custom-code input[type=button] {
   -webkit-box-flex: 1;
       -ms-flex: 1 1 auto;
           flex: 1 1 auto;
@@ -1081,7 +1184,7 @@ button.point-fill:not(:disabled):active {
   cursor: pointer;
 }
 
-.contents .drawing-board .component .field-group .field-content .dropbox {
+.component .field-group .field-content .dropbox {
   height: 8.75rem;
   line-height: 8.75rem;
   background-color: #F7F8F9;
@@ -1092,12 +1195,12 @@ button.point-fill:not(:disabled):active {
   overflow: hidden;
 }
 
-.contents .drawing-board .component .field-group .field-content .dropbox span {
+.component .field-group .field-content .dropbox span {
   color: #0098FF;
   text-decoration: underline;
 }
 
-.contents .drawing-board .component .tooltip-menu {
+.component .tooltip-menu {
   visibility: hidden;
   position: absolute;
   background-color: #ffffff;
@@ -1108,41 +1211,41 @@ button.point-fill:not(:disabled):active {
   right: -0.0625rem;
 }
 
-.contents .drawing-board .component .tooltip-menu .menu {
+.component .tooltip-menu .menu {
   margin: 0 0.125rem;
   padding: 0.5625rem 0 0 0;
 }
 
-.contents .drawing-board .component .tooltip-menu .menu .menu-item {
+.component .tooltip-menu .menu .menu-item {
   display: inline-block;
 }
 
-.contents .drawing-board .component .tooltip-menu .menu .menu-item a {
+.component .tooltip-menu .menu .menu-item a {
   margin: 0 0.25rem;
   padding: 0 0.5rem;
 }
 
-.contents .drawing-board .component .tooltip-menu .menu .menu-item a svg {
+.component .tooltip-menu .menu .menu-item a svg {
   fill: #87CEFF;
 }
 
-.contents .drawing-board .component .tooltip-menu .menu .menu-item:hover {
+.component .tooltip-menu .menu .menu-item:hover {
   cursor: pointer;
 }
 
-.contents .drawing-board .component .tooltip-menu .menu .menu-item:hover a svg {
+.component .tooltip-menu .menu .menu-item:hover a svg {
   fill: #0098FF;
 }
 
-.contents .drawing-board .component .tooltip-menu .menu-item.list {
+.component .tooltip-menu .menu-item.list {
   display: none;
 }
 
-.contents .drawing-board .component[data-type="editbox"] {
+.component[data-type="editbox"] {
   padding: 0 2.125rem 0 0.8125rem;
 }
 
-.contents .drawing-board .component[data-type="editbox"] .field-group[contenteditable=true] {
+.component[data-type="editbox"] .field-group[contenteditable=true] {
   height: 5.625rem;
   line-height: 5.625rem;
   color: #929AA6;
@@ -1151,85 +1254,85 @@ button.point-fill:not(:disabled):active {
   cursor: text;
 }
 
-.contents .drawing-board .component[data-type="editbox"] .field-group[contenteditable=true]:empty::before {
+.component[data-type="editbox"] .field-group[contenteditable=true]:empty::before {
   content: attr(placeholder);
   display: block;
 }
 
-.contents .drawing-board .component[data-type="editbox"] .tooltip-menu .menu-item.list {
+.component[data-type="editbox"] .tooltip-menu .menu-item.list {
   display: inline-block;
 }
 
-.contents .drawing-board .component.selected {
+.component.selected {
   background-color: rgba(135, 206, 255, 0.1);
   border: solid 0.0625rem #87CEFF;
 }
 
-.contents .drawing-board .component.selected .field-group[contenteditable=true] {
+.component.selected .field-group[contenteditable=true] {
   color: #87CEFF;
 }
 
-.contents .drawing-board .component.selected .tooltip-menu {
+.component.selected .tooltip-menu {
   visibility: visible;
 }
 
-.contents .drawing-board .component.selected .tooltip-menu .menu-item.hidden {
+.component.selected .tooltip-menu .menu-item.hidden {
   display: none;
 }
 
-.contents .drawing-board .component.selected.adjoin {
+.component.selected.adjoin {
   border-bottom-color: rgba(135, 206, 255, 0);
 }
 
-.contents .drawing-board .component.selected + .component.selected {
+.component.selected + .component.selected {
   border-width: 0.0625rem;
   border-style: solid;
   border-color: rgba(135, 206, 255, 0) #87CEFF #87CEFF #87CEFF;
 }
 
-.contents .drawing-board .component.selected + .component.selected.adjoin {
+.component.selected + .component.selected.adjoin {
   border-bottom-color: rgba(135, 206, 255, 0);
 }
 
-.contents .drawing-board .component.selected ~ .component.selected .tooltip-menu {
+.component.selected ~ .component.selected .tooltip-menu {
   visibility: hidden;
 }
 
-.contents .drawing-board .component.over {
+.component.over {
   border-top: 0.125rem dashed #0098FF;
 }
 
-.contents .drawing-board .component.over * {
+.component.over * {
   pointer-events: none;
 }
 
-.contents .drawing-board .component:hover .move-handler {
+.component:hover .move-handler {
   opacity: 1;
 }
 
-.contents .drawing-board .component:hover [data-type="editbox"] {
+.component:hover [data-type="editbox"] {
   cursor: text;
 }
 
-.contents .drawing-board .component:hover [data-type]:not([data-type="editbox"]) {
+.component:hover [data-type]:not([data-type="editbox"]) {
   cursor: pointer;
 }
 
-.contents .drawing-board .component[data-displayType="hidden"] {
+.component[data-displayType="hidden"] {
   display: none;
 }
 
-.contents .drawing-board .component[data-displayType]:not([data-displayType="editableRequired"]) .field-group .field-label span[class="required"] {
+.component[data-displayType]:not([data-displayType="editableRequired"]) .field-group .field-label span[class="required"] {
   display: none;
 }
 
-.contents .drawing-board .component[data-displayType="readonly"] input[type=text], .contents .drawing-board .component[data-displayType="readonly"] textarea, .contents .drawing-board .component[data-displayType="readonly"] select {
+.component[data-displayType="readonly"] input[type=text], .component[data-displayType="readonly"] textarea, .component[data-displayType="readonly"] select {
   background-color: #F7F8F9 !important;
   color: #ACB4BF !important;
   pointer-events: none;
 }
 
-.contents .drawing-board .validate-error {
+.validate-error {
   border: 1px solid #FF405A !important;
   color: #FF405A !important;
 }
@@ -1295,12 +1398,15 @@ button.point-fill:not(:disabled):active {
 
 .context-menu .menu .menu-item.active div, .context-menu .menu .menu-item:hover div {
   background-color: rgba(135, 206, 255, 0.1);
-  color: #0098FF;
   cursor: pointer;
 }
 
 .context-menu .menu .menu-item.active div svg, .context-menu .menu .menu-item:hover div svg {
   fill: #0098FF;
+}
+
+.context-menu .menu .menu-item.active div label, .context-menu .menu .menu-item:hover div label {
+  color: #0098FF;
 }
 
 .context-menu.on {
