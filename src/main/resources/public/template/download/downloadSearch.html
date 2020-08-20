@@ -20,7 +20,7 @@
                     <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
                     <form id="searchFrm">
                         <select id="category" name="category" class="column-2">
-                            <option value="all" th:text="#{download.category.all}"></option>
+                            <option value="" th:text="#{download.category.all}"></option>
                             <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
                         </select>
                         <input type="text" id="search" name="search" class="search column-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>

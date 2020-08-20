@@ -7,6 +7,7 @@
 package co.brainz.itsm.download.controller
 
 import co.brainz.itsm.download.dto.DownloadDto
+import co.brainz.itsm.download.dto.DownloadListDto
 import co.brainz.itsm.download.dto.DownloadSearchDto
 import co.brainz.itsm.download.service.DownloadService
 import org.springframework.web.bind.annotation.DeleteMapping
@@ -27,7 +28,7 @@ class DownloadRestController(private val downloadService: DownloadService) {
      *
      */
     @GetMapping("")
-    fun getBoardList(downloadSearchDto: DownloadSearchDto): List<DownloadDto> {
+    fun getBoardList(downloadSearchDto: DownloadSearchDto): List<DownloadListDto> {
         return downloadService.getDownloadList(downloadSearchDto)
     }
 

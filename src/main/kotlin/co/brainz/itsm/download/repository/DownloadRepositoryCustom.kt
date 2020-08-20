@@ -6,8 +6,8 @@
 
 package co.brainz.itsm.download.repository
 
+import co.brainz.itsm.download.dto.DownloadListDto
 import co.brainz.itsm.download.entity.DownloadEntity
-import com.querydsl.core.QueryResults
 import java.time.LocalDateTime
 
 interface DownloadRepositoryCustom {
@@ -18,7 +18,7 @@ interface DownloadRepositoryCustom {
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
-    ): QueryResults<DownloadEntity>
+    ): List<DownloadListDto>
 
     fun findDownloadTopList(limit: Long): List<DownloadEntity>
 }
