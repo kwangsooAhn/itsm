@@ -25,9 +25,10 @@
 @mixin menuArrow {
     padding: 0 6px 0 0;
     float: right;
-    width: 6px;
+    width: 12px;
     height: 20px;
     margin-left: auto;
+    background: #929aa6;
 }
 
 @mixin list-template() {
