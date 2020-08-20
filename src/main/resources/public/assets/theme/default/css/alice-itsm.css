@@ -2602,7 +2602,7 @@ textarea:focus {
   background: transparent;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track {
-  background: rgba(235, 235, 235, 0.6);
+  background: #f1f1f1;
 }
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
   background: #E1E3E6;
@@ -2850,3 +2850,5 @@ button.point-fill:not(:disabled):focus, button.point-fill:not(:disabled):hover {
 .row-right span:last-child {
   margin: auto 1.25rem auto 0;
 }
+
+/*# sourceMappingURL=alice-itsm.css.map */

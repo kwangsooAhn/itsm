@@ -12,7 +12,6 @@ import co.brainz.workflow.provider.dto.RestTemplateTokenStakeholderViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenViewDto
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.WfTokenEntity
-import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
 import kotlin.collections.LinkedHashMap
@@ -30,8 +29,7 @@ class WfTokenService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfDocumentDisplayRepository: WfDocumentDisplayRepository,
     private val wfFormService: WfFormService,
-    private val wfActionService: WfActionService,
-    private val wfCandidateRepository: WfCandidateRepository
+    private val wfActionService: WfActionService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -167,8 +165,10 @@ class WfTokenService(
             WfTokenConstants.AssigneeType.ASSIGNEE.code -> assignees.add(tokenEntity.assigneeId.toString())
             WfTokenConstants.AssigneeType.USERS.code,
             WfTokenConstants.AssigneeType.GROUPS.code -> {
-                wfCandidateRepository.findByTokenIdAndCandidateType(tokenEntity, assigneeType).forEach { candidate ->
-                    assignees.add(candidate.candidateValue)
+                tokenEntity.element.elementDataEntities.forEach { data ->
+                    if (data.attributeId == WfElementConstants.AttributeId.ASSIGNEE.value) {
+                        assignees.add(data.attributeValue)
+                    }
                 }
             }
         }

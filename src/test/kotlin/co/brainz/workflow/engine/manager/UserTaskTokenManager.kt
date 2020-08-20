@@ -188,7 +188,10 @@ class UserTaskTokenManager {
             }
         }
         val element = wfElementRepository.findWfElementEntityByElementId(elementId)
-        val elementDataEntity = wfElementDataRepository.findByElementAndAttributeId(element, WfElementConstants.AttributeId.ASSIGNEE_TYPE.value)
+        val elementDataEntity = wfElementDataRepository.findByElementAndAttributeId(
+            element,
+            WfElementConstants.AttributeId.ASSIGNEE_TYPE.value
+        )
         val copyElementDataEntity = elementDataEntity.copy(attributeValue = WfTokenConstants.AssigneeType.USERS.code)
         wfElementDataRepository.save(copyElementDataEntity)
         this.tokenDto = WfTokenDto(
@@ -202,7 +205,14 @@ class UserTaskTokenManager {
         this.tokenDto = this.tokenManager.createToken(tokenDto)
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
 
-        Assertions.assertThat(token.candidate).size().isNotZero
+        val assigneeList: MutableList<String> = mutableListOf()
+        token.element.elementDataEntities.forEach { data ->
+            if (data.attributeId == WfElementConstants.AttributeId.ASSIGNEE.value) {
+                assigneeList.add(data.attributeValue)
+            }
+        }
+
+        Assertions.assertThat(assigneeList).size().isNotZero
     }
 
     /**
