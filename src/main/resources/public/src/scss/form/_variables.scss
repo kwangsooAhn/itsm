@@ -1,126 +1,262 @@
 /* Variables */
-// font
-$font-family    : "Noto Sans KR";
-$font-size      : 11px;
+
+// font family
+$font-family: "Noto Sans KR";
+
 // color
-$black          : #000000;
-$white          : #ffffff;
-$red            : #FF405A;
-$orange         : #FF7319;
-$green          : #00C462;
-$focus-black    : #283238;
-$ground-black   : #333D47;
-$light-black    : #3F4B56;
-$dark-gray      : #586872;
-$warm-gray      : #7E848C;
-$blue-gray      : #929AA6;
-$gray           : #ACB4BF;
-$pressed-gray   : #CCCED1;
-$default-gray   : #E1E3E6;
-$line-gray      : #EBEBEB;
-$light-gray     : #F7F8F9;
-$dark-blue      : #0060A5;
-$pressed-blue   : #0088E6;
-$point-blue     : #0098FF;
-$hover-blue     : #33ADFF;
-$light-blue     : #87CEFF;
+$black:            #000000;
+$white:            #ffffff;
+$red:              #FF405A;
+$orange:           #FF7319;
+$green:            #00C462;
+$focus-black:      #283238;
+$ground-black:     #333D47;
+$light-black:      #3F4B56;
+$dark-gray:        #586872;
+$warm-gray:        #7E848C;
+$blue-gray:        #929AA6;
+$gray:             #ACB4BF;
+$pressed-gray:     #CCCED1;
+$default-gray:     #E1E3E6;
+$line-gray:        #EBEBEB;
+$light-gray:       #F7F8F9;
+$dark-blue:        #0060A5;
+$pressed-blue:     #0088E6;
+$point-blue:       #0098FF;
+$hover-blue:       #33ADFF;
+$light-blue:       #87CEFF;
+
+// h1 ~ h5
+$h1-font-size:       36px;
+$h2-font-size:       24px;
+$h3-font-size:       18px;
+$h4-font-size:       16px;
+$h5-font-size:       14px;
+
+$h1-font-weight:     700; // bold
+$h2-font-weight:     500; // medium
+$h3-font-weight:     500; // medium
+$h4-font-weight:     400; // regular
+$h5-font-weight:     400; // regular
+
+$h1-line-height:     54px; 
+$h2-line-height:     36px;
+$h3-line-height:     27px;
+$h4-line-height:     24px;
+$h5-line-height:     18px;
+
+$h1-font-color:      $light-black; 
+$h2-font-color:      $light-black;
+$h3-font-color:      $light-black;
+$h4-font-color:      $dark-gray;
+$h5-font-color:      $warm-gray;
+
+// input
+$input-font-size:            16px;
+$input-font-weight:          400; // regular
+$input-line-height:          24px;
+$input-font-color:           $dark-gray;
+$input-border:               0.0625rem solid $line-gray;
+$input-bg-color:             $white;
+$input-placeholder-color:    $gray;
+$input-focus-border:         0.0625rem solid $point-blue;
+$input-focus-box-shadow:     0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+$input-pressed-border:       0.0625rem solid $point-blue;
+$input-disabled-color:       $gray;
+$input-disabled-bg-color:    $light-gray;
+$input-error-color:          $red !important;
+$input-error-border:         0.0625rem solid $red !important;
+
+// textarea
+$textarea-font-size:         16px;
+$textarea-font-weight:       400; // regular
+$textarea-line-height:       24px;
+$textarea-font-color:        $dark-gray;
+$textarea-border:            0.0625rem solid $line-gray;
+$textarea-bg-color:          $white;
+$textarea-placeholder-color: $gray;
+$textarea-focus-border:      0.0625rem solid $point-blue;
+$textarea-focus-box-shadow:  0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+$textarea-pressed-border:    0.0625rem solid $point-blue;
+$textarea-disabled-color:    $gray;
+$textarea-disabled-bg-color: $light-gray;
+$textarea-error-color:       $red !important;
+$textarea-error-border:      0.0625rem solid $red !important;
+
+// select
+$select-font-size:           16px;
+$select-font-weight:         400; // regular
+$select-line-height:         24px;
+$select-font-color:          $dark-gray;
+$select-border:              0.0625rem solid $line-gray;
+$select-bg-color:            $white;
+$select-focus-border:        0.0625rem solid $point-blue;
+$select-focus-box-shadow:    0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+$select-pressed-border:      0.0625rem solid $point-blue;
+$select-disabled-color:      $gray;
+$select-disabled-bg-color:   $light-gray;
+
+// label
+$label-font-size:            16px;
+$label-font-weight:          500; // medium
+$label-line-height:          24px;
+$label-font-color:           $light-black;
+
+// radio button
+$radio-font-size:            16px;
+$radio-font-weight:          400; // regular
+$radio-line-height:          24px;
+$radio-font-color:           $dark-gray;
+$radio-border:               0.0625rem solid $line-gray;
+$radio-bg-color:             $white;
+$radio-focus-border-color:   $point-blue;
+$radio-focus-box-shadow:     0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+$radio-pressed-color:        $point-blue;
+$radio-pressed-border-color: $line-gray;
+$radio-disabled-color:       $gray;
+$radio-disabled-bg-color:    $light-gray;
+
+// checkbox
+$checkbox-font-size:            16px;
+$checkbox-font-weight:          400; // regular
+$checkbox-line-height:          24px;
+$checkbox-font-color:           $dark-gray;
+$checkbox-border:               0.0625rem solid $line-gray;
+$checkbox-bg-color:             $white;
+$checkbox-focus-border-color:   $point-blue;
+$checkbox-focus-box-shadow:     0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+$checkbox-pressed-color:        $point-blue;
+$checkbox-pressed-border-color: $line-gray;
+$checkbox-disabled-color:       $gray;
+$checkbox-disabled-bg-color:    $light-gray;
+
+// image
+$img-font-size:                 16px;
+$img-font-weight:               400; // regular
+$img-line-height:               24px;
+$img-placeholder-color:         $gray;
+$img-border:                    0.0625rem solid $line-gray;
+$img-bg-color:                  $light-gray;
+
+// button
+$button-font-size:              16px;
+$button-font-weight:            500; // medium
+$button-line-height:            24px;
+$button-font-color:             $light-black;
+$button-border:                 0.0625rem solid transparent;
+$button-bg-color:               transparent;
+
+// fileuploader
+$dropzone-asset-path:           "../media/icons/dropzone";
+$dropzone-font-size:            16px;
+$dropzone-font-weight:          400; // regular
+$dropzone-line-height:          24px;
+$dropzone-font-color:           $gray;
+$dropzone-border:               0.0625rem solid $line-gray;
+$dropzone-bg-color:             $light-gray;
+$dropzone-progress-color:       $point-blue;
+$dropzone-progress-bg-color:    $line-gray;
+$dropzone-filename-font-color:  $dark-gray;
+$dropzone-filesize-font-color:  $gray;
+$dropzone-preview-height:       5rem; // 80px;
+$dropzone-point-color:          $point-blue;
+
+// datepicker
+$datepicker-asset-path:         "../media/icons/datepicker";
 
 // container
-$container-background-color: $light-gray;
-
-// container > contents, aside > drawing-board
-$drawing-board-background-color: $white;
-$drawing-board-border: 0.0625rem solid $line-gray; // 1px
-$drawing-board-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
-
-/* form */
-$form-asset-path: "../media/icons/form";
-$column-row: 12;  // 폼을 나누는 갯수
+$container-background-color:    $light-gray;
 
 // container > toolbar
-$form-toolbar-height: 3.125rem; // 50px 
-$form-toolbar-top-bottom-padding: 0.9375rem; // 15px
-$form-toolbar-real-height: $form-toolbar-height - ($form-toolbar-top-bottom-padding * 2); // 25px
-$form-toolbar-background-color: $point-blue;
-$form-toolbar-font-size: 1.125rem; // 18px
-$form-toolbar-font-color: $white;
-$form-toolbar-logo-width: 10.94rem; // 175px
-$form-toolbar-separator-color: $white;
-$form-toolbar-margin-right: 1.25rem; // 20px
+$toolbar-font-size:             18px;
+$toolbar-font-weight :          500; // medium
+$toolbar-font-color:            $white;
+$toolbar-height:                3.125rem; // 50px 
+$toolbar-top-bottom-padding:    0.9375rem; // 15px
+$toolbar-real-height:           $toolbar-height - ($toolbar-top-bottom-padding * 2); // 25px
+$toolbar-bg-color:              $point-blue;
+$toolbar-separator-color:       $white;
+$toolbar-margin-right:          1.25rem; // 20px
+$toolbar-name-font-size:        16px;
+
+// container > contents, aside > drawing-board
+$drawing-board-bg-color:        $white;
+$drawing-board-border:          0.0625rem solid $line-gray; // 1px
+$drawing-board-box-shadow:      0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
+
+// form
+$form-asset-path:               "../media/icons/form";
+$column-row:                    12;  // 폼을 나누는 갯수
 
 // container > contents > drawing-board
-$form-drawing-board-width: 59.38rem; // 950px
+$form-drawing-board-width:      59.38rem; // 950px
 $form-drawing-board-top-margin: 6.563rem; // 105px
 
 // container > aside
-$form-aside-background-color: $white;
-$form-aside-width: 16.25rem; // 260px
-$form-aside-box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6);// -1px 15px 7px 0px $pressed-gray, 불투명도 60%;
+$form-aside-bg-color:           $white;
+$form-aside-width:              16.25rem; // 260px
+$form-aside-box-shadow:         -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6);// -1px 15px 7px 0px $pressed-gray, 불투명도 60%;
 
-// component 
-$component-font-family: "Noto Sans KR";
-$component-label-font-size: 16px;
-$component-label-line-height: 27px;
-$component-label-font-weight: 500; // medium
-$component-label-font-color: $light-black;
-$component-content-font-size: 16px;
-$component-content-line-height: 27px;
-$component-content-font-weight: 400; // regular
-$component-content-font-color: $dark-gray;
-$component-content-background-color: $white;
-$component-border-color: $line-gray;
-$component-indent-padding-left: 10px; // 10px 컴포넌트 들여쓰기
-$component-selected-border-color: $light-blue;
-$component-selected-background-color: rgba(135, 206, 255, 0.1);
-$component-disabled-background-color: $light-gray;
-$component-disabled-font-color: $gray;
-$component-focus-border-color: $point-blue;
+// component
+$component-border:               0.0625rem solid transparent;
+$component-indent-padding-left:  10px; // 10px 컴포넌트 들여쓰기
+$component-bg-color:             $white;
+$component-pressed-border-color: $light-blue; // 컴포넌트 선택시
+$component-pressed-bg-color:     rgba(135, 206, 255, 0.1); // 컴포넌트 선택시
+$component-disabled-bg-color:    $light-gray;
+$component-disabled-font-color:  $gray;
+$component-move-handler-color:   $blue-gray;
+
+// editbox component
+$editbox-font-size:              16px;
+$editbox-font-weight:            400; // regular
+$editbox-font-color:             $blue-gray;
+$editbox-pressed-color:          $light-blue;
 
 // context menu
-$context-menu-width: 11.88rem; // 190px 
-$context-menu-height: 14.06rem; // 225px
-$context-menu-background-color: $white;
-$context-menu-font-size: 0.875rem; // 14px
-$context-menu-font-color: $dark-gray;
-$context-menu-border: 0.0625rem solid $line-gray; // 1px
-$context-menu-box-shadow: 0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
-$context-menu-focus-background-color: rgba(135, 206, 255, 0.1);
-$context-menu-focus-font-color: $point-blue;
+$context-menu-width:             11.88rem; // 190px 
+$context-menu-height:            14.06rem; // 225px
+$context-menu-bg-color:          $white;
+$context-menu-font-size:         0.875rem; // 14px
+$context-menu-font-color:        $dark-gray;
+$context-menu-border:            0.0625rem solid $line-gray; // 1px
+$context-menu-box-shadow:        0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
+$context-menu-focus-bg-color:   rgba(135, 206, 255, 0.1);
+$context-menu-focus-font-color:  $point-blue;
 
 // properties title
-$properties-title-height: 3.125rem; // 50px
-$properties-title-background-color: $hover-blue;
-$properties-title-font-size: 18px; // 18px
-$properties-title-line-height: 27px;
-$properties-title-font-color: $white;
-$properties-title-font-weight: 500;
+$properties-title-height:        3.125rem; // 50px
+$properties-title-bg-color:      $hover-blue;
+$properties-title-font-size:     18px; // 18px
+$properties-title-line-height:   27px;
+$properties-title-font-color:    $white;
+$properties-title-font-weight:   500;
 
 // properties detail
-$properties-border-color: #c8ced8; // default
-$properties-background-color: $white; // default
-$properties-value-font-color: #67717F; // default 
-$properties-large-title-font-size: 0.75rem; // 12px
-$properties-large-title-font-color: #3E4752;
-$properties-large-title-font-weight: 500;
-$properties-small-title-font-size: 0.6875rem; // 11px
-$properties-small-title-font-color: #68717c;
-$properties-small-title-font-weight: normal;
-$properties-indent-padding-left: 0.438rem; // 7px input, select 등 들여쓰기
-$properties-active-font-color: $point-blue;
-$properties-active-border-color: $point-blue;
-$properties-active-background-color: $white;
-$properties-inactive-font-color: $gray;
+$properties-border-color:          #c8ced8; // default
+$properties-bg-color:              $white; // default
+$properties-value-font-color:      #67717F; // default 
+$properties-lg-title-font-size:    0.75rem; // 12px
+$properties-lg-title-font-color:   #3E4752;
+$properties-lg-title-font-weight:  500;
+$properties-sm-title-font-size:    0.6875rem; // 11px
+$properties-sm-title-font-color:   #68717c;
+$properties-sm-title-font-weight:  normal;
+$properties-indent-padding-left:   0.438rem; // 7px input, select 등 들여쓰기
+$properties-active-font-color:     $point-blue;
+$properties-active-border-color:   $point-blue;
+$properties-active-bg-color:       $white;
+$properties-inactive-font-color:   $gray;
 $properties-inactive-border-color: $line-gray;
-$properties-inactive-background-color: $light-gray;
-$properties-disabled-font-color: #aeb7c2;
+$properties-inactive-bg-color:     $light-gray;
+$properties-disabled-font-color:   #aeb7c2;
 $properties-disabled-border-color: #c8ced8;
-$properties-disabled-background-color: #f2f5fa;
+$properties-disabled-bg-color:     #f2f5fa;
 
-/* document */
-
+// document
 // container > contents > button-board, drawing-board
-$document-button-board-height: 9.375rem; // 150px
-$document-content-drawing-board-width: 61.56rem; // 985px
+$document-button-board-height:          9.375rem; // 150px
+$document-content-drawing-board-width:  61.56rem; // 985px
 
 // container > aside > drawing-board
-$document-aside-drawing-board-width: 33.75rem; // 540px
+$document-aside-drawing-board-width:    33.75rem; // 540px
