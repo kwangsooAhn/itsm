@@ -232,7 +232,7 @@
 
         const displayType = property['dataAttribute']['displayType'];
         const optionsTemplate = property.option.map(function (opt) {
-            return `<label class="field-radio" for='radio-${opt.value}-${opt.seq}'>` +
+            return `<label class="field-radio radio-group" for='radio-${opt.value}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
                     `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}"` + 
                     `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
@@ -283,7 +283,7 @@
         const displayType = property['dataAttribute']['displayType'];
         const checkboxValueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
         const optionsTemplate = property.option.map(function (opt) {
-            return `<label class="field-checkbox"  for='checkbox-${opt.value}-${opt.seq}'>` +
+            return `<label class="field-checkbox checkbox-group"  for='checkbox-${opt.value}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
                     `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}"` + 
                     `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
@@ -472,7 +472,7 @@
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
-                    `<input type="text" id="date-${this.id}" placeholder="${i18n.dateFormat}" value="${defaultValue}"` +
+                    `<input type="text" class="datepicker" id="date-${this.id}" placeholder="${i18n.dateFormat}" value="${defaultValue}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''}` +
                     ` date-max="${property.validate.dateMax}" date-min="${property.validate.dateMin}" />` +
                 `</div>` +
@@ -540,7 +540,7 @@
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
-                    `<input type="text" id="time-${this.id}" placeholder="${i18n.timeFormat}" value="${defaultValue}"` +
+                    `<input type="text" class="timepicker" id="time-${this.id}" placeholder="${i18n.timeFormat}" value="${defaultValue}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''}` +
                     ` time-max="${property.validate.timeMax}" time-min="${property.validate.timeMin}" />` +
                 `</div>` +
@@ -609,7 +609,7 @@
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
-                    `<input type="text" id="datetime-${this.id}" placeholder="${i18n.dateTimeFormat}" value="${defaultValue}"` +
+                    `<input type="text" class="datetimepicker" id="datetime-${this.id}" placeholder="${i18n.dateTimeFormat}" value="${defaultValue}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''}` +
                     ` datetime-max="${property.validate.datetimeMax}" datetime-min="${property.validate.datetimeMin}" />` +
                 `</div>` +
@@ -653,8 +653,8 @@
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" id="fileupload"${displayType === 'editableRequired' ? ' required' : ''} style="--data-column: ${property.display.column};">` +
-                    `<div id='dropZoneFiles-${this.id}'></div>` +
-                    `<div class="dropbox" id='dropZoneUploadedFiles-${this.id}'>${isForm ? `Drop files here to upload or <span>browse</span>` : ``}</div>` +
+                    `<div id="dropZoneFiles-${this.id}"></div>` +
+                    `<div id="dropZoneUploadedFiles-${this.id}"></div>` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -662,22 +662,19 @@
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // 드랍존 초기화
-        if (!isForm) {
-            document.getElementById('dropZoneUploadedFiles-' + this.id).classList.remove('dropbox');
-            let fileOptions = {
-                extra: {
-                    formId: 'frm',
-                    ownId: '',
-                    dropZoneFilesId: 'dropZoneFiles-' + this.id,
-                    dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + this.id,
-                    editor: (displayType !== 'readonly')
-                }
-            };
-            if (typeof property.value !== 'undefined') {
-                fileOptions.extra.fileDataIds = property.value;
+        let fileOptions = {
+            extra: {
+                formId: 'frm',
+                ownId: '',
+                dropZoneFilesId: 'dropZoneFiles-' + this.id,
+                dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + this.id,
+                editor: (displayType !== 'readonly')
             }
-            fileUploader.init(fileOptions);
+        };
+        if (typeof property.value !== 'undefined') {
+            fileOptions.extra.fileDataIds = property.value;
         }
+        fileUploader.init(fileOptions);
     }
     /**
      * Custom-Code 컴포넌트
