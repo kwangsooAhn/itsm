@@ -1182,7 +1182,7 @@
                                 groupElem.appendChild(fieldGroupElem);
 
                                 // TODO: 도움말 추가
-                                const tooltipTemplate = ``; //(typeof fieldProp.help === 'undefined') ? `` : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`;
+                                const tooltipTemplate = (typeof fieldProp.help === 'undefined') ? `` : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`;
                                 let fieldTemplate = ``;
 
                                 // 상세속성 추가
