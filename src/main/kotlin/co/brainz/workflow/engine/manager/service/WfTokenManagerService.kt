@@ -26,10 +26,8 @@ import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.token.constants.WfTokenConstants
-import co.brainz.workflow.token.entity.WfCandidateEntity
 import co.brainz.workflow.token.entity.WfTokenDataEntity
 import co.brainz.workflow.token.entity.WfTokenEntity
-import co.brainz.workflow.token.repository.WfCandidateRepository
 import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
 import java.io.File
@@ -49,7 +47,6 @@ class WfTokenManagerService(
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfTokenRepository: WfTokenRepository,
     private val wfTokenDataRepository: WfTokenDataRepository,
-    private val wfCandidateRepository: WfCandidateRepository,
     private val wfComponentRepository: WfComponentRepository,
     private val aliceUserRoleMapRepository: AliceUserRoleMapRepository,
     private val aliceFileService: AliceFileService,
@@ -86,13 +83,6 @@ class WfTokenManagerService(
      */
     fun getComponentIdInAndMappingId(componentIds: List<String>, mappingId: String): WfComponentEntity {
         return wfComponentRepository.findByComponentIdInAndMappingId(componentIds, mappingId)
-    }
-
-    /**
-     * Save all candidate.
-     */
-    fun saveAllCandidate(candidateEntities: MutableList<WfCandidateEntity>): List<WfCandidateEntity> {
-        return wfCandidateRepository.saveAll(candidateEntities)
     }
 
     /**
@@ -199,37 +189,49 @@ class WfTokenManagerService(
         }
 
         val notifications = mutableListOf<NotificationDto>()
+
+        // Component Value
         val commonNotification = NotificationDto(
             title = token.instance.document.documentName,
             message = "[${token.element.elementName}] ${token.instance.document.documentDesc}",
             instanceId = token.instance.instanceId
         )
 
-        token.candidate?.forEach { candidate ->
-            when (candidate.candidateType) {
-                WfTokenConstants.AssigneeType.USERS.code -> {
-                    val notification = commonNotification.copy()
-                    notification.receivedUser = candidate.candidateValue
-                    notifications.add(notification)
-                }
-                WfTokenConstants.AssigneeType.GROUPS.code -> {
-                    val userRoleMaps =
-                        aliceUserRoleMapRepository.findUserRoleMapByRoleId(candidate.candidateValue)
-                    userRoleMaps?.forEach { userRoleMap ->
-                        val notification = commonNotification.copy()
-                        notification.receivedUser = userRoleMap.user.userKey
-                        notifications.add(notification)
-                    }
-                }
-            }
-        }
-
         token.assigneeId?.let {
             commonNotification.receivedUser = token.assigneeId!!
             notifications.add(commonNotification)
         }
 
-        notificationService.insertNotificationList(notifications)
+        // Candidate Users, Candidate Groups
+        var assigneeType = ""
+        val assigneeValueList: MutableList<String> = mutableListOf()
+        token.element.elementDataEntities.forEach { data ->
+            if (data.attributeId == WfElementConstants.AttributeId.ASSIGNEE_TYPE.value) {
+                assigneeType = data.attributeValue
+            }
+            if (data.attributeId == WfElementConstants.AttributeId.ASSIGNEE.value) {
+                assigneeValueList.add(data.attributeValue)
+            }
+        }
+
+        when (assigneeType) {
+            WfTokenConstants.AssigneeType.USERS.code -> {
+                for (assigneeValue in assigneeValueList) {
+                    val notification = commonNotification.copy()
+                    notification.receivedUser = assigneeValue
+                    notifications.add(notification)
+                }
+            }
+            WfTokenConstants.AssigneeType.GROUPS.code -> {
+                val userRoleMapEntities = aliceUserRoleMapRepository.findUserRoleMapByRoleIds(assigneeValueList)
+                for (userRoleMapEntity in userRoleMapEntities) {
+                    val notification = commonNotification.copy()
+                    notification.receivedUser = userRoleMapEntity.user.userKey
+                    notifications.add(notification)
+                }
+            }
+        }
+        notificationService.insertNotificationList(notifications.distinct())
     }
 
     /**

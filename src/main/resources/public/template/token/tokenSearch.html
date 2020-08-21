@@ -4,13 +4,15 @@
       layout:decorator="layout/defaultLayout">
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
-            <h1 th:text="#{token.label.list}"></h1>
-            <span class="title-description" th:text="#{token.msg.description}"></span>
+    <div class="contents-token">
+        <div class="header">
+            <div class="page-title">
+                <h1 th:text="#{token.label.list}"></h1>
+                <h5 th:text="#{token.msg.description}"></h5>
+            </div>
         </div>
-        <div class="token-search">
-            <div class="search-area-left">
+        <div class="search-area">
+            <div class="left">
                 <form id="frmSearch">
                     <select class="column-3" name="searchTokenType" id="searchTokenType">
                         <option value="token.type.todo" th:text="#{token.type.todo}" selected />
@@ -27,11 +29,11 @@
                     <input type="text" id="searchToDt" name="searchToDt" class="search-date column-2" readonly="readonly" />
                 </form>
             </div>
-            <div class="search-area-right">
+            <div class="right">
                 <span class="total-count" id="totalCount"></span>
             </div>
         </div>
-        <div class="token-list" id="tokenList">
+        <div class="list" id="tokenList">
         </div>
     </div>
 </th:block>
@@ -96,7 +98,7 @@
 
         function getTokenTemplate(token) {
             return `
-                <div class="token-list-item">
+                <div class="list-item">
                     <div class="document-color" style="background-color: ${token.documentColor}"></div>
                     <div class="document-content">
                         ${

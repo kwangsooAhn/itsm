@@ -14,7 +14,7 @@
     display: none;
     height: $properties-title-height;
     line-height: $properties-title-line-height;
-    background-color: $properties-title-background-color;
+    background-color: $properties-title-bg-color;
 
     h3 {
         color: $properties-title-font-color;
@@ -34,7 +34,7 @@
     &.on { display: block; }
     h3 {
         line-height: normal;
-        color: $properties-large-title-font-color;
+        color: $properties-lg-title-font-color;
         margin: 0.9375rem 0.9375rem 0 0.9375rem; // 15px 15px 0 15px
         font: {
             size: 0.8125rem; // 13px
@@ -53,103 +53,16 @@
         width: 100%; 
         height: 1.563rem;    //25px
         border: 0.0625rem solid $properties-border-color; // 1px
-        background-color: $properties-background-color;
+        background-color: $properties-bg-color;
         padding-left: $properties-indent-padding-left;
         color: $properties-value-font-color;
         &:read-only {
             color: $properties-disabled-font-color;
-            background-color: $properties-disabled-background-color;
+            background-color: $properties-disabled-bg-color;
         }
         &:focus {
             outline: none !important;
             border: 0.0625rem solid $properties-active-border-color;
-        }
-    }
-
-    // checkbox 공통
-    input[type=checkbox] {
-        display: none;
-        + span {
-            position: relative;
-            cursor: pointer;
-            padding: 0;
-            margin-left: 0.9375rem; // 15px
-            &:before {
-                content: '';
-                margin-right: 0.3125rem; // 5px
-                display: inline-block;
-                border-radius: 0.125rem; // 2px
-                border: 0.0625rem solid $component-border-color;
-                width: 0.8125rem; // 13px
-                height: 0.8125rem; // 13px
-                vertical-align: middle;
-            }
-            &:empty {
-                &:before {
-                    margin-right: 0;
-                }
-            }
-        }
-        &:checked {
-            + span {
-                &:before {
-                background-color: $properties-background-color;
-                border: 0.0625rem solid $properties-active-border-color; // 1px
-                }
-                &:after {
-                    content: '';
-                    position: absolute;
-                    left: 0.125rem; // 2px
-                    top: 0.5625rem; // 9px
-                    background: $properties-active-border-color;
-                    width: 0.125rem; // 2px
-                    height: 0.125rem; // 2px
-                    box-shadow: 
-                        0.125rem 0 0 $properties-active-border-color, 
-                        0.25rem 0 0 $properties-active-border-color, 
-                        0.25rem -0.125rem 0 $properties-active-border-color, 
-                        0.25rem -0.25rem 0 $properties-active-border-color, 
-                        0.25rem -0.375rem 0 $properties-active-border-color;
-                    transform: rotate(45deg);
-                }
-            }
-        }
-    }
-
-    // radio button 공통
-    input[type=radio] {
-        display: none;
-        + span {
-            &:before {
-                content: '';
-                border-radius: 100%;
-                border: 0.0625rem solid $properties-border-color; // 1px
-                display: inline-block;
-                width: 0.8125rem; // 13px
-                height: 0.8125rem; // 13px
-                position: relative;
-                top: -0.0625rem; // -1px
-                margin-right: 0.3125rem; // 5px 
-                vertical-align: middle;
-                cursor: pointer;
-                text-align: center;
-            }
-        }
-        &:checked {
-            + span {
-                &:before {
-                    background-color: $properties-active-border-color;
-                    box-shadow: inset 0 0 0 0.125rem $properties-active-background-color; // 2px
-                    border: 0.0625rem solid $properties-active-border-color; // 1px
-                }
-            }
-        }
-        &:focus {
-            + span {
-                &:before {
-                    border-color: $properties-active-border-color;
-                }
-            }
         }
     }
 
@@ -160,12 +73,12 @@
         line-height: 0.1em;
         margin: 0.9375rem 0.9375rem 0 0.9375rem; // 15px 15px 0 15px
         label {
-            color: $properties-large-title-font-color;
+            color: $properties-lg-title-font-color;
             background-color: #ffffff;
             padding-right: 0.625rem; // 10px
             font: {
-                size: $properties-large-title-font-size;
-                weight: $properties-large-title-font-weight;
+                size: $properties-lg-title-font-size;
+                weight: $properties-lg-title-font-weight;
             }
         }
     }
@@ -187,8 +100,8 @@
             padding: 0;
         }
         // 옵션 버튼
-        button[class="minus"] { @include background("editor/icon_option_minus.png"); }
-        button[class="plus"] { @include background("editor/icon_option_plus.png"); }
+        button[class="minus"] { @include background("editor/icon_option_minus.svg"); }
+        button[class="plus"] { @include background("editor/icon_option_plus.svg"); }
     }
 
     // 하위 속성
@@ -205,10 +118,10 @@
             flex-grow: 0;
             vertical-align: top;
             margin-bottom: 0.375rem;
-            color: $properties-small-title-font-color;
+            color: $properties-sm-title-font-color;
             font: {
-                size: $properties-small-title-font-size;
-                weight: $properties-small-title-font-weight;
+                size: $properties-sm-title-font-size;
+                weight: $properties-sm-title-font-weight;
             }
             // TODO: 하위 속성 제목 툴팁
             .help-tooltip {
@@ -304,15 +217,21 @@
                 flex: 1 1 0;
                 height: 1.563rem; // 25px
                 color: $properties-inactive-font-color;
-                background-color: $properties-inactive-background-color;
+                background-color: $properties-inactive-bg-color;
                 border: 0.0625rem solid $properties-border-color; // 1px
                 &:not(:last-of-type) {
                     border-right: 0;
                 }
+                svg {
+                    fill: $properties-inactive-font-color;
+                }
                 &.active {
                     color: $properties-active-font-color;
-                    background-color: $properties-active-background-color;
+                    background-color: $properties-active-bg-color;
                     border-color: $properties-active-border-color;
+                    svg {
+                        fill: $properties-active-font-color;
+                    }
                     + button { border-left-color: $properties-active-border-color }
                 }
                 &:focus {
@@ -321,30 +240,12 @@
             }
         }
         
-        &[id="display-position"] {
-            div.property-field-icon {
-                button[id="left"] {
-                    border-left-width: 0.0625rem;
-                    @include background("editor/icon_left.png"); 
-                }
-                button[id="right"] { @include background("editor/icon_right.png"); }
-                button[id="left"].active { background-image: url("#{$form-asset-path}/editor/icon_left_select.png"); }
-                button[id="right"].active { background-image: url("#{$form-asset-path}/editor/icon_right_select.png"); }
-            }
-        }
-
+        &[id="display-position"],
         &[id="display-align"] {
             div.property-field-icon {
                 button[id="left"] {
                     border-left-width: 0.0625rem;
-                    @include background("editor/icon_align_left.png"); 
                 }
-
-                button[id="center"] { @include background("editor/icon_align_center.png"); }
-                button[id="right"] { @include background("editor/icon_align_right.png"); }
-                button[id="left"].active { background-image: url("#{$form-asset-path}/editor/icon_align_left_select.png"); }
-                button[id="center"].active { background-image: url("#{$form-asset-path}/editor/icon_align_center_select.png"); }
-                button[id="right"].active { background-image: url("#{$form-asset-path}/editor/icon_align_right_select.png"); }
             }
         }
 
@@ -362,7 +263,7 @@
                 height: 0.625rem;
                 border: 0.0625rem solid $properties-border-color; // 1px
                 border-radius: 50%;
-                background: $properties-background-color;
+                background: $properties-bg-color;
                 cursor: pointer;
             }
             
@@ -371,7 +272,7 @@
                 height:  0.625rem;
                 border: 0.0625rem solid $properties-border-color; // 1px
                 border-radius: 50%;
-                background: $properties-background-color;
+                background: $properties-bg-color;
                 cursor: pointer;
             }
             + input[type=text] {
@@ -381,7 +282,7 @@
                 padding: 0;
                 &:read-only {
                     color: $properties-value-font-color;
-                    background-color: $properties-background-color;
+                    background-color: $properties-bg-color;
                 }
             }
         }
@@ -412,7 +313,7 @@
         }
         // color picker popup
         div.color-palette {
-            background-color: $properties-background-color;
+            background-color: $properties-bg-color;
             width: 11.875rem; // 190px
             height: 4.938rem; // 79px
             margin-top: 0.188rem;  // 3px
@@ -437,7 +338,7 @@
             }
         }
         div.color-palette-opacity {
-            background-color: $properties-background-color;
+            background-color: $properties-bg-color;
             width: 11.875rem; // 190px
             border: 0.063rem solid $properties-border-color; // 1px
             border-top: none;
@@ -511,9 +412,15 @@
                 &:not(:last-of-type) {
                     border-right: 0;
                 }
+                svg {
+                    fill: $properties-inactive-font-color;
+                }
                 &.active {
-                    background-color: $properties-active-background-color;
+                    background-color: $properties-active-bg-color;
                     border-color: $properties-active-border-color;
+                    svg {
+                        fill: $properties-active-font-color;
+                    }
                     + button { border-left-color: $properties-active-border-color }
                 }
                 &:focus {
@@ -522,33 +429,17 @@
             }
             button[id="bold"] { 
                 border-left-width: 0.0625rem;
-                @include background("editor/icon_bold.png");
             }
-            button[id="italic"] { @include background("editor/icon_italic.png"); }
-            button[id="underline"] { @include background("editor/icon_underline.png"); }
-
-            button[id="bold"].active { background-image: url("#{$form-asset-path}/editor/icon_bold_select.png"); }
-            button[id="italic"].active { background-image: url("#{$form-asset-path}/editor/icon_italic_select.png"); }
-            button[id="underline"].active { background-image: url("#{$form-asset-path}/editor/icon_underline_select.png"); }
-
             div {
                 display: inline-flex;
                 margin-left: 5px; // 5px
                 button {
-                    background-color: $properties-inactive-background-color;
+                    background-color: $properties-inactive-bg-color;
                 }
                 
                 button[id="left"] {
                     border-left-width: 0.0625rem;
-                    @include background("editor/icon_align_left.png"); 
                 }
-
-                button[id="center"] { @include background("editor/icon_align_center.png"); }
-                button[id="right"] { @include background("editor/icon_align_right.png"); }
-
-                button[id="left"].active { background-image: url("#{$form-asset-path}/editor/icon_align_left_select.png"); }
-                button[id="center"].active { background-image: url("#{$form-asset-path}/editor/icon_align_center_select.png"); }
-                button[id="right"].active { background-image: url("#{$form-asset-path}/editor/icon_align_right_select.png"); }
             }
         }
 
@@ -561,7 +452,7 @@
                 flex: 1 1 0;
                 height: 1.563rem; // 25px
                 color: $properties-inactive-font-color;
-                background-color: $properties-inactive-background-color;
+                background-color: $properties-inactive-bg-color;
                 border: 0.0625rem solid $properties-border-color; // 1px
                 &:not(:last-of-type) {
                     border-right: 0;
@@ -572,7 +463,7 @@
             }
             button.active {
                 color: $properties-active-font-color;
-                background-color: $properties-active-background-color;
+                background-color: $properties-active-bg-color;
                 border-color: $properties-active-border-color;
                 + button { border-left-color: $properties-active-border-color }
             }
@@ -599,7 +490,7 @@
                 flex: 1 1 auto;
                 width: 1.875rem; // 30px
                 border: 0.0625rem solid $properties-border-color;
-                @include background("editor/icon_search.png");
+                @include background("property/icon_search.svg");
                 &:focus {
                     outline: none !important;
                 }

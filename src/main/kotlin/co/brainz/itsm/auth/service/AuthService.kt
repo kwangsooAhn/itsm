@@ -54,7 +54,7 @@ class AuthService(
      * 전체 url 목록 조회
      */
     fun getUrlList(): MutableList<AliceUrlEntity> {
-        return urlRepository.findByOrderByUrlAsc()
+        return urlRepository.findByOrderByMethodAscUrlAsc()
     }
 
     /**

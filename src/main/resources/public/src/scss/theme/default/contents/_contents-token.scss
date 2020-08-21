@@ -1,0 +1,85 @@
+.contents-token {
+    @include contents-template();
+    padding: 2.875rem 3.75rem 2.875rem 3.75rem; // 46px 60px 46px 60px
+    .list {
+        clear: both;
+        overflow-y: auto;
+        margin-top: 0.625rem; // 10px
+
+        // 리스트 출력용 아바타 이미지
+        .profile-photo {
+            height: 1.6875rem; // 27px
+            width: 1.6875rem; // 27px
+            border-radius: 50%;
+            background: rgba(240, 240, 240, 1);
+            margin-right: 0.3125rem; // 5px
+        }
+        .align-center {text-align: center;}
+        .align-left {text-align: left;}
+        .align-right {text-align: right;}
+
+        &-item {
+            margin: 0.625rem 0; // 10px
+            padding: 0.625rem; // 10px
+            border-bottom: 0.0625rem solid #EAF1F7; // 1px
+            min-height: 6.8125rem; // 109px
+            background-color: #FFFFFF;
+            &:hover {background: rgba(0, 80, 255, 0.05);}
+            div {
+                display: inline-block;
+                vertical-align: middle;
+                margin-left: 1.874rem; // 30px
+            }
+        }
+
+        .document {
+            &-color {
+                min-height: 5.5rem; // 88px
+                width: 0.5rem; // 8px
+                margin-left: 0;
+            }
+            &-content {
+                width: 12.5rem; // 200px
+                color: #3E4752;
+                p {padding: 0.25rem 0;} // 4px
+            }
+            &-no {
+                width: 11.25rem; // 180px
+                overflow: hidden;
+                color: #8F99A7;
+                text-overflow: ellipsis;
+            }
+            &-user {
+                width: 7.1875rem; // 115px
+                color: #67717F;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+            &-topic {width: 23.75rem;color: #3E4752;} // 380px
+            &-create-dt {width: 9.375rem;color: #67717F;} // 150px
+            &-status {width: 7.5rem;color: #67717F;} // 120px
+            &-tag {
+                width: 13.75rem; // 220px
+                color: #67717F;
+                span {
+                    background: rgba(0, 152, 255, 0.1 );
+                    color: rgba(0, 152, 255, 1 );
+                    text-align: center;
+                    margin: 0.25rem; // 4px
+                    border-radius: 0.0625rem; // 1px
+                    padding: 0.3125rem 0.9375rem; // 5px 15px
+                    max-width: 13.75rem; // 220px
+                    display: inline-block;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+}
+
+.total-count {
+    line-height: 2;
+}

@@ -35,6 +35,7 @@ common:
     save: "Save"
     tag: "Tag"
     title: "Title"
+    totalCount: "Total"
     update: "Update"
     updateDate: "Update Date"
     updateUser: "Update User"

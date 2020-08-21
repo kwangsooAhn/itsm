@@ -2,6 +2,7 @@
     height: 100vh;
     background: $light-gray;
     display: flex;
+    flex-direction: column;
 }
 @mixin backgroundImage($path) {
     @include background($path, null, null, null, null, null)
@@ -22,12 +23,23 @@
     }
 }
 
+@mixin menuIcon {
+    width: 1.25rem; // 20px
+    height: 1.25rem; // 20px
+    background: #929aa6;
+    mask-repeat: no-repeat;
+    mask-position: center center;
+}
+
 @mixin menuArrow {
-    padding: 0 6px 0 0;
+    padding: 0 0.375rem 0 0; // 0 6px 0 0
     float: right;
-    width: 6px;
-    height: 20px;
+    width: 0.75rem; // 12px
+    height: 1.25rem; // 20px
     margin-left: auto;
+    background: #929aa6;
+    mask-repeat: no-repeat;
+    mask-position: center center;
 }
 
 @mixin list-template() {
@@ -87,20 +99,16 @@
 }
 
 @mixin view-template() {
+    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; } // 46px 60px 46px 60px
     .view {
-        padding: 3.125rem 19.375rem 0 19.375rem; // 50px 310px 0 310px
+        padding: 3.125rem 19.375rem 3.125rem 19.375rem; // 50px 310px 50px 310px
         background-color: white;
         display: flex;
         flex-direction: column;
-        h3 {
-            padding-bottom: 0.625rem; // 10px
-            margin-bottom: 0.625rem; // 10px
-            border-bottom: .125rem solid $default-gray;
-        }
+        flex-grow: 1;
         div {
             display: flex;
             span {
-                margin: auto 0;
                 &.vertical-bar {
                     width: 1.875rem; // 30px
                     height: 1.875rem; // 30px
@@ -108,25 +116,17 @@
                     margin-right: 1.875rem; // 30px
                 }
             }
-            &.row-right {
-                justify-content: flex-end;
-                span {
-                    &:last-child {
-                        margin: auto 1.25rem auto 0; // 20px
-                    }
-                }
-            }
 
             &.view-text {
                 min-height: 13.4375rem; // 215px
                 padding: 0.3125rem 1.25rem; // 5px 20px
                 margin-bottom: 0.75rem; // 12px
+                span {margin: 0;}
             }
 
             &.view-attach-file {
                 min-height: 3.125rem; // 50px
                 padding: 0.125rem 1.25rem; // 2px 20px
-                margin: auto 0;
             }
             &.horizontal-bar {
                 height: 0.0625rem; // 1px
@@ -138,6 +138,7 @@
 }
 
 @mixin edit-template() {
+    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; } // 46px 60px 46px 60px
     .edit {
         padding: 3.125rem 22.5rem 3.125rem 22.5rem; // 50px 360px 50px 360px
         background-color: white;

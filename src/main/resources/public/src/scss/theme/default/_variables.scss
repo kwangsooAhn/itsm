@@ -62,3 +62,17 @@ $column-8: $column-init * 8; // 640px
 $column-9: $column-init * 9; // 720px
 $column-10: $column-init * 10; // 800px
 $column-fluid: 100%;
+
+// Menu Icons
+$icon-gnb-board: $icon-folder-path + "icon_gnb_board.svg";
+$icon-gnb-dashboard: $icon-folder-path + "icon_gnb_dashboard.svg";
+$icon-gnb-document: $icon-folder-path + "icon_gnb_document.svg";
+$icon-gnb-download: $icon-folder-path + "icon_gnb_download.svg";
+$icon-gnb-faq: $icon-folder-path + "icon_gnb_faq.svg";
+$icon-gnb-notice: $icon-folder-path + "icon_gnb_notice.svg";
+$icon-gnb-config: $icon-folder-path + "icon_gnb_config.svg";
+$icon-gnb-workflow: $icon-folder-path + "icon_gnb_workflow.svg";
+$icon-gnb-token: $icon-folder-path + "icon_gnb_token.svg";
+$icon-arrow-left: $icon-folder-path + "icon_arrow_l.svg";
+$icon-arrow-right: $icon-folder-path + "icon_arrow_r.svg";
+$icon-arrow-bottom: $icon-folder-path + "icon_arrow_d.svg";

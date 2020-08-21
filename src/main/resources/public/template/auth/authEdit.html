@@ -57,7 +57,7 @@
                     <div class="form-set">
                         <label class="auth-list" th:text="#{auth.label.menuList}"></label>
                         <div class="checkbox-list">
-                            <ul>
+                            <ul id='menuList'>
                                 <li th:each="menu : ${menuList}">
                                     <input class="auth-list-check" type="checkbox" name="authMenu" th:id="${menu?.menuId}"
                                            th:value="${menu?.menuId}">
@@ -145,6 +145,7 @@
             document.getElementById('search').addEventListener('keyup', function() {
                 getAuthList(false);
             });
+
             OverlayScrollbars(document.querySelector('#txtAuthDesc'), {
                 className: 'scrollbar',
                 resize: 'vertical',
@@ -155,6 +156,8 @@
                     inheritedAttrs: "class"
                 }
             });
+
+            sortMenuList();
         };
 
         /* 추가 버튼 */
@@ -373,6 +376,29 @@
                 },
             };
             aliceJs.sendXhr(opt);
+        }
+
+        function sortMenuList() {
+            var menuList = document.getElementById("menuList");
+            var switching = true;
+            var liTag, switchLiTag;
+
+            while (switching) {
+                switching = false;
+                liTag = menuList.getElementsByTagName("LI");
+
+                for (var i = 0; i < (liTag.length - 1); i++) {
+                    switchLiTag = false;
+                    if (liTag[i].textContent > liTag[i + 1].textContent) {
+                        switchLiTag = true;
+                        break;
+                    }
+                }
+                if (switchLiTag) {
+                    liTag[i].parentNode.insertBefore(liTag[i + 1], liTag[i]);
+                    switching = true;
+                }
+            }
         }
         /*]]>*/
     </script>

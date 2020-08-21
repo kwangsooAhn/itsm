@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.faq.controller
 
 import co.brainz.itsm.code.service.CodeService
@@ -55,7 +61,9 @@ class FaqController(private val faqService: FaqService, private val codeService:
      */
     @GetMapping("/list")
     fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
-        model.addAttribute("faqs", faqService.getFaqs(faqSearchRequestDto))
+        val result = faqService.getFaqs(faqSearchRequestDto)
+        model.addAttribute("faqs", result)
+        model.addAttribute("faqCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return faqListPage
     }
 

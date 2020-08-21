@@ -3,462 +3,586 @@
     --data-column: 12;
     --data-row: 2;
 }
-.contents {
-    .drawing-board {
-        .component {
-            position: relative;
-            display: flex; 
-            align-items: center; 
-            width: 100%; 
-            max-width: 100%;
-            border: solid 0.0625rem $drawing-board-background-color; // 1px
-            padding: 1.25rem 2.125rem 1.25rem 0.8125rem;    // 20px 34.8px 20px 13px
-            font-family: $component-font-family;
-        
-            // drag and drop icon
-            .move-handler { 
-                display: none;
-                width:  0.8125rem; // 13px
-                height: 0.8125rem; // 13px
-                margin: 0 0.5rem 0 0; // 0 8.8px 0 0
+h1 {
+    font-size: $h1-font-size;
+    line-height: $h1-line-height;
+    font-weight: $h1-font-weight;
+    color: $h1-font-color;
+}
+
+h2 {
+    font-size: $h2-font-size;
+    line-height: $h2-line-height;
+    font-weight: $h2-font-weight;
+    color: $h2-font-color;
+}
+  
+h3 {
+    font-size: $h3-font-size;
+    line-height: $h3-line-height;
+    font-weight: $h3-font-weight;
+    color: $h3-font-color;
+}
+
+h4 {
+    font-size: $h4-font-size;
+    line-height: $h4-line-height;
+    font-weight: $h4-font-weight;
+    color: $h4-font-color;
+}
+
+h5 {
+    font-size: $h5-font-size;
+    line-height: $h5-line-height;
+    font-weight: $h5-font-weight;
+    color: $h5-font-color;
+}
+
+input {
+    font-size: $input-font-size;
+    line-height: $input-line-height;
+    font-weight: $input-font-weight;
+    color: $input-font-color;
+    border: $input-border;
+    background-color: $input-bg-color;
+    height: 2.5rem;    // 40px
+
+    &::placeholder {
+        color: $input-placeholder-color;
+    }
+
+    &:focus,
+    &:hover {
+        outline: 0;
+        border: $input-focus-border;
+        box-shadow: $input-focus-box-shadow;
+    }
+
+    &:disabled {
+        color: $input-disabled-color;
+        background-color: $input-disabled-bg-color;
+        cursor: default;
+    }
+
+    &.validate-error {
+        color: $input-error-color;
+        border: $input-error-border;
+    }
+}
+
+textarea {
+    font-size: $textarea-font-size;
+    line-height: $textarea-line-height;
+    font-weight: $textarea-font-weight;
+    color: $textarea-font-color;
+    border: $textarea-border;
+    background-color: $textarea-bg-color;
+    line-height: 2.5rem; // 40px
+
+    &::placeholder {
+        color: $textarea-placeholder-color;
+    }
+
+    &:focus,
+    &:hover {
+        outline: 0;
+        border: $textarea-focus-border;
+        box-shadow: $textarea-focus-box-shadow;
+    }
+
+    &:disabled {
+        color: $textarea-disabled-color;
+        background-color: $textarea-disabled-bg-color;
+        cursor: default;
+    }
+
+    &.validate-error {
+        color: $textarea-error-color;
+        border: $textarea-error-border;
+    }
+}
+
+select {
+    font-size: $select-font-size;
+    line-height: $select-line-height;
+    font-weight: $select-font-weight;
+    color: $select-font-color;
+    border: $select-border;
+    background-color: $select-bg-color;
+    height: 2.5rem; // 40px
+    
+    &:focus,
+    &:hover {
+        outline: 0;
+        border: $select-focus-border;
+        box-shadow: $select-focus-box-shadow;
+    }
+
+    &:disabled {
+        color: $select-disabled-color;
+        background-color: $select-disabled-bg-color;
+        cursor: default;
+    }
+}
+
+label,
+.label {
+    font-size: $label-font-size;
+    line-height: $label-line-height;
+    font-weight: $label-font-weight;
+    color: $label-font-color;
+}
+
+label.radio-group {
+    position: relative;
+    font-size: $radio-font-size;
+    line-height: $radio-line-height;
+    font-weight: $radio-font-weight;
+    color: $input-font-color;
+    input[type=radio] {
+        display: none;
+        + span {
+            cursor: pointer;
+            &:before {
                 content: '';
-                cursor: move;
-                opacity: 0;
-                @include background("editor/icon_move.png");
+                display: inline-block;
+                border-radius: 50%;
+                border: $radio-border;
+                width: 1.125rem; // 18px
+                height: 1.125rem; // 18px
+                position: relative;
+                top: -0.0625rem; // -1px
+                margin-right: 0.3125rem; // 5px 
+                vertical-align: middle;
+                text-align: center;
+                background-color: $radio-bg-color;
             }
-            // label + display
-            .field-group {
-                display: flex; 
-                flex-wrap: wrap; 
-                align-items: center;
-                width: 100%; 
-                // 라벨
-                .field-label {
-                    color: $component-label-font-color;
-                    font-size: $component-label-font-size;
-                    line-height: $component-label-line-height;
-                    font-weight: $component-label-font-weight;
-                    flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
-                    padding-right: 0.938rem; // 15px;
-                    // 라벨 정렬
-                    &.left { text-align: left; }
-                    &.center { text-align: center; }
-                    &.right { text-align: right; }
-                    &.hidden { display: none; }
-        
-                    .label { display: inline-block; }
-                    span[class="required"] {
-                        padding-left: 0.3125rem; //5px
-                        font-weight: 700;
-                        &::after {
-                            color: $red;
-                            content: "\002a"; // *
-                        }
-                    }
-                }
-        
-                // 라벨 위치가 top일 경우 라벨 위치 조정용 필드
-                .field-empty {
-                    flex-basis: calc(100% * (#{$column-row} - var(--data-column, #{$column-row})));
-                    &:not(.top) { display: none; }
-                }
-        
-                .field-content {
-                    color: $component-content-font-color;
-                    font-size: $component-content-font-size;
-                    line-height: $component-content-line-height;
-                    font-weight: $component-content-font-weight;
-                    flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
-                    &.horizontal div { display: inline-block; }
-                    // inputbox
-                    > input[type=text] {
-                        width: 100%; 
-                        height: 2.5rem;    // 40px
-                        border: 0.0625rem solid $component-border-color; // 1px
-                        background-color: $component-content-background-color;
-                        padding-left: $component-indent-padding-left;
-                        &:focus {
-                            border: 0.0625rem solid $component-focus-border-color;
-                        }
-                    }
-        
-                    // textarea
-                    textarea { 
-                        width: 100%;
-                        line-height: 2.5rem; // 40px
-                        border: 0.0625rem solid $component-border-color; // 1px
-                        resize: none;
-                        padding-left: $component-indent-padding-left;
-                        @include scrollbar-hidden;
-                        &:focus {
-                            border: 0.0625rem solid $component-focus-border-color;
-                        }
-                    }
-        
-                    // text editor
-                    .editor-container {
-                        height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
-                    }
-        
-                    .ql-snow {
-                        border-color: $component-border-color;
-                        background-color: $component-content-background-color;
-                        .ql-editor.ql-blank::before {
-                            content: attr(data-placeholder);
-                        }
-                    }
-        
-                    .quill-wrap {
-                        .ql-active {
-                            border: 0.0625rem solid $component-border-color !important;  //1px
-                            border-radius: 0.25rem   //4px
-                        }
-                        button,
-                        .ql-picker { 
-                            margin-right: 0.125rem //2px 
-                        }
-                    }
-
-                    .picker-wrapper-date {
-                        width: 100%;
-                        .picker-main {
-                            width: 100%; 
-                            height: 2.5rem;    // 40px
-                            border: 0.0625rem solid $component-border-color; // 1px
-                            background-color: $component-content-background-color;
-                            padding-left: $component-indent-padding-left;
-                            background: url("#{$form-asset-path}/editor/icon_calendar.png") no-repeat 98% 50%;
-                            &:focus {
-                                border: 0.0625rem solid $component-focus-border-color;
-                            }
-                        }
-                    }
-        
-                    // select box
-                    select {
-                        min-width: 9.375rem; // 150px
-                        height: 2.5rem; // 40px
-                        border: 0.0625rem solid $component-border-color; // 1px
-                        padding-left: $component-indent-padding-left;
-                        &:focus {
-                            border: 0.0625rem solid $component-focus-border-color;
-                        }
-                    }
-        
-                    //radio button
-                    .field-radio {
-                        margin: 0 0.625rem 0 0; // 0px 10px 0px 0px
-                        span:first-of-type { padding-right: 0.4375rem; } // 7px
-                        input[type=radio] {
-                            display: none;
-                            + span {
-                                &:before {
-                                    content: '';
-                                    border-radius: 100%;
-                                    border: 0.0625rem solid $component-border-color; // 1px
-                                    display: inline-block;
-                                    width: 0.8125rem; // 13px
-                                    height: 0.8125rem; // 13px
-                                    position: relative;
-                                    top: -0.0625rem; // -1px
-                                    margin-right: 0.3125rem; // 5px 
-                                    vertical-align: middle;
-                                    cursor: pointer;
-                                    text-align: center;
-                                }
-                                &:empty {
-                                    &:before {
-                                        margin-right: 0;
-                                    }
-                                }
-                            }
-                            &:checked {
-                                + span {
-                                    &:before {
-                                        background-color: $component-focus-border-color;
-                                        box-shadow: inset 0 0 0 0.125rem $component-content-background-color; // 2px
-                                        border: 0.0625rem solid $component-focus-border-color; // 1px
-                                    }
-                                }
-                            }
-                            &:focus {
-                                + span {
-                                    &:before {
-                                        border-color: $component-focus-border-color;
-                                    }
-                                }
-                            }
-                            &:disabled {
-                                + span {
-                                    color: $component-disabled-font-color;
-                                    &:before {
-                                        background: $component-disabled-background-color;
-                                    }
-                                }
-                            }
-                        }
-                    }
-        
-                    //checkbox 
-                    .field-checkbox {
-                        margin: 0 0.625rem 0 0; // 0px 10px 0px 0px
-                        span:first-of-type { padding-right: 0.4375rem; }
-                        input[type=checkbox] {
-                            display: none;
-                            + span {
-                                position: relative;
-                                cursor: pointer;
-                                &:before {
-                                    content: '';
-                                    margin-right: 0.3125rem; // 5px
-                                    display: inline-block;
-                                    border-radius: 0.125rem; // 2px
-                                    border: 0.0625rem solid $component-border-color;
-                                    width: 0.8125rem; // 13px
-                                    height: 0.8125rem; // 13px
-                                    vertical-align: middle;
-                                }
-                                &:empty {
-                                    &:before {
-                                        margin-right: 0;
-                                    }
-                                }
-                            }
-                            &:checked {
-                                + span {
-                                    &:before {
-                                      background-color: $component-content-background-color;
-                                      border: 0.0625rem solid $component-focus-border-color; // 1px
-                                    }
-                                    &:after {
-                                        content: '';
-                                        position: absolute;
-                                        left: 0.125rem; // 2px
-                                        top: 0.5625rem; // 9px
-                                        background: $component-focus-border-color;
-                                        width: 0.125rem; // 2px
-                                        height: 0.125rem; // 2px
-                                        box-shadow: 
-                                            0.125rem 0 0 $component-focus-border-color, 
-                                            0.25rem 0 0 $component-focus-border-color, 
-                                            0.25rem -0.125rem 0 $component-focus-border-color, 
-                                            0.25rem -0.25rem 0 $component-focus-border-color, 
-                                            0.25rem -0.375rem 0 $component-focus-border-color;
-                                        transform: rotate(45deg);
-                                    }
-                                }
-                            }
-                            &:disabled {
-                                + span {
-                                    color: $component-disabled-font-color;
-                                    &:before {
-                                        background: $component-disabled-background-color;
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    &.vertical {
-                        .field-radio,
-                        .field-checkbox {
-                            display: table;
-                            margin-bottom: 0.625rem; //10px
-                            &:last-of-type {
-                                margin-bottom: 0;
-                            }
-                        }
-                    }
-        
-                    &.left { text-align: left; }
-                    &.center { text-align: center; }
-                    &.right { text-align: right; }
-        
-                    //image 컴포넌트
-                    .img-placeholder {
-                        display: none;
-                        height: 8.75rem;    // 140px
-                        border: 0.0625rem dashed $component-border-color; // 1px
-                        background-color: $light-gray;
-                        color: $gray;
-                        text-align: center;
-                        font-size:  0.75rem;    // 12px
-                        margin: 0 1.875rem; // 0 30px
-                        padding: 1.25rem 0 0.625rem 0; // 20px 0 10px 0
-                        img {
-                            content: url("#{$form-asset-path}/editor/icon_image.png");
-                        }
-                        p {
-                            margin: 0.625rem 0 0 0; // 10px 0 0 0
-                        }
-                    }
-        
-                    .field-img[src=""] {
-                        display: none;
-                        + .img-placeholder {
-                            display: block;
-                        }
-                    }
-        
-                    //divider
-                    hr { border-bottom-width: 0; }
-        
-                    //custom-code 
-                    &.custom-code { 
-                        display: flex;
-                        input[type=text] {
-                            &:read-only {
-                                pointer-events: none;
-                            }
-                        }
-                        input[type=button] {
-                            flex: 1 1 auto;
-                            width: 5rem;     // 80px
-                            height: 2.5rem;    // 40px
-                            white-space: nowrap;
-                            border: 0.0625rem solid $component-border-color; // 1px
-                            border-left: 0;
-                            background-color: $component-content-background-color;
-                            cursor: pointer;
-                        }
-                    }
-        
-                    //fileupload
-                    .dropbox { 
-                        height: 8.75rem;    //140px
-                        line-height: 8.75rem;
-                        background-color: $light-gray;
-                        border: 0.0625rem solid $component-border-color; // 1px
-                        text-align: center;
-                        font-size:  0.9375rem;    //15px
-                        color: $gray;
-                        overflow: hidden; 
-                        span {
-                            color: $point-blue;
-                            text-decoration: underline;
-                        }
-                    }
-                }
-            }
-            // tooltip menu
-            .tooltip-menu {
-                visibility: hidden;
+            &:after {
+                content: '';
                 position: absolute;
-                background-color: $component-content-background-color;
-                height: 1.875rem; // 30px;
-                box-shadow: 0 0 0 0.0625rem $component-selected-border-color inset; // 1px
-                bottom: 100%;
-                right: -0.0625rem; // -1px
-                .menu {
-                    margin: 0 0.125rem; // 0 2px
-                    padding: 0.5625rem 0 0 0; // 9px 0 0 0
-                    .menu-item {
-                        display: inline-block;
-                        a {
-                            margin: 0 0.25rem; // 0 4px
-                            padding: 0 0.5rem; // 0 8px
-                        }
-                        &:hover { cursor: pointer; }
-        
-                        &.list a { @include background("tooltip-menu/add.png"); }
-                        &.copy a { @include background("tooltip-menu/copy.png"); }
-                        &.delete a { @include background("tooltip-menu/delete.png"); }
-                        &.add a { @include background("tooltip-menu/new.png"); }
-                        // 마우스 오버시 아이콘 변경
-                        &.list:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/add_select.png"); }
-                        &.copy:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/copy_select.png"); }
-                        &.delete:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/delete_select.png"); }
-                        &.add:hover a { background-image: url("#{$form-asset-path}/tooltip-menu/new_select.png"); }
-                    }
-        
-                }
-                .menu-item.list { // tooltip 메뉴의 list 항목 미출력
-                    display: none;
+                top: 2px;
+                left: 0;
+                width: 10px;
+                height: 10px;
+                border-radius: 50%;
+                background-color: transparent;
+            }
+            &:empty {
+                &:before {
+                    margin-right: 0;
                 }
             }
         }
-        
-        // editbox 컴포넌트
-        .component[data-type="editbox"] {
-            padding: 0 2.125rem 0 0.8125rem;    // 0px 34.8px 0px 13px
-        
-            .field-group[contenteditable=true] {
-                height: 5.625rem;          //90px
-                line-height: 5.625rem;
-                color: $blue-gray;
-                font-size: $component-content-font-size;
-                font-weight: $component-content-font-weight;
-                cursor: text;
-                &:empty::before { // 입력된 값이 없으면 placeholder 표시
-                    content: attr(placeholder); 
+        &:checked {
+            + span {
+                &:before {
+                    border-color: $radio-pressed-border-color;
+                }
+                &:after {
+                    background-color: $radio-pressed-color;
+                    transform: translate(4px, 7px) scale(1);
+                }
+            }
+        }
+        &:hover,
+        &:focus {
+            + span {
+                &:before {
+                    border-color: $radio-focus-border-color;
+                    box-shadow: $radio-focus-box-shadow;
+                }
+            }
+        }
+        &:disabled {
+            + span {
+                color: $radio-disabled-color;
+                &:before {
+                    border-color: $radio-disabled-bg-color;
+                }
+                &:after {
+                    background-color: $radio-disabled-bg-color;
+                }
+            }
+        }
+    }
+}
+
+label.checkbox-group {
+    font-size: $checkbox-font-size;
+    line-height: $checkbox-line-height;
+    font-weight: $checkbox-font-weight;
+    color: $checkbox-font-color;
+    input[type=checkbox] {
+        display: none;
+        + span {
+            position: relative;
+            cursor: pointer;
+            &:before {
+                content: '';
+                margin-right: 0.3125rem; // 5px
+                display: inline-block;
+                border-radius: 0.125rem; // 2px
+                border: $checkbox-border;
+                width: 1.125rem; // 18px
+                height: 1.125rem; // 18px
+                vertical-align: middle;
+                background-color: $checkbox-bg-color;
+            }
+            &:empty {
+                &:before {
+                    margin-right: 0;
+                }
+            }
+        }
+        &:checked {
+            + span {
+                &:after {
+                    content: '';
+                    position: absolute;
+                    top: 6px;
+                    left: 0;
+                    width: 12px;
+                    height: 6px;
+                    border: solid 2px $checkbox-pressed-color;
+                    border-right: none;
+                    border-top: none;
+                    transform: translate(3px, 4px) rotate(-45deg);
+                }
+            }
+        }
+        &:hover,
+        &:focus {
+            + span {
+                &::before {
+                    border-color: $checkbox-focus-border-color;
+                    box-shadow: $checkbox-focus-box-shadow;
+                }
+            }
+        }
+        &:disabled {
+            + span {
+                color: $checkbox-disabled-color;
+                &:before {
+                    background-color: $checkbox-disabled-bg-color;
+                }
+            }
+        }
+    }
+}
+
+.component {
+    position: relative;
+    display: flex; 
+    align-items: center; 
+    width: 100%; 
+    max-width: 100%;
+    border: $component-border;
+    padding: 1.25rem 2.125rem 1.25rem 0.8125rem;    // 20px 34.8px 20px 13px
+
+    .move-handler {  // drag and drop icon
+        display: none;
+        width:  0.625rem; // 10px
+        height: 0.75rem; // 12px
+        margin: 0 0.5rem 0 0; // 0 8.8px 0 0
+        content: '';
+        cursor: move;
+        opacity: 0;
+        background: $component-move-handler-color;
+        mask-image: url("#{$form-asset-path}/editor/icon_component_move.svg");
+    }
+
+    .field-group { // label + display
+        display: flex; 
+        flex-wrap: wrap; 
+        align-items: center;
+        width: 100%;
+
+        .field-label { // label
+            flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+            padding-right: 0.938rem; // 15px;
+            // 라벨 정렬
+            &.left { text-align: left; }
+            &.center { text-align: center; }
+            &.right { text-align: right; }
+            &.hidden { display: none; }
+
+            .label { display: inline-block; }
+
+            span[class="required"] {
+                padding-left: 0.3125rem; //5px
+                font-weight: 700;
+                &::after {
+                    color: $red;
+                    content: "\002a"; // *
+                }
+            }
+        }
+
+        // 라벨 위치가 top일 경우 라벨 위치 조정용 필드
+        .field-empty {
+            flex-basis: calc(100% * (#{$column-row} - var(--data-column, #{$column-row})));
+            &:not(.top) { display: none; }
+        }
+
+        .field-content {
+            flex-basis: calc((100% * var(--data-column, #{$column-row})) / #{$column-row});
+
+            &.horizontal div { display: inline-block; }
+
+            > input[type=text] {
+                width: 100%;
+                padding-left: $component-indent-padding-left;
+            }
+
+            textarea { 
+                width: 100%;
+                resize: none;
+                padding-left: $component-indent-padding-left;
+                @include scrollbar-hidden;
+            }
+
+            .editor-container { // text editor
+                height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
+            }
+
+            .ql-snow {
+                border: $textarea-border;
+                background-color: $textarea-bg-color;
+                .ql-editor.ql-blank::before {
+                    content: attr(data-placeholder);
+                }
+            }
+
+            .quill-wrap {
+                .ql-active {
+                    border: $textarea-border !important;
+                    border-radius: 0.25rem   //4px
+                }
+                button,
+                .ql-picker { 
+                    margin-right: 0.125rem //2px 
+                }
+            }
+
+            select {
+                min-width: 17.19rem; // 275px
+                padding-left: $component-indent-padding-left;
+            }
+
+            .datepicker,
+            .datetimepicker {
+                background: $input-bg-color url("#{$datepicker-asset-path}/icon_calendar.svg") no-repeat 98% 50%;
+            }
+            .timepicker {
+                background: $input-bg-color url("#{$datepicker-asset-path}/icon_clock.svg") no-repeat 98% 50%;
+            }
+
+            .picker-wrapper-date { // datepicker
+                width: 100%;
+                .picker-main {
+                    width: 100%; 
+                    height: 2.5rem;    // 40px
+                }
+            }
+
+            //radio button
+            .field-radio {
+                margin: 0 0.625rem 0 0; // 0px 10px 0px 0px
+                span:first-of-type { padding-right: 0.4375rem; } // 7px
+            }
+
+            //checkbox 
+            .field-checkbox {
+                margin: 0 0.625rem 0 0; // 0px 10px 0px 0px
+                span:first-of-type { padding-right: 0.4375rem; }
+            }
+
+            &.vertical {
+                .field-radio,
+                .field-checkbox {
+                    display: table;
+                    margin-bottom: 0.625rem; //10px
+                    &:last-of-type {
+                        margin-bottom: 0;
+                    }
+                }
+            }
+
+            &.left { text-align: left; }
+            &.center { text-align: center; }
+            &.right { text-align: right; }
+
+            //image 컴포넌트
+            .img-placeholder {
+                display: none;
+                font-size: $img-font-size;
+                line-height: $img-line-height;
+                font-weight: $img-font-weight;
+                color: $img-placeholder-color;
+                height: 8.75rem;    // 140px
+                border: $img-border;
+                background-color: $img-bg-color;
+                text-align: center;
+                margin: 0 1.875rem; // 0 30px
+                padding: 1.25rem 0 0.625rem 0; // 20px 0 10px 0
+                img {
+                    content: url("#{$form-asset-path}/editor/icon_imageupload_s.svg");
+                }
+                p {
+                    margin: 0.625rem 0 0 0; // 10px 0 0 0
+                }
+            }
+
+            .field-img[src=""] {
+                display: none;
+                + .img-placeholder {
                     display: block;
                 }
             }
-            // toomtip menu
-            .tooltip-menu {
-                .menu-item.list { // tooltip 메뉴의 list 항목 출력
-                    display: inline-block;
+
+            //divider
+            hr { border-bottom-width: 0; }
+
+            //custom-code 
+            &.custom-code { 
+                display: flex;
+                input[type=text] {
+                    &:read-only {
+                        pointer-events: none;
+                    }
+                }
+                input[type=button] {
+                    flex: 1 1 auto;
+                    width: 5rem;     // 80px
+                    height: 2.5rem;    // 40px
+                    white-space: nowrap;
+                    border: $input-border;
+                    border-left: 0;
+                    background-color: $input-bg-color;
+                    cursor: pointer;
                 }
             }
-        }
-        
-        // 컴포넌트 select
-        .component.selected {
-            background-color: $component-selected-background-color;
-            border: solid 0.0625rem $component-selected-border-color; // 1px
-            .field-group[contenteditable=true] {
-                color: $component-selected-border-color;
-            }
-            .tooltip-menu {
-                visibility: visible;
-                .menu-item.hidden {
-                    display: none;
-                }
-            }
-            &.adjoin {
-                border-bottom-color: rgba(135, 206, 255, 0); // $light bule
-            }
-            + .component.selected { // 인접 컴포넌트
-                border-width: 0.0625rem; // 1px
-                border-style: solid;
-                border-color: rgba(135, 206, 255, 0) $component-selected-border-color $component-selected-border-color $component-selected-border-color;
-                &.adjoin {
-                    border-bottom-color: rgba(135, 206, 255, 0);
-                }
-            }
-            ~ .component.selected { // 첫번째 선택된 컴포넌트를 제외하고 tooltip 미출력
-                .tooltip-menu { visibility: hidden; }
-            }
-        }
-        
-        // 컴포넌트 drag
-        .component.over { 
-            border-top: 0.125rem dashed $point-blue; 
-            * { pointer-events: none; }
-        }
-        
-        // 컴포넌트 마우스 오버
-        .component:hover {
-            .move-handler { opacity: 1; }
-            [data-type="editbox"] { cursor: text; }
-            [data-type]:not([data-type="editbox"]) { cursor: pointer; }
-        }
-        
-        // 컴포넌트 display Type에 따른 처리 :  'editable', 'editableRequired', 'readonly', 'hidden'
-        .component[data-displayType="hidden"] { display: none; }
-        .component[data-displayType]:not([data-displayType="editableRequired"]) {
-            .field-group .field-label span[class="required"] { display: none; } // 필수값 표시 숨김
-        }
-        .component[data-displayType="readonly"] {
-            input[type=text], textarea, select {
-                background-color: $component-disabled-background-color !important; 
-                color: $component-disabled-font-color !important;
-                pointer-events: none;
-            }
-        }
-        .validate-error {
-            border: 1px solid $red !important;
-            color: $red !important;
         }
     }
+
+    // tooltip menu
+    .tooltip-menu {
+        visibility: hidden;
+        position: absolute;
+        background-color: $component-bg-color;
+        height: 2.5rem; // 40px;
+        box-shadow: 0 0 0 0.0625rem $component-pressed-border-color inset; // 1px
+        bottom: 100%;
+        right: -0.0625rem; // -1px
+        .menu {
+            margin: 0 0.125rem; // 0 2px
+            padding: 0.5625rem 0 0 0; // 9px 0 0 0
+            .menu-item {
+                display: inline-block;
+                a {
+                    margin: 0 0.25rem; // 0 4px
+                    padding: 0 0.5rem; // 0 8px
+                    svg {
+                        fill: $light-blue;
+                    }
+                }
+                &:hover { 
+                    cursor: pointer;
+                    a svg {
+                        fill: $point-blue;
+                    }
+                }
+            }
+
+        }
+        .menu-item.list { // tooltip 메뉴의 list 항목 미출력
+            display: none;
+        }
+    }
+}
+
+// editbox 컴포넌트
+.component[data-type="editbox"] {
+    padding: 0 2.125rem 0 0.8125rem;    // 0px 34.8px 0px 13px
+
+    .field-group[contenteditable=true] {
+        font-size: $editbox-font-size;
+        font-weight: $editbox-font-weight;
+        color: $editbox-font-color;
+        height: 5.625rem;          //90px
+        line-height: 5.625rem;
+        cursor: text;
+        &:empty::before { // 입력된 값이 없으면 placeholder 표시
+            content: attr(placeholder); 
+            display: block;
+        }
+    }
+    // toomtip menu
+    .tooltip-menu {
+        .menu-item.list { // tooltip 메뉴의 list 항목 출력
+            display: inline-block;
+        }
+    }
+}
+
+// 컴포넌트 select
+.component.selected {
+    background-color: $component-pressed-bg-color;
+    border: solid 0.0625rem $component-pressed-border-color; // 1px
+    .move-handler {
+        background: $component-pressed-border-color;
+    }
+    .field-group[contenteditable=true] {
+        color: $editbox-pressed-color;
+    }
+    .tooltip-menu {
+        visibility: visible;
+        .menu-item.hidden {
+            display: none;
+        }
+    }
+    &.adjoin {
+        border-bottom-color: rgba(135, 206, 255, 0); // $light bule
+    }
+    + .component.selected { // 인접 컴포넌트
+        border-width: 0.0625rem; // 1px
+        border-style: solid;
+        border-color: rgba(135, 206, 255, 0) $component-pressed-border-color $component-pressed-border-color $component-pressed-border-color;
+        &.adjoin {
+            border-bottom-color: rgba(135, 206, 255, 0);
+        }
+    }
+    ~ .component.selected { // 첫번째 선택된 컴포넌트를 제외하고 tooltip 미출력
+        .tooltip-menu { visibility: hidden; }
+    }
+}
+
+// 컴포넌트 drag
+.component.over { 
+    border-top: 0.125rem dashed $point-blue; 
+    * { pointer-events: none; }
+}
+
+// 컴포넌트 마우스 오버
+.component:hover {
+    .move-handler { opacity: 1; }
+    [data-type="editbox"] { cursor: text; }
+    [data-type]:not([data-type="editbox"]) { cursor: pointer; }
+}
+
+// 컴포넌트 display Type에 따른 처리 :  'editable', 'editableRequired', 'readonly', 'hidden'
+.component[data-displayType="hidden"] { display: none; }
+.component[data-displayType]:not([data-displayType="editableRequired"]) {
+    .field-group .field-label span[class="required"] { display: none; } // 필수값 표시 숨김
+}
+.component[data-displayType="readonly"] {
+    input[type=text], textarea, select {
+        background-color: $component-disabled-bg-color !important; 
+        color: $component-disabled-font-color !important;
+        pointer-events: none;
+    }
+}
+.validate-error {
+    border: 1px solid $red !important;
+    color: $red !important;
 }

@@ -1147,7 +1147,7 @@
                             const fieldGroupElem = document.createElement('div');
                             fieldGroupElem.classList.add('property-field');
 
-                            if (fieldProp.type === 'button') { // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
+                            if (fieldProp.type === 'button-group') { // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
                                 if (!buttonGroupExist) {
                                     buttonGroupElem = document.createElement('div');
                                     buttonGroupElem.classList.add('property-field-button');
@@ -1158,7 +1158,9 @@
                                 }
                                 if (typeof fieldProp.option !== 'undefined') { //align
                                     const fieldButtonOptions = fieldProp.option.map(function (opt) {
-                                        return `<button type='button' id='${opt.id}' class='${fieldProp.value === opt.id ? "active" : ""}'></button>`;
+                                        return `<button type='button' id='${opt.id}' class='${fieldProp.value === opt.id ? "active" : ""}'>` +
+                                                   `<img class="load-svg" src="${opt.path}"/> ` +
+                                               `</button>`
                                     }).join('');
                                     buttonGroupElem.insertAdjacentHTML('beforeend', `<div id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
 
@@ -1167,7 +1169,10 @@
                                         buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
                                     }
                                 } else { //bold, italic, underline
-                                    buttonGroupElem.insertAdjacentHTML('beforeend', `<button type='button' id='${fieldProp.id}' class='${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'></button>`);
+                                    const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
+                                            `<img class="load-svg" src="${fieldProp.path}"/> ` +
+                                        `</button>`;
+                                    buttonGroupElem.insertAdjacentHTML('beforeend', buttonTemplate);
                                     buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', toggleButtonClickHandler, false);
                                 }
                             } else {
@@ -1189,7 +1194,7 @@
                                         break;
                                     case 'checkbox-boolean': // 라벨 클릭시에 체크박스가 동작한다.
                                         fieldTemplate =
-                                            `<label class="property-name" for="checkbox-${componentData.componentId}-${fieldProp.id}">` +
+                                            `<label class="property-name checkbox-group" for="checkbox-${componentData.componentId}-${fieldProp.id}">` +
                                                 `<span>${fieldProp.name}</span>${tooltipTemplate}` +
                                                 `<input type="checkbox" class="property-value" id="checkbox-${componentData.componentId}-${fieldProp.id}" name="${fieldProp.id}" ${fieldProp.value ? 'checked' : ''}>` +
                                                 `<span></span>` +
@@ -1197,12 +1202,14 @@
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
-                                    case 'button-option-text': // position
-                                    case 'button-option-icon': // image 컴포넌트 정렬
+                                    case 'button-option-text':
+                                    case 'button-option-icon':
                                         let optionType = fieldProp.type.split('-')[2];
 
                                         const fieldOptions = fieldProp.option.map(function (opt) {
-                                            return `<button type="button" id="${opt.id}" class="${fieldProp.value === opt.id ? 'active' : ''}">${optionType === 'text' ? opt.name : ''}</button>`;
+                                            return `<button type="button" id="${opt.id}" class="${fieldProp.value === opt.id ? 'active' : ''}">${optionType === 'text' ? opt.name : ''}` +
+                                                       `<img class="load-svg" src="${opt.path}"/> ` +
+                                                   `</button>`;
                                         }).join('');
 
                                         fieldTemplate =
@@ -1291,7 +1298,7 @@
                                             }
                                             let labelName = opt.name.split('{0}');
                                             return `<div class='vertical-group radio-datetime'>` +
-                                                `<label for="${opt.id}">` +
+                                                `<label class="radio-group" for="${opt.id}">` +
                                                     `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
                                                     `${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><span>" + labelName[1] + "</span>" : ""}` +
                                                     `${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><span id='" + opt.id + "-day'>" + labelName[1] + "</span>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><span id='" + opt.id + "-hour'>" + labelName[2] + "</span>" : ""}` +
@@ -1310,7 +1317,7 @@
                                         const fieldValueArr = fieldProp.value.split('|');
                                         const fieldRadioOptions = fieldProp.option.map(function (opt) {
                                             return `<div class="vertical-group radio-custom">` +
-                                            `<label for="${opt.id}">` +
+                                            `<label class="radio-group" for="${opt.id}">` +
                                                 `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
                                                 `<span>${opt.name}</span>` +
                                             `</label>` +
@@ -1438,6 +1445,9 @@
             }
         });
         propertiesPanel.appendChild(componentElem);
+
+        // svg 로딩
+        aliceJs.loadSvg();
 
         // date picker 초기화
         const datepickerElems = propertiesPanel.querySelectorAll('.datepicker');
