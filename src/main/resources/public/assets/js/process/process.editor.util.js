@@ -411,10 +411,41 @@
             method: 'put',
             url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/simulation',
             callbackFunc: function(xhr) {
-                if (xhr.responseText === 'true') {
-                    aliceJs.alert(i18n.get('process.msg.simulation'));
-                } else {
-                    aliceJs.alert(i18n.get('common.label.fail'));
+                if (document.querySelectorAll('.simulation-report .details div').length > 0) {
+                    document.querySelectorAll('.simulation-report .details div').remove()
+                }
+
+                const response = JSON.parse(xhr.responseText);
+                document.querySelector('.simulation-report .success').textContent = response.success;
+
+                for (let i = 0; i<response.simulationReport.length; i++) {
+                    const report = response.simulationReport[i];
+
+                    const count = document.createElement('span');
+                    count.className = 'details-number-of';
+                    count.textContent = [i+1] + '/' + response.simulationReport.length;
+                    const success = document.createElement('span');
+                    success.className = 'details-success';
+                    success.textContent = report.success;
+                    const elementId = document.createElement('span');
+                    elementId.className = 'details-element-id';
+                    elementId.textContent = report.elementId;
+                    const failedMessage = document.createElement('span');
+                    failedMessage.className = 'details-failed-message';
+                    failedMessage.textContent = report.failedMessage;
+
+                    const reportDetails = document.createElement('div');
+                    reportDetails.appendChild(count);
+                    reportDetails.appendChild(success);
+                    reportDetails.appendChild(elementId);
+                    reportDetails.appendChild(failedMessage);
+
+                    document.querySelector('.simulation-report .details').appendChild(reportDetails);
+
+                    // TODO false 인 엘리먼트에 가이드 주기.
+                    if (!report.success) {
+                        document.getElementById(report.elementId).classList.add('selected')
+                    }
                 }
             },
             contentType: 'application/json; charset=utf-8',

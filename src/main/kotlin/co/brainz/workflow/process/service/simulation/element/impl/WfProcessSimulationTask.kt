@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.process.service.simulation.element.impl
 
 import co.brainz.workflow.element.entity.WfElementEntity
@@ -12,7 +16,7 @@ class WfProcessSimulationTask : WfProcessSimulationElement() {
         return true
     }
 
-    override fun failInfo(): String {
-        return "Task process simulation failed. $elementInformation"
+    override fun failedMessage(): String {
+        return "Task process simulation failed. $simulationFailedMsg"
     }
 }

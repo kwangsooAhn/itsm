@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.process.service.simulation.element.impl
 
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -22,13 +26,13 @@ class WfProcessSimulationEvent(private val wfDocumentRepository: WfDocumentRepos
                 element.getElementDataValue(WfElementConstants.AttributeId.TARGET_DOCUMENT_LIST.value) ?: ""
 
             val document = wfDocumentRepository.findByDocumentId(documentId)
-                ?: return setFailedMessage("Document does not exist. check signal target.")
+                ?: return failed("Document does not exist. check signal target.")
 
             if (!super.checkProcessStatus(document.process.processStatus)) {
-                return setFailedMessage("Process status has not published.")
+                return failed("Process status has not published.")
             }
             if (!super.checkProcessStatus(document.form.formStatus!!)) {
-                return setFailedMessage("Form status has not published.")
+                return failed("Form status has not published.")
             }
         } else {
             // 시작 또는 종료 이벤트
@@ -38,14 +42,14 @@ class WfProcessSimulationEvent(private val wfDocumentRepository: WfDocumentRepos
                 }
 
             if (findElements?.size != 1) {
-                return setFailedMessage("There should be only one start/end event.")
+                return failed("There should be only one start/end event.")
             }
         }
 
         return true
     }
 
-    override fun failInfo(): String {
-        return "Event simulation failed. $elementInformation"
+    override fun failedMessage(): String {
+        return "Event simulation failed. $simulationFailedMsg"
     }
 }

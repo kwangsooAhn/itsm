@@ -777,3 +777,27 @@
         }
     }
 }
+
+.simulation-report {
+    .success {
+        font-size: 14px
+    }
+
+    .details {
+        &-number-of {
+            font-size: 15px
+        }
+
+        &-success {
+            font-size: 16px
+        }
+
+        &-element-id {
+            font-size: 17px
+        }
+
+        &-failed-message {
+            font-size: 20px
+        }
+    }
+}
