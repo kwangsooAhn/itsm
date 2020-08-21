@@ -16,9 +16,9 @@
                     <option value="" th:text="#{document.label.all}" selected/>
                     <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
                 </select>
-                <label for="searchDocuments"></label><input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}" class="search"/>
-                <label for="searchProcessName"></label><input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}" class="search"/>
-                <label for="searchFormName"></label><input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
+                <label for="searchDocuments"></label><input type="text" maxlength="100" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}" class="search"/>
+                <label for="searchProcessName"></label><input type="text" maxlength="100" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}" class="search"/>
+                <label for="searchFormName"></label><input type="text" maxlength="100" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
                 <button sec:authorize="hasAuthority('document.admin.create')" type="button" onclick="createDocument()" th:text="#{common.btn.register}" style="text-align: left; float: right;"></button>
             </div>
         </form>
@@ -34,7 +34,7 @@
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
                 search.addEventListener('keyup', function() {
                     documentSearches(false);
-                });
+                });noa
             });
             document.getElementById('searchGroupName').addEventListener('change', documentSearches.bind(null, false), false);
             documentSearches();
