@@ -56,7 +56,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -65,7 +65,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -265,7 +265,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -274,7 +274,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -444,7 +444,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -453,7 +453,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -587,7 +587,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -596,7 +596,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -751,7 +751,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -760,7 +760,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -893,16 +893,16 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
-                "unit": "px" ,
+                "unit": "px",
                 "validate": "number|min[10]"
             },
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1074,7 +1074,7 @@
             {
                 "id": "color",
                 "name": "Color",
-                "value": "rgb(0, 0, 0, 1)",
+                "value": "rgba(63, 75, 86, 1)",
                 "type": "rgba",
                 "code": "",
                 "unit": ""
@@ -1146,7 +1146,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -1155,7 +1155,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1306,7 +1306,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -1315,7 +1315,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1466,7 +1466,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -1475,7 +1475,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1626,7 +1626,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -1635,7 +1635,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1758,7 +1758,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -1767,7 +1767,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""

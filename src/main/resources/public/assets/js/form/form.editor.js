@@ -1194,7 +1194,7 @@
                                         break;
                                     case 'checkbox-boolean': // 라벨 클릭시에 체크박스가 동작한다.
                                         fieldTemplate =
-                                            `<label class="property-name" for="checkbox-${componentData.componentId}-${fieldProp.id}">` +
+                                            `<label class="property-name checkbox-group" for="checkbox-${componentData.componentId}-${fieldProp.id}">` +
                                                 `<span>${fieldProp.name}</span>${tooltipTemplate}` +
                                                 `<input type="checkbox" class="property-value" id="checkbox-${componentData.componentId}-${fieldProp.id}" name="${fieldProp.id}" ${fieldProp.value ? 'checked' : ''}>` +
                                                 `<span></span>` +
@@ -1298,7 +1298,7 @@
                                             }
                                             let labelName = opt.name.split('{0}');
                                             return `<div class='vertical-group radio-datetime'>` +
-                                                `<label for="${opt.id}">` +
+                                                `<label class="radio-group" for="${opt.id}">` +
                                                     `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
                                                     `${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><span>" + labelName[1] + "</span>" : ""}` +
                                                     `${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><span id='" + opt.id + "-day'>" + labelName[1] + "</span>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><span id='" + opt.id + "-hour'>" + labelName[2] + "</span>" : ""}` +
@@ -1317,7 +1317,7 @@
                                         const fieldValueArr = fieldProp.value.split('|');
                                         const fieldRadioOptions = fieldProp.option.map(function (opt) {
                                             return `<div class="vertical-group radio-custom">` +
-                                            `<label for="${opt.id}">` +
+                                            `<label class="radio-group" for="${opt.id}">` +
                                                 `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
                                                 `<span>${opt.name}</span>` +
                                             `</label>` +
