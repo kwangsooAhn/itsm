@@ -58,34 +58,13 @@ class BoardService(
         val toDt = LocalDateTime.parse(boardSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
         val offset = boardSearchDto.offset
 
-        val queryResult = boardRepository.findByBoardList(
+        return boardRepository.findByBoardList(
             boardSearchDto.boardAdminId,
             boardSearchDto.search,
             fromDt,
             toDt,
             offset
         )
-        val boardList = mutableListOf<BoardListDto>()
-        for (board in queryResult.results) {
-            boardList.add(
-                BoardListDto(
-                    boardId = board.boardId,
-                    boardAdminId = board.boardAdminId,
-                    boardCategoryName = board.boardCategoryName,
-                    boardSeq = board.boardSeq,
-                    boardGroupId = board.boardGroupId,
-                    boardLevelId = board.boardLevelId,
-                    boardTitle = board.boardTitle,
-                    replyCount = board.replyCount,
-                    readCount = board.readCount,
-                    totalCount = queryResult.total,
-                    createDt = board.createDt,
-                    createUserName = board.createUser?.userName
-                )
-            )
-        }
-
-        return boardList
     }
 
     /**

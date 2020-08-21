@@ -19,7 +19,10 @@
         </tr>
         <tr th:unless="${#arrays.isEmpty(faqs)}" th:each="faq: ${faqs}">
             <td style="width:20%;">
-                <a th:text="#{|common.code.${faq.faqGroup}|}" th:href="@{/faqs/{faqId}/edit(faqId=${faq.faqId})}"></a>
+                <a sec:authorize="hasAuthority('faq.update')" th:text="#{|common.code.${faq.faqGroup}|}"
+                   th:href="@{/faqs/{faqId}/edit(faqId=${faq.faqId})}"></a>
+                <a sec:authorize="!hasAuthority('faq.update')" th:text="#{|common.code.${faq.faqGroup}|}"
+                   th:href="@{/faqs/{faqId}/view(faqId=${faq.faqId})}"></a>
             </td>
             <td style="width:80%;" class="align-left" th:text="${faq.faqTitle}"></td>
         </tr>

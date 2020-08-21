@@ -169,10 +169,10 @@
             tdDownloadTitle.style.width = '45%';
             tdDownloadTitle.className = 'align-left';
             let aDownloadTitle = document.createElement('a');
-            if (document.getElementsByName('isRole').value === 'true') {
-                aDownloadTitle.href = '/downloads/'+ data.downloadId +'/view';
-            } else {
+            if (document.getElementsByName('isRole')[0].value === 'true') {
                 aDownloadTitle.href = '/downloads/'+ data.downloadId +'/edit';
+            } else {
+                aDownloadTitle.href = '/downloads/'+ data.downloadId +'/view';
             }
             aDownloadTitle.innerText = data.downloadTitle;
             tdDownloadTitle.appendChild(aDownloadTitle);

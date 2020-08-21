@@ -16,6 +16,8 @@
         <div class="contents-body">
             <div class="search-area">
                 <div class="search-area-left">
+                    <input type="hidden" name="isRole" sec:authorize="hasAuthority('faq.update')" th:value="true"/>
+                    <input type="hidden" name="isRole" sec:authorize="!hasAuthority('faq.update')" th:value="false"/>
                     <form id="searchFrm">
                         <input class="search column-3" id="search" name="search" type="text" maxlength="100" th:placeholder="#{faq.label.searchPlaceholder}"/>
                     </form>
@@ -119,10 +121,10 @@
             let tdFaqId = document.createElement('td');
             tdFaqId.style.width = '20%';
             let aFaqId = document.createElement('a');
-            if (document.getElementsByName('isRole').value === 'true') {
-                aFaqId.href = '/faqs/'+ data.faqId +'/view';
-            } else {
+            if (document.getElementsByName('isRole')[0].value === 'true') {
                 aFaqId.href = '/faqs/'+ data.faqId +'/edit';
+            } else {
+                aFaqId.href = '/faqs/'+ data.faqId +'/view';
             }
             aFaqId.innerText = i18n.get('common.code.'+data.faqGroup);
             tdFaqId.appendChild(aFaqId);
