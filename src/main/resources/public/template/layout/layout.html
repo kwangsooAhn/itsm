@@ -10,9 +10,11 @@
             var targetUrl = "/notices/" + targetId + "/view-pop";
             var targetWidth = /*[[ ${noticePopUp.popWidth} ]]*/;
             var targetHeight = /*[[ ${noticePopUp.popHeight} ]]*/;
+            var targetTop = 50;
+            var targetLeft = window.screen.width - (targetWidth + 50);
 
             if (getCookie(targetId) != "done") {
-                window.open(targetUrl, targetId, " width= " + targetWidth + " , height= " + targetHeight);
+                window.open(targetUrl, targetId, " width= " + targetWidth + " , height= " + targetHeight + "  , top= " + targetTop + "  , left= " + targetLeft);
             }
             /*[/]*/
 
