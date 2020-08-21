@@ -120,3 +120,58 @@ button { // 기본 버튼 : ghost
         }
     }
 }
+
+.button-group {
+    display: inline-flex;
+    vertical-align: middle;
+    position: relative;
+    button {
+        flex: 1 1 auto;
+        color: $light-black;
+        background-color: $white;
+        border: 0.0625rem solid $line-gray; // 1px
+        &:first-child {
+            margin-left: 0;
+        }
+        span.icon { // 아이콘이 존재한다면
+            display: inline-block;
+            background: $light-black;
+        }
+        &.active {
+            color: $point-blue;
+            background-color: $white;
+            border-color: $point-blue;
+            span.icon {
+                background: $point-blue;
+            }
+        }
+    }
+    button:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    button:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right-color: transparent;
+    }
+}
+
+.button-group-toggle {
+    button {
+        color: $gray;
+        background-color: $light-gray;
+        border: 0.0625rem solid $line-gray; // 1px
+        span.icon {
+            background: $gray;
+        }
+        &.active {
+            color: $point-blue;
+            background-color: $white;
+            border-color: $point-blue;
+            span.icon {
+                background: $point-blue;
+            }
+        }
+    }
+}

@@ -67,6 +67,11 @@ $input-disabled-bg-color:    $light-gray;
 $input-error-color:          $red !important;
 $input-error-border:         0.0625rem solid $red !important;
 
+// range
+$input-range-border-color:   $line-gray;
+$input-range-round-border:   0.0625rem solid $line-gray;
+$input-range-round-bg-color: $white;
+
 // textarea
 $textarea-font-size:         16px;
 $textarea-font-weight:       400; // regular
@@ -101,8 +106,16 @@ $label-font-size:            16px;
 $label-font-weight:          500; // medium
 $label-line-height:          24px;
 $label-font-color:           $light-black;
+$label-point-font-color:     $hover-blue;
+$label-ghost-font-color:     $white;
 
-// radio button
+// span
+$span-font-size:            16px;
+$span-font-weight:          400; // regular
+$span-line-height:          24px;
+//$span-font-color:           $light-black;
+
+// radio button 
 $radio-font-size:            16px;
 $radio-font-weight:          400; // regular
 $radio-line-height:          24px;
@@ -129,6 +142,15 @@ $checkbox-pressed-color:        $point-blue;
 $checkbox-pressed-border-color: $line-gray;
 $checkbox-disabled-color:       $gray;
 $checkbox-disabled-bg-color:    $light-gray;
+
+// table
+$table-font-size:            16px;
+$table-font-weight:          400; // regular
+$table-head-font-weight:     500; // medium
+$table-line-height:          24px;
+$table-font-color:           $dark-gray;
+$table-border:               0.0625rem solid $line-gray;
+$table-bg-color:             $white;
 
 // image
 $img-font-size:                 16px;
@@ -161,7 +183,7 @@ $dropzone-filesize-font-color:  $gray;
 $dropzone-preview-height:       5rem; // 80px;
 $dropzone-point-color:          $point-blue;
 
-// datepicker
+// TODO: datepicker 변수 정리
 $datepicker-asset-path:         "../media/icons/datepicker";
 
 // container
@@ -194,7 +216,7 @@ $form-drawing-board-top-margin: 6.563rem; // 105px
 
 // container > aside
 $form-aside-bg-color:           $white;
-$form-aside-width:              16.25rem; // 260px
+$form-aside-width:              18.75rem; // 300px
 $form-aside-box-shadow:         -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6);// -1px 15px 7px 0px $pressed-gray, 불투명도 60%;
 
 // component
@@ -205,7 +227,7 @@ $component-pressed-border-color: $light-blue; // 컴포넌트 선택시
 $component-pressed-bg-color:     rgba(135, 206, 255, 0.1); // 컴포넌트 선택시
 $component-disabled-bg-color:    $light-gray;
 $component-disabled-font-color:  $gray;
-$component-move-handler-color:   $blue-gray;
+$component-move-handler-color:   $pressed-gray;
 
 // editbox component
 $editbox-font-size:              16px;
@@ -225,33 +247,23 @@ $context-menu-focus-bg-color:   rgba(135, 206, 255, 0.1);
 $context-menu-focus-font-color:  $point-blue;
 
 // properties title
-$properties-title-height:        3.125rem; // 50px
+$properties-title-height:        2.5rem; // 40px
 $properties-title-bg-color:      $hover-blue;
-$properties-title-font-size:     18px; // 18px
-$properties-title-line-height:   27px;
+$properties-title-font-size:     16px;
+$properties-title-font-weight:   500; // medium
+$properties-title-line-height:   24px;
 $properties-title-font-color:    $white;
-$properties-title-font-weight:   500;
 
 // properties detail
+$properties-indent-padding-left:   0.438rem; // 7px input, select 등 들여쓰기
+$properties-border:              0.0625rem solid $line-gray; // 1px
+
+// color palette
 $properties-border-color:          #c8ced8; // default
 $properties-bg-color:              $white; // default
-$properties-value-font-color:      #67717F; // default 
-$properties-lg-title-font-size:    0.75rem; // 12px
-$properties-lg-title-font-color:   #3E4752;
-$properties-lg-title-font-weight:  500;
-$properties-sm-title-font-size:    0.6875rem; // 11px
-$properties-sm-title-font-color:   #68717c;
-$properties-sm-title-font-weight:  normal;
-$properties-indent-padding-left:   0.438rem; // 7px input, select 등 들여쓰기
-$properties-active-font-color:     $point-blue;
-$properties-active-border-color:   $point-blue;
-$properties-active-bg-color:       $white;
-$properties-inactive-font-color:   $gray;
-$properties-inactive-border-color: $line-gray;
-$properties-inactive-bg-color:     $light-gray;
-$properties-disabled-font-color:   #aeb7c2;
-$properties-disabled-border-color: #c8ced8;
-$properties-disabled-bg-color:     #f2f5fa;
+
+$properties-active-font-color:     $point-blue; // 삭제 예정
+$properties-active-border-color:   $point-blue; // 삭제 예정
 
 // document
 // container > contents > button-board, drawing-board

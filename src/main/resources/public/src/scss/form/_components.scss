@@ -3,272 +3,6 @@
     --data-column: 12;
     --data-row: 2;
 }
-h1 {
-    font-size: $h1-font-size;
-    line-height: $h1-line-height;
-    font-weight: $h1-font-weight;
-    color: $h1-font-color;
-}
-
-h2 {
-    font-size: $h2-font-size;
-    line-height: $h2-line-height;
-    font-weight: $h2-font-weight;
-    color: $h2-font-color;
-}
-  
-h3 {
-    font-size: $h3-font-size;
-    line-height: $h3-line-height;
-    font-weight: $h3-font-weight;
-    color: $h3-font-color;
-}
-
-h4 {
-    font-size: $h4-font-size;
-    line-height: $h4-line-height;
-    font-weight: $h4-font-weight;
-    color: $h4-font-color;
-}
-
-h5 {
-    font-size: $h5-font-size;
-    line-height: $h5-line-height;
-    font-weight: $h5-font-weight;
-    color: $h5-font-color;
-}
-
-input {
-    font-size: $input-font-size;
-    line-height: $input-line-height;
-    font-weight: $input-font-weight;
-    color: $input-font-color;
-    border: $input-border;
-    background-color: $input-bg-color;
-    height: 2.5rem;    // 40px
-
-    &::placeholder {
-        color: $input-placeholder-color;
-    }
-
-    &:focus,
-    &:hover {
-        outline: 0;
-        border: $input-focus-border;
-        box-shadow: $input-focus-box-shadow;
-    }
-
-    &:disabled {
-        color: $input-disabled-color;
-        background-color: $input-disabled-bg-color;
-        cursor: default;
-    }
-
-    &.validate-error {
-        color: $input-error-color;
-        border: $input-error-border;
-    }
-}
-
-textarea {
-    font-size: $textarea-font-size;
-    line-height: $textarea-line-height;
-    font-weight: $textarea-font-weight;
-    color: $textarea-font-color;
-    border: $textarea-border;
-    background-color: $textarea-bg-color;
-    line-height: 2.5rem; // 40px
-
-    &::placeholder {
-        color: $textarea-placeholder-color;
-    }
-
-    &:focus,
-    &:hover {
-        outline: 0;
-        border: $textarea-focus-border;
-        box-shadow: $textarea-focus-box-shadow;
-    }
-
-    &:disabled {
-        color: $textarea-disabled-color;
-        background-color: $textarea-disabled-bg-color;
-        cursor: default;
-    }
-
-    &.validate-error {
-        color: $textarea-error-color;
-        border: $textarea-error-border;
-    }
-}
-
-select {
-    font-size: $select-font-size;
-    line-height: $select-line-height;
-    font-weight: $select-font-weight;
-    color: $select-font-color;
-    border: $select-border;
-    background-color: $select-bg-color;
-    height: 2.5rem; // 40px
-    
-    &:focus,
-    &:hover {
-        outline: 0;
-        border: $select-focus-border;
-        box-shadow: $select-focus-box-shadow;
-    }
-
-    &:disabled {
-        color: $select-disabled-color;
-        background-color: $select-disabled-bg-color;
-        cursor: default;
-    }
-}
-
-label,
-.label {
-    font-size: $label-font-size;
-    line-height: $label-line-height;
-    font-weight: $label-font-weight;
-    color: $label-font-color;
-}
-
-label.radio-group {
-    position: relative;
-    font-size: $radio-font-size;
-    line-height: $radio-line-height;
-    font-weight: $radio-font-weight;
-    color: $input-font-color;
-    input[type=radio] {
-        display: none;
-        + span {
-            cursor: pointer;
-            &:before {
-                content: '';
-                display: inline-block;
-                border-radius: 50%;
-                border: $radio-border;
-                width: 1.125rem; // 18px
-                height: 1.125rem; // 18px
-                position: relative;
-                top: -0.0625rem; // -1px
-                margin-right: 0.3125rem; // 5px 
-                vertical-align: middle;
-                text-align: center;
-                background-color: $radio-bg-color;
-            }
-            &:after {
-                content: '';
-                position: absolute;
-                top: 2px;
-                left: 0;
-                width: 10px;
-                height: 10px;
-                border-radius: 50%;
-                background-color: transparent;
-            }
-            &:empty {
-                &:before {
-                    margin-right: 0;
-                }
-            }
-        }
-        &:checked {
-            + span {
-                &:before {
-                    border-color: $radio-pressed-border-color;
-                }
-                &:after {
-                    background-color: $radio-pressed-color;
-                    transform: translate(4px, 7px) scale(1);
-                }
-            }
-        }
-        &:hover,
-        &:focus {
-            + span {
-                &:before {
-                    border-color: $radio-focus-border-color;
-                    box-shadow: $radio-focus-box-shadow;
-                }
-            }
-        }
-        &:disabled {
-            + span {
-                color: $radio-disabled-color;
-                &:before {
-                    border-color: $radio-disabled-bg-color;
-                }
-                &:after {
-                    background-color: $radio-disabled-bg-color;
-                }
-            }
-        }
-    }
-}
-
-label.checkbox-group {
-    font-size: $checkbox-font-size;
-    line-height: $checkbox-line-height;
-    font-weight: $checkbox-font-weight;
-    color: $checkbox-font-color;
-    input[type=checkbox] {
-        display: none;
-        + span {
-            position: relative;
-            cursor: pointer;
-            &:before {
-                content: '';
-                margin-right: 0.3125rem; // 5px
-                display: inline-block;
-                border-radius: 0.125rem; // 2px
-                border: $checkbox-border;
-                width: 1.125rem; // 18px
-                height: 1.125rem; // 18px
-                vertical-align: middle;
-                background-color: $checkbox-bg-color;
-            }
-            &:empty {
-                &:before {
-                    margin-right: 0;
-                }
-            }
-        }
-        &:checked {
-            + span {
-                &:after {
-                    content: '';
-                    position: absolute;
-                    top: 6px;
-                    left: 0;
-                    width: 12px;
-                    height: 6px;
-                    border: solid 2px $checkbox-pressed-color;
-                    border-right: none;
-                    border-top: none;
-                    transform: translate(3px, 4px) rotate(-45deg);
-                }
-            }
-        }
-        &:hover,
-        &:focus {
-            + span {
-                &::before {
-                    border-color: $checkbox-focus-border-color;
-                    box-shadow: $checkbox-focus-box-shadow;
-                }
-            }
-        }
-        &:disabled {
-            + span {
-                color: $checkbox-disabled-color;
-                &:before {
-                    background-color: $checkbox-disabled-bg-color;
-                }
-            }
-        }
-    }
-}
 
 .component {
     position: relative;
@@ -334,11 +68,9 @@ label.checkbox-group {
                 padding-left: $component-indent-padding-left;
             }
 
-            textarea { 
+            textarea {
                 width: 100%;
-                resize: none;
                 padding-left: $component-indent-padding-left;
-                @include scrollbar-hidden;
             }
 
             .editor-container { // text editor
@@ -447,6 +179,7 @@ label.checkbox-group {
             &.custom-code { 
                 display: flex;
                 input[type=text] {
+                    background-color: $input-bg-color;
                     &:read-only {
                         pointer-events: none;
                     }
@@ -482,14 +215,23 @@ label.checkbox-group {
                 a {
                     margin: 0 0.25rem; // 0 4px
                     padding: 0 0.5rem; // 0 8px
-                    svg {
-                        fill: $light-blue;
+                    span.icon {
+                        display: inline-block;
+                        width: 1.25rem; // 20px
+                        height: 1.25rem;  // 20px
+                        background: $light-blue;
+                        mask-repeat: no-repeat;
+                        mask-position: center;
+                        &.list { mask-image: url("#{$form-asset-path}/tooltip/icon_list.svg"); }
+                        &.copy { mask-image: url("#{$form-asset-path}/tooltip/icon_copy.svg"); }
+                        &.delete { mask-image: url("#{$form-asset-path}/tooltip/icon_delete.svg"); }
+                        &.add { mask-image: url("#{$form-asset-path}/tooltip/icon_add.svg"); }
                     }
                 }
                 &:hover { 
                     cursor: pointer;
-                    a svg {
-                        fill: $point-blue;
+                    a span.icon {
+                        background: $point-blue;
                     }
                 }
             }

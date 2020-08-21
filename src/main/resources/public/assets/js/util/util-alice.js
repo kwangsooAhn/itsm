@@ -684,6 +684,26 @@ aliceJs.isEmpty = function(value) {
 };
 
 /**
+ * 특정 클래스 이름을 가진 요소 내부를 클릭했는지 확인
+ * @param {Object} e 이벤트객체
+ * @param {String} className 클래스명
+ * @return {Object} 존재하면 객제 반환
+ */
+aliceJs.clickInsideElement = function (e, className) {
+    let el = e.srcElement || e.target;
+    if (el.classList.contains(className)) {
+        return el;
+    } else {
+        while (el = el.parentNode) {
+            if (el.classList && el.classList.contains(className)) {
+                return el;
+            }
+        }
+    }
+    return null;
+}
+
+/**
  * RGBA 값을 Hex 값으로 변환.
  *
  * @param {string} value
