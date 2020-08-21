@@ -1,90 +1,180 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{board.label.manager}"></title>
-    <meta charset="UTF-8">
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
+    <div class="contents">
+        <div class="contents-title">
             <h1 th:text="#{board.label.manager}"></h1>
-            <div style="margin-top: 10px">
-                <input type="text" id="search" style="width: 200px; margin: 0 5px" maxlength="100"
-                       th:placeholder="#{board.label.searchPlaceholder}"/>
-                <button style="float: right" onclick="openBoardAdminAdd();"
-                        sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.register}"></button>
-            </div>
+            <span class="title-description" th:text="#{board.msg.description}"></span>
         </div>
-        <hr>
-        <div id="boardAdminList" style="margin-top: 20px"></div>
+        <div class="contents-body">
+            <div class="search-area">
+                <div class="search-area-left">
+                    <input type="hidden" sec:authorize="hasAuthority('board.admin.update')" th:name="isRole"
+                           th:value="true"/>
+                    <input type="hidden" sec:authorize="!hasAuthority('board.admin.update')" th:name="isRole"
+                           th:value="false"/>
+                    <form id="searchFrm">
+                        <input type="text" id="search" name="search" class="search column-3"  maxlength="100"
+                               th:placeholder="#{board.label.searchPlaceholder}"/>
+                    </form>
+                </div>
+                <div class="search-area-right">
+                    <button class="btn-add" onclick="openBoardAdminAdd();"
+                            sec:authorize="hasAuthority('board.admin.create')"></button>
+                </div>
+            </div>
+            <div class="list" id="boardAdminList"></div>
+        </div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[*/
+        var offsetCount = 0;
         window.onload = function() {
-            document.getElementById('search').addEventListener('keyup', function() { getBoardAdminList(); });
-            getBoardAdminList();
+            document.getElementById('search').addEventListener('keyup', function() { getBoardAdminList(false); });
+            getBoardAdminList(false);
         };
 
-        //게시판 관리 조회
-        function getBoardAdminList() {
-            let search = document.getElementById('search').value.trim();
-            const urlParam = 'search=' + search;
-            restSubmit('get', '/board-admin/list?' + urlParam);
+        // 게시판 관리 조회
+        function getBoardAdminList(isScroll) {
+            let urlParam = '';
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = 10;
+                }
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/board-admin?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/board-admin/list?' + urlParam, isScroll);
+            }
         }
 
-        //게시판 관리 등록
+        // 게시판 관리 등록
         function openBoardAdminAdd() {
             location.href = '/board-admin/new';
         }
 
-        //게시판 관리 수정
-        function openBoardAdminEdit(boardAdminId) {
-            location.href = '/board-admin/'+ boardAdminId +'/edit';
-        }
-
-        //게시판 상세 조회
-        function openBoardAdminView(boardAdminId) {
-            location.href = '/board-admin/'+ boardAdminId +'/view';
-        }
-
-        //게시판 관리 삭제
-        function deleteBoardAdmin(boardAdminId) {
-            restSubmit('delete', '/rest/board-admin/' + boardAdminId);
-        }
-
-        //게시판 카테고리 등록/수정
+        // 게시판 카테고리 등록/수정
         function openCategoryEdit(boardAdminId) {
             location.href = '/board-admin/category/'+boardAdminId+'/edit';
         }
 
-        //REST API
-        function restSubmit(method, url) {
+        // REST API
+        function restSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
+                async: false,
                 callbackFunc: function(response) {
-                    if (method === 'get') {
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').textContent = dataList[0].totalCount;
+                            if (scrollerEventCheck()) {
+                                offsetCount = offsetCount + 10;
+                                dataList.forEach(function(data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.getElementById('boardAdminList').innerHTML = "";
                         document.getElementById('boardAdminList').innerHTML = response.responseText;
-                        var boardAdminDtEle = document.querySelectorAll('td[name=boardAdminDt]');
+                        let boardAdminDtEle = document.querySelectorAll('td[name=boardAdminDt]');
                         for (let i = 0; i < boardAdminDtEle.length; i++) {
                             boardAdminDtEle[i].textContent = i18n.userDateTime(boardAdminDtEle[i].textContent);
                         }
-                    } else {
-                        aliceJs.alert(i18n.get('common.msg.delete'), function() {
-                            getBoardAdminList();
-                        });
                     }
+
+                    OverlayScrollbars(document.getElementById('list'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                //스크롤이 맨 마지막에 있을 경우
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (scrollerEventCheck()) {
+                                        getBoardAdminList(true);
+                                    }
+                                }
+                            }
+                        }
+                    });
                 },
                 showProgressbar: false
             };
             aliceJs.sendXhr(opt);
+        }
+
+        // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
+        function scrollerEventCheck() {
+            let scrollerCheck = false;
+            let totalCount = document.getElementById('totalCount').innerText;
+            if (offsetCount < totalCount) {
+                scrollerCheck = true;
+            }
+            return scrollerCheck;
+        }
+
+        // Tr 동적 데이터 만들기
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let tr = document.createElement('tr');
+
+            let tdBoardAdminTitle = document.createElement('td');
+            tdBoardAdminTitle.style.width = '55%';
+            tdBoardAdminTitle.className = 'align-left';
+            let aBoardAdminTitle = document.createElement('a');
+            if (document.getElementsByName('isRole')[0].value === 'true') {
+                aBoardAdminTitle.href = '/board-admin/'+ data.boardAdminId +'/edit';
+            } else {
+                aBoardAdminTitle.href = '/board-admin/'+ data.boardAdminId +'/view';
+            }
+            aBoardAdminTitle.innerText = data.boardAdminTitle;
+            tdBoardAdminTitle.appendChild(aBoardAdminTitle);
+
+            let tdCategory = document.createElement('td');
+            let aCategory = document.createElement('a');
+            if (data.categoryYn === true) {
+                aCategory.innerText = i18n.get('board.btn.category');
+                aCategory.onclick = function () {
+                    openCategoryEdit(data.boardAdminId);
+                };
+            }
+            tdCategory.appendChild(aCategory);
+            tdCategory.style.width = '10%';
+
+            let tdBoardBoardCount = document.createElement('td');
+            tdBoardBoardCount.innerText = data.boardBoardCount;
+            tdBoardBoardCount.style.width = '10%';
+
+            let tdCreateUserName = document.createElement('td');
+            tdCreateUserName.innerText = data.createUserName;
+            tdCreateUserName.style.width = '10%';
+
+            let tdCreateDt = document.createElement('td');
+            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
+            tdCreateDt.style.width = '15%';
+
+            tr.appendChild(tdBoardAdminTitle);
+            tr.appendChild(tdCategory);
+            tr.appendChild(tdBoardBoardCount);
+            tr.appendChild(tdCreateUserName);
+            tr.appendChild(tdCreateDt);
+            div.appendChild(tr);
         }
         /*]]>*/
     </script>
