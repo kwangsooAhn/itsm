@@ -1,0 +1,6 @@
+// 사용자 목록과 같이 리스트 화면인 경우.
+.contents-list {
+    @include contents-template();
+    padding: 2.875rem 3.75rem 2.875rem 3.75rem;
+    @include list-template();
+}

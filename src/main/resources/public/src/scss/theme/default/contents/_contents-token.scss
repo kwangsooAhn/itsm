@@ -1,5 +1,7 @@
-.token {
-    &-list {
+.contents-token {
+    @include contents-template();
+    padding: 2.875rem 3.75rem 2.875rem 3.75rem; // 46px 60px 46px 60px
+    .list {
         clear: both;
         overflow-y: auto;
         margin-top: 0.625rem; // 10px
@@ -12,7 +14,6 @@
             background: rgba(240, 240, 240, 1);
             margin-right: 0.3125rem; // 5px
         }
-        .tr-notice {background: rgba(255,255,0, 0.2);}
         .align-center {text-align: center;}
         .align-left {text-align: left;}
         .align-right {text-align: right;}
@@ -75,17 +76,6 @@
                     overflow: hidden;
                 }
             }
-        }
-    }
-
-    &-search {
-        background: rgba(255, 255, 255, 1);
-        padding: 1.25rem 2.8125rem; // 20px 45px
-        height: 4.375rem; // 70px
-        &:after {
-            content: "";
-            display: block;
-            clear:both;
         }
     }
 }
