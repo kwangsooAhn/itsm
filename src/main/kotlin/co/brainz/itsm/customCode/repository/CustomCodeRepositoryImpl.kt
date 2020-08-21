@@ -8,7 +8,7 @@ package co.brainz.itsm.customCode.repository
 
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.constants.ItsmConstants
-import co.brainz.itsm.customCode.dto.CustomCodeListDetailDto
+import co.brainz.itsm.customCode.dto.CustomCodeListQueryResultDto
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.entity.QCustomCodeColumnEntity
 import co.brainz.itsm.customCode.entity.QCustomCodeEntity
@@ -34,7 +34,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
         val query = from(customCode)
             .select(
                 Projections.constructor(
-                    CustomCodeListDetailDto::class.java,
+                    CustomCodeListQueryResultDto::class.java,
                     customCode.customCodeId,
                     customCode.type,
                     customCode.customCodeName,

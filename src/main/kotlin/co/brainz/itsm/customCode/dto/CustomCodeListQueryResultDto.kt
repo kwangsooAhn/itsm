@@ -9,7 +9,7 @@ package co.brainz.itsm.customCode.dto
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import java.time.LocalDateTime
 
-data class CustomCodeListDetailDto(
+data class CustomCodeListQueryResultDto(
     var customCodeId: String = "",
     var type: String = CustomCodeConstants.Type.TABLE.code,
     var customCodeName: String? = null,
