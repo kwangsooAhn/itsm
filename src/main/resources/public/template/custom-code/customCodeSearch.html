@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{menu.workflow.customCode}"></title>
     <meta charset="UTF-8">
@@ -16,8 +16,13 @@
         </div>
         <div class="contents-body">
             <div class="search-area">
+                <input type="hidden" sec:authorize="hasAuthority('custom.code.update')" th:name="isRole"
+                       th:value="true"/>
+                <input type="hidden" sec:authorize="!hasAuthority('custom.code.update')" th:name="isRole"
+                       th:value="false"/>
                 <div class="search-area-right">
-                    <button class="btn-add" onclick="location.href='/custom-codes/new'" sec:authorize="hasAuthority('custom.code.create')"/>
+                    <button class="btn-add" onclick="location.href='/custom-codes/new'"
+                            sec:authorize="hasAuthority('custom.code.create')"/>
                 </div>
             </div>
             <div class="list" id="customCodeList"></div>
@@ -27,26 +32,117 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
+        var offsetCount = 0;
         window.onload = function() {
-            restSubmit('get', '/custom-codes/list', function(result) {
-                document.getElementById('customCodeList').innerHTML = result;
-                var customCodeDtEle = document.querySelectorAll('td[name=createDt]');
-                for (let i = 0; i < customCodeDtEle.length; i++) {
-                    customCodeDtEle[i].textContent = i18n.userDateTime(customCodeDtEle[i].textContent);
-                }
-            });
+            getCustomCodeList(false);
         };
 
-        //REST API
-        function restSubmit(method, url, result) {
+        function getCustomCodeList(isScroll) {
+            let urlParam = '';
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = 10;
+                }
+                restSubmit('get', '/rest/custom-codes?offset=' + offsetCount, isScroll);
+            } else {
+                offsetCount = 0;
+                restSubmit('get', '/custom-codes/list?offset=' + offsetCount, isScroll);
+            }
+        }
+
+        // REST API
+        function restSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
+                async: false,
                 callbackFunc: function(response) {
-                    result(response.responseText);
-                }
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').textContent = dataList[0].totalCount;
+                            if (scrollerEventCheck()) {
+                                offsetCount = offsetCount + 10;
+                                dataList.forEach(function(data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.getElementById('customCodeList').innerHTML = "";
+                        document.getElementById('customCodeList').innerHTML = response.responseText;
+                        let customCodeDtEle = document.querySelectorAll('td[name=createDt]');
+                        for (let i = 0; i < customCodeDtEle.length; i++) {
+                            customCodeDtEle[i].textContent = i18n.userDateTime(customCodeDtEle[i].textContent);
+                        }
+                    }
+
+                    OverlayScrollbars(document.getElementById('list'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                // 스크롤이 맨 마지막에 있을 경우
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (scrollerEventCheck()) {
+                                        getCustomCodeList(true);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                },
+                showProgressbar: false
             };
             aliceJs.sendXhr(opt);
+        }
+
+        // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
+        function scrollerEventCheck() {
+            let scrollerCheck = false;
+            let totalCount = document.getElementById('totalCount').innerText;
+            if (offsetCount < totalCount) {
+                scrollerCheck = true;
+            }
+            return scrollerCheck;
+        }
+
+        // Tr 동적 데이터 만들기
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let tr = document.createElement('tr');
+
+            let tdCustomCodeName = document.createElement('td');
+            tdCustomCodeName.style.width = '50%';
+            tdCustomCodeName.className = 'align-left';
+            let aCustomCodeName = document.createElement('a');
+            if (document.getElementsByName('isRole')[0].value === 'true') {
+                aCustomCodeName.href = '/custom-codes/'+ data.customCodeId +'/edit';
+            } else {
+                aCustomCodeName.href = '/custom-codes/'+ data.customCodeId +'/view';
+            }
+            aCustomCodeName.innerText = data.customCodeName;
+            tdCustomCodeName.appendChild(aCustomCodeName);
+
+            let tdType = document.createElement('td');
+            tdType.innerText = data.type;
+            tdType.style.width = '20%';
+
+            let tdCreateUserName = document.createElement('td');
+            tdCreateUserName.innerText = data.createUserName;
+            tdCreateUserName.style.width = '15%';
+
+            let tdCreateDt = document.createElement('td');
+            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
+            tdCreateDt.style.width = '15%';
+
+            tr.appendChild(tdCustomCodeName);
+            tr.appendChild(tdType);
+            tr.appendChild(tdCreateUserName);
+            tr.appendChild(tdCreateDt);
+            div.appendChild(tr);
         }
     </script>
 </th:block>
