@@ -43,6 +43,13 @@
     justify-content: flex-end;
 }
 
+span.vertical-bar {
+        width: 1.875rem; // 30px
+        height: 1.875rem; // 30px
+        border-right: 0.0625rem solid $line-gray; // 1px
+        margin-right: 1.875rem; // 30px
+    }
+
 .container {
     height: 100%;
     padding: 0 0 0 13.75rem; // 220px
