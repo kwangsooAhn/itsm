@@ -4,6 +4,11 @@
     min-height: 100vh;
 }
 
+.required::after {
+    color: #E83828;
+    content: "\002a"; // *
+}
+
 // 검색 영역
 .search-area {
     height: 6.875rem; // 110px
@@ -696,11 +701,6 @@ span.vertical-bar {
             width: 100%;
             text-align: right;
             margin-top: 0.9375rem;
-        }
-
-        .required::after {
-            color: #E83828;
-            content: "\002a"; // *
         }
 
         .search-area {

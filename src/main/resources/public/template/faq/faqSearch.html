@@ -8,24 +8,23 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
+    <div class="contents-list">
+        <div class="page-title">
             <h1 th:text="#{faq.label.list}"></h1>
-            <span class="title-description" th:text="#{faq.label.description}"></span>
+            <h5 th:text="#{faq.label.description}"></h5>
         </div>
-        <div class="contents-body">
-            <div class="search-area">
-                <div class="search-area-left">
-                    <form id="searchFrm">
-                        <input class="search column-3" id="search" name="search" type="text" maxlength="100" th:placeholder="#{faq.label.searchPlaceholder}"/>
-                    </form>
-                </div>
-                <div class="search-area-right">
-                    <button class="btn-add" onclick="location.href='/faqs/new'" sec:authorize="hasAuthority('faq.create')"/>
-                </div>
+        <div class="search-area">
+            <div class="left">
+                <form id="searchFrm">
+                    <input class="search column-4" id="search" name="search" type="text" maxlength="100" th:placeholder="#{faq.label.searchPlaceholder}"/>
+                </form>
             </div>
-            <div class="list" id="faqList"></div>
+            <div class="right">
+                <button class="default-fill" onclick="location.href='/faqs/new'"
+                        sec:authorize="hasAuthority('faq.create')" th:text="#{common.btn.add}"/>
+            </div>
         </div>
+        <div class="list" id="faqList"></div>
     </div>
 </th:block>
 </body>
@@ -80,7 +79,7 @@
                         document.getElementById('faqList').innerHTML = response.responseText;
                     }
 
-                    OverlayScrollbars(document.getElementById('list'), {
+                    OverlayScrollbars(document.getElementById('list-body'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function(e) {

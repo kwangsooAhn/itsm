@@ -8,33 +8,32 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
+    <div class="contents-list">
+        <div class="page-title">
             <h1 th:text="#{download.label.list}"></h1>
-            <span class="title-description" th:text="#{download.msg.description}"></span>
+            <h5 th:text="#{download.msg.description}"></h5>
         </div>
-        <div class="contents-body">
-            <div class="search-area">
-                <div class="search-area-left">
-                    <input type="hidden" name="isRole" sec:authorize="hasAuthority('download.update')" th:value="true"/>
-                    <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
-                    <form id="searchFrm">
-                        <select id="category" name="category" class="column-2">
-                            <option value="" th:text="#{download.category.all}"></option>
-                            <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
-                        </select>
-                        <input type="text" id="search" name="search" class="search column-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
-                        <input type="text" id="fromDt" name="fromDt" class="search-date column-2" readonly="readonly"/>
-                        <span>~</span>
-                        <input type="text" id="toDt" name="toDt" class="search-date column-2" readonly="readonly"/>
-                    </form>
-                </div>
-                <div class="search-area-right">
-                    <button class="btn-add" onclick="location.href='/downloads/new'" sec:authorize="hasAuthority('download.create')"/>
-                </div>
+        <div class="search-area">
+            <div class="left">
+                <input type="hidden" name="isRole" sec:authorize="hasAuthority('download.update')" th:value="true"/>
+                <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
+                <form id="searchFrm">
+                    <select id="category" name="category" class="column-2">
+                        <option value="" th:text="#{download.category.all}"></option>
+                        <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
+                    </select>
+                    <input type="text" id="search" name="search" class="search column-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
+                    <input type="text" id="fromDt" name="fromDt" class="search-date column-2" readonly="readonly"/>
+                    <span>~</span>
+                    <input type="text" id="toDt" name="toDt" class="search-date column-2" readonly="readonly"/>
+                </form>
             </div>
-            <div class="list" id="downloadList"></div>
+            <div class="right">
+                <button class="default-fill" onclick="location.href='/downloads/new'"
+                        sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.add}" />
+            </div>
         </div>
+        <div class="list" id="downloadList"></div>
     </div>
 </th:block>
 </body>
@@ -121,7 +120,7 @@
                         }
                     }
 
-                    OverlayScrollbars(document.getElementById('list'), {
+                    OverlayScrollbars(document.getElementById('list-body'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function(e) {
