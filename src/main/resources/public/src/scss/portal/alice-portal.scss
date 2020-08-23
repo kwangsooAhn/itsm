@@ -1,4 +1,4 @@
-@import "_reset.scss";
+@import "../_reset.scss";
 
 body, h1, h2, h3, h4, h5, h6, input, textarea, select, botton {font-family: 'Noto Sans KR', sans-serif; font-size: 15px;}
 
@@ -17,11 +17,13 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, botton {font-family: 'Not
     overflow: auto;
     height: 100vh;
     width: 100vw;
+    display: flex;
+    flex-direction: column;
 }
 
 @import "_variables.scss";
 @import "_mixin.scss";
-@import "_element.scss";
+@import "_elements.scss";
 @import "_browserGuide.scss";
 @import "_signup.scss";
 @import "_error.scss";

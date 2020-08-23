@@ -1,6 +1,6 @@
 @charset "UTF-8";
 /* CSS Document */
-/* http://meyerweb.com/eric/tools/css/reset/ 
+/* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
 */
@@ -60,6 +60,7 @@ input, button, select, optgroup, textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
+  box-sizing: border-box;
 }
 
 a:link {
@@ -139,13 +140,44 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, botton {
   overflow: auto;
   height: 100vh;
   width: 100vw;
+  display: flex;
+  flex-direction: column;
 }
 
 h1 {
-  font-weight: bold;
-  font-size: 2.1875rem;
-  color: #3E4752;
-  margin-bottom: 3.3125rem;
+  color: #3F4B56;
+  font-size: 2.25rem;
+  font-weight: 700;
+}
+
+h2 {
+  color: #3F4B56;
+  font-size: 1.75rem;
+  font-weight: 500;
+}
+
+h3 {
+  color: #3F4B56;
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+h4 {
+  color: #3F4B56;
+  font-size: 1.125rem;
+  font-weight: 700;
+}
+
+h5 {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+h6 {
+  color: #7E848C;
+  font-size: 0.875rem;
+  font-weight: 700;
 }
 
 label {
@@ -159,14 +191,17 @@ label {
 
 input {
   padding-left: 0.625rem;
-  width: 21.625rem;
+  width: 22.5rem;
   height: 2.25rem;
   border: 0.0625rem solid #C8CED8;
   border-radius: 0.0625rem;
-  font-size: 0.8759rem;
+  font-size: 1rem;
+}
+input::placeholder {
+  color: #ACB4BF;
 }
 input:focus {
-  outline: 0.125rem solid #0050ff;
+  outline: 1px solid #0050ff;
   border-radius: 0.0625rem;
 }
 
@@ -447,127 +482,97 @@ input:focus {
   /* 1px */
 }
 
-.portal-search-logo {
-  position: absolute;
-  top: 1.063rem;
-  left: 1.25rem;
+.portal-search-top {
+  height: 3.125rem;
+  background-color: #0098FF;
+  display: flex;
+  align-items: center;
 }
-.portal-search-layer {
-  background-color: #eff4fa;
-  background-image: url("../media/image/portalSearch/graphic_top_background.png");
-  background-repeat: no-repeat;
-  height: 100%;
+.portal-search-top .left {
+  flex: none;
+  margin-left: 1.25rem;
 }
-.portal-search-layer .login-content {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.25rem;
+.portal-search-top .right {
+  margin-left: auto;
+  margin-right: 1.25rem;
 }
-.portal-search-layer .login-content .login {
+.portal-search-top .login {
   color: #ffffff;
-  font-size: 0.938rem;
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
 }
-.portal-search-layer .search-content {
-  width: 38.125rem;
-  height: 20rem;
-  margin-left: 40.938rem;
+.portal-search-main {
+  height: 15rem;
+  background-color: #EBEBEB;
+  padding: 0 40rem;
+  border-bottom: 0.0625rem solid #EBEBEB;
 }
-.portal-search-layer .search-content .title {
-  color: #ffffff;
-  font-size: 1.875rem;
-  font-weight: 500;
+.portal-search-main .title {
   text-align: center;
-  height: 1.75rem;
-  margin-bottom: 1.25rem;
-  padding-top: 12.938rem;
+  padding: 3.625rem 0;
 }
-.portal-search-layer .search-content input {
+.portal-search-main input {
   padding: 0 2.5rem 0 0.938rem;
   width: 100%;
   height: 2.5rem;
-  box-sizing: border-box;
-  border: none;
+  border: 1px solid #EBEBEB;
+  border-radius: 1px;
   color: rgba(122, 133, 148, 0.55);
   font-weight: 400;
   font-size: 0.938rem;
 }
-.portal-search-layer .search-content input.icon {
+.portal-search-main input.icon {
   background-image: url("../media/image/portalSearch/icon_search.png");
-  background-position: 35.75rem;
+  background-position: 38.0625rem;
   background-repeat: no-repeat;
 }
-.portal-search-layer .part-content {
-  background-color: #eff4fa;
-  height: 38.563rem;
+.portal-search-content ul {
+  display: flex;
+  justify-content: space-between;
+  padding: 3.4375rem 12.75rem 0 12.75rem;
 }
-.portal-search-layer .part-content ul {
+.portal-search-content ul li.part-box {
+  width: 30rem;
+  border: 0.0625rem solid #EBEBEB;
+  display: flex;
+  flex-direction: column;
+}
+.portal-search-content ul li.part-box .header {
+  padding-top: 3.4375rem;
   text-align: center;
 }
-.portal-search-layer .part-content ul li {
-  display: inline-block;
-  width: 28.75rem;
-  height: 30.063rem;
-  background-color: #ffffff;
-  margin-top: 4.25rem;
-  margin-right: 0.938rem;
+.portal-search-content ul li.part-box .header .icon {
+  padding-bottom: 1.25rem;
 }
-.portal-search-layer .part-content ul li:last-child {
-  margin-right: 0;
-}
-.portal-search-layer .part-content ul li.part-box .header {
-  height: 12rem;
-  padding-top: 4rem;
-}
-.portal-search-layer .part-content ul li.part-box .header .icon {
-  height: 6.563rem;
-  background-size: 6.563rem 6.563rem;
-  background-repeat: no-repeat;
-  background-position: center;
-}
-.portal-search-layer .part-content ul li.part-box .header .icon.top-notice {
-  background-image: url("../media/image/portalSearch/grpahic_notice.png");
-}
-.portal-search-layer .part-content ul li.part-box .header .icon.top-faq {
-  background-image: url("../media/image/portalSearch/grpahic_question.png");
-}
-.portal-search-layer .part-content ul li.part-box .header .icon.top-download {
-  background-image: url("../media/image/portalSearch/grpahic_dateroom.png");
-}
-.portal-search-layer .part-content ul li.part-box .header .title {
-  padding-top: 1.5rem;
+.portal-search-content ul li.part-box .header .title {
+  padding-top: 1.25rem;
   height: 1.438rem;
   font-size: 1.563rem;
   font-weight: 500;
   color: #47556a;
   border: none;
 }
-.portal-search-layer .part-content ul li.part-box .list {
-  padding: 0 2.656rem 0 2.656rem;
-  height: 11.25rem;
+.portal-search-content ul li.part-box .list {
+  padding: 2.1875rem 2.1875rem 2.8125rem 2.1875rem;
 }
-.portal-search-layer .part-content ul li.part-box .list table {
+.portal-search-content ul li.part-box .list table {
   font-size: 0.813rem;
   color: #67717f;
   font-weight: 400;
   width: 100%;
   height: 100%;
 }
-.portal-search-layer .part-content ul li.part-box .list table th, .portal-search-layer .part-content ul li.part-box .list table td {
-  height: 2.125rem;
+.portal-search-content ul li.part-box .list table th, .portal-search-content ul li.part-box .list table td {
+  height: 2.5rem;
   padding: 0 1.25rem 0 1.25rem;
   vertical-align: middle;
   text-align: left;
-  border-bottom: 0.063rem solid #eff4fa;
 }
-.portal-search-layer .part-content ul li.part-box .list table th:first-child, .portal-search-layer .part-content ul li.part-box .list table td:first-child {
-  border-top: 0.063rem solid #eff4fa;
+.portal-search-content ul li.part-box .list table th:hover, .portal-search-content ul li.part-box .list table td:hover {
+  background-color: #EBEBEB;
 }
-.portal-search-layer .part-content ul li.part-box .list table th:hover, .portal-search-layer .part-content ul li.part-box .list table td:hover {
-  background-color: #eff4fa;
-}
-.portal-search-layer .part-content ul li.part-box .list table a {
+.portal-search-content ul li.part-box .list table a {
   text-decoration: none;
 }
 .portal-result-logo {
