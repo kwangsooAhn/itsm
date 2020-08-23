@@ -5,106 +5,73 @@
       layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{board.label.detail}"></title>
-    <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table label {
-            margin: 0;
-        }
-        table td {
-            border: 1px solid;
-            height: 50px;
-        }
-        table input {
-            width: 90%;
-            height: 24px;
-        }
-    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
-            <h1 th:text="#{board.label.detail}"></h1>
-        </div>
-        <hr>
-        <form id="boardForm" method="post" onsubmit="return false">
-            <table>
-                <colgroup>
-                    <col width="20%">
-                    <col width="30%">
-                    <col width="20%">
-                    <col width="30%">
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <td><label th:text="#{board.label.board}"></label></td>
-                        <td colspan="3">
-                            <label th:if="${boardAdminInfo.categoryYn}" th:text="'['+${boardInfo?.boardCategoryName}+']'"></label>
-                            <label th:text="${boardInfo?.boardTitle}"></label>
-                        </td>
-                    </tr>
-                    <tr style="height: 250px;">
-                        <td><label th:text="#{common.label.contents}"></label></td>
-                        <td colspan="3" style="height: 80%;">
-                            <div id="boardContents" style="height: 100%;"></div>
-                        </td>
-                    </tr>
-                    <tr th:if="${boardAdminInfo.attachYn}">
-                        <td><label th:text="#{common.label.attachFile}"></label></td>
-                        <td colspan="3">
-                            <div id="dropZoneFiles"></div>
-                            <div id="dropZoneUploadedFiles"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label th:text="#{common.label.createUser}"></label></td>
-                        <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
-                        <td><label th:text="#{common.label.createDate}"></label></td>
-                        <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardInfo?.createDt}"></span></td>
-                    </tr>
-                    <tr>
-                        <td><label th:text="#{common.label.updateUser}"></label></td>
-                        <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
-                        <td><label th:text="#{common.label.updateDate}"></label></td>
-                        <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardInfo?.updateDt}"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <table th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
-                <tr>
-                    <td><label th:text="#{common.label.comment}"></label></td>
-                    <td><input type="text" id="boardComments" name="boardComments" maxlength="500"/></td>
-                    <td><div align="center"><button onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button></div></td>
-                </tr>
-                <tr>
-                    <td colspan="3"><div th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div></td>
-                </tr>
-            </table>
-            <div align="right">
-                <button style="margin-right: 5px;" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
-                <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
-                        th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
-                        th:onclick ="'location.href =\'' + @{/boards/{id}/edit(id=${boardInfo?.boardId})}+'\''"
-                        th:text="#{common.btn.modify}">
-                </button>
-                <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
-                        th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
-                        th:onclick ="'location.href =\'' + @{/boards/{id}/replay/edit(id=${boardInfo?.boardId})}+'\''"
-                        th:text="#{board.btn.reply}">
-                </button>
-                <button sec:authorize="hasAuthority('board.delete')" style="margin-right: 5px;"
-                        th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
-                        th:onclick="deleteBoard('delete')"
-                        th:text="#{common.btn.delete}">
-                </button>
+    <div class="contents-view">
+        <div class="header">
+            <div class="page-title">
+                <h1 th:text="#{board.label.detail}"></h1>
+                <h5 th:text="#{board.msg.description}"></h5>
             </div>
-        </form>
+        </div>
+        <div clas="view">
+            <h3 th:text="${boardInfo?.boardTitle}"></h3>
+            <div class="row-right">
+                <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
+                <span class="vertical-bar"></span>
+                <span th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
+            </div>
+            <div class="horizontal-bar"></div>
+            <div class="view-text">
+                <span th:if="${boardAdminInfo.categoryYn}" th:text="'['+${boardInfo?.boardCategoryName}+']'"></span>
+            </div>
+            <div class="horizontal-bar"></div>
+            <div class="view-text">
+                <div id="boardContents">
+                    <span th:text="#{common.label.contents}"></span>
+                </div>
+            </div>
+            <div class="horizontal-bar"></div>
+            <div class="view-attach-file">
+                <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
+                <span class="vertical-bar"></span>
+                <form id="frm" method="post">
+                    <div class="file-attach-input">
+                        <div id="dropZoneFiles"></div>
+                        <div id="dropZoneUploadedFiles"></div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <table th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
+            <tr>
+                <td><label th:text="#{common.label.comment}"></label></td>
+                <td><input type="text" id="boardComments" name="boardComments" maxlength="500"/></td>
+                <td><div align="center"><button onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button></div></td>
+            </tr>
+            <tr>
+                <td colspan="3"><div th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div></td>
+            </tr>
+        </table>
+        <div class="btn-bar">
+            <button class="default-line" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
+            <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
+                    class="point-fill" th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
+                    th:onclick ="'location.href =\'' + @{/boards/{id}/edit(id=${boardInfo?.boardId})}+'\''"
+                    th:text="#{common.btn.modify}">
+            </button>
+            <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
+                    class="point-fill" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
+                    th:onclick ="'location.href =\'' + @{/boards/{id}/replay/edit(id=${boardInfo?.boardId})}+'\''"
+                    th:text="#{board.btn.reply}">
+            </button>
+            <button sec:authorize="hasAuthority('board.delete')" style="margin-right: 5px;"
+                    class="default-fill" th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
+                    th:onclick="deleteBoard('delete')"
+                    th:text="#{common.btn.delete}">
+            </button>
+        </div>
     </div>
 </th:block>
 </body>
@@ -124,7 +91,7 @@
             boardUpdateDt.textContent = i18n.userDateTime(boardUpdateDt.textContent);
 
             if (attachYn) {
-                fileUploader.init({extra: {formId: 'boardForm', ownId: boardId, editor: false}});
+                fileUploader.init({extra: {formId: 'frm', ownId: boardId, editor: false}});
             }
             if (boardId !== null && commentYn) {
                 getBoardCommentList();
