@@ -643,7 +643,7 @@ span.vertical-bar {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
 }
 .container .contents-edit .edit {
-  padding: 3.125rem 22.5rem 3.125rem 22.5rem;
+  padding: 3.125rem 22.5rem 0 22.5rem;
   background-color: white;
   display: flex;
   flex-direction: column;
@@ -683,8 +683,11 @@ span.vertical-bar {
   overflow-y: auto;
   padding: 0.5rem 0.625rem;
 }
+.container .contents-edit .edit .form-set .text-editor {
+  height: 12.5rem;
+}
 .container .contents-edit .btn-bar {
-  padding: 2.5rem 0 0 0;
+  padding: 2.5rem 0 3.125rem 0;
 }
 .container .contents-view {
   height: 100vh;
