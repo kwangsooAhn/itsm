@@ -575,122 +575,52 @@ input:focus {
 .portal-search-content ul li.part-box .list table a {
   text-decoration: none;
 }
-.portal-result-logo {
-  position: absolute;
-  top: 1.063rem;
-  left: 1.25rem;
+.portal-search-result {
+  margin: 3.4375rem 22.5rem 0 22.5rem;
 }
-.portal-result-layer .top-background {
-  background-color: #0050ff;
-  height: 3.75rem;
-}
-.portal-result-layer .top-background .login-content {
-  position: absolute;
-  top: 1.5rem;
-  right: 1.25rem;
-}
-.portal-result-layer .top-background .login-content .login {
-  color: #ffffff;
-  font-size: 0.938rem;
-  font-weight: 500;
-  cursor: pointer;
-}
-.portal-result-layer .search-background {
-  height: 13.438rem;
-  background-color: #eff4fa;
-}
-.portal-result-layer .search-background .search-content {
-  width: 38.125rem;
-  margin-left: 40.938rem;
-}
-.portal-result-layer .search-background .search-content .title {
-  color: #47556a;
-  font-size: 1.875rem;
-  font-weight: 500;
-  text-align: center;
-  height: 1.75rem;
-  margin-bottom: 1.25rem;
-  padding-top: 5.75rem;
-}
-.portal-result-layer .search-background .search-content input {
-  padding: 0 2.5rem 0 0.938rem;
-  width: 100%;
-  height: 2.5rem;
-  box-sizing: border-box;
-  border: 0.063rem solid #c8ced8;
-  border-radius: 0.063rem;
-  background-color: #ffffff;
-  color: #3E4752;
-  font-weight: 400;
-  font-size: 0.938rem;
-}
-.portal-result-layer .search-background .search-content input.icon {
-  background-image: url("../media/image/portalSearch/icon_search.png");
-  background-position: 35.75rem;
-  background-repeat: no-repeat;
-}
-.portal-result-layer .result-background {
-  height: 38.375rem;
-}
-.portal-result-layer .result-background .result-content {
-  width: 62rem;
-  height: 100%;
-  margin: 3rem 0 0 29rem;
-}
-.portal-result-layer .result-background .result-content .container {
-  height: 100%;
-}
-.portal-result-layer .result-background .result-content .container .list {
-  max-height: 35.5rem;
-  min-height: 2.688rem;
-}
-.portal-result-layer .result-background .result-content .container .list .row {
+.portal-search-result .list .row {
   display: flex;
   align-items: center;
-  height: 2.375rem;
-  font-size: 0.813rem;
-  border-bottom: 0.063rem solid #c8ced8;
-  padding: 0.5rem 0 0.5rem 0;
+  border-bottom: 0.063rem solid #EBEBEB;
+  padding: 10px 0 10px 0;
 }
-.portal-result-layer .result-background .result-content .container .list .row:first-child {
-  height: 2.125rem;
-  padding-top: 0;
-}
-.portal-result-layer .result-background .result-content .container .list .row:last-child {
+.portal-search-result .list .row:last-child {
   border-bottom: none;
 }
-.portal-result-layer .result-background .result-content .container .list .row .type-icon {
-  width: 2.063rem;
-  height: 100%;
+.portal-search-result .list .row .type-icon {
+  width: 1.875rem;
+  height: 1.875rem;
   background-repeat: no-repeat;
   background-size: 1.875rem;
   background-position-x: left;
   background-position-y: center;
-  padding-right: 0.938rem;
+  margin-right: 0.938rem;
 }
-.portal-result-layer .result-background .result-content .container .list .row .type-icon.notice {
-  background-image: url("../media/image/portalSearch/grpahic_notice.png");
+.portal-search-result .list .row .type-icon.notice {
+  background-image: url("../media/image/portal/graphic_notice.png");
 }
-.portal-result-layer .result-background .result-content .container .list .row .type-icon.faq {
-  background-image: url("../media/image/portalSearch/grpahic_question.png");
+.portal-search-result .list .row .type-icon.faq {
+  background-image: url("../media/image/portal/graphic_faq.png");
 }
-.portal-result-layer .result-background .result-content .container .list .row .type-icon.download {
-  background-image: url("../media/image/portalSearch/grpahic_dateroom.png");
+.portal-search-result .list .row .type-icon.download {
+  background-image: url("../media/image/portal/graphic_download.png");
 }
-.portal-result-layer .result-background .result-content .container .list .row .content-box {
+.portal-search-result .list .row .content-box {
   width: 57.688rem;
 }
-.portal-result-layer .result-background .result-content .container .list .row .content-box .title {
-  color: #3e4752;
+.portal-search-result .list .row .content-box .title {
+  color: #3F4B56;
   text-decoration: underline;
   font-weight: 500;
   padding-bottom: 0.5rem;
+  font-size: 1rem;
 }
-.portal-result-layer .result-background .result-content .container .list .row .content-box .content {
-  color: #67717f;
+.portal-search-result .list .row .content-box .content {
+  color: #586872;
   font-weight: 400;
+  font-size: 1rem;
 }
-.portal-result-layer .result-background .result-content .container .list .row .no-data {
+.portal-search-result .list .row .no-data {
   width: 100%;
   height: 100%;
   display: flex;
