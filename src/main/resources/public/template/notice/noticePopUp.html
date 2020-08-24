@@ -14,7 +14,7 @@
             <div class="row-right">
                 <span id="spanCreateDt" th:text="${noticePopUp?.createDt}"></span>
                 <span class="vertical-bar"></span>
-                <span id="spanUserName" th:text="${noticePopUp?.aliceUserEntity.userName}"></span>
+                <span sec:authentication="details.userName"></span>
             </div>
             <div class="horizontal-bar"></div>
             <div class="view-text"><span th:text="${noticePopUp?.noticeContents}"></span></div>

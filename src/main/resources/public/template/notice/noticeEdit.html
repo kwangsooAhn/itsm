@@ -34,7 +34,7 @@
                 </div>
                 <div class="form-set">
                     <label th:text="#{common.label.createUser}"></label>
-                    <input th:value="${notice?.aliceUserEntity.userName}" disabled/>
+                    <input th:value="${#authentication.details.userName}" disabled/>
                 </div>
                 <div class="form-set">
                     <label class="switch">
