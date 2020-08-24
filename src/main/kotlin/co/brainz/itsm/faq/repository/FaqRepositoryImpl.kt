@@ -9,10 +9,10 @@ package co.brainz.itsm.faq.repository
 import co.brainz.framework.util.AliceMessageSource
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.faq.constants.FaqConstants
+import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
-import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -24,7 +24,7 @@ class FaqRepositoryImpl(
     /**
      * FAQ 목록을 조회한다.
      */
-    override fun findFaqs(searchRequestDto: FaqSearchRequestDto): QueryResults<FaqEntity> {
+    override fun findFaqs(searchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
         val faq = QFaqEntity.faqEntity
         if (searchRequestDto.search?.isBlank() == false) {
             searchRequestDto.groupCodes =
@@ -38,8 +38,25 @@ class FaqRepositoryImpl(
             ).orderBy(faq.faqGroup.asc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
             .offset(searchRequestDto.offset)
+            .fetchResults()
 
-        return query.fetchResults()
+        val faqList = mutableListOf<FaqListDto>()
+        for (data in query.results) {
+            val faqListDto = FaqListDto(
+                faqId = data.faqId,
+                faqGroup = data.faqGroup,
+                faqTitle = data.faqTitle,
+                faqContent = data.faqContent,
+                totalCount = query.total,
+                createDt = data.createDt,
+                createUserName = data.createUser?.userName,
+                updateDt = data.updateDt,
+                updateUserName = data.updateUser?.userName
+            )
+            faqList.add(faqListDto)
+        }
+
+        return faqList.toList()
     }
 
     override fun findFaqTopList(limit: Long): List<FaqEntity> {
