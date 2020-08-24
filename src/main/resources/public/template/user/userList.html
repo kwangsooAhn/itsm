@@ -5,51 +5,38 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div class="list-wrap">
     <table>
-        <colgroup>
-            <col style="width:3.25rem"><!--52px-->
-            <col style="width:4.875rem"><!--78px-->
-            <col style="width:8.125rem"><!--130px-->
-            <col style="width:12rem"><!--192px-->
-            <col style="width:15.13rem"><!--242px-->
-            <col style="width:5.5rem"><!--88px-->
-            <col style="width:8.375rem"><!--134px-->
-            <col style="width:8.625rem"><!--138px-->
-            <col style="width:9.125rem"><!--146px-->
-        </colgroup>
         <thead>
             <tr>
-                <th th:text="#{user.label.name}" colspan="2"></th>
-                <th th:text="#{user.label.id}"></th>
-                <th th:text="#{user.label.email}"></th>
-                <th th:text="#{user.label.department}"></th>
-                <th th:text="#{user.label.position}"></th>
-                <th th:text="#{user.label.officeNumber}"></th>
-                <th th:text="#{user.label.mobileNumber}"></th>
-                <th th:text="#{user.label.signUpDate}"></th>
+                <th width="15%" th:text="#{user.label.name}" colspan="2"></th>
+                <th width="10%" th:text="#{user.label.id}"></th>
+                <th width="20%" th:text="#{user.label.email}"></th>
+                <th width="15%" th:text="#{user.label.department}"></th>
+                <th width="10%" th:text="#{user.label.position}"></th>
+                <th width="10%" th:text="#{user.label.officeNumber}"></th>
+                <th width="10%" th:text="#{user.label.mobileNumber}"></th>
+                <th width="10%" th:text="#{user.label.signUpDate}"></th>
             </tr>
         </thead>
-        <tbody>
-            <tr th:if="${#arrays.isEmpty(userList)}">
+        <tbody class="list-body">
+            <tr class="no-data-found" th:if="${#arrays.isEmpty(userList)}">
                 <td colspan="9" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr th:each="user, i: ${userList}" th:if="${i.count} < 11">
-                <td>
+                <td width="5%">
                     <img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" alt="profile pic"
                          th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''"/>
                 </td>
-                <td th:text="${user.userName}"></td>
-                <td th:text="${user.userId}"></td>
-                <td th:text="${user.email}"></td>
-                <td th:text="${user.department}"></td>
-                <td th:text="${user.position}"></td>
-                <td th:text="${user.officeNumber}"></td>
-                <td th:text="${user.mobileNumber}"></td>
-                <td>2020.07.03</td>
+                <td width="10%" th:text="${user.userName}"></td>
+                <td width="10%" th:text="${user.userId}"></td>
+                <td width="20%" th:text="${user.email}"></td>
+                <td width="15%" th:text="${user.department}"></td>
+                <td width="10%" th:text="${user.position}"></td>
+                <td width="10%" th:text="${user.officeNumber}"></td>
+                <td width="10%" th:text="${user.mobileNumber}"></td>
+                <td width="10%">2020.07.03</td>
             </tr>
         </tbody>
     </table>
-</div>
 </body>
 </html>

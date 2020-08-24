@@ -3,67 +3,46 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-        }
-        table tr:nth-child(1) td {
-            border-top: 1px solid;
-        }
-        table td label {
-            margin: 0;
-        }
-        table td {
-            border-top: 1px solid #e7e7e7;
-            border-left: 1px solid;
-            text-align: center;
-            padding: 3px;
-            height: 40px;
-        }
-        table td:nth-child(2), table td:nth-child(5) {
-            text-align: left;
-        }
-    </style>
 </head>
 <body>
-<div>
-    <table class="table-hover">
-        <colgroup>
-            <col width="1%">
-            <col width="24%">
-            <col width="12%">
-            <col width="12%">
-            <col width="31%">
-            <col width="10%">
-            <col width="5%">
-            <col width="5%">
-        </colgroup>
+    <table>
+        <thead>
+            <tr>
+                <th width="25%" th:text="#{workflowAdmin.label.name}"></th>
+                <th width="10%" th:text="#{workflowAdmin.label.type}"></th>
+                <th width="10%" th:text="#{workflowAdmin.label.group}"></th>
+                <th width="30%" th:text="#{workflowAdmin.label.description}"></th>
+                <th width="15%" th:text="#{workflowAdmin.label.status}"></th>
+                <th width="5%"></th>
+                <th width="5%"></th>
+            </tr>
+        </thead>
         <tbody>
-        <tr th:if="${#arrays.isEmpty(documentList)}">
-            <td colspan="8" th:text="#{common.msg.noData}"></td>
+        <tr class="no-data-found" th:if="${#arrays.isEmpty(documentList)}">
+            <td colspan="7" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
-            <td th:style="|background-color:${document.documentColor}|"></td>
-            <td th:text="${document.documentName}"></td>
-            <td th:if="${document.documentType} == 'application-form'" th:text="#{document.type.applicationForm}"></td>
-            <td th:unless="${document.documentType} == 'application-form'" th:text="#{document.type.workflow}"></td>
-            <td>
+            <td width="25%" >
+                <div class="document-color-circle" th:style="|background-color:${document.documentColor}|"></div>
+                <span th:text="${document.documentName}"></span>
+            </td>
+            <td width="10%" th:if="${document.documentType} == 'application-form'" th:text="#{document.type.applicationForm}"></td>
+            <td width="10%" th:unless="${document.documentType} == 'application-form'" th:text="#{document.type.workflow}"></td>
+            <td width="10%">
             <th:block th:if="${document.documentGroup != null && document.documentGroup != ''}">
                 <th:block th:each="group, index : ${groupList}">
                     <label th:if="${group.code} == ${document.documentGroup}" th:text="${group.codeValue}"></label>
                 </th:block>
             </th:block>
             </td>
-            <td th:text="${document.documentDesc}"></td>
-            <td th:text="#{${document.documentStatus}}"></td>
-            <td>
+            <td width="30%" th:text="${document.documentDesc}"></td>
+            <td width="15%" th:text="#{${document.documentStatus}}"></td>
+            <td width="5%">
                 <button sec:authorize="hasAuthority('document.admin.update')"
                         th:attr="onclick=|openDocumentEdit('${document.documentId}')|"
                         th:text="#{common.btn.modify}"></button>
             </td>
-            <td>
+            <td width="5%">
                 <button sec:authorize="hasAuthority('document.admin.delete')"
                         th:text="#{common.btn.delete}"
                         th:attr="onclick=|deleteDocument('${document.documentId}')|" ></button>
@@ -71,6 +50,5 @@
         </tr>
         </tbody>
     </table>
-</div>
 </body>
 </html>

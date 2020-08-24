@@ -11,23 +11,22 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
+    <div class="contents-list">
+        <div class="page-title">
             <h1 th:text="#{form.label.list}"></h1>
-            <span class="title-description" th:text="#{form.msg.description}"></span>
+            <h6 class="title-description" th:text="#{form.msg.description}"></h6>
         </div>
-        <div class="contents-body">
-            <div class="search-area">
-                <div class="search-area-left">
-                    <input class="search column-3" id="search" type="text" maxlength="100" th:placeholder="#{form.label.searchPlaceholder}"/>
-                </div>
-                <div class="search-area-right">
-                    <button class="btn-import" type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')"/>
-                    <button class="btn-add" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')"/>
-                </div>
+
+        <div class="search-area">
+            <div class="left">
+                <input class="search column-5" id="search" type="text" maxlength="100" th:placeholder="#{form.label.searchPlaceholder}"/>
             </div>
-            <div class="list" id="formList"></div>
+            <div class="right">
+                <button class="btn-import" type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')"/>
+                <button class="default-fill" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
+            </div>
         </div>
+        <div class="list" id="formList"></div>
     </div>
 </th:block>
 </body>
