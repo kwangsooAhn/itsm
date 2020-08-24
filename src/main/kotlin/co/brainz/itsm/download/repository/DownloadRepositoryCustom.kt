@@ -6,11 +6,12 @@
 
 package co.brainz.itsm.download.repository
 
+import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.download.dto.DownloadListDto
 import co.brainz.itsm.download.entity.DownloadEntity
 import java.time.LocalDateTime
 
-interface DownloadRepositoryCustom {
+interface DownloadRepositoryCustom : AliceRepositoryCustom {
 
     fun findDownloadEntityList(
         category: String,

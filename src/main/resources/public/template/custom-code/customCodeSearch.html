@@ -29,6 +29,7 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         var offsetCount = 0;
+        const offsetSize = 15;
         window.onload = function() {
             getCustomCodeList(false);
         };
@@ -36,7 +37,7 @@
         function getCustomCodeList(isScroll) {
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = 15;
+                    offsetCount = offsetSize;
                 }
                 restSubmit('get', '/rest/custom-codes?offset=' + offsetCount, isScroll);
             } else {
@@ -57,7 +58,7 @@
                         if (dataList.length > 0) {
                             document.getElementById('totalCount').value = dataList[0].totalCount;
                             if (scrollerEventCheck()) {
-                                offsetCount = offsetCount + 15;
+                                offsetCount = offsetCount + offsetSize;
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
