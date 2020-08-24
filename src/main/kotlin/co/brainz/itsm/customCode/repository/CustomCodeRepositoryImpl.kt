@@ -8,8 +8,8 @@ package co.brainz.itsm.customCode.repository
 
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.constants.ItsmConstants
-import co.brainz.itsm.customCode.dto.CustomCodeQueryResultDto
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
+import co.brainz.itsm.customCode.dto.CustomCodeQueryResultDto
 import co.brainz.itsm.customCode.entity.QCustomCodeColumnEntity
 import co.brainz.itsm.customCode.entity.QCustomCodeEntity
 import co.brainz.itsm.customCode.entity.QCustomCodeTableEntity
