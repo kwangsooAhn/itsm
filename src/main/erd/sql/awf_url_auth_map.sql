@@ -245,6 +245,7 @@ insert into awf_url_auth_map values ('/rest/documents-admin/{id}', 'get', 'docum
 insert into awf_url_auth_map values ('/rest/documents-admin/{id}/display', 'put', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/documents-admin/{id}/display', 'get', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/documents/{id}/data', 'get', 'document.create');
+insert into awf_url_auth_map values ('/rest/documents-admin', 'get', 'document.admin.read');
 insert into awf_url_auth_map values ('/rest/downloads', 'get', 'download.read');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'download.update');
 insert into awf_url_auth_map values ('/rest/downloads', 'put', 'download.update');
