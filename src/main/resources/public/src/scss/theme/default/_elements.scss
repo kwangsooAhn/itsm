@@ -7,48 +7,15 @@ body, input, textarea, select, div, span, l, textarea {
 }
 
 h1 {
-    color: $light-black;
-    font: {
-        size: 2.25rem; // 36px
-        weight: 700;
-    }
+    @include h1();
     padding: 0.625rem 0 .625rem .3125rem; // 10px 0 10px 5px
 }
-
-h2 {
-    color: $light-black;
-    font: {
-        size: 1.5rem; // 24px
-        weight: 500;
-    }
-}
-
-h3 {
-    color: $light-black;
-    font: {
-        size: 1.125rem; // 18px
-        weight: 500;
-    }
-    padding-bottom: 0.625rem; // 10px
-    margin-bottom: 0.625rem; // 10px
-    border-bottom: .125rem solid $default-gray;
-}
-
-h4 {
-    color: $dark-gray;
-    font: {
-        size: 1rem; // 16px
-        weight: 400;
-    }
-}
-
-h5 {
-    color: $warm-gray;
-    font: {
-        family: 맑은고딕;
-        size: 0.875rem; // 14px
-        weight: 400;
-    }
+h2 {@include h2();}
+h3 {@include h3();}
+h4 {@include h4();}
+h5 {@include h5();}
+h6 {
+    @include h6();
     padding: 0 0 0 .625rem; // 10px
 }
 

@@ -8,7 +8,7 @@
         <div class="header">
             <div class="page-title">
                 <h1 th:text="#{token.label.list}"></h1>
-                <h5 th:text="#{token.msg.description}"></h5>
+                <h6 class="title-description" th:text="#{token.msg.description}"></h6>
             </div>
             <div class="search-area">
                 <div class="left">
@@ -111,8 +111,8 @@
                             /*[/]*/
                             }
                             <div class="document-title">
-                                <h2>${token.documentName}</h2>
-                                <h4>${token.documentNo}</h4>
+                                <h3>${token.documentName}</h3>
+                                <h5>${token.documentNo}</h5>
                             </div>
                             <div class="document-topic">
                                 ${token.topics.map(topic => `<h4>${topic}</h4>`).join('')}
@@ -127,14 +127,14 @@
                             <div class="document-detail">
                                 <div class="document-user">
                                     <img class="profile-photo" alt="profile pic" src="${token.avatarPath}">
-                                    <h4>${token.createUserName}</h4>
+                                    <h5>${token.createUserName}</h5>
                                 </div>
                                 <span class="vertical-bar"></span>
-                                <h4>
+                                <h5>
                                     ${dateFormatFromNow(token.createDt)}
-                                </h4>
+                                </h5>
                                 <span class="vertical-bar"></span>
-                                <h4>${token.elementName}</h4>
+                                <h5>${token.elementName}</h5>
                             </div>
                             <div class="document-tag">
                                 ${token.tags.map(tag => `<span>${tag}</span>`).join('')}

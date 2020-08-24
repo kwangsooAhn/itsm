@@ -54,9 +54,7 @@
                     border-bottom: .125rem solid $default-gray;
                     display: flex;
                     th {
-                        color: $light-black;
-                        font-size: 1.125rem; // 18px
-                        font-weight: 500;
+                        @include h4();
                         vertical-align: middle;
                         text-align: left;
                         &:first-child {
@@ -84,9 +82,7 @@
                         }
                     }
                     td {
-                        color: $dark-gray;
-                        font-size: 1rem; // 16px
-                        font-weight: 400;
+                        @include h5();
                         vertical-align: middle;
                         &:first-child {
                             padding-left: 1.25rem; // 20px
@@ -174,5 +170,54 @@
                 height: 12.5rem; // 200px
             }
         }
+    }
+}
+
+@mixin h1() {
+    color: $light-black;
+    font: {
+        size: 2.25rem; // 36px
+        weight: 700;
+    }
+}
+
+@mixin h2() {
+    color: $light-black;
+    font: {
+        size: 1.75rem; // 28px
+        weight: 500;
+    }
+}
+
+@mixin h3() {
+    color: $light-black;
+    font: {
+        size: 1.5rem; // 24px
+        weight: 500;
+    }
+}
+
+@mixin h4() {
+    color: $light-black;
+    font: {
+        size: 1.125rem; // 18px
+        weight: 500;
+    }
+}
+
+@mixin h5() {
+    color: $dark-gray;
+    font: {
+        size: 1rem; // 16px
+        weight: 400;
+    }
+}
+
+@mixin h6() {
+    color: $warm-gray;
+    font: {
+        family: 맑은고딕;
+        size: 0.875rem; // 14px
+        weight: 400;
     }
 }

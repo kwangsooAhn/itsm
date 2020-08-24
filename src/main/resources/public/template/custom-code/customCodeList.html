@@ -5,37 +5,31 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div class="scroller-wrap">
-    <table>
-        <thead>
-            <tr>
-                <th style="width:50%" th:text="#{customCode.label.name}"></th>
-                <th style="width:20%" th:text="#{customCode.label.type}"></th>
-                <th style="width:15%" th:text="#{common.label.writer}"></th>
-                <th style="width:15%" th:text="#{common.label.writeDate}"></th>
-            </tr>
-        </thead>
-        <tbody id="list">
-            <tr th:if="${#arrays.isEmpty(customCodeList)}">
-                <td colspan="4" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <tr th:each="customCode : ${customCodeList}">
-                <td  style="width:50%" class="align-left">
-                    <a sec:authorize="!hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
-                       th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a>
-                    <a sec:authorize="hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
-                       th:href="@{/custom-codes/{id}/edit(id=${customCode.customCodeId})}"></a>
-                </td>
-                <td style="width:20%" th:text="#{|customCode.label.${customCode.type}|}"></td>
-                <td style="width:15%" th:text="${customCode.createUserName}"></td>
-                <td style="width:15%" th:name="createDt" th:text="${customCode.createDt}"></td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div class="search-area-right">
-    <span class="total-count" id="totalCount" th:text="${customCodeCount}"></span>
-    <span class="total-count" th:text="#{common.label.totalCount}"></span>
-</div>
+<table>
+    <thead>
+    <tr>
+        <th width="50%" th:text="#{customCode.label.name}"></th>
+        <th width="15%" th:text="#{customCode.label.type}"></th>
+        <th width="15%" th:text="#{common.label.writer}"></th>
+        <th width="20%" th:text="#{common.label.writeDate}"></th>
+    </tr>
+    </thead>
+    <tbody class="list-body">
+    <tr class="no-data-found" th:if="${#arrays.isEmpty(customCodeList)}">
+        <td colspan="4" th:text="#{common.msg.noData}"></td>
+    </tr>
+    <tr th:each="customCode, i : ${customCodeList}" th:if="${i.count} < 11">
+        <td width="50%" class="align-left">
+            <a sec:authorize="!hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
+               th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a>
+            <a sec:authorize="hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
+               th:href="@{/custom-codes/{id}/edit(id=${customCode.customCodeId})}"></a>
+        </td>
+        <td width="15%" th:text="#{|customCode.label.${customCode.type}|}"></td>
+        <td width="15%" th:text="${customCode.createUserName}"></td>
+        <td width="20%" th:name="createDt" th:text="${customCode.createDt}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>
