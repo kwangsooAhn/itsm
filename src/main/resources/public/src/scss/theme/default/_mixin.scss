@@ -126,10 +126,12 @@
 }
 
 @mixin edit-template() {
-    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; } // 46px 60px 46px 60px
+    background-color: white;
+    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; background: $light-gray;} // 46px 60px 46px 60px
     .edit {
-        padding: 3.125rem 22.5rem 0 22.5rem; // 50px 360px 0 360px
-        background-color: white;
+        padding-top: 3.125rem; // 50px
+        width: 61.25rem; // 980px
+        margin: auto;
         display: flex;
         flex-direction: column;
         height: 100%;

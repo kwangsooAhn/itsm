@@ -177,6 +177,16 @@ h6 {
   padding: 0 0 0 0.625rem;
 }
 
+.under-bar {
+  padding-bottom: 0.625rem;
+  margin-top: 3.125rem;
+  margin-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+.under-bar :first-child {
+  margin-top: 0;
+}
+
 span {
   margin: auto 0;
 }
@@ -464,6 +474,24 @@ span.vertical-bar {
   padding-left: 0.625rem;
 }
 
+.avatar {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
+}
+.avatar-text {
+  text-align: center;
+}
+.avatar-bottom-text-wrap {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.avatar-bottom-text {
+  margin-bottom: 0.3125rem;
+}
+
 .container {
   height: 100%;
   padding: 0 0 0 13.75rem;
@@ -654,13 +682,16 @@ span.vertical-bar {
   background: #F7F8F9;
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .container .contents-edit .header {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
+  background: #F7F8F9;
 }
 .container .contents-edit .edit {
-  padding: 3.125rem 22.5rem 0 22.5rem;
-  background-color: white;
+  padding-top: 3.125rem;
+  width: 61.25rem;
+  margin: auto;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -992,36 +1023,6 @@ span.vertical-bar {
 .container .contents .contents-body .edit-area .btn-register:hover {
   background-color: #0050ff;
   color: white;
-}
-.container .contents .contents-body .edit-area .avatar-section {
-  float: right;
-  margin-top: 8px;
-  font-size: 13px;
-  background: white no-repeat center 53px;
-  background-color: #FDFDFD;
-}
-.container .contents .contents-body .edit-area .avatar-section-wrap {
-  float: right;
-  margin-top: 37px;
-}
-.container .contents .contents-body .edit-area .avatar-title {
-  display: block;
-  font-size: 14px;
-}
-.container .contents .contents-body .edit-area .avatar-text {
-  display: block;
-  text-align: center;
-  font-size: 13px;
-  color: #7A8594;
-}
-.container .contents .contents-body .edit-area .avatar-bottom-text-wrap {
-  display: block;
-  margin-top: 20rem;
-  font-size: 13px;
-}
-.container .contents .contents-body .edit-area .avatar-far-bottom-text {
-  display: block;
-  margin-top: 8px;
 }
 .container .contents .contents-body .edit-area .browse-link {
   text-decoration: underline;

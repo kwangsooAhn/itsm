@@ -16,7 +16,7 @@
                 <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></h1>
                 <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></h1>
                 <h1 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></h1>
-                <h5 th:text="#{board.msg.description}"></h5>
+                <h6 class="title-description" th:text="#{board.msg.description}"></h6>
             </div>
         </div>
         <div class="edit">
