@@ -2,7 +2,6 @@
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
-
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
@@ -33,7 +32,6 @@ import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.Base64
 import java.util.stream.Collectors
-import javax.activation.MimetypesFileTypeMap
 import javax.imageio.ImageIO
 import org.apache.tika.Tika
 import org.slf4j.LoggerFactory
@@ -85,18 +83,17 @@ class AliceFileService(
         val tempPath = super.getDir("temp", fileName)
         val filePath = super.getDir(this.fileUploadRootDirectory, fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
-        val transferFile = File(multipartFile.originalFilename!!)
-        val mimeType = MimetypesFileTypeMap().getContentType(transferFile).toUpperCase()
+        val mediaType = MediaType.parseMediaType(Tika().detect(multipartFile.inputStream))
 
         if (Files.notExists(tempPath.parent)) {
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")
         }
 
-        /**
-         * 파일 확장자 및 파일 Mine-Type 체크
-         */
-        if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty || !(mimeType.contains(fileNameExtension))) {
-            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
+        // 파일 확장자 및 파일 media type 체크
+        if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty || !(mediaType.toString().toUpperCase()
+                .contains(fileNameExtension))
+        ) {
+            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension $mediaType is not allowed.")
         }
 
         multipartFile.transferTo(tempPath.toFile())
@@ -275,7 +272,10 @@ class AliceFileService(
                     data = super.encodeToString(resizedBufferedImage, file.extension),
                     width = bufferedImage.width,
                     height = bufferedImage.height,
-                    updateDt = LocalDateTime.ofInstant(Instant.ofEpochMilli(file.lastModified()), ZoneId.systemDefault())
+                    updateDt = LocalDateTime.ofInstant(
+                        Instant.ofEpochMilli(file.lastModified()),
+                        ZoneId.systemDefault()
+                    )
                 )
             )
         }
