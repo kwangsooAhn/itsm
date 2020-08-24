@@ -61,7 +61,7 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 super.likeIgnoreCase(
                     boardAdmin.boardAdminTitle, search
                 )?.or(super.likeIgnoreCase(boardAdmin.createUser.userName, search))
-            ).orderBy(boardAdmin.boardAdminId.desc())
+            ).orderBy(boardAdmin.createDt.desc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
             .offset(offset)
             .fetchResults()
