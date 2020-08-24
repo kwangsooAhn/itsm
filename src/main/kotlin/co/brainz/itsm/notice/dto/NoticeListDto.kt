@@ -12,6 +12,8 @@ data class NoticeListDto(
     var createDt: LocalDateTime? = null,
     var popStrtDt: LocalDateTime? = null,
     var popEndDt: LocalDateTime? = null,
+    var popWidth: Int? = null,
+    var popHeight: Int? = null,
     var topNoticeStrtDt: LocalDateTime? = null,
     var topNoticeEndDt: LocalDateTime? = null,
     var aliceUserEntity: AliceUserEntity? = null

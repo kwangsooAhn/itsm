@@ -119,26 +119,6 @@
     }
 
     /**
-     * 특정 클래스 이름을 가진 요소 내부를 클릭했는지 확인
-     * @param {Object} e 이벤트객체
-     * @param {String} className 클래스명
-     * @return {Object} 존재하면 객제 반환
-     */
-    function clickInsideElement(e, className) {
-        let el = e.srcElement || e.target;
-        if (el.classList.contains(className)) {
-            return el;
-        } else {
-            while (el = el.parentNode) {
-                if (el.classList && el.classList.contains(className)) {
-                    return el;
-                }
-            }
-        }
-        return null;
-    }
-
-    /**
      * 마우스, 키보드 클릭 위치
      * @param {Object} e 이벤트
      * @return {Object} 마우스, 키보드 클릭 좌표
@@ -320,7 +300,7 @@
      */
     function onKeyUpHandler(e) {
         isCtrlPressed = false;
-        if (clickInsideElement(e, 'aside')) { return false; }
+        if (aliceJs.clickInsideElement(e, 'aside')) { return false; }
 
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
         if (selectedItem && (userKeyCode === keycode.arrowUp || userKeyCode === keycode.arrowDown)) { return false; }
@@ -331,7 +311,7 @@
             return false;
         }
 
-        itemInContext = clickInsideElement(e, 'component');
+        itemInContext = aliceJs.clickInsideElement(e, 'component');
         if (itemInContext) { //editbox에 컴포넌트명을 입력하면 컨텍스트 메뉴 출력
             const box = itemInContext.querySelector('[contenteditable=true]');
             if (box) {
@@ -361,21 +341,21 @@
      */
     function onLeftClickHandler(e) {
         //상단메뉴 및 우측 세부 속성창을 클릭한 경우, 아무 동작도 하지 않는다.
-        if (clickInsideElement(e, 'aside') || clickInsideElement(e, 'toolbar')) {
+        if (aliceJs.clickInsideElement(e, 'aside') || aliceJs.clickInsideElement(e, 'toolbar')) {
             contextMenuOff();
             return false;
         }
 
-        const clickedElem = clickInsideElement(e, 'menu-item');
+        const clickedElem = aliceJs.clickInsideElement(e, 'menu-item');
         if (clickedElem) { // 컨텍스트 메뉴가 오픈된 상태에서 해당 메뉴 선택한 경우
             e.preventDefault();
             menuItemListener(clickedElem);
         } else {
             contextMenuOff();
-            if (e.target.classList.contains('content') || e.target.classList.contains('drawing-board')) {
+            if (e.target.classList.contains('contents') || e.target.classList.contains('drawing-board')) {
                 editor.showFormProperties();
             }
-            itemInContext = clickInsideElement(e, 'component');
+            itemInContext = aliceJs.clickInsideElement(e, 'component');
             if (itemInContext) {
                 if (isCtrlPressed) {  //배열에 담음
                     const removeIdx = editor.selectedComponentIds.indexOf(itemInContext.id);
@@ -446,7 +426,7 @@
         if (e.preventDefault) {
             e.preventDefault(); // 필수 이 부분이 없으면 drop 이벤트가 발생하지 않습니다.
         }
-        let targetComponent = clickInsideElement(e, 'component');
+        let targetComponent = aliceJs.clickInsideElement(e, 'component');
         if (targetComponent && dragComponent !== targetComponent) {
             let lastCompIndex = component.getLastIndex();
             if (lastCompIndex === Number(dragComponent.getAttribute('data-index')) 
@@ -471,7 +451,7 @@
         if (e.stopPropagation) {
             e.stopPropagation(); 
         }
-        let targetComponent = clickInsideElement(e, 'component');
+        let targetComponent = aliceJs.clickInsideElement(e, 'component');
         if (targetComponent && dragComponent !== targetComponent) {
             //같은 위치에 drag 하고자 하는 경우
             let dragIdx = Number(dragComponent.getAttribute('data-index'));
@@ -511,7 +491,7 @@
     }
 
     function onDragLeaveHandler(e) {
-        let targetComponent = clickInsideElement(e, 'component');
+        let targetComponent = aliceJs.clickInsideElement(e, 'component');
         if (targetComponent && dragComponent !== targetComponent && targetComponent.classList.contains('over')) {
             targetComponent.classList.remove('over');
         }

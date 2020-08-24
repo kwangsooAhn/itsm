@@ -1,11 +1,12 @@
 package co.brainz.workflow.document.repository.querydsl
 
+import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.workflow.document.constants.WfDocumentConstants
 import co.brainz.workflow.document.entity.QWfDocumentEntity
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
-import com.querydsl.core.types.Projections
+import com.querydsl.core.QueryResults
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -14,9 +15,9 @@ class WfDocumentRepositoryImpl :
     QuerydslRepositorySupport(RestTemplateDocumentSearchListDto::class.java),
     WfDocumentRepositoryCustom {
 
-    override fun findByDocuments(searchDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+    override fun findByDocuments(searchDto: RestTemplateDocumentSearchListDto): QueryResults<WfDocumentEntity> {
         val document = QWfDocumentEntity.wfDocumentEntity
-        val query = from(document)
+        return from(document)
             .join(document.process)
             .join(document.form)
             .join(document.numberingRule)
@@ -48,25 +49,8 @@ class WfDocumentRepositoryImpl :
                 ),
                 super.likeIgnoreCase(document.form.formName, searchDto.searchFormName?.trim())
             ).orderBy(document.documentName.asc())
-
-        return query.select(
-            Projections.constructor(
-                RestTemplateDocumentDto::class.java,
-                document.documentId,
-                document.documentType,
-                document.documentName,
-                document.documentDesc,
-                document.documentStatus,
-                document.process.processId,
-                document.form.formId,
-                document.numberingRule.numberingId,
-                document.documentColor,
-                document.documentGroup,
-                document.createUserKey,
-                document.createDt,
-                document.updateUserKey,
-                document.updateDt
-            )
-        ).fetch()
+            .limit(ItsmConstants.SEARCH_DATA_COUNT)
+            .offset(searchDto.offset)
+            .fetchResults()
     }
 }

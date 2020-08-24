@@ -38,14 +38,7 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
      * FAQ 목록을 조회한다.
      */
     fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
-        val queryResult = faqRepository.findFaqs(faqSearchRequestDto)
-        val faqList = mutableListOf<FaqListDto>()
-        for (faq in queryResult.results) {
-            val faqData = faqMapper.toFaqListDto(faq)
-            faqData.totalCount = queryResult.total
-            faqList.add(faqData)
-        }
-        return faqList
+        return faqRepository.findFaqs(faqSearchRequestDto)
     }
 
     /**

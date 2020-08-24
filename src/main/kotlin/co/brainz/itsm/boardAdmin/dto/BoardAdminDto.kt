@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.boardAdmin.dto
 
 import co.brainz.framework.auth.entity.AliceUserEntity
@@ -14,7 +20,7 @@ data class BoardAdminDto(
     var categoryYn: Boolean = false,
     var attachYn: Boolean = false,
     var attachFileSize: Long? = 0,
-    var boardBoardCount: Int = 0,
+    var boardBoardCount: Long = 0,
     var enabled: Boolean? = null,
     var createDt: LocalDateTime? = null,
     var createUser: AliceUserEntity? = null,
