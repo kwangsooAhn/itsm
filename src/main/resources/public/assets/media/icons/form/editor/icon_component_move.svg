@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="10" height="12" viewBox="0 0 10 12">
+  <g transform="translate(-330 -2303)">
+    <circle cx="1" cy="1" r="1" transform="translate(330 2303)"/>
+    <circle cx="1" cy="1" r="1" transform="translate(330 2308)"/>
+    <circle cx="1" cy="1" r="1" transform="translate(338 2308)"/>
+    <circle cx="1" cy="1" r="1" transform="translate(338 2303)"/>
+    <circle cx="1" cy="1" r="1" transform="translate(330 2313)"/>
+    <circle cx="1" cy="1" r="1" transform="translate(338 2313)"/>
+  </g>
+</svg>

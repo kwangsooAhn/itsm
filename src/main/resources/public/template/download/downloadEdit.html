@@ -4,71 +4,43 @@
     layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{download.label.download}"></title>
-    <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table label {
-            margin: 0;
-        }
-        table td {
-            border: 1px solid;
-            height: 50px;
-        }
-        table input, select {
-            width: 100%;
-            height: 24px;
-        }
-    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
-            <h1 th:text="#{download.label.download}"></h1>
+    <div class="contents-edit scroll-wrap">
+        <div class="header">
+            <div class="page-title">
+                <h1 th:text="#{download.label.download}"></h1>
+                <h5 th:text="#{download.msg.description}"></h5>
+            </div>
         </div>
-        <hr>
-        <table>
-            <colgroup>
-                <col width="35%">
-                <col width="65%">
-            </colgroup>
-            <tbody>
-                <tr>
-                    <td><label th:text="#{download.label.category}"></label><span class="required"></span></td>
-                    <td>
-                        <select id="downloadCategory">
-                            <option th:each="category: ${categoryList}"
-                                    th:value="${category.code}"
-                                    th:text="#{${category.code}}"
-                                    th:selected="${category.code} == ${download?.downloadCategory}"></option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label th:text="#{common.label.title}"></label><span class="required"></span></td>
-                    <td><input type="text" id="downloadTitle" maxlength="100" th:value="${download?.downloadTitle}"></td>
-                </tr>
-                <tr>
-                    <td><label th:text="#{common.label.attachFile}"></label></td>
-                    <td>
-                        <div id="dropZoneFiles"></div>
-                        <div id="dropZoneUploadedFiles"></div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div align="right">
-            <button style="margin-right: 5px;" onclick="location.href='/downloads/search'"
-                    th:text="#{common.btn.list}"></button>
-            <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
-                    th:text="#{common.btn.modify}"></button>
-            <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
-                    th:text="#{common.btn.save}"></button>
+        <div class="edit">
+            <div class="form-set">
+                <label class="required" th:text="#{download.label.category}" for="downloadCategory"></label>
+                <select id="downloadCategory">
+                    <option th:each="category: ${categoryList}"
+                            th:value="${category.code}"
+                            th:text="#{${category.code}}"
+                            th:selected="${category.code} == ${download?.downloadCategory}"></option>
+                </select>
+            </div>
+            <div class="form-set">
+                <label class="required" th:text="#{common.label.title}" />
+                <input type="text" id="downloadTitle" maxlength="100" th:value="${download?.downloadTitle}"></td>
+            </div>
+            <div class="form-set">
+                <label th:text="#{common.label.attachFile}"/>
+                <div id="dropZoneFiles"></div>
+                <div id="dropZoneUploadedFiles"></div>
+            </div>
+            <div class="btn-bar">
+                <button style="margin-right: 5px;" onclick="location.href='/downloads/search'"
+                        class="default-line" th:text="#{common.btn.list}"></button>
+                <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
+                        class="point-fill" th:text="#{common.btn.modify}"></button>
+                <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
+                        class="point-fill" th:text="#{common.btn.save}"></button>
+            </div>
         </div>
     </div>
 </th:block>

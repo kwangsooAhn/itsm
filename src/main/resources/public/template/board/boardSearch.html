@@ -8,29 +8,31 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
+    <div class="contents-list">
+        <div class="page-title">
             <h1 th:text="#{board.label.list}"></h1>
-            <span class="title-description" th:text="#{board.msg.description}"></span>
+            <h6 class="title-description" th:text="#{board.msg.description}"></h6>
         </div>
-        <div class="contents-body">
-            <div class="search-area">
-                <div class="search-area-left">
-                    <select th:class="search-selectBox" id="boardAdmin">
+        <div class="search-area">
+            <div class="left">
+                <form id="searchFrm">
+                    <select th:class="search-selectBox" id="boardAdminId" name="boardAdminId">
                         <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
                             th:text="#{${boardAdmin.boardAdminTitle}}"></option>
                     </select>
-                    <input class="search column-3" id="search" type="text" maxlength="100" th:placeholder="#{board.label.searchBoardPlaceholder}"/>
+                    <input class="search column-3" id="search" name="search" type="text" maxlength="100"
+                           th:placeholder="#{board.label.searchBoardPlaceholder}"/>
                     <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                     <span>~</span>
                     <input class="search-date column-2" type="text" id="toDt" name="toDt" readonly="readonly"/>
-                </div>
-                <div class="search-area-right">
-                    <button class="btn-add" onclick="openBoardAdd()" sec:authorize="hasAuthority('board.create')"/>
-                </div>
+                </form>
             </div>
-            <div class="list" id="boardList"></div>
+            <div class="right">
+                <button class="default-fill" onclick="openBoardAdd()" sec:authorize="hasAuthority('board.create')"
+                        th:text="#{common.btn.add}"/>
+            </div>
         </div>
+        <div class="list" id="boardList"></div>
     </div>
 </th:block>
 </body>
@@ -38,18 +40,18 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         const boardAdminId = /*[[${boardAdminId}]]*/ null;
-
+        var offsetCount = 0;
         window.onload = function() {
             if (boardAdminId !== null) {
-                document.getElementById('boardAdmin').value = boardAdminId;
+                document.getElementById('boardAdminId').value = boardAdminId;
             }
             document.getElementById('fromDt').value = i18n.getDate({'months':-1});
             document.getElementById('toDt').value = i18n.getDate();
             dateTimePicker.initDatePicker('fromDt', setDatePicker);
             dateTimePicker.initDatePicker('toDt', setDatePicker);
-            document.getElementById('boardAdmin').addEventListener('change', function() { getBoardList(); });
-            document.getElementById('search').addEventListener('keyup', function() { getBoardList(); });
-            getBoardList();
+            document.getElementById('boardAdminId').addEventListener('change', function() { getBoardList(false); });
+            document.getElementById('search').addEventListener('keyup', function() { getBoardList(false); });
+            getBoardList(false);
         };
 
         function setDatePicker(element, picker) {
@@ -63,53 +65,147 @@
                         picker.open();
                     });
                 } else {
-                    getBoardList();
+                    getBoardList(false);
                 }
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function() { picker.open(); });
                 } else {
-                    getBoardList();
+                    getBoardList(false);
                 }
             }
         }
 
         //게시판 조회
-        function getBoardList() {
-            const searchOpt = {
-                boardAdminId: document.getElementById('boardAdmin').value,
-                search: document.getElementById('search').value.trim(),
-                fromDt: i18n.systemDate(document.getElementById('fromDt').value),
-                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days':1})
-            };
-            const urlParam = 'boardAdminId=' + searchOpt.boardAdminId + '&search=' + searchOpt.search +
-                '&fromDt=' + searchOpt.fromDt + '&toDt=' + searchOpt.toDt;
-            restSubmit('get', '/boards/list?' + urlParam);
+        //isScroll : true 스크롤 이벤트 조회, false 초기 조회
+        function getBoardList(isScroll) {
+            let urlParam = '';
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = 15;
+                }
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/boards?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/boards/list?' + urlParam, isScroll);
+            }
         }
 
         //게시판 관리 등록
         function openBoardAdd() {
-            location.href = '/boards/' + document.getElementById('boardAdmin').value + '/new';
+            location.href = '/boards/' + document.getElementById('boardAdminId').value + '/new';
         }
 
         //REST API
-        function restSubmit(method, url) {
+        function restSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
+                async: false,
                 callbackFunc: function(response) {
-                    document.getElementById('boardList').innerHTML = response.responseText;
-                    let boardDtEle = document.querySelectorAll('td[name=boardDt]');
-                    for (let i = 0; i < boardDtEle.length; i++) {
-                        boardDtEle[i].textContent = i18n.userDateTime(boardDtEle[i].textContent);
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (scrollerEventCheck()) {
+                                offsetCount = offsetCount + 15;
+                                dataList.forEach(function(data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.getElementById('boardList').innerHTML = "";
+                        document.getElementById('boardList').innerHTML = response.responseText;
+                        let boardDtEle = document.querySelectorAll('td[name=boardDt]');
+                        for (let i = 0; i < boardDtEle.length; i++) {
+                            boardDtEle[i].textContent = i18n.userDateTime(boardDtEle[i].textContent);
+                        }
                     }
+
+                    OverlayScrollbars(document.querySelector('.list-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                //스크롤이 맨 마지막에 있을 경우
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (scrollerEventCheck()) {
+                                        getBoardList(true);
+                                    }
+                                }
+                            }
+                        }
+                    });
                 },
                 showProgressbar: false
             };
             aliceJs.sendXhr(opt);
         }
-        /*]]>*/
+
+        //현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
+        function scrollerEventCheck() {
+            let scrollerCheck = false;
+            let totalCount = document.getElementById('totalCount').value;
+            if (offsetCount < totalCount) {
+                scrollerCheck = true;
+            }
+            return scrollerCheck;
+        }
+
+        //Tr 동적 데이터 만들기
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let tr = document.createElement('tr');
+
+            let tdBoardSeq = document.createElement('td');
+            tdBoardSeq.innerText = data.boardSeq;
+            tdBoardSeq.style.width = '10%';
+
+            let tdBoardCategoryName = document.createElement('td');
+            tdBoardCategoryName.innerText = data.boardCategoryName;
+            tdBoardCategoryName.style.width = '15%';
+
+            let tdBoardTitle = document.createElement('td');
+            tdBoardTitle.style.width = '30%';
+            tdBoardTitle.className = 'align-left';
+            let aBoardTitle = document.createElement('a');
+            aBoardTitle.href = '/boards/'+ data.boardId +'/view';
+            aBoardTitle.innerText = data.boardTitle;
+            tdBoardTitle.appendChild(aBoardTitle);
+
+            let tdReplyCount = document.createElement('td');
+            tdReplyCount.innerText = data.replyCount;
+            tdReplyCount.style.width = '10%';
+
+            let tdReadCount = document.createElement('td');
+            tdReadCount.innerText = data.readCount;
+            tdReadCount.style.width = '10%';
+
+            let tdCreateUserName = document.createElement('td');
+            tdCreateUserName.innerText = data.createUserName;
+            tdCreateUserName.style.width = '10%';
+
+            let tdCreateDt = document.createElement('td');
+            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
+            tdCreateDt.style.width = '15%';
+
+            tr.appendChild(tdBoardSeq);
+            tr.appendChild(tdBoardCategoryName);
+            tr.appendChild(tdBoardTitle);
+            tr.appendChild(tdReplyCount);
+            tr.appendChild(tdReadCount);
+            tr.appendChild(tdCreateUserName);
+            tr.appendChild(tdCreateDt);
+            div.appendChild(tr);
+        }
+
+        /* ]]> */
     </script>
 </th:block>
 </html>

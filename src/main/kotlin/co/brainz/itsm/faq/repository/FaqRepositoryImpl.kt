@@ -1,14 +1,18 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.faq.repository
 
-import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.framework.util.AliceMessageSource
+import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.faq.constants.FaqConstants
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
-import com.querydsl.core.types.Projections
-import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -22,8 +26,6 @@ class FaqRepositoryImpl(
      */
     override fun findFaqs(searchRequestDto: FaqSearchRequestDto): List<FaqListDto> {
         val faq = QFaqEntity.faqEntity
-        val user = QAliceUserEntity.aliceUserEntity
-
         if (searchRequestDto.search?.isBlank() == false) {
             searchRequestDto.groupCodes =
                 messageSource.getUserInputToCodes(FaqConstants.FAQ_CATEGORY_P_CODE, searchRequestDto.search!!)
@@ -34,20 +36,27 @@ class FaqRepositoryImpl(
                 super.likeIgnoreCase(faq.faqTitle, searchRequestDto.search)
                     ?.or(super.inner(faq.faqGroup, searchRequestDto.groupCodes))
             ).orderBy(faq.faqGroup.asc())
+            .limit(ItsmConstants.SEARCH_DATA_COUNT)
+            .offset(searchRequestDto.offset)
+            .fetchResults()
 
-        return query.select(
-            Projections.constructor(
-                FaqListDto::class.java,
-                faq.faqId,
-                faq.faqGroup,
-                faq.faqTitle,
-                faq.faqContent,
-                faq.createDt,
-                JPAExpressions.select(user.userName).from(user).where(user.eq(faq.createUser)),
-                faq.updateDt,
-                JPAExpressions.select(user.userName).from(user).where(user.eq(faq.updateUser))
+        val faqList = mutableListOf<FaqListDto>()
+        for (data in query.results) {
+            val faqListDto = FaqListDto(
+                faqId = data.faqId,
+                faqGroup = data.faqGroup,
+                faqTitle = data.faqTitle,
+                faqContent = data.faqContent,
+                totalCount = query.total,
+                createDt = data.createDt,
+                createUserName = data.createUser?.userName,
+                updateDt = data.updateDt,
+                updateUserName = data.updateUser?.userName
             )
-        ).fetch()
+            faqList.add(faqListDto)
+        }
+
+        return faqList.toList()
     }
 
     override fun findFaqTopList(limit: Long): List<FaqEntity> {

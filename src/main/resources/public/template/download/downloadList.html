@@ -5,46 +5,46 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div class="list-wrap">
+<div class="scroller-wrap">
     <table>
-        <colgroup>
-            <col style="width:2.5rem"><!--20px-->
-            <col style="width:7.5rem"><!--120px-->
-            <col style="width:35rem"><!--580px-->
-            <col style="width:7.5rem"><!--120px-->
-            <col style="width:15rem"><!--240px-->
-            <col style="width:7.5rem"><!--120px-->
-        </colgroup>
         <thead>
-            <tr>
-                <th th:text="#{download.label.seq}"></th>
-                <th th:text="#{download.label.category}"></th>
-                <th th:text="#{common.label.title}"></th>
-                <th th:text="#{common.label.writer}"></th>
-                <th th:text="#{common.label.writeDate}"></th>
-                <th th:text="#{download.label.views}"></th>
-            </tr>
+        <tr>
+            <th style="width:5%;" th:text="#{download.label.seq}"></th>
+            <th style="width:10%;" th:text="#{download.label.category}"></th>
+            <th style="width:45%;" th:text="#{common.label.title}"></th>
+            <th style="width:10%;" th:text="#{common.label.writer}"></th>
+            <th style="width:20%;" th:text="#{common.label.writeDate}"></th>
+            <th style="width:10%;" th:text="#{download.label.views}"></th>
+        </tr>
         </thead>
-        <tbody>
-            <tr th:if="${#arrays.isEmpty(downloadList)}">
-                <td colspan="6" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <tr th:each="download, i: ${downloadList}" th:if="${i.count} < 11">
-                <td th:text="|${download.downloadSeq}|"></td>
-                <td th:text="#{${download.downloadCategory}}"></td>
-                <td class="align-left">
-                    <a sec:authorize="!hasAuthority('download.update')" th:text="${download.downloadTitle}"
-                       th:href="@{/downloads/{id}/view(id=${download.downloadId})}">
-                    </a>
-                    <a sec:authorize="hasAuthority('download.update')" th:text="${download.downloadTitle}"
-                       th:href="@{/downloads/{id}/edit(id=${download.downloadId})}"></a>
-                </td>
-                <td th:text="${download.createUserName}"></td>
-                <td th:name="createDt" th:text="${download.createDt}"></td>
-                <td th:text="${download.views}"></td>
-            </tr>
+        <tbody id="list-body">
+        <tr class="no-data-found" th:if="${#arrays.isEmpty(downloadList)}">
+            <td colspan="6" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr th:each="download : ${downloadList}">
+            <td style="width:5%;" th:text="|${download.downloadSeq}|"></td>
+            <td style="width:10%;" th:text="#{${download.downloadCategory}}"></td>
+            <td style="width:45%;" class="align-left">
+                <a sec:authorize="!hasAuthority('download.update')" th:text="${download.downloadTitle}"
+                   th:href="@{/downloads/{id}/view(id=${download.downloadId})}">
+                </a>
+                <a sec:authorize="hasAuthority('download.update')" th:text="${download.downloadTitle}"
+                   th:href="@{/downloads/{id}/edit(id=${download.downloadId})}"></a>
+            </td>
+            <td style="width:10%;" th:text="${download.createUserName}"></td>
+            <td style="width:20%;" th:name="createDt" th:text="${download.createDt}"></td>
+            <td style="width:10%;" th:text="${download.views}"></td>
+        </tr>
         </tbody>
     </table>
 </div>
+<!--
+ * 2020-08-23 Jung Hee Chan
+ * 현재 디자인에서는 건수가 없음. 필요하면 사용하기로 하고 일단 주석 처리
+-->
+<!--<div class="search-area-right">
+    <span class="total-count" id="totalCount" th:text="${downloadCount}"></span>
+    <span class="total-count" th:text="#{common.label.totalCount}"></span>
+</div>-->
 </body>
 </html>

@@ -8,37 +8,26 @@
 </head>
 <body>
 <div class="alicePortal">
-    <img class="portal-result-logo" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
-    <div class="portal-result-layer">
-        <div class="top-background">
-            <div class="login-content">
-                <div class="login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
-                <div class="login" sec:authorize="isAnonymous()" onclick="location.href='/login'" th:text="#{portal.label.login}"></div>
-            </div>
-        </div>
-        <div class="search-background">
-            <div class="search-content">
-                <div class="title" th:text="#{portal.label.topPhrase}"></div>
-                <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${#httpServletRequest.getParameter('searchValue')}"
-                       onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0');"/>
-            </div>
-        </div>
-        <div class="result-background">
-            <div class="result-content">
-                <div class="container">
-                    <div class="list">
-                        <div class="row" th:each="portalList : ${portalList}">
-                            <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
-                            <div class="content-box">
-                                <div class="title text-ellipsis"><a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a></div>
-                                <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
-                            </div>
-                        </div>
-                        <div class="row" th:if="${#arrays.isEmpty(portalList)}">
-                            <div class="no-data" th:text="#{common.msg.noData}"></div>
-                        </div>
-                    </div>
+    <div class="portal-search-top">
+        <img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
+        <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
+        <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'" th:text="#{portal.label.login}"></div>
+    </div>
+    <div class="portal-search-main">
+        <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
+        <input class="icon" type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요." onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0'); "/>
+    </div>
+    <div class="portal-search-result">
+        <div class="list">
+            <div class="row" th:each="portalList : ${portalList}">
+                <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
+                <div class="content-box">
+                    <div class="title text-ellipsis"><a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a></div>
+                    <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
                 </div>
+            </div>
+            <div class="row" th:if="${#arrays.isEmpty(portalList)}">
+                <div class="no-data" th:text="#{common.msg.noData}"></div>
             </div>
         </div>
     </div>

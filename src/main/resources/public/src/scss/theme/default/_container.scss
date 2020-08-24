@@ -1,27 +1,110 @@
-// *********************************************************************************************************************
-// CONTENTS (container > contents > title, body)
-// *********************************************************************************************************************
+// 전체 화면
 .wrap-screen {
     position: relative;
     min-height: 100vh;
-    background: rgba(234, 241, 247, 1);
+}
+
+.required::after {
+    color: #E83828;
+    content: "\002a"; // *
+}
+
+// 리스트 출력용 아바타 이미지
+.profile-photo {
+    height: 2rem; // 32px
+    width: 2rem; // 32px
+    border-radius: 50%;
+    background: rgba(240, 240, 240, 1);
+    margin-right: 0.625rem; // 10px
+}
+
+// 리스트 출력용 아바타 이미지
+.document-color-circle {
+    height: 1rem; // 16px
+    width: 1rem; // 16px
+    border-radius: 50%;
+    margin-right: 0.625rem; // 10px
+    display: inline-block;
+}
+
+// 검색 영역
+.search-area {
+    height: 6.875rem; // 110px
+    padding: 3.125rem 0 1.25rem 0; // 50px 0 20px 0
+    display: flex;
+    .left {flex:none;}
+    .right {margin-left: auto;}
+    .txt-num {
+        color: $warm-gray;
+        margin-left: 0.623rem; // 10px
+    }
+}
+
+// 페이지 제목
+.page-title {
+    display: flex;
+    align-items: baseline;
+    //padding: 2.875rem 3.75rem 2.875rem 3.75rem; // 46px 60px 46px 60px
+}
+
+// 공지사항 상단 공지 (배경색 별도 처리)
+.tr-notice {
+    background-color: rgba(135, 206, 255, 0.15); // $light-blue;
+}
+
+// 데이터 없을 때 테이블 처리
+.no-data-found {
+    pointer-events: none;
+    background: $line-gray;
+    td { text-align: center; }
+}
+
+// 버튼 영역
+.btn-bar {
+    padding: 0.625rem 0 0 0; // 10px 0 0 0
+    display: flex;
+    justify-content: flex-end;
+}
+
+span.vertical-bar {
+        width: 1.875rem; // 30px
+        height: 1.875rem; // 30px
+        border-right: 0.0625rem solid $line-gray; // 1px
+        margin-right: 1.875rem; // 30px
+}
+
+.title-description {
+    padding-left: 0.625rem; // 10px
 }
 
 .container {
     height: 100%;
-    padding: 60px 0 0 220px;
+    padding: 0 0 0 13.75rem; // 220px
+
+    &-popup {
+        padding: 1.875rem 2.5rem 0 2.5rem; // 30px 20px 0 20px
+        @include view-template();
+        // view class padding 초기화
+        .view { padding: 0;}
+    }
+
+    @import "contents/_contents-token.scss";
+    @import "contents/_contents-list.scss";
+    @import "contents/_contents-edit.scss";
+    @import "contents/_contents-view.scss";
+    @import "contents/_contents-list-edit.scss";
 
     .contents {
-        min-width: 1260px;
-        min-height: 820px;
+        min-width: 78.75rem; // 1260px
+        min-height: 51.25rem; // 820px
         display: block;
-        padding: 20px 136px 37px 136px;
+        padding: 1.25rem 8.5rem 2.3125rem 8.5rem; // 20px 136px 37px 136px
 
         .contents-title {
-            padding: 20px 0 20px 5px;
+            padding: 1.25rem 0 1.25rem 0.3125rem; // 20px 0 20px 5px
 
             .title-description {
-                font-size: 15px;
+                font-size: 0.9375rem; // 15px
                 color: #94a6bf;
                 font-weight: 400;
             }
@@ -390,9 +473,7 @@
                 cursor: pointer;
             }
 
-            .tr-notice {
-                background: rgba(255, 255, 0, 0.2);
-            }
+
 
             .align-center {
                 text-align: center;
@@ -405,6 +486,23 @@
             .align-right {
                 text-align: right;
             }
+
+            .scroller-wrap {
+                height: 28.75rem; //460px
+                & table {
+                    position: relative;
+                    display: inline-table;
+                }
+                & tbody {
+                    position: absolute;
+                    height: 25.88rem; //414px
+                    width: 100%;
+                    & tr {
+                        width: 100%;
+                        display: table;
+                    }
+                }
+            }
         }
 
         .list-wrap {
@@ -412,7 +510,6 @@
             height: 400px;
             // height:490px;
             overflow-y: auto;
-
             &-edit {
                 table {
                     margin: 0 0 15px 0;
@@ -626,11 +723,6 @@
             width: 100%;
             text-align: right;
             margin-top: 0.9375rem;
-        }
-
-        .required::after {
-            color: #E83828;
-            content: "\002a"; // *
         }
 
         .search-area {

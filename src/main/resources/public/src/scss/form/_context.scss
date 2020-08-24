@@ -5,9 +5,9 @@
     position: absolute;
     width: $context-menu-width;
     max-height: $context-menu-height;
-    background-color: $context-menu-background-color;
-    border: solid 0.0625rem $context-menu-border-color; // 1px
-    box-shadow: -0.0625rem 0 0.4375rem 0 rgba(222,233,247,0.3);// -1px 0px 7px 0px rgba(222,233,247,0.3);
+    background-color: $context-menu-bg-color;
+    border: $context-menu-border;
+    box-shadow: $context-menu-box-shadow;
     font-size: $context-menu-font-size;
     color: $context-menu-font-color;
     overflow: auto;
@@ -17,112 +17,42 @@
         padding: 0 0.625rem; // 0 10px
         margin: 0;
         .menu-item {
-            border-bottom: solid 0.0625rem $context-menu-border-color; // 1px
+            border-bottom: $context-menu-border;
             div {
+                display: flex;
+                align-items: center;
                 height: 2.188rem; // 35px
                 line-height: 2.188rem;
                 margin: 0.3125rem 0; // 5px 0
-                a {
+                svg {
                     margin: 0 0.9375rem 0 0.3125rem; // 0 15px 0 5px
-                    padding: 0 0.625rem 0.3125rem 0.625rem; // 0 10px 5px 10px
+                    fill: $blue-gray;
                 }
-                label { 
+                label {
                     pointer-events: none;
                     margin: 0;
                 }
             }
-            &:last-child { border: none; }
-            &.disabled { pointer-events: none; opacity: 0.7; }
+            &:last-child {
+                border: none;
+            }
             &.active,
             &:hover {
                 div {
-                    background-color: rgba(140, 174, 222, 0.1);
-                    color: #0050ff;
+                    background-color: $context-menu-focus-bg-color;
                     cursor: pointer;
-                }
-            }
-            &.inputbox div a { @include background("context-menu/inputbox.png"); }
-            &.textbox div a { @include background("context-menu/textbox.png"); }
-            &.dropdown div a { @include background("context-menu/dropdown.png"); }
-            &.radio div a { @include background("context-menu/radio.png"); }
-            &.checkbox div a { @include background("context-menu/checkbox.png"); }
-            &.label div a { @include background("context-menu/label.png"); }
-            &.image div a { @include background("context-menu/image.png"); }
-            &.divider div a { @include background("context-menu/divider.png"); }
-            &.date div a { @include background("context-menu/date.png"); }
-            &.time div a { @include background("context-menu/time.png"); }
-            &.datetime div a { @include background("context-menu/datetime.png"); }
-            &.fileupload div a { @include background("context-menu/fileupload.png"); }
-            &.custom-code div a { @include background("context-menu/custom-code.png"); }
-            // 마우스 오버, 선택시 아이콘 변경
-            &.inputbox.active, &.inputbox:hover { 
-                div a { 
-                    background-image: url("#{$form-asset-path}/context-menu/inputbox_select.png"); 
-                }
-            }
-            &.textbox.active, &.textbox:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/textbox_select.png"); 
-                }
-            }
-            &.dropdown.active, &.dropdown:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/dropdown_select.png"); 
-                }
-            }
-            &.radio.active, &.radio:hover {
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/radio_select.png"); 
-                }
-            }
-            &.checkbox.active, &.checkbox:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/checkbox_select.png"); 
-                }
-            }
-            &.label.active, &.label:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/label_select.png"); 
-                }
-            }
-            &.image.active, &.image:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/image_select.png"); 
-                }
-            }
-            &.divider.active, &.divider:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/divider_select.png"); 
-                }
-            }
-            &.date.active, &.date:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/date_select.png"); 
-                }
-            }
-            &.time.active, &.time:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/time_select.png"); 
-                }
-            }
-            &.datetime.active, &.datetime:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/datetime_select.png"); 
-                }
-            }
-            &.fileupload.active, &.fileupload:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/fileupload_select.png"); 
-                }
-            }
-            &.custom-code.active, &.custom-code:hover { 
-                div a {
-                    background-image: url("#{$form-asset-path}/context-menu/custom-code_select.png"); 
+                    svg {
+                        fill: $context-menu-focus-font-color;
+                    }
+                    label {
+                        color: $context-menu-focus-font-color;
+                    }
                 }
             }
         }
     }
 
-    &.on { display: block; }
+    &.on {
+        display: block;
+    }
 }
-

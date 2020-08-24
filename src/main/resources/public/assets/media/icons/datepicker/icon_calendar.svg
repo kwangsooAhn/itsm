@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ccced1;
+      }
+    </style>
+  </defs>
+  <path class="cls-1" d="M3005.5,602H3002v-1a1,1,0,1,0-2,0v1h-8v-1a1,1,0,1,0-2,0v1h-3.5a.5.5,0,0,0-.5.5v17a.5.5,0,0,0,.5.5h19a.5.5,0,0,0,.5-.5v-17A.5.5,0,0,0,3005.5,602Zm-15.5,2v1a1,1,0,1,0,2,0v-1h8v1a1,1,0,1,0,2,0v-1h2v3h-16v-3Zm-2,14v-9h16v9Z" transform="translate(-2986 -600)"/>
+</svg>

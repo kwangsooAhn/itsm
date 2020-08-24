@@ -1,9 +1,15 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.board.service
 
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.board.dto.BoardCommentDto
-import co.brainz.itsm.board.dto.BoardDto
+import co.brainz.itsm.board.dto.BoardListDto
 import co.brainz.itsm.board.dto.BoardSaveDto
 import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.dto.BoardViewDto
@@ -45,15 +51,20 @@ class BoardService(
     }
 
     /**
-     * 게시판 목록 조회.
-     *
-     * @param boardSearchDto
-     * @return List<boardDto>
+     * [boardSearchDto]을 받아서 게시판 목록을 [List<BoardRestDto>]으로 반환 한다.
      */
-    fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardDto> {
+    fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardListDto> {
         val fromDt = LocalDateTime.parse(boardSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(boardSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
-        return boardRepository.findByBoardList(boardSearchDto.boardAdminId, boardSearchDto.search, fromDt, toDt)
+        val offset = boardSearchDto.offset
+
+        return boardRepository.findByBoardList(
+            boardSearchDto.boardAdminId,
+            boardSearchDto.search,
+            fromDt,
+            toDt,
+            offset
+        )
     }
 
     /**

@@ -19,7 +19,7 @@
 					<!--/* 그룹 메뉴 */-->
 					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb"
 					   th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
-						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
+						<span th:class="'icon-gnb icon-gnb-' + ${topMenu.menuId}"></span>
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 						<span class="arrow-right"></span>
 					</a>
@@ -34,7 +34,7 @@
 					</ul>
 					<!--/* 연결 메뉴 */-->
 					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb" th:classappend="${topMenu.url} == ${session.active_url} ? active">
-						<img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_gnb_' + ${topMenu.menuId} + '.svg'">
+						<span th:class="'icon-gnb icon-gnb-' + ${topMenu.menuId}"></span>
 						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 					</a>
 				</li>
@@ -46,12 +46,11 @@
 /*<![CDATA[ */
 	function accordionMenu(element) {
 		if (document.getElementById(element.dataset.menugroup).style.display === 'block') {
-			document.getElementById(element.dataset.menugroup).style.display = 'none';
 			element.querySelector('.arrow-down').className = 'arrow-right';
 		} else {
-			document.getElementById(element.dataset.menugroup).style.display = 'block';
 			element.querySelector('.arrow-right').className = 'arrow-down';
 		}
+		aliceJs.slideToggle(document.getElementById(element.dataset.menugroup), 200);
 	}
 
 	window.addEventListener('DOMContentLoaded', function(){

@@ -1,19 +1,21 @@
-button { // 기본 버튼 : ghost
+/* button 공통 */
+button {
+    // 기본 버튼 : ghost
     display: inline-block;
-    font-size: 1rem;
-    line-height: 1.5; // 24
-    font-weight: 500; // medium
-    text-align: center;
-    color: $light-black; 
-    background-color: transparent;
-    border: 0.0625rem solid transparent;
+    font-size: $button-font-size;
+    line-height: $button-line-height;
+    font-weight: $button-font-weight;
+    color: $button-font-color;
+    background-color: $button-bg-color;
+    border: $button-border;
     border-radius: 0.1875rem; // 3px
+    text-align: center;
     user-select: none;
     white-space: nowrap;
     vertical-align: middle;
     opacity: 1;
-    width: 5rem;     // 80px
-    height: 2.5rem;    // 40px
+    cursor: pointer;
+    padding: 0.4375rem 1.5rem; // 7px 24px
 
     &:focus,
     &:hover {
@@ -24,10 +26,12 @@ button { // 기본 버튼 : ghost
     &:disabled {
         background-color: $white;
         opacity: 0.3;
+        cursor: default;
     }
 
     &:not(:disabled) {
-        &:active { // pressed
+        &:active {
+            // pressed
             background-color: $line-gray;
         }
     }
@@ -47,7 +51,8 @@ button { // 기본 버튼 : ghost
         }
 
         &:not(:disabled) {
-            &:active { // pressed
+            &:active {
+                // pressed
                 background-color: $line-gray;
                 border: 0.0625rem solid $pressed-gray; // 1px
             }
@@ -55,7 +60,7 @@ button { // 기본 버튼 : ghost
     }
 
     &.default-fill {
-        color: $light-black; 
+        color: $light-black;
         background-color: $default-gray;
         border: 0.0625rem solid transparent; // 1px
         &:focus,
@@ -69,7 +74,8 @@ button { // 기본 버튼 : ghost
         }
 
         &:not(:disabled) {
-            &:active { // pressed
+            &:active {
+                // pressed
                 background-color: $pressed-gray;
             }
         }
@@ -90,7 +96,8 @@ button { // 기본 버튼 : ghost
         }
 
         &:not(:disabled) {
-            &:active { // pressed
+            &:active {
+                // pressed
                 background-color: $hover-blue;
                 opacity: 0.3;
             }
@@ -112,9 +119,113 @@ button { // 기본 버튼 : ghost
         }
 
         &:not(:disabled) {
-            &:active { // pressed
+            &:active {
+                // pressed
                 background-color: $pressed-blue;
             }
         }
+    }
+
+    &.default-point-line {
+        color: $light-black;
+        background-color: $white;
+        border: 0.0625rem solid $line-gray; // 1px
+        span.icon {
+            display: inline-block;
+            background: $pressed-gray;
+        }
+        &:focus,
+        &:hover {
+            outline: 0;
+            border-color: $point-blue;
+            span.icon {
+                background: $point-blue;
+            }
+        }
+
+        &:disabled {
+            opacity: 0.3;
+        }
+
+        &:not(:disabled) {
+            &:active {
+                // pressed
+                background-color: $white;
+                border-color: $point-blue;
+                span.icon {
+                    background: $line-gray;
+                }
+            }
+        }
+    }
+}
+
+.button-group {
+    display: inline-flex;
+    vertical-align: middle;
+    position: relative;
+    button {
+        flex: 1 1 auto;
+        color: $light-black;
+        background-color: $white;
+        border: 0.0625rem solid $line-gray; // 1px
+        &:first-child {
+            margin-left: 0;
+        }
+        span.icon {
+            // 아이콘이 존재한다면
+            display: inline-block;
+            background: $light-black;
+        }
+        &.active {
+            color: $point-blue;
+            border-color: $point-blue;
+            background-color: $white;
+            span.icon {
+                background: $point-blue;
+            }
+            + button {
+                border-left-color: $point-blue;
+            }
+        }
+    }
+    button:not(:first-child) {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+    button:not(:last-of-type) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right-color: transparent;
+    }
+}
+
+.button-group-toggle {
+    button {
+        color: $gray;
+        background-color: $light-gray;
+        border: 0.0625rem solid $line-gray; // 1px
+        span.icon {
+            background: $gray;
+        }
+        &.active {
+            color: $point-blue;
+            background-color: $white;
+            border-color: $point-blue;
+            span.icon {
+                background: $point-blue;
+            }
+        }
+        &:focus,
+        &:hover {
+            span.icon {
+                background: $light-black;
+            }
+        }
+    }
+    button:not(:last-child) {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right-color: transparent;
     }
 }

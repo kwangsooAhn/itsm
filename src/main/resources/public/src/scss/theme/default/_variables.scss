@@ -2,20 +2,29 @@ $icon-folder-path: "../icons/";
 $alice-primary:#0050ff !default;
 
 // Color palette
-$blue: #0098FF;
-$dark-blue: #0060A5;
-$light-gray: #EBEBEB;
-$gray: #ACB4BF;
-$blue-gray: #929AA6;
-$dark-gray: #586872;
-$light-black: #0098FF;
-$ground-black: #333D47;
-$focus-black: #283238;
-$white: #FFFFFF;
-$red: #FF405A;
-$green: #00C462;
+// 실제 색상코드는 여기에만 등록한다.
+$white          : #FFFFFF;
+$red            : #FF405A;
+$orange         : #FF7319;
+$green          : #00C462;
+$focus-black    : #283238;
+$ground-black   : #333D47;
+$light-black    : #3F4B56;
+$dark-gray      : #586872;
+$warm-gray      : #7E848C;
+$blue-gray      : #929AA6;
+$gray           : #ACB4BF;
+$pressed-gray   : #CCCED1;
+$default-gray   : #E1E3E6;
+$line-gray      : #EBEBEB;
+$light-gray     : #F7F8F9;
+$dark-blue      : #0060A5;
+$pressed-blue   : #0088E6;
+$point-blue     : #0098FF;
+$hover-blue     : #33ADFF;
+$light-blue     : #87CEFF;
 
-$color-line: #C8CED8;
+$color-line: $line-gray;
 $color-title: #3E4752;
 $color-text: #67717F;
 $menu-bg-color: $ground-black;
@@ -28,12 +37,15 @@ $menu-hover: $blue-gray;
 $default-font-family: 'Noto Sans KR', sans-serif;
 
 // DOM Elements
+$border-color: $line-gray;
+$placeholder-color: $gray;
 $element-background-color: #FFFFFF;
 $element-line: $color-line;
 $element-border: 0.0625rem; // 1px
 $element-border-radius: 0.0625rem; // 1px
-$element-font-size: 0.875rem; // 14px
-$element-font-color: $color-text;
+$element-font-size: 1rem; // 16px
+$element-font-color: $dark-gray;
+$placeholder-color: $gray;
 
 $menu-font: 1rem; // 16px;
 
@@ -49,3 +61,18 @@ $column-7: $column-init * 7; // 560px
 $column-8: $column-init * 8; // 640px
 $column-9: $column-init * 9; // 720px
 $column-10: $column-init * 10; // 800px
+$column-fluid: 100%;
+
+// Menu Icons
+$icon-gnb-board: $icon-folder-path + "icon_gnb_board.svg";
+$icon-gnb-dashboard: $icon-folder-path + "icon_gnb_dashboard.svg";
+$icon-gnb-document: $icon-folder-path + "icon_gnb_document.svg";
+$icon-gnb-download: $icon-folder-path + "icon_gnb_download.svg";
+$icon-gnb-faq: $icon-folder-path + "icon_gnb_faq.svg";
+$icon-gnb-notice: $icon-folder-path + "icon_gnb_notice.svg";
+$icon-gnb-config: $icon-folder-path + "icon_gnb_config.svg";
+$icon-gnb-workflow: $icon-folder-path + "icon_gnb_workflow.svg";
+$icon-gnb-token: $icon-folder-path + "icon_gnb_token.svg";
+$icon-arrow-left: $icon-folder-path + "icon_arrow_l.svg";
+$icon-arrow-right: $icon-folder-path + "icon_arrow_r.svg";
+$icon-arrow-bottom: $icon-folder-path + "icon_arrow_d.svg";

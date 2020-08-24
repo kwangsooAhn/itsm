@@ -35,8 +35,21 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option-text",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -52,7 +65,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -61,7 +74,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -70,7 +83,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -78,7 +91,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -86,7 +99,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -94,8 +107,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -134,16 +160,42 @@
                 "value": "none|",
                 "type": "session",
                 "option": [
-                    {"id": "none", "name": "직접"},
-                    {"id": "select", "name": "자동",
-                        "items" : [
-                            {"id": "userId", "name": "아이디"},
-                            {"id": "userName", "name": "이름"},
-                            {"id": "email", "name": "이메일"},
-                            {"id": "position", "name": "직책"},
-                            {"id": "department", "name": "부서"},
-                            {"id": "officeNumber", "name": "사무실 번호"},
-                            {"id": "mobileNumber", "name": "핸드폰 번호"}
+                    {
+                        "id": "none",
+                        "name": "직접"
+                    },
+                    {
+                        "id": "select",
+                        "name": "자동",
+                        "items": [
+                            {
+                                "id": "userId",
+                                "name": "아이디"
+                            },
+                            {
+                                "id": "userName",
+                                "name": "이름"
+                            },
+                            {
+                                "id": "email",
+                                "name": "이메일"
+                            },
+                            {
+                                "id": "position",
+                                "name": "직책"
+                            },
+                            {
+                                "id": "department",
+                                "name": "부서"
+                            },
+                            {
+                                "id": "officeNumber",
+                                "name": "사무실 번호"
+                            },
+                            {
+                                "id": "mobileNumber",
+                                "name": "핸드폰 번호"
+                            }
                         ]
                     }
                 ],
@@ -159,12 +211,30 @@
                 "value": "none",
                 "type": "select",
                 "option": [
-                    {"id": "none", "name": "None"},
-                    {"id": "char", "name": "Char"},
-                    {"id": "num", "name": "Number"},
-                    {"id": "numchar", "name": "Char + Number"},
-                    {"id": "phone", "name": "Phone"},
-                    {"id": "email", "name": "Email"}
+                    {
+                        "id": "none",
+                        "name": "None"
+                    },
+                    {
+                        "id": "char",
+                        "name": "Char"
+                    },
+                    {
+                        "id": "num",
+                        "name": "Number"
+                    },
+                    {
+                        "id": "numchar",
+                        "name": "Char + Number"
+                    },
+                    {
+                        "id": "phone",
+                        "name": "Phone"
+                    },
+                    {
+                        "id": "email",
+                        "name": "Email"
+                    }
                 ],
                 "code": "",
                 "unit": ""
@@ -233,8 +303,21 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option-text",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -250,7 +333,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -259,7 +342,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -268,7 +351,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -276,7 +359,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -284,7 +367,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -292,8 +375,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -313,7 +409,16 @@
                 "name": "Editor Use",
                 "value": false,
                 "type": "checkbox-boolean",
-                "option": [ {"id": "Y", "name": "Yes"}, {"id": "N", "name": "No"} ],
+                "option": [
+                    {
+                        "id": "Y",
+                        "name": "Yes"
+                    },
+                    {
+                        "id": "N",
+                        "name": "No"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -401,8 +506,21 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option-text",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -418,7 +536,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -427,7 +545,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -436,7 +554,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -444,7 +562,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -452,7 +570,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -460,8 +578,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -490,9 +621,21 @@
             {
                 "type": "table",
                 "items": [
-                    { "id": "seq", "name": "Seq", "value": "1"},
-                    { "id": "name", "name": "Name", "value": "option"},
-                    { "id": "value", "name": "Value",  "value": "option"}
+                    {
+                        "id": "seq",
+                        "name": "Seq",
+                        "value": "1"
+                    },
+                    {
+                        "id": "name",
+                        "name": "Name",
+                        "value": "option"
+                    },
+                    {
+                        "id": "value",
+                        "name": "Value",
+                        "value": "option"
+                    }
                 ],
                 "code": ""
             }
@@ -533,8 +676,21 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option-text",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -550,7 +706,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -559,7 +715,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -568,7 +724,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -576,7 +732,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -584,7 +740,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -592,8 +748,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -622,7 +791,16 @@
                 "name": "Direction",
                 "value": "horizontal",
                 "type": "select",
-                "option": [ {"id": "horizontal", "name": "Horizontal"}, {"id": "vertical", "name": "Vertical"} ],
+                "option": [
+                    {
+                        "id": "horizontal",
+                        "name": "Horizontal"
+                    },
+                    {
+                        "id": "vertical",
+                        "name": "Vertical"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -631,7 +809,16 @@
                 "name": "Position",
                 "value": "right",
                 "type": "button-option-icon",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             }
@@ -640,9 +827,21 @@
             {
                 "type": "table",
                 "items": [
-                    { "id": "seq", "name": "Seq", "value": "1"},
-                    { "id": "name", "name": "Name", "value": "option"},
-                    { "id": "value", "name": "Value",  "value": "option"}
+                    {
+                        "id": "seq",
+                        "name": "Seq",
+                        "value": "1"
+                    },
+                    {
+                        "id": "name",
+                        "name": "Name",
+                        "value": "option"
+                    },
+                    {
+                        "id": "value",
+                        "name": "Value",
+                        "value": "option"
+                    }
                 ],
                 "code": ""
             }
@@ -683,8 +882,21 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option-text",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -700,7 +912,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -709,7 +921,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -718,7 +930,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -726,7 +938,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -734,7 +946,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -742,8 +954,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -772,7 +997,16 @@
                 "name": "Direction",
                 "value": "horizontal",
                 "type": "select",
-                "option": [ {"id": "horizontal", "name": "Horizontal"}, {"id": "vertical", "name": "Vertical"} ],
+                "option": [
+                    {
+                        "id": "horizontal",
+                        "name": "Horizontal"
+                    },
+                    {
+                        "id": "vertical",
+                        "name": "Vertical"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -781,7 +1015,16 @@
                 "name": "Position",
                 "value": "right",
                 "type": "button-option-icon",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "right", "name": "Right"} ],
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             }
@@ -790,9 +1033,21 @@
             {
                 "type": "table",
                 "items": [
-                    { "id": "seq", "name": "Seq", "value": "1"},
-                    { "id": "name", "name": "Name", "value": "option"},
-                    { "id": "value", "name": "Value",  "value": "option"}
+                    {
+                        "id": "seq",
+                        "name": "Seq",
+                        "value": "1"
+                    },
+                    {
+                        "id": "name",
+                        "name": "Name",
+                        "value": "option"
+                    },
+                    {
+                        "id": "value",
+                        "name": "Value",
+                        "value": "option"
+                    }
                 ],
                 "code": ""
             }
@@ -806,7 +1061,7 @@
                 "value": "",
                 "type": "inputbox",
                 "code": "",
-                "unit": "" ,
+                "unit": "",
                 "validate": "",
                 "help": "form.help.mapping-id"
             },
@@ -832,16 +1087,16 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
-                "unit": "px" ,
+                "unit": "px",
                 "validate": "number|min[10]"
             },
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -850,7 +1105,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -858,7 +1113,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -866,7 +1121,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -874,8 +1129,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -953,7 +1221,20 @@
                 "name": "Align",
                 "value": "left",
                 "type": "button-option-icon",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             }
@@ -1002,7 +1283,7 @@
             {
                 "id": "color",
                 "name": "Color",
-                "value": "rgb(0, 0, 0, 1)",
+                "value": "rgba(63, 75, 86, 1)",
                 "type": "rgba",
                 "code": "",
                 "unit": ""
@@ -1012,7 +1293,20 @@
                 "name": "Type",
                 "value": "solid",
                 "type": "select",
-                "option": [ {"id": "solid", "name": "Line"}, {"id": "dotted", "name": "Dot"}, { "id": "dashed", "name": "Dash"} ],
+                "option": [
+                    {
+                        "id": "solid",
+                        "name": "Line"
+                    },
+                    {
+                        "id": "dotted",
+                        "name": "Dot"
+                    },
+                    {
+                        "id": "dashed",
+                        "name": "Dash"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             }
@@ -1053,8 +1347,21 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option-text",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -1070,7 +1377,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -1079,7 +1386,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1088,7 +1395,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1096,7 +1403,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1104,7 +1411,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1112,8 +1419,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -1142,7 +1462,25 @@
                 "name": "Default",
                 "value": "now",
                 "type": "radio-datetime",
-                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "date", "name": "{0}days after", "validate": "number"}, {"id": "datepicker", "name": ""} ],
+                "option": [
+                    {
+                        "id": "none",
+                        "name": "None"
+                    },
+                    {
+                        "id": "now",
+                        "name": "Now"
+                    },
+                    {
+                        "id": "date",
+                        "name": "{0}days after",
+                        "validate": "number"
+                    },
+                    {
+                        "id": "datepicker",
+                        "name": ""
+                    }
+                ],
                 "code": "",
                 "unit": "",
                 "help": "form.help.date-default"
@@ -1202,8 +1540,21 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option-text",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -1219,7 +1570,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -1228,7 +1579,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1237,7 +1588,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1245,7 +1596,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1253,7 +1604,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1261,8 +1612,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -1291,7 +1655,25 @@
                 "name": "Default",
                 "value": "now",
                 "type": "radio-datetime",
-                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "time", "name": "{0}hours later", "validate": "number"}, {"id": "timepicker", "name": ""} ],
+                "option": [
+                    {
+                        "id": "none",
+                        "name": "None"
+                    },
+                    {
+                        "id": "now",
+                        "name": "Now"
+                    },
+                    {
+                        "id": "time",
+                        "name": "{0}hours later",
+                        "validate": "number"
+                    },
+                    {
+                        "id": "timepicker",
+                        "name": ""
+                    }
+                ],
                 "code": "",
                 "unit": "",
                 "help": "form.help.time-default"
@@ -1351,8 +1733,21 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option-text",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -1368,7 +1763,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -1377,7 +1772,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1386,7 +1781,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1394,7 +1789,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1402,7 +1797,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1410,8 +1805,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -1440,7 +1848,25 @@
                 "name": "Default",
                 "value": "now",
                 "type": "radio-datetime",
-                "option": [ {"id": "none", "name": "None"}, {"id": "now", "name": "Now"}, {"id": "datetime", "name": "{0}days{0}hours later", "validate": "number"}, {"id": "datetimepicker", "name": ""} ],
+                "option": [
+                    {
+                        "id": "none",
+                        "name": "None"
+                    },
+                    {
+                        "id": "now",
+                        "name": "Now"
+                    },
+                    {
+                        "id": "datetime",
+                        "name": "{0}days{0}hours later",
+                        "validate": "number"
+                    },
+                    {
+                        "id": "datetimepicker",
+                        "name": ""
+                    }
+                ],
                 "code": "",
                 "unit": "",
                 "help": "form.help.datetime-default"
@@ -1500,8 +1926,21 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option-text",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -1517,7 +1956,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -1526,7 +1965,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1535,7 +1974,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1543,7 +1982,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1551,7 +1990,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1559,8 +1998,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -1621,8 +2073,21 @@
                 "id": "position",
                 "name": "Position",
                 "value": "left",
-                "type": "button-option-text",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "top", "name": "Top"}, { "id": "hidden", "name": "Hidden"} ],
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -1638,7 +2103,7 @@
             {
                 "id": "size",
                 "name": "Font Size",
-                "value": "12",
+                "value": "16",
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
@@ -1647,7 +2112,7 @@
             {
                 "id": "color",
                 "name": "Font Color",
-                "value": "rgb(0, 0, 0)",
+                "value": "rgb(63, 75, 86)",
                 "type": "rgb",
                 "code": "",
                 "unit": ""
@@ -1656,7 +2121,7 @@
                 "id": "bold",
                 "name": "Bold",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1664,7 +2129,7 @@
                 "id": "italic",
                 "name": "Italic",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1672,7 +2137,7 @@
                 "id": "underline",
                 "name": "Underline",
                 "value": "N",
-                "type": "button",
+                "type": "button-group",
                 "code": "",
                 "unit": ""
             },
@@ -1680,8 +2145,21 @@
                 "id": "align",
                 "name": "Align",
                 "value": "left",
-                "type": "button",
-                "option": [ {"id": "left", "name": "Left"}, {"id": "center", "name": "Center"}, { "id": "right", "name": "Right"} ],
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
                 "code": "",
                 "unit": ""
             },
@@ -1720,14 +2198,29 @@
                 "value": "none",
                 "type": "radio-custom",
                 "option": [
-                    {"id": "none", "name": "None"},
-                    {"id": "session", "name": "Session",
-                        "items" : [
-                            {"id": "userName", "name": "이름"},
-                            {"id": "department", "name": "부서"}
+                    {
+                        "id": "none",
+                        "name": "None"
+                    },
+                    {
+                        "id": "session",
+                        "name": "Session",
+                        "items": [
+                            {
+                                "id": "userName",
+                                "name": "이름"
+                            },
+                            {
+                                "id": "department",
+                                "name": "부서"
+                            }
                         ]
                     },
-                    {"id": "code", "name": "Custom Code Data", "items" : []}
+                    {
+                        "id": "code",
+                        "name": "Custom Code Data",
+                        "items": []
+                    }
                 ],
                 "code": "",
                 "unit": "",

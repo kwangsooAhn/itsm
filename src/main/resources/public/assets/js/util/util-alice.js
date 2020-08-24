@@ -23,7 +23,9 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     if (elmNode == null) {
         elmNode = document.createElement('div');
         elmNode.setAttribute('id', 'printError');
-        document.getElementsByTagName('body').item(0).appendChild(elmNode);
+        if (document.getElementsByTagName('body').item(0) !== null) {
+            document.getElementsByTagName('body').item(0).appendChild(elmNode);
+        }
     }
 
     while (elmNode.hasChildNodes()) {
@@ -682,6 +684,21 @@ aliceJs.isEmpty = function(value) {
 };
 
 /**
+ * 특정 클래스 이름을 가진 요소 내부를 클릭했는지 확인
+ * @param {Object} e 이벤트객체
+ * @param {String} className 클래스명
+ * @return {Object} 존재하면 객제 반환
+ */
+aliceJs.clickInsideElement = function (e, className) {
+    let el = e.srcElement || e.target;
+    while (el !== null) {
+        if (el.classList && el.classList.contains(className)) return el;
+        el = el.parentNode;
+    }
+    return null;
+}
+
+/**
  * RGBA 값을 Hex 값으로 변환.
  *
  * @param {string} value
@@ -754,3 +771,121 @@ aliceJs.isHexCode = function(value) {
 aliceJs.isRgba = function(value) {
     return rgbaReg.test(value);
 }
+
+/**
+ * Slide Toggle (메뉴 등).
+ *
+ * @param {HTMLElement} target 대상
+ * @param {Number} duration 기간 (기본 500ms)
+ */
+aliceJs.slideToggle = (target, duration = 500) => {
+    if (window.getComputedStyle(target).display === 'none') {
+        return aliceJs.slideDown(target, duration);
+    } else {
+        return aliceJs.slideUp(target, duration);
+    }
+}
+
+/**
+ * Slide Up.
+ *
+ * @param {HTMLElement} target
+ * @param {Number} duration
+ */
+aliceJs.slideUp = (target, duration = 500) => {
+    target.style.transitionProperty = 'height, margin, padding';
+    target.style.transitionDuration = duration + 'ms';
+    target.style.boxSizing = 'border-box';
+    target.style.height = target.offsetHeight + 'px';
+    target.offsetHeight;
+    target.style.overflow = 'hidden';
+    target.style.height = '0';
+    target.style.paddingTop = '0';
+    target.style.paddingBottom = '0';
+    target.style.marginTop = '0';
+    target.style.marginBottom = '0';
+    window.setTimeout( () => {
+        target.style.display = 'none';
+        target.style.removeProperty('height');
+        target.style.removeProperty('padding-top');
+        target.style.removeProperty('padding-bottom');
+        target.style.removeProperty('margin-top');
+        target.style.removeProperty('margin-bottom');
+        target.style.removeProperty('overflow');
+        target.style.removeProperty('transition-duration');
+        target.style.removeProperty('transition-property');
+    }, duration);
+}
+
+/**
+ * Slide Down.
+ *
+ * @param {HTMLElement} target
+ * @param {Number} duration
+ */
+aliceJs.slideDown = (target, duration = 500) => {
+    target.style.removeProperty('display');
+    let display = window.getComputedStyle(target).display;
+
+    if (display === 'none') display = 'block';
+
+    target.style.display = display;
+    let height = target.offsetHeight;
+    target.style.overflow = 'hidden';
+    target.style.height = '0';
+    target.style.paddingTop = '0';
+    target.style.paddingBottom = '0';
+    target.style.marginTop = '0';
+    target.style.marginBottom = '0';
+    target.offsetHeight;
+    target.style.boxSizing = 'border-box';
+    target.style.transitionProperty = "height, margin, padding";
+    target.style.transitionDuration = duration + 'ms';
+    target.style.height = height + 'px';
+    target.style.removeProperty('padding-top');
+    target.style.removeProperty('padding-bottom');
+    target.style.removeProperty('margin-top');
+    target.style.removeProperty('margin-bottom');
+    window.setTimeout( () => {
+        target.style.removeProperty('height');
+        target.style.removeProperty('overflow');
+        target.style.removeProperty('transition-duration');
+        target.style.removeProperty('transition-property');
+    }, duration);
+}
+
+/**
+ * Replace all SVG images with inline SVG
+ *
+ */
+aliceJs.loadSvg = function() {
+    const svgList = document.querySelectorAll('img.load-svg');
+    for (let i = 0, len = svgList.length; i < len; i++) {
+        const img = svgList[i];
+        const imgId = img.id;
+        const imgClass = img.className;
+        const imgUrl = img.getAttribute('src');
+        if (typeof imgUrl === 'undefined' || imgUrl === '') { continue; }
+
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: imgUrl,
+            contentType: 'image/svg+xml; charset=utf-8',
+            callbackFunc: function(xhr) {
+                let svgFile = xhr.responseXML;
+                let svg = svgFile.documentElement;
+
+                if (typeof imgId !== 'undefined' && imgId !== '') {
+                    svg.setAttribute('id', imgId);
+                }
+
+                if (typeof imgClass !== 'undefined' && imgClass !== '') {
+                    svg.setAttribute('class', imgClass);
+                }
+
+                img.insertAdjacentHTML('beforebegin', svg.outerHTML);
+                img.remove();
+            }
+        });
+    }
+};

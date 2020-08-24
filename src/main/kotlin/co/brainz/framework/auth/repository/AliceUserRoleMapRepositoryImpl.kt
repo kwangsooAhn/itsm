@@ -27,4 +27,14 @@ class AliceUserRoleMapRepositoryImpl : QuerydslRepositorySupport(AliceUserRoleMa
             .where(role.roleId.eq(roleId))
             .fetch()
     }
+
+    override fun findUserRoleMapByRoleIds(roleIds: MutableList<String>): MutableList<AliceUserRoleMapEntity> {
+        val roleMap = QAliceUserRoleMapEntity.aliceUserRoleMapEntity
+        val role = QAliceRoleEntity.aliceRoleEntity
+        return from(roleMap)
+            .innerJoin(role).on(roleMap.role.eq(role))
+            .fetchJoin()
+            .where(role.roleId.`in`(roleIds))
+            .fetch()
+    }
 }

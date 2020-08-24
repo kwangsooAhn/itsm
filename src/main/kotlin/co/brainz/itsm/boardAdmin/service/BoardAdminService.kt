@@ -1,6 +1,14 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.boardAdmin.service
 
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
+import co.brainz.itsm.boardAdmin.dto.BoardAdminListDto
+import co.brainz.itsm.boardAdmin.dto.BoardAdminSearchDto
 import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.boardAdmin.entity.PortalBoardCategoryEntity
@@ -16,41 +24,14 @@ class BoardAdminService(
 ) {
 
     /**
-     * 게시판 관리 목록 조회.
+     * [boardAdminSearchDto]로 받아서 게시판 관리 목록 조회를 [List<BoardAdminListDto>]으로 반환.
      *
-     * @param search
-     * @return List<BoardAdminDto>
      */
-    fun getBoardAdminList(search: String): List<BoardAdminDto> {
-        val boardAdminDtoList = mutableListOf<BoardAdminDto>()
-        boardAdminRepository.findByBoardAdminList(search).forEach { PortalBoardAdminEntity ->
-            val boardBoardCount = PortalBoardAdminEntity.board?.count() ?: 0
-            var enabled = true
-            if (boardBoardCount > 0) {
-                enabled = false
-            }
-            boardAdminDtoList.add(
-                BoardAdminDto(
-                    boardAdminId = PortalBoardAdminEntity.boardAdminId,
-                    boardAdminTitle = PortalBoardAdminEntity.boardAdminTitle,
-                    boardAdminDesc = PortalBoardAdminEntity.boardAdminDesc,
-                    boardAdminSort = PortalBoardAdminEntity.boardAdminSort,
-                    boardUseYn = PortalBoardAdminEntity.boardUseYn,
-                    replyYn = PortalBoardAdminEntity.replyYn,
-                    commentYn = PortalBoardAdminEntity.commentYn,
-                    categoryYn = PortalBoardAdminEntity.categoryYn,
-                    attachYn = PortalBoardAdminEntity.attachYn,
-                    attachFileSize = PortalBoardAdminEntity.attachFileSize,
-                    boardBoardCount = boardBoardCount,
-                    enabled = enabled,
-                    createDt = PortalBoardAdminEntity.createDt,
-                    createUser = PortalBoardAdminEntity.createUser,
-                    updateDt = PortalBoardAdminEntity.updateDt,
-                    updateUser = PortalBoardAdminEntity.updateUser
-                )
-            )
-        }
-        return boardAdminDtoList
+    fun getBoardAdminList(boardAdminSearchDto: BoardAdminSearchDto): List<BoardAdminListDto> {
+        return boardAdminRepository.findByBoardAdminList(
+            boardAdminSearchDto.search,
+            boardAdminSearchDto.offset
+        )
     }
 
     /**

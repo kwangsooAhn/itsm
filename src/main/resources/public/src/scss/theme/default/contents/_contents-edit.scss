@@ -1,0 +1,8 @@
+// 공지사항 등록과 같이 입력화면인 경우.
+.contents-edit {
+    @include contents-template();
+    @include edit-template();
+    .btn-bar {
+        padding: 2.5rem 0 3.125rem 0; // 40px 0 50px 0
+    }
+}

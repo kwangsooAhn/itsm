@@ -1,0 +1,87 @@
+.contents-token {
+    @include contents-template();
+    .header { padding: 2.875rem 3.75rem 0.625rem 3.75rem; } // 46px 60px 10px 60px
+    .list {
+        background-color: white;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        flex: auto;
+        &-item {
+            margin: 0.625rem 3.75rem; // 10px 60px
+            background-color: white;
+            display: flex;
+            &:first-child {
+                margin-top:  3.125rem; // 50px
+            }
+            .document {
+                &-color {
+                    width: 0.75rem; // 12px
+                    margin-left: 0;
+                }
+                &-row {
+                    flex: auto;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 1.875rem 3rem; // 30px 48px
+                    border: {
+                        top: 0.0625rem solid $line-gray; // 1px
+                        right: 0.0625rem solid $line-gray; // 1px
+                        bottom: 0.0625rem solid $line-gray; // 1px
+                    }
+                    &-content {
+                        .document-title {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            h2 { margin-right: 0.625rem;} // 10px
+                        }
+                        .document-topic {
+                            width: 23.75rem; // 380px
+                            h4 {
+                                margin-top: 0.625rem; // 10px
+                                &:first-child {
+                                    margin-top: 1.5625rem; // 25px
+                                }
+                            }
+                        }
+                    }
+                    &-info {
+                        display: flex;
+                        flex-direction: column;
+                        .document-detail {
+                            display: flex;
+                            align-items: center;
+                            .document-user {
+                                display: inline-flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+                        }
+                        .document-tag {
+                            width: 13.75rem; // 220px
+                            color: #67717F;
+                            span {
+                                background: rgba(0, 152, 255, 0.1 );
+                                color: rgba(0, 152, 255, 1 );
+                                text-align: center;
+                                margin: 0.25rem; // 4px
+                                border-radius: 0.0625rem; // 1px
+                                padding: 0.3125rem 0.9375rem; // 5px 15px
+                                max-width: 13.75rem; // 220px
+                                display: inline-block;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                overflow: hidden;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.total-count {
+    line-height: 2;
+}

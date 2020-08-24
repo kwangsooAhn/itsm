@@ -1,0 +1,52 @@
+// 권한관리와 같이 리스트와 편집화면이 1개의 화면으로 구성되는 경우
+.contents-list-edit {
+    @include contents-template();
+    flex-direction: row;
+
+    // list-edit 타입 화면에서 페이지 제목은 list-area 내부에 들어가므로 초기화 필요.
+/*    .page-title {
+        padding: 0;
+        height: auto;
+    }*/
+
+    & > .list-area {
+        padding: 2.875rem 3.75rem 6.875rem 3.75rem; // 46px 60px 110px 60px
+        height: 100vh;
+        flex: 1;
+        @include list-template();
+    }
+    & > .edit-area {
+        padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
+        width: 38.125rem; // 610px
+        background: white;
+        font-weight: 500;
+        & .scroll-wrap {
+            height: 43.125rem; // 690px
+            display: flex;
+            flex-direction: column;
+            margin: 0 0 0.625rem 0; // 10px
+            .form-wrap {
+                flex: 1;
+                overflow: auto;
+                padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
+            }
+        }
+        .form-set {
+            display: flex;
+            flex-direction: column;
+            margin-top: 0.6875rem; // 11px
+            li {
+                color: $dark-gray;
+                font-weight: 400;
+                height: 1.5rem; // 24px
+            }
+            .checkbox-list {
+                height: 13.5rem; // 216px
+                border: 0.0625rem solid $border-color; // 1px
+                border-radius: $element-border-radius;
+                overflow-y: auto;
+                padding: 0.5rem 0.625rem; // 8px 10px
+            }
+        }
+    }
+}

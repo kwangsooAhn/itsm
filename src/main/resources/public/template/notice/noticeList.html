@@ -5,66 +5,60 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <div class="list-wrap">
-        <table>
-            <colgroup>
-                <col style="width:18.13rem"><!--290px-->
-                <col style="width:6.25rem"><!--100px-->
-                <col style="width:6.25rem"><!--100px-->
-                <col style="width:17.5rem"><!--280px-->
-                <col style="width:17.5rem"><!--280px-->
-                <col style="width:9.375rem"><!--150px-->
-            </colgroup>
-            <thead>
-                <tr>
-                    <th th:text="#{common.label.title}"></th>
-                    <th th:text="#{notice.label.popUp}"></th>
-                    <th th:text="#{common.label.writer}"></th>
-                    <th th:text="#{notice.label.popUpPeriod}"></th>
-                    <th th:text="#{notice.label.noticePeriod}"></th>
-                    <th th:text="#{common.label.writeDate}"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:if="${#arrays.isEmpty(noticeList)}">
-                    <td colspan="6" th:text="#{common.msg.noData}"></td>
-                </tr>
-                <tr class="tr-notice" th:each="topNotice, i: ${topNoticeList}"
-                    th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
-                    <td class="align-left">
-                        <a sec:authorize="!hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
-                           th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}">
-                        </a>
-                        <a sec:authorize="hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
-                           th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}"></a>
-                    </td>
-                    <td th:if="${topNotice.popYn}"><a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|">
-                        <img src="../assets/media/icons/btn_popup.png"></a></td>
-                    <td th:unless="${topNotice.popYn}"></td>
-                    <td th:text="${topNotice?.aliceUserEntity.userName}"></td>
-                    <td th:name="popDt" th:text="${topNotice.popStrtDt} + '~' + ${topNotice.popEndDt}"></td>
-                    <td th:name="noticeDt" th:text="${topNotice.topNoticeStrtDt} + '~' + ${topNotice.topNoticeEndDt}"/>
-                    <td th:name="createDt" th:text="${topNotice.createDt}"></td>
-                </tr>
-                <tr th:each="notice, z : ${noticeList}" th:if="${z.count} < 8">
-                    <td class="align-left">
-                        <a sec:authorize="!hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
-                           th:href="@{/notices/{id}/view(id=${notice.noticeNo})}"></a>
-                        <a sec:authorize="hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
-                           th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}"></a>
-                    </td>
-                    <td th:if="${notice.popYn}">
-                        <a th:attr="onclick=|openPopUp('${notice.noticeNo}')|">
-                            <img src="../assets/media/icons/btn_popup.png"/></a>
-                    </td>
-                    <td th:unless="${notice.popYn}"></td>
-                    <td id="userName" th:text="${notice?.aliceUserEntity.userName}"></td>
-                    <td th:name="popDt" th:text="${notice.popStrtDt} + '~' + ${notice.popEndDt}"></td>
-                    <td th:name="noticeDt" th:text="${notice.topNoticeStrtDt} + '~' + ${notice.topNoticeEndDt}"></td>
-                    <td th:name="createDt" th:text="${notice.createDt}"></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table>
+        <thead>
+            <tr>
+                <th width="30%" th:text="#{common.label.title}"></th>
+                <th width="5%" th:text="#{notice.label.popUp}"></th>
+                <th width="10%" th:text="#{common.label.writer}"></th>
+                <th width="20%" th:text="#{notice.label.popUpPeriod}"></th>
+                <th width="20%" th:text="#{notice.label.noticePeriod}"></th>
+                <th width="15%" th:text="#{common.label.writeDate}"></th>
+            </tr>
+        </thead>
+        <tbody class="list-body">
+            <tr class="no-data-found" th:if="${#arrays.isEmpty(noticeList)}">
+                <td colspan="6" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr class="tr-notice" th:each="topNotice, i: ${topNoticeList}"
+                th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
+                <td width="30%" class="align-left">
+                    <a sec:authorize="!hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
+                       th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}">
+                    </a>
+                    <a sec:authorize="hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
+                       th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}"></a>
+                </td>
+                <td width="5%" th:if="${topNotice.popYn}">
+                    <a th:attr="onclick=|openPopUp('${topNotice.noticeNo}', '${topNotice.popWidth}', '${topNotice.popHeight}')|">
+                        <img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_popup.svg'">
+                    </a>
+                </td>
+                <td width="5%" th:unless="${topNotice.popYn}"></td>
+                <td width="10%" th:text="${topNotice?.aliceUserEntity.userName}"></td>
+                <td width="20%" th:name="popDt" th:text="${topNotice.popStrtDt} + '~' + ${topNotice.popEndDt}"></td>
+                <td width="20%" th:name="noticeDt" th:text="${topNotice.topNoticeStrtDt} + '~' + ${topNotice.topNoticeEndDt}"/>
+                <td width="15%" th:name="createDt" th:text="${topNotice.createDt}"></td>
+            </tr>
+            <tr th:each="notice, z : ${noticeList}" th:if="${z.count} < 8">
+                <td width="30%" class="align-left">
+                    <a sec:authorize="!hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
+                       th:href="@{/notices/{id}/view(id=${notice.noticeNo})}"></a>
+                    <a sec:authorize="hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
+                       th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}"></a>
+                </td>
+                <td width="5%" th:if="${notice.popYn}">
+                    <a th:attr="onclick=|openPopUp('${notice.noticeNo}', '${notice.popWidth}', '${notice.popHeight}')|">
+                        <img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_popup.svg'">
+                    </a>
+                </td>
+                <td width="5%" th:unless="${notice.popYn}"></td>
+                <td width="10%" id="userName" th:text="${notice?.aliceUserEntity.userName}"></td>
+                <td width="20%" th:name="popDt" th:text="${notice.popStrtDt} + '~' + ${notice.popEndDt}"></td>
+                <td width="20%" th:name="noticeDt" th:text="${notice.topNoticeStrtDt} + '~' + ${notice.topNoticeEndDt}"></td>
+                <td width="15%" th:name="createDt" th:text="${notice.createDt}"></td>
+            </tr>
+        </tbody>
+    </table>
 </body>
 </html>
