@@ -34,7 +34,7 @@
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
                 search.addEventListener('keyup', function() {
                     documentSearches(false);
-                });noa
+                });
             });
             document.getElementById('searchGroupName').addEventListener('change', documentSearches.bind(null, false), false);
             documentSearches();
