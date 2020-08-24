@@ -9,26 +9,27 @@
     <table>
         <thead>
         <tr>
-            <th style="width: 2%;"></th>
-            <th style="width: 24%;" th:text="#{document.label.name}"></th>
-            <th style="width: 12%;" th:text="#{document.label.type}"></th>
-            <th style="width: 12%;" th:text="#{common.label.group}"></th>
-            <th style="width: 20%;" th:text="#{document.label.description}"></th>
-            <th style="width: 10%;" th:text="#{document.label.searchDocumentStatus}"></th>
-            <th style="width: 10%;"></th>
-            <th style="width: 10%;"></th>
+            <th width="25%" th:text="#{workflowAdmin.label.name}"></th>
+            <th width="10%" th:text="#{workflowAdmin.label.type}"></th>
+            <th width="10%" th:text="#{workflowAdmin.label.group}"></th>
+            <th width="20%" th:text="#{workflowAdmin.label.description}"></th>
+            <th width="15%" th:text="#{workflowAdmin.label.status}"></th>
+            <th width="10%"></th>
+            <th width="10%"></th>
         </tr>
         </thead>
         <tbody id="list">
-        <tr th:if="${#arrays.isEmpty(documentList)}">
-            <td colspan="8" th:text="#{common.msg.noData}"></td>
+        <tr class="no-data-found" th:if="${#arrays.isEmpty(documentList)}">
+            <td colspan="7" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
-            <td style="width: 2%;" th:styleappend="|background-color:${document.documentColor}|"></td>
-            <td style="width: 24%;" th:text="${document.documentName}"></td>
-            <td style="width: 12%;" th:if="${document.documentType} == 'application-form'" th:text="#{document.type.applicationForm}"></td>
-            <td style="width: 12%;" th:unless="${document.documentType} == 'application-form'" th:text="#{document.type.workflow}"></td>
-            <td style="width: 12%;">
+            <td width="25%" >
+                <div class="document-color-circle" th:style="|background-color:${document.documentColor}|"></div>
+                <span th:text="${document.documentName}"></span>
+            </td>
+            <td style="width: 10%;" th:if="${document.documentType} == 'application-form'" th:text="#{document.type.applicationForm}"></td>
+            <td style="width: 10%;" th:unless="${document.documentType} == 'application-form'" th:text="#{document.type.workflow}"></td>
+            <td style="width: 10%;">
                 <th:block th:if="${document.documentGroup != null && document.documentGroup != ''}">
                     <th:block th:each="group, index : ${groupList}">
                         <label th:if="${group.code} == ${document.documentGroup}" th:text="${group.codeValue}"></label>
@@ -36,7 +37,7 @@
                 </th:block>
             </td>
             <td style="width: 20%;" th:text="${document.documentDesc}"></td>
-            <td style="width: 10%;" th:text="#{${document.documentStatus}}"></td>
+            <td style="width: 15%;" th:text="#{${document.documentStatus}}"></td>
             <td style="width: 10%;">
                 <button sec:authorize="hasAuthority('document.admin.update')"
                         th:attr="onclick=|openDocumentEdit('${document.documentId}')|"

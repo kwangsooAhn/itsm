@@ -8,27 +8,25 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
+    <div class="contents-list">
+        <div class="page-title">
             <h1 th:text="#{document.label.adminList}"></h1>
-            <span class="title-description"></span>
+            <h6 class="title-description" th:text="#{document.msg.description}"></h6>
         </div>
-        <div class="contents-body">
-            <div class="search-area">
-                <div class="search-area-left">
-                    <form id="searchDocumentsFrm">
-                        <select th:class="search-selectBox" id="searchGroupName" name="searchGroupName">
-                            <option value="" th:text="#{document.label.all}" selected/>
-                            <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
-                        </select>
-                        <label for="searchDocuments"></label><input type="text" class="search column-3" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}"/>
-                        <label for="searchProcessName"></label><input type="text" class="search column-3" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}"/>
-                        <label for="searchFormName"></label><input type="text" class="search column-3" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}"/>
-                    </form>
-                </div>
-                <div class="search-area-right">
-                    <button class="btn-add" onclick="createDocument()" sec:authorize="hasAuthority('document.admin.create')"></button>
-                </div>
+        <div class="search-area">
+            <div class="left">
+                <form id="searchDocumentsFrm">
+                    <select id="searchGroupName" name="searchGroupName">
+                        <option value="" th:text="#{document.label.all}" selected/>
+                        <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
+                    </select>
+                    <label for="searchDocuments"></label><input type="text" maxlength="100" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}" class="search"/>
+                    <label for="searchProcessName"></label><input type="text" maxlength="100" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}" class="search"/>
+                    <label for="searchFormName"></label><input type="text" maxlength="100" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
+                </form>
+            </div>
+            <div class="right">
+                <button th:class="default-fill" sec:authorize="hasAuthority('document.admin.create')" type="button" onclick="createDocument()" th:text="#{common.btn.add}"></button>
             </div>
             <div class="list" id="documentList"></div>
         </div>

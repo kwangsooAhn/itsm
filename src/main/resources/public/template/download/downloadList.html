@@ -17,8 +17,8 @@
             <th style="width:10%;" th:text="#{download.label.views}"></th>
         </tr>
         </thead>
-        <tbody id="list">
-        <tr th:if="${#arrays.isEmpty(downloadList)}">
+        <tbody id="list-body">
+        <tr class="no-data-found" th:if="${#arrays.isEmpty(downloadList)}">
             <td colspan="6" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:each="download : ${downloadList}">
@@ -38,9 +38,13 @@
         </tbody>
     </table>
 </div>
-<div class="search-area-right">
+<!--
+ * 2020-08-23 Jung Hee Chan
+ * 현재 디자인에서는 건수가 없음. 필요하면 사용하기로 하고 일단 주석 처리
+-->
+<!--<div class="search-area-right">
     <span class="total-count" id="totalCount" th:text="${downloadCount}"></span>
     <span class="total-count" th:text="#{common.label.totalCount}"></span>
-</div>
+</div>-->
 </body>
 </html>

@@ -8,32 +8,31 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
+    <div class="contents-list">
+        <div class="page-title">
             <h1 th:text="#{board.label.list}"></h1>
-            <span class="title-description" th:text="#{board.msg.description}"></span>
+            <h6 class="title-description" th:text="#{board.msg.description}"></h6>
         </div>
-        <div class="contents-body">
-            <div class="search-area">
-                <div class="search-area-left">
-                    <form id="searchFrm">
-                        <select th:class="search-selectBox" id="boardAdminId" name="boardAdminId">
-                            <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
-                                th:text="#{${boardAdmin.boardAdminTitle}}"></option>
-                        </select>
-                        <input class="search column-3" id="search" name="search" type="text" maxlength="100"
-                               th:placeholder="#{board.label.searchBoardPlaceholder}"/>
-                        <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
-                        <span>~</span>
-                        <input class="search-date column-2" type="text" id="toDt" name="toDt" readonly="readonly"/>
-                    </form>
-                </div>
-                <div class="search-area-right">
-                    <button class="btn-add" onclick="openBoardAdd()" sec:authorize="hasAuthority('board.create')"/>
-                </div>
+        <div class="search-area">
+            <div class="left">
+                <form id="searchFrm">
+                    <select th:class="search-selectBox" id="boardAdminId" name="boardAdminId">
+                        <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
+                            th:text="#{${boardAdmin.boardAdminTitle}}"></option>
+                    </select>
+                    <input class="search column-3" id="search" name="search" type="text" maxlength="100"
+                           th:placeholder="#{board.label.searchBoardPlaceholder}"/>
+                    <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <span>~</span>
+                    <input class="search-date column-2" type="text" id="toDt" name="toDt" readonly="readonly"/>
+                </form>
             </div>
-            <div class="list" id="boardList"></div>
+            <div class="right">
+                <button class="default-fill" onclick="openBoardAdd()" sec:authorize="hasAuthority('board.create')"
+                        th:text="#{common.btn.add}"/>
+            </div>
         </div>
+        <div class="list" id="boardList"></div>
     </div>
 </th:block>
 </body>
@@ -127,7 +126,7 @@
                         }
                     }
 
-                    OverlayScrollbars(document.getElementById('list'), {
+                    OverlayScrollbars(document.getElementById('list-body'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function(e) {

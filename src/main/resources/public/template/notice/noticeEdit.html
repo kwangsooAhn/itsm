@@ -9,9 +9,11 @@
 <body>
 <th:block layout:fragment="content">
     <div class="contents-edit scroll-wrap">
-        <div class="page-title">
-            <h1 th:text="#{notice.label.list}"></h1>
-            <h5 th:text="#{notice.msg.description}"></h5>
+        <div class="header">
+            <div class="page-title">
+                <h1 th:text="#{notice.label.list}"></h1>
+                <h5 th:text="#{notice.msg.description}"></h5>
+            </div>
         </div>
         <div class="edit">
             <form id="frm" method="post">
@@ -32,7 +34,7 @@
                 </div>
                 <div class="form-set">
                     <label th:text="#{common.label.createUser}"></label>
-                    <input th:value="${#authentication.details.userName}" disabled/>
+                    <input th:value="${notice?.aliceUserEntity.userName}" disabled/>
                 </div>
                 <div class="form-set">
                     <label class="switch">

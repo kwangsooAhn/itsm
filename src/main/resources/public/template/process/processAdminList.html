@@ -5,55 +5,44 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div class="list-wrap">
     <table>
-        <colgroup>
-            <col style="width:15.63rem"><!--250px-->
-            <col style="width:6.25rem"><!--100px-->
-            <col style="width:6.25rem"><!--100px-->
-            <col style="width:9.375rem"><!--150px-->
-            <col style="width:18.75rem"><!--300px-->
-            <col style="width:9.375rem"><!--150px-->
-            <col style="width:9.375rem"><!--150px-->
-        </colgroup>
         <thead>
             <tr>
-                <th th:text="#{process.label.name}"></th>
-                <th th:text="#{process.label.simulation}"></th>
-                <th th:text="#{common.label.update}"></th>
-                <th th:text="#{process.label.state}"></th>
-                <th th:text="#{process.label.description}"></th>
-                <th th:text="#{common.label.writer}"></th>
-                <th th:text="#{common.label.writeDate}"></th>
+                <th width="20%" th:text="#{process.label.name}"></th>
+                <th width="10%" th:text="#{process.label.simulation}"></th>
+                <th width="10%" th:text="#{common.label.update}"></th>
+                <th width="10%" th:text="#{process.label.state}"></th>
+                <th width="30%" th:text="#{process.label.description}"></th>
+                <th width="10%" th:text="#{common.label.writer}"></th>
+                <th width="10%" th:text="#{common.label.writeDate}"></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="align-left" th:if="${#arrays.isEmpty(processList)}">
+            <tr class="no-data-found" th:if="${#arrays.isEmpty(processList)}">
                 <td colspan="7" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr th:each="process, i: ${processList}" th:if="${i.count} < 11">
-                <td th:class="align-left">
+                <td width="20%" th:class="align-left">
                     <a sec:authorize="!hasAuthority('process.update')" th:text="${process.name}"
                        th:attr="onclick=|openProcessView('${process.id}')|"></a>
                     <a sec:authorize="hasAuthority('process.update')" th:text="${process.name}"
                        th:attr="onclick=|openProcessEdit('${process.id}')|"></a>
                 </td>
-                <td>
+                <td width="10%">
                     <a th:attr="onclick=|openProcessDesignerView('${process.id}')|">
                         <img src="../assets/media/icons/process/list/icon_preview.png"></a>
                 </td>
-                <td>
+                <td width="10%">
                     <a sec:authorize="hasAuthority('process.update')" th:disabled="${!process.enabled}"
                        th:attr="onclick=|openProcessDesignerEdit('${process.id}')|">
                         <img src="../assets/media/icons/process/list/icon_edit.png"></a>
                 </td>
-                <td th:text="#{${process.status}}"></td>
-                <td class="align-left" th:text="${process.description}"></td>
-                <td th:text="${process.createUserName}"></td>
-                <td th:name="createDt" th:text="${process.createDt}"></td>
+                <td width="10%" th:text="#{${process.status}}"></td>
+                <td width="30%" class="align-left" th:text="${process.description}"></td>
+                <td width="10%" th:text="${process.createUserName}"></td>
+                <td width="10%" th:name="createDt" th:text="${process.createDt}"></td>
             </tr>
         </tbody>
     </table>
-</div>
 </body>
 </html>

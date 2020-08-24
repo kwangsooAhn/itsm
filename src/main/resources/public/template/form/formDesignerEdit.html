@@ -10,184 +10,163 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="container form">
-        <div class="toolbar">
-            <img class="load-svg logo"  th:src="@{/assets/media/icons/form/topmenu/logo.svg}"/>
-            <span class="name">Form Designer</span>
-            <th:block th:if="${#strings.isEmpty(isView)}">
+    <form id="frm" name="frm">
+        <div class="container form">
+            <div class="toolbar">
+                <img class="load-svg logo"  th:src="@{/assets/media/icons/form/topmenu/logo.svg}"/>
+                <span class="name">Form Designer</span>
+                <th:block th:if="${#strings.isEmpty(isView)}">
+                    <span class="separator"></span>
+                    <a href="javascript:void(0);" onclick="editor.save(false);">
+                        <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save.svg}"/>
+                        <!--<label th:text="#{common.btn.save}"></label>-->
+                    </a>
+                </th:block>
                 <span class="separator"></span>
-                <a href="javascript:void(0);" onclick="editor.save(false);">
-                    <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save.svg}"/>
-                    <!--<label th:text="#{common.btn.save}"></label>-->
+                <a href="javascript:void(0);" onclick="editor.saveAs();">
+                    <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save_as.svg}"/>
+                    <!--<label th:text="#{common.btn.saveAs}"></label>-->
                 </a>
-            </th:block>
-            <span class="separator"></span>
-            <a href="javascript:void(0);" onclick="editor.saveAs();">
-                <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save_as.svg}"/>
-                <!--<label th:text="#{common.btn.saveAs}"></label>-->
-            </a>
-            <th:block th:if="${#strings.isEmpty(isView)}">
+                <th:block th:if="${#strings.isEmpty(isView)}">
+                    <span class="separator"></span>
+                    <a href="javascript:void(0);" onclick="editor.undo();">
+                        <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_undo.svg}"/>
+                        <!--<label th:text="#{form.label.undo}"></label>-->
+                    </a>
+                </th:block>
+                <th:block th:if="${#strings.isEmpty(isView)}">
+                    <span class="separator"></span>
+                    <a href="javascript:void(0);" onclick="editor.redo();">
+                        <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_redo.svg}"/>
+                        <!--<label th:text="#{form.label.redo}"></label>-->
+                    </a>
+                </th:block>
                 <span class="separator"></span>
-                <a href="javascript:void(0);" onclick="editor.undo();">
-                    <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_undo.svg}"/>
-                    <!--<label th:text="#{form.label.undo}"></label>-->
+                <a href="javascript:void(0);" onclick="editor.preview();">
+                    <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_preview.svg}"/>
+                    <!--<label th:text="#{form.label.preview}"></label>-->
                 </a>
-            </th:block>
-            <th:block th:if="${#strings.isEmpty(isView)}">
-                <span class="separator"></span>
-                <a href="javascript:void(0);" onclick="editor.redo();">
-                    <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_redo.svg}"/>
-                    <!--<label th:text="#{form.label.redo}"></label>-->
-                </a>
-            </th:block>
-            <span class="separator"></span>
-            <a href="javascript:void(0);" onclick="editor.preview();">
-                <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_preview.svg}"/>
-                <!--<label th:text="#{form.label.preview}"></label>-->
-            </a>
-            <th:block th:if="${#strings.isEmpty(isView)}">
-                <span class="separator"></span>
-                <a href="javascript:void(0);" onclick="editor.save(true);">
-                    <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save_out.svg}"/>
-                    <!--<label th:text="#{form.label.saveExit}"></label>-->
-                </a>
-            </th:block>
-            <span class="form-name"></span>
+                <th:block th:if="${#strings.isEmpty(isView)}">
+                    <span class="separator"></span>
+                    <a href="javascript:void(0);" onclick="editor.save(true);">
+                        <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save_out.svg}"/>
+                        <!--<label th:text="#{form.label.saveExit}"></label>-->
+                    </a>
+                </th:block>
+                <span class="form-name"></span>
+            </div>
+            <div class="contents">
+                <div class="drawing-board" id="form-panel"></div>
+            </div>
+            <div class="aside" id="properties-panel"></div>
         </div>
-        <div class="contents">
-            <div class="drawing-board" id="form-panel"></div>
+        <div class="context-menu" id="context-menu">
+            <ul class="menu">
+                <li class="menu-item inputbox" data-action="inputbox">
+                    <div>
+                        <img class="load-svg"  th:src="@{/assets/media/icons/form/context-menu/inputbox.svg}"/>
+                        <label th:text="#{form.component.inputbox}"></label>
+                    </div>
+                </li>
+                <li class="menu-item textbox" data-action="textbox">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/textbox.svg}"/>
+                        <label th:text="#{form.component.textbox}"></label>
+                    </div>
+                </li>
+                <li class="menu-item dropdown" data-action="dropdown">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/dropdown.svg}"/>
+                        <label th:text="#{form.component.dropdown}"></label>
+                    </div>
+                </li>
+                <li class="menu-item radio" data-action="radio">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/radio.svg}"/>
+                        <label th:text="#{form.component.radio}"></label>
+                    </div>
+                </li>
+                <li class="menu-item checkbox" data-action="checkbox">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/checkbox.svg}"/>
+                        <label th:text="#{form.component.checkbox}"></label>
+                    </div>
+                </li>
+                <li class="menu-item label" data-action="label">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/label.svg}"/>
+                        <label th:text="#{form.component.label}"></label>
+                    </div>
+                </li>
+                <li class="menu-item image" data-action="image">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/image.svg}"/>
+                        <label th:text="#{form.component.image}"></label>
+                    </div>
+                </li>
+                <li class="menu-item divider" data-action="divider">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/divider.svg}"/>
+                        <label th:text="#{form.component.divider}"></label>
+                    </div>
+                </li>
+                <li class="menu-item date" data-action="date">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/date.svg}"/>
+                        <label th:text="#{form.component.date}"></label>
+                    </div>
+                </li>
+                <li class="menu-item time" data-action="time">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/time.svg}"/>
+                        <label th:text="#{form.component.time}"></label>
+                    </div>
+                </li>
+                <li class="menu-item datetime" data-action="datetime">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/datetime.svg}"/>
+                        <label th:text="#{form.component.datetime}"></label>
+                    </div>
+                </li>
+                <li class="menu-item fileupload" data-action="fileupload">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/fileupload.svg}"/>
+                        <label th:text="#{form.component.fileupload}"></label>
+                    </div>
+                </li>
+                <li class="menu-item custom-code" data-action="custom-code">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/custom-code.svg}"/>
+                        <label th:text="#{form.component.customCode}"></label>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <div class="aside" id="properties-panel"></div>
-    </div>
-    <div class="context-menu" id="context-menu">
-        <ul class="menu">
-            <li class="menu-item inputbox" data-action="inputbox">
-                <div>
-                    <img class="load-svg"  th:src="@{/assets/media/icons/form/context-menu/inputbox.svg}"/>
-                    <label th:text="#{form.component.inputbox}"></label>
-                </div>
-            </li>
-            <li class="menu-item textbox" data-action="textbox">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/textbox.svg}"/>
-                    <label th:text="#{form.component.textbox}"></label>
-                </div>
-            </li>
-            <li class="menu-item dropdown" data-action="dropdown">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/dropdown.svg}"/>
-                    <label th:text="#{form.component.dropdown}"></label>
-                </div>
-            </li>
-            <li class="menu-item radio" data-action="radio">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/radio.svg}"/>
-                    <label th:text="#{form.component.radio}"></label>
-                </div>
-            </li>
-            <li class="menu-item checkbox" data-action="checkbox">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/checkbox.svg}"/>
-                    <label th:text="#{form.component.checkbox}"></label>
-                </div>
-            </li>
-            <li class="menu-item label" data-action="label">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/label.svg}"/>
-                    <label th:text="#{form.component.label}"></label>
-                </div>
-            </li>
-            <li class="menu-item image" data-action="image">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/image.svg}"/>
-                    <label th:text="#{form.component.image}"></label>
-                </div>
-            </li>
-            <li class="menu-item divider" data-action="divider">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/divider.svg}"/>
-                    <label th:text="#{form.component.divider}"></label>
-                </div>
-            </li>
-            <li class="menu-item date" data-action="date">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/date.svg}"/>
-                    <label th:text="#{form.component.date}"></label>
-                </div>
-            </li>
-            <li class="menu-item time" data-action="time">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/time.svg}"/>
-                    <label th:text="#{form.component.time}"></label>
-                </div>
-            </li>
-            <li class="menu-item datetime" data-action="datetime">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/datetime.svg}"/>
-                    <label th:text="#{form.component.datetime}"></label>
-                </div>
-            </li>
-            <li class="menu-item fileupload" data-action="fileupload">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/fileupload.svg}"/>
-                    <label th:text="#{form.component.fileupload}"></label>
-                </div>
-            </li>
-            <li class="menu-item custom-code" data-action="custom-code">
-                <div>
-                    <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/custom-code.svg}"/>
-                    <label th:text="#{form.component.customCode}"></label>
-                </div>
-            </li>
-        </ul>
-    </div>
+    </form>
     <!-- 툴팁 템플릿 -->
     <template id="tooltip-template">
         <div class="tooltip-menu">
             <ul class="menu">
                 <li class="menu-item list" data-action="list">
                     <a href="javascript:void(0);">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                            <g transform="translate(-3016 -1289)">
-                                <path d="M3024.5,1289h-8a.5.5,0,0,0-.5.5v8a.5.5,0,0,0,.5.5h8a.5.5,0,0,0,.5-.5v-8A.5.5,0,0,0,3024.5,1289Zm-1.5,7h-5v-5h5Z"/>
-                                <path d="M3024.5,1300h-8a.5.5,0,0,0-.5.5v8a.5.5,0,0,0,.5.5h8a.5.5,0,0,0,.5-.5v-8A.5.5,0,0,0,3024.5,1300Zm-1.5,7h-5v-5h5Z"/>
-                                <path d="M3035.5,1289h-8a.5.5,0,0,0-.5.5v8a.5.5,0,0,0,.5.5h8a.5.5,0,0,0,.5-.5v-8A.5.5,0,0,0,3035.5,1289Zm-1.5,7h-5v-5h5Z"/>
-                                <path d="M3035,1304h-2v-2a1,1,0,0,0-2,0v2h-2a1,1,0,0,0,0,2h2v2a1,1,0,0,0,2,0v-2h2a1,1,0,0,0,0-2Z"/>
-                            </g>
-                        </svg>
+                        <span class="icon list"></span>
                         <!--<label th:text="#{form.label.list}"></label>-->
                     </a>
                 </li>
                 <li class="menu-item copy" data-action="copy">
                     <a href="javascript:void(0);">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                            <path d="M3005.5,1083H3002v-3.5a.5.5,0,0,0-.5-.5h-15a.5.5,0,0,0-.5.5v15a.5.5,0,0,0,.5.5h3.5v3.5a.5.5,0,0,0,.5.5h15a.5.5,0,0,0,.5-.5v-15A.5.5,0,0,0,3005.5,1083Zm-17.5,10v-12h12v2h-9.5a.5.5,0,0,0-.5.5v9.5Zm16,4h-12v-12h12Z" transform="translate(-2986 -1079)"/>
-                        </svg>
-                        <!--<label th:text="#{form.label.copy}"></label>-->
+                        <span class="icon copy"></span>
                     </a>
                 </li>
                 <li class="menu-item delete" data-action="delete">
                     <a href="javascript:void(0);">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20">
-                            <g transform="translate(-2987 -750)">
-                                <path d="M3004,754h-16a1,1,0,0,0,0,2h1v13.5a.5.5,0,0,0,.5.5h13a.5.5,0,0,0,.5-.5V756h1a1,1,0,0,0,0-2Zm-3,14h-10V756h10Z"/>
-                                <path d="M2993,752h6a1,1,0,0,0,0-2h-6a1,1,0,0,0,0,2Z"/>
-                                <path d="M2994,766a1,1,0,0,0,1-1v-6a1,1,0,0,0-2,0v6A1,1,0,0,0,2994,766Z"/>
-                                <path d="M2998,766a1,1,0,0,0,1-1v-6a1,1,0,0,0-2,0v6A1,1,0,0,0,2998,766Z"/>
-                            </g>
-                        </svg>
+                        <span class="icon delete"></span>
                         <!--<label th:text="#{common.btn.delete}"></label>-->
                     </a>
                 </li>
                 <li class="menu-item add" data-action="add">
                     <a href="javascript:void(0);">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20">
-                            <g transform="translate(-3075 -1289)">
-                                <path d="M3080,1305h-3v-14h14v3a1,1,0,0,0,2,0v-4.5a.5.5,0,0,0-.5-.5h-17a.5.5,0,0,0-.5.5v17a.5.5,0,0,0,.5.5h4.5a1,1,0,0,0,0-2Z"/>
-                                <path d="M3091,1302h-1v-1a1,1,0,0,0-2,0v1h-1a1,1,0,0,0,0,2h1v1a1,1,0,0,0,2,0v-1h1a1,1,0,0,0,0-2Z"/>
-                                <path d="M3089,1297a6,6,0,1,0,6,6A6,6,0,0,0,3089,1297Zm0,10a4,4,0,1,1,4-4A4.005,4.005,0,0,1,3089,1307Z"/>
-                            </g>
-                        </svg>
+                        <span class="icon add"></span>
                         <!--<label th:text="#{form.label.addBelow}"></label>-->
                     </a>
                 </li>
@@ -203,36 +182,36 @@
                 <h3 th:text="#{form.msg.information}"></h3>
             </div>
             <div class="property-group" id="dataAttribute">
-                <h3><label th:text="#{form.properties.dataAttribute}"></label></h3>
+                <h3><label class="point" th:text="#{form.properties.dataAttribute}"></label></h3>
             </div>
             <div class="property-group" id="label">
-                <h3><label th:text="#{form.properties.label}"></label></h3>
+                <h3><label class="point" th:text="#{form.properties.label}"></label></h3>
             </div>
             <div class="property-group" id="display">
-                <h3><label th:text="#{form.properties.display}"></label></h3>
+                <h3><label class="point" th:text="#{form.properties.display}"></label></h3>
             </div>
             <div class="property-group" id="option">
                 <h3>
-                    <label th:text="#{form.properties.option}"></label>
+                    <label class="point" th:text="#{form.properties.option}"></label>
                     <div class="property-group-option">
-                        <button class="minus"></button>
-                        <button class="plus"></button>
+                        <button type="button" class="btn default-point-line option-minus"><span class="icon"></span></button>
+                        <button type="button" class="btn default-point-line option-plus"><span class="icon"></span></button>
                     </div>
                 </h3>
                 <table class="property-field-table"></table>
             </div>
             <div class="property-group" id="validate">
-                <h3><label th:text="#{form.properties.validate}"></label></h3>
+                <h3><label class="point" th:text="#{form.properties.validate}"></label></h3>
             </div>
         </div>
     </template>
     <!-- 폼 properties 템플릿 -->
     <template id="form-template">
         <div class="properties-title on">
-            <h3>Form</h3>
+            <label class="ghost">Form</label>
         </div>
         <div class="form-properties">
-            <div class="property-group on">
+            <div class="property-group on last">
                 <div class="property-field" id="formId">
                     <label class="property-name" for="formId" th:text="#{form.properties.id}"></label>
                     <input type="text" class="property-value" readonly="true">

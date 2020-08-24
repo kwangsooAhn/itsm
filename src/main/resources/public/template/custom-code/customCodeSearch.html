@@ -9,19 +9,17 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
+    <div class="contents-list">
+        <div class="page-title">
             <h1 th:text="#{customCode.label.list}"></h1>
-            <span class="title-description" th:text="#{customCode.msg.description}"></span>
+            <h6 class="title-description" th:text="#{customCode.msg.description}"></h6>
         </div>
-        <div class="contents-body">
-            <div class="search-area">
-                <div class="search-area-right">
-                    <button class="btn-add" onclick="location.href='/custom-codes/new'" sec:authorize="hasAuthority('custom.code.create')"/>
-                </div>
+        <div class="search-area">
+            <div class="right">
+                <button class="default-fill" onclick="location.href='/custom-codes/new'" sec:authorize="hasAuthority('custom.code.create')" th:text="#{common.btn.add}"></button>
             </div>
-            <div class="list" id="customCodeList"></div>
         </div>
+        <div class="list" id="customCodeList"></div>
     </div>
 </th:block>
 </body>
