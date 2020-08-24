@@ -1,79 +1,91 @@
 .contents-token {
     @include contents-template();
-    padding: 2.875rem 3.75rem 2.875rem 3.75rem; // 46px 60px 46px 60px
+    .header { padding: 2.875rem 3.75rem 0.625rem 3.75rem; } // 46px 60px 10px 60px
     .list {
-        clear: both;
+        background-color: white;
         overflow-y: auto;
-        margin-top: 0.625rem; // 10px
+        display: flex;
+        flex-direction: column;
+        flex: auto;
 
         // 리스트 출력용 아바타 이미지
         .profile-photo {
-            height: 1.6875rem; // 27px
-            width: 1.6875rem; // 27px
+            height: 2rem; // 32px
+            width: 2rem; // 32px
             border-radius: 50%;
             background: rgba(240, 240, 240, 1);
-            margin-right: 0.3125rem; // 5px
+            margin-right: 0.625rem; // 10px
         }
-        .align-center {text-align: center;}
-        .align-left {text-align: left;}
-        .align-right {text-align: right;}
 
         &-item {
-            margin: 0.625rem 0; // 10px
-            padding: 0.625rem; // 10px
-            border-bottom: 0.0625rem solid #EAF1F7; // 1px
-            min-height: 6.8125rem; // 109px
-            background-color: #FFFFFF;
-            &:hover {background: rgba(0, 80, 255, 0.05);}
-            div {
-                display: inline-block;
-                vertical-align: middle;
-                margin-left: 1.874rem; // 30px
+            margin: 0.625rem 3.75rem; // 10px 60px
+            background-color: white;
+            display: flex;
+            &:first-child {
+                margin-top:  3.125rem; // 50px
             }
-        }
-
-        .document {
-            &-color {
-                min-height: 5.5rem; // 88px
-                width: 0.5rem; // 8px
-                margin-left: 0;
-            }
-            &-content {
-                width: 12.5rem; // 200px
-                color: #3E4752;
-                p {padding: 0.25rem 0;} // 4px
-            }
-            &-no {
-                width: 11.25rem; // 180px
-                overflow: hidden;
-                color: #8F99A7;
-                text-overflow: ellipsis;
-            }
-            &-user {
-                width: 7.1875rem; // 115px
-                color: #67717F;
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
-            &-topic {width: 23.75rem;color: #3E4752;} // 380px
-            &-create-dt {width: 9.375rem;color: #67717F;} // 150px
-            &-status {width: 7.5rem;color: #67717F;} // 120px
-            &-tag {
-                width: 13.75rem; // 220px
-                color: #67717F;
-                span {
-                    background: rgba(0, 152, 255, 0.1 );
-                    color: rgba(0, 152, 255, 1 );
-                    text-align: center;
-                    margin: 0.25rem; // 4px
-                    border-radius: 0.0625rem; // 1px
-                    padding: 0.3125rem 0.9375rem; // 5px 15px
-                    max-width: 13.75rem; // 220px
-                    display: inline-block;
-                    text-overflow: ellipsis;
-                    white-space: nowrap;
-                    overflow: hidden;
+            .document {
+                &-color {
+                    width: 0.75rem; // 12px
+                    margin-left: 0;
+                }
+                &-row {
+                    flex: auto;
+                    display: flex;
+                    justify-content: space-between;
+                    padding: 1.875rem 3rem; // 30px 48px
+                    border: {
+                        top: 0.0625rem solid $line-gray; // 1px
+                        right: 0.0625rem solid $line-gray; // 1px
+                        bottom: 0.0625rem solid $line-gray; // 1px
+                    }
+                    &-content {
+                        .document-title {
+                            display: flex;
+                            flex-direction: row;
+                            align-items: center;
+                            h2 { margin-right: 0.625rem;} // 10px
+                        }
+                        .document-topic {
+                            width: 23.75rem; // 380px
+                            h4 {
+                                margin-top: 0.625rem; // 10px
+                                &:first-child {
+                                    margin-top: 1.5625rem; // 25px
+                                }
+                            }
+                        }
+                    }
+                    &-info {
+                        display: flex;
+                        flex-direction: column;
+                        .document-detail {
+                            display: flex;
+                            align-items: center;
+                            .document-user {
+                                display: inline-flex;
+                                align-items: center;
+                                justify-content: center;
+                            }
+                        }
+                        .document-tag {
+                            width: 13.75rem; // 220px
+                            color: #67717F;
+                            span {
+                                background: rgba(0, 152, 255, 0.1 );
+                                color: rgba(0, 152, 255, 1 );
+                                text-align: center;
+                                margin: 0.25rem; // 4px
+                                border-radius: 0.0625rem; // 1px
+                                padding: 0.3125rem 0.9375rem; // 5px 15px
+                                max-width: 13.75rem; // 220px
+                                display: inline-block;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
+                                overflow: hidden;
+                            }
+                        }
+                    }
                 }
             }
         }

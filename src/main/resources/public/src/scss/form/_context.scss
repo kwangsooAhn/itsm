@@ -5,7 +5,7 @@
     position: absolute;
     width: $context-menu-width;
     max-height: $context-menu-height;
-    background-color: $context-menu-background-color;
+    background-color: $context-menu-bg-color;
     border: $context-menu-border;
     box-shadow: $context-menu-box-shadow;
     font-size: $context-menu-font-size;
@@ -37,11 +37,13 @@
             &.active,
             &:hover {
                 div {
-                    background-color: $context-menu-focus-background-color;
-                    color: $context-menu-focus-font-color;
+                    background-color: $context-menu-focus-bg-color;
                     cursor: pointer;
                     svg {
                         fill: $context-menu-focus-font-color;
+                    }
+                    label {
+                        color: $context-menu-focus-font-color;
                     }
                 }
             }

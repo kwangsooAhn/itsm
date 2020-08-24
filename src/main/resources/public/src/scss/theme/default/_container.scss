@@ -4,6 +4,11 @@
     min-height: 100vh;
 }
 
+.required::after {
+    color: #E83828;
+    content: "\002a"; // *
+}
+
 // 검색 영역
 .search-area {
     height: 6.875rem; // 110px
@@ -42,6 +47,13 @@
     display: flex;
     justify-content: flex-end;
 }
+
+span.vertical-bar {
+        width: 1.875rem; // 30px
+        height: 1.875rem; // 30px
+        border-right: 0.0625rem solid $line-gray; // 1px
+        margin-right: 1.875rem; // 30px
+    }
 
 .container {
     height: 100%;
@@ -689,11 +701,6 @@
             width: 100%;
             text-align: right;
             margin-top: 0.9375rem;
-        }
-
-        .required::after {
-            color: #E83828;
-            content: "\002a"; // *
         }
 
         .search-area {

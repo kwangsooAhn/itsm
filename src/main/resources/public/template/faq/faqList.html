@@ -13,8 +13,8 @@
             <th style="width:80%;" th:text="#{faq.label.title}"></th>
         </tr>
         </thead>
-        <tbody id="list">
-        <tr th:if="${#arrays.isEmpty(faqs)}">
+        <tbody id="list-body">
+        <tr class="no-data-found" th:if="${#arrays.isEmpty(faqs)}">
             <td colspan="2" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:unless="${#arrays.isEmpty(faqs)}" th:each="faq: ${faqs}">
@@ -29,9 +29,13 @@
         </tbody>
     </table>
 </div>
-<div class="search-area-right">
+<!--
+ * 2020-08-23 Jung Hee Chan
+ * 현재 디자인에서는 건수가 없음. 필요하면 사용하기로 하고 일단 주석 처리
+-->
+<!--<div class="search-area-right">
     <span class="total-count" id="totalCount" th:text="${faqCount}"></span>
     <span class="total-count" th:text="#{common.label.totalCount}"></span>
-</div>
+</div>-->
 </body>
 </html>
