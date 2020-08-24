@@ -7,33 +7,35 @@
             /*<![CDATA[*/
             /*[# th:each="noticePopUp : ${noticePopUp}"]*/
             var targetId = /*[[ ${noticePopUp.noticeNo} ]]*/;
-            var targetUrl = "/notices/" + targetId + "/view-pop";
+            var targetUrl = '/notices/' + targetId + '/view-pop';
             var targetWidth = /*[[ ${noticePopUp.popWidth} ]]*/;
             var targetHeight = /*[[ ${noticePopUp.popHeight} ]]*/;
+            var targetTop = 50;
+            var targetLeft = window.screen.width - (targetWidth + 50);
 
-            if (getCookie(targetId) != "done") {
-                window.open(targetUrl, targetId, " width= " + targetWidth + " , height= " + targetHeight);
+            if (getCookie(targetId) != 'done') {
+                window.open(targetUrl, targetId, 'width=' + targetWidth + ',height=' + targetHeight + ',top=' + targetTop + ',left=' + targetLeft);
             }
             /*[/]*/
 
-            window.location.href = "/tokens/search";
+            window.location.href = '/tokens/search';
 
             //팝업 기능 관련, 쿠키 설정
             function getCookie(name) {
-                var nameOfCookie = name + "=";
+                var nameOfCookie = name + '=';
                 var x = 0;
                 while (x <= document.cookie.length) {
                     var y = (x + nameOfCookie.length);
                     if (document.cookie.substring(x, y) == nameOfCookie) {
-                        if ((endOfCookie = document.cookie.indexOf(";", y)) == -1)
+                        if ((endOfCookie = document.cookie.indexOf(';', y)) == -1)
                             endOfCookie = document.cookie.length;
                         return unescape(document.cookie.substring(y, endOfCookie));
                     }
-                    x = document.cookie.indexOf(" ", x) + 1;
+                    x = document.cookie.indexOf(' ', x) + 1;
                     if (x == 0)
                         break;
                 }
-                return "";
+                return '';
             }
 
             /*]]>*/
