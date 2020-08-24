@@ -100,6 +100,7 @@ insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'put', '권한 수정', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'delete', '권한 삭제', 'TRUE');
+insert into awf_url values ('/rest/board-admin', 'get', '게시판 관리 조회', 'TRUE');
 insert into awf_url values ('/rest/board-admin', 'post', '게시판 관리 등록', 'TRUE');
 insert into awf_url values ('/rest/board-admin', 'put', '게시판 관리 변경', 'TRUE');
 insert into awf_url values ('/rest/board-admin/category', 'post', '게시판 관리 변경', 'TRUE');
