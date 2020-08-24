@@ -53,7 +53,11 @@ span.vertical-bar {
         height: 1.875rem; // 30px
         border-right: 0.0625rem solid $line-gray; // 1px
         margin-right: 1.875rem; // 30px
-    }
+}
+
+.title-description {
+    padding-left: 0.625rem; // 10px
+}
 
 .container {
     height: 100%;

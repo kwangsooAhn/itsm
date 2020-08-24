@@ -147,26 +147,29 @@ h1 {
 
 h2 {
   color: #3F4B56;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 500;
 }
 
 h3 {
   color: #3F4B56;
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   font-weight: 500;
-  padding-bottom: 0.625rem;
-  margin-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
 }
 
 h4 {
+  color: #3F4B56;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+h5 {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
 }
 
-h5 {
+h6 {
   color: #7E848C;
   font-family: 맑은고딕;
   font-size: 0.875rem;
@@ -439,6 +442,10 @@ span.vertical-bar {
   height: 1.875rem;
   border-right: 0.0625rem solid #EBEBEB;
   margin-right: 1.875rem;
+}
+
+.title-description {
+  padding-left: 0.625rem;
 }
 
 .container {
