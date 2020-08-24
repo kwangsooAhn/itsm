@@ -174,6 +174,7 @@ board:
     attachFileSize: "Attach File Size"
     attachFileYn: "AttachFile enable"
     board: "Board"
+    title: "Title"
     category: "Category"
     categoryName: "Category Name"
     commentCount: "Number of Comment"

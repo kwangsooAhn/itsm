@@ -7,102 +7,81 @@
     <title th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></title>
     <title th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></title>
     <title th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></title>
-    <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table label {
-            margin: 0;
-        }
-        table td {
-            border: 1px solid;
-            height: 50px;
-        }
-        table input, select {
-            width: 90%;
-            height: 24px;
-        }
-    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
-            <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></h1>
-            <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></h1>
-            <h1 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></h1>
-        </div>
-        <hr>
-        <form id="boardForm" method="post" onsubmit="return false">
-            <table>
-                <colgroup>
-                    <col width="20%">
-                    <col width="30%">
-                    <col width="20%">
-                    <col width="30%">
-                </colgroup>
-                <tbody>
-                    <tr>
-                        <td><label th:text="#{board.label.board}"></label><span class="required"></span></td>
-                        <td colspan="3">
-                            <select th:if="${boardAdminInfo.categoryYn}" id="boardCategory" style="width: 230px; height: 30px">
-                                <option th:each="boardCategory: ${boardCategoryInfo}" th:value="${boardCategory.boardCategoryId}"
-                                        th:text="#{${boardCategory.boardCategoryName}}"></option>
-                            </select>
-                            <input type="text" id="boardTitle" maxlength="100" th:value="${boardInfo?.boardTitle}">
-                        </td>
-                    </tr>
-                    <tr style="height: 250px;">
-                        <td><label th:text="#{common.label.contents}"></label></td>
-                        <td colspan="3">
-                            <div id="boardContents" style="height: 80%"></div>
-                        </td>
-                    </tr>
-                    <tr th:if="${boardAdminInfo.attachYn}">
-                        <td><label th:text="#{common.label.attachFile}"></label></td>
-                        <td colspan="3">
-                            <div id="dropZoneFiles"></div>
-                            <div id="dropZoneUploadedFiles"></div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label th:text="#{common.label.createUser}"></label></td>
-                        <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span></td>
-                        <td><label th:text="#{common.label.createDate}"></label></td>
-                        <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"></span></td>
-                    </tr>
-                    <tr>
-                        <td><label th:text="#{common.label.updateUser}"></label></td>
-                        <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"></span></td>
-                        <td><label th:text="#{common.label.updateDate}"></label></td>
-                        <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''"></span></td>
-                    </tr>
-                </tbody>
-            </table>
-            <div align="right">
-                <button style="margin-right: 5px;" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
-                <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
-                        th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')
-                               and ${boardInfo?.boardId} and ${replyYn} == false"
-                        onclick ="saveBoard('put', 'normal')"
-                        th:text="#{common.btn.modify}">
-                </button>
-                <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
-                        th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
-                        onclick="saveBoard('post', 'normal')"
-                        th:text="#{common.btn.save}">
-                </button>
-                <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
-                        th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
-                        onclick="saveBoard('post', 'reply')"
-                        th:text="#{board.btn.reply}">
-                </button>
+    <div class="contents-edit scroll-wrap">
+        <div class="header">
+            <div class="page-title">
+                <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></h1>
+                <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></h1>
+                <h1 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></h1>
+                <h5 th:text="#{board.msg.description}"></h5>
             </div>
-        </form>
+        </div>
+        <div class="edit">
+            <form id="boardForm" method="post" onsubmit="return false">
+                <div class="form-set">
+                    <label class="required" th:text="#{board.label.board}" for="boardCategory" />
+                    <select th:if="${boardAdminInfo.categoryYn}" id="boardCategory">
+                        <option th:each="boardCategory: ${boardCategoryInfo}" th:value="${boardCategory.boardCategoryId}"
+                                th:text="#{${boardCategory.boardCategoryName}}"></option>
+                    </select>
+                </div>
+                <div class="form-set">
+                    <label class="required" th:text="#{board.label.title}" for="boardTitle"/>
+                    <input type="text" id="boardTitle" maxlength="100" th:value="${boardInfo?.boardTitle}">
+                </div>
+                <div class="form-set">
+                    <label th:text="#{common.label.contents}" for="boardContents"/>
+                    <div class="text-editor" id="boardContents"></div>
+                </div>
+                <div class="form-set">
+                    <label th:text="#{common.label.attachFile}"/>
+                        <div id="dropZoneFiles"></div>
+                        <div id="dropZoneUploadedFiles"></div>
+                </div>
+                <div class="form-set">
+                    <label th:text="#{common.label.createUser}"/>
+                    <input id="spanCreateUserKey" name="spanCreateUserKey" type="text" disabled
+                           th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''">
+                </div>
+                <div class="form-set">
+                    <label th:text="#{common.label.createDate}"/>
+                    <input id="spanCreateDt" name="spanCreateDt" type="text" disabled
+                           th:text="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''">
+                </div>
+                <div class="form-set">
+                    <label th:text="#{common.label.updateUser}"/>
+                    <input id="spanUpdateUserKey" name="spanUpdateUserKey" type="text" disabled
+                           th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''">
+                </div>
+                <div class="form-set">
+                    <label th:text="#{common.label.updateDate}"/>
+                    <input id="spanUpdateDt" name="spanUpdateDt" type="text" disabled
+                           th:text="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''">
+                </div>
+                <div class="btn-bar">
+                    <button class="default-line" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
+                    <button class="point-fill" sec:authorize="hasAuthority('board.update')"
+                            th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')
+                               and ${boardInfo?.boardId} and ${replyYn} == false"
+                            onclick ="saveBoard('put', 'normal')"
+                            th:text="#{common.btn.modify}">
+                    </button>
+                    <button class="point-fill" sec:authorize="hasAuthority('board.create')"
+                            th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
+                            onclick="saveBoard('post', 'normal')"
+                            th:text="#{common.btn.save}">
+                    </button>
+                    <button class="point-fill" sec:authorize="hasAuthority('board.create')"
+                            th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                            onclick="saveBoard('post', 'reply')"
+                            th:text="#{board.btn.reply}">
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
 </th:block>
 </body>

@@ -147,26 +147,29 @@ h1 {
 
 h2 {
   color: #3F4B56;
-  font-size: 1.5rem;
+  font-size: 1.75rem;
   font-weight: 500;
 }
 
 h3 {
   color: #3F4B56;
-  font-size: 1.125rem;
+  font-size: 1.5rem;
   font-weight: 500;
-  padding-bottom: 0.625rem;
-  margin-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
 }
 
 h4 {
+  color: #3F4B56;
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+h5 {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
 }
 
-h5 {
+h6 {
   color: #7E848C;
   font-family: 맑은고딕;
   font-size: 0.875rem;
@@ -390,6 +393,11 @@ textarea:focus {
   min-height: 100vh;
 }
 
+.required::after {
+  color: #E83828;
+  content: "*";
+}
+
 .search-area {
   height: 6.875rem;
   padding: 3.125rem 0 1.25rem 0;
@@ -429,6 +437,17 @@ textarea:focus {
   justify-content: flex-end;
 }
 
+span.vertical-bar {
+  width: 1.875rem;
+  height: 1.875rem;
+  border-right: 0.0625rem solid #EBEBEB;
+  margin-right: 1.875rem;
+}
+
+.title-description {
+  padding-left: 0.625rem;
+}
+
 .container {
   height: 100%;
   padding: 0 0 0 13.75rem;
@@ -449,12 +468,6 @@ textarea:focus {
 .container-popup .view div {
   display: flex;
 }
-.container-popup .view div span.vertical-bar {
-  width: 1.875rem;
-  height: 1.875rem;
-  border-right: 0.0625rem solid #EBEBEB;
-  margin-right: 1.875rem;
-}
 .container-popup .view div.view-text {
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
@@ -469,7 +482,7 @@ textarea:focus {
 }
 .container-popup .view div.horizontal-bar {
   height: 0.0625rem;
-  margin: 10px 0;
+  margin: 0.625rem 0;
   background-color: #EBEBEB;
 }
 .container-popup .view {
@@ -480,86 +493,80 @@ textarea:focus {
   background: #F7F8F9;
   display: flex;
   flex-direction: column;
-  padding: 2.875rem 3.75rem 2.875rem 3.75rem;
+}
+.container .contents-token .header {
+  padding: 2.875rem 3.75rem 0.625rem 3.75rem;
 }
 .container .contents-token .list {
-  clear: both;
+  background-color: white;
   overflow-y: auto;
-  margin-top: 0.625rem;
+  display: flex;
+  flex-direction: column;
+  flex: auto;
 }
 .container .contents-token .list .profile-photo {
-  height: 1.6875rem;
-  width: 1.6875rem;
+  height: 2rem;
+  width: 2rem;
   border-radius: 50%;
   background: #f0f0f0;
-  margin-right: 0.3125rem;
-}
-.container .contents-token .list .align-center {
-  text-align: center;
-}
-.container .contents-token .list .align-left {
-  text-align: left;
-}
-.container .contents-token .list .align-right {
-  text-align: right;
+  margin-right: 0.625rem;
 }
 .container .contents-token .list-item {
-  margin: 0.625rem 0;
-  padding: 0.625rem;
-  border-bottom: 0.0625rem solid #EAF1F7;
-  min-height: 6.8125rem;
-  background-color: #FFFFFF;
+  margin: 0.625rem 3.75rem;
+  background-color: white;
+  display: flex;
 }
-.container .contents-token .list-item:hover {
-  background: rgba(0, 80, 255, 0.05);
+.container .contents-token .list-item:first-child {
+  margin-top: 3.125rem;
 }
-.container .contents-token .list-item div {
-  display: inline-block;
-  vertical-align: middle;
-  margin-left: 1.874rem;
-}
-.container .contents-token .list .document-color {
-  min-height: 5.5rem;
-  width: 0.5rem;
+.container .contents-token .list-item .document-color {
+  width: 0.75rem;
   margin-left: 0;
 }
-.container .contents-token .list .document-content {
-  width: 12.5rem;
-  color: #3E4752;
+.container .contents-token .list-item .document-row {
+  flex: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 1.875rem 3rem;
+  border-top: 0.0625rem solid #EBEBEB;
+  border-right: 0.0625rem solid #EBEBEB;
+  border-bottom: 0.0625rem solid #EBEBEB;
 }
-.container .contents-token .list .document-content p {
-  padding: 0.25rem 0;
+.container .contents-token .list-item .document-row-content .document-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.container .contents-token .list .document-no {
-  width: 11.25rem;
-  overflow: hidden;
-  color: #8F99A7;
-  text-overflow: ellipsis;
+.container .contents-token .list-item .document-row-content .document-title h2 {
+  margin-right: 0.625rem;
 }
-.container .contents-token .list .document-user {
-  width: 7.1875rem;
-  color: #67717F;
+.container .contents-token .list-item .document-row-content .document-topic {
+  width: 23.75rem;
+}
+.container .contents-token .list-item .document-row-content .document-topic h4 {
+  margin-top: 0.625rem;
+}
+.container .contents-token .list-item .document-row-content .document-topic h4:first-child {
+  margin-top: 1.5625rem;
+}
+.container .contents-token .list-item .document-row-info {
+  display: flex;
+  flex-direction: column;
+}
+.container .contents-token .list-item .document-row-info .document-detail {
+  display: flex;
+  align-items: center;
+}
+.container .contents-token .list-item .document-row-info .document-detail .document-user {
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
-.container .contents-token .list .document-topic {
-  width: 23.75rem;
-  color: #3E4752;
-}
-.container .contents-token .list .document-create-dt {
-  width: 9.375rem;
-  color: #67717F;
-}
-.container .contents-token .list .document-status {
-  width: 7.5rem;
-  color: #67717F;
-}
-.container .contents-token .list .document-tag {
+.container .contents-token .list-item .document-row-info .document-tag {
   width: 13.75rem;
   color: #67717F;
 }
-.container .contents-token .list .document-tag span {
+.container .contents-token .list-item .document-row-info .document-tag span {
   background: rgba(0, 152, 255, 0.1);
   color: #0098ff;
   text-align: center;
@@ -643,10 +650,11 @@ textarea:focus {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
 }
 .container .contents-edit .edit {
-  padding: 3.125rem 22.5rem 3.125rem 22.5rem;
+  padding: 3.125rem 22.5rem 0 22.5rem;
   background-color: white;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 .container .contents-edit .edit .scroll-wrap {
   height: 43.125rem;
@@ -682,8 +690,11 @@ textarea:focus {
   overflow-y: auto;
   padding: 0.5rem 0.625rem;
 }
+.container .contents-edit .edit .form-set .text-editor {
+  height: 12.5rem;
+}
 .container .contents-edit .btn-bar {
-  padding: 2.5rem 0 0 0;
+  padding: 2.5rem 0 3.125rem 0;
 }
 .container .contents-view {
   height: 100vh;
@@ -704,12 +715,6 @@ textarea:focus {
 .container .contents-view .view div {
   display: flex;
 }
-.container .contents-view .view div span.vertical-bar {
-  width: 1.875rem;
-  height: 1.875rem;
-  border-right: 0.0625rem solid #EBEBEB;
-  margin-right: 1.875rem;
-}
 .container .contents-view .view div.view-text {
   min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
@@ -724,7 +729,7 @@ textarea:focus {
 }
 .container .contents-view .view div.horizontal-bar {
   height: 0.0625rem;
-  margin: 10px 0;
+  margin: 0.625rem 0;
   background-color: #EBEBEB;
 }
 .container .contents-list-edit {
@@ -1332,10 +1337,6 @@ textarea:focus {
   width: 100%;
   text-align: right;
   margin-top: 0.9375rem;
-}
-.container .contents .required::after {
-  color: #E83828;
-  content: "*";
 }
 .container .contents .search-area-left {
   float: left;
@@ -2848,6 +2849,18 @@ button.point-fill:not(:disabled):active {
 button.point-fill:not(:disabled):focus, button.point-fill:not(:disabled):hover {
   outline: 0;
   background-color: #33ADFF;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
 }
 
 .row-right {
