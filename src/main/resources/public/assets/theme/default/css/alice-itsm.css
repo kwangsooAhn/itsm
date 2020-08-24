@@ -1022,6 +1022,9 @@ textarea:focus {
 .container .contents .list table tr td:first-child {
   width: 30px;
 }
+.container .contents .list table tr td button {
+  font-size: 13px;
+}
 .container .contents .list table tr:hover {
   background: rgba(0, 80, 255, 0.05);
 }
@@ -2850,5 +2853,3 @@ button.point-fill:not(:disabled):focus, button.point-fill:not(:disabled):hover {
 .row-right span:last-child {
   margin: auto 1.25rem auto 0;
 }
-
-/*# sourceMappingURL=alice-itsm.css.map */

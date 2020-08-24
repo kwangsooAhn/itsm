@@ -17,5 +17,6 @@ data class RestTemplateDocumentDto(
     var createUserKey: String? = null,
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
-    var updateDt: LocalDateTime? = null
+    var updateDt: LocalDateTime? = null,
+    var totalCount: Long = 0
 ) : Serializable

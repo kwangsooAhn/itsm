@@ -45,7 +45,9 @@ class DocumentAdminController(
     @GetMapping("/list")
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
-        model.addAttribute("documentList", documentService.getDocumentList(restTemplateDocumentSearchListDto))
+        val result = documentService.getDocumentList(restTemplateDocumentSearchListDto)
+        model.addAttribute("documentList", result)
+        model.addAttribute("documentCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return documentAdminListPage
     }
 
