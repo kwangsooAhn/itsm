@@ -44,22 +44,22 @@
                 <div class="form-set">
                     <label th:text="#{common.label.createUser}"/>
                     <input id="spanCreateUserKey" name="spanCreateUserKey" type="text" disabled
-                           th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''">
+                           th:value="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"/>
                 </div>
                 <div class="form-set">
                     <label th:text="#{common.label.createDate}"/>
                     <input id="spanCreateDt" name="spanCreateDt" type="text" disabled
-                           th:text="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''">
+                           th:value="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"/>
                 </div>
                 <div class="form-set">
                     <label th:text="#{common.label.updateUser}"/>
                     <input id="spanUpdateUserKey" name="spanUpdateUserKey" type="text" disabled
-                           th:text="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''">
+                           th:value="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"/>
                 </div>
                 <div class="form-set">
                     <label th:text="#{common.label.updateDate}"/>
                     <input id="spanUpdateDt" name="spanUpdateDt" type="text" disabled
-                           th:text="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''">
+                           th:value="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''"/>
                 </div>
                 <div class="btn-bar">
                     <button class="default-line" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
