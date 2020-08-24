@@ -41,6 +41,7 @@
         /*<![CDATA[*/
         const boardAdminId = /*[[${boardAdminId}]]*/ null;
         var offsetCount = 0;
+        const offsetSize = 15;
         window.onload = function() {
             if (boardAdminId !== null) {
                 document.getElementById('boardAdminId').value = boardAdminId;
@@ -83,7 +84,7 @@
             let urlParam = '';
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = 15;
+                    offsetCount = offsetSize;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
                 restSubmit('get', '/rest/boards?' + urlParam, isScroll);
@@ -111,14 +112,13 @@
                         if (dataList.length > 0) {
                             document.getElementById('totalCount').value = dataList[0].totalCount;
                             if (scrollerEventCheck()) {
-                                offsetCount = offsetCount + 15;
+                                offsetCount = offsetCount + offsetSize;
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
                             }
                         }
                     } else {
-                        document.getElementById('boardList').innerHTML = "";
                         document.getElementById('boardList').innerHTML = response.responseText;
                         let boardDtEle = document.querySelectorAll('td[name=boardDt]');
                         for (let i = 0; i < boardDtEle.length; i++) {

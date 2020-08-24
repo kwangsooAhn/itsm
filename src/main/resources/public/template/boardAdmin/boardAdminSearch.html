@@ -8,30 +8,28 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
+    <div class="contents-list">
+        <div class="page-title">
             <h1 th:text="#{board.label.manager}"></h1>
-            <span class="title-description" th:text="#{board.msg.description}"></span>
+            <h6 class="title-description" th:text="#{board.msg.description}"></h6>
         </div>
-        <div class="contents-body">
-            <div class="search-area">
-                <div class="search-area-left">
-                    <input type="hidden" sec:authorize="hasAuthority('board.admin.update')" th:name="isRole"
-                           th:value="true"/>
-                    <input type="hidden" sec:authorize="!hasAuthority('board.admin.update')" th:name="isRole"
-                           th:value="false"/>
-                    <form id="searchFrm">
-                        <input type="text" id="search" name="search" class="search column-3"  maxlength="100"
-                               th:placeholder="#{board.label.searchPlaceholder}"/>
-                    </form>
-                </div>
-                <div class="search-area-right">
-                    <button class="btn-add" onclick="openBoardAdminAdd();"
-                            sec:authorize="hasAuthority('board.admin.create')"></button>
-                </div>
+        <div class="search-area">
+            <div class="left">
+                <input type="hidden" sec:authorize="hasAuthority('board.admin.update')" th:name="isRole"
+                       th:value="true"/>
+                <input type="hidden" sec:authorize="!hasAuthority('board.admin.update')" th:name="isRole"
+                       th:value="false"/>
+                <form id="searchFrm">
+                    <input type="text" id="search" name="search" class="search column-3"  maxlength="100"
+                           th:placeholder="#{board.label.searchPlaceholder}"/>
+                </form>
             </div>
-            <div class="list" id="boardAdminList"></div>
+            <div class="right">
+                <button class="default-fill" onclick="openBoardAdminAdd()"
+                        sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.add}"/>
+            </div>
         </div>
+        <div class="list" id="boardAdminList"></div>
     </div>
 </th:block>
 </body>
@@ -39,6 +37,7 @@
     <script th:inline="javascript">
         /*<![CDATA[*/
         var offsetCount = 0;
+        const offsetSize = 15;
         window.onload = function() {
             document.getElementById('search').addEventListener('keyup', function() { getBoardAdminList(false); });
             getBoardAdminList(false);
@@ -49,7 +48,7 @@
             let urlParam = '';
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = 15;
+                    offsetCount = offsetSize;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
                 restSubmit('get', '/rest/board-admin?' + urlParam, isScroll);
@@ -80,16 +79,15 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
-                            document.getElementById('totalCount').textContent = dataList[0].totalCount;
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
                             if (scrollerEventCheck()) {
-                                offsetCount = offsetCount + 15;
+                                offsetCount = offsetCount + offsetSize;
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
                             }
                         }
                     } else {
-                        document.getElementById('boardAdminList').innerHTML = "";
                         document.getElementById('boardAdminList').innerHTML = response.responseText;
                         let boardAdminDtEle = document.querySelectorAll('td[name=boardAdminDt]');
                         for (let i = 0; i < boardAdminDtEle.length; i++) {
@@ -97,7 +95,7 @@
                         }
                     }
 
-                    OverlayScrollbars(document.getElementById('list'), {
+                    OverlayScrollbars(document.querySelector('.list-body'), {
                         className: 'scrollbar',
                         callbacks: {
                             onScroll: function(e) {
@@ -122,7 +120,7 @@
         // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
         function scrollerEventCheck() {
             let scrollerCheck = false;
-            let totalCount = document.getElementById('totalCount').innerText;
+            let totalCount = document.getElementById('totalCount').value;
             if (offsetCount < totalCount) {
                 scrollerCheck = true;
             }
