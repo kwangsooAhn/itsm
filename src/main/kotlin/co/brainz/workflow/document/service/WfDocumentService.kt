@@ -59,7 +59,30 @@ class WfDocumentService(
      * @return List<RestTemplateDocumentDto>
      */
     fun documents(searchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
-        return wfDocumentRepository.findByDocuments(searchListDto)
+        val queryResult = wfDocumentRepository.findByDocuments(searchListDto)
+        val documentList = mutableListOf<RestTemplateDocumentDto>()
+        for (document in queryResult.results) {
+            documentList.add(
+                RestTemplateDocumentDto(
+                    documentId = document.documentId,
+                    documentType = document.documentType,
+                    documentName = document.documentName,
+                    documentDesc = document.documentDesc,
+                    documentStatus = document.documentStatus,
+                    processId = document.process.processId,
+                    formId = document.form.formId,
+                    documentNumberingRuleId = document.numberingRule.numberingId,
+                    documentColor = document.documentColor,
+                    documentGroup = document.documentGroup,
+                    createUserKey = document.createUserKey,
+                    createDt = document.createDt,
+                    updateUserKey = document.updateUserKey,
+                    updateDt = document.updateDt,
+                    totalCount = queryResult.total
+                )
+            )
+        }
+        return documentList
     }
 
     /**

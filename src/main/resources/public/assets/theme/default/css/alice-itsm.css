@@ -1134,6 +1134,9 @@ span.vertical-bar {
 .container .contents .list table tr td:first-child {
   width: 30px;
 }
+.container .contents .list table tr td button {
+  font-size: 13px;
+}
 .container .contents .list table tr:hover {
   background: rgba(0, 80, 255, 0.05);
 }

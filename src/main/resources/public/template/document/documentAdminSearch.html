@@ -36,6 +36,8 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
+        let offsetCount = 0;
+        const offsetSize = 15;
         window.onload = function() {
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
                 search.addEventListener('keyup', function() {
@@ -43,13 +45,22 @@
                 });
             });
             document.getElementById('searchGroupName').addEventListener('change', documentSearches.bind(null, false), false);
-            documentSearches();
+            documentSearches(false);
         };
 
-        function documentSearches(isShowProgressBar) {
-            restSubmit('GET', '/documents-admin/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result) {
-                document.getElementById('documentList').innerHTML = result;
-            }, isShowProgressBar);
+        function documentSearches(isScroll) {
+            let urlParam = '';
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = offsetSize;
+                }
+                urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
+                restSearchSubmit('get', '/rest/documents-admin?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
+                restSearchSubmit('get', '/documents-admin/list?' + urlParam, isScroll);
+            }
         }
 
         function openDocumentEdit(documentId) {
@@ -72,7 +83,6 @@
             });
         }
 
-        //REST API
         function restSubmit(method, url, result, isShowProgressbar) {
             const opt = {
                 method: method,
@@ -83,6 +93,115 @@
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+
+        //REST API
+        function restSearchSubmit(method, url, isScroll) {
+            const opt = {
+                method: method,
+                url: url,
+                async: false,
+                callbackFunc: function(response) {
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            offsetCount = offsetCount + offsetSize;
+                            dataList.forEach(function(data) {
+                                getDataTemplate(data);
+                            });
+                        }
+                    } else {
+                        document.getElementById('documentList').innerHTML = response.responseText;
+                    }
+
+                    OverlayScrollbars(document.getElementById('list'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    documentSearches(true);
+                                }
+                            }
+                        }
+                    });
+                },
+                showProgressbar: false
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        //Tr 동적 데이터 만들기
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let tr = document.createElement('tr');
+
+            let tdDocumentName = document.createElement('td');
+            tdDocumentName.style.width = '25%';
+            let divDocumentColor = document.createElement('div');
+            divDocumentColor.className = 'document-color-circle';
+            divDocumentColor.style.backgroundColor = data.documentColor;
+            let spanDocumentName = document.createElement('span');
+            spanDocumentName.innerText = data.documentName;
+            tdDocumentName.appendChild(divDocumentColor);
+            tdDocumentName.appendChild(spanDocumentName);
+
+            let tdDocumentType = document.createElement('td');
+            tdDocumentType.style.width = '10%';
+            if (data.documentType === 'application-form') {
+                tdDocumentType.innerText = '[[#{document.type.applicationForm}]]';
+            } else {
+                tdDocumentType.innerText = '[[#{document.type.workflow}]]';
+            }
+
+            let tdDocumentGroup = document.createElement('td');
+            tdDocumentGroup.style.width = '10%';
+            if (data.documentGroup != null && data.documentGroup !== '') {
+                let groupObject = document.getElementById('searchGroupName')
+                for (let i = 0; i < groupObject.length; i++) {
+                    if (groupObject[i].value === data.documentGroup) {
+                        tdDocumentGroup.innerText = groupObject[i].textContent;
+                    }
+                }
+            }
+
+            let tdDocumentDesc = document.createElement('td');
+            tdDocumentDesc.style.width = '20%';
+            tdDocumentDesc.className = 'align-left';
+            tdDocumentDesc.innerText = data.documentDesc;
+
+            let tdDocumentStatus = document.createElement('td');
+            tdDocumentStatus.style.width = '15%';
+            tdDocumentStatus.innerText = i18n.get(data.documentStatus);
+
+            let tdModify = document.createElement('td');
+            let btnModify = document.createElement('button');
+            tdModify.style.width = '10%';
+            btnModify.innerText = '[[#{common.btn.modify}]]';
+            btnModify.onclick = function() {
+                openDocumentEdit(data.documentId);
+            };
+            tdModify.appendChild(btnModify);
+
+            let tdDelete = document.createElement('td');
+            tdDelete.style.width = '10%';
+            let btnDelete = document.createElement('button');
+            btnDelete.innerText = '[[#{common.btn.delete}]]';
+            btnDelete.onclick = function() {
+                deleteDocument(data.documentId);
+            };
+            tdDelete.appendChild(btnDelete);
+
+            tr.appendChild(tdDocumentName);
+            tr.appendChild(tdDocumentType);
+            tr.appendChild(tdDocumentGroup);
+            tr.appendChild(tdDocumentDesc);
+            tr.appendChild(tdDocumentStatus);
+            tr.appendChild(tdModify);
+            tr.appendChild(tdDelete);
+            div.appendChild(tr);
         }
         /*]]>*/
     </script>
