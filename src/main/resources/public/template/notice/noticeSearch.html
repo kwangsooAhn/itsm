@@ -70,11 +70,11 @@
         }
 
         //list 팝업 생성
-        function openPopUp(id) {
-            const _top = 50;
-            const _left = window.screen.width - 550;
+        function openPopUp(id, width, height) {
+            var _top = 50;
+            var _left = window.screen.width - (parseInt(width) + 50);
 
-            window.open(id + '/view-pop?value=true', id, 'width=500, height=500, top=' + _top + ', left=' + _left);
+            window.open(id + '/view-pop?value=true', id, 'width=' + width + ',height=' + height + ',top=' + _top + ',left=' + _left);
         }
 
         //get notice list
