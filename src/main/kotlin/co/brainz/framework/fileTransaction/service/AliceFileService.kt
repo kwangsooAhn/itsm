@@ -84,6 +84,8 @@ class AliceFileService(
         val filePath = super.getDir(this.fileUploadRootDirectory, fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
         val mediaType = MediaType.parseMediaType(Tika().detect(multipartFile.inputStream))
+        val contentType = multipartFile.contentType
+
 
         if (Files.notExists(tempPath.parent)) {
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")

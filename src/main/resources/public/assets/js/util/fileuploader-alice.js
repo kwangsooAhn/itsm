@@ -21,6 +21,12 @@ const fileUploader = (function () {
         }
         return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
+
+    const getExtension = function(fileName) {
+        let dot = fileName.lastIndexOf('.')
+        return fileName.substring(dot+1, fileName.length).toLowerCase()
+    }
+
     /**
      * 호출하는 곳에서 전달하는 파라미터를 내부에서 사용할 수 있도록 셋업한다.
      * @param param
@@ -239,9 +245,7 @@ const fileUploader = (function () {
                             // 파일 목록 생성
                             const fileType = document.createElement('div');
                             fileType.className = 'dz-file-type';
-
-                            // TODO 파일 종류에 따라서 변경해서 셋팅한다.
-                            fileType.style.backgroundImage = '/assets/theme/default/icons/icon_notice_document.svg';
+                            fileType.style.backgroundImage = 'url("/assets/theme/default/icons/icon_document_' + getExtension(file.originName) + '.svg")';
 
                             const fileName = document.createElement('div');
                             fileName.className = 'dz-filename';
@@ -335,17 +339,18 @@ const fileUploader = (function () {
 
                     this.on("addedfile", function (file) {
                         document.querySelector('.dz-message').style.display = 'none';
-                        var fileName = file.name;
-                        var fileNameLength = file.name.length;
-                        var lastDot = fileName.lastIndexOf('.');
-                        var fileNameExtension = fileName.substring(lastDot+1, fileNameLength).toUpperCase();
-                        var extensionValueArr = [];
+                        let fileName = file.name;
+                        let fileNameLength = file.name.length;
+                        let lastDot = fileName.lastIndexOf('.');
+                        let fileNameExtension = getExtension(fileName);
+                        file.previewElement.querySelector('.dz-file-type').style.backgroundImage = 'url("/assets/theme/default/icons/icon_document_' + fileNameExtension + '.svg")';
 
-                        for (var i = 0; i < fileNameExtensionList.length; i++)  {
+                        let extensionValueArr = [];
+                        for (let i = 0; i < fileNameExtensionList.length; i++)  {
                             extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
                         }
 
-                        if (!(extensionValueArr.includes(fileNameExtension))) {
+                        if (!(extensionValueArr.includes(fileNameExtension.toUpperCase()))) {
                             this.removeFile(file);
                             aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
                         }
