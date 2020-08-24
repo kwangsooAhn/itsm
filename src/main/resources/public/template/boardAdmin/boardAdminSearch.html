@@ -49,7 +49,7 @@
             let urlParam = '';
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = 10;
+                    offsetCount = 15;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
                 restSubmit('get', '/rest/board-admin?' + urlParam, isScroll);
@@ -82,7 +82,7 @@
                         if (dataList.length > 0) {
                             document.getElementById('totalCount').textContent = dataList[0].totalCount;
                             if (scrollerEventCheck()) {
-                                offsetCount = offsetCount + 10;
+                                offsetCount = offsetCount + 15;
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
