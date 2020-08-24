@@ -28,12 +28,14 @@
                     margin: 0 0.9375rem 0 0.3125rem; // 0 15px 0 5px
                     fill: $blue-gray;
                 }
-                label { 
+                label {
                     pointer-events: none;
                     margin: 0;
                 }
             }
-            &:last-child { border: none; }
+            &:last-child {
+                border: none;
+            }
             &.active,
             &:hover {
                 div {
@@ -50,6 +52,7 @@
         }
     }
 
-    &.on { display: block; }
+    &.on {
+        display: block;
+    }
 }
-

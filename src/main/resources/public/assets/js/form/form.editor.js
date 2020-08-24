@@ -1453,6 +1453,12 @@
         });
         propertiesPanel.appendChild(componentElem);
 
+        const propertyGroupList = propertiesPanel.querySelectorAll('.property-group.on');
+        const propertyLastGroup = propertyGroupList[propertyGroupList.length - 1];
+        if (propertyLastGroup && !propertyLastGroup.classList.contains('last')) {
+            propertyLastGroup.classList.add('last');
+        }
+
         // date picker 초기화
         const datepickerElems = propertiesPanel.querySelectorAll('.datepicker');
         let i, len;

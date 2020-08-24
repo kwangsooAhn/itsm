@@ -159,6 +159,7 @@ $img-line-height:               24px;
 $img-placeholder-color:         $gray;
 $img-border:                    0.0625rem solid $line-gray;
 $img-bg-color:                  $light-gray;
+$img-pressed-bg-color:          $white;
 
 // button
 $button-font-size:              16px;
@@ -182,6 +183,7 @@ $dropzone-filename-font-color:  $dark-gray;
 $dropzone-filesize-font-color:  $gray;
 $dropzone-preview-height:       5rem; // 80px;
 $dropzone-point-color:          $point-blue;
+$dropzone-pressed-bg-color:     $white;
 
 // TODO: datepicker 변수 정리
 $datepicker-asset-path:         "../media/icons/datepicker";

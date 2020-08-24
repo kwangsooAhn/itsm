@@ -5,8 +5,8 @@
  *           - aside : 오른쪽 패널
  */
 *,
-*::before,
-*::after {
+*::after,
+*::before {
     box-sizing: border-box;
 }
 
@@ -23,7 +23,9 @@ body {
         background-color: $container-background-color;
 
         // 포커스가 잡힐 경우 테두리 삭제
-        & *:focus { outline: none !important; }
+        & *:focus {
+            outline: none !important;
+        }
 
         .toolbar {
             width: 100vw;
@@ -32,17 +34,20 @@ body {
             font-weight: $toolbar-font-weight;
             color: $toolbar-font-color;
             background-color: $toolbar-bg-color;
-            padding: $toolbar-top-bottom-padding  $toolbar-margin-right;
-            svg.logo { // 로고
+            padding: $toolbar-top-bottom-padding $toolbar-margin-right;
+            svg.logo {
+                // 로고
                 float: left;
             }
-            span.name { // 문구
+            span.name {
+                // 문구
                 float: left;
-                padding : 0 $toolbar-margin-right;
+                padding: 0 $toolbar-margin-right;
                 line-height: $toolbar-real-height;
             }
-    
-            span.separator { // 아이콘 구분자  
+
+            span.separator {
+                // 아이콘 구분자  
                 width: 0.063rem; // 1px
                 height: $toolbar-real-height;
                 background-color: $toolbar-separator-color;
@@ -50,8 +55,9 @@ body {
                 float: left;
                 opacity: 0.3;
             }
-    
-            a { // 아이콘
+
+            a {
+                // 아이콘
                 height: $toolbar-real-height;
                 line-height: $toolbar-real-height;
                 margin-right: $toolbar-margin-right;
@@ -60,8 +66,9 @@ body {
                     cursor: pointer;
                 }
             }
-    
-            span.form-name { // 상단 우측 이름
+
+            span.form-name {
+                // 상단 우측 이름
                 height: $toolbar-real-height;
                 line-height: $toolbar-real-height;
                 font-size: $toolbar-name-font-size;
@@ -79,13 +86,13 @@ body {
             margin: 0;
 
             .drawing-board {
-                display: flex; 
+                display: flex;
                 flex: 1 1 auto;
                 flex-direction: column;
                 align-items: center;
                 background-color: $drawing-board-bg-color;
                 border: $drawing-board-border;
-                box-shadow: $drawing-board-box-shadow; 
+                box-shadow: $drawing-board-box-shadow;
                 overflow-y: auto;
                 @include scrollbar-hidden;
             }
@@ -116,16 +123,19 @@ body {
                     width: $form-drawing-board-width;
                     max-width: $form-drawing-board-width;
                     margin-top: $form-drawing-board-top-margin;
-                    padding: 6.25rem 4.063rem 0 4.063rem; // 100px 65px 0px 65px;
-                    &[data-readonly=true] { // 폼 양식 화면에서 수정을 막음
-                        input[type=text],
-                        textarea,
-                        select,
-                        button,
-                        .ql-toolbar,
+                    padding: 6.25rem 4.063rem 0; // 100px 65px 0px 65px;
+                    &[data-readonly=true] {
+                        // 폼 양식 화면에서 수정을 막음
                         .dropzone,
+                        .ql-toolbar,
+                        button,
+                        input[type=text],
+                        label.checkbox-group,
                         label.radio-group,
-                        label.checkbox-group { pointer-events: none; }
+                        select,
+                        textarea {
+                            pointer-events: none;
+                        }
                         .component .move-handler {
                             display: inherit;
                         }
@@ -160,7 +170,7 @@ body {
                     display: flex;
                     align-items: flex-end;
                     justify-content: flex-end;
-                    padding-bottom:  0.9375rem; // 15px
+                    padding-bottom: 0.9375rem; // 15px
                     width: $document-content-drawing-board-width;
                     max-width: $document-content-drawing-board-width;
                     height: $document-button-board-height;
@@ -177,7 +187,7 @@ body {
                     max-width: $document-content-drawing-board-width;
                     height: calc(100vh - #{$document-button-board-height});
                     min-height: calc(100vh - #{$document-button-board-height});
-                    padding: 6.25rem 4.063rem 0 4.063rem; // 100px 65px 0px 65px;
+                    padding: 6.25rem 4.063rem 0; // 100px 65px 0px 65px;
                 }
             }
             .aside {
@@ -187,20 +197,20 @@ body {
 
                 // TODO: 처리할 문서
                 .drawing-board {
-                    display: flex; 
+                    display: flex;
                     flex: 1 1 auto;
                     flex-direction: column;
                     align-items: center;
                     width: $document-aside-drawing-board-width;
                     max-width: $document-aside-drawing-board-width;
                     margin-left: 0.625rem;
-                    padding: 3.125rem 3.75rem 0 3.75rem; // 50px 60px 0 60px
+                    padding: 3.125rem 3.75rem 0; // 50px 60px 0 60px
                     background-color: $drawing-board-bg-color;
                     border: $drawing-board-border;
                     box-shadow: $drawing-board-box-shadow;
                     overflow-y: auto;
                     @include scrollbar-hidden;
-    
+
                     ul.menu {
                         display: table-row;
                         border-bottom: solid 0.0625rem $line-gray;
@@ -212,11 +222,12 @@ body {
                             width: 6.25rem; // 100px
                             height: 2.5rem; // 40px
                             font-size: 16px; // 16px
-                            font-weight: 500;  // medium
+                            font-weight: 500;
+                            // medium
                             color: $blue-gray;
                             border-bottom: solid 0.25rem $white; // 4px
                             cursor: pointer;
-    
+
                             &.selected {
                                 color: $light-black;
                                 border-bottom: solid 0.25rem $point-blue; // 4px
@@ -224,7 +235,7 @@ body {
                         }
                         div.menu-content {
                             display: none;
-    
+
                             &.selected {
                                 display: inherit;
                             }
@@ -259,7 +270,7 @@ body {
                     max-width: $document-content-drawing-board-width;
                     height: calc(100vh - #{$document-button-board-height});
                     min-height: calc(100vh - #{$document-button-board-height});
-                    padding: 6.25rem 4.063rem 0 4.063rem; // 100px 65px 0px 65px;
+                    padding: 6.25rem 4.063rem 0; // 100px 65px 0px 65px;
                     .component {
                         page-break-inside: avoid;
                     }
@@ -272,14 +283,14 @@ body {
 
                 // TODO: 처리할 문서
                 .drawing-board {
-                    display: flex; 
+                    display: flex;
                     flex: 1 1 auto;
                     flex-direction: column;
                     align-items: center;
                     width: $document-aside-drawing-board-width;
                     max-width: $document-aside-drawing-board-width;
                     margin-left: 0.625rem;
-                    padding: 3.125rem 3.75rem 0 3.75rem; // 50px 60px 0 60px
+                    padding: 3.125rem 3.75rem 0; // 50px 60px 0 60px
                     background-color: $drawing-board-bg-color;
                     border: $drawing-board-border;
                     box-shadow: $drawing-board-box-shadow;
