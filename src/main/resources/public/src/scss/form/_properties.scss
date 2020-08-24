@@ -84,16 +84,24 @@
         float: right;
         margin-right: 0.3125rem; // 5px;
         button {
-            width: 1.5rem; // 24px
             height: 1.5rem; // 24px
             padding: 0;
+            line-height: inherit;
+            span.icon {
+                width: 1.5rem; // 24px
+                height: 1.5rem; // 24px
+            }
         }
         // 옵션 버튼
-        button[class*="option-minus"] {
-            @include background("editor/icon_option_minus.svg");
+        button[class*="option-minus"] span.icon {
+            mask-image: url("#{$form-asset-path}/editor/icon_option_minus.svg");
+            mask-repeat: no-repeat;
+            mask-position: center;
         }
-        button[class*="option-plus"] {
-            @include background("editor/icon_option_plus.svg");
+        button[class*="option-plus"] span.icon {
+            mask-image: url("#{$form-asset-path}/editor/icon_option_plus.svg");
+            mask-repeat: no-repeat;
+            mask-position: center;
         }
     }
 
@@ -451,10 +459,14 @@
                 width: 2.5rem;
                 // 40px
                 padding: 0;
-                border-left: 0;
+                border-left-color: transparent;
                 border-top-left-radius: 0;
                 border-bottom-left-radius: 0;
                 @include background("property/icon_search.svg");
+                &:focus,
+                &:hover {
+                    border-left-color: $point-blue;
+                }
             }
         }
 

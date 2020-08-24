@@ -977,7 +977,8 @@
      * @param e 이벤트
      */
     function addOptionHandler(e) {
-        const tb = e.target.parentNode.parentNode.parentNode.querySelector('table');
+        const elem = aliceJs.clickInsideElement(e, 'btn');
+        const tb = elem.parentNode.parentNode.parentNode.querySelector('table');
         const row = document.createElement('tr');
         const rowCount = tb.rows.length;
         const firstRow = tb.rows[0];
@@ -1012,7 +1013,8 @@
      * @param e
      */
     function removeOptionHandler(e) {
-        const tb = e.target.parentNode.parentNode.parentNode.querySelector('table');
+        const elem = aliceJs.clickInsideElement(e, 'btn');
+        const tb = elem.parentNode.parentNode.parentNode.querySelector('table');
         const compIdx = getComponentIndex(selectedComponentIds[0]);
         let removeOptionData = JSON.parse(JSON.stringify(editor.data.components[compIdx][tb.parentNode.id]));
         let minusCnt = 0;
@@ -1245,7 +1247,7 @@
                                             `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
                                             `<div class="property-field-image">` +
                                                 `<input type="text" class="property-value" value="${fieldProp.value}" id="path-${selectedComponentIds[0]}">` +
-                                                `<button type="button" class="btn default-line" id="imageUploadPop"></button>` +
+                                                `<button type="button" class="btn default-point-line" id="imageUploadPop"></button>` +
                                             `</div>`;
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
 

@@ -691,14 +691,9 @@ aliceJs.isEmpty = function(value) {
  */
 aliceJs.clickInsideElement = function (e, className) {
     let el = e.srcElement || e.target;
-    if (el.classList.contains(className)) {
-        return el;
-    } else {
-        while (el = el.parentNode) {
-            if (el.classList && el.classList.contains(className)) {
-                return el;
-            }
-        }
+    while (el !== null) {
+        if (el.classList && el.classList.contains(className)) return el;
+        el = el.parentNode;
     }
     return null;
 }

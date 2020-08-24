@@ -125,6 +125,39 @@ button {
             }
         }
     }
+
+    &.default-point-line {
+        color: $light-black;
+        background-color: $white;
+        border: 0.0625rem solid $line-gray; // 1px
+        span.icon {
+            display: inline-block;
+            background: $pressed-gray;
+        }
+        &:focus,
+        &:hover {
+            outline: 0;
+            border-color: $point-blue;
+            span.icon {
+                background: $point-blue;
+            }
+        }
+
+        &:disabled {
+            opacity: 0.3;
+        }
+
+        &:not(:disabled) {
+            &:active {
+                // pressed
+                background-color: $white;
+                border-color: $point-blue;
+                span.icon {
+                    background: $line-gray;
+                }
+            }
+        }
+    }
 }
 
 .button-group {
@@ -146,6 +179,7 @@ button {
         }
         &.active {
             color: $point-blue;
+            border-color: $point-blue;
             background-color: $white;
             span.icon {
                 background: $point-blue;
@@ -180,6 +214,12 @@ button {
             border-color: $point-blue;
             span.icon {
                 background: $point-blue;
+            }
+        }
+        &:focus,
+        &:hover {
+            span.icon {
+                background: $light-black;
             }
         }
     }

@@ -1035,6 +1035,39 @@ button.point-fill:not(:disabled):active {
   background-color: #0088E6;
 }
 
+button.default-point-line {
+  color: #3F4B56;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+button.default-point-line span.icon {
+  display: inline-block;
+  background: #CCCED1;
+}
+
+button.default-point-line:focus, button.default-point-line:hover {
+  outline: 0;
+  border-color: #0098FF;
+}
+
+button.default-point-line:focus span.icon, button.default-point-line:hover span.icon {
+  background: #0098FF;
+}
+
+button.default-point-line:disabled {
+  opacity: 0.3;
+}
+
+button.default-point-line:not(:disabled):active {
+  background-color: #ffffff;
+  border-color: #0098FF;
+}
+
+button.default-point-line:not(:disabled):active span.icon {
+  background: #EBEBEB;
+}
+
 .button-group {
   display: -webkit-inline-box;
   display: -ms-inline-flexbox;
@@ -1063,6 +1096,7 @@ button.point-fill:not(:disabled):active {
 
 .button-group button.active {
   color: #0098FF;
+  border-color: #0098FF;
   background-color: #ffffff;
 }
 
@@ -1103,6 +1137,10 @@ button.point-fill:not(:disabled):active {
 
 .button-group-toggle button.active span.icon {
   background: #0098FF;
+}
+
+.button-group-toggle button:focus span.icon, .button-group-toggle button:hover span.icon {
+  background: #3F4B56;
 }
 
 .button-group-toggle button:not(:last-child) {
@@ -1734,23 +1772,32 @@ button.point-fill:not(:disabled):active {
 }
 
 .property-group .property-group-option button {
-  width: 1.5rem;
   height: 1.5rem;
   padding: 0;
+  line-height: inherit;
 }
 
-.property-group .property-group-option button[class*="option-minus"] {
-  background-size: initial;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_option_minus.svg");
+.property-group .property-group-option button span.icon {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
-.property-group .property-group-option button[class*="option-plus"] {
-  background-size: initial;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-image: url("../media/icons/form/editor/icon_option_plus.svg");
+.property-group .property-group-option button[class*="option-minus"] span.icon {
+  -webkit-mask-image: url("../media/icons/form/editor/icon_option_minus.svg");
+          mask-image: url("../media/icons/form/editor/icon_option_minus.svg");
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+          mask-position: center;
+}
+
+.property-group .property-group-option button[class*="option-plus"] span.icon {
+  -webkit-mask-image: url("../media/icons/form/editor/icon_option_plus.svg");
+          mask-image: url("../media/icons/form/editor/icon_option_plus.svg");
+  -webkit-mask-repeat: no-repeat;
+          mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+          mask-position: center;
 }
 
 .property-group .property-field {
@@ -2164,13 +2211,17 @@ button.point-fill:not(:disabled):active {
           flex: 1 1 auto;
   width: 2.5rem;
   padding: 0;
-  border-left: 0;
+  border-left-color: transparent;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
   background-image: url("../media/icons/form/property/icon_search.svg");
+}
+
+.property-group .property-field div.property-field-image button:focus, .property-group .property-field div.property-field-image button:hover {
+  border-left-color: #0098FF;
 }
 
 .property-group .property-field.vertical {
