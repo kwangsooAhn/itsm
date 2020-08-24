@@ -20,7 +20,7 @@
             <div class="row-right">
                 <span id="spanCreateDt" th:text="${notice.createDt}"></span>
                 <span class="vertical-bar"></span>
-                <span sec:authentication="details.userName"></span>
+                <span id="spanUserName" th:text="${notice?.aliceUserEntity.userName}"></span>
             </div>
             <div class="horizontal-bar"></div>
             <div class="view-text">
