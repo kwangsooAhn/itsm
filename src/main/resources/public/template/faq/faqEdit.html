@@ -8,55 +8,52 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <form id="faqForm" method="post" onsubmit="return false">
-            <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
-            <div class="contents-title">
+    <div class="contents-edit scroll-wrap">
+        <div class="header">
+            <div class="page-title">
                 <div>
                     <h1 th:text="#{faq.label.edit}"></h1>
-                    <span class="title-description" th:text="#{faq.label.description}"></span>
+                    <h5 th:text="#{faq.label.description}"></h5>
                 </div>
             </div>
-            <div class="contents-body">
-                <div class="edit-area">
-                    <h3 th:text="#{menu.portal.faq}"></h3>
-                    <div class="profile-manage">
-                        <div class="profile-input-body-list">
-                            <p class="input-title required" th:text="#{common.label.group}"></p>
-                            <select id="faqGroup" name="faqGroup" required="required">
-                                <option th:each="faqGroup :${faqGroupList}" th:text="#{|common.code.${faqGroup.code}|}"
-                                        th:value="${faqGroup.code}" th:selected="${faqGroup.code} == ${faq?.faqGroup}">
-                                </option>
-                            </select>
-                        </div>
-                        <div class="profile-input-body-list">
-                            <p class="input-title required" th:text="#{common.label.title}"></p>
-                            <input class="user-register-input" id="faqTitle" name="faqTitle" th:value="${faq?.faqTitle}"
-                                   maxlength="100" required="required"/>
-                        </div>
-                        <div class="profile-input-body-list">
-                            <p class="input-title required" th:text="#{common.label.contents}"></p>
-                            <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"></textarea>
-                        </div>
-                        <div class="profile-input-body-list">
-                            <p class="input-title required" th:text="#{common.label.attachFile}"></p>
-                            <div id="dropZoneFiles"></div>
-                            <div id="dropZoneUploadedFiles"></div>
-                        </div>
-                    </div>
-                    <div class="btn-wrap float-right">
-                        <button type="button" class="btn-gray" id="btnList" onclick="location.href='/faqs/search'"
-                                th:text="#{common.btn.list}"></button>
-                        <button type="button" class="btn-register" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
-                                th:if="!${faq?.faqId}" th:text="#{common.btn.save}"></button>
-                        <button type="button" class="btn-register" id="btnUpdate" sec:authorize="hasAuthority('faq.update')"
-                                th:if="${faq?.faqId}" th:text="#{common.btn.save}"></button>
-                        <button type="button" class="btn-gray" id="btnDelete" sec:authorize="hasAuthority('faq.delete')"
-                                th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
-                    </div>
+        </div>
+        <div class="edit">
+            <form id="faqForm" method="post" onsubmit="return false">
+                <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
+                <div class="form-set">
+                    <label class="required" th:text="#{common.label.group}" for="faqGroup"></label>
+                    <select id="faqGroup" name="faqGroup" required="required">
+                        <option th:each="faqGroup :${faqGroupList}" th:text="#{|common.code.${faqGroup.code}|}"
+                                th:value="${faqGroup.code}" th:selected="${faqGroup.code} == ${faq?.faqGroup}">
+                        </option>
+                    </select>
                 </div>
-            </div>
-        </form>
+                <div class="form-set">
+                    <label class="required" th:text="#{common.label.title}" for="faqTitle"></label>
+                    <input id="faqTitle" name="faqTitle" th:value="${faq?.faqTitle}"
+                           maxlength="100" required="required"/>
+                </div>
+                <div class="form-set">
+                    <label class="required" th:text="#{common.label.contents}" for="faqContent"></label>
+                    <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}" rows="11"></textarea>
+                </div>
+                <div class="form-set">
+                    <label th:text="#{common.label.attachFile}"></label>
+                    <div id="dropZoneFiles"></div>
+                    <div id="dropZoneUploadedFiles"></div>
+                </div>
+                <div class="btn-bar">
+                    <button type="button" class="default-line" id="btnList" onclick="location.href='/faqs/search'"
+                            th:text="#{common.btn.list}"></button>
+                    <button type="button" class="point-fill" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
+                            th:if="!${faq?.faqId}" th:text="#{common.btn.save}"></button>
+                    <button type="button" class="point-fill" id="btnUpdate" sec:authorize="hasAuthority('faq.update')"
+                            th:if="${faq?.faqId}" th:text="#{common.btn.save}"></button>
+                    <button type="button" class="default-fill" id="btnDelete" sec:authorize="hasAuthority('faq.delete')"
+                            th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
+                </div>
+            </form>
+        </div>
     </div>
 </th:block>
 </body>
