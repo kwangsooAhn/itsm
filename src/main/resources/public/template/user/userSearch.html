@@ -8,22 +8,20 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
+    <div class="contents-list">
+        <div class="page-title">
             <h1 th:text="#{user.label.list}"></h1>
-            <span class="title-description" th:text="#{user.msg.description}"></span>
+            <h6 class="title-description" th:text="#{user.msg.description}"></h6>
         </div>
-        <div class="contents-body">
-            <div class="search-area">
-                <div class="search-area-left">
-                    <input class="search column-4" id="search" type="text" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}"/>
-                </div>
-                <div class="search-area-right">
-                    <button class="btn-add" onclick="location.href='/users/new'" sec:authorize="hasAuthority('user.create')"/>
-                </div>
+        <div class="search-area">
+            <div class="left">
+                <input class="search column-4" id="search" type="text" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}"/>
             </div>
-            <div class="list" id="userList"></div>
+            <div class="right">
+                <button class="default-fill" onclick="location.href='/users/new'" sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>
+            </div>
         </div>
+        <div class="list" id="userList"></div>
     </div>
 </th:block>
 </body>

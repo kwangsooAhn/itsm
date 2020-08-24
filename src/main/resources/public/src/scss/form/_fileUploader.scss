@@ -47,24 +47,6 @@
   background-color: $dropzone-bg-color;
   padding: 0.625rem 0.625rem 0 0.625rem; //10px
 
-  .dz-clickable { 
-    cursor: pointer;
-    text-decoration: underline;
-    color: $dropzone-point-color;
-
-    * {
-      cursor: default;
-    }
-
-    .dz-message {
-      cursor: pointer;
-
-      * {
-        cursor: pointer;
-      }
-    }
-  }
-
   &.dz-started .dz-message {
     display: none;
   }
@@ -85,7 +67,14 @@
     text-align: center;
     margin: 0.9375rem 0; // 15px
     background: url($dropzone-asset-path +  "/icon_fileupload.svg") no-repeat center top;
-    
+    span {
+      color: $dropzone-font-color;
+    }
+    span.dz-clickable { 
+      cursor: pointer;
+      text-decoration: underline;
+      color: $dropzone-point-color;
+    }
     > span {
       display: inline-block;
       margin-top: 3.438rem; // 55px

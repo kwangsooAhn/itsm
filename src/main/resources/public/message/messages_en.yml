@@ -313,6 +313,7 @@ document:
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
     confirmDeleteInstance: "Are you sure you want to delete all documents created in a temporary state?"
+    description: "workflow edit"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -668,6 +669,14 @@ token:
     progress: "Document in progress"
     requested: "Application document"
     todo: "Document to process"
+
+workflowAdmin:
+  label:
+    name: "Name"
+    type: "Type"
+    group: "Group"
+    description: "Description"
+    status: "Status"
 
 # User
 user:

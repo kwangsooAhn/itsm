@@ -654,7 +654,14 @@
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" id="fileupload"${displayType === 'editableRequired' ? ' required' : ''} style="--data-column: ${property.display.column};">` +
                     `<div id="dropZoneFiles-${this.id}"></div>` +
-                    `<div id="dropZoneUploadedFiles-${this.id}"></div>` +
+                    `<div id="dropZoneUploadedFiles-${this.id}">` +
+                        `<div class="dropzone">` +
+                            `<div class="dz-default dz-message">` +
+                                `<span>Drop files here to upload or&nbsp;</span>` +
+                                `<span class="dz-clickable">browse</span>` +
+                            `</div>` +
+                        `</div>` +
+                    `</div>` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -662,19 +669,22 @@
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // 드랍존 초기화
-        let fileOptions = {
-            extra: {
-                formId: 'frm',
-                ownId: '',
-                dropZoneFilesId: 'dropZoneFiles-' + this.id,
-                dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + this.id,
-                editor: (displayType !== 'readonly')
+        if (!isForm) {
+            document.getElementById('dropZoneUploadedFiles-' + this.id).innerHTML = '';
+            let fileOptions = {
+                extra: {
+                    formId: 'frm',
+                    ownId: '',
+                    dropZoneFilesId: 'dropZoneFiles-' + this.id,
+                    dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + this.id,
+                    editor: (displayType !== 'readonly')
+                }
+            };
+            if (typeof property.value !== 'undefined') {
+                fileOptions.extra.fileDataIds = property.value;
             }
-        };
-        if (typeof property.value !== 'undefined') {
-            fileOptions.extra.fileDataIds = property.value;
+            fileUploader.init(fileOptions);
         }
-        fileUploader.init(fileOptions);
     }
     /**
      * Custom-Code 컴포넌트

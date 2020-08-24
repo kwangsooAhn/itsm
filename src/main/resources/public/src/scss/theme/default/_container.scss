@@ -9,6 +9,24 @@
     content: "\002a"; // *
 }
 
+// 리스트 출력용 아바타 이미지
+.profile-photo {
+    height: 2rem; // 32px
+    width: 2rem; // 32px
+    border-radius: 50%;
+    background: rgba(240, 240, 240, 1);
+    margin-right: 0.625rem; // 10px
+}
+
+// 리스트 출력용 아바타 이미지
+.document-color-circle {
+    height: 1rem; // 16px
+    width: 1rem; // 16px
+    border-radius: 50%;
+    margin-right: 0.625rem; // 10px
+    display: inline-block;
+}
+
 // 검색 영역
 .search-area {
     height: 6.875rem; // 110px
@@ -53,7 +71,11 @@ span.vertical-bar {
         height: 1.875rem; // 30px
         border-right: 0.0625rem solid $line-gray; // 1px
         margin-right: 1.875rem; // 30px
-    }
+}
+
+.title-description {
+    padding-left: 0.625rem; // 10px
+}
 
 .container {
     height: 100%;

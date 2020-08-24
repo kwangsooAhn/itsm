@@ -10,11 +10,11 @@
 <th:block layout:fragment="content">
     <form id="frm" method="post">
         <div class="view">
-            <h3 th:text="${noticePopUp?.noticeTitle}"></h3>
+            <h4 th:text="${noticePopUp?.noticeTitle}"></h4>
             <div class="row-right">
                 <span id="spanCreateDt" th:text="${noticePopUp?.createDt}"></span>
                 <span class="vertical-bar"></span>
-                <span sec:authentication="details.userName"></span>
+                <span id="spanUserName" th:text="${noticePopUp?.aliceUserEntity.userName}"></span>
             </div>
             <div class="horizontal-bar"></div>
             <div class="view-text"><span th:text="${noticePopUp?.noticeContents}"></span></div>
