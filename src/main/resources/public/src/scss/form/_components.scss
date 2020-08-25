@@ -88,13 +88,14 @@
 
             textarea {
                 width: 100%;
+                height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
                 padding: $component-indent-padding-left;
             }
 
             .editor-container { // text editor
                 height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
             }
-            
+
             select {
                 min-width: 17.19rem; // 275px
                 padding-left: $component-indent-padding-left;

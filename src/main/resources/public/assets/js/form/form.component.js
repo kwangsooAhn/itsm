@@ -143,7 +143,7 @@
                         ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}">` +
                         `</div>` +
                     `</div>` : 
-                    `<textarea placeholder="${property.display.placeholder}" rows="${property.display.rows}"` +
+                    `<textarea placeholder="${property.display.placeholder}" rows="${property.display.rows}" style="--data-row: ${property.display.rows};"` +
                     `${displayType === 'editableRequired' ? ' required' : ''}` +
                     ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}">${defaultValue}` +
                     `</textarea>`}` +

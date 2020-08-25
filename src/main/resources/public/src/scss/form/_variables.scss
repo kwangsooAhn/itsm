@@ -75,7 +75,7 @@ $input-range-round-bg-color: $white;
 // textarea
 $textarea-font-size:         16px;
 $textarea-font-weight:       400; // regular
-$textarea-line-height:       24px;
+$textarea-line-height:       16px;
 $textarea-font-color:        $dark-gray;
 $textarea-border:            0.0625rem solid $line-gray;
 $textarea-bg-color:          $white;
@@ -100,7 +100,7 @@ $quill-toolbar-font-weight:      500; // medium
 $quill-toolbar-font-color:       $light-black;
 $quill-toolbar-pressed-color:    $point-blue;
 $quill-toolbar-pressed-bg-color: $line-gray;
-$quill-toolbar-hover-color:      $dark-gray;
+$quill-toolbar-hover-color:      $light-black;
 $quill-toolbar-hover-bg-color:   rgba(135, 206, 255, 0.1);
 
 // select
