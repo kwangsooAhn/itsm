@@ -34,7 +34,7 @@
             <button class="point-fill" th:if="${formInfo?.id}" sec:authorize="hasAuthority('form.update')"
                     th:disabled="${!formInfo?.editable}"
                     th:attr="onclick=|saveForm('${formInfo?.id}')|" th:text="#{common.btn.modify}"></button>
-            <button th:if="${formInfo?.id}" sec:authorize="hasAuthority('form.delete')"
+            <button class="default-fill" th:if="${formInfo?.id}" sec:authorize="hasAuthority('form.delete')"
                     th:disabled="${!formInfo?.editable}"
                     th:attr="onclick=|deleteForm('${formInfo?.id}')|" th:text="#{common.btn.delete}"></button>
             <button class="default-fill" th:attr="onclick=|window.close()|" th:text="#{common.btn.close}"></button>
