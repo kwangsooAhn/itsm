@@ -411,7 +411,7 @@ DROP TABLE IF EXISTS awf_file_name_extension cascade;
 CREATE TABLE awf_file_name_extension
 (
 	file_name_extension varchar(128) NOT NULL,
-    file_content_type varchar(128) NOT NULL,
+	file_content_type varchar(128) NOT NULL,
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -429,9 +429,9 @@ COMMENT ON COLUMN awf_file_name_extension.update_dt IS '수정일시';
 
 insert into awf_file_name_extension values ('TXT', 'text/plain', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('PDF', 'application/pdf', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('JPG', 'application/jpeg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('JPEG', 'application/jpeg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('PNG', 'application/png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('JPG', 'image/jpeg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('JPEG', 'image/jpeg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('PNG', 'image/png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('DOC', 'application/msword', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('DOCX', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('XLS', 'application/vnd.ms-excel', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
