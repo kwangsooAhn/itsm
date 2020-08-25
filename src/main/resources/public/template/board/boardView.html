@@ -84,11 +84,9 @@
         const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
         const boardCreateDt = document.getElementById('spanCreateDt');
-        const boardUpdateDt = document.getElementById('spanUpdateDt');
 
         window.onload = function() {
             boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
-            boardUpdateDt.textContent = i18n.userDateTime(boardUpdateDt.textContent);
 
             if (attachYn) {
                 fileUploader.init({extra: {formId: 'frm', ownId: boardId, editor: false}});
