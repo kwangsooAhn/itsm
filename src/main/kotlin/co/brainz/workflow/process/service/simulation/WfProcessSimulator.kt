@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.process.service.simulation
 
 import co.brainz.framework.exception.AliceErrorConstants
@@ -6,6 +10,8 @@ import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementRepository
+import co.brainz.workflow.process.dto.SimulationReport
+import co.brainz.workflow.process.dto.SimulationReportDto
 import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.process.service.simulation.element.impl.WfProcessSimulationArrow
 import co.brainz.workflow.process.service.simulation.element.impl.WfProcessSimulationEvent
@@ -32,6 +38,61 @@ class WfProcessSimulator(
     private lateinit var allElementEntitiesInProcess: List<WfElementEntity>
     private lateinit var removedDuplicationElements: MutableSet<WfElementEntity>
     private lateinit var processMessage: StringBuilder
+    private lateinit var simulationReportDto: SimulationReportDto
+
+    /**
+     * [processId] 에 해당하는 프로세스 시뮬레이션을 실행한다.
+     */
+    fun getProcessSimulation(processId: String): SimulationReportDto {
+        logger.info("Simulation start...")
+
+        val process = wfProcessRepository.getOne(processId)
+        val elementEntities = process.elementEntities
+
+        this.run(elementEntities)
+
+        logger.info(
+            "Process message - {}\nSimulation validate - All validation complete.",
+            this.processMessage.toString()
+        )
+        return simulationReportDto
+    }
+
+    /**
+     * 엘리먼트를 하나씩 찾아가면서 이상유무를 확인한다
+     */
+    private fun run(elementEntities: MutableList<WfElementEntity>) {
+        this.initialize(elementEntities)
+
+        // 시작 엘리먼트 찾기.
+        val startElement = this.getStartElement()
+        this.simulation(startElement)
+
+        var currentElement = startElement
+        while (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
+
+            // 컨넥터 가져오기.
+            val arrowElement = this.getArrowElement(currentElement)
+            this.simulation(arrowElement)
+
+            // 다음 엘리먼트 가져오기
+            currentElement = this.getTargetElement(arrowElement)
+            this.simulation(currentElement)
+
+            if (gatewayQueue.size > 0 &&
+                currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value
+            ) {
+                currentElement = gatewayQueue.pop()
+            }
+        }
+
+        // 전체 엘리먼트와 검사된 엘리먼트의 개수를 비교한다.
+        // arrowConnector의 start-id, end-id 를 가지고 연결된 라인이므로 잘 그려진 프로세스이면 사이즈는 항상 같다.
+        if (allElementEntitiesInProcess.size != removedDuplicationElements.size) {
+            logger.error("Simulation failed. size error.")
+            throw AliceException(AliceErrorConstants.ERR_00005, "Simulation failed. size error.")
+        }
+    }
 
     /**
      * 전체 엘리먼트를 저장하고 사용할 변수들을 초기화.
@@ -45,6 +106,7 @@ class WfProcessSimulator(
         }
         this.removedDuplicationElements = mutableSetOf()
         this.processMessage = StringBuilder()
+        this.simulationReportDto = SimulationReportDto()
     }
 
     /**
@@ -111,7 +173,7 @@ class WfProcessSimulator(
      *
      * 점검할 엘리먼트들[removedDuplicationElements]은 별도로 저장한다.
      */
-    private fun simulation(element: WfElementEntity): Boolean {
+    private fun simulation(element: WfElementEntity) {
         removedDuplicationElements.add(element)
 
         val simulationElement = when (WfElementConstants.ElementType.getAtomic(element.elementType)) {
@@ -136,79 +198,18 @@ class WfProcessSimulator(
 
         val result = simulationElement.validation(element)
 
-        if (!result) {
-            logger.info("Simulation failed.")
-            throw AliceException(AliceErrorConstants.ERR_00005, simulationElement.failInfo())
-        }
+        this.simulationReportDto.addSimulationReport(
+            SimulationReport(
+                result,
+                element,
+                simulationElement.getFailedMessage()
+            )
+        )
 
         processMessage.append("\n").append(element.elementType).append("-")
             .append(element.elementId)
             .append("(")
             .append(element.getElementDataValue(WfElementConstants.AttributeId.NAME.value))
             .append(")")
-
-        return result
-    }
-
-    /**
-     * 엘리먼트를 하나씩 찾아가면서 이상유무를 확인한다
-     */
-    private fun run(elementEntities: MutableList<WfElementEntity>): Boolean {
-        this.initialize(elementEntities)
-
-        // 시작 엘리먼트 찾기.
-        val startElement = this.getStartElement()
-        this.simulation(startElement)
-
-        var currentElement = startElement
-        while (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
-
-            // 컨넥터 가져오기.
-            val arrowElement = this.getArrowElement(currentElement)
-            this.simulation(arrowElement)
-
-            // 다음 엘리먼트 가져오기
-            currentElement = this.getTargetElement(arrowElement)
-            this.simulation(currentElement)
-
-            if (gatewayQueue.size > 0 &&
-                currentElement.elementType == WfElementConstants.ElementType.COMMON_END_EVENT.value
-            ) {
-                currentElement = gatewayQueue.pop()
-            }
-        }
-
-        // 전체 엘리먼트와 검사된 엘리먼트의 개수를 비교한다.
-        // arrowConnector의 start-id, end-id 를 가지고 연결된 라인이므로 잘 그려진 프로세스이면 사이즈는 항상 같다.
-        if (allElementEntitiesInProcess.size != removedDuplicationElements.size) {
-            logger.error("Simulation failed. size error.")
-            throw AliceException(AliceErrorConstants.ERR_00005, "Simulation failed. size error.")
-        }
-
-        return true
-    }
-
-    /**
-     * 프로세스 처리간 저장한 메시지 출력
-     */
-    private fun getProcessMessage(): String {
-        return this.processMessage.toString()
-    }
-
-    /**
-     * [processId] 에 해당하는 프로세스 시뮬레이션을 실행한다.
-     */
-    fun getProcessSimulation(processId: String): Boolean {
-        logger.info("Simulation start...")
-
-        val process = wfProcessRepository.getOne(processId)
-        val elementEntities = process.elementEntities
-
-        this.run(elementEntities)
-
-        logger.info(this.getProcessMessage())
-
-        logger.info("Simulation validate - All validation complete.")
-        return true
     }
 }

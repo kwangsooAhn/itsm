@@ -1,6 +1,11 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.process.controller
 
 import co.brainz.workflow.process.constants.WfProcessConstants
+import co.brainz.workflow.process.dto.SimulationReportDto
 import co.brainz.workflow.process.service.WfProcessService
 import co.brainz.workflow.provider.dto.RestTemplateProcessDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessElementDto
@@ -107,7 +112,7 @@ class WfProcessRestController(
      * [processId] 프로세스의 디자인이 정상인지 점검한다.
      */
     @GetMapping("/{processId}/simulation")
-    fun getProcessSimulation(@PathVariable processId: String): Boolean {
+    fun getProcessSimulation(@PathVariable processId: String): SimulationReportDto {
         return wfProcessService.getProcessSimulation(processId)
     }
 }
