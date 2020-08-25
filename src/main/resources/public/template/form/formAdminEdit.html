@@ -41,74 +41,78 @@
         </div>
     </div>
 </th:block>
-</body>
-<script type="text/javascript">
-    // 폼 등록
-    function saveForm(formId) {
-        // 빈 값 체크
-        if (emptyValidation()) {
-            const formInfo = {
-                name: document.getElementById('form_name').value,
-                desc: document.getElementById('form_desc').value
-            };
-            if (formId === undefined) {
-                // 등록
-                restSubmit('POST', '/rest/forms-admin', formInfo);
-            } else {
-                // 수정
-                formInfo.id = formId;
-                formInfo.status = document.getElementById('form_status').value;
-                restSubmit('PUT', '/rest/forms-admin/' + formId, formInfo);
-            }
-        }
-    }
-
-    // 빈 값 체크
-    function emptyValidation() {
-        if (isEmpty('form_name', 'form.msg.enterFormName')) {
-            return false;
-        }
-        return true;
-    }
-
-    // 폼 삭제
-    function deleteForm(formId) {
-        restSubmit('DELETE', '/rest/forms/' + formId, function(result) {
-            if (result === 'true') {
-                aliceJs.alert('[[#{common.msg.delete}]]', function() {
-                    window.close();
-                });
-            } else {
-                aliceJs.alert('[[#{form.msg.failedFormDelete}]]');
-            }
-        });
-    }
-
-    // REST API
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function(response) {
-                opener.location.reload();
-                window.close();
-                if (method === 'POST') {
-                    const _width = 1500,
-                          _height = 980;
-                    // 중앙 배치
-                    const _left = Math.ceil((window.screen.width - _width) / 2);
-                    const _top = Math.ceil((window.screen.height - _height) / 4);
-
-                    let formId = response.responseText;
-                    let specs = 'left=' + _left + ',top=' + _top;
-                    specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                    window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        // 폼 등록
+        function saveForm(formId) {
+            // 빈 값 체크
+            if (emptyValidation()) {
+                const formInfo = {
+                    name: document.getElementById('form_name').value,
+                    desc: document.getElementById('form_desc').value
+                };
+                if (formId === undefined) {
+                    // 등록
+                    restSubmit('POST', '/rest/forms-admin', formInfo);
+                } else {
+                    // 수정
+                    formInfo.id = formId;
+                    formInfo.status = document.getElementById('form_status').value;
+                    restSubmit('PUT', '/rest/forms-admin/' + formId, formInfo);
                 }
             }
-        };
-        aliceJs.sendXhr(opt);
-    }
-</script>
+        }
+
+        // 빈 값 체크
+        function emptyValidation() {
+            if (isEmpty('form_name', 'form.msg.enterFormName')) {
+                return false;
+            }
+            return true;
+        }
+
+        // 폼 삭제
+        function deleteForm(formId) {
+            restSubmit('DELETE', '/rest/forms/' + formId, function(result) {
+                if (result === 'true') {
+                    aliceJs.alert('[[#{common.msg.delete}]]', function() {
+                        window.close();
+                    });
+                } else {
+                    aliceJs.alert('[[#{form.msg.failedFormDelete}]]');
+                }
+            });
+        }
+
+        // REST API
+        function restSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    opener.location.reload();
+                    window.close();
+                    if (method === 'POST') {
+                        const _width = 1500,
+                              _height = 980;
+                        // 중앙 배치
+                        const _left = Math.ceil((window.screen.width - _width) / 2);
+                        const _top = Math.ceil((window.screen.height - _height) / 4);
+
+                        let formId = response.responseText;
+                        let specs = 'left=' + _left + ',top=' + _top;
+                        specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                        window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</body>
 </html>
