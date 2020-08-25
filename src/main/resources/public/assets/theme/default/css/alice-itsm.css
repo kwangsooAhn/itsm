@@ -553,6 +553,7 @@ span.vertical-bar {
 }
 .container-popup .header {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
+  background: #F7F8F9;
 }
 .container-popup .view {
   padding: 3.125rem 19.375rem 3.125rem 19.375rem;
@@ -841,6 +842,7 @@ span.vertical-bar {
 }
 .container .contents-view .header {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
+  background: #F7F8F9;
 }
 .container .contents-view .view {
   padding: 3.125rem 19.375rem 3.125rem 19.375rem;
