@@ -88,35 +88,13 @@
 
             textarea {
                 width: 100%;
-                padding-left: $component-indent-padding-left;
+                padding: $component-indent-padding-left;
             }
 
-            .editor-container {
-                // text editor
+            .editor-container { // text editor
                 height: calc(2.5rem * var(--data-row)); // quill editor 높이 : 40 * row 갯수
             }
-
-            .ql-snow {
-                border: $textarea-border;
-                background-color: $textarea-bg-color;
-                .ql-editor.ql-blank::before {
-                    content: attr(data-placeholder);
-                }
-            }
-
-            .quill-wrap {
-                .ql-active {
-                    border: $textarea-border !important;
-                    //4px
-                    border-radius: 0.25rem;
-                }
-                .ql-picker,
-                button {
-                    //2px 
-                    margin-right: 0.125rem;
-                }
-            }
-
+            
             select {
                 min-width: 17.19rem; // 275px
                 padding-left: $component-indent-padding-left;
@@ -135,8 +113,7 @@
                 width: 100%;
                 .picker-main {
                     width: 100%;
-                    height: 2.5rem;
-                    // 40px
+                    height: 2.5rem; // 40px
                 }
             }
 
@@ -144,9 +121,8 @@
             .field-radio {
                 margin: 0 0.625rem 0 0; // 0px 10px 0px 0px
                 span:first-of-type {
-                    padding-right: 0.4375rem;
+                    padding-right: 0.4375rem; // 7px
                 }
-                // 7px
             }
 
             //checkbox 

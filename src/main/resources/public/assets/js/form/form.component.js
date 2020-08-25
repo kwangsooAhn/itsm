@@ -160,7 +160,7 @@
             let editorOptions = {
                 modules: {
                     toolbar: [
-                        [{'header': [1, 2, 3, 4, 5, 6, false]}],
+                        [{'header': [1, 2, 3, 4, false]}],
                         ['bold', 'italic', 'underline'],
                         [{'color': []}, {'background': []}],
                         [{'align': []}, { 'list': 'bullet' }],
@@ -169,7 +169,8 @@
                 },
                 placeholder: property.display.placeholder,
                 theme: 'snow',
-                readOnly: isForm            //폼 양식 편집 화면에서는 editor를 편집할 수 없다.
+                readOnly: false
+                //readOnly: isForm            //폼 양식 편집 화면에서는 editor를 편집할 수 없다.
             };
             const editor = new Quill(editorContainer, editorOptions);
             editor.setContents(defaultValue);

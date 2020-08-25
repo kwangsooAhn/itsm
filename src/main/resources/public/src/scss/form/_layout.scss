@@ -127,13 +127,13 @@ body {
                     &[data-readonly=true] {
                         // 폼 양식 화면에서 수정을 막음
                         .dropzone,
-                        .ql-toolbar,
+                        //.ql-toolbar,
+                        //textarea,
                         button,
                         input[type=text],
                         label.checkbox-group,
                         label.radio-group,
-                        select,
-                        textarea {
+                        select {
                             pointer-events: none;
                         }
                         .component .move-handler {

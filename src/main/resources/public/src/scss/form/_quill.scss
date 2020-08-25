@@ -1,0 +1,102 @@
+/**
+ * Customize Quill Editor v1.3.6
+ * https://quilljs.com/
+ *
+ * @author woodajung
+ * @version 1.0
+ */
+
+ /*.quill-wrap {
+  .ql-active {
+      border: $textarea-border !important; //4px
+      border-radius: 0.25rem;
+  }
+  .ql-picker,
+  button { //2px 
+      margin-right: 0.125rem;
+  }
+}*/
+
+.ql-toolbar {
+    &.ql-snow {
+        font-family: $font-family;
+        font-size: $quill-toolbar-font-size;
+        padding: 0;
+        border: $quill-border;
+        background-color: $quill-bg-color;
+        .ql-formats {
+            margin: 0;
+            padding: 0;
+            span {
+                color: $quill-toolbar-font-color;
+                font-size: $quill-toolbar-font-size;
+                font-weight: $quill-toolbar-font-weight;
+            }
+            .ql-header {
+                width: 120px; // 120px
+                height: 40px; // 40px
+                .ql-picker-label {
+                    padding: 7px 0 7px 10px; // 7px 0 7px 10px
+                    &:hover,
+                    &:focus {
+                        color: $quill-toolbar-hover-color;
+                        background-color: $quill-toolbar-pressed-bg-color;
+                    }
+                    &.ql-active {
+                        color: $quill-toolbar-hover-color;
+                    }
+                    &:not(.ql-color-picker):not(.ql-icon-picker) svg { // 화살표 아이콘
+                      margin: auto;
+                  }
+                }
+                .ql-picker-options {
+                    box-shadow: 0 0 0.3125rem 0 $line-gray;
+                    .ql-picker-item[data-value="1"]::before { font-size: 2em; }
+                    .ql-picker-item[data-value="2"]::before { font-size: 1.5em; }
+                    .ql-picker-item[data-value="3"]::before { font-size: 1.17em; }
+                    .ql-picker-item[data-value="4"]::before { font-size: 0.83em; }
+                }
+                &.ql-expanded {
+                    .ql-picker-label {
+                        border-color: transparent;
+                        color: $quill-toolbar-font-color;
+                    }
+                    .ql-picker-options {
+                        border-color: $line-gray;
+                        .ql-picker-item {
+                            &.ql-selected {
+                                color: $quill-toolbar-pressed-color;
+                            }
+                            &:hover {
+                                color: $quill-toolbar-hover-color;
+                                background-color: $quill-toolbar-hover-bg-color;
+                            }
+                        }
+                    }
+                }
+            }
+            button {
+              padding: 0;
+              width: 45px; // 45px
+              height: 40px; // 40px
+            }
+        }
+    }
+}
+.ql-container {
+    &.ql-snow {
+      font-family: $font-family;
+      font-size: $quill-font-size;
+      border: $quill-border;
+      background-color: $quill-bg-color;
+      .ql-editor {
+            color: $quill-font-color;
+            line-height: $quill-line-height;
+            padding: 10px;
+            @include scrollbar-hidden; // 스크롤 숨김
+            .ql-blank::before {
+                content: attr(data-placeholder);
+            }
+        }
+    }
+}
