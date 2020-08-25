@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.process.service.simulation.element.impl
 
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -45,14 +49,14 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
                         element.getElementDataValue(WfElementConstants.AttributeId.ACTION_VALUE.value)?.isBlank()
                             ?: true
                     if (!(!isName && !isValue)) {
-                        return setFailedMessage("Check the action name and value.")
+                        return failed("Check the action name and value.")
                     }
                 }
                 WfElementConstants.ConnectorConditionValue.CONDITION.value -> {
                     // connector 에 기본경로가 체크되어 있는지 확인하고 체크되어 있지 않은 경우 값이 존재하는지 확인한다.
                     checkedDefaultConditionTotal = checkedDefaultConditionCount(element, checkedDefaultConditionTotal)
                     if (checkedDefaultConditionTotal == 0 && currentConnectorValue.isBlank()) {
-                        return setFailedMessage("Connector value is empty.")
+                        return failed("Connector value is empty.")
                     }
                 }
             }
@@ -65,7 +69,7 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
                 // 현재 connector 값과 나머지 connector 값이 중복되었는지 확인한다.
                 val otherConnectorValue = it.getElementDataValue(arrowConnectorElementAttributeId) ?: ""
                 if (currentConnectorValue == otherConnectorValue) {
-                    return setFailedMessage("Connector value was duplicated.")
+                    return failed("Connector value was duplicated.")
                 }
                 // 체크된 기본경로가 있는지 확인하여 카운팅한다.
                 checkedDefaultConditionTotal = checkedDefaultConditionCount(it, checkedDefaultConditionTotal)
@@ -73,15 +77,17 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
 
             // 체크된 기본경로 값은 0 또는 1개여야한다. (action은 무조건 pass)
             if (checkedDefaultConditionTotal > 1) {
-                return setFailedMessage("Default connector checked should be one." +
-                        " If action then all checks should be unchecked.")
+                return failed(
+                    "Default connector checked should be one." +
+                            " If action then all checks should be unchecked."
+                )
             }
         }
         return true
     }
 
-    override fun failInfo(): String {
-        return "Arrow connector simulation failed. $elementInformation"
+    override fun failedMessage(): String {
+        return "Arrow connector simulation failed. $simulationFailedMsg"
     }
 
     /**
