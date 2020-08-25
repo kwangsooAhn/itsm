@@ -32,5 +32,5 @@ interface NoticeRepository : JpaRepository<NoticeEntity, String>, NoticeReposito
         name = "portalSearchMapping",
         nativeQuery = true
     )
-    fun findPortalListOrSearchList(searchValue: String, pageable: Pageable?): MutableList<PortalDto>
+    fun findPortalListOrSearchList(searchValue: String): MutableList<PortalDto>
 }

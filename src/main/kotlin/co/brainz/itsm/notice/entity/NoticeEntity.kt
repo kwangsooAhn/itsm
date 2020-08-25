@@ -41,7 +41,9 @@ import org.hibernate.annotations.GenericGenerator
 
 @NamedNativeQuery(
     name = "portalSearchMapping",
-    query = "select notice_title as portal_title, notice_contents as portal_content, " +
+    query = "select portal_title, portal_content, create_dt, update_dt, table_name " +
+            "from (" +
+            "select notice_title as portal_title, notice_contents as portal_content, " +
             "create_dt, update_dt, 'notice' table_name " +
             "from portal_notice " +
             "where (lower(notice_title) like lower(concat('%', :searchValue, '%'))) " +
@@ -53,7 +55,8 @@ import org.hibernate.annotations.GenericGenerator
             "select download_title, download_category, create_dt, update_dt, 'download' table_name " +
             "from awf_download " +
             "where (lower(download_title) like lower(concat('%', :searchValue, '%'))) " +
-            "order by create_dt desc",
+            ") as portal "+
+            "order by create_dt desc limit 10 offset 20",
     resultSetMapping = "portalSearchMapping",
     resultClass = PortalDto::class
 )

@@ -31,17 +31,17 @@ class PortalService(
     /**
      * 포탈 리스트 , 포탈 검색 리스트
      */
-    fun findPortalListOrSearchList(portalSearchDto: PortalSearchDto, pageableValue: Pageable): MutableList<PortalDto> {
+    fun findPortalListOrSearchList(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
 
-        var pageable = pageableValue
+       /* var pageable = pageableValue
         val page = if (pageable.pageNumber == 0) 0 else pageable.pageNumber
-        pageable = PageRequest.of(page, 10)
+        pageable = PageRequest.of(page, 10)*/
 
-        return noticeRepository.findPortalListOrSearchList(portalSearchDto.searchValue, pageable)
+        return noticeRepository.findPortalListOrSearchList(portalSearchDto.searchValue)
     }
 
     fun findTotalCount(portalSearchDto: PortalSearchDto): Int {
-        return noticeRepository.findPortalListOrSearchList(portalSearchDto.searchValue, null).size
+        return noticeRepository.findPortalListOrSearchList(portalSearchDto.searchValue).size
     }
 
     fun getTopList(limit: Long): LinkedHashMap<String, Any> {
