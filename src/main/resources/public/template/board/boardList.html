@@ -5,44 +5,35 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div class="scroller-wrap">
-    <table>
-        <thead>
-        <tr>
-            <th style="width:10%;" th:text="#{board.label.number}"></th>
-            <th style="width:15%;" th:text="#{board.label.category}"></th>
-            <th style="width:30%;" th:text="#{common.label.title}"></th>
-            <th style="width:10%;" th:text="#{board.label.commentCount}"></th>
-            <th style="width:10%;" th:text="#{board.label.readCount}"></th>
-            <th style="width:10%;" th:text="#{common.label.writer}"></th>
-            <th style="width:15%;" th:text="#{common.label.writeDate}"></th>
-        </tr>
-        </thead>
-        <tbody id="list-body">
-        <tr class="no-data-found" th:if="${#arrays.isEmpty(boardList)}">
-            <td colspan="7" th:text="#{common.msg.noData}"></td>
-        </tr>
-        <tr th:each="board : ${boardList}">
-            <td style="width:10%;" th:text="${board.boardSeq}"></td>
-            <td style="width:15%;" th:text="${board.boardCategoryName}"></td>
-            <td style="width:30%;" class="align-left">
-                <a th:href="@{/boards/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
-            </td>
-            <td style="width:10%;" th:text="${board.replyCount}"></td>
-            <td style="width:10%;" th:text="${board.readCount}"></td>
-            <td style="width:10%;" th:text="${board.createUserName}"></td>
-            <td style="width:15%;" th:text="${board.createDt}" th:name="boardDt"></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-<!--
- * 2020-08-23 Jung Hee Chan
- * 현재 디자인에서는 건수가 없음. 필요하면 사용하기로 하고 일단 주석 처리
--->
-<!--<div class="search-area-right">
-    <span class="total-count" id="totalCount" th:text="${boardCount}"></span>
-    <span class="total-count" th:text="#{common.label.totalCount}"></span>
-</div>-->
+<table>
+    <thead>
+    <tr>
+        <th style="width:10%;" th:text="#{board.label.number}"></th>
+        <th style="width:15%;" th:text="#{board.label.category}"></th>
+        <th style="width:30%;" th:text="#{common.label.title}"></th>
+        <th style="width:10%;" th:text="#{board.label.commentCount}"></th>
+        <th style="width:10%;" th:text="#{board.label.readCount}"></th>
+        <th style="width:10%;" th:text="#{common.label.writer}"></th>
+        <th style="width:15%;" th:text="#{common.label.writeDate}"></th>
+    </tr>
+    </thead>
+    <tbody class="list-body">
+    <input type="hidden" id="totalCount" th:value="${boardCount}"/>
+    <tr class="no-data-found" th:if="${#arrays.isEmpty(boardList)}">
+        <td colspan="7" th:text="#{common.msg.noData}"></td>
+    </tr>
+    <tr th:each="board : ${boardList}">
+        <td style="width:10%;" th:text="${board.boardSeq}"></td>
+        <td style="width:15%;" th:text="${board.boardCategoryName}"></td>
+        <td style="width:30%;" class="align-left">
+            <a th:href="@{/boards/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
+        </td>
+        <td style="width:10%;" th:text="${board.replyCount}"></td>
+        <td style="width:10%;" th:text="${board.readCount}"></td>
+        <td style="width:10%;" th:text="${board.createUserName}"></td>
+        <td style="width:15%;" th:text="${board.createDt}" th:name="boardDt"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

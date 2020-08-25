@@ -7,13 +7,13 @@
 package co.brainz.itsm.board.repository.querydsl
 
 import co.brainz.itsm.board.dto.BoardDto
+import co.brainz.itsm.board.dto.BoardListDto
 import co.brainz.itsm.board.entity.PortalBoardEntity
 import co.brainz.itsm.board.entity.QPortalBoardCommentEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
 import co.brainz.itsm.board.entity.QPortalBoardReadEntity
 import co.brainz.itsm.boardAdmin.entity.QPortalBoardCategoryEntity
 import co.brainz.itsm.constants.ItsmConstants
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions
@@ -29,12 +29,12 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
-    ): QueryResults<BoardDto> {
+    ): List<BoardListDto> {
         val board = QPortalBoardEntity.portalBoardEntity
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
         val comment = QPortalBoardCommentEntity("comment")
-        return from(board)
+        val query = from(board)
             .select(
                 Projections.constructor(
                     BoardDto::class.java,
@@ -69,5 +69,25 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
             .offset(offset)
             .fetchResults()
+
+        val boardList = mutableListOf<BoardListDto>()
+        for (data in query.results) {
+            val boardListDto = BoardListDto(
+                boardId = data.boardId,
+                boardAdminId = data.boardAdminId,
+                boardCategoryName = data.boardCategoryName,
+                boardSeq = data.boardSeq,
+                boardGroupId = data.boardGroupId,
+                boardLevelId = data.boardLevelId,
+                boardTitle = data.boardTitle,
+                replyCount = data.replyCount,
+                readCount = data.readCount,
+                totalCount = query.total,
+                createDt = data.createDt,
+                createUserName = data.createUser?.userName
+            )
+            boardList.add(boardListDto)
+        }
+        return boardList.toList()
     }
 }

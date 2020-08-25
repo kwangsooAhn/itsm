@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.customCode.service
 
 import co.brainz.itsm.code.repository.CodeRepository
@@ -7,6 +13,7 @@ import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeColumnDto
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
+import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.dto.CustomCodeTableDto
 import co.brainz.itsm.customCode.entity.CustomCodeColumnEntity
 import co.brainz.itsm.customCode.entity.CustomCodeColumnPk
@@ -52,20 +59,8 @@ class CustomCodeService(
      *
      * @return MutableList<CustomCodeDto>
      */
-    fun getCustomCodeList(): List<CustomCodeDto> {
-        val customCodeEntityList = customCodeRepository.findByOrderByCustomCodeNameAsc()
-        val customCodeList = mutableListOf<CustomCodeDto>()
-        val customCodeTableList = getCustomCodeTableList()
-        for (customCodeEntity in customCodeEntityList) {
-            val customCode = customCodeMapper.toCustomCodeDto(customCodeEntity)
-            customCodeTableList.forEach {
-                if (customCode.targetTable == it.customCodeTable) {
-                    customCode.targetTableName = it.customCodeTableName
-                }
-            }
-            customCodeList.add(customCode)
-        }
-        return customCodeList
+    fun getCustomCodeList(offset: Long): List<CustomCodeListDto> {
+        return customCodeRepository.findByCustomCodeList(offset)
     }
 
     /**

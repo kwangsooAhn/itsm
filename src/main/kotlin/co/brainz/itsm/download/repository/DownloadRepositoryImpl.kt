@@ -39,11 +39,11 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         }
 
         val queryResult: QueryResults<DownloadEntity> = query.where(
-            download.downloadTitle.containsIgnoreCase(search)
-                .or(fileLoc.originName.containsIgnoreCase(search))
-                .or(download.createUser.userName.containsIgnoreCase(search))
-                .and(download.createDt.goe(fromDt))
-                .and(download.createDt.lt(toDt))
+            super.likeIgnoreCase(
+                download.downloadTitle, search
+            )?.or(super.likeIgnoreCase(fileLoc.originName, search))
+                ?.or(super.likeIgnoreCase(download.createUser.userName, search)),
+            download.createDt.goe(fromDt), download.createDt.lt(toDt)
         ).orderBy(download.downloadSeq.desc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
             .offset(offset)

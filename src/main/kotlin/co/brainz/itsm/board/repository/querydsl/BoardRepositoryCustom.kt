@@ -7,8 +7,7 @@
 package co.brainz.itsm.board.repository.querydsl
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
-import co.brainz.itsm.board.dto.BoardDto
-import com.querydsl.core.QueryResults
+import co.brainz.itsm.board.dto.BoardListDto
 import java.time.LocalDateTime
 
 interface BoardRepositoryCustom : AliceRepositoryCustom {
@@ -18,5 +17,5 @@ interface BoardRepositoryCustom : AliceRepositoryCustom {
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
-    ): QueryResults<BoardDto>
+    ): List<BoardListDto>
 }

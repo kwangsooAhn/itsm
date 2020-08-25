@@ -28,8 +28,8 @@ class AliceLoginController(
     private val aliceIpVerificationService: AliceIpVerificationService
 ) {
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    private val tokenSearchPage: String = "/tokens/search"
     private val invalidSessionPage: String = "/sessionInvalid"
+    private val layoutPage: String = "/layout"
 
     @Value("\${ip.access.control}")
     lateinit var ipAccessControlValue: String
@@ -93,7 +93,7 @@ class AliceLoginController(
             aliceUserEntity = userDetailsService.loadUserByUsername(securityContext.authentication.principal.toString())
             logger.debug("login info {}", aliceUserEntity)
             request.removeAttribute(AliceConstants.RsaKey.USE_RSA.value)
-            page = "redirect:$tokenSearchPage"
+            page = "redirect:$layoutPage"
         }
 
         return page

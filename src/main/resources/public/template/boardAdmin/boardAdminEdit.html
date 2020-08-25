@@ -129,6 +129,9 @@
         <div align="right">
             <button style="margin-right: 5px;" onclick="location.href='/board-admin/search'" th:text="#{common.btn.list}"></button>
             <button th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')" th:text="#{common.btn.modify}"></button>
+            <button th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin('${boardAdmin.boardAdminId}')"
+                    th:disabled="${!boardAdmin.enabled}"
+                    th:text="#{common.btn.delete}"></button>
             <button th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')" th:text="#{common.btn.save}"></button>
         </div>
     </div>
@@ -165,6 +168,11 @@
                     document.getElementById('attachFileSize').value = 0;
                 }
             }
+        }
+
+        //게시판 관리 삭제
+        function deleteBoardAdmin(boardAdminId) {
+            restSubmit('delete', '/rest/board-admin/' + boardAdminId);
         }
 
         //게시판 관리 저장

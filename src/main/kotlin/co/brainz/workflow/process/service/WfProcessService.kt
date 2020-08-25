@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.process.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
@@ -8,6 +12,7 @@ import co.brainz.workflow.element.entity.WfElementDataEntity
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.entity.WfElementScriptDataEntity
 import co.brainz.workflow.process.constants.WfProcessConstants
+import co.brainz.workflow.process.dto.SimulationReportDto
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.process.mapper.WfProcessMapper
 import co.brainz.workflow.process.repository.WfProcessRepository
@@ -384,7 +389,7 @@ class WfProcessService(
     /**
      * [processId] 에 해당하는 프로세스 시뮬레이션을 실행한다.
      */
-    fun getProcessSimulation(processId: String): Boolean {
+    fun getProcessSimulation(processId: String): SimulationReportDto {
         return wfProcessSimulator.getProcessSimulation(processId)
     }
 

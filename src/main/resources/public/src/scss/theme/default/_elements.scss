@@ -11,12 +11,23 @@ h1 {
     padding: 0.625rem 0 .625rem .3125rem; // 10px 0 10px 5px
 }
 h2 {@include h2();}
-h3 {@include h3();}
+h3 {
+    @include h3();
+}
 h4 {@include h4();}
 h5 {@include h5();}
 h6 {
     @include h6();
     padding: 0 0 0 .625rem; // 10px
+}
+
+.under-bar {
+    padding-bottom: 0.625rem; // 10px
+    margin-bottom: 0.625rem; //10px
+    border-bottom: 0.125rem solid $default-gray; // 2px
+    :first-child {
+        margin-top: 0;
+    }
 }
 
 span {margin: auto 0;}
@@ -100,6 +111,10 @@ input {
         &:checked {
             background-color: $white;
         }
+    }
+    &[type=radio] {
+        margin-right: 0.625rem; // 10px
+        height: auto;
     }
 }
 

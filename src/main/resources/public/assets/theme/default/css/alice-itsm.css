@@ -177,6 +177,15 @@ h6 {
   padding: 0 0 0 0.625rem;
 }
 
+.under-bar {
+  padding-bottom: 0.625rem;
+  margin-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+.under-bar :first-child {
+  margin-top: 0;
+}
+
 span {
   margin: auto 0;
 }
@@ -267,6 +276,10 @@ input[type=checkbox] {
 }
 input[type=checkbox]:checked {
   background-color: #FFFFFF;
+}
+input[type=radio] {
+  margin-right: 0.625rem;
+  height: auto;
 }
 
 label {
@@ -447,10 +460,26 @@ textarea:focus {
   text-align: center;
 }
 
+.horizontal-bar {
+  height: 0.0625rem;
+  margin: 0.625rem 0;
+  background-color: #EBEBEB;
+}
+
 .btn-bar {
   padding: 0.625rem 0 0 0;
   display: flex;
   justify-content: flex-end;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.radio-row {
+  display: flex;
 }
 
 span.vertical-bar {
@@ -462,6 +491,24 @@ span.vertical-bar {
 
 .title-description {
   padding-left: 0.625rem;
+}
+
+.avatar {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
+}
+.avatar-text {
+  text-align: center;
+}
+.avatar-bottom-text-wrap {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+.avatar-bottom-text {
+  margin-bottom: 0.3125rem;
 }
 
 .container {
@@ -495,11 +542,6 @@ span.vertical-bar {
 .container-popup .view div.view-attach-file {
   min-height: 3.125rem;
   padding: 0.125rem 1.25rem;
-}
-.container-popup .view div.horizontal-bar {
-  height: 0.0625rem;
-  margin: 0.625rem 0;
-  background-color: #EBEBEB;
 }
 .container-popup .view {
   padding: 0;
@@ -654,13 +696,16 @@ span.vertical-bar {
   background: #F7F8F9;
   display: flex;
   flex-direction: column;
+  background-color: white;
 }
 .container .contents-edit .header {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
+  background: #F7F8F9;
 }
 .container .contents-edit .edit {
-  padding: 3.125rem 22.5rem 0 22.5rem;
-  background-color: white;
+  padding-top: 3.125rem;
+  width: 61.25rem;
+  margin: auto;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -675,10 +720,6 @@ span.vertical-bar {
   overflow: auto;
   padding: 0 1.875rem 0 4.0625rem;
 }
-.container .contents-edit .edit .row {
-  display: flex;
-  justify-content: space-between;
-}
 .container .contents-edit .edit .form-set {
   display: flex;
   flex-direction: column;
@@ -691,6 +732,10 @@ span.vertical-bar {
 }
 .container .contents-edit .edit .form-set label {
   font-weight: 500;
+  margin-left: 1.25rem;
+}
+.container .contents-edit .edit .form-set label:first-child {
+  margin-left: 0;
 }
 .container .contents-edit .edit .form-set .checkbox-list {
   height: 13.5rem;
@@ -735,11 +780,6 @@ span.vertical-bar {
 .container .contents-view .view div.view-attach-file {
   min-height: 3.125rem;
   padding: 0.125rem 1.25rem;
-}
-.container .contents-view .view div.horizontal-bar {
-  height: 0.0625rem;
-  margin: 0.625rem 0;
-  background-color: #EBEBEB;
 }
 .container .contents-list-edit {
   height: 100vh;
@@ -993,36 +1033,6 @@ span.vertical-bar {
   background-color: #0050ff;
   color: white;
 }
-.container .contents .contents-body .edit-area .avatar-section {
-  float: right;
-  margin-top: 8px;
-  font-size: 13px;
-  background: white no-repeat center 53px;
-  background-color: #FDFDFD;
-}
-.container .contents .contents-body .edit-area .avatar-section-wrap {
-  float: right;
-  margin-top: 37px;
-}
-.container .contents .contents-body .edit-area .avatar-title {
-  display: block;
-  font-size: 14px;
-}
-.container .contents .contents-body .edit-area .avatar-text {
-  display: block;
-  text-align: center;
-  font-size: 13px;
-  color: #7A8594;
-}
-.container .contents .contents-body .edit-area .avatar-bottom-text-wrap {
-  display: block;
-  margin-top: 20rem;
-  font-size: 13px;
-}
-.container .contents .contents-body .edit-area .avatar-far-bottom-text {
-  display: block;
-  margin-top: 8px;
-}
 .container .contents .contents-body .edit-area .browse-link {
   text-decoration: underline;
   color: #0050ff;
@@ -1133,6 +1143,9 @@ span.vertical-bar {
 }
 .container .contents .list table tr td:first-child {
   width: 30px;
+}
+.container .contents .list table tr td button {
+  font-size: 13px;
 }
 .container .contents .list table tr:hover {
   background: rgba(0, 80, 255, 0.05);
@@ -2858,6 +2871,36 @@ button.point-fill:not(:disabled):active {
 button.point-fill:not(:disabled):focus, button.point-fill:not(:disabled):hover {
   outline: 0;
   background-color: #33ADFF;
+}
+button.plus {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #0098FF;
+  background: white url("../icons/icon_add.svg") no-repeat center center;
+  padding: 0;
+}
+button.plus:not(:disabled):active {
+  background-color: #33ADFF;
+  opacity: 0.3;
+}
+button.plus:not(:disabled):focus, button.plus:not(:disabled):hover {
+  outline: 0;
+  background-color: rgba(0, 152, 255, 0.1);
+}
+button.minus {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #EBEBEB;
+  background: white url("../icons/icon_minus.svg") no-repeat center center;
+  padding: 0;
+}
+button.minus:not(:disabled):active {
+  background-color: #EBEBEB;
+  border: 0.0625rem solid #CCCED1;
+}
+button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
+  outline: 0;
+  background-color: rgba(230, 230, 230, 0.3);
 }
 
 .align-center {

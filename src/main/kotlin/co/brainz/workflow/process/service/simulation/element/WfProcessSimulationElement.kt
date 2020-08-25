@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.process.service.simulation.element
 
 import co.brainz.workflow.element.entity.WfElementDataEntity
@@ -13,14 +17,14 @@ import org.slf4j.LoggerFactory
 abstract class WfProcessSimulationElement {
 
     protected val logger: Logger = LoggerFactory.getLogger(this::class.java)
-    protected var elementInformation = ""
+    protected var simulationFailedMsg = ""
 
     /**
      * 에러시 공통 처리
      */
-    protected fun setFailedMessage(failedMessage: String): Boolean {
-        elementInformation = "$failedMessage $elementInformation"
-        logger.error("{}", elementInformation)
+    protected fun failed(failedMessage: String): Boolean {
+        this.simulationFailedMsg = failedMessage
+        logger.error("{}", this.simulationFailedMsg)
         return false
     }
 
@@ -45,7 +49,7 @@ abstract class WfProcessSimulationElement {
     private fun requiredValueVerification(elementData: List<WfElementDataEntity>): Boolean {
         elementData.forEach {
             if (it.attributeRequired && it.attributeValue.isEmpty()) {
-                return setFailedMessage("Required value is empty.")
+                return failed("Required value is empty.")
             }
         }
         return true
@@ -58,13 +62,19 @@ abstract class WfProcessSimulationElement {
         val elementId = element.elementId
         val elementName = element.elementName
         logger.info("Simulation validate - ElementId:{}, ElementName:{}", elementId, elementName)
-        elementInformation = "<br>ElementId: $elementId <br>ElementName: $elementName"
 
         if (!validate(element)) {
             return false
         }
 
         return this.requiredValueVerification(element.elementDataEntities)
+    }
+
+    fun getFailedMessage(): String {
+        if (this.simulationFailedMsg.isEmpty()) {
+            return ""
+        }
+        return failedMessage()
     }
 
     /**
@@ -75,5 +85,5 @@ abstract class WfProcessSimulationElement {
     /**
      * 엘리먼트 검증 실패시 관련 정보 리턴하기
      */
-    abstract fun failInfo(): String
+    abstract fun failedMessage(): String
 }

@@ -30,7 +30,7 @@
                        th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}"></a>
                 </td>
                 <td width="5%" th:if="${topNotice.popYn}">
-                    <a th:attr="onclick=|openPopUp('${topNotice.noticeNo}')|">
+                    <a th:attr="onclick=|openPopUp('${topNotice.noticeNo}', '${topNotice.popWidth}', '${topNotice.popHeight}')|">
                         <img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_popup.svg'">
                     </a>
                 </td>
@@ -48,7 +48,7 @@
                        th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}"></a>
                 </td>
                 <td width="5%" th:if="${notice.popYn}">
-                    <a th:attr="onclick=|openPopUp('${notice.noticeNo}')|">
+                    <a th:attr="onclick=|openPopUp('${notice.noticeNo}', '${notice.popWidth}', '${notice.popHeight}')|">
                         <img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_popup.svg'">
                     </a>
                 </td>
