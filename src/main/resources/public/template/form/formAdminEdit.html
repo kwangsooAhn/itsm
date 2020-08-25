@@ -1,63 +1,46 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/popupLayout">
 <head>
     <title th:if="${formInfo?.id}" th:text="#{form.label.edit}"></title>
     <title th:if="!${formInfo?.id}" th:text="#{form.label.create}"></title>
-    <th:block th:replace="layout/fragments/commonHead"></th:block>
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
-    <!-- 임시 style -->
-    <style>
-        table th {
-            text-align: left;
-        }
-        table td > input, textarea, select {
-            width: 500px;
-        }
-    </style>
 </head>
 <body>
-    <div style="margin: 10px 0 0 10px;">
-        <table>
-            <tr>
-                <td>
-                    <input type="hidden" id="form_status" th:value="${formInfo?.status}" />
-                </td>
-            </tr>
-            <tr>
-                <th th:text="|#{form.label.name} *|"></th>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" id="form_name" maxlength="50" required="required" tabindex="1"
-                           th:value="${formInfo?.name}"/>
-                </td>
-            </tr>
-            <tr>
-                <th th:text="#{form.label.description}"></th>
-            </tr>
-            <tr>
-                <td><textarea id="form_desc" style="height:100px;" maxlength="128" tabindex="2"
-                              th:text="${formInfo?.desc}"></textarea>
-                </td>
-            </tr>
-        </table>
-        <div>
-            <button th:if="!${formInfo?.id}" th:attr="onclick=|saveForm()|"
+<th:block layout:fragment="content">
+    <input type="hidden" id="form_status" th:value="${formInfo?.status}" />
+    <div class="edit">
+        <h3 class="under-bar" th:if="${formInfo?.id}" th:text="#{form.label.edit}"></h3>
+        <h3 class="under-bar" th:if="!${formInfo?.id}" th:text="#{form.label.create}"></h3>
+        <div class="form-set">
+            <label class="required" th:text="#{form.label.name}" for="form_name"></label>
+            <input type="text" id="form_name" maxlength="50" required="required" tabindex="1"
+                   th:value="${formInfo?.name}"/>
+        </div>
+        <div class="form-set">
+            <label th:text="#{form.label.description}" for="form_desc"></label>
+            <textarea id="form_desc" maxlength="128" tabindex="2" th:text="${formInfo?.desc}"></textarea>
+        </div>
+        <div class="horizontal-bar"></div>
+        <div class="btn-bar">
+            <button class="point-fill" th:if="!${formInfo?.id}" th:attr="onclick=|saveForm()|"
                     th:text="#{common.btn.register}"></button>
-            <button th:if="${formInfo?.id}" sec:authorize="hasAnyAuthority('form.create', 'form.update')"
+            <button class="point-fill" th:if="${formInfo?.id}" sec:authorize="hasAnyAuthority('form.create', 'form.update')"
                     th:disabled="${!formInfo?.editable}"
                     th:attr="onclick=|workflowUtil.export('${formInfo?.id}', 'form')|"
                     th:text="#{form.btn.export}"></button>
-            <button th:if="${formInfo?.id}" sec:authorize="hasAuthority('form.update')"
+            <button class="point-fill" th:if="${formInfo?.id}" sec:authorize="hasAuthority('form.update')"
                     th:disabled="${!formInfo?.editable}"
                     th:attr="onclick=|saveForm('${formInfo?.id}')|" th:text="#{common.btn.modify}"></button>
             <button th:if="${formInfo?.id}" sec:authorize="hasAuthority('form.delete')"
                     th:disabled="${!formInfo?.editable}"
                     th:attr="onclick=|deleteForm('${formInfo?.id}')|" th:text="#{common.btn.delete}"></button>
-            <button th:attr="onclick=|window.close()|" th:text="#{common.btn.close}"></button>
+            <button class="default-fill" th:attr="onclick=|window.close()|" th:text="#{common.btn.close}"></button>
         </div>
     </div>
+</th:block>
 </body>
 <script type="text/javascript">
     // 폼 등록
