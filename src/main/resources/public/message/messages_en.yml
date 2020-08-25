@@ -756,6 +756,7 @@ user:
 validation:
   msg:
     checkEmailFormat: "Please enter the correct email format."
+    checkImportFormat: "Please select an IMPORT file that matches the format."
     checkRgbFormat: "Please enter the correct RGB format."
     checkUserIdFormat: "Please enter the correct userId format."
     elementNotExist: "The element does not exist."
