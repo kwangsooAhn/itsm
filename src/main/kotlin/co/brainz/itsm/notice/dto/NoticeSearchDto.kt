@@ -5,5 +5,6 @@ import java.io.Serializable
 data class NoticeSearchDto(
     val searchValue: String,
     val fromDt: String,
-    val toDt: String
+    val toDt: String,
+    val offset: Long = 0
 ) : Serializable

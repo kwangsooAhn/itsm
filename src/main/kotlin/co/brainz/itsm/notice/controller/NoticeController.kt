@@ -45,10 +45,11 @@ class NoticeController(
         val searchValue = noticeSearchDto.searchValue
         val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(noticeSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
-
-        model.addAttribute("noticeList", noticeService.findNoticeSearch(searchValue, fromDt, toDt))
+        val offset = noticeSearchDto.offset
+        val noticeResult = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset)
+        model.addAttribute("noticeList", noticeResult)
+        model.addAttribute("noticeCount", noticeResult[0].totalCount)
         model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue))
-
         return noticeListPage
     }
 

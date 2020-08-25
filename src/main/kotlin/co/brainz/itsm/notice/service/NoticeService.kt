@@ -21,28 +21,9 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeMapper: NoticeMapper = Mappers.getMapper(NoticeMapper::class.java)
 
-    fun findNoticeList(): MutableList<NoticeListDto> {
-        val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findAllByOrderByCreateDtDesc().forEach { noticeEntity ->
-            noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
-        }
-        return noticeListDto
-    }
-
-    fun findTopNoticeList(): MutableList<NoticeListDto> {
-        val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findTopNoticeList().forEach { noticeEntity ->
-            noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
-        }
-        return noticeListDto
-    }
-
-    fun findNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime): MutableList<NoticeListDto> {
-        val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findNoticeSearch(searchValue, fromDt, toDt).forEach { noticeEntity ->
-            noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
-        }
-        return noticeListDto
+    fun findNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime, offset: Long):
+            MutableList<NoticeListDto> {
+        return noticeRepository.findNoticeSearch(searchValue, fromDt, toDt, offset)
     }
 
     fun findTopNoticeSearch(searchValue: String): MutableList<NoticeListDto> {

@@ -1,6 +1,5 @@
 package co.brainz.itsm.notice.dto
 
-import co.brainz.framework.auth.entity.AliceUserEntity
 import java.io.Serializable
 import java.time.LocalDateTime
 
@@ -16,5 +15,6 @@ data class NoticeListDto(
     var popHeight: Int? = null,
     var topNoticeStrtDt: LocalDateTime? = null,
     var topNoticeEndDt: LocalDateTime? = null,
-    var aliceUserEntity: AliceUserEntity? = null
+    var totalCount: Long = 0,
+    var createUserName: String? = ""
 ) : Serializable
