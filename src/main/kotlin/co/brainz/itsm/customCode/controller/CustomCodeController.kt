@@ -1,6 +1,13 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.customCode.controller
 
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
+import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
 import co.brainz.itsm.customCode.service.CustomCodeService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -30,14 +37,15 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
     }
 
     /**
-     * 사용자 정의 코드 리스트 화면.
+     * [customCodeSearchDto, model: Model]를 받아서 사용자 정의 코드 리스트 화면[String]을 반환한다.
      *
-     * @param model
-     * @return String
      */
     @GetMapping("/list")
-    fun getCustomCodeList(model: Model): String {
-        model.addAttribute("customCodeList", customCodeService.getCustomCodeList())
+    fun getCustomCodeList(customCodeSearchDto : CustomCodeSearchDto, model: Model): String {
+        val offset = customCodeSearchDto.offset
+        val result = customCodeService.getCustomCodeList(offset)
+        model.addAttribute("customCodeList", result)
+        model.addAttribute("customCodeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return customCodeListPage
     }
 

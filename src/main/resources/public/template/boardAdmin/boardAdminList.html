@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
-<div class="scroller-wrap">
+    <input type="hidden" id="totalCount" th:value="${boardAdminCount}"/>
     <table>
         <thead>
         <tr>
@@ -16,8 +16,8 @@
             <th style="width: 15%" th:text="#{common.label.writeDate}"></th>
         </tr>
         </thead>
-        <tbody id="list">
-        <tr th:if="${#arrays.isEmpty(boardAdminList)}">
+        <tbody class="list-body">
+        <tr class="no-data-found" th:if="${#arrays.isEmpty(boardAdminList)}">
             <td colspan="5" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:each="boardAdmin: ${boardAdminList}">
@@ -38,10 +38,5 @@
         </tr>
         </tbody>
     </table>
-</div>
-<div class="search-area-right">
-    <span class="total-count" id="totalCount" th:text="${boardAdminCount}"></span>
-    <span class="total-count" th:text="#{common.label.totalCount}"></span>
-</div>
 </body>
 </html>

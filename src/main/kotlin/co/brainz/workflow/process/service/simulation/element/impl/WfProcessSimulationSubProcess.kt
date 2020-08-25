@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.process.service.simulation.element.impl
 
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -16,15 +20,15 @@ class WfProcessSimulationSubProcess(private val wfDocumentRepository: WfDocument
         // 서브프로세스 엘리먼트에는 발행상태인 프로세스가 등록되어 있어야 한다.
         val documentId = element.getElementDataValue(WfElementConstants.AttributeId.SUB_DOCUMENT_ID.value) ?: ""
         val document = wfDocumentRepository.findByDocumentId(documentId)
-            ?: return setFailedMessage("Document does not exist.")
+            ?: return failed("Document does not exist.")
 
         if (!super.checkProcessStatus(document.process.processStatus)) {
-            return setFailedMessage("process status has not published.")
+            return failed("process status has not published.")
         }
         return true
     }
 
-    override fun failInfo(): String {
-        return "Sub-process simulation failed. $elementInformation"
+    override fun failedMessage(): String {
+        return "Sub-process simulation failed. $simulationFailedMsg"
     }
 }

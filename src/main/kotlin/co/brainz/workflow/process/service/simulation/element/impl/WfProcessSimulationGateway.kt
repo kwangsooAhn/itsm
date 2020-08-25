@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.workflow.process.service.simulation.element.impl
 
 import co.brainz.workflow.element.constants.WfElementConstants
@@ -20,7 +24,7 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
             val conditionItem = element.getElementDataValue(WfElementConstants.AttributeId.CONDITION_ITEM.value)
             val emptyCondition = conditionItem?.isBlank() ?: true
             if (emptyCondition) {
-                return setFailedMessage("Condition item empty.")
+                return failed("Condition item empty.")
             }
 
             // 컨넥터들의 종류가 condition인지 action인지 확인한다.
@@ -40,21 +44,21 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
             // 컨넥터의 종류에 따라 validate 를 수행한다.
             when (connectorIsCondition + connectorIsAction) {
                 WfElementConstants.ConnectorConditionValue.NONE.value ->
-                    return setFailedMessage("There is no value of the connector.")
+                    return failed("There is no value of the connector.")
                 WfElementConstants.ConnectorConditionValue.CONDITION.value -> {
                     // connector 속성이 condition 이면 condition-item 으로 #{action} 은 사용하지 않는다.
                     if (conditionItem == WfElementConstants.AttributeValue.ACTION.value) {
-                        return setFailedMessage("The condition-item of gateway should not be action.")
+                        return failed("The condition-item of gateway should not be action.")
                     }
                 }
                 WfElementConstants.ConnectorConditionValue.ACTION.value -> {
                     // connector 속성이 action이면 condition-item 으로 #{action} 을 가져야한다.
                     if (conditionItem != WfElementConstants.AttributeValue.ACTION.value) {
-                        return setFailedMessage("The condition-item of gateway should be action.")
+                        return failed("The condition-item of gateway should be action.")
                     }
                 }
                 WfElementConstants.ConnectorConditionValue.DUPLICATION.value ->
-                    return setFailedMessage("Connector of gateway only have to choose one of condition and action.")
+                    return failed("Connector of gateway only have to choose one of condition and action.")
             }
         } else {
             // gateway 의 arrowConnector 1개이면 condition-item 은 필수값이 아니므로
@@ -69,7 +73,7 @@ class WfProcessSimulationGateway(private val wfElementRepository: WfElementRepos
         return true
     }
 
-    override fun failInfo(): String {
-        return "Gateway simulation failed. $elementInformation"
+    override fun failedMessage(): String {
+        return "Gateway simulation failed. $simulationFailedMsg"
     }
 }

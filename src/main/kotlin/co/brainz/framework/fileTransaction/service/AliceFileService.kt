@@ -97,7 +97,7 @@ class AliceFileService(
         // 파일 확장자 및 파일 media type 체크
         val fileExtensionEntity = aliceFileNameExtensionRepository.findByIdOrNull(fileNameExtension)
         if (fileExtensionEntity == null || fileExtensionEntity.fileContentType != mediaType) {
-            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension $mediaType is not allowed.")
+            throw AliceException(AliceErrorConstants.ERR_00001, "The file extension $mediaType is not allowed.")
         }
 
         multipartFile.transferTo(tempPath.toFile())
@@ -477,7 +477,7 @@ class AliceFileService(
         }
 
         if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty) {
-            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
+            throw AliceException(AliceErrorConstants.ERR_00001, "The file extension is not allowed.")
         }
 
         multipartFile.transferTo(filePath.toFile())

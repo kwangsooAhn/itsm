@@ -1,7 +1,15 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.customCode.controller
 
 import co.brainz.itsm.customCode.dto.CustomCodeDataDto
 import co.brainz.itsm.customCode.dto.CustomCodeDto
+import co.brainz.itsm.customCode.dto.CustomCodeListDto
+import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
 import co.brainz.itsm.customCode.service.CustomCodeService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -17,13 +25,13 @@ import org.springframework.web.bind.annotation.RestController
 class CustomCodeRestController(private val customCodeService: CustomCodeService) {
 
     /**
-     * 사용자 정의 코드 리스트.
+     * [CustomCodeSearchDto]를 받아서 사용자 정의 코드 리스트를 [List<CustomCodeListDto>] 반환한다.
      *
-     * @return List<CustomCodeDto>
      */
     @GetMapping("")
-    fun getCustomCodeList(): List<CustomCodeDto> {
-        return customCodeService.getCustomCodeList()
+    fun getCustomCodeList(customCodeSearchDto : CustomCodeSearchDto): List<CustomCodeListDto> {
+        val offset = customCodeSearchDto.offset
+        return customCodeService.getCustomCodeList(offset)
     }
 
     /**

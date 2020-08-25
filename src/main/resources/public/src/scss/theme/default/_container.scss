@@ -58,14 +58,25 @@
     background: $line-gray;
     td { text-align: center; }
 }
-
+.horizontal-bar {
+    height: 0.0625rem; // 1px
+    margin: 0.625rem 0; // 10px
+    background-color: $line-gray;
+}
 // 버튼 영역
 .btn-bar {
     padding: 0.625rem 0 0 0; // 10px 0 0 0
     display: flex;
     justify-content: flex-end;
 }
-
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.radio-row {
+    display: flex;
+}
 span.vertical-bar {
         width: 1.875rem; // 30px
         height: 1.875rem; // 30px
@@ -77,15 +88,70 @@ span.vertical-bar {
     padding-left: 0.625rem; // 10px
 }
 
+.avatar {
+    @include h5();
+    color: $placeholder-color;
+    &-text {
+        text-align: center;
+    }
+    &-bottom-text-wrap {
+        margin-top: 1rem;
+        display: flex;
+        flex-direction: column;
+    }
+    &-bottom-text {
+        margin-bottom: 0.3125rem; // 5px
+    }
+}
+
+.color-picker {
+    display: flex;
+    flex-direction: column;
+    .color-input {
+        display: inline-flex;
+        .selected-color {
+            width: 1.75rem; // 28px
+            height: 1.75rem; // 28px
+            margin: auto;
+            &-layer {
+                width: 2.5rem; // 40px
+                height: 2.5rem; // 40px
+                margin-right: 0.3125rem; // 5px
+                border: 0.0625rem solid $line-gray;
+                cursor: pointer;
+                display: flex;
+            }
+        }
+    }
+    .color-palette {
+        background-color: #d3d3d3;
+        width: 30rem; // 480px
+        height: 11.25rem; // 180px
+        & div {
+            display: inline-block;
+            width: 2.5rem; // 40px
+            height: 2.5rem; // 40px
+            margin: 0.3125rem;
+            cursor: pointer;
+        }
+        &-opacity {
+        }
+    }
+
+}
+
 .container {
     height: 100%;
     padding: 0 0 0 13.75rem; // 220px
 
     &-popup {
-        padding: 1.875rem 2.5rem 0 2.5rem; // 30px 20px 0 20px
+        padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
         @include view-template();
-        // view class padding 초기화
-        .view { padding: 0;}
+        @include edit-template();
+        .view, .edit {
+            padding: 0;
+            width: auto;
+        }
     }
 
     @import "contents/_contents-token.scss";
@@ -278,41 +344,7 @@ span.vertical-bar {
                     }
                 }
 
-                .avatar-section {
-                    float: right;
-                    margin-top: 8px;
-                    font-size: 13px;
-                    background: white no-repeat center 53px;
-                    background-color: #FDFDFD;
-                }
 
-                .avatar-section-wrap {
-                    float: right;
-                    margin-top: 37px;
-                }
-
-                .avatar-title {
-                    display: block;
-                    font-size: 14px;
-                }
-
-                .avatar-text {
-                    display: block;
-                    text-align: center;
-                    font-size: 13px;
-                    color: #7A8594;
-                }
-
-                .avatar-bottom-text-wrap {
-                    display: block;
-                    margin-top: 20rem;
-                    font-size: 13px;
-                }
-
-                .avatar-far-bottom-text {
-                    display: block;
-                    margin-top: 8px;
-                }
 
                 .browse-link {
                     text-decoration: underline;
@@ -447,6 +479,9 @@ span.vertical-bar {
 
                         &:first-child {
                             width: 30px;
+                        }
+                        button {
+                            font-size: 13px;
                         }
                     }
 

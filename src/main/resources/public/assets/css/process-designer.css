@@ -729,6 +729,22 @@ label {
   margin: 0;
 }
 
+.simulation-report .success {
+  font-size: 14px;
+}
+.simulation-report .details-number-of {
+  font-size: 15px;
+}
+.simulation-report .details-success {
+  font-size: 16px;
+}
+.simulation-report .details-element-id {
+  font-size: 17px;
+}
+.simulation-report .details-failed-message {
+  font-size: 20px;
+}
+
 svg {
   background-color: #f2f5fa;
 }

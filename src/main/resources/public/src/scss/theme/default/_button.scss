@@ -122,4 +122,41 @@ button { // 기본 버튼 : ghost
             }
         }
     }
+    &.plus {
+        width: 24px;
+        height: 24px;
+        border: 1px solid $point-blue;
+        background: white url($icon-folder-path + "icon_add.svg") no-repeat center center;
+        padding: 0;
+        &:not(:disabled) {
+            &:active { // pressed
+                background-color: $hover-blue;
+                opacity: 0.3;
+            }
+            &:focus,
+            &:hover {
+                outline: 0;
+                background-color: rgba(0, 152, 255, 0.1);
+            }
+        }
+    }
+
+    &.minus {
+        width: 24px;
+        height: 24px;
+        border: 1px solid $line-gray;
+        background: white url($icon-folder-path + "icon_minus.svg") no-repeat center center;
+        padding: 0;
+        &:not(:disabled) {
+            &:active { // pressed
+                background-color: $line-gray;
+                border: 0.0625rem solid $pressed-gray; // 1px
+            }
+            &:focus,
+            &:hover {
+                outline: 0;
+                background-color: rgba(230, 230, 230, 0.3);
+            }
+        }
+    }
 }
