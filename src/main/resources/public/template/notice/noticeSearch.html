@@ -39,6 +39,7 @@
         /*<![CDATA[ */
         var offsetCount = 0;
         const offsetSize = 15;
+
         window.onload = function () {
             // initialization date picker
             document.getElementById('fromDt').value = i18n.getDate({'months': -1});
@@ -110,7 +111,6 @@
                 callbackFunc: function (response) {
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
-                        console.log(dataList);
                         if (dataList.length > 0) {
                             document.getElementById('totalCount').value = dataList[0].totalCount;
                             if (scrollerEventCheck()) {
@@ -175,7 +175,6 @@
 
         // Tr 동적 데이터 만들기
         function getDataTemplate(data) {
-            console.log(data);
             let div = document.querySelector('.os-content');
             let tr = document.createElement('tr');
 
@@ -194,9 +193,10 @@
             let tdPopYn = document.createElement('td');
             tdPopYn.style.width = '5%';
             let aPopYn = document.createElement('a');
-            if (data.popYn === 'true') {
+            if (data.popYn === true) {
                 let imgPopYn = document.createElement('img');
-                imgPopYn.src = '/assets/theme/' + '[[${#authentication.details.theme}]]' +
+                let theme = '[[${#authentication.details.theme}]]'.split('"');
+                imgPopYn.src = '/assets/theme/' + theme[1] +
                     '/icons/icon_popup.svg';
                 imgPopYn.onclick = function() {
                     openPopUp(data.noticeNo, data.popWidth, data.popHeight);
@@ -210,11 +210,16 @@
             tdUserName.style.width = '10%';
 
             let tdPopDt = document.createElement('td');
-            tdPopDt.innerText = i18n.userDateTime(data.popStrtDt) + '~' + i18n.userDateTime(data.popStrtDt);
+            if (i18n.userDateTime(data.popStrtDt) !== '') {
+                tdPopDt.innerText = i18n.userDateTime(data.popStrtDt) + ' ~ ' + i18n.userDateTime(data.popStrtDt);
+            }
             tdPopDt.style.width = '20%';
 
             let tdNoticeDt = document.createElement('td');
-            tdNoticeDt.innerText = i18n.userDateTime(data.topNoticeStrtDt) + '~' + i18n.userDateTime(data.topNoticeEndDt);
+            if (i18n.userDateTime(data.topNoticeStrtDt) !== '') {
+                tdNoticeDt.innerText = i18n.userDateTime(data.topNoticeStrtDt) + ' ~ ' +
+                    i18n.userDateTime(data.topNoticeEndDt);
+            }
             tdNoticeDt.style.width = '20%';
 
             let tdCreateDt = document.createElement('td');

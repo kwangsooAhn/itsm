@@ -14,9 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/notices")
-class NoticeController(
-    private val noticeService: NoticeService
-) {
+class NoticeController(private val noticeService: NoticeService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeSearchPage: String = "notice/noticeSearch"
@@ -42,9 +40,9 @@ class NoticeController(
         val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
         val toDt = LocalDateTime.parse(noticeSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
         val offset = noticeSearchDto.offset
-        val noticeResult = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset)
-        model.addAttribute("noticeList", noticeResult)
-        model.addAttribute("noticeCount", noticeResult[0].totalCount)
+        val result = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset)
+        model.addAttribute("noticeList", result)
+        model.addAttribute("noticeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue))
         return noticeListPage
     }

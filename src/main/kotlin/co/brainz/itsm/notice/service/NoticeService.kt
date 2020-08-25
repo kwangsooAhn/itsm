@@ -21,11 +21,13 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     private val logger = LoggerFactory.getLogger(this::class.java)
     private val noticeMapper: NoticeMapper = Mappers.getMapper(NoticeMapper::class.java)
 
+    // 공지사항 리스트
     fun findNoticeSearch(searchValue: String, fromDt: LocalDateTime, toDt: LocalDateTime, offset: Long):
             MutableList<NoticeListDto> {
         return noticeRepository.findNoticeSearch(searchValue, fromDt, toDt, offset)
     }
 
+    // 공지사항 상단 리스트
     fun findTopNoticeSearch(searchValue: String): MutableList<NoticeListDto> {
         val noticeListDto = mutableListOf<NoticeListDto>()
         noticeRepository.findTopNoticeSearch(searchValue).forEach { noticeEntity ->
