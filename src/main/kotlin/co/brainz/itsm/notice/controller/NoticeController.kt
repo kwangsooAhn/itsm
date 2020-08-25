@@ -1,14 +1,11 @@
 package co.brainz.itsm.notice.controller
 
-import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
-import co.brainz.itsm.user.service.UserService
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 @Controller
 @RequestMapping("/notices")
 class NoticeController(
-    private val userService: UserService,
     private val noticeService: NoticeService
 ) {
 
@@ -75,11 +71,7 @@ class NoticeController(
      */
     @GetMapping("/{noticeId}/edit")
     fun getNoticeForm(@PathVariable noticeId: String, model: Model): String {
-        val userId: String = SecurityContextHolder.getContext().authentication.principal as String
-        val userDto: AliceUserEntity = userService.selectUser(userId)
-
         model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeId))
-        model.addAttribute("userName", userDto.userName)
         return noticeEditPage
     }
 
