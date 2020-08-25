@@ -58,14 +58,25 @@
     background: $line-gray;
     td { text-align: center; }
 }
-
+.horizontal-bar {
+    height: 0.0625rem; // 1px
+    margin: 0.625rem 0; // 10px
+    background-color: $line-gray;
+}
 // 버튼 영역
 .btn-bar {
     padding: 0.625rem 0 0 0; // 10px 0 0 0
     display: flex;
     justify-content: flex-end;
 }
-
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.radio-row {
+    display: flex;
+}
 span.vertical-bar {
         width: 1.875rem; // 30px
         height: 1.875rem; // 30px

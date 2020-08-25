@@ -113,6 +113,10 @@ input {
             background-color: $white;
         }
     }
+    &[type=radio] {
+        margin-right: 0.625rem; // 10px
+        height: auto;
+    }
 }
 
 label {

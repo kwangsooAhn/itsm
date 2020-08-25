@@ -5,81 +5,25 @@
     layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{customCode.label.customCode}"></title>
-    <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table td:nth-child(1) {
-            width: 35%;
-        }
-        table td:nth-child(2) {
-            width: 65%;
-        }
-        table label {
-            margin: 0;
-        }
-        table#type-common-container tr:last-child td {
-            border-bottom: 0;
-        }
-        table td {
-            border: 1px solid;
-            height: 50px;
-            padding: 12px 10px;
-            vertical-align: top;
-        }
-        table input[type="text"], table select {
-            width: 100%;
-            height: 25px;
-        }
-        table div input[type="text"], table div select {
-            width: 46%;
-        }
-        table td button {
-            width: 1.563rem;
-            height: 1.563rem;
-            outline: 0;
-            border: 0.0625rem solid #4C5264;
-            float: right;
-        }
-        table td button[class*="plus"]::before {
-            content: '+';
-        }
-        table td button[class*="minus"]::before {
-            content: '-';
-        }
-        table td span[class*="equal"]::before {
-            content: '=';
-        }
-        table td span {
-            margin: 0 12px;
-        }
-        table td#condition div {
-            margin: 12px 0;
-        }
-    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
-            <h1 th:text="#{customCode.label.customCode}"></h1>
+    <div class="contents-edit scroll-wrap">
+        <div class="header">
+            <div class="page-title">
+                <h1 th:text="#{customCode.label.customCode}"></h1>
+                <h6 class="title-description" th:text="#{customCode.label.customCode}"></h6>
+            </div>
         </div>
-        <hr>
-        <!-- 타입: 공통-->
-        <table id="type-common-container">
-            <tbody>
-            <tr>
-                <td class="required" th:text="#{customCode.label.name}"></td>
-                <td>
-                    <input type="text" id="customCodeName" required="required" maxlength="100"
-                           th:value="${customCode?.customCodeName}">
-                </td>
-            </tr>
-            <tr>
-                <td class="required" th:text="#{customCode.label.type}"></td>
-                <td>
+        <div class="edit">
+            <div class="form-set">
+                <label class="required" th:text="#{customCode.label.name}" for="customCodeName"></label>
+                <input type="text" id="customCodeName" required="required" maxlength="100"
+                       th:value="${customCode?.customCodeName}">
+            </div>
+            <div class="form-set">
+                <label class="required" th:text="#{customCode.label.type}"></label>
+                <div class="radio-row">
                     <label>
                         <input id="table" name="type" type="radio"
                                th:checked="${customCode?.type == null || customCode?.type == 'table'}"
@@ -90,17 +34,13 @@
                                th:checked="${customCode?.type == 'code'}"
                                th:text="#{customCode.label.code}" onclick="changeContainer('code')">
                     </label>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <!-- 타입: table-->
-        <table id="type-table-container"
-               th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
-            <tbody>
-            <tr>
-                <td class="required" th:text="#{customCode.label.targetTable}"></td>
-                <td>
+                </div>
+            </div>
+            <!-- 타입: table-->
+            <div id="type-table-container"
+                 th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
+                <div class="form-set">
+                    <label class="required" th:text="#{customCode.label.targetTable}"></label>
                     <select id="targetTable">
                         <option th:each="customCodeTable: ${customCodeTableList}"
                                 th:value="${customCodeTable.customCodeTable}"
@@ -108,45 +48,43 @@
                                 th:selected="${customCodeTable.customCodeTable} == ${customCode?.targetTable}">
                         </option>
                     </select>
-                </td>
-            </tr>
-            <tr>
-                <td class="required" th:text="#{customCode.label.searchColumn}"></td>
-                <td><select id="searchColumn"></select></td>
-            </tr>
-            <tr>
-                <td class="required" th:text="#{customCode.label.valueColumn}"></td>
-                <td><select id="valueColumn"></select></td>
-            </tr>
-            <tr>
-                <td>
-                    <label th:text="#{customCode.label.condition}"></label>
-                    <button class="plus" onclick="addCondition()"></button>
-                </td>
-                <td id="condition" style="padding: 0 10px;"></td>
-            </tr>
-            </tbody>
-        </table>
-        <!-- 타입: 코드 -->
-        <table id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
-            <tbody>
-            <tr>
-                <td class="required" th:text="#{customCode.label.pCode}"></td>
-                <td><input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <div align="right">
-            <button style="margin-right: 5px;" onclick="location.href='/custom-codes/search'"
-                    th:text="#{common.btn.list}"></button>
-            <button th:if="${customCode == null}" sec:authorize="hasAuthority('custom.code.create')"
-                    onclick="actionCustomCode('post')" th:text="#{common.btn.save}"></button>
-            <button th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.update')"
-                    th:disabled="${!customCode.enabled}" onclick="actionCustomCode('put')" th:text="#{common.btn.modify}">
-            </button>
-            <button th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.delete')"
-                    th:disabled="${!customCode.enabled}" onclick="actionCustomCode('delete')" th:text="#{common.btn.delete}">
-            </button>
+                </div>
+                <div class="form-set">
+                    <label class="required" th:text="#{customCode.label.searchColumn}"></label>
+                    <select id="searchColumn"></select>
+                </div>
+                <div class="form-set">
+                    <label class="required" th:text="#{customCode.label.valueColumn}"></label>
+                    <select id="valueColumn"></select>
+                </div>
+                <div class="form-set">
+                    <div class="row">
+                        <label th:text="#{customCode.label.condition}"></label>
+                        <button class="plus" onclick="addCondition()"></button>
+                    </div>
+                    <div id="condition"></div>
+                </div>
+            </div>
+
+            <!-- 타입: 코드 -->
+            <div id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
+                <div class="form-set">
+                    <label class="required" th:text="#{customCode.label.pCode}"></label>
+                    <input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}">
+                </div>
+            </div>
+            <div class="btn-bar">
+                <button class="default-line" onclick="location.href='/custom-codes/search'"
+                        th:text="#{common.btn.list}"></button>
+                <button class="point-fill" th:if="${customCode == null}" sec:authorize="hasAuthority('custom.code.create')"
+                        onclick="actionCustomCode('post')" th:text="#{common.btn.save}"></button>
+                <button class="point-fill" th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.update')"
+                        th:disabled="${!customCode.enabled}" onclick="actionCustomCode('put')" th:text="#{common.btn.modify}">
+                </button>
+                <button class="default-fill" th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.delete')"
+                        th:disabled="${!customCode.enabled}" onclick="actionCustomCode('delete')" th:text="#{common.btn.delete}">
+                </button>
+            </div>
         </div>
     </div>
 </th:block>
@@ -225,8 +163,12 @@
         }
 
         function drawCondition(param) {
-            const div = document.createElement('div');
+            const divFormSet = document.createElement('div');
+            divFormSet.classList.add('form-set');
+            const divRow = document.createElement('div');
+            divRow.classList.add('row');
             const keySelect = document.createElement('select');
+            keySelect.classList.add('column-4');
             const searchColumn = document.getElementById('searchColumn');
             for (let i = 0; i < searchColumn.length; i++) {
                 let option = searchColumn[i].cloneNode(true);
@@ -234,22 +176,24 @@
                 keySelect.appendChild(option);
             }
             const equalSpan = document.createElement('span');
-            equalSpan.classList.add('equal');
+            equalSpan.textContent = '=';
             const valueInput = document.createElement('input');
+            valueInput.classList.add('column-7');
             valueInput.type = 'text';
             valueInput.maxLength = 100;
             valueInput.value = (typeof param !== 'undefined') ? param.value : '';
             const minusBtn = document.createElement('button');
             minusBtn.classList.add('minus');
             minusBtn.addEventListener('click', function () {
-                minusBtn.parentNode.remove();
+                minusBtn.parentNode.parentNode.remove();
             });
 
-            div.appendChild(keySelect);
-            div.appendChild(equalSpan);
-            div.appendChild(valueInput);
-            div.appendChild(minusBtn);
-            document.getElementById('condition').appendChild(div);
+            divRow.appendChild(keySelect);
+            divRow.appendChild(equalSpan);
+            divRow.appendChild(valueInput);
+            divRow.appendChild(minusBtn);
+            divFormSet.appendChild(divRow);
+            document.getElementById('condition').appendChild(divFormSet);
         }
 
         //Change Container

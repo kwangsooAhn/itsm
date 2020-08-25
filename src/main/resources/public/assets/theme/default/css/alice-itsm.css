@@ -278,6 +278,10 @@ input[type=checkbox] {
 input[type=checkbox]:checked {
   background-color: #FFFFFF;
 }
+input[type=radio] {
+  margin-right: 0.625rem;
+  height: auto;
+}
 
 label {
   margin: 0.5625rem 0 0.5625rem 0;
@@ -457,10 +461,26 @@ textarea:focus {
   text-align: center;
 }
 
+.horizontal-bar {
+  height: 0.0625rem;
+  margin: 0.625rem 0;
+  background-color: #EBEBEB;
+}
+
 .btn-bar {
   padding: 0.625rem 0 0 0;
   display: flex;
   justify-content: flex-end;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.radio-row {
+  display: flex;
 }
 
 span.vertical-bar {
@@ -523,11 +543,6 @@ span.vertical-bar {
 .container-popup .view div.view-attach-file {
   min-height: 3.125rem;
   padding: 0.125rem 1.25rem;
-}
-.container-popup .view div.horizontal-bar {
-  height: 0.0625rem;
-  margin: 0.625rem 0;
-  background-color: #EBEBEB;
 }
 .container-popup .view {
   padding: 0;
@@ -706,10 +721,6 @@ span.vertical-bar {
   overflow: auto;
   padding: 0 1.875rem 0 4.0625rem;
 }
-.container .contents-edit .edit .row {
-  display: flex;
-  justify-content: space-between;
-}
 .container .contents-edit .edit .form-set {
   display: flex;
   flex-direction: column;
@@ -722,6 +733,10 @@ span.vertical-bar {
 }
 .container .contents-edit .edit .form-set label {
   font-weight: 500;
+  margin-left: 1.25rem;
+}
+.container .contents-edit .edit .form-set label:first-child {
+  margin-left: 0;
 }
 .container .contents-edit .edit .form-set .checkbox-list {
   height: 13.5rem;
@@ -766,11 +781,6 @@ span.vertical-bar {
 .container .contents-view .view div.view-attach-file {
   min-height: 3.125rem;
   padding: 0.125rem 1.25rem;
-}
-.container .contents-view .view div.horizontal-bar {
-  height: 0.0625rem;
-  margin: 0.625rem 0;
-  background-color: #EBEBEB;
 }
 .container .contents-list-edit {
   height: 100vh;
@@ -2862,6 +2872,36 @@ button.point-fill:not(:disabled):active {
 button.point-fill:not(:disabled):focus, button.point-fill:not(:disabled):hover {
   outline: 0;
   background-color: #33ADFF;
+}
+button.plus {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #0098FF;
+  background: white url("../icons/icon_add.svg") no-repeat center center;
+  padding: 0;
+}
+button.plus:not(:disabled):active {
+  background-color: #33ADFF;
+  opacity: 0.3;
+}
+button.plus:not(:disabled):focus, button.plus:not(:disabled):hover {
+  outline: 0;
+  background-color: rgba(0, 152, 255, 0.1);
+}
+button.minus {
+  width: 24px;
+  height: 24px;
+  border: 1px solid #EBEBEB;
+  background: white url("../icons/icon_minus.svg") no-repeat center center;
+  padding: 0;
+}
+button.minus:not(:disabled):active {
+  background-color: #EBEBEB;
+  border: 0.0625rem solid #CCCED1;
+}
+button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
+  outline: 0;
+  background-color: rgba(230, 230, 230, 0.3);
 }
 
 .align-center {
