@@ -6,6 +6,7 @@ DROP TABLE IF EXISTS awf_file_name_extension cascade;
 CREATE TABLE awf_file_name_extension
 (
 	file_name_extension varchar(128) NOT NULL,
+	file_content_type varchar(128) NOT NULL,
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -15,6 +16,7 @@ CREATE TABLE awf_file_name_extension
 
 COMMENT ON TABLE awf_file_name_extension IS '파일확장자관리';
 COMMENT ON COLUMN awf_file_name_extension.file_name_extension IS '파일확장자명';
+COMMENT ON COLUMN awf_file_name_extension.file_content_type IS '파일컨텐트타입';
 COMMENT ON COLUMN awf_file_name_extension.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_file_name_extension.create_dt IS '등록일';
 COMMENT ON COLUMN awf_file_name_extension.update_user_key IS '수정자';

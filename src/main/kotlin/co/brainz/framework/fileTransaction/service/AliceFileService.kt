@@ -34,10 +34,12 @@ import java.util.Base64
 import java.util.stream.Collectors
 import javax.imageio.ImageIO
 import org.apache.tika.Tika
+import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
 import org.springframework.core.env.Environment
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -83,18 +85,18 @@ class AliceFileService(
         val tempPath = super.getDir("temp", fileName)
         val filePath = super.getDir(this.fileUploadRootDirectory, fileName)
         val fileNameExtension = File(multipartFile.originalFilename!!).extension.toUpperCase()
-        val mediaType = MediaType.parseMediaType(Tika().detect(multipartFile.inputStream))
-        val contentType = multipartFile.contentType
-
+        val metadata = Metadata()
+        metadata[Metadata.RESOURCE_NAME_KEY] = multipartFile.originalFilename
+        metadata[Metadata.CONTENT_TYPE] = multipartFile.contentType
+        val mediaType = Tika().detect(multipartFile.inputStream, metadata)
 
         if (Files.notExists(tempPath.parent)) {
             throw AliceException(AliceErrorConstants.ERR, "Unknown file path. [" + tempPath.toFile() + "]")
         }
 
         // 파일 확장자 및 파일 media type 체크
-        if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty || !(mediaType.toString().toUpperCase()
-                .contains(fileNameExtension))
-        ) {
+        val fileExtensionEntity = aliceFileNameExtensionRepository.findByIdOrNull(fileNameExtension)
+        if (fileExtensionEntity == null || fileExtensionEntity.fileContentType != mediaType) {
             throw AliceException(AliceErrorConstants.ERR_00004, "The file extension $mediaType is not allowed.")
         }
 
