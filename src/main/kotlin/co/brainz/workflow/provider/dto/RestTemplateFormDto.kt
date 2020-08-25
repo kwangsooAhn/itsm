@@ -14,5 +14,6 @@ data class RestTemplateFormDto(
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
     var updateUserName: String? = null,
-    var updateDt: LocalDateTime? = null
+    var updateDt: LocalDateTime? = null,
+    var totalCount: Long = 0
 ) : Serializable

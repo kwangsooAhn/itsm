@@ -16,7 +16,6 @@
             <h1 th:text="#{form.label.list}"></h1>
             <h6 class="title-description" th:text="#{form.msg.description}"></h6>
         </div>
-
         <div class="search-area">
             <div class="left">
                 <input class="search column-5" id="search" type="text" maxlength="100" th:placeholder="#{form.label.searchPlaceholder}"/>
@@ -33,23 +32,26 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
+        let offsetCount = 0;
         window.onload = function() {
-            getFormList(document.getElementById('search').value, true);
+            getFormList(document.getElementById('search').value, false);
         }
         
         document.getElementById('search').onkeyup = function() {
             getFormList(this.value, false);
         };
-    
+
         // 폼 리스트 조회
-        function getFormList(search, showProgressbar) {
-            restSubmit('GET', '/forms-admin/list?search=' + search.trim(), function(result) {
-                document.getElementById('formList').innerHTML = result;
-                let formDtEle = document.querySelectorAll('td[name=createDt]');
-                for (let i = 0; i < formDtEle.length; i++) {
-                    formDtEle[i].textContent = i18n.userDateTime(formDtEle[i].textContent);
+        function getFormList(search, isScroll) {
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = aliceJs.searchDataCount;
                 }
-            }, showProgressbar);
+                restSearchSubmit('GET', '/rest/forms-admin?search=' + search.trim() + '&offset=' + offsetCount, isScroll);
+            } else {
+                offsetCount = 0;
+                restSearchSubmit('GET', '/forms-admin/list?search=' + search.trim() + '&offset=' + offsetCount, isScroll);
+            }
         }
 
         // 폼 신규 추가 화면 오픈
@@ -98,16 +100,116 @@
         }
 
         //REST API
-        function restSubmit(method, url, result, showProgressbar) {
+        function restSearchSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
-                showProgressbar: showProgressbar,
+                async: false,
+                showProgressbar: false,
                 callbackFunc: function(response) {
-                    result(response.responseText);
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (aliceJs.isEnableScrollEvent(offsetCount, document.getElementById('totalCount'))) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
+                                dataList.forEach(function (data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.getElementById('formList').innerHTML = response.responseText;
+                        let formDtEle = document.querySelectorAll('td[name=createDt]');
+                        for (let i = 0; i < formDtEle.length; i++) {
+                            formDtEle[i].textContent = i18n.userDateTime(formDtEle[i].textContent);
+                        }
+                    }
+
+                    OverlayScrollbars(document.querySelector('.list-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount, document.getElementById('totalCount'))) {
+                                        getFormList(document.getElementById('search').value, true)
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let tr = document.createElement('tr');
+
+            let tdFormName = document.createElement('td');
+            tdFormName.style.width = '20%';
+            let formNameObject = document.createElement('a');
+            formNameObject.innerText = data.name;
+            formNameObject.onclick = function() {
+                // TODO: 권한에 따라 view or edit
+                openFormEdit(data.id);
+                // openFormView(data.id);
+            }
+            tdFormName.appendChild(formNameObject);
+
+            let tdFormPreview = document.createElement('td');
+            tdFormPreview.style.width = '10%';
+            let formPreviewObject = document.createElement('a');
+            formPreviewObject.onclick = function() {
+                openFormDesignerView(data.id);
+            }
+            let formPreviewImage = document.createElement('img');
+            formPreviewImage.src = '../assets/media/icons/process/list/icon_preview.png';
+            formPreviewObject.appendChild(formPreviewImage);
+            tdFormPreview.appendChild(formPreviewObject);
+
+            let tdUpdate = document.createElement('td');
+            tdUpdate.style.width = '10%';
+
+            // TODO: 권한에 따라 처리
+            let updateObject = document.createElement('a');
+            updateObject.onclick = function() {
+                openFormDesignerEdit(data.id);
+            }
+            let updateImage = document.createElement('img');
+            updateImage.src = '../assets/media/icons/process/list/icon_edit.png';
+            updateObject.appendChild(updateImage);
+            tdUpdate.appendChild(updateObject);
+
+            let tdState = document.createElement('td');
+            tdState.style.width = '10%';
+            tdState.innerText = i18n.get(data.status);
+
+            let tdDescription = document.createElement('td');
+            tdDescription.style.width = '30%';
+            tdDescription.className = 'align-left';
+            tdDescription.innerText = data.desc;
+
+            let tdWriter = document.createElement('td');
+            tdWriter.style.width = '10%';
+            tdWriter.innerText = data.createUserName;
+
+            let tdWriteDate = document.createElement('td');
+            tdWriteDate.style.width = '10%';
+            tdWriteDate.innerText = i18n.userDateTime(data.createDt);
+
+            tr.appendChild(tdFormName);
+            tr.appendChild(tdFormPreview);
+            tr.appendChild(tdUpdate);
+            tr.appendChild(tdState);
+            tr.appendChild(tdDescription);
+            tr.appendChild(tdWriter);
+            tr.appendChild(tdWriteDate);
+            div.appendChild(tr);
         }
         /*]]>*/
     </script>

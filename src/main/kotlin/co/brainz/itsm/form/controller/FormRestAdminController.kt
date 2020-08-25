@@ -7,6 +7,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
+import javax.servlet.http.HttpServletRequest
+import org.springframework.ui.Model
+import org.springframework.util.LinkedMultiValueMap
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
@@ -34,6 +38,17 @@ class FormRestAdminController(private val formAdminService: FormAdminService) {
                 formAdminService.saveAsForm(mapper.writeValueAsString(jsonData))
             else -> formAdminService.createForm(mapper.convertValue(jsonData, RestTemplateFormDto::class.java))
         }
+    }
+
+    /**
+     * 폼 리스트 조회 (스크롤).
+     */
+    @GetMapping("")
+    fun getFormList(request: HttpServletRequest, model: Model): List<RestTemplateFormDto> {
+        val params = LinkedMultiValueMap<String, String>()
+        params["search"] = request.getParameter("search") ?: ""
+        params["offset"] = request.getParameter("offset") ?: "0"
+        return formAdminService.findForms(params);
     }
 
     /**

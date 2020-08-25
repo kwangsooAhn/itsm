@@ -18,7 +18,8 @@
             <th width="10%"></th>
         </tr>
         </thead>
-        <tbody id="list">
+        <tbody class="list-body">
+        <input type="hidden" id="totalCount" th:value="${documentCount}"/>
         <tr class="no-data-found" th:if="${#arrays.isEmpty(documentList)}">
             <td colspan="7" th:text="#{common.msg.noData}"></td>
         </tr>
