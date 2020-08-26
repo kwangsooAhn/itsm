@@ -107,7 +107,7 @@
                         <div class="document-row-content">
                             ${
                             /*[# th:if="${@utilService.hasAnyRole(#httpServletRequest, 'token.create')}"]*/
-                            `<a href="javascript:openTokenEdit('${token.tokenId}')">`
+                            `<a href="/tokens/${token.tokenId}/edit">`
                             /*[/]*/
                             }
                             <div class="document-title">
