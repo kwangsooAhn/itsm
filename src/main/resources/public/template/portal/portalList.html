@@ -15,10 +15,10 @@
     </div>
     <div class="portal-search-main">
         <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
-        <input class="icon" type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요."
-               onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0'); "/>
+        <input class="icon" type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요."/>
     </div>
     <div class="portal-search-result">
+        <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
         <div class="list">
             <!--<div class="row" th:each="portalList : ${portalList}">
                 <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
@@ -40,6 +40,7 @@
     var offsetCount = 0;
     const offsetSize = 15;
     window.onload = function () {
+        //onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0'); "
         document.getElementById('searchValue').addEventListener('keyup', function() { searchPortal(false); });
         searchPortal(false);
     }
@@ -60,6 +61,23 @@
             restSubmit('get', '/portal/list?' + urlParam, isScroll);
         }
     }
+
+    /*function loadXMLDoc() {
+        var xmlhttp = createXmlHttpRequestObject("GET", "/faqs/list");
+
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
+                if (xmlhttp.status == 200) {
+                    document.getElementById("faqList").innerHTML = xmlhttp.responseText;
+                } else if (xmlhttp.status == 400) {
+                    alert('There was an error 400');
+                } else {
+                    alert('something else other than 200 was returned');
+                }
+            }
+        };
+        xmlhttp.send();
+    }*/
 
     // REST API
     function restSubmit(method, url, isScroll) {
@@ -87,7 +105,7 @@
                     //document.getElementById('faqList').innerHTML = response.responseText;
                 }
 
-                OverlayScrollbars(document.querySelector('list'), {
+                OverlayScrollbars(document.querySelector('.list'), {
                     className: 'scrollbar',
                     callbacks: {
                         onScroll: function(e) {
@@ -117,51 +135,33 @@
         return scrollerCheck;
     }
 
-
-    /* <div class="list">
-            <div class="row" th:each="portalList : ${portalList}">
-                <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
-                <div class="content-box">
-                    <div class="title text-ellipsis"><a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a></div>
-                    <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
-                </div>
-            </div>
-            <div class="row" th:if="${#arrays.isEmpty(portalList)}">
-                <div class="no-data" th:text="#{common.msg.noData}"></div>
-            </div>
-       </div>*/
-
     function getDataTemplate(data) {
-        let div = document.querySelector('list');
-        let tr = document.createElement('div');
+        let div = document.querySelector('.list');
+        let divRow = document.createElement('div');
+        divRow.className = 'row';
 
-        let tdFaqId = document.createElement('td');
-        tdFaqId.style.width = '20%';
-        let aFaqId = document.createElement('a');
-        if (document.getElementsByName('isRole').value === 'true') {
-            aFaqId.href = '/faqs/'+ data.faqId +'/view';
-        } else {
-            aFaqId.href = '/faqs/'+ data.faqId +'/edit';
-        }
-        aFaqId.innerText = i18n.get('common.code.'+data.faqGroup);
-        tdFaqId.appendChild(aFaqId);
+        let divTypeIcon = document.createElement('div');
+        divTypeIcon.className = 'type-icon '+ data.tableName;
 
-        let tdFaqTitle = document.createElement('td');
-        tdFaqTitle.className = 'align-left';
-        tdFaqTitle.innerText = data.faqTitle;
-        tdFaqTitle.style.width = '80%';
+        let divContentBox = document.createElement('div');
+        divContentBox.className = 'content-box';
 
-        tr.appendChild(tdFaqId);
-        tr.appendChild(tdFaqTitle);
-        div.appendChild(tr);
+        let divTitle = document.createElement('div');
+        divTitle.className = "title text-ellipsis";
+        let aTitle = document.createElement('a');
+        aTitle.innerText = data.portalTitle;
+        divTitle.appendChild(aTitle);
+
+        let divContent = document.createElement('div');
+        divContent.className = "content text-ellipsis";
+        divContent.innerText = data.portalContent;
+
+        divContentBox.appendChild(divTitle);
+        divContentBox.appendChild(divContent);
+
+        divRow.appendChild(divTypeIcon);
+        divRow.appendChild(divContentBox);
+        div.appendChild(divRow);
     }
-
-    /*function locationSubmit(method, url) {
-        const data = {
-            searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
-        };
-        location.href = url + '&searchValue=' + data.searchValue;
-    }*/
-    /* ]]> */
 </script>
 </html>
