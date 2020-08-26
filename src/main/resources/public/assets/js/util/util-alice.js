@@ -7,6 +7,8 @@ aliceJs.systemCalendarTimeFormat = 'HH:mm:ss';
 const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
 const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
 
+aliceJs.searchDataCount = 15;
+
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
  *
@@ -891,3 +893,14 @@ aliceJs.loadSvg = function() {
         });
     }
 };
+
+/**
+ * 마지막 데이터 여부 판단.
+ *
+ * @param offset 현재 조회된 offset
+ * @param totalObject 전체수 저장 object
+ * @return {boolean} 스크롤 처리 진행 여부
+ */
+aliceJs.isEnableScrollEvent = function(offset, totalObject) {
+    return offset < totalObject.value;
+}
