@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="34" height="40" viewBox="0 0 34 40">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #0060a5;
+      }
+    </style>
+  </defs>
+  <g transform="translate(-2051 -418)">
+    <path class="cls-1" d="M2084.96,428.75a.371.371,0,0,0-.04-.14.983.983,0,0,0-.21-.32l-1.71-1.71-6.58-6.58-1.71-1.71a.986.986,0,0,0-.32-.21.369.369,0,0,0-.14-.04L2074,418h-22.5a.5.5,0,0,0-.5.5v39a.5.5,0,0,0,.5.5h33a.5.5,0,0,0,.5-.5V429A.69.69,0,0,0,2084.96,428.75ZM2053,456V420h6v2.6a.4.4,0,0,0,.4.4h3.2a.4.4,0,0,0,.4-.4V420h10.58l9.42,9.42V456Z"/>
+    <path class="cls-1" d="M2066.15,439h-2.3a6.441,6.441,0,0,0-1.85,4.72c0,3.11,2.29,3.28,3,3.28s3-.17,3-3.28A6.441,6.441,0,0,0,2066.15,439Zm-1.15,7.24a1.6,1.6,0,1,1,1.68-1.6A1.636,1.636,0,0,1,2065,446.24Z"/>
+    <rect class="cls-1" width="4" height="4" rx="0.4" transform="translate(2063 423)"/>
+    <rect class="cls-1" width="4" height="4" rx="0.4" transform="translate(2059 427)"/>
+    <rect class="cls-1" width="4" height="4" rx="0.4" transform="translate(2063 431)"/>
+    <rect class="cls-1" width="4" height="4" rx="0.4" transform="translate(2059 435)"/>
+  </g>
+</svg>

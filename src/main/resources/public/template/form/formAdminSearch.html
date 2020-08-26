@@ -111,7 +111,7 @@
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
                             document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (aliceJs.isEnableScrollEvent(offsetCount, document.getElementById('totalCount'))) {
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                 offsetCount = offsetCount + aliceJs.searchDataCount;
                                 dataList.forEach(function (data) {
                                     getDataTemplate(data);
@@ -134,7 +134,7 @@
                                 const scrollTop = e.target.scrollTop;
                                 const clientHeight = e.target.clientHeight;
                                 if (scrollHeight - scrollTop === clientHeight) {
-                                    if (aliceJs.isEnableScrollEvent(offsetCount, document.getElementById('totalCount'))) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                         getFormList(document.getElementById('search').value, true)
                                     }
                                 }

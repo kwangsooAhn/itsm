@@ -292,6 +292,7 @@ insert into awf_url_auth_map values ('/rest/notices/{id}', 'get', 'notice.read')
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'put', 'notice.update');
 insert into awf_url_auth_map values ('/rest/processes', 'post', 'process.read');
 insert into awf_url_auth_map values ('/rest/processes', 'get', 'process.read');
+insert into awf_url_auth_map values ('/rest/processes-admin/list', 'get', 'process.read');
 insert into awf_url_auth_map values ('/rest/processes/{id}', 'delete', 'process.delete');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'get', 'process.create');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'put', 'process.update');
