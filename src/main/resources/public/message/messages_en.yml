@@ -546,6 +546,7 @@ notice:
     popUpNoticeSettings: "PopUp Notice Settings"
     popUpNoticeSettingsInfo: "PopUp Notice Settings Info"
     popUpPeriod: "PopUp Period"
+    popUpPeriodToday: "Do not open this popup today"
     searchPlaceholder: "Title / User"
     set: "Set"
     strtDt: "Start Date"
