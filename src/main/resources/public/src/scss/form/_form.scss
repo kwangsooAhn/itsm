@@ -76,7 +76,6 @@ textarea {
     color: $textarea-font-color;
     border: $textarea-border;
     background-color: $textarea-bg-color;
-    line-height: 2.5rem; // 40px
     resize: none;
     @include scrollbar-hidden;
 

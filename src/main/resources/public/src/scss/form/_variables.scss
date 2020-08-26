@@ -75,7 +75,7 @@ $input-range-round-bg-color: $white;
 // textarea
 $textarea-font-size:         16px;
 $textarea-font-weight:       400; // regular
-$textarea-line-height:       24px;
+$textarea-line-height:       16px;
 $textarea-font-color:        $dark-gray;
 $textarea-border:            0.0625rem solid $line-gray;
 $textarea-bg-color:          $white;
@@ -87,6 +87,21 @@ $textarea-disabled-color:    $gray;
 $textarea-disabled-bg-color: $light-gray;
 $textarea-error-color:       $red !important;
 $textarea-error-border:      0.0625rem solid $red !important;
+
+// quill editor
+$quill-font-size:                16px;
+$quill-font-weight:              400; // regular
+$quill-line-height:              24px;
+$quill-font-color:               $dark-gray;
+$quill-border:                   0.0625rem solid $line-gray;
+$quill-bg-color:                 $white;
+$quill-toolbar-font-size:        16px;
+$quill-toolbar-font-weight:      500; // medium
+$quill-toolbar-font-color:       $light-black;
+$quill-toolbar-pressed-color:    $point-blue;
+$quill-toolbar-pressed-bg-color: $line-gray;
+$quill-toolbar-hover-color:      $light-black;
+$quill-toolbar-hover-bg-color:   rgba(135, 206, 255, 0.1);
 
 // select
 $select-font-size:           16px;
