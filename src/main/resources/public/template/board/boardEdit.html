@@ -99,8 +99,8 @@
         const boardUpdateDt = document.getElementById('spanUpdateDt');
 
         window.onload = function() {
-            boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
-            boardUpdateDt.textContent = i18n.userDateTime(boardUpdateDt.textContent);
+            boardCreateDt.value = i18n.userDateTime(boardCreateDt.value);
+            boardUpdateDt.value = i18n.userDateTime(boardUpdateDt.value);
 
             if (attachYn) {
                 var ownId = '';

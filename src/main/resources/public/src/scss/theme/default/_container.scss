@@ -58,14 +58,25 @@
     background: $line-gray;
     td { text-align: center; }
 }
-
+.horizontal-bar {
+    height: 0.0625rem; // 1px
+    margin: 0.625rem 0; // 10px
+    background-color: $line-gray;
+}
 // 버튼 영역
 .btn-bar {
     padding: 0.625rem 0 0 0; // 10px 0 0 0
     display: flex;
     justify-content: flex-end;
 }
-
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.radio-row {
+    display: flex;
+}
 span.vertical-bar {
         width: 1.875rem; // 30px
         height: 1.875rem; // 30px
@@ -93,15 +104,54 @@ span.vertical-bar {
     }
 }
 
+.color-picker {
+    display: flex;
+    flex-direction: column;
+    .color-input {
+        display: inline-flex;
+        .selected-color {
+            width: 1.75rem; // 28px
+            height: 1.75rem; // 28px
+            margin: auto;
+            &-layer {
+                width: 2.5rem; // 40px
+                height: 2.5rem; // 40px
+                margin-right: 0.3125rem; // 5px
+                border: 0.0625rem solid $line-gray;
+                cursor: pointer;
+                display: flex;
+            }
+        }
+    }
+    .color-palette {
+        background-color: #d3d3d3;
+        width: 30rem; // 480px
+        height: 11.25rem; // 180px
+        & div {
+            display: inline-block;
+            width: 2.5rem; // 40px
+            height: 2.5rem; // 40px
+            margin: 0.3125rem;
+            cursor: pointer;
+        }
+        &-opacity {
+        }
+    }
+
+}
+
 .container {
     height: 100%;
     padding: 0 0 0 13.75rem; // 220px
 
     &-popup {
-        padding: 1.875rem 2.5rem 0 2.5rem; // 30px 20px 0 20px
+        padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
         @include view-template();
-        // view class padding 초기화
-        .view { padding: 0;}
+        @include edit-template();
+        .view, .edit {
+            padding: 0;
+            width: auto;
+        }
     }
 
     @import "contents/_contents-token.scss";

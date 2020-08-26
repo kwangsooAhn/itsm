@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
 </head>
 <body>
+    <input type="hidden" id="totalCount" th:value="${boardAdminCount}"/>
     <table>
         <thead>
         <tr>
@@ -20,7 +21,6 @@
             <td colspan="5" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:each="boardAdmin: ${boardAdminList}">
-            <input type="hidden" id="totalCount" th:value="${boardAdminCount}"/>
             <td style="width: 55%" class="align-left">
                 <a sec:authorize="!hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
                    th:href="@{/board-admin/{id}/view(id=${boardAdmin.boardAdminId})}"></a>

@@ -42,6 +42,10 @@
     mask-position: center center;
 }
 
+@mixin content-header() {
+    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; background: $light-gray;} // 46px 60px 46px 60px
+}
+
 @mixin list-template() {
     .list {
         padding-top: 1.25rem; // 20px
@@ -95,7 +99,7 @@
 }
 
 @mixin view-template() {
-    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; } // 46px 60px 46px 60px
+    @include content-header();
     .view {
         padding: 3.125rem 19.375rem 3.125rem 19.375rem; // 50px 310px 50px 310px
         background-color: white;
@@ -116,18 +120,13 @@
                 min-height: 3.125rem; // 50px
                 padding: 0.125rem 1.25rem; // 2px 20px
             }
-            &.horizontal-bar {
-                height: 0.0625rem; // 1px
-                margin: 0.625rem 0; // 10px
-                background-color: $line-gray;
-            }
         }
     }
 }
 
 @mixin edit-template() {
     background-color: white;
-    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; background: $light-gray;} // 46px 60px 46px 60px
+    @include content-header();
     .edit {
         padding-top: 3.125rem; // 50px
         width: 61.25rem; // 980px
@@ -145,10 +144,6 @@
                 padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
             }
         }
-        .row {
-            display: flex;
-            justify-content: space-between;
-        }
         .form-set {
             display: flex;
             flex-direction: column;
@@ -160,6 +155,10 @@
             }
             label {
                 font-weight: 500;
+                margin-left: 1.25rem; // 20px
+                &:first-child {
+                    margin-left: 0;
+                }
             }
             .checkbox-list {
                 height: 13.5rem; // 216px

@@ -7,7 +7,7 @@
 
     let savedData = {};
     let isEdited = false;
-    window.addEventListener('beforeunload', function(event) {
+    window.addEventListener('beforeunload', function (event) {
         if (isEdited) {
             event.returnValue = '';
         } else {
@@ -18,8 +18,8 @@
     const history = {
         redo_list: [],
         undo_list: [],
-        saveHistory: function(data, list, keep_redo) {
-            data = data.filter(function(d) { // data check
+        saveHistory: function (data, list, keep_redo) {
+            data = data.filter(function (d) { // data check
                 return !workflowUtil.compareJson(d[0], d[1]);
             });
             if (data.length === 0) {
@@ -32,10 +32,10 @@
             (list || this.undo_list).push(data);
 
             // 엘리먼트 정렬
-            aliceProcessEditor.data.elements.sort(function(a, b) {
+            aliceProcessEditor.data.elements.sort(function (a, b) {
                 return a.id < b.id ? -1 : 1;
             });
-            savedData.elements.sort(function(a, b) {
+            savedData.elements.sort(function (a, b) {
                 return a.id < b.id ? -1 : 1;
             });
 
@@ -43,7 +43,7 @@
             changeProcessName();
             setProcessMinimap();
         },
-        undo: function() {
+        undo: function () {
             aliceProcessEditor.removeElementSelected();
             aliceProcessEditor.setElementMenu();
             if (this.undo_list.length) {
@@ -52,7 +52,7 @@
                 this.saveHistory(restoreData, this.redo_list, true);
             }
         },
-        redo: function() {
+        redo: function () {
             aliceProcessEditor.removeElementSelected();
             aliceProcessEditor.setElementMenu();
             if (this.redo_list.length) {
@@ -70,7 +70,7 @@
          * @param selection
          * @returns {{x: number, width: number, y: number, height: number}}
          */
-        getBoundingBoxCenter: function(selection) {
+        getBoundingBoxCenter: function (selection) {
             const element = selection.node();
             const bbox = element.getBBox();
             let x = bbox.x,
@@ -91,7 +91,7 @@
          * @param b 종료좌표
          * @return {number} 좌표 사이 거리
          */
-        calcDist: function(a, b) {
+        calcDist: function (a, b) {
             let dist = Math.sqrt(
                 Math.pow(a[0] - b[0], 2) + Math.pow(a[1] - b[1], 2)
             );
@@ -124,11 +124,11 @@
      * @param type 타입(undo, redo)
      */
     function redrawProcess(restoreData, type) {
-        const restoreProcess = function(originData, changeData) {
+        const restoreProcess = function (originData, changeData) {
             let links = aliceProcessEditor.elements.links;
             if (!Object.keys(originData).length || !Object.keys(changeData).length) {
                 if (!Object.keys(changeData).length) { // delete element
-                    aliceProcessEditor.data.elements.forEach(function(elem, i) {
+                    aliceProcessEditor.data.elements.forEach(function (elem, i) {
                         if (originData.id === elem.id) {
                             aliceProcessEditor.data.elements.splice(i, 1);
                         }
@@ -238,7 +238,7 @@
                 }
             }
         };
-        restoreData.forEach(function(data) {
+        restoreData.forEach(function (data) {
             let originData = data[1],
                 changeData = data[0];
             if (type === 'redo') {
@@ -254,9 +254,11 @@
      * save process.
      */
     function saveProcess() {
-        if (aliceProcessEditor.isView) { return false; }
+        if (aliceProcessEditor.isView) {
+            return false;
+        }
         aliceProcessEditor.resetElementPosition();
-        save(function(xhr) {
+        save(function (xhr) {
             if (xhr.responseText === 'true') {
                 aliceJs.alert(i18n.get('common.msg.save'));
                 isEdited = false;
@@ -275,7 +277,7 @@
      * 자동 저장 (현재는 최초 오픈 시 start event 추가 후 저장 기능을 위해서만 사용중)
      */
     function autoSaveProcess() {
-        save(function(xhr) {
+        save(function (xhr) {
             if (xhr.responseText === 'true') {
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
@@ -350,7 +352,7 @@
          *
          * @return {boolean} 체크성공여부
          */
-        const checkRequired = function() {
+        const checkRequired = function () {
             let nameTextObject = document.getElementById('process_name');
             if (nameTextObject.value.trim() === '') {
                 nameTextObject.style.backgroundColor = '#ff000040';
@@ -364,7 +366,7 @@
         /**
          * 저장처리.
          */
-        const saveAs = function() {
+        const saveAs = function () {
             const saveAsProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
             let processData = saveAsProcessData.process;
             processData.name = document.getElementById('process_name').value;
@@ -372,9 +374,9 @@
             aliceJs.sendXhr({
                 method: 'POST',
                 url: '/rest/processes-admin' + '?saveType=saveas',
-                callbackFunc: function(xhr) {
+                callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
-                        aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        aliceJs.alert(i18n.get('common.msg.save'), function () {
                             opener.location.reload();
                             window.name = 'process_' + xhr.responseText + '_edit';
                             location.href = '/processes/' + xhr.responseText + '/edit';
@@ -391,7 +393,7 @@
         /**
          * 다른 이름으로 저장하기 모달 저장 CallBack.
          */
-        const saveAsCallBack = function() {
+        const saveAsCallBack = function () {
             if (checkRequired()) {
                 saveAs();
             }
@@ -410,11 +412,42 @@
         aliceJs.sendXhr({
             method: 'put',
             url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/simulation',
-            callbackFunc: function(xhr) {
-                if (xhr.responseText === 'true') {
-                    aliceJs.alert(i18n.get('process.msg.simulation'));
-                } else {
-                    aliceJs.alert(i18n.get('common.label.fail'));
+            callbackFunc: function (xhr) {
+                if (document.querySelectorAll('.simulation-report .details div').length > 0) {
+                    document.querySelectorAll('.simulation-report .details div').remove()
+                }
+
+                const response = JSON.parse(xhr.responseText);
+                document.querySelector('.simulation-report .success').textContent = response.success;
+
+                for (let i = 0; i < response.simulationReport.length; i++) {
+                    const report = response.simulationReport[i];
+
+                    const count = document.createElement('span');
+                    count.className = 'details-number-of';
+                    count.textContent = [i + 1] + '/' + response.simulationReport.length;
+                    const success = document.createElement('span');
+                    success.className = 'details-success';
+                    success.textContent = report.success;
+                    const elementId = document.createElement('span');
+                    elementId.className = 'details-element-id';
+                    elementId.textContent = report.elementId;
+                    const failedMessage = document.createElement('span');
+                    failedMessage.className = 'details-failed-message';
+                    failedMessage.textContent = report.failedMessage;
+
+                    const reportDetails = document.createElement('div');
+                    reportDetails.appendChild(count);
+                    reportDetails.appendChild(success);
+                    reportDetails.appendChild(elementId);
+                    reportDetails.appendChild(failedMessage);
+
+                    document.querySelector('.simulation-report .details').appendChild(reportDetails);
+
+                    // TODO false 인 엘리먼트에 가이드 주기.
+                    if (!report.success) {
+                        document.getElementById(report.elementId).classList.add('selected')
+                    }
                 }
             },
             contentType: 'application/json; charset=utf-8',
@@ -450,8 +483,8 @@
             canvas.height = viewBox[3];
             let context = canvas.getContext('2d');
             let image = new Image();
-            image.onload = function() {
-                context.clearRect (0, 0, canvas.width, canvas.height);
+            image.onload = function () {
+                context.clearRect(0, 0, canvas.width, canvas.height);
                 context.drawImage(image, 0, 0, canvas.width, canvas.height);
 
                 let canvasData = canvas.toDataURL('image/png');
@@ -481,7 +514,7 @@
 
             let xhr = new XMLHttpRequest();
             xhr.open('POST', '/fileupload?target=process');
-            xhr.onerror = function() {
+            xhr.onerror = function () {
                 console.error('Process file upload failed!');
             };
             xhr.send(formData);
@@ -515,12 +548,12 @@
         let displayNode = xmlDoc.createElement('display');
         const excludeElementTypes = ['annotation', 'group', 'arrowConnector'];
         const elements = aliceProcessEditor.data.elements.filter(elem => excludeElementTypes.indexOf(elem.type) === -1);
-        elements.forEach(function(element) {
+        elements.forEach(function (element) {
             let elementNode = xmlDoc.createElement('element');
             elementNode.setAttribute('id', element.id);
             elementNode.setAttribute('type', element.type);
             let keys = Object.keys(element.display);
-            keys.forEach(function(key) {
+            keys.forEach(function (key) {
                 elementNode.setAttribute(key, element.display[key]);
             });
             displayNode.appendChild(elementNode);
@@ -549,14 +582,14 @@
 
         svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
-        svg.selectAll('.node.selected').nodes().forEach(function(node) {
+        svg.selectAll('.node.selected').nodes().forEach(function (node) {
             aliceProcessEditor.setDeselectedElement(d3.select(node));
         });
         svg.selectAll('.selected').classed('selected', false);
         svg.selectAll('.reject-element').classed('reject-element', false);
 
         function asyncImageLoader(url) {
-            return new Promise( (resolve, reject) => {
+            return new Promise((resolve, reject) => {
                 let image = new Image();
                 image.src = url;
                 image.onload = () => resolve(image);
@@ -564,7 +597,7 @@
             });
         }
 
-        return Promise.all(Array.from(svgNode.querySelectorAll('image')).map(function(image) {
+        return Promise.all(Array.from(svgNode.querySelectorAll('image')).map(function (image) {
             return new Promise(resolve => {
                 let url = image.getAttributeNS('http://www.w3.org/1999/xlink', 'href');
                 let promise = asyncImageLoader(url);
@@ -594,9 +627,13 @@
         for (let i = 0; i < document.styleSheets.length; i++) {
             let s = document.styleSheets[i];
             try {
-                if (!s.cssRules) { continue; }
-            } catch(e) {
-                if (e.name !== 'SecurityError') { throw e; } // for Firefox
+                if (!s.cssRules) {
+                    continue;
+                }
+            } catch (e) {
+                if (e.name !== 'SecurityError') {
+                    throw e;
+                } // for Firefox
                 continue;
             }
 
@@ -609,7 +646,7 @@
             }
         }
         let styleElement = document.createElement('style');
-        styleElement.setAttribute('type','text/css');
+        styleElement.setAttribute('type', 'text/css');
         styleElement.innerHTML = cssStyleText;
         let refNode = svgNode.hasChildNodes() ? svgNode.children[0] : null;
         svgNode.insertBefore(styleElement, refNode);
@@ -629,14 +666,14 @@
         shortcut.init();
 
         const shortcuts = [
-            { 'keys': 'ctrl+s', 'command': 'aliceProcessEditor.utils.save();', 'force': true },             // 저장
-            { 'keys': 'ctrl+shift+s', 'command': 'aliceProcessEditor.utils.saveAs();', 'force': true },     // 다른 이름으로 저장
-            { 'keys': 'ctrl+z', 'command': 'aliceProcessEditor.utils.undo();', 'force': false },            // 작업 취소
-            { 'keys': 'ctrl+shift+z', 'command': 'aliceProcessEditor.utils.redo();', 'force': false },      // 작업 재실행
-            { 'keys': 'ctrl+e', 'command': 'aliceProcessEditor.utils.simulation();', 'force': false },      // 미리보기(시뮬레이션)
-            { 'keys': 'ctrl+d', 'command': 'aliceProcessEditor.utils.download();', 'force': false },        // 이미지 다운로드
-            { 'keys': 'ctrl+x,delete', 'command': 'aliceProcessEditor.deleteElements();', 'force': false }, // 엘리먼트 삭제
-            { 'keys': 'alt+e', 'command': 'aliceProcessEditor.utils.focus();', 'force': false }             // 세부 속성 편집: 제일 처음으로 이동
+            {'keys': 'ctrl+s', 'command': 'aliceProcessEditor.utils.save();', 'force': true},             // 저장
+            {'keys': 'ctrl+shift+s', 'command': 'aliceProcessEditor.utils.saveAs();', 'force': true},     // 다른 이름으로 저장
+            {'keys': 'ctrl+z', 'command': 'aliceProcessEditor.utils.undo();', 'force': false},            // 작업 취소
+            {'keys': 'ctrl+shift+z', 'command': 'aliceProcessEditor.utils.redo();', 'force': false},      // 작업 재실행
+            {'keys': 'ctrl+e', 'command': 'aliceProcessEditor.utils.simulation();', 'force': false},      // 미리보기(시뮬레이션)
+            {'keys': 'ctrl+d', 'command': 'aliceProcessEditor.utils.download();', 'force': false},        // 이미지 다운로드
+            {'keys': 'ctrl+x,delete', 'command': 'aliceProcessEditor.deleteElements();', 'force': false}, // 엘리먼트 삭제
+            {'keys': 'alt+e', 'command': 'aliceProcessEditor.utils.focus();', 'force': false}             // 세부 속성 편집: 제일 처음으로 이동
         ];
 
         for (let i = 0; i < shortcuts.length; i++) {
@@ -650,7 +687,9 @@
     function focusPropertiesPanel() {
         let panel = document.querySelector('.alice-process-properties-panel');
         let items = panel.querySelectorAll('input:not([readonly]), select');
-        if (items.length === 0) { return false; }
+        if (items.length === 0) {
+            return false;
+        }
         items[0].focus();
     }
 
@@ -665,11 +704,13 @@
         minimapSvg.html(content);
         minimapSvg.attr('width', 160).attr('height', 110);
         minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
-        minimapSvg.selectAll('text').nodes().forEach(function(node) {
-            if (node.textContent === '') { d3.select(node).remove(); }
+        minimapSvg.selectAll('text').nodes().forEach(function (node) {
+            if (node.textContent === '') {
+                d3.select(node).remove();
+            }
         });
         minimapSvg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
-        minimapSvg.selectAll('.node.selected').nodes().forEach(function(node) {
+        minimapSvg.selectAll('.node.selected').nodes().forEach(function (node) {
             aliceProcessEditor.setDeselectedElement(d3.select(node));
         });
         minimapSvg.selectAll('.selected').classed('selected', false);
@@ -703,11 +744,11 @@
         const drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
         const minimapSvg = d3.select('div.minimap').select('svg');
         const nodeTopArray = [],
-              nodeRightArray = [],
-              nodeBottomArray = [],
-              nodeLeftArray = [];
+            nodeRightArray = [],
+            nodeBottomArray = [],
+            nodeLeftArray = [];
         const nodes = minimapSvg.selectAll('g.element, g.connector').nodes();
-        nodes.forEach(function(node) {
+        nodes.forEach(function (node) {
             let nodeBBox = aliceProcessEditor.utils.getBoundingBoxCenter(d3.select(node));
             nodeTopArray.push(nodeBBox.cy - (nodeBBox.height / 2));
             nodeRightArray.push(nodeBBox.cx + (nodeBBox.width / 2));
@@ -741,7 +782,7 @@
         d3.select(minimapContainer).append('svg');
         const minimapButtonContainer = document.createElement('div');
         minimapButtonContainer.classList.add('minimap-button');
-        minimapButtonContainer.addEventListener('click', function() {
+        minimapButtonContainer.addEventListener('click', function () {
             document.querySelector('div.minimap').classList.toggle('closed');
         }, false);
         drawingBoard.appendChild(minimapButtonContainer);
@@ -783,5 +824,5 @@
     exports.utils = utils;
     exports.initUtil = initUtil;
     exports.autoSave = autoSaveProcess;
-    Object.defineProperty(exports, '__esModule',{value: true});
+    Object.defineProperty(exports, '__esModule', {value: true});
 })));
