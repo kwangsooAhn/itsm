@@ -1,6 +1,5 @@
 package co.brainz.workflow.provider.dto
 
-import com.fasterxml.jackson.annotation.JsonFormat
 import java.io.Serializable
 import java.time.LocalDateTime
 
