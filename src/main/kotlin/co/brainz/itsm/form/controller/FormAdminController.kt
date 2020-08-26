@@ -41,7 +41,10 @@ class FormAdminController(private val formAdminService: FormAdminService) {
     fun getFormList(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search") ?: ""
-        model.addAttribute("formList", formAdminService.findForms(params))
+        params["offset"] = request.getParameter("offset") ?: "0"
+        val result = formAdminService.findForms(params)
+        model.addAttribute("formList", result)
+        model.addAttribute("formListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return formListPage
     }
 

@@ -1267,6 +1267,7 @@ insert into awf_url values ('/rest/forms/imageUpload', 'post', '이미지 업로
 insert into awf_url values ('/rest/forms/{id}', 'delete', '폼 디자이너 삭제', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'get', '폼 디자이너 세부 정보 불러오기', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
+insert into awf_url values ('/rest/forms-admin', 'get', '문서양식 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/images', 'post', '이미지 업로드', 'TRUE');
 insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE');
 insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');
@@ -1593,6 +1594,7 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.creat
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.create');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.update');
+insert into awf_url_auth_map values ('/rest/forms-admin', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/images', 'put', 'image.update');
 insert into awf_url_auth_map values ('/rest/images', 'post', 'image.create');
 insert into awf_url_auth_map values ('/rest/images/{id}', 'delete', 'image.delete');

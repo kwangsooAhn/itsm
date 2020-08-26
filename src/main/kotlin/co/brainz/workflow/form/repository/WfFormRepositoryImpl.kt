@@ -1,8 +1,10 @@
 package co.brainz.workflow.form.repository
 
+import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.workflow.form.entity.QWfFormEntity
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.dsl.CaseBuilder
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -11,7 +13,7 @@ import org.springframework.stereotype.Repository
 class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java),
     WfFormRepositoryCustom {
 
-    override fun findFormEntityList(search: String, status: List<String>): List<WfFormEntity> {
+    override fun findFormEntityList(search: String, status: List<String>, offset: Long): QueryResults<WfFormEntity> {
         val form = QWfFormEntity.wfFormEntity
         val query = from(form)
             .innerJoin(form.createUser).fetchJoin()
@@ -31,7 +33,9 @@ class WfFormRepositoryImpl : QuerydslRepositorySupport(WfFormEntity::class.java)
             query.orderBy(statusNumber.asc())
                 .orderBy(form.updateDt.coalesce(form.createDt).desc())
         }
+        query.limit(ItsmConstants.SEARCH_DATA_COUNT)
+            .offset(offset)
 
-        return query.fetch()
+        return query.fetchResults()
     }
 }

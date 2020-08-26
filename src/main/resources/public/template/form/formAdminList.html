@@ -18,10 +18,11 @@
             </tr>
         </thead>
         <tbody class="list-body">
+            <input type="hidden" id="totalCount" th:value="${formListCount}"/>
             <tr class="no-data-found" th:if="${#arrays.isEmpty(formList)}">
                 <td colspan="7" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr th:each="form, i: ${formList}" th:if="${i.count} < 11">
+            <tr th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
                 <td width="20%" th:class="align-left">
                     <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
                        th:attr="onclick=|openFormView('${form.id}')|"></a>
