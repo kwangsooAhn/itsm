@@ -9,13 +9,12 @@ data class RestTemplateProcessViewDto(
     var name: String? = null,
     var description: String? = null,
     var status: String? = null,
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var createDt: LocalDateTime? = null,
     var createUserKey: String? = null,
     var createUserName: String? = null,
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     var updateDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
     var updateUserName: String? = null,
-    var enabled: Boolean? = null
+    var enabled: Boolean? = null,
+    var totalCount: Long = 0
 ) : Serializable

@@ -1,8 +1,10 @@
 package co.brainz.workflow.process.repository
 
+import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.workflow.process.entity.QWfProcessEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
 import co.brainz.workflow.provider.constants.RestTemplateConstants
+import com.querydsl.core.QueryResults
 import com.querydsl.core.types.dsl.CaseBuilder
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -11,7 +13,11 @@ import org.springframework.stereotype.Repository
 class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class.java),
     WfProcessRepositoryCustom {
 
-    override fun findProcessEntityList(search: String, status: List<String>): List<WfProcessEntity> {
+    override fun findProcessEntityList(
+        search: String,
+        status: List<String>,
+        offset: Long
+    ): QueryResults<WfProcessEntity> {
         val process = QWfProcessEntity.wfProcessEntity
         val query = from(process)
             .innerJoin(process.createUser).fetchJoin()
@@ -33,6 +39,8 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
             query.orderBy(statusNumber.asc())
                 .orderBy(process.updateDt.coalesce(process.createDt).desc())
         }
-        return query.fetch()
+        query.limit(ItsmConstants.SEARCH_DATA_COUNT)
+            .offset(offset)
+        return query.fetchResults()
     }
 }

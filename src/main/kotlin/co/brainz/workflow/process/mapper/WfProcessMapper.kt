@@ -20,7 +20,8 @@ interface WfProcessMapper {
         Mapping(source = "createUser.userName", target = "createUserName"),
         Mapping(source = "updateUser.userKey", target = "updateUserKey"),
         Mapping(source = "updateUser.userName", target = "updateUserName"),
-        Mapping(target = "enabled", ignore = true)
+        Mapping(target = "enabled", ignore = true),
+        Mapping(target = "totalCount", ignore = true)
     )
     fun toProcessViewDto(processEntity: WfProcessEntity): RestTemplateProcessViewDto
 
