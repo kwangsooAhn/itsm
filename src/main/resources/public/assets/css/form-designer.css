@@ -155,19 +155,21 @@ body {
   font-family: "Noto Sans KR";
 }
 
-.form-designer .container {
+.container-form {
   width: 100vw;
   height: 100vh;
+  min-width: 93.75rem;
+  min-height: 56.25rem;
   padding: 0;
   margin: 0;
   background-color: #F7F8F9;
 }
 
-.form-designer .container *:focus {
+.container-form *:focus {
   outline: none !important;
 }
 
-.form-designer .container .toolbar {
+.container-form .toolbar {
   width: 100vw;
   height: 3.125rem;
   font-size: 18px;
@@ -177,17 +179,17 @@ body {
   padding: 0.9375rem 1.25rem;
 }
 
-.form-designer .container .toolbar svg.logo {
+.container-form .toolbar svg.logo {
   float: left;
 }
 
-.form-designer .container .toolbar span.name {
+.container-form .toolbar span.name {
   float: left;
   padding: 0 1.25rem;
   line-height: 1.25rem;
 }
 
-.form-designer .container .toolbar span.separator {
+.container-form .toolbar span.separator {
   width: 0.063rem;
   height: 1.25rem;
   background-color: #ffffff;
@@ -196,18 +198,18 @@ body {
   opacity: 0.3;
 }
 
-.form-designer .container .toolbar a {
+.container-form .toolbar a {
   height: 1.25rem;
   line-height: 1.25rem;
   margin-right: 1.25rem;
   float: left;
 }
 
-.form-designer .container .toolbar a img {
+.container-form .toolbar a img {
   cursor: pointer;
 }
 
-.form-designer .container .toolbar span.form-name {
+.container-form .toolbar span.form-name {
   height: 1.25rem;
   line-height: 1.25rem;
   font-size: 16px;
@@ -215,18 +217,25 @@ body {
   float: right;
 }
 
-.form-designer .container .contents {
+.container-form .contents {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   left: 0;
+  top: 3.125rem;
+  width: calc(100vw - 18.75rem);
+  height: calc(100vh - 3.125rem);
+  min-width: calc(100vw - 18.75rem);
+  min-height: calc(100vh - 3.125rem);
   float: left;
-  min-width: auto;
   padding: 0;
   margin: 0;
 }
 
-.form-designer .container .contents .drawing-board {
+.container-form .contents .drawing-board {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -240,6 +249,10 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  width: 59.38rem;
+  max-width: 59.38rem;
+  margin-top: 6.563rem;
+  padding: 6.25rem 4.063rem 0;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
   -webkit-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
@@ -251,12 +264,27 @@ body {
   /* Firefox */
 }
 
-.form-designer .container .contents .drawing-board::-webkit-scrollbar {
+.container-form .contents .drawing-board::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
 
-.form-designer .container .aside {
+.container-form .contents .drawing-board[data-readonly=true] .dropzone,
+.container-form .contents .drawing-board[data-readonly=true] .ql-toolbar,
+.container-form .contents .drawing-board[data-readonly=true] textarea,
+.container-form .contents .drawing-board[data-readonly=true] button,
+.container-form .contents .drawing-board[data-readonly=true] input[type=text],
+.container-form .contents .drawing-board[data-readonly=true] label.checkbox-group,
+.container-form .contents .drawing-board[data-readonly=true] label.radio-group,
+.container-form .contents .drawing-board[data-readonly=true] select {
+  pointer-events: none;
+}
+
+.container-form .contents .drawing-board[data-readonly=true] .component .move-handler {
+  display: inherit;
+}
+
+.container-form .aside {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -269,47 +297,6 @@ body {
           flex-direction: column;
   float: left;
   right: 0;
-}
-
-.form-designer .container.form {
-  min-width: 93.75rem;
-  min-height: 56.25rem;
-}
-
-.form-designer .container.form .contents {
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  top: 3.125rem;
-  width: calc(100vw - 18.75rem);
-  height: calc(100vh - 3.125rem);
-  min-width: calc(100vw - 18.75rem);
-  min-height: calc(100vh - 3.125rem);
-}
-
-.form-designer .container.form .contents .drawing-board {
-  width: 59.38rem;
-  max-width: 59.38rem;
-  margin-top: 6.563rem;
-  padding: 6.25rem 4.063rem 0;
-}
-
-.form-designer .container.form .contents .drawing-board[data-readonly=true] .dropzone,
-.form-designer .container.form .contents .drawing-board[data-readonly=true] .ql-toolbar,
-.form-designer .container.form .contents .drawing-board[data-readonly=true] textarea,
-.form-designer .container.form .contents .drawing-board[data-readonly=true] button,
-.form-designer .container.form .contents .drawing-board[data-readonly=true] input[type=text],
-.form-designer .container.form .contents .drawing-board[data-readonly=true] label.checkbox-group,
-.form-designer .container.form .contents .drawing-board[data-readonly=true] label.radio-group,
-.form-designer .container.form .contents .drawing-board[data-readonly=true] select {
-  pointer-events: none;
-}
-
-.form-designer .container.form .contents .drawing-board[data-readonly=true] .component .move-handler {
-  display: inherit;
-}
-
-.form-designer .container.form .aside {
   top: 3.125rem;
   width: 18.75rem;
   height: calc(100vh - 3.125rem);
@@ -324,31 +311,48 @@ body {
   /* Firefox */
 }
 
-.form-designer .container.form .aside::-webkit-scrollbar {
+.container-form .aside::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
 
-.form-designer .container.document {
+.container-document {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background-color: #F7F8F9;
 }
 
-.form-designer .container.document .contents {
+.container-document *:focus {
+  outline: none !important;
+}
+
+.container-document .contents {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  left: 0;
+  float: left;
   height: 100vh;
+  min-width: auto;
   min-height: 100vh;
+  padding: 0;
+  margin: 0;
   overflow: auto;
 }
 
-.form-designer .container.document .contents .button-board {
+.container-document .contents .button-board {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -364,29 +368,68 @@ body {
   height: 9.375rem;
 }
 
-.form-designer .container.document .contents .button-board > .button-group {
+.container-document .contents .button-board > .button-group {
   display: inline-block;
 }
 
-.form-designer .container.document .contents .button-board > .button-group button {
+.container-document .contents .button-board > .button-group button {
   margin-right: 0.625rem;
 }
 
-.form-designer .container.document .contents .drawing-board {
+.container-document .contents .drawing-board {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 61.56rem;
   max-width: 61.56rem;
   height: calc(100vh - 9.375rem);
   min-height: calc(100vh - 9.375rem);
   padding: 6.25rem 4.063rem 0;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  -webkit-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+          box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
-.form-designer .container.document .aside {
+.container-document .contents .drawing-board::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+.container-document .aside {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  float: left;
+  right: 0;
   margin-top: 9.375rem;
   height: calc(100vh - 9.375rem);
   min-height: calc(100vh - 9.375rem);
 }
 
-.form-designer .container.document .aside .drawing-board {
+.container-document .aside .drawing-board {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -415,18 +458,18 @@ body {
   /* Firefox */
 }
 
-.form-designer .container.document .aside .drawing-board::-webkit-scrollbar {
+.container-document .aside .drawing-board::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
 
-.form-designer .container.document .aside .drawing-board ul.menu {
+.container-document .aside .drawing-board ul.menu {
   display: table-row;
   border-bottom: solid 0.0625rem #EBEBEB;
   margin-bottom: 1.875rem;
 }
 
-.form-designer .container.document .aside .drawing-board ul.menu li.menu-item {
+.container-document .aside .drawing-board ul.menu li.menu-item {
   display: table-cell;
   vertical-align: middle;
   text-align: center;
@@ -439,35 +482,55 @@ body {
   cursor: pointer;
 }
 
-.form-designer .container.document .aside .drawing-board ul.menu li.menu-item.selected {
+.container-document .aside .drawing-board ul.menu li.menu-item.selected {
   color: #3F4B56;
   border-bottom: solid 0.25rem #0098FF;
 }
 
-.form-designer .container.document .aside .drawing-board ul.menu div.menu-content {
+.container-document .aside .drawing-board ul.menu div.menu-content {
   display: none;
 }
 
-.form-designer .container.document .aside .drawing-board ul.menu div.menu-content.selected {
+.container-document .aside .drawing-board ul.menu div.menu-content.selected {
   display: inherit;
 }
 
-.form-designer .container.print .contents {
+.container-print {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background-color: #F7F8F9;
+}
+
+.container-print *:focus {
+  outline: none !important;
+}
+
+.container-print .contents {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+  left: 0;
+  float: left;
+  min-width: auto;
   height: 100vh;
   min-height: 100vh;
+  padding: 0;
+  margin: 0;
   overflow: auto;
 }
 
-.form-designer .container.print .contents .print-board {
+.container-print .contents .print-board {
   margin: 0.9375rem;
   height: 2.813rem;
 }
 
-.form-designer .container.print .contents .print-board span {
+.container-print .contents .print-board span {
   float: right;
   font-size: 16px;
   line-height: 24px;
@@ -476,25 +539,64 @@ body {
   text-align: right;
 }
 
-.form-designer .container.print .contents .drawing-board {
+.container-print .contents .drawing-board {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   width: 61.56rem;
   max-width: 61.56rem;
   height: calc(100vh - 9.375rem);
   min-height: calc(100vh - 9.375rem);
   padding: 6.25rem 4.063rem 0;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  -webkit-box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+          box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+  overflow-y: auto;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
-.form-designer .container.print .contents .drawing-board .component {
+.container-print .contents .drawing-board::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+.container-print .contents .drawing-board .component {
   page-break-inside: avoid;
 }
 
-.form-designer .container.print .aside {
+.container-print .aside {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 0;
+      -ms-flex: 0 0 auto;
+          flex: 0 0 auto;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  float: left;
+  right: 0;
   margin-top: 9.375rem;
   height: calc(100vh - 9.375rem);
   min-height: calc(100vh - 9.375rem);
 }
 
-.form-designer .container.print .aside .drawing-board {
+.container-print .aside .drawing-board {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -523,7 +625,7 @@ body {
   /* Firefox */
 }
 
-.form-designer .container.print .aside .drawing-board::-webkit-scrollbar {
+.container-print .aside .drawing-board::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
