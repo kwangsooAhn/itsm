@@ -1,297 +1,262 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/popupLayout">
 <head>
     <title th:if="${documentId}" th:text="#{document.label.modify}"></title>
     <title th:unless="${documentId}" th:text="#{document.label.register}"></title>
-    <th:block th:replace="layout/fragments/commonHead"></th:block>
-    <style>
-        .selected-color {
-            display: inline-block;
-            width: 1.563rem;
-            height: 1.563rem;
-            margin-right: 0.3125rem;
-            border: 0.0625rem solid #000000;
-            cursor: pointer;
-        }
-        .color {
-            width: 9.375rem;
-        }
-        .color-palette {
-            background-color: #d3d3d3;
-            width: 11.25rem;
-            margin-left: 2rem;
-        }
-        .color-palette div {
-            display: inline-block;
-            width: 1.25rem;
-            height: 1.25rem;
-            margin: 0.3125rem;
-            cursor: pointer;
-        }
-    </style>
+    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
+    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
 </head>
 <body>
-<div>
-    <table style="width:95%; margin: 0 auto;">
-        <colgroup>
-            <col width="20%">
-            <col width="*">
-        </colgroup>
-        <tr>
-            <th class="required" th:text="#{document.label.type}"></th>
-            <td>
-                <select id="document_type" style="width:75%">
-                    <option value="application-form" th:text="#{document.type.applicationForm}" selected></option>
-                    <option value="workflow" th:text="#{document.type.workflow}"></option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th class="required" th:text="#{document.label.name}"></th>
-            <td>
-                <input id="document_name" type="text" maxlength="50" required="required" style="width:100%"/>
-            </td>
-        </tr>
-        <tr>
-            <th th:text="#{document.label.description}"></th>
-            <td>
-                <textarea id="document_desc" maxlength="128" style="height:100px; width:100%"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <th th:text="#{common.label.group}"></th>
-            <td>
-                <select id="document_group" style="width:75%">
-                    <option value="" th:text="#{document.label.notSelect}" selected></option>
-                    <option th:each="group:${groupList}" th:value="${group.code}"
-                            th:text="${group.codeValue}"></option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th class="required" th:text="#{document.label.form}"></th>
-            <td>
-                <select id="document_form" style="width:75%" th:disabled="${documentId}">
-                    <option th:each="form:${formList}"
-                            th:id="${form?.id}"
-                            th:value="${form?.id}"
-                            th:text="${form?.name}"></option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th class="required" th:text="#{document.label.process}"></th>
-            <td>
-                <select id="document_process" style="width:75%" th:disabled="${documentId}">
-                    <option th:each="process:${processList}"
-                            th:id="${process?.id}"
-                            th:value="${process?.id}"
-                            th:text="${process?.name}" ></option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th class="required" th:text="#{document.label.numberingRule}"></th>
-            <td>
-                <select id="document_numbering_rule" style="width:75%" th:disabled="${documentId}">
-                    <option th:each="numberingRule:${numberingRuleList}"
-                            th:id="${numberingRule.numberingId}"
-                            th:value="${numberingRule.numberingId}"
-                            th:text="${numberingRule.numberingName}" ></option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th th:text="#{document.label.status}"></th>
-            <td>
-                <select id="document_status" style="width:75%">
-                    <option th:each="status:${statusList}" th:value="${status.code}"
-                            th:text="${status.codeValue}" th:selected="${status.code == 'document.status.temporary'}"></option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <th class="required"  th:text="#{document.label.businessFlowColor}"></th>
-            <td>
-                <div>
-                    <input id="selected_color" name="selected_color" class="selected-color"/>
-                    <input id="document_color" name="document_color" class="color"/>
-                    <div id="document_colorPalette_layer">
-                        <div id="document_colorPalette" name="document_colorPalette" class="color-palette"></div>
+<th:block layout:fragment="content">
+    <div class="edit">
+        <h3 class="under-bar" th:if="${documentId}" th:text="#{document.label.modify}"></h3>
+        <h3 class="under-bar" th:unless="${documentId}" th:text="#{document.label.register}"></h3>
+        <div class="form-set">
+            <label class="required" th:text="#{document.label.type}" for="document-type"></label>
+            <select id="document-type">
+                <option value="application-form" th:text="#{document.type.applicationForm}" selected></option>
+                <option value="workflow" th:text="#{document.type.workflow}"></option>
+            </select>
+        </div>
+        <div class="form-set">
+            <label class="required" th:text="#{document.label.name}" for="document-name"></label>
+            <input id="document-name" type="text" maxlength="50" required="required"/>
+        </div>
+        <div class="form-set">
+            <label th:text="#{document.label.description}" for="document-desc"></label>
+            <textarea id="document-desc" maxlength="128"></textarea>
+        </div>
+        <div class="form-set">
+            <label th:text="#{common.label.group}" for="document-group"></label>
+            <select id="document-group">
+                <option value="" th:text="#{document.label.notSelect}" selected></option>
+                <option th:each="group:${groupList}" th:value="${group.code}"
+                        th:text="${group.codeValue}"></option>
+            </select>
+        </div>
+        <div class="form-set">
+            <label class="required" th:text="#{document.label.form}" for="document-form"></label>
+            <select id="document-form" th:disabled="${documentId}">
+                <option th:each="form:${formList}"
+                        th:id="${form?.id}"
+                        th:value="${form?.id}"
+                        th:text="${form?.name}"></option>
+            </select>
+        </div>
+        <div class="form-set">
+            <label class="required" th:text="#{document.label.process}" for="document-process"></label>
+            <select id="document-process" th:disabled="${documentId}">
+                <option th:each="process:${processList}"
+                        th:id="${process?.id}"
+                        th:value="${process?.id}"
+                        th:text="${process?.name}" ></option>
+            </select>
+        </div>
+        <div class="form-set">
+            <label class="required" th:text="#{document.label.numberingRule}" for="document-numbering-rule"></label>
+            <select id="document-numbering-rule" th:disabled="${documentId}">
+                <option th:each="numberingRule:${numberingRuleList}"
+                        th:id="${numberingRule.numberingId}"
+                        th:value="${numberingRule.numberingId}"
+                        th:text="${numberingRule.numberingName}" ></option>
+            </select>
+        </div>
+        <div class="form-set">
+            <label th:text="#{document.label.status}" for="document-status"></label>
+            <select id="document-status">
+                <option th:each="status:${statusList}" th:value="${status.code}"
+                        th:text="${status.codeValue}" th:selected="${status.code == 'document.status.temporary'}"></option>
+            </select>
+        </div>
+        <div class="form-set">
+            <label class="required"  th:text="#{document.label.businessFlowColor}" for="document-color"></label>
+                <div class="color-picker">
+                    <div class="color-input">
+                        <div class="selected-color-layer">
+                            <div id="selected-color" name="selected-color" class="selected-color"></div>
+                        </div>
+                        <input id="document-color" name="document-color"/>
+                    </div>
+                    <div id="color-palette-layer">
+                        <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
+                        <div id="document-colorPalette-opacity" name="document-colorPalette-opacity" class="color-palette-opacity"></div>
                     </div>
                 </div>
             </td>
-        </tr>
-    </table>
-</div>
-<hr>
-<div style="margin-top: 10px; text-align: center;">
-    <button th:if="${documentId}" onclick="saveDocument('put')" th:text="#{common.btn.modify}"></button>
-    <button th:unless="${documentId}" onclick="saveDocument('post')" th:text="#{common.btn.register}"></button>
-    <button th:if="${documentId}" onclick="openDisplay();" th:text="#{document.label.display}"></button>
-    <button th:text="#{common.btn.close}" onclick="window.close();"></button>
-</div>
-</body>
-<script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
-<script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
-<script type="text/javascript">
-    // Document status.
-    const STATUS_TEMPORARY = 'document.status.temporary';
-    const STATUS_USE = 'document.status.use';
-    const STATUS_DESTROY = 'document.status.destroy';
+        </div>
+    </div>
+    <div class="horizontal-bar"></div>
+    <div class="btn-bar">
+        <button class="point-fill" th:if="${documentId}" onclick="saveDocument('put')" th:text="#{common.btn.modify}"></button>
+        <button class="point-fill" th:unless="${documentId}" onclick="saveDocument('post')" th:text="#{common.btn.register}"></button>
+        <button class="point-line" th:if="${documentId}" onclick="openDisplay();" th:text="#{document.label.display}"></button>
+        <button class="default-fill" th:text="#{common.btn.close}" onclick="window.close();"></button>
+    </div>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        // Document status.
+        const STATUS_TEMPORARY = 'document.status.temporary';
+        const STATUS_USE = 'document.status.use';
+        const STATUS_DESTROY = 'document.status.destroy';
 
-    let beforeDocumentStatus = null;
+        let beforeDocumentStatus = null;
 
-    function saveDocument(method) {
-        if (emptyValidation()) {
-            let documentType = document.getElementById('document_type');
-            let documentForm = document.getElementById('document_form');
-            let documentProcess = document.getElementById('document_process');
-            let documentStatus = document.getElementById('document_status');
-            let documentNumberingRule = document.getElementById('document_numbering_rule');
-            let documentInfo = {
-                documentType: documentType.options[documentType.selectedIndex].value,
-                documentName: document.getElementById('document_name').value,
-                documentDesc: document.getElementById('document_desc').value,
-                formId: documentForm.options[documentForm.selectedIndex].value,
-                processId: documentProcess.options[documentProcess.selectedIndex].value,
-                documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
-                documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
-                documentColor: document.getElementById('document_color').value
-            };
-            //그룹을 선택한 경우
-            let documentGroup = document.getElementById('document_group');
-            if (documentGroup.options[documentGroup.selectedIndex].value !== '') {
-                documentInfo.documentGroup = documentGroup.options[documentGroup.selectedIndex].value;
-            }
+        function saveDocument(method) {
+            if (emptyValidation()) {
+                let documentType = document.getElementById('document-type');
+                let documentForm = document.getElementById('document-form');
+                let documentProcess = document.getElementById('document-process');
+                let documentStatus = document.getElementById('document-status');
+                let documentNumberingRule = document.getElementById('document-numbering-rule');
+                let documentInfo = {
+                    documentType: documentType.options[documentType.selectedIndex].value,
+                    documentName: document.getElementById('document-name').value,
+                    documentDesc: document.getElementById('document-desc').value,
+                    formId: documentForm.options[documentForm.selectedIndex].value,
+                    processId: documentProcess.options[documentProcess.selectedIndex].value,
+                    documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
+                    documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
+                    documentColor: document.getElementById('document-color').value
+                };
+                //그룹을 선택한 경우
+                let documentGroup = document.getElementById('document-group');
+                if (documentGroup.options[documentGroup.selectedIndex].value !== '') {
+                    documentInfo.documentGroup = documentGroup.options[documentGroup.selectedIndex].value;
+                }
 
-            let url = '/rest/documents-admin';
-            if (method === 'put') {
-                documentInfo.documentId = '[[${documentId}]]';
-                url += '/[[${documentId}]]';
-            }
-            if (beforeDocumentStatus === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) {
-                aliceJs.confirm(
-                    i18n.get('document.msg.confirmDeleteInstance'),
-                    () => restSubmit(method, url + '?isDeleteData=true', documentInfo),
-                    () => restSubmit(method, url, documentInfo)
-                );
-            } else {
-                restSubmit(method, url, documentInfo);
+                let url = '/rest/documents-admin';
+                if (method === 'put') {
+                    documentInfo.documentId = '[[${documentId}]]';
+                    url += '/[[${documentId}]]';
+                }
+                if (beforeDocumentStatus === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) {
+                    aliceJs.confirm(
+                        i18n.get('document.msg.confirmDeleteInstance'),
+                        () => restSubmit(method, url + '?isDeleteData=true', documentInfo),
+                        () => restSubmit(method, url, documentInfo)
+                    );
+                } else {
+                    restSubmit(method, url, documentInfo);
+                }
             }
         }
-    }
 
-    //빈 값 체크
-    function emptyValidation() {
-        if (isEmpty('document_name', 'document.msg.enterDocumentName')) return false;
-        if (isEmpty('document_color', 'document.msg.enterBusinessFlowColor')) return false;
-        return true;
-    }
+        //빈 값 체크
+        function emptyValidation() {
+            if (isEmpty('document-name', 'document.msg.enterDocumentName')) return false;
+            if (isEmpty('document-color', 'document.msg.enterBusinessFlowColor')) return false;
+            return true;
+        }
 
-    //REST API
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function(response) {
-                let documentId = response.responseText;
-                aliceJs.alert(i18n.get('common.msg.save'), function() {
-                    opener.location.reload();
-                    window.close();
-                    if ('[[${documentId}]]' === '') {
-                        const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
-                        window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1500,height=920,' + specs);
+        //REST API
+        function restSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    let documentId = response.responseText;
+                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                        opener.location.reload();
+                        window.close();
+                        if ('[[${documentId}]]' === '') {
+                            const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
+                            window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1500,height=920,' + specs);
+                        }
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        //ColorPicker 초기화
+        function initColorPicker() {
+            let selectedColorBox = document.getElementById('selected-color');
+            let elementObject = document.getElementById('document-color');
+            selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
+            elementObject.value = '#000000';
+            elementObject.addEventListener('change', function() {
+                if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
+                    this.value = '';
+                }
+                selectedColorBox.style.backgroundColor = this.value;
+            });
+            let colorPaletteLayer = document.getElementById('color-palette-layer');
+            let option = {
+                colors: colorPalette.getPaletteColors('documentPaletteColors')
+            }
+            colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
+        }
+
+        /**
+         * Set Document Data.
+         *
+         * @param documentData
+         */
+        function setData(documentData) {
+            document.getElementById('document-type').value = documentData.documentType;
+            document.getElementById('document-name').value = documentData.documentName;
+            document.getElementById('document-desc').value = documentData.documentDesc;
+            document.getElementById('document-form').value = documentData.formId;
+            document.getElementById('document-process').value = documentData.processId;
+            document.getElementById('document-numbering-rule').value = documentData.documentNumberingRuleId;
+            document.getElementById('document-color').value = documentData.documentColor;
+            document.getElementById('selected-color').style.backgroundColor = documentData.documentColor;
+            document.getElementById('document-group').value = (documentData.documentGroup !== null ? documentData.documentGroup : '');
+            document.getElementById('document-group').disabled = (documentData.documentType === 'workflow');
+
+            const statusElem = document.getElementById('document-status');
+            beforeDocumentStatus = documentData.documentStatus;
+            statusElem.value = beforeDocumentStatus;
+            switch (beforeDocumentStatus) {
+                case STATUS_TEMPORARY:
+                    statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
+                    break;
+                case STATUS_USE:
+                    statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                    break;
+                case STATUS_DESTROY:
+                    statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                    statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
+                    break;
+            }
+        }
+
+        //신청서 양식편집 화면 open
+        function openDisplay() {
+            const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
+            window.open('/documents-admin/' + '[[${documentId}]]' + '/display', '_blank', 'width=1500,height=920,' + specs);
+            window.close();
+        }
+
+        window.onload = function() {
+            initColorPicker();
+            if ('[[${documentId}]]' !== '') {
+                aliceJs.sendXhr({
+                    method: 'GET',
+                    url: '/rest/documents-admin/[[${documentId}]]',
+                    contentType: 'application/json; charset=utf-8',
+                    callbackFunc: function(xhr) {
+                        setData(JSON.parse(xhr.responseText));
                     }
                 });
             }
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    //ColorPicker 초기화
-    function initColorPicker() {
-        let selectedColorBox = document.getElementById('selected_color');
-        let elementObject = document.getElementById('document_color');
-        selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
-        elementObject.value = '#000000';
-        elementObject.addEventListener('change', function() {
-            if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
-                this.value = '';
-            }
-            selectedColorBox.style.backgroundColor = this.value;
-        });
-        let colorPaletteLayer = document.getElementById('document_colorPalette_layer');
-        let option = {
-            colors: colorPalette.getPaletteColors('documentPaletteColors')
-        }
-        colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
-    }
-
-    /**
-     * Set Document Data.
-     *
-     * @param documentData
-     */
-    function setData(documentData) {
-        document.getElementById('document_type').value = documentData.documentType;
-        document.getElementById('document_name').value = documentData.documentName;
-        document.getElementById('document_desc').value = documentData.documentDesc;
-        document.getElementById('document_form').value = documentData.formId;
-        document.getElementById('document_process').value = documentData.processId;
-        document.getElementById('document_numbering_rule').value = documentData.documentNumberingRuleId;
-        document.getElementById('document_color').value = documentData.documentColor;
-        document.getElementById('selected_color').style.backgroundColor = documentData.documentColor;
-        document.getElementById('document_group').value = (documentData.documentGroup !== null ? documentData.documentGroup : '');
-        document.getElementById('document_group').disabled = (documentData.documentType === 'workflow');
-
-        const statusElem = document.getElementById('document_status');
-        beforeDocumentStatus = documentData.documentStatus;
-        statusElem.value = beforeDocumentStatus;
-        switch (beforeDocumentStatus) {
-            case STATUS_TEMPORARY:
-                statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
-                break;
-            case STATUS_USE:
-                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                break;
-            case STATUS_DESTROY:
-                statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
-                break;
-        }
-    }
-
-    //신청서 양식편집 화면 open
-    function openDisplay() {
-        const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
-        window.open('/documents-admin/' + '[[${documentId}]]' + '/display', '_blank', 'width=1500,height=920,' + specs);
-        window.close();
-    }
-
-    /*<![CDATA[*/
-    window.onload = function() {
-        initColorPicker();
-        if ('[[${documentId}]]' !== '') {
-            aliceJs.sendXhr({
-                method: 'GET',
-                url: '/rest/documents-admin/[[${documentId}]]',
-                contentType: 'application/json; charset=utf-8',
-                callbackFunc: function(xhr) {
-                    setData(JSON.parse(xhr.responseText));
+            document.getElementById('document-type').addEventListener('change', function() {
+                const groupElem = document.getElementById('document-group');
+                groupElem.disabled = (this.value === 'workflow');
+                if (this.value === 'workflow') {
+                    groupElem.value = '';
                 }
             });
-        }
-        document.getElementById('document_type').addEventListener('change', function() {
-            const groupElem = document.getElementById('document_group');
-            groupElem.disabled = (this.value === 'workflow');
-            if (this.value === 'workflow') {
-                groupElem.value = '';
-            }
-        });
-    };
-    /*]]>*/
-</script>
+        };
+        /*]]>*/
+    </script>
+</th:block>
+</body>
 </html>

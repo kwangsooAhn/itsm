@@ -31,5 +31,7 @@ class UserDto(
     var avatarId: String = "",
     var avatarPath: String = "",
     var avatarValue: String = "",
-    var avatarSize: Long = 0L
+    var avatarSize: Long = 0L,
+    var createDt: LocalDateTime? = null,
+    var updateDt: LocalDateTime? = null
 ) : Serializable
