@@ -54,17 +54,20 @@ class WfProcessService(
     fun selectProcessList(parameters: LinkedHashMap<String, Any>): MutableList<RestTemplateProcessViewDto> {
         var search = ""
         var status = listOf<String>()
+        var offset = 0L
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString().split(",")
+        if (parameters["offset"] != null) offset = parameters["offset"].toString().toLong()
         val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
-        val processEntityList = wfProcessRepository.findProcessEntityList(search, status)
-        processEntityList.forEach {
-            val enabled = when (it.processStatus) {
+        val queryResult = wfProcessRepository.findProcessEntityList(search, status, offset)
+        for (process in queryResult.results) {
+            val enabled = when (process.processStatus) {
                 WfProcessConstants.Status.EDIT.code, WfProcessConstants.Status.PUBLISH.code -> true
                 else -> false
             }
-            val processViewDto = processMapper.toProcessViewDto(it)
+            val processViewDto = processMapper.toProcessViewDto(process)
             processViewDto.enabled = enabled
+            processViewDto.totalCount = queryResult.total
             processViewDtoList.add(processViewDto)
         }
         return processViewDtoList

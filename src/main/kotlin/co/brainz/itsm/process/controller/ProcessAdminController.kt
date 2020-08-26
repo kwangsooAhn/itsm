@@ -33,7 +33,10 @@ class ProcessAdminController(private val processAdminService: ProcessAdminServic
     fun getProcessList(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
-        model.addAttribute("processList", processAdminService.getProcesses(params))
+        params["offset"] = request.getParameter("offset") ?: "0"
+        val result = processAdminService.getProcesses(params)
+        model.addAttribute("processList", result)
+        model.addAttribute("processListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return processListPage
     }
 
