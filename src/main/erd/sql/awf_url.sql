@@ -70,6 +70,7 @@ insert into awf_url values ('/faqs/new', 'get', 'FAQ 등록', 'TRUE');
 insert into awf_url values ('/faqs/search', 'get', 'FAQ 검색 화면 호출', 'TRUE');
 insert into awf_url values ('/faqs/{id}/edit', 'get', 'FAQ 수정', 'TRUE');
 insert into awf_url values ('/faqs/{id}/view', 'get', 'FAQ 보기', 'TRUE');
+insert into awf_url values ('/forms/import', 'get', '폼 IMPORT 화면', 'TRUE');
 insert into awf_url values ('/forms/list', 'get', '폼 리스트 화면', 'TRUE');
 insert into awf_url values ('/forms/new', 'get', '폼 기본 정보 등록 화면', 'TRUE');
 insert into awf_url values ('/forms/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
