@@ -48,7 +48,7 @@ class FormRestAdminController(private val formAdminService: FormAdminService) {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search") ?: ""
         params["offset"] = request.getParameter("offset") ?: "0"
-        return formAdminService.findForms(params);
+        return formAdminService.findForms(params)
     }
 
     /**
