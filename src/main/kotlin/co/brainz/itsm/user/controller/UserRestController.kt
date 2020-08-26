@@ -16,6 +16,7 @@ import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.util.AliceUtil
+import co.brainz.itsm.user.dto.UserDto
 import co.brainz.itsm.user.dto.UserListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.service.UserService
@@ -29,11 +30,13 @@ import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.servlet.LocaleResolver
 
@@ -129,6 +132,19 @@ class UserRestController(
     @GetMapping("/", "")
     fun getUsers(): MutableList<UserListDto> {
         return userService.selectUserListOrderByName()
+    }
+
+    /**
+     * 사용자 목록 조회 (스크롤).
+     */
+    @GetMapping("/list")
+    fun getUserList(
+        @RequestParam(value = "search", defaultValue = "") search: String,
+        @RequestParam(value = "category", defaultValue = "") category: String,
+        @RequestParam(value = "offset", defaultValue = "0") offset: String,
+        model: Model
+    ): MutableList<UserDto> {
+        return userService.selectUserList(search, category, offset.toLong())
     }
 
     /**

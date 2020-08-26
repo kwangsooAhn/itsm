@@ -401,6 +401,10 @@ workflowUtil.loadFormFromXML = function(data) {
             let componentData = workflowUtil.XMLToObject(componentNode);
             Object.defineProperty(componentData, 'componentId', Object.getOwnPropertyDescriptor(componentData, 'id'));
             delete componentData['id'];
+            // 옵션이 배열이 아닐 경우 배열에 넣어준다.
+            if (typeof componentData['option'] !== 'undefined' && !Array.isArray(componentData['option'])) {
+                componentData['option'] = [componentData['option']];
+            }
             formData.components.push(componentData);
         }
     }
@@ -431,8 +435,6 @@ workflowUtil.loadFormFromXML = function(data) {
 workflowUtil.loadProcessFromXML = function(data) {
     const parser = new DOMParser();
     const resultType = XPathResult.ANY_UNORDERED_NODE_TYPE;
-    
-    
     const xmlDoc = parser.parseFromString(data,'text/xml');
     if (workflowUtil.isParseError(xmlDoc)) {
         throw new Error('Error parsing XML');
@@ -551,19 +553,29 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
         const reader = new FileReader();
         reader.addEventListener('load', function(e) {
             let saveData = {};
-            if (type === 'form') {
-                saveData = workflowUtil.loadFormFromXML(e.target.result);
-                saveData.name = data.formName;
-                saveData.desc = data.formDesc;
-            } else if (type === 'process') {
-                saveData = workflowUtil.loadProcessFromXML(e.target.result);
-                saveData.process = {name: data.processName, description: data.processDesc};
-                workflowUtil.addRequiredProcessAttribute(saveData);
-            }
-            console.debug(saveData);
-            let result = workflowUtil.saveImportData(type, saveData);
-            if (typeof callbackFunc === 'function') {
-                callbackFunc(result);
+            if (type === xmlFile.name.split('_')[0]) {
+                switch (type) {
+                    case 'form':
+                        saveData = workflowUtil.loadFormFromXML(e.target.result);
+                        saveData.name = data.formName;
+                        saveData.desc = data.formDesc;
+                        break;
+                    case 'process':
+                        saveData = workflowUtil.loadProcessFromXML(e.target.result);
+                        saveData.process = {name: data.processName, description: data.processDesc};
+                        console.log(saveData);
+                        workflowUtil.addRequiredProcessAttribute(saveData);
+                        break;
+                    default: //none
+                }
+                console.debug(saveData);
+                let result = workflowUtil.saveImportData(type, saveData);
+                if (typeof callbackFunc === 'function') {
+                    callbackFunc(result);
+                }
+            } else {
+                aliceJs.alert(i18n.get('validation.msg.checkImportFormat'));
+                return false;
             }
         });
         reader.readAsText(xmlFile, 'utf-8');

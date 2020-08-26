@@ -57,18 +57,18 @@ class UserService(
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(search: String, category: String): MutableList<UserDto> {
-        val aliceUserEntities =
-            userRepository.findAliceUserEntityList(search, category)
+    fun selectUserList(search: String, category: String, offset: Long): MutableList<UserDto> {
+        val queryResult =
+            userRepository.findAliceUserEntityList(search, category, offset)
         val userList: MutableList<UserDto> = mutableListOf()
-        aliceUserEntities.forEach { userEntity ->
+        for (userEntity in queryResult.results) {
             val avatarPath = avatarService.makeAvatarPath(userEntity.avatar)
             val userDto = userMapper.toUserDto(userEntity)
             userDto.avatarPath = avatarPath
-
-            userEntity.department?.let {
+            userDto.department?.let {
                 userEntity.department = codeService.getDetailCodes(userEntity.department!!)?.codeValue
             }
+            userDto.totalCount = queryResult.total
             userList.add(userDto)
         }
         return userList
