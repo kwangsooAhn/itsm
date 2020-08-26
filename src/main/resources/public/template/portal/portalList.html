@@ -35,6 +35,7 @@
 </div>
 </body>
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
+<script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[ */
     var offsetCount = 0;
@@ -58,36 +59,18 @@
             offsetCount = 0;
             urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim()) +
                 '&offset=' + offsetCount;
-            restSubmit('get', '/portal/list?' + urlParam, isScroll);
+            restSubmit('get', '/rest/portal?' + urlParam, isScroll);
         }
     }
 
-    /*function loadXMLDoc() {
-        var xmlhttp = createXmlHttpRequestObject("GET", "/faqs/list");
-
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == XMLHttpRequest.DONE) {   // XMLHttpRequest.DONE == 4
-                if (xmlhttp.status == 200) {
-                    document.getElementById("faqList").innerHTML = xmlhttp.responseText;
-                } else if (xmlhttp.status == 400) {
-                    alert('There was an error 400');
-                } else {
-                    alert('something else other than 200 was returned');
-                }
-            }
-        };
-        xmlhttp.send();
-    }*/
-
     // REST API
     function restSubmit(method, url, isScroll) {
-        const opt = {
-            method: method,
-            url: url,
-            async: false,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                let dataList = JSON.parse(response.responseText);
+        var xhttp = new XMLHttpRequest();
+        xhttp.open(method, url, false);
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                let dataList = JSON.parse(this.responseText);
+                console.log(dataList);
                 if (isScroll) {
                     if (dataList.length > 0) {
                         document.getElementById('totalCount').value = dataList[0].totalCount;
@@ -123,8 +106,9 @@
                 });
             }
         };
-        aliceJs.sendXhr(opt);
+        xhttp.send();
     }
+
     // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
     function scrollerEventCheck() {
         let scrollerCheck = false;
