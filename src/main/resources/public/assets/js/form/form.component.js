@@ -169,8 +169,7 @@
                 },
                 placeholder: property.display.placeholder,
                 theme: 'snow',
-                readOnly: false
-                //readOnly: isForm            //폼 양식 편집 화면에서는 editor를 편집할 수 없다.
+                readOnly: isForm            //폼 양식 편집 화면에서는 editor를 편집할 수 없다.
             };
             const editor = new Quill(editorContainer, editorOptions);
             editor.setContents(defaultValue);

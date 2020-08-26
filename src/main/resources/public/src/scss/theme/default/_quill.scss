@@ -5,12 +5,27 @@
  * @author woodajung
  * @version 1.0
  */
+ $quill-font-family:              "Noto Sans KR";
+ $quill-font-size:                16px;
+ $quill-font-weight:              400; // regular
+ $quill-line-height:              24px;
+ $quill-font-color:               $dark-gray;
+ $quill-border:                   0.0625rem solid $line-gray;
+ $quill-bg-color:                 $white;
+ $quill-toolbar-font-size:        16px;
+ $quill-toolbar-font-weight:      500; // medium
+ $quill-toolbar-font-color:       $light-black;
+ $quill-toolbar-pressed-color:    $point-blue;
+ $quill-toolbar-pressed-bg-color: $line-gray;
+ $quill-toolbar-hover-color:      $light-black;
+ $quill-toolbar-hover-bg-color:   rgba(135, 206, 255, 0.1);
+
 .ql-toolbar {
     & *:focus {
         outline: none !important;
     }
     &.ql-snow {
-        font-family: $font-family;
+        font-family: $quill-font-family;
         font-size: $quill-toolbar-font-size;
         padding: 0;
         border: $quill-border;
@@ -57,7 +72,7 @@
                         background-color: $quill-toolbar-pressed-bg-color;
                     }
                     .ql-picker-options {
-                        margin-left: -0.0625rem; // -1px 
+                        margin-left: -0.0625rem; // -1px
                         border-color: $line-gray;
                         .ql-picker-item {
                             &.ql-selected {
@@ -141,7 +156,7 @@
                         background-color: $quill-toolbar-pressed-bg-color;
                     }
                     .ql-picker-options {
-                        margin-left: -0.0625rem; // -1px 
+                        margin-left: -0.0625rem; // -1px
                         border-color: $line-gray;
                         .ql-picker-item {
                             &.ql-selected svg {

@@ -5512,14 +5512,14 @@ var Picker = function () {
     key: 'selectItem',
     value: function selectItem(item) {
       var trigger = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
-
       var selected = this.container.querySelector('.ql-selected');
-      if (item === selected) return;
-      if (selected != null) {
-        selected.classList.remove('ql-selected');
+      if (item == null || item === selected) return;
+      if (!item.classList.contains('ql-selected')) {
+          if (selected != null) {
+              selected.classList.remove('ql-selected');
+          }
+          item.classList.add('ql-selected');
       }
-      if (item == null) return;
-      item.classList.add('ql-selected');
       this.select.selectedIndex = [].indexOf.call(item.parentNode.children, item);
       if (item.hasAttribute('data-value')) {
         this.label.setAttribute('data-value', item.getAttribute('data-value'));
