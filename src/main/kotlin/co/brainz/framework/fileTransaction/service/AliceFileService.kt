@@ -93,7 +93,7 @@ class AliceFileService(
         if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty || !(mediaType.toString().toUpperCase()
                 .contains(fileNameExtension))
         ) {
-            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension $mediaType is not allowed.")
+            throw AliceException(AliceErrorConstants.ERR_00001, "The file extension $mediaType is not allowed.")
         }
 
         multipartFile.transferTo(tempPath.toFile())
@@ -473,7 +473,7 @@ class AliceFileService(
         }
 
         if (aliceFileNameExtensionRepository.findById(fileNameExtension).isEmpty) {
-            throw AliceException(AliceErrorConstants.ERR_00004, "The file extension is not allowed.")
+            throw AliceException(AliceErrorConstants.ERR_00001, "The file extension is not allowed.")
         }
 
         multipartFile.transferTo(filePath.toFile())

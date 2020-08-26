@@ -42,6 +42,10 @@
     mask-position: center center;
 }
 
+@mixin content-header() {
+    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; background: $light-gray;} // 46px 60px 46px 60px
+}
+
 @mixin list-template() {
     .list {
         padding-top: 1.25rem; // 20px
@@ -95,7 +99,7 @@
 }
 
 @mixin view-template() {
-    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; } // 46px 60px 46px 60px
+    @include content-header();
     .view {
         padding: 3.125rem 19.375rem 3.125rem 19.375rem; // 50px 310px 50px 310px
         background-color: white;
@@ -122,7 +126,7 @@
 
 @mixin edit-template() {
     background-color: white;
-    .header { padding: 2.875rem 3.75rem 2.875rem 3.75rem; background: $light-gray;} // 46px 60px 46px 60px
+    @include content-header();
     .edit {
         padding-top: 3.125rem; // 50px
         width: 61.25rem; // 980px
