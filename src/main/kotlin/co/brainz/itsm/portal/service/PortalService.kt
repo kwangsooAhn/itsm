@@ -12,8 +12,6 @@ import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 
 @Service

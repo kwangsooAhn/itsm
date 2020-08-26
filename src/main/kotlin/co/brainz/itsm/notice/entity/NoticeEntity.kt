@@ -55,7 +55,7 @@ import org.hibernate.annotations.GenericGenerator
             "select download_title, download_category, create_dt, update_dt, 'download' table_name " +
             "from awf_download " +
             "where (lower(download_title) like lower(concat('%', :searchValue, '%'))) " +
-            ") as portal "+
+            ") as portal " +
             "order by create_dt desc limit 10 offset 20",
     resultSetMapping = "portalSearchMapping",
     resultClass = PortalDto::class
