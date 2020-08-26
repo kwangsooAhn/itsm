@@ -2,7 +2,10 @@ package co.brainz.itsm.notice.controller
 
 import co.brainz.itsm.notice.dto.NoticeDto
 import co.brainz.itsm.notice.dto.NoticeListDto
+import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -45,7 +48,11 @@ class NoticeRestController(private val noticeService: NoticeService) {
 
     // 공지사항 리스트 데이터 조회
     @GetMapping("/", "")
-    fun getNoticeList(): MutableList<NoticeListDto> {
-        return noticeService.findNoticeList()
+    fun getNoticeList(noticeSearchDto: NoticeSearchDto): MutableList<NoticeListDto> {
+        val searchValue = noticeSearchDto.searchValue
+        val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
+        val toDt = LocalDateTime.parse(noticeSearchDto.toDt, DateTimeFormatter.ISO_DATE_TIME)
+        val offset = noticeSearchDto.offset
+        return noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset)
     }
 }
