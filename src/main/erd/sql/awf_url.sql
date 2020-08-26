@@ -171,6 +171,7 @@ insert into awf_url values ('/rest/notifications/{id}/confirm', 'put', '알림 �
 insert into awf_url values ('/rest/notifications/{id}/display', 'put', '알림 리스트 표시 여부 수정', 'FALSE');
 insert into awf_url values ('/rest/processes', 'post', '프로세스 디자이너 기본 정보 저장 / 다른이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/processes', 'get', '발행 상태인 프로세스 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/processes-admin/list', 'get', '프로세스 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}', 'delete', '프로세스 디자이너 삭제', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}/data', 'put', '프로세스 디자이너 수정', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}/data', 'get', '프로세스 디자이너 불러오기', 'TRUE');
