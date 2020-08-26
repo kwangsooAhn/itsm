@@ -19,10 +19,11 @@
             </tr>
         </thead>
         <tbody class="list-body">
+            <input type="hidden" id="totalCount" th:value="${userListCount}"/>
             <tr class="no-data-found" th:if="${#arrays.isEmpty(userList)}">
                 <td colspan="9" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr th:each="user, i: ${userList}" th:if="${i.count} < 11">
+            <tr th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
                 <td width="5%">
                     <img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" alt="profile pic"
                          th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''"/>
