@@ -401,6 +401,10 @@ workflowUtil.loadFormFromXML = function(data) {
             let componentData = workflowUtil.XMLToObject(componentNode);
             Object.defineProperty(componentData, 'componentId', Object.getOwnPropertyDescriptor(componentData, 'id'));
             delete componentData['id'];
+            // 옵션이 배열이 아닐 경우 배열에 넣어준다.
+            if (typeof componentData['option'] !== 'undefined' && !Array.isArray(componentData['option'])) {
+                componentData['option'] = [componentData['option']];
+            }
             formData.components.push(componentData);
         }
     }
