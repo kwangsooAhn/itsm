@@ -206,7 +206,7 @@
             color: rgba(0, 0, 0, 0.9);
             line-height: 150%;
             display: grid;
-            grid-template-columns: 2.25rem min(36.25rem) 1.125rem;
+            grid-template-columns: 2.25rem auto 1.125rem;
             align-items: center;
 
             .dz-filename {

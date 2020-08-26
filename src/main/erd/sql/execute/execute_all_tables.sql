@@ -411,6 +411,7 @@ DROP TABLE IF EXISTS awf_file_name_extension cascade;
 CREATE TABLE awf_file_name_extension
 (
 	file_name_extension varchar(128) NOT NULL,
+	file_content_type varchar(128) NOT NULL,
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -420,20 +421,24 @@ CREATE TABLE awf_file_name_extension
 
 COMMENT ON TABLE awf_file_name_extension IS '파일확장자관리';
 COMMENT ON COLUMN awf_file_name_extension.file_name_extension IS '파일확장자명';
+COMMENT ON COLUMN awf_file_name_extension.file_content_type IS '파일컨텐트타입';
 COMMENT ON COLUMN awf_file_name_extension.create_user_key IS '등록자';
-COMMENT ON COLUMN awf_file_name_extension.create_dt IS '등록일';
+COMMENT ON COLUMN awf_file_name_extension.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_file_name_extension.update_user_key IS '수정자';
-COMMENT ON COLUMN awf_file_name_extension.update_dt IS '수정일';
+COMMENT ON COLUMN awf_file_name_extension.update_dt IS '수정일시';
 
-insert into awf_file_name_extension values ('PDF', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('JPG', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('TXT', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('DOC', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('XLS', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('PPTX', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('ZIP', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('HWP', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_file_name_extension values ('PNG', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('TXT', 'text/plain', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('PDF', 'application/pdf', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('JPG', 'image/jpeg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('JPEG', 'image/jpeg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('PNG', 'image/png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('DOC', 'application/msword', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('DOCX', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('XLS', 'application/vnd.ms-excel', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('XLSX', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('PPTX', 'application/vnd.openxmlformats-officedocument.presentationml.presentation', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('ZIP', 'application/zip', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('HWP', 'application/x-tika-msoffice', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 첨부파일연결매핑
@@ -1216,11 +1221,13 @@ insert into awf_url values ('/rest/auths', 'post', '권한 등록', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'get', '권한 상세 정보 조회', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'put', '권한 수정', 'TRUE');
 insert into awf_url values ('/rest/auths/{id}', 'delete', '권한 삭제', 'TRUE');
+insert into awf_url values ('/rest/board-admin', 'get', '게시판 관리 조회', 'TRUE');
 insert into awf_url values ('/rest/board-admin', 'post', '게시판 관리 등록', 'TRUE');
 insert into awf_url values ('/rest/board-admin', 'put', '게시판 관리 변경', 'TRUE');
 insert into awf_url values ('/rest/board-admin/category', 'post', '게시판 관리 변경', 'TRUE');
 insert into awf_url values ('/rest/board-admin/category/{id}', 'delete', '카테고리 관리 삭제', 'TRUE');
 insert into awf_url values ('/rest/board-admin/{id}', 'delete', '게시판 관리 삭제', 'TRUE');
+insert into awf_url values ('/rest/boards', 'get', '게시판리스트 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/boards', 'post', '게시판 등록', 'TRUE');
 insert into awf_url values ('/rest/boards', 'put', '게시판 변경', 'TRUE');
 insert into awf_url values ('/rest/boards/comments', 'put', '게시판 댓글 수정', 'TRUE');
@@ -1248,6 +1255,8 @@ insert into awf_url values ('/rest/documents-admin/{id}', 'put', '신청서 수�
 insert into awf_url values ('/rest/documents-admin/{id}/display', 'put', '신청서 디스플레이 데이터 저장', 'TRUE');
 insert into awf_url values ('/rest/documents-admin/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/documents/{id}/data', 'get', '신청서의 문서 데이터 조회', 'TRUE');
+insert into awf_url values ('/rest/documents-admin', 'get', '업무흐름 데이터조회', 'TRUE');
+insert into awf_url values ('/rest/downloads', 'get', '자료실리스트 조회', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'post', '자료실 등록', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'put', '자료실 변경', 'TRUE');
 insert into awf_url values ('/rest/downloads/{id}', 'delete', '자료실 삭제', 'TRUE');
@@ -1513,11 +1522,13 @@ insert into awf_url_auth_map values ('/rest/auths/{id}', 'get', 'auth.create');
 insert into awf_url_auth_map values ('/rest/auths/{id}', 'get', 'auth.delete');
 insert into awf_url_auth_map values ('/rest/auths/{id}', 'put', 'auth.update');
 insert into awf_url_auth_map values ('/rest/auths/{id}', 'delete', 'auth.delete');
+insert into awf_url_auth_map values ('/rest/board-admin', 'get', 'board.admin.read');
 insert into awf_url_auth_map values ('/rest/board-admin', 'put', 'board.admin.update');
 insert into awf_url_auth_map values ('/rest/board-admin', 'post', 'board.admin.create');
 insert into awf_url_auth_map values ('/rest/board-admin/category', 'post', 'board.admin.create');
 insert into awf_url_auth_map values ('/rest/board-admin/category/{id}', 'delete', 'board.admin.delete');
 insert into awf_url_auth_map values ('/rest/board-admin/{id}', 'delete', 'board.admin.delete');
+insert into awf_url_auth_map values ('/rest/boards', 'get', 'board.read');
 insert into awf_url_auth_map values ('/rest/boards', 'put', 'board.update');
 insert into awf_url_auth_map values ('/rest/boards', 'post', 'board.create');
 insert into awf_url_auth_map values ('/rest/boards/comments', 'put', 'board.update');
@@ -1565,6 +1576,8 @@ insert into awf_url_auth_map values ('/rest/documents-admin/{id}', 'get', 'docum
 insert into awf_url_auth_map values ('/rest/documents-admin/{id}/display', 'put', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/documents-admin/{id}/display', 'get', 'document.admin.create');
 insert into awf_url_auth_map values ('/rest/documents/{id}/data', 'get', 'document.create');
+insert into awf_url_auth_map values ('/rest/documents-admin', 'get', 'document.admin.read');
+insert into awf_url_auth_map values ('/rest/downloads', 'get', 'download.read');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'download.update');
 insert into awf_url_auth_map values ('/rest/downloads', 'put', 'download.update');
 insert into awf_url_auth_map values ('/rest/downloads', 'post', 'download.read');

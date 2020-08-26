@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.framework.fileTransaction.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
@@ -12,5 +16,9 @@ import javax.persistence.Table
 data class AliceFileNameExtensionEntity(
     @Id
     @Column(name = "file_name_extension", length = 128)
-    var fileNameExtension: String = ""
+    var fileNameExtension: String = "",
+
+    @Column(name = "file_content_type", length = 128)
+    var fileContentType: String = ""
+
 ) : Serializable, AliceMetaEntity()
