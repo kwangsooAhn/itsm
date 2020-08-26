@@ -25,7 +25,9 @@
                         </select>
                         <input class="search column-3" type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
                         <input type="text" id="searchFromDt" name="searchFromDt" class="search-date column-2" readonly="readonly" />
-                        <input type="text" id="searchToDt" name="searchToDt" class="search-date column-2" readonly="readonly" />
+                        <input type="text" id="toDt" name="toDt" class="search-date column-2" readonly="readonly" />
+                        <input type="hidden" id="searchToDt" name="searchToDt" class="search-date column-2"
+                               readonly="readonly" />
                     </form>
                 </div>
                 <div class="right">
@@ -45,9 +47,9 @@
         window.addEventListener('load', function () {
             // initialization date picker/
             document.getElementById('searchFromDt').value = i18n.getDate({'months':-3});
-            document.getElementById('searchToDt').value = i18n.getDate();
+            document.getElementById('toDt').value = i18n.getDate();
             dateTimePicker.initDatePicker('searchFromDt', () => searchTokenList(false));
-            dateTimePicker.initDatePicker('searchToDt', () => searchTokenList(false));
+            dateTimePicker.initDatePicker('toDt', () => searchTokenList(false));
             // add search condition event handler.
             document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function(element) {
                 element.addEventListener('change', () => searchTokenList(false), false);
@@ -72,6 +74,8 @@
 
         function searchTokenList(isScroll) {
             const tokenListElement = document.getElementById('tokenList');
+            document.getElementById('searchToDt').value =
+                i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
             if (!isScroll) {
                 tokenListElement.innerHTML = '';
             }
@@ -96,7 +100,7 @@
         }
 
         function openTokenEdit(tokenId) {
-            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=900, height=852');
+            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=' + (screen.width-50) + ', height=' + (screen.height-150));
         }
 
         function getTokenTemplate(token) {

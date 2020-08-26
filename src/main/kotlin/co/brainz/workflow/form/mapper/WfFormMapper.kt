@@ -44,7 +44,8 @@ interface WfFormMapper {
         Mapping(source = "updateUserKey", target = "updateUserKey"),
         Mapping(target = "editable", ignore = true),
         Mapping(target = "createUserName", ignore = true),
-        Mapping(target = "updateUserName", ignore = true)
+        Mapping(target = "updateUserName", ignore = true),
+        Mapping(target = "totalCount", ignore = true)
     )
     fun toRestTemplateFormDto(restTemplateFormComponentListDto: RestTemplateFormComponentListDto): RestTemplateFormDto
 }

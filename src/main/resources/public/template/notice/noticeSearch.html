@@ -15,10 +15,16 @@
         </div>
         <div class="search-area">
             <div class="left">
-                <input class="search column-5" id="searchValue" type="text" maxlength="100" th:placeholder="#{notice.label.searchPlaceholder}"/>
-                <input class="search-date column-3" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
-                <span>~</span>
-                <input class="search-date column-3" type="text" id="toDt" name="toDt" readonly="readonly"/>
+                <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
+                <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
+                <form id="searchFrm">
+                    <input class="search column-5" id="searchValue" name="searchValue" type="text" maxlength="100"
+                           th:placeholder="#{notice.label.searchPlaceholder}"/>
+                    <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <span>~</span>
+                    <input class="search-date column-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                    <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
+                </form>
             </div>
             <div class="right">
                 <button class="default-fill" onclick="location.href='/notices/new'" type="button"
@@ -32,16 +38,19 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
+        var offsetCount = 0;
+        const offsetSize = 15;
+
         window.onload = function () {
             // initialization date picker
             document.getElementById('fromDt').value = i18n.getDate({'months': -1});
-            document.getElementById('toDt').value = i18n.getDate();
+            document.getElementById('searchToDt').value = i18n.getDate();
             dateTimePicker.initDatePicker('fromDt', setDatePicker);
-            dateTimePicker.initDatePicker('toDt', setDatePicker);
+            dateTimePicker.initDatePicker('searchToDt', setDatePicker);
             document.getElementById('searchValue').addEventListener('keyup', function () {
                 getNoticeList(false);
             });
-            getNoticeList(true);
+            getNoticeList(false);
         };
 
         function setDatePicker(element, picker) {
@@ -49,7 +58,7 @@
                 return false;
             }
             if (element.id === 'fromDt') {
-                const toDtValue = document.getElementById('toDt').value;
+                const toDtValue = document.getElementById('searchToDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function () {
                         picker.open();
@@ -78,49 +87,155 @@
         }
 
         //get notice list
-        function getNoticeList(showProgressbar) {
-            const data = {
-                searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim()),
-                fromDt: i18n.systemDate(document.getElementById('fromDt').value),
-                toDt: i18n.systemDate(document.getElementById('toDt').value, {'days': 1})
-            };
-            const urlParam = 'searchValue=' + data.searchValue + '&fromDt=' + data.fromDt + '&toDt=' + data.toDt;
-
-            restSubmit('get', '/notices/list?' + urlParam, showProgressbar);
+        function getNoticeList(isScroll) {
+            let urlParam = '';
+            document.getElementById('toDt').value =
+                i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
+           if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = offsetSize;
+                }
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/notices?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/notices/list?' + urlParam, isScroll);
+            }
         }
 
         //REST API
-        function restSubmit(method, url, showProgressbar) {
+        function restSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
-                showProgressbar: showProgressbar,
+                async: false,
+                showProgressbar: false,
                 callbackFunc: function (response) {
-                    document.getElementById('noticeList').innerHTML = response.responseText;
-                    let createDtList = document.querySelectorAll('td[name=createDt]');
-                    let popDtList = document.querySelectorAll('td[name=popDt]');
-                    let noticeDtList = document.querySelectorAll('td[name=noticeDt]');
-                    for (let i = 0; i < createDtList.length; i++) {
-                        createDtList[i].textContent = i18n.userDateTime(createDtList[i].textContent);
-                        let popDt = popDtList[i].textContent.split('~');
-                        if (popDt[0] !== 'null') {
-                            popDtList[i].textContent = i18n.userDateTime(popDt[0])
-                                + ' ~ ' + i18n.userDateTime(popDt[1]);
-                        } else {
-                            popDtList[i].textContent = '';
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (scrollerEventCheck()) {
+                                offsetCount = offsetCount + offsetSize;
+                                dataList.forEach(function(data) {
+                                    getDataTemplate(data);
+                                });
+                            }
                         }
-                        let noticeDt = noticeDtList[i].textContent.split('~');
-                        if (noticeDt[0] !== 'null') {
-                            noticeDtList[i].textContent = i18n.userDateTime(noticeDt[0])
-                                + ' ~ ' + i18n.userDateTime(noticeDt[1]);
-                        } else {
-                            noticeDtList[i].textContent = '';
+                    } else {
+                        document.getElementById('noticeList').innerHTML = response.responseText;
+                        let createDtList = document.querySelectorAll('td[name=createDt]');
+                        let popDtList = document.querySelectorAll('td[name=popDt]');
+                        let noticeDtList = document.querySelectorAll('td[name=noticeDt]');
+                        for (let i = 0; i < createDtList.length; i++) {
+                            createDtList[i].textContent = i18n.userDateTime(createDtList[i].textContent);
+                            let popDt = popDtList[i].textContent.split('~');
+                            if (popDt[0] !== 'null') {
+                                popDtList[i].textContent = i18n.userDateTime(popDt[0])
+                                    + ' ~ ' + i18n.userDateTime(popDt[1]);
+                            } else {
+                                popDtList[i].textContent = '';
+                            }
+                            let noticeDt = noticeDtList[i].textContent.split('~');
+                            if (noticeDt[0] !== 'null') {
+                                noticeDtList[i].textContent = i18n.userDateTime(noticeDt[0])
+                                    + ' ~ ' + i18n.userDateTime(noticeDt[1]);
+                            } else {
+                                noticeDtList[i].textContent = '';
+                            }
                         }
+                        OverlayScrollbars(document.querySelector('.list-body'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function(e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    // 스크롤이 맨 마지막에 있을 경우
+                                    if (scrollHeight - scrollTop === clientHeight) {
+                                        if (scrollerEventCheck()) {
+                                            getNoticeList(true);
+                                        }
+                                    }
+                                }
+                            }
+                        });
                     }
-                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar'});
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+        // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
+        function scrollerEventCheck() {
+            let scrollerCheck = true;
+            let totalCount = document.getElementById('totalCount').value;
+            if (offsetCount < totalCount) {
+                scrollerCheck = true;
+            }
+            return scrollerCheck;
+        }
+
+        // Tr 동적 데이터 만들기
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let tr = document.createElement('tr');
+
+            let tdNoticeTitle = document.createElement('td');
+            tdNoticeTitle.style.width = '30%';
+            tdNoticeTitle.className = 'align-left';
+            let aNoticeTitle = document.createElement('a');
+            if (document.getElementsByName('isRole')[0].value === 'true') {
+                aNoticeTitle.href = '/notices/'+ data.noticeNo +'/edit';
+            } else {
+                aNoticeTitle.href = '/notices/'+ data.noticeNo +'/view';
+            }
+            aNoticeTitle.innerText = data.noticeTitle;
+            tdNoticeTitle.appendChild(aNoticeTitle);
+
+            let tdPopYn = document.createElement('td');
+            tdPopYn.style.width = '5%';
+            let aPopYn = document.createElement('a');
+            if (data.popYn === true) {
+                let imgPopYn = document.createElement('img');
+                let theme = '[[${#authentication.details.theme}]]'.split('"');
+                imgPopYn.src = '/assets/theme/' + theme[1] +
+                    '/icons/icon_popup.svg';
+                imgPopYn.onclick = function() {
+                    openPopUp(data.noticeNo, data.popWidth, data.popHeight);
+                }
+                aPopYn.appendChild(imgPopYn);
+                tdPopYn.appendChild(aPopYn);
+            }
+
+            let tdUserName = document.createElement('td');
+            tdUserName.innerText = data.createUserName;
+            tdUserName.style.width = '10%';
+
+            let tdPopDt = document.createElement('td');
+            if (i18n.userDateTime(data.popStrtDt) !== '') {
+                tdPopDt.innerText = i18n.userDateTime(data.popStrtDt) + ' ~ ' + i18n.userDateTime(data.popStrtDt);
+            }
+            tdPopDt.style.width = '20%';
+
+            let tdNoticeDt = document.createElement('td');
+            if (i18n.userDateTime(data.topNoticeStrtDt) !== '') {
+                tdNoticeDt.innerText = i18n.userDateTime(data.topNoticeStrtDt) + ' ~ ' +
+                    i18n.userDateTime(data.topNoticeEndDt);
+            }
+            tdNoticeDt.style.width = '20%';
+
+            let tdCreateDt = document.createElement('td');
+            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
+            tdCreateDt.style.width = '15%';
+
+            tr.appendChild(tdNoticeTitle);
+            tr.appendChild(tdPopYn);
+            tr.appendChild(tdUserName);
+            tr.appendChild(tdPopDt);
+            tr.appendChild(tdNoticeDt);
+            tr.appendChild(tdCreateDt);
+            div.appendChild(tr);
         }
         /* ]]> */
     </script>

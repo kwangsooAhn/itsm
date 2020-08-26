@@ -52,6 +52,10 @@
                 showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     document.getElementById('userList').innerHTML = response.responseText;
+                    let createDtList = document.querySelectorAll('td[name=createDt]');
+                    for (let i = 0; i < createDtList.length; i++) {
+                        createDtList[i].textContent = i18n.userDateTime(createDtList[i].textContent);
+                    }
                     OverlayScrollbars(document.querySelector('.list-wrap'), { className: 'scrollbar' });
                 }
             };
