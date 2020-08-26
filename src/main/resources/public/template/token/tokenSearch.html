@@ -100,7 +100,7 @@
         }
 
         function openTokenEdit(tokenId) {
-            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=900, height=852');
+            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=' + (screen.width-50) + ', height=' + (screen.height-150));
         }
 
         function getTokenTemplate(token) {
