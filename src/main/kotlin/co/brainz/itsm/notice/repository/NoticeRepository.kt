@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.notice.repository
 
 import co.brainz.itsm.notice.entity.NoticeEntity
@@ -31,5 +37,11 @@ interface NoticeRepository : JpaRepository<NoticeEntity, String>, NoticeReposito
         name = "portalSearchMapping",
         nativeQuery = true
     )
-    fun findPortalListOrSearchList(searchValue: String): MutableList<PortalDto>
+    fun findPortalListOrSearchList(searchValue: String, limit: Long, offset: Long): MutableList<PortalDto>
+
+    @Query(
+        name = "portalSearchMappingCount",
+        nativeQuery = true
+    )
+    fun findPortalListOrSearchCount(searchValue: String): MutableList<PortalDto>
 }

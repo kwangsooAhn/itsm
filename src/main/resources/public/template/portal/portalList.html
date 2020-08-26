@@ -20,16 +20,18 @@
     <div class="portal-search-result">
         <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
         <div class="list">
-            <!--<div class="row" th:each="portalList : ${portalList}">
-                <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
-                <div class="content-box">
-                    <div class="title text-ellipsis"><a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a></div>
-                    <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
+            <div calss="test11" id="list" name="list" style="height: 10px;" >
+                <div class="row" th:each="portalList : ${portalList}">
+                    <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
+                    <div class="content-box">
+                        <div class="title text-ellipsis"><a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a></div>
+                        <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
+                    </div>
+                </div>
+                <div class="row" th:if="${#arrays.isEmpty(portalList)}">
+                    <div class="no-data" th:text="#{common.msg.noData}"></div>
                 </div>
             </div>
-            <div class="row" th:if="${#arrays.isEmpty(portalList)}">
-                <div class="no-data" th:text="#{common.msg.noData}"></div>
-            </div>-->
         </div>
     </div>
 </div>
@@ -41,26 +43,21 @@
     var offsetCount = 0;
     const offsetSize = 15;
     window.onload = function () {
-        //onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0'); "
         document.getElementById('searchValue').addEventListener('keyup', function() { searchPortal(false); });
         searchPortal(false);
     }
 
     function searchPortal(isScroll) {
-        let urlParam = '';
         if (isScroll) {
             if (offsetCount === 0) {
                 offsetCount = offsetSize;
             }
-            urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim()) +
-                '&offset=' + offsetCount;
-            restSubmit('get', '/rest/portal?' + urlParam, isScroll);
         } else {
             offsetCount = 0;
-            urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim()) +
-                '&offset=' + offsetCount;
-            restSubmit('get', '/rest/portal?' + urlParam, isScroll);
         }
+        let urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim()) +
+            '&offset=' + offsetCount;
+        restSubmit('get', '/rest/portal?' + urlParam, isScroll);
     }
 
     // REST API
@@ -70,25 +67,25 @@
         xhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
                 let dataList = JSON.parse(this.responseText);
-                console.log(dataList);
                 if (isScroll) {
                     if (dataList.length > 0) {
                         document.getElementById('totalCount').value = dataList[0].totalCount;
                         if (scrollerEventCheck()) {
                             offsetCount = offsetCount + offsetSize;
                             dataList.forEach(function(data) {
-                                getDataTemplate(data);
+                                getDataTemplate(data, isScroll);
                             });
                         }
                     }
                 } else {
+                    document.getElementById('totalCount').value = dataList[0].totalCount;
+                    //document.getElementById('list').innerHTML = '';
                     dataList.forEach(function(data) {
-                        getDataTemplate(data);
+                        getDataTemplate(data, isScroll);
                     });
-                    //document.getElementById('faqList').innerHTML = response.responseText;
                 }
 
-                OverlayScrollbars(document.querySelector('.list'), {
+                OverlayScrollbars(document.querySelector('.test11'), {
                     className: 'scrollbar',
                     callbacks: {
                         onScroll: function(e) {
@@ -119,8 +116,15 @@
         return scrollerCheck;
     }
 
-    function getDataTemplate(data) {
-        let div = document.querySelector('.list');
+    function getDataTemplate(data, isScroll) {
+        var div = document.getElementById('list');
+        /*if (isScroll) {
+            div = document.querySelector('.os-content');
+        } else {
+            div = document.getElementById('list');
+        }*/
+        console.log(div);
+
         let divRow = document.createElement('div');
         divRow.className = 'row';
 

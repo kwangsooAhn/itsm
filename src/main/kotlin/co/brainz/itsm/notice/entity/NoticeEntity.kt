@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.notice.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
@@ -14,10 +20,11 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
-import javax.persistence.NamedNativeQuery
 import javax.persistence.SqlResultSetMapping
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
+import javax.persistence.NamedNativeQueries
+import javax.persistence.NamedNativeQuery
 
 @SqlResultSetMapping(
     name = "portalSearchMapping",
@@ -31,7 +38,8 @@ import org.hibernate.annotations.GenericGenerator
                                 ColumnResult(name = "portal_content", type = String::class),
                                 ColumnResult(name = "create_dt", type = LocalDateTime::class),
                                 ColumnResult(name = "update_dt", type = LocalDateTime::class),
-                                ColumnResult(name = "table_name", type = String::class)
+                                ColumnResult(name = "table_name", type = String::class),
+                                ColumnResult(name = "total_count", type = Int::class)
                             )
                             )
                 )
@@ -39,27 +47,52 @@ import org.hibernate.annotations.GenericGenerator
             )
 )
 
-@NamedNativeQuery(
-    name = "portalSearchMapping",
-    query = "select portal_title, portal_content, create_dt, update_dt, table_name " +
-            "from (" +
-            "select notice_title as portal_title, notice_contents as portal_content, " +
-            "create_dt, update_dt, 'notice' table_name " +
-            "from portal_notice " +
-            "where (lower(notice_title) like lower(concat('%', :searchValue, '%'))) " +
-            "union all " +
-            "select faq_title, faq_content, create_dt, update_dt, 'faq' table_name " +
-            "from portal_faq " +
-            "where (lower(faq_title) like lower(concat('%', :searchValue, '%'))) " +
-            "union all " +
-            "select download_title, download_category, create_dt, update_dt, 'download' table_name " +
-            "from awf_download " +
-            "where (lower(download_title) like lower(concat('%', :searchValue, '%'))) " +
-            ") as portal " +
-            "order by create_dt desc limit 10 offset 20",
-    resultSetMapping = "portalSearchMapping",
-    resultClass = PortalDto::class
+@NamedNativeQueries(
+    NamedNativeQuery(
+        name = "portalSearchMapping",
+        query = "select portal_title, portal_content, create_dt, update_dt, table_name, 0 as total_count " +
+                "from (" +
+                "select notice_title as portal_title, notice_contents as portal_content, " +
+                "create_dt, update_dt, 'notice' table_name " +
+                "from portal_notice " +
+                "where (lower(notice_title) like lower(concat('%', :searchValue, '%'))) " +
+                "union all " +
+                "select faq_title, faq_content, create_dt, update_dt, 'faq' table_name " +
+                "from portal_faq " +
+                "where (lower(faq_title) like lower(concat('%', :searchValue, '%'))) " +
+                "union all " +
+                "select download_title, download_category, create_dt, update_dt, 'download' table_name " +
+                "from awf_download " +
+                "where (lower(download_title) like lower(concat('%', :searchValue, '%'))) " +
+                ") as portal " +
+                "order by create_dt desc limit :limit offset :offset",
+        resultSetMapping = "portalSearchMapping",
+        resultClass = PortalDto::class
+    ),
+    NamedNativeQuery(
+        name = "portalSearchMappingCount",
+        query = "select '' as portal_title, '' as portal_content, now() as create_dt, now() as update_dt, ''as " +
+                "table_name, " +
+                "count(*) as total_count " +
+                "from (" +
+                "select notice_title as portal_title, notice_contents as portal_content, " +
+                "create_dt, update_dt, 'notice' table_name " +
+                "from portal_notice " +
+                "where (lower(notice_title) like lower(concat('%', :searchValue, '%'))) " +
+                "union all " +
+                "select faq_title, faq_content, create_dt, update_dt, 'faq' table_name " +
+                "from portal_faq " +
+                "where (lower(faq_title) like lower(concat('%', :searchValue, '%'))) " +
+                "union all " +
+                "select download_title, download_category, create_dt, update_dt, 'download' table_name " +
+                "from awf_download " +
+                "where (lower(download_title) like lower(concat('%', :searchValue, '%'))) " +
+                ") as portal ",
+        resultSetMapping = "portalSearchMapping",
+        resultClass = PortalDto::class
+    )
 )
+
 
 @Entity
 @Table(name = "portal_notice")
