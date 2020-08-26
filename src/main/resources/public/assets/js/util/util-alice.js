@@ -96,6 +96,8 @@ aliceJs.serialize = function (form) {
                 fieldValue = i18n.systemDateTime(encodeURIComponent(field.value));
             } else if (field.classList.contains('search-date')) {
                 fieldValue = i18n.systemDate(encodeURIComponent(field.value));
+            } else if (field.classList.contains('search-date-addOffset')) {
+                fieldValue = i18n.systemDate(encodeURIComponent(field.value), {'days': 1})
             }
             serialized.push(encodeURIComponent(field.name) + '=' + fieldValue);
         }

@@ -1,131 +1,118 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/popupLayout">
 <head>
     <title th:if="${formInfo?.id}" th:text="#{form.label.edit}"></title>
     <title th:if="!${formInfo?.id}" th:text="#{form.label.create}"></title>
-    <th:block th:replace="layout/fragments/commonHead"></th:block>
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
-    <!-- 임시 style -->
-    <style>
-        table th {
-            text-align: left;
-        }
-        table td > input, textarea, select {
-            width: 500px;
-        }
-    </style>
 </head>
 <body>
-    <div style="margin: 10px 0 0 10px;">
-        <table>
-            <tr>
-                <td>
-                    <input type="hidden" id="form_status" th:value="${formInfo?.status}" />
-                </td>
-            </tr>
-            <tr>
-                <th th:text="|#{form.label.name} *|"></th>
-            </tr>
-            <tr>
-                <td>
-                    <input type="text" id="form_name" maxlength="50" required="required" tabindex="1"
-                           th:value="${formInfo?.name}"/>
-                </td>
-            </tr>
-            <tr>
-                <th th:text="#{form.label.description}"></th>
-            </tr>
-            <tr>
-                <td><textarea id="form_desc" style="height:100px;" maxlength="128" tabindex="2"
-                              th:text="${formInfo?.desc}"></textarea>
-                </td>
-            </tr>
-        </table>
-        <div>
-            <button th:if="!${formInfo?.id}" th:attr="onclick=|saveForm()|"
+<th:block layout:fragment="content">
+    <input type="hidden" id="form_status" th:value="${formInfo?.status}" />
+    <div class="edit">
+        <h3 class="under-bar" th:if="${formInfo?.id}" th:text="#{form.label.edit}"></h3>
+        <h3 class="under-bar" th:if="!${formInfo?.id}" th:text="#{form.label.create}"></h3>
+        <div class="form-set">
+            <label class="required" th:text="#{form.label.name}" for="form_name"></label>
+            <input type="text" id="form_name" maxlength="50" required="required" tabindex="1"
+                   th:value="${formInfo?.name}"/>
+        </div>
+        <div class="form-set">
+            <label th:text="#{form.label.description}" for="form_desc"></label>
+            <textarea id="form_desc" maxlength="128" tabindex="2" th:text="${formInfo?.desc}"></textarea>
+        </div>
+        <div class="horizontal-bar"></div>
+        <div class="btn-bar">
+            <button class="point-fill" th:if="!${formInfo?.id}" th:attr="onclick=|saveForm()|"
                     th:text="#{common.btn.register}"></button>
-            <button th:if="${formInfo?.id}" sec:authorize="hasAnyAuthority('form.create', 'form.update')"
+            <button class="point-fill" th:if="${formInfo?.id}" sec:authorize="hasAnyAuthority('form.create', 'form.update')"
                     th:disabled="${!formInfo?.editable}"
                     th:attr="onclick=|workflowUtil.export('${formInfo?.id}', 'form')|"
                     th:text="#{form.btn.export}"></button>
-            <button th:if="${formInfo?.id}" sec:authorize="hasAuthority('form.update')"
+            <button class="point-fill" th:if="${formInfo?.id}" sec:authorize="hasAuthority('form.update')"
                     th:disabled="${!formInfo?.editable}"
                     th:attr="onclick=|saveForm('${formInfo?.id}')|" th:text="#{common.btn.modify}"></button>
-            <button th:if="${formInfo?.id}" sec:authorize="hasAuthority('form.delete')"
+            <button class="default-fill" th:if="${formInfo?.id}" sec:authorize="hasAuthority('form.delete')"
                     th:disabled="${!formInfo?.editable}"
                     th:attr="onclick=|deleteForm('${formInfo?.id}')|" th:text="#{common.btn.delete}"></button>
-            <button th:attr="onclick=|window.close()|" th:text="#{common.btn.close}"></button>
+            <button class="default-fill" th:attr="onclick=|window.close()|" th:text="#{common.btn.close}"></button>
         </div>
     </div>
-</body>
-<script type="text/javascript">
-    // 폼 등록
-    function saveForm(formId) {
-        // 빈 값 체크
-        if (emptyValidation()) {
-            const formInfo = {
-                name: document.getElementById('form_name').value,
-                desc: document.getElementById('form_desc').value
-            };
-            if (formId === undefined) {
-                // 등록
-                restSubmit('POST', '/rest/forms-admin', formInfo);
-            } else {
-                // 수정
-                formInfo.id = formId;
-                formInfo.status = document.getElementById('form_status').value;
-                restSubmit('PUT', '/rest/forms-admin/' + formId, formInfo);
-            }
-        }
-    }
-
-    // 빈 값 체크
-    function emptyValidation() {
-        if (isEmpty('form_name', 'form.msg.enterFormName')) {
-            return false;
-        }
-        return true;
-    }
-
-    // 폼 삭제
-    function deleteForm(formId) {
-        restSubmit('DELETE', '/rest/forms/' + formId, function(result) {
-            if (result === 'true') {
-                aliceJs.alert('[[#{common.msg.delete}]]', function() {
-                    window.close();
-                });
-            } else {
-                aliceJs.alert('[[#{form.msg.failedFormDelete}]]');
-            }
-        });
-    }
-
-    // REST API
-    function restSubmit(method, url, data) {
-        const opt = {
-            method: method,
-            url: url,
-            params: JSON.stringify(data),
-            contentType: 'application/json',
-            callbackFunc: function(response) {
-                opener.location.reload();
-                window.close();
-                if (method === 'POST') {
-                    const _width = 1500,
-                          _height = 980;
-                    // 중앙 배치
-                    const _left = Math.ceil((window.screen.width - _width) / 2);
-                    const _top = Math.ceil((window.screen.height - _height) / 4);
-
-                    let formId = response.responseText;
-                    let specs = 'left=' + _left + ',top=' + _top;
-                    specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                    window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        // 폼 등록
+        function saveForm(formId) {
+            // 빈 값 체크
+            if (emptyValidation()) {
+                const formInfo = {
+                    name: document.getElementById('form_name').value,
+                    desc: document.getElementById('form_desc').value
+                };
+                if (formId === undefined) {
+                    // 등록
+                    restSubmit('POST', '/rest/forms-admin', formInfo);
+                } else {
+                    // 수정
+                    formInfo.id = formId;
+                    formInfo.status = document.getElementById('form_status').value;
+                    restSubmit('PUT', '/rest/forms-admin/' + formId, formInfo);
                 }
             }
-        };
-        aliceJs.sendXhr(opt);
-    }
-</script>
+        }
+
+        // 빈 값 체크
+        function emptyValidation() {
+            if (isEmpty('form_name', 'form.msg.enterFormName')) {
+                return false;
+            }
+            return true;
+        }
+
+        // 폼 삭제
+        function deleteForm(formId) {
+            restSubmit('DELETE', '/rest/forms/' + formId, function(result) {
+                if (result === 'true') {
+                    aliceJs.alert('[[#{common.msg.delete}]]', function() {
+                        window.close();
+                    });
+                } else {
+                    aliceJs.alert('[[#{form.msg.failedFormDelete}]]');
+                }
+            });
+        }
+
+        // REST API
+        function restSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    opener.location.reload();
+                    window.close();
+                    if (method === 'POST') {
+                        const _width = 1500,
+                              _height = 980;
+                        // 중앙 배치
+                        const _left = Math.ceil((window.screen.width - _width) / 2);
+                        const _top = Math.ceil((window.screen.height - _height) / 4);
+
+                        let formId = response.responseText;
+                        let specs = 'left=' + _left + ',top=' + _top;
+                        specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                        window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</body>
 </html>
