@@ -20,9 +20,10 @@
                 <form id="searchFrm">
                     <input class="search column-5" id="searchValue" name="searchValue" type="text" maxlength="100"
                            th:placeholder="#{notice.label.searchPlaceholder}"/>
-                    <input class="search-date column-3" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                     <span>~</span>
-                    <input class="search-date column-3" type="text" id="toDt" name="toDt" readonly="readonly"/>
+                    <input class="search-date column-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                    <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
                 </form>
             </div>
             <div class="right">
@@ -43,9 +44,9 @@
         window.onload = function () {
             // initialization date picker
             document.getElementById('fromDt').value = i18n.getDate({'months': -1});
-            document.getElementById('toDt').value = i18n.getDate();
+            document.getElementById('searchToDt').value = i18n.getDate();
             dateTimePicker.initDatePicker('fromDt', setDatePicker);
-            dateTimePicker.initDatePicker('toDt', setDatePicker);
+            dateTimePicker.initDatePicker('searchToDt', setDatePicker);
             document.getElementById('searchValue').addEventListener('keyup', function () {
                 getNoticeList(false);
             });
@@ -57,7 +58,7 @@
                 return false;
             }
             if (element.id === 'fromDt') {
-                const toDtValue = document.getElementById('toDt').value;
+                const toDtValue = document.getElementById('searchToDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function () {
                         picker.open();
@@ -88,7 +89,9 @@
         //get notice list
         function getNoticeList(isScroll) {
             let urlParam = '';
-            if (isScroll) {
+            document.getElementById('toDt').value =
+                i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
+           if (isScroll) {
                 if (offsetCount === 0) {
                     offsetCount = offsetSize;
                 }
