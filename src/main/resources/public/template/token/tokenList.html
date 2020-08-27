@@ -10,13 +10,14 @@
     <div class="document-color" th:style="|background-color: ${token.documentColor}|"></div>
     <div class="document-row">
         <div class="document-row-content">
-            <a href="#" th:onclick="openTokenEdit([[${token.tokenId}]]);return false;" sec:authorize="hasAuthority('token.create')">
+            <a href="#" th:onclick="openTokenEdit([[${token.tokenId}]]);return false;"
+               sec:authorize="hasAuthority('token.read')">
                 <div class="document-title">
                     <h3 th:text="${token.documentName}"></h3>
                     <h5 th:text="${token.documentNo}"></h5>
                 </div>
                 <div class="document-topic">
-                    <h4 th:unless="${#lists.isEmpty(token.topics)}" th:text="${#strings.listJoin(token.topics,'')}"></h4>
+                    <h4 th:each="topic: ${token.topics}" th:text="${topic}"></h4>
                 </div>
             </a>
         </div>
@@ -32,7 +33,7 @@
                 <h5 th:text="${token.elementName}"></h5>
             </div>
             <div class="document-tag">
-                <span th:unless="${#lists.isEmpty(token.tags)}" th:text="${#strings.listJoin(token.tags,'')}"></span>
+                <span th:each="tag: ${token.tags}" th:text="${tag}"></span>
             </div>
         </div>
     </div>
