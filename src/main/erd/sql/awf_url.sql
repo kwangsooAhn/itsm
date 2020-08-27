@@ -192,6 +192,7 @@ insert into awf_url values ('/rest/tokens/{id}/data', 'get', 'NULL', 'TRUE');
 insert into awf_url values ('/rest/tokens/{id}/data', 'put', 'token 수정', 'TRUE');
 insert into awf_url values ('/rest/users', 'post', '사용자 등록', 'TRUE');
 insert into awf_url values ('/rest/users', 'get', '전체 사용자 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/users/list', 'get', '사용자 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/all', 'put', '사용자가 자신의 정보를 업데이트', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 다른 사용자의 정보를 업데이트', 'FALSE');
 insert into awf_url values ('/rest/wf/instances/{id}/history', 'get', 'test', 'FALSE');

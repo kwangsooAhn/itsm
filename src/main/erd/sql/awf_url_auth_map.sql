@@ -317,6 +317,7 @@ insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.cre
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
 insert into awf_url_auth_map values ('/rest/users', 'get', 'user.read');
+insert into awf_url_auth_map values ('/rest/users/list', 'get', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.update');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.read');

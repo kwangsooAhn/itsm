@@ -28,38 +28,137 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
+        let offsetCount = 0;
         window.onload = function() {
             document.getElementById('search').addEventListener('keyup', getUserList.bind(null, false), false);
-            getUserList(true);
+            getUserList(false);
         }
 
         document.getElementById('search').onkeyup = function() {
             getUserList(false);
         };
 
-        function getUserList(showProgressbar) {
+        function getUserList(isScroll) {
             const searchOpt = {
                 search: document.getElementById('search').value.trim()
             }
-            const urlParam = 'category=all&search=' + searchOpt.search;
-            restSubmit('get', '/users/list?' + urlParam, showProgressbar);
+            let urlParam = 'category=all&search=' + searchOpt.search;
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = aliceJs.searchDataCount;
+                }
+                urlParam += '&offset=' + offsetCount;
+                restSearchSubmit('get', '/rest/users/list?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam += '&offset=' + offsetCount;
+                restSearchSubmit('get', '/users/list?' + urlParam, isScroll);
+            }
         }
 
-        function restSubmit(method, url, showProgressbar) {
+        function restSearchSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
-                showProgressbar: showProgressbar,
+                showProgressbar: false,
                 callbackFunc: function(response) {
-                    document.getElementById('userList').innerHTML = response.responseText;
-                    let createDtList = document.querySelectorAll('td[name=createDt]');
-                    for (let i = 0; i < createDtList.length; i++) {
-                        createDtList[i].textContent = i18n.userDateTime(createDtList[i].textContent);
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
+                                dataList.forEach(function (data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.getElementById('userList').innerHTML = response.responseText;
+                        let createDtList = document.querySelectorAll('td[name=createDt]');
+                        for (let i = 0; i < createDtList.length; i++) {
+                            createDtList[i].textContent = i18n.userDateTime(createDtList[i].textContent);
+                        }
                     }
-                    OverlayScrollbars(document.querySelector('.list-wrap'), { className: 'scrollbar' });
+
+                    OverlayScrollbars(document.querySelector('.list-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        getUserList(true);
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let tr = document.createElement('tr');
+
+            let tdAvatar = document.createElement('td');
+            tdAvatar.style.width = '5%';
+            let avatarImage = document.createElement('img');
+            avatarImage.className = 'profile-photo';
+            avatarImage.src = data.avatarPath;
+            avatarImage.alt = 'profile pic';
+            avatarImage.onclick = function() {
+                location.href = '/users/' + data.userKey + '/edit';
+            }
+            tdAvatar.appendChild(avatarImage);
+
+            let tdName = document.createElement('td');
+            tdName.style.width = '10%';
+            tdName.innerText = data.userName;
+
+            let tdId = document.createElement('td');
+            tdId.style.width = '10%';
+            tdId.innerText = data.userId;
+
+            let tdEmail = document.createElement('td');
+            tdEmail.style.width = '20%';
+            tdEmail.innerText = data.email;
+
+            let tdDepartment = document.createElement('td');
+            tdDepartment.style.width = '15%';
+            tdDepartment.innerText = data.department;
+
+            let tdPosition = document.createElement('td');
+            tdPosition.style.width = '10%';
+            tdPosition.innerText = data.position;
+
+            let tdOfficeNumber = document.createElement('td');
+            tdOfficeNumber.style.width = '10%';
+            tdOfficeNumber.innerText = data.officeNumber;
+
+            let tdMobileNumber = document.createElement('td');
+            tdMobileNumber.style.width = '10%';
+            tdMobileNumber.innerText = data.mobileNumber;
+
+            let tdSignUpDate = document.createElement('td');
+            tdSignUpDate.style.width = '10%';
+            tdSignUpDate.innerText = i18n.userDateTime(data.createDt);
+
+            tr.appendChild(tdAvatar);
+            tr.appendChild(tdName);
+            tr.appendChild(tdId);
+            tr.appendChild(tdEmail);
+            tr.appendChild(tdDepartment);
+            tr.appendChild(tdPosition);
+            tr.appendChild(tdOfficeNumber);
+            tr.appendChild(tdMobileNumber);
+            tr.appendChild(tdSignUpDate);
+
+            div.appendChild(tr);
         }
         /*]]>*/
     </script>
