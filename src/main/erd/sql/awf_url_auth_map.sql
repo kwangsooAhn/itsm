@@ -134,6 +134,7 @@ insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.update');
 insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.delete');
 insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.create');
 insert into awf_url_auth_map values ('/faqs/{id}/view', 'get', 'faq.read');
+insert into awf_url_auth_map values ('/forms/import', 'get', 'form.create');;
 insert into awf_url_auth_map values ('/forms/list', 'get', 'form.create');
 insert into awf_url_auth_map values ('/forms/list', 'get', 'form.update');
 insert into awf_url_auth_map values ('/forms/list', 'get', 'form.delete');
@@ -277,6 +278,7 @@ insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.creat
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.create');
 insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.update');
+insert into awf_url_auth_map values ('/rest/forms-admin', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/images', 'put', 'image.update');
 insert into awf_url_auth_map values ('/rest/images', 'post', 'image.create');
 insert into awf_url_auth_map values ('/rest/images/{id}', 'delete', 'image.delete');
@@ -291,6 +293,7 @@ insert into awf_url_auth_map values ('/rest/notices/{id}', 'get', 'notice.read')
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'put', 'notice.update');
 insert into awf_url_auth_map values ('/rest/processes', 'post', 'process.read');
 insert into awf_url_auth_map values ('/rest/processes', 'get', 'process.read');
+insert into awf_url_auth_map values ('/rest/processes-admin/list', 'get', 'process.read');
 insert into awf_url_auth_map values ('/rest/processes/{id}', 'delete', 'process.delete');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'get', 'process.create');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'put', 'process.update');
@@ -314,6 +317,7 @@ insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.cre
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
 insert into awf_url_auth_map values ('/rest/users', 'get', 'user.read');
+insert into awf_url_auth_map values ('/rest/users/list', 'get', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.update');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.read');

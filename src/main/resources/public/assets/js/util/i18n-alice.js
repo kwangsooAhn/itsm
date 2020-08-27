@@ -300,6 +300,26 @@
         return message;
     }
 
+    /**
+     * 사용자에게 날짜를 받아서 원하는 만큼 날짜를 더해서 날짜로만 반환한다.
+     *
+     * @author Kim Sung Min
+     * @since 2020-08-26
+     * @param {String}  beforeUserDateTime 사용자가 입력한 날짜시간.
+     * @param {offset}  offset 더하고 싶은 날짜 수
+     * @return {String} i18n.dateFormat으로 반환한다.
+     */
+    function makeUserDate(beforeUserDate, offset) {
+        if (beforeUserDate === null || beforeUserDate === '') {
+            return ''
+        } else {
+            if (offset === undefined) {
+                offset = { 'days' : 0 };
+            }
+            return luxon.DateTime.fromFormat(beforeUserDate, i18n.dateFormat, {zone: i18n.timezone}).setZone(i18n.timezone).plus(offset).toFormat(i18n.dateFormat);
+        }
+    }
+
     exports.init = init;
     exports.initMessages = addMessages;
 
@@ -319,6 +339,7 @@
     exports.compareSystemTime = compareSystemTime;
     exports.get = getMessage; // 앞으로 msg로 사용하고 get은 다 msg로 수정하면 지우자.
     exports.msg = getMessage;
+    exports.makeUserDate = makeUserDate;
 
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

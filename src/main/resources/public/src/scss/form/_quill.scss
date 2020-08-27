@@ -1,0 +1,200 @@
+/**
+ * Customize Quill Editor v1.3.6
+ * https://quilljs.com/
+ *
+ * @author woodajung
+ * @version 1.0
+ */
+.ql-toolbar {
+    & *:focus {
+        outline: none !important;
+    }
+    &.ql-snow {
+        font-family: $font-family;
+        font-size: $quill-toolbar-font-size;
+        padding: 0;
+        border: $quill-border;
+        background-color: $quill-bg-color;
+        .ql-formats {
+            margin: 0;
+            padding: 0;
+            .ql-picker-label,
+            .ql-picker-item {
+                color: $quill-toolbar-font-color;
+                font-size: $quill-toolbar-font-size;
+                font-weight: $quill-toolbar-font-weight;
+                &.ql-active {
+                    color: $quill-toolbar-hover-color;
+                }
+            }
+            .ql-header { // h1 ~ normal
+                width: 7.5rem; // 120px
+                height: 2.5rem; // 40px
+                .ql-picker-label,
+                .ql-picker-item {
+                    padding: 0.4375rem 0.625rem; // 7px 10px
+                    &:not(.ql-color-picker):not(.ql-icon-picker) svg { // 화살표 아이콘
+                        margin: auto;
+                    }
+                    &:hover,
+                    &:focus{
+                        color: $quill-toolbar-hover-color;
+                        background-color: $quill-toolbar-pressed-bg-color;
+                    }
+                }
+                .ql-picker-options {
+                    padding: 0;
+                    box-shadow: 0 0 0.3125rem 0 $line-gray;
+                    .ql-picker-item[data-value="1"]::before { font-size: 2em; }
+                    .ql-picker-item[data-value="2"]::before { font-size: 1.5em; }
+                    .ql-picker-item[data-value="3"]::before { font-size: 1.17em; }
+                    .ql-picker-item[data-value="4"]::before { font-size: 0.83em; }
+                }
+                &.ql-expanded {
+                    .ql-picker-label {
+                        border-color: transparent;
+                        color: $quill-toolbar-font-color;
+                        background-color: $quill-toolbar-pressed-bg-color;
+                    }
+                    .ql-picker-options {
+                        margin-left: -0.0625rem; // -1px 
+                        border-color: $line-gray;
+                        .ql-picker-item {
+                            &.ql-selected {
+                                color: $quill-toolbar-pressed-color;
+                            }
+                        }
+                    }
+                }
+            }
+            .ql-color-picker { // color picker
+                width: 2.813rem; // 45px
+                height: 2.5rem; // 40px
+                .ql-picker-label {
+                    padding: 0.5625rem 0.6875rem; // 9px 11px
+                    svg {
+                        .ql-transparent {
+                            opacity: 1;
+                        }
+                        .ql-label,
+                        .bg-line {
+                            fill: $quill-toolbar-font-color;
+                        }
+                        .bg {
+                            fill: $quill-bg-color;
+                        }
+                    }
+                    &.ql-active[data-value]:not([data-value='']) {
+                      svg .ql-label {
+                        fill: $white;
+                      }
+                    }
+                }
+                .ql-picker-item {
+                    &:hover,
+                    &:focus{
+                        color: $quill-toolbar-hover-color;
+                        border-color: $quill-toolbar-pressed-color;
+                    }
+                }
+                .ql-picker-options {
+                    box-shadow: 0 0 0.3125rem 0 $line-gray;
+                }
+                &.ql-expanded {
+                    .ql-picker-label {
+                        border-color: transparent;
+                        color: $quill-toolbar-font-color;
+                        background-color: $quill-toolbar-pressed-bg-color;
+                    }
+                    .ql-picker-options {
+                        border-color: $line-gray;
+                        .ql-picker-item {
+                            &.ql-selected {
+                                border-color: $quill-toolbar-pressed-color;
+                            }
+                        }
+                    }
+                }
+            }
+            .ql-icon-picker { // align
+                width: 2.813rem; // 45px
+                height: 2.5rem; // 40px
+                .ql-picker-label,
+                .ql-picker-item {
+                    padding: 0.5625rem 0.6875rem; // 9px 11px
+                    width: 2.813rem; // 45px
+                    height: 2.5rem; // 40px
+                    &:hover,
+                    &:focus{
+                        color: $quill-toolbar-hover-color;
+                        background-color: $quill-toolbar-pressed-bg-color;
+                    }
+                }
+                .ql-picker-options {
+                    box-shadow: 0 0 0.3125rem 0 $line-gray;
+                    padding: 0;
+                }
+                &.ql-expanded {
+                    .ql-picker-label {
+                        border-color: transparent;
+                        color: $quill-toolbar-font-color;
+                        background-color: $quill-toolbar-pressed-bg-color;
+                    }
+                    .ql-picker-options {
+                        margin-left: -0.0625rem; // -1px 
+                        border-color: $line-gray;
+                        .ql-picker-item {
+                            &.ql-selected svg {
+                                fill: $quill-toolbar-pressed-color;
+                            }
+                        }
+                    }
+                }
+            }
+            button { // bold, underline, italic
+                padding: 0;
+                margin: 0;
+                width: 2.813rem; // 45px
+                height: 2.5rem; // 40px
+                border-radius: 0;
+                svg {
+                  float: initial;
+                }
+                &:hover,
+                &:focus,
+                &.ql-active {
+                    color: $quill-toolbar-hover-color;
+                    background-color: $quill-toolbar-pressed-bg-color;
+                }
+            }
+        }
+    }
+}
+.ql-container {
+    &.ql-snow {
+      font-family: $font-family;
+      font-size: $quill-font-size;
+      border: $quill-border;
+      background-color: $quill-bg-color;
+      .ql-editor {
+            color: $quill-font-color;
+            line-height: $quill-line-height;
+            padding: 0.625rem; //10px
+            @include scrollbar-hidden; // 스크롤 숨김
+            .ql-blank::before {
+                content: attr(data-placeholder);
+            }
+            span {
+                font-size: inherit;
+                font-weight: inherit;
+                line-height: inherit;
+            }
+            em {
+                font-style: italic;
+            }
+            strong {
+                font-weight: bold;
+            }
+        }
+    }
+}

@@ -7,6 +7,8 @@ aliceJs.systemCalendarTimeFormat = 'HH:mm:ss';
 const rgbaReg = /^rgba?\((\d+),(\d+),(\d+),?([^,\s)]+)?/i;
 const hexReg = /^#([A-Fa-f0-9]{3}){1,2}$/;
 
+aliceJs.searchDataCount = 15;
+
 /**
  *  XMLHttpReqeust 응답시 에러 발생하는 경우 호출
  *
@@ -96,8 +98,6 @@ aliceJs.serialize = function (form) {
                 fieldValue = i18n.systemDateTime(encodeURIComponent(field.value));
             } else if (field.classList.contains('search-date')) {
                 fieldValue = i18n.systemDate(encodeURIComponent(field.value));
-            } else if (field.classList.contains('search-date-addOffset')) {
-                fieldValue = i18n.systemDate(encodeURIComponent(field.value), {'days': 1})
             }
             serialized.push(encodeURIComponent(field.name) + '=' + fieldValue);
         }
@@ -891,3 +891,15 @@ aliceJs.loadSvg = function() {
         });
     }
 };
+
+/**
+ * 마지막 데이터 여부 판단.
+ *
+ * @param offset 현재 조회된 offset
+ * @param objectId 전체수 저장 object-id (default: totalCount)
+ * @return {boolean} 스크롤 처리 진행 여부
+ */
+aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
+    let totalObject = document.getElementById(objectId);
+    return offset < totalObject.value;
+}

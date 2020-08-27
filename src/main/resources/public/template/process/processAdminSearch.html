@@ -30,8 +30,9 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
+        let offsetCount = 0;
         window.onload = function() {
-            getProcessList(document.getElementById('search').value, true);
+            getProcessList(document.getElementById('search').value, false);
         }
 
         document.getElementById('search').onkeyup = function() {
@@ -39,14 +40,16 @@
         };
 
         // 프로세스 리스트 조회
-        function getProcessList(search, showProgressbar) {
-            restSubmit('GET', '/processes-admin/list?search=' + encodeURIComponent(search.trim()), function(result) {
-                document.getElementById('processList').innerHTML = result;
-                var processDtEle = document.querySelectorAll('td[name=createDt]');
-                for (let i = 0; i < processDtEle.length; i++) {
-                    processDtEle[i].textContent = i18n.userDateTime(processDtEle[i].textContent);
+        function getProcessList(search, isScroll) {
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = aliceJs.searchDataCount;
                 }
-            }, showProgressbar);
+                restSearchSubmit('GET', '/rest/processes-admin/list?search=' + encodeURIComponent(search.trim()) + '&offset=' + offsetCount, isScroll);
+            } else {
+                offsetCount = 0;
+                restSearchSubmit('GET', '/processes-admin/list?search=' + encodeURIComponent(search.trim()) + '&offset=' + offsetCount, isScroll);
+            }
         }
 
         // 프로세스 신규 추가 화면 오픈
@@ -95,16 +98,115 @@
         }
 
         // REST API
-        function restSubmit(method, url, result, showProgressbar) {
+        function restSearchSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
-                showProgressbar: showProgressbar,
+                async: false,
+                showProgressbar: false,
                 callbackFunc: function(response) {
-                    result(response.responseText);
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
+                                dataList.forEach(function (data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+
+                    } else {
+                        document.getElementById('processList').innerHTML = response.responseText;
+                        let processDtEle = document.querySelectorAll('td[name=createDt]');
+                        for (let i = 0; i < processDtEle.length; i++) {
+                            processDtEle[i].textContent = i18n.userDateTime(processDtEle[i].textContent);
+                        }
+                    }
+
+                    OverlayScrollbars(document.querySelector('.list-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                        getProcessList(document.getElementById('search').value, true);
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let tr = document.createElement('tr');
+
+            // TODO: 권한에 따라 view or edit
+            let tdProcessName = document.createElement('td');
+            tdProcessName.style.width = '20%';
+            let processNameObject = document.createElement('a');
+            processNameObject.innerText = data.name;
+            processNameObject.onclick = function() {
+                openProcessEdit(data.id);
+            }
+            tdProcessName.appendChild(processNameObject);
+
+            let tdProcessPreview = document.createElement('td');
+            tdProcessPreview.style.width = '10%';
+            let processPreviewObject = document.createElement('a');
+            processPreviewObject.onclick = function() {
+                openProcessDesignerView(data.id);
+            }
+            let processPreviewImage = document.createElement('img');
+            processPreviewImage.src = '../assets/media/icons/process/list/icon_preview.png';
+            processPreviewObject.appendChild(processPreviewImage);
+            tdProcessPreview.appendChild(processPreviewObject);
+
+            let tdUpdate = document.createElement('td');
+            tdUpdate.style.width = '10%';
+
+            // TODO: 권한에 따른 처리
+            let updateObject = document.createElement('a');
+            updateObject.onclick = function() {
+                openProcessDesignerEdit(data.id);
+            }
+            let updateImage = document.createElement('img');
+            updateImage.src = '../assets/media/icons/process/list/icon_edit.png';
+            updateObject.appendChild(updateImage);
+            tdUpdate.appendChild(updateObject);
+
+            let tdStatus = document.createElement('td');
+            tdStatus.style.width = '10%';
+            tdStatus.innerText = i18n.get(data.status);
+
+            let tdDescription = document.createElement('td');
+            tdDescription.style.width = '30%';
+            tdDescription.innerText = data.description;
+
+            let tdWriter = document.createElement('td');
+            tdWriter.style.width = '10%';
+            tdWriter.innerText = data.createUserName;
+
+            let tdWriteDate = document.createElement('td');
+            tdWriteDate.style.width = '10%';
+            tdWriteDate.innerText = i18n.userDateTime(data.createDt);
+
+            tr.appendChild(tdProcessName);
+            tr.appendChild(tdProcessPreview);
+            tr.appendChild(tdUpdate);
+            tr.appendChild(tdStatus);
+            tr.appendChild(tdDescription);
+            tr.appendChild(tdWriter);
+            tr.appendChild(tdWriteDate);
+            div.appendChild(tr);
         }
     </script>
 </th:block>

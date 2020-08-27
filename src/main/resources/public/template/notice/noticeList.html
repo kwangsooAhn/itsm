@@ -17,6 +17,7 @@
             </tr>
         </thead>
         <tbody class="list-body">
+            <input th:type="hidden" id="totalCount" name="totalCount" th:value="${noticeCount}"/>
             <tr class="no-data-found" th:if="${#arrays.isEmpty(noticeList)}">
                 <td colspan="6" th:text="#{common.msg.noData}"></td>
             </tr>
@@ -35,12 +36,12 @@
                     </a>
                 </td>
                 <td width="5%" th:unless="${topNotice.popYn}"></td>
-                <td width="10%" th:text="${topNotice?.aliceUserEntity.userName}"></td>
+                <td width="10%" th:text="${topNotice?.createUserName}"></td>
                 <td width="20%" th:name="popDt" th:text="${topNotice.popStrtDt} + '~' + ${topNotice.popEndDt}"></td>
                 <td width="20%" th:name="noticeDt" th:text="${topNotice.topNoticeStrtDt} + '~' + ${topNotice.topNoticeEndDt}"/>
                 <td width="15%" th:name="createDt" th:text="${topNotice.createDt}"></td>
             </tr>
-            <tr th:each="notice, z : ${noticeList}" th:if="${z.count} < 8">
+            <tr th:each="notice : ${noticeList}">
                 <td width="30%" class="align-left">
                     <a sec:authorize="!hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
                        th:href="@{/notices/{id}/view(id=${notice.noticeNo})}"></a>
@@ -53,7 +54,7 @@
                     </a>
                 </td>
                 <td width="5%" th:unless="${notice.popYn}"></td>
-                <td width="10%" id="userName" th:text="${notice?.aliceUserEntity.userName}"></td>
+                <td width="10%" id="userName" th:text="${notice?.createUserName}"></td>
                 <td width="20%" th:name="popDt" th:text="${notice.popStrtDt} + '~' + ${notice.popEndDt}"></td>
                 <td width="20%" th:name="noticeDt" th:text="${notice.topNoticeStrtDt} + '~' + ${notice.topNoticeEndDt}"></td>
                 <td width="15%" th:name="createDt" th:text="${notice.createDt}"></td>

@@ -24,7 +24,8 @@
                            th:placeholder="#{board.label.searchBoardPlaceholder}"/>
                     <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                     <span>~</span>
-                    <input class="search-date-addOffset column-2" type="text" id="toDt" name="toDt" readonly="readonly"/>
+                    <input class="search-date column-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                    <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
                 </form>
             </div>
             <div class="right">
@@ -47,8 +48,8 @@
                 document.getElementById('boardAdminId').value = boardAdminId;
             }
             document.getElementById('fromDt').value = i18n.getDate({'months':-1});
-            document.getElementById('toDt').value = i18n.getDate();
-            dateTimePicker.initDatePicker('fromDt', setDatePicker);
+            document.getElementById('searchToDt').value = i18n.getDate();
+            dateTimePicker.initDatePicker('searchToDt', setDatePicker);
             dateTimePicker.initDatePicker('toDt', setDatePicker);
             document.getElementById('boardAdminId').addEventListener('change', function() { getBoardList(false); });
             document.getElementById('search').addEventListener('keyup', function() { getBoardList(false); });
@@ -60,7 +61,7 @@
                 return false;
             }
             if (element.id === 'fromDt') {
-                const toDtValue = document.getElementById('toDt').value;
+                const toDtValue = document.getElementById('searchToDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
                     aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function() {
                         picker.open();
@@ -82,6 +83,8 @@
         //isScroll : true 스크롤 이벤트 조회, false 초기 조회
         function getBoardList(isScroll) {
             let urlParam = '';
+            document.getElementById('toDt').value =
+                i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
             if (isScroll) {
                 if (offsetCount === 0) {
                     offsetCount = offsetSize;

@@ -648,14 +648,14 @@
             let backdrop, dialog;
 
             this.wrapper = document.createElement('div');
-            this.wrapper.classList.add('document-modal-wrapper', 'form-designer');
+            this.wrapper.classList.add('document-modal-wrapper');
             this.wrapper.id = 'document-modal-wrapper-' + this.id;
 
             backdrop = document.createElement('div');
             backdrop.className = 'document-modal-backdrop';
 
             dialog = document.createElement('div');
-            dialog.classList.add('document-modal-dialog', 'container', 'document');
+            dialog.classList.add('document-modal-dialog', 'container-document');
 
             const body = document.createElement('div');
             body.className = 'contents';
