@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{token.label.listsearch-date-addOffset}"></title>
+    <title th:text="#{token.label.list}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -17,20 +17,23 @@
                 <div class="left">
                     <form id="frmSearch">
                         <select class="column-3" name="searchTokenType" id="searchTokenType">
-                            <option value="token.type.todo" th:text="#{token.type.todo}" selected />
-                            <option value="token.type.requested" th:text="#{token.type.requested}" />
-                            <option value="token.type.progress" th:text="#{token.type.progress}" />
-                            <option value="token.type.completed" th:text="#{token.type.completed}" />
+                            <option value="token.type.todo" th:text="#{token.type.todo}" selected/>
+                            <option value="token.type.requested" th:text="#{token.type.requested}"/>
+                            <option value="token.type.progress" th:text="#{token.type.progress}"/>
+                            <option value="token.type.completed" th:text="#{token.type.completed}"/>
                         </select>
                         <select class="column-3" name="searchDocumentId" id="searchDocumentId">
-                            <option value="" th:text="#{token.label.all}" selected="selected" />
-                            <option th:each="document: ${documentList}" th:value="${document.documentId}" th:text="${document.documentName}" />
+                            <option value="" th:text="#{token.label.all}" selected="selected"/>
+                            <option th:each="document: ${documentList}" th:value="${document.documentId}"
+                                    th:text="${document.documentName}"/>
                         </select>
-                        <input class="search column-3" type="text" name="searchValue" id="searchValue" th:placeholder="#{token.label.searchPlaceholder}"/>
-                        <input type="text" id="searchFromDt" name="searchFromDt" class="search-date column-2" readonly="readonly" />
-                        <input type="text" id="toDt" name="toDt" class="search-date column-2" readonly="readonly" />
+                        <input class="search column-3" type="text" name="searchValue" id="searchValue"
+                               th:placeholder="#{token.label.searchPlaceholder}"/>
+                        <input type="text" id="searchFromDt" name="searchFromDt" class="search-date column-2"
+                               readonly="readonly"/>
+                        <input type="text" id="toDt" name="toDt" class="search-date column-2" readonly="readonly"/>
                         <input type="hidden" id="searchToDt" name="searchToDt" class="search-date column-2"
-                               readonly="readonly" />
+                               readonly="readonly"/>
                     </form>
                 </div>
                 <div class="right">
@@ -49,19 +52,16 @@
         /*<![CDATA[ */
         window.addEventListener('load', function () {
             // date picker 초기화
-            document.getElementById('searchFromDt').value = i18n.getDate({'months':-3});
+            document.getElementById('searchFromDt').value = i18n.getDate({'months': -3});
             document.getElementById('toDt').value = i18n.getDate();
-            document.getElementById('searchToDt').value = i18n.getDate();
 
             // 검색 이벤트 핸들러 셋업
             dateTimePicker.initDatePicker('searchFromDt', () => searchTokenList(false));
             dateTimePicker.initDatePicker('toDt', () => searchTokenList(false));
-            // add search condition event handler.
-            dateTimePicker.initDatePicker('searchToDt', () => searchTokenList(false));
-            document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function(element) {
+            document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function (element) {
                 element.addEventListener('change', () => searchTokenList(false), false);
             });
-            document.getElementById('searchValue').addEventListener('focusout', () => searchTokenList(false), false)
+
             document.getElementById('searchValue').addEventListener('keyup', (e) => {
                 console.log('Event code: %o, key: %o', e.code, e.key)
                 if (e.key === 'Enter') {
@@ -70,7 +70,7 @@
                 }
             }, false);
 
-            document.getElementById('tokenList').addEventListener('scroll', function(e) {
+            document.getElementById('tokenList').addEventListener('scroll', function (e) {
                 const contentHeight = document.getElementById('tokenList').parentElement.offsetHeight;
                 if (this.scrollTop - 100 === contentHeight - this.offsetHeight) { // 100은 뭐지?
                     searchTokenList(true);
@@ -85,21 +85,20 @@
          */
         function searchTokenList(isScroll) {
             const tokenListElement = document.getElementById('tokenList');
-            document.getElementById('searchToDt').value =
-                i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
+            document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
             if (!isScroll) {
                 tokenListElement.innerHTML = '';
             }
             let listDocumentCount = tokenListElement.querySelectorAll('.token-list-item').length
             aliceJs.sendXhr({
                 method: 'get',
-                url: '/tokens/list?'+ aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + listDocumentCount,
-                callbackFunc: function(response) {
+                url: '/tokens/list?' + aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + listDocumentCount,
+                callbackFunc: function (response) {
                     tokenListElement.innerHTML = response.responseText
                     document.querySelectorAll('.create-dt').forEach(tokenCreateDt => {
                         tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
                     });
-                    OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.querySelector('.scroll-wrap'), {className: 'scrollbar'});
                 }
             });
         }
@@ -108,7 +107,7 @@
          * 클릭한 문서를 연다.
          */
         function openTokenEdit(tokenId) {
-            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=' + (screen.width-50) + ', height=' + (screen.height-150));
+            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
         }
 
         /* ]]> */
