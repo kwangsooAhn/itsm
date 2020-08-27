@@ -42,6 +42,9 @@ class PortalService(
         )
     }
 
+    /**
+     * 포탈 검색 리스트 글 전체 개수 조회
+     */
     fun findPortalListOrSearchCount(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
         return noticeRepository.findPortalListOrSearchCount(portalSearchDto.searchValue)
     }

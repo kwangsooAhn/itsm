@@ -38,8 +38,10 @@ class PortalController(private val portalService: PortalService) {
      */
     @GetMapping("/list")
     fun getPortalList(portalSearchDto: PortalSearchDto, model: Model): String {
-        model.addAttribute("totalCount",
-            portalService.findPortalListOrSearchCount(portalSearchDto)[0].totalCount)
+        model.addAttribute(
+            "totalCount",
+            portalService.findPortalListOrSearchCount(portalSearchDto)[0].totalCount
+        )
         model.addAttribute("portalList", portalService.findPortalListOrSearchList(portalSearchDto))
         return portalListPage
     }
