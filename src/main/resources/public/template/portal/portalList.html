@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
@@ -24,7 +23,9 @@
             <div class="row" th:each="portalList : ${portalList}">
                 <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
                 <div class="content-box">
-                    <div class="title text-ellipsis"><a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a></div>
+                    <div class="title text-ellipsis">
+                        <a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a>
+                    </div>
                     <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
                 </div>
             </div>
@@ -37,11 +38,12 @@
 </body>
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
 <script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
-<script type="text/javascript" th:inline="javascript">
+<script th:inline="javascript">
     /*<![CDATA[ */
     var offsetCount = 0;
     const offsetSize = 15;
     window.onload = function () {
+        alert(i18n.get('common.msg.noData'));
         document.getElementById('searchValue').addEventListener('keyup', function() { searchPortal(false); });
         OverlayScrollbars(document.querySelector('.list'), {
             className: 'scrollbar',
@@ -50,7 +52,6 @@
                     const scrollHeight = e.target.scrollHeight;
                     const scrollTop = e.target.scrollTop;
                     const clientHeight = e.target.clientHeight;
-                    // 스크롤이 맨 마지막에 있을 경우
                     if (scrollHeight - scrollTop === clientHeight) {
                         if (scrollerEventCheck()) {
                             searchPortal(true);
@@ -76,11 +77,14 @@
 
     // REST API
     function restSubmit(method, url, isScroll) {
-        var xhttp = new XMLHttpRequest();
-        xhttp.open(method, url, false);
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                let dataList = JSON.parse(this.responseText);
+        const opt = {
+            method: method,
+            url: url,
+            contentType: 'application/json; charset=utf-8',
+            showProgressbar: false,
+            async: false,
+            callbackFunc: function(response) {
+                let dataList = JSON.parse(response.responseText);
                 if (isScroll) {
                     if (dataList.length > 0) {
                         document.getElementById('totalCount').value = dataList[0].totalCount;
@@ -92,21 +96,27 @@
                         }
                     }
                 } else {
-                    document.getElementById('totalCount').value = dataList[0].totalCount;
+                    //조회 시 무조건 삭제한다.
                     let rowDivs = Array.prototype.slice.call(document.querySelectorAll('.row'));
-                    rowDivs.forEach(function(rowDiv) {
+                    rowDivs.forEach(function (rowDiv) {
                         rowDiv.remove();
                     });
-                    dataList.forEach(function(data) {
-                        getDataTemplate(data);
-                    });
+
+                    if (dataList.length > 0) {
+                        document.getElementById('totalCount').value = dataList[0].totalCount;
+                        dataList.forEach(function (data) {
+                            getDataTemplate(data);
+                        });
+                    } else {
+                        document.getElementById('totalCount').value = 0;
+                        getEmptyDataTemplate();
+                    }
                 }
             }
         };
-        xhttp.send();
+        aliceJs.sendXhr(opt);
     }
 
-    // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
     function scrollerEventCheck() {
         let scrollerCheck = false;
         let totalCount = document.getElementById('totalCount').value;
@@ -114,6 +124,19 @@
             scrollerCheck = true;
         }
         return scrollerCheck;
+    }
+
+    function getEmptyDataTemplate() {
+        let div = document.querySelector('.os-content');
+        let divRow = document.createElement('div');
+        divRow.className = 'row';
+
+        let divNoData = document.createElement('div');
+        divNoData.className = 'no-data';
+        divNoData.innerText = '데이터가 없습니다.';
+
+        divRow.appendChild(divNoData);
+        div.appendChild(divRow);
     }
 
     function getDataTemplate(data) {
@@ -144,5 +167,6 @@
         divRow.appendChild(divContentBox);
         div.appendChild(divRow);
     }
+    /* ]]> */
 </script>
 </html>

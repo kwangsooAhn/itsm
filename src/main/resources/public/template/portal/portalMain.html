@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
@@ -10,8 +9,10 @@
 <div class="alicePortal">
     <div class="portal-search-top">
         <img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
-        <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
-        <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'" th:text="#{portal.label.login}"></div>
+        <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'"
+             th:text="#{portal.label.main}"></div>
+        <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"
+             th:text="#{portal.label.login}"></div>
     </div>
     <div class="portal-search-main">
         <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
