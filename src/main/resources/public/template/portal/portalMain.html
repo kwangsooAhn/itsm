@@ -15,7 +15,8 @@
     </div>
     <div class="portal-search-main">
         <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
-        <input class="icon" type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요." onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list'); "/>
+        <input class="icon" type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요."
+               onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list'); "/>
     </div>
     <div class="portal-search-content">
         <ul>

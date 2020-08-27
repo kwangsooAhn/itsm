@@ -576,7 +576,10 @@ input:focus {
   text-decoration: none;
 }
 .portal-search-result {
-  margin: 3.4375rem 22.5rem 0 22.5rem;
+  margin: 0 0 0 22.5rem;
+}
+.portal-search-result .list {
+  height: 40.63rem;
 }
 .portal-search-result .list .row {
   display: flex;
@@ -584,7 +587,11 @@ input:focus {
   border-bottom: 0.063rem solid #EBEBEB;
   padding: 10px 0 10px 0;
 }
+.portal-search-result .list .row:first-child {
+  margin: 4.375rem 0 0 0;
+}
 .portal-search-result .list .row:last-child {
+  margin: 0 0 3.125rem 0;
   border-bottom: none;
 }
 .portal-search-result .list .row .type-icon {
@@ -1074,3 +1081,85 @@ input:focus {
 .login-other-signUp:last-child, .login-other-findPwd:last-child, .login-other-findId:last-child {
   border: none;
 }
+
+.scrollbar > .os-scrollbar-horizontal {
+  right: 10px;
+  height: 12px;
+}
+.scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
+  min-width: 30px;
+}
+.scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  top: -6px;
+  bottom: -2px;
+}
+.scrollbar > .os-scrollbar-vertical {
+  bottom: 10px;
+  width: 12px;
+}
+.scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
+  min-height: 30px;
+}
+.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: block;
+  left: -6px;
+  right: -2px;
+}
+.scrollbar > .os-scrollbar-corner {
+  height: 10px;
+  width: 10px;
+  background-color: transparent;
+}
+.scrollbar > .os-scrollbar {
+  box-sizing: border-box;
+  background: transparent;
+}
+.scrollbar > .os-scrollbar > .os-scrollbar-track {
+  background: #f1f1f1;
+}
+.scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  background: #E1E3E6;
+}
+.scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
+  background: #586872;
+}
+.scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
+  background: #586872;
+}
+.scrollbar > .os-scrollbar.os-scrollbar-unusable {
+  background: transparent;
+}
+
+.scrollbar.os-host-rtl > .os-scrollbar-horizontal {
+  left: 10px;
+  right: 0;
+}
+
+.scrollbar.os-host-transition > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  -webkit-transition: background-color 0.3s;
+  transition: background-color 0.3s;
+}
+
+.scrollbar.os-host-scrollbar-horizontal-hidden > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+  display: none;
+}
+
+.scrollbar.os-host-scrollbar-vertical-hidden > .os-scrollbar-vertical .os-scrollbar-handle:before {
+  display: none;
+}
+
+.os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
+  right: -6px;
+  left: -2px;
+}
+
+/*# sourceMappingURL=alice-portal.css.map */

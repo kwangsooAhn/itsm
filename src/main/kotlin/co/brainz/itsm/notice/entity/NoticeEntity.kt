@@ -20,11 +20,11 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
+import javax.persistence.NamedNativeQueries
+import javax.persistence.NamedNativeQuery
 import javax.persistence.SqlResultSetMapping
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
-import javax.persistence.NamedNativeQueries
-import javax.persistence.NamedNativeQuery
 
 @SqlResultSetMapping(
     name = "portalSearchMapping",
@@ -92,7 +92,6 @@ import javax.persistence.NamedNativeQuery
         resultClass = PortalDto::class
     )
 )
-
 
 @Entity
 @Table(name = "portal_notice")

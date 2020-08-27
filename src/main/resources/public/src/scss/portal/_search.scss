@@ -98,15 +98,19 @@
             }
         }
         &-result {
-            margin: 3.4375rem 22.5rem 0 22.5rem; // 55px 360px 0 360px
+            margin: 0 0 0 22.5rem; // 0 0 0 360px
             .list {
-                height: 400px;
+                height: 40.63rem;  //650px
                 .row {
                     display: flex;
                     align-items: center;
                     border-bottom: 0.063rem solid $line-gray; // 1px
                     padding: 10px 0 10px 0;
+                    &:first-child {
+                        margin: 4.375rem 0 0 0; //70px
+                    }
                     &:last-child {
+                        margin: 0 0 3.125rem 0; //50px
                         border-bottom: none;
                     }
                     .type-icon {
