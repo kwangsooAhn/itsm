@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
+<head>
+    <title th:text="#{token.label.listsearch-date-addOffset}"></title>
+</head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents-token">
@@ -43,33 +46,38 @@
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[ */
         window.addEventListener('load', function () {
-            // initialization date picker/
+            // date picker 초기화
             document.getElementById('searchFromDt').value = i18n.getDate({'months':-3});
             document.getElementById('searchToDt').value = i18n.getDate();
+
+            // 검색 이벤트 핸들러 셋업
             dateTimePicker.initDatePicker('searchFromDt', () => searchTokenList(false));
             dateTimePicker.initDatePicker('searchToDt', () => searchTokenList(false));
-            // add search condition event handler.
             document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function(element) {
                 element.addEventListener('change', () => searchTokenList(false), false);
             });
             document.getElementById('searchValue').addEventListener('focusout', () => searchTokenList(false), false)
             document.getElementById('searchValue').addEventListener('keyup', (e) => {
-                if (e.keyCode === 13) {
+                console.log('Event code: %o, key: %o', e.code, e.key)
+                if (e.key === 'Enter') {
                     e.preventDefault();
                     searchTokenList(false);
                 }
             }, false);
 
+            document.getElementById('tokenList').addEventListener('scroll', function(e) {
+                const contentHeight = document.getElementById('tokenList').parentElement.offsetHeight;
+                if (this.scrollTop - 100 === contentHeight - this.offsetHeight) { // 100은 뭐지?
+                    searchTokenList(true);
+                }
+            });
+
             searchTokenList(false);
         });
 
-        document.getElementById('tokenList').addEventListener('scroll', function(e) {
-            const contentHeight = document.getElementById('tokenList').parentElement.offsetHeight;
-            if (this.scrollTop - 100 === contentHeight - this.offsetHeight) { // 100은 뭐지?
-                searchTokenList(true);
-            }
-        });
-
+        /**
+         * 문서함을 검색한다.
+         */
         function searchTokenList(isScroll) {
             const tokenListElement = document.getElementById('tokenList');
             if (!isScroll) {
@@ -78,72 +86,24 @@
             let listDocumentCount = tokenListElement.querySelectorAll('.token-list-item').length
             aliceJs.sendXhr({
                 method: 'get',
-                url: '/rest/tokens?'+ aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + listDocumentCount,
+                url: '/tokens/list?'+ aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + listDocumentCount,
                 callbackFunc: function(response) {
-                    const tokenList = JSON.parse(response.responseText);
-                    let totalCount = listDocumentCount;
-                    if (tokenList.length > 0) {
-                        totalCount = tokenList[0].totalCount;
-                    }
-                    document.getElementById('totalCount').textContent = i18n.msg("common.label.count", totalCount);
-                    tokenList.forEach(function(token) {
-                        tokenListElement.innerHTML = tokenListElement.innerHTML + getTokenTemplate(token);
+                    tokenListElement.innerHTML = response.responseText
+                    document.querySelectorAll('.create-dt').forEach(tokenCreateDt => {
+                        tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
                     });
                     OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
-                },
-                contentType: 'application/json; charset=utf-8'
+                }
             });
         }
 
+        /**
+         * 클릭한 문서를 연다.
+         */
         function openTokenEdit(tokenId) {
             window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=' + (screen.width-50) + ', height=' + (screen.height-150));
         }
 
-        function getTokenTemplate(token) {
-            return `
-                <div class="list-item">
-                    <div class="document-color" style="background-color: ${token.documentColor}"></div>
-                    <div class="document-row">
-                        <div class="document-row-content">
-                            ${
-                            /*[# th:if="${@utilService.hasAnyRole(#httpServletRequest, 'token.create')}"]*/
-                            `<a href="javascript:openTokenEdit('${token.tokenId}')">`
-                            /*[/]*/
-                            }
-                            <div class="document-title">
-                                <h3>${token.documentName}</h3>
-                                <h5>${token.documentNo}</h5>
-                            </div>
-                            <div class="document-topic">
-                                ${token.topics.map(topic => `<h4>${topic}</h4>`).join('')}
-                            </div>
-                            ${
-                            /*[# th:if="${@utilService.hasAnyRole(#httpServletRequest, 'token.create')}"]*/
-                            `</a>`
-                            /*[/]*/
-                            }
-                        </div>
-                        <div class="document-row-info">
-                            <div class="document-detail">
-                                <div class="document-user">
-                                    <img class="profile-photo" alt="profile pic" src="${token.avatarPath}">
-                                    <h5>${token.createUserName}</h5>
-                                </div>
-                                <span class="vertical-bar"></span>
-                                <h5>
-                                    ${dateFormatFromNow(token.createDt)}
-                                </h5>
-                                <span class="vertical-bar"></span>
-                                <h5>${token.elementName}</h5>
-                            </div>
-                            <div class="document-tag">
-                                ${token.tags.map(tag => `<span>${tag}</span>`).join('')}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
         /* ]]> */
     </script>
 </th:block>
