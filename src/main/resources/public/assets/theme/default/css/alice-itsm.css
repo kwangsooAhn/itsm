@@ -487,6 +487,10 @@ textarea:focus {
   align-items: center;
 }
 
+.align-top {
+  align-items: start;
+}
+
 .radio-row {
   display: flex;
 }
