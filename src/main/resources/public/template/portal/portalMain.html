@@ -15,7 +15,7 @@
     </div>
     <div class="portal-search-main">
         <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
-        <input class="icon" type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요." onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0'); "/>
+        <input class="icon" type="text" id="searchValue" name="searchValue" th:placeholder="#{common.searchWord}"/>
     </div>
     <div class="portal-search-content">
         <ul>
@@ -57,11 +57,19 @@
 </div>
 </body>
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
+<script th:src="@{/assets/js/util/i18n-alice.js}"></script>
+<script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
 <script th:inline="javascript">
     /*<![CDATA[ */
     const topSize = 6;
 
     window.onload = function() {
+        i18n.init(JSON.stringify({}));
+        document.getElementById('searchValue').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                locationSubmit('get', '/portal/list?page=0')
+            }
+        });
         restSubmit('get', '/rest/portal/top?limit=' + topSize);
     }
 
@@ -89,11 +97,11 @@
             let row = document.createElement('tr');
             let cell = document.createElement('td');
             if (data[i] !== undefined) {
-
                 let content_anchor = document.createElement('a');
                 content_anchor.setAttribute('href', '#N');
                 let content_text = document.createElement('h5');
-                content_text.textContent = data[i][element.id + 'Title'];
+                let dt = (data[i]['updateDt'] == null) ? data[i]['createDt'] : data[i]['updateDt']
+                content_text.textContent = '[' + i18n.userDateTime(dt) + '] ' + data[i][element.id + 'Title'];
                 content_anchor.appendChild(content_text);
                 cell.appendChild(content_anchor);
             }
