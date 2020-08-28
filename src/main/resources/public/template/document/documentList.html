@@ -1,56 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 <head>
-    <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-        }
-        table tr:nth-child(1) td {
-            border-top: 1px solid;
-        }
-        table td {
-            border-top: 1px solid #e7e7e7;
-            border-left: 1px solid;
-            text-align: center;
-            padding: 3px;
-            height: 40px;
-        }
-        table td:nth-child(2), table td:nth-child(3) {
-            text-align: left;
-        }
-    </style>
 </head>
 <body>
-<div>
-    <table class="table-hover">
-        <colgroup>
-            <col width="1%">
-            <col width="29%">
-            <col width="55%">
-            <col width="10%">
-            <col width="5%">
-        </colgroup>
-        <tbody>
-        <tr th:if="${#arrays.isEmpty(documentList)}">
-            <td colspan="5" th:text="#{common.msg.noData}"></td>
-        </tr>
-        <tr th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
-            <td th:style="|background-color:${document.documentColor}|"></td>
-            <td th:text="${document.documentName}"></td>
-            <td th:text="${document.documentDesc}"></td>
-            <td th:text="#{${document.documentStatus}}"></td>
-            <td>
-                <button sec:authorize="hasAuthority('document.create')"
-                        th:attr="onclick=|openDocument('${document.documentId}')|"
-                        th:text="#{common.btn.write}"></button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<div class="card-area">
+    <div class="no-data-found" th:if="${#arrays.isEmpty(documentList)}">
+        <span th:text="#{common.msg.noData}"></span>
+    </div>
+    <div th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
+        <a sec:authorize="hasAuthority('document.create')" th:attr="onclick=|openDocument('${document.documentId}')|">
+            <div class="document-card">
+                <h3 th:text="${document.documentName}"></h3>
+                <h5 th:text="${document.documentDesc}"></h5>
+                <div class="document-icon">
+                    <img th:src="@{/assets/media/icons/document_icon_sample.png}"/>
+                </div>
+            </div>
+        </a>
+    </div>
 </div>
 </body>
 </html>
