@@ -169,9 +169,9 @@ aliceJs.serializeObject = function (form) {
 };
 
 /**
- * 폼 데이터를 json 으로 변환하여 리턴한다.
+ * 폼 데이터를 object 로 변환하여 리턴한다.
  * 폼 데이터중 첨부파일의 seq가 있는 경우 배열로 넘기기 위해 별도의 처리를 한다.
- * @param form
+ * @param form element - document.getElementById('fromid')
  * @returns {{}}
  */
 aliceJs.formDataToObject = function (form) {
