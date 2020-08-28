@@ -218,7 +218,7 @@
                     _height = 920;
             const _left = Math.ceil((window.screen.width - _width) / 2);
             const _top = Math.ceil((window.screen.height - _height) / 4);
-            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=900, height=852, left='+_left+', top='+_top);
+            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150) + ', left='+_left+', top='+_top);
         }
 
         function restSubmit(method, url, result, data, showProgressbar) {
