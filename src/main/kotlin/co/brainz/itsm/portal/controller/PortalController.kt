@@ -52,6 +52,7 @@ class PortalController(private val portalService: PortalService) {
         model.addAttribute("totalPages", totalPages)
         model.addAttribute("totalCount", totalCount)
         model.addAttribute("portalList", portalService.findPortalListOrSearchList(portalSearchDto, pageableValue))
+        model.addAttribute("portalSearchDto", portalSearchDto)
 
         return portalListPage
     }
