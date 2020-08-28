@@ -570,11 +570,6 @@ input:focus {
   vertical-align: middle;
   text-align: left;
 }
-.portal-search-content ul li.part-box .list table th h5, .portal-search-content ul li.part-box .list table td h5 {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
 .portal-search-content ul li.part-box .list table th:hover, .portal-search-content ul li.part-box .list table td:hover {
   background-color: #EBEBEB;
 }

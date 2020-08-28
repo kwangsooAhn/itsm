@@ -41,6 +41,7 @@ common:
     updateUser: "Update User"
     writeDate: "Write Date"
     writer: "Writer"
+    searchWord: "Please enter your search term"
   msg:
     confirmDelete: "Are you sure you want to delete?"
     delete: "Deleted."

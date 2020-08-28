@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
@@ -10,19 +9,22 @@
 <div class="alicePortal">
     <div class="portal-search-top">
         <img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
-        <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
-        <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'" th:text="#{portal.label.login}"></div>
+        <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'"
+             th:text="#{portal.label.main}"></div>
+        <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"
+             th:text="#{portal.label.login}"></div>
     </div>
     <div class="portal-search-main">
         <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
-        <input class="icon" type="text" id="searchValue" name="searchValue" th:placeholder="#{common.searchWord}"/>
+        <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
+               th:placeholder="#{common.label.searchWord}"/>
     </div>
     <div class="portal-search-content">
         <ul>
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-                        <img th:src="@{/assets/media/image/portal/graphic_notice.png}" />
+                        <img th:src="@{/assets/media/image/portal/graphic_notice.png}"/>
                     </div>
                     <h3 th:text="#{menu.notice.parent}"></h3>
                 </div>
@@ -33,7 +35,7 @@
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-                        <img th:src="@{/assets/media/image/portal/graphic_faq.png}" />
+                        <img th:src="@{/assets/media/image/portal/graphic_faq.png}"/>
                     </div>
                     <h3 th:text="#{menu.faq.parent}"></h3>
                 </div>
@@ -44,7 +46,7 @@
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-                        <img th:src="@{/assets/media/image/portal/graphic_download.png}" />
+                        <img th:src="@{/assets/media/image/portal/graphic_download.png}"/>
                     </div>
                     <h3 th:text="#{menu.download.parent}"></h3>
                 </div>
@@ -63,58 +65,74 @@
     /*<![CDATA[ */
     const topSize = 6;
 
-    window.onload = function() {
+    window.onload = function () {
         i18n.init(JSON.stringify({}));
-        document.getElementById('searchValue').addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                locationSubmit('get', '/portal/list?page=0')
-            }
-        });
-        restSubmit('get', '/rest/portal/top?limit=' + topSize);
+        initEventListener();
+        initPortalTops('get', '/rest/portal/top?limit=' + topSize);
     }
 
-    function restSubmit(method, url) {
+    /*
+    * 이벤트리스너 초기화
+    */
+    function initEventListener() {
+        document.getElementById('searchValue').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                portalSearch('get', '/portal/list?page=0')
+            }
+        });
+    }
+
+    /*
+    * 포탈 화면 초기화
+    */
+    function initPortalTops(method, url) {
         const opt = {
             method: method,
             url: url,
             contentType: 'application/json; charset=utf-8',
             showProgressbar: false,
-            callbackFunc: function(response) {
-                setTopList(JSON.parse(response.responseText));
+            callbackFunc: function (response) {
+                let tops = Object.entries(JSON.parse(response.responseText));
+                tops.forEach(([topName, topData]) => {
+                    let topElement = document.getElementById(topName);
+                    for (let i = 0; i < topData.length; i++) {
+                        let data = topData[i];
+                        let row = document.createElement('tr');
+                        let cell = document.createElement('td');
+                        let contentAnchor = document.createElement('a');
+                        contentAnchor.setAttribute('href', '#N');
+                        let contentText = document.createElement('h5');
+                        contentText.classList.add('text-ellipsis');
+                        let dt = (data['updateDt'] == null) ? data['createDt'] : data['updateDt']
+                        contentText.textContent = '[' + i18n.userDateTime(dt) + '] ' + data[topElement.id + 'Title'];
+                        contentAnchor.appendChild(contentText);
+                        cell.appendChild(contentAnchor);
+                        row.appendChild(cell);
+                        topElement.appendChild(row);
+                    }
+                });
             }
         };
         aliceJs.sendXhr(opt);
     }
 
-    function setTopList(data) {
-        makeTopList(data['notice'], document.getElementById('notice'));
-        makeTopList(data['faq'], document.getElementById('faq'));
-        makeTopList(data['download'], document.getElementById('download'));
-    }
-
-    function makeTopList(data, element) {
-        for (let i = 0; i < topSize; i++) {
-            let row = document.createElement('tr');
-            let cell = document.createElement('td');
-            if (data[i] !== undefined) {
-                let content_anchor = document.createElement('a');
-                content_anchor.setAttribute('href', '#N');
-                let content_text = document.createElement('h5');
-                let dt = (data[i]['updateDt'] == null) ? data[i]['createDt'] : data[i]['updateDt']
-                content_text.textContent = '[' + i18n.userDateTime(dt) + '] ' + data[i][element.id + 'Title'];
-                content_anchor.appendChild(content_text);
-                cell.appendChild(content_anchor);
+    /*
+    * 포탈 검색
+    */
+    function portalSearch(method, url) {
+        url = url + '&' + encodeURIComponent('searchValue') + "=" + encodeURIComponent(document.getElementById('searchValue').value.trim())
+        const opt = {
+            method: method,
+            url: url,
+            showProgressbar: false,
+            callbackFunc: function (response) {
+                if (document.querySelector('.portal-search-content')) {
+                    document.querySelector('.portal-search-content').className = 'portal-search-result'
+                }
+                document.querySelector('.portal-search-result').innerHTML = response.responseText
             }
-            row.appendChild(cell);
-            element.appendChild(row);
-        }
-    }
-
-    function locationSubmit(method, url) {
-        const data = {
-            searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
         };
-        location.href = url + '&searchValue=' + data.searchValue;
+        aliceJs.sendXhr(opt);
     }
     /* ]]> */
 </script>

@@ -97,12 +97,6 @@
                                     vertical-align: middle;
                                     text-align: left;
 
-                                    h5 {
-                                        white-space: nowrap;
-                                        overflow: hidden;
-                                        text-overflow: ellipsis;
-                                    }
-
                                     &:hover {
                                         background-color: $line-gray;
                                     }
