@@ -63,7 +63,6 @@
             });
 
             document.getElementById('searchValue').addEventListener('keyup', (e) => {
-                console.log('Event code: %o, key: %o', e.code, e.key)
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     searchTokenList(false);
