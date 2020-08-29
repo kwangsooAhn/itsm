@@ -653,28 +653,28 @@ span.vertical-bar {
   margin: 0 auto;
 }
 .container-document .token-info {
-  width: 600px;
-  padding: 0 65px;
+  width: 37.5rem;
+  padding: 0 4.0625rem;
   background-color: white;
 }
 .container-document .token-info-tab {
   display: flex;
-  margin-top: 125px;
+  margin-top: 7.8125rem;
 }
 .container-document .token-info-tab h4 {
   flex: 1;
   text-align: center;
   color: #ACB4BF;
-  padding-bottom: 10px;
-  border-bottom: 2px solid #E1E3E6;
+  padding-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
 }
 .container-document .token-info-tab .active {
-  border-bottom: 4px solid #0098FF;
+  border-bottom: 0.25rem solid #0098FF;
   color: #3F4B56;
 }
 .container-document .token-info-contents .token-tag {
   display: none;
-  margin-top: 20px;
+  margin-top: 1.25rem;
 }
 .container-document .token-info-contents .token-history {
   display: none;
@@ -683,7 +683,7 @@ span.vertical-bar {
   border: none;
 }
 .container-document .token-info-contents .token-history .table thead {
-  border-bottom: 1px solid #E1E3E6;
+  border-bottom: 0.0625rem solid #E1E3E6;
 }
 .container-document .token-info-contents .token-history .table th {
   color: #3F4B56;
@@ -698,25 +698,25 @@ span.vertical-bar {
   text-align: left;
 }
 .container-document .token-info-contents .token-history .table th:first-child, .container-document .token-info-contents .token-history .table td:first-child {
-  margin-left: 20px;
+  margin-left: 1.25rem;
 }
 .container-document .token-info-contents .token-related {
   display: none;
-  padding-top: 10px;
+  padding-top: 0.625rem;
   display: flex;
   flex-direction: column;
 }
 .container-document .token-info-contents .token-related .list-item {
-  height: 185px;
-  margin-top: 10px;
+  height: 11.5625rem;
+  margin-top: 0.625rem;
   display: flex;
 }
 .container-document .token-info-contents .token-related .list-item .document-color {
-  width: 10px;
+  width: 0.625rem;
 }
 .container-document .token-info-contents .token-related .list-item .document-row {
-  border: 1px solid #EBEBEB;
-  padding: 20px 40px;
+  border: 0.0625rem solid #EBEBEB;
+  padding: 1.25rem 2.5rem;
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -735,7 +735,7 @@ span.vertical-bar {
 }
 .container-document .token-info-contents .token-related .list-item .document-row-content .document-title h5:last-child {
   color: #ACB4BF;
-  margin-left: 5px;
+  margin-left: 0.3125rem;
 }
 .container-document .token-info-contents .token-related .list-item .document-row-topic {
   height: 100%;
@@ -749,28 +749,28 @@ span.vertical-bar {
   align-items: center;
 }
 .container-document .token-info-contents .token-related .related-add {
-  height: 185px;
-  border: 1px solid #EBEBEB;
+  height: 11.5625rem;
+  border: 0.0625rem solid #EBEBEB;
   background-color: #F7F8F9;
   align-items: center;
   justify-content: center;
 }
 .container-document .token-info-contents .token-comment {
   display: none;
-  padding-top: 10px;
+  padding-top: 0.625rem;
   display: flex;
   flex-direction: column;
 }
 .container-document .token-info-contents .token-comment .list-item {
-  padding: 20px 25px;
-  margin-top: 10px;
+  padding: 1.25rem 1.5625rem;
+  margin-top: 0.625rem;
   display: flex;
   flex-direction: column;
   border: 1px solid #EBEBEB;
   background-color: #F7F8F9;
 }
 .container-document .token-info-contents .token-comment .list-item .comment-row {
-  margin-top: 10px;
+  margin-top: 0.0625rem;
 }
 .container-document .token-info-contents .token-comment .list-item .comment-row-info {
   display: flex;
@@ -784,20 +784,20 @@ span.vertical-bar {
   flex: none;
 }
 .container-document .token-info-contents .token-comment .list-item .comment-row-info > h5 {
-  margin-left: 15px;
+  margin-left: 0.9375rem;
   color: #ACB4BF;
 }
 .container-document .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
   margin-left: auto;
 }
 .container-document .token-info-contents .token-comment .comment-input {
-  margin-top: 10px;
+  margin-top: 0.625rem;
   padding: 0;
   align-items: start;
 }
 .container-document .token-info-contents .token-comment .comment-input textarea {
   resize: none;
-  height: 70px;
+  height: 4.375rem;
   flex: 1;
 }
 .container .contents-token {
@@ -1162,13 +1162,13 @@ span.vertical-bar {
 }
 .container .contents-document .service-request .card-area .document-card {
   position: relative;
-  padding: 30px;
-  min-width: 513px;
-  height: 200px;
-  margin-right: 20px;
-  margin-top: 20px;
-  border: 1px solid #EBEBEB;
-  border-radius: 1px;
+  padding: 1.975rem;
+  min-width: 32.0625rem;
+  height: 12.5rem;
+  margin-right: 1.25rem;
+  margin-top: 1.25rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
   overflow: hidden;
   cursor: pointer;
 }
@@ -1176,15 +1176,15 @@ span.vertical-bar {
   margin-left: 0px;
 }
 .container .contents-document .service-request .card-area .document-card:hover {
-  border: 2px solid #EBEBEB;
-  border-radius: 1px;
-  box-shadow: 0 0 15px rgba(204, 206, 209, 0.15);
+  border: 0.125rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15);
 }
 .container .contents-document .service-request .card-area .document-card .document-icon {
   overflow: hidden;
   position: absolute;
-  top: 60px;
-  left: 370px;
+  top: 3.75rem;
+  left: 23.125rem;
 }
 .container .contents-document .service-request .card-area .document-card h3 {
   color: #3F4B56;
@@ -1195,7 +1195,7 @@ span.vertical-bar {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
-  margin-top: 5px;
+  margin-top: 0.3125rem;
 }
 .container .contents {
   min-width: 78.75rem;

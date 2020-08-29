@@ -16,31 +16,31 @@
             align-content: flex-start ;
             .document-card {
                 position: relative;
-                padding: 30px;
-                min-width: 513px;
-                height: 200px;
-                margin-right: 20px;
-                margin-top: 20px;
-                border: 1px solid $line-gray;
-                border-radius: 1px;
+                padding: 1.975rem; // 30px
+                min-width: 32.0625rem; // 513px
+                height: 12.5rem; // 200px
+                margin-right: 1.25rem; // 20px
+                margin-top: 1.25rem; // 20px
+                border: 0.0625rem solid $line-gray; // 1px
+                border-radius: 0.0625rem; // 1px
                 overflow: hidden;
                 cursor: pointer;
                 &:first-child {
                     margin-left: 0px;
                 }
                 &:hover {
-                    border: 2px solid $line-gray;
-                    border-radius: 1px;
-                    box-shadow: 0 0 15px rgba(204, 206, 209, 0.15);
+                    border: 0.125rem solid $line-gray; // 2px
+                    border-radius: 0.0625rem; // 1px
+                    box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15); // 15px
                 }
                 .document-icon {
                     overflow: hidden;
                     position: absolute;
-                    top: 60px;
-                    left: 370px;
+                    top: 3.75rem; // 60px
+                    left: 23.125rem; // 370px
                 }
                 h3 { @include h3();}
-                h5 { @include h5(); margin-top: 5px;}
+                h5 { @include h5(); margin-top: 0.3125rem; } // 5px
             }
         }
     }
