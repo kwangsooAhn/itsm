@@ -6,19 +6,17 @@
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
 </head>
 <body class="session-body">
-<div class="session-div">
+<div class="session-div flex-row">
     <div class="session-div-left">
-        <img th:src="@{/assets/media/image/session/session_screen.png}"
-             class="session-img"/>
+        <img th:src="@{/assets/media/image/session/session_screen.png}"/>
+        <img th:src="@{/assets/media/image/session/session_logo_alice.png}" class="session-img">
     </div>
     <div class="session-div-right">
-        <img th:src="@{/assets/media/image/session/session_logo_alice.png}"
-             class="session-img">
-        <p th:text="#{login.msg.sessionExpired}" class="session-sessionExpired-txt"></p>
-        <p class="session-p">
-            <span id="counter" class="session-count-txt"></span>
-            <span th:text="#{login.msg.redirectedLoginPage}" class="session-returnLogin-txt"></span>
-        </p>
+        <h1 th:text="#{login.msg.sessionExpired}"></h1>
+        <div class="flex-row">
+            <h1 id="counter" class="session-count-txt"></h1>
+            <h1 th:text="#{login.msg.redirectedLoginPage}"></h1>
+        </div>
         <button id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}" th:onclick="location.href='/login'"
                 class="session-btn"></button>
     </div>

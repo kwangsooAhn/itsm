@@ -312,100 +312,67 @@ input:focus {
 }
 
 .error-body {
-  width: 120rem;
-  /* 1920px */
-  height: 59.1875rem;
-  /* 947px */
-  margin: 0rem;
-  /* 0px */
-  padding: 0rem;
-  /* 0px */
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
   overflow: auto;
 }
 
 .error-div {
-  width: 120rem;
-  /* 1920px */
-  height: 59.1875rem;
-  /* 947px */
+  width: 100vw;
+  height: 100vh;
 }
 .error-div .error-div-left {
   width: 50%;
   height: 100%;
   float: left;
-  background-color: #EFF4FA;
+  background-color: #F2F5F9;
+}
+.error-div .error-img {
+  position: relative;
+  top: -59.1875rem;
+  margin: 5rem 0 0 5rem;
 }
 .error-div .error-div-right {
-  width: 50%;
-  height: 100%;
   float: right;
   background-color: #FFFFFF;
+  padding: 16.875rem 6.25rem;
+  border-left: 1px solid #EBEBEB;
 }
-.error-div .error-div-right .error-img {
-  position: relative;
-  margin: 13.3125rem 0rem 4.875rem 7.625rem;
-  /* 213px 0px 78px 122px */
-}
-.error-div .error-div-right .error-top-txt {
-  margin: 0rem 0rem 1.5rem 7.625rem;
-  /* 0px 0px 24px 122px */
-  font-size: 2.1875rem;
-  /* 35px */
-  color: #47556a;
-  font-weight: 500;
-}
-.error-div .error-div-right .error-middle-txt {
-  margin: 0rem 0rem 2.125rem 7.625rem;
-  /* 0px 0px 34px 122px */
-  font-size: 2.1875rem;
-  /* 35px */
-  color: #47556a;
-  font-weight: 500;
+.error-div .error-div-right h1 {
+  line-height: 1.7;
 }
 .error-div .error-div-right .error-code-txt {
-  margin: 0rem 0rem 4.25rem 7.625rem;
-  /* 0px 0px 68px 122px */
-  font-size: 1.75rem;
-  /* 28px */
-  color: #0050FF;
-  font-weight: 400;
+  margin: 1.25rem 0;
+  font-size: 1.5rem;
+  color: #0098FF;
+  font-weight: 500;
 }
 .error-div .error-div-right .error-bottom-txt {
-  margin: 0rem 0rem 6.6875rem 7.625rem;
-  /* 0px 0px 107px 122px */
-  font-size: 1.25rem;
-  /* 20px */
-  color: #657388;
-  font-weight: 400;
+  margin: 5rem 0;
+  font-size: 1.5rem;
+  color: #586872;
+  font-weight: 500;
 }
 
 .error-btn {
-  background-color: #0050FF;
-  border-color: #0048E6;
+  background-color: #0098FF;
   color: #FFFFFF;
-  font-size: 1.25rem;
-  /* 20px */
-  margin-left: 7.625rem;
-  /* 122px */
-  width: 22.5rem;
-  /* 360px */
-  height: 3.4375rem;
-  /* 55px */
+  font-size: 1rem;
+  font-weight: 500;
+  width: 12.75rem;
+  height: 2.5rem;
   border-radius: 0.0625rem;
-  /* 1px */
   border-width: 0.0625rem;
-  /* 1px */
 }
 
 .session-body {
   width: 100vw;
   height: 100vh;
   margin: 0rem;
-  /* 0px */
   padding: 0rem;
-  /* 0px */
   font-size: 0rem;
-  /* 0px */
   overflow: auto;
 }
 
@@ -417,64 +384,36 @@ input:focus {
   width: 50vw;
   height: 100vh;
   float: left;
-  background-color: #eff4fa;
+  background-color: #F2F5F9;
 }
-.session-div .session-div-left .session-img {
-  width: 60rem;
-  /* 960px */
-  height: 58.5625rem;
+.session-div .session-img {
+  position: relative;
+  top: -59.1875rem;
+  margin: 5rem 0 0 5rem;
 }
 .session-div .session-div-right {
-  width: 50vw;
-  height: 100vh;
   float: right;
+  background-color: white;
+  padding: 21.5625rem 6.25rem;
+  border-left: 0.0625rem solid #EBEBEB;
 }
-.session-div .session-div-right .session-img {
-  position: relative;
-  margin: 16.1875rem 0rem 4.875rem 7.625rem;
-  /* 259px 0px 78px 122px */
+.session-div .session-div-right h1 {
+  line-height: 1.7;
 }
-.session-div .session-div-right .session-sessionExpired-txt {
-  margin: 0rem 0rem 1.5rem 7.625rem;
-  /* 0px 0px 24px 122px */
-  font-size: 2.1875rem;
-  /* 35px */
-  color: #47556a;
-  font-weight: 500;
-}
-.session-div .session-div-right .session-p {
-  margin: 0rem 0rem 10.3125rem 7.625rem;
-  /* 0px 0px 165px 122px */
-}
-.session-div .session-div-right .session-p .session-count-txt {
-  font-size: 2.1875rem;
-  /* 35px */
-  color: #0050ff;
-  font-weight: 500;
-}
-.session-div .session-div-right .session-p .session-returnLogin-txt {
-  color: #47556a;
-  font-size: 2.1875rem;
-  /* 35px */
-  font-weight: 500;
+.session-div .session-div-right .session-count-txt {
+  color: #0098FF;
 }
 
 .session-btn {
-  background-color: #0050FF;
-  border-color: #0048E6;
+  margin-top: 6.25rem;
+  background-color: #0098FF;
   color: #FFFFFF;
-  font-size: 1.25rem;
-  /* 20px */
-  margin-left: 7.625rem;
-  /* 122px */
-  width: 22.5rem;
-  /* 360px */
-  height: 3.4375rem;
-  /* 55px */
+  font-size: 1rem;
+  font-weight: 500;
+  width: 11.875rem;
+  height: 2.5rem;
   border-radius: 0.0625rem;
-  /* 1px */
   border-width: 0.0625rem;
-  /* 1px */
 }
 
 .portal-search-top {

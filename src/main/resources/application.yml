@@ -75,7 +75,7 @@ server:
     trust-store-password: ENC(Nkoufw9FfHXYGOYykZFpqA==)
   servlet:
     session:
-      timeout: 60m
+      timeout: 1m
 
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\files

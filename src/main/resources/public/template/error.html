@@ -7,14 +7,14 @@
     <title th:text="#{error.label.error}"></title>
 </head>
 <body class="error-body">
-<div class="error-div">
+<div class="error-div flex-row">
     <div class="error-div-left">
         <img th:src="@{/assets/media/image/error/error_caution.png}"/>
+        <img th:src="@{/assets/media/image/error/error_logo_alice.png}" class="error-img">
     </div>
     <div class="error-div-right">
-        <img th:src="@{/assets/media/image/error/error_logo_alice.png}" class="error-img">
-        <p th:text="#{error.label.topPhrase}" class="error-top-txt"/>
-        <p th:text="#{error.label.middlePhrase}" class="error-middle-txt"/>
+        <h1 th:text="#{error.label.topPhrase}"></h1>
+        <h1 th:text="#{error.label.middlePhrase}"></h1>
         <p th:text="|#{error.label.errorCode} : ${error} (${status})|" class="error-code-txt"/>
         <p th:text="#{error.label.bottomPhrase}" class="error-bottom-txt"/>
         <button th:text="#{error.btn.return}" class="error-btn" th:onclick="|javascript:history.go(-1)|"></button>
