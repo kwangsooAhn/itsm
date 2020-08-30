@@ -5,24 +5,35 @@
     <link rel="shortcut icon" th:href="@{/assets/media/icons/zenius.ico}" type="image/x-icon">
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
 </head>
-<body class="guide-body">
-<p class="guide-p" th:text="#{portal.label.browserGuidePhrase}"></p>
-
-<a class="guide-a" href="https://www.google.com/intl/ko/chrome/" target="_blank"><img
-        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_chrome.png}"/>
-    <p class="guide-p" th:text="#{portal.label.chrome}"/>
-</a>
-<a class="guide-a" href="https://www.mozilla.org/ko/firefox/new/" target="_blank"><img
-        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_firefox.png}"/>
-    <p class="guide-p" th:text="#{portal.label.firefox}"/>
-</a>
-<a class="guide-a" href="https://www.microsoft.com/ko-kr/edge" target="_blank"><img
-        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_msedge.png}"/>
-    <p class="guide-p" th:text="#{portal.label.msEdge}"/>
-</a>
-<a class="guide-a" href="https://support.apple.com/ko_KR/downloads/safari" target="_blank"><img
-        class="guide-img" th:src="@{/assets/media/image/portalGuide/portal_guide_safari.png}"/>
-    <p class="guide-p" th:text="#{portal.label.safari}"/>
-</a>
+<body>
+<div class="alice-portal-container guide-body">
+    <h1 th:text="#{portal.label.browserGuidePhrase}"></h1>
+    <div class="browser-row">
+        <div class="browser-box">
+            <a href="https://www.google.com/intl/ko/chrome/" target="_blank">
+                <img th:src="@{/assets/media/image/portalGuide/portal_guide_chrome.png}"/>
+                <h3 th:text="#{portal.label.chrome}"/>
+            </a>
+        </div>
+        <div class="browser-box">
+            <a href="https://www.mozilla.org/ko/firefox/new/" target="_blank">
+                <img th:src="@{/assets/media/image/portalGuide/portal_guide_firefox.png}"/>
+                <h3 th:text="#{portal.label.firefox}"/>
+            </a>
+        </div>
+        <div class="browser-box">
+            <a href="https://www.microsoft.com/ko-kr/edge" target="_blank">
+                <img th:src="@{/assets/media/image/portalGuide/portal_guide_msedge.png}"/>
+                <h3 th:text="#{portal.label.msEdge}"/>
+            </a>
+        </div>
+        <div class="browser-box">
+            <a href="https://support.apple.com/ko_KR/downloads/safari" target="_blank">
+                <img th:src="@{/assets/media/image/portalGuide/portal_guide_safari.png}"/>
+                <h3 th:text="#{portal.label.safari}"/>
+            </a>
+        </div>
+    </div>
+</div>
 </body>
 </html>

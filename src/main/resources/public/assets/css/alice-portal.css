@@ -136,7 +136,7 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, botton {
   font-weight: 900;
   src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format("woff2"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format("woff"), url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format("opentype");
 }
-.alicePortal {
+.alice-portal-container {
   overflow: auto;
   height: 100vh;
   width: 100vw;
@@ -206,49 +206,37 @@ input:focus {
 }
 
 .guide-body {
-  background-color: #EFF4FA;
-  margin: 0rem;
-  height: 41.875rem;
-  width: 120rem;
+  background-color: #F7F8F9;
 }
-
-.guide-p {
-  font-size: 1.875rem;
+.guide-body h1 {
   text-align: center;
   margin: 17.3125rem 19.6875rem 2.875rem 19.6875rem;
   height: 3.625rem;
   width: 80.625rem;
-  font-weight: 500;
-  color: #47556a;
 }
 
-.guide-a {
-  padding: 3.9375rem;
-  margin: 0rem 0.9375rem 0rem 0.9375rem;
-  position: relative;
-  left: 18.75rem;
+.browser-row {
+  text-align: center;
+}
+
+.browser-box {
+  padding: 0 5.625rem;
   background-color: white;
   display: inline-block;
-  height: 10.875rem;
-  width: 10.875rem;
+  height: 22.5rem;
+  width: 22.5rem;
   text-decoration: none;
+  margin-left: 0.8125rem;
+  box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15);
 }
-.guide-a .guide-img {
-  width: 10.875rem;
-  height: 10.875rem;
-  position: relative;
-  bottom: 0.625rem;
+.browser-box img {
+  margin-top: 3.875rem;
+  width: 11.25rem;
+  height: 11.25rem;
 }
-.guide-a .guide-p {
-  position: relative;
+.browser-box h3 {
   text-align: center;
-  margin: 0rem;
-  width: 10.875rem;
-  height: 1.875rem;
-  top: -0.625rem;
-  font-size: 1.25rem;
-  font-weight: 500;
-  color: #47556a;
+  margin-top: 1.25rem;
 }
 
 .signup-logo {
