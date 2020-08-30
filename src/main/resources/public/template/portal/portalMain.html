@@ -7,7 +7,7 @@
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
 </head>
 <body>
-<div class="alice-portal-container">
+<div class="alice-portal-container flex-column">
     <div class="portal-search-top">
         <img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
         <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'"

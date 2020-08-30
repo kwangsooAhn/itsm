@@ -91,6 +91,16 @@ button {
   cursor: pointer;
 }
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 body, h1, h2, h3, h4, h5, h6, input, textarea, select, botton {
   font-family: "Noto Sans KR", sans-serif;
   font-size: 15px;
@@ -140,8 +150,6 @@ body, h1, h2, h3, h4, h5, h6, input, textarea, select, botton {
   overflow: auto;
   height: 100vh;
   width: 100vw;
-  display: flex;
-  flex-direction: column;
 }
 
 h1 {
@@ -948,11 +956,6 @@ input:focus {
 }
 .help-tooltip:hover .help-tooltip-icon {
   content: url("../media/image/icon_info_select.png");
-}
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
 }
 
 .login-logo {
