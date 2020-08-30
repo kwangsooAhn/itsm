@@ -115,7 +115,7 @@
         &-result {
             margin: 0 0 0 22.5rem; // 0 0 0 360px
             .list {
-                height: 37.38rem;  //598px
+                height: 40.63rem;  //650px
                 .row {
                     display: flex;
                     width: 80%;
@@ -123,13 +123,13 @@
                     border-bottom: 0.063rem solid $line-gray; // 1px
                     padding: 10px 0 10px 0;
 
-                    &:first-child {
-                        margin: 3.438rem 0 0 0; //55px
-                    }
-
                     &:last-child {
                         margin: 0 0 3.125rem 0; //50px
                         border-bottom: none;
+                    }
+
+                    &:nth-of-type(1) {
+                        margin: 3.438rem 0 0 0; //55px
                     }
 
                     .type-icon {

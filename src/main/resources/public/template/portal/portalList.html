@@ -1,175 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" th:href="@{/assets/media/icons/zenius.ico}" type="image/x-icon">
-    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
-    <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
 <body>
-<div class="alice-portal-container">
-    <div class="portal-search-top">
-        <img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
-        <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'"
-             th:text="#{portal.label.main}"></div>
-        <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"
-             th:text="#{portal.label.login}"></div>
-    </div>
-    <div class="portal-search-main">
-        <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
-        <input class="icon" type="text" id="searchValue" name="searchValue"
-               th:value="${portalSearchValue}" th:placeholder="#{common.label.searchWord}"/>
-    </div>
-    <div class="portal-search-result">
-        <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
-        <div class="list">
-            <div class="row" th:each="portalList : ${portalList}">
-                <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
-                <div class="content-box">
-                    <div class="title text-ellipsis">
-                        <a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a>
-                    </div>
-                    <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
-                </div>
-            </div>
-            <div class="row" th:if="${#arrays.isEmpty(portalList)}">
-                <div class="no-data" th:text="#{common.msg.noData}"></div>
-            </div>
+<div class="list">
+    <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
+    <div class="row" th:each="portalList : ${portalList}">
+        <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
+        <div class="content-box">
+            <div class="title text-ellipsis">
+                <a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a></div>
+            <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
         </div>
+    </div>
+    <div class="row" th:if="${#arrays.isEmpty(portalList)}">
+        <div class="no-data" th:text="#{common.msg.noData}"></div>
     </div>
 </div>
 </body>
-<script th:src="@{/assets/js/util/util-alice.js}"></script>
-<script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
-<script th:inline="javascript">
-    /*<![CDATA[ */
-    var offsetCount = 0;
-    const offsetSize = 15;
-    window.onload = function () {
-        document.getElementById('searchValue').addEventListener('keyup', function() { searchPortal(false); });
-        OverlayScrollbars(document.querySelector('.list'), {
-            className: 'scrollbar',
-            callbacks: {
-                onScroll: function(e) {
-                    const scrollHeight = e.target.scrollHeight;
-                    const scrollTop = e.target.scrollTop;
-                    const clientHeight = e.target.clientHeight;
-                    if (scrollHeight - scrollTop === clientHeight) {
-                        if (scrollerEventCheck()) {
-                            searchPortal(true);
-                        }
-                    }
-                }
-            }
-        });
-    }
-
-    function searchPortal(isScroll) {
-        if (isScroll) {
-            if (offsetCount === 0) {
-                offsetCount = offsetSize;
-            }
-        } else {
-            offsetCount = 0;
-        }
-        let urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim()) +
-            '&offset=' + offsetCount;
-        restSubmit('get', '/rest/portal?' + urlParam, isScroll);
-    }
-
-    // REST API
-    function restSubmit(method, url, isScroll) {
-        const opt = {
-            method: method,
-            url: url,
-            contentType: 'application/json; charset=utf-8',
-            showProgressbar: false,
-            async: false,
-            callbackFunc: function(response) {
-                let dataList = JSON.parse(response.responseText);
-                if (isScroll) {
-                    if (dataList.length > 0) {
-                        document.getElementById('totalCount').value = dataList[0].totalCount;
-                        if (scrollerEventCheck()) {
-                            offsetCount = offsetCount + offsetSize;
-                            dataList.forEach(function(data) {
-                                getDataTemplate(data);
-                            });
-                        }
-                    }
-                } else {
-                    //조회 시 무조건 삭제한다.
-                    let rowDivs = Array.prototype.slice.call(document.querySelectorAll('.row'));
-                    rowDivs.forEach(function (rowDiv) {
-                        rowDiv.remove();
-                    });
-
-                    if (dataList.length > 0) {
-                        document.getElementById('totalCount').value = dataList[0].totalCount;
-                        dataList.forEach(function (data) {
-                            getDataTemplate(data);
-                        });
-                    } else {
-                        document.getElementById('totalCount').value = 0;
-                        getEmptyDataTemplate();
-                    }
-                }
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    function scrollerEventCheck() {
-        let scrollerCheck = false;
-        let totalCount = document.getElementById('totalCount').value;
-        if (offsetCount < totalCount) {
-            scrollerCheck = true;
-        }
-        return scrollerCheck;
-    }
-
-    function getEmptyDataTemplate() {
-        let div = document.querySelector('.os-content');
-        let divRow = document.createElement('div');
-        divRow.className = 'row';
-
-        let divNoData = document.createElement('div');
-        divNoData.className = 'no-data';
-        divNoData.innerText = '데이터가 없습니다.';
-
-        divRow.appendChild(divNoData);
-        div.appendChild(divRow);
-    }
-
-    function getDataTemplate(data) {
-        let div = document.querySelector('.os-content');
-        let divRow = document.createElement('div');
-        divRow.className = 'row';
-
-        let divTypeIcon = document.createElement('div');
-        divTypeIcon.className = 'type-icon '+ data.tableName;
-
-        let divContentBox = document.createElement('div');
-        divContentBox.className = 'content-box';
-
-        let divTitle = document.createElement('div');
-        divTitle.className = "title text-ellipsis";
-        let aTitle = document.createElement('a');
-        aTitle.innerText = data.portalTitle;
-        divTitle.appendChild(aTitle);
-
-        let divContent = document.createElement('div');
-        divContent.className = "content text-ellipsis";
-        divContent.innerText = data.portalContent;
-
-        divContentBox.appendChild(divTitle);
-        divContentBox.appendChild(divContent);
-
-        divRow.appendChild(divTypeIcon);
-        divRow.appendChild(divContentBox);
-        div.appendChild(divRow);
-    }
-    /* ]]> */
-</script>
 </html>

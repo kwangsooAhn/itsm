@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <link rel="shortcut icon" th:href="@{/assets/media/icons/zenius.ico}" type="image/x-icon">
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
 </head>
 <body>
 <div class="alice-portal-container flex-column">
@@ -18,8 +19,7 @@
     <div class="portal-search-main">
         <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
         <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
-               th:placeholder="#{common.label.searchWord}"
-               onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list'); "/>
+               th:placeholder="#{common.label.searchWord}"/>
     </div>
     <div class="portal-search-content">
         <ul>
@@ -63,13 +63,28 @@
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
 <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
 <script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
+<script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
 <script th:inline="javascript">
     /*<![CDATA[ */
     const topSize = 6;
+    var offsetCount = 0;
+    const offsetSize = 15;
 
     window.onload = function () {
         i18n.init(JSON.stringify({}));
+        initEventListener();
         initPortalTops('get', '/rest/portal/top?limit=' + topSize);
+    }
+
+    /*
+    * 이벤트리스너 초기화
+    */
+    function initEventListener() {
+        document.getElementById('searchValue').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') {
+                portalSearch(false);
+            }
+        });
     }
 
     /*
@@ -106,11 +121,109 @@
         aliceJs.sendXhr(opt);
     }
 
-    function locationSubmit(method, url) {
-        const data = {
-            searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
+    /*
+    * 포탈 검색(isScroll : false => 최초 또는 조회, isScroll : true => 스크롤 페이징)
+    */
+    function portalSearch(isScroll) {
+        let urlParam = '';
+        if (isScroll) {
+            if (offsetCount === 0) {
+                offsetCount = offsetSize;
+            }
+            urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
+                + '&offset=' + offsetCount;
+            restSubmit('get', '/rest/portal?' + urlParam, isScroll);
+        } else {
+            offsetCount = 0;
+            urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
+                + '&offset=' + offsetCount;
+            restSubmit('get', '/portal/list?' + urlParam, isScroll);
+        }
+    }
+
+    /*
+    * 포탈 검색
+    */
+    function restSubmit(method, url, isScroll) {
+        const opt = {
+            method: method,
+            url: url,
+            showProgressbar: false,
+            async: false,
+            callbackFunc: function (response) {
+                if (document.querySelector('.portal-search-content')) {
+                    document.querySelector('.portal-search-content').className = 'portal-search-result'
+                }
+                if (isScroll) {
+                    let dataList = JSON.parse(response.responseText);
+                    if (dataList.length > 0) {
+                        document.getElementById('totalCount').value = dataList[0].totalCount;
+                        if (scrollerEventCheck()) {
+                            offsetCount = offsetCount + offsetSize;
+                            dataList.forEach(function(data) {
+                                getDataTemplate(data);
+                            });
+                        }
+                    }
+                } else {
+                    document.querySelector('.portal-search-result').innerHTML = response.responseText;
+                }
+                OverlayScrollbars(document.querySelector('.list'), {
+                    className: 'scrollbar',
+                    callbacks: {
+                        onScroll: function(e) {
+                            const scrollHeight = e.target.scrollHeight;
+                            const scrollTop = e.target.scrollTop;
+                            const clientHeight = e.target.clientHeight;
+                            if (scrollHeight - scrollTop === clientHeight) {
+                                if (scrollerEventCheck()) {
+                                    portalSearch(true);
+                                }
+                            }
+                        }
+                    }
+                });
+            }
         };
-        location.href = url + '?searchValue=' + data.searchValue;
+        aliceJs.sendXhr(opt);
+    }
+
+    function scrollerEventCheck() {
+        let scrollerCheck = false;
+        let totalCount = document.getElementById('totalCount').value;
+        if (offsetCount < totalCount) {
+            scrollerCheck = true;
+        }
+        return scrollerCheck;
+    }
+
+    function getDataTemplate(data) {
+        let div = document.querySelector('.os-content');
+        let divRow = document.createElement('div');
+        divRow.className = 'row';
+
+        let divTypeIcon = document.createElement('div');
+        divTypeIcon.className = 'type-icon '+ data.tableName;
+
+        let divContentBox = document.createElement('div');
+        divContentBox.className = 'content-box';
+
+        let divTitle = document.createElement('div');
+        divTitle.className = "title text-ellipsis";
+        let aTitle = document.createElement('a');
+        aTitle.innerText = data.portalTitle;
+        divTitle.appendChild(aTitle);
+
+        let divContent = document.createElement('div');
+        divContent.className = "content text-ellipsis";
+        divContent.innerText = data.portalContent;
+
+        divContentBox.appendChild(divTitle);
+        divContentBox.appendChild(divContent);
+
+        divRow.appendChild(divTypeIcon);
+        divRow.appendChild(divContentBox);
+        div.appendChild(divRow);
     }
     /* ]]> */
 </script>
