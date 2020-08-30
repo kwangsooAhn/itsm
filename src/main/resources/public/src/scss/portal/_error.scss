@@ -26,7 +26,8 @@
   .error-div-right {
     float: right;
     background-color: #FFFFFF;
-    margin: 16.875rem 6.25rem; // 270px 100px
+    padding: 16.875rem 6.25rem; // 270px 100px
+    border-left: 1px solid $line-gray;
 
     h1 {
       line-height: 1.7;

@@ -337,7 +337,8 @@ input:focus {
 .error-div .error-div-right {
   float: right;
   background-color: #FFFFFF;
-  margin: 16.875rem 6.25rem;
+  padding: 16.875rem 6.25rem;
+  border-left: 1px solid #EBEBEB;
 }
 .error-div .error-div-right h1 {
   line-height: 1.7;
@@ -394,7 +395,7 @@ input:focus {
   float: right;
   background-color: white;
   padding: 21.5625rem 6.25rem;
-  border-left: 1px solid #EBEBEB;
+  border-left: 0.0625rem solid #EBEBEB;
 }
 .session-div .session-div-right h1 {
   line-height: 1.7;
