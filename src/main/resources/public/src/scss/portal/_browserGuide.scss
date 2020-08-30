@@ -1,47 +1,33 @@
 .guide-body {
-  background-color: #EFF4FA;
-  margin: 0rem;
-  height: 41.875rem;
-  width: 120rem;
+    background-color: $light-gray;
+    h1 {
+        text-align: center;
+        margin: 17.3125rem 19.6875rem 2.875rem 19.6875rem;
+        height: 3.625rem;
+        width: 80.625rem;
+    }
 }
 
-.guide-p {
-  font-size: 1.875rem;
-  text-align: center;
-  margin: 17.3125rem 19.6875rem 2.875rem 19.6875rem;
-  height: 3.625rem;
-  width: 80.625rem;
-  font-weight: 500;
-  color: #47556a;
-}
-
-.guide-a {
-  padding: 3.9375rem;
-  margin: 0rem 0.9375rem 0rem 0.9375rem;
-  position: relative;
-  left: 18.75rem;
-  background-color: white;
-  display: inline-block;
-  height: 10.875rem;
-  width: 10.875rem;
-  text-decoration: none;
-
-  .guide-img {
-    width: 10.875rem;
-    height: 10.875rem;
-    position: relative;
-    bottom: 0.625rem;
-  }
-
-  .guide-p {
-    position: relative;
+.browser-row {
     text-align: center;
-    margin: 0rem;
-    width: 10.875rem;
-    height: 1.875rem;
-    top: -0.625rem;
-    font-size: 1.25rem;
-    font-weight: 500;
-    color: #47556a;
-  }
+}
+.browser-box {
+    padding: 0 5.625rem; // 90px
+    background-color: white;
+    display: inline-block;
+    height: 22.5rem; // 360px
+    width: 22.5rem; // 360px
+    text-decoration: none;
+    margin-left: 0.8125rem; // 13px
+    box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15); // 15px;
+
+    img {
+        margin-top: 3.875rem; // 62px
+        width: 11.25rem; // 180px
+        height: 11.25rem; // 180px
+    }
+    h3 {
+        text-align: center;
+        margin-top: 1.25rem; // 20px
+    }
 }

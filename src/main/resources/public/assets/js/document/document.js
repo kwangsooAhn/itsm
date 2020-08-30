@@ -548,25 +548,19 @@
     function addCommentBox(instanceId) {
         commentContainer = document.getElementById('comment-container');
         if (commentContainer !== null) {
-            let commentBoxContainer = document.createElement('div');
-            let commentButtonContainer = document.createElement('div');
-            commentBoxContainer.classList.add('field');
-            commentBoxContainer.style.width = '90%';
-            commentButtonContainer.classList.add('field');
-            commentButtonContainer.style.width = '10%';
 
             let commentBoxTextarea = document.createElement('textarea');
+            commentBoxTextarea.setAttribute('placeholder',i18n.get('comment.msg.enterComments'));
             let commentButton = document.createElement('button');
             commentButton.type = 'button';
             commentButton.innerText = i18n.get('common.btn.register');
+            commentButton.classList.add('default-line');
             commentButton.addEventListener('click', function () {
                 aliceDocument.saveComment(instanceId, commentBoxTextarea.value);
             });
 
-            commentBoxContainer.appendChild(commentBoxTextarea);
-            commentButtonContainer.appendChild(commentButton);
-            commentContainer.appendChild(commentBoxContainer);
-            commentContainer.appendChild(commentButtonContainer);
+            commentContainer.appendChild(commentBoxTextarea);
+            commentContainer.appendChild(commentButton);
         }
     }
 

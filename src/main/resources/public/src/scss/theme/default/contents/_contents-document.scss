@@ -1,0 +1,47 @@
+// 문서함 리스트 화면
+.contents-document {
+    @include contents-template();
+    .header { padding: 2.875rem 3.75rem 0.625rem 3.75rem; } // 46px 60px 10px 60px
+    .service-request {
+        background-color: white;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        flex: auto;
+        .card-area {
+            margin: 30px 40px 0 3.75rem; // 60px
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-content: flex-start ;
+            .document-card {
+                position: relative;
+                padding: 1.975rem; // 30px
+                min-width: 32.0625rem; // 513px
+                height: 12.5rem; // 200px
+                margin-right: 1.25rem; // 20px
+                margin-top: 1.25rem; // 20px
+                border: 0.0625rem solid $line-gray; // 1px
+                border-radius: 0.0625rem; // 1px
+                overflow: hidden;
+                cursor: pointer;
+                &:first-child {
+                    margin-left: 0px;
+                }
+                &:hover {
+                    border: 0.125rem solid $line-gray; // 2px
+                    border-radius: 0.0625rem; // 1px
+                    box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15); // 15px
+                }
+                .document-icon {
+                    overflow: hidden;
+                    position: absolute;
+                    top: 3.75rem; // 60px
+                    left: 23.125rem; // 370px
+                }
+                h3 { @include h3();}
+                h5 { @include h5(); margin-top: 0.3125rem; } // 5px
+            }
+        }
+    }
+}

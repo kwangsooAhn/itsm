@@ -24,7 +24,7 @@
             <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
             <h3 class="under-bar" th:text="#{user.label.profile}"></h3>
-            <div class="row">
+            <div class="row align-top">
                 <div class="column-6">
                     <div th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <div class="form-set">
