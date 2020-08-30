@@ -41,7 +41,7 @@ class AliceWebSecurityConfig(
                 "/sessionInValid",
                 "/certification/**",
                 "/oauth/**",
-                "/portal/**",
+                "/**",
                 "/rest/**",
                 "/i18n/**"
             ).permitAll()

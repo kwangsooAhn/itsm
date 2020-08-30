@@ -568,7 +568,7 @@ input:focus {
   margin: 0 0 0 22.5rem;
 }
 .portal-search-result .list {
-  height: 40.63rem;
+  height: 37.38rem;
 }
 .portal-search-result .list .row {
   display: flex;
@@ -578,7 +578,7 @@ input:focus {
   padding: 10px 0 10px 0;
 }
 .portal-search-result .list .row:first-child {
-  margin: 4.375rem 0 0 0;
+  margin: 3.438rem 0 0 0;
 }
 .portal-search-result .list .row:last-child {
   margin: 0 0 3.125rem 0;

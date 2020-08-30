@@ -56,8 +56,7 @@ class PortalService(
             noticeTopList.add(
                 NoticeListDto(
                     noticeNo = it.noticeNo,
-                    noticeTitle = it.noticeTitle,
-                    createDt = it.createDt
+                    noticeTitle = it.noticeTitle
                 )
             )
         }

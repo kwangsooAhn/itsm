@@ -18,7 +18,8 @@
     <div class="portal-search-main">
         <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
         <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
-               th:placeholder="#{common.label.searchWord}"/>
+               th:placeholder="#{common.label.searchWord}"
+               onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list'); "/>
     </div>
     <div class="portal-search-content">
         <ul>
@@ -68,19 +69,7 @@
 
     window.onload = function () {
         i18n.init(JSON.stringify({}));
-        initEventListener();
         initPortalTops('get', '/rest/portal/top?limit=' + topSize);
-    }
-
-    /*
-    * 이벤트리스너 초기화
-    */
-    function initEventListener() {
-        document.getElementById('searchValue').addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                portalSearch('get', '/portal/list?page=0')
-            }
-        });
     }
 
     /*
@@ -117,23 +106,11 @@
         aliceJs.sendXhr(opt);
     }
 
-    /*
-    * 포탈 검색
-    */
-    function portalSearch(method, url) {
-        url = url + '&' + encodeURIComponent('searchValue') + "=" + encodeURIComponent(document.getElementById('searchValue').value.trim())
-        const opt = {
-            method: method,
-            url: url,
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                if (document.querySelector('.portal-search-content')) {
-                    document.querySelector('.portal-search-content').className = 'portal-search-result'
-                }
-                document.querySelector('.portal-search-result').innerHTML = response.responseText
-            }
+    function locationSubmit(method, url) {
+        const data = {
+            searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
         };
-        aliceJs.sendXhr(opt);
+        location.href = url + '?searchValue=' + data.searchValue;
     }
     /* ]]> */
 </script>
