@@ -252,9 +252,13 @@ input:focus {
   left: 5rem;
 }
 .signup-background {
-  background-color: #0050ff;
+  background-color: #0098FF;
   height: 100%;
   width: 80.3125rem;
+}
+.signup-background .signup-main-image {
+  position: absolute;
+  bottom: 0;
 }
 .signup-login-face {
   position: absolute;
@@ -272,16 +276,19 @@ input:focus {
   color: #FFFFFF;
   vertical-align: middle;
 }
-.signup-main-image {
-  position: absolute;
-  top: 6.1875rem;
-  left: 11.125rem;
-}
 .signup-form {
   margin: 5.6875rem 8rem 0rem 88.9063rem;
   width: 22.5rem;
   position: absolute;
   top: 0;
+}
+.signup-form h1 {
+  margin-bottom: 0.625rem;
+  text-align: center;
+}
+.signup-form .signup-base-form {
+  display: flex;
+  flex-direction: column;
 }
 .signup-btn {
   border: 1px solid;

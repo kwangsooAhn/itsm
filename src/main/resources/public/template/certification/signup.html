@@ -8,52 +8,58 @@
     <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
 </head>
 <body>
-<div class="alice-portal-container flex-column">
-    <img class="signup-logo" th:src="@{/assets/media/image/signup/zenius_itsm_logo.png}" alt="Alice">
-    <div class="signup-login-face">
-        <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
-        <a class="signup-btn signup-btn-login" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
-    </div>
+<div class="alice-portal-container flex-row">
     <div class="signup-background">
-        <img class="signup-main-image" th:src="@{/assets/media/image/signup/graphic_signup.png}" alt="SignupBackgroud">
+        <img class="signup-logo" th:src="@{/assets/media/image/signup/zenius_itsm_logo.png}" alt="Zenius ITSM">
+        <img class="signup-main-image" th:src="@{/assets/media/image/signup/graphic_signup.png}">
+        <div class="signup-login-face">
+            <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
+            <a class="signup-btn signup-btn-login" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
+        </div>
     </div>
     <div class="signup-form">
         <h1 th:text="#{login.label.userSignUp}"></h1>
         <div class="signup-base">
             <form id="signUpForm" method="post" onsubmit="return false">
-                <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
-                <label class="required" th:text="#{user.label.id}"></label>
-                <div class="help-tooltip">
-                    <span class="help-tooltip-icon"></span>
-                    <div class="tooltip-contents">
-                        <span th:utext="#{user.tooltip.idRule}"></span>
+                <div class="signup-base-form">
+                    <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
+                    <div>
+                        <label class="required" th:text="#{user.label.id}"></label>
+                        <div class="help-tooltip">
+                            <span class="help-tooltip-icon"></span>
+                            <div class="tooltip-contents">
+                                <span th:utext="#{user.tooltip.idRule}"></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <input type="text" id="userId" name="userId" maxlength="100" required="required">
-                <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.password}"></label>
-                <div class="help-tooltip">
-                    <span class="help-tooltip-icon"></span>
-                    <div class="tooltip-contents">
-                        <span th:utext="#{user.tooltip.pwRule}"></span>
+                    <input type="text" id="userId" name="userId" maxlength="100" required="required">
+                    <div>
+                        <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.password}"></label>
+                        <div class="help-tooltip">
+                            <span class="help-tooltip-icon"></span>
+                            <div class="tooltip-contents">
+                                <span th:utext="#{user.tooltip.pwRule}"></span>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <input type="password" id="password" name="password" maxlength="100" required="required">
-                <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.rePassword}"></label>
-                <input type="password" id="rePassword" name="rePassword" maxlength="100" required="required">
-                <label class="required" th:text="#{user.label.name}"></label>
-                <input type="text" id="userName" name="userName" maxlength="100" required="required">
-                <label class="required" th:text="#{user.label.email}"></label>
-                <input type="text" id="email" name="email" maxlength="100" required="required">
-                <label th:text="#{user.label.mobileNumber}"></label>
-                <input type="text" id="mobileNumber" name="mobileNumber" maxlength="100">
-                <label th:text="#{user.label.avatar}"/>
-                <div class="avatar-upload">
-                    <div class="avatar-upload-dz">
-                        <div id="avatarDropZone"></div>
-                    </div>
-                    <div class="avatar-upload-description">
-                        <span th:text="#{user.label.FileSizeLimit}"></span>
-                        <span th:text="#{user.label.FileExtensionAllowed}"></span>
+                    <input type="password" id="password" name="password" maxlength="100" required="required">
+                    <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.rePassword}"></label>
+                    <input type="password" id="rePassword" name="rePassword" maxlength="100" required="required">
+                    <label class="required" th:text="#{user.label.name}"></label>
+                    <input type="text" id="userName" name="userName" maxlength="100" required="required">
+                    <label class="required" th:text="#{user.label.email}"></label>
+                    <input type="text" id="email" name="email" maxlength="100" required="required">
+                    <label th:text="#{user.label.mobileNumber}"></label>
+                    <input type="text" id="mobileNumber" name="mobileNumber" maxlength="100">
+                    <label th:text="#{user.label.avatar}"/>
+                    <div class="avatar-upload">
+                        <div class="avatar-upload-dz">
+                            <div id="avatarDropZone"></div>
+                        </div>
+                        <div class="avatar-upload-description">
+                            <span th:text="#{user.label.FileSizeLimit}"></span>
+                            <span th:text="#{user.label.FileExtensionAllowed}"></span>
+                        </div>
                     </div>
                 </div>
             </form>
