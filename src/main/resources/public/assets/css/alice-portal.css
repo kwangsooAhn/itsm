@@ -312,7 +312,7 @@ input:focus {
 }
 
 .error-body {
-  width: 120rem;
+  width: 100vw;
   height: 100vh;
   margin: 0;
   padding: 0;
@@ -320,7 +320,7 @@ input:focus {
 }
 
 .error-div {
-  width: 120rem;
+  width: 100vw;
   height: 100vh;
 }
 .error-div .error-div-left {
@@ -370,11 +370,8 @@ input:focus {
   width: 100vw;
   height: 100vh;
   margin: 0rem;
-  /* 0px */
   padding: 0rem;
-  /* 0px */
   font-size: 0rem;
-  /* 0px */
   overflow: auto;
 }
 
@@ -386,64 +383,36 @@ input:focus {
   width: 50vw;
   height: 100vh;
   float: left;
-  background-color: #eff4fa;
+  background-color: #F2F5F9;
 }
-.session-div .session-div-left .session-img {
-  width: 60rem;
-  /* 960px */
-  height: 58.5625rem;
+.session-div .session-img {
+  position: relative;
+  top: -59.1875rem;
+  margin: 5rem 0 0 5rem;
 }
 .session-div .session-div-right {
-  width: 50vw;
-  height: 100vh;
   float: right;
+  background-color: white;
+  padding: 21.5625rem 6.25rem;
+  border-left: 1px solid #EBEBEB;
 }
-.session-div .session-div-right .session-img {
-  position: relative;
-  margin: 16.1875rem 0rem 4.875rem 7.625rem;
-  /* 259px 0px 78px 122px */
+.session-div .session-div-right h1 {
+  line-height: 1.7;
 }
-.session-div .session-div-right .session-sessionExpired-txt {
-  margin: 0rem 0rem 1.5rem 7.625rem;
-  /* 0px 0px 24px 122px */
-  font-size: 2.1875rem;
-  /* 35px */
-  color: #47556a;
-  font-weight: 500;
-}
-.session-div .session-div-right .session-p {
-  margin: 0rem 0rem 10.3125rem 7.625rem;
-  /* 0px 0px 165px 122px */
-}
-.session-div .session-div-right .session-p .session-count-txt {
-  font-size: 2.1875rem;
-  /* 35px */
-  color: #0050ff;
-  font-weight: 500;
-}
-.session-div .session-div-right .session-p .session-returnLogin-txt {
-  color: #47556a;
-  font-size: 2.1875rem;
-  /* 35px */
-  font-weight: 500;
+.session-div .session-div-right .session-count-txt {
+  color: #0098FF;
 }
 
 .session-btn {
-  background-color: #0050FF;
-  border-color: #0048E6;
+  margin-top: 6.25rem;
+  background-color: #0098FF;
   color: #FFFFFF;
-  font-size: 1.25rem;
-  /* 20px */
-  margin-left: 7.625rem;
-  /* 122px */
-  width: 22.5rem;
-  /* 360px */
-  height: 3.4375rem;
-  /* 55px */
+  font-size: 1rem;
+  font-weight: 500;
+  width: 11.875rem;
+  height: 2.5rem;
   border-radius: 0.0625rem;
-  /* 1px */
   border-width: 0.0625rem;
-  /* 1px */
 }
 
 .portal-search-top {
