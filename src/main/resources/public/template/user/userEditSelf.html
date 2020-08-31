@@ -23,12 +23,28 @@
                 <div class="column-6">
                     <div  th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <div class="form-set">
-                            <label class="required" th:text="#{user.label.id}" for="userId"></label>
+                            <div class="label-row">
+                                <label class="required" th:text="#{user.label.id}" for="userId"></label>
+                                <div class="help-tooltip">
+                                    <span class="help-tooltip-icon"></span>
+                                    <div class="tooltip-contents">
+                                        <span th:utext="#{user.tooltip.idRule}"></span>
+                                    </div>
+                                </div>
+                            </div>
                             <input id="userId" name="userId" maxlength="100" th:value="${users?.userId}"
                                    required="required"/>
                         </div>
                         <div class="form-set">
-                            <label class="required" th:text="#{user.label.password}" for="password"></label>
+                            <div class="label-row">
+                                <label class="required" th:text="#{user.label.password}" for="password"></label>
+                                <div class="help-tooltip">
+                                    <span class="help-tooltip-icon"></span>
+                                    <div class="tooltip-contents">
+                                        <span th:utext="#{user.tooltip.pwRule}"></span>
+                                    </div>
+                                </div>
+                            </div>
                             <input type="password" id="password" name="password" maxlength="100"
                                    autocomplete="new-password" required="required"/>
                         </div>

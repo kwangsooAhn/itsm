@@ -640,6 +640,10 @@ span.vertical-bar {
 .container-popup .edit .form-set .text-editor {
   height: 12.5rem;
 }
+.container-popup .edit .form-set .label-row {
+  display: flex;
+  align-items: center;
+}
 .container-popup .view, .container-popup .edit {
   padding: 0;
   width: auto;
@@ -1001,6 +1005,10 @@ span.vertical-bar {
 }
 .container .contents-edit .edit .form-set .text-editor {
   height: 12.5rem;
+}
+.container .contents-edit .edit .form-set .label-row {
+  display: flex;
+  align-items: center;
 }
 .container .contents-edit .btn-bar {
   padding: 2.5rem 0 3.125rem 0;
@@ -3428,4 +3436,45 @@ button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
 }
 .ql-container.ql-snow .ql-editor strong {
   font-weight: bold;
+}
+
+.help-tooltip {
+  display: inline-block;
+  margin-left: 0.3125rem;
+  width: 0.9375rem;
+  height: 0.9375rem;
+  vertical-align: middle;
+}
+.help-tooltip .help-tooltip-icon:before {
+  content: url("../../../media/image/icon_info.png");
+}
+.help-tooltip .tooltip-contents {
+  visibility: hidden;
+  background-color: white;
+  width: 22.5rem;
+  font-size: 0.8125rem;
+  color: #0050ff;
+  border: 0.0625rem solid #0050ff;
+  border-radius: 0.0625rem;
+  padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
+  position: absolute;
+  z-index: 1;
+  box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
+  line-height: 1.25rem;
+}
+.help-tooltip:hover .tooltip-contents {
+  visibility: visible;
+  -webkit-transform-origin: 100% 0%;
+  transform-origin: 100% 0%;
+  -webkit-animation-delay: 0s;
+  animation-delay: 0s;
+  -webkit-animation-duration: 0.3s;
+  animation-duration: 0.3s;
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+  -webkit-animation-timing-function: ease-in-out;
+  animation-timing-function: ease-in-out;
+}
+.help-tooltip:hover .help-tooltip-icon {
+  content: url("../../../media/image/icon_info_select.png");
 }
