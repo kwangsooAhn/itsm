@@ -6,6 +6,15 @@
     <link rel="shortcut icon" th:href="@{/assets/media/icons/zenius.ico}" type="image/x-icon">
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
+    <style>
+        .box {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .box::-webkit-scrollbar {
+            display: none; /* Chrome, Safari, Opera*/
+        }
+    </style>
 </head>
 <body>
 <div class="alice-portal-container flex-column">
@@ -16,10 +25,15 @@
         <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"
              th:text="#{portal.label.login}"></div>
     </div>
-    <div class="portal-search-main">
-        <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
-        <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
-               th:placeholder="#{common.label.searchWord}"/>
+    <div id="scrollTest" style="overflow-y: scroll; overflow: hidden;" class="box">
+        <div class="portal-search-main">
+            <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
+        </div>
+        <div class="portal-search-test">
+            <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
+                   th:placeholder="#{common.label.searchWord}"/>
+        </div>
+        <div id="noneDiv" style="height: 117px;"></div>
     </div>
     <div class="portal-search-content">
         <ul>
@@ -74,6 +88,11 @@
         i18n.init(JSON.stringify({}));
         initEventListener();
         initPortalTops('get', '/rest/portal/top?limit=' + topSize);
+
+        window.addEventListener('scroll',function (e) {
+            e.preventDefault()
+            e.stopPropagation()
+        });
     }
 
     /*
@@ -175,6 +194,7 @@
                             const scrollHeight = e.target.scrollHeight;
                             const scrollTop = e.target.scrollTop;
                             const clientHeight = e.target.clientHeight;
+                            document.getElementById('scrollTest').scrollTop = e.target.scrollTop;
                             if (scrollHeight - scrollTop === clientHeight) {
                                 if (scrollerEventCheck()) {
                                     portalSearch(true);

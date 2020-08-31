@@ -444,26 +444,33 @@ input:focus {
   cursor: pointer;
 }
 .portal-search-main {
-  height: 15rem;
+  height: 6.5rem;
   background-color: #EBEBEB;
-  padding: 0 40rem;
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 .portal-search-main .title {
   text-align: center;
-  padding: 3.625rem 0;
+  padding: 3.625rem 0 0.625rem 0;
 }
-.portal-search-main input {
+.portal-search-test {
+  height: 8.5rem;
+  background-color: #EBEBEB;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  padding: 3rem 0 3rem 0;
+}
+.portal-search-test input {
   padding: 0 2.5rem 0 0.938rem;
-  width: 100%;
+  width: 40rem;
   height: 2.5rem;
+  display: block;
+  margin: auto;
   border: 1px solid #EBEBEB;
   border-radius: 1px;
   color: rgba(122, 133, 148, 0.55);
   font-weight: 400;
   font-size: 0.938rem;
 }
-.portal-search-main input.icon {
+.portal-search-test input.icon {
   background-image: url("../media/image/portalSearch/icon_search.png");
   background-position: 38.0625rem;
   background-repeat: no-repeat;
@@ -1107,5 +1114,3 @@ input:focus {
   right: -6px;
   left: -2px;
 }
-
-/*# sourceMappingURL=alice-portal.css.map */
