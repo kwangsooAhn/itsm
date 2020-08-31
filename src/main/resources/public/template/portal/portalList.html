@@ -1,10 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="shortcut icon" th:href="@{/assets/media/icons/zenius.ico}" type="image/x-icon">
-</head>
+<head></head>
 <body>
 <div class="list">
+    <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
     <div class="row" th:each="portalList : ${portalList}">
         <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
         <div class="content-box">
