@@ -1016,6 +1016,57 @@ span.vertical-bar {
 .container .contents-edit .image-list {
   padding: 3.125rem 3.75rem 2.875rem 3.75rem;
 }
+.container .contents-edit .list {
+  width: 61.25rem;
+  margin: auto;
+}
+.container .contents-edit .list table {
+  width: 100%;
+}
+.container .contents-edit .list table thead {
+  display: block;
+}
+.container .contents-edit .list table thead > tr {
+  height: 2.375rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+  display: flex;
+}
+.container .contents-edit .list table thead > tr th {
+  color: #3F4B56;
+  font-size: 1.125rem;
+  font-weight: 500;
+  vertical-align: middle;
+  text-align: left;
+}
+.container .contents-edit .list table thead > tr th:first-child {
+  padding-left: 1.25rem;
+}
+.container .contents-edit .list table tbody {
+  display: block;
+  overflow-y: auto;
+  width: 100%;
+}
+.container .contents-edit .list table tbody tr {
+  height: 2.875rem;
+  width: 100%;
+  display: table;
+}
+.container .contents-edit .list table tbody tr:hover {
+  background: #EBEBEB;
+}
+.container .contents-edit .list table tbody tr.active td {
+  color: #0060A5;
+  background: #EBEBEB;
+}
+.container .contents-edit .list table tbody tr td {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  vertical-align: middle;
+}
+.container .contents-edit .list table tbody tr td:first-child {
+  padding-left: 1.25rem;
+}
 .container .contents-view {
   height: 100vh;
   background: #F7F8F9;
