@@ -170,21 +170,21 @@ span.vertical-bar {
             & > div { margin: 0 auto;}
         }
         .token-info {
-            width: 600px;
-            padding: 0 65px;
+            width: 37.5rem; // 600px
+            padding: 0 4.0625rem; // 65px
             background-color: white;
             &-tab {
                 display: flex;
-                margin-top: 125px;
+                margin-top: 7.8125rem; // 125px
                 h4 {
                     flex: 1;
                     text-align: center;
                     color: $gray;
-                    padding-bottom: 10px;
-                    border-bottom: 2px solid $default-gray;
+                    padding-bottom: 0.625rem; // 10px
+                    border-bottom: 0.125rem solid $default-gray; // 2px
                 }
                 .active {
-                    border-bottom: 4px solid $point-blue;
+                    border-bottom: 0.25rem solid $point-blue; // 4px
                     color: $light-black;
                 }
             }
@@ -192,13 +192,13 @@ span.vertical-bar {
                 .token {
                     &-tag {
                         display: none;
-                        margin-top: 20px;
+                        margin-top: 1.25rem; // 20px
                     }
                     &-history {
                         .table {
                             border: none;
                             thead {
-                                border-bottom: 1px solid $default-gray;
+                                border-bottom: 0.0625rem solid $default-gray; // 1px
                             }
                             th { color: $light-black; font-weight: 500; }
                             td { color: $dark-gray; font-weight: 400;}
@@ -206,7 +206,7 @@ span.vertical-bar {
                                 border: none;
                                 text-align: left;
                                 &:first-child {
-                                    margin-left: 20px;
+                                    margin-left: 1.25rem; // 20px
                                 }
                             }
                         }
@@ -214,20 +214,20 @@ span.vertical-bar {
                     }
                     &-related {
                         display: none;
-                        padding-top: 10px;
+                        padding-top: 0.625rem; // 10px
                         display: flex;
                         flex-direction: column;
                         .list-item {
-                            height: 185px;
-                            margin-top: 10px;
+                            height: 11.5625rem; // 185px
+                            margin-top: 0.625rem; // 10px
                             display: flex;
                             .document {
                                 &-color {
-                                    width: 10px;
+                                    width: 0.625rem; // 10px
                                 }
                                 &-row {
-                                    border: 1px solid $line-gray;
-                                    padding: 20px 40px;
+                                    border: 0.0625rem solid $line-gray; // 1px
+                                    padding: 1.25rem 2.5rem; // 20px 40px
                                     display: flex;
                                     flex-direction: column;
                                     flex: 1;
@@ -244,7 +244,7 @@ span.vertical-bar {
                                                 }
                                                 &:last-child {
                                                     color: $gray;
-                                                    margin-left: 5px;
+                                                    margin-left: 0.3125rem; // 5px
                                                 }
                                             }
                                         }
@@ -264,8 +264,8 @@ span.vertical-bar {
                             }
                         }
                         .related-add {
-                            height: 185px;
-                            border: 1px solid $line-gray;
+                            height: 11.5625rem; // 185px
+                            border: 0.0625rem solid $line-gray; // 1px
                             background-color: $light-gray;
                             align-items: center;
                             justify-content: center;
@@ -274,19 +274,19 @@ span.vertical-bar {
                     }
                     &-comment {
                         display: none;
-                        padding-top: 10px;
+                        padding-top: 0.625rem; // 10px
                         display: flex;
                         flex-direction: column;
                         .list-item {
-                            padding: 20px 25px;
-                            margin-top: 10px;
+                            padding: 1.25rem 1.5625rem; // 20px 25px
+                            margin-top: 0.625rem; // 10px
                             display: flex;
                             flex-direction: column;
                             border: 1px solid $line-gray;
                             background-color: $light-gray;
                             .comment {
                                 &-row {
-                                    margin-top: 10px;
+                                    margin-top: 0.0625rem; // 10px
                                     &-info {
                                         display: flex;
                                         align-items: center;
@@ -298,7 +298,7 @@ span.vertical-bar {
                                             flex: none;
                                         }
                                         & > h5 {
-                                            margin-left: 15px;
+                                            margin-left: 0.9375rem; // 15px
                                             color: $gray;
                                         }
                                         div:last-child {
@@ -309,12 +309,12 @@ span.vertical-bar {
                             }
                         }
                         .comment-input {
-                            margin-top: 10px;
+                            margin-top: 0.625rem; // 10px
                             padding: 0;
                             align-items: start;
                             textarea {
                                 resize: none;
-                                height: 70px;
+                                height: 4.3750rem; // 70px
                                 flex: 1;
                             }
                         }
@@ -329,6 +329,7 @@ span.vertical-bar {
     @import "contents/_contents-edit.scss";
     @import "contents/_contents-view.scss";
     @import "contents/_contents-list-edit.scss";
+    @import "contents/_contents-document.scss";
 
     .contents {
         min-width: 78.75rem; // 1260px

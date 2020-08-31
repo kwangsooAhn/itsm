@@ -4,135 +4,87 @@
     layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{board.label.manager}"></title>
-    <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table label {
-            margin: 0;
-        }
-        table td {
-            border: 1px solid;
-            height: 50px;
-        }
-        table input, select {
-            width: 90%;
-            height: 24px;
-        }
-        table textarea {
-            width: 100%;
-        }
-        input[type=radio]{
-            background-color: rgb(216, 216, 216);
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            margin-left: 16px;
-            border: 1px solid gray;
-            width: 14px;
-            height: 14px;
-            border-radius: 100%;
-        }
-        input[type=radio]:checked{
-            background-color: black;
-            -webkit-appearance: none;
-            -moz-appearance: none;
-            margin-left: 16px;
-            border: none;
-            width: 14px;
-            height: 14px;
-            border-radius: 100%;
-        }
-    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
-            <h1 th:text="#{board.label.manager}"></h1>
+    <div class="contents-edit scroll-wrap">
+        <div class="header">
+            <div class="page-title">
+                <h1 th:text="#{board.label.manager}"></h1>
+                <h6 class="title-description" th:text="#{board.label.manager}"></h6>
+            </div>
         </div>
-        <hr>
-        <table>
-            <colgroup>
-                <col width="20%">
-                <col width="30%">
-                <col width="20%">
-                <col width="30%">
-            </colgroup>
-            <tbody>
-                <tr>
-                    <td><label th:text="#{board.label.name}"></label><span class="required"></span></td>
-                    <td colspan="3"><input type="text" id="boardAdminTitle" maxlength="100" th:value="${boardAdmin?.boardAdminTitle}"/></td>
-                </tr>
-                <tr>
-                    <td><label th:text="#{board.label.useYn}"></label></td>
-                    <td>
-                        <input type="radio" name="boardUseYn" th:value="true" th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true} ? checked" th:text="#{board.label.enable}"/>
-                        <input type="radio" name="boardUseYn" th:value="false" th:checked="${boardAdmin?.boardUseYn == false} ? checked" th:text="#{board.label.disable}"/>
-                    </td>
-                    <td><label th:text="#{board.label.order}"></label></td>
-                    <td><input id="boardAdminSort" name="boardAdminSort" type="text" th:value="${boardAdmin?.boardAdminSort}"
-                               style="width: 15%;" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label th:text="#{board.label.desc}"></label></td>
-                    <td colspan="3"><textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea></td>
-                </tr>
-                <tr>
-                    <td><label th:text="#{board.label.replyYn}"></label></td>
-                    <td>
-                        <input type="radio" name="replyYn" th:value="true" th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true} ? checked" th:text="#{board.label.enable}"/>
-                        <input type="radio" name="replyYn" th:value="false" th:checked="${boardAdmin?.replyYn == false} ? checked" th:text="#{board.label.disable}"/>
-                    </td>
-                    <td><label th:text="#{board.label.commentYn}"></label></td>
-                    <td>
-                        <input type="radio" name="commentYn" th:value="true" th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true} ? checked" th:text="#{board.label.enable}"/>
-                        <input type="radio" name="commentYn" th:value="false" th:checked="${boardAdmin?.commentYn == false} ? checked" th:text="#{board.label.disable}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label th:text="#{board.label.category}"></label></td>
-                    <td colspan="3">
-                        <input type="radio" name="categoryYn" th:value="true" th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true} ? checked" th:text="#{board.label.enable}"/>
-                        <input type="radio" name="categoryYn" th:value="false" th:checked="${boardAdmin?.categoryYn == false} ? checked" th:text="#{board.label.disable}"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td><label th:text="#{board.label.attachFileYn}"></label></td>
-                    <td>
-                        <input type="radio" name="attachYn" th:value="true" th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true} ? checked" onchange="setDisplay('attachFileSize', true)" th:text="#{board.label.enable}"/>
-                        <input type="radio" name="attachYn" th:value="false" th:checked="${boardAdmin?.attachYn == false} ? checked" onchange="setDisplay('attachFileSize', false)" th:text="#{board.label.disable}"/>
-                    </td>
-                    <td><label th:text="#{board.label.attachFileSize}"></label></td>
-                    <td><input id="attachFileSize" name="attachFileSize" type="text" style="width: 15%;"
-                               th:value="${boardAdmin?.attachFileSize}" maxlength="4" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>MB
-                    </td>
-                </tr>
-                <tr>
-                    <td><label th:text="#{common.label.createUser}"></label></td>
-                    <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${boardAdmin?.createUser} ? ${boardAdmin.createUser.userName} : ''"></span></td>
-                    <td><label th:text="#{common.label.createDate}"></label></td>
-                    <td><span id="spanCreateDt" name="spanCreateDt" th:text="${boardAdmin?.createDt} ? ${boardAdmin.createDt} : ''"></span></td>
-                </tr>
-                <tr>
-                    <td><label th:text="#{common.label.updateUser}"></label></td>
-                    <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${boardAdmin?.updateUser} ? ${boardAdmin.updateUser.userName} : ''"></span></td>
-                    <td><label th:text="#{common.label.updateDate}"></label></td>
-                    <td><span id="spanUpdateDt" name="spanUpdateDt" th:text="${boardAdmin?.updateDt} ? ${boardAdmin.updateDt} : ''"></span></td>
-                </tr>
-            </tbody>
-        </table>
-        <div align="right">
-            <button style="margin-right: 5px;" onclick="location.href='/board-admin/search'" th:text="#{common.btn.list}"></button>
-            <button th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')" th:text="#{common.btn.modify}"></button>
-            <button th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin('${boardAdmin.boardAdminId}')"
-                    th:disabled="${!boardAdmin.enabled}"
-                    th:text="#{common.btn.delete}"></button>
-            <button th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')" th:text="#{common.btn.save}"></button>
+        <div class="edit">
+            <div class="form-set">
+                <label class="required" th:text="#{board.label.name}" for="boardAdminTitle"></label>
+                <input type="text" id="boardAdminTitle" maxlength="100" th:value="${boardAdmin?.boardAdminTitle}"
+                       required="required"/>
+            </div>
+            <div class="form-set">
+                <label class="switch">
+                    <span class="switch-label" th:text="#{board.label.useYn}"></span>
+                    <input type="checkbox" id="boardUseYn" name="boardUseYn" onclick="toggle(this);"
+                           th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}">
+                    <span class="slider round"></span>
+
+                </label>
+            </div>
+            <div class="form-set">
+                <label th:text="#{board.label.order}" for="boardAdminSort"></label>
+                <input class="column-2" id="boardAdminSort" name="boardAdminSort" type="text" th:value="${boardAdmin?.boardAdminSort}"
+                           maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+            </div>
+            <div class="form-set">
+                <label th:text="#{board.label.desc}" for="boardAdminDesc"></label>
+                <textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
+            </div>
+            <div class="form-set">
+                <label class="switch">
+                    <span class="switch-label" th:text="#{board.label.replyYn}"></span>
+                    <input type="checkbox" id="replyYn" name="replyYn" onclick="toggle(this);"
+                           th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="form-set">
+                <label class="switch">
+                    <span class="switch-label" th:text="#{board.label.commentYn}"></span>
+                    <input type="checkbox" id="commentYn" name="commentYn" onclick="toggle(this);"
+                           th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="form-set">
+                <label class="switch">
+                    <span class="switch-label" th:text="#{board.label.category}"></span>
+                    <input type="checkbox" id="categoryYn" name="categoryYn" onclick="toggle(this);"
+                           th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="form-set">
+                <label class="switch">
+                    <span class="switch-label" th:text="#{board.label.attachFileYn}"></span>
+                    <input type="checkbox" id="commentYn" name="commentYn" onclick="toggle(this);"
+                           th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}"
+                           onchange="setDisplay('attachFileSize', this.checked)">
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="form-set">
+                <label th:text="#{board.label.attachFileSize}" for="attachFileSize"></label>
+                <input class="column-2" id="attachFileSize" name="attachFileSize" type="text"
+                           th:value="${boardAdmin?.attachFileSize}" maxlength="4"
+                           onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>MB
+            </div>
+            <div class="btn-bar">
+                <button class="default-line" onclick="location.href='/board-admin/search'" th:text="#{common.btn.list}"></button>
+                <button class="point-fill" th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')" th:text="#{common.btn.modify}"></button>
+                <button class="default-line" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin('${boardAdmin.boardAdminId}')"
+                        th:disabled="${!boardAdmin.enabled}"
+                        th:text="#{common.btn.delete}"></button>
+                <button class="point-fill" th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')" th:text="#{common.btn.save}"></button>
+            </div>
         </div>
     </div>
 </th:block>
@@ -147,16 +99,6 @@
             boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
             boardUpdateDt.textContent = i18n.userDateTime(boardUpdateDt.textContent);
         };
-
-        //radio checked 값 확인
-        function getRadioCheckValue(name) {
-            let radioObject =  document.getElementsByName(''+ name +'');
-            for (let i = 0; i<radioObject.length; i++) {
-                if(radioObject[i].checked === true) {
-                    return radioObject[i].value;
-                }
-            }
-        }
 
         //radio check 값에 따라서 화면이 변경 할 수 있도록 변경
         function setDisplay(id, value) {
@@ -185,11 +127,11 @@
                 boardAdminTitle: document.getElementById('boardAdminTitle').value,
                 boardAdminDesc: document.getElementById('boardAdminDesc').value,
                 boardAdminSort: document.getElementById('boardAdminSort').value,
-                boardUseYn: getRadioCheckValue('boardUseYn'),
-                replyYn: getRadioCheckValue('replyYn'),
-                commentYn: getRadioCheckValue('commentYn'),
-                categoryYn: getRadioCheckValue('categoryYn'),
-                attachYn: getRadioCheckValue('attachYn'),
+                boardUseYn: document.getElementById('boardUseYn').checked,
+                replyYn: document.getElementById('replyYn').checked,
+                commentYn: document.getElementById('commentYn').checked,
+                categoryYn: document.getElementById('categoryYn').checked,
+                attachYn: document.getElementById('attachYn').checked,
                 attachFileSize: document.getElementById('attachFileSize').value
             };
 

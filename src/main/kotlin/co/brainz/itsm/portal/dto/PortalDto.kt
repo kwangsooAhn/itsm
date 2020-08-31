@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.portal.dto
 
 import java.io.Serializable
@@ -8,5 +14,6 @@ data class PortalDto(
     var portalContent: String? = null,
     var createDt: LocalDateTime? = null,
     var updateDt: LocalDateTime? = null,
-    var tableName: String? = null
+    var tableName: String? = null,
+    val totalCount: Int? = 0
 ) : Serializable

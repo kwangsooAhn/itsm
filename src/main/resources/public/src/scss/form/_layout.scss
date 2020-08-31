@@ -262,7 +262,6 @@ body {
         height: 100vh;
         padding: 0;
         margin: 0;
-        background-color: $container-background-color;
 
         & *:focus {
             outline: none !important;
@@ -279,6 +278,13 @@ body {
             padding: 0;
             margin: 0;
             overflow: auto;
+
+            .print-area {
+                margin-top: 1rem;
+                display: flex;
+                justify-content: center;
+                width: 100vw;
+            }
 
             .print-board {
                 margin: 0.9375rem; // 15px;

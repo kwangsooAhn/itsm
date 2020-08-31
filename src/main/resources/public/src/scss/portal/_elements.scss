@@ -57,7 +57,6 @@ label {
 
 input {
     padding-left: 0.625rem; // 10px
-    width: 22.5rem; // 360px
     height: 2.25rem; // 36px
     border: 0.0625rem solid #C8CED8; // 1px
     border-radius: 0.0625rem; // 1px
@@ -66,7 +65,7 @@ input {
         color: $gray;
     }
     &:focus {
-        outline: 1px solid $alice-primary; // 2px
+        outline: 1px solid $point-blue; // 2px
         border-radius: 0.0625rem; // 1px
     }
 }

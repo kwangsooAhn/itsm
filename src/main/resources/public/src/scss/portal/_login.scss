@@ -6,21 +6,19 @@
     }
 
     &-background {
-        background-color: $alice-primary;
+        background-color: $point-blue;
         height: 100%;
-        width: 80.3125rem;
+        width: 80.3125rem; // 1285px;
+        .login-main-image {
+            margin-top: 155px;
+            margin-left: 6.875rem; // 110px
+            height: 44.375rem; // 710px
+            width: 66.9375rem; // 1071px
+        }
     }
-
-    &-main-image {
-        height: 58.563rem; // 937px
-    }
-
     &-form {
-        margin: 11.688rem 8.0rem 0 88.9063rem; // 187px 128px 0 1422.5px
-        width: 22.5rem; // 360px
-        position: absolute;
-        top: 0;
-
+        margin: 8.5rem 4.0625rem 0 4.0625rem; // 136px 65px 0 65px
+        width: 30rem; // 480px
         h1 {
             height: 2.313rem; // 37px
             margin-bottom: 3.75rem; // 60px
@@ -28,7 +26,9 @@
         }
 
         .login-base-form {
-            margin-bottom: 0.531rem; // 8.5px
+            margin-bottom: 1rem; // 16px
+            display: flex;
+            flex-direction: column;
         }
     }
 
@@ -42,17 +42,16 @@
         padding: 0.75rem 0.625rem; // 12px 10px
 
         &-submit {
-            background-color: $alice-primary;
-            border-color: #0048E6;
+            background-color: $point-blue;
             color: #FFFFFF;
-            min-width: 22.5rem; // 360px
+            width: 100%;
         }
 
         &-google {
             background-color: #ffffff;
             border-color: #c8ced8;
             color: #3E4752;
-            min-width: 22.5rem; // 360px
+            width: 100%;
 
             &-icon {
                 background-image: url($image-folder-path + "login/icon_google.png");
@@ -67,7 +66,7 @@
             background-color: #ffde00;
             border-color: #EBCC00;
             color: #3E4752;
-            min-width: 22.5rem; // 360px
+            width: 100%;
 
             &-icon {
                 background-image: url($image-folder-path + "login/icon_kakao.png");
@@ -83,14 +82,14 @@
         display: flex;
         flex-basis: 100%;
         align-items: center;
-        color: #7b8593;
+        color: $gray;
         font-size: 0.875rem; // 14px
-        margin: 4.25rem 0 2.875rem 0; // 68px 0 46px 0
+        margin: 4rem 0 4rem 0; // 64px 0 64px 0
 
         &::before {
             content: '';
             flex-grow: 1;
-            background: #7b8593;
+            background: $gray;
             height: 0.063rem; // 1px
             margin-right: 1rem; // 16px
         }
@@ -98,7 +97,7 @@
         &::after {
             content: '';
             flex-grow: 1;
-            background: #7b8593;
+            background: $gray;
             height: 0.063rem; // 1px
             margin-left: 1rem; // 16px
         }
@@ -106,7 +105,7 @@
 
     &-platform {
         button {
-            margin-bottom: 0.531rem; // 8.5px
+            margin-bottom: 1rem; // 16px
 
             &:last-child {
                 margin: 0;

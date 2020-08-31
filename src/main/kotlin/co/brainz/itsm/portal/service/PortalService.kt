@@ -1,5 +1,12 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.portal.service
 
+import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.dto.DownloadDto
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
@@ -13,8 +20,6 @@ import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
-import org.springframework.data.domain.PageRequest
-import org.springframework.data.domain.Pageable
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
@@ -24,7 +29,6 @@ class PortalService(
     private val faqRepository: FaqRepository,
     private val downloadRepository: DownloadRepository
 ) {
-
     private val faqMapper: FaqMapper = Mappers.getMapper(FaqMapper::class.java)
     private val downloadMapper: DownloadMapper = Mappers.getMapper(DownloadMapper::class.java)
 
@@ -33,17 +37,18 @@ class PortalService(
     /**
      * 포탈 리스트 , 포탈 검색 리스트
      */
-    fun findPortalListOrSearchList(portalSearchDto: PortalSearchDto, pageableValue: Pageable): MutableList<PortalDto> {
-
-        var pageable = pageableValue
-        val page = if (pageable.pageNumber == 0) 0 else pageable.pageNumber
-        pageable = PageRequest.of(page, 10)
-
-        return noticeRepository.findPortalListOrSearchList(portalSearchDto.searchValue, pageable)
+    fun findPortalListOrSearchList(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
+        return noticeRepository.findPortalListOrSearchList(
+            portalSearchDto.searchValue, ItsmConstants
+                .SEARCH_DATA_COUNT, portalSearchDto.offset
+        )
     }
 
-    fun findTotalCount(portalSearchDto: PortalSearchDto): Int {
-        return noticeRepository.findPortalListOrSearchList(portalSearchDto.searchValue, null).size
+    /**
+     * 포탈 검색 리스트 글 전체 개수 조회
+     */
+    fun findPortalListOrSearchCount(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
+        return noticeRepository.findPortalListOrSearchCount(portalSearchDto.searchValue)
     }
 
     fun getTopList(limit: Long): LinkedHashMap<String, Any> {
@@ -56,7 +61,6 @@ class PortalService(
                     noticeTitle = it.noticeTitle
                 )
             )
-            // noticeTopList.add(noticeMapper.toNoticeListDto(it))
         }
 
         val faqTopList = mutableListOf<FaqListDto>()

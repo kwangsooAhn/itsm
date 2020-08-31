@@ -2,16 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
+    <link rel="shortcut icon" th:href="@{/assets/media/icons/zenius.ico}" type="image/x-icon">
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/dropzone/dropzone.css}" rel="stylesheet"/>
     <title th:text="#{project.label.name}"></title>
 </head>
 <body>
-<div class="alicePortal">
-    <img class="login-logo" th:src="@{/assets/media/image/signup/zenius_itsm_logo.png}" alt="Alice">
+<div class="alice-portal-container flex-row">
     <div class="login-background">
-        <img class="login-main-image" th:src="@{/assets/media/image/login/graphic_login.png}" alt="LoginBackground">
+        <img class="login-logo" th:src="@{/assets/media/image/signup/zenius_itsm_logo.png}" alt="Zenius ITSM">
+        <img class="login-main-image" th:src="@{/assets/media/image/login/graphic_login.png}">
     </div>
     <div class="login-form">
         <h1 th:text="#{portal.label.login}"></h1>
