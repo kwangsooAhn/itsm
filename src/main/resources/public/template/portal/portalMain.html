@@ -25,7 +25,7 @@
         <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"
              th:text="#{portal.label.login}"></div>
     </div>
-    <div id="scrollTest" style="overflow-y: scroll; overflow: hidden; z-index: 1; position: relative;" class="box">
+    <div id="scrollTest" style="overflow-y: scroll; overflow: hidden;" class="box">
         <div class="portal-search-main">
             <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
         </div>
@@ -33,9 +33,7 @@
             <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
                    th:placeholder="#{common.label.searchWord}"/>
         </div>
-<!--
         <div id="noneDiv" style="height: 117px;"></div>
--->
     </div>
     <div class="portal-search-content">
         <ul>
@@ -196,9 +194,6 @@
                             const scrollHeight = e.target.scrollHeight;
                             const scrollTop = e.target.scrollTop;
                             const clientHeight = e.target.clientHeight;
-                            console.log('scrollHeight' + ' ' + scrollHeight);
-                            console.log('scrollTop' + ' ' +  scrollTop);
-                            console.log('scrollTest : ' + document.getElementById('scrollTest').scrollTop);
                             document.getElementById('scrollTest').scrollTop = e.target.scrollTop;
                             if (scrollHeight - scrollTop === clientHeight) {
                                 if (scrollerEventCheck()) {
