@@ -27,6 +27,19 @@ $light-blue     : #87CEFF;
 $color-line: $line-gray;
 $color-title: #3E4752;
 $color-text: #67717F;
+
+// 메뉴 로고
+$logo-width: 13.75rem; // 220px
+$logo-height: 3.8125rem; // 60px
+
+// 네비게이션
+$nav-width: 13.75rem; // 220px
+$nav-height: 9.375rem; // 150px
+$nav-bg-color: $ground-black;
+
+// 메뉴
+$menu-width: 13.75rem; // 220px
+$menu-height: calc(100vh - #{$nav-height} - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
 $menu-bg-color: $ground-black;
 $menu-bg-selected-color: $focus-black;
 $menu-bg-hover: $focus-black;
