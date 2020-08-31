@@ -4,93 +4,68 @@
     layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{customCode.label.customCode}"></title>
-    <meta charset="UTF-8">
-    <style>
-        div#container {
-            margin-bottom: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table td:nth-child(1) {
-            width: 35%;
-        }
-        table td:nth-child(2) {
-            width: 65%;
-        }
-        table label {
-            margin: 0;
-        }
-        table#type-common-container tr:last-child td {
-            border-bottom: 0;
-        }
-        table td {
-            border: 1px solid;
-            height: 50px;
-            padding: 12px 10px;
-            vertical-align: top;
-        }
-        table td span {
-            margin: 0 12px;
-        }
-        table td span[class*="equal"]::before {
-            content: '=';
-        }
-    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
-            <h1 th:text="#{customCode.label.customCode}"></h1>
+    <div class="contents-edit scroll-wrap">
+        <div class="header">
+            <div class="page-title">
+                <h1 th:text="#{customCode.label.customCode}"></h1>
+                <h6 class="title-description" th:text="#{customCode.label.customCode}"></h6>
+            </div>
         </div>
-        <hr>
-        <!-- 타입: 공통-->
-        <table id="type-common-container">
-            <tbody>
-            <tr>
-                <td th:text="#{customCode.label.name}"></td>
-                <td th:text="${customCode.customCodeName}"></td>
-            </tr>
-            <tr>
-                <td th:text="#{customCode.label.type}"></td>
-                <td th:text="#{|customCode.label.${customCode.type}|}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <!-- 타입: table-->
-        <table id="type-table-container" th:if="${customCode.type == 'table'}">
-            <tbody>
-            <tr>
-                <td th:text="#{customCode.label.targetTable}"></td>
-                <td th:text="|${customCode.targetTableName}(${customCode.targetTable})|"></td>
-            </tr>
-            <tr>
-                <td th:text="#{customCode.label.searchColumn}"></td>
-                <td th:text="|${customCode.searchColumnName}(${customCode.searchColumn})|"></td>
-            </tr>
-            <tr>
-                <td th:text="#{customCode.label.valueColumn}"></td>
-                <td th:text="|${customCode.valueColumnName}(${customCode.valueColumn})|"></td>
-            </tr>
-            <tr>
-                <td th:text="#{customCode.label.condition}"></td>
-                <td id="condition"></td>
-            </tr>
-            </tbody>
-        </table>
-        <!-- 타입: 코드 -->
-        <table id="type-code-container" th:if="${customCode.type == 'code'}">
-            <tbody>
-            <tr>
-                <td th:text="#{customCode.label.pCode}"></td>
-                <td th:text="${customCode.pCode}"></td>
-            </tr>
-            </tbody>
-        </table>
-        <div align="right">
-            <button onclick="location.href='/custom-codes/search'" th:text="#{common.btn.list}"></button>
+        <div class="edit">
+            <div class="form-set">
+                <label class="required" th:text="#{customCode.label.name}" for="customCodeName"></label>
+                <input type="text" id="customCodeName" required="required" maxlength="100"
+                       th:value="${customCode?.customCodeName}" disabled>
+            </div>
+            <div class="form-set">
+                <label class="required" th:text="#{customCode.label.type}"></label>
+                <div class="radio-row">
+                    <label>
+                        <input id="table" name="type" type="radio"
+                               th:checked="${customCode?.type == null || customCode?.type == 'table'}"
+                               th:text="#{customCode.label.table}" onclick="changeContainer('table')" disabled>
+                    </label>
+                    <label>
+                        <input id="code" name="type" type="radio"
+                               th:checked="${customCode?.type == 'code'}"
+                               th:text="#{customCode.label.code}" onclick="changeContainer('code')" disabled>
+                    </label>
+                </div>
+            </div>
+            <!-- 타입: table-->
+            <div id="type-table-container"
+                 th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
+                <div class="form-set">
+                    <label class="required" th:text="#{customCode.label.targetTable}"></label>
+                    <input th:value="|${customCode.targetTableName}(${customCode.targetTable})|" disabled />
+                </div>
+                <div class="form-set">
+                    <label class="required" th:text="#{customCode.label.searchColumn}"></label>
+                    <input th:value="|${customCode.searchColumnName}(${customCode.searchColumn})|" disabled />
+                </div>
+                <div class="form-set">
+                    <label class="required" th:text="#{customCode.label.valueColumn}"></label>
+                    <input th:value="|${customCode.valueColumnName}(${customCode.valueColumn})|" disabled />
+                </div>
+                <div class="form-set">
+                    <label th:text="#{customCode.label.condition}"></label>
+                    <div id="condition"></div>
+                </div>
+            </div>
+
+            <!-- 타입: 코드 -->
+            <div id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
+                <div class="form-set">
+                    <label class="required" th:text="#{customCode.label.pCode}"></label>
+                    <input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}">
+                </div>
+            </div>
+            <div class="btn-bar">
+                <button class="default-line" onclick="location.href='/custom-codes/search'" th:text="#{common.btn.list}"></button>
+            </div>
         </div>
     </div>
 </th:block>
@@ -103,18 +78,24 @@
                 const condition = JSON.parse(/*[[${customCode.condition}]]*/'');
                 if (condition != null) {
                     Object.keys(condition).forEach(function (data) {
-                        const div = document.createElement('div');
+                        const divFormSet = document.createElement('div');
+                        divFormSet.classList.add('form-set');
+                        const divRow = document.createElement('div');
+                        divRow.classList.add('row');
                         const keyLabel = document.createElement('label');
                         keyLabel.innerText = getColumnName(data);
+                        keyLabel.classList.add('column-4');
                         const equalSpan = document.createElement('span');
-                        equalSpan.classList.add('equal');
+                        equalSpan.textContent = '=';
                         const valueLabel = document.createElement('label');
                         valueLabel.innerText = condition[data];
+                        valueLabel.classList.add('column-7');
 
-                        div.appendChild(keyLabel);
-                        div.appendChild(equalSpan);
-                        div.appendChild(valueLabel);
-                        document.getElementById('condition').appendChild(div);
+                        divRow.appendChild(keyLabel);
+                        divRow.appendChild(equalSpan);
+                        divRow.appendChild(valueLabel);
+                        divFormSet.appendChild(divRow);
+                        document.getElementById('condition').appendChild(divFormSet);
                     });
                 }
             }

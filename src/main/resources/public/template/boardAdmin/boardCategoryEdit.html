@@ -4,62 +4,37 @@
     layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{board.label.category}"></title>
-    <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        table label {
-            margin: 0;
-        }
-        table tr td {
-            border: 1px solid;
-            height: 50px;
-        }
-        table input {
-            width: 90%;
-            height: 24px;
-        }
-    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <div style="height: 90px;">
-            <h1 th:text="#{board.label.category}"></h1>
-            <hr>
-            <div>
-                 <table>
-                    <colgroup>
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                        <col width="20%">
-                        <col width="10%">
-                    </colgroup>
-                    <tbody>
-                    <tr>
-                        <td><label th:text="#{board.label.name}"></label></td>
-                        <td><label th:text="${boardAdmin.boardAdminTitle}"/></td>
-                        <td><label th:text="#{board.label.categoryName}"></label><span class="required"></span></td>
-                        <td><input type="text" id="boardCategoryName" maxlength="100"/></td>
-                        <td><label th:text="#{board.label.order}"></label></td>
-                        <td><input type="text" id="boardCategorySort" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/></td>
-                        <td align="center"><button onclick="saveBoardCategory('post')" th:text="#{common.btn.add}"></button></td>
-                    </tr>
-                    </tbody>
-                </table>
+    <div class="contents-edit scroll-wrap">
+        <div class="header">
+            <div class="page-title">
+                <h1 th:text="#{board.label.category}"></h1>
+                <h6 class="title-description" th:text="#{board.label.category}"></h6>
             </div>
         </div>
-        <div id="boardCategoryList" style="margin-top: 60px"></div>
-        <div align="right">
-            <button style="margin-right: 5px;" onclick="location.href='/board-admin/search'" th:text="#{common.btn.list}"></button>
+        <div class="edit">
+            <div class="form-set">
+                <label th:text="#{board.label.name}"></label>
+                <input th:value="${boardAdmin.boardAdminTitle}" disabled>
+            </div>
+            <div class="row">
+                <div class="form-set column-8">
+                    <label class="required" th:text="#{board.label.categoryName}" for="boardCategoryName"></label>
+                    <input type="text" id="boardCategoryName" maxlength="100" required="required"/>
+                </div>
+                <div class="form-set column-4">
+                    <label th:text="#{board.label.order}" for="boardCategorySort"></label>
+                    <input type="text" id="boardCategorySort" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                </div>
+            </div>
+            <div class="btn-bar">
+                <button class="point-fill" onclick="saveBoardCategory('post')" th:text="#{common.btn.add}"></button>
+                <button class="default-line" onclick="location.href='/board-admin/search'" th:text="#{common.btn.list}"></button>
+            </div>
         </div>
+        <div class="list" id="boardCategoryList"></div>
     </div>
 </th:block>
 </body>
