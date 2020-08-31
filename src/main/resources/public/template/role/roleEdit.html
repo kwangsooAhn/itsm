@@ -9,93 +9,96 @@
 <body>
 <p th:text="${#temporals.formatISO(timestamp)}"></p>
 <th:block layout:fragment="content">
-    <table>
-        <tr>
-            <td>
-                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch" 
-                 th:onclick="|javascript:onSearch()|" th:text="#{common.btn.add}">추가</button>
-            </td>
-        </tr>
-    </table>
-    <table border="1" id="roleTable">
-        <colgroup>
-            <col width="620px">
-        </colgroup>
-        <tr>
-            <td>
-                <a name="alink" th:each="role : ${roleList}" th:text="|[${role.roleName}]|" th:id="${role.roleId}" ></a>
-            </td>
-        </tr>
-    </table>
-    <table border="1">
-        <colgroup>
-            <col width="120px">
-            <col width="480px">
-        </colgroup>
-        <tr>
-            <th th:text="'*' + #{role.label.id}"></th>
-            <td>
-                <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail?.roleId}"  maxlength="100"/>
-            </td>
-        </tr>
-        <tr>
-            <th th:text="'*' + #{role.label.name}"></th>
-            <td>
-                <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail?.roleName}" maxlength="100" />
-            </td>
-        </tr>
-        <tr>
-            <th th:text="#{role.label.desc}"></th>
-            <td>
-                <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" style="width: 500px; resize: none;" th:text="${roleDetail?.roleDesc}"/>
-            </td>
-        </tr>
-        <tr>
-            <th th:text="'*' + #{role.label.auth}"></th>
-            <td>
-                <ui th:each="auth : ${authList}">
-                    <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
-                    <span th:text="${auth?.authName}"></span>
-                </ui>
-            </td>
-        </tr>
-        <tr>
-            <th th:text="#{common.label.createUser}"></th>
-            <td><span id="spanCreateUserKey" name="spanCreateUserKey" th:text="${roleDetail?.createUserKey}"></span></td>
-        </tr>
-        <tr>
-            <th th:text="#{common.label.createDate}"></th>
-            <td><span id="spanCreateDt" name="spanCreateDt"></span></td>
-        </tr>
-        <tr>
-            <th th:text="#{common.label.updateUser}"></th>
-            <td><span id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${roleDetail?.updateUserKey}"></span></td>
-        </tr>
-        <tr>
-            <th th:text="#{common.label.updateDate}"></th>
-            <td><span id="spanUpdateDt" name="spanUpdateDt"></span></td>
-        </tr>
-        <tr>
-            <th th:text="#{role.label.referenceCount}"></th>
-            <td><span id="userRoleMapCount" name="userRoleMapCount"></span></td>
-        </tr>
-    </table>
-    <table>
-        <tr>
-            <td>
-                <button sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete" 
-                 th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
-            </td>
-            <td>
-                <button sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate" 
-                 th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
-            </td>
-            <td>
-                <button sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist" 
-                 th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.save}"></button>
-            </td>
-        </tr>
-    </table>
+    <div class="contents-list-edit">
+        <div class="list-area">
+            <div class="page-title">
+                <h1 th:text="#{role.label.manage}"></h1>
+                <h6 class="title-description" th:text="#{role.msg.description}"></h6>
+            </div>
+            <div class="search-area">
+                <div class="right">
+                    <button class="default-fill" sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch"
+                            th:onclick="|javascript:onSearch()|" th:text="#{common.btn.add}">추가</button>
+                </div>
+            </div>
+            <div class="list">
+                <table>
+                    <thead>
+                    <tr>
+                        <th width="25%" th:text="#{role.label.name}"></th>
+                        <th width="25%" th:text="#{role.label.id}"></th>
+                        <th width="50%" th:text="#{role.label.desc}"></th>
+                    </tr>
+                    </thead>
+                    <tbody class="list-body">
+                    <tr th:each="role : ${roleList}">
+                        <td width="25%" id="roleName" name="roleName" th:text="${role.roleName}" th:id="${role.roleId}"></td>
+                        <td width="25%" id="roleId" name="roleId" th:text="${role.roleId}"></td>
+                        <td width="50%" id="roleDesc" name="roleDesc" th:text="${role.roleName}" class="align-left"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="edit-area">
+            <div class="scroll-wrap">
+                <div class="form-wrap">
+                    <div class="form-set">
+                        <label th:text="'*' + #{role.label.id}"></label>
+                        <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail?.roleId}"  maxlength="100"/>
+                    </div>
+                    <div class="form-set">
+                        <label th:text="'*' + #{role.label.name}"></label>
+                        <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail?.roleName}" maxlength="100" />
+                    </div>
+                    <div class="form-set">
+                        <label th:text="#{role.label.desc}"></label>
+                        <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="textarea-scroll-wrapper"
+                                  th:text="${roleDetail?.roleDesc}"></textarea>
+                    </div>
+                    <div class="form-set">
+                        <label th:text="'*' + #{role.label.auth}"></label>
+                        <div class="checkbox-list">
+                            <ul>
+                                <li th:each="auth : ${authList}">
+                                    <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
+                                    <span th:text="${auth?.authName}"></span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="form-set">
+                        <label th:text="#{common.label.createUser}"></label>
+                        <input id="spanCreateUserKey" name="spanCreateUserKey" th:text="${roleDetail?.createUserKey}" disabled />
+                    </div>
+                    <div class="form-set">
+                        <label th:text="#{common.label.createDate}"></label>
+                        <input id="spanCreateDt" name="spanCreateDt" disabled />
+                    </div>
+                    <div class="form-set">
+                        <label th:text="#{common.label.updateUser}"></label>
+                        <input id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${roleDetail?.updateUserKey}" disabled />
+                    </div>
+                    <div class="form-set">
+                        <label th:text="#{common.label.updateDate}"></label>
+                        <input id="spanUpdateDt" name="spanUpdateDt" disabled />
+                    </div>
+                    <div class="form-set">
+                        <label th:text="#{role.label.referenceCount}"></label>
+                        <input id="userRoleMapCount" name="userRoleMapCount" disabled />
+                    </div>
+                </div>
+            </div>
+            <div class="btn-bar">
+                <button class="point-fill" sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete"
+                        th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                <button class="point-fill" sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate"
+                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
+                <button class="point-fill" sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist"
+                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.save}"></button>
+            </div>
+        </div>
+    </div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
@@ -127,8 +130,6 @@
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             } else {
-                let first = document.querySelector('a[name=alink]');
-                onGetDetail(first.getAttribute('id'));
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
                 }
@@ -137,9 +138,14 @@
                 }
             }
 
-            let roleList = document.querySelectorAll('a[name=alink]');
+            let roleList = document.querySelectorAll('td[name=roleName]');
             for(let i = 0; i < roleList.length; i++) {
                 roleList[i].addEventListener('click', function(){
+                    let activeTr = document.querySelector('tr.active')
+                    if (activeTr !== null) {
+                        activeTr.classList.remove('active');
+                    }
+                    this.parentElement.classList.add('active');
                     if (AUTH_UPDATE) {
                         document.getElementById('btnUpdate').style.display = 'block';
                     }
@@ -149,39 +155,58 @@
                     onGetDetail(this.id);
                 });
             }
+            OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
+            Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
+                OverlayScrollbars(target, { className: 'scrollbar' });
+            });
+        }
 
-            function onGetDetail(roldId) {
-                const opt = {
-                    method: 'get',
-                    url: '/rest/roles/' +  roldId,
-                    callbackFunc: function(response) {
-                        let responseJson = JSON.parse(response.responseText);
-                        document.getElementById('txtRoleId').value = responseJson.roleId;
-                        document.getElementById('txtRoleName').value = responseJson.roleName;
-                        document.getElementById('txtRoleDesc').value = responseJson.roleDesc;
-                        let arrAuthList = responseJson.arrAuthList;
+        function onGetDetail(roldId) {
+            const opt = {
+                method: 'get',
+                url: '/rest/roles/' +  roldId,
+                callbackFunc: function(response) {
+                    let responseJson = JSON.parse(response.responseText);
+                    document.getElementById('txtRoleId').value = responseJson.roleId;
+                    document.getElementById('txtRoleName').value = responseJson.roleName;
+                    document.getElementById('txtRoleDesc').value = responseJson.roleDesc;
+                    let arrAuthList = responseJson.arrAuthList;
 
-                        Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]'), function(roleAuth) {
-                            roleAuth.checked = false;
-                            for (let i = 0; i<arrAuthList.length; i++) {
-                                if (roleAuth.id == arrAuthList[i].authId) {
-                                    roleAuth.checked = true;
-                                }
+                    Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]'), function(roleAuth) {
+                        roleAuth.checked = false;
+                        for (let i = 0; i<arrAuthList.length; i++) {
+                            if (roleAuth.id == arrAuthList[i].authId) {
+                                roleAuth.checked = true;
                             }
-                        });
-                        document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserName;
-                        document.getElementById('spanCreateDt').innerHTML = i18n.userDateTime(responseJson.createDt);
-                        document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserName;
-                        document.getElementById('spanUpdateDt').innerHTML = i18n.userDateTime(responseJson.updateDt);
-                        document.getElementById('txtRoleId').setAttribute('readonly','true');
-                        document.getElementById('userRoleMapCount').innerHTML = responseJson.userRoleMapCount;
-                        if (AUTH_DELETE) {
-                            disabledButton(responseJson.userRoleMapCount);
                         }
-                    },
-                };
-                aliceJs.sendXhr(opt);
-            }
+                    });
+                    document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserName;
+                    document.getElementById('spanCreateDt').innerHTML = i18n.userDateTime(responseJson.createDt);
+                    document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserName;
+                    document.getElementById('spanUpdateDt').innerHTML = i18n.userDateTime(responseJson.updateDt);
+                    document.getElementById('txtRoleId').setAttribute('readonly','true');
+                    document.getElementById('userRoleMapCount').innerHTML = responseJson.userRoleMapCount;
+                    if (AUTH_DELETE) {
+                        disabledButton(responseJson.userRoleMapCount);
+                    }
+                },
+            };
+            aliceJs.sendXhr(opt);
+            OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
+            Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
+                OverlayScrollbars(target, { className: 'scrollbar' });
+            });
+            OverlayScrollbars(document.querySelector('#txtRoleDesc'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
         }
 
         /*추가 버튼 */

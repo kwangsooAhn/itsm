@@ -1004,6 +1004,9 @@ span.vertical-bar {
 .container .contents-edit .btn-bar {
   padding: 2.5rem 0 3.125rem 0;
 }
+.container .contents-edit .image-list {
+  padding: 3.125rem 3.75rem 2.875rem 3.75rem;
+}
 .container .contents-view {
   height: 100vh;
   background: #F7F8F9;
