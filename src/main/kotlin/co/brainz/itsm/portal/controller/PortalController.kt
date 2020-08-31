@@ -1,5 +1,6 @@
 package co.brainz.itsm.portal.controller
 
+import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import co.brainz.itsm.portal.service.PortalService
 import javax.servlet.http.HttpServletRequest
@@ -21,6 +22,7 @@ class PortalController(private val portalService: PortalService) {
     private val portalMainPage: String = "portal/portalMain"
     private val portalListPage: String = "portal/portalList"
     private val portalBrowserGuidePage: String = "portal/portalBrowserGuide"
+    private val portalFaqPage: String = "portal/portalFaq"
 
     /**
      * 포탈 검색 화면 호출 처리
@@ -59,5 +61,12 @@ class PortalController(private val portalService: PortalService) {
     @GetMapping("/browserGuide")
     fun getPortalBrowserGuide(): String {
         return portalBrowserGuidePage
+    }
+
+    @GetMapping("/faq")
+    fun getPortalFaq(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
+        val result = portalService.getFaqList(faqSearchRequestDto)
+        model.addAttribute("faqs", result)
+        return portalFaqPage
     }
 }

@@ -4,6 +4,7 @@ import co.brainz.itsm.download.dto.DownloadDto
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
 import co.brainz.itsm.faq.dto.FaqListDto
+import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.mapper.FaqMapper
 import co.brainz.itsm.faq.repository.FaqRepository
 import co.brainz.itsm.notice.dto.NoticeListDto
@@ -14,6 +15,7 @@ import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.data.domain.PageRequest
 import org.springframework.data.domain.Pageable
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 
 @Service
@@ -75,5 +77,23 @@ class PortalService(
         top["download"] = downloadTopList
 
         return top
+    }
+
+    fun getFaqList(faqSearchRequestDto: FaqSearchRequestDto): LinkedHashMap<String, Any> {
+        val faqInfo = LinkedHashMap<String, Any>()
+        faqInfo["faqList"] = faqRepository.findFaqs(faqSearchRequestDto)
+        faqInfo["faqGroupList"] = faqRepository.getAllFaqGroupList()
+        return faqInfo
+    }
+
+    fun getFaq(faqId: String): LinkedHashMap<String, Any> {
+        val faqInfo = LinkedHashMap<String, Any>()
+        // faq content
+        val faqContent = mutableListOf<FaqListDto>()
+        val selectedFaq = faqRepository.findByIdOrNull(faqId)
+        selectedFaq?.let { faqContent.add(faqMapper.toFaqListDto(it)) }
+        faqInfo["faqContent"] = faqContent
+
+        return faqInfo
     }
 }
