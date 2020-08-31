@@ -177,12 +177,13 @@ h6 {
   padding: 0 0 0 0.625rem;
 }
 
-.under-bar {
+h3.under-bar {
   padding-bottom: 0.625rem;
   margin-bottom: 0.625rem;
   border-bottom: 0.125rem solid #E1E3E6;
+  margin-top: 3.125rem;
 }
-.under-bar :first-child {
+h3.under-bar:first-of-type {
   margin-top: 0;
 }
 
