@@ -5,7 +5,9 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.folder.service.FolderService
 import co.brainz.itsm.instance.service.InstanceService
+import co.brainz.itsm.token.service.TokenService
 import co.brainz.itsm.user.service.UserService
+import co.brainz.workflow.provider.dto.RestTemplateTokenSearchListDto
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import javax.servlet.http.HttpServletRequest
@@ -22,11 +24,13 @@ import org.springframework.web.bind.annotation.RequestParam
 class TokenController(
     private val userService: UserService,
     private val instanceService: InstanceService,
-    private val folderService: FolderService
+    private val folderService: FolderService,
+    private val tokenService: TokenService
 ) {
 
     private val statusPage: String = "redirect:/certification/status"
     private val tokenSearchPage: String = "token/tokenSearch"
+    private val tokenListPage: String = "token/tokenList"
     private val tokenEditPage: String = "token/tokenEdit"
     private val tokenPrintPage: String = "token/tokenPrint"
     private val tokenPopUpPage: String = "/token/tokenPopUp"
@@ -49,6 +53,12 @@ class TokenController(
             AliceUserConstants.Status.EDIT.code -> return statusPage
         }
         return tokenSearchPage
+    }
+
+    @GetMapping("/list")
+    fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto, model: Model): String {
+        model.addAttribute("tokenList", tokenService.getTokenList(restTemplateTokenSearchListDto))
+        return tokenListPage
     }
 
     /**

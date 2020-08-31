@@ -1,0 +1,45 @@
+.help-tooltip {
+    display: inline-block;
+    margin-left: 0.3125rem; // 5px
+    width: 0.9375rem; // 15px
+    height: 0.9375rem; // 15px
+    vertical-align: middle;
+
+    .help-tooltip-icon:before {
+        content: url($image-folder-path + "icon_info.png");
+    }
+
+    .tooltip-contents {
+        visibility: hidden;
+        background-color: white;
+        width: 22.5rem; // 60px
+        font-size: 0.8125rem; // 13x;
+        color: $alice-primary;
+        border: 0.0625rem solid $alice-primary; // 1px
+        border-radius: 0.0625rem; // 1px
+        padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
+        position: absolute;
+        z-index: 1;
+        box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2); // 5px
+        line-height: 1.25rem; // 20px
+    }
+
+    &:hover {
+        .tooltip-contents {
+            visibility: visible;
+            -webkit-transform-origin: 100% 0%;
+            transform-origin: 100% 0%;
+            -webkit-animation-delay: 0s;
+            animation-delay: 0s;
+            -webkit-animation-duration: 0.3s;
+            animation-duration: 0.3s;
+            -webkit-animation-name: fadeIn;
+            animation-name: fadeIn;
+            -webkit-animation-timing-function: ease-in-out;
+            animation-timing-function: ease-in-out;
+        }
+        .help-tooltip-icon {
+            content: url($image-folder-path + "icon_info_select.png");
+        }
+    }
+}

@@ -1,4 +1,4 @@
-@import "../../_reset.scss";
+@import "../../common/reset";
 @import "_font.scss";
 @import "_variables.scss";
 @import "_mixin.scss";
@@ -15,3 +15,4 @@
 @import "_button.scss";
 @import "_alignment.scss";
 @import "_quill.scss";
+@import "_tooltip.scss";

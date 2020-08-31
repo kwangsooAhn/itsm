@@ -170,6 +170,10 @@
             .text-editor {
                 height: 12.5rem; // 200px
             }
+            .label-row {
+                display: flex;
+                align-items: center;
+            }
         }
     }
 }

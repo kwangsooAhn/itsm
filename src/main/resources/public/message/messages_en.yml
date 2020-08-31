@@ -41,6 +41,7 @@ common:
     updateUser: "Update User"
     writeDate: "Write Date"
     writer: "Writer"
+    searchWord: "Please enter your search term"
   msg:
     confirmDelete: "Are you sure you want to delete?"
     delete: "Deleted."
@@ -314,6 +315,7 @@ document:
     requiredFileupload: "Please upload a file."
     confirmDeleteInstance: "Are you sure you want to delete all documents created in a temporary state?"
     description: "workflow edit"
+    listDescription: "workflow edit"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -641,11 +643,13 @@ role:
     id: "Role Id"
     name: "Role Name"
     referenceCount: "Reference Count"
+    manage: "Role Management"
     role: "Role"
   msg:
     enterRoleId: "Please enter a role id."
     enterRoleName: "Please enter a role name."
     selectAuth: "Please select a auth."
+    description: "Role management."
 
 # Token
 token:

@@ -6,10 +6,15 @@
     }
 
     &-background {
-        background-color: $alice-primary;
+        background-color: $point-blue;
         height: 100%;
         width: 80.3125rem;
+        .signup-main-image {
+            position: absolute;
+            bottom: 0; // .1875rem; // 99px
+        }
     }
+
 
     &-login-face {
         position: absolute;
@@ -29,17 +34,19 @@
         vertical-align: middle;
     }
 
-    &-main-image {
-        position: absolute;
-        top: 6.1875rem; // 99px
-        left: 11.125rem; // 178px
-    }
-
     &-form {
         margin: 5.6875rem 8.0rem 0rem 88.9063rem; // 91px 128px 0 1422.5px
         width: 22.5rem; // 360px
         position: absolute;
         top: 0;
+        h1 {
+            margin-bottom: 0.625rem; // 10px
+            text-align: center;
+        }
+        .signup-base-form {
+            display: flex;
+            flex-direction: column;
+        }
     }
 
     &-btn {

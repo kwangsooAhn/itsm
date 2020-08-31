@@ -19,7 +19,7 @@
                 <input class="search column-5" id="search" type="text" maxlength="100" th:placeholder="#{process.label.searchPlaceholder}">
             </div>
             <div class="right">
-                <button th:class="btn-import" onclick="openProcessImport();" sec:authorize="hasAuthority('process.create')"/>
+                <button th:class="default-line" onclick="openProcessImport();" sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
                 <button th:class="default-fill" onclick="openProcessEdit();" sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
@@ -94,7 +94,7 @@
 
         // 프로세스 IMPORT 화면 오픈
         function openProcessImport() {
-            window.open('/processes/import', 'process_import', 'width=600, height=350');
+            window.open('/processes/import', 'process_import', 'width=600, height=450');
         }
 
         // REST API

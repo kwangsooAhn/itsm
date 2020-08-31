@@ -4,15 +4,26 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
+    <title th:text="#{image.label.list}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents">
-        <div class="contents-title">
-            <h1 th:text="#{image.label.list}"></h1>
-            <span class="title-description" th:text="#{image.msg.description}"></span>
+    <div class="contents-edit scroll-wrap">
+        <div class="header">
+            <div class="page-title">
+                <h1 th:text="#{image.label.list}"></h1>
+                <h6 class="title-description" th:text="#{image.msg.description}"></h6>
+            </div>
+            <div class="search-area">
+                <div class="left">
+                    <form id="searchFrm">
+                        <input class="search column-5" id="searchValue" name="searchValue" type="text" maxlength="100"
+                               th:placeholder="이미지명"/>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div class="contents-body">
+        <div class="image-list">
             <div class="thumbnail-container"></div>
         </div>
     </div>

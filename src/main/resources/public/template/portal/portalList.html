@@ -1,47 +1,20 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-    <meta charset="UTF-8">
-    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
 <body>
-<div class="alicePortal">
-    <div class="portal-search-top">
-        <img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
-        <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
-        <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'" th:text="#{portal.label.login}"></div>
-    </div>
-    <div class="portal-search-main">
-        <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
-        <input class="icon" type="text" id="searchValue" name="searchValue" placeholder="검색어를 입력해주세요." onKeydown="javascript:if(event.keyCode == 13) locationSubmit('get', '/portal/list?page=0'); "/>
-    </div>
-    <div class="portal-search-result">
-        <div class="list">
-            <div class="row" th:each="portalList : ${portalList}">
-                <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
-                <div class="content-box">
-                    <div class="title text-ellipsis"><a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a></div>
-                    <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
-                </div>
-            </div>
-            <div class="row" th:if="${#arrays.isEmpty(portalList)}">
-                <div class="no-data" th:text="#{common.msg.noData}"></div>
-            </div>
+<div class="list">
+    <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
+    <div class="row" th:each="portalList : ${portalList}">
+        <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
+        <div class="content-box">
+            <div class="title text-ellipsis">
+                <a href="#N" th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a></div>
+            <div class="content text-ellipsis" th:text="${portalList.portalContent}"></div>
         </div>
+    </div>
+    <div class="row" th:if="${#arrays.isEmpty(portalList)}">
+        <div class="no-data" th:text="#{common.msg.noData}"></div>
     </div>
 </div>
 </body>
-<script th:src="@{/assets/js/util/util-alice.js}"></script>
-<script type="text/javascript" th:inline="javascript">
-    /*<![CDATA[ */
-    function locationSubmit(method, url) {
-        const data = {
-            searchValue: encodeURIComponent(document.getElementById('searchValue').value.trim())
-        };
-        location.href = url + '&searchValue=' + data.searchValue;
-    }
-    /* ]]> */
-</script>
 </html>

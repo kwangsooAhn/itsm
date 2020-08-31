@@ -41,6 +41,7 @@ common:
     updateUser: "수정자"
     writeDate: "작성 일시"
     writer: "작성자"
+    searchWord: "검색어를 입력하세요"
   msg:
     confirmDelete: "정말 삭제하시겠습니까?"
     delete: "삭제되었습니다."
@@ -314,6 +315,7 @@ document:
     requiredFileupload: "파일을 업로드하세요."
     confirmDeleteInstance: "임시 상태로 작성된 문서 모두 삭제하시겠습니까?"
     description: "프로세스와 문서양식을 조합하여 업무흐름을 편집할 수 있습니다."
+    listDescription: "프로세스와 문서양식을 조합하여 업무흐름을 편집할 수 있습니다."
   display:
     editable: "수정 가능"
     editableRequired: "수정 가능(필수값)"
@@ -641,11 +643,13 @@ role:
     id: "역할 아이디"
     name: "역할 명"
     referenceCount: "사용자 참조 개수"
+    manage: "역할관리"
     role: "역할"
   msg:
     enterRoleId: "역할 아이디를 입력하세요."
     enterRoleName: "역할 명을 입력하세요."
     selectAuth: "권한을 선택하세요."
+    description: "역할을 관리하세요."
 
 # Token
 token:

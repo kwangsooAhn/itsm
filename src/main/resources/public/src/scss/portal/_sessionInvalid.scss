@@ -1,71 +1,52 @@
 .session-body {
-  width: 100vw;
-  height: 100vh;
-  margin: 0rem; /* 0px */
-  padding: 0rem; /* 0px */
-  font-size: 0rem; /* 0px */
-  overflow: auto;
+    width: 100vw;
+    height: 100vh;
+    margin: 0rem;
+    padding: 0rem;
+    font-size: 0rem;
+    overflow: auto;
 }
 
 .session-div {
-  width: 100vw;
-  height: 100vh;
-
-  .session-div-left {
-    width: 50vw;
+    width: 100vw;
     height: 100vh;
-    float: left;
-    background-color: #eff4fa;
+
+    .session-div-left {
+        width: 50vw;
+        height: 100vh;
+        float: left;
+        background-color: #F2F5F9;
+    }
 
     .session-img {
-      width: 60rem; /* 960px */
-      height: 58.5625rem /* 937px */
-    }
-  }
-
-  .session-div-right {
-    width: 50vw;
-    height: 100vh;
-    float: right;
-
-    .session-img {
-      position: relative;
-      margin: 16.1875rem 0rem 4.875rem 7.625rem; /* 259px 0px 78px 122px */
+        position: relative;
+        top: -59.1875rem; // -947px
+        margin: 5rem 0 0 5rem; // 80px 80x
     }
 
-    .session-sessionExpired-txt {
-      margin: 0rem 0rem 1.5rem 7.625rem; /* 0px 0px 24px 122px */
-      font-size: 2.1875rem; /* 35px */
-      color: #47556a;
-      font-weight: 500;
+    .session-div-right {
+        float: right;
+        background-color: white;
+        padding: 21.5625rem 6.25rem; // 345px 100px
+        border-left: 0.0625rem solid $line-gray;
+
+        h1 {
+            line-height: 1.7;
+        }
+
+        .session-count-txt {
+            color: $point-blue;
+        }
     }
-
-    .session-p {
-      margin: 0rem 0rem 10.3125rem 7.625rem; /* 0px 0px 165px 122px */
-
-      .session-count-txt {
-        font-size: 2.1875rem; /* 35px */
-        color: #0050ff;
-        font-weight: 500;
-      }
-
-      .session-returnLogin-txt {
-        color: #47556a;
-        font-size: 2.1875rem; /* 35px */
-        font-weight: 500;
-      }
-    }
-  }
 }
-
 .session-btn {
-  background-color: #0050FF;
-  border-color: #0048E6;
-  color: #FFFFFF;
-  font-size: 1.25rem; /* 20px */
-  margin-left: 7.625rem; /* 122px */
-  width: 22.5rem; /* 360px */
-  height: 3.4375rem; /* 55px */
-  border-radius: 0.0625rem; /* 1px */
-  border-width: 0.0625rem; /* 1px */
+    margin-top: 6.25rem; // 100px
+    background-color: $point-blue;
+    color: #FFFFFF;
+    font-size: 1rem; // 16px
+    font-weight: 500;
+    width: 11.875rem; // 190px
+    height: 2.5rem; // 40px
+    border-radius: 0.0625rem; // 1px
+    border-width: 0.0625rem; // 1px
 }
