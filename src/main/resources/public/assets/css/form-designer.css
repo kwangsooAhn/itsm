@@ -3641,15 +3641,6 @@ body.thumbnail-modal-active {
   color: #586872;
   line-height: 24px;
   padding: 0.625rem;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-.ql-container.ql-snow .ql-editor::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
 }
 
 .ql-container.ql-snow .ql-editor .ql-blank::before {
