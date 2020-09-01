@@ -90,12 +90,17 @@
         const STATUS_ERROR_CODE_DUPLICATION = '2';
         const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '3';
         const STATUS_ERROR_CODE_P_CODE_USED = '4';
-        let AUTH_DELETE = false;
+        /*let AUTH_DELETE = false;
         let AUTH_CREATE = false;
-        let AUTH_UPDATE = false;
+        let AUTH_UPDATE = false;*/
 
         window.addEventListener('load', function() {
-            if (document.getElementById('btnUpdate') !== null) {
+            document.querySelector('#btnRegist').style.display = 'none';
+            document.querySelector('#btnRegist').setAttribute('disabled', 'true');
+
+            // tree 리스트 첫번쨰 자동선택해서 데이터 뿌리기
+
+            /*if (document.getElementById('btnUpdate') !== null) {
                 AUTH_UPDATE = true;
             }
             if (document.getElementById('btnRegist') !== null) {
@@ -103,19 +108,19 @@
             }
             if (document.getElementById('btnDelete') !== null) {
                 AUTH_DELETE = true;
-            }
-            let first = document.querySelector('li[name=codeList]');
-            onGetDetail(first.getAttribute('id'));
+            }*/
+            //let first = document.querySelector('li[name=codeList]');
+            //onGetDetail(first.getAttribute('id'));
 
-            let codeList = document.querySelectorAll('li[name=codeList]');
+            /*let codeList = document.querySelectorAll('li[name=codeList]');
             for(let i = 0; i < codeList.length; i++) {
                 codeList[i].addEventListener('click', function() {
                     onGetDetail(this.id);
                 });
-            }
+            }*/
 
             function onGetDetail(codeId) {
-                if (AUTH_UPDATE) {
+                /*if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
                     document.getElementById('btnUpdate').disabled = false;
                 }
@@ -125,7 +130,7 @@
                 if (AUTH_DELETE) {
                     document.getElementById('btnDelete').style.display = 'block';
                     document.getElementById('btnDelete').disabled = false;
-                }
+                }*/
 
                 const opt = {
                     method: 'get',
@@ -153,23 +158,16 @@
 
         /** create **/
         function onCreate() {
-            if (AUTH_UPDATE) {
-                document.getElementById('btnUpdate').style.display = 'none';
-            }
-            if (AUTH_CREATE) {
-                document.getElementById('btnRegist').style.display = 'block';
-            }
-            if (AUTH_DELETE) {
-                document.getElementById('btnDelete').style.display = 'none';
-            }
-            document.getElementById('txtCode').value = '';
-            document.getElementById('txtCode').removeAttribute('readonly');
-            document.getElementById('txtPCode').value = '';
-            document.getElementById('txtCodeDesc').value = '';
-            document.getElementById('txtCreateUserName').innerHTML = '';
-            document.getElementById('txtCreateDt').innerHTML = '';
-            document.getElementById('txtUpdateUserName').innerHTML = '';
-            document.getElementById('txtUpdateDt').innerHTML = '';
+            document.querySelector('#btnUpdate').style.display = 'none';
+            document.querySelector('#btnUpdate').setAttribute('disabled', 'true');
+            document.querySelector('#btnDelete').style.display = 'none';
+            document.querySelector('#btnDelete').setAttribute('disabled', 'true');
+            document.querySelector('#btnRegist').removeAttribute('disabled');
+            document.querySelector('#btnRegist').style.display = 'block';
+            document.querySelectorAll('input[type=text]').forEach(function(object){
+                object.value = '';
+            });
+            document.querySelector('textarea').value = '';
         }
 
         /** save **/
