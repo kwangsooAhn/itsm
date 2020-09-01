@@ -1,77 +1,84 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
 <head>
     <title>코드 관리</title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto auto auto;">
-        <h1 th:text="#{menu.config.code}">></h1>
-        <div align="right">
-            <button sec:authorize="hasAuthority('code.create')" type="button" id="btnCreate" name="btnCreate"
-                    th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
-        </div>
-        <hr>
-        <div style="height:275px; width:inherit; display:-webkit-inline-box;">
-            <div style="width:20%; height:inherit; border:1px solid; margin-right:1rem; overflow:overlay;">
-                <ul th:each="codeList : ${codeList}">
-                    <li name="codeList" th:text="${codeList.code}" th:id="${codeList.code}" style="cursor: pointer;"></li>
-                </ul>
+    <div class="contents-tree-edit">
+        <div class="tree-area">
+            <div class="page-title">
+                <h1 th:text="#{menu.config.code}">></h1>
+                <h6 class="title-description" th:text="#{code.msg.description}"></h6>
             </div>
-            <table border="1">
-                <colgroup>
-                    <col width="15%">
-                    <col width="35%">
-                    <col width="15%">
-                    <col width="35%">
-                </colgroup>
-                <tr>
-                    <th class="required" th:text="#{code.label.code}"></th>
-                    <td><input id="txtCode" name="txtCode" type="text" th:value="${codeDetail?.code}" maxlength="100"/></td>
-                    <th th:text="#{code.label.pCode}"></th>
-                    <td><input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/></td>
-                </tr>
-                <tr>
-                    <th th:text="#{code.label.codeValue}"></th>
-                    <td colspan="3">
-                        <textarea id="txtCodeDesc" name="txtCodeDesc" maxlength="200" rows="7" style="width: -webkit-fill-available; resize: none;" th:text="${codeDetail?.codeValue}"></textarea>
-                    </td>
-                </tr>
-                <tr>
-                    <th th:text="#{common.label.createUser}"></th>
-                    <td><span id="spanCreateUserName" name="spanCreateUserName" th:text="${codeDetail?.createUserName}"></span></td>
-                    <th th:text="#{common.label.updateUser}"></th>
-                    <td><span id="spanUpdateUserName" name="spanUpdateUserName" th:text="${authDetail?.updateUserName}"></span></td>
-                </tr>
-                <tr>
-                    <th th:text="#{common.label.createDate}"></th>
-                    <td><span id="spanCreateDt" name="spanCreateDt"></span></td>
-                    <th th:text="#{common.label.updateDate}"></th>
-                    <td><span id="spanUpdateDt" name="spanUpdateDt"></span></td>
-                </tr>
-            </table>
+            <div class="search-area">
+                <div class="left">
+                    <input id="search" class="search column-5">
+                    <span id="totalCount" class="txt-num"></span>
+                </div>
+                <div class="right">
+                    <button class="default-fill" id="btnCreate" name="btnCreate" type="button"
+                            sec:authorize="hasAuthority('code.create')" th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
+                </div>
+            </div>
+            <div class="list">
+                여기 트리
+            </div>
         </div>
-        <hr>
-        <!-- buttons -->
-        <table style="float:right">
-            <tr>
-                <td>
-                    <button sec:authorize="hasAuthority('code.delete')" type="button" id="btnDelete" name="btnDelete"
-                            th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
-                </td>
-                <td>
-                    <button sec:authorize="hasAuthority('code.update')" type="button" id="btnUpdate" name="btnUpdate"
-                            th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-                </td>
-                <td>
-                    <button sec:authorize="hasAuthority('code.create')" type="button" id="btnRegist" name="btnRegist"
-                            th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-                </td>
-            </tr>
-        </table>
+        <div class="edit-area">
+            <div class="scroll-wrap">
+                <div class="form-wrap">
+                    <div class="form-row">
+                        <div class="form-set column-2">
+                            <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
+                            <input id="txtCode" name="txtCode" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
+                        </div>
+                        <div class="form-set column-2">
+                            <label th:text="#{code.label.pCode}" for="txtPCode"></label>
+                            <input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/>
+                        </div>
+                    </div>
+                    <div class="form-set">
+                        <label th:text="#{code.label.codeValue}" for="txtCodeDesc"></label>
+                        <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7" th:text="${codeDetail?.codeValue}"></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-set column-2">
+                            <label th:text="#{common.label.createUser}"></label>
+                            <input id="txtCreateUserName" name="txtCreateUserName" type="text" th:value="${codeDetail?.createUserName}" th:disabled="true" maxlength="100"/>
+                        </div>
+                        <div class="form-set column-2">
+                            <label th:text="#{common.label.updateUser}"></label>
+                            <input id="txtUpdateUserName" name="txtUpdateUserName" type="text" th:value="${codeDetail?.updateUserName}" th:disabled="true" maxlength="100"/>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-set column-2">
+                            <label th:text="#{common.label.createDate}"></label>
+                            <input id="txtCreateDt" name="txtCreateDt" type="text" th:disabled="true" maxlength="100"/>
+                        </div>
+                        <div class="form-set column-2">
+                            <label th:text="#{common.label.updateDate}"></label>
+                            <input id="txtUpdateDt" name="txtUpdateDt" type="text" th:disabled="true" maxlength="100"/>
+                        </div>
+                    </div>
+                    <div class="btn-bar margin-top-50">
+                        <button sec:authorize="hasAuthority('code.delete')"
+                                class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                                th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                        <button sec:authorize="hasAuthority('code.update')"
+                                class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                                th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
+                        <button sec:authorize="hasAuthority('code.create')"
+                                class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                                th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </th:block>
 </body>
@@ -129,10 +136,10 @@
                         document.getElementById('txtCode').setAttribute('readonly','true');
                         document.getElementById('txtPCode').value = responseJson.pcode;
                         document.getElementById('txtCodeDesc').value = responseJson.codeValue;
-                        document.getElementById('spanCreateUserName').innerHTML = responseJson.createUserName;
-                        document.getElementById('spanCreateDt').innerHTML = i18n.userDateTime(responseJson.createDt);
-                        document.getElementById('spanUpdateUserName').innerHTML = responseJson.updateUserName;
-                        document.getElementById('spanUpdateDt').innerHTML = i18n.userDateTime(responseJson.updateDt);
+                        document.getElementById('txtCreateUserName').innerHTML = responseJson.createUserName;
+                        document.getElementById('txtCreateDt').innerHTML = i18n.userDateTime(responseJson.createDt);
+                        document.getElementById('txtUpdateUserName').innerHTML = responseJson.updateUserName;
+                        document.getElementById('txtUpdateDt').innerHTML = i18n.userDateTime(responseJson.updateDt);
                         if (!responseJson.enabled) {
                             document.getElementById('btnUpdate').disabled = true;
                             document.getElementById('btnDelete').disabled = true;
@@ -146,7 +153,7 @@
 
         /** create **/
         function onCreate() {
-			if (AUTH_UPDATE) {
+            if (AUTH_UPDATE) {
                 document.getElementById('btnUpdate').style.display = 'none';
             }
             if (AUTH_CREATE) {
@@ -159,10 +166,10 @@
             document.getElementById('txtCode').removeAttribute('readonly');
             document.getElementById('txtPCode').value = '';
             document.getElementById('txtCodeDesc').value = '';
-            document.getElementById('spanCreateUserName').innerHTML = '';
-            document.getElementById('spanCreateDt').innerHTML = '';
-            document.getElementById('spanUpdateUserName').innerHTML = '';
-            document.getElementById('spanUpdateDt').innerHTML = '';
+            document.getElementById('txtCreateUserName').innerHTML = '';
+            document.getElementById('txtCreateDt').innerHTML = '';
+            document.getElementById('txtUpdateUserName').innerHTML = '';
+            document.getElementById('txtUpdateDt').innerHTML = '';
         }
 
         /** save **/
