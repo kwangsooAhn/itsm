@@ -15,9 +15,9 @@
     let defaults = {
         title: i18n.get('image.label.popupTitle'),
         files: [],
-        type: 'image',
-        isThumbnailInfo: true,
-        isFilePrefix: true,
+        type: 'image',         // 타입 : image, icon 등
+        isThumbnailInfo: true, // 하단 정보 출력 여부
+        isFilePrefix: true,    // 파일 선택시 파일명 앞에 'file:///' 추가 여부
         buttons: [{
             content: '확인', //i18n.get('common.btn.check'),
             classes: 'thumbnail-modal-button-default',
