@@ -49,13 +49,6 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
     }
 
     /**
-     * FAQ 카테고리 조회
-     */
-    fun findFaqGroups(faqGroup: String): List<String> {
-        return faqRepository.getFaqGroupList(faqGroup)
-    }
-
-    /**
      * FAQ 데이터 상세 조회
      */
     fun getFaq(faqId: String): FaqListDto? {

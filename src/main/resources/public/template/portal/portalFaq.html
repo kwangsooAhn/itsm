@@ -1,35 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<meta charset="UTF-8">
 	<link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
-	<style>
-        .faqGroup {
-            font-weight: 700;
-            font-size: 1.25rem;
-            width: 100%;
-        }
-        .faqTitle {
-            font-weight: 400;
-            font-size: 1rem;
-            border-bottom: 1px solid #7fc4fd;
-            margin-left: 2rem;
-        }
-        .faqContent {
-            margin-left: 2rem;
-            display: inline-block;
-            font-style: italic;
-            color: #6c757d;
-        }
-        #highlight {
-            background-color: #f1f9ff;
-        }
-    </style>
 </head>
 <body>
-<div class="alicePortal">
+<div class="list">
 	<div class="portal-search-top">
 		<img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
 		<div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
@@ -40,38 +17,29 @@
 		<h6 class="title-description" th:text="#{faq.label.description}"></h6>
 		<!--검색영역 select box-->
 		<div class="portal-faq-select">
-			<select align="left" id="search" onchange="loadXMLDoc(this.value);">
+			<select align="left" id="groupCode" name="groupCode" onchange="faqSearch(this.value);">
 				<option th:text="#{common.code.faq.category.all}" value="" selected></option>
-				<option th:each="faqGroup:${faqs.faqGroupList}" th:text="#{|common.code.${faqGroup}|}" th:value="${faqGroup}"></option>
+				<option th:each="category:${faqCategory}"
+				        th:text="#{|common.code.${category}|}" th:value="${category}"></option>
 			</select>
 		</div>
 	</div>
-	<div class="portal-search-result" id="faqList">
-		<details class="faqGroup" th:each="faqGroup:${faqs.faqGroupList}" th:id="${faqGroup}">
-			<summary th:text="#{|common.code.${faqGroup}|}"></summary>
-			<details class="faqTitle" th:each="faqT:${faqs.faqList}" th:if="${faqT.faqGroup} == ${faqGroup}" th:id="${faqT.faqId}">
-				<summary th:text="${faqT.faqTitle}"></summary>
-				<div th:each="faqC:${faqs.faqList}" th:if="${faqC.faqId} == ${faqT.faqId}" >
-					<p class="faqContent" th:text="${faqC.faqContent}"></p>
-				</div>
-			</details>
-		</details>
-	</div>
+	<div class="portal-search-result"></div>
 </div>
 </body>
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[ */
-	window.onload = function() {
-        loadXMLDoc('');
+	window.onload = function () {
+        faqSearch();
     }
 
-	function loadXMLDoc(param) {
+	function faqSearch() {
         const opt = {
-            method: 'GET',
-            url: '/portal/faq?category=' + param,
+            method: 'get',
+            url: '/portal/faqs/list?&groupCodes=' + encodeURIComponent(document.getElementById('groupCode').value.trim());
             callbackFunc: function(response) {
-                console.log(response);
+                document.querySelector('.portal-search-result').innerHTML = response.responseText;
                 document.getElementsByClassName('faqGroup')[0].open = true;
                 document.getElementsByClassName('faqTitle')[0].open = true;
             }

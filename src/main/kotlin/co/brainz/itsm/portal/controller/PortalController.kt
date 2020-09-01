@@ -26,6 +26,7 @@ class PortalController(private val portalService: PortalService) {
     private val portalListPage: String = "portal/portalList"
     private val portalBrowserGuidePage: String = "portal/portalBrowserGuide"
     private val portalFaqPage: String = "portal/portalFaq"
+    private val portalFaqListPage: String = "portal/portalFaqList"
 
     /**
      * 포탈 검색 화면 호출 처리
@@ -54,10 +55,16 @@ class PortalController(private val portalService: PortalService) {
         return portalBrowserGuidePage
     }
 
-    @GetMapping("/faq")
+    @GetMapping("/faqs")
     fun getPortalFaq(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
+        model.addAttribute("faqCategory", portalService.getFaqCategories())
+        return portalFaqPage
+    }
+
+    @GetMapping("/faqs/list")
+    fun getPortalFaqList(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
         val result = portalService.getFaqList(faqSearchRequestDto)
         model.addAttribute("faqs", result)
-        return portalFaqPage
+        return portalFaqListPage
     }
 }

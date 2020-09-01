@@ -83,10 +83,19 @@ class PortalService(
         return top
     }
 
+    fun getFaqCategories(): List<String> {
+        return faqRepository.getAllFaqGroupList()
+    }
+
     fun getFaqList(faqSearchRequestDto: FaqSearchRequestDto): LinkedHashMap<String, Any> {
         val faqInfo = LinkedHashMap<String, Any>()
-        faqInfo["faqList"] = faqRepository.findFaqs(faqSearchRequestDto)
-        faqInfo["faqGroupList"] = faqRepository.getAllFaqGroupList()
+        val category = faqSearchRequestDto.groupCodes
+        faqInfo["faqGroupList"] =
+            when (category.isNullOrEmpty()) {
+                true -> faqRepository.getAllFaqGroupList()
+                false -> faqRepository.getFaqGroupList(category?.get(0).toString())
+            }
+        faqInfo["faqList"] = faqRepository.findAll()
         return faqInfo
     }
 

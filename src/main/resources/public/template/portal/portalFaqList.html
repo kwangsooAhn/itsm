@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
+	<style>
+        .faqGroup {
+            font-weight: 700;
+            font-size: 1.25rem;
+            width: 100%;
+        }
+        .faqTitle {
+            font-weight: 400;
+            font-size: 1rem;
+            border-bottom: 1px solid #7fc4fd;
+            margin-left: 2rem;
+        }
+        .faqContent {
+            margin-left: 2rem;
+            display: inline-block;
+            font-style: italic;
+            color: #6c757d;
+        }
+        #highlight {
+            background-color: #f1f9ff;
+        }
+    </style>
+</head>
+<body>
+<div class="list">
+	<details class="faqGroup" th:each="faqGroup:${faqs.faqGroupList}" th:id="${faqGroup}">
+		<summary th:text="#{|common.code.${faqGroup}|}"></summary>
+		<details class="faqTitle" th:each="faqT:${faqs.faqList}" th:if="${faqT.faqGroup} == ${faqGroup}" th:id="${faqT.faqId}">
+			<summary th:text="${faqT.faqTitle}"></summary>
+			<div th:each="faqC:${faqs.faqList}" th:if="${faqC.faqId} == ${faqT.faqId}" >
+				<p class="faqContent" th:text="${faqC.faqContent}"></p>
+			</div>
+		</details>
+	</details>
+</div>
+</body>
+</html>

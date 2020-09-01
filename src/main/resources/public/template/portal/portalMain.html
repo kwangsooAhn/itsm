@@ -36,7 +36,7 @@
             </li>
             <li class="part-box">
                 <div class="header">
-                    <div class="icon">
+                    <div class="icon" onclick="location.href='/portal/faqs'">
                         <img th:src="@{/assets/media/image/portal/graphic_faq.png}"/>
                     </div>
                     <h3 th:text="#{menu.faq.parent}"></h3>
@@ -63,7 +63,6 @@
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
 <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
 <script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
-<script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
 <script th:inline="javascript">
     /*<![CDATA[ */
     const topSize = 6;
@@ -105,7 +104,10 @@
                         let row = document.createElement('tr');
                         let cell = document.createElement('td');
                         let contentAnchor = document.createElement('a');
+
+                        <!--각 메뉴별 id 이동 링크 추가할 부분-->
                         contentAnchor.setAttribute('href', '#N');
+
                         let contentText = document.createElement('h5');
                         contentText.classList.add('text-ellipsis');
                         let dt = (data['updateDt'] == null) ? data['createDt'] : data['updateDt']
@@ -227,4 +229,5 @@
     }
     /* ]]> */
 </script>
+<script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
 </html>
