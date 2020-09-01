@@ -15,15 +15,18 @@
     let defaults = {
         title: i18n.get('image.label.popupTitle'),
         files: [],
+        type: 'image',         // 타입 : image, icon 등
+        isThumbnailInfo: true, // 하단 정보 출력 여부
+        isFilePrefix: true,    // 파일 선택시 파일명 앞에 'file:///' 추가 여부
         buttons: [{
-            content: i18n.get('common.btn.check'),
+            content: '확인', //i18n.get('common.btn.check'),
             classes: 'thumbnail-modal-button-default',
             bindKey: false,
             callback: function(modal) {
                 modal.save();
             }
         }, {
-            content: i18n.get('common.btn.close'),
+            content: '닫기', // i18n.get('common.btn.close'),
             classes: 'thumbnail-modal-button-default',
             bindKey: false,
             callback: function(modal) {
@@ -181,7 +184,11 @@
             }
             const targetElem = document.getElementById(options.targetId);
             if (targetElem) {
-                targetElem.value = 'file:///' + selectedFile.dataset.name;
+                if (options.isFilePrefix) {
+                    targetElem.value = 'file:///' + selectedFile.dataset.name;
+                } else {
+                    targetElem.value = selectedFile.dataset.name;
+                }
                 targetElem.dispatchEvent(new Event('focusout'));
             }
             this.hide();
@@ -204,7 +211,7 @@
             }
         };
 
-        this.create = function() { // 모달 draw
+        this.create = function(options) { // 모달 draw
             if (typeof this.wrapper !== 'undefined') { return; }
             let backdrop, dialog;
 
@@ -251,28 +258,35 @@
                     container.appendChild(thumbnail);
 
                     const thumbnailImg = document.createElement('div');
-                    thumbnailImg.className = 'thumbnail-img';
+                    if(options.type === 'image') {
+                        thumbnailImg.className = 'thumbnail-img';
+                    } else if (options.type === 'icon') {
+                        thumbnailImg.className = 'thumbnail-icon';
+                        thumbnailImg.style.backgroundSize = '50%';
+                    }
                     thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
                     thumbnail.appendChild(thumbnailImg);
 
-                    const thumbnailInfo = document.createElement('div');
-                    thumbnailInfo.className = 'thumbnail-info';
-                    thumbnail.appendChild(thumbnailInfo);
+                    if (options.isThumbnailInfo) {
+                        const thumbnailInfo = document.createElement('div');
+                        thumbnailInfo.className = 'thumbnail-info';
+                        thumbnail.appendChild(thumbnailInfo);
 
-                    const thumbnailName = document.createElement('p');
-                    thumbnailName.className = 'thumbnail-info-text';
-                    thumbnailName.innerHTML = `<label>${file.name}</label>`;
-                    thumbnailInfo.appendChild(thumbnailName);
+                        const thumbnailName = document.createElement('p');
+                        thumbnailName.className = 'thumbnail-info-text';
+                        thumbnailName.innerHTML = `<label>${file.name}</label>`;
+                        thumbnailInfo.appendChild(thumbnailName);
 
-                    const thumbnailSize = document.createElement('p');
-                    thumbnailSize.className = 'thumbnail-info-text';
-                    thumbnailSize.innerHTML = `<label>${file.width} X ${file.height} ${file.size}</label>`;
-                    thumbnailInfo.appendChild(thumbnailSize);
+                        const thumbnailSize = document.createElement('p');
+                        thumbnailSize.className = 'thumbnail-info-text';
+                        thumbnailSize.innerHTML = `<label>${file.width} X ${file.height} ${file.size}</label>`;
+                        thumbnailInfo.appendChild(thumbnailSize);
 
-                    const thumbnailBottom = document.createElement('div');
-                    thumbnailBottom.className = 'thumbnail-bottom';
-                    thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
-                    thumbnail.appendChild(thumbnailBottom);
+                        const thumbnailBottom = document.createElement('div');
+                        thumbnailBottom.className = 'thumbnail-bottom';
+                        thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
+                        thumbnail.appendChild(thumbnailBottom);
+                    }
                 }
             } else { // 썸네일이 존재하지 않을 경우 안내 문구 표시
                 let thumbnailNodataTemplate = `
@@ -346,7 +360,7 @@
             }
         };
 
-        this.create();
+        this.create(options);
     }
 
     /**
@@ -361,7 +375,7 @@
         // 이미지 파일 로드
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/images/list',
+            url: '/rest/images/list?type=' + options.type,
             callbackFunc: function(xhr) {
                 const files = JSON.parse(xhr.responseText);
                 options.files = files;

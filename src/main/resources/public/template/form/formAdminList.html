@@ -31,12 +31,12 @@
                 </td>
                 <td width="10%">
                     <a th:attr="onclick=|openFormDesignerView('${form.id}')|">
-                        <img src="../assets/media/icons/process/list/icon_preview.png"></a>
+                        <img src="../assets/media/icons/process/list/icon_preview.svg"></a>
                 </td>
                 <td width="10%">
                     <a sec:authorize="hasAuthority('form.update')" th:disabled="${!form.editable}"
                        th:attr="onclick=|openFormDesignerEdit('${form.id}')|">
-                       <img src="../assets/media/icons/process/list/icon_edit.png"></a>
+                       <img src="../assets/media/icons/process/list/icon_edit.svg"></a>
                 </td>
                 <td width="10%" th:text="#{${form.status}}"></td>
                 <td width="30%" th:class="align-left" th:text="${form.desc}"></td>

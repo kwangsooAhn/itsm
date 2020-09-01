@@ -21,13 +21,20 @@ h6 {
     padding: 0 0 0 .625rem; // 10px
 }
 
-.under-bar {
+h3.under-bar {
     padding-bottom: 0.625rem; // 10px
     margin-bottom: 0.625rem; //10px
     border-bottom: 0.125rem solid $default-gray; // 2px
-    :first-child {
+    margin-top: 3.125rem; // 50px
+    &:first-of-type {
         margin-top: 0;
     }
+}
+
+h4.under-bar {
+    padding-bottom: 0.625rem; // 10px
+    margin-bottom: 0.625rem; //10px
+    border-bottom: 0.125rem solid $default-gray; // 2px
 }
 
 span {margin: auto 0;}

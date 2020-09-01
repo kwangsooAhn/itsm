@@ -18,6 +18,7 @@ common:
     saveAs: "SAVE AS"
     update: "UPDATE"
     write: "WRITE"
+    select: "SELECT"
   label:
     attachFile: "Attach file"
     blank: " "
@@ -304,6 +305,7 @@ document:
     status: "Service Request Status"
     type: "Document Type"
     write: "Service Request Write"
+    icon: "Document Icon"
   msg:
     checkDocument: "Please check the document again."
     enterBusinessFlowColor: "Please enter Business Flow Color."

@@ -21,7 +21,7 @@
                 <input class="search column-5" id="search" type="text" maxlength="100" th:placeholder="#{form.label.searchPlaceholder}"/>
             </div>
             <div class="right">
-                <button class="btn-import" type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')"/>
+                <button class="default-line" type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
                 <button class="default-fill" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
