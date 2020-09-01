@@ -8,36 +8,40 @@
 <body>
 <th:block layout:fragment="content">
     <div class="contents-token">
-        <div class="header">
-            <div class="page-title">
-                <h1 th:text="#{token.label.list}"></h1>
-                <h6 class="title-description" th:text="#{token.msg.description}"></h6>
-            </div>
-            <div class="search-area">
-                <div class="left">
-                    <form id="frmSearch">
-                        <select class="column-3" name="searchTokenType" id="searchTokenType">
-                            <option value="token.type.todo" th:text="#{token.type.todo}" selected/>
-                            <option value="token.type.requested" th:text="#{token.type.requested}"/>
-                            <option value="token.type.progress" th:text="#{token.type.progress}"/>
-                            <option value="token.type.completed" th:text="#{token.type.completed}"/>
-                        </select>
-                        <select class="column-3" name="searchDocumentId" id="searchDocumentId">
-                            <option value="" th:text="#{token.label.all}" selected="selected"/>
-                            <option th:each="document: ${documentList}" th:value="${document.documentId}"
-                                    th:text="${document.documentName}"/>
-                        </select>
-                        <input class="search column-3" type="text" name="searchValue" id="searchValue"
-                               th:placeholder="#{token.label.searchPlaceholder}"/>
-                        <input type="text" id="searchFromDt" name="searchFromDt" class="search-date column-2"
-                               readonly="readonly"/>
-                        <input type="text" id="toDt" name="toDt" class="search-date column-2" readonly="readonly"/>
-                        <input type="hidden" id="searchToDt" name="searchToDt" class="search-date column-2"
-                               readonly="readonly"/>
-                    </form>
+        <div>
+            <div id="header" class="header">
+                <div class="page-title">
+                    <h1 th:text="#{token.label.list}"></h1>
+                    <h6 class="title-description" th:text="#{token.msg.description}"></h6>
                 </div>
-                <div class="right">
-                    <span class="total-count" id="totalCount"></span>
+            </div>
+            <div id="search-area" class="search-area">
+                <div>
+                    <div class="left">
+                        <form id="frmSearch">
+                            <select class="column-3" name="searchTokenType" id="searchTokenType">
+                                <option value="token.type.todo" th:text="#{token.type.todo}" selected/>
+                                <option value="token.type.requested" th:text="#{token.type.requested}"/>
+                                <option value="token.type.progress" th:text="#{token.type.progress}"/>
+                                <option value="token.type.completed" th:text="#{token.type.completed}"/>
+                            </select>
+                            <select class="column-3" name="searchDocumentId" id="searchDocumentId">
+                                <option value="" th:text="#{token.label.all}" selected="selected"/>
+                                <option th:each="document: ${documentList}" th:value="${document.documentId}"
+                                        th:text="${document.documentName}"/>
+                            </select>
+                            <input class="search column-3" type="text" name="searchValue" id="searchValue"
+                                   th:placeholder="#{token.label.searchPlaceholder}"/>
+                            <input type="text" id="searchFromDt" name="searchFromDt" class="search-date column-2"
+                                   readonly="readonly"/>
+                            <input type="text" id="toDt" name="toDt" class="search-date column-2" readonly="readonly"/>
+                            <input type="hidden" id="searchToDt" name="searchToDt" class="search-date column-2"
+                                   readonly="readonly"/>
+                        </form>
+                    </div>
+                    <div class="right">
+                        <span class="total-count" id="totalCount"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,16 +92,28 @@
             if (!isScroll) {
                 tokenListElement.innerHTML = '';
             }
-            let listDocumentCount = tokenListElement.querySelectorAll('.token-list-item').length
+            let listDocumentCount = tokenListElement.querySelectorAll('.token-list-item').length;
             aliceJs.sendXhr({
                 method: 'get',
                 url: '/tokens/list?' + aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + listDocumentCount,
                 callbackFunc: function (response) {
-                    tokenListElement.innerHTML = response.responseText
+                    tokenListElement.innerHTML = response.responseText;
                     document.querySelectorAll('.create-dt').forEach(tokenCreateDt => {
                         tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
                     });
-                    OverlayScrollbars(document.querySelector('.scroll-wrap'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.scroll-wrap'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollTop = e.target.scrollTop;
+                                if (scrollTop > 20) {
+                                    document.getElementById('header').style.display = 'none';
+                                } else {
+                                    document.getElementById('header').style.display = 'block';
+                                }
+                            }
+                        }
+                    });
                 }
             });
         }
