@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-view">
+    <div class="contents-view scroll-wrap">
         <div class="header">
             <div class="page-title">
                 <h1 th:text="#{board.label.detail}"></h1>
@@ -94,6 +94,7 @@
                 getBoardCommentList();
             }
             initTextEditor(true);
+            OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
         };
 
         //웹에디터 초기화
