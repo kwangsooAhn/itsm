@@ -4,10 +4,16 @@
     min-height: 100vh;
 }
 
-.trash {
+.trash-icon {
     width: 18px;
     height: 20px;
     background: url("../icons/icon_trash.svg") no-repeat center center;
+    &:hover { background-color: rgba(0,0,0,0);}
+}
+.edit-icon {
+    width: 20px;
+    height: 20px;
+    background: url("../icons/icon_edit.svg") no-repeat center center;
     &:hover { background-color: rgba(0,0,0,0);}
 }
 .required::after {
