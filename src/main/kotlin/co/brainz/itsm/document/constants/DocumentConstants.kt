@@ -13,6 +13,11 @@ object DocumentConstants {
     const val DOCUMENT_GROUP_P_CODE = "document.group"
 
     /**
+     * default document icon.
+     */
+    const val DEFAULT_DOCUMENT_ICON = "document_icon_01.png"
+
+    /**
      * document type.
      *
      * @param value

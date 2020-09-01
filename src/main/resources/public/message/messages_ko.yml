@@ -18,6 +18,7 @@ common:
     saveAs: "다른 이름으로 저장"
     update: "변경"
     write: "작성"
+    select: "선택"
   label:
     attachFile: "첨부파일"
     blank: " "
@@ -304,6 +305,7 @@ document:
     status: "신청서 상태"
     type: "업무 흐름 구분"
     write: "신청서 작성"
+    icon: "신청서 아이콘"
   msg:
     checkDocument: "문서를 다시 확인하세요."
     enterBusinessFlowColor: "업무 흐름 색상을 입력하세요."

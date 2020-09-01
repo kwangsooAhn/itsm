@@ -36,8 +36,8 @@
                 .document-icon {
                     overflow: hidden;
                     position: absolute;
-                    top: 3.75rem; // 60px
-                    left: 23.125rem; // 370px
+                    top: 2.75rem; // 44px
+                    left: 22.125rem; // 354px
                 }
                 h3 { @include h3();}
                 h5 { @include h5(); margin-top: 0.3125rem; } // 5px

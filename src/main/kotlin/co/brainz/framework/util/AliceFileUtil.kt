@@ -1,5 +1,6 @@
 package co.brainz.framework.util
 
+import co.brainz.framework.constants.AliceConstants
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -24,6 +25,7 @@ open class AliceFileUtil(
     lateinit var basePath: String
 
     private val thumbnailImageWidth = 300
+    private val thumbnailIconWidth = 100
 
     /**
      * 파일명으로 사용할 값 리턴 (난수화)
@@ -79,12 +81,38 @@ open class AliceFileUtil(
     /**
      * 이미지 사이즈 조정.
      */
-    fun resizeBufferedImage(image: BufferedImage): BufferedImage {
-        var scaledWidth = thumbnailImageWidth
-        if (image.width < scaledWidth) {
-            scaledWidth = image.width
+    fun resizeBufferedImage(image: BufferedImage, type: String): BufferedImage {
+        var scaledWidth = 0
+        var scaledHeight = 0
+        when (type) {
+            AliceConstants.FileType.ICON.code -> {
+                scaledWidth = this.thumbnailIconWidth
+                if (image.width < scaledWidth) {
+                    scaledWidth = image.width
+                }
+                scaledHeight = image.height / (image.width / scaledWidth)
+
+                // 이미지 비율 조정 (아이콘은 가로, 세로 크기가 동일하게 맞춘다.)
+                when {
+                    scaledWidth < scaledHeight -> {
+                        val ratio = scaledHeight / scaledWidth.toDouble()
+                        scaledWidth = (scaledWidth * ratio).toInt()
+                    }
+                    scaledWidth > scaledHeight -> {
+                        val ratio = scaledWidth / scaledHeight.toDouble()
+                        scaledHeight = (scaledHeight * ratio).toInt()
+                    }
+                }
+            }
+            else -> {
+                scaledWidth = this.thumbnailImageWidth
+                if (image.width < scaledWidth) {
+                    scaledWidth = image.width
+                }
+                scaledHeight = image.height / (image.width / scaledWidth)
+            }
         }
-        val scaledHeight = image.height / (image.width / scaledWidth)
+
         val bufferedImage = BufferedImage(scaledWidth, scaledHeight, image.type)
         val g2d = bufferedImage.createGraphics()
         g2d.drawImage(image, 0, 0, scaledWidth, scaledHeight, null)
