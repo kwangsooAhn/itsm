@@ -1,0 +1,48 @@
+.reply {
+    &-body {
+        margin-top: 40px;
+    }
+    &-input-row {
+        padding: 21px 20px;
+        background-color: $light-gray;
+        border-top: 1px solid $line-gray;
+        border-bottom: 1px solid $line-gray;
+        img {
+            flex : none;
+            margin-right: 20px;
+        }
+        button {
+            flex : none;
+            margin-left: 5px;
+        }
+        input {
+            width: 100%;
+        }
+    }
+
+    &-list {
+        border-bottom: 1px solid $line-gray;
+        .vertical-bar {
+            width: 15px;
+            margin: 1px 15px 1px 0;
+        }
+        .reply-info {
+            align-items: center;
+        }
+        .reply-create-date {
+            color: $gray;
+        }
+        .reply-row {
+            margin-top : 30px;
+            margin-bottom: 30px;
+        }
+        .reply-button {
+            margin-left: auto;
+        }
+        .reply-comment {
+            margin-top: 5px;
+            margin-left: 47px;
+            input { width: 100%;}
+        }
+    }
+}

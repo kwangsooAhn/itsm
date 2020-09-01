@@ -147,7 +147,7 @@
             });
 
             OverlayScrollbars(document.querySelector('#txtAuthDesc'), {
-                className: 'scrollbar',
+                className: 'inner-scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,
                 textarea: {
@@ -327,7 +327,7 @@
                         });
                     }
                     document.querySelector('td[name=authName]').click();
-                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'inner-scrollbar' });
                 }
             };
             aliceJs.sendXhr(opt);
@@ -369,10 +369,8 @@
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.roleAuthMapCount);
                     }
-                    OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
-                    Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
-                        OverlayScrollbars(target, { className: 'scrollbar' });
-                    })
+                    OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'inner-scrollbar' });
+                    OverlayScrollbars(document.querySelectorAll('.checkbox-list'), { className: 'inner-scrollbar' });
                 },
             };
             aliceJs.sendXhr(opt);

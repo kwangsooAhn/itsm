@@ -1,5 +1,6 @@
 package co.brainz.itsm.image.controller
 
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
@@ -15,7 +16,7 @@ class ImageController(private val fileService: AliceFileService) {
 
     @GetMapping("")
     fun getImages(request: HttpServletRequest, model: Model): String {
-        model.addAttribute("imageList", fileService.getImageFileList())
+        model.addAttribute("imageList", fileService.getImageFileList(AliceConstants.FileType.IMAGE.code))
         return imageListPage
     }
 }

@@ -1,5 +1,5 @@
 /* 알림 임시 css */
-.notification {
+.notification-menu {
     height: 4.25rem; // 68px
     position: relative;
     display: inline-block;
@@ -13,135 +13,141 @@
     }
     .notification-container {
         position: absolute;
-        border: 0.063rem solid #c8ced8; // 1px
-        background-color: #ffffff;
-        width: 21.875rem; // 350px
-        right: -20rem; // 320px
-        top: 15rem; // 240px
-        color: black;
+        background-color: $white;
+        width: 26.25rem; // 420px
+        bottom: 0;
+        left: calc(#{$nav-width} + 0.3125rem); // 5px은 간격
+        color: $light-black;
         display: none;
-        font-weight: normal;
-        font-size: 0.75rem; // 12px
-        box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
+        border: 0.0625rem solid $line-gray; // 1px
+        box-shadow: 0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
         .notification-header {
-            height: 2.25rem; // 36px
-            line-height: 1.875rem; // 30px
-            color: #ffffff;
-            background-color: #0050ff;
+            height: 2.5rem; // 40px
             display: flex;
             align-items: baseline;
-            padding-left: 0.938rem; // 15px
-            padding-right: 0.938rem; // 15px
-            font-weight: 400;
+            background-color: $point-blue;
+            padding: 0 0.938rem; // 0 15px
             span {
-                font-size: 0.688rem; // 11px
                 display: inline-block;
-            }
-            span.title {
-                width: 2.125rem; // 34px
                 font-size: 0.875rem; // 14px
+                font-weight: 400; // regular
+                color: $white;
+            }
+            span.title { // 알림 문구
+                font-size: 1rem; // 16px
                 font-weight: 500;
-                line-height: 2rem; // 32px
             }
-            span.count {
-                width: 2.125rem; // 34px
+            span.total {
+                margin: auto 0.3125rem; //5px
             }
-            span.message {
-                width: 15.625rem; // 250px
-                padding-left: 0.25rem; // 4px
-            }
-            span.close {
-                width: 2.125rem; // 34px
-                text-align: center;
+            span.close { // X 버튼
+                width: 0.875rem; //14px
+                height: 0.875rem;
+                background: $white;
+                -webkit-mask: url($icon-folder-path + "icon_close.svg") no-repeat center center;
+                mask-image: url($icon-folder-path + "icon_close.svg") ;
+                mask-repeat: no-repeat;
+                mask-position: center;
+                float: right;
+                margin-left: auto;
             }
         }
         .notification-body {
             overflow: auto;
-            max-height: 14.625rem; // 234px
+            max-height: 20.63rem; // 330px
             button {
                 float: right;
                 &.remove {
-                    margin-top: -0.188rem; // 3px
-                    background-image: url('../icons/icon_notification_delete.png');
-                    background-repeat: no-repeat;
-                    opacity: 0.6;
-                }
+                    width: 1.125rem; // 18px
+                    height: 1.25rem; // 20px
+                    padding: 0;
+                    background: url($icon-folder-path +  "icon_delete.svg") no-repeat center center;
+                 }
             }
             span.title:hover {
                 text-decoration: underline;
                 cursor: pointer;
             }
             .notification {
-                height: 4.875rem; // 78px
-                border-bottom: 0.063rem solid #dce1e8; // 1px
-                padding: 0.75rem 0.938rem 0.75rem 0.938rem; // 12px 15px 12px 15px
-                &[is-confirm=false] {
-                }
+                height: 6.875rem; // 110px
+                border-bottom: 0.063rem solid $line-gray; // 1px
+                padding: 0.938rem;// 15px
                 &.nodata {
                     border: none;
                 }
             }
         }
-    }
-    &:hover .notification-container {
-        display: block;
+
+        &.on {
+            display: block;
+        }
     }
 }
 
 .alice-toastify {
-    width: 21.875rem; // 350px
-    height: 5rem; // 80px
+    height: 6.25rem; // 100px
     padding: 0 !important;
     background: #ffffff !important;
-    box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25) !important;
+    border: 0.0625rem solid $line-gray !important; // 1px
+    box-shadow: 0 0 0.3125rem 0 $line-gray !important;
     border-radius: 0.063rem !important; // 1px
     &.toastify-right {
         right: 0.625rem; // 10px
     }
     .toast-close {
         position: absolute;
-        width: 1.125rem; // 18px
-        height: 1.125rem; // 18px
+        width: 0.875rem; //14px
+        height: 0.875rem;
         padding: 0;
         opacity: 1;
         top: 0.688rem; // 11px
         right: 0.688rem; // 11px
-        background-image: url('../icons/icon_close.png');
+        background: $pressed-gray;
+        -webkit-mask: url($icon-folder-path + "icon_close.svg") no-repeat center center;
+        mask-image: url($icon-folder-path + "icon_close.svg") ;
+        mask-repeat: no-repeat;
+        mask-position: center;
     }
     &.alice-toastify-content {
-        border: 0.063rem solid #c8ced8; // 1px
         div.icon {
             float: left;
-            width: 5rem; // 80px
-            height: 100%;
-            background-image: url('../icons/graphic_under_notification.png');
-            background-repeat: no-repeat;
+            width: 6.25rem; // 100px
+            height: 6.25rem; // 100px
+            background: url('../icons/graphic_under_notification.svg') no-repeat center center;
         }
         div.content {
             float: left;
-            width: 15.625rem; // 250px
+            width: 23.13rem; // 370px
             height: 100%;
-            padding-left: 1.25rem; // 20px
+            padding: 0.938rem; // 15px
             div {
-                font-size: 0.688rem; // 11px
-                font-weight: 400;
                 &.title {
-                    padding-top: 0.813rem; // 13px
-                    font-size: 0.875rem; // 14px
-                    font-weight: 500;
-                    color: #3e4752;
-                    label {
+                    padding-bottom: 0.625rem; // 10px
+                    label, button {
                         display: none;
                     }
                 }
                 &.message {
-                    padding-top: 0.25rem; // 4px
-                    color: #666f7a;
+                    padding-bottom: 0.625rem; // 10px
                 }
-                &.date {
-                    padding-top: 0.875rem; // 14px
-                    color: #98a1ac;
-                    padding-bottom: 0.875rem; // 14px
+                span {
+                    &.title {
+                        font-size: 1rem; // 16px
+                        font-weight: 500;
+                        color: $light-black;
+                        max-width: 18.13rem; // 290px
+                    }
+                    &.message {
+                        font-size: 1rem; // 16px
+                        font-weight: 400;
+                        color: $dark-gray;
+                        max-width: 22.5rem; // 360px
+                    }
+                    &.date {
+                        font-size: 0.875rem; // 14px
+                        font-weight: 400;
+                        color: $gray;
+                    }
                 }
             }
         }
@@ -151,76 +157,81 @@
 .notification-content {
     div {
         &.title {
-            padding-bottom: 0.313rem; // 5px
+            padding-bottom: 0.625rem; // 10px
         }
         &.message {
-            padding-bottom: 0.875rem; // 14px
-        }
-        &.date {
-            padding-bottom: 0.5rem; // 8px
+            padding-bottom: 1.563rem; // 25px
         }
         label {
             display: flex;
             float: left;
-            background-color: #ffffff;
+            background-color: $white;
+            margin: 0;
             input[type="checkbox"] {
-                width: 0.813rem; // 13px
-                height: 0.813rem; // 13px
+                width: 1.125rem; // 18px
+                height: 1.125rem; // 18px
                 -webkit-appearance: none;
-                border: 0.063rem solid #0050ff; // 1px
+                border: 0.063rem solid $point-blue; // 1px
                 padding: 0.313rem; // 5px
                 border-radius: 0.063rem; // 1px
                 display: inline-block;
                 position: relative;
+                margin: 0;
                 cursor: pointer;
                 &:checked {
-                    border: 0.063rem solid #c8ced8; // 1px
-                    color: #c8ced8;
+                    border: 0.063rem solid $line-gray; // 1px
+                    color: $pressed-gray;
                     cursor: unset;
                 }
                 &:checked::after {
-                    content: '\2714';
-                    font-size: 0.688rem; // 11px
+                    content: '\2714'; // 체크 박스
+                    font-size: 1rem; // 16px
                     position: absolute;
                     top: -0.063rem; // -1px
                     left: 0.063rem; // 1px
-                    color: #c8ced8;
+                    color: $pressed-gray;
                 }
             }
         }
         span {
             vertical-align: top;
             &.title {
-                font-size: 0.875rem; // 14px
+                font-size: 1rem; // 16px
                 font-weight: 500;
-                color: #3E4752;
-                max-width: 11.875rem; // 190px
+                color: $light-black;
+                max-width: 18.13rem; // 290px
                 padding-left: 0.625rem; // 10px
-                &.confirm {
-                    color: #6b747f;
-                }
             }
             &.message {
-                font-size: 0.688rem; // 11px
-                color: #666f7a;
-                max-width: 24.375rem; // 390px
-                padding-left: 1.438rem; // 23px
+                font-size: 1rem; // 16px
+                font-weight: 400;
+                color: $dark-gray;
+                max-width: 22.5rem; // 360px
+                padding-left: 1.75rem; // 28px
             }
             &.date {
-                font-size: 0.688rem; // 11px
-                color: #98a1ac;
-                padding-left: 1.438rem; // 23px
+                font-size: 0.875rem; // 14px
+                font-weight: 400;
+                color: $gray;
+                padding-left: 1.75rem; // 28px
+            }
+        }
+    }
+    &.confirm {
+        div {
+            span {
+                &.title {
+                    opacity: 0.75;
+                }
+                &.message {
+                    color: $gray;
+                }
             }
         }
     }
 }
-
-.notification-content.confirm {
-    color: #747c86;
-}
-
 .notification-content:hover {
-    background-color: rgba(0, 80, 255, 0.05);
+    background-color: rgba(135, 206, 255, 0.1);
 }
 
 .text-ellipsis {
