@@ -7,6 +7,7 @@ package co.brainz.framework.fileTransaction.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.avatar.entity.AliceAvatarEntity
 import co.brainz.framework.avatar.repository.AliceAvatarRepository
+import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
@@ -37,6 +38,7 @@ import org.apache.tika.Tika
 import org.apache.tika.metadata.Metadata
 import org.slf4j.LoggerFactory
 import org.springframework.core.env.Environment
+import org.springframework.core.io.ClassPathResource
 import org.springframework.core.io.FileSystemResource
 import org.springframework.core.io.InputStreamResource
 import org.springframework.data.repository.findByIdOrNull
@@ -66,6 +68,7 @@ class AliceFileService(
     private val allowedImageExtensions = listOf("png", "gif", "jpg", "jpeg")
     private val fileUploadRootDirectory = "uploadRoot"
     private val processAttachFileRootDirectory = this.imagesRootDirectory
+    private val documentIconRootDirector = "public/assets/media/image/document"
 
     /**
      * 파일 허용 확장자 목록 가져오기
@@ -213,7 +216,7 @@ class AliceFileService(
                 }
                 it.transferTo(file)
                 val bufferedImage = ImageIO.read(file)
-                val resizedBufferedImage = resizeBufferedImage(bufferedImage)
+                val resizedBufferedImage = resizeBufferedImage(bufferedImage, AliceConstants.FileType.IMAGE.code)
                 images.add(
                     AliceImageFileDto(
                         name = fileName,
@@ -249,8 +252,11 @@ class AliceFileService(
     /**
      * 워크플로우 이미지 파일 로드.
      */
-    fun getImageFileList(): List<AliceImageFileDto> {
-        val dir = super.getWorkflowDir(this.imagesRootDirectory)
+    fun getImageFileList(type: String): List<AliceImageFileDto> {
+        val dir = when (type) {
+            AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(this.documentIconRootDirector).uri)
+            else -> super.getWorkflowDir(this.imagesRootDirectory)
+        }
         val fileList = mutableListOf<Path>()
         if (Files.isDirectory(dir)) {
             val fileDirMap = Files.list(dir).collect(Collectors.partitioningBy { Files.isDirectory(it) })
@@ -266,7 +272,7 @@ class AliceFileService(
         fileList.forEach {
             val file = it.toFile()
             val bufferedImage = ImageIO.read(file)
-            val resizedBufferedImage = resizeBufferedImage(bufferedImage)
+            val resizedBufferedImage = resizeBufferedImage(bufferedImage, type)
             images.add(
                 AliceImageFileDto(
                     name = file.name,
