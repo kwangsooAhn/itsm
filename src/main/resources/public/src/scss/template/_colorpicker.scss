@@ -1,0 +1,41 @@
+.color-picker {
+    display: flex;
+    flex-direction: column;
+    .color-input {
+        display: inline-flex;
+        .selected-color {
+            width: 1.75rem; // 28px
+            height: 1.75rem; // 28px
+            margin: auto;
+            &-box {
+                width: 2.5rem; // 40px
+                height: 2.5rem; // 40px
+                margin-right: 0.3125rem; // 5px
+                border: 0.0625rem solid $line-gray;
+                cursor: pointer;
+                display: flex;
+            }
+        }
+    }
+    .color-palette {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        background-color: white;
+        width: 30rem; // 482px
+        margin-top: 0.3125rem; // 5px
+        //height: 11.25rem; // 180px
+        padding: 1.25rem 0 0.625rem 1.25rem; // 20px 10px 20px;
+        border: 0.0625rem solid $line-gray;
+        & div {                          // 컬러 팔레트 내부의 색상표 박스 디자인
+            display: inline-block;
+            width: 2.5rem; // 40px
+            height: 2.5rem; // 40px
+            margin-right: 0.625rem; // 10px;
+            margin-bottom: 0.625rem; // 10px;
+            cursor: pointer;
+        }
+        &-opacity {
+        }
+    }
+}

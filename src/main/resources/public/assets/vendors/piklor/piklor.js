@@ -27,7 +27,7 @@
         options.open = self.getElm(options.open);
         options.openEvent = options.openEvent || "click";
         options.style = Object(options.style);
-        options.style.display = options.style.display || "block";
+        options.style.display = options.style.display || "flex";
         options.closeOnBlur = options.closeOnBlur || false;
         options.template = options.template || "<div data-col=\"{color}\" style=\"background-color: {color}\"></div>";
         self.elm = self.getElm(sel);
