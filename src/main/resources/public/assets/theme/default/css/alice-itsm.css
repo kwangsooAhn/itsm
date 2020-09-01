@@ -3857,6 +3857,9 @@ button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
 .ql-container.ql-snow .ql-editor .ql-blank::before {
   content: attr(data-placeholder);
 }
+.ql-container.ql-snow .ql-editor h1, .ql-container.ql-snow .ql-editor h2, .ql-container.ql-snow .ql-editor h3, .ql-container.ql-snow .ql-editor h4, .ql-container.ql-snow .ql-editor h5, .ql-container.ql-snow .ql-editor h6 {
+  line-height: 1.2;
+}
 .ql-container.ql-snow .ql-editor span {
   font-size: inherit;
   font-weight: inherit;
