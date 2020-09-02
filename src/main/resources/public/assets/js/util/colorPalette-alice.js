@@ -256,15 +256,14 @@ const colorPalette = (function() {
             selectedInput.value = color;
             if (isOpacity && opacityElement !== null) {
                 selectedInput.dataset['opacity'] = slideObject.value;
-
-                // 기존 선택된 값의 테두리를 없애고 새로운 값 테두리 생성
-                paletteElement.childNodes.forEach(function(item){
-                    item.classList.remove(data.selectedClass);
-                    if (item.dataset.col === color) {
-                        item.classList.add(data.selectedClass);
-                    }
-                });
             }
+            // 기존 선택된 값의 테두리를 없애고 새로운 값 테두리 생성
+            paletteElement.childNodes.forEach(function(item){
+                item.classList.remove(data.selectedClass);
+                if (item.dataset.col === color) {
+                    item.classList.add(data.selectedClass);
+                }
+            });
             const evt = document.createEvent('HTMLEvents');
             evt.initEvent('change', false, true);
             selectedInput.dispatchEvent(evt);

@@ -1,13 +1,24 @@
 @import "../template/_colorpicker.scss";
 .color-picker {
     .color-input {
-        input {
-            max-width: 215px;
+        .selected-color {
+            width: 1.063rem; // 17px
+            height: 1.063rem; // 17px
+            border: 0.1875rem solid #68717c;
+            margin: 0;
+            &-box {
+                width: 1.563rem; // 25px
+                height: 1.563rem; // 25px
+                margin-right: 0.313rem; // 5px
+                border: 0.063rem solid #c8ced8;
+                padding-top: 0.1875rem; // 3px
+                padding-left: 0.1875rem; // 3px
+            }
         }
     }
 
     .color-palette {
-        width: 100%;
+        width: 11.875rem; // 190px
         margin-top: 0.188rem; // 3px
         border: 0.063rem solid #c8ced8;
         padding-left: 0.219rem; // 3.5px
@@ -32,7 +43,7 @@
     }
     .color-palette-opacity {
         background-color: #ffffff;
-        width: 100%;
+        width: 11.875rem; // 190px
         border: 0.063rem solid #c8ced8; // 1px
         border-top: none;
         padding-left: 0.219rem; // 3.5px

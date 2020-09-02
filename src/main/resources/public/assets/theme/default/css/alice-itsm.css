@@ -2968,6 +2968,7 @@ span.vertical-bar {
   width: 1.75rem;
   height: 1.75rem;
   margin: auto;
+  cursor: pointer;
 }
 .color-picker .color-input .selected-color-box {
   width: 2.5rem;
@@ -2994,6 +2995,10 @@ span.vertical-bar {
   margin-right: 0.625rem;
   margin-bottom: 0.625rem;
   cursor: pointer;
+}
+.color-picker .color-palette div.selected {
+  border: 0.375rem solid white;
+  outline: 0.063rem solid #0098FF;
 }
 .scrollbar > .os-scrollbar-horizontal {
   right: 10px;

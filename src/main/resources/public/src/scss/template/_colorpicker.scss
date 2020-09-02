@@ -7,6 +7,7 @@
             width: 1.75rem; // 28px
             height: 1.75rem; // 28px
             margin: auto;
+            cursor: pointer;
             &-box {
                 width: 2.5rem; // 40px
                 height: 2.5rem; // 40px
@@ -24,7 +25,6 @@
         background-color: white;
         width: 30rem; // 482px
         margin-top: 0.3125rem; // 5px
-        //height: 11.25rem; // 180px
         padding: 1.25rem 0 0.625rem 1.25rem; // 20px 10px 20px;
         border: 0.0625rem solid $line-gray;
         & div {                          // 컬러 팔레트 내부의 색상표 박스 디자인
@@ -34,8 +34,12 @@
             margin-right: 0.625rem; // 10px;
             margin-bottom: 0.625rem; // 10px;
             cursor: pointer;
+            &.selected {
+                border: 0.375rem solid white; // 6px
+                outline: 0.063rem solid $point-blue; // 1px
+            }
         }
-        &-opacity {
-        }
+    }
+    .color-palette-opacity {
     }
 }
