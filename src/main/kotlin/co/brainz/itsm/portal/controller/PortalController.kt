@@ -68,7 +68,6 @@ class PortalController(private val portalService: PortalService) {
         model: Model
     ): String {
         model.addAttribute("faqs", portalService.getFaqList(category, id))
-        model.addAttribute("faqItem", portalService.getFaqItem(id))
         return portalFaqListPage
     }
 }

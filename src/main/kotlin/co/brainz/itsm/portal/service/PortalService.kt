@@ -91,15 +91,12 @@ class PortalService(
 
     fun getFaqList(category: String, faqId: String): LinkedHashMap<String, Any> {
         val faqInfo = LinkedHashMap<String, Any>()
-        faqInfo["faqList"] = faqRepository.findAll()
         faqInfo["faqGroupList"] = when (category.isBlank()) {
             true -> faqRepository.getAllFaqGroupList()
             false -> faqRepository.getFaqGroupList(category)
         }
+        faqInfo["faqList"] = faqRepository.findAll()
+        faqInfo["faqSelected"] = faqRepository.findById(faqId).orElse(FaqEntity(faqId))
         return faqInfo
-    }
-
-    fun getFaqItem(faqId: String): FaqEntity {
-        return faqRepository.findById(faqId).orElse(FaqEntity(faqId))
     }
 }
