@@ -620,6 +620,13 @@ span.vertical-bar {
   overflow-y: auto;
   padding: 0.5rem 0.625rem;
 }
+.container-popup .edit .form-set .radio-list {
+  height: 27rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  overflow-y: auto;
+  padding: 0.5rem 0.625rem;
+}
 .container-popup .edit .form-set .text-editor {
   height: 12.5rem;
 }
@@ -981,6 +988,13 @@ span.vertical-bar {
 }
 .container .contents-edit .edit .form-set .checkbox-list {
   height: 13.5rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  overflow-y: auto;
+  padding: 0.5rem 0.625rem;
+}
+.container .contents-edit .edit .form-set .radio-list {
+  height: 27rem;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   overflow-y: auto;
