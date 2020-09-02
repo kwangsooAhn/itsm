@@ -14,6 +14,8 @@
         <img class="login-logo" th:src="@{/assets/media/image/signup/zenius_itsm_logo.png}" alt="Zenius ITSM">
         <img class="login-main-image" th:src="@{/assets/media/image/login/graphic_login.png}">
     </div>
+    <button type="button" class="login-return" th:text="#{common.btn.return}"
+            onclick="location.href='/portal/portalMain'"></button>
     <div class="login-form">
         <h1 th:text="#{portal.label.login}"></h1>
         <div class="login-base">
