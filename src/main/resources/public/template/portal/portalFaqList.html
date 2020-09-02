@@ -28,11 +28,13 @@
 </head>
 <body>
 <div class="list">
+	<div class="selectedGroup" th:id=${faqs.faqSelected.faqGroup}></div>
+	<div class="selectedId" th:id=${faqs.faqSelected.faqId}></div>
 	<details class="faqGroup" th:each="faqGroup:${faqs.faqGroupList}" th:id="${faqGroup}">
 		<summary th:text="#{|common.code.${faqGroup}|}"></summary>
 		<details class="faqTitle" th:each="faqT:${faqs.faqList}" th:if="${faqT.faqGroup} == ${faqGroup}" th:id="${faqT.faqId}">
 			<summary th:text="${faqT.faqTitle}"></summary>
-			<div th:each="faqC:${faqs.faqList}" th:if="${faqC.faqId} == ${faqT.faqId}" >
+			<div th:each="faqC:${faqs.faqList}" th:if="${faqC.faqId} == ${faqT.faqId}">
 				<p class="faqContent" th:text="${faqC.faqContent}"></p>
 			</div>
 		</details>

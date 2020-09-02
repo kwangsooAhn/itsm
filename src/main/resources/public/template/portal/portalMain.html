@@ -104,10 +104,14 @@
                         let row = document.createElement('tr');
                         let cell = document.createElement('td');
                         let contentAnchor = document.createElement('a');
-
-                        <!--각 메뉴별 id 이동 링크 추가할 부분-->
-                        contentAnchor.setAttribute('href', '#N');
-
+                        switch (topName) {
+                            case 'faq':
+                                contentAnchor.setAttribute('href', '/portal/faqs?id=' + data.faqId);
+                                break;
+                            default:
+                                contentAnchor.setAttribute('href', '#N');
+                                break;
+                        }
                         let contentText = document.createElement('h5');
                         contentText.classList.add('text-ellipsis');
                         let dt = (data['updateDt'] == null) ? data['createDt'] : data['updateDt']

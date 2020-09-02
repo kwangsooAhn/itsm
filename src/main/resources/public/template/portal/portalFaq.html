@@ -15,11 +15,10 @@
 	<div class="portal-search-main">
 		<h1 class="title" th:text="#{faq.label.list}"></h1>
 		<h6 class="title-description" th:text="#{faq.label.description}"></h6>
-		<!--검색영역 select box-->
 		<div class="portal-faq-select">
-			<select align="left" id="groupCode" name="groupCode" onchange="faqSearch(this.value);">
+			<select align="left" id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')">
 				<option th:text="#{common.code.faq.category.all}" value="" selected></option>
-				<option th:each="category:${faqCategory}"
+				<option th:each="category:${faqs.faqCategory}"
 				        th:text="#{|common.code.${category}|}" th:value="${category}"></option>
 			</select>
 		</div>
@@ -30,18 +29,57 @@
 <script th:src="@{/assets/js/util/util-alice.js}"></script>
 <script type="text/javascript" th:inline="javascript">
 	/*<![CDATA[ */
+	const faqId = [[${faqs?.faqId}]];
+
 	window.onload = function () {
-        faqSearch();
+		if (faqId !== '') {
+			getFaqList('', faqId);
+		} else {
+			restSubmit('get', '/portal/faqs/list');
+		}
     }
 
-	function faqSearch() {
+    function getFaqList(category, faqId) {
+		let urlParam = '';
+		if (category !== '') {
+			urlParam += 'category=' + category;
+		} else {
+			urlParam += 'id=' + faqId;
+		}
+		restSubmit('get', '/portal/faqs/list?' + urlParam);
+    }
+
+	function restSubmit(method, url) {
         const opt = {
-            method: 'get',
-            url: '/portal/faqs/list?&groupCodes=' + encodeURIComponent(document.getElementById('groupCode').value.trim());
+            method: method,
+            url: url,
+            showProgressbar: false,
+            async: false,
             callbackFunc: function(response) {
                 document.querySelector('.portal-search-result').innerHTML = response.responseText;
-                document.getElementsByClassName('faqGroup')[0].open = true;
+				document.getElementsByClassName('faqGroup')[0].open = true;
                 document.getElementsByClassName('faqTitle')[0].open = true;
+				let selectedGroup = document.getElementsByClassName('selectedGroup')[0].id;
+				let selectedId = document.getElementsByClassName('selectedId')[0].id;
+				if (selectedId !== '') {
+					let group = document.getElementsByClassName('faqGroup');
+                    let title = document.getElementsByClassName('faqTitle');
+                    for (let i = 0; i < group.length; i++) {
+                        if (group[i].id === selectedGroup) {
+                            document.getElementsByClassName('faqGroup')[0].open = false;
+                            group[i].open = true;
+                            break;
+                        }
+                    }
+                    for (let i = 0; i < title.length; i++) {
+                        if (title[i].id === selectedId) {
+                            document.getElementsByClassName('faqTitle')[0].open = false;
+                            title[i].open = true;
+                            title[i].setAttribute('id', 'highlight')
+                            break;
+                        }
+                    }
+                }
             }
         };
         aliceJs.sendXhr(opt);

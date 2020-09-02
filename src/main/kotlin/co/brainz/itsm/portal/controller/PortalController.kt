@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.portal.controller
 
-import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
 import co.brainz.itsm.portal.service.PortalService
 import javax.servlet.http.HttpServletRequest
@@ -16,6 +15,7 @@ import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/portal")
@@ -56,15 +56,19 @@ class PortalController(private val portalService: PortalService) {
     }
 
     @GetMapping("/faqs")
-    fun getPortalFaq(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
-        model.addAttribute("faqCategory", portalService.getFaqCategories())
+    fun getPortalSearch(@RequestParam(value = "id") id: String?, model: Model): String {
+        model.addAttribute("faqs", portalService.getFaqCategories(id))
         return portalFaqPage
     }
 
     @GetMapping("/faqs/list")
-    fun getPortalFaqList(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
-        val result = portalService.getFaqList(faqSearchRequestDto)
-        model.addAttribute("faqs", result)
+    fun getPortalFaqList(
+        @RequestParam(value = "category", defaultValue = "") category: String,
+        @RequestParam(value = "id", defaultValue = "") id: String,
+        model: Model
+    ): String {
+        model.addAttribute("faqs", portalService.getFaqList(category, id))
+        model.addAttribute("faqItem", portalService.getFaqItem(id))
         return portalFaqListPage
     }
 }
