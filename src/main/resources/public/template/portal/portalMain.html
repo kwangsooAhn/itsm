@@ -6,6 +6,38 @@
     <link rel="shortcut icon" th:href="@{/assets/media/icons/zenius.ico}" type="image/x-icon">
     <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
+    <style>
+        .appear {
+            animation: fade-in 1s;
+            animation-fill-mode: forwards;
+            display: flex;
+        }
+
+        .disappear {
+            animation: fade-out 1s;
+            animation-fill-mode: forwards;
+            dispay: flex;
+        }
+
+        @keyframes fade-in {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fade-out {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+    </style>
 </head>
 <body>
 <div class="alice-portal-container flex-column">
@@ -177,10 +209,16 @@
                             const scrollHeight = e.target.scrollHeight;
                             const scrollTop = e.target.scrollTop;
                             const clientHeight = e.target.clientHeight;
-                            if (scrollTop > 5) {
+                            if (scrollTop > 20) {
+                                if (document.getElementById('portal-search-main').classList.contains('appear')) {
+                                    document.getElementById('portal-search-main').classList.add('disappear');
+                                    setTimeout(function(){ document.getElementById('portal-search-main').classList.remove('appear')},1001);
+                                }
                                 document.getElementById('portal-search-main').style.display = 'none';
                                 document.querySelector('.os-host').style.height = '752px';
                             } else {
+                                document.getElementById('portal-search-main').classList.remove('disappear');
+                                document.getElementById('portal-search-main').classList.add('appear');
                                 document.getElementById('portal-search-main').style.display = 'block';
                                 document.querySelector('.os-host').style.height = '650px';
                             }
