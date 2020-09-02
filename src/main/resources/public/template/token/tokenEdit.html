@@ -74,7 +74,7 @@
                                         <h5 th:text="${rInstance.documentNo}"></h5>
                                     </div>
                                 </a>
-                                <div class="trash"></div>
+                                <div class="trash-icon"></div>
                             </div>
                             <div class="document-row-topic">
 <!--                            <h4 th:each="topic: ${rInstance.topics}" th:text="${topic}"></h4>-->
@@ -107,7 +107,7 @@
                             </div>
                             <h5 th:text="${comment.createDt}"></h5>
                             <div th:if="${#authentication.details.userKey} == ${comment.createUserKey}">
-                                <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|" class="trash"></button>
+                                <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|" class="trash-icon"></button>
                             </div>
                         </div>
                         <div class="comment-row">

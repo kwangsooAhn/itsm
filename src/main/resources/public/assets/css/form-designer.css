@@ -1628,115 +1628,6 @@ button.default-point-line:not(:disabled):active span.icon {
   mask-repeat: no-repeat;
   mask-position: center;
 }
-.property-group .property-field div.property-field-color-picker {
-  width: 100%;
-  display: inline-flex;
-}
-.property-group .property-field div.property-field-color-picker span.selected-color-layer {
-  display: inline-block;
-  width: 1.563rem;
-  height: 1.563rem;
-  margin-right: 0.313rem;
-  border: 0.063rem solid #c8ced8;
-  padding-top: 0.1875rem;
-  padding-left: 0.1875rem;
-}
-.property-group .property-field div.property-field-color-picker span.selected-color-layer span.selected-color {
-  display: inline-block;
-  width: 1.063rem;
-  height: 1.063rem;
-  border: 0.1875rem solid #68717c;
-  cursor: pointer;
-}
-.property-group .property-field div.property-field-color-picker span.selected-color-layer + input[type=text] {
-  width: 10rem;
-}
-.property-group .property-field div.color-palette {
-  background-color: #ffffff;
-  width: 11.875rem;
-  height: 4.938rem;
-  margin-top: 0.188rem;
-  border: 0.063rem solid #c8ced8;
-  padding-left: 0.219rem;
-  padding-top: 0.188rem;
-}
-.property-group .property-field div.color-palette div {
-  display: inline-block;
-  vertical-align: top;
-  width: 1rem;
-  height: 1rem;
-  margin-top: 0.375rem;
-  margin-left: 0.375rem;
-  border: 0.063rem solid #a3adbb;
-  cursor: pointer;
-}
-.property-group .property-field div.color-palette div.selected {
-  border: 0.125rem solid #ffffff;
-  outline: 0.063rem solid #0055ff;
-}
-.property-group .property-field div.color-palette-opacity {
-  background-color: #ffffff;
-  width: 11.875rem;
-  border: 0.063rem solid #c8ced8;
-  border-top: none;
-  padding-left: 0.219rem;
-  display: none;
-  height: 2.5rem;
-}
-.property-group .property-field div.color-palette-opacity span {
-  display: table-cell;
-  vertical-align: middle;
-}
-.property-group .property-field div.color-palette-opacity span input {
-  vertical-align: middle;
-  width: 1.875rem;
-  height: 1.25rem;
-}
-.property-group .property-field div.color-palette-opacity span input[type=range] {
-  -webkit-appearance: none;
-}
-.property-group .property-field div.color-palette-opacity span input[type=range]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 0.625rem;
-  height: 0.625rem;
-  border: 0.0625rem solid #c8ced8;
-  border-radius: 50%;
-  background: #fff;
-  cursor: pointer;
-}
-.property-group .property-field div.color-palette-opacity span input[type=range]::-moz-range-thumb {
-  width: 0.625rem;
-  height: 0.625rem;
-  border: 0.0625rem solid #c8ced8;
-  border-radius: 50%;
-  background: #fff;
-  cursor: pointer;
-}
-.property-group .property-field div.color-palette-opacity span input[type=range]::-moz-range-progress {
-  background-color: #0055ff;
-  height: 0.0625rem;
-}
-.property-group .property-field div.color-palette-opacity span input.slide-object {
-  width: 7.625rem;
-  height: 0.0625rem;
-  background: #c8ced8;
-  border: initial;
-  padding: initial;
-  outline: 0;
-  margin-left: 0.594rem;
-}
-.property-group .property-field div.color-palette-opacity span input.slide-input {
-  width: 1.75rem;
-  padding-left: 0;
-  padding-right: 0.25rem;
-  text-align: right;
-}
-.property-group .property-field div.color-palette-opacity span label {
-  margin: 0 0 0 0.125rem;
-  width: 0.813rem;
-  height: 1.25rem;
-  line-height: 1.25rem;
-}
 .property-group .property-field[id=display-default] .property-name {
   width: 100%;
 }
@@ -2781,17 +2672,12 @@ body.thumbnail-modal-active {
   color: #586872;
   line-height: 24px;
   padding: 0.625rem;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-.ql-container.ql-snow .ql-editor::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
 }
 .ql-container.ql-snow .ql-editor .ql-blank::before {
   content: attr(data-placeholder);
+}
+.ql-container.ql-snow .ql-editor h1, .ql-container.ql-snow .ql-editor h2, .ql-container.ql-snow .ql-editor h3, .ql-container.ql-snow .ql-editor h4, .ql-container.ql-snow .ql-editor h5, .ql-container.ql-snow .ql-editor h6 {
+  line-height: 1.2;
 }
 .ql-container.ql-snow .ql-editor span {
   font-size: inherit;
@@ -2803,4 +2689,140 @@ body.thumbnail-modal-active {
 }
 .ql-container.ql-snow .ql-editor strong {
   font-weight: bold;
+}
+
+.color-picker {
+  display: flex;
+  flex-direction: column;
+}
+.color-picker .color-input {
+  display: inline-flex;
+}
+.color-picker .color-input .selected-color {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: auto;
+  cursor: pointer;
+}
+.color-picker .color-input .selected-color-box {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.3125rem;
+  border: 0.0625rem solid #EBEBEB;
+  cursor: pointer;
+  display: flex;
+}
+.color-picker .color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  background-color: white;
+  width: 30rem;
+  margin-top: 0.3125rem;
+  padding: 1.25rem 0 0.625rem 1.25rem;
+  border: 0.0625rem solid #EBEBEB;
+}
+.color-picker .color-palette div {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.625rem;
+  margin-bottom: 0.625rem;
+  cursor: pointer;
+}
+.color-picker .color-palette div.selected {
+  border: 0.375rem solid white;
+  outline: 0.063rem solid #0098FF;
+}
+.color-picker .color-input input {
+  max-width: 215px;
+}
+.color-picker .color-palette {
+  width: 100%;
+  margin-top: 0.188rem;
+  border: 0.063rem solid #c8ced8;
+  padding-left: 0.219rem;
+  padding-top: 0.188rem;
+}
+.color-picker .color-palette div {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.375rem;
+  margin-left: 0.375rem;
+  margin-right: 0;
+  margin-bottom: 0;
+  border: 0.063rem solid #a3adbb;
+  cursor: pointer;
+}
+.color-picker .color-palette div.selected {
+  border: 0.125rem solid #ffffff;
+  outline: 0.063rem solid #0055ff;
+}
+.color-picker .color-palette-opacity {
+  background-color: #ffffff;
+  width: 100%;
+  border: 0.063rem solid #c8ced8;
+  border-top: none;
+  padding-left: 0.219rem;
+  display: none;
+  height: 2.5rem;
+}
+.color-picker .color-palette-opacity span {
+  display: table-cell;
+  vertical-align: middle;
+}
+.color-picker .color-palette-opacity span input {
+  vertical-align: middle;
+  width: 1.875rem;
+  height: 1.25rem;
+}
+.color-picker .color-palette-opacity span input[type=range] {
+  -webkit-appearance: none;
+  /*&::-webkit-slider-runnable-track {
+      -webkit-appearance: none;
+  }*/
+}
+.color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 0.0625rem solid #c8ced8;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+.color-picker .color-palette-opacity span input[type=range]::-moz-range-thumb {
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 0.0625rem solid #c8ced8;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+.color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
+  background-color: #0055ff;
+  height: 0.0625rem;
+}
+.color-picker .color-palette-opacity span input.slide-object {
+  width: 7.625rem;
+  height: 0.0625rem;
+  background: #c8ced8;
+  border: initial;
+  padding: initial;
+  outline: none;
+  margin-left: 0.594rem;
+  margin-right: 0.625rem;
+}
+.color-picker .color-palette-opacity span input.slide-input {
+  width: 1.75rem;
+  padding-left: 0;
+  padding-right: 0.25rem;
+  text-align: right;
+}
+.color-picker .color-palette-opacity span label {
+  margin: 0 0 0 0.125rem;
+  width: 0.813rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
 }

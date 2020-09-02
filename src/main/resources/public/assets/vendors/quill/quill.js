@@ -6756,10 +6756,16 @@ var BaseTheme = function (_Theme) {
           return new _picker2.default(select);
         }
       });
-      var update = function update() {
-        _this2.pickers.forEach(function (picker) {
-          picker.update();
-        });
+      var update = function update(e) {
+        // 주석 부분은 picker 가 툴바 클릭시 무조건 초기화가 되는 원본 소스이고 그 아래 if 문은 사용자 내용 입력시에만 초기화되도록 소스 수정한 부분이다.
+        //_this2.pickers.forEach(function (picker) {
+        //  picker.update();
+        //});
+        if (e === _emitter2.default.events.TEXT_CHANGE) {
+          _this2.pickers.forEach(function (picker) {
+            picker.update();
+          });
+        }
       };
       this.quill.on(_emitter2.default.events.EDITOR_CHANGE, update);
     }
@@ -9432,7 +9438,7 @@ var Toolbar = function (_Module) {
           }
         } else {
           if (range == null) {
-            input.classList.remove('ql-active');
+            //input.classList.remove('ql-active'); // 주석을 해제하면 bold, italic, underline, list, image 가 툴바 클릭시 무조건 초기화가 된다.
           } else if (input.hasAttribute('value')) {
             // both being null should match (default values)
             // '1' should match with 1 (headers)

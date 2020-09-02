@@ -91,4 +91,12 @@ object AliceConstants {
      * Email 인증 키 자릿수.
      */
     const val EMAIL_CERTIFICATION_KEY_SIZE = 50
+
+    /**
+     * 파일 타입.
+     */
+    enum class FileType(val code: String) {
+        IMAGE("image"),
+        ICON("icon")
+    }
 }

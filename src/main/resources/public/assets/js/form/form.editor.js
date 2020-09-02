@@ -1260,20 +1260,26 @@
                                         break;
                                     case 'rgb':
                                     case 'rgba':
+                                        let colorPicker = `<div class="color-picker"></div>`;
+                                        fieldGroupElem.insertAdjacentHTML('beforeend', colorPicker);
+
                                         fieldTemplate =
                                             `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
-                                            `<div class="property-field-color-picker">` +
-                                                `<span class="selected-color-layer"><span class="selected-color" style="background-color: ${fieldProp.value};"></span></span>` +
+                                            `<div class="color-input">` +
+                                                `<div class="selected-color-box">` +
+                                                    `<span class="selected-color" style="background-color: ${fieldProp.value};"></span>` +
+                                                `</div>` +
                                                 `<input type="text" class="property-value color" id="${group}-${fieldProp.id}-value"  value="${fieldProp.value}" readonly>` +
                                             `</div>`;
 
-                                        fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
+                                        fieldGroupElem.querySelector('.color-picker').insertAdjacentHTML('beforeend', fieldTemplate);
 
                                         let colorPaletteLayer = `<div id="${group + '-' + fieldProp.id}-colorPaletteLayer">
                                                 <div id="${group + '-' + fieldProp.id}-colorPalette" class="color-palette"></div>
                                                 <div id="${group + '-' + fieldProp.id}-colorPalette-opacity" class="color-palette-opacity"></div>
-                                                </div>`;
-                                        fieldGroupElem.insertAdjacentHTML('beforeend', colorPaletteLayer);
+                                                </div></div>`;
+
+                                        fieldGroupElem.querySelector('.color-picker').insertAdjacentHTML('beforeend', colorPaletteLayer);
 
                                         // color palette 초기화
                                         let option = {

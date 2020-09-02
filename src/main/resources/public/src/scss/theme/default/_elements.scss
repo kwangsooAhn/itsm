@@ -31,6 +31,12 @@ h3.under-bar {
     }
 }
 
+h4.under-bar {
+    padding-bottom: 0.625rem; // 10px
+    margin-bottom: 0.625rem; //10px
+    border-bottom: 0.125rem solid $default-gray; // 2px
+}
+
 span {margin: auto 0;}
 
 .picker-wrapper-date {display: inline;}

@@ -2077,6 +2077,7 @@ CREATE TABLE wf_document
 	document_color varchar(128),
 	document_type varchar(100) NOT NULL,
 	document_group varchar(100),
+	document_icon varchar(100),
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -2098,6 +2099,7 @@ COMMENT ON COLUMN wf_document.numbering_id IS '넘버링아이디';
 COMMENT ON COLUMN wf_document.document_color IS '문서색상';
 COMMENT ON COLUMN wf_document.document_type IS '문서종류';
 COMMENT ON COLUMN wf_document.document_group IS '신청서그룹';
+COMMENT ON COLUMN wf_document.document_icon IS '신청서아이콘';
 COMMENT ON COLUMN wf_document.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_document.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_document.update_user_key IS '수정자';

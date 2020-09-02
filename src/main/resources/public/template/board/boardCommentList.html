@@ -3,59 +3,28 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 <head>
-    <meta charset="UTF-8">
-    <style>
-        table {
-            width: 100%;
-            border: 1px solid;
-            border-collapse: collapse;
-            margin: 0;
-        }
-        table tr td:nth-child(3) {
-            text-align: left;
-        }
-        table th {
-            border: 1px solid;
-        }
-        table td {
-            border-top: 1px solid #e7e7e7;
-            border-left: 1px solid;
-        }
-    </style>
 </head>
 <body>
-<table>
-    <colgroup>
-        <col width="60%">
-        <col width="10%">
-        <col width="12%">
-        <col width="18%">
-    </colgroup>
-    <tbody>
-        <tr th:if="${#arrays.isEmpty(boardCommentList)}">
-            <td colspan="4" style="text-align: center" th:text="#{common.msg.noData}"></td>
-        </tr>
-        <tr th:unless="${#arrays.isEmpty(boardCommentList)}" th:each="boardComment: ${boardCommentList}">
-            <td style="text-align:left">
-                 <label style="width: 95%" th:id="${boardComment.boardCommentId}" th:name="${boardComment.boardCommentId}"
-                        th:text="${boardComment.boardCommentContents}"></label>
-            </td>
-            <td style="text-align:center" th:text="${boardComment.createUser.userName}"></td>
-            <td style="text-align:center" th:name="commentDt" th:text="${boardComment.createDt}"></td>
-            <td align="center">
-                <button sec:authorize="hasAuthority('board.update')"
+    <div class="reply-row flex-column" th:unless="${#arrays.isEmpty(boardCommentList)}" th:each="boardComment: ${boardCommentList}">
+        <div class="reply-info flex-row">
+            <div class="profile"></div>
+            <img class="profile-photo" alt="profile pic" src="/assets/media/image/avatar/profile_sample.jpg"/>
+            <h5 class="reply-user-name" th:text="${boardComment.createUser.userName}"></h5>
+            <span class="vertical-bar"></span>
+            <h5 class="reply-create-date" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
+            <div class="reply-button">
+                <button class="edit-icon" sec:authorize="hasAuthority('board.update')"
                         th:if="${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '')"
-                        th:text="#{common.btn.modify}"
                         th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
                 </button>
-                <button sec:authorize="hasAuthority('board.delete')"
+                <button class="trash-icon" sec:authorize="hasAuthority('board.delete')"
                         th:if="${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '')"
-                        th:text="#{common.btn.delete}"
                         th:onclick="restSubmit('delete', [[@{/rest/boards/comments/{id}(id=${boardComment.boardCommentId})}]])">
                 </button>
-            </td>
-        </tr>
-    </tbody>
-</table>
+            </div>
+        </div>
+        <div class="reply-comment" th:id="${boardComment.boardCommentId}" th:name="${boardComment.boardCommentId}"
+             th:text="${boardComment.boardCommentContents}"></div>
+    </div>
 </body>
 </html>
