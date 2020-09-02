@@ -197,7 +197,6 @@ const fileUploader = (function () {
      * 파일업로드 드랍존 생성
      */
     const createFileUploader = function () {
-
         // 드랍존 영역 가져오기.
         const dropZoneFiles = document.getElementById(extraParam.dropZoneFilesId);
         const dropZoneUploadedFiles = document.getElementById(extraParam.dropZoneUploadedFilesId);
@@ -224,6 +223,7 @@ const fileUploader = (function () {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
             },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
+                let _this = this;
                 // 등록된 파일이 있으면 조회.
                 const opt = {
                     method: 'get',
@@ -319,8 +319,8 @@ const fileUploader = (function () {
                 aliceJs.sendXhr(opt);
 
                 if (extraParam.editor) {
-                    const addFileBtn = document.querySelector('.' + addFileBtnWrapClassName);
-                    document.querySelector('.dz-message').appendChild(addFileBtn);
+                    const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
+                    _this.element.querySelector('.dz-message').appendChild(addFileBtn);
 
                     //파일 확장자 목록 관련 출력
                     let fileNameExtensionList;
@@ -390,7 +390,7 @@ const fileUploader = (function () {
                     });
 
                     this.on("complete", function (file) {
-                        const dropzoneMessage = document.querySelector('.dz-message')
+                        const dropzoneMessage = _this.element.querySelector('.dz-message');
                         document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
                         dropzoneMessage.style.display = 'block';
                     });
