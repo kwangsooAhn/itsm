@@ -8,6 +8,7 @@
     <title th:unless="${documentId}" th:text="#{document.label.register}"></title>
     <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
+    <script th:src="@{/assets/js/util/thumbnail-alice.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -75,10 +76,10 @@
             <label class="required"  th:text="#{document.label.businessFlowColor}" for="document-color"></label>
                 <div class="color-picker">
                     <div class="color-input">
-                        <div class="selected-color-layer">
+                        <div class="selected-color-box">
                             <div id="selected-color" name="selected-color" class="selected-color"></div>
                         </div>
-                        <input id="document-color" name="document-color"/>
+                        <input id="document-color" name="document-color" readonly/>
                     </div>
                     <div id="color-palette-layer">
                         <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
@@ -128,6 +129,10 @@
                 if (documentGroup.options[documentGroup.selectedIndex].value !== '') {
                     documentInfo.documentGroup = documentGroup.options[documentGroup.selectedIndex].value;
                 }
+                let documentIcon = document.getElementById('document-icon');
+                if (documentIcon !== null) {
+                    documentInfo.documentIcon = documentIcon.value;
+                }
 
                 let url = '/rest/documents-admin';
                 if (method === 'put') {
@@ -176,11 +181,13 @@
         }
 
         //ColorPicker 초기화
-        function initColorPicker() {
+        function initColorPicker(selectedColor) {
             let selectedColorBox = document.getElementById('selected-color');
             let elementObject = document.getElementById('document-color');
-            selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
-            elementObject.value = '#000000';
+            if (selectedColor == 'undefined' || selectedColor == null) {
+                selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
+                elementObject.value = '#000000';
+            }
             elementObject.addEventListener('change', function() {
                 if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
                     this.value = '';
@@ -189,9 +196,49 @@
             });
             let colorPaletteLayer = document.getElementById('color-palette-layer');
             let option = {
-                colors: colorPalette.getPaletteColors('documentPaletteColors')
+                colors: colorPalette.getPaletteColors('documentPaletteColors'),
+                data : {
+                    isSelected: true,
+                    selectedClass: 'selected',
+                    value: selectedColor
+                }
             }
             colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
+        }
+
+        // 신청서 아이콘 추가 (업무흐름: 신청서)
+        function initIconSelector() {
+            const documentType = document.getElementById('document-type');
+            const formObject = document.querySelector('.edit');
+            if (documentType.value === 'application-form') {
+                let formSet = document.createElement('div');
+                formSet.className = 'form-set';
+                let formSetLabel = document.createElement('label');
+                formSetLabel.htmlFor = 'document-icon';
+                formSetLabel.innerText = i18n.get('document.label.icon');
+
+                let formIcon = document.createElement('div');
+                let formIconInput = document.createElement('input');
+                formIconInput.id = 'document-icon';
+                formIconInput.readOnly = true;
+                formIconInput.disabled = true;
+                let formIconButton = document.createElement('button');
+                formIconButton.innerText = i18n.get('common.btn.select');
+                formIconButton.className = 'point-line';
+                formIconButton.onclick = function() {
+                    openIcon();
+                }
+                formIcon.appendChild(formIconInput);
+                formIcon.appendChild(formIconButton);
+
+                formSet.appendChild(formSetLabel);
+                formSet.appendChild(formIcon);
+                formObject.appendChild(formSet);
+            } else {
+                if (document.querySelector('#document-icon') !== null) {
+                    document.querySelector('#document-icon').parentElement.parentElement.remove();
+                }
+            }
         }
 
         /**
@@ -210,6 +257,10 @@
             document.getElementById('selected-color').style.backgroundColor = documentData.documentColor;
             document.getElementById('document-group').value = (documentData.documentGroup !== null ? documentData.documentGroup : '');
             document.getElementById('document-group').disabled = (documentData.documentType === 'workflow');
+            initIconSelector();
+            if (document.querySelector('#document-icon') !== null) {
+                document.getElementById('document-icon').value = (documentData.documentIcon != null ? documentData.documentIcon : '');
+            }
 
             const statusElem = document.getElementById('document-status');
             beforeDocumentStatus = documentData.documentStatus;
@@ -235,17 +286,31 @@
             window.close();
         }
 
+        function openIcon() {
+            thumbnail.init({
+                targetId: 'document-icon',
+                selectedPath: document.querySelector('#document-icon').value,
+                type: 'icon',
+                isThumbnailInfo: false,
+                isFilePrefix: false
+            });
+        }
+
         window.onload = function() {
-            initColorPicker();
             if ('[[${documentId}]]' !== '') {
                 aliceJs.sendXhr({
                     method: 'GET',
                     url: '/rest/documents-admin/[[${documentId}]]',
                     contentType: 'application/json; charset=utf-8',
                     callbackFunc: function(xhr) {
-                        setData(JSON.parse(xhr.responseText));
+                        let documentData = JSON.parse(xhr.responseText);
+                        setData(documentData);
+                        initColorPicker(documentData.documentColor);
                     }
                 });
+            } else {
+                initColorPicker();
+                initIconSelector();
             }
             document.getElementById('document-type').addEventListener('change', function() {
                 const groupElem = document.getElementById('document-group');
@@ -253,6 +318,7 @@
                 if (this.value === 'workflow') {
                     groupElem.value = '';
                 }
+                initIconSelector();
             });
         };
         /*]]>*/

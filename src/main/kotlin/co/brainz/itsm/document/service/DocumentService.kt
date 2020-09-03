@@ -1,6 +1,7 @@
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.form.service.FormAdminService
 import co.brainz.itsm.process.service.ProcessAdminService
 import co.brainz.workflow.provider.RestTemplateProvider
@@ -50,11 +51,16 @@ class DocumentService(
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url, parameters = multiVal)
         val responseBody = restTemplate.get(url) // providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-
-        return mapper.readValue(
+        val documentList: List<RestTemplateDocumentDto> = mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateDocumentDto::class.java)
         )
+        for (document in documentList) {
+            if (document.documentIcon.isNullOrEmpty()) {
+                document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
+            }
+        }
+        return documentList
     }
 
     /**

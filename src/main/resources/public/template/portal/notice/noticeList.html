@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+<table>
+    <thead>
+    <tr>
+        <th width="75%" th:text="#{common.label.title}"></th>
+        <th width="10%" th:text="#{common.label.writer}"></th>
+        <th width="15%" th:text="#{common.label.writeDate}"></th>
+    </tr>
+    </thead>
+    <tbody class="list-body">
+    <input th:type="hidden" id="totalCount" name="totalCount" th:value="${noticeCount}"/>
+    <tr class="no-data-found" th:if="${#arrays.isEmpty(noticeList)}">
+        <td colspan="6" th:text="#{common.msg.noData}"></td>
+    </tr>
+    <tr class="tr-notice" th:each="topNotice, i: ${topNoticeList}"
+        th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
+        <td width="75%" class="align-left">
+            <a th:text="${topNotice.noticeTitle}"
+               th:href="@{/portal/notices/{id}/view(id=${topNotice.noticeNo})}"></a>
+        </td>
+        <td width="10%" class="align-center" th:text="${topNotice?.createUserName}"></td>
+        <td width="15%" class="align-center" th:name="createDt" th:text="${topNotice.createDt}"></td>
+    </tr>
+    <tr th:each="notice : ${noticeList}">
+        <td width="75%" class="align-left">
+            <a th:text="${notice.noticeTitle}"
+               th:href="@{/portal/notices/{id}/view(id=${notice.noticeNo})}"></a>
+        </td>
+        <td width="10%" class="align-center" id="userName" th:text="${notice?.createUserName}"></td>
+        <td width="15%" class="align-center" th:name="createDt" th:text="${notice.createDt}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

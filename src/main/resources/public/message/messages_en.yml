@@ -14,10 +14,12 @@ common:
     next: "NEXT"
     print: "PRINT"
     register: "REGISTER"
+    return: "GO BACK"
     save: "SAVE"
     saveAs: "SAVE AS"
     update: "UPDATE"
     write: "WRITE"
+    select: "SELECT"
   label:
     attachFile: "Attach file"
     blank: " "
@@ -305,6 +307,7 @@ document:
     status: "Service Request Status"
     type: "Document Type"
     write: "Service Request Write"
+    icon: "Document Icon"
   msg:
     checkDocument: "Please check the document again."
     enterBusinessFlowColor: "Please enter Business Flow Color."
@@ -573,6 +576,7 @@ notice:
     enterToDt: "Please enter a search end date."
     enterTopNoticeEndDt: "Please enter a top notice end date."
     enterTopNoticeStrtDt: "Please enter a top notice start date."
+    portalDescription: "View notice's information."
 
 # Notification
 notification:

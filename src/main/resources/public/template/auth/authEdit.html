@@ -124,8 +124,9 @@
 
             let authList = document.querySelectorAll('td[name=authName]');
             for(let i = 0; i < authList.length; i++) {
+                authList[i].style.cursor = 'pointer';
                 authList[i].addEventListener('click', function(){
-                    let activeTr = document.querySelector('tr.active')
+                    let activeTr = document.querySelector('tr.active');
                     if (activeTr !== null) {
                         activeTr.classList.remove('active');
                     }
@@ -147,7 +148,7 @@
             });
 
             OverlayScrollbars(document.querySelector('#txtAuthDesc'), {
-                className: 'scrollbar',
+                className: 'inner-scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,
                 textarea: {
@@ -308,6 +309,7 @@
                     let authList = document.querySelectorAll('td[name=authName]');
                     document.getElementById('totalCount').textContent = i18n.msg("common.label.count", authList.length);
                     for(let i = 0; i < authList.length; i++) {
+                        authList[i].style.cursor = 'pointer';
                         authList[i].addEventListener('click', function(){
                             let activeTr = document.querySelector('tr.active')
                             if (activeTr !== null) {
@@ -327,7 +329,7 @@
                         });
                     }
                     document.querySelector('td[name=authName]').click();
-                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'inner-scrollbar' });
                 }
             };
             aliceJs.sendXhr(opt);
@@ -369,10 +371,8 @@
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.roleAuthMapCount);
                     }
-                    OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
-                    Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
-                        OverlayScrollbars(target, { className: 'scrollbar' });
-                    })
+                    OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'inner-scrollbar' });
+                    OverlayScrollbars(document.querySelectorAll('.checkbox-list'), { className: 'inner-scrollbar' });
                 },
             };
             aliceJs.sendXhr(opt);

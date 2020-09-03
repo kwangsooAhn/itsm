@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-view">
+    <div class="contents-view scroll-wrap">
         <div class="header">
             <div class="page-title">
                 <h1 th:text="#{board.label.detail}"></h1>
@@ -44,16 +44,6 @@
                 </form>
             </div>
             <div class="horizontal-bar"></div>
-            <table th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
-                <tr>
-                    <td><label th:text="#{common.label.comment}"></label></td>
-                    <td><input type="text" id="boardComments" name="boardComments" maxlength="500"/></td>
-                    <td><div align="center"><button onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button></div></td>
-                </tr>
-                <tr>
-                    <td colspan="3"><div th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div></td>
-                </tr>
-            </table>
             <div class="btn-bar">
                 <button class="default-line" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
                 <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
@@ -71,6 +61,14 @@
                         th:onclick="deleteBoard('delete')"
                         th:text="#{common.btn.delete}">
                 </button>
+            </div>
+            <div class="reply-body flex-column" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
+                <div class="reply-input-row flex-row">
+                    <img class="profile-photo" alt="profile pic" src="/assets/media/image/avatar/profile_sample.jpg"/>
+                    <input type="text" id="boardComments" name="boardComments" maxlength="500"/>
+                    <button class="default-line" onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button>
+                </div>
+                <div class="reply-list flex-column" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
             </div>
         </div>
     </div>
@@ -96,6 +94,7 @@
                 getBoardCommentList();
             }
             initTextEditor(true);
+            OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
         };
 
         //웹에디터 초기화
@@ -146,7 +145,7 @@
             } else {
                 let context = document.getElementById(boardCommentId).innerText;
                 document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' id='editComments' name='editComments' value='"+context+"'/>" +
-                    "<button onclick=\"saveBoardEditComment('put','"+boardCommentId+"')\">"+i18n.get('common.btn.save')+"</button>";
+                    "<button class='default-line' onclick=\"saveBoardEditComment('put','"+boardCommentId+"')\">"+i18n.get('common.btn.save')+"</button>";
             }
         }
 

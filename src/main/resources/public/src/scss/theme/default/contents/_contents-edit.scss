@@ -8,4 +8,53 @@
     .image-list {
         padding: 3.125rem 3.75rem 2.875rem 3.75rem;
     }
+    .list {
+        width: 61.25rem;
+        margin: auto;
+        table {
+            width: 100%;
+            thead {
+                display: block;
+                & > tr {
+                    height: 2.375rem; // 38px
+                    border-bottom: .125rem solid $default-gray;
+                    display: flex;
+                    th {
+                        @include h4();
+                        vertical-align: middle;
+                        text-align: left;
+                        &:first-child {
+                            padding-left: 1.25rem; // 20px
+                        }
+                    }
+                }
+            }
+            tbody {
+                display: block;
+                overflow-y: auto;
+                width: 100%;
+                tr {
+                    height: 2.875rem;
+                    width: 100%;
+                    display: table;
+                    &:hover {
+                        background: $line-gray;
+                    }
+                    &.active {
+                        td {
+                            color: $dark-blue;
+                            background: $line-gray;
+                        }
+                    }
+                    td {
+                        @include h5();
+                        vertical-align: middle;
+                        &:first-child {
+                            padding-left: 1.25rem; // 20px
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

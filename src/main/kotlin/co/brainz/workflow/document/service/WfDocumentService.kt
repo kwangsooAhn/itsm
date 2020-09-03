@@ -78,7 +78,8 @@ class WfDocumentService(
                     createDt = document.createDt,
                     updateUserKey = document.updateUserKey,
                     updateDt = document.updateDt,
-                    totalCount = queryResult.total
+                    totalCount = queryResult.total,
+                    documentIcon = document.documentIcon
                 )
             )
         }
@@ -107,7 +108,8 @@ class WfDocumentService(
             updateUserKey = document.updateUserKey,
             documentNumberingRuleId = document.numberingRule.numberingId,
             documentColor = document.documentColor,
-            documentGroup = document.documentGroup
+            documentGroup = document.documentGroup,
+            documentIcon = document.documentIcon
         )
     }
 
@@ -174,7 +176,8 @@ class WfDocumentService(
             numberingRule = aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId)
                 .get(),
             documentColor = restTemplateDocumentDto.documentColor,
-            documentGroup = restTemplateDocumentDto.documentGroup
+            documentGroup = restTemplateDocumentDto.documentGroup,
+            documentIcon = restTemplateDocumentDto.documentIcon
         )
         val dataEntity = wfDocumentRepository.save(documentEntity)
         createDocumentDisplay(dataEntity) // 신청서 양식 정보 초기화
@@ -191,7 +194,8 @@ class WfDocumentService(
             createUserKey = dataEntity.createUserKey,
             documentNumberingRuleId = dataEntity.numberingRule.numberingId,
             documentColor = dataEntity.documentColor,
-            documentGroup = dataEntity.documentGroup
+            documentGroup = dataEntity.documentGroup,
+            documentIcon = dataEntity.documentIcon
         )
     }
 
@@ -220,6 +224,7 @@ class WfDocumentService(
             aliceNumberingRuleRepository.findById(restTemplateDocumentDto.documentNumberingRuleId).get()
         wfDocumentEntity.documentColor = restTemplateDocumentDto.documentColor
         wfDocumentEntity.documentGroup = restTemplateDocumentDto.documentGroup
+        wfDocumentEntity.documentIcon = restTemplateDocumentDto.documentIcon
         updateFormAndProcessStatus(wfDocumentRepository.save(wfDocumentEntity))
 
         if (params["isDeleteData"].toString().toBoolean()) {

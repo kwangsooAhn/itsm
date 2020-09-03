@@ -66,7 +66,10 @@ data class WfDocumentEntity(
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "numbering_id")
-    var numberingRule: AliceNumberingRuleEntity
+    var numberingRule: AliceNumberingRuleEntity,
+
+    @Column(name = "document_icon", length = 100)
+    var documentIcon: String? = null
 
 ) : Serializable {
 

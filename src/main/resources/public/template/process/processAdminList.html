@@ -31,12 +31,12 @@
                 </td>
                 <td width="10%">
                     <a th:attr="onclick=|openProcessDesignerView('${process.id}')|">
-                        <img src="../assets/media/icons/process/list/icon_preview.png"></a>
+                        <img src="../assets/media/icons/process/list/icon_preview.svg"></a>
                 </td>
                 <td width="10%">
                     <a sec:authorize="hasAuthority('process.update')" th:disabled="${!process.enabled}"
                        th:attr="onclick=|openProcessDesignerEdit('${process.id}')|">
-                        <img src="../assets/media/icons/process/list/icon_edit.png"></a>
+                        <img src="../assets/media/icons/process/list/icon_edit.svg"></a>
                 </td>
                 <td width="10%" th:text="#{${process.status}}"></td>
                 <td width="30%" class="align-left" th:text="${process.description}"></td>
