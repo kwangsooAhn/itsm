@@ -444,26 +444,33 @@ input:focus {
   cursor: pointer;
 }
 .portal-search-main {
-  height: 15rem;
+  height: 6.5rem;
   background-color: #EBEBEB;
-  padding: 0 40rem;
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 .portal-search-main .title {
   text-align: center;
-  padding: 3.625rem 0;
+  padding: 3.625rem 0 0.625rem 0;
 }
-.portal-search-main input {
+.portal-search-area {
+  height: 8.5rem;
+  background-color: #EBEBEB;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  padding: 3rem 0 3rem 0;
+}
+.portal-search-area input {
   padding: 0 2.5rem 0 0.938rem;
-  width: 100%;
+  width: 40rem;
   height: 2.5rem;
+  display: block;
+  margin: auto;
   border: 1px solid #EBEBEB;
   border-radius: 1px;
   color: rgba(122, 133, 148, 0.55);
   font-weight: 400;
   font-size: 0.938rem;
 }
-.portal-search-main input.icon {
+.portal-search-area input.icon {
   background-image: url("../media/image/portalSearch/icon_search.png");
   background-position: 38.0625rem;
   background-repeat: no-repeat;
@@ -585,6 +592,57 @@ input:focus {
   overflow: hidden;
 }
 
+.slide-down {
+  display: block;
+  -webkit-animation: slide-down 0.3s ease-out;
+  -moz-animation: slide-down 0.3s ease-out;
+}
+
+.slide-up {
+  -webkit-animation: slide-up 0.3s ease-out;
+  -moz-animation: slide-up 0.3s ease-out;
+}
+
+@-webkit-keyframes slide-down {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+  }
+}
+@-moz-keyframes slide-down {
+  0% {
+    opacity: 0;
+    -moz-transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    -moz-transform: translateY(0);
+  }
+}
+@-webkit-keyframes slide-up {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+  }
+}
+@-webkit-keyframes slide-up {
+  0% {
+    opacity: 0;
+    -webkit-transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    -webkit-transform: translateY(0);
+  }
+}
 .dropzone {
   box-sizing: border-box;
   height: 9.375rem;
