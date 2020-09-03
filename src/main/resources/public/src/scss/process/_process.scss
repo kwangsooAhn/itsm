@@ -174,20 +174,7 @@
         min-width: #{$process-container-min-width - ($process-element-palette-width + $process-properties-panel-width)};
         height: calc(100vh - #{$process-toolbar-height});
         min-height: #{$process-container-min-height - $process-toolbar-height};
-
-        div.minimap-button {
-            display: inline-block;
-            width: 2.188rem; // 35px
-            height: 2.188rem; // 35px
-            position: absolute;
-            bottom: 0.625rem; // 10px
-            right: 0.625rem; // 10px
-            cursor: pointer;
-            background: {
-                image: url("../media/icons/process/editor/icon-map.png");
-                repeat: no-repeat;
-            };
-        }
+        overflow: hidden;
 
         div.minimap {
             background-color: #ffffff;
@@ -214,10 +201,151 @@
                     stroke-width: 0;
                 }
             }
+
+            &.closed {
+                display: none;
+            }
+
+            &-button {
+                display: inline-block;
+                width: 2.5rem; // 40px
+                height: 2.5rem; // 40px
+                position: absolute;
+                bottom: 0.625rem; // 10px
+                right: 0.625rem; // 10px
+                cursor: pointer;
+
+                .icon-minimap-border {
+                    fill: #ffffff;
+                    stroke: #ebebeb;
+                }
+
+                .icon-minimap {
+                    fill: #ccced1
+                }
+
+                &.active {
+                    .icon-minimap-border {
+                        stroke: #0098ff;
+                    }
+
+                    .icon-minimap {
+                        fill: #0098ff;
+                    }
+                }
+            }
         }
 
-        div.minimap.closed {
-            display: none;
+
+        .simulation-report {
+            position: absolute;
+            width: 63.75rem; // 1020px
+            height: 22.688rem; // 363px
+            display: block;
+            background-color: #ffffff;
+            overflow: hidden;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            border: solid 1px #ebebeb;
+
+            .title {
+                height: 3.375rem;
+                border-bottom: solid 1px #ebebeb;
+                font-size: 1.125rem;
+                padding: 1.063rem;
+
+                &-text {
+                    display: inline-block;
+                }
+
+                &-close {
+                    display: inline-block;
+                    width: 16px;
+                    height: 18px;
+                    float: right;
+                    background: {
+                        image: url("../media/icons/process/editor/icon-simulation-close.svg");
+                        position-y: center;
+                        repeat: no-repeat;
+                    };
+                    cursor: pointer;
+                }
+            }
+
+            .contents {
+                position: relative;
+                height: calc(100% - 3.375rem);
+                font-size: 1.125rem;
+
+                .result {
+                    margin: 0.938rem;
+
+                    &.success {
+                        color: #00c462;
+                    }
+
+                    &.failed {
+                        color: #ff405a;
+                    }
+                }
+
+                .details {
+                    font-size: 1rem;
+                    color: #586872;
+
+                    div {
+                        margin: 0.313rem 0 0.313rem 0.75rem;
+
+                        &.failed {
+                            color: #ff405a;
+                        }
+                    }
+
+                    &-number-of, &-result, &-element-info, &-failed-message {
+                        margin-left: 0.313rem;
+                    }
+                }
+            }
+
+            &.closed {
+                display: none;
+            }
+
+            &-icon {
+                position: absolute;
+                width: 2.5rem; // 40px
+                height: 2.5rem; // 40px
+                bottom: 3.438rem; // 55px
+                right: 0.625rem; // 10px
+                display: inline-block;
+                cursor: pointer;
+
+                .icon-eye-bg {
+                    fill: #fff;
+                    stroke: #ebebeb;
+                }
+
+                .icon-eye {
+                    fill: #CCCED1;
+                }
+
+                &.active {
+                    .icon-eye-bg {
+                        stroke: #0098ff;
+                    }
+
+                    .icon-eye {
+                        fill: #0098ff;
+                    }
+                }
+            }
+
+            &:active {
+                border: solid 0.063rem #0098ff;
+            }
         }
     }
 
@@ -778,26 +906,3 @@
     }
 }
 
-.simulation-report {
-    .success {
-        font-size: 14px
-    }
-
-    .details {
-        &-number-of {
-            font-size: 15px
-        }
-
-        &-success {
-            font-size: 16px
-        }
-
-        &-element-id {
-            font-size: 17px
-        }
-
-        &-failed-message {
-            font-size: 20px
-        }
-    }
-}
