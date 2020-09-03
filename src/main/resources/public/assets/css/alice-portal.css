@@ -918,17 +918,6 @@ input:focus {
   top: 5rem;
   left: 5rem;
 }
-.login-return {
-  position: absolute;
-  top: 5rem;
-  left: 66rem;
-  color: #FFFFFF;
-  font-size: 0.875rem;
-  text-align: center;
-  border: 0.0625rem solid;
-  border-radius: 0.1875rem;
-  padding: 0.75rem 3rem;
-}
 .login-background {
   background-color: #0098FF;
   height: 100%;
@@ -962,6 +951,14 @@ input:focus {
   font-size: 0.875rem;
   vertical-align: middle;
   padding: 0.75rem 0.625rem;
+}
+.login-btn-return {
+  position: absolute;
+  top: 5rem;
+  left: 66rem;
+  color: #FFFFFF;
+  border-radius: 0.1875rem;
+  padding: 0.75rem 3rem;
 }
 .login-btn-submit {
   background-color: #0098FF;
