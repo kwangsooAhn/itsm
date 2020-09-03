@@ -1,20 +1,18 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+	  layout:decorator="layout/portalLayout">
 <head>
-	<meta charset="UTF-8">
-	<link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
+	<title th:text="#{menu.faq.parent}"></title>
 </head>
 <body>
-<div class="list">
-	<div class="portal-search-top">
-		<img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
-		<div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'" th:text="#{portal.label.main}"></div>
-		<div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'" th:text="#{portal.label.login}"></div>
-	</div>
-	<div class="portal-search-main">
-		<h1 class="title" th:text="#{faq.label.list}"></h1>
-		<h6 class="title-description" th:text="#{faq.label.description}"></h6>
+<th:block layout:fragment="content">
+	<div class="portal-search-container">
+		<div class="page-title">
+			<h1 class="title" th:text="#{faq.label.list}"></h1>
+			<h6 class="title-description" th:text="#{faq.label.description}"></h6>
+		</div>
 		<div class="portal-faq-select">
 			<select align="left" id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')">
 				<option th:text="#{common.code.faq.category.all}" value="" selected></option>
@@ -23,67 +21,70 @@
 			</select>
 		</div>
 	</div>
-	<div class="portal-search-result"></div>
-</div>
+	<div class="portal-search-result">
+		<div class="list" id="faqList"></div>
+	</div>
+</th:block>
 </body>
-<script th:src="@{/assets/js/util/util-alice.js}"></script>
-<script type="text/javascript" th:inline="javascript">
-	/*<![CDATA[ */
-	const faqId = [[${faqs?.faqId}]];
+<th:block layout:fragment="pageScript">
+	<script type="text/javascript" th:inline="javascript">
+		/*<![CDATA[ */
+		const faqId = [[${faqs?.faqId}]];
 
-	window.onload = function () {
-		if (faqId !== '') {
-			getFaqList('', faqId);
-		} else {
-			restSubmit('get', '/portal/faqs/list');
-		}
-    }
+		window.onload = function () {
+			if (faqId !== '') {
+				getFaqList('', faqId);
+			} else {
+				restSubmit('get', '/portal/faqs/list');
+			}
+	    }
 
-    function getFaqList(category, faqId) {
-		let urlParam = '';
-		if (category !== '') {
-			urlParam += 'category=' + category;
-		} else {
-			urlParam += 'id=' + faqId;
-		}
-		restSubmit('get', '/portal/faqs/list?' + urlParam);
-    }
+	    function getFaqList(category, faqId) {
+			let urlParam = '';
+			if (category !== '') {
+				urlParam += 'category=' + category;
+			} else {
+				urlParam += 'id=' + faqId;
+			}
+			restSubmit('get', '/portal/faqs/list?' + urlParam);
+	    }
 
-	function restSubmit(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            showProgressbar: false,
-            async: false,
-            callbackFunc: function(response) {
-                document.querySelector('.portal-search-result').innerHTML = response.responseText;
-				document.getElementsByClassName('faqGroup')[0].open = true;
-                document.getElementsByClassName('faqTitle')[0].open = true;
-				let selectedGroup = document.getElementsByClassName('selectedGroup')[0].id;
-				let selectedId = document.getElementsByClassName('selectedId')[0].id;
-				if (selectedId !== '') {
-					let group = document.getElementsByClassName('faqGroup');
-                    let title = document.getElementsByClassName('faqTitle');
-                    for (let i = 0; i < group.length; i++) {
-                        if (group[i].id === selectedGroup) {
-                            document.getElementsByClassName('faqGroup')[0].open = false;
-                            group[i].open = true;
-                            break;
-                        }
-                    }
-                    for (let i = 0; i < title.length; i++) {
-                        if (title[i].id === selectedId) {
-                            document.getElementsByClassName('faqTitle')[0].open = false;
-                            title[i].open = true;
-                            title[i].setAttribute('id', 'highlight')
-                            break;
-                        }
-                    }
-                }
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
-    /* ]]> */
-</script>
+		function restSubmit(method, url) {
+	        const opt = {
+	            method: method,
+	            url: url,
+	            showProgressbar: false,
+	            async: false,
+	            callbackFunc: function(response) {
+	                document.querySelector('.list').innerHTML = response.responseText;
+					document.getElementsByClassName('faqGroup')[0].open = true;
+	                document.getElementsByClassName('faqTitle')[0].open = true;
+					let selectedGroup = document.getElementsByClassName('selectedGroup')[0].id;
+					let selectedId = document.getElementsByClassName('selectedId')[0].id;
+					if (selectedId !== '') {
+						let group = document.getElementsByClassName('faqGroup');
+	                    let title = document.getElementsByClassName('faqTitle');
+	                    for (let i = 0; i < group.length; i++) {
+	                        if (group[i].id === selectedGroup) {
+	                            document.getElementsByClassName('faqGroup')[0].open = false;
+	                            group[i].open = true;
+	                            break;
+	                        }
+	                    }
+	                    for (let i = 0; i < title.length; i++) {
+	                        if (title[i].id === selectedId) {
+	                            document.getElementsByClassName('faqTitle')[0].open = false;
+	                            title[i].open = true;
+	                            title[i].setAttribute('id', 'highlight')
+	                            break;
+	                        }
+	                    }
+	                }
+	            }
+	        };
+	        aliceJs.sendXhr(opt);
+	    }
+	    /* ]]> */
+	</script>
+</th:block>
 </html>
