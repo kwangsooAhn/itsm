@@ -465,8 +465,56 @@ label {
   top: -0.063rem;
   content: "−";
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties span.selected-color-layer {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker {
+  display: flex;
+  flex-direction: column;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input {
+  display: inline-flex;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: auto;
+  cursor: pointer;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.3125rem;
+  border: 0.0625rem solid #EBEBEB;
+  cursor: pointer;
+  display: flex;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  background-color: white;
+  width: 30rem;
+  margin-top: 0.3125rem;
+  padding: 1.25rem 0 0.625rem 1.25rem;
+  border: 0.0625rem solid #EBEBEB;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
   display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.625rem;
+  margin-bottom: 0.625rem;
+  cursor: pointer;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
+  border: 0.375rem solid white;
+  outline: 0.063rem solid #0098FF;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
+  width: 1.063rem;
+  height: 1.063rem;
+  border: 0.1875rem solid #68717c;
+  margin: 0;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
   width: 1.563rem;
   height: 1.563rem;
   margin-right: 0.313rem;
@@ -474,37 +522,29 @@ label {
   padding-top: 0.1875rem;
   padding-left: 0.1875rem;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties span.selected-color-layer span.selected-color {
-  display: inline-block;
-  width: 1.063rem;
-  height: 1.063rem;
-  border: 0.1875rem solid #68717c;
-  cursor: pointer;
-}
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette {
-  background-color: #ffffff;
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
   width: 11.875rem;
-  height: 4.938rem;
   margin-top: 0.188rem;
   border: 0.063rem solid #c8ced8;
   padding-left: 0.219rem;
   padding-top: 0.188rem;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette div {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
   display: inline-block;
-  vertical-align: top;
   width: 1rem;
   height: 1rem;
   margin-top: 0.375rem;
   margin-left: 0.375rem;
+  margin-right: 0;
+  margin-bottom: 0;
   border: 0.063rem solid #a3adbb;
   cursor: pointer;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette div.selected {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
   border: 0.125rem solid #ffffff;
   outline: 0.063rem solid #0055ff;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity {
   background-color: #ffffff;
   width: 11.875rem;
   border: 0.063rem solid #c8ced8;
@@ -513,22 +553,22 @@ label {
   display: none;
   height: 2.5rem;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span {
   display: table-cell;
   vertical-align: middle;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span input {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input {
   vertical-align: middle;
   width: 1.875rem;
   height: 1.25rem;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span input[type=range] {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range] {
   -webkit-appearance: none;
   /*&::-webkit-slider-runnable-track {
       -webkit-appearance: none;
   }*/
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span input[type=range]::-webkit-slider-thumb {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 0.625rem;
   height: 0.625rem;
@@ -537,7 +577,7 @@ label {
   background: #fff;
   cursor: pointer;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span input[type=range]::-moz-range-thumb {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-thumb {
   width: 0.625rem;
   height: 0.625rem;
   border: 0.0625rem solid #c8ced8;
@@ -545,11 +585,11 @@ label {
   background: #fff;
   cursor: pointer;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span input[type=range]::-moz-range-progress {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
   background-color: #0055ff;
   height: 0.0625rem;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span input.slide-object {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-object {
   width: 7.625rem;
   height: 0.0625rem;
   background: #c8ced8;
@@ -559,13 +599,13 @@ label {
   margin-left: 0.594rem;
   margin-right: 0.625rem;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span input.slide-input {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-input {
   width: 1.75rem;
   padding-left: 0;
   padding-right: 0.25rem;
   text-align: right;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties div.color-palette-opacity span label {
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span label {
   margin: 0 0 0 0.125rem;
   width: 0.813rem;
   height: 1.25rem;

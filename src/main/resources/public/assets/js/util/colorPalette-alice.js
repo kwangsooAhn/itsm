@@ -27,27 +27,33 @@ const colorPalette = (function() {
     ];
 
     const documentPaletteColors = [
-        '#ff0000'
-        , '#ff8000'
-        , '#ffff00'
-        , '#00ff00'
-        , '#00ffff'
-        , '#0000ff'
-        , '#ff00ff'
-        , '#f7be81'
-        , '#f3f781'
-        , '#81f781'
-        , '#81f7f3'
-        , '#8181f7'
-        , '#fbefef'
-        , '#f8eCe0'
-        , '#f7f8e0'
-        , '#e0f8e0'
-        , '#e0f8f7'
-        , '#e0e0f8'
-        , '#f8e0f7'
-        , '#fafafa'
-        , '#000000'
+        '#0098FF'
+        , '#0060A5'
+        , '#EBEBEB'
+        , '#ACB4BF'
+        , '#929AA6'
+        , '#586872'
+        , '#3F4B56'
+        , '#283238'
+        , '#FF405A'
+        , '#00C462'
+        , '#0A3D64'
+        , '#DDB0A7'
+        , '#EAAD5A'
+        , '#A8B293'
+        , '#DF8053'
+        , '#DC8665'
+        , '#138086'
+        , '#534666'
+        , '#CD7672'
+        , '#EEB462'
+        , '#EBA49C'
+        , '#F9C449'
+        , '#3C4CAD'
+        , '#240E88'
+        , '#787FF6'
+        , '#78D5F5'
+        , '#FFFFFF'
     ];
 
     /**
@@ -250,15 +256,14 @@ const colorPalette = (function() {
             selectedInput.value = color;
             if (isOpacity && opacityElement !== null) {
                 selectedInput.dataset['opacity'] = slideObject.value;
-
-                // 기존 선택된 값의 테두리를 없애고 새로운 값 테두리 생성
-                paletteElement.childNodes.forEach(function(item){
-                    item.classList.remove(data.selectedClass);
-                    if (item.dataset.col === color) {
-                        item.classList.add(data.selectedClass);
-                    }
-                });
             }
+            // 기존 선택된 값의 테두리를 없애고 새로운 값 테두리 생성
+            paletteElement.childNodes.forEach(function(item){
+                item.classList.remove(data.selectedClass);
+                if (item.dataset.col === color) {
+                    item.classList.add(data.selectedClass);
+                }
+            });
             const evt = document.createEvent('HTMLEvents');
             evt.initEvent('change', false, true);
             selectedInput.dispatchEvent(evt);

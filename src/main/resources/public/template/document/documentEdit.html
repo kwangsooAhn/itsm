@@ -76,10 +76,10 @@
             <label class="required"  th:text="#{document.label.businessFlowColor}" for="document-color"></label>
                 <div class="color-picker">
                     <div class="color-input">
-                        <div class="selected-color-layer">
+                        <div class="selected-color-box">
                             <div id="selected-color" name="selected-color" class="selected-color"></div>
                         </div>
-                        <input id="document-color" name="document-color"/>
+                        <input id="document-color" name="document-color" readonly/>
                     </div>
                     <div id="color-palette-layer">
                         <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
@@ -181,11 +181,13 @@
         }
 
         //ColorPicker 초기화
-        function initColorPicker() {
+        function initColorPicker(selectedColor) {
             let selectedColorBox = document.getElementById('selected-color');
             let elementObject = document.getElementById('document-color');
-            selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
-            elementObject.value = '#000000';
+            if (selectedColor == 'undefined' || selectedColor == null) {
+                selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
+                elementObject.value = '#000000';
+            }
             elementObject.addEventListener('change', function() {
                 if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
                     this.value = '';
@@ -194,7 +196,12 @@
             });
             let colorPaletteLayer = document.getElementById('color-palette-layer');
             let option = {
-                colors: colorPalette.getPaletteColors('documentPaletteColors')
+                colors: colorPalette.getPaletteColors('documentPaletteColors'),
+                data : {
+                    isSelected: true,
+                    selectedClass: 'selected',
+                    value: selectedColor
+                }
             }
             colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
         }
@@ -290,17 +297,19 @@
         }
 
         window.onload = function() {
-            initColorPicker();
             if ('[[${documentId}]]' !== '') {
                 aliceJs.sendXhr({
                     method: 'GET',
                     url: '/rest/documents-admin/[[${documentId}]]',
                     contentType: 'application/json; charset=utf-8',
                     callbackFunc: function(xhr) {
-                        setData(JSON.parse(xhr.responseText));
+                        let documentData = JSON.parse(xhr.responseText);
+                        setData(documentData);
+                        initColorPicker(documentData.documentColor);
                     }
                 });
             } else {
+                initColorPicker();
                 initIconSelector();
             }
             document.getElementById('document-type').addEventListener('change', function() {

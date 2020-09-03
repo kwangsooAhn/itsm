@@ -1461,7 +1461,7 @@
                                 elementObject.value = aliceJs.rgbaToHex(elemData[property.id]);
                             }
                             let opacityValue = aliceJs.rgbaOpacity(elemData[property.id]) * 100;
-                            let opacityLayer = elementObject.nextElementSibling.querySelector('.color-palette-opacity');
+                            let opacityLayer = elementObject.parentElement.nextElementSibling.querySelector('.color-palette-opacity');
                             if (opacityLayer !== null) {
                                 opacityValue = opacityValue.toFixed(0); // 실제 값은 정상이나 소수점이 나오는 현상이 있어 소수점 처리 추가
                                 opacityLayer.querySelector('.slide-object').value = opacityValue;
@@ -1717,20 +1717,26 @@
                 propertyContainer.appendChild(elementObject);
                 break;
             case 'rgb':
-                let selectedColorLayer = document.createElement('span');
+                let colorPicker = document.createElement('div');
+                colorPicker.className = 'color-picker';
+                let colorInput = document.createElement('div');
+                colorInput.className = 'color-input';
                 let selectedColorBox = document.createElement('span');
-                selectedColorLayer.className = 'selected-color-layer'
-                selectedColorBox.className = 'selected-color';
+                let selectedColor = document.createElement('span');
+                selectedColorBox.className = 'selected-color-box'
+                selectedColor.className = 'selected-color';
                 if (property.id === 'line-color') {
-                    selectedColorBox.style.backgroundColor = '';
-                    selectedColorBox.style.borderColor = elemData[property.id];
+                    selectedColor.style.backgroundColor = '';
+                    selectedColor.style.borderColor = elemData[property.id];
                 }
                 if (property.id === 'background-color') {
-                    selectedColorBox.style.backgroundColor = elemData[property.id];
-                    selectedColorBox.style.border = 'transparent';
+                    selectedColor.style.backgroundColor = elemData[property.id];
+                    selectedColor.style.border = 'transparent';
                 }
-                selectedColorLayer.appendChild(selectedColorBox);
-                propertyContainer.appendChild(selectedColorLayer);
+                selectedColorBox.appendChild(selectedColor);
+                colorInput.appendChild(selectedColorBox);
+                colorPicker.appendChild(colorInput);
+                propertyContainer.appendChild(colorPicker);
 
                 elementObject = document.createElement('input');
                 elementObject.className = 'color';
@@ -1763,14 +1769,15 @@
                         }
                     }
                 });
-                propertyContainer.appendChild(elementObject);
+                colorInput.appendChild(elementObject);
 
                 let colorPaletteLayer = document.createElement('div');
+                colorPaletteLayer.className = 'color-palette-layer';
                 let colorPaletteBox = document.createElement('div');
                 colorPaletteBox.id = property.id + '-colorPalette';
                 colorPaletteBox.className = 'color-palette';
                 colorPaletteLayer.appendChild(colorPaletteBox);
-                propertyContainer.appendChild(colorPaletteLayer);
+                colorPicker.appendChild(colorPaletteLayer)
 
                 let option = {
                     isOpacity: true,
@@ -1780,7 +1787,7 @@
                         value: elemData[property.id]
                     }
                 }
-                colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
+                colorPalette.initColorPalette(colorPaletteLayer, selectedColor, elementObject, option);
                 break;
             default:
                 break;

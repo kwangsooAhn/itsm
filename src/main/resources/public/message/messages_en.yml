@@ -14,6 +14,7 @@ common:
     next: "NEXT"
     print: "PRINT"
     register: "REGISTER"
+    return: "GO BACK"
     save: "SAVE"
     saveAs: "SAVE AS"
     update: "UPDATE"

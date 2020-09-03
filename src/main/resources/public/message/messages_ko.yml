@@ -14,6 +14,7 @@ common:
     next: "다음"
     print: "인쇄"
     register: "등록"
+    return: "돌아가기"
     save: "저장"
     saveAs: "다른 이름으로 저장"
     update: "변경"
