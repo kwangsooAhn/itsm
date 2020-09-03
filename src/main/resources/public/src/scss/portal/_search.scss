@@ -58,6 +58,43 @@
             }
         }
 
+        &-container {
+            height: 15rem; // 240px
+            background-color: $line-gray;
+            padding: 0 0 0 12.75rem; // 204px
+            border-bottom: 0.0625rem solid $line-gray; // 1px
+
+            .page-title {
+                text-align: left;
+                padding: 3.625rem 0; // 58px
+                display: flex;
+                align-items: baseline;
+            }
+
+            input {
+                height: 2.5rem; // 40px
+                font-size: $element-font-size;
+                border: $element-border solid $border-color;
+                border-radius: $element-border-radius;
+                padding: 0 10px;
+                margin-right: 0.0625rem; // 1px
+                vertical-align: middle;
+                background-color: $element-background-color;
+                color: #586872;
+            }
+
+            &.search {
+                background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
+                background-color: $element-background-color;
+            }
+
+            &.search-date {
+                background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%;
+                background-color: $element-background-color;
+            }
+
+        }
+
         &-content {
             ul {
                 display: flex;
@@ -120,9 +157,57 @@
         }
 
         &-result {
-            margin: 0 0 0 22.5rem; // 0 0 0 360px
+            //margin: 0 0 0 22.5rem; // 0 0 0 360px
+            padding: 0.625rem 0 0 12.75rem; // 10px 0 0 204px
             .list {
-                height: 40.63rem;  //650px
+                height: 37.31rem;  //597px
+
+                table {
+                    width: 100%;
+                    thead {
+                        display: block;
+                        tr {
+                            display: flex;
+                            height: 2.125rem; //34px
+                            border-bottom: 0.2rem solid #E1E3E6;
+                            width: 88%;
+                            th {
+                                color: #3F4B56;
+                                font-size: 1.125rem;
+                                font-weight: 500;
+                                vertical-align: middle;
+                            }
+                            :first-child {
+                                padding-left: 1.25rem;
+                            }
+                        }
+                    }
+
+                    tbody {
+                        display: block;
+                        height: 37.5rem; //600px
+                        tr {
+                            height: 2.875rem;
+                            width: 88%;
+                            display: table;
+                            td {
+                                color: #586872;
+                                font-size: 1rem;
+                                font-weight: 400;
+                                vertical-align: middle;
+                            }
+                            :first-child {
+                                padding-left: 1.25rem;
+                            }
+                        }
+
+                        // 공지사항 상단 공지 (배경색 별도 처리)
+                        .tr-notice {
+                            background-color: rgba(135, 206, 255, 0.15); // $light-blue;
+                        }
+                    }
+                }
+
                 .row {
                     display: flex;
                     width: 80%;
@@ -188,6 +273,59 @@
                 }
             }
         }
+
+        &-view {
+            .view {
+                padding: 3.125rem 12.75rem 3.125rem 12.75rem; // 50px 204px 50px 204px
+                background-color: white;
+                display: flex;
+                flex-direction: column;
+                flex-grow: 1;
+                div {
+                    &.view-text {
+                        min-height: 13.4375rem; // 215px
+                        padding: 0.3125rem 1.25rem; // 5px 20px
+                        margin-bottom: 0.75rem; // 12px
+                        span {margin: 0;}
+                    }
+
+                    &.view-attach-file {
+                        min-height: 3.125rem; // 50px
+                        padding: 0.125rem 1.25rem; // 2px 20px
+                        display: flex;
+                        .file-attach-input {margin: 0.625rem 0 0 0;} //10px
+                    }
+                }
+            }
+
+            span {margin: auto 0;}
+            span.vertical-bar {
+                width: 1.875rem; // 30px
+                height: 1.875rem; // 30px
+                border-right: 0.0625rem solid $line-gray; // 1px
+                margin-right: 1.875rem; // 30px
+            }
+
+            .horizontal-bar {
+                height: 0.0625rem; // 1px
+                margin: 0.625rem 0; // 10px
+                background-color: $line-gray;
+            }
+
+            // 버튼 영역
+            .btn-bar {
+                padding: 0.625rem 0 0 0; // 10px 0 0 0
+                display: flex;
+                justify-content: flex-end;
+            }
+        }
+
+        // 페이지 제목
+        .page-title {
+            display: flex;
+            align-items: baseline;
+        }
+
     }
 }
 
