@@ -124,8 +124,9 @@
 
             let authList = document.querySelectorAll('td[name=authName]');
             for(let i = 0; i < authList.length; i++) {
+                authList[i].style.cursor = 'pointer';
                 authList[i].addEventListener('click', function(){
-                    let activeTr = document.querySelector('tr.active')
+                    let activeTr = document.querySelector('tr.active');
                     if (activeTr !== null) {
                         activeTr.classList.remove('active');
                     }
@@ -308,6 +309,7 @@
                     let authList = document.querySelectorAll('td[name=authName]');
                     document.getElementById('totalCount').textContent = i18n.msg("common.label.count", authList.length);
                     for(let i = 0; i < authList.length; i++) {
+                        authList[i].style.cursor = 'pointer';
                         authList[i].addEventListener('click', function(){
                             let activeTr = document.querySelector('tr.active')
                             if (activeTr !== null) {
