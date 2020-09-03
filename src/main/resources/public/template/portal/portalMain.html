@@ -43,9 +43,9 @@
             </li>
             <li class="part-box">
                 <div class="header">
-                    <div class="icon">
+                    <a th:attr="onclick=|goDownload();|">
                         <img th:src="@{/assets/media/image/portal/graphic_download.png}"/>
-                    </div>
+                    </a>
                     <h3 th:text="#{menu.download.parent}"></h3>
                 </div>
                 <div class="list">
@@ -100,6 +100,8 @@
                             let contentAnchor = document.createElement('a');
                             if (data['noticeNo'] != null) {
                                 contentAnchor.setAttribute('href', '/portal/notices/'+ data['noticeNo'] +'/view');
+                            } else if (data['downloadId'] != null) {
+                                contentAnchor.setAttribute('href', '/portal/downloads/'+ data['downloadId'] +'/view');
                             } else {
                                 contentAnchor.setAttribute('href', '#N');
                             }
@@ -221,6 +223,8 @@
             let aTitle = document.createElement('a');
             if (data.tableName === 'notice') {
                 aTitle.href = '/portal/notices/'+ data.portalId +'/view';
+            } else if (data.tableName === 'download') {
+                aTitle.href = '/portal/downloads/'+ data.portalId +'/view';
             }
             aTitle.innerText = data.portalTitle;
             divTitle.appendChild(aTitle);
@@ -242,10 +246,17 @@
         }
 
         /*
-        * 포탈 검색
+        * 포탈 공지사항
         */
         function goNotice() {
             location.href = '/portal/notices/search';
+        }
+
+        /*
+        * 포탈 자료실
+        */
+        function goDownload() {
+            location.href = '/portal/downloads/search';
         }
         /* ]]> */
     </script>

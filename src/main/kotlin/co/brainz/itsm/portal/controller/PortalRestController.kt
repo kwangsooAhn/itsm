@@ -10,6 +10,9 @@ import co.brainz.framework.fileTransaction.dto.AliceFileNameExtensionDto
 import co.brainz.framework.fileTransaction.dto.AliceFileOwnMapDto
 import co.brainz.framework.fileTransaction.mapper.AliceFileMapper
 import co.brainz.framework.fileTransaction.service.AliceFileService
+import co.brainz.itsm.download.dto.DownloadListDto
+import co.brainz.itsm.download.dto.DownloadSearchDto
+import co.brainz.itsm.download.service.DownloadService
 import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
@@ -29,9 +32,10 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/rest/portal")
 class PortalRestController(
-    private val portalService: PortalService,
+    private val aliceFileService: AliceFileService,
+    private val downloadService: DownloadService,
     private val noticeService: NoticeService,
-    private val aliceFileService: AliceFileService
+    private val portalService: PortalService
 ) {
     private val fileMapper: AliceFileMapper = Mappers.getMapper(AliceFileMapper::class.java)
 
@@ -106,5 +110,14 @@ class PortalRestController(
     @GetMapping("/filedownload")
     fun downloadFile(@RequestParam seq: Long): ResponseEntity<InputStreamResource> {
         return aliceFileService.download(seq)
+    }
+
+    /**
+     * [DownloadSearchDto]를 받아서 포탈 자료실 추가할 데이터를 반환 [List<DownloadDto>]
+     *
+     */
+    @GetMapping("/downloads/list")
+    fun getBoardList(downloadSearchDto: DownloadSearchDto): List<DownloadListDto> {
+        return downloadService.getDownloadList(downloadSearchDto)
     }
 }

@@ -64,6 +64,30 @@ h6 {
     padding: 0 0 0 .625rem; // 10px
 }
 
+option {
+    &:hover {background-color: rgba(0, 80, 255, 0.05);}
+    &:visited{color:$alice-primary;background-color: white;}
+    &:active{color:$alice-primary;}
+    &:focus{color:$alice-primary}
+}
+
+select {
+    height: 2.5rem; // 40px
+    font-size: $element-font-size;
+    border: $element-border solid $border-color;
+    border-radius: $element-border-radius;
+    padding: 0 10px;
+    margin-right: 0.0625rem; // 1px
+    vertical-align: middle;
+    background-color: $element-background-color;
+    &:focus {
+        outline: $element-border solid $alice-primary;
+        border-radius: $element-border-radius;
+    }
+    &.search-selectBox {
+    }
+}
+
 label {
     display: inline-block;
     color: #3E4752;

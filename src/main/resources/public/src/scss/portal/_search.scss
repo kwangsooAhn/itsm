@@ -284,6 +284,7 @@
                 div {
                     &.view-text {
                         min-height: 13.4375rem; // 215px
+                        max-height: 19.38rem; // 310px
                         padding: 0.3125rem 1.25rem; // 5px 20px
                         margin-bottom: 0.75rem; // 12px
                         span {margin: 0;}
@@ -291,6 +292,7 @@
 
                     &.view-attach-file {
                         min-height: 3.125rem; // 50px
+                        max-height: 8.125rem; // 130px
                         padding: 0.125rem 1.25rem; // 2px 20px
                         display: flex;
                         .file-attach-input {margin: 0.625rem 0 0 0;} //10px
