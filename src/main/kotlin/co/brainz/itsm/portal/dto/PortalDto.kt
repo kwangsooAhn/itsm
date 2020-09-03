@@ -10,6 +10,7 @@ import java.io.Serializable
 import java.time.LocalDateTime
 
 data class PortalDto(
+    var portalId: String? = null,
     var portalTitle: String? = null,
     var portalContent: String? = null,
     var createDt: LocalDateTime? = null,

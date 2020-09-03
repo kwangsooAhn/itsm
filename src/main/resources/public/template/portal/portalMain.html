@@ -1,21 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/portalLayout">
 <head>
     <meta charset="UTF-8">
-    <link rel="shortcut icon" th:href="@{/assets/media/icons/zenius.ico}" type="image/x-icon">
-    <link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
-    <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
 </head>
 <body>
-<div class="alice-portal-container flex-column">
-    <div class="portal-search-top">
-        <img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
-        <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'"
-             th:text="#{portal.label.main}"></div>
-        <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"
-             th:text="#{portal.label.login}"></div>
-    </div>
+<th:block layout:fragment="content">
     <div id="portal-search-main" class="portal-search-main">
             <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
     </div>
@@ -28,7 +20,9 @@
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-                        <img th:src="@{/assets/media/image/portal/graphic_notice.png}"/>
+                        <a th:attr="onclick=|goNotice();|">
+                            <img th:src="@{/assets/media/image/portal/graphic_notice.png}"/>
+                        </a>
                     </div>
                     <h3 th:text="#{menu.notice.parent}"></h3>
                 </div>
@@ -60,184 +54,200 @@
             </li>
         </ul>
     </div>
-</div>
+</th:block>
 </body>
-<script th:src="@{/assets/js/util/util-alice.js}"></script>
-<script th:src="@{/assets/js/util/i18n-alice.js}"></script>
-<script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
-<script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
-<script th:inline="javascript">
-    /*<![CDATA[ */
-    const topSize = 6;
-    var offsetCount = 0;
-    const offsetSize = 15;
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript">
+        /*<![CDATA[ */
+        const topSize = 6;
+        var offsetCount = 0;
+        const offsetSize = 15;
 
-    window.onload = function () {
-        i18n.init(JSON.stringify({}));
-        initEventListener();
-        initPortalTops('get', '/rest/portal/top?limit=' + topSize);
-    }
-
-    /*
-    * 이벤트리스너 초기화
-    */
-    function initEventListener() {
-        document.getElementById('searchValue').addEventListener('keyup', (e) => {
-            if (e.key === 'Enter') {
-                portalSearch(false);
-            }
-        });
-    }
-
-    /*
-    * 포탈 화면 초기화
-    */
-    function initPortalTops(method, url) {
-        const opt = {
-            method: method,
-            url: url,
-            contentType: 'application/json; charset=utf-8',
-            showProgressbar: false,
-            callbackFunc: function (response) {
-                let tops = Object.entries(JSON.parse(response.responseText));
-                tops.forEach(([topName, topData]) => {
-                    let topElement = document.getElementById(topName);
-                    for (let i = 0; i < topData.length; i++) {
-                        let data = topData[i];
-                        let row = document.createElement('tr');
-                        let cell = document.createElement('td');
-                        let contentAnchor = document.createElement('a');
-                        contentAnchor.setAttribute('href', '#N');
-                        let contentText = document.createElement('h5');
-                        contentText.classList.add('text-ellipsis');
-                        let dt = (data['updateDt'] == null) ? data['createDt'] : data['updateDt']
-                        contentText.textContent = '[' + i18n.userDateTime(dt) + '] ' + data[topElement.id + 'Title'];
-                        contentAnchor.appendChild(contentText);
-                        cell.appendChild(contentAnchor);
-                        row.appendChild(cell);
-                        topElement.appendChild(row);
-                    }
-                });
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    /*
-    * 포탈 검색(isScroll : false => 최초 또는 조회, isScroll : true => 스크롤 페이징)
-    */
-    function portalSearch(isScroll) {
-        let urlParam = '';
-        if (isScroll) {
-            if (offsetCount === 0) {
-                offsetCount = offsetSize;
-            }
-            urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
-                + '&offset=' + offsetCount;
-            restSubmit('get', '/rest/portal?' + urlParam, isScroll);
-        } else {
-            offsetCount = 0;
-            urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
-                + '&offset=' + offsetCount;
-            restSubmit('get', '/portal/list?' + urlParam, isScroll);
+        window.onload = function () {
+            initEventListener();
+            initPortalTops('get', '/rest/portal/top?limit=' + topSize);
         }
-    }
 
-    /*
-    * 포탈 검색
-    */
-    function restSubmit(method, url, isScroll) {
-        const opt = {
-            method: method,
-            url: url,
-            showProgressbar: false,
-            async: false,
-            callbackFunc: function (response) {
-                if (document.querySelector('.portal-search-content')) {
-                    document.querySelector('.portal-search-content').className = 'portal-search-result'
+        /*
+        * 이벤트리스너 초기화
+        */
+        function initEventListener() {
+            document.getElementById('searchValue').addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    portalSearch(false);
                 }
-                if (isScroll) {
-                    let dataList = JSON.parse(response.responseText);
-                    if (dataList.length > 0) {
-                        document.getElementById('totalCount').value = dataList[0].totalCount;
-                        if (scrollerEventCheck()) {
-                            offsetCount = offsetCount + offsetSize;
-                            dataList.forEach(function(data) {
-                                getDataTemplate(data);
-                            });
-                        }
-                    }
-                } else {
-                    document.querySelector('.portal-search-result').innerHTML = response.responseText;
-                }
-                OverlayScrollbars(document.querySelector('.list'), {
-                    className: 'scrollbar',
-                    callbacks: {
-                        onScroll: function(e) {
-                            const scrollHeight = e.target.scrollHeight;
-                            const scrollTop = e.target.scrollTop;
-                            const clientHeight = e.target.clientHeight;
-                            if (scrollTop > 20) {
-                                document.getElementById('portal-search-area').classList.remove('slide-down');
-                                document.getElementById('portal-search-area').classList.add('slide-up');
-                                document.getElementById('portal-search-main').style.display='none';
-                                document.querySelector('.os-host').style.height = '752px';
+            });
+        }
+
+        /*
+        * 포탈 화면 초기화
+        */
+        function initPortalTops(method, url) {
+            const opt = {
+                method: method,
+                url: url,
+                contentType: 'application/json; charset=utf-8',
+                showProgressbar: false,
+                callbackFunc: function (response) {
+                    let tops = Object.entries(JSON.parse(response.responseText));
+                    tops.forEach(([topName, topData]) => {
+                        let topElement = document.getElementById(topName);
+                        for (let i = 0; i < topData.length; i++) {
+                            let data = topData[i];
+                            let row = document.createElement('tr');
+                            let cell = document.createElement('td');
+                            let contentAnchor = document.createElement('a');
+                            if (data['noticeNo'] != null) {
+                                contentAnchor.setAttribute('href', '/portal/notices/'+ data['noticeNo'] +'/view');
                             } else {
-                                document.getElementById('portal-search-area').classList.remove('slide-up');
-                                document.getElementById('portal-search-area').classList.add('slide-down');
-                                document.getElementById('portal-search-main').style.display='block';
-                                document.querySelector('.os-host').style.height = '650px';
+                                contentAnchor.setAttribute('href', '#N');
                             }
-                            if (scrollHeight - scrollTop === clientHeight) {
-                                if (scrollerEventCheck()) {
-                                    portalSearch(true);
+                            let contentText = document.createElement('h5');
+                            contentText.classList.add('text-ellipsis');
+                            let dt = (data['updateDt'] == null) ? data['createDt'] : data['updateDt']
+                            contentText.textContent = '[' + i18n.userDateTime(dt) + '] ' + data[topElement.id + 'Title'];
+                            contentAnchor.appendChild(contentText);
+                            cell.appendChild(contentAnchor);
+                            row.appendChild(cell);
+                            topElement.appendChild(row);
+                        }
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        /*
+        * 포탈 검색(isScroll : false => 최초 또는 조회, isScroll : true => 스크롤 페이징)
+        */
+        function portalSearch(isScroll) {
+            let urlParam = '';
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = offsetSize;
+                }
+                urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
+                    + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/portal/list?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
+                    + '&offset=' + offsetCount;
+                restSubmit('get', '/portal/list?' + urlParam, isScroll);
+            }
+        }
+
+        /*
+        * 포탈 검색
+        */
+        function restSubmit(method, url, isScroll) {
+            const opt = {
+                method: method,
+                url: url,
+                showProgressbar: false,
+                async: false,
+                callbackFunc: function (response) {
+                    if (document.querySelector('.portal-search-content')) {
+                        document.querySelector('.portal-search-content').className = 'portal-search-result'
+                    }
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (scrollerEventCheck()) {
+                                offsetCount = offsetCount + offsetSize;
+                                dataList.forEach(function(data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.querySelector('.portal-search-result').innerHTML = response.responseText;
+                    }
+                    OverlayScrollbars(document.querySelector('.list'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                if (scrollTop > 20) {
+                                    document.getElementById('portal-search-area').classList.remove('slide-down');
+                                    document.getElementById('portal-search-area').classList.add('slide-up');
+                                    document.getElementById('portal-search-main').style.display='none';
+                                    document.querySelector('.os-host').style.height = '43.81rem'; //701px
+                                } else {
+                                    document.getElementById('portal-search-area').classList.remove('slide-up');
+                                    document.getElementById('portal-search-area').classList.add('slide-down');
+                                    document.getElementById('portal-search-main').style.display='block';
+                                    document.querySelector('.os-host').style.height = '37.31rem';  //597px
+                                }
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (scrollerEventCheck()) {
+                                        portalSearch(true);
+                                    }
                                 }
                             }
                         }
-                    }
-                });
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    function scrollerEventCheck() {
-        let scrollerCheck = false;
-        let totalCount = document.getElementById('totalCount').value;
-        if (offsetCount < totalCount) {
-            scrollerCheck = true;
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
         }
-        return scrollerCheck;
-    }
 
-    function getDataTemplate(data) {
-        let div = document.querySelector('.os-content');
-        let divRow = document.createElement('div');
-        divRow.className = 'row';
+        function scrollerEventCheck() {
+            let scrollerCheck = false;
+            let totalCount = document.getElementById('totalCount').value;
+            if (offsetCount < totalCount) {
+                scrollerCheck = true;
+            }
+            return scrollerCheck;
+        }
 
-        let divTypeIcon = document.createElement('div');
-        divTypeIcon.className = 'type-icon '+ data.tableName;
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let divRow = document.createElement('div');
+            divRow.className = 'row';
 
-        let divContentBox = document.createElement('div');
-        divContentBox.className = 'content-box';
+            let divTypeIcon = document.createElement('div');
+            divTypeIcon.className = 'type-icon '+ data.tableName;
 
-        let divTitle = document.createElement('div');
-        divTitle.className = "title text-ellipsis";
-        let aTitle = document.createElement('a');
-        aTitle.innerText = data.portalTitle;
-        divTitle.appendChild(aTitle);
+            let divContentBox = document.createElement('div');
+            divContentBox.className = 'content-box';
 
-        let divContent = document.createElement('div');
-        divContent.className = "content text-ellipsis";
-        divContent.innerText = data.portalContent;
+            let divTitle = document.createElement('div');
+            divTitle.className = "title text-ellipsis";
+            let aTitle = document.createElement('a');
+            if (data.tableName === 'notice') {
+                aTitle.href = '/portal/notices/'+ data.portalId +'/view';
+            }
+            aTitle.innerText = data.portalTitle;
+            divTitle.appendChild(aTitle);
 
-        divContentBox.appendChild(divTitle);
-        divContentBox.appendChild(divContent);
+            let divContent = document.createElement('div');
+            divContent.className = "content text-ellipsis";
+            if (data.tableName === 'download') {
+                divContent.innerText = i18n.msg(''+data.portalContent+'');
+            } else {
+                divContent.innerText = data.portalContent;
+            }
 
-        divRow.appendChild(divTypeIcon);
-        divRow.appendChild(divContentBox);
-        div.appendChild(divRow);
-    }
-    /* ]]> */
-</script>
+            divContentBox.appendChild(divTitle);
+            divContentBox.appendChild(divContent);
+
+            divRow.appendChild(divTypeIcon);
+            divRow.appendChild(divContentBox);
+            div.appendChild(divRow);
+        }
+
+        /*
+        * 포탈 검색
+        */
+        function goNotice() {
+            location.href = '/portal/notices/search';
+        }
+        /* ]]> */
+    </script>
+</th:block>
 </html>

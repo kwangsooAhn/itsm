@@ -575,6 +575,7 @@ notice:
     enterToDt: "Please enter a search end date."
     enterTopNoticeEndDt: "Please enter a top notice end date."
     enterTopNoticeStrtDt: "Please enter a top notice start date."
+    portalDescription: "View notice's information."
 
 # Notification
 notification:
