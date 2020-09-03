@@ -17,7 +17,7 @@ $datepicker-button-font-color: #68717C;
 $datepicker-button-font-size: 0.688rem; // 11px
 $datepicker-button-font-weight: normal;
 $datepicker-button-background-color: #ffffff;
-$datepicker-active-color: #0050ff;
+$datepicker-active-color: $point-blue;
 
 .picker-wrapper-date {
     display: inline-block;
@@ -32,6 +32,7 @@ $datepicker-active-color: #0050ff;
     box-shadow: 0 0 0.3125rem 0 rgba(235, 235, 235, 1); // 5px
     text-align: center;
     z-index: 999;
+    min-width: 23.375rem; // 374px
 
     &.active { display: block; z-index: 999;}
 
@@ -61,6 +62,7 @@ $datepicker-active-color: #0050ff;
 
     &-content {
         display: flex;
+        justify-content: center;
         border-bottom: solid 0.0625rem $datepicker-border-color; // 1px
         padding: 1.25rem 0 0.5625rem 0; // 20px 9px
         @include h5();
@@ -69,7 +71,7 @@ $datepicker-active-color: #0050ff;
             display: none;
             width: 23.375rem; // 374px
 
-            &.active { 
+            &.active {
                 display: inline-block;
                 + div.active {
                     border-left: solid 0.0625rem $datepicker-border-color; // 1px
@@ -144,6 +146,8 @@ $datepicker-active-color: #0050ff;
         }
         &-time {
             display: none;
+            width: 23.375rem; // 374px
+            justify-content: center;
             padding: 1.188rem 2.25rem; // 19px 36px
 
             &.active { display: flex; }
@@ -157,7 +161,7 @@ $datepicker-active-color: #0050ff;
 
                 img {
                     width: 1.125rem; // 18px
-                    height: 1.125rem; // 18px
+                    height: 0.625rem; // 10px
 
                     &.arrow-up {
                         cursor: pointer;
@@ -179,13 +183,13 @@ $datepicker-active-color: #0050ff;
                 }
 
                 .digit {
-                    width: 3rem; // 48px
-                    height: 3.125rem; // 50px
+                    width: 3.75rem; // 60px
+                    height: 3.75rem; // 60px
                     color: #505964;
                     font-size: 1.438rem; //23px
                     font-weight: 500;
                     text-align: center;
-                    margin: 0.375rem 0; // 6.5px
+                    margin: 2.1875rem 0; // 25px
                     border: 0.0625rem solid $datepicker-border-color; // 1px
                     padding: 0;
 
@@ -199,28 +203,25 @@ $datepicker-active-color: #0050ff;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                
+
                 button {
-                    width: 3rem; // 48px
-                    height: 1.563rem; // 25px
-                    color: #AAB3B4;
-                    font-size: 0.875rem; // 14px
+                    width: 3.75rem; // 60px
+                    height: 1.875rem; // 30px
+                    color: $gray;
+                    font-size: 1rem; // 16px
                     font-weight: 500;
                     margin-left: 0.625rem; // 10px
-                    background-color: #F7F7F7;
+                    background-color: $light-gray;
                     border: 0.0625rem solid $datepicker-border-color;
                     padding: 0;
                     cursor: pointer;
+                    flex: none;
 
                     &.active {
                         color: $datepicker-active-color;
                         background-color: #ffffff;
                         border: 0.0625rem solid $datepicker-active-color;
-                        + button { border-top-color: $datepicker-active-color; }
-                    }
-
-                    &:not(:last-of-type) {
-                        border-bottom: 0;
+                        + button { border-left-color: $datepicker-border-color; }
                     }
 
                     &:focus {
@@ -229,12 +230,12 @@ $datepicker-active-color: #0050ff;
                 }
             }
 
-            .separator { // 구분자 : 
+            .separator { // 구분자 :
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
-                width: 1.438rem; // 23px
-                color: #505964;
+                width: 2rem; // 32px
+                color: $light-black;
                 font-size: 1.438rem; // 23px
                 font-weight: 500;
             }
@@ -244,5 +245,8 @@ $datepicker-active-color: #0050ff;
     &-button {
         float: right;
         margin: 1.25rem 1.25rem 1.25rem 0;
+        button {
+            margin-left: 0.3125rem; // 5px
+        }
     }
 }

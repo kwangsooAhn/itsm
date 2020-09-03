@@ -273,7 +273,7 @@ datepicker:
   label:
     date: "날짜 선택"
     datetime: "날짜 및 시간 선택"
-    hour: "시간 선택1"
+    hour: "시간 선택"
 
 # Department:
 department:

@@ -24,3 +24,52 @@
     scrollbar-width: none; /* Firefox */
     &::-webkit-scrollbar { display: none; /* Chrome, Safari, Opera*/ }
 }
+
+@mixin h1() {
+    color: $light-black;
+    font: {
+        size: 2.25rem; // 36px
+        weight: 700;
+    }
+}
+
+@mixin h2() {
+    color: $light-black;
+    font: {
+        size: 1.75rem; // 28px
+        weight: 500;
+    }
+}
+
+@mixin h3() {
+    color: $light-black;
+    font: {
+        size: 1.5rem; // 24px
+        weight: 500;
+    }
+}
+
+@mixin h4() {
+    color: $light-black;
+    font: {
+        size: 1.125rem; // 18px
+        weight: 500;
+    }
+}
+
+@mixin h5() {
+    color: $dark-gray;
+    font: {
+        size: 1rem; // 16px
+        weight: 400;
+    }
+}
+
+@mixin h6() {
+    color: $warm-gray;
+    font: {
+        family: 맑은고딕;
+        size: 0.875rem; // 14px
+        weight: 400;
+    }
+}

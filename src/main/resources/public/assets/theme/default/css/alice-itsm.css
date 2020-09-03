@@ -2808,6 +2808,7 @@ span.vertical-bar {
   box-shadow: 0 0 0.3125rem 0 #ebebeb;
   text-align: center;
   z-index: 999;
+  min-width: 23.375rem;
 }
 .picker-modal.active {
   display: block;
@@ -2840,6 +2841,7 @@ span.vertical-bar {
 }
 .picker-modal-content {
   display: flex;
+  justify-content: center;
   border-bottom: solid 0.0625rem #EBEBEB;
   padding: 1.25rem 0 0.5625rem 0;
   color: #586872;
@@ -2912,12 +2914,14 @@ span.vertical-bar {
   color: #ACB4BF;
 }
 .picker-modal-content-date-calendar .calendar-cell.selected {
-  background-color: #0050ff;
+  background-color: #0098FF;
   color: #ffffff;
   border-radius: 48%;
 }
 .picker-modal-content-time {
   display: none;
+  width: 23.375rem;
+  justify-content: center;
   padding: 1.188rem 2.25rem;
 }
 .picker-modal-content-time.active {
@@ -2933,7 +2937,7 @@ span.vertical-bar {
 .picker-modal-content-time .hour-group img,
 .picker-modal-content-time .minute-group img {
   width: 1.125rem;
-  height: 1.125rem;
+  height: 0.625rem;
 }
 .picker-modal-content-time .hour-group img.arrow-up,
 .picker-modal-content-time .minute-group img.arrow-up {
@@ -2955,20 +2959,20 @@ span.vertical-bar {
 }
 .picker-modal-content-time .hour-group .digit,
 .picker-modal-content-time .minute-group .digit {
-  width: 3rem;
-  height: 3.125rem;
+  width: 3.75rem;
+  height: 3.75rem;
   color: #505964;
   font-size: 1.438rem;
   font-weight: 500;
   text-align: center;
-  margin: 0.375rem 0;
+  margin: 2.1875rem 0;
   border: 0.0625rem solid #EBEBEB;
   padding: 0;
 }
 .picker-modal-content-time .hour-group .digit:focus,
 .picker-modal-content-time .minute-group .digit:focus {
   outline: none !important;
-  border: 0.0625rem solid #0050ff;
+  border: 0.0625rem solid #0098FF;
 }
 .picker-modal-content-time .button-group {
   display: flex;
@@ -2976,27 +2980,25 @@ span.vertical-bar {
   justify-content: center;
 }
 .picker-modal-content-time .button-group button {
-  width: 3rem;
-  height: 1.563rem;
-  color: #AAB3B4;
-  font-size: 0.875rem;
+  width: 3.75rem;
+  height: 1.875rem;
+  color: #ACB4BF;
+  font-size: 1rem;
   font-weight: 500;
   margin-left: 0.625rem;
-  background-color: #F7F7F7;
+  background-color: #F7F8F9;
   border: 0.0625rem solid #EBEBEB;
   padding: 0;
   cursor: pointer;
+  flex: none;
 }
 .picker-modal-content-time .button-group button.active {
-  color: #0050ff;
+  color: #0098FF;
   background-color: #ffffff;
-  border: 0.0625rem solid #0050ff;
+  border: 0.0625rem solid #0098FF;
 }
 .picker-modal-content-time .button-group button.active + button {
-  border-top-color: #0050ff;
-}
-.picker-modal-content-time .button-group button:not(:last-of-type) {
-  border-bottom: 0;
+  border-left-color: #EBEBEB;
 }
 .picker-modal-content-time .button-group button:focus {
   outline: none !important;
@@ -3005,14 +3007,17 @@ span.vertical-bar {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1.438rem;
-  color: #505964;
+  width: 2rem;
+  color: #3F4B56;
   font-size: 1.438rem;
   font-weight: 500;
 }
 .picker-modal-button {
   float: right;
   margin: 1.25rem 1.25rem 1.25rem 0;
+}
+.picker-modal-button button {
+  margin-left: 0.3125rem;
 }
 
 .color-picker {
