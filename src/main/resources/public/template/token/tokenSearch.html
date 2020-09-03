@@ -8,12 +8,14 @@
 <body>
 <th:block layout:fragment="content">
     <div class="contents-token">
-        <div class="header">
+        <div id="search-main" class="header">
             <div class="page-title">
                 <h1 th:text="#{token.label.list}"></h1>
                 <h6 class="title-description" th:text="#{token.msg.description}"></h6>
             </div>
-            <div class="search-area">
+        </div>
+        <div id="search-area" class="search-area">
+            <div>
                 <div class="left">
                     <form id="frmSearch">
                         <select class="column-3" name="searchTokenType" id="searchTokenType">
@@ -88,16 +90,32 @@
             if (!isScroll) {
                 tokenListElement.innerHTML = '';
             }
-            let listDocumentCount = tokenListElement.querySelectorAll('.token-list-item').length
+            let listDocumentCount = tokenListElement.querySelectorAll('.token-list-item').length;
             aliceJs.sendXhr({
                 method: 'get',
                 url: '/tokens/list?' + aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + listDocumentCount,
                 callbackFunc: function (response) {
-                    tokenListElement.innerHTML = response.responseText
+                    tokenListElement.innerHTML = response.responseText;
                     document.querySelectorAll('.create-dt').forEach(tokenCreateDt => {
                         tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
                     });
-                    OverlayScrollbars(document.querySelector('.scroll-wrap'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.querySelector('.list'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollTop = e.target.scrollTop;
+                                if (scrollTop > 20) {
+                                    document.getElementById('search-area').classList.remove('slide-down');
+                                    document.getElementById('search-area').classList.add('slide-up');
+                                    document.getElementById('search-main').style.display = 'none';
+                                } else {
+                                    document.getElementById('search-area').classList.remove('slide-up');
+                                    document.getElementById('search-area').classList.add('slide-down');
+                                    document.getElementById('search-main').style.display = 'block';
+                                }
+                            }
+                        }
+                    });
                 }
             });
         }

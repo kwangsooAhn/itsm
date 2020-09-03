@@ -148,6 +148,7 @@
         // create button > cancel
         let buttonCancel = document.createElement('button');
         buttonCancel.type = 'button';
+        buttonCancel.className = 'default-line';
         buttonCancel.innerText = i18n.get('common.btn.cancel');
         buttonCancel.addEventListener('click', this.close, false);
         pickerButton.appendChild(buttonCancel);
@@ -155,6 +156,7 @@
         // create button > confirm
         let buttonConfirm = document.createElement('button');
         buttonConfirm.type = 'button';
+        buttonConfirm.className = 'default-line';
         buttonConfirm.innerText = i18n.get('common.btn.check');
         buttonConfirm.addEventListener('click', this.changeTarget, false);
         pickerButton.appendChild(buttonConfirm);
@@ -258,7 +260,7 @@
             for (let i = 0; i < 7; i++) {
                 const calendarTitle =  document.createElement('div');
                 calendarTitle.classList.add('calendar-cell', 'calendar-title');
-                calendarTitle.textContent = luxon.DateTime.local().set({weekday: i}).toFormat('ccc');
+                calendarTitle.textContent = luxon.DateTime.local().set({weekday: i}).setLocale('kr').toFormat('ccc');
                 calendarPanel.appendChild(calendarTitle);
             }
 

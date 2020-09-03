@@ -28,12 +28,12 @@ class NoticeService(private val noticeRepository: NoticeRepository, private val 
     }
 
     // 공지사항 상단 리스트
-    fun findTopNoticeSearch(searchValue: String): MutableList<NoticeListDto> {
-        val noticeListDto = mutableListOf<NoticeListDto>()
-        noticeRepository.findTopNoticeSearch(searchValue).forEach { noticeEntity ->
-            noticeListDto.add(noticeMapper.toNoticeListDto(noticeEntity))
-        }
-        return noticeListDto
+    fun findTopNoticeSearch(
+        searchValue: String,
+        fromDt: LocalDateTime,
+        toDt: LocalDateTime
+    ): MutableList<NoticeListDto> {
+        return noticeRepository.findTopNoticeSearch(searchValue, fromDt, toDt)
     }
 
     // 공지사항 조회 및 수정용 세부정보

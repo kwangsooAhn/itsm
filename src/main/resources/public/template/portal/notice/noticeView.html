@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/portalLayout">
+<head>
+    <title th:text="#{notice.label.view}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="portal-search-container">
+        <div class="contents-view">
+            <div class="page-title">
+                <h1 th:text="#{notice.label.list}"></h1>
+                <h6 class="title-description" th:text="#{notice.msg.viewDescription}"></h6>
+            </div>
+        </div>
+    </div>
+    <div class="portal-search-view">
+        <div class="view">
+            <h4 class="under-bar" th:text="${notice?.noticeTitle}"></h4>
+            <div class="row-right">
+                <span id="spanCreateDt" th:text="${notice.createDt}"></span>
+                <span class="vertical-bar"></span>
+                <span id="spanUserName" th:text="${notice?.aliceUserEntity.userName}"></span>
+            </div>
+            <div class="horizontal-bar"></div>
+            <div class="view-text">
+                <pre><span th:text="${notice?.noticeContents}"/></pre>
+            </div>
+            <div class="horizontal-bar"></div>
+            <div class="view-attach-file">
+                <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
+                <span class="vertical-bar"></span>
+                <form id="frm" method="post">
+                    <div class="file-attach-input">
+                        <div id="dropZoneFiles"></div>
+                        <div id="dropZoneUploadedFiles"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="horizontal-bar"></div>
+            <div class="btn-bar">
+                <button class="default-line" type="button" onclick="location.href='/portal/notices/search'"
+                        th:text="#{common.btn.list}"></button>
+            </div>
+        </div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript">
+        /*<![CDATA[ */
+        const noticeCreateDt = document.getElementById('spanCreateDt');
+        window.onload = function() {
+            noticeCreateDt.textContent = i18n.userDateTime(noticeCreateDt.textContent);
+            // 게시물 삭제 처리 시, validation 체크.
+            const noticeNo = /*[[${notice.noticeNo}]]*/;
+            if (noticeNo === null) {
+                aliceJs.alert(i18n.msg('common.msg.delete'));
+                return history.go(-1);
+            }
+            portalFileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});
+        }
+        /* ]]> */
+    </script>
+</th:block>
+</html>

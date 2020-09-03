@@ -43,7 +43,7 @@ class NoticeController(private val noticeService: NoticeService) {
         val result = noticeService.findNoticeSearch(searchValue, fromDt, toDt, offset)
         model.addAttribute("noticeList", result)
         model.addAttribute("noticeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue))
+        model.addAttribute("topNoticeList", noticeService.findTopNoticeSearch(searchValue, fromDt, toDt))
         return noticeListPage
     }
 

@@ -268,12 +268,12 @@ dashboard:
 # DatePicker
 datepicker:
   btn:
-    am: "AM"
-    pm: "PM"
+    am: "오전"
+    pm: "오후"
   label:
-    date: "Select Date"
-    datetime: "Select Date and Time"
-    hour: "Select Time"
+    date: "날짜 선택"
+    datetime: "날짜 및 시간 선택"
+    hour: "시간 선택"
 
 # Department:
 department:
@@ -552,7 +552,7 @@ notice:
     popUpNoticeSettingsInfo: "팝업 알림 설정 정보"
     popUpPeriod: "팝업 기간"
     popUpPeriodToday: "오늘 하루 이창을 열지 않음"
-    searchPlaceholder: "제목 / 등록자"
+    searchPlaceholder: "제목 / 작성자"
     set: "설정"
     strtDt: "시작일"
     topNoticeSettings: "상단 공지 설정"
@@ -575,6 +575,7 @@ notice:
     enterToDt: "검색 종료 날짜를 입력하세요."
     enterTopNoticeEndDt: "상단 공지 종료일을 입력하세요."
     enterTopNoticeStrtDt: "상단 공지 시작일을 입력하세요."
+    portalDescription: "공지사항을 조회할 수 있습니다."
 
 # Notification
 notification:

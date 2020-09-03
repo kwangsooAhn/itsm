@@ -1726,56 +1726,60 @@ button.default-point-line:not(:disabled):active span.icon {
   display: none;
   position: fixed;
   background-color: #ffffff;
-  border: solid 0.0625rem #C8CED8;
-  box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
+  border: solid 0.0625rem #EBEBEB;
+  box-shadow: 0 0 0.3125rem 0 #ebebeb;
   text-align: center;
-  z-index: 1;
+  z-index: 999;
+  min-width: 23.375rem;
 }
 .picker-modal.active {
   display: block;
+  z-index: 999;
 }
 .picker-modal-title {
-  height: 2.5rem;
-  color: #464F50;
-  font-size: 0.875rem;
-  font-weight: bold;
+  color: #3F4B56;
+  font-size: 1.125rem;
+  font-weight: 500;
+  height: 3.3125rem;
   background-color: #ffffff;
-  border-bottom: solid 0.0625rem #C8CED8;
-  padding: 0.688rem 0;
+  border-bottom: solid 0.0625rem #EBEBEB;
+  padding: 1.125rem 0;
 }
 .picker-modal-title img.close {
   position: absolute;
-  right: 0.375rem;
-  width: 1.125rem;
-  height: 1.125rem;
+  right: 1.25rem;
+  width: 0.875rem;
+  height: 0.875rem;
   content: url("../media/icons/datepicker/icon_close.png");
   cursor: pointer;
 }
 .picker-modal-sub-title {
-  color: #868F9A;
-  font-size: 0.688rem;
-  font-weight: 500;
-  background-color: #F7F7F7;
-  border-bottom: solid 0.0625rem #C8CED8;
-  padding: 0.4375rem 0;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  background-color: #F7F8F9;
+  border-bottom: solid 0.0625rem #EBEBEB;
+  padding: 0.5rem 0;
 }
 .picker-modal-content {
   display: flex;
-  border-bottom: solid 0.0625rem #C8CED8;
-  padding: 1rem 0 1rem 0;
-  font-size: 0.625rem;
-  font-weight: 500;
+  justify-content: center;
+  border-bottom: solid 0.0625rem #EBEBEB;
+  padding: 1.25rem 0 0.5625rem 0;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
   background-color: #ffffff;
 }
 .picker-modal-content-date {
   display: none;
-  width: 15.63rem;
+  width: 23.375rem;
 }
 .picker-modal-content-date.active {
   display: inline-block;
 }
 .picker-modal-content-date.active + div.active {
-  border-left: solid 0.0625rem #C8CED8;
+  border-left: solid 0.0625rem #EBEBEB;
 }
 .picker-modal-content-date-months {
   height: 1.125rem;
@@ -1789,10 +1793,12 @@ button.default-point-line:not(:disabled):active span.icon {
   content: url("../media/icons/datepicker/icon_arrow_left.png");
 }
 .picker-modal-content-date-months .date-text {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
   display: inline-block;
-  width: 9.375rem;
-  color: #5A6364;
-  font-size: 0.688rem;
+  width: 16.875rem;
+  color: #586872;
   margin: 0;
   padding: 0;
 }
@@ -1801,36 +1807,43 @@ button.default-point-line:not(:disabled):active span.icon {
   content: url("../media/icons/datepicker/icon_arrow_right.png");
 }
 .picker-modal-content-date-calendar {
-  padding: 0.25rem 1.625rem 0 1.625rem;
+  padding: 1.25rem 1.5rem 0 1.5rem;
   color: #C2CBD6;
 }
 .picker-modal-content-date-calendar .calendar-cell {
   display: inline-block;
-  width: 1.125rem;
-  height: 1.125rem;
+  width: 1.875rem;
+  height: 1.875rem;
   line-height: 0.8125rem;
-  padding: 0.0625rem;
-  margin: 0.3125rem;
+  padding: 0.4375rem;
+  margin: 0.25rem 0.5rem;
   text-align: center;
 }
 .picker-modal-content-date-calendar .calendar-cell.calendar-title {
-  color: rgba(120, 129, 140, 0.65);
-  padding-top: 0;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
   pointer-events: none;
 }
 .picker-modal-content-date-calendar .calendar-cell:not(.calendar-title) {
   cursor: pointer;
 }
 .picker-modal-content-date-calendar .calendar-cell.active {
-  color: #78778C;
+  color: #586872;
+}
+.picker-modal-content-date-calendar .calendar-cell.prev, .picker-modal-content-date-calendar .calendar-cell.next {
+  color: #ACB4BF;
 }
 .picker-modal-content-date-calendar .calendar-cell.selected {
-  background-color: #0050ff;
+  background-color: #0098FF;
   color: #ffffff;
   border-radius: 48%;
 }
 .picker-modal-content-time {
   display: none;
+  width: 23.375rem;
+  justify-content: center;
   padding: 1.188rem 2.25rem;
 }
 .picker-modal-content-time.active {
@@ -1846,7 +1859,7 @@ button.default-point-line:not(:disabled):active span.icon {
 .picker-modal-content-time .hour-group img,
 .picker-modal-content-time .minute-group img {
   width: 1.125rem;
-  height: 1.125rem;
+  height: 0.625rem;
 }
 .picker-modal-content-time .hour-group img.arrow-up,
 .picker-modal-content-time .minute-group img.arrow-up {
@@ -1868,20 +1881,20 @@ button.default-point-line:not(:disabled):active span.icon {
 }
 .picker-modal-content-time .hour-group .digit,
 .picker-modal-content-time .minute-group .digit {
-  width: 3rem;
-  height: 3.125rem;
+  width: 3.75rem;
+  height: 3.75rem;
   color: #505964;
   font-size: 1.438rem;
   font-weight: 500;
   text-align: center;
-  margin: 0.375rem 0;
-  border: 0.0625rem solid #C8CED8;
+  margin: 2.1875rem 0;
+  border: 0.0625rem solid #EBEBEB;
   padding: 0;
 }
 .picker-modal-content-time .hour-group .digit:focus,
 .picker-modal-content-time .minute-group .digit:focus {
   outline: none !important;
-  border: 0.0625rem solid #0050ff;
+  border: 0.0625rem solid #0098FF;
 }
 .picker-modal-content-time .button-group {
   display: flex;
@@ -1889,27 +1902,25 @@ button.default-point-line:not(:disabled):active span.icon {
   justify-content: center;
 }
 .picker-modal-content-time .button-group button {
-  width: 3rem;
-  height: 1.563rem;
-  color: #AAB3B4;
-  font-size: 0.875rem;
+  width: 3.75rem;
+  height: 1.875rem;
+  color: #ACB4BF;
+  font-size: 1rem;
   font-weight: 500;
   margin-left: 0.625rem;
-  background-color: #F7F7F7;
-  border: 0.0625rem solid #C8CED8;
+  background-color: #F7F8F9;
+  border: 0.0625rem solid #EBEBEB;
   padding: 0;
   cursor: pointer;
+  flex: none;
 }
 .picker-modal-content-time .button-group button.active {
-  color: #0050ff;
+  color: #0098FF;
   background-color: #ffffff;
-  border: 0.0625rem solid #0050ff;
+  border: 0.0625rem solid #0098FF;
 }
 .picker-modal-content-time .button-group button.active + button {
-  border-top-color: #0050ff;
-}
-.picker-modal-content-time .button-group button:not(:last-of-type) {
-  border-bottom: 0;
+  border-left-color: #EBEBEB;
 }
 .picker-modal-content-time .button-group button:focus {
   outline: none !important;
@@ -1918,31 +1929,17 @@ button.default-point-line:not(:disabled):active span.icon {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1.438rem;
-  color: #505964;
+  width: 2rem;
+  color: #3F4B56;
   font-size: 1.438rem;
   font-weight: 500;
 }
 .picker-modal-button {
-  height: 2.5rem;
   float: right;
-  margin-right: 0.4375rem;
+  margin: 1.25rem 1.25rem 1.25rem 0;
 }
 .picker-modal-button button {
-  width: 2.688rem;
-  height: 1.563rem;
-  color: #68717C;
-  font-size: 0.688rem;
-  font-weight: normal;
-  margin: 0.4375rem 0.1875rem 0.4375rem 0;
-  background-color: #ffffff;
-  border: 0.0625rem solid #C8CED8;
-  border-radius: 0.0625rem;
-  padding: 0;
-  cursor: pointer;
-}
-.picker-modal-button button:focus {
-  outline: none !important;
+  margin-left: 0.3125rem;
 }
 
 /* dropzone css */

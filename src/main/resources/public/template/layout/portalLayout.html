@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" >
+    <head>
+        <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Zenius ITSM</title>
+        <th:block th:replace="layout/fragments/commonPortalHead :: commonPortalHead"></th:block>
+        <th:block layout:fragment="cssLink"></th:block>
+        <th:block layout:fragment="scriptLink"></th:block>
+    </head>
+    <body>
+        <div class="alice-portal-container flex-column">
+            <div class="portal-search-top">
+                <img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
+                <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'"
+                     th:text="#{portal.label.main}"></div>
+                <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"
+                     th:text="#{portal.label.login}"></div>
+            </div>
+            <th:block layout:fragment="content"></th:block>
+        </div>
+        <th:block layout:fragment="pageScript"></th:block>
+    </body>
+</html>
