@@ -16,10 +16,12 @@
         <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"
              th:text="#{portal.label.login}"></div>
     </div>
-    <div class="portal-search-main">
-        <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
-        <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
-               th:placeholder="#{common.label.searchWord}"/>
+    <div id="portal-search-main" class="portal-search-main">
+            <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
+    </div>
+    <div id="portal-search-area" class="portal-search-area">
+            <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
+                   th:placeholder="#{common.label.searchWord}"/>
     </div>
     <div class="portal-search-content">
         <ul>
@@ -175,6 +177,17 @@
                             const scrollHeight = e.target.scrollHeight;
                             const scrollTop = e.target.scrollTop;
                             const clientHeight = e.target.clientHeight;
+                            if (scrollTop > 20) {
+                                document.getElementById('portal-search-area').classList.remove('slide-down');
+                                document.getElementById('portal-search-area').classList.add('slide-up');
+                                document.getElementById('portal-search-main').style.display='none';
+                                document.querySelector('.os-host').style.height = '752px';
+                            } else {
+                                document.getElementById('portal-search-area').classList.remove('slide-up');
+                                document.getElementById('portal-search-area').classList.add('slide-down');
+                                document.getElementById('portal-search-main').style.display='block';
+                                document.querySelector('.os-host').style.height = '650px';
+                            }
                             if (scrollHeight - scrollTop === clientHeight) {
                                 if (scrollerEventCheck()) {
                                     portalSearch(true);
