@@ -906,19 +906,21 @@ aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
 
 aliceJs.treeIconPath = '/assets/media/icons/tree';
 aliceJs.treeDefaultIcon = aliceJs.treeIconPath + '/parent.png';
+aliceJs.treeExpandSessionKey = 'code_expand_key';
 
 /**
  * Tree 생성.
  * 
  * @param object 데이터
  * @param element tree 생성 element
+ * @param sessionKey 확장된 데이터 저장 key
  * @param backColor tree node 배경색
  * @param contextMenu contextMenu
  * @return {tree}
  */
-aliceJs.createTree = function(object, element, backColor, contextMenu) {
+aliceJs.createTree = function(object, element, sessionKey, backColor, contextMenu) {
     const tree = createTree(element.id, backColor, contextMenu);
-    aliceJs.createNode(tree, object);
+    aliceJs.createNode(tree, object, sessionKey);
     tree.drawTree();
     return tree;
 }
@@ -928,13 +930,22 @@ aliceJs.createTree = function(object, element, backColor, contextMenu) {
  * 
  * @param tree tree object
  * @param object 데이터
+ * @param sessionKey 확장된 데이터 저장 key
  */
-aliceJs.createNode = function(tree, object) {
+aliceJs.createNode = function(tree, object, sessionKey) {
+    let expandObject = null;
+    if (sessionKey != null && sessionStorage.getItem(sessionKey) != null) {
+        expandObject = JSON.parse(sessionStorage.getItem(sessionKey));
+    }
     const rootLevel = 1;
     object.forEach(function (item) {
         if (item.level === rootLevel) {
-            let firstNode = tree.createNode(item.code, false, aliceJs.treeIconPath + '/parent.png', null, null, null);
-            aliceJs.createChildNode(firstNode, object, item.level)
+            let expand = false;
+            if (expandObject != null && expandObject.indexOf(item.code) > -1) {
+                expand = true;
+            }
+            let firstNode = tree.createNode(item.code, expand, aliceJs.treeIconPath + '/parent.png', null, null, null);
+            aliceJs.createChildNode(firstNode, object, item.level, expandObject);
         }
     });
 
@@ -948,11 +959,15 @@ aliceJs.createNode = function(tree, object) {
  * @param object 데이터
  * @param level depth
  */
-aliceJs.createChildNode = function(node, object, level) {
+aliceJs.createChildNode = function(node, object, level, expandObject) {
     object.forEach(function (item) {
         if (node.text === item.pcode) {
-            let newNode = node.createChildNode(item.code, false, aliceJs.treeDefaultIcon, null, null);
-            aliceJs.createChildNode(newNode, object, level);
+            let expand = false;
+            if (expandObject != null && expandObject.indexOf(item.code) > -1) {
+                expand = true;
+            }
+            let newNode = node.createChildNode(item.code, expand, aliceJs.treeDefaultIcon, null, null);
+            aliceJs.createChildNode(newNode, object, level, expandObject);
         }
     });
 }
@@ -970,4 +985,28 @@ aliceJs.leafChildNodeConfig = function(nodes) {
             childNode.icon = aliceJs.treeIconPath + '/leaf.png';
         }
     });
+}
+
+/**
+ * 펼치진 node의 key를 찾아 session 저장.
+ * 
+ * @param sessionKey 저장할 세션 키
+ */
+aliceJs.setTreeExpandNode = function(sessionKey) {
+    let expandCodes = [];
+    document.querySelectorAll('#toggle_off').forEach(function(object){
+        if (object.style.visibility !== 'hidden') {
+            expandCodes.push(object.nextElementSibling.querySelector('a').textContent);
+        }
+    });
+    sessionStorage.setItem(sessionKey, JSON.stringify(expandCodes));
+}
+
+/**
+ * Session key 삭제.
+ *
+ * @param sessionKey
+ */
+aliceJs.deleteTreeExpandNode = function(sessionKey) {
+    sessionStorage.removeItem(sessionKey);
 }

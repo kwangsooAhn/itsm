@@ -12,5 +12,6 @@ data class CodeDto(
     var createUserName: String? = null,
     var updateDt: LocalDateTime? = null,
     var updateUserName: String? = null,
-    var level: Int? = null
+    var level: Int? = null,
+    var totalCount: Long = 0
 ) : Serializable

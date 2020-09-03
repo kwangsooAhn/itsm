@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
@@ -20,8 +21,10 @@ class CodeRestController(private val codeService: CodeService) {
      * 코드 데이터 전체 목록 조회
      */
     @GetMapping("/", "")
-    fun getCodes(): MutableList<CodeDto> {
-        return codeService.getCodeList()
+    fun getCodeList(
+        @RequestParam(value = "search", defaultValue = "") search: String
+    ): MutableList<CodeDto> {
+        return codeService.getCodeList(search)
     }
 
     /**

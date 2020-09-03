@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CodeRepository : JpaRepository<CodeEntity, String> {
+interface CodeRepository : JpaRepository<CodeEntity, String>, CodeRepositoryCustom {
     fun findByPCodeOrderByCode(pCode: CodeEntity): MutableList<CodeEntity>
 
     /**

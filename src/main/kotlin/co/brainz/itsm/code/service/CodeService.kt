@@ -34,23 +34,24 @@ class CodeService(
     /**
      * 코드 데이터 전체 목록 조회
      */
-    fun getCodeList(): MutableList<CodeDto> {
+    fun getCodeList(search: String): MutableList<CodeDto> {
         val codeList = mutableListOf<CodeDto>()
-        codeRepository.findAll().forEach {
+        val queryResults = codeRepository.findByCodeList(search)
+        for (codeEntity in queryResults.results) {
             codeList.add(
                 CodeDto(
-                    code = it.code,
-                    pCode = it.pCode?.code,
-                    updateDt = it.updateDt,
-                    createDt = it.createDt,
-                    codeValue = it.codeValue,
-                    createUserName = it.createUser?.userName,
-                    updateUserName = it.updateUser?.userName,
-                    level = it.level
+                    code = codeEntity.code,
+                    pCode = codeEntity.pCode?.code,
+                    updateDt = codeEntity.updateDt,
+                    createDt = codeEntity.createDt,
+                    codeValue = codeEntity.codeValue,
+                    createUserName = codeEntity.createUser?.userName,
+                    updateUserName = codeEntity.updateUser?.userName,
+                    level = codeEntity.level,
+                    totalCount = queryResults.total
                 )
             )
         }
-
         return codeList
     }
 

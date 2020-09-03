@@ -101,13 +101,15 @@
                     url: '/rest/codes/',
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
-                        let tree = aliceJs.createTree(responseJson, document.querySelector('#treeList'));
+                        document.querySelector('#totalCount').innerHTML = responseJson[0].totalCount;
+                        let tree = aliceJs.createTree(responseJson, document.querySelector('#treeList'), aliceJs.treeExpandSessionKey);
                         let nodes = document.querySelector('#treeList').querySelectorAll('span');
                         nodes.forEach.call(nodes, function(node) {
                             node.addEventListener('click', function(e) {
                                 onGetDetail(tree.selectedNode.text)
                             });
                         });
+                        aliceJs.deleteTreeExpandNode(aliceJs.treeExpandSessionKey);
                     }
                 };
                 aliceJs.sendXhr(opt);
@@ -200,11 +202,13 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
+                            aliceJs.setTreeExpandNode(aliceJs.treeExpandSessionKey);
                             aliceJs.alert(i18n.get('common.msg.register'), function() {
                                 window.location.href = '/codes/edit';
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_CODE:
+                            aliceJs.setTreeExpandNode(aliceJs.treeExpandSessionKey);
                             aliceJs.alert(i18n.get('common.msg.modify'), function() {
                                 window.location.href = '/codes/edit';
                             });
@@ -233,6 +237,7 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
+                            aliceJs.setTreeExpandNode(aliceJs.treeExpandSessionKey);
                             aliceJs.alert(i18n.get('common.msg.delete'), function() {
                                 window.location.href ='/codes/edit';
                             });
