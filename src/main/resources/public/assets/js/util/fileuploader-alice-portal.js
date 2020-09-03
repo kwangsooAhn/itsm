@@ -9,7 +9,7 @@
  *        - param.extra.editor true, false 에 따라 업로드 기능을 영역을 컨트롤한다. (false 일 때 hide)
  *        - param.extra.clickable 파일 추가 버튼을 사용할 element class name
  */
-const fileUploader = (function () {
+const portalFileUploader = (function () {
     "use strict";
 
     let extraParam, fileAttrName, delFileAttrName, dragAndDropZoneId,
@@ -219,15 +219,12 @@ const fileUploader = (function () {
             autoQueue: true, // Make sure the files aren't queued until manually added
             clickable: '.' + extraParam.clickable, // Define the element that should be used as click trigger to select files.
             createImageThumbnails: false,
-            headers: {
-                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
-            },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
                 // 등록된 파일이 있으면 조회.
                 const opt = {
                     method: 'get',
-                    url: '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : '')
+                    url: '/rest/portal/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : '')
                                   +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
@@ -287,7 +284,7 @@ const fileUploader = (function () {
                                 const $this = this
                                 const fileDownOpt = {
                                     method: 'get',
-                                    url: '/filedownload?seq=' + Number($this.parentElement.querySelector('input[name=loadedFileSeq]').value),
+                                    url: '/rest/portal/filedownload?seq=' + Number($this.parentElement.querySelector('input[name=loadedFileSeq]').value),
                                     callbackFunc: function (xhr) {
                                         const a = document.createElement('a');
                                         const url = window.URL.createObjectURL(xhr.response);
@@ -326,7 +323,7 @@ const fileUploader = (function () {
                     let fileNameExtensionList;
                     const opt2 = {
                         method: 'GET',
-                        url: '/rest/fileNameExtensionList',
+                        url: '/rest/portal/fileNameExtensionList',
                         callbackFunc: function (response) {
                             fileNameExtensionList = JSON.parse(response.responseText);
                         }
@@ -494,7 +491,7 @@ const fileUploader = (function () {
                 let fileNameExtensionList;
                 const opt2 = {
                     method: 'GET',
-                    url: '/rest/fileNameExtensionList',
+                    url: '/rest/portal/fileNameExtensionList',
                     callbackFunc: function (response) {
                         fileNameExtensionList = JSON.parse(response.responseText);
                     }

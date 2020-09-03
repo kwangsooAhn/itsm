@@ -119,42 +119,6 @@ span.vertical-bar {
     }
 }
 
-.color-picker {
-    display: flex;
-    flex-direction: column;
-    .color-input {
-        display: inline-flex;
-        .selected-color {
-            width: 1.75rem; // 28px
-            height: 1.75rem; // 28px
-            margin: auto;
-            &-layer {
-                width: 2.5rem; // 40px
-                height: 2.5rem; // 40px
-                margin-right: 0.3125rem; // 5px
-                border: 0.0625rem solid $line-gray;
-                cursor: pointer;
-                display: flex;
-            }
-        }
-    }
-    .color-palette {
-        background-color: #d3d3d3;
-        width: 30rem; // 480px
-        height: 11.25rem; // 180px
-        & div {
-            display: inline-block;
-            width: 2.5rem; // 40px
-            height: 2.5rem; // 40px
-            margin: 0.3125rem;
-            cursor: pointer;
-        }
-        &-opacity {
-        }
-    }
-
-}
-
 .container {
     height: 100%;
     padding: 0 0 0 13.75rem; // 220px

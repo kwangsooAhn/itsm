@@ -32,9 +32,9 @@
                     </thead>
                     <tbody class="list-body">
                     <tr th:each="role : ${roleList}">
-                        <td width="25%" id="roleName" name="roleName" th:text="${role.roleName}" th:id="${role.roleId}"></td>
+                        <td width="25%" id="roleName" name="roleName" th:text="${role.roleName}" th:id="${role.roleId}" style="cursor: pointer;"></td>
                         <td width="25%" id="roleId" name="roleId" th:text="${role.roleId}"></td>
-                        <td width="50%" id="roleDesc" name="roleDesc" th:text="${role.roleName}" class="align-left"></td>
+                        <td width="50%" id="roleDesc" name="roleDesc" th:text="${role.roleDesc}" class="align-left"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -45,16 +45,15 @@
                 <div class="form-wrap">
                     <div class="form-set">
                         <label th:text="'*' + #{role.label.id}"></label>
-                        <input id="txtRoleId" name="txtRoleId" type="text" th:value="${roleDetail?.roleId}"  maxlength="100"/>
+                        <input id="txtRoleId" name="txtRoleId" type="text" maxlength="100"/>
                     </div>
                     <div class="form-set">
                         <label th:text="'*' + #{role.label.name}"></label>
-                        <input id="txtRoleName" name="txtRoleName" type="text" th:value="${roleDetail?.roleName}" maxlength="100" />
+                        <input id="txtRoleName" name="txtRoleName" type="text" maxlength="100" />
                     </div>
                     <div class="form-set">
                         <label th:text="#{role.label.desc}"></label>
-                        <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="textarea-scroll-wrapper"
-                                  th:text="${roleDetail?.roleDesc}"></textarea>
+                        <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="textarea-scroll-wrapper"></textarea>
                     </div>
                     <div class="form-set">
                         <label th:text="'*' + #{role.label.auth}"></label>
@@ -69,7 +68,7 @@
                     </div>
                     <div class="form-set">
                         <label th:text="#{common.label.createUser}"></label>
-                        <input id="spanCreateUserKey" name="spanCreateUserKey" th:text="${roleDetail?.createUserKey}" disabled />
+                        <input id="spanCreateUserKey" name="spanCreateUserKey" disabled />
                     </div>
                     <div class="form-set">
                         <label th:text="#{common.label.createDate}"></label>
@@ -77,7 +76,7 @@
                     </div>
                     <div class="form-set">
                         <label th:text="#{common.label.updateUser}"></label>
-                        <input id="spanUpdateUserKey" name="spanUpdateUserKey" th:text="${roleDetail?.updateUserKey}" disabled />
+                        <input id="spanUpdateUserKey" name="spanUpdateUserKey" disabled />
                     </div>
                     <div class="form-set">
                         <label th:text="#{common.label.updateDate}"></label>
@@ -139,9 +138,11 @@
             }
 
             let roleList = document.querySelectorAll('td[name=roleName]');
+            onGetDetail(roleList[0].id);
+
             for(let i = 0; i < roleList.length; i++) {
                 roleList[i].addEventListener('click', function(){
-                    let activeTr = document.querySelector('tr.active')
+                    let activeTr = document.querySelector('tr.active');
                     if (activeTr !== null) {
                         activeTr.classList.remove('active');
                     }
@@ -181,12 +182,12 @@
                             }
                         }
                     });
-                    document.getElementById('spanCreateUserKey').innerHTML = responseJson.createUserName;
-                    document.getElementById('spanCreateDt').innerHTML = i18n.userDateTime(responseJson.createDt);
-                    document.getElementById('spanUpdateUserKey').innerHTML = responseJson.updateUserName;
-                    document.getElementById('spanUpdateDt').innerHTML = i18n.userDateTime(responseJson.updateDt);
+                    document.getElementById('spanCreateUserKey').value = responseJson.createUserName;
+                    document.getElementById('spanCreateDt').value = i18n.userDateTime(responseJson.createDt);
+                    document.getElementById('spanUpdateUserKey').value = responseJson.updateUserName;
+                    document.getElementById('spanUpdateDt').value = i18n.userDateTime(responseJson.updateDt);
                     document.getElementById('txtRoleId').setAttribute('readonly','true');
-                    document.getElementById('userRoleMapCount').innerHTML = responseJson.userRoleMapCount;
+                    document.getElementById('userRoleMapCount').value = responseJson.userRoleMapCount;
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.userRoleMapCount);
                     }
@@ -220,11 +221,11 @@
                 roleAuths[i].checked = false;
             }
 
-            document.getElementById('spanCreateUserKey').innerHTML = '';
-            document.getElementById('spanCreateDt').innerHTML = '';
-            document.getElementById('spanUpdateUserKey').innerHTML = '';
-            document.getElementById('spanUpdateDt').innerHTML = '';
-            document.getElementById('userRoleMapCount').innerHTML = '';
+            document.getElementById('spanCreateUserKey').value = '';
+            document.getElementById('spanCreateDt').value = '';
+            document.getElementById('spanUpdateUserKey').value = '';
+            document.getElementById('spanUpdateDt').value = '';
+            document.getElementById('userRoleMapCount').value = '';
             if (AUTH_UPDATE) {
                 document.getElementById('btnUpdate').style.display = 'none';
             }

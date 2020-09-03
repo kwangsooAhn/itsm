@@ -41,6 +41,15 @@
         vertical-align: middle;
         padding: 0.75rem 0.625rem; // 12px 10px
 
+        &-return {
+            position: absolute;
+            top: 5rem; // 80px
+            left: 66rem; // 1056px
+            color: #FFFFFF;
+            border-radius: 0.1875rem; // 3px
+            padding: 0.75rem 3rem; // 12px 48px
+        }
+
         &-submit {
             background-color: $point-blue;
             color: #FFFFFF;
