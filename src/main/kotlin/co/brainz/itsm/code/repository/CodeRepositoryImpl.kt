@@ -12,6 +12,11 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
         val code = QCodeEntity.codeEntity
         return from(code)
             .select(code)
+            .where(
+                super.likeIgnoreCase(
+                    code.code, search
+                )?.or(super.likeIgnoreCase(code.pCode.code, search))
+            )
             .orderBy(code.level.asc(), code.code.asc())
             .fetchResults()
     }

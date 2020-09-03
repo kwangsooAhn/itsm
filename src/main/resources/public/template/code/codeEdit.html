@@ -4,7 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title>코드 관리</title>
+    <title th:text="#{code.label.code}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -18,7 +18,6 @@
                 <div class="left">
                     <input id="search" class="search column-4">
                     <span id="totalCount" class="txt-num"></span>
-                    <span>건</span>
                 </div>
                 <div class="right">
                     <button class="default-fill" id="btnCreate" name="btnCreate" type="button"
@@ -98,10 +97,11 @@
             function getCodeList() {
                 const opt = {
                     method: 'get',
-                    url: '/rest/codes/',
+                    url: '/rest/codes?search=' + document.querySelector('#search').value,
+                    showProgressbar: false,
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
-                        document.querySelector('#totalCount').innerHTML = responseJson[0].totalCount;
+                        document.querySelector('#totalCount').innerHTML = i18n.msg("common.label.count", responseJson[0].totalCount);
                         let tree = aliceJs.createTree(responseJson, document.querySelector('#treeList'), aliceJs.treeExpandSessionKey);
                         let nodes = document.querySelector('#treeList').querySelectorAll('span');
                         nodes.forEach.call(nodes, function(node) {
@@ -152,6 +152,8 @@
                 aliceJs.sendXhr(opt);
             }
             OverlayScrollbars(document.querySelector('.list'), { className: 'scrollbar' });
+
+            document.getElementById('search').addEventListener('keyup', function(e) { getCodeList(); });
         });
 
         /** create **/

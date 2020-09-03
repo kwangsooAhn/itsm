@@ -35,9 +35,26 @@ class CodeService(
      * 코드 데이터 전체 목록 조회
      */
     fun getCodeList(search: String): MutableList<CodeDto> {
-        val codeList = mutableListOf<CodeDto>()
         val queryResults = codeRepository.findByCodeList(search)
-        for (codeEntity in queryResults.results) {
+        var codeSearchList = queryResults.results
+        val pCodeList = mutableListOf<CodeEntity>()
+        if (search.isNotEmpty()) {
+            for (code in queryResults.results) {
+                var tempCode = code.pCode
+                do {
+                    if (tempCode != null) {
+                        pCodeList.add(tempCode)
+                        tempCode = tempCode.pCode
+                    }
+                } while (tempCode != null)
+            }
+        }
+        if (pCodeList.isNotEmpty()) {
+            codeSearchList.addAll(pCodeList)
+            codeSearchList = codeSearchList.distinct()
+        }
+        val codeList = mutableListOf<CodeDto>()
+        for (codeEntity in codeSearchList) {
             codeList.add(
                 CodeDto(
                     code = codeEntity.code,
