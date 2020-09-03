@@ -28,7 +28,13 @@ class RoleService(
         val roleList = roleRepository.findByOrderByRoleNameAsc()
         val roleDtoList = mutableListOf<RoleListDto>()
         for (roleEntity in roleList) {
-            roleDtoList.add(RoleListDto(roleId = roleEntity.roleId, roleName = roleEntity.roleName))
+            roleDtoList.add(
+                RoleListDto(
+                    roleId = roleEntity.roleId,
+                    roleName = roleEntity.roleName,
+                    roleDesc = roleEntity.roleDesc
+                )
+            )
         }
         return roleDtoList
     }
