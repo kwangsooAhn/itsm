@@ -25,8 +25,8 @@ class PortalController(private val portalService: PortalService) {
     private val portalMainPage: String = "portal/portalMain"
     private val portalListPage: String = "portal/portalList"
     private val portalBrowserGuidePage: String = "portal/portalBrowserGuide"
-    private val portalFaqPage: String = "portal/portalFaq"
-    private val portalFaqListPage: String = "portal/portalFaqList"
+    private val portalFaqPage: String = "portal/faq/portalFaq"
+    private val portalFaqListPage: String = "portal/faq/portalFaqList"
 
     /**
      * 포탈 검색 화면 호출 처리
