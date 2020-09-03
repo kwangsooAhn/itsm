@@ -16,8 +16,9 @@
             </div>
             <div class="search-area">
                 <div class="left">
-                    <input id="search" class="search column-5">
+                    <input id="search" class="search column-4">
                     <span id="totalCount" class="txt-num"></span>
+                    <span>건</span>
                 </div>
                 <div class="right">
                     <button class="default-fill" id="btnCreate" name="btnCreate" type="button"
@@ -25,7 +26,7 @@
                 </div>
             </div>
             <div class="list">
-                여기 트리
+                <div id="treeList"></div>
             </div>
         </div>
         <div class="edit-area">
@@ -58,11 +59,11 @@
                     <div class="form-row">
                         <div class="form-set column-2">
                             <label th:text="#{common.label.createDate}"></label>
-                            <input id="txtCreateDt" name="txtCreateDt" type="text" th:disabled="true" maxlength="100"/>
+                            <input id="txtCreateDt" name="txtCreateDt" class="date-icon" type="text" th:disabled="true" maxlength="100"/>
                         </div>
                         <div class="form-set column-2">
                             <label th:text="#{common.label.updateDate}"></label>
-                            <input id="txtUpdateDt" name="txtUpdateDt" type="text" th:disabled="true" maxlength="100"/>
+                            <input id="txtUpdateDt" name="txtUpdateDt" class="date-icon" type="text" th:disabled="true" maxlength="100"/>
                         </div>
                     </div>
                     <div class="btn-bar margin-top-50">
@@ -90,70 +91,65 @@
         const STATUS_ERROR_CODE_DUPLICATION = '2';
         const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '3';
         const STATUS_ERROR_CODE_P_CODE_USED = '4';
-        /*let AUTH_DELETE = false;
-        let AUTH_CREATE = false;
-        let AUTH_UPDATE = false;*/
 
         window.addEventListener('load', function() {
-            document.querySelector('#btnRegist').style.display = 'none';
-            document.querySelector('#btnRegist').setAttribute('disabled', 'true');
+            onCreate();
 
-            // tree 리스트 첫번쨰 자동선택해서 데이터 뿌리기
-
-            /*if (document.getElementById('btnUpdate') !== null) {
-                AUTH_UPDATE = true;
+            function getCodeList() {
+                const opt = {
+                    method: 'get',
+                    url: '/rest/codes/',
+                    callbackFunc: function(response) {
+                        let responseJson = JSON.parse(response.responseText);
+                        let tree = aliceJs.createTree(responseJson, document.querySelector('#treeList'));
+                        let nodes = document.querySelector('#treeList').querySelectorAll('span');
+                        nodes.forEach.call(nodes, function(node) {
+                            node.addEventListener('click', function(e) {
+                                onGetDetail(tree.selectedNode.text)
+                            });
+                        });
+                    }
+                };
+                aliceJs.sendXhr(opt);
             }
-            if (document.getElementById('btnRegist') !== null) {
-                AUTH_CREATE = true;
-            }
-            if (document.getElementById('btnDelete') !== null) {
-                AUTH_DELETE = true;
-            }*/
-            //let first = document.querySelector('li[name=codeList]');
-            //onGetDetail(first.getAttribute('id'));
-
-            /*let codeList = document.querySelectorAll('li[name=codeList]');
-            for(let i = 0; i < codeList.length; i++) {
-                codeList[i].addEventListener('click', function() {
-                    onGetDetail(this.id);
-                });
-            }*/
+            getCodeList();
 
             function onGetDetail(codeId) {
-                /*if (AUTH_UPDATE) {
-                    document.getElementById('btnUpdate').style.display = 'block';
-                    document.getElementById('btnUpdate').disabled = false;
-                }
-                if (AUTH_CREATE) {
-                    document.getElementById('btnRegist').style.display = 'none';
-                }
-                if (AUTH_DELETE) {
-                    document.getElementById('btnDelete').style.display = 'block';
-                    document.getElementById('btnDelete').disabled = false;
-                }*/
+                document.querySelectorAll('input[type=text]').forEach(function(object){
+                    object.value = '';
+                });
+                document.querySelector('textarea').value = '';
 
                 const opt = {
                     method: 'get',
                     url: '/rest/codes/' + codeId,
+                    showProgressbar: false,
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
                         document.getElementById('txtCode').value = responseJson.code;
                         document.getElementById('txtCode').setAttribute('readonly','true');
                         document.getElementById('txtPCode').value = responseJson.pcode;
+                        document.getElementById('txtPCode').setAttribute('readonly','true');
                         document.getElementById('txtCodeDesc').value = responseJson.codeValue;
-                        document.getElementById('txtCreateUserName').innerHTML = responseJson.createUserName;
-                        document.getElementById('txtCreateDt').innerHTML = i18n.userDateTime(responseJson.createDt);
-                        document.getElementById('txtUpdateUserName').innerHTML = responseJson.updateUserName;
-                        document.getElementById('txtUpdateDt').innerHTML = i18n.userDateTime(responseJson.updateDt);
-                        if (!responseJson.enabled) {
+                        document.getElementById('txtCreateUserName').value = responseJson.createUserName;
+                        document.getElementById('txtCreateDt').value = i18n.userDateTime(responseJson.createDt);
+                        document.getElementById('txtUpdateUserName').value = responseJson.updateUserName;
+                        document.getElementById('txtUpdateDt').value = i18n.userDateTime(responseJson.updateDt);
+                        if (responseJson.editable) {
+                            document.querySelector('#btnUpdate').removeAttribute('disabled');
+                            document.querySelector('#btnDelete').removeAttribute('disabled');
+                        } else {
                             document.getElementById('btnUpdate').disabled = true;
                             document.getElementById('btnDelete').disabled = true;
                         }
+                        document.querySelector('#btnRegist').setAttribute('disabled', 'true');
+                        onEdit();
                     }
                 };
 
                 aliceJs.sendXhr(opt);
             }
+            OverlayScrollbars(document.querySelector('.list'), { className: 'scrollbar' });
         });
 
         /** create **/
@@ -168,6 +164,14 @@
                 object.value = '';
             });
             document.querySelector('textarea').value = '';
+            document.querySelector('#txtCode').removeAttribute('readonly');
+            document.querySelector('#txtPCode').removeAttribute('readonly');
+        }
+
+        function onEdit() {
+            document.querySelector('#btnUpdate').style.display = 'block';
+            document.querySelector('#btnDelete').style.display = 'block';
+            document.querySelector('#btnRegist').style.display = 'none';
         }
 
         /** save **/
@@ -183,10 +187,9 @@
                 return false;
             }
 
-            if (method === 'post') {
-                url = '/rest/codes';
-            } else {
-                url = '/rest/codes/' + document.getElementById('txtCode').value;
+            let url = '/rest/codes';
+            if (method !== 'post') {
+                url += '/' + document.getElementById('txtCode').value;
             }
 
             const opt = {

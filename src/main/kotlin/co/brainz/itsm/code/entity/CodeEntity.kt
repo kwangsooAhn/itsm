@@ -27,5 +27,9 @@ data class CodeEntity(
     var codeValue: String? = null,
 
     @Column(name = "editable")
-    var editable: Boolean? = true
+    var editable: Boolean? = true,
+
+    @Column(name = "level")
+    var level: Int? = null
+
 ) : Serializable, AliceMetaEntity()

@@ -903,3 +903,71 @@ aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
     let totalObject = document.getElementById(objectId);
     return offset < totalObject.value;
 }
+
+aliceJs.treeIconPath = '/assets/media/icons/tree';
+aliceJs.treeDefaultIcon = aliceJs.treeIconPath + '/parent.png';
+
+/**
+ * Tree 생성.
+ * 
+ * @param object 데이터
+ * @param element tree 생성 element
+ * @param backColor tree node 배경색
+ * @param contextMenu contextMenu
+ * @return {tree}
+ */
+aliceJs.createTree = function(object, element, backColor, contextMenu) {
+    const tree = createTree(element.id, backColor, contextMenu);
+    aliceJs.createNode(tree, object);
+    tree.drawTree();
+    return tree;
+}
+
+/**
+ * Tree node 생성.
+ * 
+ * @param tree tree object
+ * @param object 데이터
+ */
+aliceJs.createNode = function(tree, object) {
+    const rootLevel = 1;
+    object.forEach(function (item) {
+        if (item.level === rootLevel) {
+            let firstNode = tree.createNode(item.code, false, aliceJs.treeIconPath + '/parent.png', null, null, null);
+            aliceJs.createChildNode(firstNode, object, item.level)
+        }
+    });
+
+    aliceJs.leafChildNodeConfig(tree.childNodes);
+}
+
+/**
+ * Tree node에 자식 node 추가.
+ *
+ * @param node node
+ * @param object 데이터
+ * @param level depth
+ */
+aliceJs.createChildNode = function(node, object, level) {
+    object.forEach(function (item) {
+        if (node.text === item.pcode) {
+            let newNode = node.createChildNode(item.code, false, aliceJs.treeDefaultIcon, null, null);
+            aliceJs.createChildNode(newNode, object, level);
+        }
+    });
+}
+
+/**
+ * 마지막 node 아이콘 변경.
+ *
+ * @param nodes nodes
+ */
+aliceJs.leafChildNodeConfig = function(nodes) {
+    nodes.forEach(function(childNode) {
+        if (childNode.childNodes.length > 0) {
+            aliceJs.leafChildNodeConfig(childNode.childNodes)
+        } else {
+            childNode.icon = aliceJs.treeIconPath + '/leaf.png';
+        }
+    });
+}

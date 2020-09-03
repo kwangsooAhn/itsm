@@ -1338,9 +1338,12 @@ span.vertical-bar {
 .container .contents-tree-edit > .tree-area .list table tbody tr td:first-child {
   padding-left: 1.25rem;
 }
+.container .contents-tree-edit > .tree-area .list {
+  height: 600px;
+}
 .container .contents-tree-edit > .edit-area {
   padding: 9.625rem 2.1875rem 3.125rem 0;
-  width: 1090px;
+  width: 1050px;
   background: white;
   font-weight: 500;
 }
@@ -1385,6 +1388,10 @@ span.vertical-bar {
   border-radius: 0.0625rem;
   overflow-y: auto;
   padding: 0.5rem 0.625rem;
+}
+.container .contents-tree-edit > .edit-area .form-set .date-icon {
+  background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
+  background-color: #F7F8F9;
 }
 .container .contents {
   min-width: 78.75rem;

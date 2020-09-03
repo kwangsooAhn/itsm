@@ -218,6 +218,7 @@ code:
     enterCode: "코드를 입력하세요."
     pCodeNotExist: "부모 코드가 존재하지 않습니다."
     referenceCodeExist: "해당 코드를 참조하는 코드가 존재합니다."
+    description: "코드를 조회하거나 추가, 변경할 수 있습니다."
 
 # Comment
 comment:
