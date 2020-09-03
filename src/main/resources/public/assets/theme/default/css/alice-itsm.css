@@ -802,7 +802,7 @@ span.vertical-bar {
   flex-direction: column;
 }
 .container .contents-token .header {
-1  padding: 3.5rem 3.75rem 0.625rem 3.75rem;
+  padding: 3.5rem 3.75rem 0.625rem 3.75rem;
 }
 .container .contents-token .search-area {
   padding: 1.875rem 3.75rem 1.875rem 3.75rem;
