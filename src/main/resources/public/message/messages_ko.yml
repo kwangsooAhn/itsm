@@ -267,12 +267,12 @@ dashboard:
 # DatePicker
 datepicker:
   btn:
-    am: "AM"
-    pm: "PM"
+    am: "오전"
+    pm: "오후"
   label:
-    date: "Select Date"
-    datetime: "Select Date and Time"
-    hour: "Select Time"
+    date: "날짜 선택"
+    datetime: "날짜 및 시간 선택"
+    hour: "시간 선택1"
 
 # Department:
 department:
