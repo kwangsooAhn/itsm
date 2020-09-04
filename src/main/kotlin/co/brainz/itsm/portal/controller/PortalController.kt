@@ -20,6 +20,7 @@ import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
 @RequestMapping("/portal")
@@ -35,6 +36,8 @@ class PortalController(
     private val portalNoticeSearchPage: String = "portal/notice/noticeSearch"
     private val portalNoticeListPage: String = "portal/notice/noticeList"
     private val portalNoticeViewPage: String = "portal/notice/noticeView"
+    private val portalFaqPage: String = "portal/faq/portalFaq"
+    private val portalFaqListPage: String = "portal/faq/portalFaqList"
 
     /**
      * 포탈 검색 화면 호출 처리
@@ -94,5 +97,21 @@ class PortalController(
     fun getNotice(@PathVariable noticeId: String, model: Model): String {
         model.addAttribute("notice", noticeService.findNoticeByNoticeNo(noticeId))
         return portalNoticeViewPage
+    }
+
+    @GetMapping("/faqs")
+    fun getPortalSearch(@RequestParam(value = "id") id: String?, model: Model): String {
+        model.addAttribute("faqs", portalService.getFaqCategories(id))
+        return portalFaqPage
+    }
+
+    @GetMapping("/faqs/list")
+    fun getPortalFaqList(
+        @RequestParam(value = "category", defaultValue = "") category: String,
+        @RequestParam(value = "id", defaultValue = "") id: String,
+        model: Model
+    ): String {
+        model.addAttribute("faqs", portalService.getFaqList(category, id))
+        return portalFaqListPage
     }
 }

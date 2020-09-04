@@ -113,6 +113,10 @@
 
                             .icon {
                                 padding-bottom: 1.25rem; // 20px
+
+                                img {
+                                    cursor: pointer;
+                                }
                             }
 
                             .title {

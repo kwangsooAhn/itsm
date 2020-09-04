@@ -604,6 +604,9 @@ a {
 .portal-search-content ul li.part-box .header .icon {
   padding-bottom: 1.25rem;
 }
+.portal-search-content ul li.part-box .header .icon img {
+  cursor: pointer;
+}
 .portal-search-content ul li.part-box .header .title {
   padding-top: 1.25rem;
   height: 1.438rem;
