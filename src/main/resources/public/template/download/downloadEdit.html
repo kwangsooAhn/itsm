@@ -34,7 +34,7 @@
                 <div id="dropZoneUploadedFiles"></div>
             </div>
             <div class="btn-bar">
-                <button style="margin-right: 5px;" onclick="location.href='/downloads/search'"
+                <button onclick="location.href='/downloads/search'"
                         class="default-line" th:text="#{common.btn.list}"></button>
                 <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
                         class="point-fill" th:text="#{common.btn.modify}"></button>
