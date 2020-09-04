@@ -99,13 +99,15 @@ body.thumbnail-modal-active {
             color: #3F4B56;
             font-size: 1.25rem; // 20px
             font-weight: 700;
+            -webkit-box-sizing: border-box;
             box-sizing:border-box;
             border-bottom: solid 0.0625rem $thumbnail-border-color;
             padding: 0.5rem 0 0 0.9375rem; // 8px 0 0 15px
         }
         .thumbnail-modal-body {
             overflow: auto;
-            height: 42.5rem; // 680px
+            height: 40rem; // 640px
+            -webkit-box-sizing: border-box;
             box-sizing:border-box;
             border-bottom: solid 0.0625rem $thumbnail-border-color;
 
@@ -233,11 +235,11 @@ body.thumbnail-modal-active {
             }
         }
         .thumbnail-modal-buttons {
-            height: 2.5rem; // 40px
+            height: 5rem; // 80px
+            -webkit-box-sizing: border-box;
             box-sizing:border-box;
             text-align:right;
-            padding-right: 1.25rem; // 20px
-            padding: 0.4375rem; // 7px
+            padding: 1.25rem 1.25rem 1.25rem 0; // 20px
 
             .thumbnail-modal-button {
                 padding: 0.6em 1em;

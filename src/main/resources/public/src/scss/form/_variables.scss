@@ -1,7 +1,9 @@
 /* Variables */
 
 // font family
-$font-family: "Noto Sans KR";
+$font-family:                     "Noto Sans KR";
+$font-size-base:                  1rem; /* 16px */
+
 
 // color
 $black:            #000000;
@@ -27,29 +29,23 @@ $hover-blue:       #33ADFF;
 $light-blue:       #87CEFF;
 
 // h1 ~ h5
-$h1-font-size:       36px;
-$h2-font-size:       24px;
-$h3-font-size:       18px;
-$h4-font-size:       16px;
-$h5-font-size:       14px;
+$h1-font-size:                    $font-size-base * 2.25; /* 36px */
+$h2-font-size:                    $font-size-base * 1.75; /* 28px */
+$h3-font-size:                    $font-size-base * 1.5;  /* 24px */
+$h4-font-size:                    $font-size-base * 1.25; /* 20px */
+$h5-font-size:                    $font-size-base;
+$h6-font-size:                    $font-size-base * 0.875; /* 14px */
 
-$h1-font-weight:     700; // bold
-$h2-font-weight:     500; // medium
-$h3-font-weight:     500; // medium
-$h4-font-weight:     400; // regular
-$h5-font-weight:     400; // regular
+$headings-font-family:            "Noto Sans KR";
+$headings-font-weight:            500;
+$headings-line-height:            1.2;
+$headings-color:                  $light-black;
 
-$h1-line-height:     54px; 
-$h2-line-height:     36px;
-$h3-line-height:     27px;
-$h4-line-height:     24px;
-$h5-line-height:     18px;
-
-$h1-font-color:      $light-black; 
-$h2-font-color:      $light-black;
-$h3-font-color:      $light-black;
-$h4-font-color:      $dark-gray;
-$h5-font-color:      $warm-gray;
+//$h1-font-color:      $light-black; 
+//$h2-font-color:      $light-black;
+//$h3-font-color:      $light-black;
+//$h4-font-color:      $dark-gray;
+//$h5-font-color:      $warm-gray;
 
 // input
 $input-font-size:            16px;
@@ -269,8 +265,5 @@ $properties-active-border-color:   $point-blue; // 삭제 예정
 
 // document
 // container > contents > button-board, drawing-board
-$document-button-board-height:          9.375rem; // 150px
 $document-content-drawing-board-width:  61.56rem; // 985px
-
-// container > aside > drawing-board
-$document-aside-drawing-board-width:    33.75rem; // 540px
+$document-content-drawing-board-top-margin: 6.563rem; // 105px

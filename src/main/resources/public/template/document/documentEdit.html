@@ -6,9 +6,6 @@
 <head>
     <title th:if="${documentId}" th:text="#{document.label.modify}"></title>
     <title th:unless="${documentId}" th:text="#{document.label.register}"></title>
-    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
-    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
-    <script th:src="@{/assets/js/util/thumbnail-alice.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -97,15 +94,46 @@
         <button class="default-fill" th:text="#{common.btn.close}" onclick="window.close();"></button>
     </div>
 </th:block>
+</body>
 <th:block layout:fragment="pageScript">
-    <script type="text/javascript">
+    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
+    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
+    <script th:src="@{/assets/js/util/thumbnail-alice.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
         // Document status.
         const STATUS_TEMPORARY = 'document.status.temporary';
         const STATUS_USE = 'document.status.use';
         const STATUS_DESTROY = 'document.status.destroy';
+        const documentId = /*[[${documentId}]]*/;
 
         let beforeDocumentStatus = null;
+
+        window.onload = function() {
+            if (documentId  !== '') {
+                aliceJs.sendXhr({
+                    method: 'GET',
+                    url: '/rest/documents-admin/' + documentId,
+                    contentType: 'application/json; charset=utf-8',
+                    callbackFunc: function(xhr) {
+                        let documentData = JSON.parse(xhr.responseText);
+                        setData(documentData);
+                        initColorPicker(documentData.documentColor);
+                    }
+                });
+            } else {
+                initColorPicker();
+                initIconSelector();
+            }
+            document.getElementById('document-type').addEventListener('change', function() {
+                const groupElem = document.getElementById('document-group');
+                groupElem.disabled = (this.value === 'workflow');
+                if (this.value === 'workflow') {
+                    groupElem.value = '';
+                }
+                initIconSelector();
+            });
+        };
 
         function saveDocument(method) {
             if (emptyValidation()) {
@@ -136,12 +164,12 @@
 
                 let url = '/rest/documents-admin';
                 if (method === 'put') {
-                    documentInfo.documentId = '[[${documentId}]]';
-                    url += '/[[${documentId}]]';
+                    documentInfo.documentId = documentId;
+                    url += '/' + documentId;
                 }
                 if (beforeDocumentStatus === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) {
                     aliceJs.confirm(
-                        i18n.get('document.msg.confirmDeleteInstance'),
+                        i18n.msg('document.msg.confirmDeleteInstance'),
                         () => restSubmit(method, url + '?isDeleteData=true', documentInfo),
                         () => restSubmit(method, url, documentInfo)
                     );
@@ -166,13 +194,12 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
-                    let documentId = response.responseText;
-                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                    aliceJs.alert(i18n.msg('common.msg.save'), function() {
                         opener.location.reload();
                         window.close();
-                        if ('[[${documentId}]]' === '') {
+                        if (documentId === '') {
                             const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
-                            window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1500,height=920,' + specs);
+                            window.open('/documents-admin/' + response.responseText + '/display', '_blank', 'width=1500,height=920,' + specs);
                         }
                     });
                 }
@@ -215,7 +242,7 @@
                 formSet.className = 'form-set';
                 let formSetLabel = document.createElement('label');
                 formSetLabel.htmlFor = 'document-icon';
-                formSetLabel.innerText = i18n.get('document.label.icon');
+                formSetLabel.innerText = i18n.msg('document.label.icon');
 
                 let formIcon = document.createElement('div');
                 let formIconInput = document.createElement('input');
@@ -223,7 +250,7 @@
                 formIconInput.readOnly = true;
                 formIconInput.disabled = true;
                 let formIconButton = document.createElement('button');
-                formIconButton.innerText = i18n.get('common.btn.select');
+                formIconButton.innerText = i18n.msg('common.btn.select');
                 formIconButton.className = 'point-line';
                 formIconButton.onclick = function() {
                     openIcon();
@@ -288,41 +315,20 @@
 
         function openIcon() {
             thumbnail.init({
+                title: i18n.msg('image.label.popupTitle'),
                 targetId: 'document-icon',
                 selectedPath: document.querySelector('#document-icon').value,
                 type: 'icon',
                 isThumbnailInfo: false,
-                isFilePrefix: false
+                isFilePrefix: false,
+                thumbnailDoubleClickUse: true,
+                buttons: [
+                    {content: i18n.msg('common.btn.check')},
+                    {content: i18n.msg('common.btn.close')}
+                ]
             });
         }
-
-        window.onload = function() {
-            if ('[[${documentId}]]' !== '') {
-                aliceJs.sendXhr({
-                    method: 'GET',
-                    url: '/rest/documents-admin/[[${documentId}]]',
-                    contentType: 'application/json; charset=utf-8',
-                    callbackFunc: function(xhr) {
-                        let documentData = JSON.parse(xhr.responseText);
-                        setData(documentData);
-                        initColorPicker(documentData.documentColor);
-                    }
-                });
-            } else {
-                initColorPicker();
-                initIconSelector();
-            }
-            document.getElementById('document-type').addEventListener('change', function() {
-                const groupElem = document.getElementById('document-group');
-                groupElem.disabled = (this.value === 'workflow');
-                if (this.value === 'workflow') {
-                    groupElem.value = '';
-                }
-                initIconSelector();
-            });
-        };
         /*]]>*/
     </script>
 </th:block>
-</body>
 </html>

@@ -13,20 +13,21 @@
     'use strict';
 
     let defaults = {
-        title: i18n.get('image.label.popupTitle'),
+        title: 'Image',
         files: [],
-        type: 'image',         // 타입 : image, icon 등
+        type: 'image',         // 타입 : image, icon
         isThumbnailInfo: true, // 하단 정보 출력 여부
         isFilePrefix: true,    // 파일 선택시 파일명 앞에 'file:///' 추가 여부
+        thumbnailDoubleClickUse: false, // 더블클릭으로 이미지 선택기능 여부
         buttons: [{
-            content: '확인', //i18n.get('common.btn.check'),
+            content: 'Confirm',
             classes: 'thumbnail-modal-button-default',
             bindKey: false,
             callback: function(modal) {
                 modal.save();
             }
         }, {
-            content: '닫기', // i18n.get('common.btn.close'),
+            content: 'Cancel',
             classes: 'thumbnail-modal-button-default',
             bindKey: false,
             callback: function(modal) {
@@ -179,7 +180,7 @@
             // image 미선택 시 알림창 출력
             const selectedFile = this.wrapper.querySelector('.thumbnail.selected');
             if (!selectedFile) {
-                aliceJs.alert(i18n.get('image.msg.fileSelect'));
+                aliceJs.alert(i18n.msg('image.msg.fileSelect'));
                 return false;
             }
             const targetElem = document.getElementById(options.targetId);
@@ -211,7 +212,7 @@
             }
         };
 
-        this.create = function(options) { // 모달 draw
+        this.create = function() { // 모달 draw
             if (typeof this.wrapper !== 'undefined') { return; }
             let backdrop, dialog;
 
@@ -255,19 +256,23 @@
                     }
                     thumbnail.setAttribute('data-name', file.name);
                     thumbnail.addEventListener('click', this.select, false);
+                    if (this.options.thumbnailDoubleClickUse) {
+                        thumbnail.addEventListener('dblclick', this.save.bind(this), false);
+                    }
+
                     container.appendChild(thumbnail);
 
                     const thumbnailImg = document.createElement('div');
-                    if(options.type === 'image') {
+                    if(this.options.type === 'image') {
                         thumbnailImg.className = 'thumbnail-img';
-                    } else if (options.type === 'icon') {
+                    } else if (this.options.type === 'icon') {
                         thumbnailImg.className = 'thumbnail-icon';
                         thumbnailImg.style.backgroundSize = '50%';
                     }
                     thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
                     thumbnail.appendChild(thumbnailImg);
 
-                    if (options.isThumbnailInfo) {
+                    if (this.options.isThumbnailInfo) {
                         const thumbnailInfo = document.createElement('div');
                         thumbnailInfo.className = 'thumbnail-info';
                         thumbnail.appendChild(thumbnailInfo);
@@ -291,7 +296,7 @@
             } else { // 썸네일이 존재하지 않을 경우 안내 문구 표시
                 let thumbnailNodataTemplate = `
                     <div class="thumbnail-nodata">
-                        <label>${i18n.get('common.msg.noData')}</label>
+                        <label>${i18n.msg('common.msg.noData')}</label>
                     </div>
                 `;
                 container.insertAdjacentHTML('beforeend', thumbnailNodataTemplate);
@@ -360,7 +365,7 @@
             }
         };
 
-        this.create(options);
+        this.create();
     }
 
     /**
