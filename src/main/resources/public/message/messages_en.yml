@@ -220,6 +220,7 @@ code:
     enterCode: "Please enter a code."
     pCodeNotExist: "Parent code does not exist."
     referenceCodeExist: "Code exists that references the code."
+    description: "View, add, or edit Code's information."
 
 # Comment
 comment:

@@ -1310,6 +1310,124 @@ span.vertical-bar {
   font-weight: 400;
   margin-top: 0.3125rem;
 }
+.container .contents-tree-edit {
+  height: 100vh;
+  background: #F7F8F9;
+  display: flex;
+  flex-direction: column;
+  flex-direction: row;
+}
+.container .contents-tree-edit > .tree-area {
+  padding: 2.875rem 3.75rem 6.875rem 3.75rem;
+  height: 100vh;
+  flex: 1;
+}
+.container .contents-tree-edit > .tree-area .list {
+  padding-top: 1.25rem;
+}
+.container .contents-tree-edit > .tree-area .list table {
+  width: 100%;
+}
+.container .contents-tree-edit > .tree-area .list table thead {
+  display: block;
+}
+.container .contents-tree-edit > .tree-area .list table thead > tr {
+  height: 2.375rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+  display: flex;
+}
+.container .contents-tree-edit > .tree-area .list table thead > tr th {
+  color: #3F4B56;
+  font-size: 1.125rem;
+  font-weight: 500;
+  vertical-align: middle;
+  text-align: left;
+}
+.container .contents-tree-edit > .tree-area .list table thead > tr th:first-child {
+  padding-left: 1.25rem;
+}
+.container .contents-tree-edit > .tree-area .list table tbody {
+  display: block;
+  height: 35.3125rem;
+  overflow-y: auto;
+  width: 100%;
+}
+.container .contents-tree-edit > .tree-area .list table tbody tr {
+  height: 2.875rem;
+  width: 100%;
+  display: table;
+}
+.container .contents-tree-edit > .tree-area .list table tbody tr:hover {
+  background: #EBEBEB;
+}
+.container .contents-tree-edit > .tree-area .list table tbody tr.active td {
+  color: #0060A5;
+  background: #EBEBEB;
+}
+.container .contents-tree-edit > .tree-area .list table tbody tr td {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  vertical-align: middle;
+}
+.container .contents-tree-edit > .tree-area .list table tbody tr td:first-child {
+  padding-left: 1.25rem;
+}
+.container .contents-tree-edit > .tree-area .list {
+  height: 600px;
+}
+.container .contents-tree-edit > .edit-area {
+  padding: 9.625rem 2.1875rem 3.125rem 0;
+  width: 1050px;
+  background: white;
+  font-weight: 500;
+}
+.container .contents-tree-edit > .edit-area .scroll-wrap {
+  height: 43.125rem;
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 0.625rem 0;
+}
+.container .contents-tree-edit > .edit-area .scroll-wrap .form-wrap {
+  flex: 1;
+  overflow: auto;
+  padding: 0 1.875rem 0 4.0625rem;
+}
+.container .contents-tree-edit > .edit-area .scroll-wrap .form-wrap .margin-top-50 {
+  margin-top: 50px;
+}
+.container .contents-tree-edit > .edit-area .form-row {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-between;
+}
+.container .contents-tree-edit > .edit-area .form-row .column-2 {
+  width: 49%;
+}
+.container .contents-tree-edit > .edit-area .form-set {
+  display: flex;
+  flex-direction: column;
+  margin-top: 0.6875rem;
+}
+.container .contents-tree-edit > .edit-area .form-set label {
+  font-weight: bold;
+}
+.container .contents-tree-edit > .edit-area .form-set li {
+  color: #586872;
+  font-weight: 400;
+  height: 1.5rem;
+}
+.container .contents-tree-edit > .edit-area .form-set .checkbox-list {
+  height: 13.5rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  overflow-y: auto;
+  padding: 0.5rem 0.625rem;
+}
+.container .contents-tree-edit > .edit-area .form-set .date-icon {
+  background: url("../icons/icon_calendar.png") no-repeat 95% 50%;
+  background-color: #F7F8F9;
+}
 .container .contents {
   min-width: 78.75rem;
   min-height: 51.25rem;

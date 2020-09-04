@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface CodeRepository : JpaRepository<CodeEntity, String> {
+interface CodeRepository : JpaRepository<CodeEntity, String>, CodeRepositoryCustom {
     fun findByPCodeOrderByCode(pCode: CodeEntity): MutableList<CodeEntity>
 
     /**
@@ -15,7 +15,7 @@ interface CodeRepository : JpaRepository<CodeEntity, String> {
      */
     @Query(
         "SELECT NEW co.brainz.itsm.code.dto.CodeDetailDto(c.code, c.pCode.code, c.codeValue, c.editable, c.createDt, " +
-                "c.createUser.userKey, c.updateDt, c.updateUser.userKey, true) FROM CodeEntity c " +
+                "c.createUser.userKey, c.updateDt, c.updateUser.userKey, true, c.level) FROM CodeEntity c " +
                 "WHERE c.code = :code "
     )
     fun findCodeDetail(code: String): CodeDetailDto

@@ -300,6 +300,7 @@ span.vertical-bar {
     @import "contents/_contents-view.scss";
     @import "contents/_contents-list-edit.scss";
     @import "contents/_contents-document.scss";
+    @import "contents/_contents-tree-edit.scss";
 
     .contents {
         min-width: 78.75rem; // 1260px

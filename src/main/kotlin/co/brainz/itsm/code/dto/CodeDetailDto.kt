@@ -12,5 +12,6 @@ data class CodeDetailDto(
     var createUserName: String? = null,
     var updateDt: LocalDateTime? = null,
     var updateUserName: String? = null,
-    var enabled: Boolean? = true
+    var enabled: Boolean? = true,
+    var level: Int? = null
 ) : Serializable

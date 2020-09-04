@@ -5,11 +5,9 @@ import co.brainz.itsm.code.constants.CodeConstants
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
-import co.brainz.itsm.code.mapper.CodeMapper
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.user.repository.UserRepository
-import org.mapstruct.factory.Mappers
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 
@@ -19,8 +17,6 @@ class CodeService(
     private val customCodeRepository: CustomCodeRepository,
     private val userRepository: UserRepository
 ) {
-
-    private val codeMapper: CodeMapper = Mappers.getMapper(CodeMapper::class.java)
 
     fun selectCodeByParent(code: String): MutableList<CodeEntity> {
         return codeRepository.findByPCodeOrderByCode(codeRepository.findById(code).orElse(CodeEntity(code = code)))
@@ -38,15 +34,42 @@ class CodeService(
     /**
      * 코드 데이터 전체 목록 조회
      */
-    fun getCodeList(): MutableList<CodeDto> {
-        val codeDto = mutableListOf<CodeDto>()
-        codeRepository.findAll().forEach {
-            when (it.editable) {
-                true -> codeDto.add(codeMapper.toCodeDto(it))
+    fun getCodeList(search: String): MutableList<CodeDto> {
+        val queryResults = codeRepository.findByCodeList(search)
+        var codeSearchList = queryResults.results
+        val pCodeList = mutableListOf<CodeEntity>()
+        if (search.isNotEmpty()) {
+            for (code in queryResults.results) {
+                var tempCode = code.pCode
+                do {
+                    if (tempCode != null) {
+                        pCodeList.add(tempCode)
+                        tempCode = tempCode.pCode
+                    }
+                } while (tempCode != null)
             }
         }
-
-        return codeDto
+        if (pCodeList.isNotEmpty()) {
+            codeSearchList.addAll(pCodeList)
+            codeSearchList = codeSearchList.distinct()
+        }
+        val codeList = mutableListOf<CodeDto>()
+        for (codeEntity in codeSearchList) {
+            codeList.add(
+                CodeDto(
+                    code = codeEntity.code,
+                    pCode = codeEntity.pCode?.code,
+                    updateDt = codeEntity.updateDt,
+                    createDt = codeEntity.createDt,
+                    codeValue = codeEntity.codeValue,
+                    createUserName = codeEntity.createUser?.userName,
+                    updateUserName = codeEntity.updateUser?.userName,
+                    level = codeEntity.level,
+                    totalCount = queryResults.total
+                )
+            )
+        }
+        return codeList
     }
 
     /**
@@ -83,6 +106,12 @@ class CodeService(
         } else if (!codeRepository.existsByCodeAndEditableTrue(codeDetailDto.pCode!!) && codeDetailDto.pCode != "") {
             status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
         } else {
+            if (!codeDetailDto.pCode.isNullOrEmpty()) {
+                val pCodeEntity = codeRepository.findCodeDetail(codeDetailDto.pCode!!)
+                codeEntity.level = pCodeEntity.level!! + 1
+            } else {
+                codeEntity.level = 1
+            }
             codeRepository.save(codeEntity)
         }
         return status
@@ -99,6 +128,13 @@ class CodeService(
             codeDetailDto.codeValue,
             codeDetailDto.editable
         )
+
+        if (codeDetailDto.pCode.isNullOrEmpty()) {
+            codeEntity.level = 1
+        } else {
+            val pCodeEntity = codeRepository.findCodeDetail(codeDetailDto.pCode!!)
+            codeEntity.level = pCodeEntity.level!! + 1
+        }
 
         when (codeRepository.existsByCodeAndEditableTrue(codeDetailDto.pCode!!) || codeDetailDto.pCode == "") {
             true -> {
