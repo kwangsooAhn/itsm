@@ -20,7 +20,7 @@
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-                        <a th:attr="onclick=|goNotice();|">
+                        <a th:attr="onclick=|goMenu('notice');|">
                             <img th:src="@{/assets/media/image/portal/graphic_notice.png}"/>
                         </a>
                     </div>
@@ -33,7 +33,7 @@
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-	                    <a th:attr="onclick=|goFaq();|">
+	                    <a th:attr="onclick=|goMenu('faq');|">
                             <img th:src="@{/assets/media/image/portal/graphic_faq.png}"/>
 	                    </a>
                     </div>
@@ -46,7 +46,7 @@
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-                        <a th:attr="onclick=|goDownload();|">
+                        <a th:attr="onclick=|goMenu('download');|">
                             <img th:src="@{/assets/media/image/portal/graphic_download.png}"/>
                         </a>
                     </div>
@@ -107,9 +107,9 @@
                                     contentAnchor.setAttribute('href', '/portal/notices/'+ data['noticeNo'] +'/view');
 	                                break;
 	                            case 'faq':
-	                                contentAnchor.setAttribute('href', '/portal/faqs?id=' + data.faqId);
+	                                contentAnchor.setAttribute('href', '/portal/faqs?id=' + data['faqId']);
 	                                break;
-	                            default 'downloadId':
+                                case 'download':
                                     contentAnchor.setAttribute('href', '/portal/downloads/'+ data['downloadId'] +'/view');
 	                                break;
 	                        }
@@ -229,7 +229,9 @@
             divTitle.className = "title text-ellipsis";
             let aTitle = document.createElement('a');
             if (data.tableName === 'notice') {
-                aTitle.href = '/portal/notices/'+ data.portalId +'/view';
+                aTitle.href = '/portal/notices/' + data.portalId + '/view';
+            } else if (data.tableName === 'faq') {
+                aTitle.href = '/portal/faqs?id=' + data.portalId;
             } else if (data.tableName === 'download') {
                 aTitle.href = '/portal/downloads/'+ data.portalId +'/view';
             }
@@ -253,21 +255,18 @@
         }
 
         /*
-        * 포탈 공지사항
+        * 포탈 조회 화면 이동
         */
-        function goNotice() {
-            location.href = '/portal/notices/search';
+        function goMenu(page) {
+            if (page === 'notice') {
+                location.href = '/portal/notices/search';
+            } else if (page === 'faq') {
+                location.href='/portal/faqs';
+            } else if (page === 'download') {
+                location.href = '/portal/downloads/search';
+            }
         }
 
-        /*
-        * 포탈 자료실
-        */
-        function goDownload() {
-            location.href = '/portal/downloads/search';
-        }
-        function goFaq() {
-            location.href='/portal/faqs';
-        }
         /* ]]> */
     </script>
 </th:block>
