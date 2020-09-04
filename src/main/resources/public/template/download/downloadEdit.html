@@ -40,6 +40,8 @@
                         class="point-fill" th:text="#{common.btn.modify}"></button>
                 <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
                         class="point-fill" th:text="#{common.btn.save}"></button>
+                <button th:if="${download?.downloadId}" onclick="deleteDownload()"
+                        class="default-fill" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
@@ -78,15 +80,27 @@
             }
         }
 
+        function deleteDownload() {
+            restSubmit('delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
+        }
+
         //REST API
         function restSubmit(method, url, data) {
+            var resultMsg;
+            if (method.toLowerCase() === 'post') {
+                resultMsg = i18n.get('common.msg.save');
+            } else if (method.toLowerCase() === 'put') {
+                resultMsg = i18n.get('common.msg.update');
+            } else if (method.toLowerCase() === 'delete') {
+                resultMsg = i18n.get('common.msg.delete');
+            }
             const opt = {
                 method: method,
                 url: url,
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    aliceJs.alert(i18n.get('common.msg.save'), function() {
+                    aliceJs.alert(resultMsg, function() {
                         location.href = '/downloads/search';
                     });
                 }
