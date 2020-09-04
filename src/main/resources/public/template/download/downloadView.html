@@ -43,8 +43,6 @@
                 <button class="default-line" th:text="#{common.btn.list}" onclick="location.href='/downloads/search'"></button>
                 <button th:text="#{common.btn.modify}" sec:authorize="hasAuthority('download.update')"
                         class="point-fill" th:onclick="'location.href=\'' + @{/downloads/{id}/edit(id=${download.downloadId})} + '\''"></button>
-                <button th:text="#{common.btn.delete}" sec:authorize="hasAuthority('download.delete')"
-                        class="point-fill" th:onclick="restSubmit('delete', [[@{/rest/downloads/{id}(id=${download.downloadId})}]])"></button>
             </div>
         </div>
     </div>
@@ -54,24 +52,9 @@
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            document.getElementById('createDt').textContent = i18n.userDateTime(document.getElementById('createDt').textContent);
-            fileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download.downloadId}]], editor: false}});
+            document.getElementById('spanCreateDt').textContent = i18n.userDateTime(document.getElementById('spanCreateDt').textContent);
+            fileUploader.init({extra: {formId: 'frm', ownId: [[${download.downloadId}]], editor: false}});
         };
-
-        //REST API
-        function restSubmit(method, url) {
-            const opt = {
-                method: method,
-                url: url,
-                contentType: 'application/json',
-                callbackFunc: function() {
-                    aliceJs.alert(i18n.get('common.msg.delete'), function() {
-                        location.href = '/downloads/search';
-                    });
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
         /*]]>*/
     </script>
 </th:block>
