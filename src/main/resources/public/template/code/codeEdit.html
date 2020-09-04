@@ -101,14 +101,19 @@
                     showProgressbar: false,
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
-                        document.querySelector('#totalCount').innerHTML = i18n.msg("common.label.count", responseJson[0].totalCount);
-                        let tree = aliceJs.createTree(responseJson, document.querySelector('#treeList'), aliceJs.treeExpandSessionKey);
-                        let nodes = document.querySelector('#treeList').querySelectorAll('span');
-                        nodes.forEach.call(nodes, function(node) {
-                            node.addEventListener('click', function(e) {
-                                onGetDetail(tree.selectedNode.text)
+                        if (responseJson.length > 0) {
+                            document.querySelector('#totalCount').innerHTML = i18n.msg("common.label.count", responseJson[0].totalCount);
+                            let tree = aliceJs.createTree(responseJson, document.querySelector('#treeList'), aliceJs.treeExpandSessionKey);
+                            let nodes = document.querySelector('#treeList').querySelectorAll('span');
+                            nodes.forEach.call(nodes, function(node) {
+                                node.addEventListener('click', function(e) {
+                                    onGetDetail(tree.selectedNode.text)
+                                });
                             });
-                        });
+                        } else {
+                            document.querySelector('#totalCount').innerHTML =i18n.msg("common.label.count", 0);
+                            document.querySelector('#treeList').innerHTML = '';
+                        }
                         aliceJs.deleteTreeExpandNode(aliceJs.treeExpandSessionKey);
                     }
                 };
