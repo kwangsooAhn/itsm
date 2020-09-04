@@ -1253,8 +1253,14 @@
 
                                         fieldGroupElem.querySelector('#imageUploadPop').addEventListener('click', function(e) {
                                             thumbnail.init({
+                                                title: i18n.msg('image.label.popupTitle'),
                                                 targetId: 'path-' + selectedComponentIds[0], 
-                                                selectedPath: fieldGroupElem.querySelector('#path-' + selectedComponentIds[0]).value
+                                                selectedPath: fieldGroupElem.querySelector('#path-' + selectedComponentIds[0]).value,
+                                                thumbnailDoubleClickUse: true,
+                                                buttons: [
+                                                    {content: i18n.msg('common.btn.check')},
+                                                    {content: i18n.msg('common.btn.close')}
+                                                ]
                                             });
                                         });
                                         break;
@@ -1507,8 +1513,22 @@
                 }, false);
             }
         }
+        // input=range 이벤트 추가
+         const rangeElems = propertiesPanel.querySelectorAll('input[type=range]');
+         for (i = 0, len = rangeElems.length; i < len; i++) {
+             const rangeElem = rangeElems[i];
+             rangeElem.addEventListener('input', function(e) {
+                 let elem  = e.target;
+                 const parentElem = elem.parentNode.parentNode;
+                 const slider = parentElem.querySelector('input[type=text]');
+                 slider.value = elem.value;
+                 const changePropertiesArr = parentElem.id.split('-');
+                 changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
+             }, false);
+         }
+
         // change 이벤트 추가
-        const changeElems =  propertiesPanel.querySelectorAll('input[type=checkbox], input[type=range], input[type=radio], select, input[class*="color"]');
+        const changeElems =  propertiesPanel.querySelectorAll('input[type=checkbox], input[type=radio], select, input[class*="color"]');
         for (i = 0, len = changeElems.length; i < len; i++) {
             const changeElem = changeElems[i];
             switch (changeElem.type) {
@@ -1520,7 +1540,6 @@
                         }, false);
                     }
                     break;
-                case 'range':
                 case 'text':
                     changeElem.addEventListener('change', function(e) {
                         let elem  = e.target;
@@ -1534,13 +1553,8 @@
                             changePropertiesValue( elem.value, changePropertiesArr[0], changePropertiesArr[1]);
                         } else {
                              let parentElem =  elem.parentNode;
-                            if (changeElem.type === 'range') {
-                                parentElem =  elem.parentNode.parentNode;
-                                const slider = parentElem.querySelector('input[type=text]');
-                                slider.value = elem.value;
-                            }
                             const changePropertiesArr = parentElem.id.split('-');
-                            changePropertiesValue(e.target.value, changePropertiesArr[0], changePropertiesArr[1]);
+                            changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
                         }
                     }, false);
                     break;

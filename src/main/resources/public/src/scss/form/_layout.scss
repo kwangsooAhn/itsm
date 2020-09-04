@@ -7,6 +7,7 @@
 *,
 *::after,
 *::before {
+    -webkit-box-sizing: border-box;
     box-sizing: border-box;
 }
 
@@ -88,20 +89,20 @@ body {
             float: left;
             padding: 0;
             margin: 0;
+            overflow-y: auto;
+            @include scrollbar-hidden;
+
             .drawing-board {
-                display: flex;
-                flex: 1 1 auto;
-                flex-direction: column;
-                align-items: center;
+                display: table;
                 width: $form-drawing-board-width;
                 max-width: $form-drawing-board-width;
+                min-height: 100%;
                 margin-top: $form-drawing-board-top-margin;
-                padding: 6.25rem 4.063rem 0; // 100px 65px 0px 65px;
+                margin-bottom: $form-drawing-board-top-margin;
+                padding: 6.25rem 4.063rem; // 100px 65px;
                 background-color: $drawing-board-bg-color;
                 border: $drawing-board-border;
                 box-shadow: $drawing-board-box-shadow;
-                overflow-y: auto;
-                @include scrollbar-hidden;
 
                 &[data-readonly=true] {
                     // 폼 양식 화면에서 수정을 막음
@@ -110,6 +111,7 @@ body {
                     textarea,
                     button,
                     input[type=text],
+                    input[type=button],
                     label.checkbox-group,
                     label.radio-group,
                     select {
@@ -148,6 +150,8 @@ body {
         padding: 0;
         margin: 0;
         background-color: $container-background-color;
+        overflow: auto;
+        @include scrollbar-hidden;
 
         & *:focus {
             outline: none !important;
@@ -162,7 +166,6 @@ body {
             min-height: 100vh;
             padding: 0;
             margin: 0;
-            overflow: auto;
 
             .button-board {
                 display: flex;
@@ -171,7 +174,7 @@ body {
                 padding-bottom: 0.9375rem; // 15px
                 width: $document-content-drawing-board-width;
                 max-width: $document-content-drawing-board-width;
-                height: $document-button-board-height;
+                padding-top: 8.438rem; //135px
                 > .button-group {
                     display: inline-block;
                     button {
@@ -181,78 +184,15 @@ body {
             }
 
             .drawing-board {
-                display: flex;
-                flex: 1 1 auto;
-                flex-direction: column;
-                align-items: center;
+                display: table;
                 width: $document-content-drawing-board-width;
                 max-width: $document-content-drawing-board-width;
-                height: calc(100vh - #{$document-button-board-height});
-                min-height: calc(100vh - #{$document-button-board-height});
-                padding: 6.25rem 4.063rem 0; // 100px 65px 0px 65px;
+                min-height: 100%;
+                padding: 6.25rem 4.063rem; // 100px 65px;
                 background-color: $drawing-board-bg-color;
                 border: $drawing-board-border;
                 box-shadow: $drawing-board-box-shadow;
-                overflow-y: auto;
-                @include scrollbar-hidden;
-            }
-        }
-        .aside {
-            display: flex;
-            flex: 0 0 auto;
-            flex-direction: column;
-            float: left;
-            right: 0;
-            margin-top: $document-button-board-height;
-            height: calc(100vh - #{$document-button-board-height});
-            min-height: calc(100vh - #{$document-button-board-height});
-
-            // TODO: 처리할 문서
-            .drawing-board {
-                display: flex;
-                flex: 1 1 auto;
-                flex-direction: column;
-                align-items: center;
-                width: $document-aside-drawing-board-width;
-                max-width: $document-aside-drawing-board-width;
-                margin-left: 0.625rem;
-                padding: 3.125rem 3.75rem 0; // 50px 60px 0 60px
-                background-color: $drawing-board-bg-color;
-                border: $drawing-board-border;
-                box-shadow: $drawing-board-box-shadow;
-                overflow-y: auto;
-                @include scrollbar-hidden;
-
-                ul.menu {
-                    display: table-row;
-                    border-bottom: solid 0.0625rem $line-gray;
-                    margin-bottom: 1.875rem; // 30px
-                    li.menu-item {
-                        display: table-cell;
-                        vertical-align: middle;
-                        text-align: center;
-                        width: 6.25rem; // 100px
-                        height: 2.5rem; // 40px
-                        font-size: 16px; // 16px
-                        font-weight: 500;
-                        // medium
-                        color: $blue-gray;
-                        border-bottom: solid 0.25rem $white; // 4px
-                        cursor: pointer;
-
-                        &.selected {
-                            color: $light-black;
-                            border-bottom: solid 0.25rem $point-blue; // 4px
-                        }
-                    }
-                    div.menu-content {
-                        display: none;
-
-                        &.selected {
-                            display: inherit;
-                        }
-                    }
-                }
+                margin-bottom: $document-content-drawing-board-top-margin;
             }
         }
     }
@@ -278,6 +218,7 @@ body {
             padding: 0;
             margin: 0;
             overflow: auto;
+            @include scrollbar-hidden;
 
             .print-area {
                 margin-top: 1rem;
@@ -300,50 +241,17 @@ body {
             }
 
             .drawing-board {
-                display: flex;
-                flex: 1 1 auto;
-                flex-direction: column;
-                align-items: center;
+                display: table;
                 width: $document-content-drawing-board-width;
                 max-width: $document-content-drawing-board-width;
-                height: calc(100vh - #{$document-button-board-height});
-                min-height: calc(100vh - #{$document-button-board-height});
-                padding: 6.25rem 4.063rem 0; // 100px 65px 0px 65px;
+                min-height: 100%;
+                padding: 6.25rem 4.063rem; // 100px 65px;
                 background-color: $drawing-board-bg-color;
                 border: $drawing-board-border;
                 box-shadow: $drawing-board-box-shadow;
-                overflow-y: auto;
-                @include scrollbar-hidden;
                 .component {
                     page-break-inside: avoid;
                 }
-            }
-        }
-        .aside {
-            display: flex;
-            flex: 0 0 auto;
-            flex-direction: column;
-            float: left;
-            right: 0;
-            margin-top: $document-button-board-height;
-            height: calc(100vh - #{$document-button-board-height});
-            min-height: calc(100vh - #{$document-button-board-height});
-
-            // TODO: 처리할 문서
-            .drawing-board {
-                display: flex;
-                flex: 1 1 auto;
-                flex-direction: column;
-                align-items: center;
-                width: $document-aside-drawing-board-width;
-                max-width: $document-aside-drawing-board-width;
-                margin-left: 0.625rem;
-                padding: 3.125rem 3.75rem 0; // 50px 60px 0 60px
-                background-color: $drawing-board-bg-color;
-                border: $drawing-board-border;
-                box-shadow: $drawing-board-box-shadow;
-                overflow-y: auto;
-                @include scrollbar-hidden;
             }
         }
     }

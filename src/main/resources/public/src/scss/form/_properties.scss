@@ -67,6 +67,11 @@
         padding-left: $properties-indent-padding-left;
     }
 
+    textarea {
+        min-height:  5.625rem; // 90px
+        resize: vertical;
+    }
+
     // 소제목: Data Attribute, Label, Display, Option 등
     h3 {
         margin: 1.25rem; // 0 20px
@@ -94,14 +99,22 @@
         }
         // 옵션 버튼
         button[class*="option-minus"] span.icon {
+            -webkit-mask-image: url("#{$form-asset-path}/editor/icon_option_minus.svg");
             mask-image: url("#{$form-asset-path}/editor/icon_option_minus.svg");
+            -webkit-mask-repeat: no-repeat;
             mask-repeat: no-repeat;
+            -webkit-mask-position: center;
             mask-position: center;
+
         }
         button[class*="option-plus"] span.icon {
+            -webkit-mask-image: url("#{$form-asset-path}/editor/icon_option_plus.svg");
             mask-image: url("#{$form-asset-path}/editor/icon_option_plus.svg");
+            -webkit-mask-repeat: no-repeat;
             mask-repeat: no-repeat;
+            -webkit-mask-position: center;
             mask-position: center;
+
         }
     }
 
@@ -111,8 +124,7 @@
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        margin: 0.8125rem 1.25rem;
-        //13px 20px
+        margin: 0.8125rem 1.25rem; //13px 20px
         // 하위 속성 제목
         label.property-name {
             display: inline-block;
@@ -198,76 +210,100 @@
         &[id="dataAttribute-isTopic"],
         &[id="display-editorUseYn"] {
             .checkbox-group span:first-of-type {
-                padding-right: 0.4375rem;
+                padding-right: 0.4375rem; // 7px
             }
-            // 7px
         }
 
         //  아이콘로 이루어진 버튼 그룹
         div.property-field-icon {
             width: 100%;
             button {
-                height: 2.5rem;
-                // 40px
+                height: 2.5rem; // 40px
                 line-height: inherit;
                 padding: 0;
                 span.icon {
-                    width: 2.5rem;
-                    // 40px
-                    height: 2.5rem;
-                    // 40px
+                    width: 2.5rem; // 40px
+                    height: 2.5rem; // 40px
                 }
             }
         }
         &[id="label-position"] {
             div.property-field-icon {
                 button[id="left"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_label_position_left.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_label_position_left.svg");
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
                     mask-position: center;
+
                 }
                 button[id="top"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_label_position_top.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_label_position_top.svg");
-                    mask-position: center;
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
+                    mask-position: center;
+
                 }
                 button[id="hidden"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_label_position_hidden.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_label_position_hidden.svg");
-                    mask-position: center;
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
+                    mask-position: center;
                 }
             }
         }
         &[id="display-position"] {
             div.property-field-icon {
                 button[id="left"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_display_left.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_display_left.svg");
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
                     mask-position: center;
+
                 }
                 button[id="right"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_display_right.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_display_right.svg");
-                    mask-position: center;
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
+                    mask-position: center;
+
                 }
             }
         }
         &[id="display-align"] {
             div.property-field-icon {
                 button[id="left"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_align_left.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_align_left.svg");
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
                     mask-position: center;
                 }
                 button[id="center"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_align_center.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_align_center.svg");
-                    mask-position: center;
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
+                    mask-position: center;
                 }
                 button[id="right"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_align_right.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_align_right.svg");
-                    mask-position: center;
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
+                    mask-position: center;
                 }
             }
         }
@@ -275,48 +311,60 @@
         // bold, italic, underline, align 으로 이루어진 버튼 그룹
         div.property-field-button {
             button {
-                width: 2.5rem;
-                // 40px
-                height: 2.5rem;
-                // 40px
+                width: 2.5rem; // 40px
+                height: 2.5rem; // 40px
                 line-height: inherit;
                 padding: 0;
                 span.icon {
                     width: 1.25rem; // 20px
-                    height: 1.25rem;
-                    // 20px
+                    height: 1.25rem; // 20px
                 }
             }
             button[id="bold"] span.icon {
                 mask-image: url("#{$form-asset-path}/property/icon_bold.svg");
+                -webkit-mask-repeat: no-repeat;
                 mask-repeat: no-repeat;
+                -webkit-mask-position: center;
                 mask-position: center;
             }
             button[id="italic"] span.icon {
                 mask-image: url("#{$form-asset-path}/property/icon_italic.svg");
+                -webkit-mask-repeat: no-repeat;
                 mask-repeat: no-repeat;
+                -webkit-mask-position: center;
                 mask-position: center;
             }
             button[id="underline"] span.icon {
                 mask-image: url("#{$form-asset-path}/property/icon_underline.svg");
+                -webkit-mask-repeat: no-repeat;
                 mask-repeat: no-repeat;
+                -webkit-mask-position: center;
                 mask-position: center;
             }
             div {
                 margin-left: 0.9375rem; // 15px
                 button[id="left"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_align_left.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_align_left.svg");
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
                     mask-position: center;
                 }
                 button[id="center"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_align_center.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_align_center.svg");
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
                     mask-position: center;
                 }
                 button[id="right"] span.icon {
+                    -webkit-mask-image: url("#{$form-asset-path}/property/icon_align_right.svg");
                     mask-image: url("#{$form-asset-path}/property/icon_align_right.svg");
+                    -webkit-mask-repeat: no-repeat;
                     mask-repeat: no-repeat;
+                    -webkit-mask-position: center;
                     mask-position: center;
                 }
             }
@@ -339,8 +387,7 @@
             display: flex;
             button {
                 flex: 1 1 auto;
-                width: 2.5rem;
-                // 40px
+                width: 2.5rem; // 40px
                 padding: 0;
                 border-left-color: transparent;
                 border-top-left-radius: 0;
@@ -358,8 +405,7 @@
             flex-direction: column;
             align-items: flex-start;
             .property-value {
-                width: 2.813rem;
-                //45px
+                width: 2.813rem; //45px
                 margin: 0 0.3125rem 0 0; // 5px
             }
             .vertical-group {
@@ -367,8 +413,7 @@
                 display: inline-flex;
                 align-items: center;
                 flex-wrap: wrap;
-                margin: 0.375rem 0;
-                //6px 0
+                margin: 0.375rem 0; //6px 0
                 .picker-wrapper-date {
                     display: inline-block;
                     width: auto;
@@ -380,13 +425,11 @@
                     }
                 }
                 span {
-                    margin-right: 0.3125rem;
+                    margin-right: 0.3125rem; // 5px
                 }
-                // 5px
                 select {
-                    margin-top: 0.3125rem;
+                    margin-top: 0.3125rem; // 5px
                 }
-                // 5px
             }
         }
 
@@ -412,8 +455,7 @@
 
     // 테이블
     table.property-field-table {
-        margin: 0.8125rem 1.25rem;
-        //13px 20px
+        margin: 0.8125rem 1.25rem; //13px 20px
         label {
             margin: 0 0.625rem; // 10px
         }
