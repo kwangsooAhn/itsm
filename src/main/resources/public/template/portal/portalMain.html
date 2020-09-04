@@ -33,7 +33,9 @@
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-                        <img th:src="@{/assets/media/image/portal/graphic_faq.png}"/>
+	                    <a th:attr="onclick=|goFaq();|">
+                            <img th:src="@{/assets/media/image/portal/graphic_faq.png}"/>
+	                    </a>
                     </div>
                     <h3 th:text="#{menu.faq.parent}"></h3>
                 </div>
@@ -100,13 +102,17 @@
                             let row = document.createElement('tr');
                             let cell = document.createElement('td');
                             let contentAnchor = document.createElement('a');
-                            if (data['noticeNo'] != null) {
-                                contentAnchor.setAttribute('href', '/portal/notices/'+ data['noticeNo'] +'/view');
-                            } else if (data['downloadId'] != null) {
-                                contentAnchor.setAttribute('href', '/portal/downloads/'+ data['downloadId'] +'/view');
-                            } else {
-                                contentAnchor.setAttribute('href', '#N');
-                            }
+                            switch (topName) {
+	                            case 'notice':
+                                    contentAnchor.setAttribute('href', '/portal/notices/'+ data['noticeNo'] +'/view');
+	                                break;
+	                            case 'faq':
+	                                contentAnchor.setAttribute('href', '/portal/faqs?id=' + data.faqId);
+	                                break;
+	                            default 'downloadId':
+                                    contentAnchor.setAttribute('href', '/portal/downloads/'+ data['downloadId'] +'/view');
+	                                break;
+	                        }
                             let contentText = document.createElement('h5');
                             contentText.classList.add('text-ellipsis');
                             contentText.textContent = '[' + i18n.userDateTime(data['createDt']) + '] ' + data[topElement.id + 'Title'];
@@ -258,6 +264,9 @@
         */
         function goDownload() {
             location.href = '/portal/downloads/search';
+        }
+        function goFaq() {
+            location.href='/portal/faqs';
         }
         /* ]]> */
     </script>
