@@ -11,6 +11,7 @@ import co.brainz.itsm.download.dto.DownloadDto
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
 import co.brainz.itsm.faq.dto.FaqListDto
+import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.mapper.FaqMapper
 import co.brainz.itsm.faq.repository.FaqRepository
 import co.brainz.itsm.notice.dto.NoticeListDto
@@ -80,5 +81,23 @@ class PortalService(
         top["download"] = downloadTopList
 
         return top
+    }
+
+    fun getFaqCategories(faqId: String?): LinkedHashMap<String, Any> {
+        val faqInfo = LinkedHashMap<String, Any>()
+        faqInfo["faqCategory"] = faqRepository.getAllFaqGroupList()
+        faqInfo["faqId"] = faqId ?: ""
+        return faqInfo
+    }
+
+    fun getFaqList(category: String, faqId: String): LinkedHashMap<String, Any> {
+        val faqInfo = LinkedHashMap<String, Any>()
+        faqInfo["faqGroupList"] = when (category.isBlank()) {
+            true -> faqRepository.getAllFaqGroupList()
+            false -> faqRepository.getFaqGroupList(category)
+        }
+        faqInfo["faqList"] = faqRepository.findAll()
+        faqInfo["faqSelected"] = faqRepository.findById(faqId).orElse(FaqEntity(faqId))
+        return faqInfo
     }
 }

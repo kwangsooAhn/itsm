@@ -10,9 +10,10 @@
             <div class="title text-ellipsis" th:switch="${portalList.tableName}">
                 <a th:case="#{'notice'}" th:href="@{/portal/notices/{id}/view(id=${portalList.portalId})}"
                    th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a>
-                <a th:case="#{'faq'}" href="#N" th:if="${portalList.portalTitle != null}"
-                   th:text="${portalList.portalTitle}"></a>
-                <a th:case="#{'download'}" href="#N" th:if="${portalList.portalTitle != null}"
+                <a th:case="#{'faq'}" th:href="@{/portal/faqs?id={id}(id=${portalList.portalId})}"
+                   th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a>
+                <a th:case="#{'download'}" th:href="@{/portal/downloads/{id}/view(id=${portalList.portalId})}"
+                   th:if="${portalList.portalTitle != null}"
                    th:text="${portalList.portalTitle}"></a>
             </div>
             <div th:switch="${portalList.tableName}">

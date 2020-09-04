@@ -11,6 +11,7 @@
     <meta http-equiv="pragma" content="no-cache"/>
     <link th:href="@{/assets/css/process-designer.css}" rel="stylesheet"/>
     <link th:href="@{/assets/vendors/gModal/css/gModal.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
     <script th:src="@{/assets/vendors/gModal/js/gModal.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
     <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
@@ -23,6 +24,7 @@
     <script th:src="@{/assets/js/process/process.editor.js}"></script>
     <script th:src="@{/assets/js/process/process.editor.menu.js}"></script>
     <script th:src="@{/assets/js/process/process.editor.util.js}"></script>
+    <script th:src="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.js}"></script>
 </head>
 <body>
 <div class="alice-process-container">
@@ -86,7 +88,21 @@
             <label>Background</label>
         </span>
     </div>
-    <div class="alice-process-drawing-board"></div>
+    <div class="alice-process-drawing-board">
+        <div class="simulation-report closed">
+            <div class="title">
+                <div class="title-text" th:text="#{process.btn.simulationCheckResult}"></div>
+                <div class="title-close"></div>
+            </div>
+            <div class="contents">
+                <div class="result"></div>
+                <div class="details"></div>
+            </div>
+        </div>
+        <div class="simulation-report-icon">
+            <img class="load-svg" th:src="@{/assets/media/icons/process/editor/icon-simulation-report.svg}" />
+        </div>
+    </div>
     <div class="alice-process-properties-panel">
         <div class="properties-container">
             <div class="element-title"><h2></h2></div>
@@ -136,16 +152,13 @@
         </template>
     </div>
 </div>
-<div class="simulation-report">
-    <div class="success"></div>
-    <div class="details"></div>
-</div>
 </body>
 <script type="text/javascript">
     window.onload = function() {
         i18n.initMessages(function() {
             aliceProcessEditor.init('[[${processId}]]', '[[${#strings.isEmpty(isView)}]]');
         });
+        OverlayScrollbars(document.querySelector('.simulation-report .contents'), { className: 'scrollbar' });
     };
 </script>
 </html>

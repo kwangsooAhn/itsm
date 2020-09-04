@@ -212,6 +212,34 @@ h6 {
   padding: 0 0 0 0.625rem;
 }
 
+option:hover {
+  background-color: rgba(0, 80, 255, 0.05);
+}
+option:visited {
+  color: #0050ff;
+  background-color: white;
+}
+option:active {
+  color: #0050ff;
+}
+option:focus {
+  color: #0050ff;
+}
+
+select {
+  height: 2.5rem;
+  font-size: 1rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding: 0 10px;
+  margin-right: 0.0625rem;
+  vertical-align: middle;
+  background-color: #FFFFFF;
+}
+select:focus {
+  outline: 0.0625rem solid #0050ff;
+  border-radius: 0.0625rem;
+}
 label {
   display: inline-block;
   color: #3E4752;
@@ -604,6 +632,9 @@ a {
 .portal-search-content ul li.part-box .header .icon {
   padding-bottom: 1.25rem;
 }
+.portal-search-content ul li.part-box .header .icon img {
+  cursor: pointer;
+}
 .portal-search-content ul li.part-box .header .title {
   padding-top: 1.25rem;
   height: 1.438rem;
@@ -747,6 +778,7 @@ a {
 }
 .portal-search-view .view div.view-text {
   min-height: 13.4375rem;
+  max-height: 19.38rem;
   padding: 0.3125rem 1.25rem;
   margin-bottom: 0.75rem;
 }
@@ -755,6 +787,7 @@ a {
 }
 .portal-search-view .view div.view-attach-file {
   min-height: 3.125rem;
+  max-height: 8.125rem;
   padding: 0.125rem 1.25rem;
   display: flex;
 }
@@ -1100,6 +1133,7 @@ a {
   box-shadow: 0 0 0.3125rem 0 #ebebeb;
   text-align: center;
   z-index: 999;
+  min-width: 23.375rem;
 }
 .picker-modal.active {
   display: block;
@@ -1119,7 +1153,7 @@ a {
   right: 1.25rem;
   width: 0.875rem;
   height: 0.875rem;
-  content: url("../../../media/icons/datepicker/icon_close.png");
+  content: url("../media/icons/datepicker/icon_close.png");
   cursor: pointer;
 }
 .picker-modal-sub-title {
@@ -1132,6 +1166,7 @@ a {
 }
 .picker-modal-content {
   display: flex;
+  justify-content: center;
   border-bottom: solid 0.0625rem #EBEBEB;
   padding: 1.25rem 0 0.5625rem 0;
   color: #586872;
@@ -1158,7 +1193,7 @@ a {
 }
 .picker-modal-content-date-months .date-prev {
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_left.png");
+  content: url("../media/icons/datepicker/icon_arrow_left.png");
 }
 .picker-modal-content-date-months .date-text {
   color: #586872;
@@ -1172,7 +1207,7 @@ a {
 }
 .picker-modal-content-date-months .date-next {
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_right.png");
+  content: url("../media/icons/datepicker/icon_arrow_right.png");
 }
 .picker-modal-content-date-calendar {
   padding: 1.25rem 1.5rem 0 1.5rem;
@@ -1204,12 +1239,14 @@ a {
   color: #ACB4BF;
 }
 .picker-modal-content-date-calendar .calendar-cell.selected {
-  background-color: #0050ff;
+  background-color: #0098FF;
   color: #ffffff;
   border-radius: 48%;
 }
 .picker-modal-content-time {
   display: none;
+  width: 23.375rem;
+  justify-content: center;
   padding: 1.188rem 2.25rem;
 }
 .picker-modal-content-time.active {
@@ -1225,42 +1262,42 @@ a {
 .picker-modal-content-time .hour-group img,
 .picker-modal-content-time .minute-group img {
   width: 1.125rem;
-  height: 1.125rem;
+  height: 0.625rem;
 }
 .picker-modal-content-time .hour-group img.arrow-up,
 .picker-modal-content-time .minute-group img.arrow-up {
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_top.png");
+  content: url("../media/icons/datepicker/icon_arrow_top.png");
 }
 .picker-modal-content-time .hour-group img.arrow-up:hover,
 .picker-modal-content-time .minute-group img.arrow-up:hover {
-  content: url("../../../media/icons/datepicker/icon_arrow_top_select.png");
+  content: url("../media/icons/datepicker/icon_arrow_top_select.png");
 }
 .picker-modal-content-time .hour-group img.arrow-down,
 .picker-modal-content-time .minute-group img.arrow-down {
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_under.png");
+  content: url("../media/icons/datepicker/icon_arrow_under.png");
 }
 .picker-modal-content-time .hour-group img.arrow-down:hover,
 .picker-modal-content-time .minute-group img.arrow-down:hover {
-  content: url("../../../media/icons/datepicker/icon_arrow_under_select.png");
+  content: url("../media/icons/datepicker/icon_arrow_under_select.png");
 }
 .picker-modal-content-time .hour-group .digit,
 .picker-modal-content-time .minute-group .digit {
-  width: 3rem;
-  height: 3.125rem;
+  width: 3.75rem;
+  height: 3.75rem;
   color: #505964;
   font-size: 1.438rem;
   font-weight: 500;
   text-align: center;
-  margin: 0.375rem 0;
+  margin: 2.1875rem 0;
   border: 0.0625rem solid #EBEBEB;
   padding: 0;
 }
 .picker-modal-content-time .hour-group .digit:focus,
 .picker-modal-content-time .minute-group .digit:focus {
   outline: none !important;
-  border: 0.0625rem solid #0050ff;
+  border: 0.0625rem solid #0098FF;
 }
 .picker-modal-content-time .button-group {
   display: flex;
@@ -1268,27 +1305,25 @@ a {
   justify-content: center;
 }
 .picker-modal-content-time .button-group button {
-  width: 3rem;
-  height: 1.563rem;
-  color: #AAB3B4;
-  font-size: 0.875rem;
+  width: 3.75rem;
+  height: 1.875rem;
+  color: #ACB4BF;
+  font-size: 1rem;
   font-weight: 500;
   margin-left: 0.625rem;
-  background-color: #F7F7F7;
+  background-color: #F7F8F9;
   border: 0.0625rem solid #EBEBEB;
   padding: 0;
   cursor: pointer;
+  flex: none;
 }
 .picker-modal-content-time .button-group button.active {
-  color: #0050ff;
+  color: #0098FF;
   background-color: #ffffff;
-  border: 0.0625rem solid #0050ff;
+  border: 0.0625rem solid #0098FF;
 }
 .picker-modal-content-time .button-group button.active + button {
-  border-top-color: #0050ff;
-}
-.picker-modal-content-time .button-group button:not(:last-of-type) {
-  border-bottom: 0;
+  border-left-color: #EBEBEB;
 }
 .picker-modal-content-time .button-group button:focus {
   outline: none !important;
@@ -1297,14 +1332,17 @@ a {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 1.438rem;
-  color: #505964;
+  width: 2rem;
+  color: #3F4B56;
   font-size: 1.438rem;
   font-weight: 500;
 }
 .picker-modal-button {
   float: right;
   margin: 1.25rem 1.25rem 1.25rem 0;
+}
+.picker-modal-button button {
+  margin-left: 0.3125rem;
 }
 
 .flex-row {
@@ -2031,3 +2069,5 @@ button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
   font-size: 0.8125rem;
   color: #7A8594;
 }
+
+/*# sourceMappingURL=alice-portal.css.map */

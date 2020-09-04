@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40">
+  <defs>
+  </defs>
+  <g transform="translate(-1450 -825)">
+    <g class="icon-eye-bg" fill="#fff" stroke="#ebebeb" transform="translate(1450 825)">
+      <rect stroke="none" width="40" height="40" rx="3"/>
+      <rect fill="none" x="0.5" y="0.5" width="39" height="39" rx="2.5"/>
+    </g>
+    <g transform="translate(-178 -262)">
+      <path fill="#ccced1" class="icon-eye" d="M1648,1099c-9,0-10,8-10,8s1,8,10,8,10-8,10-8S1657,1099,1648,1099Zm0,14c-6.375,0-7.727-4.735-7.973-6,.251-1.284,1.61-6,7.973-6s7.727,4.735,7.973,6C1655.722,1108.282,1654.363,1113,1648,1113Z"/>
+      <path fill="#ccced1" class="icon-eye" d="M1648,1103a4,4,0,1,0,4,4A4,4,0,0,0,1648,1103Zm0,6a2,2,0,1,1,2-2A2,2,0,0,1,1648,1109Z"/>
+    </g>
+  </g>
+</svg>

@@ -259,17 +259,7 @@ label {
   min-width: 55rem;
   height: calc(100vh - 2.188rem);
   min-height: 39.375rem;
-}
-.alice-process-drawing-board div.minimap-button {
-  display: inline-block;
-  width: 2.188rem;
-  height: 2.188rem;
-  position: absolute;
-  bottom: 0.625rem;
-  right: 0.625rem;
-  cursor: pointer;
-  background-image: url("../media/icons/process/editor/icon-map.png");
-  background-repeat: no-repeat;
+  overflow: hidden;
 }
 .alice-process-drawing-board div.minimap {
   background-color: #ffffff;
@@ -296,6 +286,116 @@ label {
 }
 .alice-process-drawing-board div.minimap.closed {
   display: none;
+}
+.alice-process-drawing-board div.minimap-button {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  position: absolute;
+  bottom: 0.625rem;
+  right: 0.625rem;
+  cursor: pointer;
+}
+.alice-process-drawing-board div.minimap-button .icon-minimap-border {
+  fill: #ffffff;
+  stroke: #ebebeb;
+}
+.alice-process-drawing-board div.minimap-button .icon-minimap {
+  fill: #ccced1;
+}
+.alice-process-drawing-board div.minimap-button.active .icon-minimap-border {
+  stroke: #0098ff;
+}
+.alice-process-drawing-board div.minimap-button.active .icon-minimap {
+  fill: #0098ff;
+}
+.alice-process-drawing-board .simulation-report {
+  position: absolute;
+  width: 63.75rem;
+  height: 22.688rem;
+  display: block;
+  background-color: #ffffff;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border: solid 1px #ebebeb;
+}
+.alice-process-drawing-board .simulation-report .title {
+  height: 3.375rem;
+  border-bottom: solid 1px #ebebeb;
+  font-size: 1.125rem;
+  padding: 1.063rem;
+}
+.alice-process-drawing-board .simulation-report .title-text {
+  display: inline-block;
+}
+.alice-process-drawing-board .simulation-report .title-close {
+  display: inline-block;
+  width: 16px;
+  height: 18px;
+  float: right;
+  background-image: url("../media/icons/process/editor/icon-simulation-close.svg");
+  background-position-y: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+.alice-process-drawing-board .simulation-report .contents {
+  position: relative;
+  height: calc(100% - 3.375rem);
+  font-size: 1.125rem;
+}
+.alice-process-drawing-board .simulation-report .contents .result {
+  margin: 0.938rem;
+}
+.alice-process-drawing-board .simulation-report .contents .result.success {
+  color: #00c462;
+}
+.alice-process-drawing-board .simulation-report .contents .result.failed {
+  color: #ff405a;
+}
+.alice-process-drawing-board .simulation-report .contents .details {
+  font-size: 1rem;
+  color: #586872;
+}
+.alice-process-drawing-board .simulation-report .contents .details div {
+  margin: 0.313rem 0 0.313rem 0.75rem;
+}
+.alice-process-drawing-board .simulation-report .contents .details div.failed {
+  color: #ff405a;
+}
+.alice-process-drawing-board .simulation-report .contents .details-number-of, .alice-process-drawing-board .simulation-report .contents .details-result, .alice-process-drawing-board .simulation-report .contents .details-element-info, .alice-process-drawing-board .simulation-report .contents .details-failed-message {
+  margin-left: 0.313rem;
+}
+.alice-process-drawing-board .simulation-report.closed {
+  display: none;
+}
+.alice-process-drawing-board .simulation-report-icon {
+  position: absolute;
+  width: 2.5rem;
+  height: 2.5rem;
+  bottom: 3.438rem;
+  right: 0.625rem;
+  display: inline-block;
+  cursor: pointer;
+}
+.alice-process-drawing-board .simulation-report-icon .icon-eye-bg {
+  fill: #fff;
+  stroke: #ebebeb;
+}
+.alice-process-drawing-board .simulation-report-icon .icon-eye {
+  fill: #CCCED1;
+}
+.alice-process-drawing-board .simulation-report-icon.active .icon-eye-bg {
+  stroke: #0098ff;
+}
+.alice-process-drawing-board .simulation-report-icon.active .icon-eye {
+  fill: #0098ff;
+}
+.alice-process-drawing-board .simulation-report:active {
+  border: solid 0.063rem #0098ff;
 }
 .alice-process-properties-panel {
   display: inline-block;
@@ -769,22 +869,6 @@ label {
   margin: 0;
 }
 
-.simulation-report .success {
-  font-size: 14px;
-}
-.simulation-report .details-number-of {
-  font-size: 15px;
-}
-.simulation-report .details-success {
-  font-size: 16px;
-}
-.simulation-report .details-element-id {
-  font-size: 17px;
-}
-.simulation-report .details-failed-message {
-  font-size: 20px;
-}
-
 svg {
   background-color: #f2f5fa;
 }
@@ -828,6 +912,9 @@ svg g.element-container g.element .node.selected {
   stroke: #0050ff !important;
   stroke-width: 2 !important;
 }
+svg g.element-container g.element .node.selected.error {
+  stroke: #ff405a !important;
+}
 svg g.element-container g.element .node.reject-element {
   stroke: #ff0000 !important;
   stroke-width: 2 !important;
@@ -851,6 +938,9 @@ svg g.element-container g.element.selected .element-type.subprocess {
   stroke: #0050ff !important;
   stroke-width: 2 !important;
 }
+svg g.element-container g.element.selected.error {
+  stroke: #ff405a !important;
+}
 svg g.group-artifact-container g.element .group {
   stroke: #000000;
   fill-opacity: 0;
@@ -859,6 +949,9 @@ svg g.group-artifact-container g.element .group {
 svg g.group-artifact-container g.element .node.selected {
   stroke: #0050ff !important;
   stroke-width: 2 !important;
+}
+svg g.group-artifact-container g.element .node.selected.error {
+  stroke: #ff405a !important;
 }
 svg g.group-artifact-container g.element text {
   fill: #3E4752;
@@ -877,6 +970,9 @@ svg g.connector-container g.connector path.connector {
 svg g.connector-container g.connector path.connector.selected {
   stroke-dasharray: 10, 2;
   stroke-width: 2;
+}
+svg g.connector-container g.connector path.connector.selected.error {
+  stroke: #ff405a !important;
 }
 svg g.connector-container g.connector path.connector.is-default {
   stroke-width: 3;

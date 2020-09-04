@@ -260,7 +260,7 @@
         aliceProcessEditor.resetElementPosition();
         save(function (xhr) {
             if (xhr.responseText === 'true') {
-                aliceJs.alert(i18n.get('common.msg.save'));
+                aliceJs.alert(i18n.msg('common.msg.save'));
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
                 if (savedData.process.status === 'process.status.publish') {
@@ -268,7 +268,7 @@
                 }
                 changeProcessName();
             } else {
-                aliceJs.alert(i18n.get('common.label.fail'));
+                aliceJs.alert(i18n.msg('common.label.fail'));
             }
         });
     }
@@ -313,7 +313,7 @@
         const nameLabel = document.createElement('label');
         nameLabel.className = 'gmodal-input-label';
         nameLabel.htmlFor = 'process_name';
-        nameLabel.textContent = i18n.get('process.label.name');
+        nameLabel.textContent = i18n.msg('process.label.name');
         nameContent.appendChild(nameLabel);
         const nameTextObject = document.createElement('input');
         nameTextObject.className = 'gmodal-input';
@@ -326,7 +326,7 @@
         const descLabel = document.createElement('label');
         descLabel.className = 'gmodal-input-label';
         descLabel.htmlFor = 'process_description';
-        descLabel.textContent = i18n.get('process.label.description');
+        descLabel.textContent = i18n.msg('process.label.description');
         descContent.appendChild(descLabel);
         const descTextareaObject = document.createElement('textarea');
         descTextareaObject.className = 'gmodal-input';
@@ -337,7 +337,7 @@
 
         const requiredMsgContent = document.createElement('div');
         requiredMsgContent.className = 'gmodal-required';
-        requiredMsgContent.textContent = i18n.get('common.msg.requiredEnter');
+        requiredMsgContent.textContent = i18n.msg('common.msg.requiredEnter');
         container.appendChild(requiredMsgContent);
 
         return container.outerHTML;
@@ -376,13 +376,13 @@
                 url: '/rest/processes-admin' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
-                        aliceJs.alert(i18n.get('common.msg.save'), function () {
+                        aliceJs.alert(i18n.msg('common.msg.save'), function () {
                             opener.location.reload();
                             window.name = 'process_' + xhr.responseText + '_edit';
                             location.href = '/processes/' + xhr.responseText + '/edit';
                         });
                     } else {
-                        aliceJs.alert(i18n.get('common.label.fail'));
+                        aliceJs.alert(i18n.msg('common.label.fail'));
                     }
                 },
                 contentType: 'application/json; charset=utf-8',
@@ -406,48 +406,76 @@
     }
 
     /**
-     * simulation process.
+     * 시뮬레이션 점검 동작
      */
     function simulationProcess() {
         aliceJs.sendXhr({
             method: 'put',
             url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/simulation',
             callbackFunc: function (xhr) {
-                if (document.querySelectorAll('.simulation-report .details div').length > 0) {
-                    document.querySelectorAll('.simulation-report .details div').remove()
+                if (document.querySelectorAll('.simulation-report .contents .details div').length > 0) {
+                    document.querySelectorAll('.simulation-report .contents .details div').forEach((element) => element.parentElement.removeChild(element));
+                    document.querySelector('.simulation-report .contents .result').classList.remove('success', 'failed');
                 }
-
                 const response = JSON.parse(xhr.responseText);
-                document.querySelector('.simulation-report .success').textContent = response.success;
 
+                // 전체 결과
+                let mainResult = '';
+                let mainResultClassName = '';
+                if (response.success === true) {
+                    mainResult = i18n.msg('common.label.success');
+                    mainResultClassName = 'success';
+                } else {
+                    mainResult = i18n.msg('common.label.fail');
+                    mainResultClassName = 'failed';
+                }
+                document.querySelector('.simulation-report .contents .result').classList.add(mainResultClassName);
+                document.querySelector('.simulation-report .contents .result').textContent = mainResult;
+
+                // 세부 결과
                 for (let i = 0; i < response.simulationReport.length; i++) {
                     const report = response.simulationReport[i];
 
+                    let successOrFailure = '';
+                    let order = '[' + [i + 1] + '/' + response.simulationReport.length + ']';
+                    let elementDescription = '[' + report.elementType + (report.elementName !== '' ? ':' + report.elementName : '') + ']';
+                    let message = '';
+                    let reportDetailClassName = '';
+                    if (report.success === true) {
+                        successOrFailure = '[' + i18n.msg('common.label.success') + ']';
+                        document.getElementById(report.elementId).classList.remove('selected', 'error');
+                    } else if (report.success === false) {
+                        successOrFailure = '[' + i18n.msg('common.label.fail') + ']';
+                        message = '[' + report.failedMessage + ']';
+                        reportDetailClassName = 'failed';
+                        document.getElementById(report.elementId).classList.add('selected', 'error');
+
+                    }
                     const count = document.createElement('span');
                     count.className = 'details-number-of';
-                    count.textContent = [i + 1] + '/' + response.simulationReport.length;
-                    const success = document.createElement('span');
-                    success.className = 'details-success';
-                    success.textContent = report.success;
-                    const elementId = document.createElement('span');
-                    elementId.className = 'details-element-id';
-                    elementId.textContent = report.elementId;
+                    count.textContent = order;
+                    const result = document.createElement('span');
+                    result.className = 'details-result';
+                    result.textContent = successOrFailure
+                    const elementInfo = document.createElement('span');
+                    elementInfo.className = 'details-element-info';
+                    elementInfo.textContent = elementDescription;
                     const failedMessage = document.createElement('span');
                     failedMessage.className = 'details-failed-message';
-                    failedMessage.textContent = report.failedMessage;
+                    failedMessage.textContent = message;
 
                     const reportDetails = document.createElement('div');
+                    reportDetails.className = reportDetailClassName;
                     reportDetails.appendChild(count);
-                    reportDetails.appendChild(success);
-                    reportDetails.appendChild(elementId);
+                    reportDetails.appendChild(result);
+                    reportDetails.appendChild(elementInfo);
                     reportDetails.appendChild(failedMessage);
 
-                    document.querySelector('.simulation-report .details').appendChild(reportDetails);
+                    document.querySelector('.simulation-report .contents .details').appendChild(reportDetails);
+                }
 
-                    // TODO false 인 엘리먼트에 가이드 주기.
-                    if (!report.success) {
-                        document.getElementById(report.elementId).classList.add('selected')
-                    }
+                if (document.querySelector('.simulation-report').classList.contains('closed')) {
+                    document.querySelector('.simulation-report-icon').click();
                 }
             },
             contentType: 'application/json; charset=utf-8',
@@ -772,9 +800,10 @@
     }
 
     /**
-     * 미니맵 기능 추가.
+     * 드로잉보드 오른쪽 하단 버튼 기능 추가
      */
-    function addMinimap() {
+    function initializeButtonOnDrawingBoard() {
+        // 미니맵 초기화 설정
         const drawingBoard = document.querySelector('.alice-process-drawing-board');
         const minimapContainer = document.createElement('div');
         minimapContainer.classList.add('minimap', 'closed');
@@ -783,10 +812,49 @@
         const minimapButtonContainer = document.createElement('div');
         minimapButtonContainer.classList.add('minimap-button');
         minimapButtonContainer.addEventListener('click', function () {
+        // document.querySelector('.minimap-button').addEventListener('click', function () {
             document.querySelector('div.minimap').classList.toggle('closed');
+            document.querySelector('div.minimap-button').classList.toggle('active');
         }, false);
+        const minimapButton = document.createElement('img');
+        minimapButton.classList.add('load-svg');
+        minimapButton.setAttribute('src', '/assets/media/icons/process/editor/icon-map.svg');
+        minimapButtonContainer.appendChild(minimapButton)
         drawingBoard.appendChild(minimapButtonContainer);
+
         setProcessMinimap();
+
+        // 시뮬레이션 레포트 버튼 동작 이벤트 설정
+        let simulationToggleEvent = function() {
+            document.querySelector('.simulation-report').classList.toggle('closed');
+            document.querySelector('.simulation-report-icon').classList.toggle('active');
+        }
+        document.querySelector('.simulation-report-icon').addEventListener('click', function () {
+            simulationToggleEvent();
+        });
+        document.querySelector('.simulation-report .title .title-close').addEventListener('click', function () {
+            simulationToggleEvent();
+        });
+
+        // 시뮬레이션 레포트 화면 drag 설정
+        let simulationReportX = 0;
+        let simulationReportY = 0;
+        d3.select(document.querySelector('.simulation-report')).call(
+            d3.drag()
+                .on('start', function () {
+                    simulationReportX = (d3.event.x - simulationReportX);
+                    simulationReportY = (d3.event.y - simulationReportY);
+                })
+                .on('drag', function () {
+                    let x = (d3.event.x - simulationReportX) + 'px';
+                    let y = (d3.event.y - simulationReportY) + 'px';
+                    this.style.transform = 'translate(' + x + ',' + y + ')';
+                })
+                .on('end', function () {
+                    simulationReportX = (d3.event.x - simulationReportX)
+                    simulationReportY = (d3.event.y - simulationReportY)
+                })
+        );
     }
 
     /**
@@ -813,12 +881,13 @@
             document.getElementById('btnDownload').addEventListener('click', downloadProcessImage);
         }
 
-        addMinimap();
+        initializeButtonOnDrawingBoard();
         // start observer
         isEdited = false;
         savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
         setShortcut();
         changeProcessName();
+        // aliceJs.loadSvg();
     }
 
     exports.utils = utils;

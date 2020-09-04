@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/portalLayout">
+<head>
+    <title th:text="#{menu.download.parent}"></title>
+</head>
+<body>
+<th:block layout:fragment="content">
+    <div class="portal-search-container">
+        <div class="page-title">
+            <h1 th:text="#{download.label.list}"></h1>
+            <h6 class="title-description" th:text="#{download.msg.portalDescription}"></h6>
+        </div>
+        <div>
+            <form id="searchFrm">
+                <select id="category" name="category" class="column-2">
+                    <option value="" th:text="#{download.category.all}"></option>
+                    <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
+                </select>
+                <input type="text" id="search" name="search" class="search column-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
+                <input type="text" id="fromDt" name="fromDt" class="search-date column-2" readonly="readonly"/>
+                <span>~</span>
+                <input class="search-date column-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
+            </form>
+        </div>
+    </div>
+    <div class="portal-search-result">
+        <div class="list" id="downloadList"></div>
+    </div>
+</th:block>
+</body>
+<th:block layout:fragment="pageScript">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var offsetCount = 0;
+        const offsetSize = 15;
+
+        window.onload = function () {
+            document.getElementById('fromDt').value = i18n.getDate({'months':-1});
+            document.getElementById('searchToDt').value = i18n.getDate();
+            dateTimePicker.initDatePicker('fromDt', setDatePicker);
+            dateTimePicker.initDatePicker('searchToDt', setDatePicker);
+            document.getElementById('category').addEventListener('change', function() { getDownloadList(false); });
+            document.getElementById('search').addEventListener('keyup', function() { getDownloadList(false); });
+
+            getDownloadList(false);
+        };
+
+        function setDatePicker(element, picker) {
+            if (typeof picker === 'undefined') {
+                return false;
+            }
+            if (element.id === 'fromDt') {
+                const toDtValue = document.getElementById('searchToDt').value;
+                if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
+                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function () {
+                        picker.open();
+                    });
+                } else {
+                    getDownloadList(false);
+                }
+            } else {
+                const fromDtValue = document.getElementById('fromDt').value;
+                if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
+                    aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function () {
+                        picker.open();
+                    });
+                } else {
+                    getDownloadList(false);
+                }
+            }
+        }
+
+        function getDownloadList(isScroll) {
+            let urlParam = '';
+            document.getElementById('toDt').value =
+                i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = offsetSize;
+                }
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/portal/downloads/list?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/portal/downloads/list?' + urlParam, isScroll);
+            }
+        }
+
+        // REST API
+        function restSubmit(method, url, isScroll) {
+            const opt = {
+                method: method,
+                url: url,
+                async: false,
+                showProgressbar: false,
+                callbackFunc: function (response) {
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (scrollerEventCheck()) {
+                                offsetCount = offsetCount + offsetSize;
+                                dataList.forEach(function(data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.getElementById('downloadList').innerHTML = response.responseText;
+                        let downloadList = document.querySelectorAll('td[name=createDt]');
+                        for (let i = 0; i < downloadList.length; i++) {
+                            downloadList[i].textContent = i18n.userDateTime(downloadList[i].textContent);
+                        }
+                    }
+
+                    OverlayScrollbars(document.querySelector('.list-body'), {
+                        className: 'scrollbar',
+                        callbacks: {
+                            onScroll: function(e) {
+                                const scrollHeight = e.target.scrollHeight;
+                                const scrollTop = e.target.scrollTop;
+                                const clientHeight = e.target.clientHeight;
+                                // 스크롤이 맨 마지막에 있을 경우
+                                if (scrollHeight - scrollTop === clientHeight) {
+                                    if (scrollerEventCheck()) {
+                                        getDownloadList(true);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
+        function scrollerEventCheck() {
+            let scrollerCheck = false;
+            let totalCount = document.getElementById('totalCount').value;
+            if (offsetCount < totalCount) {
+                scrollerCheck = true;
+            }
+            return scrollerCheck;
+        }
+
+        // Tr 동적 데이터 만들기
+        function getDataTemplate(data) {
+            let div = document.querySelector('.os-content');
+            let tr = document.createElement('tr');
+
+            let tdDownloadSeq = document.createElement('td');
+            tdDownloadSeq.innerText = data.downloadSeq;
+            tdDownloadSeq.style.width = '5%';
+
+            let tdDownloadCategory = document.createElement('td');
+            tdDownloadCategory.innerText = i18n.get(data.downloadCategory);
+            tdDownloadCategory.style.width = '10%';
+
+            let tdDownloadTitle = document.createElement('td');
+            tdDownloadTitle.style.width = '45%';
+            tdDownloadTitle.className = 'align-left';
+            let aDownloadTitle = document.createElement('a');
+            aDownloadTitle.href = '/portal/downloads/'+ data.downloadId +'/view';
+            aDownloadTitle.innerText = data.downloadTitle;
+            tdDownloadTitle.appendChild(aDownloadTitle);
+
+            let tdCreateUserName = document.createElement('td');
+            tdCreateUserName.innerText = data.createUserName;
+            tdCreateUserName.style.width = '10%';
+
+            let tdCreateDt = document.createElement('td');
+            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
+            tdCreateDt.style.width = '20%';
+
+            let tdView = document.createElement('td');
+            tdView.innerText = data.views;
+            tdView.style.width = '10%';
+
+            tr.appendChild(tdDownloadSeq);
+            tr.appendChild(tdDownloadCategory);
+            tr.appendChild(tdDownloadTitle);
+            tr.appendChild(tdCreateUserName);
+            tr.appendChild(tdCreateDt);
+            tr.appendChild(tdView);
+            div.appendChild(tr);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</html>
