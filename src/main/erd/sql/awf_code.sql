@@ -122,3 +122,6 @@ insert into awf_code values ('user.theme.default', 'user.theme', 'default', '기
 insert into awf_code values ('user.time', 'user', null, '사용자 시간 포맷', null, false, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('version', null, null, null, null, false, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('version.workflow', 'version', '20200515', null, null, false, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('script', null, null, null, null, false, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('script.type', 'script', 'Script Type', null, null, false, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('script.type.document.attachFile', 'script.type', '[문서편집] 첨부파일', null, null, false, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
