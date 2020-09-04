@@ -6,6 +6,10 @@
 
 package co.brainz.itsm.portal.controller
 
+import co.brainz.itsm.code.service.CodeService
+import co.brainz.itsm.download.constants.DownloadConstants
+import co.brainz.itsm.download.dto.DownloadSearchDto
+import co.brainz.itsm.download.service.DownloadService
 import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.portal.dto.PortalSearchDto
@@ -25,8 +29,10 @@ import org.springframework.web.bind.annotation.RequestParam
 @Controller
 @RequestMapping("/portal")
 class PortalController(
-    private val portalService: PortalService,
-    private val noticeService: NoticeService
+    private val codeService: CodeService,
+    private val downloadService: DownloadService,
+    private val noticeService: NoticeService,
+    private val portalService: PortalService
 ) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -38,6 +44,9 @@ class PortalController(
     private val portalNoticeViewPage: String = "portal/notice/noticeView"
     private val portalFaqPage: String = "portal/faq/portalFaq"
     private val portalFaqListPage: String = "portal/faq/portalFaqList"
+    private val portalDwnloadSearchPage: String = "portal/download/downloadSearch"
+    private val portalDownloadListPage: String = "portal/download/downloadList"
+    private val portalDownloadViewPage: String = "portal/download/downloadView"
 
     /**
      * 포탈 검색 화면 호출 처리
@@ -113,5 +122,37 @@ class PortalController(
     ): String {
         model.addAttribute("faqs", portalService.getFaqList(category, id))
         return portalFaqListPage
+    }
+
+    /**
+     * [model]를 받아서 포탈 자료실 호출 화면.
+     */
+    @GetMapping("/downloads/search")
+    fun getDownloadSearch(model: Model): String {
+        model.addAttribute(
+            "categoryList",
+            codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)
+        )
+        return portalDwnloadSearchPage
+    }
+
+    /**
+     * [downloadSearchDto], [model]를 받아서 포탈 자료실 리스트 화면 호출.
+     */
+    @GetMapping("/downloads/list")
+    fun getDownloadList(downloadSearchDto: DownloadSearchDto, model: Model): String {
+        val result = downloadService.getDownloadList(downloadSearchDto)
+        model.addAttribute("downloadList", result)
+        model.addAttribute("downloadCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        return portalDownloadListPage
+    }
+
+    /**
+     * [downloadId], [model]를 받아서 포탈 자료실 상세 조회 화면으로 이동
+     */
+    @GetMapping("/downloads/{downloadId}/view")
+    fun getDownloadView(@PathVariable downloadId: String, model: Model): String {
+        model.addAttribute("download", downloadService.getDownload(downloadId, "view"))
+        return portalDownloadViewPage
     }
 }

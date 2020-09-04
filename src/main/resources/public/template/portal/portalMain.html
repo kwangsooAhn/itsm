@@ -20,7 +20,7 @@
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-                        <a th:attr="onclick=|goNotice();|">
+                        <a th:attr="onclick=|goMenu('notice');|">
                             <img th:src="@{/assets/media/image/portal/graphic_notice.png}"/>
                         </a>
                     </div>
@@ -33,7 +33,7 @@
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-	                    <a th:attr="onclick=|goFaq();|">
+	                    <a th:attr="onclick=|goMenu('faq');|">
                             <img th:src="@{/assets/media/image/portal/graphic_faq.png}"/>
 	                    </a>
                     </div>
@@ -46,7 +46,9 @@
             <li class="part-box">
                 <div class="header">
                     <div class="icon">
-                        <img th:src="@{/assets/media/image/portal/graphic_download.png}"/>
+                        <a th:attr="onclick=|goMenu('download');|">
+                            <img th:src="@{/assets/media/image/portal/graphic_download.png}"/>
+                        </a>
                     </div>
                     <h3 th:text="#{menu.download.parent}"></h3>
                 </div>
@@ -102,19 +104,18 @@
                             let contentAnchor = document.createElement('a');
                             switch (topName) {
 	                            case 'notice':
-	                                contentAnchor.setAttribute('href', '/portal/notices/'+ data['noticeNo'] +'/view');
+                                    contentAnchor.setAttribute('href', '/portal/notices/'+ data['noticeNo'] +'/view');
 	                                break;
 	                            case 'faq':
-	                                contentAnchor.setAttribute('href', '/portal/faqs?id=' + data.faqId);
+	                                contentAnchor.setAttribute('href', '/portal/faqs?id=' + data['faqId']);
 	                                break;
-	                            default:
-	                                contentAnchor.setAttribute('href', '#N');
+                                case 'download':
+                                    contentAnchor.setAttribute('href', '/portal/downloads/'+ data['downloadId'] +'/view');
 	                                break;
 	                        }
                             let contentText = document.createElement('h5');
                             contentText.classList.add('text-ellipsis');
-                            let dt = (data['updateDt'] == null) ? data['createDt'] : data['updateDt']
-                            contentText.textContent = '[' + i18n.userDateTime(dt) + '] ' + data[topElement.id + 'Title'];
+                            contentText.textContent = '[' + i18n.userDateTime(data['createDt']) + '] ' + data[topElement.id + 'Title'];
                             contentAnchor.appendChild(contentText);
                             cell.appendChild(contentAnchor);
                             row.appendChild(cell);
@@ -228,7 +229,11 @@
             divTitle.className = "title text-ellipsis";
             let aTitle = document.createElement('a');
             if (data.tableName === 'notice') {
-                aTitle.href = '/portal/notices/'+ data.portalId +'/view';
+                aTitle.href = '/portal/notices/' + data.portalId + '/view';
+            } else if (data.tableName === 'faq') {
+                aTitle.href = '/portal/faqs?id=' + data.portalId;
+            } else if (data.tableName === 'download') {
+                aTitle.href = '/portal/downloads/'+ data.portalId +'/view';
             }
             aTitle.innerText = data.portalTitle;
             divTitle.appendChild(aTitle);
@@ -250,14 +255,18 @@
         }
 
         /*
-        * 포탈 검색
+        * 포탈 조회 화면 이동
         */
-        function goNotice() {
-            location.href = '/portal/notices/search';
+        function goMenu(page) {
+            if (page === 'notice') {
+                location.href = '/portal/notices/search';
+            } else if (page === 'faq') {
+                location.href='/portal/faqs';
+            } else if (page === 'download') {
+                location.href = '/portal/downloads/search';
+            }
         }
-        function goFaq() {
-            location.href='/portal/faqs';
-        }
+
         /* ]]> */
     </script>
 </th:block>
