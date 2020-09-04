@@ -295,7 +295,7 @@
 
                     &.view-attach-file {
                         min-height: 3.125rem; // 50px
-                        max-height: 8.125rem; // 130px
+                        max-height: 8.3rem; // 132px
                         padding: 0.125rem 1.25rem; // 2px 20px
                         display: flex;
                         .file-attach-input {margin: 0.625rem 0 0 0;} //10px
@@ -324,47 +324,6 @@
                 justify-content: flex-end;
             }
 
-            .btn-view {
-                display: inline-block;
-                font-size: 1rem;
-                line-height: 1.5; // 24
-                font-weight: 500; // medium
-                text-align: center;
-                color: $light-black;
-                background-color: transparent;
-                border: 0.0625rem solid transparent;
-                border-radius: 0.1875rem; // 3px
-                user-select: none;
-                white-space: nowrap;
-                vertical-align: middle;
-                opacity: 1;
-                padding: 0 1.5625rem; // 25px
-                margin-left: 0.3125rem; // 5px
-                height: 2.5rem; // 40px
-
-                &.default-line {
-                    color: $light-black;
-                    background-color: $white;
-                    border: 0.0625rem solid $line-gray; // 1px
-
-                    &:disabled {
-                        opacity: 0.3;
-                        cursor: default;
-                    }
-
-                    &:not(:disabled) {
-                        &:active { // pressed
-                            background-color: $line-gray;
-                            border: 0.0625rem solid $pressed-gray; // 1px
-                        }
-                        &:focus,
-                        &:hover {
-                            outline: 0;
-                            background-color: rgba(230, 230, 230, 0.3);
-                        }
-                    }
-                }
-            }
         }
 
         // 페이지 제목

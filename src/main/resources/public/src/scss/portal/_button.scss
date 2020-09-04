@@ -1,0 +1,15 @@
+button { // 기본 버튼 : ghost
+    padding: 0 1.5625rem; // 25px
+    height: 2.5rem; // 40px
+
+    &.default-line {
+        color: $light-black;
+        background-color: $white;
+        border: 0.0625rem solid $line-gray; // 1px
+
+        &:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+    }
+}
