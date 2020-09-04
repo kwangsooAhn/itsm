@@ -777,8 +777,7 @@ a {
   flex-grow: 1;
 }
 .portal-search-view .view div.view-text {
-  min-height: 13.4375rem;
-  max-height: 19.38rem;
+  height: 13.5rem;
   padding: 0.3125rem 1.25rem;
   margin-bottom: 0.75rem;
 }
@@ -812,6 +811,41 @@ a {
   padding: 0.625rem 0 0 0;
   display: flex;
   justify-content: flex-end;
+}
+.portal-search-view .btn-view {
+  display: inline-block;
+  font-size: 1rem;
+  line-height: 1.5;
+  font-weight: 500;
+  text-align: center;
+  color: #3F4B56;
+  background-color: transparent;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.1875rem;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  opacity: 1;
+  padding: 0 1.5625rem;
+  margin-left: 0.3125rem;
+  height: 2.5rem;
+}
+.portal-search-view .btn-view.default-line {
+  color: #3F4B56;
+  background-color: #FFFFFF;
+  border: 0.0625rem solid #EBEBEB;
+}
+.portal-search-view .btn-view.default-line:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+.portal-search-view .btn-view.default-line:not(:disabled):active {
+  background-color: #EBEBEB;
+  border: 0.0625rem solid #CCCED1;
+}
+.portal-search-view .btn-view.default-line:not(:disabled):focus, .portal-search-view .btn-view.default-line:not(:disabled):hover {
+  outline: 0;
+  background-color: rgba(230, 230, 230, 0.3);
 }
 .portal-search .page-title {
   display: flex;
@@ -1373,133 +1407,6 @@ a {
 }
 .row-right span:last-child {
   margin: auto 1.25rem auto 0;
-}
-
-button {
-  display: inline-block;
-  font-size: 1rem;
-  line-height: 1.5;
-  font-weight: 500;
-  text-align: center;
-  color: #3F4B56;
-  background-color: transparent;
-  border: 0.0625rem solid transparent;
-  border-radius: 0.1875rem;
-  user-select: none;
-  white-space: nowrap;
-  vertical-align: middle;
-  opacity: 1;
-  padding: 0 1.5625rem;
-  margin-left: 0.3125rem;
-  height: 2.5rem;
-}
-button:disabled {
-  background-color: #FFFFFF;
-  opacity: 0.3;
-  cursor: default;
-}
-button:not(:disabled):active {
-  background-color: #EBEBEB;
-}
-button:not(:disabled):focus, button:not(:disabled):hover {
-  outline: 0;
-  background-color: rgba(230, 230, 230, 0.3);
-}
-button.default-line {
-  color: #3F4B56;
-  background-color: #FFFFFF;
-  border: 0.0625rem solid #EBEBEB;
-}
-button.default-line:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-button.default-line:not(:disabled):active {
-  background-color: #EBEBEB;
-  border: 0.0625rem solid #CCCED1;
-}
-button.default-line:not(:disabled):focus, button.default-line:not(:disabled):hover {
-  outline: 0;
-  background-color: rgba(230, 230, 230, 0.3);
-}
-button.default-fill {
-  color: #3F4B56;
-  background-color: #E1E3E6;
-  border: 0.0625rem solid transparent;
-}
-button.default-fill:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-button.default-fill:not(:disabled):active {
-  background-color: #CCCED1;
-}
-button.default-fill:not(:disabled):focus, button.default-fill:not(:disabled):hover {
-  outline: 0;
-  background-color: #EBEBEB;
-}
-button.point-line {
-  color: #0098FF;
-  background-color: #FFFFFF;
-  border: 0.0625rem solid #0098FF;
-}
-button.point-line:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-button.point-line:not(:disabled):active {
-  background-color: #33ADFF;
-  opacity: 0.3;
-}
-button.point-line:not(:disabled):focus, button.point-line:not(:disabled):hover {
-  outline: 0;
-  background-color: rgba(0, 152, 255, 0.1);
-}
-button.point-fill {
-  color: #FFFFFF;
-  background-color: #0098FF;
-  border: 0.0625rem solid transparent;
-}
-button.point-fill:disabled {
-  opacity: 0.3;
-  cursor: default;
-}
-button.point-fill:not(:disabled):active {
-  background-color: #0088E6;
-}
-button.point-fill:not(:disabled):focus, button.point-fill:not(:disabled):hover {
-  outline: 0;
-  background-color: #33ADFF;
-}
-button.plus {
-  width: 24px;
-  height: 24px;
-  border: 1px solid #0098FF;
-  background: white url("../media/icons/icon_add.svg") no-repeat center center;
-  padding: 0;
-}
-button.plus:not(:disabled):active {
-  background-color: #33ADFF;
-  opacity: 0.3;
-}
-button.plus:not(:disabled):focus, button.plus:not(:disabled):hover {
-  outline: 0;
-  background-color: rgba(0, 152, 255, 0.1);
-}
-button.minus {
-  width: 24px;
-  height: 24px;
-  border: 1px solid #EBEBEB;
-  background: white url("../media/icons/icon_minus.svg") no-repeat center center;
-  padding: 0;
-}
-button.minus:not(:disabled):active {
-  background-color: #EBEBEB;
-  border: 0.0625rem solid #CCCED1;
-}
-button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
-  outline: 0;
-  background-color: rgba(230, 230, 230, 0.3);
 }
 
 .dropzone {

@@ -287,8 +287,7 @@
                 flex-grow: 1;
                 div {
                     &.view-text {
-                        min-height: 13.4375rem; // 215px
-                        max-height: 19.38rem; // 310px
+                        height: 13.5rem; // 240px
                         padding: 0.3125rem 1.25rem; // 5px 20px
                         margin-bottom: 0.75rem; // 12px
                         span {margin: 0;}
@@ -323,6 +322,48 @@
                 padding: 0.625rem 0 0 0; // 10px 0 0 0
                 display: flex;
                 justify-content: flex-end;
+            }
+
+            .btn-view {
+                display: inline-block;
+                font-size: 1rem;
+                line-height: 1.5; // 24
+                font-weight: 500; // medium
+                text-align: center;
+                color: $light-black;
+                background-color: transparent;
+                border: 0.0625rem solid transparent;
+                border-radius: 0.1875rem; // 3px
+                user-select: none;
+                white-space: nowrap;
+                vertical-align: middle;
+                opacity: 1;
+                padding: 0 1.5625rem; // 25px
+                margin-left: 0.3125rem; // 5px
+                height: 2.5rem; // 40px
+
+                &.default-line {
+                    color: $light-black;
+                    background-color: $white;
+                    border: 0.0625rem solid $line-gray; // 1px
+
+                    &:disabled {
+                        opacity: 0.3;
+                        cursor: default;
+                    }
+
+                    &:not(:disabled) {
+                        &:active { // pressed
+                            background-color: $line-gray;
+                            border: 0.0625rem solid $pressed-gray; // 1px
+                        }
+                        &:focus,
+                        &:hover {
+                            outline: 0;
+                            background-color: rgba(230, 230, 230, 0.3);
+                        }
+                    }
+                }
             }
         }
 
