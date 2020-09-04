@@ -29,6 +29,7 @@ common:
     createDate: "Create Date"
     createUser: "Create User"
     delete: "Delete"
+    success: "Success"
     fail: "Fail"
     group: "Group"
     list: "List"
@@ -610,6 +611,7 @@ process:
   btn:
     export: "Export"
     import: "Import"
+    simulationCheckResult: "Simulation check result"
   label:
     create: "Create Process"
     description: "Description"

@@ -1,209 +1,239 @@
 svg {
-  background-color: #f2f5fa;
+    background-color: #f2f5fa;
 
-  g.element-container {
-    g.element {
-      .node {
-        fill: #ffffff;
-        opacity: 1;
-        stroke-width: 1;
-      }
+    g.element-container {
+        g.element {
+            .node {
+                fill: #ffffff;
+                opacity: 1;
+                stroke-width: 1;
+            }
 
-      .element-type.task,
-      .element-type.subprocess {
-        stroke-width: 1;
-        stroke-dasharray: 0,40,40,40;
-      }
-      .node.task.userTask,
-      .element-type.task.userTask {
-        stroke: #0099ff;
-      }
-      .node.task.manualTask,
-      .element-type.task.manualTask {
-        stroke: #23c8c1;
-      }
-      .node.task.scriptTask,
-      .element-type.task.scriptTask {
-        stroke: #66cc00;
-      }
+            .element-type.task,
+            .element-type.subprocess {
+                stroke-width: 1;
+                stroke-dasharray: 0, 40, 40, 40;
+            }
 
-      .node.subprocess,
-      .element-type.subprocess {
-        stroke: #6774ff;
-      }
+            .node.task.userTask,
+            .element-type.task.userTask {
+                stroke: #0099ff;
+            }
 
-      .node.gateway {
-        stroke: #fac900;
-      }
-      .node.event {
-        stroke: #ff6f61;
-      }
-      .node.event.commonEnd,
-      .node.event.messageEnd {
-        stroke-width: 2;
-      }
-      .node.selected {
-        stroke: #0050ff !important;
-        stroke-width: 2 !important;
-      }
-      .node.reject-element {
-        stroke: #ff0000 !important;
-        stroke-width: 2 !important;
-      }
+            .node.task.manualTask,
+            .element-type.task.manualTask {
+                stroke: #23c8c1;
+            }
 
-      .annotation {
-        stroke: #000000;
-        fill-opacity: 0;
-        stroke-dasharray: 5,5,5,5,5,5,0,35,5,5,5,5,5,5,5,5;
-      }
+            .node.task.scriptTask,
+            .element-type.task.scriptTask {
+                stroke: #66cc00;
+            }
 
-      text {
-        fill: #3E4752;
-        font: {
-          weight: bold;
-          size: 0.813rem; // 13px
+            .node.subprocess,
+            .element-type.subprocess {
+                stroke: #6774ff;
+            }
+
+            .node.gateway {
+                stroke: #fac900;
+            }
+
+            .node.event {
+                stroke: #ff6f61;
+            }
+
+            .node.event.commonEnd,
+            .node.event.messageEnd {
+                stroke-width: 2;
+            }
+
+            .node.selected {
+                stroke: #0050ff !important;
+                stroke-width: 2 !important;
+
+                &.error {
+                    stroke: #ff405a !important;
+                }
+            }
+
+            .node.reject-element {
+                stroke: #ff0000 !important;
+                stroke-width: 2 !important;
+            }
+
+            .annotation {
+                stroke: #000000;
+                fill-opacity: 0;
+                stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
+            }
+
+            text {
+                fill: #3E4752;
+                font: {
+                    weight: bold;
+                    size: 0.813rem; // 13px
+                }
+                text-anchor: middle;
+                dominant-baseline: middle;
+                user-select: none;
+            }
         }
-        text-anchor: middle;
-        dominant-baseline: middle;
-        user-select: none;
-      }
-    }
 
-    g.element.selected {
-      .node,
-      .element-type.task,
-      .element-type.subprocess {
-        stroke: #0050ff !important;
-        stroke-width: 2 !important;
-      }
-    }
-  }
+        g.element.selected {
+            .node,
+            .element-type.task,
+            .element-type.subprocess {
+                stroke: #0050ff !important;
+                stroke-width: 2 !important;
+            }
 
-  g.group-artifact-container {
-    g.element {
-      .group {
-        stroke: #000000;
-        fill-opacity: 0;
-        stroke-dasharray: 5,5;
-      }
-
-      .node.selected {
-        stroke: #0050ff !important;
-        stroke-width: 2 !important;
-      }
-
-      text {
-        fill: #3E4752;
-        font: {
-          weight: bold;
-          size: 0.813rem; // 13px
+            &.error {
+                stroke: #ff405a !important;
+            }
         }
-        text-anchor: middle;
-        dominant-baseline: middle;
-        user-select: none;
-      }
     }
-  }
 
-  g.connector-container {
-    g.connector {
-      path.connector {
+    g.group-artifact-container {
+        g.element {
+            .group {
+                stroke: #000000;
+                fill-opacity: 0;
+                stroke-dasharray: 5, 5;
+            }
+
+            .node.selected {
+                stroke: #0050ff !important;
+                stroke-width: 2 !important;
+
+                &.error {
+                    stroke: #ff405a !important;
+                }
+            }
+
+            text {
+                fill: #3E4752;
+                font: {
+                    weight: bold;
+                    size: 0.813rem; // 13px
+                }
+                text-anchor: middle;
+                dominant-baseline: middle;
+                user-select: none;
+            }
+        }
+    }
+
+    g.connector-container {
+        g.connector {
+            path.connector {
+                fill: none;
+                stroke: #596f7a;
+                stroke-width: 1;
+                cursor: default;
+            }
+
+            path.connector.selected {
+                stroke-dasharray: 10, 2;
+                stroke-width: 2;
+
+                &.error {
+                    stroke: #ff405a !important;
+                }
+            }
+
+            path.connector.is-default {
+                stroke-width: 3;
+            }
+
+            path.connector.hidden {
+                stroke-width: 0;
+            }
+
+            path.painted-connector {
+                fill: none;
+                stroke: none;
+                stroke-width: 20;
+                pointer-events: stroke;
+            }
+
+            text {
+                fill: #3E4752;
+                font: {
+                    weight: bold;
+                    size: 0.813rem; // 13px
+                }
+                dominant-baseline: text-before-edge;
+                user-select: none;
+            }
+
+            text.selected {
+                fill: #0c4dcd;
+            }
+
+            circle.pointer {
+                fill: #596f7a;
+                cursor: move;
+            }
+
+            circle.pointer.move {
+                fill: #5887f9;
+            }
+        }
+    }
+
+    defs {
+        marker {
+            path {
+                fill: #596f7a;
+            }
+        }
+    }
+
+    g.alice-tooltip {
+        rect.tooltip-container {
+            fill: #ffffff;
+            stroke: #bec4ce;
+            stroke-width: 0.5;
+        }
+
+        rect.action-tooltip-item:hover,
+        rect.element-tooltip-item:hover {
+            cursor: pointer;
+        }
+    }
+
+    g.grid {
+        path {
+            display: none;
+        }
+
+        line {
+            stroke: #e5ebf5;
+            stroke-width: 1;
+            stroke-opacity: 1;
+            shape-rendering: crispEdges;
+        }
+    }
+
+    g.guides-container {
+        line.guides-line {
+            stroke: darkgray;
+            stroke-width: 0;
+        }
+    }
+
+    path.connector {
         fill: none;
         stroke: #596f7a;
         stroke-width: 1;
-        cursor: default;
-      }
-      path.connector.selected {
-        stroke-dasharray: 10,2;
-        stroke-width: 2;
-      }
-      path.connector.is-default {
-        stroke-width: 3;
-      }
-      path.connector.hidden {
+    }
+
+    path.connector.drag-line {
+        pointer-events: none;
+    }
+
+    path.connector.hidden {
         stroke-width: 0;
-      }
-      path.painted-connector {
-        fill: none;
-        stroke: none;
-        stroke-width: 20;
-        pointer-events: stroke;
-      }
-
-      text {
-        fill: #3E4752;
-        font: {
-          weight: bold;
-          size: 0.813rem; // 13px
-        }
-        dominant-baseline: text-before-edge;
-        user-select: none;
-      }
-
-      text.selected {
-        fill: #0c4dcd;
-      }
-
-      circle.pointer {
-        fill: #596f7a;
-        cursor: move;
-      }
-
-      circle.pointer.move {
-        fill: #5887f9;
-      }
     }
-  }
-
-  defs {
-    marker {
-      path {
-        fill: #596f7a;
-      }
-    }
-  }
-
-  g.alice-tooltip {
-    rect.tooltip-container {
-      fill: #ffffff;
-      stroke: #bec4ce;
-      stroke-width: 0.5;
-    }
-    rect.action-tooltip-item:hover,
-    rect.element-tooltip-item:hover {
-      cursor: pointer;
-    }
-  }
-
-  g.grid {
-    path {
-      display: none;
-    }
-
-    line {
-      stroke: #e5ebf5;
-      stroke-width: 1;
-      stroke-opacity: 1;
-      shape-rendering: crispEdges;
-    }
-  }
-
-  g.guides-container {
-    line.guides-line {
-      stroke: darkgray;
-      stroke-width: 0;
-    }
-  }
-
-  path.connector {
-    fill: none;
-    stroke: #596f7a;
-    stroke-width: 1;
-  }
-  path.connector.drag-line {
-    pointer-events: none;
-  }
-  path.connector.hidden {
-    stroke-width: 0;
-  }
 }
