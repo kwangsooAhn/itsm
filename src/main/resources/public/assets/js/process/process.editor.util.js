@@ -887,7 +887,7 @@
         savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
         setShortcut();
         changeProcessName();
-        aliceJs.loadSvg();
+        // aliceJs.loadSvg();
     }
 
     exports.utils = utils;
