@@ -1138,7 +1138,6 @@
             fileInput.id = 'script-file';
             fileInput.className = 'file';
             fileInput.readOnly = true;
-            actionContainer.appendChild(fileInput);
 
             let fileBtnContainer = document.createElement('div');
             fileBtnContainer.className = 'file-tooltip';
@@ -1148,13 +1147,13 @@
                 window.open('/processes/attachFile/view?callback=' + fileInput.id, 'fileUploadPop', 'width=1200, height=700');
             });
             fileBtnContainer.appendChild(fileBtn);
-            actionContainer.appendChild(fileBtnContainer);
 
             // button
             let btnContainer = document.createElement('div');
             btnContainer.className = 'btn-container right';
             let btnAdd = document.createElement('button');
             btnAdd.textContent = 'ADD';
+            btnContainer.appendChild(btnAdd);
 
             const saveData = function() {
                 let dataBody = inputObject.parentNode.querySelector('tbody');
@@ -1180,7 +1179,7 @@
                 if (conditionInput.value.trim() === '' || fileInput.value.trim() === '') {
                     return false;
                 }
-                let dataBody = inputObject.parentNode.querySelector('tbody'),
+                let dataBody = inputObject.parentNode.parentNode.querySelector('tbody'),
                     rows = dataBody.querySelectorAll('tr');
                 let isDuplicate = false,
                     rowLength = rows.length;
@@ -1203,7 +1202,7 @@
             });
 
             const addDataRow = function(conditionValue, fileValue) {
-                let dataBody = inputObject.parentNode.querySelector('tbody');
+                let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
                 let row = document.createElement('tr');
                 let conditionColumn = document.createElement('td');
                 conditionColumn.className = 'condition-txt';
@@ -1229,8 +1228,14 @@
 
                 saveData();
             }
-            btnContainer.appendChild(btnAdd);
-            actionContainer.appendChild(btnContainer);
+
+            let selectDev = document.createElement('div');
+            selectDev.appendChild(fileInput);
+            selectDev.appendChild(fileBtnContainer);
+            selectDev.appendChild(btnContainer);
+            selectDev.classList.add('flex-row');
+            actionContainer.appendChild(selectDev);
+            actionContainer.classList.add('flex-column');
 
             // table
             let dataTable = document.createElement('table');
@@ -1284,7 +1289,6 @@
             option.text = optionData[dataKeys.text];
             dataSelect.appendChild(option);
         }
-        inputObject.parentNode.insertBefore(dataSelect, inputObject.nextSibling);
 
         let btnAdd = document.createElement('button');
         btnAdd.innerText = 'ADD';
@@ -1308,7 +1312,7 @@
         };
 
         const addDataRow = function(dataVal, dataText) {
-            let dataBody = inputObject.parentNode.querySelector('tbody');
+            let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
             let row = document.createElement('tr');
             let nameColumn = document.createElement('td');
             nameColumn.textContent = dataText;
@@ -1333,7 +1337,7 @@
 
         btnAdd.addEventListener('click', function() {
             let dataSelect = this.parentNode.querySelector('select'),
-                dataBody = inputObject.parentNode.querySelector('tbody'),
+                dataBody = inputObject.parentNode.parentNode.querySelector('tbody'),
                 rows = dataBody.querySelectorAll('tr');
 
             let isDuplicate = false,
@@ -1351,7 +1355,16 @@
                 addDataRow(dataSelect.value, dataSelect.options[dataSelect.selectedIndex].text);
             }
         });
-        inputObject.parentNode.insertBefore(btnAdd, dataSelect.nextSibling);
+
+        let propertiesDiv = inputObject.parentNode;
+        propertiesDiv.classList.add('flex-column');
+        let selectRow = document.createElement('div');
+        selectRow.classList.add('flex-row');
+        selectRow.appendChild(inputObject);
+        selectRow.appendChild(dataSelect);
+        selectRow.appendChild(btnAdd);
+        propertiesDiv.appendChild(selectRow);
+
         let dataTable = document.createElement('table');
         let thead = document.createElement('thead');
         let headRow = document.createElement('tr');
@@ -1363,7 +1376,7 @@
         dataTable.appendChild(thead);
         let tbody = document.createElement('tbody');
         dataTable.appendChild(tbody);
-        inputObject.parentNode.insertBefore(dataTable, btnAdd.nextSibling);
+        propertiesDiv.appendChild(dataTable);
 
         if (typeof valueArr !== 'undefined') {
             for (let i = 0, len = valueArr.length; i < len; i++) {
