@@ -132,94 +132,110 @@ label {
 .alice-process-toolbar {
   width: 100vw;
   min-width: 75rem;
-  height: 2.188rem;
-  background-color: #0050ff;
+  height: 3.125rem;
+  background-color: #0098FF;
   color: #ffffff;
   padding-top: 0.563rem;
   padding-bottom: 0.563rem;
   line-height: 1rem;
-  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
 }
 .alice-process-toolbar .logo {
-  width: 5.625rem;
-  height: 1.062rem;
+  width: 13.125rem;
+  height: 1.999rem;
   float: left;
   background-color: transparent;
   background-size: initial;
   background-repeat: no-repeat;
   background-position: center center;
-  background-image: url("../media/icons/process/editor/logo.png");
+  background-image: url("../media/icons/process/editor/logo.svg");
 }
 .alice-process-toolbar .process-designer {
-  width: 5.938rem;
-  float: left;
-  margin-left: 0.938rem;
-  margin-right: 0.938rem;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #ffffff;
 }
 .alice-process-toolbar a {
   text-decoration: none;
-  margin-right: 0.75rem;
-  height: 1.062rem;
-  line-height: 1.062rem;
+  margin-right: 2.5625rem;
+  height: 1.999rem;
+  line-height: 1.999rem;
   vertical-align: middle;
   float: left;
+  display: flex;
+  align-items: center;
 }
 .alice-process-toolbar a img {
   cursor: pointer;
 }
 .alice-process-toolbar span.separator {
   width: 0.063rem;
-  height: 1.062rem;
+  height: 1.999rem;
   background-color: #3079ff;
-  margin-right: 0.75rem;
+  margin: 0 1.25rem;
   float: left;
 }
 .alice-process-toolbar .process-name {
-  height: 1.062rem;
-  line-height: 1.062rem;
-  float: right;
+  height: 1.999rem;
+  line-height: 1.999rem;
+  margin-left: auto;
   margin-right: 0.938rem;
+  font-size: 1rem;
+  font-weight: 500;
 }
 .alice-process-element-palette {
   display: inline-block;
-  width: 5.625rem;
-  height: calc(100vh - 2.188rem);
-  min-height: 39.375rem;
+  width: 6.25rem;
+  height: calc(100vh - 3.125rem);
+  min-height: 38.438rem;
   background-color: #ffffff;
   position: absolute;
-  top: 2.188rem;
+  top: 3.125rem;
   color: #666f7a;
   box-shadow: 0.063rem 0 0.313rem -0.25rem #182738;
 }
 .alice-process-element-palette .rectangle-menu {
   position: relative;
   display: inline-block;
-  width: 4.875rem;
+  width: 5.625rem;
   height: 4.375rem;
   margin: 0.313rem 0.313rem 0 0.313rem;
-  border: 0.063rem solid #bec4ce;
+  border: 0.063rem solid #EBEBEB;
+  border-radius: 0.1875rem;
   background-color: transparent;
   background-size: initial;
   background-repeat: no-repeat;
   background-position: 50% 30%;
 }
 .alice-process-element-palette .rectangle-menu label {
+  color: #7E848C;
+  font-family: 맑은고딕;
+  font-size: 0.875rem;
+  font-weight: 400;
   position: absolute;
   top: 2.5rem;
   width: 100%;
   text-align: center;
-  font-size: 0.688rem;
+  color: #3F4B56;
 }
 .alice-process-element-palette .connector {
   position: absolute;
   bottom: 5rem;
   left: 0;
-  background-color: #f9f9f9;
+  background-color: #F7F8F9;
   background-image: url("../media/icons/process/element/connector.png");
 }
+.alice-process-element-palette .connector label {
+  color: #ACB4BF;
+}
 .alice-process-element-palette .connector.selected {
+  border-color: #0098FF;
   background-color: transparent;
   background-image: url("../media/icons/process/element/connector-select.png");
+}
+.alice-process-element-palette .connector.selected label {
+  color: #0098FF;
 }
 .alice-process-element-palette .shape.event {
   background-image: url("../media/icons/process/element/event.png");
@@ -243,22 +259,29 @@ label {
   position: absolute;
   bottom: 0.313rem;
   left: 0;
-  background-color: #f9f9f9;
+  background-color: #F7F8F9;
   background-image: url("../media/icons/process/editor/icon-background.png");
 }
+.alice-process-element-palette .move-icon label {
+  color: #ACB4BF;
+}
 .alice-process-element-palette .move-icon.selected {
+  border-color: #0098FF;
   background-color: transparent;
   background-image: url("../media/icons/process/editor/icon-background-select.png");
+}
+.alice-process-element-palette .move-icon.selected label {
+  color: #0098FF;
 }
 .alice-process-drawing-board {
   display: inline-block;
   position: absolute;
-  top: 2.188rem;
-  left: 5.625rem;
-  width: calc(100vw - 20rem);
-  min-width: 55rem;
-  height: calc(100vh - 2.188rem);
-  min-height: 39.375rem;
+  top: 3.125rem;
+  left: 6.25rem;
+  width: calc(100vw - 25rem);
+  min-width: 50rem;
+  height: calc(100vh - 3.125rem);
+  min-height: 38.438rem;
   overflow: hidden;
 }
 .alice-process-drawing-board div.minimap {
@@ -400,43 +423,42 @@ label {
 .alice-process-properties-panel {
   display: inline-block;
   background-color: #fafbfd;
-  width: 14.375rem;
-  height: calc(100vh - 2.188rem);
-  min-height: 39.375rem;
+  width: 18.75rem;
+  height: calc(100vh - 3.125rem);
+  min-height: 38.438rem;
   position: absolute;
-  top: 2.188rem;
+  top: 3.125rem;
   right: 0;
   box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7;
 }
 .alice-process-properties-panel h3 {
-  border-bottom: 0.063rem solid #c8ced8;
-  line-height: 0.1em;
-  margin-top: 0.969rem;
-  margin-left: 1.25rem;
-  margin-right: 1.25rem;
-  margin-bottom: 0.813rem;
+  margin: 1.25rem 0 1rem 1.5625rem;
 }
 .alice-process-properties-panel h3 span {
-  background-color: #fafbfd;
   padding-right: 0.625rem;
-  font-size: 0.75rem;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #33ADFF;
   font-weight: 500;
 }
 .alice-process-properties-panel div.properties-container {
-  height: calc(100vh - 2.188rem);
+  height: calc(100vh - 3.125rem);
 }
 .alice-process-properties-panel div.properties-container div.element-title {
   height: 2.5rem;
-  background-color: #2669ff;
+  background-color: #33ADFF;
 }
 .alice-process-properties-panel div.properties-container div.element-title h2 {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
   color: #ffffff;
-  font-size: 0.875rem;
-  font-weight: bold;
+  font-weight: 500;
   padding: 0.719rem 0 0.719rem 0.938rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties {
-  height: calc(100vh - 2.188rem - 2.5rem);
+  height: calc(100vh - 3.125rem - 2.5rem);
   overflow: auto;
 }
 .alice-process-properties-panel div.properties-container div.element-properties fieldset {
@@ -466,50 +488,87 @@ label {
 .alice-process-properties-panel div.properties-container div.element-properties div.properties {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 0.5rem;
-  margin-left: 1.25rem;
-  margin-right: 1.25rem;
+  align-items: center;
+  margin-top: 1rem;
+  margin-left: 1.5625rem;
+  margin-right: 1.5625rem;
   font-size: 0.688rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties label {
   display: inline-block;
-  width: 10.625rem;
+  width: 100%;
   vertical-align: top;
-  margin-bottom: 0.375rem;
+  margin-bottom: 0.5625rem;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: 500;
+  color: #3F4B56;
 }
-.alice-process-properties-panel div.properties-container div.element-properties div.properties label.required {
-  width: 0.5rem;
-  color: #ff0000;
+.alice-process-properties-panel div.properties-container div.element-properties div.properties label.required::after {
+  color: #E83828;
+  content: "*";
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties label.checkbox {
   width: initial;
-  margin-right: 0.625rem;
+  margin-left: 0.625rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input[type=checkbox] {
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 0.0625rem solid #EBEBEB;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select {
-  border: 0.063rem solid #c8ced8;
+  border: 0.063rem solid #EBEBEB;
   color: #68717c;
   padding-left: 0.438rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:focus,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
+  border-color: #0098FF;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]),
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select {
-  width: 11.875rem;
+  width: 100%;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  border-color: #EBEBEB;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]):focus,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
+  border-color: #0098FF;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea {
-  height: 4.375rem;
+  height: 7.5rem;
+  padding: 0.5rem 0.625rem;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus {
+  border-color: #0098FF;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]), .alice-process-properties-panel div.properties-container div.element-properties div.properties select {
-  height: 1.563rem;
+  height: 2.5rem;
+  width: 100%;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  border-color: #EBEBEB;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]):focus, .alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
+  border-color: #0098FF;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:read-only {
-  color: #a3adbb;
-  background-color: #eff3f8;
+  color: #ACB4BF;
+  background-color: #F7F8F9;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input.color,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input.copy {
-  width: 10rem;
+  flex: 1;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select.candidate {
   width: 8.563rem;
@@ -518,7 +577,7 @@ label {
   width: 10rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties button {
-  border: 0.063rem solid #c8ced8;
+  border: 0.063rem solid #EBEBEB;
   background-color: #ffffff;
   width: 3.125rem;
   height: 1.563rem;
@@ -609,21 +668,22 @@ label {
   outline: 0.063rem solid #0098FF;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
-  width: 1.063rem;
-  height: 1.063rem;
+  width: 1.75rem;
+  height: 1.75rem;
   border: 0.1875rem solid #68717c;
   margin: 0;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
-  width: 1.563rem;
-  height: 1.563rem;
+  width: 2.5rem;
+  height: 2.5rem;
   margin-right: 0.313rem;
-  border: 0.063rem solid #c8ced8;
-  padding-top: 0.1875rem;
-  padding-left: 0.1875rem;
+  border: 0.063rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding-top: 0.3125rem;
+  padding-left: 0.3125rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
-  width: 11.875rem;
+  width: 15.625rem;
   margin-top: 0.188rem;
   border: 0.063rem solid #c8ced8;
   padding-left: 0.219rem;
@@ -634,7 +694,7 @@ label {
   width: 1rem;
   height: 1rem;
   margin-top: 0.375rem;
-  margin-left: 0.375rem;
+  margin-left: 0.4375rem;
   margin-right: 0;
   margin-bottom: 0;
   border: 0.063rem solid #a3adbb;
@@ -646,12 +706,12 @@ label {
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity {
   background-color: #ffffff;
-  width: 11.875rem;
+  width: 15.625rem;
   border: 0.063rem solid #c8ced8;
   border-top: none;
   padding-left: 0.219rem;
   display: none;
-  height: 2.5rem;
+  height: 3rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span {
   display: table-cell;
@@ -660,7 +720,7 @@ label {
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input {
   vertical-align: middle;
   width: 1.875rem;
-  height: 1.25rem;
+  height: 2rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range] {
   -webkit-appearance: none;
@@ -690,7 +750,7 @@ label {
   height: 0.0625rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-object {
-  width: 7.625rem;
+  width: 10rem;
   height: 0.0625rem;
   background: #c8ced8;
   border: initial;
@@ -700,16 +760,15 @@ label {
   margin-right: 0.625rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-input {
-  width: 1.75rem;
-  padding-left: 0;
-  padding-right: 0.25rem;
+  width: 2.5rem;
   text-align: right;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span label {
-  margin: 0 0 0 0.125rem;
+  margin: 0 0 0 0.25rem;
   width: 0.813rem;
   height: 1.25rem;
   line-height: 1.25rem;
+  vertical-align: middle;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container {
   display: flex;
@@ -730,12 +789,12 @@ label {
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip .file-tooltip-button {
   display: inline-block;
-  width: 1.563rem;
-  height: 1.563rem;
-  border: 0.063rem solid #c8ced8;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.063rem solid #EBEBEB;
   background-size: initial;
   background-repeat: no-repeat;
-  background-image: url("../media/icons/process/editor/icon_search.png");
+  background-image: url("../media/icons/process/editor/icon-search.png");
   background-position: center center;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table {
@@ -779,13 +838,14 @@ label {
   position: relative;
   display: inline-block;
   cursor: pointer;
-  margin-left: 0.188rem;
+  margin-left: 0.3125rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-button {
   display: inline-block;
-  width: 1.563rem;
-  height: 1.563rem;
-  border: 0.063rem solid #c8ced8;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.063rem solid #EBEBEB;
+  border-radius: 0.1875rem;
   background-size: initial;
   background-repeat: no-repeat;
   background-image: url("../media/icons/process/editor/icon-clipboard.png");
@@ -823,10 +883,9 @@ label {
 }
 .alice-process-properties-panel div.properties-container div.process-info-container {
   overflow: hidden;
-  border-top: 0.063rem solid #c8ced8;
-  border-bottom: 0.063rem solid #c8ced8;
-  margin-top: 1.25rem;
-  padding-top: 0.625rem;
+  border-top: 0.063rem solid #EBEBEB;
+  margin-top: 1.875rem;
+  padding-top: 0.25rem;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info {
   margin-top: 0.5rem;
@@ -836,25 +895,28 @@ label {
   font-size: 0.688rem;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info div.total {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: 500;
+  color: #3F4B56;
   margin-top: 0.5rem;
   text-align: right;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: 500;
+  color: #586872;
   margin-top: 0.5rem;
-  width: 11.875rem;
+  width: 100%;
 }
-.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr {
-  border-top: 0.063rem solid #c8ced8;
-  border-bottom: 0.063rem solid #c8ced8;
-}
-.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr:nth-child(even) {
-  background-color: #ffffff;
-}
-.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr:nth-child(odd) {
-  background-color: #eff3f8;
+.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr:first-child {
+  border-top: 0.125rem solid #EBEBEB;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td {
-  height: 1.563rem;
+  height: 2.4375rem;
   vertical-align: middle;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td:first-child {

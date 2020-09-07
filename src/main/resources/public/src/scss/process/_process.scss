@@ -11,18 +11,16 @@
         width: 100vw;
         min-width: $process-container-min-width;
         height: $process-toolbar-height;
-        background-color: #0050ff;
+        background-color: $point-blue;
         color: #ffffff;
         padding-top: $process-toolbar-top-bottom-padding;
         padding-bottom: $process-toolbar-top-bottom-padding;
         line-height: 1.0rem;
-
-        font: {
-            size: 0.75rem; // 12px
-        }
+        display: flex;
+        align-items: center;
 
         .logo {
-            width: $process-element-palette-width;
+            width: 13.125rem; // 210px
             height: $process-toolbar-real-height;
             float: left;
             background: {
@@ -30,26 +28,25 @@
                 size: initial;
                 repeat: no-repeat;
                 position: center center;
-                image: url("../media/icons/process/editor/logo.png");
+                image: url("../media/icons/process/editor/logo.svg");
             };
         }
 
         .process-designer {
-            width: 5.938rem; // 95px
-            float: left;
-            margin: {
-                left: 0.938rem;
-                right: 0.938rem; // 15px
-            };
+            font-size: 1.125rem; // 18px
+            font-weight: 500;
+            color: $white;
         }
 
         a {
             text-decoration: none;
-            margin-right: 0.75rem; // 12px
+            margin-right: 2.5625rem; // 41px
             height: $process-toolbar-real-height;
             line-height: $process-toolbar-real-height;
             vertical-align: middle;
             float: left;
+            display: flex;
+            align-items: center;
 
             img {
                 cursor: pointer;
@@ -60,15 +57,18 @@
             width: 0.063rem; // 1px
             height: $process-toolbar-real-height;
             background-color: #3079ff;
-            margin-right: 0.75rem; // 12px
+            margin: 0 1.25rem; // 20px
             float: left;
         }
 
         .process-name {
             height: $process-toolbar-real-height;
             line-height: $process-toolbar-real-height;
-            float: right;
+            //float: right;
+            margin-left: auto;
             margin-right: 0.938rem; // 15px
+            font-size: 1rem; // 16px
+            font-weight: 500;
         }
     }
 
@@ -86,10 +86,11 @@
         .rectangle-menu {
             position: relative;
             display: inline-block;
-            width: 4.875rem; // 78px
+            width: 5.625rem; // 90px
             height: 4.375rem; // 70px
             margin: 0.313rem 0.313rem 0 0.313rem; // 5px
-            border: 0.063rem solid #bec4ce;
+            border: 0.063rem solid $line-gray;
+            border-radius: 0.1875rem; // 3px
             background: {
                 color: transparent;
                 size: initial;
@@ -98,11 +99,12 @@
             }
 
             label {
+                @include h6();
                 position: absolute;
                 top: 2.5rem; // 40px
                 width: 100%;
                 text-align: center;
-                font-size: 0.688rem; // 11px
+                color: $light-black;
             }
         }
 
@@ -110,13 +112,16 @@
             position: absolute;
             bottom: 5rem; // 80px
             left: 0;
+            label {color: $gray;}
             background: {
-                color: #f9f9f9;
+                color: $light-gray;
                 image: url("../media/icons/process/element/connector.png");
             }
         }
 
         .connector.selected {
+            border-color: $point-blue;
+            label {color: $point-blue;}
             background: {
                 color: transparent;
                 image: url("../media/icons/process/element/connector-select.png");
@@ -151,13 +156,16 @@
             position: absolute;
             bottom: 0.313rem; // 5px
             left: 0;
+            label {color: $gray;}
             background: {
-                color: #f9f9f9;
+                color: $light-gray;
                 image: url("../media/icons/process/editor/icon-background.png");
             }
         }
 
         .move-icon.selected {
+            border-color: $point-blue;
+            label {color: $point-blue;}
             background: {
                 color: transparent;
                 image: url("../media/icons/process/editor/icon-background-select.png");
@@ -361,24 +369,13 @@
         box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7; // -1px 0 5px -4px #def9f7
 
         h3 {
-            border-bottom: 0.063rem solid #c8ced8;
-            line-height: 0.1em;
-
-            margin: {
-                top: 0.969rem; // 15.5px
-                left: 1.25rem; // 20px
-                right: 1.25rem; // 20px
-                bottom: 0.813rem;
-            }
+            margin: 1.25rem 0 1rem 1.5625rem; // 20px 0 16px 25px
         }
-
         h3 span {
-            background-color: #fafbfd;
             padding-right: 0.625rem;
-            font: {
-                size: 0.75rem; // 12px
-                weight: 500;
-            }
+            @include h5();
+            color: $hover-blue;
+            font-weight: 500;
         }
 
         div.properties-container {
@@ -386,14 +383,12 @@
 
             div.element-title {
                 height: 2.5rem; // 40px
-                background-color: #2669ff;
+                background-color: $hover-blue;
 
                 h2 {
-                    color: #ffffff;
-                    font: {
-                        size: 0.875rem; // 14px
-                        weight: bold;
-                    }
+                    @include h5();
+                    color: $white;
+                    font-weight: 500;
                     padding: 0.719rem 0 0.719rem 0.938rem; // 11.5px 0 11.5px 15px
                 }
             }
@@ -439,10 +434,11 @@
                 div.properties {
                     display: flex;
                     flex-wrap: wrap;
+                    align-items: center;
                     margin: {
-                        top: 0.5rem; // 8px
-                        left: 1.25rem; // 20px
-                        right: 1.25rem; // 20px
+                        top: 1rem; // 16px
+                        left: 1.5625rem; // 25px
+                        right: 1.5625rem; // 25px
                     }
 
                     font: {
@@ -451,51 +447,77 @@
 
                     label {
                         display: inline-block;
-                        width: 10.625rem; // 168px
+                        width: 100%;
                         vertical-align: top;
-                        margin-bottom: 0.375rem;
-                    }
-
-                    label.required {
-                        width: 0.5rem; // 8px
-                        color: #ff0000;
+                        margin-bottom: 0.5625rem; // 9px
+                        @include h5();
+                        font-weight: 500;
+                        color: $light-black;
+                        &.required::after {
+                            color: #E83828;
+                            content: "\002a"; // *
+                        }
                     }
 
                     label.checkbox {
                         width: initial;
-                        margin-right: 0.625rem; // 10px
+                        margin-left: 0.625rem; // 10px
+                    }
+
+                    input[type=checkbox] {
+                        width: 1.125rem; // 18px
+                        height: 1.125rem; // 18px
+                        border : 0.0625rem solid $line-gray;
                     }
 
                     input,
                     textarea,
                     select {
-                        border: 0.063rem solid #c8ced8;
+                        border: 0.063rem solid $line-gray;
                         color: #68717c;
                         padding-left: 0.438rem; // 7px
+                        &:focus {
+                            border-color: $point-blue;
+                        }
                     }
 
                     input:not([type=checkbox]),
                     textarea,
                     select {
-                        width: 11.875rem; // 190px
+                        width: 100%;
+                        @include h5();
+                        border-color: $line-gray;
+                        &:focus {
+                            border-color: $point-blue;
+                        }
                     }
 
                     textarea {
-                        height: 4.375rem; // 70px
+                        height: 7.5rem; // 120px
+                        padding: 0.5rem 0.625rem; // 8px 10px
+                        &:focus {
+                            border-color: $point-blue;
+                        }
                     }
 
                     input:not([type=checkbox]), select {
-                        height: 1.563rem; //25px
+                        height: 2.5rem; // 40px
+                        width: 100%;
+                        @include h5();
+                        border-color: $line-gray;
+                        &:focus {
+                            border-color: $point-blue;
+                        }
                     }
 
                     input:read-only {
-                        color: #a3adbb;
-                        background-color: #eff3f8;
+                        color: $gray;
+                        background-color: $light-gray;
                     }
 
                     input.color,
                     input.copy {
-                        width: 10rem; // 160px
+                        flex: 1;
                     }
 
                     select.candidate {
@@ -507,7 +529,7 @@
                     }
 
                     button {
-                        border: 0.063rem solid #c8ced8;
+                        border: 0.063rem solid $line-gray;
                         background-color: #ffffff;
                         width: 3.125rem; // 50px
                         height: 1.563rem; // 25px
@@ -594,13 +616,13 @@
 
                             .file-tooltip-button {
                                 display: inline-block;
-                                width: 1.563rem; // 25px
-                                height: 1.563rem; // 25px
-                                border: 0.063rem solid #c8ced8;
+                                width: 2.5rem; // 40px
+                                height: 2.5rem; // 40px
+                                border: 0.063rem solid $line-gray;
                                 background: {
                                     size: initial;
                                     repeat: no-repeat;
-                                    image: url("../media/icons/process/editor/icon_search.png");
+                                    image: url("../media/icons/process/editor/icon-search.png");
                                     position: center center;
                                 };
                             }
@@ -660,13 +682,14 @@
                         position: relative;
                         display: inline-block;
                         cursor: pointer;
-                        margin-left: 0.188rem; // 3px
+                        margin-left: 0.3125rem; // 5px
 
                         .clipboard-tooltip-button {
                             display: inline-block;
-                            width: 1.563rem; //25px
-                            height: 1.563rem; //25px
-                            border: 0.063rem solid #c8ced8;
+                            width: 2.5rem; // 40px
+                            height: 2.5rem; // 40px
+                            border: 0.063rem solid $line-gray;
+                            border-radius: 0.1875rem; // 3px
                             background: {
                                 size: initial;
                                 repeat: no-repeat;
@@ -717,11 +740,10 @@
                 overflow: hidden;
 
                 border: {
-                    top: 0.063rem solid #c8ced8;
-                    bottom: 0.063rem solid #c8ced8;
+                    top: 0.063rem solid $line-gray;
                 }
-                margin-top: 1.25rem; // 20px
-                padding-top: 0.625rem; // 10px
+                margin-top: 1.875rem; // 30px
+                padding-top: 0.25rem; // 4px
 
                 div.info {
 
@@ -738,31 +760,26 @@
                     }
 
                     div.total {
+                        @include h5();
+                        font-weight: 500;
+                        color: $light-black;
                         margin-top: 0.5rem; // 8px
                         text-align: right;
                     }
 
                     table {
+                        @include h5();
+                        font-weight: 500;
+                        color: $dark-gray;
                         margin-top: 0.5rem; // 8px
-                        width: 11.875rem; // 190px
+                        width: 100%;
 
-                        tr {
-                            border: {
-                                top: 0.063rem solid #c8ced8;
-                                bottom: 0.063rem solid #c8ced8;
-                            }
-                        }
-
-                        tr:nth-child(even) {
-                            background-color: #ffffff;
-                        }
-
-                        tr:nth-child(odd) {
-                            background-color: #eff3f8
+                        tr:first-child {
+                            border-top: 0.125rem solid $line-gray;
                         }
 
                         tr > td {
-                            height: 1.563rem; // 25px
+                            height: 2.4375rem; // 39px
                             vertical-align: middle
                         }
 

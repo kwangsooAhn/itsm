@@ -36,26 +36,21 @@
             <a href="#" id="btnSave">
                 <img th:src="@{/assets/media/icons/process/topmenu/icon_save.png}"/>
             </a>
-            <span class="separator"></span>
         </th:block>
         <a href="#" id="btnSaveAs">
             <img th:src="@{/assets/media/icons/process/topmenu/icon_save_as.png}"/>
         </a>
         <th:block th:if="${#strings.isEmpty(isView)}">
-            <span class="separator"></span>
             <a href="#" id="btnSimulation">
                 <img th:src="@{/assets/media/icons/process/topmenu/icon_simulation.png}"/>
             </a>
-            <span class="separator"></span>
             <a href="#" id="btnUndo">
                 <img th:src="@{/assets/media/icons/process/topmenu/icon_undo.png}"/>
             </a>
-            <span class="separator"></span>
             <a href="#" id="btnRedo">
                 <img th:src="@{/assets/media/icons/process/topmenu/icon_redo.png}"/>
             </a>
         </th:block>
-        <span class="separator"></span>
         <a href="#" id="btnDownload">
             <img th:src="@{/assets/media/icons/process/topmenu/icon_image_download.png}"/>
         </a>

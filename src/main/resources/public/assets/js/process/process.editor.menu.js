@@ -1054,38 +1054,30 @@
             let targetMappingProperties = document.createElement('div');
             targetMappingProperties.className = 'properties';
 
-            let targetMappingRequiredLabel = document.createElement('label');
-            targetMappingRequiredLabel.className = 'required';
-            targetMappingRequiredLabel.textContent = '*';
-            targetMappingRequiredLabel.htmlFor = 'target-mapping-id';
-
             let targetMappingLabel = document.createElement('label');
             targetMappingLabel.textContent = 'Target Mapping ID'
+            targetMappingLabel.className = 'required';
 
             let targetMappingInput = document.createElement('input');
             targetMappingInput.id = 'target-mapping-id';
             targetMappingInput.name = 'target-mapping-id';
+            targetMappingInput.required = true;
 
-            targetMappingProperties.appendChild(targetMappingRequiredLabel);
             targetMappingProperties.appendChild(targetMappingLabel);
             targetMappingProperties.appendChild(targetMappingInput);
 
             let sourceMappingProperties = document.createElement('div');
             sourceMappingProperties.className = 'properties';
 
-            let sourceMappingRequiredLabel = document.createElement('label');
-            sourceMappingRequiredLabel.className = 'required';
-            sourceMappingRequiredLabel.textContent = '*';
-            sourceMappingRequiredLabel.htmlFor = 'source-mapping-id';
-
             let sourceMappingLabel = document.createElement('label');
             sourceMappingLabel.textContent = 'Source Mapping ID'
+            sourceMappingLabel.className = 'required';
 
             let sourceMappingInput = document.createElement('input');
             sourceMappingInput.id = 'source-mapping-id';
             sourceMappingInput.name = 'source-mapping-id';
+            sourceMappingInput.required = true;
 
-            sourceMappingProperties.appendChild(sourceMappingRequiredLabel);
             sourceMappingProperties.appendChild(sourceMappingLabel);
             sourceMappingProperties.appendChild(sourceMappingInput);
 
@@ -1427,14 +1419,6 @@
                     elementContainer.appendChild(propertyContainer);
                 }
 
-                if (property.required === 'Y') {
-                    // property required
-                    let requiredLabelObject = document.createElement('label');
-                    requiredLabelObject.className = 'required';
-                    requiredLabelObject.htmlFor =  property.id;
-                    requiredLabelObject.textContent = '*';
-                    propertyContainer.appendChild(requiredLabelObject);
-                }
                 // property title
                 let labelObject = document.createElement('label');
                 if (property.type === 'checkbox') {
@@ -1444,6 +1428,10 @@
                 labelObject.textContent = property.name;
                 if (property.display === 'none') {
                     labelObject.style.display = 'none';
+                }
+                if (property.required === 'Y') {
+                    // property required
+                    labelObject.classList.add('required');
                 }
                 propertyContainer.appendChild(labelObject);
 
@@ -1688,7 +1676,7 @@
                 if (elemData[property.id] && elemData[property.id] === 'Y') {
                     elementObject.checked = true;
                 }
-                propertyContainer.appendChild(elementObject);
+                propertyContainer.insertBefore(elementObject,propertyContainer.childNodes[propertyContainer.childNodes.length-1]);
                 break;
             case 'select':
                 elementObject = document.createElement('select');
