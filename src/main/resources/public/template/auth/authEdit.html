@@ -195,8 +195,8 @@
         /* 등록, 수정 버튼 */
         function onSave(flag) {
             // validation
-            if (isOrOperator(isNull('txtAuthId', null), isEmpty('txtAuthId', null), 'auth.msg.enterAuthId')) return;
-            if (isOrOperator(isNull('txtAuthName', null), isEmpty('txtAuthName', null), 'auth.msg.enterAuthName')) return;
+            if (isOrOperator(isNull('txtAuthName'), isEmpty('txtAuthName'), 'auth.msg.enterAuthName')) return;
+            if (isOrOperator(isNull('txtAuthId'), isEmpty('txtAuthId'), 'auth.msg.enterAuthId')) return;
 
             let authIds = [];
             let authNames = [];
