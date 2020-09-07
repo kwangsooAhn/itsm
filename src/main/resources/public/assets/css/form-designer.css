@@ -1410,13 +1410,11 @@ button.default-point-line:not(:disabled):active span.icon {
   overflow: auto;
   -ms-overflow-style: none;
   /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
+  scrollbar-width: none;/* Firefox */
 }
 
 .context-menu::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
+  display: none;/* Chrome, Safari, Opera*/
 }
 
 .context-menu .menu {

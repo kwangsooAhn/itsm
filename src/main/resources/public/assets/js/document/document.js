@@ -223,12 +223,17 @@
      */
     function addButton(buttonData) {
         if (buttonData !== undefined && buttonData !== '') {
+           console.log(documentContainer.hasAttribute('data-readonly'));
             buttonData.forEach(function(element) {
                 if (element.name !== '') {
                     let buttonProcessEle = document.createElement('button');
                     buttonProcessEle.type = 'button';
                     buttonProcessEle.className = 'default-fill';
                     buttonProcessEle.innerText = element.name;
+                    // 문서가 view 일 경우, 닫기 버튼을 제외하곤 disabled 처리한다.
+                    if (documentContainer.hasAttribute('data-readonly') && element.value !== 'close') {
+                        buttonProcessEle.disabled = true;
+                    }
                     buttonProcessEle.addEventListener('click', function () {
                        if (element.value === 'close') {
                            if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
@@ -734,6 +739,7 @@
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
+                console.log(responseObject);
                 drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'

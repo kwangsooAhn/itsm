@@ -32,6 +32,7 @@ class TokenController(
     private val tokenSearchPage: String = "token/tokenSearch"
     private val tokenListPage: String = "token/tokenList"
     private val tokenEditPage: String = "token/tokenEdit"
+    private val tokenViewPage: String = "token/tokenView"
     private val tokenPrintPage: String = "token/tokenPrint"
     private val tokenPopUpPage: String = "/token/tokenPopUp"
     private val tokenInstanceListPage: String = "/token/tokenInstanceList"
@@ -79,6 +80,26 @@ class TokenController(
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
         model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
         return tokenEditPage
+    }
+
+    /**
+     * 처리할 문서 상세 화면 : 편집 불가.
+     *
+     * @param tokenId
+     * @return String
+     */
+    @GetMapping("{tokenId}/view")
+    fun getDocumentView(@PathVariable tokenId: String, model: Model): String {
+        model.addAttribute("tokenId", tokenId)
+        model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
+        model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
+        val instanceId = instanceService.getInstanceId(tokenId)!!
+        val folderId = folderService.getFolderId(tokenId)
+        model.addAttribute("folderId", folderId)
+        model.addAttribute("instanceId", instanceId)
+        model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
+        model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
+        return tokenViewPage
     }
 
     /**

@@ -132,6 +132,9 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
+            // view 일 경우, 컴포넌트들의 세부 값을 편집 할 수 없음
+            document.getElementById('document-panel').setAttribute('data-readonly', true);
+
             aliceForm.init(aliceDocument.initToken, '[[${tokenId}]]');
             var tokenDtEle = document.querySelectorAll('td[name=tokenDt]');
             for (let i = 0; i < tokenDtEle.length; i++) {
