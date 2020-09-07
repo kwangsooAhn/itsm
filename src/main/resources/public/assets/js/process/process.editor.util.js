@@ -803,38 +803,77 @@
      * 드로잉보드 오른쪽 하단 버튼 기능 추가
      */
     function initializeButtonOnDrawingBoard() {
-        // 미니맵 초기화 설정
         const drawingBoard = document.querySelector('.alice-process-drawing-board');
+
+        // 미니맵 초기화 설정
         const minimapContainer = document.createElement('div');
         minimapContainer.classList.add('minimap', 'closed');
         drawingBoard.appendChild(minimapContainer);
         d3.select(minimapContainer).append('svg');
-        const minimapButtonContainer = document.createElement('div');
-        minimapButtonContainer.classList.add('minimap-button');
-        minimapButtonContainer.addEventListener('click', function () {
-        // document.querySelector('.minimap-button').addEventListener('click', function () {
+        // 미니맵 버튼
+        const minimapButton = document.createElement('button');
+        minimapButton.type = 'button';
+        minimapButton.classList.add('gray-line', 'minimap-button');
+        minimapButton.addEventListener('click', function (e) {
+            const elem = aliceJs.clickInsideElement(e, 'minimap-button');
+            elem.classList.toggle('active');
             document.querySelector('div.minimap').classList.toggle('closed');
-            document.querySelector('div.minimap-button').classList.toggle('active');
         }, false);
-        const minimapButton = document.createElement('img');
-        minimapButton.classList.add('load-svg');
-        minimapButton.setAttribute('src', '/assets/media/icons/process/editor/icon-map.svg');
-        minimapButtonContainer.appendChild(minimapButton)
-        drawingBoard.appendChild(minimapButtonContainer);
+
+        const minimapIcon = document.createElement('span');
+        minimapIcon.classList.add('icon');
+        minimapButton.appendChild(minimapIcon)
+        drawingBoard.appendChild(minimapButton);
 
         setProcessMinimap();
 
         // 시뮬레이션 레포트 버튼 동작 이벤트 설정
-        let simulationToggleEvent = function() {
+        const simulationToggleEvent = function() {
             document.querySelector('.simulation-report').classList.toggle('closed');
             document.querySelector('.simulation-report-icon').classList.toggle('active');
-        }
-        document.querySelector('.simulation-report-icon').addEventListener('click', function () {
-            simulationToggleEvent();
-        });
-        document.querySelector('.simulation-report .title .title-close').addEventListener('click', function () {
-            simulationToggleEvent();
-        });
+        };
+
+        // 시뮬레이션 레포트 초기화 설정
+        const simulationContainer = document.createElement('div');
+        simulationContainer.classList.add('simulation-report', 'closed');
+
+        const simulationTitle = document.createElement('div');
+        simulationTitle.className = 'title';
+
+        const simulationTitleText = document.createElement('div');
+        simulationTitleText.className = 'title-text';
+        simulationTitleText.textContent = i18n.msg('process.btn.simulationCheckResult');
+        simulationTitle.appendChild(simulationTitleText);
+
+        const simulationClose = document.createElement('div');
+        simulationClose.className = 'title-close';
+        simulationTitle.appendChild(simulationClose);
+        simulationClose.addEventListener('click', simulationToggleEvent, false);
+        simulationContainer.appendChild(simulationTitle);
+
+        const simulationContent = document.createElement('div');
+        simulationContent.className = 'contents';
+
+        const simulationResult = document.createElement('div');
+        simulationResult.className = 'result';
+        simulationContent.appendChild(simulationResult);
+
+        const simulationDetail = document.createElement('div');
+        simulationDetail.className = 'details';
+        simulationContent.appendChild(simulationDetail);
+        simulationContainer.appendChild(simulationContent);
+        drawingBoard.appendChild(simulationContainer);
+
+        // 시뮬레이션 동작 버튼
+        const simulationButton = document.createElement('button');
+        simulationButton.type = 'button';
+        simulationButton.classList.add('gray-line', 'simulation-report-icon');
+        simulationButton.addEventListener('click', simulationToggleEvent, false);
+
+        const simulationIcon = document.createElement('span');
+        simulationIcon.classList.add('icon');
+        simulationButton.appendChild(simulationIcon)
+        drawingBoard.appendChild(simulationButton);
 
         // 시뮬레이션 레포트 화면 drag 설정
         let simulationReportX = 0;
@@ -887,7 +926,6 @@
         savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
         setShortcut();
         changeProcessName();
-        // aliceJs.loadSvg();
     }
 
     exports.utils = utils;

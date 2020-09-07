@@ -46,7 +46,7 @@ blockquote, q {
 
 blockquote:before, blockquote:after,
 q:before, q:after {
-  content: "";
+  content: '';
   content: none;
 }
 
@@ -96,16 +96,19 @@ button {
   src: url(font/NotoSansKR-Regular.woff) format("woff");
   font-weight: normal;
 }
+
 @font-face {
   font-family: "Noto Sans";
   src: url(font/NotoSansKR-Bold.woff) format("woff");
   font-weight: bold;
 }
+
 @font-face {
   font-family: "Noto Sans";
   src: url(font/NotoSansKR-Medium.woff) format("woff");
   font-weight: 500;
 }
+
 body {
   font-family: "Noto Sans";
   font-size: 0.688rem;
@@ -129,6 +132,7 @@ label {
   min-width: 75rem;
   min-height: 41.563rem;
 }
+
 .alice-process-toolbar {
   width: 100vw;
   min-width: 75rem;
@@ -137,10 +141,11 @@ label {
   color: #ffffff;
   padding-top: 0.563rem;
   padding-bottom: 0.563rem;
-  line-height: 1rem;
+  line-height: 1.0rem;
   display: flex;
   align-items: center;
 }
+
 .alice-process-toolbar .logo {
   width: 13.125rem;
   height: 1.999rem;
@@ -151,11 +156,13 @@ label {
   background-position: center center;
   background-image: url("../media/icons/process/editor/logo.svg");
 }
+
 .alice-process-toolbar .process-designer {
   font-size: 1.125rem;
   font-weight: 500;
   color: #ffffff;
 }
+
 .alice-process-toolbar a {
   text-decoration: none;
   margin-right: 2.5625rem;
@@ -166,9 +173,11 @@ label {
   display: flex;
   align-items: center;
 }
+
 .alice-process-toolbar a img {
   cursor: pointer;
 }
+
 .alice-process-toolbar span.separator {
   width: 0.063rem;
   height: 1.999rem;
@@ -176,6 +185,7 @@ label {
   margin: 0 1.25rem;
   float: left;
 }
+
 .alice-process-toolbar .process-name {
   height: 1.999rem;
   line-height: 1.999rem;
@@ -184,6 +194,7 @@ label {
   font-size: 1rem;
   font-weight: 500;
 }
+
 .alice-process-element-palette {
   display: inline-block;
   width: 6.25rem;
@@ -195,6 +206,7 @@ label {
   color: #666f7a;
   box-shadow: 0.063rem 0 0.313rem -0.25rem #182738;
 }
+
 .alice-process-element-palette .rectangle-menu {
   position: relative;
   display: inline-block;
@@ -208,6 +220,7 @@ label {
   background-repeat: no-repeat;
   background-position: 50% 30%;
 }
+
 .alice-process-element-palette .rectangle-menu label {
   color: #7E848C;
   font-family: 맑은고딕;
@@ -219,6 +232,7 @@ label {
   text-align: center;
   color: #3F4B56;
 }
+
 .alice-process-element-palette .connector {
   position: absolute;
   bottom: 5rem;
@@ -226,35 +240,45 @@ label {
   background-color: #F7F8F9;
   background-image: url("../media/icons/process/element/connector.png");
 }
+
 .alice-process-element-palette .connector label {
   color: #ACB4BF;
 }
+
 .alice-process-element-palette .connector.selected {
   border-color: #0098FF;
   background-color: transparent;
   background-image: url("../media/icons/process/element/connector-select.png");
 }
+
 .alice-process-element-palette .connector.selected label {
   color: #0098FF;
 }
+
 .alice-process-element-palette .shape.event {
   background-image: url("../media/icons/process/element/event.png");
 }
+
 .alice-process-element-palette .shape.task {
   background-image: url("../media/icons/process/element/task.png");
 }
+
 .alice-process-element-palette .shape.subprocess {
   background-image: url("../media/icons/process/element/subprocess.png");
 }
+
 .alice-process-element-palette .shape.gateway {
   background-image: url("../media/icons/process/element/gateway.png");
 }
+
 .alice-process-element-palette .shape.group {
   background-image: url("../media/icons/process/element/group.png");
 }
+
 .alice-process-element-palette .shape.annotation {
   background-image: url("../media/icons/process/element/annotation.png");
 }
+
 .alice-process-element-palette .move-icon {
   position: absolute;
   bottom: 0.313rem;
@@ -262,17 +286,21 @@ label {
   background-color: #F7F8F9;
   background-image: url("../media/icons/process/editor/icon-background.png");
 }
+
 .alice-process-element-palette .move-icon label {
   color: #ACB4BF;
 }
+
 .alice-process-element-palette .move-icon.selected {
   border-color: #0098FF;
   background-color: transparent;
   background-image: url("../media/icons/process/editor/icon-background-select.png");
 }
+
 .alice-process-element-palette .move-icon.selected label {
   color: #0098FF;
 }
+
 .alice-process-drawing-board {
   display: inline-block;
   position: absolute;
@@ -283,7 +311,48 @@ label {
   height: calc(100vh - 3.125rem);
   min-height: 38.438rem;
   overflow: hidden;
+  /*버튼 공통*/
+  /*미니맵*/
 }
+
+.alice-process-drawing-board button.gray-line {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #EBEBEB;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.1875rem;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.alice-process-drawing-board button.gray-line span.icon {
+  display: inline-block;
+  background: #CCCED1;
+}
+
+.alice-process-drawing-board button.gray-line:focus, .alice-process-drawing-board button.gray-line:hover {
+  outline: 0;
+  border-color: #0098FF;
+}
+
+.alice-process-drawing-board button.gray-line:focus span.icon, .alice-process-drawing-board button.gray-line:hover span.icon {
+  background: #0098FF;
+}
+
+.alice-process-drawing-board button.gray-line.active {
+  border-color: #0098FF;
+}
+
+.alice-process-drawing-board button.gray-line.active span.icon {
+  background: #0098FF;
+}
+
 .alice-process-drawing-board div.minimap {
   background-color: #ffffff;
   display: inline-block;
@@ -292,9 +361,11 @@ label {
   overflow: hidden;
   position: absolute;
   bottom: 0.625rem;
-  right: 3.125rem;
-  box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7, 0.063rem 0 0.313rem -0.25rem #def9f7;
+  right: 3.438rem;
+  border: 0.0625rem solid #EBEBEB;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
 }
+
 .alice-process-drawing-board div.minimap svg {
   position: absolute;
   top: 1.25rem;
@@ -302,36 +373,34 @@ label {
   background-color: #eef2f7;
   border: 1px solid #c8ced8;
 }
+
 .alice-process-drawing-board div.minimap svg rect.minimap-guide {
   fill: #A3B6CC;
   fill-opacity: 0.25;
   stroke-width: 0;
 }
+
 .alice-process-drawing-board div.minimap.closed {
   display: none;
 }
-.alice-process-drawing-board div.minimap-button {
-  display: inline-block;
-  width: 2.5rem;
-  height: 2.5rem;
+
+.alice-process-drawing-board button.minimap-button {
   position: absolute;
   bottom: 0.625rem;
   right: 0.625rem;
-  cursor: pointer;
 }
-.alice-process-drawing-board div.minimap-button .icon-minimap-border {
-  fill: #ffffff;
-  stroke: #ebebeb;
+
+.alice-process-drawing-board button.minimap-button span.icon {
+  width: 1.063rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/process/editor/icon-map.svg");
+  mask-image: url("../media/icons/process/editor/icon-map.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
-.alice-process-drawing-board div.minimap-button .icon-minimap {
-  fill: #ccced1;
-}
-.alice-process-drawing-board div.minimap-button.active .icon-minimap-border {
-  stroke: #0098ff;
-}
-.alice-process-drawing-board div.minimap-button.active .icon-minimap {
-  fill: #0098ff;
-}
+
 .alice-process-drawing-board .simulation-report {
   position: absolute;
   width: 63.75rem;
@@ -346,15 +415,18 @@ label {
   margin: auto;
   border: solid 1px #ebebeb;
 }
+
 .alice-process-drawing-board .simulation-report .title {
   height: 3.375rem;
   border-bottom: solid 1px #ebebeb;
   font-size: 1.125rem;
   padding: 1.063rem;
 }
+
 .alice-process-drawing-board .simulation-report .title-text {
   display: inline-block;
 }
+
 .alice-process-drawing-board .simulation-report .title-close {
   display: inline-block;
   width: 16px;
@@ -365,61 +437,63 @@ label {
   background-repeat: no-repeat;
   cursor: pointer;
 }
+
 .alice-process-drawing-board .simulation-report .contents {
   position: relative;
   height: calc(100% - 3.375rem);
   font-size: 1.125rem;
 }
+
 .alice-process-drawing-board .simulation-report .contents .result {
   margin: 0.938rem;
 }
+
 .alice-process-drawing-board .simulation-report .contents .result.success {
   color: #00c462;
 }
+
 .alice-process-drawing-board .simulation-report .contents .result.failed {
   color: #ff405a;
 }
+
 .alice-process-drawing-board .simulation-report .contents .details {
   font-size: 1rem;
   color: #586872;
 }
+
 .alice-process-drawing-board .simulation-report .contents .details div {
   margin: 0.313rem 0 0.313rem 0.75rem;
 }
+
 .alice-process-drawing-board .simulation-report .contents .details div.failed {
   color: #ff405a;
 }
+
 .alice-process-drawing-board .simulation-report .contents .details-number-of, .alice-process-drawing-board .simulation-report .contents .details-result, .alice-process-drawing-board .simulation-report .contents .details-element-info, .alice-process-drawing-board .simulation-report .contents .details-failed-message {
   margin-left: 0.313rem;
 }
+
 .alice-process-drawing-board .simulation-report.closed {
   display: none;
 }
-.alice-process-drawing-board .simulation-report-icon {
+
+.alice-process-drawing-board button.simulation-report-icon {
   position: absolute;
-  width: 2.5rem;
-  height: 2.5rem;
   bottom: 3.438rem;
   right: 0.625rem;
-  display: inline-block;
-  cursor: pointer;
 }
-.alice-process-drawing-board .simulation-report-icon .icon-eye-bg {
-  fill: #fff;
-  stroke: #ebebeb;
+
+.alice-process-drawing-board button.simulation-report-icon span.icon {
+  width: 1.25rem;
+  height: 1rem;
+  -webkit-mask-image: url("../media/icons/process/editor/icon-simulation-report.svg");
+  mask-image: url("../media/icons/process/editor/icon-simulation-report.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
 }
-.alice-process-drawing-board .simulation-report-icon .icon-eye {
-  fill: #CCCED1;
-}
-.alice-process-drawing-board .simulation-report-icon.active .icon-eye-bg {
-  stroke: #0098ff;
-}
-.alice-process-drawing-board .simulation-report-icon.active .icon-eye {
-  fill: #0098ff;
-}
-.alice-process-drawing-board .simulation-report:active {
-  border: solid 0.063rem #0098ff;
-}
+
 .alice-process-properties-panel {
   display: inline-block;
   background-color: #fafbfd;
@@ -431,9 +505,11 @@ label {
   right: 0;
   box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7;
 }
+
 .alice-process-properties-panel h3 {
   margin: 1.25rem 0 1rem 1.5625rem;
 }
+
 .alice-process-properties-panel h3 span {
   padding-right: 0.625rem;
   color: #586872;
@@ -442,13 +518,16 @@ label {
   color: #33ADFF;
   font-weight: 500;
 }
+
 .alice-process-properties-panel div.properties-container {
   height: calc(100vh - 3.125rem);
 }
+
 .alice-process-properties-panel div.properties-container div.element-title {
   height: 2.5rem;
   background-color: #33ADFF;
 }
+
 .alice-process-properties-panel div.properties-container div.element-title h2 {
   color: #586872;
   font-size: 1rem;
@@ -457,10 +536,12 @@ label {
   font-weight: 500;
   padding: 0.719rem 0 0.719rem 0.938rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties {
   height: calc(100vh - 3.125rem - 2.5rem);
   overflow: auto;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties fieldset {
   border: 0.063rem solid #c8ced8;
   padding: 0.5rem;
@@ -468,23 +549,29 @@ label {
   margin-left: 1.25rem;
   margin-bottom: 0.5rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties fieldset legend {
   width: 6.25rem;
   height: 1.875rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties fieldset legend input {
   margin: 0 0.3125rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties fieldset legend label {
   font-size: 0.688rem;
   font-weight: bold;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties {
   margin: 0;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties label {
   width: 4.375rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties {
   display: flex;
   flex-wrap: wrap;
@@ -494,6 +581,7 @@ label {
   margin-right: 1.5625rem;
   font-size: 0.688rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties label {
   display: inline-block;
   width: 100%;
@@ -505,19 +593,23 @@ label {
   font-weight: 500;
   color: #3F4B56;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties label.required::after {
   color: #E83828;
-  content: "*";
+  content: "\002a";
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties label.checkbox {
   width: initial;
   margin-left: 0.625rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input[type=checkbox] {
   width: 1.125rem;
   height: 1.125rem;
   border: 0.0625rem solid #EBEBEB;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select {
@@ -525,11 +617,13 @@ label {
   color: #68717c;
   padding-left: 0.438rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:focus,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
   border-color: #0098FF;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]),
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select {
@@ -539,18 +633,22 @@ label {
   font-weight: 400;
   border-color: #EBEBEB;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]):focus,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
   border-color: #0098FF;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea {
   height: 7.5rem;
   padding: 0.5rem 0.625rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus {
   border-color: #0098FF;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]), .alice-process-properties-panel div.properties-container div.element-properties div.properties select {
   height: 2.5rem;
   width: 100%;
@@ -559,23 +657,29 @@ label {
   font-weight: 400;
   border-color: #EBEBEB;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]):focus, .alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
   border-color: #0098FF;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input:read-only {
   color: #ACB4BF;
   background-color: #F7F8F9;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input.color,
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input.copy {
   flex: 1;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select.candidate {
   width: 8.563rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input.file {
   width: 10rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties button {
   border: 0.063rem solid #EBEBEB;
   background-color: #ffffff;
@@ -583,31 +687,39 @@ label {
   height: 1.563rem;
   margin-left: 0.188rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table {
   width: 11.875rem;
   margin-top: 0.188rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tr {
   border-top: 0.063rem solid #c8ced8;
   border-bottom: 0.063rem solid #c8ced8;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table thead th {
   background-color: #ffffff;
   text-align: center;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(even) {
   background-color: #ffffff;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(odd) {
   background-color: #eff3f8;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:first-child {
   padding-left: 0.313rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child {
   text-align: right;
   padding-right: 0.313rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove {
   display: inline-block;
   width: 1rem;
@@ -618,25 +730,30 @@ label {
   position: relative;
   vertical-align: middle;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove:after {
   position: absolute;
   left: 0.188rem;
   top: -0.063rem;
-  content: "−";
+  content: '\2212';
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker {
   display: flex;
   flex-direction: column;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input {
   display: inline-flex;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
   width: 1.75rem;
   height: 1.75rem;
   margin: auto;
   cursor: pointer;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
   width: 2.5rem;
   height: 2.5rem;
@@ -645,6 +762,7 @@ label {
   cursor: pointer;
   display: flex;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
   display: flex;
   flex-wrap: wrap;
@@ -655,6 +773,7 @@ label {
   padding: 1.25rem 0 0.625rem 1.25rem;
   border: 0.0625rem solid #EBEBEB;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
   display: inline-block;
   width: 2.5rem;
@@ -663,16 +782,19 @@ label {
   margin-bottom: 0.625rem;
   cursor: pointer;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
   border: 0.375rem solid white;
   outline: 0.063rem solid #0098FF;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
   width: 1.75rem;
   height: 1.75rem;
   border: 0.1875rem solid #68717c;
   margin: 0;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
   width: 2.5rem;
   height: 2.5rem;
@@ -682,6 +804,7 @@ label {
   padding-top: 0.3125rem;
   padding-left: 0.3125rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
   width: 15.625rem;
   margin-top: 0.188rem;
@@ -689,6 +812,7 @@ label {
   padding-left: 0.219rem;
   padding-top: 0.188rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
   display: inline-block;
   width: 1rem;
@@ -700,10 +824,12 @@ label {
   border: 0.063rem solid #a3adbb;
   cursor: pointer;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
   border: 0.125rem solid #ffffff;
   outline: 0.063rem solid #0055ff;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity {
   background-color: #ffffff;
   width: 15.625rem;
@@ -713,21 +839,25 @@ label {
   display: none;
   height: 3rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span {
   display: table-cell;
   vertical-align: middle;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input {
   vertical-align: middle;
   width: 1.875rem;
   height: 2rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range] {
   -webkit-appearance: none;
   /*&::-webkit-slider-runnable-track {
-      -webkit-appearance: none;
-  }*/
+                    -webkit-appearance: none;
+                }*/
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 0.625rem;
@@ -737,6 +867,7 @@ label {
   background: #fff;
   cursor: pointer;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-thumb {
   width: 0.625rem;
   height: 0.625rem;
@@ -745,10 +876,12 @@ label {
   background: #fff;
   cursor: pointer;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
   background-color: #0055ff;
   height: 0.0625rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-object {
   width: 10rem;
   height: 0.0625rem;
@@ -759,10 +892,12 @@ label {
   margin-left: 0.594rem;
   margin-right: 0.625rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-input {
   width: 2.5rem;
   text-align: right;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span label {
   margin: 0 0 0 0.25rem;
   width: 0.813rem;
@@ -770,23 +905,28 @@ label {
   line-height: 1.25rem;
   vertical-align: middle;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container {
   display: flex;
   flex-wrap: wrap;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container {
   width: 100%;
   padding-top: 0.5rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container.right {
   text-align: right;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip {
   position: relative;
   display: inline-block;
   cursor: pointer;
   margin-left: 0.188rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip .file-tooltip-button {
   display: inline-block;
   width: 2.5rem;
@@ -797,49 +937,61 @@ label {
   background-image: url("../media/icons/process/editor/icon-search.png");
   background-position: center center;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table {
   margin-top: 0.5rem;
   width: 11.875rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr {
   border-top: 0.063rem solid #c8ced8;
   border-bottom: 0.063rem solid #c8ced8;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr:nth-child(even) {
   background-color: #ffffff;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr:nth-child(odd) {
   background-color: #eff3f8;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > th, .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table td {
   height: 1.563rem;
   vertical-align: middle;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:first-child {
   padding-left: 0.625rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:last-child {
   text-align: right;
   padding-right: 0.625rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table label {
   height: 0.938rem;
   margin: 0;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .condition-txt {
   width: 30%;
   word-break: break-all;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-txt {
   width: 50%;
   word-break: break-all;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip {
   position: relative;
   display: inline-block;
   cursor: pointer;
   margin-left: 0.3125rem;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-button {
   display: inline-block;
   width: 2.5rem;
@@ -851,6 +1003,7 @@ label {
   background-image: url("../media/icons/process/editor/icon-clipboard.png");
   background-position: center center;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-text {
   visibility: hidden;
   width: 8.75rem;
@@ -867,6 +1020,7 @@ label {
   opacity: 0;
   transition: opacity 0.3s;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-text::after {
   content: "";
   position: absolute;
@@ -877,16 +1031,19 @@ label {
   border-style: solid;
   border-color: #555 transparent transparent transparent;
 }
+
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip:hover .clipboard-tooltip-text {
   visibility: visible;
   opacity: 1;
 }
+
 .alice-process-properties-panel div.properties-container div.process-info-container {
   overflow: hidden;
   border-top: 0.063rem solid #EBEBEB;
   margin-top: 1.875rem;
   padding-top: 0.25rem;
 }
+
 .alice-process-properties-panel div.properties-container div.process-info-container div.info {
   margin-top: 0.5rem;
   margin-left: 1.25rem;
@@ -894,6 +1051,7 @@ label {
   padding-bottom: 1.3125rem;
   font-size: 0.688rem;
 }
+
 .alice-process-properties-panel div.properties-container div.process-info-container div.info div.total {
   color: #586872;
   font-size: 1rem;
@@ -903,6 +1061,7 @@ label {
   margin-top: 0.5rem;
   text-align: right;
 }
+
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table {
   color: #586872;
   font-size: 1rem;
@@ -912,20 +1071,25 @@ label {
   margin-top: 0.5rem;
   width: 100%;
 }
+
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr:first-child {
   border-top: 0.125rem solid #EBEBEB;
 }
+
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td {
   height: 2.4375rem;
   vertical-align: middle;
 }
+
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td:first-child {
   padding-left: 0.625rem;
 }
+
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td:last-child {
   text-align: right;
   padding-right: 0.625rem;
 }
+
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table label {
   height: 0.938rem;
   margin: 0;
@@ -934,58 +1098,72 @@ label {
 svg {
   background-color: #f2f5fa;
 }
+
 svg g.element-container g.element .node {
   fill: #ffffff;
   opacity: 1;
   stroke-width: 1;
 }
+
 svg g.element-container g.element .element-type.task,
 svg g.element-container g.element .element-type.subprocess {
   stroke-width: 1;
   stroke-dasharray: 0, 40, 40, 40;
 }
+
 svg g.element-container g.element .node.task.userTask,
 svg g.element-container g.element .element-type.task.userTask {
   stroke: #0099ff;
 }
+
 svg g.element-container g.element .node.task.manualTask,
 svg g.element-container g.element .element-type.task.manualTask {
   stroke: #23c8c1;
 }
+
 svg g.element-container g.element .node.task.scriptTask,
 svg g.element-container g.element .element-type.task.scriptTask {
   stroke: #66cc00;
 }
+
 svg g.element-container g.element .node.subprocess,
 svg g.element-container g.element .element-type.subprocess {
   stroke: #6774ff;
 }
+
 svg g.element-container g.element .node.gateway {
   stroke: #fac900;
 }
+
 svg g.element-container g.element .node.event {
   stroke: #ff6f61;
 }
+
 svg g.element-container g.element .node.event.commonEnd,
 svg g.element-container g.element .node.event.messageEnd {
   stroke-width: 2;
 }
+
 svg g.element-container g.element .node.selected {
   stroke: #0050ff !important;
   stroke-width: 2 !important;
 }
+
 svg g.element-container g.element .node.selected.error {
   stroke: #ff405a !important;
 }
+
 svg g.element-container g.element .node.reject-element {
   stroke: #ff0000 !important;
   stroke-width: 2 !important;
 }
+
 svg g.element-container g.element .annotation {
   stroke: #000000;
   fill-opacity: 0;
   stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
 }
+
 svg g.element-container g.element text {
   fill: #3E4752;
   font-weight: bold;
@@ -994,27 +1172,33 @@ svg g.element-container g.element text {
   dominant-baseline: middle;
   user-select: none;
 }
+
 svg g.element-container g.element.selected .node,
 svg g.element-container g.element.selected .element-type.task,
 svg g.element-container g.element.selected .element-type.subprocess {
   stroke: #0050ff !important;
   stroke-width: 2 !important;
 }
+
 svg g.element-container g.element.selected.error {
   stroke: #ff405a !important;
 }
+
 svg g.group-artifact-container g.element .group {
   stroke: #000000;
   fill-opacity: 0;
   stroke-dasharray: 5, 5;
 }
+
 svg g.group-artifact-container g.element .node.selected {
   stroke: #0050ff !important;
   stroke-width: 2 !important;
 }
+
 svg g.group-artifact-container g.element .node.selected.error {
   stroke: #ff405a !important;
 }
+
 svg g.group-artifact-container g.element text {
   fill: #3E4752;
   font-weight: bold;
@@ -1023,31 +1207,38 @@ svg g.group-artifact-container g.element text {
   dominant-baseline: middle;
   user-select: none;
 }
+
 svg g.connector-container g.connector path.connector {
   fill: none;
   stroke: #596f7a;
   stroke-width: 1;
   cursor: default;
 }
+
 svg g.connector-container g.connector path.connector.selected {
   stroke-dasharray: 10, 2;
   stroke-width: 2;
 }
+
 svg g.connector-container g.connector path.connector.selected.error {
   stroke: #ff405a !important;
 }
+
 svg g.connector-container g.connector path.connector.is-default {
   stroke-width: 3;
 }
+
 svg g.connector-container g.connector path.connector.hidden {
   stroke-width: 0;
 }
+
 svg g.connector-container g.connector path.painted-connector {
   fill: none;
   stroke: none;
   stroke-width: 20;
   pointer-events: stroke;
 }
+
 svg g.connector-container g.connector text {
   fill: #3E4752;
   font-weight: bold;
@@ -1055,49 +1246,61 @@ svg g.connector-container g.connector text {
   dominant-baseline: text-before-edge;
   user-select: none;
 }
+
 svg g.connector-container g.connector text.selected {
   fill: #0c4dcd;
 }
+
 svg g.connector-container g.connector circle.pointer {
   fill: #596f7a;
   cursor: move;
 }
+
 svg g.connector-container g.connector circle.pointer.move {
   fill: #5887f9;
 }
+
 svg defs marker path {
   fill: #596f7a;
 }
+
 svg g.alice-tooltip rect.tooltip-container {
   fill: #ffffff;
   stroke: #bec4ce;
   stroke-width: 0.5;
 }
+
 svg g.alice-tooltip rect.action-tooltip-item:hover,
 svg g.alice-tooltip rect.element-tooltip-item:hover {
   cursor: pointer;
 }
+
 svg g.grid path {
   display: none;
 }
+
 svg g.grid line {
   stroke: #e5ebf5;
   stroke-width: 1;
   stroke-opacity: 1;
   shape-rendering: crispEdges;
 }
+
 svg g.guides-container line.guides-line {
   stroke: darkgray;
   stroke-width: 0;
 }
+
 svg path.connector {
   fill: none;
   stroke: #596f7a;
   stroke-width: 1;
 }
+
 svg path.connector.drag-line {
   pointer-events: none;
 }
+
 svg path.connector.hidden {
   stroke-width: 0;
 }
