@@ -91,6 +91,16 @@ button {
   cursor: pointer;
 }
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 @font-face {
   font-family: "Noto Sans";
   src: url(font/NotoSansKR-Regular.woff) format("woff");
@@ -471,6 +481,8 @@ label {
 .alice-process-properties-panel div.properties-container div.element-properties fieldset legend {
   width: 6.25rem;
   height: 1.875rem;
+  display: flex;
+  align-items: center;
 }
 .alice-process-properties-panel div.properties-container div.element-properties fieldset legend input {
   margin: 0 0.3125rem;
@@ -478,9 +490,10 @@ label {
 .alice-process-properties-panel div.properties-container div.element-properties fieldset legend label {
   font-size: 0.688rem;
   font-weight: bold;
+  margin-top: 0;
 }
 .alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties {
-  margin: 0;
+  margin: 1rem 0.5rem 0 0.5rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties label {
   width: 4.375rem;
@@ -571,7 +584,7 @@ label {
   flex: 1;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties select.candidate {
-  width: 8.563rem;
+  flex: 1;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties input.file {
   width: 10rem;
@@ -580,12 +593,13 @@ label {
   border: 0.063rem solid #EBEBEB;
   background-color: #ffffff;
   width: 3.125rem;
-  height: 1.563rem;
+  height: 2.5rem;
   margin-left: 0.188rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table {
-  width: 11.875rem;
+  width: 100%;
   margin-top: 0.188rem;
+  font-size: 1rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tr {
   border-top: 0.063rem solid #c8ced8;
@@ -593,13 +607,18 @@ label {
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table thead th {
   background-color: #ffffff;
-  text-align: center;
+  height: 2.5rem;
+  vertical-align: middle;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(even) {
   background-color: #ffffff;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(odd) {
   background-color: #eff3f8;
+}
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td {
+  height: 2.5rem;
+  vertical-align: middle;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:first-child {
   padding-left: 0.313rem;
@@ -620,8 +639,8 @@ label {
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove:after {
   position: absolute;
-  left: 0.188rem;
-  top: -0.063rem;
+  left: 0.0625rem;
+  top: -0.125rem;
   content: "−";
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker {
@@ -776,7 +795,6 @@ label {
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container {
   width: 100%;
-  padding-top: 0.5rem;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container.right {
   text-align: right;
@@ -799,7 +817,7 @@ label {
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table {
   margin-top: 0.5rem;
-  width: 11.875rem;
+  width: 100%;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr {
   border-top: 0.063rem solid #c8ced8;
@@ -812,7 +830,7 @@ label {
   background-color: #eff3f8;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > th, .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table td {
-  height: 1.563rem;
+  height: 2.5rem;
   vertical-align: middle;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:first-child {

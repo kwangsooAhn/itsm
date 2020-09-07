@@ -409,6 +409,8 @@
                     legend {
                         width: 6.25rem; // 100px
                         height: 1.875rem; // 30px
+                        display: flex;
+                        align-items: center;
 
                         input {
                             margin: 0 0.3125rem; //5px
@@ -419,11 +421,12 @@
                                 size: 0.688rem; // 11px
                                 weight: bold;
                             }
+                            margin-top: 0;
                         }
                     }
 
                     div.properties {
-                        margin: 0;
+                        margin: 1rem 0.5rem 0 0.5rem; // 16px 8px 0 8px
 
                         label {
                             width: 4.375rem; // 70px
@@ -521,7 +524,8 @@
                     }
 
                     select.candidate {
-                        width: 8.563rem; // 137px
+                        flex: 1;
+                        // width: 8.563rem; // 137px
                     }
 
                     input.file {
@@ -532,13 +536,14 @@
                         border: 0.063rem solid $line-gray;
                         background-color: #ffffff;
                         width: 3.125rem; // 50px
-                        height: 1.563rem; // 25px
+                        height: 2.5rem; // 40px
                         margin-left: 0.188rem; // 3px
                     }
 
                     table {
-                        width: 11.875rem; // 190px
+                        width: 100%; // 11.875rem; // 190px
                         margin-top: 0.188rem; // 3px
+                        font-size: 1rem; // 16px
 
                         tr {
                             border: {
@@ -550,7 +555,8 @@
                         thead {
                             th {
                                 background-color: #ffffff;
-                                text-align: center;
+                                height: 2.5rem; // 40px;
+                                vertical-align: middle;
                             }
                         }
 
@@ -563,34 +569,37 @@
                                 background-color: #eff3f8
                             }
 
-                            td:first-child {
-                                padding-left: 0.313rem;
-                            }
-
-                            td:last-child {
-                                text-align: right;
-                                padding-right: 0.313rem;
-
-                                span.remove {
-                                    display: inline-block;
-                                    width: 1rem; // 16px
-                                    height: 1rem; // 16px
-                                    border: 0.063rem solid #c8ced8;
-                                    background-color: #ffffff;
-                                    cursor: pointer;
-                                    position: relative;
-                                    vertical-align: middle;
+                            td {
+                                height: 2.5rem; // 40px;
+                                vertical-align: middle;
+                                &:first-child {
+                                    padding-left: 0.313rem;
                                 }
 
-                                span.remove:after {
-                                    position: absolute;
-                                    left: 0.188rem; // 3px
-                                    top: -0.063rem; // -1px
-                                    content: '\2212';
+                                &:last-child {
+                                    text-align: right;
+                                    padding-right: 0.313rem;
+
+                                    span.remove {
+                                        display: inline-block;
+                                        width: 1rem; // 16px
+                                        height: 1rem; // 16px
+                                        border: 0.063rem solid #c8ced8;
+                                        background-color: #ffffff;
+                                        cursor: pointer;
+                                        position: relative;
+                                        vertical-align: middle;
+                                    }
+
+                                    span.remove:after {
+                                        position: absolute;
+                                        left: 0.0625rem; // 1px
+                                        top: -0.125rem; // -2px
+                                        content: '\2212';
+                                    }
                                 }
                             }
                         }
-
                     }
 
                     @import "_colorpicker.scss";
@@ -601,7 +610,6 @@
 
                         .btn-container {
                             width: 100%;
-                            padding-top: 0.5rem;
 
                             &.right {
                                 text-align: right;
@@ -630,7 +638,7 @@
 
                         table {
                             margin-top: 0.5rem; // 8px
-                            width: 11.875rem; // 190px
+                            width: 100%; // 11.875rem; // 190px
 
                             tr {
                                 border: {
@@ -648,7 +656,7 @@
                             }
 
                             tr > th, td {
-                                height: 1.563rem; // 25px
+                                height: 2.5rem; // 40px
                                 vertical-align: middle
                             }
 
