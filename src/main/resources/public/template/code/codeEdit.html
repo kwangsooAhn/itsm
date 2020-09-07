@@ -135,9 +135,9 @@
                     callbackFunc: function(response) {
                         let responseJson = JSON.parse(response.responseText);
                         document.getElementById('txtCode').value = responseJson.code;
-                        document.getElementById('txtCode').setAttribute('readonly','true');
+                        document.getElementById('txtCode').setAttribute('disabled','');
                         document.getElementById('txtPCode').value = responseJson.pcode;
-                        document.getElementById('txtPCode').setAttribute('readonly','true');
+                        document.getElementById('txtPCode').setAttribute('disabled','');
                         document.getElementById('txtCodeDesc').value = responseJson.codeValue;
                         document.getElementById('txtCreateUserName').value = responseJson.createUserName;
                         document.getElementById('txtCreateDt').value = i18n.userDateTime(responseJson.createDt);
@@ -174,8 +174,8 @@
                 object.value = '';
             });
             document.querySelector('textarea').value = '';
-            document.querySelector('#txtCode').removeAttribute('readonly');
-            document.querySelector('#txtPCode').removeAttribute('readonly');
+            document.querySelector('#txtCode').removeAttribute('disabled');
+            document.querySelector('#txtPCode').removeAttribute('disabled');
         }
 
         function onEdit() {

@@ -106,7 +106,7 @@
                 AUTH_DELETE = true;
             }
             if (document.getElementById('txtAuthId').value !== null && document.getElementById('txtAuthId').value !== '') {
-                document.getElementById('txtAuthId').setAttribute('readonly','true');
+                document.getElementById('txtAuthId').setAttribute('disabled','');
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'inline-block';
                 }
@@ -164,7 +164,7 @@
         /* 추가 버튼 */
         function onCreate() {
             document.getElementById('txtAuthId').value = '';
-            document.getElementById('txtAuthId').removeAttribute('readonly');
+            document.getElementById('txtAuthId').removeAttribute('disabled');
             document.getElementById('txtAuthName').value = '';
             document.getElementById('txtAuthDesc').value = '';
 
@@ -366,7 +366,7 @@
                         }
                     });
 
-                    document.getElementById('txtAuthId').setAttribute('readonly','true');
+                    document.getElementById('txtAuthId').setAttribute('disabled','');
                     document.getElementById('roleAuthMapCount').value = responseJson.roleAuthMapCount;
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.roleAuthMapCount);
