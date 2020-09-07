@@ -81,11 +81,12 @@
 
     /**
      * text, textarea validate check.
-     *
+     * 
+     * @param eventName 이벤트명
      * @param element target element
      * @param validate validate 속성
      */
-    function validateCheck(element, validate) {
+    function validateCheck(eventName, element, validate) {
         if (typeof validate === 'undefined' || validate === '') { return; }
         const numberRegex = /^[-+]?[0-9]*\.?[0-9]+$/;
         const validateFunc = {
@@ -115,14 +116,16 @@
                     return (value.length <= Number(arg));
                 }
                 return true;
+            },
+            required: function(value) {
+                return !aliceJs.isEmpty(value);
             }
         };
 
-        element.addEventListener('focusout', function(e) {
+        element.addEventListener(eventName, function(e) {
             if (element.classList.contains('validate-error')) {
                 element.classList.remove('validate-error');
             }
-            if (element.value === '') { return; }
             let result = true;
             let validateArray = validate.split('|');
             for (let i = 0; i < validateArray.length; i++) {
@@ -154,6 +157,9 @@
                     case 'maxLength':
                         result = validateFunc.maxLength(element.value, arg);
                         break;
+                    case 'required':
+                        result = validateFunc.required(element.value);
+                        break;
                 }
                 if (!result) {
                     e.stopImmediatePropagation();
@@ -176,6 +182,11 @@
     function saveForm(flag) {
         //view 모드이면 단축키로 저장되지 않는다.
         if (isView) { return false; }
+
+        // 유효성이 통과되지 않으면 저장되지 않는다.
+        const validateElement = document.querySelectorAll('.validate-error');
+        if (validateElement.length !== 0) {  return false; }
+
         data = JSON.parse(JSON.stringify(editor.data));
 
         // 2020-05-22 Jung Hee Chan
@@ -1423,12 +1434,12 @@
 
                             // 유효성 검증 추가
                             if (typeof fieldProp.validate !== 'undefined' && fieldProp.validate !== '') {
-                                validateCheck(fieldGroupElem.querySelector('.property-value'), fieldProp.validate);
+                                validateCheck('focusout', fieldGroupElem.querySelector('.property-value'), fieldProp.validate);
                             }
                             if (typeof fieldProp.option !== 'undefined') {
                                 const fieldValueElem = fieldGroupElem.querySelector('.property-value');
                                 if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
-                                    validateCheck(fieldValueElem, fieldValueElem.getAttribute('data-validate'));
+                                    validateCheck('focusout',fieldValueElem, fieldValueElem.getAttribute('data-validate'));
                                 }
                             }
                         } else { // type === table
@@ -1667,9 +1678,12 @@
                     switch (node.id) {
                         case 'name':
                             propElem.setAttribute('value', formProperties[prop]);
+                            // 필수값 체크
+                            validateCheck('focusout', propElem, 'required');
                             propElem.addEventListener('keyup', function(e) {
+                                const elem = e.target;
                                 let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
-                                editor.data.name = this.value;
+                                editor.data.name = elem.value;
                                 history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
                             });
                             break;
