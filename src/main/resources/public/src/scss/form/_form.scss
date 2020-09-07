@@ -124,6 +124,14 @@ span {
     font-size: $span-font-size;
     line-height: $span-line-height;
     font-weight: $span-font-weight;
+    &[class="required"] {
+        padding-left: 0.3125rem; //5px
+        font-weight: 700;
+        &::after {
+            color: $red;
+            content: "\002a"; // *
+        }
+    }
 }
 
 label.radio-group {

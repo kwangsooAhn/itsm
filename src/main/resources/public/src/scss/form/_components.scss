@@ -55,15 +55,6 @@
             .label {
                 display: inline-block;
             }
-
-            span[class="required"] {
-                padding-left: 0.3125rem; //5px
-                font-weight: 700;
-                &::after {
-                    color: $red;
-                    content: "\002a"; // *
-                }
-            }
         }
 
         // 라벨 위치가 top일 경우 라벨 위치 조정용 필드
