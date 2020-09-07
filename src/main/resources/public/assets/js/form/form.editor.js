@@ -1183,15 +1183,19 @@
                                 fieldGroupElem.setAttribute('id', group + '-' + fieldProp.id);
                                 groupElem.appendChild(fieldGroupElem);
 
-                                // TODO: 도움말 추가
-                                const tooltipTemplate = (typeof fieldProp.help === 'undefined') ? `` : `<div class='help-tooltip'><p>${i18n.get(fieldProp.help)}</p></div>`;
+                                const tooltipTemplate = (typeof fieldProp.help === 'undefined') ? `` : `<div class="help-tooltip">
+                                    <span class="help-tooltip-icon"></span>
+                                    <div class="tooltip-contents">
+                                        <span>${i18n.get(fieldProp.help)}</span>
+                                    </div>
+                                </div>`;
                                 let fieldTemplate = ``;
 
                                 // 상세속성 추가
                                 switch (fieldProp.type) {
                                     case 'inputbox':
                                         fieldTemplate =
-                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<label class="property-name">${fieldProp.name}</label>${tooltipTemplate}` +
                                             `<input type="text" class="property-value" value="${fieldProp.value}"/>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
