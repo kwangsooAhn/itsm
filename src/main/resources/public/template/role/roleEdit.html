@@ -44,11 +44,11 @@
             <div class="scroll-wrap">
                 <div class="form-wrap">
                     <div class="form-set">
-                        <label th:text="'*' + #{role.label.id}"></label>
+                        <label th:text="#{role.label.id}" class="required"></label>
                         <input id="txtRoleId" name="txtRoleId" type="text" maxlength="100"/>
                     </div>
                     <div class="form-set">
-                        <label th:text="'*' + #{role.label.name}"></label>
+                        <label th:text="#{role.label.name}" class="required"></label>
                         <input id="txtRoleName" name="txtRoleName" type="text" maxlength="100" />
                     </div>
                     <div class="form-set">
