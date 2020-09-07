@@ -7,11 +7,12 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div style="width: 70%; margin: 50px auto;">
-        <h1 th:text="#{dashboard.label.dashboard}"></h1>
-        <hr>
-        <h2 th:text="#{dashboard.label.documentStatus}"></h2>
-        <div id="documentStatusList" style="margin-top: 20px"></div>
+    <div class="contents-list">
+        <div class="page-title">
+            <h1 th:text="#{dashboard.label.dashboard}"></h1>
+            <h6 class="title-close" th:text="#{dashboard.label.dashboard}"></h6>
+        </div>
+        <div id="documentStatusList" class="list"></div>
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">

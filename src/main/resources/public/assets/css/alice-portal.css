@@ -889,14 +889,18 @@ a {
   background-color: white;
   width: 22.5rem;
   font-size: 0.8125rem;
-  color: #0050ff;
-  border: 0.0625rem solid #0050ff;
+  color: #0098FF;
+  border: 0.0625rem solid #0098FF;
   border-radius: 0.0625rem;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
   position: absolute;
   z-index: 1;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
   line-height: 1.25rem;
+}
+.help-tooltip .tooltip-contents span {
+  color: #0098FF;
+  line-height: 2;
 }
 .help-tooltip:hover .tooltip-contents {
   visibility: visible;
