@@ -71,7 +71,7 @@
                         <div class="form-set">
                             <label th:text="#{user.label.department}" for="department"></label>
                             <div class="row">
-                                <input class="column-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" readonly>
+                                <input class="column-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" disabled>
                                 <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
                                 <input class="default-fill column-1" type="button" onclick="deptPopUp();" th:value="#{department.btn.selection}"/>
                             </div>

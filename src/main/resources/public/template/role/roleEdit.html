@@ -44,11 +44,11 @@
             <div class="scroll-wrap">
                 <div class="form-wrap">
                     <div class="form-set">
-                        <label th:text="'*' + #{role.label.id}"></label>
+                        <label th:text="#{role.label.id}" class="required"></label>
                         <input id="txtRoleId" name="txtRoleId" type="text" maxlength="100"/>
                     </div>
                     <div class="form-set">
-                        <label th:text="'*' + #{role.label.name}"></label>
+                        <label th:text="#{role.label.name}" class="required"></label>
                         <input id="txtRoleName" name="txtRoleName" type="text" maxlength="100" />
                     </div>
                     <div class="form-set">
@@ -121,7 +121,7 @@
             }
 
             if (document.getElementById('txtRoleId').value !== null && document.getElementById('txtRoleId').value !== '') {
-                document.getElementById('txtRoleId').setAttribute('readonly','true');
+                document.getElementById('txtRoleId').setAttribute('disabled','');
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
                 }
@@ -138,6 +138,7 @@
             }
 
             let roleList = document.querySelectorAll('td[name=roleName]');
+            roleList[0].parentElement.classList.add('active');
             onGetDetail(roleList[0].id);
 
             for(let i = 0; i < roleList.length; i++) {
@@ -186,7 +187,7 @@
                     document.getElementById('spanCreateDt').value = i18n.userDateTime(responseJson.createDt);
                     document.getElementById('spanUpdateUserKey').value = responseJson.updateUserName;
                     document.getElementById('spanUpdateDt').value = i18n.userDateTime(responseJson.updateDt);
-                    document.getElementById('txtRoleId').setAttribute('readonly','true');
+                    document.getElementById('txtRoleId').setAttribute('disabled','');
                     document.getElementById('userRoleMapCount').value = responseJson.userRoleMapCount;
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.userRoleMapCount);
@@ -213,7 +214,7 @@
         /*추가 버튼 */
         function onSearch() {
             document.getElementById('txtRoleId').value = '';
-            document.getElementById('txtRoleId').removeAttribute('readonly');
+            document.getElementById('txtRoleId').removeAttribute('disabled');
             document.getElementById('txtRoleName').value = '';
             document.getElementById('txtRoleDesc').value = '';
             let roleAuths = document.getElementsByName('roleAuth');

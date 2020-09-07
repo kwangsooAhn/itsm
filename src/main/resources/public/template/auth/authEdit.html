@@ -30,12 +30,12 @@
             <div class="scroll-wrap">
                 <div class="form-wrap">
                     <div class="form-set">
-                        <label th:text="#{auth.label.authName}"></label>
+                        <label th:text="#{auth.label.authName}" class="required"></label>
                         <input id="txtAuthName" name="txtAuthName" type="text">
                         <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
                     </div>
                     <div class="form-set">
-                        <label th:text="#{auth.label.authId}"></label>
+                        <label th:text="#{auth.label.authId}" class="required"></label>
                         <input id="txtAuthId" name="txtAuthId" type="text">
                     </div>
                     <div class="form-set">
@@ -106,7 +106,7 @@
                 AUTH_DELETE = true;
             }
             if (document.getElementById('txtAuthId').value !== null && document.getElementById('txtAuthId').value !== '') {
-                document.getElementById('txtAuthId').setAttribute('readonly','true');
+                document.getElementById('txtAuthId').setAttribute('disabled','');
                 if (AUTH_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'inline-block';
                 }
@@ -164,7 +164,7 @@
         /* 추가 버튼 */
         function onCreate() {
             document.getElementById('txtAuthId').value = '';
-            document.getElementById('txtAuthId').removeAttribute('readonly');
+            document.getElementById('txtAuthId').removeAttribute('disabled');
             document.getElementById('txtAuthName').value = '';
             document.getElementById('txtAuthDesc').value = '';
 
@@ -195,12 +195,12 @@
         /* 등록, 수정 버튼 */
         function onSave(flag) {
             // validation
-            if (isOrOperator(isNull('txtAuthId', null), isEmpty('txtAuthId', null), 'auth.msg.enterAuthId')) return;
-            if (isOrOperator(isNull('txtAuthName', null), isEmpty('txtAuthName', null), 'auth.msg.enterAuthName')) return;
+            if (isOrOperator(isNull('txtAuthName'), isEmpty('txtAuthName'), 'auth.msg.enterAuthName')) return;
+            if (isOrOperator(isNull('txtAuthId'), isEmpty('txtAuthId'), 'auth.msg.enterAuthId')) return;
 
             let authIds = [];
             let authNames = [];
-            let validList = document.querySelectorAll('td[name=authName]')
+            let validList = document.querySelectorAll('td[name=authName]');
             for(let i = 0; i < validList.length; i++) {
                 authIds.push(validList[i].id);
                 authNames.push(validList[i].text);
@@ -366,7 +366,7 @@
                         }
                     });
 
-                    document.getElementById('txtAuthId').setAttribute('readonly','true');
+                    document.getElementById('txtAuthId').setAttribute('disabled','');
                     document.getElementById('roleAuthMapCount').value = responseJson.roleAuthMapCount;
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.roleAuthMapCount);
