@@ -49,8 +49,8 @@
             }
             document.getElementById('fromDt').value = i18n.getDate({'months':-1});
             document.getElementById('searchToDt').value = i18n.getDate();
+            dateTimePicker.initDatePicker('fromDt', setDatePicker);
             dateTimePicker.initDatePicker('searchToDt', setDatePicker);
-            dateTimePicker.initDatePicker('toDt', setDatePicker);
             document.getElementById('boardAdminId').addEventListener('change', function() { getBoardList(false); });
             document.getElementById('search').addEventListener('keyup', function() { getBoardList(false); });
             getBoardList(false);
