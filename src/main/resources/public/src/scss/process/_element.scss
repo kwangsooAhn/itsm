@@ -17,30 +17,30 @@ svg {
 
             .node.task.userTask,
             .element-type.task.userTask {
-                stroke: #0099ff;
+                stroke: #1CC7D0;
             }
 
             .node.task.manualTask,
             .element-type.task.manualTask {
-                stroke: #23c8c1;
+                stroke: #2ECE7E;
             }
 
             .node.task.scriptTask,
             .element-type.task.scriptTask {
-                stroke: #66cc00;
+                stroke: #93C431;
             }
 
             .node.subprocess,
             .element-type.subprocess {
-                stroke: #6774ff;
+                stroke: #CF87FF;
             }
 
             .node.gateway {
-                stroke: #fac900;
+                stroke: #FFC336;
             }
 
             .node.event {
-                stroke: #ff6f61;
+                stroke: #FF5EAF;
             }
 
             .node.event.commonEnd,
@@ -69,7 +69,7 @@ svg {
             }
 
             text {
-                fill: #3E4752;
+                fill: $light-black;
                 font: {
                     weight: bold;
                     size: 0.813rem; // 13px
@@ -84,7 +84,7 @@ svg {
             .node,
             .element-type.task,
             .element-type.subprocess {
-                stroke: #0050ff !important;
+                stroke: $point-blue !important;
                 stroke-width: 2 !important;
             }
 
@@ -103,7 +103,7 @@ svg {
             }
 
             .node.selected {
-                stroke: #0050ff !important;
+                stroke: $point-blue !important;
                 stroke-width: 2 !important;
 
                 &.error {
@@ -112,7 +112,7 @@ svg {
             }
 
             text {
-                fill: #3E4752;
+                fill: $light-black;
                 font: {
                     weight: bold;
                     size: 0.813rem; // 13px
@@ -128,7 +128,7 @@ svg {
         g.connector {
             path.connector {
                 fill: none;
-                stroke: #596f7a;
+                stroke: $dark-gray;
                 stroke-width: 1;
                 cursor: default;
             }
@@ -138,7 +138,7 @@ svg {
                 stroke-width: 2;
 
                 &.error {
-                    stroke: #ff405a !important;
+                    stroke: $point-blue !important;
                 }
             }
 
@@ -158,7 +158,7 @@ svg {
             }
 
             text {
-                fill: #3E4752;
+                fill: $light-black;
                 font: {
                     weight: bold;
                     size: 0.813rem; // 13px
@@ -168,16 +168,16 @@ svg {
             }
 
             text.selected {
-                fill: #0c4dcd;
+                fill: $point-blue;
             }
 
             circle.pointer {
-                fill: #596f7a;
+                fill: $point-blue;
                 cursor: move;
             }
 
             circle.pointer.move {
-                fill: #5887f9;
+                fill: $point-blue;
             }
         }
     }

@@ -1357,8 +1357,8 @@
             .attr('class', 'element-type event')
             .attr('width', typeImageSize)
             .attr('height', typeImageSize)
-            .attr('x', x - (typeImageSize / 2))
-            .attr('y', y - (typeImageSize / 2))
+            .attr('x', x - Math.floor(typeImageSize / 2))
+            .attr('y', y - Math.floor(typeImageSize / 2))
             .style('fill', 'url(#event-' + self.defaultType + '-element)')
             .on('mouseover', elementMouseEventHandler.mouseover)
             .on('mouseout', elementMouseEventHandler.mouseout)
@@ -1384,7 +1384,7 @@
      */
     function GatewayElement(x, y) {
         const self = this;
-        const size = displayOptions.gatewaySize, typeImageSize = 21;
+        const size = displayOptions.gatewaySize, typeImageSize = 16;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('gateway');
 

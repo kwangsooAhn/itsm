@@ -964,25 +964,25 @@ svg g.element-container g.element .element-type.subprocess {
 }
 svg g.element-container g.element .node.task.userTask,
 svg g.element-container g.element .element-type.task.userTask {
-  stroke: #0099ff;
+  stroke: #1CC7D0;
 }
 svg g.element-container g.element .node.task.manualTask,
 svg g.element-container g.element .element-type.task.manualTask {
-  stroke: #23c8c1;
+  stroke: #2ECE7E;
 }
 svg g.element-container g.element .node.task.scriptTask,
 svg g.element-container g.element .element-type.task.scriptTask {
-  stroke: #66cc00;
+  stroke: #93C431;
 }
 svg g.element-container g.element .node.subprocess,
 svg g.element-container g.element .element-type.subprocess {
-  stroke: #6774ff;
+  stroke: #CF87FF;
 }
 svg g.element-container g.element .node.gateway {
-  stroke: #fac900;
+  stroke: #FFC336;
 }
 svg g.element-container g.element .node.event {
-  stroke: #ff6f61;
+  stroke: #FF5EAF;
 }
 svg g.element-container g.element .node.event.commonEnd,
 svg g.element-container g.element .node.event.messageEnd {
@@ -1005,7 +1005,7 @@ svg g.element-container g.element .annotation {
   stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
 }
 svg g.element-container g.element text {
-  fill: #3E4752;
+  fill: #3F4B56;
   font-weight: bold;
   font-size: 0.813rem;
   text-anchor: middle;
@@ -1015,7 +1015,7 @@ svg g.element-container g.element text {
 svg g.element-container g.element.selected .node,
 svg g.element-container g.element.selected .element-type.task,
 svg g.element-container g.element.selected .element-type.subprocess {
-  stroke: #0050ff !important;
+  stroke: #0098FF !important;
   stroke-width: 2 !important;
 }
 svg g.element-container g.element.selected.error {
@@ -1027,14 +1027,14 @@ svg g.group-artifact-container g.element .group {
   stroke-dasharray: 5, 5;
 }
 svg g.group-artifact-container g.element .node.selected {
-  stroke: #0050ff !important;
+  stroke: #0098FF !important;
   stroke-width: 2 !important;
 }
 svg g.group-artifact-container g.element .node.selected.error {
   stroke: #ff405a !important;
 }
 svg g.group-artifact-container g.element text {
-  fill: #3E4752;
+  fill: #3F4B56;
   font-weight: bold;
   font-size: 0.813rem;
   text-anchor: middle;
@@ -1043,7 +1043,7 @@ svg g.group-artifact-container g.element text {
 }
 svg g.connector-container g.connector path.connector {
   fill: none;
-  stroke: #596f7a;
+  stroke: #586872;
   stroke-width: 1;
   cursor: default;
 }
@@ -1052,7 +1052,7 @@ svg g.connector-container g.connector path.connector.selected {
   stroke-width: 2;
 }
 svg g.connector-container g.connector path.connector.selected.error {
-  stroke: #ff405a !important;
+  stroke: #0098FF !important;
 }
 svg g.connector-container g.connector path.connector.is-default {
   stroke-width: 3;
@@ -1067,21 +1067,21 @@ svg g.connector-container g.connector path.painted-connector {
   pointer-events: stroke;
 }
 svg g.connector-container g.connector text {
-  fill: #3E4752;
+  fill: #3F4B56;
   font-weight: bold;
   font-size: 0.813rem;
   dominant-baseline: text-before-edge;
   user-select: none;
 }
 svg g.connector-container g.connector text.selected {
-  fill: #0c4dcd;
+  fill: #0098FF;
 }
 svg g.connector-container g.connector circle.pointer {
-  fill: #596f7a;
+  fill: #0098FF;
   cursor: move;
 }
 svg g.connector-container g.connector circle.pointer.move {
-  fill: #5887f9;
+  fill: #0098FF;
 }
 svg defs marker path {
   fill: #596f7a;
