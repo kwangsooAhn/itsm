@@ -218,7 +218,8 @@
                 </div>
                 <div class="property-field" id="name">
                     <label class="property-name" for="name" th:text="#{form.properties.name}"></label>
-                    <input type="text" class="property-value" maxlength="20">
+                    <span class="required"></span>
+                    <input type="text" class="property-value" id="form_name" required="required" maxlength="20">
                 </div>
                 <div class="property-field" id="desc">
                     <label class="property-name" for="desc" th:text="#{form.properties.desc}"></label>

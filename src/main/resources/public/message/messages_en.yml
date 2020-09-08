@@ -424,6 +424,7 @@ form:
     min: "Please enter at least {0}."
     minLength: "Please enter at least {0} characters."
     number: "Please enter only numbers."
+    required: "Please enter the required item."
     selectImportFile: "Please select an import file."
   component:
     checkbox: "Checkbox"
