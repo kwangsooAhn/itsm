@@ -243,7 +243,7 @@ select:focus {
 label {
   display: inline-block;
   color: #3E4752;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 500;
   margin-bottom: 0.5rem;
   margin-top: 1rem;
@@ -962,7 +962,7 @@ a {
   border-radius: 0.063rem;
   display: inline-block;
   text-align: center;
-  font-size: 0.875rem;
+  font-size: 1rem;
   vertical-align: middle;
   padding: 0.75rem 0.625rem;
 }
@@ -1010,7 +1010,7 @@ a {
   flex-basis: 100%;
   align-items: center;
   color: #ACB4BF;
-  font-size: 0.875rem;
+  font-size: 1rem;
   margin: 4rem 0 4rem 0;
 }
 .login-divide::before {
@@ -1037,7 +1037,7 @@ a {
   margin-top: 6.188rem;
   height: 1.063rem;
   display: flex;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 400;
   color: #7b8593;
   text-align: center;
