@@ -296,32 +296,39 @@ aliceJs.sendXhr = function (option) {
  */
 function showProgressBar() {
     //divProgressBar 적용이 되지 않을떄는 그냥 넘어가도록 조치
-    var divCheck = document.getElementById('divProgressBar');
+    let divCheck = document.getElementById('divProgressBar');
     if (divCheck === null) {
-        var divProgressBar = document.createElement('div');
+        let divProgressBar = document.createElement('div');
         divProgressBar.id = 'divProgressBar';
         divProgressBar.style.position = 'fixed';
         divProgressBar.style.display = 'block';
         divProgressBar.style.width = '100%';
         divProgressBar.style.height = '100%';
         divProgressBar.style.top = '0';
-        divProgressBar.style.left = '0';
-        divProgressBar.style.right = '0';
         divProgressBar.style.bottom = '0';
         divProgressBar.style.backgroundColor = 'grey';
-        divProgressBar.style.opacity = 0.5;    
+        divProgressBar.style.opacity = 0.5;
         divProgressBar.style.pointerEvents = 'all';
+        divProgressBar.style.zIndex = 999;
         
-        var imgProgressBar = document.createElement('img');
+        let imgProgressBar = document.createElement('img');
         imgProgressBar.src = '/assets/media/image/loading_w_dark.gif';
         imgProgressBar.style.position = 'absolute';
-        imgProgressBar.style.left = '50%';
+        if (document.querySelector('.container') !== null) {
+            imgProgressBar.style.left = '42%';
+        } else {
+            imgProgressBar.style.left = '50%';
+        }
         imgProgressBar.style.top = '0';
         imgProgressBar.style.bottom = '0';
         imgProgressBar.style.margin = 'auto';
         if (divProgressBar && document.body) {
             divProgressBar.appendChild(imgProgressBar);
-            document.body.appendChild(divProgressBar);
+            if (document.querySelector('.container') !== null) {
+                document.querySelector('.container').appendChild(divProgressBar);
+            } else {
+                document.body.appendChild(divProgressBar);
+            }
         }
     } else {
         return false;
