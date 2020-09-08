@@ -74,10 +74,10 @@ insert into awf_menu_auth_map values ('workflow.customCode', 'custom.code.read')
 insert into awf_menu_auth_map values ('workflow.customCode', 'custom.code.update');
 insert into awf_menu_auth_map values ('workflow.customCode', 'custom.code.delete');
 insert into awf_menu_auth_map values ('workflow.customCode', 'custom.code.create');
-insert into awf_menu_auth_map values ('workflow.document', 'document.admin.create');
-insert into awf_menu_auth_map values ('workflow.document', 'document.admin.update');
-insert into awf_menu_auth_map values ('workflow.document', 'document.admin.delete');
-insert into awf_menu_auth_map values ('workflow.document', 'document.admin.read');
+insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'document.admin.create');
+insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'document.admin.update');
+insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'document.admin.delete');
+insert into awf_menu_auth_map values ('workflow.workflowAdmin', 'document.admin.read');
 insert into awf_menu_auth_map values ('workflow.form', 'form.delete');
 insert into awf_menu_auth_map values ('workflow.form', 'form.create');
 insert into awf_menu_auth_map values ('workflow.form', 'form.read');

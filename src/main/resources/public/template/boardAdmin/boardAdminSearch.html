@@ -147,10 +147,12 @@
             let tdCategory = document.createElement('td');
             let aCategory = document.createElement('a');
             if (data.categoryYn === true) {
-                aCategory.innerText = i18n.get('board.btn.category');
-                aCategory.onclick = function () {
-                    openCategoryEdit(data.boardAdminId);
-                };
+                aCategory.innerText = i18n.msg('board.btn.category');
+                if (document.getElementsByName('isRole')[0].value === 'true') {
+                    aCategory.onclick = function () {
+                        openCategoryEdit(data.boardAdminId);
+                    };
+                }
             }
             tdCategory.appendChild(aCategory);
             tdCategory.style.width = '10%';

@@ -21,3 +21,5 @@ COMMENT ON COLUMN awf_ip_verification.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_ip_verification.create_dt IS '등록일';
 COMMENT ON COLUMN awf_ip_verification.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_ip_verification.update_dt IS '수정일';
+
+insert into awf_ip_verification values ('0:0:0:0:0:0:0:1');

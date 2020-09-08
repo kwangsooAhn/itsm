@@ -119,6 +119,7 @@ object RestTemplateConstants {
         DELETE_DOCUMENT("/rest/wf/documents/{documentId}", "DELETE"),
         GET_DOCUMENTS_DISPLAY("/rest/wf/documents/{documentId}/display", "GET"),
         PUT_DOCUMENTS_DISPLAY("/rest/wf/documents/{documentId}/display", "PUT"),
+        GET_INSTANCE("/rest/wf/instances/{instanceId}", "GET"),
         GET_INSTANCES("/rest/wf/instances", "GET"),
         GET_INSTANCES_COUNT("/rest/wf/instances/count", "GET"),
         TASK_COMPLETE("/rest/wf/tasks/{instanceId}/complete", "PUT"),

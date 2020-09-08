@@ -43,6 +43,10 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
+        window.onload = function() {
+            document.getElementById('form_name').focus();
+        }
+
         // 폼 등록
         function saveForm(formId) {
             // 빈 값 체크

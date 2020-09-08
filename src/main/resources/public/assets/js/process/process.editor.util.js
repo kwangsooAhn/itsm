@@ -310,26 +310,28 @@
         const container = document.createElement('div');
 
         const nameContent = document.createElement('div');
+        nameContent.className = 'gmodal-input';
         const nameLabel = document.createElement('label');
         nameLabel.className = 'gmodal-input-label';
         nameLabel.htmlFor = 'process_name';
         nameLabel.textContent = i18n.msg('process.label.name');
         nameContent.appendChild(nameLabel);
         const nameTextObject = document.createElement('input');
-        nameTextObject.className = 'gmodal-input';
+        nameTextObject.className = 'gmodal-input-text';
         nameTextObject.id = 'process_name';
         nameTextObject.textContent = aliceProcessEditor.data.process.name;
         nameContent.appendChild(nameTextObject);
         container.appendChild(nameContent);
 
         const descContent = document.createElement('div');
+        descContent.className = 'gmodal-input';
         const descLabel = document.createElement('label');
         descLabel.className = 'gmodal-input-label';
         descLabel.htmlFor = 'process_description';
         descLabel.textContent = i18n.msg('process.label.description');
         descContent.appendChild(descLabel);
         const descTextareaObject = document.createElement('textarea');
-        descTextareaObject.className = 'gmodal-input';
+        descTextareaObject.className = 'gmodal-input-textarea';
         descTextareaObject.rows = 3;
         descTextareaObject.id = 'process_description';
         descContent.appendChild(descTextareaObject);
@@ -355,11 +357,11 @@
         const checkRequired = function () {
             let nameTextObject = document.getElementById('process_name');
             if (nameTextObject.value.trim() === '') {
-                nameTextObject.style.backgroundColor = '#ff000040';
+                nameTextObject.style.borderColor = '#FF405A';
                 document.querySelector('.gmodal-required').style.display = 'block';
                 return false;
             }
-            nameTextObject.style.backgroundColor = '';
+            nameTextObject.style.borderColor = '';
             document.querySelector('.gmodal-required').style.display = 'none';
             return true;
         };
@@ -393,11 +395,13 @@
         /**
          * 다른 이름으로 저장하기 모달 저장 CallBack.
          */
-        const saveAsCallBack = function () {
+        const saveAsCallBack = function() {
             if (checkRequired()) {
                 saveAs();
+                return true;
             }
-        }
+            return false;
+        };
 
         /**
          * 다른 이름으로 저장하기 모달.
