@@ -223,7 +223,6 @@
      */
     function addButton(buttonData) {
         if (buttonData !== undefined && buttonData !== '') {
-           console.log(documentContainer.hasAttribute('data-readonly'));
             buttonData.forEach(function(element) {
                 if (element.name !== '') {
                     let buttonProcessEle = document.createElement('button');
@@ -739,7 +738,6 @@
                 responseObject.form.components = aliceForm.reformatCalendarFormat('read', responseObject.form.components);
                 // dataForPrint 변수가 전역으로 무슨 목적이 있는 것 같아 그대로 살려둠.
                 dataForPrint = responseObject;
-                console.log(responseObject);
                 drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
