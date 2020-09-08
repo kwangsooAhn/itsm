@@ -3,11 +3,13 @@ package co.brainz.itsm.instance.service
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -35,6 +37,20 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
             histories = mapper.readValue(restTemplate.get(urlDto))
         }
         return histories
+    }
+
+    fun getInstance(instanceId: String): RestTemplateInstanceDto {
+        val instanceUrlDto = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Workflow.GET_INSTANCE.url.replace(
+                restTemplate.getKeyRegex(),
+                instanceId
+            )
+        )
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
+        return mapper.readValue(
+            restTemplate.get(instanceUrlDto),
+            mapper.typeFactory.constructType(RestTemplateInstanceDto::class.java)
+        )
     }
 
     fun getInstanceId(tokenId: String): String? {

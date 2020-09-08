@@ -14,6 +14,7 @@ import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
@@ -189,11 +190,15 @@ class WfInstanceService(
      * 인스턴스ID [instanceId] 로 인스턴스 정보를 조회한다.
      *
      */
-    fun instance(instanceId: String): RestTemplateInstanceViewDto {
-        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        return mapper.convertValue(
-            wfInstanceRepository.findByInstanceId(instanceId),
-            RestTemplateInstanceViewDto::class.java
+    fun instance(instanceId: String): RestTemplateInstanceDto {
+        val instance = wfInstanceRepository.findByInstanceId(instanceId)!!
+        return RestTemplateInstanceDto(
+            instanceId = instance.instanceId,
+            documentNo = instance.documentNo,
+            documentId = instance.document.documentId,
+            instanceCreateUser = instance.instanceCreateUser?.userKey,
+            instanceStatus = instance.instanceStatus,
+            pTokenId = instance.pTokenId
         )
     }
 

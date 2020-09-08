@@ -28,7 +28,8 @@
             const printInfo = document.getElementById('printInfo');
             printInfo.innerHTML = aliceForm.session.userName + ' ['
                 + aliceForm.session.email + ']<br>'
-                + i18n.printFormat(/*[[${time}]]*/'');
+                + i18n.printFormat(/*[[${time}]]*/'') + '<br>'
+                + [[${documentNo}]];
 
             let data = sessionStorage.getItem('alice_print');
             aliceForm.init(aliceDocument.drawDocument, data);
