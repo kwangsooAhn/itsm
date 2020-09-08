@@ -89,7 +89,7 @@
                                 <h5 class="dateFormatFromNow" th:text="${rInstance.instanceStartDt}"></h5>
                                 <span class="vertical-bar"></span>
 <!--                                    <h5 th:text="${rInstance.status}"></h5>-->
-                                <h5>처리완료</h5>
+                                <h5 th:text="#{token.label.completed}"></h5>
                             </div>
                         </div>
                     </div>
@@ -175,8 +175,8 @@
             document.querySelectorAll('.dateFormatFromNow').forEach((ele) => {
                 ele.textContent = dateFormatFromNow(ele.textContent);
             });
-
-            OverlayScrollbars(document.querySelectorAll('.list-wrap'), { className: 'scrollbar' });
+            // TODO: 처리 이력, 관련문서 등 스크롤 적용 필요
+            //OverlayScrollbars(document.querySelectorAll('.list-wrap'), { className: 'scrollbar' });
         };
 
         function onAddTag(tag) {

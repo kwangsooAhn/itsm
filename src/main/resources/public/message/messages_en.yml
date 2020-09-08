@@ -664,6 +664,7 @@ token:
   label:
     all: "All Document"
     assignee: "Assignee"
+    completed: "Completed Documents"
     elementName: "Task Name"
     endDt: "Finish Date"
     history: "History"
@@ -674,6 +675,7 @@ token:
     startDt: "Start Date"
     status: "Status"
     write: "My Document"
+    view: "Document View"
   msg:
     tag: "Insert tags."
     description: "View all documents relating to me."
