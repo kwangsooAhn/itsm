@@ -229,6 +229,10 @@
                     buttonProcessEle.type = 'button';
                     buttonProcessEle.className = 'default-fill';
                     buttonProcessEle.innerText = element.name;
+                    // 문서가 view 일 경우, 닫기 버튼을 제외하곤 disabled 처리한다.
+                    if (documentContainer.hasAttribute('data-readonly') && element.value !== 'close') {
+                        buttonProcessEle.disabled = true;
+                    }
                     buttonProcessEle.addEventListener('click', function () {
                        if (element.value === 'close') {
                            if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.

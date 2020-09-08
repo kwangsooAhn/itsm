@@ -21,7 +21,9 @@
 }
 /*미리 보기*/
 .drawing-board[data-readonly=true] {
+    input[type=button],
     input[type=text],
+    select,
     textarea,
     button,
     .ql-toolbar,

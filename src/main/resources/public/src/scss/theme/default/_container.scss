@@ -135,8 +135,12 @@ span.vertical-bar {
 
     &-document {
         justify-content: flex-end;
+        overflow: hidden;
         .token-document {
             flex: 1;
+            overflow: auto;
+            scrollbar-width: none; /* Firefox */
+            &::-webkit-scrollbar { display: none; /* Chrome, Safari, Opera*/ }
             & > div { margin: 0 auto;}
         }
         .token-info {
@@ -159,6 +163,8 @@ span.vertical-bar {
                 }
             }
             &-contents {
+                height: 37.5rem; // 600px
+                overflow-y: auto;
                 .token {
                     &-tag {
                         display: none;

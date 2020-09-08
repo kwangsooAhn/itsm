@@ -3,7 +3,7 @@
         xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
         layout:decorator="form/formCore">
 <head>
-    <title th:text="#{token.label.write}"></title>
+    <title th:text="#{token.label.view}"></title>
 </head>
 <th:block layout:fragment="css">
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
@@ -48,9 +48,9 @@
                         </colgroup>
                         <thead>
                         <tr>
-                            <th th:text="#{token.label.startDt}">시작일시</th>
-                            <th th:text="#{token.label.elementName}">업무</th>
-                            <th th:text="#{token.label.assignee}">담당자</th>
+                            <th th:text="#{token.label.startDt}"></th>
+                            <th th:text="#{token.label.elementName}"></th>
+                            <th th:text="#{token.label.assignee}"></th>
                         </tr>
                         </thead>
                         <tbody id="history" class="list-wrap">
@@ -64,7 +64,6 @@
                 </div>
                 <div class="token-related">
                     <div class="list-item" th:each="rInstance: ${relatedInstance}">
-<!--                        <div class="document-color" style="background-color: ${rInstance.documentColor}"></div>-->
                         <div class="document-color" style="background-color: blue;"></div>
                         <div class="document-row">
                             <div class="document-row-content">
@@ -77,18 +76,15 @@
                                 <div class="trash-icon"></div>
                             </div>
                             <div class="document-row-topic">
-<!--                            <h4 th:each="topic: ${rInstance.topics}" th:text="${topic}"></h4>-->
                             </div>
                             <div class="document-row-info">
                                 <div class="document-user">
-<!--                                        <img class="profile-photo" alt="profile pic" th:src="${rInstance.avatarPath}">-->
                                     <img class="profile-photo" src="/assets/media/image/avatar/profile_sample.jpg">
                                     <h5 th:text="${rInstance.instanceCreateUserName}"></h5>
                                 </div>
                                 <span class="vertical-bar"></span>
                                 <h5 class="dateFormatFromNow" th:text="${rInstance.instanceStartDt}"></h5>
                                 <span class="vertical-bar"></span>
-<!--                                    <h5 th:text="${rInstance.status}"></h5>-->
                                 <h5 th:text="#{token.label.completed}"></h5>
                             </div>
                         </div>
@@ -101,7 +97,6 @@
                     <div class="list-item" th:each="comment : ${commentList}">
                         <div class="comment-row-info">
                             <div class="comment-user">
-<!--                            <img class="profile-photo" alt="profile pic" th:src="${rInstance.avatarPath}">-->
                                 <img class="profile-photo" src="/assets/media/image/avatar/profile_sample.jpg">
                                 <h5 th:text="${comment.createUserName}"></h5>
                             </div>
@@ -132,6 +127,9 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
+            // view 일 경우, 컴포넌트들의 세부 값을 편집 할 수 없음
+            document.getElementById('document-panel').setAttribute('data-readonly', true);
+
             aliceForm.init(aliceDocument.initToken, '[[${tokenId}]]');
             var tokenDtEle = document.querySelectorAll('td[name=tokenDt]');
             for (let i = 0; i < tokenDtEle.length; i++) {

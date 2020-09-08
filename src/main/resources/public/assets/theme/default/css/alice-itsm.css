@@ -640,9 +640,15 @@ span.vertical-bar {
 }
 .container-document {
   justify-content: flex-end;
+  overflow: hidden;
 }
 .container-document .token-document {
   flex: 1;
+  overflow: auto;
+  scrollbar-width: none;
+}
+.container-document .token-document::-webkit-scrollbar {
+  display: none;
 }
 .container-document .token-document > div {
   margin: 0 auto;
@@ -666,6 +672,10 @@ span.vertical-bar {
 .container-document .token-info-tab .active {
   border-bottom: 0.25rem solid #0098FF;
   color: #3F4B56;
+}
+.container-document .token-info-contents {
+  height: 37.5rem;
+  overflow-y: auto;
 }
 .container-document .token-info-contents .token-tag {
   display: none;
