@@ -34,9 +34,7 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
-        var offsetCount = 0;
-        const offsetSize = 15;
-
+        let offsetCount = 0;
         window.onload = function() {
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
                 search.addEventListener('keyup', function() {
@@ -44,21 +42,13 @@
                 });
             });
             documentSearches(false);
-
-            /*OverlayScrollbars(document.querySelector('.list-body'), {
-                className: 'scrollbar',
-            });*/
         };
 
         function documentSearches(isScroll) {
-            /*restSubmit('GET', '/documents/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result) {
-                document.getElementById('documentList').innerHTML = result;
-            }, isShowProgressBar);*/
-
             let urlParam = '';
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = offsetSize;
+                    offsetCount = aliceJs.searchDataCount;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
                 restSubmit('get', '/rest/documents?' + urlParam, isScroll);
@@ -84,8 +74,8 @@
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
                             document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (scrollerEventCheck()) {
-                                offsetCount = offsetCount + offsetSize;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
@@ -93,16 +83,15 @@
                         }
                     } else {
                         document.getElementById('documentList').innerHTML = response.responseText;
-                        OverlayScrollbars(document.querySelector('.list-body'), {
+                        OverlayScrollbars(document.querySelector('.service-request'), {
                             className: 'scrollbar',
                             callbacks: {
                                 onScroll: function(e) {
                                     const scrollHeight = e.target.scrollHeight;
                                     const scrollTop = e.target.scrollTop;
                                     const clientHeight = e.target.clientHeight;
-                                    // 스크롤이 맨 마지막에 있을 경우
                                     if (scrollHeight - scrollTop === clientHeight) {
-                                        if (scrollerEventCheck()) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                             documentSearches(true);
                                         }
                                     }
@@ -115,76 +104,40 @@
             aliceJs.sendXhr(opt);
         }
 
-        // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
-        function scrollerEventCheck() {
-            let scrollerCheck = true;
-            let totalCount = document.getElementById('totalCount').value;
-            if (offsetCount < totalCount) {
-                scrollerCheck = true;
-            }
-            return scrollerCheck;
-        }
-
-        // Tr 동적 데이터 만들기
+        // Div 동적 데이터 만들기
         function getDataTemplate(data) {
-            /*let div = document.querySelector('.os-content');
-            let tr = document.createElement('tr');
+            let divCardArea = document.querySelector('.card-area');
+            let div = document.createElement('div');
 
-            let tdNoticeTitle = document.createElement('td');
-            tdNoticeTitle.style.width = '30%';
-            tdNoticeTitle.className = 'align-left';
-            let aNoticeTitle = document.createElement('a');
+            let aCard = document.createElement('a');
             if (document.getElementsByName('isRole')[0].value === 'true') {
-                aNoticeTitle.href = '/notices/'+ data.noticeNo +'/edit';
-            } else {
-                aNoticeTitle.href = '/notices/'+ data.noticeNo +'/view';
-            }
-            aNoticeTitle.innerText = data.noticeTitle;
-            tdNoticeTitle.appendChild(aNoticeTitle);
-
-            let tdPopYn = document.createElement('td');
-            tdPopYn.style.width = '5%';
-            let aPopYn = document.createElement('a');
-            if (data.popYn === true) {
-                let imgPopYn = document.createElement('img');
-                let theme = '[[${#authentication.details.theme}]]'.split('"');
-                imgPopYn.src = '/assets/theme/' + theme[1] +
-                    '/icons/icon_popup.svg';
-                imgPopYn.onclick = function() {
-                    openPopUp(data.noticeNo, data.popWidth, data.popHeight);
+                aCard.onclick = function () {
+                    openDocument(data.documentId);
                 }
-                aPopYn.appendChild(imgPopYn);
-                tdPopYn.appendChild(aPopYn);
             }
 
-            let tdUserName = document.createElement('td');
-            tdUserName.innerText = data.createUserName;
-            tdUserName.style.width = '10%';
+            let divDocumentCard = document.createElement('div');
+            divDocumentCard.className = 'document-card';
 
-            let tdPopDt = document.createElement('td');
-            if (i18n.userDateTime(data.popStrtDt) !== '') {
-                tdPopDt.innerText = i18n.userDateTime(data.popStrtDt) + ' ~ ' + i18n.userDateTime(data.popStrtDt);
-            }
-            tdPopDt.style.width = '20%';
+            let h3Card = document.createElement('h3');
+            h3Card.innerText = data.documentName;
 
-            let tdNoticeDt = document.createElement('td');
-            if (i18n.userDateTime(data.topNoticeStrtDt) !== '') {
-                tdNoticeDt.innerText = i18n.userDateTime(data.topNoticeStrtDt) + ' ~ ' +
-                    i18n.userDateTime(data.topNoticeEndDt);
-            }
-            tdNoticeDt.style.width = '20%';
+            let h5Card = document.createElement('h5');
+            h5Card.innerText = data.documentDesc;
 
-            let tdCreateDt = document.createElement('td');
-            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
-            tdCreateDt.style.width = '15%';
+            let divDocumentIcon = document.createElement('div');
+            divDocumentIcon.className = 'document-icon';
 
-            tr.appendChild(tdNoticeTitle);
-            tr.appendChild(tdPopYn);
-            tr.appendChild(tdUserName);
-            tr.appendChild(tdPopDt);
-            tr.appendChild(tdNoticeDt);
-            tr.appendChild(tdCreateDt);
-            div.appendChild(tr);*/
+            let imgDocumentIcon = document.createElement('img');
+            imgDocumentIcon.src = '/assets/media/image/document/' + data.documentIcon;
+            divDocumentIcon.appendChild(imgDocumentIcon);
+
+            divDocumentCard.appendChild(h3Card);
+            divDocumentCard.appendChild(h5Card);
+            divDocumentCard.appendChild(divDocumentIcon);
+            aCard.appendChild(divDocumentCard);
+            div.appendChild(aCard);
+            divCardArea.appendChild(div);
         }
 
         /*]]>*/
@@ -201,15 +154,25 @@
             <div class="search-area">
                 <div class="left">
                     <form id="searchDocumentsFrm">
-                        <input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}" class="search"/>
-                        <input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}" class="search"/>
-                        <input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
-                        <input sec:authorize="hasAuthority('document.read.admin')" type="hidden" id="viewType" name="viewType" value="admin">
+                        <input type="text" id="searchDocuments" name="searchDocuments"
+                               th:placeholder="#{document.label.searchPlaceholder}" class="search column-3"/>
+                        <input type="text" id="searchProcessName" name="searchProcessName"
+                               th:placeholder="#{document.label.process}" class="search"/>
+                        <input type="text" id="searchFormName" name="searchFormName"
+                               th:placeholder="#{document.label.form}" class="search"/>
+                        <input sec:authorize="hasAuthority('document.read.admin')"
+                               type="hidden" id="viewType" name="viewType" value="admin"/>
+                        <input type="hidden" id="searchDocumentType" name="searchDocumentType"
+                               value="application-form"/>
                     </form>
                 </div>
             </div>
         </div>
-        <div id="documentList" class="service-request"></div>
+        <div class="service-request">
+            <input type="hidden" sec:authorize="hasAuthority('document.create')" th:name="isRole" th:value="true"/>
+            <input type="hidden" sec:authorize="!hasAuthority('document.create')" th:name="isRole" th:value="false"/>
+            <div id="documentList"></div>
+        </div>
     </div>
 </th:block>
 </body>
