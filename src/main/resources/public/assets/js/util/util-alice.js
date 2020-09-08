@@ -314,7 +314,11 @@ function showProgressBar() {
         let imgProgressBar = document.createElement('img');
         imgProgressBar.src = '/assets/media/image/loading_w_dark.gif';
         imgProgressBar.style.position = 'absolute';
-        imgProgressBar.style.left = '50%';
+        if (document.querySelector('.container') !== null) {
+            imgProgressBar.style.left = '42%';
+        } else {
+            imgProgressBar.style.left = '50%';
+        }
         imgProgressBar.style.top = '0';
         imgProgressBar.style.bottom = '0';
         imgProgressBar.style.margin = 'auto';
