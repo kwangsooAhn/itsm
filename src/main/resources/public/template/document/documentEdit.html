@@ -110,7 +110,7 @@
         let beforeDocumentStatus = null;
 
         window.onload = function() {
-            if (documentId  !== '') {
+            if (documentId !== '' && documentId !== null) {
                 aliceJs.sendXhr({
                     method: 'GET',
                     url: '/rest/documents-admin/' + documentId,
