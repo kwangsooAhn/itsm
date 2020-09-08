@@ -237,13 +237,13 @@
         const createDialogContent = function() {
             return `
                 <div>
-                    <div>
-                        <label class="gmodal-input-label" for="form_name">${i18n.get('form.label.name')}<span class="required">*</span></label>
-                        <input class="gmodal-input" id="form_name">
+                    <div class="gmodal-input">
+                        <label class="gmodal-input-label" for="form_name">${i18n.get('form.label.name')}<span class="required"></span></label>
+                        <input class="gmodal-input-text" id="form_name">
                     </div>
                     <div>
-                        <label class="gmodal-input-label" for="process_description">${i18n.get('form.label.description')}</label>
-                        <textarea class="gmodal-input" rows="3" id="form_description"></textarea>
+                        <label class="gmodal-input-label" for="form_description">${i18n.get('form.label.description')}</label>
+                        <textarea class="gmodal-input-textarea" rows="3" id="form_description"></textarea>
                     </div>
                     <div class="gmodal-required">${i18n.get('common.msg.requiredEnter')}</div>
                 </div>
@@ -258,11 +258,11 @@
         const checkRequired = function() {
             let nameLabelElem = document.getElementById('form_name');
             if (nameLabelElem.value.trim() === '') {
-                nameLabelElem.style.backgroundColor = '#ff000040';
+                nameLabelElem.style.borderColor = '#FF405A';
                 document.querySelector('.gmodal-required').style.display = 'block';
                 return false;
             }
-            nameLabelElem.style.backgroundColor = '';
+            nameLabelElem.style.borderColor = '';
             document.querySelector('.gmodal-required').style.display = 'none';
             return true;
         };
@@ -272,6 +272,10 @@
          */
         const saveAs = function() {
             data = JSON.parse(JSON.stringify(editor.data));
+
+            // datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
+            data.components = aliceForm.reformatCalendarFormat('save', data.components);
+
             let lastCompIndex = component.getLastIndex();
             data.components = data.components.filter(function (comp) {
                 return !(comp.display.order === lastCompIndex && comp.type === aliceForm.defaultType);
@@ -305,8 +309,10 @@
         const saveAsCallBack = function() {
             if (checkRequired()) {
                 saveAs();
+                return true;
             }
-        }
+            return false;
+        };
 
         /**
          * 다른 이름으로 저장하기 모달.
