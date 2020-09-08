@@ -122,3 +122,9 @@ input {
 a {
     cursor: pointer;
 }
+
+.portal-title {
+    @include h4;
+    color: $white;
+    margin-left: 0.625rem; // 10px
+}

@@ -276,6 +276,14 @@ a {
   cursor: pointer;
 }
 
+.portal-title {
+  color: #3F4B56;
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #FFFFFF;
+  margin-left: 0.625rem;
+}
+
 .column-1 {
   width: 5rem;
 }
