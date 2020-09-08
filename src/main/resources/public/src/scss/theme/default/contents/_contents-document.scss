@@ -42,6 +42,11 @@
                 h3 { @include h3();}
                 h5 { @include h5(); margin-top: 0.3125rem; } // 5px
             }
+            // 데이터가 없을때
+            .no-data-found {
+                margin: 0;
+                min-width: 98.75rem; // 1580px
+            }
         }
     }
 }

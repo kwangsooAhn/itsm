@@ -199,8 +199,8 @@ board:
     reply: "Board Reply"
     replyYn: "Reply enable"
     roleName: "Role name"
-    searchBoardPlaceholder: "Category/ Title / CreateUser"
-    searchPlaceholder: "Title / CreateUser"
+    searchBoardPlaceholder: "Category / Title / Writer"
+    searchPlaceholder: "Board Title / CreateUser"
     useYn: "Use enable"
   msg:
     enterAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."

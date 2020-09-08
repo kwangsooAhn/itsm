@@ -12,8 +12,8 @@
             <th style="width: 55%" th:text="#{board.label.name}"></th>
             <th style="width: 10%" th:text="#{board.label.category}"></th>
             <th style="width: 10%" th:text="#{board.label.count}"></th>
-            <th style="width: 10%" th:text="#{common.label.writer}"></th>
-            <th style="width: 15%" th:text="#{common.label.writeDate}"></th>
+            <th style="width: 10%" th:text="#{common.label.createUser}"></th>
+            <th style="width: 15%" th:text="#{common.label.createDate}"></th>
         </tr>
         </thead>
         <tbody class="list-body">
@@ -28,7 +28,8 @@
                    th:href="@{/board-admin/{id}/edit(id=${boardAdmin.boardAdminId})}"></a>
             </td>
             <td style="width: 10%" th:if="${boardAdmin.categoryYn} == true">
-                <a th:text="#{board.btn.category}"
+                <a sec:authorize="!hasAuthority('board.admin.update')" th:text="#{board.btn.category}"></a>
+                <a sec:authorize="hasAuthority('board.admin.update')" th:text="#{board.btn.category}"
                    th:attr="onclick=|openCategoryEdit('${boardAdmin.boardAdminId}')|"></a>
             </td>
             <td style="width: 10%" th:if="${boardAdmin.categoryYn} == false"></td>
