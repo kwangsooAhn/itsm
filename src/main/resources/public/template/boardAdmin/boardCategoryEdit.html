@@ -80,9 +80,9 @@
         function restSubmit(method, url, data) {
             let resultMsg = '';
             if (method === 'post' || method === 'put') {
-                resultMsg = i18n.get('common.msg.save');
+                resultMsg = i18n.msg('common.msg.save');
             } else {
-                resultMsg = i18n.get('common.msg.delete');
+                resultMsg = i18n.msg('common.msg.delete');
             }
             const opt = {
                 method: method,
@@ -93,7 +93,7 @@
                     if (method === 'get') {
                         document.getElementById('boardCategoryList').innerHTML = response.responseText;
                     } else {
-                        aliceJs.alert(resultMsg, function () {
+                        aliceJs.alertSuccess(resultMsg, function () {
                             getCategoryList();
                         });
                     }
