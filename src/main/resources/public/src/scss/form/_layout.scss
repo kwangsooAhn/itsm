@@ -168,16 +168,15 @@ body {
             margin: 0;
 
             .button-board {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                padding-bottom: 0.9375rem; // 15px
-                width: $document-content-drawing-board-width;
-                max-width: $document-content-drawing-board-width;
-                padding-top: 8.438rem; //135px
-                > .numbering-content {
-                    label {
-                        color: $gray;
+                @include document-button;
+                justify-content: flex-end;
+                &-all {
+                    @include document-button;
+                    justify-content: space-between;
+                    > .numbering-content {
+                        label {
+                            color: $gray;
+                        }
                     }
                 }
                 > .button-group {

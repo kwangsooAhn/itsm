@@ -310,13 +310,22 @@ body {
 .container-document .contents .button-board {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding-bottom: 0.9375rem;
   width: 61.56rem;
   max-width: 61.56rem;
   padding-top: 8.438rem;
+  justify-content: flex-end;
 }
-.container-document .contents .button-board > .numbering-content label {
+.container-document .contents .button-board-all {
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.9375rem;
+  width: 61.56rem;
+  max-width: 61.56rem;
+  padding-top: 8.438rem;
+  justify-content: space-between;
+}
+.container-document .contents .button-board-all > .numbering-content label {
   color: #ACB4BF;
 }
 .container-document .contents .button-board > .button-group {
