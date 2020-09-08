@@ -183,7 +183,7 @@
                 aliceJs.alert(i18n.msg('image.msg.fileSelect'));
                 return false;
             }
-            const targetElem = document.getElementById(options.targetId);
+            const targetElem = document.getElementById(this.options.targetId);
             if (targetElem) {
                 if (options.isFilePrefix) {
                     targetElem.value = 'file:///' + selectedFile.dataset.name;
@@ -376,6 +376,10 @@
      * selectedPath = 기존 선택된 이미지 파일 경로
      */
     function init(userOptions) {
+        // 버튼 다국어 처리
+        defaults.buttons[0].content = i18n.msg('common.btn.check');
+        defaults.buttons[1].content = i18n.msg('common.btn.close');
+
         let options = Object.assign({}, defaults, userOptions);
         // 이미지 파일 로드
         aliceJs.sendXhr({
