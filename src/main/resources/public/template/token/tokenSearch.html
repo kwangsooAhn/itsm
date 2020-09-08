@@ -97,6 +97,7 @@
                 callbackFunc: function (response) {
                     tokenListElement.innerHTML = response.responseText;
                     document.querySelectorAll('.create-dt').forEach(tokenCreateDt => {
+                        tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
                         tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
                     });
                     OverlayScrollbars(document.querySelector('.list'), {
