@@ -4,7 +4,8 @@
 <head></head>
 <body>
 <div class="no-data-found" th:if="${#lists.isEmpty(tokenList)}">
-    <div th:text="#{common.msg.noData}"></div>
+    <img class="no-data-icon" />
+    <span class="no-data-text" th:text="#{common.msg.noData}"></span>
 </div>
 <div class="list-item" th:each="token: ${tokenList}">
     <div class="document-color" th:style="|background-color: ${token.documentColor}|"></div>
