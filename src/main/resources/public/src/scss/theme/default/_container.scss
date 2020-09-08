@@ -163,7 +163,7 @@ span.vertical-bar {
                 }
             }
             &-contents {
-                height: 37.5rem; // 600px
+                height: 43.75rem; // 700px
                 overflow-y: auto;
                 .token {
                     &-tag {
@@ -175,24 +175,35 @@ span.vertical-bar {
                             border: none;
                             thead {
                                 border-bottom: 0.0625rem solid $default-gray; // 1px
+                                display: block;
+                                tr {
+                                    display: flex;
+                                }
                             }
                             th { color: $light-black; font-weight: 500; }
                             td { color: $dark-gray; font-weight: 400;}
                             th,td {
                                 border: none;
                                 text-align: left;
-                                &:first-child {
-                                    margin-left: 1.25rem; // 20px
+                            }
+                            tbody {
+                                display: block;
+                                height: 35.3125rem; // 565px;
+                                overflow-y: auto;
+                                width: 100%;
+                                tr {
+                                    display: table;
+                                    width: 100%;
                                 }
                             }
                         }
-                        display: none;
+                        height: 100%;
                     }
                     &-related {
-                        display: none;
                         padding-top: 0.625rem; // 10px
                         display: flex;
                         flex-direction: column;
+                        display: none;
                         .list-item {
                             height: 11.5625rem; // 185px
                             margin-top: 0.625rem; // 10px

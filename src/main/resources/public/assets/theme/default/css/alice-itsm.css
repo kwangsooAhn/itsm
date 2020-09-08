@@ -646,9 +646,11 @@ span.vertical-bar {
   flex: 1;
   overflow: auto;
   scrollbar-width: none;
+  /* Firefox */
 }
 .container-document .token-document::-webkit-scrollbar {
   display: none;
+  /* Chrome, Safari, Opera*/
 }
 .container-document .token-document > div {
   margin: 0 auto;
@@ -674,7 +676,7 @@ span.vertical-bar {
   color: #3F4B56;
 }
 .container-document .token-info-contents {
-  height: 37.5rem;
+  height: 43.75rem;
   overflow-y: auto;
 }
 .container-document .token-info-contents .token-tag {
@@ -682,13 +684,17 @@ span.vertical-bar {
   margin-top: 1.25rem;
 }
 .container-document .token-info-contents .token-history {
-  display: none;
+  height: 100%;
 }
 .container-document .token-info-contents .token-history .table {
   border: none;
 }
 .container-document .token-info-contents .token-history .table thead {
   border-bottom: 0.0625rem solid #E1E3E6;
+  display: block;
+}
+.container-document .token-info-contents .token-history .table thead tr {
+  display: flex;
 }
 .container-document .token-info-contents .token-history .table th {
   color: #3F4B56;
@@ -702,14 +708,21 @@ span.vertical-bar {
   border: none;
   text-align: left;
 }
-.container-document .token-info-contents .token-history .table th:first-child, .container-document .token-info-contents .token-history .table td:first-child {
-  margin-left: 1.25rem;
+.container-document .token-info-contents .token-history .table tbody {
+  display: block;
+  height: 35.3125rem;
+  overflow-y: auto;
+  width: 100%;
+}
+.container-document .token-info-contents .token-history .table tbody tr {
+  display: table;
+  width: 100%;
 }
 .container-document .token-info-contents .token-related {
-  display: none;
   padding-top: 0.625rem;
   display: flex;
   flex-direction: column;
+  display: none;
 }
 .container-document .token-info-contents .token-related .list-item {
   height: 11.5625rem;
