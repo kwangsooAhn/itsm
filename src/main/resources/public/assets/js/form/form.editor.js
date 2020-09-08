@@ -843,21 +843,26 @@
         let el = e.target || e;
         let parentEl = el.parentNode.parentNode;
         let checkedRadio = parentEl.parentNode.querySelector('input[type=radio]:checked');
-        if (checkedRadio === null || parentEl.querySelector('input[type=radio]').id !== checkedRadio.id) { return false; }
-        let checkedPropertiesArr = checkedRadio.name.split('-');
-        let changeValue = checkedRadio.value;
-        if (changeValue === 'none' || changeValue === 'now') {
-            changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
-        } else {
-            let inputCells = parentEl.querySelectorAll('input[type=text]');
-            if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
-                changeValue += ('|' + inputCells[0].value);
+        if (checkedRadio !== null) { // radio 버튼 존재시
+            if (parentEl.querySelector('input[type=radio]').id !== checkedRadio.id) { return false; }
+            let checkedPropertiesArr = checkedRadio.name.split('-');
+            let changeValue = checkedRadio.value;
+            if (changeValue === 'none' || changeValue === 'now') {
+                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
             } else {
-                for (let i = 0, len = inputCells.length; i < len; i++ ) {
-                    changeValue += ('|' + inputCells[i].value);
+                let inputCells = parentEl.querySelectorAll('input[type=text]');
+                if (changeValue === 'datepicker' || changeValue === 'timepicker' || changeValue === 'datetimepicker') {
+                    changeValue += ('|' + inputCells[0].value);
+                } else {
+                    for (let i = 0, len = inputCells.length; i < len; i++ ) {
+                        changeValue += ('|' + inputCells[i].value);
+                    }
                 }
+                changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
             }
-            changePropertiesValue(changeValue, checkedPropertiesArr[0], checkedPropertiesArr[1]);
+        } else {
+            let changePropertiesArr = parentEl.id.split('-');
+            changePropertiesValue(el.value, changePropertiesArr[0], changePropertiesArr[1]);
         }
     }
 
