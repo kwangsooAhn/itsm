@@ -316,7 +316,7 @@ body {
   padding-top: 8.438rem;
   justify-content: flex-end;
 }
-.container-document .contents .button-board-all {
+.container-document .contents .button-board-document {
   display: flex;
   align-items: center;
   padding-bottom: 0.9375rem;
@@ -325,7 +325,7 @@ body {
   padding-top: 8.438rem;
   justify-content: space-between;
 }
-.container-document .contents .button-board-all > .numbering-content label {
+.container-document .contents .button-board-document > .numbering-content label {
   color: #ACB4BF;
 }
 .container-document .contents .button-board > .button-group {

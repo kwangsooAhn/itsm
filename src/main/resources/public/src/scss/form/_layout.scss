@@ -170,7 +170,7 @@ body {
             .button-board {
                 @include document-button;
                 justify-content: flex-end;
-                &-all {
+                &-document {
                     @include document-button;
                     justify-content: space-between;
                     > .numbering-content {
