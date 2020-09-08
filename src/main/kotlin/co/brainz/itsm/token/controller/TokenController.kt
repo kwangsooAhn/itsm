@@ -77,6 +77,7 @@ class TokenController(
         val folderId = folderService.getFolderId(tokenId)
         model.addAttribute("folderId", folderId)
         model.addAttribute("instanceId", instanceId)
+        model.addAttribute("documentNo", instanceService.getInstance(instanceId).documentNo)
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
         model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
         return tokenEditPage
@@ -109,6 +110,10 @@ class TokenController(
     fun getDocumentPrint(@PathVariable tokenId: String, model: Model, request: HttpServletRequest): String {
         model.addAttribute("time", ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC")))
         model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
+        model.addAttribute(
+            "documentNo",
+            instanceService.getInstance(instanceService.getInstanceId(tokenId)!!).documentNo
+        )
         return tokenPrintPage
     }
 

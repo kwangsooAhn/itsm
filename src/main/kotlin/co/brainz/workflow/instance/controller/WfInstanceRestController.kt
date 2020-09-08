@@ -3,6 +3,7 @@ package co.brainz.workflow.instance.controller
 import co.brainz.workflow.instance.service.WfInstanceService
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceCountDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
@@ -35,10 +36,10 @@ class WfInstanceRestController(
      * Process Instance.
      *
      * @param instanceId
-     * @return RestTemplateInstanceViewDto
+     * @return RestTemplateInstanceDto
      */
     @GetMapping("/{instanceId}")
-    fun getProcessInstance(@PathVariable instanceId: String): RestTemplateInstanceViewDto {
+    fun getProcessInstance(@PathVariable instanceId: String): RestTemplateInstanceDto {
         return wfInstanceService.instance(instanceId)
     }
 
