@@ -379,7 +379,7 @@
         // 버튼 다국어 처리
         defaults.buttons[0].content = i18n.msg('common.btn.check');
         defaults.buttons[1].content = i18n.msg('common.btn.close');
-
+        // TODO object merge시 array일 경우 기존 속성을 그대로 덮어씌우는 버그 있음
         let options = Object.assign({}, defaults, userOptions);
         // 이미지 파일 로드
         aliceJs.sendXhr({
