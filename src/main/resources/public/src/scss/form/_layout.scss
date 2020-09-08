@@ -169,12 +169,17 @@ body {
 
             .button-board {
                 display: flex;
-                align-items: flex-end;
-                justify-content: flex-end;
+                align-items: center;
+                justify-content: space-between;
                 padding-bottom: 0.9375rem; // 15px
                 width: $document-content-drawing-board-width;
                 max-width: $document-content-drawing-board-width;
                 padding-top: 8.438rem; //135px
+                > .numbering-content {
+                    label {
+                        color: $gray;
+                    }
+                }
                 > .button-group {
                     display: inline-block;
                     button {

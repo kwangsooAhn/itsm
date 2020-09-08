@@ -15,13 +15,18 @@
     <div class="container-document">
         <div class="contents token-document">
             <div class="button-board">
-                <div class="button-group">
-                    <button type="button" class="default-line" onclick="openProcessStatusPopUp()"
-                            th:text="#{process.label.processMap}"></button>
-                    <button type="button" class="default-line" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
-                            th:text="#{common.btn.print}"></button>
+                <div class="numbering-content">
+                    <label th:text="|#{document.label.docNo} : ${documentNo}|"></label>
                 </div>
-                <div id="button-container" class="button-group"></div>
+                <div>
+                    <div class="button-group">
+                        <button type="button" class="default-line" onclick="openProcessStatusPopUp()"
+                                th:text="#{process.label.processMap}"></button>
+                        <button type="button" class="default-line" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
+                                th:text="#{common.btn.print}"></button>
+                    </div>
+                    <div id="button-container" class="button-group"></div>
+                </div>
             </div>
             <div>
                 <form id="frm" name="frm">
