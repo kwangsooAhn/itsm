@@ -1,3 +1,16 @@
+/* Drop Sequences */
+
+DROP SEQUENCE IF EXISTS awf_download_seq;
+DROP SEQUENCE IF EXISTS awf_file_loc_seq;
+DROP SEQUENCE IF EXISTS hibernate_sequence;
+DROP SEQUENCE IF EXISTS portal_board_seq;
+
+
+/* Create Sequences */
+CREATE SEQUENCE awf_download_seq INCREMENT 1 MINVALUE 1 START 1;
+CREATE SEQUENCE awf_file_loc_seq INCREMENT 1 MINVALUE 1 START 1;
+CREATE SEQUENCE hibernate_sequence INCREMENT 1 MINVALUE 1 START 1;
+CREATE SEQUENCE portal_board_seq INCREMENT 1 MINVALUE 1 START 1;
 /**
  * 권한
  */
@@ -138,7 +151,7 @@ CREATE TABLE awf_code
 	code_name varchar(128),
 	code_desc varchar(512),
 	editable boolean default false,
-    level integer,
+	level integer,
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
@@ -293,6 +306,25 @@ COMMENT ON COLUMN awf_custom_code.update_dt IS '수정일';
 insert into awf_custom_code values ('40288a19736b46fb01736b89e46c0008', '사용자 이름 검색', 'table', 'awf_user', 'user_name', 'user_key', null, '{}', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
+ * 사용자정의코드테이블
+ */
+DROP TABLE IF EXISTS awf_custom_code_table cascade;
+
+CREATE TABLE awf_custom_code_table
+(
+	custom_code_table varchar(128) NOT NULL,
+	custom_code_table_name varchar(128) NOT NULL,
+	CONSTRAINT awf_custom_code_table_pk PRIMARY KEY (custom_code_table)
+);
+
+COMMENT ON TABLE awf_custom_code_table IS '사용자정의코드테이블';
+COMMENT ON COLUMN awf_custom_code_table.custom_code_table IS '테이블';
+COMMENT ON COLUMN awf_custom_code_table.custom_code_table_name IS '테이블이름';
+
+insert into awf_custom_code_table values ('awf_user', '사용자 정보 테이블');
+insert into awf_custom_code_table values ('awf_role', '역할 정보 테이블');
+
+/**
  * 사용자정의코드컬럼
  */
 DROP TABLE IF EXISTS awf_custom_code_column cascade;
@@ -321,25 +353,6 @@ insert into awf_custom_code_column values ('awf_user', 'search', 'user_name', '�
 insert into awf_custom_code_column values ('awf_user', 'search', 'position', '사용자 직급');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_name', '사용자 이름');
 insert into awf_custom_code_column values ('awf_user', 'value', 'user_key', '사용자 식별키');
-
-/**
- * 사용자정의코드테이블
- */
-DROP TABLE IF EXISTS awf_custom_code_table cascade;
-
-CREATE TABLE awf_custom_code_table
-(
-	custom_code_table varchar(128) NOT NULL,
-	custom_code_table_name varchar(128) NOT NULL,
-	CONSTRAINT awf_custom_code_table_pk PRIMARY KEY (custom_code_table)
-);
-
-COMMENT ON TABLE awf_custom_code_table IS '사용자정의코드테이블';
-COMMENT ON COLUMN awf_custom_code_table.custom_code_table IS '테이블';
-COMMENT ON COLUMN awf_custom_code_table.custom_code_table_name IS '테이블이름';
-
-insert into awf_custom_code_table values ('awf_user', '사용자 정보 테이블');
-insert into awf_custom_code_table values ('awf_role', '역할 정보 테이블');
 
 /**
  * 자료실
@@ -656,6 +669,30 @@ COMMENT ON COLUMN awf_notification.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_notification.update_dt IS '수정일';
 
 /**
+ * 넘버링정보
+ */
+DROP TABLE IF EXISTS awf_numbering_rule cascade;
+
+CREATE TABLE awf_numbering_rule
+(
+	numbering_id varchar(128) NOT NULL,
+	numbering_name varchar(255) NOT NULL,
+	numbering_desc text,
+	latest_value text,
+	latest_date timestamp,
+	CONSTRAINT awf_numbering_rule_pk PRIMARY KEY (numbering_id)
+);
+
+COMMENT ON TABLE awf_numbering_rule IS '넘버링정보';
+COMMENT ON COLUMN awf_numbering_rule.numbering_id IS '넘버링아이디';
+COMMENT ON COLUMN awf_numbering_rule.numbering_name IS '넘버링명';
+COMMENT ON COLUMN awf_numbering_rule.numbering_desc IS '넘버링설명';
+COMMENT ON COLUMN awf_numbering_rule.latest_value IS '최근값';
+COMMENT ON COLUMN awf_numbering_rule.latest_date IS '최근날짜';
+
+insert into awf_numbering_rule values ('40125c91714df6c325714e053c890125', '문서 번호', '신청서 작성시 발생한 문서번호');
+
+/**
  * 넘버링패턴정보
  */
 DROP TABLE IF EXISTS awf_numbering_pattern cascade;
@@ -683,30 +720,6 @@ COMMENT ON COLUMN awf_numbering_pattern.pattern_order IS '순서';
 insert into awf_numbering_pattern values ('7a112d61751fs6f325714q053c421411', '40125c91714df6c325714e053c890125', '문서 Prefix', 'numbering.pattern.text', '{"value":"CSR"}', 1);
 insert into awf_numbering_pattern values ('7a112d61751fs6f325714q053c421412', '40125c91714df6c325714e053c890125', '문서 날짜', 'numbering.pattern.date', '{"code":"pattern.format.yyyyMMdd"}', 2);
 insert into awf_numbering_pattern values ('7a112d61751fs6f325714q053c421413', '40125c91714df6c325714e053c890125', '문서 시퀀스', 'numbering.pattern.sequence', '{"digit":3,"start-with":1,"full-fill":"Y"}', 3);
-/**
- * 넘버링정보
- */
-DROP TABLE IF EXISTS awf_numbering_rule cascade;
-
-CREATE TABLE awf_numbering_rule
-(
-	numbering_id varchar(128) NOT NULL,
-	numbering_name varchar(255) NOT NULL,
-	numbering_desc text,
-	latest_value text,
-	latest_date timestamp,
-	CONSTRAINT awf_numbering_rule_pk PRIMARY KEY (numbering_id)
-);
-
-COMMENT ON TABLE awf_numbering_rule IS '넘버링정보';
-COMMENT ON COLUMN awf_numbering_rule.numbering_id IS '넘버링아이디';
-COMMENT ON COLUMN awf_numbering_rule.numbering_name IS '넘버링명';
-COMMENT ON COLUMN awf_numbering_rule.numbering_desc IS '넘버링설명';
-COMMENT ON COLUMN awf_numbering_rule.latest_value IS '최근값';
-COMMENT ON COLUMN awf_numbering_rule.latest_date IS '최근날짜';
-
-insert into awf_numbering_rule values ('40125c91714df6c325714e053c890125', '문서 번호', '신청서 작성시 발생한 문서번호');
-
 /**
  * 역할
  */
@@ -1196,6 +1209,7 @@ insert into awf_url values ('/faqs/new', 'get', 'FAQ 등록', 'TRUE');
 insert into awf_url values ('/faqs/search', 'get', 'FAQ 검색 화면 호출', 'TRUE');
 insert into awf_url values ('/faqs/{id}/edit', 'get', 'FAQ 수정', 'TRUE');
 insert into awf_url values ('/faqs/{id}/view', 'get', 'FAQ 보기', 'TRUE');
+insert into awf_url values ('/forms/import', 'get', '폼 IMPORT 화면', 'TRUE');
 insert into awf_url values ('/forms/list', 'get', '폼 리스트 화면', 'TRUE');
 insert into awf_url values ('/forms/new', 'get', '폼 기본 정보 등록 화면', 'TRUE');
 insert into awf_url values ('/forms/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
@@ -1472,6 +1486,7 @@ insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.update');
 insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.delete');
 insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.create');
 insert into awf_url_auth_map values ('/faqs/{id}/view', 'get', 'faq.read');
+insert into awf_url_auth_map values ('/forms/import', 'get', 'form.create');;
 insert into awf_url_auth_map values ('/forms/list', 'get', 'form.create');
 insert into awf_url_auth_map values ('/forms/list', 'get', 'form.update');
 insert into awf_url_auth_map values ('/forms/list', 'get', 'form.delete');
@@ -1670,8 +1685,8 @@ insert into awf_url_auth_map values ('/tokens/search', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/view-pop/list', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/view-pop/list', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/edit', 'get', 'token.create');
-insert into awf_url_auth_map values ('/tokens/{id}/print', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view', 'get', 'token.read');
+insert into awf_url_auth_map values ('/tokens/{id}/print', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'token.create');
 insert into awf_url_auth_map values ('/users/list', 'get', 'user.update');
@@ -1779,46 +1794,6 @@ COMMENT ON COLUMN awf_user_role_map.role_id IS '역할아이디';
 
 insert into awf_user_role_map values ('0509e09412534a6e98f04ca79abb6424', 'admin');
 /**
- * 게시판
- */
-DROP TABLE IF EXISTS portal_board cascade;
-
-CREATE TABLE portal_board
-(
-	board_id varchar(128) NOT NULL,
-	board_admin_id varchar(128) NOT NULL,
-	board_category_id varchar(128),
-	board_seq bigint NOT NULL,
-	board_title varchar(512) NOT NULL,
-	board_contents text,
-	board_group_id bigint NOT NULL,
-	board_level_id bigint NOT NULL,
-	board_order_seq bigint NOT NULL,
-	create_user_key varchar(128),
-	create_dt timestamp,
-	update_user_key varchar(128),
-	update_dt timestamp,
-	CONSTRAINT portal_board_pk PRIMARY KEY (board_id),
-	CONSTRAINT portal_board_fk1 FOREIGN KEY (board_admin_id) REFERENCES portal_board_admin (board_admin_id),
-	CONSTRAINT portal_board_fk2 FOREIGN KEY (board_category_id) REFERENCES portal_board_category (board_category_id)
-);
-
-COMMENT ON TABLE portal_board IS '게시판';
-COMMENT ON COLUMN portal_board.board_id IS '게시판 번호';
-COMMENT ON COLUMN portal_board.board_admin_id IS '게시판 관리 번호';
-COMMENT ON COLUMN portal_board.board_category_id IS '카테고리 번호';
-COMMENT ON COLUMN portal_board.board_seq IS '게시판 번호';
-COMMENT ON COLUMN portal_board.board_title IS '게시판 제목';
-COMMENT ON COLUMN portal_board.board_contents IS '게시판 내용';
-COMMENT ON COLUMN portal_board.board_group_id IS '게시판 답글 시퀀스 부모 번호';
-COMMENT ON COLUMN portal_board.board_level_id IS '게시판 답글 계층 번호';
-COMMENT ON COLUMN portal_board.board_order_seq IS '게시판 답글 정렬 번호 ';
-COMMENT ON COLUMN portal_board.create_user_key IS '등록자';
-COMMENT ON COLUMN portal_board.create_dt IS '등록일';
-COMMENT ON COLUMN portal_board.update_user_key IS '수정자';
-COMMENT ON COLUMN portal_board.update_dt IS '수정일';
-
-/**
  * 게시판 관리
  */
 DROP TABLE IF EXISTS portal_board_admin cascade;
@@ -1888,6 +1863,46 @@ COMMENT ON COLUMN portal_board_category.create_user_key IS '등록자';
 COMMENT ON COLUMN portal_board_category.create_dt IS '등록일';
 COMMENT ON COLUMN portal_board_category.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_board_category.update_dt IS '수정일';
+
+/**
+ * 게시판
+ */
+DROP TABLE IF EXISTS portal_board cascade;
+
+CREATE TABLE portal_board
+(
+	board_id varchar(128) NOT NULL,
+	board_admin_id varchar(128) NOT NULL,
+	board_category_id varchar(128),
+	board_seq bigint NOT NULL,
+	board_title varchar(512) NOT NULL,
+	board_contents text,
+	board_group_id bigint NOT NULL,
+	board_level_id bigint NOT NULL,
+	board_order_seq bigint NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT portal_board_pk PRIMARY KEY (board_id),
+	CONSTRAINT portal_board_fk1 FOREIGN KEY (board_admin_id) REFERENCES portal_board_admin (board_admin_id),
+	CONSTRAINT portal_board_fk2 FOREIGN KEY (board_category_id) REFERENCES portal_board_category (board_category_id)
+);
+
+COMMENT ON TABLE portal_board IS '게시판';
+COMMENT ON COLUMN portal_board.board_id IS '게시판 번호';
+COMMENT ON COLUMN portal_board.board_admin_id IS '게시판 관리 번호';
+COMMENT ON COLUMN portal_board.board_category_id IS '카테고리 번호';
+COMMENT ON COLUMN portal_board.board_seq IS '게시판 번호';
+COMMENT ON COLUMN portal_board.board_title IS '게시판 제목';
+COMMENT ON COLUMN portal_board.board_contents IS '게시판 내용';
+COMMENT ON COLUMN portal_board.board_group_id IS '게시판 답글 시퀀스 부모 번호';
+COMMENT ON COLUMN portal_board.board_level_id IS '게시판 답글 계층 번호';
+COMMENT ON COLUMN portal_board.board_order_seq IS '게시판 답글 정렬 번호 ';
+COMMENT ON COLUMN portal_board.create_user_key IS '등록자';
+COMMENT ON COLUMN portal_board.create_dt IS '등록일';
+COMMENT ON COLUMN portal_board.update_user_key IS '수정자';
+COMMENT ON COLUMN portal_board.update_dt IS '수정일';
 
 /**
  * 게시판 댓글
@@ -2003,6 +2018,136 @@ COMMENT ON COLUMN portal_notice.update_user_key IS '수정자';
 COMMENT ON COLUMN portal_notice.update_dt IS '수정일';
 
 /**
+ * 문서양식정보
+ */
+DROP TABLE IF EXISTS wf_form cascade;
+
+CREATE TABLE wf_form
+(
+	form_id varchar(128) NOT NULL,
+	form_name varchar(256) NOT NULL,
+	form_desc varchar(256),
+	form_status varchar(100) DEFAULT 'form.status.edit' NOT NULL,
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT wf_form_pk PRIMARY KEY (form_id)
+);
+
+COMMENT ON TABLE wf_form IS '문서양식정보';
+COMMENT ON COLUMN wf_form.form_id IS '문서양식아이디';
+COMMENT ON COLUMN wf_form.form_name IS '문서양식이름';
+COMMENT ON COLUMN wf_form.form_desc IS '문서양식설명';
+COMMENT ON COLUMN wf_form.form_status IS '문서양식상태';
+COMMENT ON COLUMN wf_form.create_user_key IS '생성자';
+COMMENT ON COLUMN wf_form.create_dt IS '생성일시';
+COMMENT ON COLUMN wf_form.update_user_key IS '수정자';
+COMMENT ON COLUMN wf_form.update_dt IS '수정일시';
+
+/**
+ * 프로세스정보
+ */
+DROP TABLE IF EXISTS wf_process cascade;
+
+CREATE TABLE wf_process
+(
+	process_id varchar(128) NOT NULL,
+	process_name varchar(256) NOT NULL,
+	process_status varchar(100) NOT NULL,
+	process_desc varchar(256),
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT wf_process_pk PRIMARY KEY (process_id)
+);
+
+COMMENT ON TABLE wf_process IS '프로세스정보';
+COMMENT ON COLUMN wf_process.process_id IS '프로세스아이디';
+COMMENT ON COLUMN wf_process.process_name IS '프로세스이름';
+COMMENT ON COLUMN wf_process.process_status IS '프로세스상태';
+COMMENT ON COLUMN wf_process.process_desc IS '프로세스설명';
+COMMENT ON COLUMN wf_process.create_user_key IS '생성자';
+COMMENT ON COLUMN wf_process.create_dt IS '생성일시';
+COMMENT ON COLUMN wf_process.update_user_key IS '수정자';
+COMMENT ON COLUMN wf_process.update_dt IS '수정일시';
+
+/**
+ * 신청서정보
+ */
+DROP TABLE IF EXISTS wf_document cascade;
+
+CREATE TABLE wf_document
+(
+	document_id varchar(128) NOT NULL,
+	document_name varchar(256) NOT NULL,
+	document_desc varchar(256),
+	process_id varchar(128) NOT NULL,
+	form_id varchar(128) NOT NULL,
+	document_status varchar(100) DEFAULT 'document.status.use',
+	numbering_id varchar(128),
+	document_color varchar(128),
+	document_type varchar(100) NOT NULL,
+	document_group varchar(100),
+    document_icon varchar(100),
+	create_user_key varchar(128),
+	create_dt timestamp,
+	update_user_key varchar(128),
+	update_dt timestamp,
+	CONSTRAINT wf_document_pk PRIMARY KEY (document_id),
+	CONSTRAINT wf_document_fk1 FOREIGN KEY (process_id) REFERENCES wf_process (process_id),
+	CONSTRAINT wf_document_fk2 FOREIGN KEY (form_id) REFERENCES wf_form (form_id),
+	CONSTRAINT wf_document_fk3 FOREIGN KEY (numbering_id) REFERENCES awf_numbering_rule (numbering_id)
+);
+
+COMMENT ON TABLE wf_document IS '신청서정보';
+COMMENT ON COLUMN wf_document.document_id IS '신청서아이디';
+COMMENT ON COLUMN wf_document.document_name IS '신청서이름';
+COMMENT ON COLUMN wf_document.document_desc IS '신청서설명';
+COMMENT ON COLUMN wf_document.process_id IS '프로세스아이디';
+COMMENT ON COLUMN wf_document.form_id IS '문서양식아이디';
+COMMENT ON COLUMN wf_document.document_status IS '문서상태';
+COMMENT ON COLUMN wf_document.numbering_id IS '넘버링아이디';
+COMMENT ON COLUMN wf_document.document_color IS '문서색상';
+COMMENT ON COLUMN wf_document.document_type IS '문서종류';
+COMMENT ON COLUMN wf_document.document_group IS '신청서그룹';
+COMMENT ON COLUMN wf_document.document_icon IS '신청서아이콘';
+COMMENT ON COLUMN wf_document.create_user_key IS '생성자';
+COMMENT ON COLUMN wf_document.create_dt IS '생성일시';
+COMMENT ON COLUMN wf_document.update_user_key IS '수정자';
+COMMENT ON COLUMN wf_document.update_dt IS '수정일시';
+
+/**
+ * 인스턴스정보
+ */
+DROP TABLE IF EXISTS wf_instance cascade;
+
+CREATE TABLE wf_instance
+(
+	instance_id varchar(128) NOT NULL,
+	document_id varchar(128) NOT NULL,
+	instance_status varchar(100) NOT NULL,
+	instance_start_dt timestamp NOT NULL,
+	instance_end_dt timestamp,
+	instance_create_user_key varchar(128),
+	p_token_id varchar(128),
+	document_no varchar(128) NOT NULL,
+	CONSTRAINT wf_instance_pk PRIMARY KEY (instance_id),
+	CONSTRAINT wf_instance_fk FOREIGN KEY (document_id) REFERENCES wf_document (document_id)
+);
+
+COMMENT ON TABLE wf_instance IS '인스턴스정보';
+COMMENT ON COLUMN wf_instance.instance_id IS '인스턴스아이디';
+COMMENT ON COLUMN wf_instance.document_id IS '신청서아이디';
+COMMENT ON COLUMN wf_instance.instance_status IS '인스턴스상태';
+COMMENT ON COLUMN wf_instance.instance_start_dt IS '인스턴스시작일시';
+COMMENT ON COLUMN wf_instance.instance_end_dt IS '인스턴스종료일시';
+COMMENT ON COLUMN wf_instance.instance_create_user_key IS '인스턴스생성자';
+COMMENT ON COLUMN wf_instance.p_token_id IS '호출토큰아이디';
+COMMENT ON COLUMN wf_instance.document_no IS '문서번호';
+
+/**
  * 의견
  */
 DROP TABLE IF EXISTS wf_comment cascade;
@@ -2068,73 +2213,6 @@ COMMENT ON COLUMN wf_component_data.attribute_id IS '속성아이디';
 COMMENT ON COLUMN wf_component_data.attribute_value IS '속성값';
 COMMENT ON COLUMN wf_component_data.attribute_order IS '속성순서';
 /**
- * 신청서정보
- */
-DROP TABLE IF EXISTS wf_document cascade;
-
-CREATE TABLE wf_document
-(
-	document_id varchar(128) NOT NULL,
-	document_name varchar(256) NOT NULL,
-	document_desc varchar(256),
-	process_id varchar(128) NOT NULL,
-	form_id varchar(128) NOT NULL,
-	document_status varchar(100) DEFAULT 'document.status.use',
-	numbering_id varchar(128),
-	document_color varchar(128),
-	document_type varchar(100) NOT NULL,
-	document_group varchar(100),
-	document_icon varchar(100),
-	create_user_key varchar(128),
-	create_dt timestamp,
-	update_user_key varchar(128),
-	update_dt timestamp,
-	CONSTRAINT wf_document_pk PRIMARY KEY (document_id),
-	CONSTRAINT wf_document_fk1 FOREIGN KEY (process_id) REFERENCES wf_process (process_id),
-	CONSTRAINT wf_document_fk2 FOREIGN KEY (form_id) REFERENCES wf_form (form_id),
-	CONSTRAINT wf_document_fk3 FOREIGN KEY (numbering_id) REFERENCES awf_numbering_rule (numbering_id)
-);
-
-COMMENT ON TABLE wf_document IS '신청서정보';
-COMMENT ON COLUMN wf_document.document_id IS '신청서아이디';
-COMMENT ON COLUMN wf_document.document_name IS '신청서이름';
-COMMENT ON COLUMN wf_document.document_desc IS '신청서설명';
-COMMENT ON COLUMN wf_document.process_id IS '프로세스아이디';
-COMMENT ON COLUMN wf_document.form_id IS '문서양식아이디';
-COMMENT ON COLUMN wf_document.document_status IS '문서상태';
-COMMENT ON COLUMN wf_document.numbering_id IS '넘버링아이디';
-COMMENT ON COLUMN wf_document.document_color IS '문서색상';
-COMMENT ON COLUMN wf_document.document_type IS '문서종류';
-COMMENT ON COLUMN wf_document.document_group IS '신청서그룹';
-COMMENT ON COLUMN wf_document.document_icon IS '신청서아이콘';
-COMMENT ON COLUMN wf_document.create_user_key IS '생성자';
-COMMENT ON COLUMN wf_document.create_dt IS '생성일시';
-COMMENT ON COLUMN wf_document.update_user_key IS '수정자';
-COMMENT ON COLUMN wf_document.update_dt IS '수정일시';
-
-/**
- * 문서출력정보
- */
-DROP TABLE IF EXISTS wf_document_display cascade;
-
-CREATE TABLE wf_document_display
-(
-	document_id varchar(128) NOT NULL,
-	component_id varchar(128) NOT NULL,
-	element_id varchar(256) NOT NULL,
-	display varchar(100) DEFAULT 'editable' NOT NULL,
-	CONSTRAINT wf_document_display_pk PRIMARY KEY (document_id, component_id, element_id),
-	CONSTRAINT wf_document_display_fk1 FOREIGN KEY (document_id) REFERENCES wf_document (document_id),
-	CONSTRAINT wf_document_display_fk2 FOREIGN KEY (component_id) REFERENCES wf_component (component_id),
-	CONSTRAINT wf_document_display_fk3 FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
-);
-
-COMMENT ON TABLE wf_document_display IS '문서출력정보';
-COMMENT ON COLUMN wf_document_display.document_id IS '신청서아이디';
-COMMENT ON COLUMN wf_document_display.component_id IS '컴포넌트아이디';
-COMMENT ON COLUMN wf_document_display.element_id IS '엘리먼트아이디';
-COMMENT ON COLUMN wf_document_display.display IS '엘리먼트별컴포넌트출력정보';
-/**
  * 엘리먼트정보
  */
 DROP TABLE IF EXISTS wf_element cascade;
@@ -2162,6 +2240,28 @@ COMMENT ON COLUMN wf_element.element_desc IS '엘리먼트설명';
 COMMENT ON COLUMN wf_element.notification IS '알람여부';
 COMMENT ON COLUMN wf_element.element_config IS '엘리먼트설정데이터';
 COMMENT ON COLUMN wf_element.display_info IS '출력정보';
+/**
+ * 문서출력정보
+ */
+DROP TABLE IF EXISTS wf_document_display cascade;
+
+CREATE TABLE wf_document_display
+(
+	document_id varchar(128) NOT NULL,
+	component_id varchar(128) NOT NULL,
+	element_id varchar(256) NOT NULL,
+	display varchar(100) DEFAULT 'editable' NOT NULL,
+	CONSTRAINT wf_document_display_pk PRIMARY KEY (document_id, component_id, element_id),
+	CONSTRAINT wf_document_display_fk1 FOREIGN KEY (document_id) REFERENCES wf_document (document_id),
+	CONSTRAINT wf_document_display_fk2 FOREIGN KEY (component_id) REFERENCES wf_component (component_id),
+	CONSTRAINT wf_document_display_fk3 FOREIGN KEY (element_id) REFERENCES wf_element (element_id)
+);
+
+COMMENT ON TABLE wf_document_display IS '문서출력정보';
+COMMENT ON COLUMN wf_document_display.document_id IS '신청서아이디';
+COMMENT ON COLUMN wf_document_display.component_id IS '컴포넌트아이디';
+COMMENT ON COLUMN wf_document_display.element_id IS '엘리먼트아이디';
+COMMENT ON COLUMN wf_document_display.display IS '엘리먼트별컴포넌트출력정보';
 /**
  * 엘리먼트세부설정
  */
@@ -2229,91 +2329,6 @@ COMMENT ON COLUMN wf_folder.create_user_key IS '생성자';
 COMMENT ON COLUMN wf_folder.create_dt IS '생성일시';
 COMMENT ON COLUMN wf_folder.update_user_key IS '수정자';
 COMMENT ON COLUMN wf_folder.update_dt IS '수정일시';
-
-/**
- * 문서양식정보
- */
-DROP TABLE IF EXISTS wf_form cascade;
-
-CREATE TABLE wf_form
-(
-	form_id varchar(128) NOT NULL,
-	form_name varchar(256) NOT NULL,
-	form_desc varchar(256),
-	form_status varchar(100) DEFAULT 'form.status.edit' NOT NULL,
-	create_user_key varchar(128),
-	create_dt timestamp,
-	update_user_key varchar(128),
-	update_dt timestamp,
-	CONSTRAINT wf_form_pk PRIMARY KEY (form_id)
-);
-
-COMMENT ON TABLE wf_form IS '문서양식정보';
-COMMENT ON COLUMN wf_form.form_id IS '문서양식아이디';
-COMMENT ON COLUMN wf_form.form_name IS '문서양식이름';
-COMMENT ON COLUMN wf_form.form_desc IS '문서양식설명';
-COMMENT ON COLUMN wf_form.form_status IS '문서양식상태';
-COMMENT ON COLUMN wf_form.create_user_key IS '생성자';
-COMMENT ON COLUMN wf_form.create_dt IS '생성일시';
-COMMENT ON COLUMN wf_form.update_user_key IS '수정자';
-COMMENT ON COLUMN wf_form.update_dt IS '수정일시';
-
-/**
- * 인스턴스정보
- */
-DROP TABLE IF EXISTS wf_instance cascade;
-
-CREATE TABLE wf_instance
-(
-	instance_id varchar(128) NOT NULL,
-	document_id varchar(128) NOT NULL,
-	instance_status varchar(100) NOT NULL,
-	instance_start_dt timestamp NOT NULL,
-	instance_end_dt timestamp,
-	instance_create_user_key varchar(128),
-	p_token_id varchar(128),
-	document_no varchar(128) NOT NULL,
-	CONSTRAINT wf_instance_pk PRIMARY KEY (instance_id),
-	CONSTRAINT wf_instance_fk FOREIGN KEY (document_id) REFERENCES wf_document (document_id)
-);
-
-COMMENT ON TABLE wf_instance IS '인스턴스정보';
-COMMENT ON COLUMN wf_instance.instance_id IS '인스턴스아이디';
-COMMENT ON COLUMN wf_instance.document_id IS '신청서아이디';
-COMMENT ON COLUMN wf_instance.instance_status IS '인스턴스상태';
-COMMENT ON COLUMN wf_instance.instance_start_dt IS '인스턴스시작일시';
-COMMENT ON COLUMN wf_instance.instance_end_dt IS '인스턴스종료일시';
-COMMENT ON COLUMN wf_instance.instance_create_user_key IS '인스턴스생성자';
-COMMENT ON COLUMN wf_instance.p_token_id IS '호출토큰아이디';
-COMMENT ON COLUMN wf_instance.document_no IS '문서번호';
-
-/**
- * 프로세스정보
- */
-DROP TABLE IF EXISTS wf_process cascade;
-
-CREATE TABLE wf_process
-(
-	process_id varchar(128) NOT NULL,
-	process_name varchar(256) NOT NULL,
-	process_status varchar(100) NOT NULL,
-	process_desc varchar(256),
-	create_user_key varchar(128),
-	create_dt timestamp,
-	update_user_key varchar(128),
-	update_dt timestamp,
-	CONSTRAINT wf_process_pk PRIMARY KEY (process_id)
-);
-
-COMMENT ON TABLE wf_process IS '프로세스정보';
-COMMENT ON COLUMN wf_process.process_id IS '프로세스아이디';
-COMMENT ON COLUMN wf_process.process_name IS '프로세스이름';
-COMMENT ON COLUMN wf_process.process_status IS '프로세스상태';
-COMMENT ON COLUMN wf_process.process_desc IS '프로세스설명';
-COMMENT ON COLUMN wf_process.create_user_key IS '생성자';
-COMMENT ON COLUMN wf_process.create_dt IS '생성일시';
-COMMENT ON COLUMN wf_process.update_user_key IS '수정자';
-COMMENT ON COLUMN wf_process.update_dt IS '수정일시';
 
 /**
  * 태그
