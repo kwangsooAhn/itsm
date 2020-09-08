@@ -28,7 +28,8 @@
                    th:href="@{/board-admin/{id}/edit(id=${boardAdmin.boardAdminId})}"></a>
             </td>
             <td style="width: 10%" th:if="${boardAdmin.categoryYn} == true">
-                <a th:text="#{board.btn.category}"
+                <a sec:authorize="!hasAuthority('board.admin.update')" th:text="#{board.btn.category}"></a>
+                <a sec:authorize="hasAuthority('board.admin.update')" th:text="#{board.btn.category}"
                    th:attr="onclick=|openCategoryEdit('${boardAdmin.boardAdminId}')|"></a>
             </td>
             <td style="width: 10%" th:if="${boardAdmin.categoryYn} == false"></td>
