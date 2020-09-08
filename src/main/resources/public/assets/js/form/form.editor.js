@@ -1276,11 +1276,7 @@
                                                 title: i18n.msg('image.label.popupTitle'),
                                                 targetId: 'path-' + selectedComponentIds[0], 
                                                 selectedPath: fieldGroupElem.querySelector('#path-' + selectedComponentIds[0]).value,
-                                                thumbnailDoubleClickUse: true,
-                                                buttons: [
-                                                    {content: i18n.msg('common.btn.check')},
-                                                    {content: i18n.msg('common.btn.close')}
-                                                ]
+                                                thumbnailDoubleClickUse: true
                                             });
                                         });
                                         break;
