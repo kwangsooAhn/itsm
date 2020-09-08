@@ -3,7 +3,7 @@
         xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
         layout:decorator="form/formCore">
 <head>
-    <title th:text="#{form.label.edit}"></title>
+    <title th:text="${isView != null} ? #{form.label.form} + #{common.label.blank} + #{form.label.preview} : #{form.label.edit}"></title>
     <meta http-equiv="expire" content="-1"/>
     <meta http-equiv="cache-control" content="no-cache"/>
     <meta http-equiv="pragma" content="no-cache"/>

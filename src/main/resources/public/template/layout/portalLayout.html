@@ -9,7 +9,10 @@
     <body>
         <div class="alice-portal-container flex-column">
             <div class="portal-search-top">
-                <img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.png}" alt="Alice">
+                <a href="/portal/portalMain">
+                    <img class="left" th:src="@{/assets/media/image/portalSearch/zenius_itsm_logo.svg}" alt="Alice">
+                </a>
+                <div class="portal-title">Technical Support</div>
                 <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'"
                      th:text="#{portal.label.main}"></div>
                 <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"

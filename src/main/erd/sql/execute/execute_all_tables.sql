@@ -1327,6 +1327,7 @@ insert into awf_url values ('/tokens/list', 'get', '처리할 문서 리스트 �
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
 insert into awf_url values ('/tokens/view-pop/list', 'get', '관련문서 리스트', 'TRUE');
 insert into awf_url values ('/tokens/{id}/edit', 'get', 'NULL', 'TRUE');
+insert into awf_url values ('/tokens/{id}/view', 'get', 'NULL', 'TRUE');
 insert into awf_url values ('/tokens/{id}/print', 'get', '처리할 문서 프린트 화면', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view-pop', 'get', '관련문서 팝업 화면', 'TRUE');
 insert into awf_url values ('/users/list', 'get', '사용자 조회 목록 화면', 'TRUE');
@@ -1670,6 +1671,7 @@ insert into awf_url_auth_map values ('/tokens/view-pop/list', 'get', 'token.crea
 insert into awf_url_auth_map values ('/tokens/view-pop/list', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/edit', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/{id}/print', 'get', 'token.read');
+insert into awf_url_auth_map values ('/tokens/{id}/view', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'token.create');
 insert into awf_url_auth_map values ('/users/list', 'get', 'user.update');

@@ -184,6 +184,44 @@
         min-height: #{$process-container-min-height - $process-toolbar-height};
         overflow: hidden;
 
+        /*버튼 공통*/
+        button.gray-line {
+            display: inline-block;
+            width: 2.5rem; // 40px
+            height: 2.5rem; // 40px
+            color: $line-gray;
+            background-color: $white;
+            border: 0.0625rem solid $line-gray;
+            border-radius: 0.1875rem; // 3px
+            text-align: center;
+            user-select: none;
+            white-space: nowrap;
+            vertical-align: middle;
+            opacity: 1;
+            cursor: pointer;
+
+            span.icon {
+                display: inline-block;
+                background: $pressed-gray;
+            }
+            
+            &:focus,
+            &:hover {
+                outline: 0;
+                border-color: $point-blue;
+                span.icon {
+                    background: $point-blue;
+                }
+            }
+
+            &.active {// pressed
+                border-color: $point-blue;
+                span.icon {
+                    background: $point-blue;
+                }
+            }
+        }
+        /*미니맵*/
         div.minimap {
             background-color: #ffffff;
             display: inline-block;
@@ -192,9 +230,9 @@
             overflow: hidden;
             position: absolute;
             bottom: 0.625rem; // 10px
-            right: 3.125rem; // 50px
-            box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7, // -1px 0 5px -4px #def9f7
-            0.063rem 0 0.313rem -0.25rem #def9f7; // 1px 0 5px -4px #def9f7
+            right: 3.438rem; // 55px
+            border: 0.0625rem solid $line-gray; // 1px
+            box-shadow: 0 0 0.3125rem 0 $line-gray;
 
             svg {
                 position: absolute;
@@ -213,38 +251,23 @@
             &.closed {
                 display: none;
             }
-
-            &-button {
-                display: inline-block;
-                width: 2.5rem; // 40px
-                height: 2.5rem; // 40px
-                position: absolute;
-                bottom: 0.625rem; // 10px
-                right: 0.625rem; // 10px
-                cursor: pointer;
-
-                .icon-minimap-border {
-                    fill: #ffffff;
-                    stroke: #ebebeb;
-                }
-
-                .icon-minimap {
-                    fill: #ccced1
-                }
-
-                &.active {
-                    .icon-minimap-border {
-                        stroke: #0098ff;
-                    }
-
-                    .icon-minimap {
-                        fill: #0098ff;
-                    }
-                }
+        }
+        button.minimap-button {
+            position: absolute;
+            bottom: 0.625rem; // 10px
+            right: 0.625rem; // 10px
+            span.icon {
+                width: 1.063rem; // 17px
+                height: 1.25rem; // 20px
+                -webkit-mask-image: url("../media/icons/process/editor/icon-map.svg");
+                mask-image: url("../media/icons/process/editor/icon-map.svg");
+                -webkit-mask-repeat: no-repeat;
+                mask-repeat: no-repeat;
+                -webkit-mask-position: center;
+                mask-position: center;
             }
         }
-
-
+        /*시뮬레이션*/
         .simulation-report {
             position: absolute;
             width: 63.75rem; // 1020px
@@ -321,38 +344,20 @@
             &.closed {
                 display: none;
             }
-
-            &-icon {
-                position: absolute;
-                width: 2.5rem; // 40px
-                height: 2.5rem; // 40px
-                bottom: 3.438rem; // 55px
-                right: 0.625rem; // 10px
-                display: inline-block;
-                cursor: pointer;
-
-                .icon-eye-bg {
-                    fill: #fff;
-                    stroke: #ebebeb;
-                }
-
-                .icon-eye {
-                    fill: #CCCED1;
-                }
-
-                &.active {
-                    .icon-eye-bg {
-                        stroke: #0098ff;
-                    }
-
-                    .icon-eye {
-                        fill: #0098ff;
-                    }
-                }
-            }
-
-            &:active {
-                border: solid 0.063rem #0098ff;
+        }
+        button.simulation-report-icon {
+            position: absolute;
+            bottom: 3.438rem; // 55px
+            right: 0.625rem; // 10px
+            span.icon {
+                width: 1.25rem; // 20px
+                height: 1rem; // 16px
+                -webkit-mask-image: url("../media/icons/process/editor/icon-simulation-report.svg");
+                mask-image: url("../media/icons/process/editor/icon-simulation-report.svg");
+                -webkit-mask-repeat: no-repeat;
+                mask-repeat: no-repeat;
+                -webkit-mask-position: center;
+                mask-position: center;
             }
         }
     }

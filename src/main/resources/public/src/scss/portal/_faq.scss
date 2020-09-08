@@ -1,0 +1,86 @@
+.portal {
+    &-faq {
+        &-container {
+            height: 15rem; // 240px
+            background-color: $line-gray;
+            padding: 0 0 0 12.75rem; // 204px
+            border-bottom: 0.0625rem solid $line-gray; // 1px
+
+            .page-title {
+                text-align: left;
+                padding: 3.625rem 0; // 58px
+                display: flex;
+                align-items: baseline;
+            }
+        }
+
+        &-result {
+            padding: 0 12.75rem; // 204px
+            margin-top: 54px;
+            details {
+                &.faq-group {
+                    border: 1px solid $line-gray;
+                    min-height: 56px;
+                    padding: 15px;
+                    margin-bottom: 10px;
+                }
+                &[open].faq-group {
+                    border: 1px solid $point-blue;
+
+                    summary.faq-group {
+                        color: $point-blue;
+                    }
+                }
+                &.faq-title {
+                    padding: 20px 15px 0px 30px;
+                    &:first-of-type {
+                        padding-top: 35px;
+                    }
+                    &:last-of-type {
+                        padding-bottom: 35px;
+                    }
+                }
+
+            }
+
+            summary {
+                &.faq-group {
+                    display: contents;
+                    cursor: pointer;
+                    &:focus {
+                        outline: none;
+                    }
+                }
+                &.faq-title {
+                    display: contents;
+                    cursor: pointer;
+
+                    &:focus {
+                        outline: none;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.faq {
+    &-group {
+        @include h4();
+    }
+
+    &-title {
+        @include h5();
+        font-weight: 500;
+    }
+    &-contents {
+        @include h5();
+        margin-top: 20px;
+        margin-left: 17px;
+    }
+}
+.horizontal-bar {
+    height: 0.0625rem; // 1px
+    margin: 0.625rem 0; // 10px
+    background-color: $line-gray;
+}

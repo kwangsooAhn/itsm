@@ -333,6 +333,7 @@ insert into awf_url_auth_map values ('/tokens/search', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/view-pop/list', 'get', 'token.create');
 insert into awf_url_auth_map values ('/tokens/view-pop/list', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/edit', 'get', 'token.create');
+insert into awf_url_auth_map values ('/tokens/{id}/view', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/print', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'token.read');
 insert into awf_url_auth_map values ('/tokens/{id}/view-pop', 'get', 'token.create');

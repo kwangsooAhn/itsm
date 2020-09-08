@@ -97,6 +97,7 @@
                 callbackFunc: function (response) {
                     tokenListElement.innerHTML = response.responseText;
                     document.querySelectorAll('.create-dt').forEach(tokenCreateDt => {
+                        tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
                         tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
                     });
                     OverlayScrollbars(document.querySelector('.list'), {
@@ -121,10 +122,16 @@
         }
 
         /**
-         * 클릭한 문서를 연다.
+         * 클릭한 문서를 연다. 완료된 문서일 경우 보기 화면을 연다.
          */
         function openTokenEdit(tokenId) {
-            window.open('/tokens/' + tokenId + '/edit', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
+            const tokenTypeSelectBox = document.getElementById('searchTokenType');
+            const tokenType = tokenTypeSelectBox.options[tokenTypeSelectBox.selectedIndex].value;
+            let popUpUrl = '/tokens/' + tokenId + '/edit';
+            if (tokenType === 'token.type.completed') { // 완료된 문서
+                popUpUrl = '/tokens/' + tokenId + '/view'
+            }
+            window.open(popUpUrl, 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
         }
 
         /* ]]> */

@@ -4,8 +4,7 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/popupLayout">
 <head>
-    <title th:if="${formInfo?.id}" th:text="#{form.label.edit}"></title>
-    <title th:if="!${formInfo?.id}" th:text="#{form.label.create}"></title>
+    <title th:text="${formInfo != null} ? #{form.label.edit} : #{form.label.create}"></title>
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
 </head>
 <body>
