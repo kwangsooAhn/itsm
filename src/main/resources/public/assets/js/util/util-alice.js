@@ -616,7 +616,7 @@ aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
         type: 'gmodal-icon-confirm',
         buttons: [
             {
-                content: i18n.get('common.btn.cancel'),
+                content: i18n.msg('common.btn.cancel'),
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -625,7 +625,7 @@ aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
                     modal.hide();
                 }
             },{
-                content: i18n.get('common.btn.check'),
+                content: i18n.msg('common.btn.check'),
                 classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
@@ -656,7 +656,7 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
         type: 'gmodal-no-icon',
         buttons: [
             {
-                content: i18n.get('common.btn.cancel'),
+                content: i18n.msg('common.btn.cancel'),
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -665,7 +665,7 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                     modal.hide();
                 }
             },{
-                content: i18n.get('common.btn.check'),
+                content: i18n.msg('common.btn.check'),
                 classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {

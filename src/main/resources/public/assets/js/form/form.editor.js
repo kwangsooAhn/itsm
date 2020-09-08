@@ -164,7 +164,7 @@
                 if (!result) {
                     e.stopImmediatePropagation();
                     element.classList.add('validate-error');
-                    aliceJs.alert(i18n.get('form.msg.' + validateValueArray[0], arg), function() {
+                    aliceJs.alert(i18n.msg('form.msg.' + validateValueArray[0], arg), function() {
                         element.value = '';
                         element.focus();
                     });
@@ -206,17 +206,17 @@
                     savedData = JSON.parse(JSON.stringify(editor.data));
                     changeFormName();
                     if (flag) {
-                        aliceJs.alert(i18n.get('common.msg.save'), function () {
+                        aliceJs.alert(i18n.msg('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
                             window.close();
                         });
                     } else {
-                        aliceJs.alert(i18n.get('common.msg.save'));
+                        aliceJs.alert(i18n.msg('common.msg.save'));
                     }
                 } else {
-                    aliceJs.alert(i18n.get('common.label.fail'));
+                    aliceJs.alert(i18n.msg('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',
@@ -238,14 +238,14 @@
             return `
                 <div>
                     <div class="gmodal-input">
-                        <label class="gmodal-input-label" for="form_name">${i18n.get('form.label.name')}<span class="required"></span></label>
+                        <label class="gmodal-input-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>
                         <input class="gmodal-input-text" id="form_name">
                     </div>
                     <div>
-                        <label class="gmodal-input-label" for="form_description">${i18n.get('form.label.description')}</label>
+                        <label class="gmodal-input-label" for="form_description">${i18n.msg('form.label.description')}</label>
                         <textarea class="gmodal-input-textarea" rows="3" id="form_description"></textarea>
                     </div>
-                    <div class="gmodal-required">${i18n.get('common.msg.requiredEnter')}</div>
+                    <div class="gmodal-required">${i18n.msg('common.msg.requiredEnter')}</div>
                 </div>
                 `
         };
@@ -287,7 +287,7 @@
                 url: '/rest/forms-admin' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
-                        aliceJs.alert(i18n.get('common.msg.save'), function () {
+                        aliceJs.alert(i18n.msg('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
@@ -295,7 +295,7 @@
                             location.href = '/forms/' + xhr.responseText + '/edit';
                         });
                     } else {
-                        aliceJs.alert(i18n.get('common.label.fail'));
+                        aliceJs.alert(i18n.msg('common.label.fail'));
                     }
                 },
                 contentType: 'application/json; charset=utf-8',
@@ -1208,7 +1208,7 @@
                                 const tooltipTemplate = (typeof fieldProp.help === 'undefined') ? `` : `<div class="help-tooltip">
                                     <span class="help-tooltip-icon"></span>
                                     <div class="tooltip-contents">
-                                        <span>${i18n.get(fieldProp.help)}</span>
+                                        <span>${i18n.msg(fieldProp.help)}</span>
                                     </div>
                                 </div>`;
                                 let fieldTemplate = ``;
