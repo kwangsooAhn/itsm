@@ -7,7 +7,8 @@
 <body>
 <div class="card-area">
     <div class="no-data-found" th:if="${#arrays.isEmpty(documentList)}">
-        <span th:text="#{common.msg.noData}"></span>
+        <img class="no-data-icon" />
+        <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
     <div th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
         <a sec:authorize="hasAuthority('document.create')" th:attr="onclick=|openDocument('${document.documentId}')|">

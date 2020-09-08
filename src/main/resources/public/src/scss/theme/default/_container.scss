@@ -65,7 +65,7 @@
 }
 
 // 데이터 없을 때 테이블 처리
-.no-data-found {
+tr.no-data-found {
     pointer-events: none;
     background: $line-gray;
     td { text-align: center; }
@@ -74,6 +74,27 @@
     height: 0.0625rem; // 1px
     margin: 0.625rem 0; // 10px
     background-color: $line-gray;
+}
+// 데이터 없을 때 div 처리 (문서함, 신청서)
+div.no-data-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 13.75rem; // 220px
+    margin: 3.125rem 3.75rem; // 50px 60px
+    background-color: rgba(247, 248, 249, 0.45); // $light-gray
+    border: 0.0625rem solid $line-gray; // 1px
+    border-radius: 0.0625rem; // 1px
+    pointer-events: none;
+    img.no-data-icon {
+        content: url("../icons/icon_no_data.svg")
+    }
+    span.no-data-text {
+        font-size: 1.125rem;; // 18px
+        font-weight: 500;
+        color: $pressed-gray;
+        margin-left: 1.875rem; // 30px
+    }
 }
 // 버튼 영역
 .btn-bar {
