@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org" >
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
+    <title layout:title-pattern="$LAYOUT_TITLE : $CONTENT_TITLE">Zenius ITSM</title>
     <th:block th:replace="form/fragments/formHead :: formHead"></th:block>
     <th:block layout:fragment="css"></th:block>
     <th:block layout:fragment="script"></th:block>

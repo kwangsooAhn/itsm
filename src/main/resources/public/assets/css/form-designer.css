@@ -1707,6 +1707,7 @@ button.default-point-line:not(:disabled):active span.icon {
 }
 
 .property-group .property-field div.property-field-button button[id="bold"] span.icon {
+  -webkit-mask-image: url("../media/icons/form/property/icon_bold.svg");
   mask-image: url("../media/icons/form/property/icon_bold.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
@@ -1715,6 +1716,7 @@ button.default-point-line:not(:disabled):active span.icon {
 }
 
 .property-group .property-field div.property-field-button button[id="italic"] span.icon {
+  -webkit-mask-image: url("../media/icons/form/property/icon_italic.svg");
   mask-image: url("../media/icons/form/property/icon_italic.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
@@ -1723,6 +1725,7 @@ button.default-point-line:not(:disabled):active span.icon {
 }
 
 .property-group .property-field div.property-field-button button[id="underline"] span.icon {
+  -webkit-mask-image: url("../media/icons/form/property/icon_underline.svg");
   mask-image: url("../media/icons/form/property/icon_underline.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
