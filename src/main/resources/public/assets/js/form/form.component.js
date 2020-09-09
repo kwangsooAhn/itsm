@@ -705,6 +705,10 @@
         let defaultCustomData = ''; // 신청서 작성 및 처리할 문서
         if (typeof property.value !== 'undefined') {
             defaultCustomData = property.value;
+            if (!isForm) {
+                let customDataValue = defaultCustomData.split('|');
+                defaultValue = (customDataValue.length > 1) ? customDataValue[1] : '';
+            }
         } else {
             if (defaultValueArr[0] !== 'none') {
                 defaultCustomData = defaultValueArr[1] + '|' + defaultValueArr[2];
