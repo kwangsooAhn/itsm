@@ -186,7 +186,7 @@
             aliceJs.sendXhr(opt);
             OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
             Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
-                OverlayScrollbars(target, { className: 'scrollbar' });
+                OverlayScrollbars(target, { className: 'inner-scrollbar' });
             });
             OverlayScrollbars(document.querySelector('#txtRoleDesc'), {
                 className: 'scrollbar',
@@ -337,7 +337,7 @@
                     if (roleList.length > 0) {
                         document.querySelector('td[name=roleName]').click();
                     }
-                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'inner-scrollbar' });
                 }
             };
             aliceJs.sendXhr(opt);
