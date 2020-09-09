@@ -340,7 +340,8 @@ const fileUploader = (function () {
                     //all uploading files: .getUploadingFiles()
 
                     this.on("addedfile", function (file) {
-                        document.querySelector('.dz-message').style.display = 'none';
+                        const dropzoneMessage = _this.element.querySelector('.dz-message');
+                        dropzoneMessage.style.display = 'none';
                         let fileName = file.name;
                         let fileNameLength = file.name.length;
                         let lastDot = fileName.lastIndexOf('.');
@@ -353,6 +354,7 @@ const fileUploader = (function () {
 
                         if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
                             this.removeFile(file);
+                            dropzoneMessage.style.display = 'block';
                             aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
                         }
                     });
@@ -405,12 +407,12 @@ const fileUploader = (function () {
 
                     this.on("maxfilesexceeded", function (file, maxFiles) {
                         this.removeFile(file);
-                        aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileCount', maxFiles));
+                        aliceJs.alert(i18n.get('fileupload.msg.maxFileCount', maxFiles));
                     });
 
                     this.on("maxfilesizeexceeded", function (file, maxFileSize) {
                         this.removeFile(file);
-                        aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
+                        aliceJs.alert(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
                     });
                 } else {
                     dropZoneFiles.remove();
@@ -516,7 +518,7 @@ const fileUploader = (function () {
 
                     if (!(extensionValueArr.includes(getExtension(fileName)))) {
                         this.removeFile(file);
-                        aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
+                        aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
                     }
 
                 });
@@ -571,12 +573,12 @@ const fileUploader = (function () {
 
                 this.on("maxfilesexceeded", function (file, maxFiles) {
                     this.removeFile(file);
-                    aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileCount', maxFiles));
+                    aliceJs.alert(i18n.get('fileupload.msg.maxFileCount', maxFiles));
                 });
 
                 this.on("maxfilesizeexceeded", function (file, maxFileSize) {
                     this.removeFile(file);
-                    aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
+                    aliceJs.alert(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
