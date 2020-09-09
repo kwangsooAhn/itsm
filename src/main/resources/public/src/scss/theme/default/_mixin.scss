@@ -49,6 +49,7 @@
 @mixin list-template() {
     .list {
         padding-top: 1.25rem; // 20px
+        a { cursor: pointer; }
         table {
             width: 100%;
             thead {
