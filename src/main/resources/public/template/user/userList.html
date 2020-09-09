@@ -25,10 +25,13 @@
             </tr>
             <tr th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
                 <td width="5%">
-                    <img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" alt="profile pic"
-                         th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''"/>
+                    <img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" alt="profile pic"/>
                 </td>
-                <td width="10%" th:text="${user.userName}"></td>
+                <td width="10%">
+                    <a th:text="${user.userName}"
+                       th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''">
+                    </a>
+                </td>
                 <td width="10%" th:text="${user.userId}"></td>
                 <td width="20%" th:text="${user.email}"></td>
                 <td width="15%" th:text="${user.department}"></td>
