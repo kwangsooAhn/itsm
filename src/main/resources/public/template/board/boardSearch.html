@@ -16,7 +16,7 @@
         <div class="search-area">
             <div class="left">
                 <form id="searchFrm">
-                    <select th:class="search-selectBox" id="boardAdminId" name="boardAdminId">
+                    <select class="search-selectBox column-3" id="boardAdminId" name="boardAdminId">
                         <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
                             th:text="#{${boardAdmin.boardAdminTitle}}"></option>
                     </select>
