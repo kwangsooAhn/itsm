@@ -1115,7 +1115,7 @@ button.default-point-line:not(:disabled):active span.icon {
 }
 
 .component .field-group .field-content select {
-  min-width: 17.19rem;
+  width: 100%;
   padding-left: 10px;
 }
 
