@@ -208,13 +208,13 @@
             if (flag === 'post') {
                 for(let i = 0; i < authIds.length; i++) {
                     if (document.getElementById('txtAuthId').value === authIds[i]) {
-                        aliceJs.alert([[#{auth.msg.duplicateAuthId}]]);
+                        aliceJs.alertWarning([[#{auth.msg.duplicateAuthId}]]);
                         return;
                     }
                 }
                 for(let i = 0; i < authNames.length; i++) {
                     if (document.getElementById('txtAuthName').value === authNames[i]) {
-                        aliceJs.alert([[#{auth.msg.duplicateAuthName}]]);
+                        aliceJs.alertWarning([[#{auth.msg.duplicateAuthName}]]);
                         return;
                     }
                 }
@@ -222,7 +222,7 @@
                 if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
                     for(let i = 0; i < authNames.length; i++) {
                         if (document.getElementById('txtAuthName').value === authNames[i]) {
-                            aliceJs.alert([[#{auth.msg.duplicateAuthName}]]);
+                            aliceJs.alertWarning([[#{auth.msg.duplicateAuthName}]]);
                             return;
                         }
                     }
@@ -260,7 +260,7 @@
                 params: authJson,
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    aliceJs.alert([[#{common.msg.save}]], function() {
+                    aliceJs.alertSuccess([[#{common.msg.save}]], function() {
                         window.location.href ='/auths/edit';
                     });
                 }
@@ -275,7 +275,7 @@
                     method: 'delete',
                     url: '/rest/auths/' + document.getElementById('txtAuthId').value,
                     callbackFunc: function() {
-                        aliceJs.alert([[#{common.msg.delete}]], function() {
+                        aliceJs.alertSuccess([[#{common.msg.delete}]], function() {
                             window.location.href ='/auths/edit';
                         });
                     }

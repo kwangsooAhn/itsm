@@ -17,13 +17,13 @@ function isNull(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value === null) {
             if (messageId !== undefined) {
-                aliceJs.alert(i18n.get(messageId));
+                aliceJs.alertWarning(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alertWarning(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -34,13 +34,13 @@ function isNotNull(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value !== null) {
             if (messageId !== undefined) {
-                aliceJs.alert(i18n.get(messageId));
+                aliceJs.alertWarning(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alertWarning(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -51,13 +51,13 @@ function isEmpty(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value.trim() === '') {
             if (messageId !== undefined) {
-                aliceJs.alert(i18n.get(messageId));
+                aliceJs.alertWarning(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alertWarning(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -68,13 +68,13 @@ function isNotEmpty(elementId, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value !== '') {
             if (messageId !== undefined) {
-                aliceJs.alert(i18n.get(messageId));
+                aliceJs.alertWarning(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alertWarning(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -85,13 +85,13 @@ function isEquals(elementId1, elementId2, messageId) {
     if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value === document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
-                aliceJs.alert(i18n.get(messageId));
+                aliceJs.alertWarning(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
+    aliceJs.alertWarning(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -102,13 +102,13 @@ function isNotEquals(elementId1, elementId2, messageId) {
     if (document.getElementById(elementId1) !== null && document.getElementById(elementId2) !== null) {
         if (document.getElementById(elementId1).value !== document.getElementById(elementId2).value) {
             if (messageId !== undefined) {
-                aliceJs.alert(i18n.get(messageId));
+                aliceJs.alertWarning(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
+    aliceJs.alertWarning(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId1 : ' + elementId1 + 'ElementId2 : ' + elementId2);
     return true;
 }
 
@@ -119,13 +119,13 @@ function isExistInScope(elementId, minValue, maxValue, messageId) {
     if (document.getElementById(elementId) !== null) {
         if (document.getElementById(elementId).value < minValue || document.getElementById(elementId).value > maxValue) {
             if (messageId !== undefined) {
-                aliceJs.alert(i18n.get(messageId));
+                aliceJs.alertWarning(i18n.get(messageId));
             }
             return true;
         }
         return false;
     }
-    aliceJs.alert(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
+    aliceJs.alertWarning(i18n.get('validation.msg.elementNotExist') + '\n' + 'ElementId : ' + elementId);
     return true;
 }
 
@@ -135,7 +135,7 @@ function isExistInScope(elementId, minValue, maxValue, messageId) {
 function isAndOperator(condition1, condition2, messageId) {
     if (condition1 && condition2) {
         if (messageId !== undefined) {
-            aliceJs.alert(i18n.get(messageId));
+            aliceJs.alertWarning(i18n.get(messageId));
         }
         return true;
     }
@@ -148,7 +148,7 @@ function isAndOperator(condition1, condition2, messageId) {
 function isOrOperator(condition1, condition2, messageId) {
     if (condition1 || condition2) {
         if (messageId !== undefined) {
-            aliceJs.alert(i18n.get(messageId));
+            aliceJs.alertWarning(i18n.get(messageId));
         }
         return true;
     }
@@ -174,7 +174,7 @@ function isValidPassword(elementId) {
      * 비밀번호에 공백을 포함하지 않는다.
      */
     if (blankReg.test(password)) {
-        aliceJs.alert(i18n.get('validation.msg.pwNotContainSpace'));
+        aliceJs.alertWarning(i18n.get('validation.msg.pwNotContainSpace'));
         return false;
     }
 
@@ -186,7 +186,7 @@ function isValidPassword(elementId) {
      */
     if (lowerCaseReg.test(password) || upperCaseReg.test(password) || specialCharReg.test(password) || numberReg.test(password)) {
         if (password.length < 10 || password.length > 20) {
-            aliceJs.alert(i18n.get('validation.msg.pwOneBetween10And20'));
+            aliceJs.alertWarning(i18n.get('validation.msg.pwOneBetween10And20'));
             return false;
         }
     }
@@ -200,7 +200,7 @@ function isValidPassword(elementId) {
     if ((searchUpperCase < 0 && searchLowerCase < 0) || (searchLowerCase < 0 && searchSpecialChar < 0) ||
         (searchSpecialChar < 0 && searchNumber < 0) || (searchNumber < 0 && searchUpperCase < 0)) {
         if (password.length < 8 || password.length > 20) {
-            aliceJs.alert(i18n.get('validation.msg.pwTwoBetween8And20'));
+            aliceJs.alertWarning(i18n.get('validation.msg.pwTwoBetween8And20'));
             return false;
         }
     }
@@ -211,7 +211,7 @@ function isValidPassword(elementId) {
      * 비밀번호에 사용자의 ID를 포함하지 않는다.
      */
     if (password.search(userId) > -1) {
-        aliceJs.alert(i18n.get('validation.msg.pwContainsId'));
+        aliceJs.alertWarning(i18n.get('validation.msg.pwContainsId'));
         return false;
     }
 
@@ -221,7 +221,7 @@ function isValidPassword(elementId) {
      * 비밀번호에 사용자의 이메일 ID를 포함하지 않는다.
      */
     if (password.search(emailId[0]) > -1) {
-        aliceJs.alert(i18n.get('validation.msg.pwContainsEmail'));
+        aliceJs.alertWarning(i18n.get('validation.msg.pwContainsEmail'));
         return false;
     }
 
@@ -235,7 +235,7 @@ function isValidEmail(elementId) {
     let email = document.getElementById(elementId).value;
 
     if (!emailReg.test(email)) {
-        aliceJs.alert(i18n.get('validation.msg.checkEmailFormat'));
+        aliceJs.alertWarning(i18n.get('validation.msg.checkEmailFormat'));
         return false;
     }
     return true;
@@ -248,7 +248,7 @@ function isValidUserId(elementId) {
     let userId = document.getElementById(elementId).value;
 
     if (!idReg.test(userId)) {
-        aliceJs.alert(i18n.get('validation.msg.checkUserIdFormat'));
+        aliceJs.alertWarning(i18n.get('validation.msg.checkUserIdFormat'));
         return false;
     }
     return true;
@@ -265,7 +265,7 @@ function isValidRgb(elementId, callbackFunc) {
     let rgb = document.getElementById(elementId).value;
 
     if (!rgbReg.test(rgb)) {
-        aliceJs.alert(i18n.get('validation.msg.checkRgbFormat'), callbackFunc);
+        aliceJs.alertWarning(i18n.get('validation.msg.checkRgbFormat'), callbackFunc);
         return false;
     }
     return true;

@@ -56,7 +56,7 @@
             // 게시물 삭제 처리 시, validation 체크.
             const noticeNo = /*[[${notice.noticeNo}]]*/;
             if (noticeNo === null) {
-                aliceJs.alert(i18n.msg('common.msg.delete'));
+                aliceJs.alertWarning(i18n.msg('common.msg.delete'));
                 return history.go(-1);
             }
             portalFileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});

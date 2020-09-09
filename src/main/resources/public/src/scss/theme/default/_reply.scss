@@ -21,6 +21,7 @@
     }
 
     &-list {
+        padding: 0 20px;
         border-bottom: 1px solid $line-gray;
         .vertical-bar {
             width: 15px;
@@ -40,6 +41,7 @@
             margin-left: auto;
         }
         .reply-comment {
+            display: flex;
             margin-top: 5px;
             margin-left: 47px;
             input { width: 100%;}

@@ -73,11 +73,11 @@
         function deleteDocument(documentId) {
             restSubmit('DELETE', '/rest/documents-admin/' + documentId, function(result) {
                 if (JSON.parse(result)) {
-                    aliceJs.alert('[[#{common.msg.delete}]]', function() {
+                    aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
                         location.reload();
                     });
                 } else {
-                    aliceJs.alert('[[#{document.msg.launchedInstance}]]');
+                    aliceJs.alertWarning('[[#{document.msg.launchedInstance}]]');
                 }
             });
         }

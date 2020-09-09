@@ -53,12 +53,12 @@
             if (fileList.length > 0) {
                 workflowUtil.import(fileList[0], processInfo, 'process', function (result) {
                     if (result) {
-                        aliceJs.alert(i18n.get('common.msg.save'), function () {
+                        aliceJs.alertSuccess(i18n.get('common.msg.save'), function () {
                             opener.location.reload();
                             window.close();
                         });
                     } else {
-                        aliceJs.alert(i18n.get('common.label.fail'));
+                        aliceJs.alertDanger(i18n.get('common.label.fail'));
                     }
                 });
             } else {
@@ -74,7 +74,7 @@
         // 확장자 체크
         let filename = document.getElementById('process_file').value;
         if (filename.split('.').pop().toUpperCase() !== allowedExtension) {
-            aliceJs.alert(i18n.get('process.msg.fileExtensionNotAllow', allowedExtension));
+            aliceJs.alertWarning(i18n.get('process.msg.fileExtensionNotAllow', allowedExtension));
             return false;
         }
         return true;

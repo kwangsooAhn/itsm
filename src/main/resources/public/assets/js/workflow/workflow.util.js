@@ -574,7 +574,7 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                     callbackFunc(result);
                 }
             } else {
-                aliceJs.alert(i18n.get('validation.msg.checkImportFormat'));
+                aliceJs.alertDanger(i18n.get('validation.msg.checkImportFormat'));
                 return false;
             }
         });

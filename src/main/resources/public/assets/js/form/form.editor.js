@@ -164,7 +164,7 @@
                 if (!result) {
                     e.stopImmediatePropagation();
                     element.classList.add('validate-error');
-                    aliceJs.alert(i18n.get('form.msg.' + validateValueArray[0], arg), function() {
+                    aliceJs.alertWarning(i18n.get('form.msg.' + validateValueArray[0], arg), function() {
                         element.value = '';
                         element.focus();
                     });
@@ -206,17 +206,17 @@
                     savedData = JSON.parse(JSON.stringify(editor.data));
                     changeFormName();
                     if (flag) {
-                        aliceJs.alert(i18n.get('common.msg.save'), function () {
+                        aliceJs.alertSuccess(i18n.get('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
                             window.close();
                         });
                     } else {
-                        aliceJs.alert(i18n.get('common.msg.save'));
+                        aliceJs.alertSuccess(i18n.get('common.msg.save'));
                     }
                 } else {
-                    aliceJs.alert(i18n.get('common.label.fail'));
+                    aliceJs.alertDanger(i18n.get('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',
@@ -283,7 +283,7 @@
                 url: '/rest/forms-admin' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
-                        aliceJs.alert(i18n.get('common.msg.save'), function () {
+                        aliceJs.alertSuccess(i18n.get('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
@@ -291,7 +291,7 @@
                             location.href = '/forms/' + xhr.responseText + '/edit';
                         });
                     } else {
-                        aliceJs.alert(i18n.get('common.label.fail'));
+                        aliceJs.alertDanger(i18n.get('common.label.fail'));
                     }
                 },
                 contentType: 'application/json; charset=utf-8',

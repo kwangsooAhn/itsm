@@ -564,6 +564,7 @@ notice:
     view: "공지사항 조회"
     width: "넓이"
   msg:
+    alreadyDeleted: "이미 삭제된 게시물 입니다."
     checkPopHeightRange: "높이는 500px부터 1000px 사이의 값만 입력 가능합니다."
     checkPopWidthRange: "넓이는 500px부터 1000px 사이의 값만 입력 가능합니다."
     checkSearchRange: "검색 시작 날짜가 종료 날짜보다 큽니다."

@@ -1410,11 +1410,13 @@ button.default-point-line:not(:disabled):active span.icon {
   overflow: auto;
   -ms-overflow-style: none;
   /* IE and Edge */
-  scrollbar-width: none;/* Firefox */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 .context-menu::-webkit-scrollbar {
-  display: none;/* Chrome, Safari, Opera*/
+  display: none;
+  /* Chrome, Safari, Opera*/
 }
 
 .context-menu .menu {
@@ -2971,6 +2973,10 @@ body.thumbnail-modal-active {
 .ql-toolbar.ql-snow .ql-formats button:hover, .ql-toolbar.ql-snow .ql-formats button:focus, .ql-toolbar.ql-snow .ql-formats button.ql-active {
   color: #3F4B56;
   background-color: #EBEBEB;
+}
+
+.ql-container div {
+  display: block;
 }
 
 .ql-container.ql-snow {
