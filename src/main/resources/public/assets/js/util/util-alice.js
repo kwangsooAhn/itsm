@@ -611,6 +611,46 @@ aliceJs.AlertDanger = function(message, callbackFunc) {
 };
 
 /**
+ * open confirm with icon dialog.
+ *
+ * @param message message
+ * @param okCallbackFunc ok 시 callback function
+ * @param cancelCallbackFunc cancel 시 callback function
+ */
+aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-confirm',
+        buttons: [
+            {
+                content: i18n.msg('common.btn.cancel'),
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    if (typeof cancelCallbackFunc === 'function') {
+                        cancelCallbackFunc();
+                    }
+                    modal.hide();
+                }
+            },{
+                content: i18n.msg('common.btn.check'),
+                classes: 'gmodal-button-blue',
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    if (typeof okCallbackFunc === 'function') {
+                        okCallbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
  * open confirm dialog.
  *
  * @param message message
@@ -620,10 +660,10 @@ aliceJs.AlertDanger = function(message, callbackFunc) {
 aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
     const myModal = new gModal({
         message: message,
-        type: 'gmodal-icon-confirm',
+        type: 'gmodal-no-icon',
         buttons: [
             {
-                content: i18n.get('common.btn.cancel'),
+                content: i18n.msg('common.btn.cancel'),
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -632,14 +672,17 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                     modal.hide();
                 }
             },{
-                content: i18n.get('common.btn.check'),
+                content: i18n.msg('common.btn.check'),
                 classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {
-                        okCallbackFunc();
+                        if (okCallbackFunc()) {
+                            modal.hide();
+                        }
+                    } else {
+                        modal.hide();
                     }
-                    modal.hide();
                 }
             }
         ],

@@ -131,21 +131,29 @@
 .gmodal-icon-danger{background: url("../../../media/icons/icon_alert_danger.png") no-repeat left 5px;}
 .gmodal-icon-confirm{background: url("../../../media/icons/icon_alert_confirm.png") no-repeat left 5px;}
 
-.gmodal-input {
-    width: 250px;
-    margin-left: 1em;
+.gmodal-no-icon{padding: 0;}
+
+.gmodal-input-text {
+    width: 100%;
+    padding-left: 0.438rem;
+}
+
+.gmodal-input-textarea {
+    width: 100%;
+    min-height: 5.625rem;
+    padding-left: 0.438rem;
 }
 
 .gmodal-input-label {
-    width: 120px;
-    margin-left: 1.5em;
+    display: block;
+    margin: 5px 0;
 }
 
 .gmodal-required {
     display: none;
     text-align: center;
-    font-size: 0.8em;
-    color: #ff0000;
+    font-size: 1rem;
+    color: #FF405A;
 }
 
 @media only screen and (max-width:53em){

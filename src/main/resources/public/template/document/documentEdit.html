@@ -168,7 +168,7 @@
                     url += '/' + documentId;
                 }
                 if (beforeDocumentStatus === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) {
-                    aliceJs.confirm(
+                    aliceJs.confirmIcon(
                         i18n.msg('document.msg.confirmDeleteInstance'),
                         () => restSubmit(method, url + '?isDeleteData=true', documentInfo),
                         () => restSubmit(method, url, documentInfo)
