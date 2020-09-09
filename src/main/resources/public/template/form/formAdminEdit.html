@@ -20,7 +20,8 @@
         </div>
         <div class="form-set">
             <label th:text="#{form.label.description}" for="form_desc"></label>
-            <textarea id="form_desc" maxlength="128" tabindex="2" th:text="${formInfo?.desc}"></textarea>
+            <textarea id="form_desc" maxlength="128" tabindex="2" th:text="${formInfo?.desc}"
+                      class="textarea-scroll-wrapper"></textarea>
         </div>
         <div class="horizontal-bar"></div>
         <div class="btn-bar">
@@ -45,6 +46,7 @@
         /*<![CDATA[*/
         window.onload = function() {
             document.getElementById('form_name').focus();
+            OverlayScrollbars(document.getElementById('form_desc'), { className: 'scrollbar' });
         }
 
         // 폼 등록

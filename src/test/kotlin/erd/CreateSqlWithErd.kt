@@ -10,8 +10,14 @@ fun main() {
         executeSql.delete()
     }
     executeSql.createNewFile()
-    val sqlFiles = Paths.get("src/main/erd/sql").toFile().listFiles(FileFilter { it.isFile })
-    for (sql in sqlFiles!!) {
+
+    val sequenceSqlFiles = Paths.get("src/main/erd/sequence").toFile().listFiles(FileFilter { it.isFile })
+    for (sql in sequenceSqlFiles!!) {
+        Files.write(executePath, sql.readBytes() + "\n".toByteArray(), StandardOpenOption.APPEND)
+    }
+
+    val tableSqlFiles = Paths.get("src/main/erd/sql").toFile().listFiles(FileFilter { it.isFile })
+    for (sql in tableSqlFiles!!) {
         Files.write(executePath, sql.readBytes() + "\n".toByteArray(), StandardOpenOption.APPEND)
     }
 }

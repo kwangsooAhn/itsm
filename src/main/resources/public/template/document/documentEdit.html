@@ -110,7 +110,7 @@
         let beforeDocumentStatus = null;
 
         window.onload = function() {
-            if (documentId  !== '') {
+            if (documentId !== null && documentId  !== '') {
                 aliceJs.sendXhr({
                     method: 'GET',
                     url: '/rest/documents-admin/' + documentId,
@@ -163,12 +163,12 @@
                 }
 
                 let url = '/rest/documents-admin';
-                if (method === 'put') {
+                if (method === 'put' && documentId !== null) {
                     documentInfo.documentId = documentId;
                     url += '/' + documentId;
                 }
                 if (beforeDocumentStatus === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) {
-                    aliceJs.confirm(
+                    aliceJs.confirmIcon(
                         i18n.msg('document.msg.confirmDeleteInstance'),
                         () => restSubmit(method, url + '?isDeleteData=true', documentInfo),
                         () => restSubmit(method, url, documentInfo)
@@ -197,7 +197,7 @@
                     aliceJs.alert(i18n.msg('common.msg.save'), function() {
                         opener.location.reload();
                         window.close();
-                        if (documentId === '') {
+                        if (documentId !== null && documentId === '') {
                             const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
                             window.open('/documents-admin/' + response.responseText + '/display', '_blank', 'width=1500,height=920,' + specs);
                         }
@@ -321,11 +321,7 @@
                 type: 'icon',
                 isThumbnailInfo: false,
                 isFilePrefix: false,
-                thumbnailDoubleClickUse: true,
-                buttons: [
-                    {content: i18n.msg('common.btn.check')},
-                    {content: i18n.msg('common.btn.close')}
-                ]
+                thumbnailDoubleClickUse: true
             });
         }
         /*]]>*/
