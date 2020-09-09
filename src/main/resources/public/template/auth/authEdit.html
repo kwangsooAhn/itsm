@@ -329,16 +329,16 @@
                         });
                     }
                     document.querySelector('td[name=authName]').click();
-                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'inner-scrollbar' });
+                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
                 }
             };
             aliceJs.sendXhr(opt);
         }
 
-        function onGetDetail(roldId) {
+        function onGetDetail(roleId) {
             const opt = {
                 method: 'get',
-                url: '/rest/auths/' +  roldId,
+                url: '/rest/auths/' +  roleId,
                 callbackFunc: function(response) {
                     let responseJson = JSON.parse(response.responseText)[0];
                     document.getElementById('txtAuthId').value = responseJson.authId;
