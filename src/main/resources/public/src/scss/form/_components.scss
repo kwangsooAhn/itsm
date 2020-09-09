@@ -366,6 +366,7 @@
 }
 .component[data-displayType="readonly"] {
     input[type=text],
+    input[type=button],
     select,
     textarea {
         background-color: $component-disabled-bg-color !important;
