@@ -451,12 +451,9 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
  */
 function dateFormatFromNow(date) {
     let v_date = '';
-    let p_date = new Date(date);
+    let p_date = new Date(i18n.userDateTime(date));
     let now = new Date();
     let diff, day, hour, min, sec;
-
-    const today = new Date();
-    const timeValue = new Date(date);
 
     if (date === '' || date === null) {
         return;
@@ -486,7 +483,7 @@ function dateFormatFromNow(date) {
                 } else if (min > 0) {
                     v_date = min + '분 전';
                 } else if (sec > 0) {
-                    v_date = sec + '초 전';
+                    v_date = '방금 전';
                 }
             }
         }
