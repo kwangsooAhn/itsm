@@ -1,9 +1,9 @@
 /* Drop Sequences */
 
-DROP SEQUENCE IF EXISTS awf_download_seq;
-DROP SEQUENCE IF EXISTS awf_file_loc_seq;
-DROP SEQUENCE IF EXISTS hibernate_sequence;
-DROP SEQUENCE IF EXISTS portal_board_seq;
+DROP SEQUENCE IF EXISTS awf_download_seq cascade;
+DROP SEQUENCE IF EXISTS awf_file_loc_seq cascade;
+DROP SEQUENCE IF EXISTS hibernate_sequence cascade;
+DROP SEQUENCE IF EXISTS portal_board_seq cascade;
 
 
 /* Create Sequences */

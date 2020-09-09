@@ -70,7 +70,7 @@
                 let thumbnailUploadTemplate = `
                     <div class="thumbnail-upload" onclick="document.getElementById('image-upload-file').click();">
                         <img src="" />
-                        <p class="thumbnail-upload-text">${i18n.get('image.label.upload')}</p>
+                        <p class="thumbnail-upload-text">${i18n.msg('image.label.upload')}</p>
                         <input type="file" class="fileInput" id="image-upload-file" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);"/>
                     </div>
                 `;
@@ -79,7 +79,7 @@
         }
 
         function removeImage(imgObj) {
-            aliceJs.confirm(i18n.get('common.msg.confirmDelete'), () => {
+            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), () => {
                 aliceJs.sendXhr({
                     url: '/rest/images/' + imgObj.dataset.name,
                     method: 'delete',
@@ -122,7 +122,7 @@
                                 labelObj.textContent = modifyName;
                                 labelObj.parentNode.parentNode.parentNode.querySelector('img').dataset.name = modifyName;
                             } else {
-                                aliceJs.alertWarning(i18n.get("image.msg.failedRename"));
+                                aliceJs.alertWarning(i18n.msg("image.msg.failedRename"));
                             }
                         }
                     });
@@ -168,8 +168,8 @@
                 }
 
                 if (isExistNotAllowedExtension) {
-                    aliceJs.confirm(
-                        i18n.get('image.msg.existNotAllowedExtension'),
+                    aliceJs.confirmIcon(
+                        i18n.msg('image.msg.existNotAllowedExtension'),
                         uploadImage, // OK 시 업로드
                         () => document.getElementById('image-upload-file').value = ''  // CANCEL 시 file object 값 비움 처리
                     );

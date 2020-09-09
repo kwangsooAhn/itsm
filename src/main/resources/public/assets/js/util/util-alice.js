@@ -296,32 +296,39 @@ aliceJs.sendXhr = function (option) {
  */
 function showProgressBar() {
     //divProgressBar 적용이 되지 않을떄는 그냥 넘어가도록 조치
-    var divCheck = document.getElementById('divProgressBar');
+    let divCheck = document.getElementById('divProgressBar');
     if (divCheck === null) {
-        var divProgressBar = document.createElement('div');
+        let divProgressBar = document.createElement('div');
         divProgressBar.id = 'divProgressBar';
         divProgressBar.style.position = 'fixed';
         divProgressBar.style.display = 'block';
         divProgressBar.style.width = '100%';
         divProgressBar.style.height = '100%';
         divProgressBar.style.top = '0';
-        divProgressBar.style.left = '0';
-        divProgressBar.style.right = '0';
         divProgressBar.style.bottom = '0';
         divProgressBar.style.backgroundColor = 'grey';
-        divProgressBar.style.opacity = 0.5;    
+        divProgressBar.style.opacity = 0.5;
         divProgressBar.style.pointerEvents = 'all';
+        divProgressBar.style.zIndex = 999;
         
-        var imgProgressBar = document.createElement('img');
+        let imgProgressBar = document.createElement('img');
         imgProgressBar.src = '/assets/media/image/loading_w_dark.gif';
         imgProgressBar.style.position = 'absolute';
-        imgProgressBar.style.left = '50%';
+        if (document.querySelector('.container') !== null) {
+            imgProgressBar.style.left = '42%';
+        } else {
+            imgProgressBar.style.left = '50%';
+        }
         imgProgressBar.style.top = '0';
         imgProgressBar.style.bottom = '0';
         imgProgressBar.style.margin = 'auto';
         if (divProgressBar && document.body) {
             divProgressBar.appendChild(imgProgressBar);
-            document.body.appendChild(divProgressBar);
+            if (document.querySelector('.container') !== null) {
+                document.querySelector('.container').appendChild(divProgressBar);
+            } else {
+                document.body.appendChild(divProgressBar);
+            }
         }
     } else {
         return false;
@@ -444,12 +451,9 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
  */
 function dateFormatFromNow(date) {
     let v_date = '';
-    let p_date = new Date(date);
+    let p_date = new Date(i18n.userDateTime(date));
     let now = new Date();
     let diff, day, hour, min, sec;
-
-    const today = new Date();
-    const timeValue = new Date(date);
 
     if (date === '' || date === null) {
         return;
@@ -479,7 +483,7 @@ function dateFormatFromNow(date) {
                 } else if (min > 0) {
                     v_date = min + '분 전';
                 } else if (sec > 0) {
-                    v_date = sec + '초 전';
+                    v_date = '방금 전';
                 }
             }
         }
@@ -604,6 +608,46 @@ aliceJs.alertDanger = function(message, callbackFunc) {
 };
 
 /**
+ * open confirm with icon dialog.
+ *
+ * @param message message
+ * @param okCallbackFunc ok 시 callback function
+ * @param cancelCallbackFunc cancel 시 callback function
+ */
+aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
+    const myModal = new gModal({
+        message: message,
+        type: 'gmodal-icon-confirm',
+        buttons: [
+            {
+                content: i18n.msg('common.btn.cancel'),
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    if (typeof cancelCallbackFunc === 'function') {
+                        cancelCallbackFunc();
+                    }
+                    modal.hide();
+                }
+            },{
+                content: i18n.msg('common.btn.check'),
+                classes: 'gmodal-button-blue',
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    if (typeof okCallbackFunc === 'function') {
+                        okCallbackFunc();
+                    }
+                    modal.hide();
+                }
+            }
+        ],
+        close: {
+            closable: false,
+        }
+    });
+    myModal.show();
+};
+
+/**
  * open confirm dialog.
  *
  * @param message message
@@ -613,10 +657,10 @@ aliceJs.alertDanger = function(message, callbackFunc) {
 aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
     const myModal = new gModal({
         message: message,
-        type: 'gmodal-icon-confirm',
+        type: 'gmodal-no-icon',
         buttons: [
             {
-                content: i18n.get('common.btn.cancel'),
+                content: i18n.msg('common.btn.cancel'),
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
@@ -625,14 +669,17 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                     modal.hide();
                 }
             },{
-                content: i18n.get('common.btn.check'),
+                content: i18n.msg('common.btn.check'),
                 classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {
-                        okCallbackFunc();
+                        if (okCallbackFunc()) {
+                            modal.hide();
+                        }
+                    } else {
+                        modal.hide();
                     }
-                    modal.hide();
                 }
             }
         ],

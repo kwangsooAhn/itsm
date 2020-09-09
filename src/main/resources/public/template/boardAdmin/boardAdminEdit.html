@@ -17,7 +17,7 @@
         <div class="edit">
             <div class="form-set">
                 <label class="required" th:text="#{board.label.name}" for="boardAdminTitle"></label>
-                <input type="text" id="boardAdminTitle" maxlength="100" th:value="${boardAdmin?.boardAdminTitle}"
+                <input type="text" id="boardAdminTitle" maxlength="70" th:value="${boardAdmin?.boardAdminTitle}"
                        required="required"/>
             </div>
             <div class="form-set">
@@ -31,12 +31,14 @@
             </div>
             <div class="form-set">
                 <label th:text="#{board.label.order}" for="boardAdminSort"></label>
-                <input class="column-2" id="boardAdminSort" name="boardAdminSort" type="text" th:value="${boardAdmin?.boardAdminSort}"
-                           maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                <input class="column-2" id="boardAdminSort" name="boardAdminSort" type="text"
+                       th:value="${boardAdmin?.boardAdminSort}" maxlength="2"
+                       onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
             </div>
             <div class="form-set">
                 <label th:text="#{board.label.desc}" for="boardAdminDesc"></label>
-                <textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7" th:text="${boardAdmin?.boardAdminDesc}"></textarea>
+                <textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7"
+                          class="textarea-scroll-wrapper"  th:text="${boardAdmin?.boardAdminDesc}"></textarea>
             </div>
             <div class="form-set">
                 <label class="switch">
@@ -65,7 +67,7 @@
             <div class="form-set">
                 <label class="switch">
                     <span class="switch-label" th:text="#{board.label.attachFileYn}"></span>
-                    <input type="checkbox" id="commentYn" name="commentYn" onclick="toggle(this);"
+                    <input type="checkbox" id="attachYn" name="attachYn" onclick="toggle(this);"
                            th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}"
                            onchange="setDisplay('attachFileSize', this.checked)">
                     <span class="slider round"></span>
@@ -78,12 +80,14 @@
                            onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>MB
             </div>
             <div class="btn-bar">
-                <button class="default-line" onclick="location.href='/board-admin/search'" th:text="#{common.btn.list}"></button>
-                <button class="point-fill" th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')" th:text="#{common.btn.modify}"></button>
-                <button class="default-line" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin('${boardAdmin.boardAdminId}')"
-                        th:disabled="${!boardAdmin.enabled}"
-                        th:text="#{common.btn.delete}"></button>
-                <button class="point-fill" th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')" th:text="#{common.btn.save}"></button>
+                <button class="default-line" onclick="location.href='/board-admin/search'"
+                        th:text="#{common.btn.list}"></button>
+                <button class="point-fill" th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')"
+                        th:text="#{common.btn.modify}"></button>
+                <button class="default-line" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin()"
+                        th:disabled="${!boardAdmin.enabled}" th:text="#{common.btn.delete}"></button>
+                <button class="point-fill" th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')"
+                        th:text="#{common.btn.save}"></button>
             </div>
         </div>
     </div>
@@ -92,14 +96,25 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
-        const boardCreateDt = document.getElementById('spanCreateDt');
-        const boardUpdateDt = document.getElementById('spanUpdateDt');
-
+        let boardAdminId = /*[[${boardAdmin?.boardAdminId}]]*/;
+        let attachDisable = /*[[${boardAdmin?.attachYn}]]*/;
+        console.log(attachDisable);
         window.onload = function() {
-            boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
-            boardUpdateDt.textContent = i18n.userDateTime(boardUpdateDt.textContent);
-        };
+            if (!attachDisable) {
+                document.getElementById('attachFileSize').disabled = 'false';
+            }
 
+            OverlayScrollbars(document.querySelectorAll('#boardAdminDesc'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
+        }
         //radio check 값에 따라서 화면이 변경 할 수 있도록 변경
         function setDisplay(id, value) {
             if (id === 'attachFileSize') {
@@ -113,16 +128,17 @@
         }
 
         //게시판 관리 삭제
-        function deleteBoardAdmin(boardAdminId) {
+        function deleteBoardAdmin() {
             restSubmit('delete', '/rest/board-admin/' + boardAdminId);
         }
 
         //게시판 관리 저장
         function saveBoardAdmin(method) {
             if (isEmpty('boardAdminTitle', 'board.msg.enterBoardTitle')) return;
-            if (getRadioCheckValue('attachYn') === 'true') {
+            if (document.getElementById('attachYn').checked) {
                 if (isExistInScope('attachFileSize', 1, 1024, 'board.msg.enterAttachFileSize')) return;
             }
+
             const data = {
                 boardAdminTitle: document.getElementById('boardAdminTitle').value,
                 boardAdminDesc: document.getElementById('boardAdminDesc').value,
@@ -136,20 +152,27 @@
             };
 
             if (method === 'put') {
-                data.boardAdminId = /*[[${boardAdmin?.boardAdminId}]]*/;
+                data.boardAdminId = boardAdminId;
             }
             restSubmit(method, '/rest/board-admin', data);
         }
 
         //REST API
         function restSubmit(method, url, data) {
+            let resultMsg = '';
+            if (method === 'put' || method === 'post') {
+                resultMsg = i18n.msg('common.msg.save');
+            } else if (method === 'delete') {
+                resultMsg = i18n.msg('common.msg.delete');
+            }
+
             const opt = {
                 method: method,
                 url: url,
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    aliceJs.alertSuccess(i18n.get('common.msg.save'), function() {
+                    aliceJs.alertSuccess(resultMsg, function () {
                         location.href = '/board-admin/search';
                     });
                 },

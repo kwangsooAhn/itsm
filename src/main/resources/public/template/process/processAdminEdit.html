@@ -45,6 +45,10 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
+        window.onload = function() {
+            document.getElementById('process_name').focus();
+        }
+
         // 프로세스 등록/수정
         function saveProcess(processId) {
             // 빈 값 체크

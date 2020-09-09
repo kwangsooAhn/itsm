@@ -164,7 +164,7 @@
                 if (!result) {
                     e.stopImmediatePropagation();
                     element.classList.add('validate-error');
-                    aliceJs.alertWarning(i18n.get('form.msg.' + validateValueArray[0], arg), function() {
+                    aliceJs.alertWarning(i18n.msg('form.msg.' + validateValueArray[0], arg), function() {
                         element.value = '';
                         element.focus();
                     });
@@ -206,17 +206,17 @@
                     savedData = JSON.parse(JSON.stringify(editor.data));
                     changeFormName();
                     if (flag) {
-                        aliceJs.alertSuccess(i18n.get('common.msg.save'), function () {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
                             window.close();
                         });
                     } else {
-                        aliceJs.alertSuccess(i18n.get('common.msg.save'));
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'));
                     }
                 } else {
-                    aliceJs.alertDanger(i18n.get('common.label.fail'));
+                    aliceJs.alertDanger(i18n.msg('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',
@@ -237,15 +237,15 @@
         const createDialogContent = function() {
             return `
                 <div>
-                    <div>
-                        <label class="gmodal-input-label" for="form_name">${i18n.get('form.label.name')}<span class="required">*</span></label>
-                        <input class="gmodal-input" id="form_name">
+                    <div class="gmodal-input">
+                        <label class="gmodal-input-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>
+                        <input class="gmodal-input-text" id="form_name">
                     </div>
                     <div>
-                        <label class="gmodal-input-label" for="process_description">${i18n.get('form.label.description')}</label>
-                        <textarea class="gmodal-input" rows="3" id="form_description"></textarea>
+                        <label class="gmodal-input-label" for="form_description">${i18n.msg('form.label.description')}</label>
+                        <textarea class="gmodal-input-textarea" rows="3" id="form_description"></textarea>
                     </div>
-                    <div class="gmodal-required">${i18n.get('common.msg.requiredEnter')}</div>
+                    <div class="gmodal-required">${i18n.msg('common.msg.requiredEnter')}</div>
                 </div>
                 `
         };
@@ -258,11 +258,11 @@
         const checkRequired = function() {
             let nameLabelElem = document.getElementById('form_name');
             if (nameLabelElem.value.trim() === '') {
-                nameLabelElem.style.backgroundColor = '#ff000040';
+                nameLabelElem.style.borderColor = '#FF405A';
                 document.querySelector('.gmodal-required').style.display = 'block';
                 return false;
             }
-            nameLabelElem.style.backgroundColor = '';
+            nameLabelElem.style.borderColor = '';
             document.querySelector('.gmodal-required').style.display = 'none';
             return true;
         };
@@ -272,6 +272,10 @@
          */
         const saveAs = function() {
             data = JSON.parse(JSON.stringify(editor.data));
+
+            // datetime 형태의 속성들은 저장을 위해 시스템 공통 포맷으로 변경한다. (YYYY-MM-DD HH:mm, UTC+0)
+            data.components = aliceForm.reformatCalendarFormat('save', data.components);
+
             let lastCompIndex = component.getLastIndex();
             data.components = data.components.filter(function (comp) {
                 return !(comp.display.order === lastCompIndex && comp.type === aliceForm.defaultType);
@@ -283,7 +287,7 @@
                 url: '/rest/forms-admin' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
-                        aliceJs.alertSuccess(i18n.get('common.msg.save'), function () {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
@@ -291,7 +295,7 @@
                             location.href = '/forms/' + xhr.responseText + '/edit';
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.get('common.label.fail'));
+                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
                     }
                 },
                 contentType: 'application/json; charset=utf-8',
@@ -305,8 +309,10 @@
         const saveAsCallBack = function() {
             if (checkRequired()) {
                 saveAs();
+                return true;
             }
-        }
+            return false;
+        };
 
         /**
          * 다른 이름으로 저장하기 모달.
@@ -1202,7 +1208,7 @@
                                 const tooltipTemplate = (typeof fieldProp.help === 'undefined') ? `` : `<div class="help-tooltip">
                                     <span class="help-tooltip-icon"></span>
                                     <div class="tooltip-contents">
-                                        <span>${i18n.get(fieldProp.help)}</span>
+                                        <span>${i18n.msg(fieldProp.help)}</span>
                                     </div>
                                 </div>`;
                                 let fieldTemplate = ``;
@@ -1276,11 +1282,7 @@
                                                 title: i18n.msg('image.label.popupTitle'),
                                                 targetId: 'path-' + selectedComponentIds[0], 
                                                 selectedPath: fieldGroupElem.querySelector('#path-' + selectedComponentIds[0]).value,
-                                                thumbnailDoubleClickUse: true,
-                                                buttons: [
-                                                    {content: i18n.msg('common.btn.check')},
-                                                    {content: i18n.msg('common.btn.close')}
-                                                ]
+                                                thumbnailDoubleClickUse: true
                                             });
                                         });
                                         break;

@@ -25,6 +25,15 @@
     &::-webkit-scrollbar { display: none; /* Chrome, Safari, Opera*/ }
 }
 
+@mixin document-button {
+    display: flex;
+    align-items: center;
+    padding-bottom: 0.9375rem; // 15px
+    width: $document-content-drawing-board-width;
+    max-width: $document-content-drawing-board-width;
+    padding-top: 8.438rem; //135px
+}
+
 @mixin h1() {
     color: $light-black;
     font: {
