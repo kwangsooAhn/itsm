@@ -477,11 +477,11 @@ textarea:focus {
   background-color: rgba(135, 206, 255, 0.15);
 }
 
-.no-data-found {
+tr.no-data-found {
   pointer-events: none;
   background: #EBEBEB;
 }
-.no-data-found td {
+tr.no-data-found td {
   text-align: center;
 }
 
@@ -502,11 +502,9 @@ div.no-data-found {
   border-radius: 0.0625rem;
   pointer-events: none;
 }
-
 div.no-data-found img.no-data-icon {
   content: url("../icons/icon_no_data.svg");
 }
-
 div.no-data-found span.no-data-text {
   font-size: 1.125rem;
   font-weight: 500;
@@ -1345,8 +1343,8 @@ span.vertical-bar {
 .container .contents-document .service-request .card-area .document-card .document-icon {
   overflow: hidden;
   position: absolute;
-  top: 2.75rem;
-  left: 22.125rem;
+  top: 3.75rem;
+  left: 23.125rem;
 }
 .container .contents-document .service-request .card-area .document-card h3 {
   color: #3F4B56;
