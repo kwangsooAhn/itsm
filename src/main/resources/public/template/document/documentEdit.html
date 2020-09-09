@@ -242,7 +242,7 @@
                 formSet.className = 'form-set';
                 let formSetLabel = document.createElement('label');
                 formSetLabel.htmlFor = 'document-icon';
-                formSetLabel.innerText = i18n.msg('document.label.icon');
+                formSetLabel.innerText = /*[[#{document.label.icon}]]*/;
 
                 let formIcon = document.createElement('div');
                 let formIconInput = document.createElement('input');
@@ -250,7 +250,7 @@
                 formIconInput.readOnly = true;
                 formIconInput.disabled = true;
                 let formIconButton = document.createElement('button');
-                formIconButton.innerText = i18n.msg('common.btn.select');
+                formIconButton.innerText = /*[[#{common.btn.select}]]*/;
                 formIconButton.className = 'point-line';
                 formIconButton.onclick = function() {
                     openIcon();
