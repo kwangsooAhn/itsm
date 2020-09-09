@@ -40,8 +40,9 @@ class DocumentController(
      */
     @GetMapping("/list")
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
-        restTemplateDocumentSearchListDto.searchDocumentType = DocumentConstants.DocumentType.APPLICATION_FORM.value
-        model.addAttribute("documentList", documentService.getDocumentList(restTemplateDocumentSearchListDto))
+        val result = documentService.getDocumentList(restTemplateDocumentSearchListDto)
+        model.addAttribute("documentList", result)
+        model.addAttribute("totalCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return documentListPage
     }
 
