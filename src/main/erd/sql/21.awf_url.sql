@@ -218,3 +218,4 @@ insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 �
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editSelf', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
 insert into awf_url values ('/users/department/view-pop', 'get', '부서관리팝업화면', 'TRUE');
+insert into awf_url values ('/rest/portal/top', 'get', '포탈 데이터 리스트 조회', 'FALSE');
