@@ -260,7 +260,7 @@
         aliceProcessEditor.resetElementPosition();
         save(function (xhr) {
             if (xhr.responseText === 'true') {
-                aliceJs.alert(i18n.msg('common.msg.save'));
+                aliceJs.alertSuccess(i18n.msg('common.msg.save'));
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
                 if (savedData.process.status === 'process.status.publish') {
@@ -268,7 +268,7 @@
                 }
                 changeProcessName();
             } else {
-                aliceJs.alert(i18n.msg('common.label.fail'));
+                aliceJs.alertDanger(i18n.msg('common.label.fail'));
             }
         });
     }
@@ -378,13 +378,13 @@
                 url: '/rest/processes-admin' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
-                        aliceJs.alert(i18n.msg('common.msg.save'), function () {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                             opener.location.reload();
                             window.name = 'process_' + xhr.responseText + '_edit';
                             location.href = '/processes/' + xhr.responseText + '/edit';
                         });
                     } else {
-                        aliceJs.alert(i18n.msg('common.label.fail'));
+                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
                     }
                 },
                 contentType: 'application/json; charset=utf-8',

@@ -67,7 +67,7 @@
         keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
         const authFailedMsg = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
         if (authFailedMsg !== null) {
-            aliceJs.alert(i18n.get(authFailedMsg), function() {
+            aliceJs.alertWarning(i18n.get(authFailedMsg), function() {
                 document.getElementById('uid').focus();
             });
         } else {
@@ -86,16 +86,16 @@
         if (!window._onLogin) {
             window._onLogin = true;
             if (document.getElementById('uid').value.trim() === '') {
-                aliceJs.alert([[#{login.msg.enterId}]], function() {window._onLogin = false;});
+                aliceJs.alertWarning([[#{login.msg.enterId}]], function() {window._onLogin = false;});
                 return false;
             }
             if (document.getElementById('upasswd').value.trim() === '') {
-                aliceJs.alert([[#{login.msg.enterPassword}]], function() {window._onLogin = false;});
+                aliceJs.alertWarning([[#{login.msg.enterPassword}]], function() {window._onLogin = false;});
                 return false;
             }
 
             if (!ipAccessCheck()) {
-                aliceJs.alert([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
+                aliceJs.alertWarning([[#{login.msg.ipAccessDenied}]], function() {window._onLogin = false;});
                 return false;
             }
 

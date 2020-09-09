@@ -1,0 +1,8 @@
+/* 상세 조회 화면 */
+
+// TODO: #9089 view-template 믹스인 수정에 따라 contents-view.scss  대신 사용한다.
+// 클래스명은 추후  변경될 수 있으니 수정 후 사용하도록 한다.
+.contents-flex {
+    @include contents-template();
+    @include flex-template();
+}

@@ -2573,6 +2573,10 @@ body.thumbnail-modal-active {
   background-color: #EBEBEB;
 }
 
+.ql-container div {
+  display: block;
+}
+
 .ql-container.ql-snow {
   font-family: "Noto Sans KR";
   font-size: 16px;

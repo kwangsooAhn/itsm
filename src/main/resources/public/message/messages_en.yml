@@ -564,6 +564,7 @@ notice:
     view: "Notice"
     width: "Width"
   msg:
+    alreadyDeleted: "This post has already been deleted."
     checkPopHeightRange: "The height can only be a value between 500px and 1000px."
     checkPopWidthRange: "The width can only be a value between 500px and 1000px."
     checkSearchRange: "Search start date is greater than end date."

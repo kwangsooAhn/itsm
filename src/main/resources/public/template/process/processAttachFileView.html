@@ -110,7 +110,7 @@
         // image 미선택 시 알림창 출력
         const selectedImage = document.querySelector('.thumbnail.selected');
         if (!selectedImage) {
-            aliceJs.alert(i18n.get('form.msg.fileSelect'));
+            aliceJs.alertWarning(i18n.get('form.msg.fileSelect'));
             return false;
         }
         if (window.opener && !window.opener.closed) {

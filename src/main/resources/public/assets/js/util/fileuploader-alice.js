@@ -355,7 +355,7 @@ const fileUploader = (function () {
                         if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
                             this.removeFile(file);
                             dropzoneMessage.style.display = 'block';
-                            aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
+                            aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
                         }
                     });
 

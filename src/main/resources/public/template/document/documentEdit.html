@@ -194,7 +194,7 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
-                    aliceJs.alert(i18n.msg('common.msg.save'), function() {
+                    aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
                         opener.location.reload();
                         window.close();
                         if (documentId !== null && documentId === '') {

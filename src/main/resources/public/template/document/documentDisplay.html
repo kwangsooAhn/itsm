@@ -128,7 +128,7 @@
             params: displayJson,
             contentType: 'application/json',
             callbackFunc: function () {
-                aliceJs.alert(i18n.get('common.msg.save'), function() {
+                aliceJs.alertSuccess(i18n.get('common.msg.save'), function() {
                     location.href = '/documents/search';
                     window.close();
                 });

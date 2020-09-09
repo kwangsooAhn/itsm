@@ -254,7 +254,7 @@
             });
 
             if (arrAuthId.length === 0) {
-                aliceJs.alert([[#{role.msg.selectAuth}]]);
+                aliceJs.alertWarning([[#{role.msg.selectAuth}]]);
                 return;
             }
 
@@ -272,7 +272,7 @@
                 params: roleJson,
                 contentType: 'application/json',
                 callbackFunc: function () {
-                    aliceJs.alert([[#{common.msg.save}]], function() {
+                    aliceJs.alertSuccess([[#{common.msg.save}]], function() {
                         window.location.href ='/roles/edit';
                     });
                 }
@@ -288,15 +288,15 @@
                     callbackFunc: function(response) {
                         switch (response.responseText) {
                             case "true":
-                                aliceJs.alert([[#{common.msg.delete}]], function() {
+                                aliceJs.alertSuccess([[#{common.msg.delete}]], function() {
                                     window.location.href ='/roles/edit';
                                 });
                                 break;
                             case "false":
-                                aliceJs.alert(i18n.get('common.label.delete') + i18n.get('common.label.blank') + i18n.get('common.msg.fail'));
+                                aliceJs.alertDanger(i18n.get('common.label.delete') + i18n.get('common.label.blank') + i18n.get('common.msg.fail'));
                                 break;
                             default :
-                                aliceJs.alert([[#{common.msg.fail}]]);
+                                aliceJs.alertDanger([[#{common.msg.fail}]]);
                                 break;
                         }
                     }

@@ -253,23 +253,23 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alert([[#{common.msg.modify}]], function() {
+                            aliceJs.alertSuccess([[#{common.msg.modify}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_EMAIL:
-                            aliceJs.alert([[#{user.msg.emailWithUpdate}]], function() {
+                            aliceJs.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_ERROR_USER_ID_DUPLICATION:
-                            aliceJs.alert([[#{user.msg.sameUserId}]]);
+                            aliceJs.alertWarning([[#{user.msg.sameUserId}]]);
                             break;
                         case STATUS_ERROR_EMAIL_DUPLICATION:
-                            aliceJs.alert([[#{user.msg.sameEmail}]]);
+                            aliceJs.alertWarning([[#{user.msg.sameEmail}]]);
                             break;
                         default :
-                            aliceJs.alert(i18n.get('common.label.modify') + i18n.get('common.label.blank') + i18n.get('common.msg.fail'));
+                            aliceJs.alertDanger(i18n.get('common.label.modify') + i18n.get('common.label.blank') + i18n.get('common.msg.fail'));
                             break;
                     }
                 }

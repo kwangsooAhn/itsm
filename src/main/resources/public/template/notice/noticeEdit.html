@@ -232,7 +232,7 @@
                 params: jsonData,
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    aliceJs.alert(i18n.get('common.msg.register'), function() {
+                    aliceJs.alertSuccess(i18n.get('common.msg.register'), function() {
                         window.location.href = '/notices/search';
                     });
 
