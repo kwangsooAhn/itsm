@@ -14,14 +14,19 @@
 <th:block layout:fragment="content">
     <div class="container-document">
         <div class="contents token-document">
-            <div class="button-board">
-                <div class="button-group">
-                    <button type="button" class="default-line" onclick="openProcessStatusPopUp()"
-                            th:text="#{process.label.processMap}"></button>
-                    <button type="button" class="default-line" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
-                            th:text="#{common.btn.print}"></button>
+            <div class="button-board-document">
+                <div class="numbering-content">
+                    <label th:text="|#{document.label.docNo} : ${documentNo}|"></label>
                 </div>
-                <div id="button-container" class="button-group"></div>
+                <div>
+                    <div class="button-group">
+                        <button type="button" class="default-line" onclick="openProcessStatusPopUp()"
+                                th:text="#{process.label.processMap}"></button>
+                        <button type="button" class="default-line" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
+                                th:text="#{common.btn.print}"></button>
+                    </div>
+                    <div id="button-container" class="button-group"></div>
+                </div>
             </div>
             <div>
                 <form id="frm" name="frm">
@@ -39,25 +44,18 @@
             <div class="token-info-contents">
                 <div class="token-history">
                     <table class="table table-hover">
-                        <colgroup>
-                            <col width="45%">
-                            <!--<col width="20%">-->
-                            <col width="35%">
-                            <!--<col width="20%">-->
-                            <col width="20%">
-                        </colgroup>
                         <thead>
                         <tr>
-                            <th th:text="#{token.label.startDt}">시작일시</th>
-                            <th th:text="#{token.label.elementName}">업무</th>
-                            <th th:text="#{token.label.assignee}">담당자</th>
+                            <th width="45%" th:text="#{token.label.startDt}">시작일시</th>
+                            <th width="35%" th:text="#{token.label.elementName}">업무</th>
+                            <th width="20%" th:text="#{token.label.assignee}">담당자</th>
                         </tr>
                         </thead>
                         <tbody id="history" class="list-wrap">
                         <tr th:each="tokenHistory : ${instanceHistory}">
-                            <td th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
-                            <td th:text="${tokenHistory.elementName}"></td>
-                            <td th:text="${tokenHistory.assigneeName}"></td>
+                            <td width="45%" th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
+                            <td width="35%" th:text="${tokenHistory.elementName}"></td>
+                            <td width="20%" th:text="${tokenHistory.assigneeName}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -175,8 +173,7 @@
             document.querySelectorAll('.dateFormatFromNow').forEach((ele) => {
                 ele.textContent = dateFormatFromNow(ele.textContent);
             });
-            // TODO: 처리 이력, 관련문서 등 스크롤 적용 필요
-            //OverlayScrollbars(document.querySelectorAll('.list-wrap'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.list-wrap'), { className: 'scrollbar' });
         };
 
         function onAddTag(tag) {

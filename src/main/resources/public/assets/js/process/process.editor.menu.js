@@ -996,7 +996,7 @@
         if (assigneeObject.parentNode.querySelector('select') !== null) {
             assigneeObject.parentNode.querySelector('select').remove();
             assigneeObject.parentNode.querySelector('button').remove();
-            assigneeObject.parentNode.querySelector('table').remove();
+            assigneeObject.parentNode.parentNode.querySelector('table').remove();
         }
         assigneeObject.value = '';
 
@@ -1294,7 +1294,7 @@
         btnAdd.innerText = 'ADD';
 
         const saveData = function() {
-            let dataBody = inputObject.parentNode.querySelector('tbody');
+            let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
             let rows = dataBody.querySelectorAll('tr');
             let assigneeValue = '';
             let rowLength = rows.length;

@@ -45,8 +45,10 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
+            document.getElementById('form_name').focus();
             OverlayScrollbars(document.getElementById('form_desc'), { className: 'scrollbar' });
         }
+
         // 폼 등록
         function saveForm(formId) {
             // 빈 값 체크

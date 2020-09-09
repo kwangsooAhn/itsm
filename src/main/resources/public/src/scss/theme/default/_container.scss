@@ -65,7 +65,7 @@
 }
 
 // 데이터 없을 때 테이블 처리
-.no-data-found {
+tr.no-data-found {
     pointer-events: none;
     background: $line-gray;
     td { text-align: center; }
@@ -74,6 +74,27 @@
     height: 0.0625rem; // 1px
     margin: 0.625rem 0; // 10px
     background-color: $line-gray;
+}
+// 데이터 없을 때 div 처리 (문서함, 신청서)
+div.no-data-found {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 13.75rem; // 220px
+    margin: 3.125rem 3.75rem; // 50px 60px
+    background-color: rgba(247, 248, 249, 0.45); // $light-gray
+    border: 0.0625rem solid $line-gray; // 1px
+    border-radius: 0.0625rem; // 1px
+    pointer-events: none;
+    img.no-data-icon {
+        content: url("../icons/icon_no_data.svg")
+    }
+    span.no-data-text {
+        font-size: 1.125rem;; // 18px
+        font-weight: 500;
+        color: $pressed-gray;
+        margin-left: 1.875rem; // 30px
+    }
 }
 // 버튼 영역
 .btn-bar {
@@ -163,7 +184,7 @@ span.vertical-bar {
                 }
             }
             &-contents {
-                height: 37.5rem; // 600px
+                height: 43.75rem; // 700px
                 overflow-y: auto;
                 .token {
                     &-tag {
@@ -175,24 +196,35 @@ span.vertical-bar {
                             border: none;
                             thead {
                                 border-bottom: 0.0625rem solid $default-gray; // 1px
+                                display: block;
+                                tr {
+                                    display: flex;
+                                }
                             }
                             th { color: $light-black; font-weight: 500; }
                             td { color: $dark-gray; font-weight: 400;}
                             th,td {
                                 border: none;
                                 text-align: left;
-                                &:first-child {
-                                    margin-left: 1.25rem; // 20px
+                            }
+                            tbody {
+                                display: block;
+                                height: 35.3125rem; // 565px;
+                                overflow-y: auto;
+                                width: 100%;
+                                tr {
+                                    display: table;
+                                    width: 100%;
                                 }
                             }
                         }
-                        display: none;
+                        height: 100%;
                     }
                     &-related {
-                        display: none;
                         padding-top: 0.625rem; // 10px
                         display: flex;
                         flex-direction: column;
+                        display: none;
                         .list-item {
                             height: 11.5625rem; // 185px
                             margin-top: 0.625rem; // 10px

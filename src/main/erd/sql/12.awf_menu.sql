@@ -34,9 +34,9 @@ insert into awf_menu values ('config.role', 'config', '/roles/edit', 3,TRUE);
 insert into awf_menu values ('config.boardAdmin', 'config', '/board-admin/search', 4,TRUE);
 insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
 insert into awf_menu values ('workflow', 'menu', '', 9,TRUE);
-insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1,TRUE);
-insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRUE);
-insert into awf_menu values ('workflow.document', 'workflow', '/documents-admin/search', 3,TRUE);
+insert into awf_menu values ('workflow.process', 'workflow', '/processes-admin/search', 1,TRUE);
+insert into awf_menu values ('workflow.form', 'workflow', '/forms-admin/search', 2,TRUE);
+insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/documents-admin/search', 3,TRUE);
 insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4,TRUE);
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
 
