@@ -343,6 +343,7 @@
         function onGetDetail(roldId) {
             const opt = {
                 method: 'get',
+                async: false,
                 url: '/rest/auths/' +  roldId,
                 callbackFunc: function(response) {
                     let responseJson = JSON.parse(response.responseText)[0];
