@@ -991,6 +991,9 @@ span.vertical-bar {
 .container .contents-list .list {
   padding-top: 1.25rem;
 }
+.container .contents-list .list a {
+  cursor: pointer;
+}
 .container .contents-list .list table {
   width: 100%;
 }
