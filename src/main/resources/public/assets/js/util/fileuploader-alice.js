@@ -514,7 +514,7 @@ const fileUploader = (function () {
                         extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
                     }
 
-                    if (!(extensionValueArr.includes(getExtension(fileName)))) {
+                    if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
                         this.removeFile(file);
                         aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
                     }
