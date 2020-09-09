@@ -659,6 +659,7 @@ role:
     enterRoleName: "역할 명을 입력하세요."
     selectAuth: "권한을 선택하세요."
     description: "역할을 관리하세요."
+    searchPlaceholder: "역할 명 / 역할 설명"
 
 # Token
 token:

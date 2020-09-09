@@ -160,4 +160,22 @@ class RoleService(
         }
         return dto
     }
+
+    /**
+     * 역할 목록을 조회 (검색어 포함).
+     */
+    fun getRoleSearchList(search: String): MutableList<RoleListDto> {
+        val queryResults = roleRepository.findRoleSearch(search)
+        val roleList = mutableListOf<RoleListDto>()
+        for (role in queryResults.results) {
+            roleList.add(
+                RoleListDto(
+                    roleId = role.roleId,
+                    roleName = role.roleName,
+                    roleDesc = role.roleDesc
+                )
+            )
+        }
+        return roleList
+    }
 }
