@@ -979,7 +979,7 @@ button.default-point-line:not(:disabled):active span.icon {
   height: calc(2.5rem * var(--data-row));
 }
 .component .field-group .field-content select {
-  min-width: 17.19rem;
+  width: 100%;
   padding-left: 10px;
 }
 .component .field-group .field-content .datepicker,
