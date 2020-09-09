@@ -165,6 +165,7 @@
     <script th:src="@{/assets/vendors/rsa/rsa.js}"></script>
     <script th:src="@{/assets/vendors/rsa/prng4.js}"></script>
     <script th:src="@{/assets/vendors/rsa/rng.js}"></script>
+    <script th:src="@{/assets/js/util/tree-alice.js}"></script>
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         window.onload = function() {
@@ -304,7 +305,16 @@
         }
 
         function deptPopUp() {
-            window.open('/users/department/view-pop', null, 'width=400, height=700');
+            //window.open('/users/department/view-pop', null, 'width=400, height=700');
+            tree.init({
+                /*title: i18n.msg('image.label.popupTitle'),
+                targetId: 'document-icon',
+                selectedPath: document.querySelector('#document-icon').value,
+                type: 'icon',
+                isThumbnailInfo: false,
+                isFilePrefix: false,
+                thumbnailDoubleClickUse: true*/
+            });
         }
         /*]]>*/
     </script>
