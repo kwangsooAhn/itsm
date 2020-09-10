@@ -6,7 +6,7 @@ data class BoardSaveDto(
     var boardId: String = "",
     var boardAdminId: String = "",
     var boardAdmin: PortalBoardAdminEntity?,
-    var boardCategoryId: String? = "",
+    var boardCategoryId: String? = null,
     var boardSeq: Long? = 0,
     var boardGroupId: Long? = 0,
     var boardLevelId: Long? = 0,

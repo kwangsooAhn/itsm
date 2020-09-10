@@ -98,9 +98,9 @@
         /*<![CDATA[*/
         let boardAdminId = /*[[${boardAdmin?.boardAdminId}]]*/;
         let attachDisable = /*[[${boardAdmin?.attachYn}]]*/;
-        console.log(attachDisable);
+
         window.onload = function() {
-            if (!attachDisable) {
+            if (!attachDisable && attachDisable !== null) {
                 document.getElementById('attachFileSize').disabled = 'false';
             }
 
