@@ -10,9 +10,11 @@
 <th:block layout:fragment="content">
     <div class="portal-search-container">
         <div class="contents-view">
-            <div class="page-title">
-                <h1 th:text="#{notice.label.list}"></h1>
-                <h6 class="title-description" th:text="#{notice.msg.viewDescription}"></h6>
+            <div class="header">
+                <div class="page-title">
+                    <h1 th:text="#{notice.label.list}"></h1>
+                    <h6 class="title-description" th:text="#{notice.msg.viewDescription}"></h6>
+                </div>
             </div>
         </div>
     </div>
@@ -22,10 +24,10 @@
             <div class="row-right">
                 <span id="spanCreateDt" th:text="${notice.createDt}"></span>
                 <span class="vertical-bar"></span>
-                <span id="spanUserName" th:text="${notice?.aliceUserEntity.userName}"></span>
+                <span th:text="${notice?.aliceUserEntity.userName}"></span>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="page-view-text">
+            <div class="view-text">
                 <pre><span th:text="${notice?.noticeContents}"/></pre>
             </div>
             <div class="horizontal-bar"></div>
