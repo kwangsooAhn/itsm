@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
+  <defs>
+    <style>
+      .alert-success-circle {
+        fill: rgba(0,196,98,0.15);
+      }
+
+      .alert-success-icon {
+        fill: #00c462;
+      }
+    </style>
+  </defs>
+  <g transform="translate(-21 -25)">
+    <circle class="alert-success-circle" cx="22.5" cy="22.5" r="22.5" transform="translate(21 25)"/>
+    <path class="alert-success-icon" d="M3215.621,365.379a1.5,1.5,0,0,0-2.121,0l-13,13-6.94-6.939a1.5,1.5,0,1,0-2.12,2.12l8,8a1.5,1.5,0,0,0,2.123,0l14.059-14.06A1.5,1.5,0,0,0,3215.621,365.379Z" transform="translate(-3160 -325)"/>
+  </g>
+</svg>

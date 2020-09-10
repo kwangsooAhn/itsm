@@ -10,9 +10,11 @@
 <th:block layout:fragment="content">
     <div class="portal-search-container">
         <div class="contents-view">
-            <div class="page-title">
-                <h1 th:text="#{notice.label.list}"></h1>
-                <h6 class="title-description" th:text="#{notice.msg.viewDescription}"></h6>
+            <div class="header">
+                <div class="page-title">
+                    <h1 th:text="#{notice.label.list}"></h1>
+                    <h6 class="title-description" th:text="#{notice.msg.viewDescription}"></h6>
+                </div>
             </div>
         </div>
     </div>
@@ -22,7 +24,7 @@
             <div class="row-right">
                 <span id="spanCreateDt" th:text="${notice.createDt}"></span>
                 <span class="vertical-bar"></span>
-                <span id="spanUserName" th:text="${notice?.aliceUserEntity.userName}"></span>
+                <span th:text="${notice?.aliceUserEntity.userName}"></span>
             </div>
             <div class="horizontal-bar"></div>
             <div class="view-text">
@@ -56,7 +58,7 @@
             // 게시물 삭제 처리 시, validation 체크.
             const noticeNo = /*[[${notice.noticeNo}]]*/;
             if (noticeNo === null) {
-                aliceJs.alert(i18n.msg('common.msg.delete'));
+                aliceJs.alertWarning(i18n.msg('common.msg.delete'));
                 return history.go(-1);
             }
             portalFileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});

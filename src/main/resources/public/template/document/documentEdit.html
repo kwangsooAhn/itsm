@@ -71,18 +71,18 @@
         </div>
         <div class="form-set">
             <label class="required"  th:text="#{document.label.businessFlowColor}" for="document-color"></label>
-                <div class="color-picker">
-                    <div class="color-input">
-                        <div class="selected-color-box">
-                            <div id="selected-color" name="selected-color" class="selected-color"></div>
-                        </div>
-                        <input id="document-color" name="document-color" disabled/>
+            <div class="color-picker">
+                <div class="color-input">
+                    <div class="selected-color-box">
+                        <div id="selected-color" name="selected-color" class="selected-color"></div>
                     </div>
-                    <div id="color-palette-layer">
-                        <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
-                        <div id="document-colorPalette-opacity" name="document-colorPalette-opacity" class="color-palette-opacity"></div>
-                    </div>
+                    <input id="document-color" name="document-color" disabled/>
                 </div>
+                <div id="color-palette-layer">
+                    <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
+                    <div id="document-colorPalette-opacity" name="document-colorPalette-opacity" class="color-palette-opacity"></div>
+                </div>
+            </div>
             </td>
         </div>
     </div>
@@ -194,12 +194,12 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
-                    aliceJs.alert(i18n.msg('common.msg.save'), function() {
+                    aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
                         opener.location.reload();
                         window.close();
                         if (documentId !== null && documentId === '') {
-                            const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
-                            window.open('/documents-admin/' + response.responseText + '/display', '_blank', 'width=1500,height=920,' + specs);
+                            const specs = 'menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes';
+                            window.open('/documents-admin/' + response.responseText + '/display', '_blank', 'width=1000, height=630, left=500, top=60,' + specs);
                         }
                     });
                 }
@@ -242,7 +242,7 @@
                 formSet.className = 'form-set';
                 let formSetLabel = document.createElement('label');
                 formSetLabel.htmlFor = 'document-icon';
-                formSetLabel.innerText = i18n.msg('document.label.icon');
+                formSetLabel.innerText = /*[[#{document.label.icon}]]*/;
 
                 let formIcon = document.createElement('div');
                 let formIconInput = document.createElement('input');
@@ -250,7 +250,7 @@
                 formIconInput.readOnly = true;
                 formIconInput.disabled = true;
                 let formIconButton = document.createElement('button');
-                formIconButton.innerText = i18n.msg('common.btn.select');
+                formIconButton.innerText = /*[[#{common.btn.select}]]*/;
                 formIconButton.className = 'point-line';
                 formIconButton.onclick = function() {
                     openIcon();
@@ -308,8 +308,8 @@
 
         //신청서 양식편집 화면 open
         function openDisplay() {
-            const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
-            window.open('/documents-admin/' + '[[${documentId}]]' + '/display', '_blank', 'width=1500,height=920,' + specs);
+            const specs = "menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
+            window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1000, height=630, left=500, top=60,' + specs);
             window.close();
         }
 

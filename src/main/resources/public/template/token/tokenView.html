@@ -39,25 +39,18 @@
             <div class="token-info-contents">
                 <div class="token-history">
                     <table class="table table-hover">
-                        <colgroup>
-                            <col width="45%">
-                            <!--<col width="20%">-->
-                            <col width="35%">
-                            <!--<col width="20%">-->
-                            <col width="20%">
-                        </colgroup>
                         <thead>
                         <tr>
-                            <th th:text="#{token.label.startDt}"></th>
-                            <th th:text="#{token.label.elementName}"></th>
-                            <th th:text="#{token.label.assignee}"></th>
+                            <th width="45%" th:text="#{token.label.startDt}">시작일시</th>
+                            <th width="35%" th:text="#{token.label.elementName}">업무</th>
+                            <th width="20%" th:text="#{token.label.assignee}">담당자</th>
                         </tr>
                         </thead>
                         <tbody id="history" class="list-wrap">
                         <tr th:each="tokenHistory : ${instanceHistory}">
-                            <td th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
-                            <td th:text="${tokenHistory.elementName}"></td>
-                            <td th:text="${tokenHistory.assigneeName}"></td>
+                            <td width="45%" th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
+                            <td width="35%" th:text="${tokenHistory.elementName}"></td>
+                            <td width="20%" th:text="${tokenHistory.assigneeName}"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -166,9 +159,17 @@
                         });
                         targetElement.style.display = 'block';
                     };
+                    // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
+                    sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
                 });
             });
-            document.querySelector('h4[data-target-contents="token-history"]').click();
+
+            const selectedTab = sessionStorage.getItem('token-info-tab');
+            if (selectedTab !== null) {
+                document.querySelector('h4[data-target-contents="' + selectedTab +  '"]').click();
+            } else {
+                document.querySelector('h4[data-target-contents="token-history"]').click();
+            }
 
             document.querySelectorAll('.dateFormatFromNow').forEach((ele) => {
                 ele.textContent = dateFormatFromNow(ele.textContent);

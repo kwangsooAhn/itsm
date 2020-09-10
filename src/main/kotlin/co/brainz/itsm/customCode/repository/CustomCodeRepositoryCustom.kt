@@ -12,6 +12,7 @@ import co.brainz.itsm.customCode.dto.CustomCodeListDto
 interface CustomCodeRepositoryCustom : AliceRepositoryCustom {
 
     fun findByCustomCodeList(
-        offset: Long
+        offset: Long,
+        viewType: String?
     ): List<CustomCodeListDto>
 }

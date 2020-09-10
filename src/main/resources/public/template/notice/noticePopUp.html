@@ -17,7 +17,7 @@
                 <span id="spanUserName" th:text="${noticePopUp?.aliceUserEntity.userName}"></span>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="view-text"><span th:text="${noticePopUp?.noticeContents}"></span></div>
+            <div class="view-text"><pre><span th:text="${noticePopUp?.noticeContents}"></span></pre></div>
             <div class="horizontal-bar"></div>
             <div class="view-attach-file">
                 <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
@@ -42,7 +42,7 @@
             // 게시물 삭제 처리 시, validation 체크.
             const noticeNo = /*[[${noticePopUp.noticeNo}]]*/;
             if (noticeNo === null) {
-                aliceJs.alert('이미 삭제된 게시물 입니다.');
+                aliceJs.alertWarning(i18n.msg('notice.msg.alreadyDeleted'));
                 return history.go(-1);
             }
             fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});

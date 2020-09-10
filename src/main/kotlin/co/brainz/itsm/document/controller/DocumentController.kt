@@ -1,6 +1,5 @@
 package co.brainz.itsm.document.controller
 
-import co.brainz.itsm.document.constants.DocumentConstants
 import co.brainz.itsm.document.service.DocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import java.time.ZoneId
@@ -40,8 +39,9 @@ class DocumentController(
      */
     @GetMapping("/list")
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
-        restTemplateDocumentSearchListDto.searchDocumentType = DocumentConstants.DocumentType.APPLICATION_FORM.value
-        model.addAttribute("documentList", documentService.getDocumentList(restTemplateDocumentSearchListDto))
+        val result = documentService.getDocumentList(restTemplateDocumentSearchListDto)
+        model.addAttribute("documentList", result)
+        model.addAttribute("totalCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return documentListPage
     }
 

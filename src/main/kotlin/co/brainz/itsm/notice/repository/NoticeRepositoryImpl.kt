@@ -66,6 +66,8 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 noticeNo = data.noticeNo,
                 noticeTitle = data.noticeTitle,
                 popYn = data.popYn,
+                popWidth = data.popWidth,
+                popHeight = data.popHeight,
                 createDt = data.createDt,
                 popStrtDt = data.popStrtDt,
                 popEndDt = data.popEndDt,

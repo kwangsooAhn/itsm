@@ -8,36 +8,35 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-view scroll-wrap">
+    <div class="contents-flex scroll-wrap">
         <div class="header">
             <div class="page-title">
                 <h1 th:text="#{board.label.detail}"></h1>
-                <h6 class="title-description" th:text="#{board.msg.description}"></h6>
+                <h6 class="title-description" th:text="#{board.msg.viewDescription}"></h6>
             </div>
         </div>
-        <div class="view">
-            <h4 class="under-bar" th:text="${boardInfo?.boardTitle}"></h4>
-            <div class="row-right">
-                <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
-                <span class="vertical-bar"></span>
-                <span th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
-            </div>
-            <div class="horizontal-bar"></div>
-            <div class="view-text">
+        <div class="flex flex-column">
+            <h4 class="under-bar">
                 <span th:if="${boardAdminInfo.categoryYn}" th:text="'['+${boardInfo?.boardCategoryName}+']'"></span>
+                <span th:text="${boardInfo?.boardTitle}"></span>
+            </h4>
+            <div class="row-right">
+                <span th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
+                <span class="vertical-bar"></span>
+                <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
             </div>
-            <div class="horizontal-bar"></div>
-            <div class="view-text">
-                <div id="boardContents">
+            <div class="flex-item horizontal-bar"></div>
+            <div class="flex-item item-text">
+                <div id="boardContents" class="ql-border-disabled">
                     <span th:text="#{common.label.contents}"></span>
                 </div>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="view-attach-file">
+            <div class="flex-item item-attach-file">
                 <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
-                <span class="vertical-bar"></span>
+                <div class="vertical-bar"></div>
                 <form id="frm" method="post">
-                    <div class="file-attach-input">
+                    <div class="file-attach-input ">
                         <div id="dropZoneFiles"></div>
                         <div id="dropZoneUploadedFiles"></div>
                     </div>
@@ -62,10 +61,10 @@
                         th:text="#{common.btn.delete}">
                 </button>
             </div>
-            <div class="reply-body flex-column" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
+            <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
                 <div class="reply-input-row flex-row">
                     <img class="profile-photo" alt="profile pic" src="/assets/media/image/avatar/profile_sample.jpg"/>
-                    <input type="text" id="boardComments" name="boardComments" maxlength="500"/>
+                    <input type="text" id="boardComments" name="boardComments" maxlength="500" th:placeholder="#{comment.msg.enterComments}"/>
                     <button class="default-line" onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button>
                 </div>
                 <div class="reply-list flex-column" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
@@ -139,7 +138,7 @@
         //게시판 댓글 수정
         function openCommentEdit(boardCommentId) {
             if (document.getElementById('editComments')) {
-                aliceJs.alert(i18n.get('comment.msg.afterSavedEditComments'), function () {
+                aliceJs.alertWarning(i18n.get('comment.msg.afterSavedEditComments'), function () {
                     return false;
                 });
             } else {
@@ -175,7 +174,7 @@
                 contentType: 'application/json',
                 callbackFunc: function(response) {
                     if (method === 'put' || method === 'post' || method === 'delete') {
-                        aliceJs.alert(resultMsg, function () {
+                        aliceJs.alertSuccess(resultMsg, function () {
                             if (url.indexOf('/rest/boards/comments') !== -1) {
                                 location.reload();
                             } else {
