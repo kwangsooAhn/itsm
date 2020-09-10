@@ -675,10 +675,7 @@ a {
   text-decoration: none;
 }
 .portal-search-result {
-  padding: 0.625rem 0 0 12.75rem;
-}
-.portal-search-result .list {
-  height: 37.31rem;
+  padding: 3.75rem 0 0 12.75rem;
 }
 .portal-search-result .list table {
   width: 100%;
@@ -689,7 +686,7 @@ a {
 .portal-search-result .list table thead tr {
   display: flex;
   height: 2.125rem;
-  border-bottom: 0.2rem solid #E1E3E6;
+  border-bottom: 0.125rem solid #E1E3E6;
   width: 88%;
 }
 .portal-search-result .list table thead tr th {
@@ -703,7 +700,7 @@ a {
 }
 .portal-search-result .list table tbody {
   display: block;
-  height: 37.5rem;
+  height: 34.38rem;
 }
 .portal-search-result .list table tbody tr {
   height: 2.875rem;
@@ -718,6 +715,16 @@ a {
 }
 .portal-search-result .list table tbody tr :first-child {
   padding-left: 1.25rem;
+}
+.portal-search-result .list table tbody tr.no-data-found {
+  pointer-events: none;
+  background-color: rgba(230, 232, 235, 0.6);
+}
+.portal-search-result .list table tbody tr.no-data-found td {
+  text-align: center;
+}
+.portal-search-result .list table tbody tr:hover {
+  background-color: rgba(230, 232, 235, 0.6);
 }
 .portal-search-result .list table tbody .tr-notice {
   background-color: rgba(135, 206, 255, 0.15);

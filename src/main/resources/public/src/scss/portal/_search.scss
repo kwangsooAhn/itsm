@@ -162,10 +162,8 @@
 
         &-result {
             //margin: 0 0 0 22.5rem; // 0 0 0 360px
-            padding: 0.625rem 0 0 12.75rem; // 10px 0 0 204px
+            padding: 3.75rem 0 0 12.75rem; // 60px 0 0 204px
             .list {
-                height: 37.31rem;  //597px
-
                 table {
                     width: 100%;
                     thead {
@@ -173,7 +171,7 @@
                         tr {
                             display: flex;
                             height: 2.125rem; //34px
-                            border-bottom: 0.2rem solid #E1E3E6;
+                            border-bottom: 0.125rem solid #E1E3E6;
                             width: 88%;
                             th {
                                 color: #3F4B56;
@@ -189,7 +187,7 @@
 
                     tbody {
                         display: block;
-                        height: 37.5rem; //600px
+                        height: 34.38rem;  //550px
                         tr {
                             height: 2.875rem;
                             width: 88%;
@@ -202,6 +200,16 @@
                             }
                             :first-child {
                                 padding-left: 1.25rem;
+                            }
+                            &.no-data-found {
+                                background-color: rgba(230, 232, 235, 0.6);
+                                pointer-events: none;
+                                td {
+                                    text-align: center;
+                                }
+                            }
+                            &:hover {
+                                background-color: rgba(230, 232, 235, 0.6);
                             }
                         }
 
