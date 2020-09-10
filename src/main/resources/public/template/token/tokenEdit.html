@@ -171,15 +171,12 @@
                 });
             });
             document.querySelector('h4[data-target-contents="token-history"]').click();
-
             document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
                 element.textContent = dateFormatFromNow(element.textContent);
             });
-
             document.querySelectorAll('.should-be-modify-userdate').forEach((element) => {
                 element.textContent = i18n.userDateTime(element.textContent);
             });
-
             OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
         };
 
