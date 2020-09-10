@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/popupLayout">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/popupLayout">
 <head>
     <title th:text="#{process.label.import}"></title>
-
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
 </head>
 <body>
@@ -18,7 +16,7 @@
         </div>
         <div class="form-set">
             <label th:text="#{process.label.description}" for="process_desc"></label>
-            <textarea id="process_desc" maxlength="500" tabindex="2"></textarea>
+            <textarea id="process_desc" maxlength="500" tabindex="2" class="textarea-scroll-wrapper"></textarea>
         </div>
         <div class="form-set">
             <label th:text="#{process.label.importFile}" for="process_file"></label>
@@ -33,53 +31,59 @@
 </th:block>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
-    /*<![CDATA[*/
-    const allowedExtension= 'XML';
-    let fileList = [];
+        /*<![CDATA[*/
+        const allowedExtension = 'XML';
+        let fileList = [];
 
-    window.onload = function() {
-        const fileSelector = document.getElementById('process_file');
-        fileSelector.addEventListener('change', function(e) {
-            fileList = e.target.files;
-        });
-    };
+        window.onload = function () {
+            const fileSelector = document.getElementById('process_file');
+            fileSelector.addEventListener('change', function (e) {
+                fileList = e.target.files;
+            });
+            OverlayScrollbars(document.getElementById('process_desc'), {className: 'inner-scrollbar'});
+        };
 
-    function importProcess() {
-        if (validation()) {
-            const processInfo = {
-                processName: document.getElementById('process_name').value,
-                processDesc: document.getElementById('process_desc').value
-            };
-            if (fileList.length > 0) {
-                workflowUtil.import(fileList[0], processInfo, 'process', function (result) {
-                    if (result) {
-                        aliceJs.alertSuccess(i18n.get('common.msg.save'), function () {
-                            opener.location.reload();
-                            window.close();
-                        });
-                    } else {
-                        aliceJs.alertDanger(i18n.get('common.label.fail'));
-                    }
-                });
-            } else {
-                console.error('No file selected.');
+        function importProcess() {
+            if (validation()) {
+                const processInfo = {
+                    processName: document.getElementById('process_name').value,
+                    processDesc: document.getElementById('process_desc').value
+                };
+                if (fileList.length > 0) {
+                    workflowUtil.import(fileList[0], processInfo, 'process', function (result) {
+                        if (result) {
+                            aliceJs.alertSuccess(i18n.get('common.msg.save'), function () {
+                                opener.location.reload();
+                                window.close();
+                            });
+                        } else {
+                            aliceJs.alertDanger(i18n.get('common.label.fail'));
+                        }
+                    });
+                } else {
+                    console.error('No file selected.');
+                }
             }
         }
-    }
 
-    function validation() {
-        // 필수 체크
-        if (isEmpty('process_name', 'process.msg.enterProcessName')) { return false; }
-        if (isEmpty('process_file', 'process.msg.selectImportFile')) { return false; }
-        // 확장자 체크
-        let filename = document.getElementById('process_file').value;
-        if (filename.split('.').pop().toUpperCase() !== allowedExtension) {
-            aliceJs.alertWarning(i18n.get('process.msg.fileExtensionNotAllow', allowedExtension));
-            return false;
+        function validation() {
+            // 필수 체크
+            if (isEmpty('process_name', 'process.msg.enterProcessName')) {
+                return false;
+            }
+            if (isEmpty('process_file', 'process.msg.selectImportFile')) {
+                return false;
+            }
+            // 확장자 체크
+            let filename = document.getElementById('process_file').value;
+            if (filename.split('.').pop().toUpperCase() !== allowedExtension) {
+                aliceJs.alertWarning(i18n.get('process.msg.fileExtensionNotAllow', allowedExtension));
+                return false;
+            }
+            return true;
         }
-        return true;
-    }
-    /*]]>*/
+
+        /*]]>*/
     </script>
 </th:block>
 </body>
