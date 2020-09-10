@@ -722,6 +722,32 @@ span.vertical-bar {
   align-items: center;
 }
 
+/*todo: scss에도 업데이트 필요*/
+.container-popup .edit .table-set {
+  margin-top: 0.6875rem;
+  height: 450px;
+  width: 920px;
+  overflow: auto;
+}
+
+.container-popup .edit .table-set tr {
+  height: 2.5rem;
+}
+
+.container-popup .edit .table-set th {
+  font-weight: 500;
+  padding: 1rem;
+  vertical-align: middle;
+  max-width: 10rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.container-popup .edit .table-set td {
+  padding: 0.75rem 0.75rem 0 0;
+}
+
 .container-popup .view, .container-popup .edit {
   padding: 0;
   width: auto;
