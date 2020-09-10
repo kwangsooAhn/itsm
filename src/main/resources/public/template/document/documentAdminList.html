@@ -13,8 +13,8 @@
         <th width="10%" th:text="#{workflowAdmin.label.group}"></th>
         <th width="20%" th:text="#{workflowAdmin.label.description}"></th>
         <th width="15%" th:text="#{workflowAdmin.label.status}"></th>
-        <th width="10%"></th>
-        <th width="10%"></th>
+        <th width="10%" th:text="#{common.label.edit}"></th>
+        <th width="10%" th:text="#{common.label.delete}"></th>
     </tr>
     </thead>
     <tbody class="list-body">
@@ -39,14 +39,15 @@
         <td style="width: 20%;" th:text="${document.documentDesc}"></td>
         <td style="width: 15%;" th:text="#{${document.documentStatus}}"></td>
         <td style="width: 10%;">
-            <button sec:authorize="hasAuthority('document.admin.update')"
-                    th:attr="onclick=|openDocumentEdit('${document.documentId}')|"
-                    th:text="#{common.btn.modify}"></button>
+            <a sec:authorize="hasAuthority('document.admin.update')"
+               th:attr="onclick=|openDocumentEdit('${document.documentId}')|">
+                <img src="../assets/media/icons/document/icon_edit.svg"></a>
+            </a>
         </td>
         <td style="width: 10%;">
-            <button sec:authorize="hasAuthority('document.admin.delete')"
-                    th:text="#{common.btn.delete}"
-                    th:attr="onclick=|deleteDocument('${document.documentId}')|" ></button>
+            <a sec:authorize="hasAuthority('document.admin.delete')"
+               th:attr="onclick=|deleteDocument('${document.documentId}')|">
+                <img src="../assets/media/icons/document/icon_trash.svg"></a>
         </td>
     </tr>
     </tbody>

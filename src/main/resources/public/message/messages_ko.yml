@@ -29,6 +29,7 @@ common:
     createDate: "등록 일시"
     createUser: "등록자"
     delete: "삭제"
+    edit: "편집"
     success: "성공"
     fail: "실패"
     group: "그룹"
