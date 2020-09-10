@@ -1029,7 +1029,7 @@ span.vertical-bar {
   align-items: center;
 }
 
-.container .contents-token .list-item .document-row-content .document-title h2 {
+.container .contents-token .list-item .document-row-content .document-title h3 {
   margin-right: 0.625rem;
 }
 
@@ -1046,13 +1046,13 @@ span.vertical-bar {
 }
 
 .container .contents-token .list-item .document-row-info {
-  display: flex;
   flex-direction: column;
 }
 
 .container .contents-token .list-item .document-row-info .document-detail {
   display: flex;
   align-items: center;
+  float: right;
 }
 
 .container .contents-token .list-item .document-row-info .document-detail .document-user {
@@ -1062,7 +1062,8 @@ span.vertical-bar {
 }
 
 .container .contents-token .list-item .document-row-info .document-tag {
-  width: 13.75rem;
+  max-width: 23.75rem;
+  margin-top: 3.5rem;
   color: #67717F;
 }
 
