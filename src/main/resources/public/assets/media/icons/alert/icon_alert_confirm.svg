@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
+  <defs>
+    <style>
+      .alert-confirm-circle {
+        fill: rgba(255,115,25,0.15);
+      }
+
+      .alert-confirm-icon {
+        fill: #ff7319;
+      }
+    </style>
+  </defs>
+  <g transform="translate(-25 -25)">
+    <circle class="alert-confirm-circle" cx="22.5" cy="22.5" r="22.5" transform="translate(25 25)"/>
+    <g transform="translate(-14 -42)">
+      <path class="alert-confirm-icon" d="M3150,376.5a1.5,1.5,0,0,1-1.5,1.5h0a1.5,1.5,0,0,1-1.5-1.5V362.47a1.5,1.5,0,0,1,1.5-1.5h0a1.5,1.5,0,0,1,1.5,1.5Z" transform="translate(-3087 -283)"/>
+      <path class="alert-confirm-icon" d="M3150,382.5a1.5,1.5,0,0,1-1.5,1.5h0a1.5,1.5,0,0,1-1.5-1.5v-1a1.5,1.5,0,0,1,1.5-1.5h0a1.5,1.5,0,0,1,1.5,1.5Z" transform="translate(-3087 -283)"/>
+    </g>
+  </g>
+</svg>

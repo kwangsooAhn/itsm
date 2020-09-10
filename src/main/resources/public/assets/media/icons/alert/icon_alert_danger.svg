@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
+  <defs>
+    <style>
+      .alert-danger-circle {
+        fill: rgba(255,64,90,0.1);
+      }
+
+      .alert-danger-icon {
+        fill: #ff405a;
+      }
+    </style>
+  </defs>
+  <g transform="translate(-25 -25)">
+    <circle class="alert-danger-circle" cx="22.5" cy="22.5" r="22.5" transform="translate(25 25)"/>
+    <path class="alert-danger-icon" d="M3095.621,372.5l6.97-6.97a1.5,1.5,0,1,0-2.121-2.121l-6.97,6.97-6.97-6.97a1.5,1.5,0,1,0-2.121,2.121l6.97,6.97-6.97,6.97a1.5,1.5,0,0,0,2.122,2.121l6.969-6.969,6.969,6.969a1.5,1.5,0,0,0,2.122-2.121Z" transform="translate(-3046 -325)"/>
+  </g>
+</svg>

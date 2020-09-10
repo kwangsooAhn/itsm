@@ -308,9 +308,9 @@
      */
     function createDialogContent() {
         const container = document.createElement('div');
+        container.className = 'gmodal-input';
 
         const nameContent = document.createElement('div');
-        nameContent.className = 'gmodal-input';
         const nameLabel = document.createElement('label');
         nameLabel.className = 'gmodal-input-label';
         nameLabel.htmlFor = 'process_name';
@@ -324,7 +324,6 @@
         container.appendChild(nameContent);
 
         const descContent = document.createElement('div');
-        descContent.className = 'gmodal-input';
         const descLabel = document.createElement('label');
         descLabel.className = 'gmodal-input-label';
         descLabel.htmlFor = 'process_description';
