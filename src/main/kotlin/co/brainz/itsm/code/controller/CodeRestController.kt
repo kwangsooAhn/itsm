@@ -22,9 +22,10 @@ class CodeRestController(private val codeService: CodeService) {
      */
     @GetMapping("/", "")
     fun getCodeList(
-        @RequestParam(value = "search", defaultValue = "") search: String
+        @RequestParam(value = "search", defaultValue = "") search: String,
+        @RequestParam(value = "pCode", defaultValue = "") pCode: String
     ): MutableList<CodeDto> {
-        return codeService.getCodeList(search)
+        return codeService.getCodeList(search, pCode)
     }
 
     /**

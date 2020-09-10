@@ -14,16 +14,22 @@
 
     let defaults = {
         title: '',
+        rootLevel: 1,
+        images: [],
+        data: null,
+        target: null,
+        sessionKey: null,
+        backColor: '',
         buttons: [{
             content: 'Confirm',
-            classes: 'thumbnail-modal-button-default',
+            classes: 'tree-modal-button-default',
             bindKey: false,
             callback: function(modal) {
                 modal.save();
             }
         }, {
             content: 'Cancel',
-            classes: 'thumbnail-modal-button-default',
+            classes: 'tree-modal-button-default',
             bindKey: false,
             callback: function(modal) {
                 modal.hide();
@@ -133,7 +139,7 @@
             }*/
         };
 
-        this.show = function() { // 모달 표시
+        this.show = function() {
             if (typeof this.wrapper !== 'undefined') {
                 addClass(this.wrapper, 'tree-modal-active');
                 addClass(document.body, 'tree-modal-active');
@@ -142,7 +148,7 @@
             }
         };
 
-        this.hide = function() { // 모달 숨김
+        this.hide = function() {
             if (typeof this.wrapper !== 'undefined') {
                 removeClass(this.wrapper, 'tree-modal-active');
                 removeClass(document.body, 'tree-modal-active');
@@ -151,25 +157,11 @@
             }
         };
 
-        this.save = function() { // 확인 버튼 클릭 > 저장
+        this.save = function() {
 
         };
 
-        this.select = function(e) { // 썸네일 선택
-           /* const elem = clickInsideElement(e, 'thumbnail');
-            if (elem) {
-                const parentElem = elem.parentNode;
-                const isSelected = elem.classList.contains('selected');
-                if (!isSelected) {
-                    for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
-                        let child = parentElem.childNodes[i];
-                        if (child.classList.contains('selected')) {
-                            child.classList.remove('selected');
-                        }
-                    }
-                    elem.classList.add('selected');
-                }
-            }*/
+        this.select = function(e) {
         };
 
         this.create = function() { // 모달 draw
@@ -186,82 +178,29 @@
             dialog = document.createElement('div');
             dialog.className = 'tree-modal-dialog';
 
-            // 제목
-            if (this.options.title instanceof Element || (typeof this.options.title === "string" && this.options.title != '')) {
-                const title = document.createElement('div');
-                title.className = 'tree-modal-title';
-                if (this.options.title instanceof Element) {
-                    title.appendChild(this.options.title);
-                } else {
-                    title.innerHTML = this.options.title;
-                }
-                dialog.appendChild(title);
-            }
-
-            // 썸네일 이미지 파일 표시
             const body = document.createElement('div');
             body.className = 'tree-modal-body';
 
             const container = document.createElement('div');
             container.className = 'tree-container';
 
-            body.appendChild(container);
-            /*if (this.options.files.length > 0) {
-                for (let i = 0, len = this.options.files.length; i < len; i++) {
-                    let file = this.options.files[i];
-
-                    const thumbnail = document.createElement('div');
-                    thumbnail.className = 'thumbnail';
-                    if (typeof this.options.selectedPath !== 'undefined' &&  this.options.selectedPath.indexOf(file.name) > -1) {
-                        thumbnail.classList.add('selected');
-                    }
-                    thumbnail.setAttribute('data-name', file.name);
-                    thumbnail.addEventListener('click', this.select, false);
-                    if (this.options.thumbnailDoubleClickUse) {
-                        thumbnail.addEventListener('dblclick', this.save.bind(this), false);
-                    }
-
-                    container.appendChild(thumbnail);
-
-                    const thumbnailImg = document.createElement('div');
-                    if(this.options.type === 'image') {
-                        thumbnailImg.className = 'thumbnail-img';
-                    } else if (this.options.type === 'icon') {
-                        thumbnailImg.className = 'thumbnail-icon';
-                        thumbnailImg.style.backgroundSize = '50%';
-                    }
-                    thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
-                    thumbnail.appendChild(thumbnailImg);
-
-                    if (this.options.isThumbnailInfo) {
-                        const thumbnailInfo = document.createElement('div');
-                        thumbnailInfo.className = 'thumbnail-info';
-                        thumbnail.appendChild(thumbnailInfo);
-
-                        const thumbnailName = document.createElement('p');
-                        thumbnailName.className = 'thumbnail-info-text';
-                        thumbnailName.innerHTML = `<label>${file.name}</label>`;
-                        thumbnailInfo.appendChild(thumbnailName);
-
-                        const thumbnailSize = document.createElement('p');
-                        thumbnailSize.className = 'thumbnail-info-text';
-                        thumbnailSize.innerHTML = `<label>${file.width} X ${file.height} ${file.size}</label>`;
-                        thumbnailInfo.appendChild(thumbnailSize);
-
-                        const thumbnailBottom = document.createElement('div');
-                        thumbnailBottom.className = 'thumbnail-bottom';
-                        thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
-                        thumbnail.appendChild(thumbnailBottom);
-                    }
+            if (this.options.title instanceof Element || (typeof this.options.title === "string" && this.options.title != '')) {
+                const title = document.createElement('div');
+                title.className = 'tree-title';
+                if (this.options.title instanceof Element) {
+                    title.appendChild(this.options.title);
+                } else {
+                    title.innerHTML = this.options.title;
                 }
-            } else { // 썸네일이 존재하지 않을 경우 안내 문구 표시
-                let thumbnailNodataTemplate = `
-                    <div class="thumbnail-nodata">
-                        <label>${i18n.msg('common.msg.noData')}</label>
-                    </div>
-                `;
-                container.insertAdjacentHTML('beforeend', thumbnailNodataTemplate);
-            }*/
+                container.appendChild(title);
+            }
+
+            const list = document.createElement('div');
+            list.className = 'tree-list';
+            list.id = 'treeList';
+            container.appendChild(list);
+
+            body.appendChild(container);
             dialog.appendChild(body);
             
             // 하단 버튼
@@ -329,6 +268,346 @@
         this.create();
     }
 
+    //////////////////////////////////////////////
+
+    function createTree(p_div, p_backColor) {
+        const imagePath = '/assets/media/icons/tree';
+        let tree = {
+            name: 'tree',
+            div: p_div,
+            ulElement: null,
+            childNodes: [],
+            backcolor: p_backColor,
+            selectedNode: null,
+            nodeCounter: 0,
+            contextMenuDiv: null,
+            rendered: false,
+            createNode: function(p_text,p_expanded, p_icon, p_parentNode,p_tag,p_contextmenu) {
+                let v_tree = this;
+                let node = {
+                    id: 'node_' + this.nodeCounter,
+                    text: p_text,
+                    icon: p_icon,
+                    parent: p_parentNode,
+                    expanded : p_expanded,
+                    childNodes : [],
+                    tag : p_tag,
+                    contextMenu: p_contextmenu,
+                    elementLi: null,
+                    removeNode: function() { v_tree.removeNode(this); },
+                    toggleNode: function(p_event) { v_tree.toggleNode(this); },
+                    expandNode: function(p_event) { v_tree.expandNode(this); },
+                    expandSubtree: function() { v_tree.expandSubtree(this); },
+                    setText: function(p_text) { v_tree.setText(this,p_text); },
+                    collapseNode: function() { v_tree.collapseNode(this); },
+                    collapseSubtree: function() { v_tree.collapseSubtree(this); },
+                    removeChildNodes: function() { v_tree.removeChildNodes(this); },
+                    createChildNode: function(p_text,p_expanded,p_icon,p_tag,p_contextmenu) { return v_tree.createNode(p_text,p_expanded,p_icon,this,p_tag,p_contextmenu); }
+                }
+                this.nodeCounter++;
+
+                if (this.rendered) {
+                    if (p_parentNode === undefined) {
+                        this.drawNode(this.ulElement,node);
+                        this.adjustLines(this.ulElement,false);
+                    }
+                    else {
+                        let v_ul = p_parentNode.elementLi.getElementsByTagName("ul")[0];
+                        if (p_parentNode.childNodes.length === 0) {
+                            if (p_parentNode.expanded) {
+                                p_parentNode.elementLi.getElementsByTagName("ul")[0].style.display = 'block';
+                                let v_img = p_parentNode.elementLi.getElementsByTagName("img")[0];
+                                v_img.style.visibility = "visible";
+                                v_img.src = imagePath + '/collapse.png';
+                                v_img.id = 'toggle_off';
+                            }
+                            else {
+                                p_parentNode.elementLi.getElementsByTagName("ul")[0].style.display = 'none';
+                                let v_img = p_parentNode.elementLi.getElementsByTagName("img")[0];
+                                v_img.style.visibility = "visible";
+                                v_img.src = imagePath + '/expand.png';
+                                v_img.id = 'toggle_on';
+                            }
+                        }
+                        this.drawNode(v_ul,node);
+                        this.adjustLines(v_ul,false);
+                    }
+                }
+
+                if (p_parentNode === undefined) {
+                    this.childNodes.push(node);
+                    node.parent=this;
+                } else {
+                    p_parentNode.childNodes.push(node);
+                }
+                return node;
+            },
+            drawTree: function() {
+                this.rendered = true;
+                let div_tree = document.getElementById(this.div);
+                div_tree.innerHTML = '';
+
+                let ulElement = createSimpleElement('ul',this.name,'tree');
+                this.ulElement = ulElement;
+
+                for (let i = 0; i < this.childNodes.length; i++) {
+                    this.drawNode(ulElement,this.childNodes[i]);
+                }
+                div_tree.appendChild(ulElement);
+                this.adjustLines(document.getElementById(this.name),true);
+
+            },
+            drawNode: function(p_ulElement,p_node) {
+                let v_tree = this;
+                let v_icon = null;
+                if (p_node.icon !== null) {
+                    v_icon = createImgElement(null,'icon_tree',p_node.icon);
+                }
+                let v_li = document.createElement('li');
+                p_node.elementLi = v_li;
+
+                let v_span = createSimpleElement('span',null,'node');
+                let v_exp_col = null;
+                if (p_node.childNodes.length === 0) {
+                    v_exp_col = createImgElement('toggle_off', 'exp_col', imagePath + '/collapse.png');
+                    v_exp_col.style.visibility = "hidden";
+                }
+                else {
+                    if (p_node.expanded) {
+                        v_exp_col = createImgElement('toggle_off', 'exp_col', imagePath + '/collapse.png');
+                    }
+                    else {
+                        v_exp_col = createImgElement('toggle_on', 'exp_col', imagePath + '/expand.png');
+                    }
+                }
+
+                v_span.ondblclick = function() {
+                    v_tree.doubleClickNode(p_node);
+                };
+
+                v_exp_col.onclick = function() {
+                    v_tree.toggleNode(p_node);
+                };
+
+                v_span.onclick = function() {
+                    v_tree.selectNode(p_node);
+                };
+
+                v_span.oncontextmenu = function(e) {
+                    v_tree.selectNode(p_node);
+                    v_tree.nodeContextMenu(e, p_node);
+                };
+
+                if (v_icon !== undefined) {
+                    v_span.appendChild(v_icon);
+                }
+                let v_a = createSimpleElement('a', null, null);
+                v_a.innerHTML = p_node.text;
+                v_span.appendChild(v_a);
+                v_li.appendChild(v_exp_col);
+                v_li.appendChild(v_span);
+                p_ulElement.appendChild(v_li);
+
+                let v_ul = createSimpleElement('ul', 'ul_' + p_node.id, null);
+                v_li.appendChild(v_ul);
+
+                if (p_node.childNodes.length > 0) {
+                    if (!p_node.expanded) {
+                        v_ul.style.display = 'none';
+                    }
+                    for (let i = 0; i < p_node.childNodes.length; i++) {
+                        this.drawNode(v_ul,p_node.childNodes[i]);
+                    }
+                }
+            },
+            setText: function(p_node,p_text) {
+                p_node.elementLi.getElementsByTagName('span')[0].lastChild.innerHTML = p_text;
+                p_node.text = p_text;
+            },
+            expandTree: function() {
+                for (let i = 0; i < this.childNodes.length; i++) {
+                    if (this.childNodes[i].childNodes.length > 0) {
+                        this.expandSubtree(this.childNodes[i]);
+                    }
+                }
+            },
+            expandSubtree: function(p_node) {
+                this.expandNode(p_node);
+                for (let i = 0; i < p_node.childNodes.length; i++) {
+                    if (p_node.childNodes[i].childNodes.length > 0) {
+                        this.expandSubtree(p_node.childNodes[i]);
+                    }
+                }
+            },
+            collapseTree: function() {
+                for (let i=0; i<this.childNodes.length; i++) {
+                    if (this.childNodes[i].childNodes.length>0) {
+                        this.collapseSubtree(this.childNodes[i]);
+                    }
+                }
+            },
+            collapseSubtree: function(p_node) {
+                this.collapseNode(p_node);
+                for (let i=0; i<p_node.childNodes.length; i++) {
+                    if (p_node.childNodes[i].childNodes.length>0) {
+                        this.collapseSubtree(p_node.childNodes[i]);
+                    }
+                }
+            },
+            expandNode: function(p_node) {
+                if (p_node.childNodes.length > 0 && p_node.expanded === false) {
+                    if (this.nodeBeforeOpenEvent !== undefined) {
+                        this.nodeBeforeOpenEvent(p_node);
+                    }
+                    let img = p_node.elementLi.getElementsByTagName("img")[0];
+                    p_node.expanded = true;
+
+                    img.id="toggle_off";
+                    img.src = imagePath + '/collapse.png';
+                    let elem_ul = img.parentElement.getElementsByTagName("ul")[0];
+                    elem_ul.style.display = 'block';
+
+                    if (this.nodeAfterOpenEvent !== undefined) {
+                        this.nodeAfterOpenEvent(p_node);
+                    }
+                }
+            },
+            collapseNode: function(p_node) {
+                if (p_node.childNodes.length > 0 && p_node.expanded === true) {
+                    let img=p_node.elementLi.getElementsByTagName("img")[0];
+                    p_node.expanded = false;
+                    if (this.nodeBeforeCloseEvent !== undefined) {
+                        this.nodeBeforeCloseEvent(p_node);
+                    }
+                    img.id="toggle_on";
+                    img.src = imagePath + '/expand.png';
+                    let elem_ul = img.parentElement.getElementsByTagName("ul")[0];
+                    elem_ul.style.display = 'none';
+
+                }
+            },
+            toggleNode: function(p_node) {
+                if (p_node.childNodes.length>0) {
+                    if (p_node.expanded) {
+                        p_node.collapseNode();
+                    } else {
+                        p_node.expandNode();
+                    }
+                }
+            },
+            doubleClickNode: function(p_node) {
+                this.toggleNode(p_node);
+            },
+            selectNode: function(p_node) {
+                var span = p_node.elementLi.getElementsByTagName("span")[0];
+                span.className = 'node_selected';
+                if (this.selectedNode!=null && this.selectedNode!=p_node)
+                    this.selectedNode.elementLi.getElementsByTagName("span")[0].className = 'node';
+                this.selectedNode = p_node;
+            },
+            removeNode: function(p_node) {
+                let index = p_node.parent.childNodes.indexOf(p_node);
+                if (p_node.elementLi.className === "last" && index !== 0) {
+                    p_node.parent.childNodes[index-1].elementLi.className += "last";
+                    p_node.parent.childNodes[index-1].elementLi.style.backgroundColor = this.backcolor;
+                }
+                p_node.elementLi.parentNode.removeChild(p_node.elementLi);
+                p_node.parent.childNodes.splice(index, 1);
+
+                if (p_node.parent.childNodes.length === 0) {
+                    let v_img = p_node.parent.elementLi.getElementsByTagName("img")[0];
+                    v_img.style.visibility = "hidden";
+                }
+            },
+            removeChildNodes: function(p_node) {
+                if (p_node.childNodes.length>0) {
+                    let v_ul = p_node.elementLi.getElementsByTagName("ul")[0];
+                    let v_img = p_node.elementLi.getElementsByTagName("img")[0];
+                    v_img.style.visibility = "hidden";
+
+                    p_node.childNodes = [];
+                    v_ul.innerHTML = "";
+                }
+            },
+            adjustLines: function(p_ul,p_recursive) {
+                let tree = p_ul;
+                let lists = [];
+                if (tree.childNodes.length>0) {
+                    lists = [ tree ];
+                    if (p_recursive) {
+                        for (var i = 0; i < tree.getElementsByTagName("ul").length; i++) {
+                            var check_ul = tree.getElementsByTagName("ul")[i];
+                            if ( check_ul.childNodes.length !== 0) {
+                                lists[lists.length] = check_ul;
+                            }
+                        }
+                    }
+                }
+
+                for (let i = 0; i < lists.length; i++) {
+                    let item = lists[i].lastChild;
+                    while (!item.tagName || item.tagName.toLowerCase() !== "li") {
+                        item = item.previousSibling;
+                    }
+                    item.className += "last";
+                    item.style.backgroundColor = this.backcolor;
+                    item = item.previousSibling;
+                    if (item !== null) {
+                        if (item.tagName.toLowerCase() === "li") {
+                            item.className = "";
+                            item.style.backgroundColor = 'transparent';
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function makeTree(options) {
+    //function makeTree(object, element, sessionKey, level, backColor) {
+        const tree = createTree(options.target.id, options.backColor);
+        makeNode(tree, options);
+        //createNode(tree, object, sessionKey, level);
+        tree.drawTree();
+        return tree;
+    }
+
+    function makeNode(tree, options) {
+    //function createNode(tree, object, sessionKey, level) {
+        let expandObject = null;
+        if (options.sessionKey != null && sessionStorage.getItem(options.sessionKey) != null) {
+            expandObject = JSON.parse(sessionStorage.getItem(options.sessionKey));
+        }
+        options.object.forEach(function (item) {
+            if (item.level === options.rootLevel) {
+                let expand = false;
+                if (expandObject != null && expandObject.indexOf(item.code) > -1) {
+                    expand = true;
+                }
+                let firstNode = tree.createNode(item.code, expand, aliceJs.treeIconPath + '/parent.png', null, null, null);
+                createChildNode(firstNode, options.object, item.level, expandObject);
+            }
+        });
+
+        //aliceJs.leafChildNodeConfig(tree.childNodes);
+    }
+
+    function createChildNode(node, object, level, expandObject) {
+        object.forEach(function (item) {
+            if (node.text === item.pcode) {
+                let expand = false;
+                if (expandObject != null && expandObject.indexOf(item.code) > -1) {
+                    expand = true;
+                }
+                let newNode = node.createChildNode(item.code, expand, aliceJs.treeDefaultIcon, null, null);
+                createChildNode(newNode, object, level, expandObject);
+            }
+        });
+    }
+
+    ////////////////////////////////////////////////
+
+
     /**
      * init.
      *
@@ -342,41 +621,31 @@
         let options = Object.assign({}, defaults, userOptions);
 
         let treeModal = new Modal(options);
-        treeModal.show();
-
+        const pCode = 'department.group';
         aliceJs.sendXhr({
             method: 'get',
-            url: '/rest/codes?search=',
+            url: '/rest/codes?pCode=' + pCode,
             callbackFunc: function(xhr) {
-                let thumbnailModal = new Modal(options);
                 let responseJson = JSON.parse(xhr.responseText);
+                console.log(responseJson)
                 if (responseJson.length > 0) {
-                    let tree = aliceJs.createTree(responseJson, document.querySelector('.tree-container'), aliceJs.treeExpandSessionKey);
-                    let nodes = document.querySelector('.tree-container').querySelectorAll('span');
+                    options.data = responseJson;
+                    //let tree = makeTree(options);
+                    let tree = aliceJs.createTree(responseJson, document.querySelector('#treeList'), null, options.rootLevel);
+                    let nodes = document.querySelector('#treeList').querySelectorAll('span');
                     nodes.forEach.call(nodes, function(node) {
                         node.addEventListener('click', function(e) {
                             console.log('click!!!');
                         });
                     });
                 } else {
-                    document.querySelector('.tree-container').innerHTML = '';
+                    document.querySelector('#treeList').innerHTML = '';
                 }
-                thumbnailModal.show();
             },
             contentType: 'application/json; charset=utf-8'
         });
-        /*aliceJs.sendXhr({
-            method: 'GET',
-            url: '/rest/images/list?type=' + options.type,
-            callbackFunc: function(xhr) {
-                const files = JSON.parse(xhr.responseText);
-                options.files = files;
-
-                let thumbnailModal = new Modal(options);
-                thumbnailModal.show();
-            },
-            contentType: 'application/json; charset=utf-8'
-        });*/
+        treeModal.show();
+        OverlayScrollbars(document.querySelector('.tree-list'), { className: 'scrollbar' });
     }
     exports.init = init;
     Object.defineProperty(exports, '__esModule', {value: true});

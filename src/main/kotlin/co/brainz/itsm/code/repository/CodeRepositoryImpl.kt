@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
     CodeRepositoryCustom {
 
-    override fun findByCodeList(search: String): QueryResults<CodeEntity> {
+    override fun findByCodeList(search: String, pCode: String): QueryResults<CodeEntity> {
         val code = QCodeEntity.codeEntity
         return from(code)
             .select(code)
@@ -16,6 +16,11 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
                 super.likeIgnoreCase(
                     code.code, search
                 )?.or(super.likeIgnoreCase(code.pCode.code, search))
+            )
+            .where(
+                super.eq(
+                    code.pCode.code, pCode
+                )
             )
             .orderBy(code.level.asc(), code.code.asc())
             .fetchResults()

@@ -965,9 +965,9 @@ aliceJs.treeExpandSessionKey = 'code_expand_key';
  * @param contextMenu contextMenu
  * @return {tree}
  */
-aliceJs.createTree = function(object, element, sessionKey, backColor, contextMenu) {
+aliceJs.createTree = function(object, element, sessionKey, level, backColor, contextMenu) {
     const tree = createTree(element.id, backColor, contextMenu);
-    aliceJs.createNode(tree, object, sessionKey);
+    aliceJs.createNode(tree, object, sessionKey, level);
     tree.drawTree();
     return tree;
 }
@@ -979,12 +979,15 @@ aliceJs.createTree = function(object, element, sessionKey, backColor, contextMen
  * @param object 데이터
  * @param sessionKey 확장된 데이터 저장 key
  */
-aliceJs.createNode = function(tree, object, sessionKey) {
+aliceJs.createNode = function(tree, object, sessionKey, level) {
     let expandObject = null;
     if (sessionKey != null && sessionStorage.getItem(sessionKey) != null) {
         expandObject = JSON.parse(sessionStorage.getItem(sessionKey));
     }
-    const rootLevel = 1;
+    let rootLevel = 1;
+    if (level != null) {
+        rootLevel = level;
+    }
     object.forEach(function (item) {
         if (item.level === rootLevel) {
             let expand = false;

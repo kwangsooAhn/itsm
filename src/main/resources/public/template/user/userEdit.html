@@ -306,7 +306,11 @@
 
         function deptPopUp() {
             //window.open('/users/department/view-pop', null, 'width=400, height=700');
+
             tree.init({
+                title: '부서 목록',
+                rootLevel: 5,
+                target: document.querySelector('#treeList')
                 /*title: i18n.msg('image.label.popupTitle'),
                 targetId: 'document-icon',
                 selectedPath: document.querySelector('#document-icon').value,

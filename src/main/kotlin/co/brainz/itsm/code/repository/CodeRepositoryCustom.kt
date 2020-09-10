@@ -6,5 +6,5 @@ import com.querydsl.core.QueryResults
 
 interface CodeRepositoryCustom : AliceRepositoryCustom {
 
-    fun findByCodeList(search: String): QueryResults<CodeEntity>
+    fun findByCodeList(search: String, pCode: String): QueryResults<CodeEntity>
 }
