@@ -7,6 +7,8 @@ data class CodeDto(
     var code: String = "",
     var pCode: String? = null,
     var codeValue: String? = null,
+    var codeName: String? = null,
+    var codeDesc: String? = null,
     var editable: Boolean? = true,
     var createDt: LocalDateTime? = null,
     var createUserName: String? = null,

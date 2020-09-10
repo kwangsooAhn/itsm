@@ -61,7 +61,10 @@ class CodeService(
                     pCode = codeEntity.pCode?.code,
                     updateDt = codeEntity.updateDt,
                     createDt = codeEntity.createDt,
+                    codeName = codeEntity.codeName,
                     codeValue = codeEntity.codeValue,
+                    codeDesc = codeEntity.codeDesc,
+                    editable = codeEntity.editable,
                     createUserName = codeEntity.createUser?.userName,
                     updateUserName = codeEntity.updateUser?.userName,
                     level = codeEntity.level,
@@ -95,10 +98,10 @@ class CodeService(
     fun createCode(codeDetailDto: CodeDetailDto): String {
         var status = CodeConstants.Status.STATUS_SUCCESS.code
         val codeEntity = CodeEntity(
-            codeDetailDto.code,
-            codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
-            codeDetailDto.codeValue,
-            codeDetailDto.editable
+            code = codeDetailDto.code,
+            pCode = codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
+            codeValue = codeDetailDto.codeValue,
+            editable = codeDetailDto.editable
         )
 
         if (codeRepository.existsByCodeAndEditableTrue(codeDetailDto.code)) {
@@ -123,10 +126,10 @@ class CodeService(
     fun updateCode(codeDetailDto: CodeDetailDto): String {
         var status = CodeConstants.Status.STATUS_SUCCESS_EDIT_CODE.code
         val codeEntity = CodeEntity(
-            codeDetailDto.code,
-            codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
-            codeDetailDto.codeValue,
-            codeDetailDto.editable
+            code = codeDetailDto.code,
+            pCode = codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
+            codeValue = codeDetailDto.codeValue,
+            editable = codeDetailDto.editable
         )
 
         if (codeDetailDto.pCode.isNullOrEmpty()) {

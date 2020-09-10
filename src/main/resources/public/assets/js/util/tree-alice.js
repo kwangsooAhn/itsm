@@ -12,14 +12,22 @@
 }(this, (function (exports) {
     'use strict';
 
+    const imagePath = '/assets/media/icons/tree';
+
+    let options = {};
+
     let defaults = {
+        view: '',
         title: '',
+        root: '',
         rootLevel: 1,
-        images: [],
         data: null,
-        target: null,
+        target: 'treeList',                     // 트리를 붙일 object id
         sessionKey: null,
         backColor: '',
+        icons: [],                              // depth별로 순차적으로 해당 아이콘 적용
+        defaultIcon: imagePath + '/parent.png', // 기본 아이콘
+        leafIcon: '',                           // 마지막 node의 아이콘
         buttons: [{
             content: 'Confirm',
             classes: 'tree-modal-button-default',
@@ -99,7 +107,7 @@
      * 
      * @param options 옵션
      */
-    function Modal(options) {
+    function Modal() {
         this.id = Math.random().toString(36).substr(2);
         this.options = options;
         this.display = false;
@@ -123,20 +131,7 @@
         };
 
         this.onKeyPress = function(e) {
-            /*if ( typeof window.currentModal !== 'undefined' &&  window.currentModal instanceof Modal) {
-                let _that = window.currentModal;
-                if (!_that.display) return;
-                let keyCode = e.keyCode || e.which;
-                let keys = Object.keys(_that.bindings);
-                for (let i = 0; i < keys.length; i++) {
-                    if (parseInt(keys[i]) === keyCode) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        _that.bindings[keys[i]](_that);
-                        return false;
-                    }
-                }
-            }*/
+
         };
 
         this.show = function() {
@@ -158,13 +153,21 @@
         };
 
         this.save = function() {
-
+            const selectedNode = document.querySelector('.node_selected');
+            if(!selectedNode) {
+                aliceJs.alert(i18n.msg('common.msg.dataSelect'));
+                return false;
+            }
+            let callbackFunc = options.callbackFunc;
+            if (typeof callbackFunc === 'function') {
+                callbackFunc(selectedNode);
+            }
+            this.hide();
         };
 
-        this.select = function(e) {
-        };
+        this.select = function(e) { };
 
-        this.create = function() { // 모달 draw
+        this.create = function() {
             if (typeof this.wrapper !== 'undefined') { return; }
             let backdrop, dialog;
 
@@ -184,7 +187,7 @@
             const container = document.createElement('div');
             container.className = 'tree-container';
 
-            if (this.options.title instanceof Element || (typeof this.options.title === "string" && this.options.title != '')) {
+            if (this.options.title instanceof Element || (typeof this.options.title === "string" && this.options.title !== '')) {
                 const title = document.createElement('div');
                 title.className = 'tree-title';
                 if (this.options.title instanceof Element) {
@@ -197,13 +200,12 @@
 
             const list = document.createElement('div');
             list.className = 'tree-list';
-            list.id = 'treeList';
+            list.id = options.target;
             container.appendChild(list);
 
             body.appendChild(container);
             dialog.appendChild(body);
-            
-            // 하단 버튼
+
             if (this.options.buttons.length > 0) {
                 const buttons = document.createElement('div');
                 buttons.className = 'tree-modal-buttons';
@@ -270,41 +272,39 @@
 
     //////////////////////////////////////////////
 
-    function createTree(p_div, p_backColor) {
-        const imagePath = '/assets/media/icons/tree';
+    function createTree() {
         let tree = {
             name: 'tree',
-            div: p_div,
+            div: options.target,
             ulElement: null,
             childNodes: [],
-            backcolor: p_backColor,
+            backcolor: options.backColor,
             selectedNode: null,
-            nodeCounter: 0,
-            contextMenuDiv: null,
             rendered: false,
-            createNode: function(p_text,p_expanded, p_icon, p_parentNode,p_tag,p_contextmenu) {
+            createNode: function(item, p_expanded, p_depth, p_parentNode) {
                 let v_tree = this;
                 let node = {
-                    id: 'node_' + this.nodeCounter,
-                    text: p_text,
-                    icon: p_icon,
+                    id: item.code,                    text: item[options.text],
                     parent: p_parentNode,
                     expanded : p_expanded,
                     childNodes : [],
-                    tag : p_tag,
-                    contextMenu: p_contextmenu,
                     elementLi: null,
+                    depth: p_depth,
+                    data: {
+                        name: item.codeName || '',
+                        value: item.codeValue || '',
+                        editable: item.editable || false
+                    },
                     removeNode: function() { v_tree.removeNode(this); },
                     toggleNode: function(p_event) { v_tree.toggleNode(this); },
                     expandNode: function(p_event) { v_tree.expandNode(this); },
                     expandSubtree: function() { v_tree.expandSubtree(this); },
-                    setText: function(p_text) { v_tree.setText(this,p_text); },
+                    setText: function(p_text) { v_tree.setText(this, p_text); },
                     collapseNode: function() { v_tree.collapseNode(this); },
                     collapseSubtree: function() { v_tree.collapseSubtree(this); },
                     removeChildNodes: function() { v_tree.removeChildNodes(this); },
-                    createChildNode: function(p_text,p_expanded,p_icon,p_tag,p_contextmenu) { return v_tree.createNode(p_text,p_expanded,p_icon,this,p_tag,p_contextmenu); }
+                    createChildNode: function(item, p_expanded, p_depth) { return v_tree.createNode(item, p_expanded, p_depth, this); }
                 }
-                this.nodeCounter++;
 
                 if (this.rendered) {
                     if (p_parentNode === undefined) {
@@ -320,8 +320,7 @@
                                 v_img.style.visibility = "visible";
                                 v_img.src = imagePath + '/collapse.png';
                                 v_img.id = 'toggle_off';
-                            }
-                            else {
+                            } else {
                                 p_parentNode.elementLi.getElementsByTagName("ul")[0].style.display = 'none';
                                 let v_img = p_parentNode.elementLi.getElementsByTagName("img")[0];
                                 v_img.style.visibility = "visible";
@@ -334,12 +333,13 @@
                     }
                 }
 
-                if (p_parentNode === undefined) {
+                if (p_parentNode === null) {
                     this.childNodes.push(node);
-                    node.parent=this;
+                    node.parent = this;
                 } else {
                     p_parentNode.childNodes.push(node);
                 }
+
                 return node;
             },
             drawTree: function() {
@@ -355,28 +355,38 @@
                 }
                 div_tree.appendChild(ulElement);
                 this.adjustLines(document.getElementById(this.name),true);
-
             },
-            drawNode: function(p_ulElement,p_node) {
+            drawNode: function(p_ulElement, p_node) {
                 let v_tree = this;
                 let v_icon = null;
-                if (p_node.icon !== null) {
-                    v_icon = createImgElement(null,'icon_tree',p_node.icon);
+                let v_icon_image = options.defaultIcon;
+                if (options.icons[p_node.depth - 1] !== undefined) {
+                    v_icon_image = options.icons[p_node.depth - 1];
                 }
+                if (p_node.childNodes.length === 0 && options.leafIcon !== '') {
+                    v_icon_image = options.leafIcon;
+                }
+                v_icon = createImgElement(null, 'icon_tree', v_icon_image);
+
                 let v_li = document.createElement('li');
                 p_node.elementLi = v_li;
 
                 let v_span = createSimpleElement('span',null,'node');
+
+                v_span.id = p_node.id;
+                v_span.dataset['name'] = p_node.data.name;
+                v_span.dataset['value'] = p_node.data.value;
+                v_span.dataset['editable'] = p_node.data.editable;
+                v_span.dataset['depth'] = p_node.depth;
+
                 let v_exp_col = null;
                 if (p_node.childNodes.length === 0) {
                     v_exp_col = createImgElement('toggle_off', 'exp_col', imagePath + '/collapse.png');
                     v_exp_col.style.visibility = "hidden";
-                }
-                else {
+                } else {
                     if (p_node.expanded) {
                         v_exp_col = createImgElement('toggle_off', 'exp_col', imagePath + '/collapse.png');
-                    }
-                    else {
+                    } else {
                         v_exp_col = createImgElement('toggle_on', 'exp_col', imagePath + '/expand.png');
                     }
                 }
@@ -391,11 +401,6 @@
 
                 v_span.onclick = function() {
                     v_tree.selectNode(p_node);
-                };
-
-                v_span.oncontextmenu = function(e) {
-                    v_tree.selectNode(p_node);
-                    v_tree.nodeContextMenu(e, p_node);
                 };
 
                 if (v_icon !== undefined) {
@@ -420,10 +425,22 @@
                     }
                 }
             },
-            setText: function(p_node,p_text) {
+            setText: function(p_node, p_text) {
                 p_node.elementLi.getElementsByTagName('span')[0].lastChild.innerHTML = p_text;
                 p_node.text = p_text;
             },
+            /*getNode: function(id) {
+                for (let i = 0; i < this.childNodes.length; i++) {
+                    console.log(this.childNodes[i]);
+                    if (this.childNodes[i].id === id) {
+                        return this.childNodes[i];
+                    }
+                    if (this.childNodes[i].childNodes.length > 0) {
+
+                    }
+                }
+                //return node;
+            },*/
             expandTree: function() {
                 for (let i = 0; i < this.childNodes.length; i++) {
                     if (this.childNodes[i].childNodes.length > 0) {
@@ -499,9 +516,9 @@
                 this.toggleNode(p_node);
             },
             selectNode: function(p_node) {
-                var span = p_node.elementLi.getElementsByTagName("span")[0];
+                let span = p_node.elementLi.getElementsByTagName("span")[0];
                 span.className = 'node_selected';
-                if (this.selectedNode!=null && this.selectedNode!=p_node)
+                if (this.selectedNode!=null && this.selectedNode !== p_node)
                     this.selectedNode.elementLi.getElementsByTagName("span")[0].className = 'node';
                 this.selectedNode = p_node;
             },
@@ -561,52 +578,84 @@
                 }
             }
         }
-    }
-
-    function makeTree(options) {
-    //function makeTree(object, element, sessionKey, level, backColor) {
-        const tree = createTree(options.target.id, options.backColor);
-        makeNode(tree, options);
-        //createNode(tree, object, sessionKey, level);
-        tree.drawTree();
         return tree;
     }
 
-    function makeNode(tree, options) {
-    //function createNode(tree, object, sessionKey, level) {
+    function makeTree() {
+        const tree = createTree();
+        makeNode(tree);
+        tree.drawTree();
+
+
+        /*let node = tree.getNode('numbering.pattern.format');
+        console.log(node);
+        tree.expandSubtree(node);*/
+        /*let node = document.querySelector('#download').parentNode;
+        console.log(node);
+        tree.expandSubtree(node);*/
+
+        return tree;
+    }
+
+    function loopNode(code, pArray) {
+        //해당 값의 부모 값을 모두 찾는다.
+        // 선택된 값으로 부모의 키를 모두 찾아서 역방향으로 임시 sessionkey 에 담아서 만들때 오픈한다.
+        options.data.forEach(function (item) {
+            if (code === item.code) {
+                pArray.push(item.pcode);
+            }
+            console.log(item.pcode);
+            //if (item.pcode != null) {
+                //loopNode(item.pcode, pArray);
+            //}
+        });
+        return pArray;
+    }
+
+    function makeNode(tree) {
         let expandObject = null;
         if (options.sessionKey != null && sessionStorage.getItem(options.sessionKey) != null) {
             expandObject = JSON.parse(sessionStorage.getItem(options.sessionKey));
         }
-        options.object.forEach(function (item) {
+
+        /*let pArray = [];
+        let a = loopNode('numbering.pattern.format', pArray);
+        console.log(a);
+        console.log(pArray);*/
+
+
+        options.data.forEach(function (item) {
             if (item.level === options.rootLevel) {
                 let expand = false;
                 if (expandObject != null && expandObject.indexOf(item.code) > -1) {
                     expand = true;
                 }
-                let firstNode = tree.createNode(item.code, expand, aliceJs.treeIconPath + '/parent.png', null, null, null);
-                createChildNode(firstNode, options.object, item.level, expandObject);
+                let firstNode = tree.createNode(item, expand, 1, null);
+                createChildNode(firstNode, item.level, expandObject, 2);
             }
         });
-
-        //aliceJs.leafChildNodeConfig(tree.childNodes);
     }
 
-    function createChildNode(node, object, level, expandObject) {
-        object.forEach(function (item) {
-            if (node.text === item.pcode) {
+    function createChildNode(node, level, expandObject, depth) {
+        options.data.forEach(function (item) {
+            if (node.id === item.pcode) {
                 let expand = false;
                 if (expandObject != null && expandObject.indexOf(item.code) > -1) {
                     expand = true;
                 }
-                let newNode = node.createChildNode(item.code, expand, aliceJs.treeDefaultIcon, null, null);
-                createChildNode(newNode, object, level, expandObject);
+                let newNode = node.createChildNode(item, expand, depth);
+                createChildNode(newNode, level, expandObject, depth + 1);
             }
         });
     }
 
     ////////////////////////////////////////////////
 
+    function selectNode() {
+        if (options.selectedValue !== null && options.selectedValue !== '') {
+
+        }
+    }
 
     /**
      * init.
@@ -618,34 +667,43 @@
         // 버튼 다국어 처리
         defaults.buttons[0].content = i18n.msg('common.btn.check');
         defaults.buttons[1].content = i18n.msg('common.btn.close');
-        let options = Object.assign({}, defaults, userOptions);
 
-        let treeModal = new Modal(options);
-        const pCode = 'department.group';
+        // 옵션 셋팅
+        options = Object.assign({}, defaults, userOptions);
+        let selectedNode = options.selectedNode;
+
+        let treeModal;
+        if (options.view === 'modal') {
+            treeModal = new Modal();
+        }
         aliceJs.sendXhr({
             method: 'get',
-            url: '/rest/codes?pCode=' + pCode,
+            url: '/rest/codes?pCode=' + options.root,
+            async: false,
             callbackFunc: function(xhr) {
                 let responseJson = JSON.parse(xhr.responseText);
-                console.log(responseJson)
                 if (responseJson.length > 0) {
                     options.data = responseJson;
-                    //let tree = makeTree(options);
-                    let tree = aliceJs.createTree(responseJson, document.querySelector('#treeList'), null, options.rootLevel);
-                    let nodes = document.querySelector('#treeList').querySelectorAll('span');
-                    nodes.forEach.call(nodes, function(node) {
-                        node.addEventListener('click', function(e) {
-                            console.log('click!!!');
+                    let tree = makeTree();
+                    if (typeof selectedNode === 'function') {
+                        let nodes = document.querySelector('#' + options.target).querySelectorAll('span');
+                        nodes.forEach.call(nodes, function(node) {
+                            node.addEventListener('click', function(e) {
+                                selectedNode(this);
+                            });
                         });
-                    });
+                    }
                 } else {
-                    document.querySelector('#treeList').innerHTML = '';
+                    document.querySelector('#' + options.target).innerHTML = '';
                 }
             },
             contentType: 'application/json; charset=utf-8'
-        });
-        treeModal.show();
-        OverlayScrollbars(document.querySelector('.tree-list'), { className: 'scrollbar' });
+        }, true);
+
+        if (options.view === 'modal') {
+            treeModal.show();
+            OverlayScrollbars(document.querySelector('#' + options.target), { className: 'scrollbar' });
+        }
     }
     exports.init = init;
     Object.defineProperty(exports, '__esModule', {value: true});

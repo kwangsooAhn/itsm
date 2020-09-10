@@ -1,11 +1,11 @@
 $tree-font-family: "Noto Sans KR";
-$thumbnail-font-size: 1rem; // 16px;
-$thumbnail-font-weight: 400; // regulalr
-$thumbnail-font-color: #ACB4BF;
+$tree-font-size: 1rem; // 16px;
+$tree-font-weight: 400; // regulalr
+$tree-font-color: #3F4B56;
 $tree-border-color: #EBEBEB;
 $tree-background-color: #ffffff;
 $tree-selected-border-color: #0098FF;
-//$thumbnail-selected-background-color: rgba(0, 152, 255, 0.05);
+$tree-selected-background-color: rgba(0, 152, 255, 0.05);
 
 body.thumbnail-modal-active {
     overflow:hidden !important;
@@ -40,10 +40,7 @@ body.thumbnail-modal-active {
         top: 10em;
         left: 0;
         right: 0;
-        //width: 77.5rem; // 1240px
-        //height: 47.5rem; // 760px
         width: 550px;
-        //height: 100px;
         margin: 0 auto 0 auto;
         box-sizing: border-box;
         background-color: #ffffff;
@@ -57,41 +54,6 @@ body.thumbnail-modal-active {
             width: 32px;
             height: 32px;
             opacity: 0.5;
-        }
-
-        .thumbnail-modal-close-in:hover,
-        .thumbnail-modal-close-out:hover {
-            opacity:1;
-        }
-
-        .thumbnail-modal-close-in:before,
-        .thumbnail-modal-close-in:after,
-        .thumbnail-modal-close-out:before,
-        .thumbnail-modal-close-out:after {
-            position: absolute;
-            left: 0.9375rem; // 15px
-            content: ' ';
-            height: 33px;
-            width: 2px;
-        }
-
-        .thumbnail-modal-close-in:before,
-        .thumbnail-modal-close-in:after {
-            background-color: #333333;
-        }
-
-        .thumbnail-modal-close-out:before,
-        .thumbnail-modal-close-out:after {
-            background-color: #CCCCCC;
-        }
-
-        .thumbnail-modal-close-in:before,
-        .thumbnail-modal-close-out:before {
-            transform: rotate(-45deg);
-        }
-        .thumbnail-modal-close-in:after,
-        .thumbnail-modal-close-out:after {
-            transform: rotate(45deg);
         }
 
         .tree-modal-title {
@@ -111,10 +73,7 @@ body.thumbnail-modal-active {
 
             .tree-container {
                 font-family: $tree-font-family;
-                //padding: 1.25rem; // 20px
-                //margin: 2rem;
                 margin: 24px;
-                //height: 500px;
                 position: relative;
                 .tree-title {
                     height: 42px;
@@ -127,9 +86,13 @@ body.thumbnail-modal-active {
                     li.last {
                         background-color: $tree-background-color;
                     }
+                    span.node {
+                        font-size: $tree-font-size;
+                        color: $tree-font-color;
+                    }
                     span.node_selected {
                         border: 1px solid $tree-selected-border-color;
-                        background-color: $tree-background-color;
+                        background-color: $tree-selected-background-color;
                     }
                 }
 

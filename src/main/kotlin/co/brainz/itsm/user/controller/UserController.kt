@@ -99,7 +99,7 @@ class UserController(
         val roles = roleService.getRoles(roleEntities)
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
-        if (users.department?.isBlank() == true) {
+        if (!users.department.isNullOrBlank()) {
             val deptCodeDetail = codeService.getDetailCodes(users.department!!)
             model.addAttribute("deptCodeDetail", deptCodeDetail)
         }

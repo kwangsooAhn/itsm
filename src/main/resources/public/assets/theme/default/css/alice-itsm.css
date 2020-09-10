@@ -4257,36 +4257,6 @@ body.thumbnail-modal-active {
   height: 32px;
   opacity: 0.5;
 }
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-in:hover,
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-out:hover {
-  opacity: 1;
-}
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-in:before,
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-in:after,
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-out:before,
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-out:after {
-  position: absolute;
-  left: 0.9375rem;
-  content: " ";
-  height: 33px;
-  width: 2px;
-}
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-in:before,
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-in:after {
-  background-color: #333333;
-}
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-out:before,
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-out:after {
-  background-color: #CCCCCC;
-}
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-in:before,
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-out:before {
-  transform: rotate(-45deg);
-}
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-in:after,
-.tree-modal-wrapper .tree-modal-dialog .thumbnail-modal-close-out:after {
-  transform: rotate(45deg);
-}
 .tree-modal-wrapper .tree-modal-dialog .tree-modal-title {
   height: 2.5rem;
   color: #3F4B56;
@@ -4319,9 +4289,13 @@ body.thumbnail-modal-active {
 .tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container .tree-list li.last {
   background-color: #ffffff;
 }
+.tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container .tree-list span.node {
+  font-size: 1rem;
+  color: #3F4B56;
+}
 .tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container .tree-list span.node_selected {
   border: 1px solid #0098FF;
-  background-color: #ffffff;
+  background-color: rgba(0, 152, 255, 0.05);
 }
 .tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container .tree-nodata {
   display: inline-block;

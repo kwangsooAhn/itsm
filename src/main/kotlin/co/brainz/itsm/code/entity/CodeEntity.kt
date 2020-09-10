@@ -15,7 +15,7 @@ import org.hibernate.annotations.NotFoundAction
 @Entity
 @Table(name = "awf_code")
 data class CodeEntity(
-    @Id @Column(name = "code")
+    @Id @Column(name = "code", length = 100)
     var code: String = "",
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -23,8 +23,14 @@ data class CodeEntity(
     @NotFound(action = NotFoundAction.IGNORE)
     var pCode: CodeEntity? = null,
 
-    @Column(name = "code_value")
+    @Column(name = "code_name", length = 128)
+    var codeName: String? = null,
+
+    @Column(name = "code_value", length = 256)
     var codeValue: String? = null,
+
+    @Column(name = "code_desc", length = 512)
+    var codeDesc: String? = null,
 
     @Column(name = "editable")
     var editable: Boolean? = true,
