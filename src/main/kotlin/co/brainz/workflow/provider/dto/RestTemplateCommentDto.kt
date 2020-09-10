@@ -10,5 +10,6 @@ data class RestTemplateCommentDto(
     var content: String? = null,
     var createUserKey: String? = null,
     var createUserName: String? = null,
-    var createDt: LocalDateTime? = null
+    var createDt: LocalDateTime? = null,
+    var avatarPath: String? = null
 ) : Serializable
