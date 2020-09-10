@@ -1803,7 +1803,7 @@
         //load custom-code list.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/custom-codes',
+            url: '/rest/custom-codes?viewType=formEditor',
             callbackFunc: function(xhr) {
                 customCodeList = JSON.parse(xhr.responseText);
             },

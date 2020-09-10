@@ -59,8 +59,8 @@ class CustomCodeService(
      *
      * @return MutableList<CustomCodeDto>
      */
-    fun getCustomCodeList(offset: Long): List<CustomCodeListDto> {
-        return customCodeRepository.findByCustomCodeList(offset)
+    fun getCustomCodeList(offset: Long, viewType: String?): List<CustomCodeListDto> {
+        return customCodeRepository.findByCustomCodeList(offset, viewType)
     }
 
     /**
