@@ -1469,8 +1469,8 @@
                                     return `<tr>${fieldProp.items.map(function(item, index) {
                                         return `<td id="${item.id}">` +
                                         `${index === 0 ? 
-                                        `<label class="checkbox-group" for="checkbox-${index + 1}">` +
-                                            `<input type="checkbox" id="checkbox-${index + 1}" value="${opt[item.id]}" />` +
+                                        `<label class="checkbox-group" for="checkbox-${opt[item.id]}">` +
+                                            `<input type="checkbox" id="checkbox-${opt[item.id]}" value="${opt[item.id]}" />` +
                                             `<span></span>` +
                                         `</label>` : 
                                         `<input type="text" value="${opt[item.id]}"/>`}` +
