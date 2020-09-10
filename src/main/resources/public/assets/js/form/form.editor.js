@@ -236,8 +236,8 @@
          */
         const createDialogContent = function() {
             return `
-                <div>
-                    <div class="gmodal-input">
+                <div class="gmodal-input">
+                    <div>
                         <label class="gmodal-input-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>
                         <input class="gmodal-input-text" id="form_name">
                     </div>
