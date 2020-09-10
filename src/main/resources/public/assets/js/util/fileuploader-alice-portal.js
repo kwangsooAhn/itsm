@@ -350,7 +350,7 @@ const portalFileUploader = (function () {
 
                         if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
                             this.removeFile(file);
-                            aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
+                            aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
                         }
                     });
 
@@ -402,12 +402,12 @@ const portalFileUploader = (function () {
 
                     this.on("maxfilesexceeded", function (file, maxFiles) {
                         this.removeFile(file);
-                        aliceJs.alert(i18n.get('fileupload.msg.maxFileCount', maxFiles));
+                        aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileCount', maxFiles));
                     });
 
                     this.on("maxfilesizeexceeded", function (file, maxFileSize) {
                         this.removeFile(file);
-                        aliceJs.alert(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
+                        aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
                     });
                 } else {
                     dropZoneFiles.remove();
@@ -513,7 +513,7 @@ const portalFileUploader = (function () {
 
                     if (!(extensionValueArr.includes(getExtension(fileName)))) {
                         this.removeFile(file);
-                        aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
+                        aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
                     }
 
                 });
@@ -568,12 +568,12 @@ const portalFileUploader = (function () {
 
                 this.on("maxfilesexceeded", function (file, maxFiles) {
                     this.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxFileCount', maxFiles));
+                    aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileCount', maxFiles));
                 });
 
                 this.on("maxfilesizeexceeded", function (file, maxFileSize) {
                     this.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
+                    aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행

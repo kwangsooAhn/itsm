@@ -166,13 +166,21 @@
                             sblingEle.style.display = 'none';
                         });
                         targetElement.style.display = 'block';
-                    }
-                    ;
+                    };
+                    // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
+                    sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
                 });
             });
-            document.querySelector('h4[data-target-contents="token-history"]').click();
-            document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
-                element.textContent = dateFormatFromNow(element.textContent);
+
+            const selectedTab = sessionStorage.getItem('token-info-tab');
+            if (selectedTab !== null) {
+                document.querySelector('h4[data-target-contents="' + selectedTab +  '"]').click();
+            } else {
+                document.querySelector('h4[data-target-contents="token-history"]').click();
+            }
+
+            document.querySelectorAll('.dateFormatFromNow').forEach((ele) => {
+                ele.textContent = dateFormatFromNow(ele.textContent);
             });
             document.querySelectorAll('.should-be-modify-userdate').forEach((element) => {
                 element.textContent = i18n.userDateTime(element.textContent);

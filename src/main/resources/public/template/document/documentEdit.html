@@ -194,7 +194,7 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
-                    aliceJs.alert(i18n.msg('common.msg.save'), function() {
+                    aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
                         opener.location.reload();
                         window.close();
                         if (documentId !== null && documentId === '') {
@@ -242,7 +242,7 @@
                 formSet.className = 'form-set';
                 let formSetLabel = document.createElement('label');
                 formSetLabel.htmlFor = 'document-icon';
-                formSetLabel.innerText = i18n.msg('document.label.icon');
+                formSetLabel.innerText = /*[[#{document.label.icon}]]*/;
 
                 let formIcon = document.createElement('div');
                 let formIconInput = document.createElement('input');
@@ -250,7 +250,7 @@
                 formIconInput.readOnly = true;
                 formIconInput.disabled = true;
                 let formIconButton = document.createElement('button');
-                formIconButton.innerText = i18n.msg('common.btn.select');
+                formIconButton.innerText = /*[[#{common.btn.select}]]*/;
                 formIconButton.className = 'point-line';
                 formIconButton.onclick = function() {
                     openIcon();
@@ -309,7 +309,7 @@
         //신청서 양식편집 화면 open
         function openDisplay() {
             const specs = "left=0, top=0, menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
-            window.open('/documents-admin/' + '[[${documentId}]]' + '/display', '_blank', 'width=1500,height=920,' + specs);
+            window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1500,height=920,' + specs);
             window.close();
         }
 

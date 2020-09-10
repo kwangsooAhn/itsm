@@ -13,6 +13,9 @@
     </tr>
     </thead>
     <tbody class="list-body">
+        <tr class="no-data-found" th:if="${#arrays.isEmpty(authList)}">
+            <td colspan="3" th:text="#{common.msg.noData}"></td>
+        </tr>
         <tr th:each="auth : ${authList}">
             <td width="25%" id="authName" name="authName" th:text="${auth.authName}" th:id="${auth.authId}"></td>
             <td width="25%" id="authId" name="authId" th:text="${auth.authId}"></td>

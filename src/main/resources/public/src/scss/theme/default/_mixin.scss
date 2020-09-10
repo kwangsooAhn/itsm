@@ -49,6 +49,7 @@
 @mixin list-template() {
     .list {
         padding-top: 1.25rem; // 20px
+        a { cursor: pointer; }
         table {
             width: 100%;
             thead {
@@ -98,6 +99,7 @@
     }
 }
 
+// TODO #9089 view-template 믹스인 수정 필요
 @mixin view-template() {
     @include content-header();
     .view {
@@ -106,9 +108,8 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        div {
+        .view-column {
             display: flex;
-
             &.view-text {
                 min-height: 13.4375rem; // 215px
                 padding: 0.3125rem 1.25rem; // 5px 20px
@@ -119,6 +120,41 @@
             &.view-attach-file {
                 min-height: 3.125rem; // 50px
                 padding: 0.125rem 1.25rem; // 2px 20px
+            }
+        }
+    }
+}
+
+@mixin flex-template() {
+    @include content-header();
+    .flex {
+        padding: 3.125rem 19.375rem 3.125rem 19.375rem; // 50px 310px 50px 310px
+        background-color: white;
+        display: flex;
+        flex-grow: 1;
+        &.flex-column {
+            flex-direction: column;
+        }
+        &.flex-row {
+            flex-direction: row;
+        }
+        .flex-item {
+            display: flex;
+            &.item-text {
+                min-height: 13.4375rem; // 215px
+                padding: 0.3125rem 1.25rem; // 5px 20px
+                margin-bottom: 0.75rem; // 12px
+                span {margin: 0;}
+            }
+            // TODO: 공통으로 만들어서 첨부파일 쪽으로 소스를 옮기는 것이 좋을 것 같음
+            &.item-attach-file {
+                min-height: 3.125rem; // 50px
+                padding: 0.125rem 1.25rem; // 2px 20px
+                .vertical-bar {
+                    width: 1.875rem; // 30px
+                    border-right: 0.0625rem solid $line-gray; // 1px
+                    margin-right: 1.875rem; // 30px
+                }
             }
         }
     }
