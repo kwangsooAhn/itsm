@@ -292,6 +292,9 @@
                         margin-bottom: 0.75rem; // 12px
                         span {margin: 0;}
                     }
+                    &.page-view-text {
+                        height: 25rem; // 400px
+                    }
 
                     &.view-attach-file {
                         min-height: 3.125rem; // 50px

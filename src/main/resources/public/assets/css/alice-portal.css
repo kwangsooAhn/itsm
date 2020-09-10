@@ -792,6 +792,9 @@ a {
 .portal-search-view .view div.view-text span {
   margin: 0;
 }
+.portal-search-view .view div.page-view-text {
+  height: 25rem;
+}
 .portal-search-view .view div.view-attach-file {
   min-height: 3.125rem;
   max-height: 8.3rem;
