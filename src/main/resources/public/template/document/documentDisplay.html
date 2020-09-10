@@ -1,141 +1,135 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/popupLayout">
 <head>
     <title th:text="#{document.label.write}"></title>
-    <th:block th:replace="layout/fragments/commonHead"></th:block>
-    <style>
-        body {
-            width: 70%;
-            margin: 50px auto;
-        }
-        table {
-            border: 1px solid;
-            border-collapse: collapse;
-        }
-        table tr:nth-child(2) td {
-            border-top: 1px solid;
-        }
-        table td {
-            border-top: 1px solid #e7e7e7;
-            border-left: 1px solid #e7e7e7;
-        }
-    </style>
 </head>
 <body>
-<div>
-    <h1 th:text="#{document.label.display}"></h1>
-    <hr>
-    <table id="documentDisplay">
-        <tbody>
-        <tr id="documentElementRow"><th></th></tr>
-        </tbody>
-    </table>
-</div>
-<hr>
-<div style="margin-top: 10px; text-align: center;">
-    <button th:text="#{common.btn.register}" onclick="onSave();"></button>
-    <button th:text="#{common.btn.close}" onclick="window.close();"></button>
-</div>
-</body>
-<script type="text/javascript">
-    /*<![CDATA[*/
-    window.onload = function() {
-        onGetDetail();
-    };
+<th:block layout:fragment="content">
+    <div class="edit">
+        <h3 class="under-bar" th:text="#{document.label.display}"></h3>
+        <div class="table-set">
+            <table id="documentDisplay">
+                <thead>
+                    <tr id="documentElementRow"></tr>
+                </thead>
+            </table>
+        </div>
+        <div class="horizontal-bar"></div>
+        <div class="btn-bar">
+            <button class="point-fill" th:text="#{common.btn.register}" onclick="onSave();"></button>
+            <button class="default-fill" th:text="#{common.btn.close}" onclick="window.close();"></button>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            onGetDetail();
+        };
 
-    /* 동적 화면 구성 */
-    function onGetDetail() {
-        const opt = {
-            method: 'get',
-            url: '/rest/documents-admin/[[${documentId}]]/display',
-            callbackFunc: function(response) {
-                const responseJson = JSON.parse(response.responseText);
-                // set element row
-                const elements = responseJson.elements;
-                const displayTable = document.getElementById('documentDisplay');
-                const elementRow = document.getElementById('documentElementRow');
-                for (let i = 0; i < elements.length; i++) {
-                    let elementData = document.createElement('th');
-                    elementData.id = elements[i].elementId;
-                    elementData.innerHTML = elements[i].elementName;
-                    elementRow.appendChild(elementData);
-                }
-                displayTable.appendChild(elementRow);
-                // set component row
-                const components = responseJson.components;
-                for (let i = 0; i < components.length; i++) {
-                    const componentRow = document.createElement('tr');
-                    const componentData = document.createElement('th');
-                    componentData.id = components[i].componentId;
-                    componentData.innerHTML = components[i].attributeValue;
-                    componentRow.appendChild(componentData);
-                    // set display data
-                    const displayValue = components[i].displayValue;
-                    for (let j = 0; j < displayValue.length; j++) {
-                        const displayData = document.createElement('td');
-                        setDisplaySelect(displayData, components[i].componentId, displayValue[j]);
-                        componentRow.appendChild(displayData);
+        /* 동적 화면 구성 */
+        function onGetDetail() {
+            const opt = {
+                method: 'get',
+                url: '/rest/documents-admin/[[${documentId}]]/display',
+                callbackFunc: function(response) {
+                    const responseJson = JSON.parse(response.responseText);
+                    // set element row
+                    const elements = responseJson.elements;
+                    const displayTable = document.getElementById('documentDisplay');
+                    const elementRow = document.getElementById('documentElementRow');
+                    elementRow.appendChild(document.createElement('th'));
+                    for (let i = 0; i < elements.length; i++) {
+                        let elementData = document.createElement('th');
+                        elementData.id = elements[i].elementId;
+                        elementData.innerHTML = elements[i].elementName;
+                        elementRow.appendChild(elementData);
                     }
-                    displayTable.appendChild(componentRow);
+                    displayTable.appendChild(elementRow);
+                    // set component row
+                    const components = responseJson.components;
+                    const componentBody = document.createElement('tbody');
+                    for (let i = 0; i < components.length; i++) {
+                        const componentRow = document.createElement('tr');
+                        componentBody.appendChild(componentRow);
+                        const componentData = document.createElement('th');
+                        componentData.id = components[i].componentId;
+                        componentData.innerHTML = components[i].attributeValue;
+                        componentRow.appendChild(componentData);
+                        // set display data
+                        const displayValue = components[i].displayValue;
+                        for (let j = 0; j < displayValue.length; j++) {
+                            const displayData = document.createElement('td');
+                            setDisplaySelect(displayData, components[i].componentId, displayValue[j]);
+                            componentRow.appendChild(displayData);
+                        }
+                        displayTable.appendChild(componentRow);
+                    }
                 }
-            }
-        };
-        aliceJs.sendXhr(opt);
-    }
-
-    /* Display data setting */
-    function setDisplaySelect(obj, componentId, displayData) {
-        const displaySelect = document.createElement('select');
-        const elementId = displayData.elementId;
-        const displayDetail = displayData.display;
-
-        let values = ['editable', 'editableRequired', 'readonly', 'hidden'];
-
-        for (let i = 0; i < values.length; i++) {
-            const option = document.createElement('option');
-            option.text = i18n.get('document.display.' + values[i]);
-            option.value = values[i];
-            if (values[i] === displayDetail) {
-                option.setAttribute('selected', 'true');
-            }
-            displaySelect.add(option);
+            };
+            aliceJs.sendXhr(opt);
         }
-        displaySelect.setAttribute('id',componentId + '_' + elementId);
-        displaySelect.setAttribute('name', 'displays');
-        obj.appendChild(displaySelect);
-    }
 
-    /* Display data save */
-    function onSave() {
-        const obj = {};
-        const arrDisplay = [];
-        Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
-            const objDisplay = {};
-            const strArr = item.id.split('_');
-            objDisplay.componentId = strArr[0];     // componentId
-            objDisplay.elementId = strArr[1];       // elementId
-            objDisplay.display = item.value;        // display
-            arrDisplay.push(objDisplay);
-        });
+        /* Display data setting */
+        function setDisplaySelect(obj, componentId, displayData) {
+            const displaySelect = document.createElement('select');
+            const elementId = displayData.elementId;
+            const displayDetail = displayData.display;
 
-        obj.documentId = '[[${documentId}]]';
-        obj.displays = arrDisplay;
-        const displayJson = JSON.stringify(obj);
+            let values = ['editable', 'editableRequired', 'readonly', 'hidden'];
 
-        const opt = {
-            method: 'put',
-            url: '/rest/documents-admin/[[${documentId}]]/display',
-            params: displayJson,
-            contentType: 'application/json',
-            callbackFunc: function () {
-                aliceJs.alertSuccess(i18n.get('common.msg.save'), function() {
-                    location.href = '/documents/search';
-                    window.close();
-                });
+            for (let i = 0; i < values.length; i++) {
+                const option = document.createElement('option');
+                option.text = i18n.get('document.display.' + values[i]);
+                option.value = values[i];
+                if (values[i] === displayDetail) {
+                    option.setAttribute('selected', 'true');
+                }
+                displaySelect.add(option);
             }
-        };
-        aliceJs.sendXhr(opt);
-    }
-    /*]]>*/
-</script>
+            displaySelect.setAttribute('id',componentId + '_' + elementId);
+            displaySelect.setAttribute('class', 'column-2');
+            displaySelect.setAttribute('name', 'displays');
+            obj.appendChild(displaySelect);
+        }
+
+        /* Display data save */
+        function onSave() {
+            const obj = {};
+            const arrDisplay = [];
+            Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
+                const objDisplay = {};
+                const strArr = item.id.split('_');
+                objDisplay.componentId = strArr[0];     // componentId
+                objDisplay.elementId = strArr[1];       // elementId
+                objDisplay.display = item.value;        // display
+                arrDisplay.push(objDisplay);
+            });
+
+            obj.documentId = '[[${documentId}]]';
+            obj.displays = arrDisplay;
+            const displayJson = JSON.stringify(obj);
+
+            const opt = {
+                method: 'put',
+                url: '/rest/documents-admin/[[${documentId}]]/display',
+                params: displayJson,
+                contentType: 'application/json',
+                callbackFunc: function () {
+                    aliceJs.alertSuccess(i18n.get('common.msg.save'), function() {
+                        location.href = '/documents/search';
+                        window.close();
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
+        }
+        /*]]>*/
+    </script>
+</th:block>
+</body>
 </html>
