@@ -675,7 +675,7 @@ a {
   text-decoration: none;
 }
 .portal-search-result {
-  padding: 1.25rem 0 0 12.75rem;
+  padding: 3.75rem 0 0 12.75rem;
 }
 .portal-search-result .list table {
   width: 100%;
@@ -686,7 +686,7 @@ a {
 .portal-search-result .list table thead tr {
   display: flex;
   height: 2.125rem;
-  border-bottom: 0.2rem solid #E1E3E6;
+  border-bottom: 0.125rem solid #E1E3E6;
   width: 88%;
 }
 .portal-search-result .list table thead tr th {
@@ -700,7 +700,7 @@ a {
 }
 .portal-search-result .list table tbody {
   display: block;
-  height: 36.88rem;
+  height: 34.38rem;
 }
 .portal-search-result .list table tbody tr {
   height: 2.875rem;
@@ -718,6 +718,7 @@ a {
 }
 .portal-search-result .list table tbody tr.no-data-found {
   pointer-events: none;
+  background-color: rgba(230, 232, 235, 0.6);
 }
 .portal-search-result .list table tbody tr.no-data-found td {
   text-align: center;

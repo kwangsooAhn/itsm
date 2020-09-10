@@ -162,7 +162,7 @@
 
         &-result {
             //margin: 0 0 0 22.5rem; // 0 0 0 360px
-            padding: 1.25rem 0 0 12.75rem; // 20px 0 0 204px
+            padding: 3.75rem 0 0 12.75rem; // 60px 0 0 204px
             .list {
                 table {
                     width: 100%;
@@ -187,7 +187,7 @@
 
                     tbody {
                         display: block;
-                        height: 36.88rem;  //590px
+                        height: 34.38rem;  //550px
                         tr {
                             height: 2.875rem;
                             width: 88%;
@@ -202,6 +202,7 @@
                                 padding-left: 1.25rem;
                             }
                             &.no-data-found {
+                                background-color: rgba(230, 232, 235, 0.6);
                                 pointer-events: none;
                                 td {
                                     text-align: center;
