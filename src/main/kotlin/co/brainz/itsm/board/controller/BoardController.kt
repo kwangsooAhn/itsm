@@ -95,6 +95,7 @@ class BoardController(private val boardService: BoardService) {
             model.addAttribute("boardCategoryInfo", boardService.getBoardCategoryList(boardAdminInfo.boardAdminId))
         }
         model.addAttribute("boardAdminInfo", boardAdminInfo)
+        model.addAttribute("boardAdminList", boardService.getBoardAdminList())
         model.addAttribute("replyYn", false)
         return boardEditPage
     }
@@ -113,6 +114,7 @@ class BoardController(private val boardService: BoardService) {
             model.addAttribute("boardCategoryInfo", boardDtoInfo.boardAdmin.category)
         }
         model.addAttribute("boardAdminInfo", boardDtoInfo.boardAdmin)
+        model.addAttribute("boardAdminList", boardService.getBoardAdminList())
         model.addAttribute("boardInfo", boardDtoInfo)
         model.addAttribute("replyYn", false)
         return boardEditPage
@@ -147,6 +149,7 @@ class BoardController(private val boardService: BoardService) {
                 boardService.getBoardCategoryList(boardDtoInfo.boardAdmin.boardAdminId)
             )
         }
+        model.addAttribute("boardAdminList", boardService.getBoardAdminList())
         model.addAttribute("boardAdminInfo", boardDtoInfo.boardAdmin)
         model.addAttribute("boardInfo", boardDtoInfo)
         model.addAttribute("replyYn", true)

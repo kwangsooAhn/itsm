@@ -29,6 +29,8 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
         val board = QPortalBoardEntity("board")
         val query = from(boardAdmin)
+            .innerJoin(boardAdmin.createUser)
+            .leftJoin(boardAdmin.updateUser)
             .select(
                 Projections.constructor(
                     BoardAdminDto::class.java,
