@@ -23,6 +23,7 @@
         root: '',                               // 트리 최상위 부모
         rootLevel: 1,                           // 트리 취상위 레벨
         search: '',                             // 검색어
+        text: 'code',                           // 노드 텍스트 값 (code, codeName, codeValue, ...)
         data: null,                             // 코드 데이터
         target: 'treeList',                     // 트리를 붙일 object id
         sessionKey: null,                       // 펼쳐진 트리 정보를 저장하는 세션 키
