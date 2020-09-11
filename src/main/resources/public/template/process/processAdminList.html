@@ -31,8 +31,7 @@
                            th:attr="onclick=|openProcessEdit('${process.id}')|"></a>
                     </div>
                     <div th:unless="${process.enabled == true}">
-                        <span sec:authorize="!hasAuthority('process.update')" th:text="${process.name}"></span>
-                        <span sec:authorize="hasAuthority('process.update')" th:text="${process.name}"></span>
+                        <span th:text="${process.name}"></span>
                     </div>
                 </td>
                 <td width="10%">

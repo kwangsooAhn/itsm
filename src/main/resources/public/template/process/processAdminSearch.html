@@ -172,10 +172,9 @@
             }
             let processPreviewImage = document.createElement('img');
             processPreviewImage.src = '../assets/media/icons/process/list/icon_preview.svg';
-            if (data.enabled == true) {
-                processPreviewObject.appendChild(processPreviewImage);
-                tdProcessPreview.appendChild(processPreviewObject);
-            }
+            processPreviewObject.appendChild(processPreviewImage);
+            tdProcessPreview.appendChild(processPreviewObject);
+
             let tdUpdate = document.createElement('td');
             tdUpdate.style.width = '10%';
 

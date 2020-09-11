@@ -172,10 +172,9 @@
             }
             let formPreviewImage = document.createElement('img');
             formPreviewImage.src = '../assets/media/icons/process/list/icon_preview.svg';
-            if (data.editable == true) {
-                formPreviewObject.appendChild(formPreviewImage);
-                tdFormPreview.appendChild(formPreviewObject);
-            }
+            formPreviewObject.appendChild(formPreviewImage);
+            tdFormPreview.appendChild(formPreviewObject);
+
             let tdUpdate = document.createElement('td');
             tdUpdate.style.width = '10%';
 

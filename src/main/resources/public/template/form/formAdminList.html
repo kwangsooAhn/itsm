@@ -31,8 +31,7 @@
                            th:attr="onclick=|openFormEdit('${form.id}')|"></a>
                     </div>
                     <div th:unless="${form.editable == true}">
-                        <span sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"></span>
-                        <span sec:authorize="hasAuthority('form.update')" th:text="${form.name}"></span>
+                        <span th:text="${form.name}"></span>
                     </div>
                 </td>
                 <td width="10%">
