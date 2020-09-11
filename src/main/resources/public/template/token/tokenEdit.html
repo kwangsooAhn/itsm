@@ -55,7 +55,8 @@
                         </thead>
                         <tbody id="history" class="list-wrap">
                         <tr th:each="tokenHistory : ${instanceHistory}">
-                            <td width="45%" th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
+                            <td width="45%" class="user-date-time" th:name="tokenDt"
+                                th:text="${tokenHistory.tokenStartDt}"/>
                             <td width="35%" th:text="${tokenHistory.elementName}"></td>
                             <td width="20%" th:text="${tokenHistory.assigneeName}"></td>
                         </tr>
@@ -73,7 +74,7 @@
                                         <h5 th:text="${rInstance.documentNo}"></h5>
                                     </div>
                                 </a>
-                                <div class="trash-icon"></div>
+                                <button type="button" class="trash-icon" th:onclick="aliceDocument.deleteRelatedDoc({folderId: [[${rInstance.folderId}]], instanceId: [[${rInstance.instanceId}]]})"></button>
                             </div>
                             <div class="document-row-topic">
                                 <!--                            <h4 th:each="topic: ${rInstance.topics}" th:text="${topic}"></h4>-->
@@ -101,7 +102,7 @@
                                 <img class="profile-photo" th:src="@{${comment.avatarPath}}"/>
                                 <h5 th:text="${comment.createUserName}"></h5>
                             </div>
-                            <h5 class="should-be-modify-userdate" th:text="${comment.createDt}"></h5>
+                            <h5 class="user-date-time" th:text="${comment.createDt}"></h5>
                             <div th:if="${#authentication.details.userKey} == ${comment.createUserKey}">
                                 <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|"
                                         class="trash-icon"></button>
@@ -130,12 +131,9 @@
         /*<![CDATA[*/
         window.onload = function () {
             aliceForm.init(aliceDocument.initToken, '[[${tokenId}]]');
-            var tokenDtEle = document.querySelectorAll('td[name=tokenDt]');
-            for (let i = 0; i < tokenDtEle.length; i++) {
-                if (tokenDtEle[i].textContent !== '') {
-                    tokenDtEle[i].textContent = i18n.userDateTime(tokenDtEle[i].textContent);
-                }
-            }
+
+            initAddEventListener();
+            initUserDate();
 
             let tagInput = document.querySelector('input[name=tags]');
             new Tagify(tagInput, {
@@ -148,6 +146,20 @@
                 placeholder: '[[#{token.msg.tag}]]'
             });
 
+            const selectedTab = sessionStorage.getItem('token-info-tab');
+            if (selectedTab !== null) {
+                document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
+            } else {
+                document.querySelector('h4[data-target-contents="token-history"]').click();
+            }
+            OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
+        };
+
+        /**
+         * 이벤트 리스터 등록
+         */
+        function initAddEventListener() {
+            // 탭 동작 이벤트
             document.querySelectorAll('.token-info-tab > h4').forEach((ele) => {
                 ele.addEventListener('click', (e) => {
                     // 탭 동작
@@ -171,22 +183,19 @@
                     sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
                 });
             });
+        }
 
-            const selectedTab = sessionStorage.getItem('token-info-tab');
-            if (selectedTab !== null) {
-                document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
-            } else {
-                document.querySelector('h4[data-target-contents="token-history"]').click();
-            }
-
+        /**
+         * userDateTime으로 변환
+         */
+        function initUserDate() {
             document.querySelectorAll('.dateFormatFromNow').forEach((ele) => {
                 ele.textContent = dateFormatFromNow(ele.textContent);
             });
-            document.querySelectorAll('.should-be-modify-userdate').forEach((element) => {
+            document.querySelectorAll('.user-date-time').forEach((element) => {
                 element.textContent = i18n.userDateTime(element.textContent);
             });
-            OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
-        };
+        }
 
         function onAddTag(tag) {
             const jsonData = {
@@ -210,16 +219,6 @@
 
         function openProcessStatusPopUp() {
             window.open('/processes/[[${instanceId}]]/status', 'process_status_[[${instanceId}]]', 'width=1300, height=500');
-        }
-
-        function onRelatedInstanceDelete(instanceId) {
-            const jsonData = {
-                instanceId: instanceId
-            };
-
-            restSubmit('DELETE', '/rest/folders/[[${folderId}]]', function () {
-                location.reload();
-            }, jsonData, false);
         }
 
         function openTokenEdit(tokenId) {
