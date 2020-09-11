@@ -215,6 +215,7 @@ insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 �
 insert into awf_url values ('/rest/wf/instances/{id}/history', 'get', 'test', 'FALSE');
 insert into awf_url values ('/rest/wf/instances/{id}/latest', 'get', '마지막 토큰 정보 조회', 'FALSE');
 insert into awf_url values ('/roles/edit', 'get', '역할 설정 뷰 호출', 'TRUE');
+insert into awf_url values ('/roles/list', 'get', '역할 관리 목록 뷰 호출', 'TRUE');
 insert into awf_url values ('/tokens/list', 'get', '처리할 문서 리스트 조회', 'FALSE');
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
 insert into awf_url values ('/tokens/view-pop/list', 'get', '관련문서 리스트', 'TRUE');
