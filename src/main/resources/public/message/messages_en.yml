@@ -29,6 +29,7 @@ common:
     createDate: "Create Date"
     createUser: "Create User"
     delete: "Delete"
+    edit: "Edit"
     success: "Success"
     fail: "Fail"
     group: "Group"
