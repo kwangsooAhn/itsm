@@ -24,18 +24,23 @@
             </tr>
             <tr th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
                 <td width="20%" th:class="align-left">
-                    <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
-                       th:attr="onclick=|openFormView('${form.id}')|"></a>
-                    <a sec:authorize="hasAuthority('form.update')" th:text="${form.name}"
-                       th:attr="onclick=|openFormEdit('${form.id}')|"></a>
+                    <div th:if="${form.editable == true}">
+                        <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
+                           th:attr="onclick=|openFormView('${form.id}')|"></a>
+                        <a sec:authorize="hasAuthority('form.update')" th:text="${form.name}"
+                           th:attr="onclick=|openFormEdit('${form.id}')|"></a>
+                    </div>
+                    <div th:unless="${form.editable == true}">
+                        <span th:text="${form.name}"></span>
+                    </div>
                 </td>
                 <td width="10%">
-                    <a th:attr="onclick=|openFormDesignerView('${form.id}')|">
+                    <a th:if="${form.editable == true}" th:attr="onclick=|openFormDesignerView('${form.id}')|">
                         <img src="../assets/media/icons/process/list/icon_preview.svg"></a>
                 </td>
                 <td width="10%">
-                    <a sec:authorize="hasAuthority('form.update')" th:disabled="${!form.editable}"
-                       th:attr="onclick=|openFormDesignerEdit('${form.id}')|">
+                    <a th:if="${form.editable == true}" sec:authorize="hasAuthority('form.update')"
+                       th:disabled="${!form.editable}" th:attr="onclick=|openFormDesignerEdit('${form.id}')|">
                        <img src="../assets/media/icons/process/list/icon_edit.svg"></a>
                 </td>
                 <td width="10%" th:text="#{${form.status}}"></td>

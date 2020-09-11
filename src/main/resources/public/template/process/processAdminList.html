@@ -24,18 +24,23 @@
             </tr>
             <tr th:unless="${#arrays.isEmpty(processList)}" th:each="process: ${processList}">
                 <td width="20%" th:class="align-left">
-                    <a sec:authorize="!hasAuthority('process.update')" th:text="${process.name}"
-                       th:attr="onclick=|openProcessView('${process.id}')|"></a>
-                    <a sec:authorize="hasAuthority('process.update')" th:text="${process.name}"
-                       th:attr="onclick=|openProcessEdit('${process.id}')|"></a>
+                    <div th:if="${process.enabled == true}">
+                        <a sec:authorize="!hasAuthority('process.update')" th:text="${process.name}"
+                           th:attr="onclick=|openProcessView('${process.id}')|"></a>
+                        <a sec:authorize="hasAuthority('process.update')" th:text="${process.name}"
+                           th:attr="onclick=|openProcessEdit('${process.id}')|"></a>
+                    </div>
+                    <div th:unless="${process.enabled == true}">
+                        <span th:text="${process.name}"></span>
+                    </div>
                 </td>
                 <td width="10%">
-                    <a th:attr="onclick=|openProcessDesignerView('${process.id}')|">
+                    <a th:if="${process.enabled == true}" th:attr="onclick=|openProcessDesignerView('${process.id}')|">
                         <img src="../assets/media/icons/process/list/icon_preview.svg"></a>
                 </td>
                 <td width="10%">
-                    <a sec:authorize="hasAuthority('process.update')" th:disabled="${!process.enabled}"
-                       th:attr="onclick=|openProcessDesignerEdit('${process.id}')|">
+                    <a th:if="${process.enabled == true}" sec:authorize="hasAuthority('process.update')"
+                       th:disabled="${!process.enabled}" th:attr="onclick=|openProcessDesignerEdit('${process.id}')|">
                         <img src="../assets/media/icons/process/list/icon_edit.svg"></a>
                 </td>
                 <td width="10%" th:text="#{${process.status}}"></td>
