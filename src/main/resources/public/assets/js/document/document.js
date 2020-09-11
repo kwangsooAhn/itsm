@@ -617,6 +617,31 @@
         aliceJs.sendXhr(opt);
     }
 
+    /**
+     * 관련 문서 삭제
+     *
+     * @param commentId
+     */
+    function deleteRelatedDoc(dataForDeletion) {
+        aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), function() {
+            const opt = {
+                method: 'DELETE',
+                url: '/rest/folders/' + dataForDeletion.folderId,
+                contentType: 'application/json',
+                params: JSON.stringify(dataForDeletion),
+                callbackFunc: function(xhr) {
+                    if (xhr.responseText) {
+                        aliceJs.alertSuccess(i18n.get('common.msg.delete'), function() {
+                            location.reload();
+                        });
+                    } else {
+                        aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
+        });
+    }
 
     /**
      * 신청서, 처리할 문서 모달 Draw.
@@ -773,6 +798,7 @@
     exports.deleteComment = deleteComment;
     exports.drawDocument = drawDocument;
     exports.checkValidate = checkValidate;
+    exports.deleteRelatedDoc = deleteRelatedDoc;
     exports.print = print;
 
     Object.defineProperty(exports, '__esModule', {value: true});
