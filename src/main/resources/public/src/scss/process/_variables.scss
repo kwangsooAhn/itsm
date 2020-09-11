@@ -30,3 +30,11 @@ $pressed-blue:     #0088E6;
 $point-blue:       #0098FF;
 $hover-blue:       #33ADFF;
 $light-blue:       #87CEFF;
+
+// button
+$button-font-size:              16px;
+$button-font-weight:            500; // medium
+$button-line-height:            24px;
+$button-font-color:             $light-black;
+$button-border:                 0.0625rem solid transparent;
+$button-bg-color:               transparent;
