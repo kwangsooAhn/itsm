@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.board.service
 
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.board.dto.BoardCommentDto
@@ -36,7 +37,8 @@ class BoardService(
     private val boardCommentRepository: BoardCommentRepository,
     private val boardAdminRepository: BoardAdminRepository,
     private val boardCategoryRepository: BoardCategoryRepository,
-    private val aliceFileService: AliceFileService
+    private val aliceFileService: AliceFileService,
+    private val aliceAvatarService: AliceAvatarService
 ) {
 
     /**
@@ -216,6 +218,7 @@ class BoardService(
     fun getBoardCommentList(boardId: String): List<BoardCommentDto> {
         val boardCommentDtoList = mutableListOf<BoardCommentDto>()
         boardCommentRepository.findByBoardIdOrderByCreateDtDesc(boardId).forEach { PortalBoardCommentEntity ->
+            val avatarPath = PortalBoardCommentEntity.createUser?.avatar?.let { aliceAvatarService.makeAvatarPath(it) }
             boardCommentDtoList.add(
                 BoardCommentDto(
                     boardCommentId = PortalBoardCommentEntity.boardCommentId,
@@ -225,7 +228,8 @@ class BoardService(
                     createDt = PortalBoardCommentEntity.createDt,
                     createUser = PortalBoardCommentEntity.createUser,
                     updateDt = PortalBoardCommentEntity.updateDt,
-                    updateUser = PortalBoardCommentEntity.updateUser
+                    updateUser = PortalBoardCommentEntity.updateUser,
+                    avatarPath = avatarPath
                 )
             )
         }

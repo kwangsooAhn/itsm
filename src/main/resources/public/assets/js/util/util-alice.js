@@ -674,12 +674,9 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {
-                        if (okCallbackFunc()) {
-                            modal.hide();
-                        }
-                    } else {
-                        modal.hide();
+                        okCallbackFunc();
                     }
+                    modal.hide();
                 }
             }
         ],
