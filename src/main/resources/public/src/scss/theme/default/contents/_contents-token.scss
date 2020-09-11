@@ -42,7 +42,8 @@
                         }
                         .document-topic {
                             width: 23.75rem; // 380px
-                            h4 {
+                            h5 {
+                                color: $dark-gray;
                                 margin-top: 0.625rem; // 10px
                                 &:first-child {
                                     margin-top: 1.5625rem; // 25px

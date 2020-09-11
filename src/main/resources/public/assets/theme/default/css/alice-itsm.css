@@ -925,10 +925,11 @@ span.vertical-bar {
 .container .contents-token .list-item .document-row-content .document-topic {
   width: 23.75rem;
 }
-.container .contents-token .list-item .document-row-content .document-topic h4 {
+.container .contents-token .list-item .document-row-content .document-topic h5 {
+  color: #586872;
   margin-top: 0.625rem;
 }
-.container .contents-token .list-item .document-row-content .document-topic h4:first-child {
+.container .contents-token .list-item .document-row-content .document-topic h5:first-child {
   margin-top: 1.5625rem;
 }
 .container .contents-token .list-item .document-row-info {
