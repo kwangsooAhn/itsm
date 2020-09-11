@@ -16,16 +16,30 @@
                 <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></h1>
                 <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></h1>
                 <h1 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></h1>
-                <h6 class="title-description" th:text="#{board.msg.description}"></h6>
+                <h6 th:if="${boardInfo?.boardId} and ${replyYn} == false" class="title-description"
+                    th:text="#{board.msg.modifyDescription}"></h6>
+                <h6 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" class="title-description"
+                    th:text="#{board.msg.createDescription}"></h6>
+                <h6 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                    class="title-description" th:text="#{board.msg.replayDescription}"></h6>
             </div>
         </div>
         <div class="edit">
             <form id="boardForm" method="post" onsubmit="return false">
                 <div class="form-set">
-                    <label class="required" th:text="#{board.label.board}" for="boardCategory" />
-                    <select th:if="${boardAdminInfo.categoryYn}" id="boardCategory">
+                    <label class="required" th:text="#{board.label.board}" for="boardAdminId" />
+                    <select id="boardAdminId" name="boardAdminId">
+                        <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
+                                th:text="#{${boardAdmin.boardAdminTitle}}"
+                                th:selected="${boardAdmin.boardAdminId} == ${boardAdminInfo?.boardAdminId}"></option>
+                    </select>
+                </div>
+                <div class="form-set" th:if="${boardAdminInfo.categoryYn}">
+                    <label class="required" th:text="#{board.label.category}" for="boardCategory" />
+                    <select id="boardCategory">
                         <option th:each="boardCategory: ${boardCategoryInfo}" th:value="${boardCategory.boardCategoryId}"
-                                th:text="#{${boardCategory.boardCategoryName}}"></option>
+                                th:text="#{${boardCategory.boardCategoryName}}">
+                        </option>
                     </select>
                 </div>
                 <div class="form-set">
@@ -36,7 +50,7 @@
                     <label th:text="#{common.label.contents}" for="boardContents"/>
                     <div class="text-editor" id="boardContents"></div>
                 </div>
-                <div class="form-set">
+                <div class="form-set" th:if="${boardAdminInfo.attachYn}">
                     <label th:text="#{common.label.attachFile}"/>
                         <div id="dropZoneFiles"></div>
                         <div id="dropZoneUploadedFiles"></div>
@@ -142,17 +156,19 @@
 
             let fileSeqList = [];
             let delFileSeqList = [];
-            document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
-            document.getElementsByName('delFileSeq').forEach(elm => delFileSeqList.push(elm.value));
+            if (attachYn) {
+                document.getElementsByName('fileSeq').forEach(elem => fileSeqList.push(elem.value));
+                document.getElementsByName('delFileSeq').forEach(elm => delFileSeqList.push(elm.value));
+            }
 
-            let boardCategoryId = '';
+            let boardCategoryId;
             if (categoryYn) {
                 boardCategoryId = document.getElementById('boardCategory').value;
             }
             let boardContents = Quill.find(document.getElementById('boardContents'));
 
             const data = {
-                boardAdminId: boardAdminId,
+                boardAdminId: document.getElementById('boardAdminId').value,
                 boardTitle: document.getElementById('boardTitle').value,
                 boardContents: JSON.stringify(boardContents.getContents()),
                 fileSeqList: fileSeqList,
@@ -179,9 +195,9 @@
         function restSubmit(method, url, data) {
             let resultMsg = '';
             if (method === 'put' || method === 'post') {
-                resultMsg = i18n.get('common.msg.save');
+                resultMsg = i18n.msg('common.msg.save');
             } else if (method === 'delete') {
-                resultMsg = i18n.get('common.msg.delete');
+                resultMsg = i18n.msg('common.msg.delete');
             }
 
             const opt = {

@@ -4,10 +4,9 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title>역할 정보</title>
+    <title th:text="#{role.label.manage}"></title>
 </head>
 <body>
-<p th:text="${#temporals.formatISO(timestamp)}"></p>
 <th:block layout:fragment="content">
     <div class="contents-list-edit">
         <div class="list-area">
@@ -16,29 +15,16 @@
                 <h6 class="title-description" th:text="#{role.msg.description}"></h6>
             </div>
             <div class="search-area">
+                <div class="left">
+                    <input id="search" class="search column-5" th:placeholder="#{role.msg.searchPlaceholder}">
+                    <span id="totalCount" class="txt-num"></span>
+                </div>
                 <div class="right">
                     <button class="default-fill" sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch"
-                            th:onclick="|javascript:onSearch()|" th:text="#{common.btn.add}">추가</button>
+                            th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
                 </div>
             </div>
-            <div class="list">
-                <table>
-                    <thead>
-                    <tr>
-                        <th width="25%" th:text="#{role.label.name}"></th>
-                        <th width="25%" th:text="#{role.label.id}"></th>
-                        <th width="50%" th:text="#{role.label.desc}"></th>
-                    </tr>
-                    </thead>
-                    <tbody class="list-body">
-                    <tr th:each="role : ${roleList}">
-                        <td width="25%" id="roleName" name="roleName" th:text="${role.roleName}" th:id="${role.roleId}" style="cursor: pointer;"></td>
-                        <td width="25%" id="roleId" name="roleId" th:text="${role.roleId}"></td>
-                        <td width="50%" id="roleDesc" name="roleDesc" th:text="${role.roleDesc}" class="align-left"></td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
+            <div class="list" id="roleList"></div>
         </div>
         <div class="edit-area">
             <div class="scroll-wrap">
@@ -103,44 +89,42 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
-        let AUTH_DELETE = false;
-        let AUTH_CREATE = false;
-        let AUTH_UPDATE = false;
+        let ROLE_DELETE = false;
+        let ROLE_CREATE = false;
+        let ROLE_UPDATE = false;
+        getRoleList(true);
 
         window.onload = function() {
             if (document.getElementById('btnUpdate') !== null) {
-                AUTH_UPDATE = true;
+                ROLE_UPDATE = true;
             }
 
             if (document.getElementById('btnRegist') !== null) {
-                AUTH_CREATE = true;
+                ROLE_CREATE = true;
             }
 
             if (document.getElementById('btnDelete') !== null) {
-                AUTH_DELETE = true;
+                ROLE_DELETE = true;
             }
 
             if (document.getElementById('txtRoleId').value !== null && document.getElementById('txtRoleId').value !== '') {
                 document.getElementById('txtRoleId').setAttribute('disabled','');
-                if (AUTH_UPDATE) {
+                if (ROLE_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
                 }
-                if (AUTH_CREATE) {
+                if (ROLE_CREATE) {
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             } else {
-                if (AUTH_UPDATE) {
+                if (ROLE_UPDATE) {
                     document.getElementById('btnUpdate').style.display = 'block';
                 }
-                if (AUTH_CREATE) {
+                if (ROLE_CREATE) {
                     document.getElementById('btnRegist').style.display = 'none';
                 }
             }
 
             let roleList = document.querySelectorAll('td[name=roleName]');
-            roleList[0].parentElement.classList.add('active');
-            onGetDetail(roleList[0].id);
-
             for(let i = 0; i < roleList.length; i++) {
                 roleList[i].addEventListener('click', function(){
                     let activeTr = document.querySelector('tr.active');
@@ -148,15 +132,20 @@
                         activeTr.classList.remove('active');
                     }
                     this.parentElement.classList.add('active');
-                    if (AUTH_UPDATE) {
+                    if (ROLE_UPDATE) {
                         document.getElementById('btnUpdate').style.display = 'block';
                     }
-                    if (AUTH_CREATE) {
+                    if (ROLE_CREATE) {
                         document.getElementById('btnRegist').style.display = 'none';
                     }
                     onGetDetail(this.id);
                 });
             }
+
+            document.getElementById('search').addEventListener('keyup', function() {
+                getRoleList(false);
+            });
+
             OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
             Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
@@ -164,10 +153,10 @@
             });
         }
 
-        function onGetDetail(roldId) {
+        function onGetDetail(roleId) {
             const opt = {
                 method: 'get',
-                url: '/rest/roles/' +  roldId,
+                url: '/rest/roles/' +  roleId,
                 callbackFunc: function(response) {
                     let responseJson = JSON.parse(response.responseText);
                     document.getElementById('txtRoleId').value = responseJson.roleId;
@@ -178,7 +167,7 @@
                     Array.prototype.forEach.call(document.querySelectorAll('input[name=roleAuth]'), function(roleAuth) {
                         roleAuth.checked = false;
                         for (let i = 0; i<arrAuthList.length; i++) {
-                            if (roleAuth.id == arrAuthList[i].authId) {
+                            if (roleAuth.id === arrAuthList[i].authId) {
                                 roleAuth.checked = true;
                             }
                         }
@@ -189,7 +178,7 @@
                     document.getElementById('spanUpdateDt').value = i18n.userDateTime(responseJson.updateDt);
                     document.getElementById('txtRoleId').setAttribute('disabled','');
                     document.getElementById('userRoleMapCount').value = responseJson.userRoleMapCount;
-                    if (AUTH_DELETE) {
+                    if (ROLE_DELETE) {
                         disabledButton(responseJson.userRoleMapCount);
                     }
                 },
@@ -197,7 +186,7 @@
             aliceJs.sendXhr(opt);
             OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
             Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
-                OverlayScrollbars(target, { className: 'scrollbar' });
+                OverlayScrollbars(target, { className: 'inner-scrollbar' });
             });
             OverlayScrollbars(document.querySelector('#txtRoleDesc'), {
                 className: 'scrollbar',
@@ -212,7 +201,7 @@
         }
 
         /*추가 버튼 */
-        function onSearch() {
+        function onCreate() {
             document.getElementById('txtRoleId').value = '';
             document.getElementById('txtRoleId').removeAttribute('disabled');
             document.getElementById('txtRoleName').value = '';
@@ -227,13 +216,13 @@
             document.getElementById('spanUpdateUserKey').value = '';
             document.getElementById('spanUpdateDt').value = '';
             document.getElementById('userRoleMapCount').value = '';
-            if (AUTH_UPDATE) {
+            if (ROLE_UPDATE) {
                 document.getElementById('btnUpdate').style.display = 'none';
             }
-            if (AUTH_CREATE) {
+            if (ROLE_CREATE) {
                 document.getElementById('btnRegist').style.display = 'block';
             }
-            if (AUTH_DELETE) {
+            if (ROLE_DELETE) {
                 document.getElementById('btnDelete').style.display = 'none';
             }
         }
@@ -259,21 +248,18 @@
             }
 
             obj.arrAuthId = arrAuthId;
-            if (flag === 'post') {
-                strUrl = '/rest/roles';
-            } else {
-                strUrl = '/rest/roles/'+ document.getElementById('txtRoleId').value;
+            let strUrl = '/rest/roles';
+            if (flag !== 'post') {
+                strUrl += '/' + document.getElementById('txtRoleId').value;
             }
-            let roleJson = JSON.stringify(obj);
-
             const opt = {
                 method: flag,
                 url: strUrl,
-                params: roleJson,
+                params: JSON.stringify(obj),
                 contentType: 'application/json',
                 callbackFunc: function () {
                     aliceJs.alertSuccess([[#{common.msg.save}]], function() {
-                        window.location.href ='/roles/edit';
+                        window.location.href = '/roles/edit';
                     });
                 }
             };
@@ -289,7 +275,7 @@
                         switch (response.responseText) {
                             case "true":
                                 aliceJs.alertSuccess([[#{common.msg.delete}]], function() {
-                                    window.location.href ='/roles/edit';
+                                    window.location.href = '/roles/edit';
                                 });
                                 break;
                             case "false":
@@ -312,6 +298,49 @@
             } else {
                 btn.disabled = false;
             }
+        }
+
+        function getRoleList(showProgressbar) {
+            const data = {
+                search: encodeURIComponent(document.getElementById('search').value.trim())
+            };
+            const urlParam = 'search=' + data.search;
+            const opt = {
+                method: 'get',
+                url: '/roles/list?' + urlParam,
+                showProgressbar: showProgressbar,
+                callbackFunc: function(response) {
+                    document.getElementById('roleList').innerHTML = response.responseText;
+
+                    let roleList = document.querySelectorAll('td[name=roleName]');
+                    document.getElementById('totalCount').textContent = i18n.msg("common.label.count", roleList.length);
+                    for (let i = 0; i < roleList.length; i++) {
+                        roleList[i].style.cursor = 'pointer';
+                        roleList[i].addEventListener('click', function(){
+                            let activeTr = document.querySelector('tr.active')
+                            if (activeTr !== null) {
+                                activeTr.classList.remove('active');
+                            }
+                            this.parentElement.classList.add('active');
+                            if (ROLE_UPDATE) {
+                                document.getElementById('btnUpdate').style.display = 'inline-block';
+                            }
+                            if (ROLE_CREATE) {
+                                document.getElementById('btnRegist').style.display = 'none';
+                            }
+                            if (ROLE_DELETE) {
+                                document.getElementById('btnDelete').style.display = 'inline-block';
+                            }
+                            onGetDetail(this.id);
+                        });
+                    }
+                    if (roleList.length > 0) {
+                        document.querySelector('td[name=roleName]').click();
+                    }
+                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'inner-scrollbar' });
+                }
+            };
+            aliceJs.sendXhr(opt);
         }
         /*]]>*/
     </script>

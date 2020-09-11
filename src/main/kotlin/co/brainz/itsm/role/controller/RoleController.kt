@@ -14,6 +14,7 @@ class RoleController(private val roleService: RoleService) {
 
     private val logger = LoggerFactory.getLogger(RoleController::class.java)
     private val roleEditPage: String = "role/roleEdit"
+    private val roleListPage: String = "role/roleList"
 
     /**
      * 역할  설정 뷰를 호출한다.
@@ -27,5 +28,15 @@ class RoleController(private val roleService: RoleService) {
         model.addAttribute("roleList", roleAllList)
 
         return roleEditPage
+    }
+
+    /**
+     * 역할 설정 검색 결과 리스트 화면 호출 처리.
+     */
+    @GetMapping("/list")
+    fun getRoleList(search: String, model: Model): String {
+        model.addAttribute("roleList", roleService.getRoleSearchList(search))
+
+        return roleListPage
     }
 }

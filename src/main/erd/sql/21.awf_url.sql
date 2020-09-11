@@ -91,6 +91,12 @@ insert into awf_url values ('/notices/{id}/view-pop', 'get', '공지사항 팝�
 insert into awf_url values ('/notifications/list', 'get', '알림 리스트 화면', 'FALSE');
 insert into awf_url values ('/oauth/{service}/callback', 'get', 'OAuth 로그인 응답 콜백', 'TRUE');
 insert into awf_url values ('/oauth/{service}/login', 'get', 'OAuth 로그인 화면 호출', 'TRUE');
+insert into awf_url values ('/portal/downloads/search', 'get', '포탈 자료실 조회', 'FALSE');
+insert into awf_url values ('/portal/downloads/{id}/view', 'get', '포탈 자료실 상세조회', 'FALSE');
+insert into awf_url values ('/portal/faqs', 'get', '포탈 FAQ 상세조회', 'FALSE');
+insert into awf_url values ('/portal/list','get','포탈 조회', 'FALSE');
+insert into awf_url values ('/portal/notices/search', 'get', '포탈 공지사항 조회', 'FALSE');
+insert into awf_url values ('/portal/notices/{id}/view', 'get', '포탈 공지사항 상세 조회', 'FALSE');
 insert into awf_url values ('/processes-admin/list', 'get', '프로세스 목록', 'TRUE');
 insert into awf_url values ('/processes-admin/new', 'get', '프로세스 기본 정보 등록 화면', 'TRUE');
 insert into awf_url values ('/processes-admin/search', 'get', '프로세스 리스트 검색 호출 화면', 'TRUE');
@@ -176,6 +182,10 @@ insert into awf_url values ('/rest/notices/{id}', 'put', '공지사항 수정', 
 insert into awf_url values ('/rest/notifications/{id}', 'delete', '알림 리스트 삭제', 'FALSE');
 insert into awf_url values ('/rest/notifications/{id}/confirm', 'put', '알림 리스트 확인 여부 수정', 'FALSE');
 insert into awf_url values ('/rest/notifications/{id}/display', 'put', '알림 리스트 표시 여부 수정', 'FALSE');
+insert into awf_url values ('/rest/portal/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
+insert into awf_url values ('/rest/portal/filelist', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
+insert into awf_url values ('/rest/portal/list', 'get', '포탈 조회 (페이징)', 'FALSE');
+insert into awf_url values ('/rest/portal/top', 'get', '포탈 첫화면 Top 조회', 'FALSE');
 insert into awf_url values ('/rest/processes-admin', 'post', '프로세스 디자이너 기본 정보 저장 / 다른이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/processes-admin', 'put', '프로세스 수정', 'TRUE');
 insert into awf_url values ('/rest/processes-admin', 'get', '발행 상태인 프로세스 목록 조회', 'TRUE');
@@ -205,6 +215,7 @@ insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 �
 insert into awf_url values ('/rest/wf/instances/{id}/history', 'get', 'test', 'FALSE');
 insert into awf_url values ('/rest/wf/instances/{id}/latest', 'get', '마지막 토큰 정보 조회', 'FALSE');
 insert into awf_url values ('/roles/edit', 'get', '역할 설정 뷰 호출', 'TRUE');
+insert into awf_url values ('/roles/list', 'get', '역할 관리 목록 뷰 호출', 'TRUE');
 insert into awf_url values ('/tokens/list', 'get', '처리할 문서 리스트 조회', 'FALSE');
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
 insert into awf_url values ('/tokens/view-pop/list', 'get', '관련문서 리스트', 'TRUE');
@@ -218,5 +229,3 @@ insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 �
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editSelf', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
 insert into awf_url values ('/users/department/view-pop', 'get', '부서관리팝업화면', 'TRUE');
-insert into awf_url values ('/rest/portal/top', 'get', '포탈 데이터 리스트 조회', 'FALSE');
-insert into awf_url values ('/rest/portal/filelist', 'get', '포탈 파일 리스트 조회', 'FALSE');

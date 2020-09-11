@@ -63,11 +63,11 @@
         }
 
         function openDocumentEdit(documentId) {
-            window.open('/documents-admin/' + documentId + '/edit', '_blank', 'width=760, height=960, left=500, top=350');
+            window.open('/documents-admin/' + documentId + '/edit', '_blank', 'width=760, height=900, left=500, top=60');
         }
 
         function createDocument() {
-            window.open('/documents-admin/new', '_blank', 'width=760, height=960, left=500, top=350');
+            window.open('/documents-admin/new', '_blank', 'width=760, height=900, left=500, top=60');
         }
 
         function deleteDocument(documentId) {
@@ -163,7 +163,7 @@
             let tdDocumentGroup = document.createElement('td');
             tdDocumentGroup.style.width = '10%';
             if (data.documentGroup != null && data.documentGroup !== '') {
-                let groupObject = document.getElementById('searchGroupName')
+                let groupObject = document.getElementById('searchGroupName');
                 for (let i = 0; i < groupObject.length; i++) {
                     if (groupObject[i].value === data.documentGroup) {
                         tdDocumentGroup.innerText = groupObject[i].textContent;
@@ -180,31 +180,35 @@
             tdDocumentStatus.style.width = '15%';
             tdDocumentStatus.innerText = i18n.get(data.documentStatus);
 
-            let tdModify = document.createElement('td');
-            let btnModify = document.createElement('button');
-            tdModify.style.width = '10%';
-            btnModify.innerText = '[[#{common.btn.modify}]]';
-            btnModify.onclick = function() {
+            let tdDocumentEdit = document.createElement('td');
+            tdDocumentEdit.style.width = '10%';
+            let documentEditObject = document.createElement('a');
+            documentEditObject.onclick = function() {
                 openDocumentEdit(data.documentId);
             };
-            tdModify.appendChild(btnModify);
+            let documentEditImage = document.createElement('img');
+            documentEditImage.src = '../assets/media/icons/document/icon_edit.svg';
+            documentEditObject.appendChild(documentEditImage);
+            tdDocumentEdit.appendChild(documentEditObject);
 
-            let tdDelete = document.createElement('td');
-            tdDelete.style.width = '10%';
-            let btnDelete = document.createElement('button');
-            btnDelete.innerText = '[[#{common.btn.delete}]]';
-            btnDelete.onclick = function() {
+            let tdDocumentDelete = document.createElement('td');
+            tdDocumentDelete.style.width = '10%';
+            let documentDeleteObject = document.createElement('a');
+            documentDeleteObject.onclick = function() {
                 deleteDocument(data.documentId);
             };
-            tdDelete.appendChild(btnDelete);
+            let documentDeleteImage = document.createElement('img');
+            documentDeleteImage.src = '../assets/media/icons/document/icon_trash.svg';
+            documentDeleteObject.appendChild(documentDeleteImage);
+            tdDocumentDelete.appendChild(documentDeleteObject);
 
             tr.appendChild(tdDocumentName);
             tr.appendChild(tdDocumentType);
             tr.appendChild(tdDocumentGroup);
             tr.appendChild(tdDocumentDesc);
             tr.appendChild(tdDocumentStatus);
-            tr.appendChild(tdModify);
-            tr.appendChild(tdDelete);
+            tr.appendChild(tdDocumentEdit);
+            tr.appendChild(tdDocumentDelete);
             div.appendChild(tr);
         }
         /*]]>*/
