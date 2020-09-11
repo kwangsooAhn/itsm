@@ -148,6 +148,7 @@
             }
             // TODO: 공통으로 만들어서 첨부파일 쪽으로 소스를 옮기는 것이 좋을 것 같음
             &.item-attach-file {
+                align-items: center;
                 min-height: 3.125rem; // 50px
                 padding: 0.125rem 1.25rem; // 2px 20px
                 .vertical-bar {

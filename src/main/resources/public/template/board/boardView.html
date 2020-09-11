@@ -87,7 +87,7 @@
             boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
 
             if (attachYn) {
-                fileUploader.init({extra: {formId: 'frm', ownId: boardId, editor: false}});
+                fileUploader.init({extra: {formId: 'frm', ownId: boardId, editor: false, isView: true}});
             }
             if (boardId !== null && commentYn) {
                 getBoardCommentList();

@@ -58,7 +58,7 @@
                 aliceJs.alertWarning(i18n.msg('notice.msg.alreadyDeleted'));
                 return history.go(-1);
             }
-            fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false}});
+            fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false, isView: true}});
         }
         /* ]]> */
     </script>

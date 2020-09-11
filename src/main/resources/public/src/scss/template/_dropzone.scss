@@ -1,41 +1,130 @@
-@import "../../template/dropzone";
+/**
+ * dropzone
+ * http://www.dropzonejs.com
+ *
+ * @author woodajung
+ * @version 1.0
+ */
+$dropzone-font-family:          "Noto Sans KR";
+$dropzone-font-size:            16px;
+$dropzone-font-weight:          400; // regular
+$dropzone-font-color:           $gray;
+$dropzone-border:               0.0625rem solid $line-gray;
+$dropzone-bg-color:             $light-gray;
+$dropzone-progress-color:       $point-blue;
+$dropzone-progress-bg-color:    $line-gray;
+$dropzone-filename-font-color:  $dark-gray;
+$dropzone-filesize-font-color:  $gray;
+$dropzone-preview-height:       5rem; // 80px;
+$dropzone-point-color:          $point-blue;
 
-/*.dropzone {
+@mixin keyframe ($animation_name) {
+    @-webkit-keyframes #{$animation_name} {
+        @content;
+    }
+
+    @-moz-keyframes #{$animation_name} {
+        @content;
+    }
+
+    @-o-keyframes #{$animation_name} {
+        @content;
+    }
+
+    @keyframes #{$animation_name} {
+        @content;
+    }
+}
+
+@mixin animation ($delay, $duration, $name, $timing, $count:1) {
+    animation-delay: $delay;
+    animation-duration: $duration;
+    animation-name: $name;
+    animation-timing-function: $timing;
+    animation-iteration-count: $count;
+}
+
+@mixin background ($path, $size, $repeat, $posX, $posY, $color) {
+    background-image: url($dropzone-folder-path + '/' + $path);
+    background-size: if($size == null, auto, $size);
+    background-repeat: if($repeat == null, no-repeat, $repeat);
+    background-position-x: if($posX == null, center, $posX);
+    background-position-y: if($posY == null, center, $posY);
+    @if ($color != null) {
+      background-color: $color;
+    }
+}
+
+@include keyframe (passing-through) {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    30%, 70% {
+        opacity: 1;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(0px);
+    }
+}
+
+@include keyframe (slide-in) {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    30% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+@include keyframe (pulse) {
+    0% {
+        transform: scale(1);
+    }
+    10% {
+        transform: scale(1.1);
+    }
+    20% {
+        transform: scale(1);
+    }
+}
+
+.dropzone {
     box-sizing: border-box;
 
     * {
         box-sizing: border-box;
     }
-
+    font-family: $dropzone-font-family;
+    font-size: $dropzone-font-size;
+    font-weight: $dropzone-font-weight;
+    color: $dropzone-font-color;
     min-height: 6.25rem;
-    border: $element-border solid $element-line;
-    background: white;
-    padding: 0.625rem 0.625rem 0 0.625rem;
+    background-color: $dropzone-bg-color;
+    border: $dropzone-border;
+    padding: 0.625rem 0.625rem 0 0.625rem; //10px
 
+    // TODO: 아바타 디자인 정리 필요
     &.avatar {
-        box-sizing: border-box;
         width: 18.75rem; // 300px;
         height: 18.75rem;
         padding: 0;
-        @include background("icon_image.png", 5rem, no-repeat, center, 5rem, #FDFDFD);
+        @include background ("icon_image.svg", 5rem, no-repeat, center, 5rem, #FDFDFD); // 65px
 
         .dz-message {
-            text-align: center;
             margin: 12.5rem 0 3rem 0;
-            color: #7A8594;
         }
 
         .dz-preview {
-            position: relative;
-            vertical-align: top;
             height: 100%;
-            border: $element-border solid $element-line;
-            margin-bottom: 0.625rem;
             padding: 0;
             border: 0;
 
             .dz-image {
-                //border-radius: 5px;
                 overflow: hidden;
                 position: relative;
                 display: block;
@@ -67,12 +156,10 @@
                     span {
                         background-color: rgba(255, 255, 255, 0.4);
                         border-radius: 3px;
-                        color: #67717f;
                     }
                 }
 
                 .dz-remove {
-                    text-align: center;
                     width: 1.125rem;
                     height: 1.125rem;
                     background-color: rgba(255, 255, 255, 0.4);
@@ -80,8 +167,7 @@
                     position: absolute;
                     top: -10rem;
                     left: 8.75rem;
-                    @include backgroundImage("icon_close.png");
-
+                    @include background ("icon_close.svg", 14px, no-repeat, center, center, null); // 14px
                     &:hover {
                         background-color: rgba(255, 255, 255, 0.9);
                     }
@@ -93,29 +179,29 @@
             }
         }
     }
+    // drag and drop 영역
+    .dz-default {
+        margin: 1.875rem 0;
 
-    .dz-clickable {
-        cursor: pointer;
-        text-decoration: underline;
-        color: $alice-primary;
-
-        * {
-            cursor: default;
-        }
-
-        .dz-message {
-            cursor: pointer;
-
-            * {
-                cursor: pointer;
+        &.dz-message {
+            text-align: center;
+            // Drop files here to upload 문구
+            span {
+                color: $dropzone-font-color;
+            }
+            // or brows 영역
+            .add-file-button-wrap {
+                margin-top: 0.5rem;
+                // browse 버튼
+                .dz-clickable {
+                    cursor: pointer;
+                    text-decoration: underline;
+                    color: $dropzone-point-color;
+                }
             }
         }
     }
-
-    &.dz-started .dz-message {
-        display: none;
-    }
-
+    
     &.dz-drag-hover {
         border-style: solid;
 
@@ -123,28 +209,15 @@
             opacity: 0.5;
         }
     }
-
-    .dz-uploaded {
-        border: 0;
-    }
-
-    .dz-message {
-        text-align: center;
-        margin: 1.875rem 0;
-        color: #7A8594;
-
-        .add-file-button-wrap {
-            margin-top: 0.5rem;
-        }
-    }
-
+    // 추가된 파일 목록
     .dz-preview {
         position: relative;
         vertical-align: top;
-        height: 5rem;
-        border: $element-border solid $element-line;
-        margin-bottom: 0.625rem;
-        padding: 1rem;
+        height: $dropzone-preview-height;
+        border: $dropzone-border;
+        background-color: $white;
+        margin-bottom: 0.625rem; // 10px
+        padding: 1rem; // 16px;
 
         &:hover {
             z-index: 1000;
@@ -177,8 +250,8 @@
                 transition: opacity 0.2s linear;
             }
         }
-
-        .dz-remove {
+        //파일 다운로드 아이콘
+        .dz-download {
             height: 100%;
             text-align: center;
             display: block;
@@ -186,11 +259,19 @@
             border: none;
             grid-column: 3;
             grid-row: 1 / span 2;
-            @include backgroundImageAndSize("icon_notice_delete.svg", 1.125rem);
+            @include background ("icon_fileupload_download.svg", 20px, no-repeat, center, center, null); // 20px
+        }
 
-            &:hover {
-                //text-decoration: underline;
-            }
+        // 파일 삭제 아이콘
+        .dz-remove {
+            height: 100%;
+            text-align: center;
+            display: block;
+            cursor: pointer;
+            border: none;
+            grid-column: 5;
+            grid-row: 1 / span 2;
+            @include background ("icon_fileupload_delete.svg", 18px 20px, no-repeat, center, center, null); // 18px 20px
         }
 
         &:hover .dz-details {
@@ -208,42 +289,29 @@
             color: rgba(0, 0, 0, 0.9);
             line-height: 150%;
             display: grid;
-            grid-template-columns: 2.25rem auto 1.125rem;
+            grid-template-columns: 2.25rem auto 1.25rem 1.25rem 1.125rem; // 20px 20px 18px
             align-items: center;
 
             .dz-filename {
                 white-space: nowrap;
                 text-align: left;
-                padding: 0 0.4em;
-
-                &:hover span {
-                    border: 1px solid rgba(200, 200, 200, 0.8);
-                    background-color: rgba(255, 255, 255, 0.8);
-                }
-
-                &:not(:hover) {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-
-                    span {
-                        border: 1px solid transparent;
-                    }
-                }
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 0 20px; // 0 20px
+                grid-column: 2;
 
                 span {
-                    background-color: rgba(255, 255, 255, 0.4);
-                    border-radius: 3px;
+                    color: $dropzone-filename-font-color;
                 }
             }
 
             .dz-size {
                 text-align: left;
-                padding: 0 0.4em;
+                padding: 0 20px; // 20px
+                grid-column: 2;
 
                 span {
-                    background-color: rgba(255, 255, 255, 0.4);
-                    border-radius: 3px;
-                    color: #67717f;
+                    color: $dropzone-filesize-font-color;
                 }
             }
 
@@ -251,7 +319,7 @@
                 height: 100%;
                 grid-column: 1;
                 grid-row: 1 / span 2;
-                @include backgroundImageAndSize("icon_notice_document.svg", 2.25rem);
+                @include background ("icon_document_txt.svg", null, null, null, null, null);
             }
         }
 
@@ -261,8 +329,8 @@
             -ms-transform: scale(1.05, 1.05);
             -o-transform: scale(1.05, 1.05);
             transform: scale(1.05, 1.05);
-            //-webkit-filter: blur(8px);
-            //filter: blur(8px);
+            -webkit-filter: blur(8px);
+            filter: blur(8px);
         }
 
         .dz-image {
@@ -277,20 +345,13 @@
         }
 
         &.dz-success .dz-success-mark {
-            -webkit-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
-            -moz-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
-            -ms-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
-            -o-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
-            animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+            @include animation (0s, 3s, passing-through, cubic-bezier(0.77, 0, 0.175, 1));
         }
 
         &.dz-error .dz-error-mark {
             opacity: 1;
-            -webkit-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
-            -moz-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
-            -ms-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
-            -o-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
-            animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+            color: $red;
+            @include animation (0s, 3s, slide-in, cubic-bezier(0.77, 0, 0.175, 1));
         }
 
         .dz-success-mark, .dz-error-mark {
@@ -330,11 +391,7 @@
         }
 
         &:not(.dz-processing) .dz-progress {
-            -webkit-animation: pulse 6s ease infinite;
-            -moz-animation: pulse 6s ease infinite;
-            -ms-animation: pulse 6s ease infinite;
-            -o-animation: pulse 6s ease infinite;
-            animation: pulse 6s ease infinite;
+            @include animation (0s, 6s, pulse, ease, infinite);
         }
 
         .dz-progress {
@@ -345,14 +402,16 @@
             height: 0.25rem;
             top: -1.375rem;
             left: 2.25rem;
-            width: 36.25rem;
-            background: rgba(190, 197, 206, 0.9);
+            //width: 36.25rem;
+            width: 94%;
+            margin: 0 3%;
+            background: $dropzone-progress-bg-color;
             -webkit-transform: scale(1);
             border-radius: 8px;
             overflow: hidden;
 
             .dz-upload {
-                background: linear-gradient(to bottom, #0050ff, #0050ff);
+                background: linear-gradient(to bottom, $dropzone-progress-color, $dropzone-progress-color);
                 position: absolute;
                 top: 0;
                 left: 0;
@@ -412,4 +471,69 @@
             }
         }
     }
-}*/
+     // 툴팁
+    .dz-error-message {
+    pointer-events: none;
+    z-index: 1000;
+    position: absolute;
+    display: block;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    border-radius: 8px;
+    top: calc( -1 * #{$dropzone-preview-height});
+    left: 0;
+    width: auto;
+    background: $red;
+    padding: 0.5em 1.2em;
+    color: $white;
+
+    &:after {
+        content: '';
+        position: absolute;
+        top: -6px;
+        left: 64px;
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid $red;
+    }
+    }
+    // view 일 경우 
+    &.dz-uploaded {
+        min-height: auto;
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+
+        .dz-preview {
+            height: auto;
+            border: none;
+            padding: 0;
+            margin-bottom: 0;
+            margin-top: 0.625rem;
+            
+            &:first-child {
+                margin-top: 0;
+            }
+
+            .dz-details {
+                display: inline-flex;
+                .dz-file-type {
+                    width: 18px; // 18px
+                    height: 20px; // 20px
+                }
+                .dz-filename {
+                    padding: 0 10px 0 15px; 
+                }
+                .dz-size {
+                    padding: 0;
+                }
+                .dz-download, 
+                .dz-remove {
+                    display: none;
+                }
+            }
+        }
+    }
+}

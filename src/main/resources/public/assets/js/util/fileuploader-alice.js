@@ -27,8 +27,12 @@ const fileUploader = (function () {
         return fileName.substring(dot+1, fileName.length).toLowerCase()
     }
 
-    const setFileIcon = function (fileName) {
-        return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
+    const setFileIcon = function (fileName, isView) {
+        if (isView) {
+            return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '_s.svg")';
+        } else {
+            return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
+        }
     }
 
     /**
@@ -86,11 +90,17 @@ const fileUploader = (function () {
         if (extraParam.dictDefaultMessage === undefined) {
             extraParam.dictDefaultMessage = 'Drop files here to upload'
         }
+
         if (extraParam.clickableLineMessage === undefined) {
             extraParam.clickableLineMessage = 'or '
         }
+
         if (extraParam.clickableMessage === undefined) {
             extraParam.clickableMessage = 'browse'
+        }
+
+        if (extraParam.isView === undefined) {
+            extraParam.isView = false;
         }
     };
 
@@ -103,6 +113,9 @@ const fileUploader = (function () {
         const dragAndDropZone = document.createElement('div');
         dragAndDropZone.id = dragAndDropZoneId;
         dragAndDropZone.className = extraParam.type;
+        if (extraParam.isView) {
+            dragAndDropZone.classList.add('view');
+        }
         dropZoneFiles.appendChild(dragAndDropZone);
 
         // 파일을 업로드하기 위한 별도의 버튼 기능을 정의하고 추가
@@ -194,6 +207,34 @@ const fileUploader = (function () {
     }
 
     /**
+     * 업로드된 파일 다운로드 이벤트 핸들러
+     */
+    const fileDownloadHandler = function(e) {
+        let $this = e.target;
+        if (!$this.parentElement.classList.contains('dz-details')) {
+            $this = $this.parentElement;
+        }
+        const fileDownOpt = {
+            method: 'get',
+            url: '/filedownload?seq=' + Number($this.parentElement.querySelector('input[name=loadedFileSeq]').value),
+            callbackFunc: function (xhr) {
+                const a = document.createElement('a');
+                const url = window.URL.createObjectURL(xhr.response);
+                a.href = url;
+                a.download = $this.parentElement.querySelector('div[name=loadedFileNames] span').textContent;
+                document.body.append(a);
+                a.click();
+                a.remove();
+                window.URL.revokeObjectURL(url);
+            },
+            params: '',
+            async: true,
+            responseType: 'blob'
+        }
+        aliceJs.sendXhr(fileDownOpt);
+    };
+
+    /**
      * 파일업로드 드랍존 생성
      */
     const createFileUploader = function () {
@@ -247,12 +288,11 @@ const fileUploader = (function () {
                             // 파일 목록 생성
                             const fileType = document.createElement('div');
                             fileType.className = 'dz-file-type';
-                            fileType.style.backgroundImage = setFileIcon(file.originName);
+                            fileType.style.backgroundImage = setFileIcon(file.originName, extraParam.isView);
 
                             const fileName = document.createElement('div');
                             fileName.className = 'dz-filename';
                             fileName.setAttribute('name', 'loadedFileNames');
-                            fileName.style.cursor = 'pointer';
                             const fileNameStr = document.createElement('span');
                             fileNameStr.textContent = file.originName;
                             fileName.appendChild(fileNameStr);
@@ -262,6 +302,8 @@ const fileUploader = (function () {
                             const fileSizeStr = document.createElement('span');
                             fileSizeStr.textContent = convertedFileSize;
                             fileSize.appendChild(fileSizeStr);
+                            const download = document.createElement('div');
+                            download.className = 'dz-download';
                             const remove = document.createElement('div');
                             remove.className = 'dz-remove';
                             const fileSeq = document.createElement('input');
@@ -273,44 +315,34 @@ const fileUploader = (function () {
                             fileDetails.append(fileType);
                             fileDetails.append(fileName);
                             fileDetails.append(fileSize);
+                            fileDetails.append(download);
                             fileDetails.append(remove);
                             fileDetails.append(fileSeq);
                             const uploadedFileView = document.createElement('div');
                             uploadedFileView.className = 'dz-preview dz-file-preview';
                             uploadedFileView.appendChild(fileDetails);
 
-                            dropZoneUploadedFiles.className = 'dropzone dz-uploaded';
-                            dropZoneUploadedFiles.appendChild(uploadedFileView);
+                            if (extraParam.isView) { // view 일때
+                                fileName.style.cursor = 'pointer';
+                                //파일 다운로드
+                                fileName.addEventListener('click', fileDownloadHandler);
 
-                            // 파일 다운로드
-                            fileName.addEventListener('click', function (e) {
-                                const $this = this
-                                const fileDownOpt = {
-                                    method: 'get',
-                                    url: '/filedownload?seq=' + Number($this.parentElement.querySelector('input[name=loadedFileSeq]').value),
-                                    callbackFunc: function (xhr) {
-                                        const a = document.createElement('a');
-                                        const url = window.URL.createObjectURL(xhr.response);
-                                        a.href = url;
-                                        a.download = $this.parentElement.querySelector('div[name=loadedFileNames] span').textContent;
-                                        document.body.append(a);
-                                        a.click();
-                                        a.remove();
-                                        window.URL.revokeObjectURL(url);
-                                    },
-                                    params: '',
-                                    async: true,
-                                    responseType: 'blob'
-                                }
-                                aliceJs.sendXhr(fileDownOpt);
-                            });
+                                dropZoneUploadedFiles.className = 'dropzone dz-uploaded';
+                                dropZoneUploadedFiles.appendChild(uploadedFileView);
 
-                            // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
-                            remove.addEventListener('click', function (e) {
-                                const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]');
-                                delFile.setAttribute('name', delFileAttrName);
-                                delFile.closest('.dz-preview').style.display = 'none';
-                            });
+                            } else { // edit 일때
+                                document.querySelector(dropzoneId).appendChild(uploadedFileView);
+
+                                // 파일 다운로드
+                                download.addEventListener('click', fileDownloadHandler);
+
+                                // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
+                                remove.addEventListener('click', function (e) {
+                                    const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]');
+                                    delFile.setAttribute('name', delFileAttrName);
+                                    delFile.closest('.dz-preview').style.display = 'none';
+                                });
+                            }
                         });
                     },
                     params: '',
@@ -345,7 +377,7 @@ const fileUploader = (function () {
                         let fileName = file.name;
                         let fileNameLength = file.name.length;
                         let lastDot = fileName.lastIndexOf('.');
-                        file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(fileName);
+                        file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(fileName, extraParam.isView);
 
                         let extensionValueArr = [];
                         for (let i = 0; i < fileNameExtensionList.length; i++)  {
