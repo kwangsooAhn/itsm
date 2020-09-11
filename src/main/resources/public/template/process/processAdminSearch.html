@@ -152,11 +152,16 @@
             // TODO: 권한에 따라 view or edit
             let tdProcessName = document.createElement('td');
             tdProcessName.style.width = '20%';
-            let processNameObject = document.createElement('a');
-            processNameObject.innerText = data.name;
-            processNameObject.onclick = function() {
-                openProcessEdit(data.id);
+            let processNameObject;
+            if (data.enabled == true) {
+                processNameObject = document.createElement('a');
+                processNameObject.onclick = function () {
+                    openProcessEdit(data.id);
+                }
+            } else {
+                processNameObject = document.createElement('span');
             }
+            processNameObject.innerText = data.name;
             tdProcessName.appendChild(processNameObject);
 
             let tdProcessPreview = document.createElement('td');
@@ -180,9 +185,10 @@
             }
             let updateImage = document.createElement('img');
             updateImage.src = '../assets/media/icons/process/list/icon_edit.svg';
-            updateObject.appendChild(updateImage);
-            tdUpdate.appendChild(updateObject);
-
+            if (data.enabled == true) {
+                updateObject.appendChild(updateImage);
+                tdUpdate.appendChild(updateObject);
+            }
             let tdStatus = document.createElement('td');
             tdStatus.style.width = '10%';
             tdStatus.innerText = i18n.get(data.status);

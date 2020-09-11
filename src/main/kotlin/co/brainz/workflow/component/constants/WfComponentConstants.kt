@@ -1,11 +1,17 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.workflow.component.constants
 
 object WfComponentConstants {
     // topicDisplay 가 true 이면 목록 화면에 출력하는 대상 component type.
     enum class ComponentType(val code: String, val topicDisplay: Boolean) {
-        TEXT("text", true),
-        TEXT_AREA("textarea", false),
-        SELECT("select", false),
+        TEXT("inputbox", true),
+        TEXT_AREA("textbox", false),
+        SELECT("dropdown", false),
         RADIO("radio", false),
         CHECKBOX("checkbox", false),
         LABEL("label", false),

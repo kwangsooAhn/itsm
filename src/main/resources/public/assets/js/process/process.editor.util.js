@@ -307,41 +307,19 @@
      * @return {string} content html
      */
     function createDialogContent() {
-        const container = document.createElement('div');
-        container.className = 'gmodal-input';
-
-        const nameContent = document.createElement('div');
-        const nameLabel = document.createElement('label');
-        nameLabel.className = 'gmodal-input-label';
-        nameLabel.htmlFor = 'process_name';
-        nameLabel.textContent = i18n.msg('process.label.name');
-        nameContent.appendChild(nameLabel);
-        const nameTextObject = document.createElement('input');
-        nameTextObject.className = 'gmodal-input-text';
-        nameTextObject.id = 'process_name';
-        nameTextObject.textContent = aliceProcessEditor.data.process.name;
-        nameContent.appendChild(nameTextObject);
-        container.appendChild(nameContent);
-
-        const descContent = document.createElement('div');
-        const descLabel = document.createElement('label');
-        descLabel.className = 'gmodal-input-label';
-        descLabel.htmlFor = 'process_description';
-        descLabel.textContent = i18n.msg('process.label.description');
-        descContent.appendChild(descLabel);
-        const descTextareaObject = document.createElement('textarea');
-        descTextareaObject.className = 'gmodal-input-textarea';
-        descTextareaObject.rows = 3;
-        descTextareaObject.id = 'process_description';
-        descContent.appendChild(descTextareaObject);
-        container.appendChild(descContent);
-
-        const requiredMsgContent = document.createElement('div');
-        requiredMsgContent.className = 'gmodal-required';
-        requiredMsgContent.textContent = i18n.msg('common.msg.requiredEnter');
-        container.appendChild(requiredMsgContent);
-
-        return container.outerHTML;
+        return `
+            <div class="gmodal-input">
+                <div>
+                    <label class="gmodal-input-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>
+                    <input class="gmodal-input-text" id="process_name">
+                </div>
+                <div>
+                    <label class="gmodal-input-label" for="process_description">${i18n.msg('process.label.description')}</label>
+                    <textarea class="gmodal-input-textarea" rows="3" id="process_description"></textarea>
+                </div>
+                <div class="gmodal-required">${i18n.msg('common.msg.requiredEnter')}</div>
+            </div>
+            `
     }
 
     /**
