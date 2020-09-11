@@ -8,7 +8,7 @@
     <div class="reply-row flex-column" th:unless="${#arrays.isEmpty(boardCommentList)}" th:each="boardComment: ${boardCommentList}">
         <div class="reply-info flex-row">
             <div class="profile"></div>
-            <img class="profile-photo" alt="profile pic" src="/assets/media/image/avatar/profile_sample.jpg"/>
+            <img class="profile-photo" th:src="${boardComment.avatarPath}"/>
             <h5 class="reply-user-name" th:text="${boardComment.createUser.userName}"></h5>
             <span class="vertical-bar"></span>
             <h5 class="reply-create-date" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
