@@ -104,46 +104,40 @@ button {
 /* Process Designer Default Font Setting */
 @font-face {
   font-family: "Noto Sans KR";
-  src: local('Noto Sans KR'), url(font/NotoSansKR-Thin.otf) format('otf');
+  src: local("Noto Sans KR"), url(font/NotoSansKR-Thin.otf) format("otf");
   font-style: normal;
   font-weight: 100;
-
 }
 @font-face {
   font-family: "Noto Sans KR";
-  src: local('Noto Sans KR'), url(font/NotoSansKR-Light.otf) format('otf');
+  src: local("Noto Sans KR"), url(font/NotoSansKR-Light.otf) format("otf");
   font-style: normal;
   font-weight: 300;
 }
-
 @font-face {
   font-family: "Noto Sans KR";
-  src: local('Noto Sans KR'),url(font/NotoSansKR-Regular.otf) format('otf');
+  src: local("Noto Sans KR"), url(font/NotoSansKR-Regular.otf) format("otf");
   font-style: normal;
   font-weight: 400;
 }
-
 @font-face {
   font-family: "Noto Sans KR";
-  src: local('Noto Sans KR'),url(font/NotoSansKR-Medium.otf) format('otf');
+  src: local("Noto Sans KR"), url(font/NotoSansKR-Medium.otf) format("otf");
   font-style: normal;
   font-weight: 500;
 }
-
 @font-face {
   font-family: "Noto Sans KR";
-  src: local('Noto Sans KR'),url(font/NotoSansKR-Bold.otf) format('otf');
+  src: local("Noto Sans KR"), url(font/NotoSansKR-Bold.otf) format("otf");
   font-style: normal;
   font-weight: 700;
 }
-
 @font-face {
   font-family: "Noto Sans KR";
-  src: local('Noto Sans KR'),url(font/NotoSansKR-Black.otf) format('otf');
+  src: local("Noto Sans KR"), url(font/NotoSansKR-Black.otf) format("otf");
   font-style: normal;
   font-weight: 900;
 }
-
 body {
   font-family: "Noto Sans KR";
   font-size: 0.688rem;
@@ -238,14 +232,14 @@ span {
   vertical-align: middle;
 }
 
-span[class="required"] {
+span[class=required] {
   padding-left: 0.3125rem;
   font-weight: 700;
 }
 
-span[class="required"]::after {
+span[class=required]::after {
   color: #FF405A;
-  content: "\002a";
+  content: "*";
 }
 
 .alice-process-container {
@@ -412,10 +406,6 @@ span[class="required"]::after {
   /*버튼 공통*/
   /*미니맵*/
   /*시뮬레이션*/
-}
-.alice-process-drawing-board button {
-  padding: 0;
-  line-height: 1rem;
 }
 .alice-process-drawing-board button.gray-line {
   display: inline-block;
@@ -1078,7 +1068,7 @@ span[class="required"]::after {
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td {
   height: 2.4375rem;
   vertical-align: middle;
-  font-weight: 400;
+  height: 2.4375rem;
 }
 .alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td:first-child {
   padding-left: 0.625rem;
@@ -1110,129 +1100,103 @@ button {
   cursor: pointer;
   padding: 0.4375rem 1.5rem;
 }
-
 button:focus, button:hover {
   outline: 0;
   background-color: rgba(230, 230, 230, 0.3);
 }
-
 button:disabled {
   background-color: #ffffff;
   opacity: 0.3;
   cursor: default;
 }
-
 button:not(:disabled):active {
   background-color: #EBEBEB;
 }
-
 button.default-line {
   color: #3F4B56;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
 }
-
 button.default-line:focus, button.default-line:hover {
   outline: 0;
   background-color: rgba(230, 230, 230, 0.3);
 }
-
 button.default-line:disabled {
   opacity: 0.3;
 }
-
 button.default-line:not(:disabled):active {
   background-color: #EBEBEB;
   border: 0.0625rem solid #CCCED1;
 }
-
 button.default-fill {
   color: #3F4B56;
   background-color: #E1E3E6;
   border: 0.0625rem solid transparent;
 }
-
 button.default-fill:focus, button.default-fill:hover {
   outline: 0;
   background-color: #EBEBEB;
 }
-
 button.default-fill:disabled {
   opacity: 0.3;
 }
-
 button.default-fill:not(:disabled):active {
   background-color: #CCCED1;
 }
-
 button.point-line {
   color: #0098FF;
   background-color: #ffffff;
   border: 0.0625rem solid #0098FF;
 }
-
 button.point-line:focus, button.point-line:hover {
   outline: 0;
   background-color: rgba(0, 152, 255, 0.1);
 }
-
 button.point-line:disabled {
   opacity: 0.3;
 }
-
 button.point-line:not(:disabled):active {
   background-color: #33ADFF;
   opacity: 0.3;
 }
-
 button.point-fill {
   color: #ffffff;
   background-color: #0098FF;
   border: 0.0625rem solid transparent;
 }
-
 button.point-fill:focus, button.point-fill:hover {
   outline: 0;
   background-color: #33ADFF;
 }
-
 button.point-fill:disabled {
   opacity: 0.3;
 }
-
 button.point-fill:not(:disabled):active {
   background-color: #0088E6;
 }
-
 button.default-point-line {
   color: #3F4B56;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
 }
-
 button.default-point-line span.icon {
   display: inline-block;
   background: #CCCED1;
 }
-
 button.default-point-line:focus, button.default-point-line:hover {
   outline: 0;
   border-color: #0098FF;
 }
-
 button.default-point-line:focus span.icon, button.default-point-line:hover span.icon {
   background: #0098FF;
 }
-
 button.default-point-line:disabled {
   opacity: 0.3;
 }
-
 button.default-point-line:not(:disabled):active {
   background-color: #ffffff;
   border-color: #0098FF;
 }
-
 button.default-point-line:not(:disabled):active span.icon {
   background: #EBEBEB;
 }
@@ -1242,42 +1206,34 @@ button.default-point-line:not(:disabled):active span.icon {
   vertical-align: middle;
   position: relative;
 }
-
 .button-group button {
   flex: 1 1 auto;
   color: #3F4B56;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
 }
-
 .button-group button:first-child {
   margin-left: 0;
 }
-
 .button-group button span.icon {
   display: inline-block;
   background: #3F4B56;
 }
-
 .button-group button.active {
   color: #0098FF;
   border-color: #0098FF;
   background-color: #ffffff;
 }
-
 .button-group button.active span.icon {
   background: #0098FF;
 }
-
 .button-group button.active + button {
   border-left-color: #0098FF;
 }
-
 .button-group button:not(:first-child) {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
-
 .button-group button:not(:last-of-type) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -1289,25 +1245,20 @@ button.default-point-line:not(:disabled):active span.icon {
   background-color: #F7F8F9;
   border: 0.0625rem solid #EBEBEB;
 }
-
 .button-group-toggle button span.icon {
   background: #ACB4BF;
 }
-
 .button-group-toggle button.active {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
 }
-
 .button-group-toggle button.active span.icon {
   background: #0098FF;
 }
-
 .button-group-toggle button:focus span.icon, .button-group-toggle button:hover span.icon {
   background: #3F4B56;
 }
-
 .button-group-toggle button:not(:last-child) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
