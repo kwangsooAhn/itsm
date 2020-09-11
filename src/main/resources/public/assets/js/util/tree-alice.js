@@ -11,23 +11,25 @@
             (factory((global.tree = global.tree || {})));
 }(this, (function (exports) {
     'use strict';
-
-    const imagePath = '/assets/media/icons/tree';
+    
+    const iconPath = '/assets/media/icons/tree';
 
     let options = {};
 
+    // 기본값 셋팅.
     let defaults = {
-        view: '',
-        title: '',
-        root: '',
-        rootLevel: 1,
-        data: null,
+        view: '',                               // '': 전체, modal: 모달
+        title: '',                              // 제목 (option)
+        root: '',                               // 트리 최상위 부모
+        rootLevel: 1,                           // 트리 취상위 레벨
+        search: '',                             // 검색어
+        data: null,                             // 코드 데이터
         target: 'treeList',                     // 트리를 붙일 object id
-        sessionKey: null,
-        backColor: '',
-        icons: [],                              // depth별로 순차적으로 해당 아이콘 적용
-        defaultIcon: imagePath + '/parent.png', // 기본 아이콘
-        leafIcon: '',                           // 마지막 node의 아이콘
+        sessionKey: null,                       // 펼쳐진 트리 정보를 저장하는 세션 키
+        backColor: '',                          // 배경색
+        icons: [],                              // depth 별 아이콘 (순차적으로 해당 아이콘 적용)
+        defaultIcon: iconPath + '/parent.png',  // 기본 아이콘
+        leafIcon: '',                           // 마지막 node 의 아이콘
         buttons: [{
             content: 'Confirm',
             classes: 'tree-modal-button-default',
@@ -103,9 +105,6 @@
 
     /**
      * 모달 생성 (gModal.js 참고)
-     * https://github.com/jsanahuja/thumbnail-modal
-     * 
-     * @param options 옵션
      */
     function Modal() {
         this.id = Math.random().toString(36).substr(2);
@@ -130,9 +129,7 @@
             window.removeEventListener('keydown', this.onKeyPress, false);
         };
 
-        this.onKeyPress = function(e) {
-
-        };
+        this.onKeyPress = function(e) { };
 
         this.show = function() {
             if (typeof this.wrapper !== 'undefined') {
@@ -258,7 +255,7 @@
             this.options.onCreate(this);
         };
 
-        this.destroy = function() { // 모달 제거
+        this.destroy = function() {
             if (typeof this.wrapper !== 'undefined') {
                 document.body.removeChild(this.wrapper);
                 this.wrapper = undefined;
@@ -270,8 +267,12 @@
         this.create();
     }
 
-    //////////////////////////////////////////////
 
+    /**
+     * Tree Object.
+     *
+     * @return {tree}
+     */
     function createTree() {
         let tree = {
             name: 'tree',
@@ -281,16 +282,27 @@
             backcolor: options.backColor,
             selectedNode: null,
             rendered: false,
+
+            /**
+             * Node 생성.
+             *
+             * @param item 코드 데이터
+             * @param p_expanded 펼침 on/off (boolean)
+             * @param p_depth node 단계
+             * @param p_parentNode 부모 node
+             * @return {node}
+             */
             createNode: function(item, p_expanded, p_depth, p_parentNode) {
                 let v_tree = this;
                 let node = {
-                    id: item.code,                    text: item[options.text],
+                    id: item.code,
+                    text: item[options.text],
                     parent: p_parentNode,
                     expanded : p_expanded,
                     childNodes : [],
                     elementLi: null,
                     depth: p_depth,
-                    data: {
+                    data: { // node 에 원하는 데이터를 추가한다.
                         name: item.codeName || '',
                         value: item.codeValue || '',
                         editable: item.editable || false
@@ -318,13 +330,13 @@
                                 p_parentNode.elementLi.getElementsByTagName("ul")[0].style.display = 'block';
                                 let v_img = p_parentNode.elementLi.getElementsByTagName("img")[0];
                                 v_img.style.visibility = "visible";
-                                v_img.src = imagePath + '/collapse.png';
+                                v_img.src = iconPath + '/collapse.png';
                                 v_img.id = 'toggle_off';
                             } else {
                                 p_parentNode.elementLi.getElementsByTagName("ul")[0].style.display = 'none';
                                 let v_img = p_parentNode.elementLi.getElementsByTagName("img")[0];
                                 v_img.style.visibility = "visible";
-                                v_img.src = imagePath + '/expand.png';
+                                v_img.src = iconPath + '/expand.png';
                                 v_img.id = 'toggle_on';
                             }
                         }
@@ -373,6 +385,7 @@
 
                 let v_span = createSimpleElement('span',null,'node');
 
+                // node 에 dataset 추가
                 v_span.id = p_node.id;
                 v_span.dataset['name'] = p_node.data.name;
                 v_span.dataset['value'] = p_node.data.value;
@@ -381,13 +394,13 @@
 
                 let v_exp_col = null;
                 if (p_node.childNodes.length === 0) {
-                    v_exp_col = createImgElement('toggle_off', 'exp_col', imagePath + '/collapse.png');
+                    v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/collapse.png');
                     v_exp_col.style.visibility = "hidden";
                 } else {
                     if (p_node.expanded) {
-                        v_exp_col = createImgElement('toggle_off', 'exp_col', imagePath + '/collapse.png');
+                        v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/collapse.png');
                     } else {
-                        v_exp_col = createImgElement('toggle_on', 'exp_col', imagePath + '/expand.png');
+                        v_exp_col = createImgElement('toggle_on', 'exp_col', iconPath + '/expand.png');
                     }
                 }
 
@@ -429,18 +442,6 @@
                 p_node.elementLi.getElementsByTagName('span')[0].lastChild.innerHTML = p_text;
                 p_node.text = p_text;
             },
-            /*getNode: function(id) {
-                for (let i = 0; i < this.childNodes.length; i++) {
-                    console.log(this.childNodes[i]);
-                    if (this.childNodes[i].id === id) {
-                        return this.childNodes[i];
-                    }
-                    if (this.childNodes[i].childNodes.length > 0) {
-
-                    }
-                }
-                //return node;
-            },*/
             expandTree: function() {
                 for (let i = 0; i < this.childNodes.length; i++) {
                     if (this.childNodes[i].childNodes.length > 0) {
@@ -480,7 +481,7 @@
                     p_node.expanded = true;
 
                     img.id="toggle_off";
-                    img.src = imagePath + '/collapse.png';
+                    img.src = iconPath + '/collapse.png';
                     let elem_ul = img.parentElement.getElementsByTagName("ul")[0];
                     elem_ul.style.display = 'block';
 
@@ -497,7 +498,7 @@
                         this.nodeBeforeCloseEvent(p_node);
                     }
                     img.id="toggle_on";
-                    img.src = imagePath + '/expand.png';
+                    img.src = iconPath + '/expand.png';
                     let elem_ul = img.parentElement.getElementsByTagName("ul")[0];
                     elem_ul.style.display = 'none';
 
@@ -581,53 +582,113 @@
         return tree;
     }
 
+    //Create a HTML element specified by parameter 'p_type'
+    function createSimpleElement(p_type, p_id, p_class) {
+        let element = document.createElement(p_type);
+        if (p_id !== undefined) {
+            element.id = p_id;
+        }
+        if (p_class !== undefined) {
+            element.className = p_class;
+        }
+        return element;
+    }
+
+    //Create img element
+    function createImgElement(p_id, p_class, p_src) {
+        let element = document.createElement('img');
+        if (p_id !== undefined) {
+            element.id = p_id;
+        }
+        if (p_class !== undefined) {
+            element.className = p_class;
+        }
+        if (p_src !== undefined) {
+            element.src = p_src;
+        }
+        return element;
+    }
+
+    /**
+     * 코드 값으로 해당 node 자동 선택.
+     *
+     * @param node node
+     * @param selectedNode 선택된 node
+     * @return {*}
+     */
+    function getSelectNode(node, selectedNode) {
+        if (selectedNode === null) {
+            if (node.childNodes.length === 0) {
+                if (options.selectedValue === node.id) {
+                    selectedNode = node;
+                }
+            } else {
+                for (let i = 0; i < node.childNodes.length; i++) {
+                    selectedNode = getSelectNode(node.childNodes[i], selectedNode);
+                }
+            }
+        }
+        return selectedNode;
+    }
+
+    /**
+     * Tree 생성.
+     *
+     * @return {tree}
+     */
     function makeTree() {
         const tree = createTree();
         makeNode(tree);
         tree.drawTree();
 
-
-        /*let node = tree.getNode('numbering.pattern.format');
-        console.log(node);
-        tree.expandSubtree(node);*/
-        /*let node = document.querySelector('#download').parentNode;
-        console.log(node);
-        tree.expandSubtree(node);*/
-
+        // 기존 값이 존재할 경우 자동 선택.
+        if (options.selectedValue !== null && options.selectedValue !== '') {
+            tree.selectNode(getSelectNode(tree, null));
+        }
         return tree;
     }
 
-    function loopNode(code, pArray) {
-        //해당 값의 부모 값을 모두 찾는다.
-        // 선택된 값으로 부모의 키를 모두 찾아서 역방향으로 임시 sessionkey 에 담아서 만들때 오픈한다.
+    /**
+     * 코드의 최상위 부모까지 부모 정보를 저장.
+     *
+     * @param code 코드
+     * @param pArray 코드 배열
+     * @return {*}
+     */
+    function getRecursiveParentCode(code, pArray) {
         options.data.forEach(function (item) {
-            if (code === item.code) {
-                pArray.push(item.pcode);
-            }
-            console.log(item.pcode);
-            //if (item.pcode != null) {
-                //loopNode(item.pcode, pArray);
-            //}
+           if (item.code === code) {
+               if (item.pcode != null) {
+                   pArray.push(item.pcode);
+                   getRecursiveParentCode(item.pcode, pArray);
+               }
+           }
         });
         return pArray;
     }
 
+    /**
+     * Node 생성.
+     *
+     * @param tree Tree
+     */
     function makeNode(tree) {
-        let expandObject = null;
-        if (options.sessionKey != null && sessionStorage.getItem(options.sessionKey) != null) {
-            expandObject = JSON.parse(sessionStorage.getItem(options.sessionKey));
+        // sessionKey에 저장된 펼치진 노드 정보를 추출하여 node 생성시 펼침 여부 판단
+        let expandObject = [];
+        if (options.selectedValue !== null && options.selectedValue !== '') {
+            expandObject = getRecursiveParentCode(options.selectedValue, expandObject);
+            expandObject.reverse();
+        } else {
+            if (options.sessionKey != null && sessionStorage.getItem(options.sessionKey) != null) {
+                expandObject = JSON.parse(sessionStorage.getItem(options.sessionKey));
+            }
         }
 
-        /*let pArray = [];
-        let a = loopNode('numbering.pattern.format', pArray);
-        console.log(a);
-        console.log(pArray);*/
-
-
+        // Node 생성
         options.data.forEach(function (item) {
             if (item.level === options.rootLevel) {
                 let expand = false;
-                if (expandObject != null && expandObject.indexOf(item.code) > -1) {
+                if (expandObject.length > 0 && expandObject.indexOf(item.code) > -1) {
                     expand = true;
                 }
                 let firstNode = tree.createNode(item, expand, 1, null);
@@ -636,6 +697,14 @@
         });
     }
 
+    /**
+     * 자식 Node 생성.
+     *
+     * @param node Node
+     * @param level 데이터 레벨
+     * @param expandObject 펼침 여부 (booelan)
+     * @param depth Tree 단계
+     */
     function createChildNode(node, level, expandObject, depth) {
         options.data.forEach(function (item) {
             if (node.id === item.pcode) {
@@ -649,20 +718,12 @@
         });
     }
 
-    ////////////////////////////////////////////////
-
-    function selectNode() {
-        if (options.selectedValue !== null && options.selectedValue !== '') {
-
-        }
-    }
-
     /**
-     * init.
+     * Load.
      *
      * @param userOptions 옵션
      */
-    function init(userOptions) {
+    function load(userOptions) {
 
         // 버튼 다국어 처리
         defaults.buttons[0].content = i18n.msg('common.btn.check');
@@ -672,19 +733,22 @@
         options = Object.assign({}, defaults, userOptions);
         let selectedNode = options.selectedNode;
 
+        // 모달일 경우 선택 모달 생성.
         let treeModal;
         if (options.view === 'modal') {
             treeModal = new Modal();
         }
         aliceJs.sendXhr({
             method: 'get',
-            url: '/rest/codes?pCode=' + options.root,
+            url: '/rest/codes?pCode=' + options.root + '&search=' + options.search,
             async: false,
             callbackFunc: function(xhr) {
                 let responseJson = JSON.parse(xhr.responseText);
                 if (responseJson.length > 0) {
                     options.data = responseJson;
                     let tree = makeTree();
+                    
+                    // 트리 Node 클릭시 이벤트 처리
                     if (typeof selectedNode === 'function') {
                         let nodes = document.querySelector('#' + options.target).querySelectorAll('span');
                         nodes.forEach.call(nodes, function(node) {
@@ -705,6 +769,6 @@
             OverlayScrollbars(document.querySelector('#' + options.target), { className: 'scrollbar' });
         }
     }
-    exports.init = init;
+    exports.load = load;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

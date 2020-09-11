@@ -304,42 +304,24 @@
             return true;
         }
 
-        /*function getSelectedNode(node) {
-            console.log(node.dataset['name']);
-            console.log(node.dataset['value']);
-        }*/
-
         function setDepartment(node) {
             document.getElementById('department').value = node.textContent;
             document.getElementById('departmentCode').value = node.id;
         }
 
         function deptPopUp() {
-            //window.open('/users/department/view-pop', null, 'width=400, height=700');
-            tree.init({
-                view: 'modal',             // '': 메인페이지, modal: '모달'
-                title: '부서 목록',          // 모달 상단 제목
-                //root: 'department.group',  // root code,
-                //rootLevel: 5,              // root level
-                root: '',  // root code,
-                rootLevel: 1,              // root level
-                target: 'treeList',        // tree object id,
-                text: 'codeName',         // node text [code, codeValue, codeName, ...]
-                /*icons: [
-                    '/assets/media/icons/tree/folder.png',
-                    '/assets/media/icons/tree/users.png',
-                    '/assets/media/icons/tree/users.png',
-                    '/assets/media/icons/tree/users.png',
-                    '/assets/media/icons/tree/users.png',
-                    '/assets/media/icons/tree/user.png'
-                ],*/
+            const rootCode = 'department.group';
+            tree.load({
+                view: 'modal',
+                title: i18n.get('department.label.deptList'),
+                search: '',
+                root: rootCode,
+                rootLevel: 5,
+                target: 'treeList',
+                text: 'codeName',
                 defaultIcon: '/assets/media/icons/tree/users.png',
                 leafIcon: '/assets/media/icons/tree/user.png',
                 selectedValue: document.getElementById('departmentCode').value,
-                //sessionKey: 'tree-modal',
-                /*selectedNode: function(response) {
-                    getSelectedNode(response);
-                },*/
                 callbackFunc: function(response) {
                     setDepartment(response);
                 }

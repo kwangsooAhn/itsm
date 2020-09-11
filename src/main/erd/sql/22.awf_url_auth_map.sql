@@ -373,6 +373,4 @@ insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.read'
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.update');
 insert into awf_url_auth_map values ('/users/{userkey}/editSelf', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editSelf', 'get', 'user.update');
-insert into awf_url_auth_map values ('/users/department/view-pop', 'get', 'user.update');
-insert into awf_url_auth_map values ('/users/department/view-pop', 'get', 'user.create');
 
