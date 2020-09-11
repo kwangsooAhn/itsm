@@ -29,6 +29,7 @@ common:
     createDate: "Create Date"
     createUser: "Create User"
     delete: "Delete"
+    edit: "Edit"
     success: "Success"
     fail: "Fail"
     group: "Group"
@@ -184,14 +185,14 @@ board:
     commentCount: "Number of Comment"
     commentYn: "Comment enable"
     count: "Number of posts"
-    create: "Create Board"
+    create: "Post Board"
     desc: "Board desc"
-    detail: "Board Detail"
+    detail: "Post Detail"
     disable: "Disable"
     enable: "Enable"
-    list: "Board List"
+    list: "Board Search"
     manager: "Board Manager"
-    modify: "Board Modify"
+    modify: "Post Modify"
     name: "Board Name"
     number: "Number"
     order: "Sort Order"
@@ -203,11 +204,15 @@ board:
     searchPlaceholder: "Board Title / CreateUser"
     useYn: "Use enable"
   msg:
+    createDescription: "Add board's information."
+    description: "View, add, or edit board's information."
     enterAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
     enterBoardTitle: "Please enter the board name."
     enterCategoryName: "Please enter the category name."
     enterSortSize: "Please enter a sorting order of 100 or less."
-    description: "View, add, or edit board's information."
+    modifyDescription: "Edit board's information."
+    replayDescription: "You can add a reply."
+    viewDescription: "View board's information."
 
 # Code
 code:
@@ -564,6 +569,7 @@ notice:
     view: "Notice"
     width: "Width"
   msg:
+    alreadyDeleted: "This post has already been deleted."
     checkPopHeightRange: "The height can only be a value between 500px and 1000px."
     checkPopWidthRange: "The width can only be a value between 500px and 1000px."
     checkSearchRange: "Search start date is greater than end date."
@@ -659,6 +665,7 @@ role:
     enterRoleName: "Please enter a role name."
     selectAuth: "Please select a auth."
     description: "Role management."
+    searchPlaceholder: "Role Name / Role Desc."
 
 # Token
 token:

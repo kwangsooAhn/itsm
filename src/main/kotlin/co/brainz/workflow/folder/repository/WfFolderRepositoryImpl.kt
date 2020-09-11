@@ -3,7 +3,7 @@ package co.brainz.workflow.folder.repository
 import co.brainz.framework.auth.entity.QAliceUserEntity
 import co.brainz.workflow.folder.entity.QWfFolderEntity
 import co.brainz.workflow.folder.entity.WfFolderEntity
-import co.brainz.workflow.provider.dto.RestTemplateFolderDto
+import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
 import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
@@ -12,10 +12,9 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
 @Repository
-class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.java),
-    WfFolderRepositoryCustom {
+class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.java), WfFolderRepositoryCustom {
 
-    override fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateFolderDto> {
+    override fun findRelatedDocumentListByTokenId(tokenId: String): List<RestTemplateRelatedInstanceDto> {
         val folder = QWfFolderEntity.wfFolderEntity
         val user = QAliceUserEntity.aliceUserEntity
         val token = QWfTokenEntity.wfTokenEntity
@@ -28,10 +27,11 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
                     )
                 )
             )
+
         return from(folder)
             .select(
                 Projections.constructor(
-                    RestTemplateFolderDto::class.java,
+                    RestTemplateRelatedInstanceDto::class.java,
                     folder.folderId,
                     folder.instance.instanceId,
                     folder.relatedType,
@@ -43,12 +43,15 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
                     ),
                     folder.instance.documentNo,
                     folder.instance.document.documentName,
+                    folder.instance.document.documentColor,
                     folder.createUserKey,
                     folder.createDt,
                     folder.instance.instanceStartDt,
                     folder.instance.instanceEndDt,
+                    folder.instance.instanceStatus,
                     user.userKey,
-                    user.userName
+                    user.userName,
+                    user.avatar.avatarValue
                 )
             )
             .leftJoin(user).on(folder.instance.instanceCreateUser.userKey.eq(user.userKey))

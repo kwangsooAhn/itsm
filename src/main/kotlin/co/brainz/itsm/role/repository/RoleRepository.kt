@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 
 @Repository
-interface RoleRepository : JpaRepository<AliceRoleEntity, String>, JpaSpecificationExecutor<AliceRoleEntity> {
+interface RoleRepository : JpaRepository<AliceRoleEntity, String>,
+    JpaSpecificationExecutor<AliceRoleEntity>, RoleRepositoryCustom {
 
     /**
      * 역할 전체 목록을 조회한다.

@@ -8,6 +8,7 @@
 </head>
 <th:block layout:fragment="cssLink">
     <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/theme/{theme}/css/alice-itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
 </th:block>
 <th:block layout:fragment="scriptLink">
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
@@ -34,40 +35,112 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
+        let offsetCount = 0;
         window.onload = function() {
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
                 search.addEventListener('keyup', function() {
                     documentSearches(false);
                 });
             });
-            documentSearches();
-
-            OverlayScrollbars(document.querySelector('.list-body'), {
-                className: 'scrollbar',
-            });
+            documentSearches(false);
         };
 
-        function documentSearches(isShowProgressBar) {
-            restSubmit('GET', '/documents/list?'+ aliceJs.serialize(document.getElementById('searchDocumentsFrm')), function(result) {
-                document.getElementById('documentList').innerHTML = result;
-            }, isShowProgressBar);
+        function documentSearches(isScroll) {
+            let urlParam = '';
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = aliceJs.searchDataCount;
+                }
+                urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/documents?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/documents/list?' + urlParam, isScroll);
+            }
         }
 
         function openDocument(documentId) {
             aliceDocument.init(documentId);
         }
 
-        function restSubmit(method, url, result, isShowProgressbar) {
+        function restSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
                 url: url,
-                showProgressbar: isShowProgressbar,
-                callbackFunc: function(response) {
-                    result(response.responseText);
+                async: false,
+                showProgressbar: false,
+                callbackFunc: function (response) {
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
+                                dataList.forEach(function(data) {
+                                    getDataTemplate(data);
+                                });
+                            }
+                        }
+                    } else {
+                        document.getElementById('documentList').innerHTML = response.responseText;
+                        OverlayScrollbars(document.querySelector('.service-request'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function(e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    if (scrollHeight - scrollTop === clientHeight) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            documentSearches(true);
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
                 }
             };
             aliceJs.sendXhr(opt);
         }
+
+        // Div 동적 데이터 만들기
+        function getDataTemplate(data) {
+            let divCardArea = document.querySelector('.card-area');
+            let div = document.createElement('div');
+
+            let aCard = document.createElement('a');
+            if (document.getElementsByName('isRole')[0].value === 'true') {
+                aCard.onclick = function () {
+                    openDocument(data.documentId);
+                }
+            }
+
+            let divDocumentCard = document.createElement('div');
+            divDocumentCard.className = 'document-card';
+
+            let h3Card = document.createElement('h3');
+            h3Card.innerText = data.documentName;
+
+            let h5Card = document.createElement('h5');
+            h5Card.innerText = data.documentDesc;
+
+            let divDocumentIcon = document.createElement('div');
+            divDocumentIcon.className = 'document-icon';
+
+            let imgDocumentIcon = document.createElement('img');
+            imgDocumentIcon.src = '/assets/media/image/document/' + data.documentIcon;
+            divDocumentIcon.appendChild(imgDocumentIcon);
+
+            divDocumentCard.appendChild(h3Card);
+            divDocumentCard.appendChild(h5Card);
+            divDocumentCard.appendChild(divDocumentIcon);
+            aCard.appendChild(divDocumentCard);
+            div.appendChild(aCard);
+            divCardArea.appendChild(div);
+        }
+
         /*]]>*/
     </script>
 </th:block>
@@ -82,15 +155,25 @@
             <div class="search-area">
                 <div class="left">
                     <form id="searchDocumentsFrm">
-                        <input type="text" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}" class="search"/>
-                        <input type="text" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}" class="search"/>
-                        <input type="text" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
-                        <input sec:authorize="hasAuthority('document.read.admin')" type="hidden" id="viewType" name="viewType" value="admin">
+                        <input type="text" id="searchDocuments" name="searchDocuments"
+                               th:placeholder="#{document.label.searchPlaceholder}" class="search column-3"/>
+                        <input type="text" id="searchProcessName" name="searchProcessName"
+                               th:placeholder="#{document.label.process}" class="search"/>
+                        <input type="text" id="searchFormName" name="searchFormName"
+                               th:placeholder="#{document.label.form}" class="search"/>
+                        <input sec:authorize="hasAuthority('document.read.admin')"
+                               type="hidden" id="viewType" name="viewType" value="admin"/>
+                        <input type="hidden" id="searchDocumentType" name="searchDocumentType"
+                               value="application-form"/>
                     </form>
                 </div>
             </div>
         </div>
-        <div id="documentList" class="service-request"></div>
+        <div class="service-request">
+            <input type="hidden" sec:authorize="hasAuthority('document.create')" th:name="isRole" th:value="true"/>
+            <input type="hidden" sec:authorize="!hasAuthority('document.create')" th:name="isRole" th:value="false"/>
+            <div id="documentList"></div>
+        </div>
     </div>
 </th:block>
 </body>

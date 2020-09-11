@@ -60,7 +60,7 @@
         }
         const validateElement = document.querySelectorAll('.validate-error');
         if (validateElement.length !== 0) {
-            aliceJs.alert(i18n.get('document.msg.checkDocument'), function () {
+            aliceJs.alertWarning(i18n.get('document.msg.checkDocument'), function () {
                 if (validateElement[0].classList.contains('editor-container')) {
                     Quill.find(validateElement[0]).focus();
                 } else if (validateElement[0].id === 'radio' || validateElement[0].id === 'chkbox') {
@@ -450,7 +450,7 @@
             contentType: 'application/json',
             callbackFunc: function(xhr) {
                 if (xhr.responseText === 'true') {
-                    aliceJs.alert(actionMsg, function () {
+                    aliceJs.alertSuccess(actionMsg, function () {
                         if (opener !== null && opener !== undefined) { // TODO: 문서함 디자인시  window.close(); 삭제 필요.
                              opener.location.reload();
                              window.close();
@@ -459,7 +459,7 @@
                         }
                     });
                 } else {
-                    aliceJs.alert(i18n.get('common.msg.fail'));
+                    aliceJs.alertDanger(i18n.get('common.msg.fail'));
                 }
             }
         };
@@ -588,7 +588,7 @@
                 if (xhr.responseText) {
                     location.reload();
                 } else {
-                    aliceJs.alert(i18n.get('common.msg.fail'));
+                    aliceJs.alertDanger(i18n.get('common.msg.fail'));
                 }
             }
         };
@@ -606,11 +606,11 @@
             url: '/rest/comments/' + commentId,
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
-                    aliceJs.alert(i18n.get('common.msg.delete'), function() {
+                    aliceJs.alertSuccess(i18n.get('common.msg.delete'), function() {
                         location.reload();
                     });
                 } else {
-                    aliceJs.alert(i18n.get('common.msg.fail'));
+                    aliceJs.alertDanger(i18n.get('common.msg.fail'));
                 }
             }
         };

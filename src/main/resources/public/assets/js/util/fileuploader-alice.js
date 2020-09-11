@@ -340,7 +340,8 @@ const fileUploader = (function () {
                     //all uploading files: .getUploadingFiles()
 
                     this.on("addedfile", function (file) {
-                        document.querySelector('.dz-message').style.display = 'none';
+                        const dropzoneMessage = _this.element.querySelector('.dz-message');
+                        dropzoneMessage.style.display = 'none';
                         let fileName = file.name;
                         let fileNameLength = file.name.length;
                         let lastDot = fileName.lastIndexOf('.');
@@ -353,7 +354,8 @@ const fileUploader = (function () {
 
                         if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
                             this.removeFile(file);
-                            aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
+                            dropzoneMessage.style.display = 'block';
+                            aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
                         }
                     });
 

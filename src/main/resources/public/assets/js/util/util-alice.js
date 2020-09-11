@@ -62,7 +62,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     });
     //elmNode.appendChild(table);
     console.log(data);
-    aliceJs.alert('[' + data.status + ']' + data.error + '<br/>' + data.message)
+    aliceJs.alertWarning('[' + data.status + ']' + data.error + '<br/>' + data.message)
 };
 
 /*!
@@ -216,7 +216,7 @@ aliceJs.sendXhr = function (option) {
         }
 
     } catch (e) {
-        aliceJs.alert("Error creating the XMLHttpRequest object.");
+        aliceJs.alertDanger("Error creating the XMLHttpRequest object.");
         return;
     }
 
@@ -451,12 +451,9 @@ function changeDateFormatYYYYMMDD(p_date, p_format) {
  */
 function dateFormatFromNow(date) {
     let v_date = '';
-    let p_date = new Date(date);
+    let p_date = new Date(i18n.userDateTime(date));
     let now = new Date();
     let diff, day, hour, min, sec;
-
-    const today = new Date();
-    const timeValue = new Date(date);
 
     if (date === '' || date === null) {
         return;
@@ -486,7 +483,7 @@ function dateFormatFromNow(date) {
                 } else if (min > 0) {
                     v_date = min + '분 전';
                 } else if (sec > 0) {
-                    v_date = sec + '초 전';
+                    v_date = '방금 전';
                 }
             }
         }
@@ -558,7 +555,7 @@ aliceJs.alertSuccess = function(message, callbackFunc) {
  * @param message message
  * @param callbackFunc callback function
  */
-aliceJs.AlertWarning = function(message, callbackFunc) {
+aliceJs.alertWarning = function(message, callbackFunc) {
     const myModal = new gModal({
         message: message,
         type: 'gmodal-icon-warning',
@@ -587,7 +584,7 @@ aliceJs.AlertWarning = function(message, callbackFunc) {
  * @param message message
  * @param callbackFunc callback function
  */
-aliceJs.AlertDanger = function(message, callbackFunc) {
+aliceJs.alertDanger = function(message, callbackFunc) {
     const myModal = new gModal({
         message: message,
         type: 'gmodal-icon-danger',

@@ -138,8 +138,8 @@
                         document.getElementById('btnRegist').style.display = 'none';
                     }
                     if (AUTH_DELETE) {
-						document.getElementById('btnDelete').style.display = 'inline-block';
-	                }
+                        document.getElementById('btnDelete').style.display = 'inline-block';
+                    }
                     onGetDetail(this.id);
                 });
             }
@@ -180,7 +180,7 @@
             if (activeTr !== null) {
                 activeTr.classList.remove('active');
             }
-            document.getElementById('roleAuthMapCount').innerHTML = '';
+            document.getElementById('roleAuthMapCount').value = '';
             if (AUTH_UPDATE) {
                 document.getElementById('btnUpdate').style.display = 'none';
             }
@@ -208,13 +208,13 @@
             if (flag === 'post') {
                 for(let i = 0; i < authIds.length; i++) {
                     if (document.getElementById('txtAuthId').value === authIds[i]) {
-                        aliceJs.alert([[#{auth.msg.duplicateAuthId}]]);
+                        aliceJs.alertWarning([[#{auth.msg.duplicateAuthId}]]);
                         return;
                     }
                 }
                 for(let i = 0; i < authNames.length; i++) {
                     if (document.getElementById('txtAuthName').value === authNames[i]) {
-                        aliceJs.alert([[#{auth.msg.duplicateAuthName}]]);
+                        aliceJs.alertWarning([[#{auth.msg.duplicateAuthName}]]);
                         return;
                     }
                 }
@@ -222,7 +222,7 @@
                 if (document.getElementById('txtAuthName').value !== document.getElementById('txtAuthNameOrg').value) {
                     for(let i = 0; i < authNames.length; i++) {
                         if (document.getElementById('txtAuthName').value === authNames[i]) {
-                            aliceJs.alert([[#{auth.msg.duplicateAuthName}]]);
+                            aliceJs.alertWarning([[#{auth.msg.duplicateAuthName}]]);
                             return;
                         }
                     }
@@ -260,7 +260,7 @@
                 params: authJson,
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    aliceJs.alert([[#{common.msg.save}]], function() {
+                    aliceJs.alertSuccess([[#{common.msg.save}]], function() {
                         window.location.href ='/auths/edit';
                     });
                 }
@@ -275,7 +275,7 @@
                     method: 'delete',
                     url: '/rest/auths/' + document.getElementById('txtAuthId').value,
                     callbackFunc: function() {
-                        aliceJs.alert([[#{common.msg.delete}]], function() {
+                        aliceJs.alertSuccess([[#{common.msg.delete}]], function() {
                             window.location.href ='/auths/edit';
                         });
                     }
@@ -304,41 +304,47 @@
                 url: '/auths/list?' + urlParam,
                 showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
-                    document.getElementById('authList').innerHTML = response.responseText;
-
+                    let result = response.responseText;
+                    document.getElementById('authList').innerHTML = result;
                     let authList = document.querySelectorAll('td[name=authName]');
                     document.getElementById('totalCount').textContent = i18n.msg("common.label.count", authList.length);
-                    for(let i = 0; i < authList.length; i++) {
-                        authList[i].style.cursor = 'pointer';
-                        authList[i].addEventListener('click', function(){
-                            let activeTr = document.querySelector('tr.active')
-                            if (activeTr !== null) {
-                                activeTr.classList.remove('active');
-                            }
-                            this.parentElement.classList.add('active');
-                            if (AUTH_UPDATE) {
-                                document.getElementById('btnUpdate').style.display = 'inline-block';
-                            }
-                            if (AUTH_CREATE) {
-                                document.getElementById('btnRegist').style.display = 'none';
-                            }
-                            if (AUTH_DELETE) {
-                                document.getElementById('btnDelete').style.display = 'inline-block';
-                            }
-                            onGetDetail(this.id);
-                        });
+
+                    if (result.indexOf('no-data-found') === -1) {
+                        for (let i = 0; i < authList.length; i++) {
+                            authList[i].style.cursor = 'pointer';
+                            authList[i].addEventListener('click', function () {
+                                let activeTr = document.querySelector('tr.active')
+                                if (activeTr !== null) {
+                                    activeTr.classList.remove('active');
+                                }
+                                this.parentElement.classList.add('active');
+                                if (AUTH_UPDATE) {
+                                    document.getElementById('btnUpdate').style.display = 'inline-block';
+                                }
+                                if (AUTH_CREATE) {
+                                    document.getElementById('btnRegist').style.display = 'none';
+                                }
+                                if (AUTH_DELETE) {
+                                    document.getElementById('btnDelete').style.display = 'inline-block';
+                                }
+                                onGetDetail(this.id);
+                            });
+                        }
+                        document.querySelector('td[name=authName]').click();
+                        OverlayScrollbars(document.querySelector('.list-body'), {className: 'inner-scrollbar'});
+                    } else {
+                        onCreate();
                     }
-                    document.querySelector('td[name=authName]').click();
-                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'inner-scrollbar' });
                 }
             };
             aliceJs.sendXhr(opt);
         }
 
-        function onGetDetail(roldId) {
+        function onGetDetail(roleId) {
             const opt = {
                 method: 'get',
-                url: '/rest/auths/' +  roldId,
+                async: false,
+                url: '/rest/auths/' +  roleId,
                 callbackFunc: function(response) {
                     let responseJson = JSON.parse(response.responseText)[0];
                     document.getElementById('txtAuthId').value = responseJson.authId;

@@ -260,7 +260,7 @@
         aliceProcessEditor.resetElementPosition();
         save(function (xhr) {
             if (xhr.responseText === 'true') {
-                aliceJs.alert(i18n.msg('common.msg.save'));
+                aliceJs.alertSuccess(i18n.msg('common.msg.save'));
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
                 if (savedData.process.status === 'process.status.publish') {
@@ -268,7 +268,7 @@
                 }
                 changeProcessName();
             } else {
-                aliceJs.alert(i18n.msg('common.label.fail'));
+                aliceJs.alertDanger(i18n.msg('common.label.fail'));
             }
         });
     }
@@ -308,9 +308,9 @@
      */
     function createDialogContent() {
         const container = document.createElement('div');
+        container.className = 'gmodal-input';
 
         const nameContent = document.createElement('div');
-        nameContent.className = 'gmodal-input';
         const nameLabel = document.createElement('label');
         nameLabel.className = 'gmodal-input-label';
         nameLabel.htmlFor = 'process_name';
@@ -324,7 +324,6 @@
         container.appendChild(nameContent);
 
         const descContent = document.createElement('div');
-        descContent.className = 'gmodal-input';
         const descLabel = document.createElement('label');
         descLabel.className = 'gmodal-input-label';
         descLabel.htmlFor = 'process_description';
@@ -378,13 +377,13 @@
                 url: '/rest/processes-admin' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
-                        aliceJs.alert(i18n.msg('common.msg.save'), function () {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                             opener.location.reload();
                             window.name = 'process_' + xhr.responseText + '_edit';
                             location.href = '/processes/' + xhr.responseText + '/edit';
                         });
                     } else {
-                        aliceJs.alert(i18n.msg('common.label.fail'));
+                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
                     }
                 },
                 contentType: 'application/json; charset=utf-8',

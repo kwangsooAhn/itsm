@@ -158,7 +158,7 @@
             if (document.getElementById('condition').childNodes.length < searchColumnLength) {
                 drawCondition();
             } else {
-                aliceJs.alert(i18n.get('customCode.msg.addCondition', searchColumnLength));
+                aliceJs.alertWarning(i18n.get('customCode.msg.addCondition', searchColumnLength));
             }
         }
 
@@ -251,7 +251,7 @@
                             if (typeof conditionData[selectValue] === 'undefined') {
                                 conditionData[selectValue] = div[i].getElementsByTagName('input')[0].value;
                             } else {
-                                aliceJs.alert(i18n.get('customCode.msg.selectNotDuplicateSearchColumn'));
+                                aliceJs.alertWarning(i18n.get('customCode.msg.selectNotDuplicateSearchColumn'));
                                 return false;
                             }
                         }
@@ -280,35 +280,35 @@
                     if (method === 'post' || method === 'put') {
                         switch (response.responseText) {
                             case STATUS_SUCCESS:
-                                aliceJs.alert(i18n.get('common.msg.save'), function () {
+                                aliceJs.alertSuccess(i18n.get('common.msg.save'), function () {
                                     location.href = '/custom-codes/search';
                                 });
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_USED:
-                                aliceJs.alert(i18n.get('customCode.msg.customCodeUsed'));
+                                aliceJs.alertSuccess(i18n.get('customCode.msg.customCodeUsed'));
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                                aliceJs.alert(i18n.get('customCode.msg.customCodeNameDuplication'));
+                                aliceJs.alertWarning(i18n.get('customCode.msg.customCodeNameDuplication'));
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
-                                aliceJs.alert(i18n.get('customCode.msg.pCodeNotExist'));
+                                aliceJs.alertWarning(i18n.get('customCode.msg.pCodeNotExist'));
                                 break;
                             default :
-                                aliceJs.alert(i18n.get('common.msg.fail'));
+                                aliceJs.alertDanger(i18n.get('common.msg.fail'));
                                 break;
                         }
                     } else if (method === 'delete'){
                         switch (response.responseText) {
                             case STATUS_SUCCESS:
-                                aliceJs.alert(i18n.get('common.msg.delete'), function () {
+                                aliceJs.alertSuccess(i18n.get('common.msg.delete'), function () {
                                     location.href = '/custom-codes/search';
                                 });
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_USED:
-                                aliceJs.alert(i18n.get('customCode.msg.customCodeUsed'));
+                                aliceJs.alertWarning(i18n.get('customCode.msg.customCodeUsed'));
                                 break;
                             default:
-                                aliceJs.alert(i18n.get('common.msg.fail'));
+                                aliceJs.alertDanger(i18n.get('common.msg.fail'));
                                 break;
                         }
                     }

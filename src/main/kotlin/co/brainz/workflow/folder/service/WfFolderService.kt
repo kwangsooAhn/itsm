@@ -6,6 +6,7 @@ import co.brainz.workflow.folder.repository.WfFolderRepository
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
+import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
 import co.brainz.workflow.token.repository.WfTokenRepository
 import java.time.LocalDateTime
 import java.util.UUID
@@ -71,7 +72,7 @@ class WfFolderService(
         return restTemplateFolderDto
     }
 
-    fun getRelatedInstanceList(tokenId: String): List<RestTemplateFolderDto> {
+    fun getRelatedInstanceList(tokenId: String): List<RestTemplateRelatedInstanceDto> {
         return wfFolderRepository.findRelatedDocumentListByTokenId(tokenId)
     }
 

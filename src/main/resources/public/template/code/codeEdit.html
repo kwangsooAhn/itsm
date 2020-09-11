@@ -193,7 +193,7 @@
             };
 
             if (jsonData.code === null || jsonData.code === '') {
-                aliceJs.alert([[#{code.msg.enterCode}]]);
+                aliceJs.alertWarning([[#{code.msg.enterCode}]]);
                 return false;
             }
 
@@ -211,24 +211,24 @@
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
                             aliceJs.setTreeExpandNode(aliceJs.treeExpandSessionKey);
-                            aliceJs.alert(i18n.get('common.msg.register'), function() {
+                            aliceJs.alertSuccess(i18n.get('common.msg.register'), function() {
                                 window.location.href = '/codes/edit';
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_CODE:
                             aliceJs.setTreeExpandNode(aliceJs.treeExpandSessionKey);
-                            aliceJs.alert(i18n.get('common.msg.modify'), function() {
+                            aliceJs.alertSuccess(i18n.get('common.msg.modify'), function() {
                                 window.location.href = '/codes/edit';
                             });
                             break;
                         case STATUS_ERROR_CODE_P_CODE_NOT_EXIST:
-                            aliceJs.alert(i18n.get('code.msg.pCodeNotExist'));
+                            aliceJs.alertWarning(i18n.get('code.msg.pCodeNotExist'));
                             break;
                         case STATUS_ERROR_CODE_DUPLICATION:
-                            aliceJs.alert(i18n.get('code.msg.duplicateCode'));
+                            aliceJs.alertWarning(i18n.get('code.msg.duplicateCode'));
                             break;
                         default:
-                            aliceJs.alert(i18n.get('common.msg.fail'));
+                            aliceJs.alertDanger(i18n.get('common.msg.fail'));
                             break;
                     }
                 }
@@ -246,15 +246,15 @@
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
                             aliceJs.setTreeExpandNode(aliceJs.treeExpandSessionKey);
-                            aliceJs.alert(i18n.get('common.msg.delete'), function() {
+                            aliceJs.alertSuccess(i18n.get('common.msg.delete'), function() {
                                 window.location.href ='/codes/edit';
                             });
                             break;
                         case STATUS_ERROR_CODE_P_CODE_USED:
-                            aliceJs.alert(i18n.get('code.msg.referenceCodeExist'));
+                            aliceJs.alertWarning(i18n.get('code.msg.referenceCodeExist'));
                             break;
                         default:
-                            aliceJs.alert(i18n.get('common.msg.fail'));
+                            aliceJs.alertDanger(i18n.get('common.msg.fail'));
                             break;
                     }
                 }

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-        layout:decorator="form/formCore">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="form/formCore">
 <head>
     <title th:text="#{token.label.write}"></title>
 </head>
 <th:block layout:fragment="css">
     <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
-    <link th:href="@{/assets/theme/{theme}/css/alice-itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
+    <link th:href="@{/assets/theme/{theme}/css/alice-itsm.css(theme=${#authentication.details.theme})}"
+          rel="stylesheet"/>
     <link th:href="@{/assets/vendors/tagify/tagify.css}" rel="stylesheet"/>
 </th:block>
 <body>
@@ -22,7 +23,8 @@
                     <div class="button-group">
                         <button type="button" class="default-line" onclick="openProcessStatusPopUp()"
                                 th:text="#{process.label.processMap}"></button>
-                        <button type="button" class="default-line" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
+                        <button type="button" class="default-line"
+                                th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
                                 th:text="#{common.btn.print}"></button>
                     </div>
                     <div id="button-container" class="button-group"></div>
@@ -62,8 +64,7 @@
                 </div>
                 <div class="token-related">
                     <div class="list-item" th:each="rInstance: ${relatedInstance}">
-<!--                        <div class="document-color" style="background-color: ${rInstance.documentColor}"></div>-->
-                        <div class="document-color" style="background-color: blue;"></div>
+                        <div class="document-color" th:style="|background-color: ${rInstance.documentColor}|"></div>
                         <div class="document-row">
                             <div class="document-row-content">
                                 <a th:onclick="openTokenEdit([[${rInstance.tokenId}]])">
@@ -75,19 +76,17 @@
                                 <div class="trash-icon"></div>
                             </div>
                             <div class="document-row-topic">
-<!--                            <h4 th:each="topic: ${rInstance.topics}" th:text="${topic}"></h4>-->
+                                <!--                            <h4 th:each="topic: ${rInstance.topics}" th:text="${topic}"></h4>-->
                             </div>
                             <div class="document-row-info">
                                 <div class="document-user">
-<!--                                        <img class="profile-photo" alt="profile pic" th:src="${rInstance.avatarPath}">-->
-                                    <img class="profile-photo" src="/assets/media/image/avatar/profile_sample.jpg">
+                                    <img class="profile-photo" th:src="@{${rInstance.avatarPath}}"/>
                                     <h5 th:text="${rInstance.instanceCreateUserName}"></h5>
                                 </div>
                                 <span class="vertical-bar"></span>
                                 <h5 class="dateFormatFromNow" th:text="${rInstance.instanceStartDt}"></h5>
                                 <span class="vertical-bar"></span>
-<!--                                    <h5 th:text="${rInstance.status}"></h5>-->
-                                <h5 th:text="#{token.label.completed}"></h5>
+                                <h5 th:text="#{|common.code.token.status.${rInstance.instanceStatus}|}"></h5>
                             </div>
                         </div>
                     </div>
@@ -99,13 +98,13 @@
                     <div class="list-item" th:each="comment : ${commentList}">
                         <div class="comment-row-info">
                             <div class="comment-user">
-<!--                            <img class="profile-photo" alt="profile pic" th:src="${rInstance.avatarPath}">-->
-                                <img class="profile-photo" src="/assets/media/image/avatar/profile_sample.jpg">
+                                <img class="profile-photo" th:src="@{${comment.avatarPath}}"/>
                                 <h5 th:text="${comment.createUserName}"></h5>
                             </div>
-                            <h5 th:text="${comment.createDt}"></h5>
+                            <h5 class="should-be-modify-userdate" th:text="${comment.createDt}"></h5>
                             <div th:if="${#authentication.details.userKey} == ${comment.createUserKey}">
-                                <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|" class="trash-icon"></button>
+                                <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|"
+                                        class="trash-icon"></button>
                             </div>
                         </div>
                         <div class="comment-row">
@@ -129,7 +128,7 @@
     <script th:src="@{/assets/vendors/tagify/tagify.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
-        window.onload = function() {
+        window.onload = function () {
             aliceForm.init(aliceDocument.initToken, '[[${tokenId}]]');
             var tokenDtEle = document.querySelectorAll('td[name=tokenDt]');
             for (let i = 0; i < tokenDtEle.length; i++) {
@@ -140,17 +139,19 @@
 
             let tagInput = document.querySelector('input[name=tags]');
             new Tagify(tagInput, {
-                pattern         : /^.{0,100}$/,
-                editTags        : false,
-                callbacks       : { 'add'    : onAddTag,
-                                    'remove' : onRemoveTag },
-                placeholder     : '[[#{token.msg.tag}]]'
+                pattern: /^.{0,100}$/,
+                editTags: false,
+                callbacks: {
+                    'add': onAddTag,
+                    'remove': onRemoveTag
+                },
+                placeholder: '[[#{token.msg.tag}]]'
             });
 
             document.querySelectorAll('.token-info-tab > h4').forEach((ele) => {
                 ele.addEventListener('click', (e) => {
                     // 탭 동작
-                    Array.prototype.filter.call(e.target.parentNode.children, function(child){
+                    Array.prototype.filter.call(e.target.parentNode.children, function (child) {
                         return child !== e.target;
                     }).forEach((sblingEle) => {
                         sblingEle.classList.remove('active');
@@ -159,21 +160,32 @@
                     // 컨텐츠 내용 동작
                     let targetElement = document.querySelector('.' + e.target.dataset.targetContents);
                     if (targetElement != null) {
-                        Array.prototype.filter.call(targetElement.parentNode.children, function(child){
+                        Array.prototype.filter.call(targetElement.parentNode.children, function (child) {
                             return child !== targetElement;
                         }).forEach((sblingEle) => {
                             sblingEle.style.display = 'none';
                         });
                         targetElement.style.display = 'block';
-                    };
+                    }
+                    // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
+                    sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
                 });
             });
-            document.querySelector('h4[data-target-contents="token-history"]').click();
+
+            const selectedTab = sessionStorage.getItem('token-info-tab');
+            if (selectedTab !== null) {
+                document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
+            } else {
+                document.querySelector('h4[data-target-contents="token-history"]').click();
+            }
 
             document.querySelectorAll('.dateFormatFromNow').forEach((ele) => {
                 ele.textContent = dateFormatFromNow(ele.textContent);
             });
-            OverlayScrollbars(document.querySelectorAll('.list-wrap'), { className: 'scrollbar' });
+            document.querySelectorAll('.should-be-modify-userdate').forEach((element) => {
+                element.textContent = i18n.userDateTime(element.textContent);
+            });
+            OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
         };
 
         function onAddTag(tag) {
@@ -211,11 +223,10 @@
         }
 
         function openTokenEdit(tokenId) {
-            const _width = 1500,
-                    _height = 920;
+            const _width = 1500, _height = 920;
             const _left = Math.ceil((window.screen.width - _width) / 2);
             const _top = Math.ceil((window.screen.height - _height) / 4);
-            window.open('/tokens/' + tokenId + '/view', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150) + ', left='+_left+', top='+_top);
+            window.open('/tokens/' + tokenId + '/view', 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150) + ', left=' + _left + ', top=' + _top);
         }
 
         function restSubmit(method, url, result, data, showProgressbar) {
@@ -225,12 +236,13 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 showProgressbar: showProgressbar,
-                callbackFunc: function(response) {
+                callbackFunc: function (response) {
                     result(response.responseText);
                 }
             };
             aliceJs.sendXhr(opt);
         }
+
         /*]]>*/
     </script>
 </th:block>

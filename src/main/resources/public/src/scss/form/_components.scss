@@ -88,7 +88,7 @@
             }
 
             select {
-                min-width: 17.19rem; // 275px
+                width: 100%;
                 padding-left: $component-indent-padding-left;
             }
 
@@ -366,6 +366,7 @@
 }
 .component[data-displayType="readonly"] {
     input[type=text],
+    input[type=button],
     select,
     textarea {
         background-color: $component-disabled-bg-color !important;
