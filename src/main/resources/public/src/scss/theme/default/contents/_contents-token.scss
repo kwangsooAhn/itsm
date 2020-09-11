@@ -38,7 +38,7 @@
                             display: flex;
                             flex-direction: row;
                             align-items: center;
-                            h2 { margin-right: 0.625rem;} // 10px
+                            h3 { margin-right: 0.625rem;} // 10px
                         }
                         .document-topic {
                             width: 23.75rem; // 380px
@@ -51,11 +51,11 @@
                         }
                     }
                     &-info {
-                        display: flex;
                         flex-direction: column;
                         .document-detail {
                             display: flex;
                             align-items: center;
+                            float: right;
                             .document-user {
                                 display: inline-flex;
                                 align-items: center;
@@ -63,7 +63,8 @@
                             }
                         }
                         .document-tag {
-                            width: 13.75rem; // 220px
+                            max-width: 23.75rem; // 380px
+                            margin-top: 3.5rem; // 56px
                             color: #67717F;
                             span {
                                 background: rgba(0, 152, 255, 0.1 );
