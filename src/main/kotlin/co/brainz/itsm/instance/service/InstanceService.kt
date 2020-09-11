@@ -1,5 +1,7 @@
 package co.brainz.itsm.instance.service
 
+import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
@@ -20,7 +22,11 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
 @Service
-class InstanceService(private val restTemplate: RestTemplateProvider) {
+class InstanceService(
+    private val restTemplate: RestTemplateProvider,
+    private val aliceUserRepository: AliceUserRepository,
+    private val aliceAvatarService: AliceAvatarService
+) {
     private val mapper: ObjectMapper =
         ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -79,13 +85,22 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
         val responseBody = restTemplate.get(url)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
-        return mapper.readValue(
+        val commentsDto: MutableList<RestTemplateCommentDto> = mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(
                 List::class.java,
                 RestTemplateCommentDto::class.java
             )
         )
+
+        val moreInfoAddCommentsDto: MutableList<RestTemplateCommentDto> = mutableListOf()
+        commentsDto.forEach {
+            val user = aliceUserRepository.getOne(it.createUserKey!!)
+            val avatarPath = aliceAvatarService.makeAvatarPath(user.avatar)
+            it.avatarPath = avatarPath
+            moreInfoAddCommentsDto.add(it)
+        }
+        return moreInfoAddCommentsDto
     }
 
     fun getInstanceTags(instanceId: String): String {
@@ -108,7 +123,7 @@ class InstanceService(private val restTemplate: RestTemplateProvider) {
         restTemplateTags.forEach {
             val tagData = JsonObject()
             tagData.addProperty("id", it.id.toString())
-            tagData.addProperty("value", it.value.toString())
+            tagData.addProperty("value", it.value)
             tagBasicList.add(tagData)
         }
         return tagBasicList.toString()
