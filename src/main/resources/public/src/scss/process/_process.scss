@@ -1,3 +1,91 @@
+input {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #586872;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
+  height: 2.5rem;
+}
+
+input::placeholder {
+  color: #ACB4BF;
+}
+
+input:focus, input:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+input:disabled, input:read-only {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  cursor: default;
+  pointer-events: none;
+}
+
+input.validate-error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
+}
+
+textarea {
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: #586872;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
+  resize: none;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+textarea::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+textarea::placeholder {
+  color: #ACB4BF;
+}
+
+textarea:focus, textarea:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+textarea:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  cursor: default;
+}
+
+textarea.validate-error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
+}
+
+span {
+  font-size: 1rem;
+  font-weight: 400;
+  vertical-align: middle;
+}
+
+span[class="required"] {
+  padding-left: 0.3125rem;
+  font-weight: 700;
+}
+
+span[class="required"]::after {
+  color: #FF405A;
+  content: "\002a";
+}
+
 .alice-process {
     &-container {
         position: relative;
@@ -798,6 +886,7 @@
                         tr > td {
                             height: 2.4375rem; // 39px
                             vertical-align: middle
+                            height: 2.4375rem;
                         }
 
                         tr > td:first-child {
