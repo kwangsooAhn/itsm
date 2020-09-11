@@ -13,11 +13,13 @@
     </div>
     <div th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
         <a sec:authorize="hasAuthority('document.create')" th:attr="onclick=|openDocument('${document.documentId}')|">
-            <div class="document-card">
-                <h3 th:text="${document.documentName}"></h3>
-                <h5 th:text="${document.documentDesc}"></h5>
-                <div class="document-icon">
-                    <img th:src="@{/assets/media/image/document/{documentIcon}(documentIcon=${document.documentIcon})}"/>
+            <div class="document-card-dummy">
+                <div class="document-card">
+                    <h3 th:text="${document.documentName}"></h3>
+                    <h5 th:text="${document.documentDesc}"></h5>
+                    <div class="document-icon">
+                        <img th:src="@{/assets/media/image/document/{documentIcon}(documentIcon=${document.documentIcon})}"/>
+                    </div>
                 </div>
             </div>
         </a>
