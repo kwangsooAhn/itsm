@@ -28,7 +28,7 @@ const portalFileUploader = (function () {
     }
 
     const setFileIcon = function (fileName) {
-        return 'url("/assets/theme/default/icons/icon_document_' + getExtension(fileName) + '.svg")';
+        return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
     }
 
     /**
