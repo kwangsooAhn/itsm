@@ -60,7 +60,7 @@
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('searchToDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("common.msg.selectBeforeDate", toDtValue), function () {
+                    aliceJs.alertWarning(i18n.get("common.msg.selectBeforeDate", toDtValue), function () {
                         picker.open();
                     });
                 } else {
@@ -69,7 +69,7 @@
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    aliceJs.alert(i18n.get("common.msg.selectAfterDate", fromDtValue), function () {
+                    aliceJs.alertWarning(i18n.get("common.msg.selectAfterDate", fromDtValue), function () {
                         picker.open();
                     });
                 } else {
@@ -80,8 +80,8 @@
 
         //list 팝업 생성
         function openPopUp(id, width, height) {
-            var _top = 50;
-            var _left = window.screen.width - (parseInt(width) + 50);
+            var _top = 150;
+            var _left = 150;
 
             window.open(id + '/view-pop?value=true', id, 'width=' + width + ',height=' + height + ',top=' + _top + ',left=' + _left);
         }

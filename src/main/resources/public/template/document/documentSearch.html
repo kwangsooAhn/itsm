@@ -8,6 +8,7 @@
 </head>
 <th:block layout:fragment="cssLink">
     <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/theme/{theme}/css/alice-itsm.css(theme=${#authentication.details.theme})}" rel="stylesheet"/>
 </th:block>
 <th:block layout:fragment="scriptLink">
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>

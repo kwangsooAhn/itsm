@@ -81,11 +81,11 @@
         function deleteForm(formId) {
             restSubmit('DELETE', '/rest/forms/' + formId, function(result) {
                 if (result === 'true') {
-                    aliceJs.alert('[[#{common.msg.delete}]]', function() {
+                    aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
                         window.close();
                     });
                 } else {
-                    aliceJs.alert('[[#{form.msg.failedFormDelete}]]');
+                    aliceJs.alertDanger('[[#{form.msg.failedFormDelete}]]');
                 }
             });
         }

@@ -2,6 +2,7 @@ package co.brainz.workflow.folder.controller
 
 import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
+import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -21,7 +22,7 @@ class WfFolderController(
      * Get related instance list
      */
     @GetMapping("")
-    fun getRelatedInstanceList(@RequestParam tokenId: String): List<RestTemplateFolderDto> {
+    fun getRelatedInstanceList(@RequestParam tokenId: String): List<RestTemplateRelatedInstanceDto> {
         return wfFolderService.getRelatedInstanceList(tokenId)
     }
 

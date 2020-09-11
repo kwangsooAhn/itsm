@@ -62,7 +62,7 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
     });
     //elmNode.appendChild(table);
     console.log(data);
-    aliceJs.alert('[' + data.status + ']' + data.error + '<br/>' + data.message)
+    aliceJs.alertWarning('[' + data.status + ']' + data.error + '<br/>' + data.message)
 };
 
 /*!
@@ -216,7 +216,7 @@ aliceJs.sendXhr = function (option) {
         }
 
     } catch (e) {
-        aliceJs.alert("Error creating the XMLHttpRequest object.");
+        aliceJs.alertDanger("Error creating the XMLHttpRequest object.");
         return;
     }
 
@@ -555,7 +555,7 @@ aliceJs.alertSuccess = function(message, callbackFunc) {
  * @param message message
  * @param callbackFunc callback function
  */
-aliceJs.AlertWarning = function(message, callbackFunc) {
+aliceJs.alertWarning = function(message, callbackFunc) {
     const myModal = new gModal({
         message: message,
         type: 'gmodal-icon-warning',
@@ -584,7 +584,7 @@ aliceJs.AlertWarning = function(message, callbackFunc) {
  * @param message message
  * @param callbackFunc callback function
  */
-aliceJs.AlertDanger = function(message, callbackFunc) {
+aliceJs.alertDanger = function(message, callbackFunc) {
     const myModal = new gModal({
         message: message,
         type: 'gmodal-icon-danger',

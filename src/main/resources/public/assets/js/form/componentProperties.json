@@ -610,7 +610,7 @@
             {
                 "id": "column",
                 "name": "Column",
-                "value": "10",
+                "value": "4",
                 "type": "slider",
                 "code": "",
                 "unit": "",

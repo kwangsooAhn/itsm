@@ -261,28 +261,28 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.alert([[#{user.msg.createUser}]], function() {
+                            aliceJs.alertSuccess([[#{user.msg.createUser}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_ADMIN:
-                            aliceJs.alert([[#{common.msg.modify}]], function() {
+                            aliceJs.alertSuccess([[#{common.msg.modify}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_EMAIL:
-                            aliceJs.alert([[#{user.msg.emailWithUpdate}]], function() {
+                            aliceJs.alertSuccess([[#{user.msg.emailWithUpdate}]], function() {
                                 window.location.reload();
                             });
                             break;
                         case STATUS_ERROR_USER_ID_DUPLICATION:
-                            aliceJs.alert([[#{user.msg.sameUserId}]]);
+                            aliceJs.alertWarning([[#{user.msg.sameUserId}]]);
                             break;
                         case STATUS_ERROR_EMAIL_DUPLICATION:
-                            aliceJs.alert([[#{user.msg.sameEmail}]]);
+                            aliceJs.alertWarning([[#{user.msg.sameEmail}]]);
                             break;
                         default:
-                            aliceJs.alert([[#{common.msg.fail}]]);
+                            aliceJs.alertDanger([[#{common.msg.fail}]]);
                             break;
                     }
                 }

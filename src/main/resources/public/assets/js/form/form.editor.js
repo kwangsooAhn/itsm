@@ -164,7 +164,7 @@
                 if (!result) {
                     e.stopImmediatePropagation();
                     element.classList.add('validate-error');
-                    aliceJs.alert(i18n.msg('form.msg.' + validateValueArray[0], arg), function() {
+                    aliceJs.alertWarning(i18n.msg('form.msg.' + validateValueArray[0], arg), function() {
                         element.value = '';
                         element.focus();
                     });
@@ -206,17 +206,17 @@
                     savedData = JSON.parse(JSON.stringify(editor.data));
                     changeFormName();
                     if (flag) {
-                        aliceJs.alert(i18n.msg('common.msg.save'), function () {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
                             window.close();
                         });
                     } else {
-                        aliceJs.alert(i18n.msg('common.msg.save'));
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'));
                     }
                 } else {
-                    aliceJs.alert(i18n.msg('common.label.fail'));
+                    aliceJs.alertDanger(i18n.msg('common.label.fail'));
                 }
             },
             contentType: 'application/json; charset=utf-8',
@@ -236,8 +236,8 @@
          */
         const createDialogContent = function() {
             return `
-                <div>
-                    <div class="gmodal-input">
+                <div class="gmodal-input">
+                    <div>
                         <label class="gmodal-input-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>
                         <input class="gmodal-input-text" id="form_name">
                     </div>
@@ -287,7 +287,7 @@
                 url: '/rest/forms-admin' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
-                        aliceJs.alert(i18n.msg('common.msg.save'), function () {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                             if (window.opener && !window.opener.closed) {
                                 opener.location.reload();
                             }
@@ -295,7 +295,7 @@
                             location.href = '/forms/' + xhr.responseText + '/edit';
                         });
                     } else {
-                        aliceJs.alert(i18n.msg('common.label.fail'));
+                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
                     }
                 },
                 contentType: 'application/json; charset=utf-8',
@@ -1469,8 +1469,8 @@
                                     return `<tr>${fieldProp.items.map(function(item, index) {
                                         return `<td id="${item.id}">` +
                                         `${index === 0 ? 
-                                        `<label class="checkbox-group" for="checkbox-${index + 1}">` +
-                                            `<input type="checkbox" id="checkbox-${index + 1}" value="${opt[item.id]}" />` +
+                                        `<label class="checkbox-group" for="checkbox-${opt[item.id]}">` +
+                                            `<input type="checkbox" id="checkbox-${opt[item.id]}" value="${opt[item.id]}" />` +
                                             `<span></span>` +
                                         `</label>` : 
                                         `<input type="text" value="${opt[item.id]}"/>`}` +
@@ -1803,7 +1803,7 @@
         //load custom-code list.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/custom-codes',
+            url: '/rest/custom-codes?viewType=formEditor',
             callbackFunc: function(xhr) {
                 customCodeList = JSON.parse(xhr.responseText);
             },

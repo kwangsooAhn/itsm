@@ -1,6 +1,8 @@
 package co.brainz.itsm.folder.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.auth.repository.AliceUserRepository
+import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
@@ -14,23 +16,34 @@ import org.springframework.stereotype.Service
 import org.springframework.util.LinkedMultiValueMap
 
 @Service
-class FolderService(private val restTemplate: RestTemplateProvider) {
+class FolderService(
+    private val restTemplate: RestTemplateProvider,
+    private val aliceAvatarService: AliceAvatarService,
+    private val aliceUserRepository: AliceUserRepository
+) {
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
+    /**
+     * [tokenId]의 관련 문서 조회
+     */
     fun getRelatedInstance(tokenId: String): List<RestTemplateRelatedInstanceDto>? {
-        lateinit var relatedInstance: MutableList<RestTemplateRelatedInstanceDto>
         val params = LinkedMultiValueMap<String, String>()
         params["tokenId"] = tokenId
-
         val urlDto =
             RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_RELATED_INSTANCE.url, parameters = params)
         val responseBody = restTemplate.get(urlDto)
-
-        relatedInstance = mapper.readValue(
+        val relatedInstance: MutableList<RestTemplateRelatedInstanceDto> = mapper.readValue(
             responseBody,
             mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateRelatedInstanceDto::class.java)
         )
-        return relatedInstance
+        val moreInfoAddRelatedInstance: MutableList<RestTemplateRelatedInstanceDto> = mutableListOf()
+        relatedInstance.forEach {
+            val user = aliceUserRepository.getOne(it.instanceCreateUserKey!!)
+            val avatarPath = aliceAvatarService.makeAvatarPath(user.avatar)
+            it.avatarPath = avatarPath
+            moreInfoAddRelatedInstance.add(it)
+        }
+        return moreInfoAddRelatedInstance
     }
 
     fun getFolderId(tokenId: String): String? {

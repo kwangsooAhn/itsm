@@ -10,10 +10,13 @@ data class RestTemplateRelatedInstanceDto(
     val tokenId: String? = null,
     val documentNo: String?,
     val documentName: String?,
+    val documentColor: String?,
     val createUserKey: String?,
     val createDt: LocalDateTime? = null,
     var instanceStartDt: LocalDateTime?,
     var instanceEndDt: LocalDateTime?,
+    val instanceStatus: String?,
     val instanceCreateUserKey: String?,
-    val instanceCreateUserName: String?
+    val instanceCreateUserName: String?,
+    var avatarPath: String? = null
 ) : Serializable

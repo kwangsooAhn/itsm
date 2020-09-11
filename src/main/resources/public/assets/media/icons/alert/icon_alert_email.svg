@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="45" height="45" viewBox="0 0 45 45">
+  <defs>
+    <style>
+      .alert-email-circle {
+        fill: rgba(0,152,255,0.15);
+      }
+
+      .alert-email-icon {
+        fill: #0098ff;
+      }
+    </style>
+  </defs>
+  <g transform="translate(-25 -25)">
+    <circle class="alert-email-circle" cx="22.5" cy="22.5" r="22.5" transform="translate(25 25)"/>
+    <path class="alert-email-icon" d="M3325.5,363h-24a.5.5,0,0,0-.5.5v18a.5.5,0,0,0,.5.5h24a.5.5,0,0,0,.5-.5v-18A.5.5,0,0,0,3325.5,363Zm-6.7,3-5.3,5.3-5.3-5.3Zm4.2,13h-19V366.04l8.44,8.44a1.484,1.484,0,0,0,1.06.44,1.451,1.451,0,0,0,1.06-.44l8.44-8.44Z" transform="translate(-3266 -325)"/>
+  </g>
+</svg>

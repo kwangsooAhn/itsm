@@ -24,7 +24,8 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
     CustomCodeRepositoryCustom {
 
     override fun findByCustomCodeList(
-        offset: Long
+        offset: Long,
+        viewType: String?
     ): List<CustomCodeListDto> {
 
         val customCode = QCustomCodeEntity.customCodeEntity
@@ -100,12 +101,13 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             .innerJoin(customCode.createUser)
             .leftJoin(customCode.updateUser)
             .orderBy(customCode.customCodeName.asc())
-            .limit(ItsmConstants.SEARCH_DATA_COUNT)
-            .offset(offset)
-            .fetchResults()
+
+        if (viewType != "formEditor") {
+            query.limit(ItsmConstants.SEARCH_DATA_COUNT).offset(offset)
+        }
 
         val customCodeList = mutableListOf<CustomCodeListDto>()
-        for (data in query.results) {
+        for (data in query.fetchResults().results) {
             val customCodeListDto = CustomCodeListDto(
                 customCodeId = data.customCodeId,
                 type = data.type,
@@ -118,7 +120,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 valueColumnName = data.valueColumnName,
                 pCode = data.pCode,
                 condition = data.condition,
-                totalCount = query.total,
+                totalCount = query.fetchResults().total,
                 createDt = data.createDt,
                 createUserName = data.createUserName,
                 updateDt = data.updateDt,

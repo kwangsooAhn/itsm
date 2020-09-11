@@ -40,7 +40,7 @@
         /*<![CDATA[*/
         let componentData = {};
         function customCodeDataSave() {
-            let checkElem = document.querySelector('tr:not([style*="display: none"]) input:checked');
+            let checkElem = document.querySelector('li:not([style*="display: none"]) input:checked');
             let componentDataValue = checkElem.id + '|' + checkElem.value;
             let componentValue = checkElem.value;
             if (window.opener && !window.opener.closed) {
