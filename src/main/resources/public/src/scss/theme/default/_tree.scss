@@ -1,3 +1,4 @@
+$tree-asset-path: "../../../media/icons/tree";
 $tree-font-family: "Noto Sans KR";
 $tree-font-size: 1rem; // 16px;
 $tree-font-weight: 400; // regulalr
@@ -6,15 +7,99 @@ $tree-border-color: #EBEBEB;
 $tree-background-color: #ffffff;
 $tree-selected-border-color: #0098FF;
 $tree-selected-background-color: rgba(0, 152, 255, 0.05);
+$tree-hover-background-color: #DCEDFF;
 
-body.thumbnail-modal-active {
+ul.tree {
+    list-style-type: none;
+    background: url("#{$tree-asset-path}/vline.png") repeat-y;
+    margin: 0;
+    padding: 0 0 0 7px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    cursor: default;
+    ul {
+        list-style-type: none;
+        background: url(vline.png) repeat-y;
+        margin: 0;
+        padding: 0 0 0 7px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        cursor: default;
+    }
+    li {
+        margin: 10px 0 10px 0;
+        padding: 0 12px;
+        line-height: 22px;
+        background: url("#{$tree-asset-path}/node.png") no-repeat;
+    }
+    li.last {
+        background: #F7F8F9 url("#{$tree-asset-path}/lastnode.png") no-repeat;
+    }
+}
+li.last {
+    background-image: url("#{$tree-asset-path}/vline.png");
+    background-repeat: no-repeat;
+}
+img.exp_col {
+    position: absolute;
+    margin-top: 4px;
+    margin-left: -20px;
+    vertical-align: sub;
+}
+img.exp_col_empty {
+    position: absolute;
+    margin-top: 4px;
+    margin-left: -20px;
+    vertical-align: sub;
+    width: 16px;
+}
+img.icon_tree {
+    vertical-align: middle;
+    padding-left: 3px;
+    margin-top: -3px;
+}
+a.node {
+    padding: 2px;
+}
+span.node {
+    a {
+        padding-left: 3px;
+    }
+    margin-left: -1px;
+    padding-right: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    &:hover {
+        margin-left: -1px;
+        padding-right: 3px;
+        padding-top: 4px;
+        padding-bottom: 4px;
+        background-color: $tree-hover-background-color;
+        border-radius: 2px;
+    }
+}
+span.node_selected {
+    margin-left: -2px;
+    padding-right: 3px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    background-color: $tree-selected-background-color;
+    border: 1px solid $tree-selected-border-color;
+    border-radius: 2px;
+    a {
+        padding-left: 3px;
+    }
+}
+
+body.tree-modal-active {
     overflow:hidden !important;
 }
 
 .tree-modal-wrapper {
     display:none;
     overflow:auto;
-    //position:fixed;
     top: 0;
     right: 0;
     bottom: 0;

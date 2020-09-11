@@ -95,30 +95,17 @@
             onCreate();
 
             function getCodeList() {
-                const opt = {
-                    method: 'get',
-                    url: '/rest/codes?search=' + document.querySelector('#search').value,
-                    showProgressbar: false,
-                    callbackFunc: function(response) {
-                        let responseJson = JSON.parse(response.responseText);
-                        let totalCount = 0;
-                        if (responseJson.length > 0) {
-                            totalCount = responseJson[0].totalCount;
-                            let tree = aliceJs.createTree(responseJson, document.querySelector('#treeList'), aliceJs.treeExpandSessionKey);
-                            let nodes = document.querySelector('#treeList').querySelectorAll('span');
-                            nodes.forEach.call(nodes, function(node) {
-                                node.addEventListener('click', function(e) {
-                                    onGetDetail(tree.selectedNode.text)
-                                });
-                            });
-                        } else {
-                            document.querySelector('#treeList').innerHTML = '';
-                        }
-                        document.querySelector('#totalCount').innerHTML = i18n.msg("common.label.count", totalCount);
-                        aliceJs.deleteTreeExpandNode(aliceJs.treeExpandSessionKey);
+                tree.load({
+                    search: document.querySelector('#search').value,
+                    target: 'treeList',
+                    text: 'code',
+                    leafIcon: '/assets/media/icons/tree/leaf.png',
+                    sessionKey: 'code_expand_key',
+                    totalCount: true,
+                    selectedNode: function(response) {
+                        onGetDetail(response.id)
                     }
-                };
-                aliceJs.sendXhr(opt);
+                });
             }
             getCodeList();
 

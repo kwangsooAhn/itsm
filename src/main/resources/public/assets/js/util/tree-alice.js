@@ -30,6 +30,8 @@
         icons: [],                              // depth 별 아이콘 (순차적으로 해당 아이콘 적용)
         defaultIcon: iconPath + '/parent.png',  // 기본 아이콘
         leafIcon: '',                           // 마지막 node 의 아이콘
+        selectedValue: '',                      // 선택된 값
+        totalCount: false,                      // 전체 개수 표시여부
         buttons: [{
             content: 'Confirm',
             classes: 'tree-modal-button-default',
@@ -742,12 +744,17 @@
             method: 'get',
             url: '/rest/codes?pCode=' + options.root + '&search=' + options.search,
             async: false,
+            contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
                 let responseJson = JSON.parse(xhr.responseText);
+                let totalCount = 0;
                 if (responseJson.length > 0) {
                     options.data = responseJson;
+                    if (options.totalCount) {
+                        totalCount = responseJson[0].totalCount;
+                        document.querySelector('#totalCount').innerHTML = i18n.msg("common.label.count", totalCount);
+                    }
                     let tree = makeTree();
-                    
                     // 트리 Node 클릭시 이벤트 처리
                     if (typeof selectedNode === 'function') {
                         let nodes = document.querySelector('#' + options.target).querySelectorAll('span');
@@ -760,8 +767,10 @@
                 } else {
                     document.querySelector('#' + options.target).innerHTML = '';
                 }
-            },
-            contentType: 'application/json; charset=utf-8'
+                if (options.sessionKey != null && sessionStorage.getItem(options.sessionKey) != null) {
+                    sessionStorage.removeItem(options.sessionKey);
+                }
+            }
         }, true);
 
         if (options.view === 'modal') {
