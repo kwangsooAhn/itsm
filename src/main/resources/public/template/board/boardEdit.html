@@ -55,25 +55,27 @@
                         <div id="dropZoneFiles"></div>
                         <div id="dropZoneUploadedFiles"></div>
                 </div>
-                <div class="form-set">
-                    <label th:text="#{common.label.createUser}"/>
-                    <input id="spanCreateUserKey" name="spanCreateUserKey" type="text" disabled
-                           th:value="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"/>
-                </div>
-                <div class="form-set">
-                    <label th:text="#{common.label.createDate}"/>
-                    <input id="spanCreateDt" name="spanCreateDt" type="text" disabled
-                           th:value="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"/>
-                </div>
-                <div class="form-set">
-                    <label th:text="#{common.label.updateUser}"/>
-                    <input id="spanUpdateUserKey" name="spanUpdateUserKey" type="text" disabled
-                           th:value="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"/>
-                </div>
-                <div class="form-set">
-                    <label th:text="#{common.label.updateDate}"/>
-                    <input id="spanUpdateDt" name="spanUpdateDt" type="text" disabled
-                           th:value="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''"/>
+                <div id="boardUserInfo">
+                    <div class="form-set">
+                        <label th:text="#{common.label.createUser}"/>
+                        <input id="spanCreateUserKey" name="spanCreateUserKey" type="text" disabled
+                               th:value="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"/>
+                    </div>
+                    <div class="form-set">
+                        <label th:text="#{common.label.createDate}"/>
+                        <input id="spanCreateDt" name="spanCreateDt" type="text" disabled
+                               th:value="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"/>
+                    </div>
+                    <div class="form-set">
+                        <label th:text="#{common.label.updateUser}"/>
+                        <input id="spanUpdateUserKey" name="spanUpdateUserKey" type="text" disabled
+                               th:value="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"/>
+                    </div>
+                    <div class="form-set">
+                        <label th:text="#{common.label.updateDate}"/>
+                        <input id="spanUpdateDt" name="spanUpdateDt" type="text" disabled
+                               th:value="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''"/>
+                    </div>
                 </div>
                 <div class="btn-bar">
                     <button class="default-line" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
@@ -113,6 +115,10 @@
         const boardUpdateDt = document.getElementById('spanUpdateDt');
 
         window.onload = function() {
+            if (boardId === null) {
+                document.getElementById('boardUserInfo').style.display = 'none';
+            }
+
             boardCreateDt.value = i18n.userDateTime(boardCreateDt.value);
             boardUpdateDt.value = i18n.userDateTime(boardUpdateDt.value);
 
