@@ -619,8 +619,7 @@
 
     /**
      * 관련 문서 삭제
-     *
-     * @param commentId
+     * @param dataForDeletion
      */
     function deleteRelatedDoc(dataForDeletion) {
         aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), function() {
