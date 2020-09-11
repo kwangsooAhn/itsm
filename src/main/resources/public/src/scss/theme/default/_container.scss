@@ -56,7 +56,16 @@
 .page-title {
     display: flex;
     align-items: baseline;
-    //padding: 2.875rem 3.75rem 2.875rem 3.75rem; // 46px 60px 46px 60px
+
+    // 아래 부분은 신청서 화면에서 form, itsm 2개의 css가 충돌나서 다시 정의한 부분.
+    & > h1 {
+        @include h1();
+        padding: 0.625rem 0 0.625rem 0.3125rem;
+    }
+
+    & > h6 {
+        @include h6();
+    }
 }
 
 // 공지사항 상단 공지 (배경색 별도 처리)
