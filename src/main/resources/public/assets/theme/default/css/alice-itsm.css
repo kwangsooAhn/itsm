@@ -2536,6 +2536,9 @@ span.vertical-bar {
 .notification-menu .notification-container .notification-header span.total {
   margin: auto 0.3125rem;
 }
+.notification-menu .notification-container .notification-header span.message {
+  margin-left: 0.625rem;
+}
 .notification-menu .notification-container .notification-header span.close {
   width: 0.875rem;
   height: 0.875rem;
