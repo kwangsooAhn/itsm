@@ -1,7 +1,7 @@
 $tree-asset-path: "../../../media/icons/tree";
 $tree-font-family: "Noto Sans KR";
-$tree-font-size: 1rem; // 16px;
-$tree-font-weight: 400; // regulalr
+$tree-font-size: 1rem; // 16px
+$tree-font-weight: 400;
 $tree-font-color: #3F4B56;
 $tree-border-color: #EBEBEB;
 $tree-background-color: #ffffff;
@@ -13,25 +13,25 @@ ul.tree {
     list-style-type: none;
     background: url("#{$tree-asset-path}/vline.png") repeat-y;
     margin: 0;
-    padding: 0 0 0 7px;
+    padding: 0 0 0 0.438rem; // 7px
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     cursor: default;
     ul {
         list-style-type: none;
-        background: url(vline.png) repeat-y;
+        background: url("#{$tree-asset-path}/vline.png") repeat-y;
         margin: 0;
-        padding: 0 0 0 7px;
+        padding: 0 0 0 0.438rem; // 7px
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
         cursor: default;
     }
     li {
-        margin: 10px 0 10px 0;
-        padding: 0 12px;
-        line-height: 22px;
+        margin: 0.625rem 0 0.625rem 0; // 10px 0 10px 0
+        padding: 0 0.75rem; // 12px
+        line-height: 1.375rem; // 22px
         background: url("#{$tree-asset-path}/node.png") no-repeat;
     }
     li.last {
@@ -44,52 +44,52 @@ li.last {
 }
 img.exp_col {
     position: absolute;
-    margin-top: 4px;
-    margin-left: -20px;
+    margin-top: 0.25rem; // 4px
+    margin-left: -1.25rem; // 20px
     vertical-align: sub;
 }
 img.exp_col_empty {
     position: absolute;
-    margin-top: 4px;
-    margin-left: -20px;
+    margin-top: 0.25rem; // 4px
+    margin-left: -1.25rem; // 20px
     vertical-align: sub;
-    width: 16px;
+    width: 1rem; // 16px
 }
 img.icon_tree {
     vertical-align: middle;
-    padding-left: 3px;
-    margin-top: -3px;
+    padding-left: 0.188rem; // 3px
+    margin-top: -0.188rem; // 3px
 }
 a.node {
-    padding: 2px;
+    padding: 0.125rem; // 2px
 }
 span.node {
     a {
-        padding-left: 3px;
+        padding-left: 0.188rem; // 3px
     }
-    margin-left: -1px;
-    padding-right: 3px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    margin-left: -0.063rem; // 1px
+    padding-right: 0.188rem; // 3px
+    padding-top: 0.25rem; // 4px
+    padding-bottom: 0.25rem; // 4px
     &:hover {
-        margin-left: -1px;
-        padding-right: 3px;
-        padding-top: 4px;
-        padding-bottom: 4px;
+        margin-left: -0.063rem; // 1px
+        padding-right: 0.188rem; // 3px
+        padding-top: 0.25rem; // 4px
+        padding-bottom: 0.25rem; // 4px
         background-color: $tree-hover-background-color;
-        border-radius: 2px;
+        border-radius: 0.125rem; // 2px
     }
 }
 span.node_selected {
-    margin-left: -2px;
-    padding-right: 3px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    margin-left: -0.125rem; // 2px
+    padding-right: 0.188rem; // 3px
+    padding-top: 0.25rem; // 4px
+    padding-bottom: 0.25rem; // 4px
     background-color: $tree-selected-background-color;
-    border: 1px solid $tree-selected-border-color;
-    border-radius: 2px;
+    border: 0.063rem solid $tree-selected-border-color; // 1px
+    border-radius: 0.125rem; // 2px
     a {
-        padding-left: 3px;
+        padding-left: 0.188rem; // 3px
     }
 }
 
@@ -193,13 +193,10 @@ body.tree-modal-active {
             }
         }
         .tree-modal-buttons {
-            //height: 2.5rem; // 40px
             height: 4.5rem;
             box-sizing:border-box;
             text-align:right;
-            //padding-right: 1.25rem; // 20px
             padding: 16px;
-            //padding: 0.4375rem; // 7px
 
             .tree-modal-button {
                 padding: 0.6em 1em;

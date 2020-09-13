@@ -187,7 +187,7 @@
             const container = document.createElement('div');
             container.className = 'tree-container';
 
-            if (this.options.title instanceof Element || (typeof this.options.title === "string" && this.options.title !== '')) {
+            if (this.options.title instanceof Element || (typeof this.options.title === 'string' && this.options.title !== '')) {
                 const title = document.createElement('div');
                 title.className = 'tree-title';
                 if (this.options.title instanceof Element) {
@@ -327,18 +327,18 @@
                         this.adjustLines(this.ulElement,false);
                     }
                     else {
-                        let v_ul = p_parentNode.elementLi.getElementsByTagName("ul")[0];
+                        let v_ul = p_parentNode.elementLi.getElementsByTagName('ul')[0];
                         if (p_parentNode.childNodes.length === 0) {
                             if (p_parentNode.expanded) {
-                                p_parentNode.elementLi.getElementsByTagName("ul")[0].style.display = 'block';
-                                let v_img = p_parentNode.elementLi.getElementsByTagName("img")[0];
-                                v_img.style.visibility = "visible";
+                                p_parentNode.elementLi.getElementsByTagName('ul')[0].style.display = 'block';
+                                let v_img = p_parentNode.elementLi.getElementsByTagName('img')[0];
+                                v_img.style.visibility = 'visible';
                                 v_img.src = iconPath + '/collapse.png';
                                 v_img.id = 'toggle_off';
                             } else {
-                                p_parentNode.elementLi.getElementsByTagName("ul")[0].style.display = 'none';
-                                let v_img = p_parentNode.elementLi.getElementsByTagName("img")[0];
-                                v_img.style.visibility = "visible";
+                                p_parentNode.elementLi.getElementsByTagName('ul')[0].style.display = 'none';
+                                let v_img = p_parentNode.elementLi.getElementsByTagName('img')[0];
+                                v_img.style.visibility = 'visible';
                                 v_img.src = iconPath + '/expand.png';
                                 v_img.id = 'toggle_on';
                             }
@@ -398,7 +398,7 @@
                 let v_exp_col = null;
                 if (p_node.childNodes.length === 0) {
                     v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/collapse.png');
-                    v_exp_col.style.visibility = "hidden";
+                    v_exp_col.style.visibility = 'hidden';
                 } else {
                     if (p_node.expanded) {
                         v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/collapse.png');
@@ -480,12 +480,12 @@
                     if (this.nodeBeforeOpenEvent !== undefined) {
                         this.nodeBeforeOpenEvent(p_node);
                     }
-                    let img = p_node.elementLi.getElementsByTagName("img")[0];
+                    let img = p_node.elementLi.getElementsByTagName('img')[0];
                     p_node.expanded = true;
 
-                    img.id="toggle_off";
+                    img.id = 'toggle_off';
                     img.src = iconPath + '/collapse.png';
-                    let elem_ul = img.parentElement.getElementsByTagName("ul")[0];
+                    let elem_ul = img.parentElement.getElementsByTagName('ul')[0];
                     elem_ul.style.display = 'block';
 
                     if (this.nodeAfterOpenEvent !== undefined) {
@@ -495,14 +495,14 @@
             },
             collapseNode: function(p_node) {
                 if (p_node.childNodes.length > 0 && p_node.expanded === true) {
-                    let img=p_node.elementLi.getElementsByTagName("img")[0];
+                    let img=p_node.elementLi.getElementsByTagName('img')[0];
                     p_node.expanded = false;
                     if (this.nodeBeforeCloseEvent !== undefined) {
                         this.nodeBeforeCloseEvent(p_node);
                     }
-                    img.id="toggle_on";
+                    img.id = 'toggle_on';
                     img.src = iconPath + '/expand.png';
-                    let elem_ul = img.parentElement.getElementsByTagName("ul")[0];
+                    let elem_ul = img.parentElement.getElementsByTagName('ul')[0];
                     elem_ul.style.display = 'none';
 
                 }
@@ -520,34 +520,34 @@
                 this.toggleNode(p_node);
             },
             selectNode: function(p_node) {
-                let span = p_node.elementLi.getElementsByTagName("span")[0];
+                let span = p_node.elementLi.getElementsByTagName('span')[0];
                 span.className = 'node_selected';
-                if (this.selectedNode!=null && this.selectedNode !== p_node)
-                    this.selectedNode.elementLi.getElementsByTagName("span")[0].className = 'node';
+                if (this.selectedNode !== null && this.selectedNode !== p_node)
+                    this.selectedNode.elementLi.getElementsByTagName('span')[0].className = 'node';
                 this.selectedNode = p_node;
             },
             removeNode: function(p_node) {
                 let index = p_node.parent.childNodes.indexOf(p_node);
-                if (p_node.elementLi.className === "last" && index !== 0) {
-                    p_node.parent.childNodes[index-1].elementLi.className += "last";
+                if (p_node.elementLi.className === 'last' && index !== 0) {
+                    p_node.parent.childNodes[index-1].elementLi.className += 'last';
                     p_node.parent.childNodes[index-1].elementLi.style.backgroundColor = this.backcolor;
                 }
                 p_node.elementLi.parentNode.removeChild(p_node.elementLi);
                 p_node.parent.childNodes.splice(index, 1);
 
                 if (p_node.parent.childNodes.length === 0) {
-                    let v_img = p_node.parent.elementLi.getElementsByTagName("img")[0];
-                    v_img.style.visibility = "hidden";
+                    let v_img = p_node.parent.elementLi.getElementsByTagName('img')[0];
+                    v_img.style.visibility = 'hidden';
                 }
             },
             removeChildNodes: function(p_node) {
                 if (p_node.childNodes.length>0) {
-                    let v_ul = p_node.elementLi.getElementsByTagName("ul")[0];
-                    let v_img = p_node.elementLi.getElementsByTagName("img")[0];
-                    v_img.style.visibility = "hidden";
+                    let v_ul = p_node.elementLi.getElementsByTagName('ul')[0];
+                    let v_img = p_node.elementLi.getElementsByTagName('img')[0];
+                    v_img.style.visibility = 'hidden';
 
                     p_node.childNodes = [];
-                    v_ul.innerHTML = "";
+                    v_ul.innerHTML = '';
                 }
             },
             adjustLines: function(p_ul,p_recursive) {
@@ -556,8 +556,8 @@
                 if (tree.childNodes.length>0) {
                     lists = [ tree ];
                     if (p_recursive) {
-                        for (var i = 0; i < tree.getElementsByTagName("ul").length; i++) {
-                            var check_ul = tree.getElementsByTagName("ul")[i];
+                        for (var i = 0; i < tree.getElementsByTagName('ul').length; i++) {
+                            var check_ul = tree.getElementsByTagName('ul')[i];
                             if ( check_ul.childNodes.length !== 0) {
                                 lists[lists.length] = check_ul;
                             }
@@ -567,15 +567,15 @@
 
                 for (let i = 0; i < lists.length; i++) {
                     let item = lists[i].lastChild;
-                    while (!item.tagName || item.tagName.toLowerCase() !== "li") {
+                    while (!item.tagName || item.tagName.toLowerCase() !== 'li') {
                         item = item.previousSibling;
                     }
-                    item.className += "last";
+                    item.className += 'last';
                     item.style.backgroundColor = this.backcolor;
                     item = item.previousSibling;
                     if (item !== null) {
-                        if (item.tagName.toLowerCase() === "li") {
-                            item.className = "";
+                        if (item.tagName.toLowerCase() === 'li') {
+                            item.className = '';
                             item.style.backgroundColor = 'transparent';
                         }
                     }
@@ -661,7 +661,7 @@
     function getRecursiveParentCode(code, pArray) {
         options.data.forEach(function (item) {
            if (item.code === code) {
-               if (item.pcode != null) {
+               if (item.pcode !== null) {
                    pArray.push(item.pcode);
                    getRecursiveParentCode(item.pcode, pArray);
                }
@@ -682,7 +682,7 @@
             expandObject = getRecursiveParentCode(options.selectedValue, expandObject);
             expandObject.reverse();
         } else {
-            if (options.sessionKey != null && sessionStorage.getItem(options.sessionKey) != null) {
+            if (options.sessionKey !== null && sessionStorage.getItem(options.sessionKey) !== null) {
                 expandObject = JSON.parse(sessionStorage.getItem(options.sessionKey));
             }
         }
@@ -712,7 +712,7 @@
         options.data.forEach(function (item) {
             if (node.id === item.pcode) {
                 let expand = false;
-                if (expandObject != null && expandObject.indexOf(item.code) > -1) {
+                if (expandObject !== null && expandObject.indexOf(item.code) > -1) {
                     expand = true;
                 }
                 let newNode = node.createChildNode(item, expand, depth);
@@ -753,7 +753,7 @@
                     options.data = responseJson;
                     if (options.totalCount) {
                         totalCount = responseJson[0].totalCount;
-                        document.querySelector('#totalCount').innerHTML = i18n.msg("common.label.count", totalCount);
+                        document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
                     }
                     let tree = makeTree();
                     // 트리 Node 클릭시 이벤트 처리
@@ -768,7 +768,7 @@
                 } else {
                     document.querySelector('#' + options.target).innerHTML = '';
                 }
-                if (options.sessionKey != null && sessionStorage.getItem(options.sessionKey) != null) {
+                if (options.sessionKey !== null && sessionStorage.getItem(options.sessionKey) !== null) {
                     sessionStorage.removeItem(options.sessionKey);
                 }
             }
