@@ -1,5 +1,5 @@
 $white: #fff;
-$alice-font-family: "Noto Sans";
+$alice-font-family: "Noto Sans KR";
 $process-toolbar-height: 3.125rem; // 50px
 $process-toolbar-top-bottom-padding: 0.563rem; // 9px
 $process-toolbar-real-height: $process-toolbar-height - ($process-toolbar-top-bottom-padding * 2);
@@ -30,3 +30,11 @@ $pressed-blue:     #0088E6;
 $point-blue:       #0098FF;
 $hover-blue:       #33ADFF;
 $light-blue:       #87CEFF;
+
+// button
+$button-font-size:              16px;
+$button-font-weight:            500; // medium
+$button-line-height:            24px;
+$button-font-color:             $light-black;
+$button-border:                 0.0625rem solid transparent;
+$button-bg-color:               transparent;

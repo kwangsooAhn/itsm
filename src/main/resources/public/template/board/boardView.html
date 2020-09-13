@@ -63,7 +63,7 @@
             </div>
             <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
                 <div class="reply-input-row flex-row">
-                    <img class="profile-photo" alt="profile pic" src="/assets/media/image/avatar/profile_sample.jpg"/>
+                    <img class="profile-photo" alt="profile pic" th:src="${#authentication.details.avatarPath}"/>
                     <input type="text" id="boardComments" name="boardComments" maxlength="500" th:placeholder="#{comment.msg.enterComments}"/>
                     <button class="default-line" onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button>
                 </div>
@@ -76,16 +76,15 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
-        const boardId = /*[[${boardInfo?.boardId}]]*/;
-        const boardAdminId = /*[[${boardAdminInfo?.boardAdminId}]]*/;
-        const attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
-        const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
-        const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
+        const boardId = [[${boardInfo?.boardId}]];
+        const boardAdminId = [[${boardAdminInfo?.boardAdminId}]];
+        const attachYn  = [[${boardAdminInfo?.attachYn}]];
+        const categoryYn = [[${boardAdminInfo?.categoryYn}]];
+        const commentYn = [[${boardAdminInfo?.commentYn}]];
         const boardCreateDt = document.getElementById('spanCreateDt');
 
         window.onload = function() {
             boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
-
             if (attachYn) {
                 fileUploader.init({extra: {formId: 'frm', ownId: boardId, editor: false, isView: true}});
             }
@@ -183,10 +182,9 @@
                         });
                     } else if (method === 'get') {
                         document.getElementById('boardCommentList').innerHTML = response.responseText;
-                        var commentDtEle = document.querySelectorAll('td[name=commentDt]');
-                        for (let i = 0; i < commentDtEle.length; i++) {
-                            commentDtEle[i].textContent = i18n.userDateTime(commentDtEle[i].textContent);
-                        }
+                        document.getElementsByName('commentDt').forEach(function(element) {
+                            element.textContent = i18n.userDateTime(element.textContent)
+                        });
                     }
                 },
                 showProgressbar: false

@@ -4,9 +4,9 @@ $thumbnail-font-family: "Noto Sans KR";
 $thumbnail-font-size: 1rem; // 16px;
 $thumbnail-font-weight: 400; // regulalr
 $thumbnail-font-color: #ACB4BF;
-$thumbnail-border-color: #EBEBEB;
+$thumbnail-border-color: $line-gray;
 $thumbnail-background-color: #ffffff;
-$thumbnail-selected-border-color: #0098FF;
+$thumbnail-selected-border-color: $point-blue;
 $thumbnail-selected-background-color: rgba(0, 152, 255, 0.05);
 
 .thumbnail-container {
@@ -157,12 +157,11 @@ body.thumbnail-modal-active {
         top: 4em;
         left: 0;
         right: 0;
-        //width: 77.5rem; // 1240px
-        //height: 47.5rem; // 760px
         width: 500px;
-        //height: 100px;
         margin: 0 auto 2em auto;
         box-sizing: border-box;
+        border: 0.0625rem solid $line-gray;
+        border-radius: 0.0625rem;
         background-color: #ffffff;
         box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25); /* 5px */
 
@@ -212,13 +211,13 @@ body.thumbnail-modal-active {
         }
 
         .thumbnail-modal-title {
-            height: 2.5rem; // 40px
+            height: 3.375rem; // 54px
             color: #3F4B56;
-            font-size: 1.25rem; // 20px
-            font-weight: 700;
+            font-size: 1rem; // 16px
+            font-weight: 500;
             box-sizing:border-box;
             border-bottom: solid 0.0625rem $thumbnail-border-color;
-            padding: 0.5rem 0 0 0.9375rem; // 8px 0 0 15px
+            padding: 1.125rem 0 0 1.25rem; // 18px 0 0 20px
         }
         .thumbnail-modal-body {
             overflow: auto;
@@ -361,23 +360,22 @@ body.thumbnail-modal-active {
             }
         }
         .thumbnail-modal-buttons {
-            height: 2.5rem; // 40px
+            height: 5rem; // 80px
             box-sizing:border-box;
             text-align:right;
-            padding-right: 1.25rem; // 20px
-            padding: 0.4375rem; // 7px
+            padding: 1.25rem; // 20px
 
             .thumbnail-modal-button {
                 padding: 0.6em 1em;
-                margin: 0;
+                margin: 0 0.3125rem 0 0; // 5px
                 color: #3F4B56;
                 text-transform:uppercase;
                 cursor:pointer;
                 display: inline-block;
                 border: solid 0.0625rem $thumbnail-border-color;
                 border-radius: 0.0625rem; // 1px
-                &:first-child {
-                    margin-right: 0.3125rem; // 5px
+                &:last-child {
+                    margin-right: 0;
                 }
             }
             .thumbnail-modal-button-default { background-color:#ffffff; }

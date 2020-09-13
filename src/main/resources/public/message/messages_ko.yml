@@ -474,8 +474,8 @@ form:
 image:
   label:
     list: "이미지 관리"
-    popupTitle: "Select Image"
-    upload: "Upload Your Image"
+    popupTitle: "이미지 선택"
+    upload: "이미지 업로드"
   msg:
     description: "이미지를 조회하거나 추가, 삭제할 수 있습니다."
     existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
