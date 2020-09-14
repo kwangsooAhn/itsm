@@ -1368,7 +1368,6 @@ insert into awf_url values ('/users/new', 'get', '사용자 등록 화면', 'TRU
 insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 등 메인이 되는 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editSelf', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
-insert into awf_url values ('/users/department/view-pop', 'get', '부서관리팝업화면', 'TRUE');
 /**
  * URL별권한매핑
  */
@@ -1744,8 +1743,6 @@ insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.read'
 insert into awf_url_auth_map values ('/users/{userkey}/edit', 'get', 'user.update');
 insert into awf_url_auth_map values ('/users/{userkey}/editSelf', 'get', 'user.read');
 insert into awf_url_auth_map values ('/users/{userkey}/editSelf', 'get', 'user.update');
-insert into awf_url_auth_map values ('/users/department/view-pop', 'get', 'user.update');
-insert into awf_url_auth_map values ('/users/department/view-pop', 'get', 'user.create');
 
 
 /**

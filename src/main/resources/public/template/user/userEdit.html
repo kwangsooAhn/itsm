@@ -303,8 +303,28 @@
             return true;
         }
 
+        function setDepartment(node) {
+            document.getElementById('department').value = node.textContent;
+            document.getElementById('departmentCode').value = node.id;
+        }
+
         function deptPopUp() {
-            window.open('/users/department/view-pop', null, 'width=400, height=700');
+            const rootCode = 'department.group';
+            tree.load({
+                view: 'modal',
+                title: i18n.get('department.label.deptList'),
+                search: '',
+                root: rootCode,
+                rootLevel: 5,
+                target: 'treeList',
+                text: 'codeName',
+                defaultIcon: '/assets/media/icons/tree/users.png',
+                leafIcon: '/assets/media/icons/tree/user.png',
+                selectedValue: document.getElementById('departmentCode').value,
+                callbackFunc: function(response) {
+                    setDepartment(response);
+                }
+            });
         }
         /*]]>*/
     </script>

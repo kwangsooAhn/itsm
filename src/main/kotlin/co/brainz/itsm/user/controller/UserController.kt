@@ -40,7 +40,6 @@ class UserController(
     private val userListPage: String = "user/userList"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
-    private val departmentPopUpPage: String = "user/departmentPopUp"
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -99,7 +98,7 @@ class UserController(
         val roles = roleService.getRoles(roleEntities)
         request.setAttribute(AliceConstants.RsaKey.USE_RSA.value, AliceConstants.RsaKey.USE_RSA.value)
 
-        if (users.department?.isBlank() == true) {
+        if (!users.department.isNullOrBlank()) {
             val deptCodeDetail = codeService.getDetailCodes(users.department!!)
             model.addAttribute("deptCodeDetail", deptCodeDetail)
         }
@@ -139,16 +138,5 @@ class UserController(
         model.addAttribute("roles", roleService.getRoles(mutableSetOf()))
 
         return userEditPage
-    }
-
-    /**
-     * 부서 관리 팝업 호출
-     */
-    @GetMapping("/department/view-pop")
-    fun getDepartmentPopUp(model: Model): String {
-        val departmentList = codeService.selectCodeByParent(UserConstants.PDEPTCODE.value)
-        model.addAttribute("departmentList", departmentList)
-
-        return departmentPopUpPage
     }
 }

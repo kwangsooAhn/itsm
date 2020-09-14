@@ -46,6 +46,7 @@ common:
     writeDate: "Write Date"
     writer: "Writer"
     searchWord: "Please enter your search term"
+    dataSelect: "Please select a data."
   msg:
     confirmDelete: "Are you sure you want to delete?"
     delete: "Deleted."
