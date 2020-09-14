@@ -74,14 +74,14 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 						p_parentNode.elementLi.getElementsByTagName("ul")[0].style.display = 'block';
 						v_img = p_parentNode.elementLi.getElementsByTagName("img")[0];
 						v_img.style.visibility = "visible";
-						v_img.src = imagePath + '/collapse.png';
+						v_img.src = imagePath + '/collapse.svg';
 						v_img.id = 'toggle_off';
 						}
 						else {
 							p_parentNode.elementLi.getElementsByTagName("ul")[0].style.display = 'none';
 							v_img = p_parentNode.elementLi.getElementsByTagName("img")[0];
 							v_img.style.visibility = "visible";
-							v_img.src = imagePath + '/expand.png';
+							v_img.src = imagePath + '/expand.svg';
 							v_img.id = 'toggle_on';
 						}
 					}
@@ -139,15 +139,15 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 			var v_exp_col = null;
 
 			if (p_node.childNodes.length == 0) {
-				v_exp_col = createImgElement('toggle_off','exp_col',imagePath + '/collapse.png');
+				v_exp_col = createImgElement('toggle_off','exp_col',imagePath + '/collapse.svg');
 				v_exp_col.style.visibility = "hidden";
 			}
 			else {
 				if (p_node.expanded) {
-					v_exp_col = createImgElement('toggle_off','exp_col',imagePath + '/collapse.png');
+					v_exp_col = createImgElement('toggle_off','exp_col',imagePath + '/collapse.svg');
 				}
 				else {
-					v_exp_col = createImgElement('toggle_on','exp_col',imagePath + '/expand.png');
+					v_exp_col = createImgElement('toggle_on','exp_col',imagePath + '/expand.svg');
 				}
 			}
 
@@ -247,7 +247,7 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 				p_node.expanded = true;
 
 				img.id="toggle_off";
-				img.src = imagePath + '/collapse.png';
+				img.src = imagePath + '/collapse.svg';
 				elem_ul = img.parentElement.getElementsByTagName("ul")[0];
 				elem_ul.style.display = 'block';
 
@@ -266,7 +266,7 @@ function createTree(p_div,p_backColor,p_contextMenu) {
 					this.nodeBeforeCloseEvent(p_node);
 
 				img.id="toggle_on";
-				img.src = imagePath + '/expand.png';
+				img.src = imagePath + '/expand.svg';
 				elem_ul = img.parentElement.getElementsByTagName("ul")[0];
 				elem_ul.style.display = 'none';
 
