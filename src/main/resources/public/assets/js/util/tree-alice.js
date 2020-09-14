@@ -29,7 +29,7 @@
         sessionKey: null,                       // 펼쳐진 트리 정보를 저장하는 세션 키
         backColor: '',                          // 배경색
         icons: [],                              // depth 별 아이콘 (순차적으로 해당 아이콘 적용)
-        defaultIcon: iconPath + '/parent.png',  // 기본 아이콘
+        defaultIcon: iconPath + '/parent.svg',  // 기본 아이콘
         leafIcon: '',                           // 마지막 node 의 아이콘
         selectedValue: '',                      // 선택된 값
         totalCount: false,                      // 전체 개수 표시여부
@@ -333,13 +333,13 @@
                                 p_parentNode.elementLi.getElementsByTagName('ul')[0].style.display = 'block';
                                 let v_img = p_parentNode.elementLi.getElementsByTagName('img')[0];
                                 v_img.style.visibility = 'visible';
-                                v_img.src = iconPath + '/collapse.png';
+                                v_img.src = iconPath + '/collapse.svg';
                                 v_img.id = 'toggle_off';
                             } else {
                                 p_parentNode.elementLi.getElementsByTagName('ul')[0].style.display = 'none';
                                 let v_img = p_parentNode.elementLi.getElementsByTagName('img')[0];
                                 v_img.style.visibility = 'visible';
-                                v_img.src = iconPath + '/expand.png';
+                                v_img.src = iconPath + '/expand.svg';
                                 v_img.id = 'toggle_on';
                             }
                         }
@@ -397,13 +397,13 @@
 
                 let v_exp_col = null;
                 if (p_node.childNodes.length === 0) {
-                    v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/collapse.png');
+                    v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/collapse.svg');
                     v_exp_col.style.visibility = 'hidden';
                 } else {
                     if (p_node.expanded) {
-                        v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/collapse.png');
+                        v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/collapse.svg');
                     } else {
-                        v_exp_col = createImgElement('toggle_on', 'exp_col', iconPath + '/expand.png');
+                        v_exp_col = createImgElement('toggle_on', 'exp_col', iconPath + '/expand.svg');
                     }
                 }
 
@@ -484,7 +484,7 @@
                     p_node.expanded = true;
 
                     img.id = 'toggle_off';
-                    img.src = iconPath + '/collapse.png';
+                    img.src = iconPath + '/collapse.svg';
                     let elem_ul = img.parentElement.getElementsByTagName('ul')[0];
                     elem_ul.style.display = 'block';
 
@@ -501,7 +501,7 @@
                         this.nodeBeforeCloseEvent(p_node);
                     }
                     img.id = 'toggle_on';
-                    img.src = iconPath + '/expand.png';
+                    img.src = iconPath + '/expand.svg';
                     let elem_ul = img.parentElement.getElementsByTagName('ul')[0];
                     elem_ul.style.display = 'none';
 
