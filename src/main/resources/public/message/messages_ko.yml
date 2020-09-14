@@ -325,6 +325,7 @@ document:
     confirmDeleteInstance: "임시 상태로 작성된 문서 모두 삭제하시겠습니까?"
     description: "프로세스와 문서양식을 조합하여 업무흐름을 편집할 수 있습니다."
     listDescription: "프로세스와 문서양식을 조합하여 업무흐름을 편집할 수 있습니다."
+    checkDuplication: "이미 해당 문서와 프로세스로 생성된 업무흐름이 존재합니다."
   display:
     editable: "수정 가능"
     editableRequired: "수정 가능(필수값)"

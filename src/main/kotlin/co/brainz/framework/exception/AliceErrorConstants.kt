@@ -15,5 +15,4 @@ enum class AliceErrorConstants(
     ERR_00003(AliceHttpStatusConstants.UNAUTHORIZED.status, "ERR-00003"),
     ERR_00004(AliceHttpStatusConstants.CONFLICT.status, "ERR-00004"),
     ERR_00005(AliceHttpStatusConstants.NOT_FOUND.status, "ERR-00005")
-    ;
 }
