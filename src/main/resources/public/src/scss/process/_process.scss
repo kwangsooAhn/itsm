@@ -344,6 +344,8 @@ span[class="required"]::after {
             position: absolute;
             bottom: 0.625rem; // 10px
             right: 0.625rem; // 10px
+            line-height: 0;
+            padding: 0;
             span.icon {
                 width: 1.063rem; // 17px
                 height: 1.25rem; // 20px
@@ -437,6 +439,8 @@ span[class="required"]::after {
             position: absolute;
             bottom: 3.438rem; // 55px
             right: 0.625rem; // 10px
+            line-height: 0;
+            padding: 0;
             span.icon {
                 width: 1.25rem; // 20px
                 height: 1rem; // 16px

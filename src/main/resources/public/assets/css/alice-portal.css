@@ -1991,8 +1991,12 @@ button.default-line:disabled {
   align-items: baseline;
 }
 .portal-faq-result {
-  padding: 0 12.75rem;
-  margin-top: 54px;
+  margin: 3.375rem 0 0 12.75rem;
+  height: calc(100vh - 21.5rem);
+}
+.portal-faq-result .list {
+  padding-right: 12.75rem;
+  display: block;
 }
 .portal-faq-result details.faq-group {
   border: 1px solid #EBEBEB;
