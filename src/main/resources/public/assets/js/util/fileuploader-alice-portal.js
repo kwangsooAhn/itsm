@@ -102,6 +102,10 @@ const portalFileUploader = (function () {
         if (extraParam.isView === undefined) {
             extraParam.isView = false;
         }
+        // dropzone 영역이 아래에 나오게 하고싶은 경우
+        if (extraParam.isDropzoneUnder === undefined) {
+            extraParam.isDropzoneUnder = false;
+        }
     };
 
 
@@ -366,7 +370,10 @@ const portalFileUploader = (function () {
                     //all uploading files: .getUploadingFiles()
 
                     this.on("addedfile", function (file) {
-                        document.querySelector('.dz-message').style.display = 'none';
+                        const dropzoneMessage = _this.element.querySelector('.dz-message');
+                        if (extraParam.isDropzoneUnder) {
+                            dropzoneMessage.style.display = 'none';
+                        }
                         let fileName = file.name;
                         let fileNameLength = file.name.length;
                         let lastDot = fileName.lastIndexOf('.');
@@ -379,6 +386,9 @@ const portalFileUploader = (function () {
 
                         if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
                             this.removeFile(file);
+                            if (extraParam.isDropzoneUnder) {
+                                dropzoneMessage.style.display = 'block';
+                            }
                             aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
                         }
                     });
@@ -416,9 +426,11 @@ const portalFileUploader = (function () {
                     });
 
                     this.on("complete", function (file) {
-                        const dropzoneMessage = _this.element.querySelector('.dz-message');
-                        document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
-                        dropzoneMessage.style.display = 'block';
+                        if (extraParam.isDropzoneUnder) {
+                            const dropzoneMessage = _this.element.querySelector('.dz-message');
+                            document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
+                            dropzoneMessage.style.display = 'block';
+                        }
                     });
 
                     // Hide the total progress bar when nothing's uploading anymore

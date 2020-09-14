@@ -50,10 +50,10 @@
                     <label th:text="#{common.label.contents}" for="boardContents"/>
                     <div class="text-editor" id="boardContents"></div>
                 </div>
-                <div class="form-set" th:if="${boardAdminInfo.attachYn}">
-                    <label th:text="#{common.label.attachFile}"/>
-                        <div id="dropZoneFiles"></div>
-                        <div id="dropZoneUploadedFiles"></div>
+                <div class="form-set file-edit-contents" th:if="${boardAdminInfo.attachYn}">
+                    <label class="file-head" th:text="#{common.label.attachFile}"/>
+                    <div id="dropZoneFiles"></div>
+                    <div id="dropZoneUploadedFiles"></div>
                 </div>
                 <div id="boardUserInfo">
                     <div class="form-set">
