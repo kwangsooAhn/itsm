@@ -221,6 +221,8 @@ code:
     code: "Code"
     codeValue: "Code Value"
     pCode: "Parent Code"
+    name: "Code Name"
+    description: "Code Description"
   msg:
     duplicateCode: "Duplicate code Exists."
     enterCode: "Please enter a code."
