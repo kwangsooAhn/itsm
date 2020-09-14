@@ -128,7 +128,7 @@
 @mixin flex-template() {
     @include content-header();
     .flex {
-        padding: 3.125rem 19.375rem 3.125rem 19.375rem; // 50px 310px 50px 310px
+        padding: 3.125rem 19.375rem 9.315rem 19.375rem; // 50px 310px 150px 310px
         background-color: white;
         display: flex;
         flex-grow: 1;
