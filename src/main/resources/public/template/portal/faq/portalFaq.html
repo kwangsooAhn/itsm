@@ -57,23 +57,23 @@
 	            async: false,
 	            callbackFunc: function(response) {
 	                document.querySelector('.list').innerHTML = response.responseText;
-					document.getElementsByClassName('faqGroup')[0].open = true;
-	                document.getElementsByClassName('faqTitle')[0].open = true;
-					let selectedGroup = document.getElementsByClassName('selectedGroup')[0].id;
-					let selectedId = document.getElementsByClassName('selectedId')[0].id;
+					document.getElementsByClassName('faq-group')[0].open = true;
+	                document.getElementsByClassName('faq-title')[0].open = true;
+					let selectedGroup = document.getElementsByClassName('selected-group')[0].id;
+					let selectedId = document.getElementsByClassName('selected-id')[0].id;
 					if (selectedId !== '') {
-						let group = document.getElementsByClassName('faqGroup');
-	                    let title = document.getElementsByClassName('faqTitle');
+						let group = document.getElementsByClassName('faq-group');
+	                    let title = document.getElementsByClassName('faq-title');
 	                    for (let i = 0; i < group.length; i++) {
 	                        if (group[i].id === selectedGroup) {
-	                            document.getElementsByClassName('faqGroup')[0].open = false;
+	                            document.getElementsByClassName('faq-group')[0].open = false;
 	                            group[i].open = true;
 	                            break;
 	                        }
 	                    }
 	                    for (let i = 0; i < title.length; i++) {
 	                        if (title[i].id === selectedId) {
-	                            document.getElementsByClassName('faqTitle')[0].open = false;
+	                            document.getElementsByClassName('faq-title')[0].open = false;
 	                            title[i].open = true;
 	                            title[i].setAttribute('id', 'highlight')
 	                            break;
