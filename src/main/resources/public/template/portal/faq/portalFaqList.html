@@ -6,8 +6,8 @@
 </head>
 <body>
 <div class="list">
-	<div class="selectedGroup" th:id=${faqs.faqSelected.faqGroup}></div>
-	<div class="selectedId" th:id=${faqs.faqSelected.faqId}></div>
+	<div class="selected-group" th:id=${faqs.faqSelected.faqGroup}></div>
+	<div class="selected-id" th:id=${faqs.faqSelected.faqId}></div>
 	<details class="faq-group" th:each="faqGroup:${faqs.faqGroupList}" th:id="${faqGroup}">
 		<summary class="faq-group" th:text="#{|common.code.${faqGroup}|}"></summary>
 		<details class="faq-title" th:each="faqT:${faqs.faqList}" th:if="${faqT.faqGroup} == ${faqGroup}" th:id="${faqT.faqId}">
