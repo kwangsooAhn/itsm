@@ -21,7 +21,7 @@
         view: '',                               // '': 전체, modal: 모달
         title: '',                              // 제목 (option)
         root: '',                               // 트리 최상위 부모
-        rootLevel: 1,                           // 트리 취상위 레벨
+        rootLevel: 0,                           // 트리 취상위 레벨
         search: '',                             // 검색어
         text: 'code',                           // 노드 텍스트 값 (code, codeName, codeValue, ...)
         data: null,                             // 코드 데이터
@@ -722,6 +722,30 @@
     }
 
     /**
+     * 펼치진 node의 key를 찾아 session 저장.
+     *
+     * @param sessionKey 저장할 세션 키
+     */
+    function setTreeExpandNode(sessionKey) {
+        let expandCodes = [];
+        document.querySelectorAll('#toggle_off').forEach(function(object){
+            if (object.style.visibility !== 'hidden') {
+                expandCodes.push(object.nextElementSibling.querySelector('a').textContent);
+            }
+        });
+        sessionStorage.setItem(sessionKey, JSON.stringify(expandCodes));
+    }
+
+    /**
+     * 선택된 node.
+     *
+     * @return {Element}
+     */
+    function getTreeSelectNode() {
+        return document.querySelector('.node_selected');
+    }
+
+    /**
      * Load.
      *
      * @param userOptions 옵션
@@ -767,6 +791,9 @@
                     }
                 } else {
                     document.querySelector('#' + options.target).innerHTML = '';
+                    if (options.totalCount) {
+                        document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', 0);
+                    }
                 }
                 if (options.sessionKey !== null && sessionStorage.getItem(options.sessionKey) !== null) {
                     sessionStorage.removeItem(options.sessionKey);
@@ -780,5 +807,7 @@
         }
     }
     exports.load = load;
+    exports.setTreeExpandNode = setTreeExpandNode;
+    exports.getTreeSelectNode = getTreeSelectNode;
     Object.defineProperty(exports, '__esModule', {value: true});
 })));

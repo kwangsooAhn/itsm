@@ -81,7 +81,6 @@ class CodeService(
     fun getDetailCodes(code: String): CodeDetailDto? {
         return try {
             val codeDetailDto = codeRepository.findCodeDetail(code)
-            codeDetailDto.enabled = !customCodeRepository.existsByPCode(codeDetailDto.code)
             codeDetailDto.createUserName =
                 codeDetailDto.createUserName?.let { userRepository.findById(it).orElse(AliceUserEntity()).userName }
             codeDetailDto.updateUserName =
@@ -100,13 +99,15 @@ class CodeService(
         val codeEntity = CodeEntity(
             code = codeDetailDto.code,
             pCode = codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
+            codeName = codeDetailDto.codeName,
             codeValue = codeDetailDto.codeValue,
+            codeDesc = codeDetailDto.codeDesc,
             editable = codeDetailDto.editable
         )
 
         if (codeRepository.existsByCodeAndEditableTrue(codeDetailDto.code)) {
             status = CodeConstants.Status.STATUS_ERROR_CODE_DUPLICATION.code
-        } else if (!codeRepository.existsByCodeAndEditableTrue(codeDetailDto.pCode!!) && codeDetailDto.pCode != "") {
+        } else if (!codeRepository.existsByCode(codeDetailDto.pCode!!) && codeDetailDto.pCode != "") {
             status = CodeConstants.Status.STATUS_ERROR_CODE_P_CODE_NOT_EXIST.code
         } else {
             if (!codeDetailDto.pCode.isNullOrEmpty()) {
@@ -128,18 +129,20 @@ class CodeService(
         val codeEntity = CodeEntity(
             code = codeDetailDto.code,
             pCode = codeRepository.findById(codeDetailDto.pCode!!).orElse(CodeEntity(code = codeDetailDto.pCode!!)),
+            codeName = codeDetailDto.codeName,
             codeValue = codeDetailDto.codeValue,
+            codeDesc = codeDetailDto.codeDesc,
             editable = codeDetailDto.editable
         )
 
         if (codeDetailDto.pCode.isNullOrEmpty()) {
-            codeEntity.level = 1
+            codeEntity.level = 0
         } else {
             val pCodeEntity = codeRepository.findCodeDetail(codeDetailDto.pCode!!)
             codeEntity.level = pCodeEntity.level!! + 1
         }
 
-        when (codeRepository.existsByCodeAndEditableTrue(codeDetailDto.pCode!!) || codeDetailDto.pCode == "") {
+        when (codeRepository.existsByCode(codeDetailDto.pCode!!) || codeDetailDto.pCode == "") {
             true -> {
                 codeRepository.save(codeEntity)
             }

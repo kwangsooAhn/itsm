@@ -41,9 +41,19 @@
                             <input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/>
                         </div>
                     </div>
+                    <div class="form-row">
+                        <div class="form-set column-2">
+                            <label th:text="#{code.label.name}" for="txtCodeName"></label>
+                            <input id="txtCodeName" name="txtCodeName" type="text" th:value="${codeDetail?.codeName}" maxlength="100"/>
+                        </div>
+                        <div class="form-set column-2">
+                            <label th:text="#{code.label.codeValue}" for="txtCodeValue"></label>
+                            <input id="txtCodeValue" name="txtCodeValue" type="text" th:value="${codeDetail?.codeValue}" maxlength="100"/>
+                        </div>
+                    </div>
                     <div class="form-set">
-                        <label th:text="#{code.label.codeValue}" for="txtCodeDesc"></label>
-                        <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7" th:text="${codeDetail?.codeValue}"></textarea>
+                        <label th:text="#{code.label.description}" for="txtCodeDesc"></label>
+                        <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7" th:text="${codeDetail?.codeDesc}"></textarea>
                     </div>
                     <div class="form-row">
                         <div class="form-set column-2">
@@ -90,6 +100,7 @@
         const STATUS_ERROR_CODE_DUPLICATION = '2';
         const STATUS_ERROR_CODE_P_CODE_NOT_EXIST = '3';
         const STATUS_ERROR_CODE_P_CODE_USED = '4';
+        const sessionKey = 'code_expand_key';
 
         window.addEventListener('load', function() {
             onCreate();
@@ -100,7 +111,7 @@
                     target: 'treeList',
                     text: 'code',
                     leafIcon: '/assets/media/icons/tree/leaf.svg',
-                    sessionKey: 'code_expand_key',
+                    sessionKey: sessionKey,
                     totalCount: true,
                     selectedNode: function(response) {
                         onGetDetail(response.id)
@@ -125,7 +136,9 @@
                         document.getElementById('txtCode').setAttribute('disabled','');
                         document.getElementById('txtPCode').value = responseJson.pcode;
                         document.getElementById('txtPCode').setAttribute('disabled','');
-                        document.getElementById('txtCodeDesc').value = responseJson.codeValue;
+                        document.getElementById('txtCodeName').value = responseJson.codeName;
+                        document.getElementById('txtCodeValue').value = responseJson.codeValue;
+                        document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
                         document.getElementById('txtCreateUserName').value = responseJson.createUserName;
                         document.getElementById('txtCreateDt').value = i18n.userDateTime(responseJson.createDt);
                         document.getElementById('txtUpdateUserName').value = responseJson.updateUserName;
@@ -163,6 +176,11 @@
             document.querySelector('textarea').value = '';
             document.querySelector('#txtCode').removeAttribute('disabled');
             document.querySelector('#txtPCode').removeAttribute('disabled');
+
+            let selectedNode = tree.getTreeSelectNode();
+            if (selectedNode !== null) {
+                document.querySelector('#txtPCode').value = selectedNode.id;
+            }
         }
 
         function onEdit() {
@@ -176,7 +194,9 @@
             const jsonData = {
                 code: document.getElementById('txtCode').value,
                 pCode: document.getElementById('txtPCode').value,
-                codeValue: document.getElementById('txtCodeDesc').value
+                codeName: document.getElementById('txtCodeName').value,
+                codeValue: document.getElementById('txtCodeValue').value,
+                codeDesc: document.getElementById('txtCodeDesc').value
             };
 
             if (jsonData.code === null || jsonData.code === '') {
@@ -197,13 +217,13 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.setTreeExpandNode(aliceJs.treeExpandSessionKey);
+                            tree.setTreeExpandNode(sessionKey);
                             aliceJs.alertSuccess(i18n.get('common.msg.register'), function() {
                                 window.location.href = '/codes/edit';
                             });
                             break;
                         case STATUS_SUCCESS_EDIT_CODE:
-                            aliceJs.setTreeExpandNode(aliceJs.treeExpandSessionKey);
+                            tree.setTreeExpandNode(sessionKey);
                             aliceJs.alertSuccess(i18n.get('common.msg.modify'), function() {
                                 window.location.href = '/codes/edit';
                             });
@@ -232,7 +252,7 @@
                 callbackFunc: function(response) {
                     switch (response.responseText) {
                         case STATUS_SUCCESS:
-                            aliceJs.setTreeExpandNode(aliceJs.treeExpandSessionKey);
+                            tree.setTreeExpandNode(sessionKey);
                             aliceJs.alertSuccess(i18n.get('common.msg.delete'), function() {
                                 window.location.href ='/codes/edit';
                             });
