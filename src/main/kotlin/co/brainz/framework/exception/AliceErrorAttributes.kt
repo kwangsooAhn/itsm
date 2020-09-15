@@ -8,8 +8,7 @@ import java.lang.reflect.UndeclaredThrowableException
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
 import org.springframework.stereotype.Component
-import org.springframework.web.client.HttpClientErrorException
-import org.springframework.web.context.request.RequestAttributes
+import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.context.request.WebRequest
 
 /**
@@ -44,7 +43,7 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                 errorAttributes["knownError"] = knownErrMsg
                 errorAttributes["errorInfo"] = exception.getErrorInfo()
             }
-            is HttpClientErrorException -> {
+            is HttpStatusCodeException -> {
                 val responseBodyAsJson = exception.responseBodyAsString
                 val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
                 val jsonToMap: MutableMap<String, Any> = mapper.readValue(responseBodyAsJson)
@@ -56,7 +55,6 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                 errorAttributes["errorInfo"] = jsonToMap["errorInfo"]
             }
             else -> {
-
                 var throwable = exception.cause
                 var msg = ""
                 while (throwable !== null) {
@@ -67,15 +65,6 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
             }
         }
         logger.error("Error attribute {}", errorAttributes)
-
-        /**
-         * BasicErrorController 에서 ResponseEntity 생성시 request 파라미터중 status 값으로 HttpStatus 를 셋업한다.
-         * request 에 status를 셋팅할 필요성이 있어서 추가함
-         * @since 2020-03-24 beom
-         */
-        errorAttributes["status"]?.let {
-            webRequest.setAttribute("javax.servlet.error.status_code", it, RequestAttributes.SCOPE_REQUEST)
-        }
         return errorAttributes
     }
 

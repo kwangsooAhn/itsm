@@ -62,4 +62,12 @@ class AliceMessageSource {
         }
         return msgJson.toString()
     }
+
+    /**
+     * 메시지 프로퍼티에서 [key]를 찾아 해당 메시지를 리턴한다.
+     */
+    fun getMessage(key: String): String {
+        val resourceBundle = this.getResourceBundle()
+        return resourceBundle.getString(key)
+    }
 }

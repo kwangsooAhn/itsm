@@ -70,35 +70,71 @@ class RestTemplateProvider(private val restTemplate: RestTemplate) {
 
     fun get(restTemplateUrlDto: RestTemplateUrlDto): String {
         val url = this.makeUri(restTemplateUrlDto)
-        return restTemplate.getForObject(url, String::class.java) ?: ""
+        val responseString: String?
+        try {
+            responseString = restTemplate.getForObject(url, String::class.java)
+        } catch (e: Exception) {
+            throw e
+        }
+        return responseString ?: ""
     }
 
     fun create(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): ResponseEntity<String> {
         val url = this.makeUri(restTemplateUrlDto)
-        return restTemplate.postForEntity(url, dto, String::class.java)
+        val responseEntity: ResponseEntity<String>
+        try {
+            responseEntity = restTemplate.postForEntity(url, dto, String::class.java)
+        } catch (e: Exception) {
+            throw e
+        }
+        return responseEntity
     }
 
     fun createToSave(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): ResponseEntity<String> {
         val url = this.makeUri(restTemplateUrlDto)
         val requestEntity = this.setHttpEntity(dto)
-        return restTemplate.exchange(url, HttpMethod.POST, requestEntity, String::class.java)
+        val responseEntity: ResponseEntity<String>
+        try {
+            responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String::class.java)
+        } catch (e: Exception) {
+            throw e
+        }
+        return responseEntity
     }
 
     fun update(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): ResponseEntity<String> {
         val url = this.makeUri(restTemplateUrlDto)
         val requestEntity = this.setHttpEntity(dto)
-        return restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
+        val responseEntity: ResponseEntity<String>
+        try {
+            responseEntity = restTemplate.exchange(url, HttpMethod.PUT, requestEntity, String::class.java)
+        } catch (e: Exception) {
+            throw e
+        }
+        return responseEntity
     }
 
     fun delete(restTemplateUrlDto: RestTemplateUrlDto): ResponseEntity<String> {
         val url = this.makeUri(restTemplateUrlDto)
         val requestEntity = HttpEntity(null, null)
-        return restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)
+        val responseEntity: ResponseEntity<String>
+        try {
+            responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)
+        } catch (e: Exception) {
+            throw e
+        }
+        return responseEntity
     }
 
     fun delete(restTemplateUrlDto: RestTemplateUrlDto, dto: Any): ResponseEntity<String> {
         val url = this.makeUri(restTemplateUrlDto)
         val requestEntity = this.setHttpEntity(dto)
-        return restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)
+        val responseEntity: ResponseEntity<String>
+        try {
+            responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, String::class.java)
+        } catch (e: Exception) {
+            throw e
+        }
+        return responseEntity
     }
 }
