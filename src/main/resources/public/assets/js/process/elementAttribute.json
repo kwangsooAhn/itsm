@@ -6,7 +6,7 @@
       "default": "true",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "Start", "required": "N"}
@@ -20,14 +20,14 @@
       "default": "false",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         },
         {
-          "title": "Data",
+          "title": "data",
           "items": [
             {"id": "timer-date", "name": "Timer Date", "type": "inputbox", "default": "", "required": "Y"},
             {"id": "timer-cycle", "name": "Timer Cycle", "type": "inputbox", "default": "", "required": "Y"}
@@ -41,14 +41,14 @@
       "default": "false",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         },
         {
-          "title": "Data",
+          "title": "data",
           "items": [
             {"id": "target-document-list", "name": "Target Document", "type": "inputbox", "default": "", "required": "Y"}
           ]
@@ -61,7 +61,7 @@
       "default": "false",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "End", "required": "N"}
@@ -77,7 +77,7 @@
       "default": "true",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
@@ -86,7 +86,7 @@
           ]
         },
         {
-          "title": "Data",
+          "title": "data",
           "items": [
             {
               "id": "assignee-type", "name": "Assignee Type", "type": "select", "default": "assignee.type.assignee", "required": "Y",
@@ -109,7 +109,7 @@
       "default": "false",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
@@ -118,7 +118,7 @@
           ]
         },
         {
-          "title": "Data",
+          "title": "data",
           "items": [
             {"id": "complete-action", "name": "Complete Action", "type": "inputbox", "default": "", "required": "N"}
           ]
@@ -131,7 +131,7 @@
       "default": "false",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Task", "required": "Y"},
@@ -167,14 +167,14 @@
       "default": "true",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         },
         {
-          "title": "Data",
+          "title": "data",
           "items": [
             {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": "#{action}", "required": "Y"}
           ]
@@ -187,14 +187,14 @@
       "default": "false",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         },
         {
-          "title": "Data",
+          "title": "data",
           "items": [
             {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": "", "required": "Y"}
           ]
@@ -207,14 +207,14 @@
       "default": "false",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         },
         {
-          "title": "Data",
+          "title": "data",
           "items": [
             {"id": "condition-item", "name": "Condition Item", "type": "inputbox", "default": "", "required": "Y"}
           ]
@@ -229,14 +229,14 @@
       "default": "true",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "", "required": "N"}
           ]
         },
         {
-          "title": "Data",
+          "title": "data",
           "items": [
             {"id": "action-name", "name": "Name", "type": "inputbox", "default": "", "required": "N", "fieldset": "action"},
             {"id": "action-value", "name": "Value", "type": "inputbox", "default": "", "required": "N", "fieldset": "action"},
@@ -263,14 +263,14 @@
       "default": "true",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "Sub Process", "required": "Y"}
           ]
         },
         {
-          "title": "Data",
+          "title": "data",
           "items": [
             {
               "id": "sub-document-id", "name": "Sub Process", "type": "select", "default": "", "required": "Y",
@@ -290,7 +290,7 @@
       "default": "true",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Annotation", "type": "textarea", "default": "Annotation", "required": "Y"}
@@ -304,7 +304,7 @@
       "default": "true",
       "attribute": [
         {
-          "title": "Common",
+          "title": "common",
           "items": [
             {"id": "id", "name": "ID", "type": "inputbox-copy", "default": "", "required": "Y"},
             {"id": "name", "name": "Name", "type": "inputbox", "default": "New Group", "required": "Y"},
@@ -312,7 +312,7 @@
           ]
         },
         {
-          "title": "Data",
+          "title": "data",
           "items": [
             {"id": "line-color", "name": "Line Color", "type": "rgb", "default": "rgba(0,0,0,1)", "required": "Y"},
             {"id": "background-color", "name": "Background Color", "type": "rgb", "default": "", "required": "N"}
