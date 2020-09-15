@@ -15,7 +15,7 @@ class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
             .where(
                 super.likeIgnoreCase(
                     code.code, search
-                )?.or(super.likeIgnoreCase(code.pCode.code, search))
+                )
             )
             .where(
                 super.eq(
