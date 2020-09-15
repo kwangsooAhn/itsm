@@ -50,7 +50,7 @@
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="editable">` +
             `<div class="move-handler"></div>` +
-            `<div class="field-group" contenteditable="true" placeholder="Typing '/' for add component"></div>` +
+            `<div class="field-group" contenteditable="true" placeholder="${i18n.msg("form.help.component-placeholder")}"></div>` +
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
