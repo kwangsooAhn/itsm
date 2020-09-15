@@ -72,7 +72,7 @@
 
         // 프로세스 삭제
         function deleteProcess(processId) {
-            restSubmit('DELETE', '/rest/processes/' + processId, function() {
+            aliceJs.deleteConfirm(restSubmit, '/rest/processes/' + processId, function() {
                 aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
                     window.close();
                 });

@@ -954,9 +954,9 @@ aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
  * @param url 호출 url
  * @param callbackFunc 비동기 처리 함수
  */
-aliceJs.deleteConfirm = function(callbackFunc, url) {
+aliceJs.deleteConfirm = function(callbackFunc, param1, param2, param3) {
     aliceJs.confirmIcon(
         i18n.msg('common.msg.confirmDelete'),
-        () => callbackFunc('delete', url)
+        () => callbackFunc('delete', param1, param2, param3)
     )
 }
