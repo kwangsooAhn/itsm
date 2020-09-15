@@ -731,6 +731,7 @@ span[class=required]::after {
   width: 3.125rem;
   height: 2.5rem;
   margin-left: 0.188rem;
+  padding: 0;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table {
   width: 100%;
