@@ -16,7 +16,7 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
     override fun findProcessEntityList(
         search: String,
         status: List<String>,
-        offset: Long
+        offset: Long?
     ): QueryResults<WfProcessEntity> {
         val process = QWfProcessEntity.wfProcessEntity
         val query = from(process)
@@ -39,8 +39,10 @@ class WfProcessRepositoryImpl : QuerydslRepositorySupport(WfProcessEntity::class
             query.orderBy(statusNumber.asc())
                 .orderBy(process.updateDt.coalesce(process.createDt).desc())
         }
-        query.limit(ItsmConstants.SEARCH_DATA_COUNT)
-            .offset(offset)
+        if (offset != null) {
+            query.limit(ItsmConstants.SEARCH_DATA_COUNT)
+                .offset(offset)
+        }
         return query.fetchResults()
     }
 }
