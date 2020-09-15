@@ -130,6 +130,9 @@
             let validateArray = validate.split('|');
             for (let i = 0; i < validateArray.length; i++) {
                 let validateValueArray = validateArray[i].split('[');
+                if (validateValueArray[0] !== 'required' && element.value === '') {
+                    break;
+                }
                 let arg = (typeof validateValueArray[1] !== 'undefined') ? validateValueArray[1].replace(/\]\s*$/gi, '') : '';
                 switch (validateValueArray[0]) {
                     case 'number':
@@ -1272,7 +1275,7 @@
                                         fieldTemplate =
                                             `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
                                             `<div class="property-field-image">` +
-                                                `<input type="text" class="property-value" value="${fieldProp.value}" id="path-${selectedComponentIds[0]}">` +
+                                                `<input type="text" class="input-image property-value" value="${fieldProp.value}" id="path-${selectedComponentIds[0]}">` +
                                                 `<button type="button" class="btn default-point-line" id="imageUploadPop"></button>` +
                                             `</div>`;
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1510,13 +1513,13 @@
             dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, setDateFormat);
         }
 
-        // focustout 이벤트 추가
-        const inputElems = propertiesPanel.querySelectorAll('input[type=text]:not([readonly])');
+        // keyup 이벤트 추가
+        const inputElems = propertiesPanel.querySelectorAll('input[type=text]:not([readonly]):not(.input-image)');
         for (i = 0, len = inputElems.length; i < len; i++) {
             if (inputElems[i].id === 'date' || inputElems[i].id === 'time' || inputElems[i].id === 'datetime-day' || inputElems[i].id === 'datetime-hour') {
-                inputElems[i].addEventListener('focusout', setDateFormat, false);
+                inputElems[i].addEventListener('keyup', setDateFormat, false);
             } else {
-                inputElems[i].addEventListener('focusout', function (e) {
+                inputElems[i].addEventListener('keyup', function (e) {
                     const elem = e.target;
                     let parentElem = elem.parentNode;
                     if (parentElem.classList.contains('picker-wrapper') || parentElem.classList.contains('wdp-hour-el-container')) { return false; } // date picker 제외
@@ -1535,6 +1538,17 @@
                 }, false);
             }
         }
+        // focustout 이벤트 추가
+        const imageInputElem = propertiesPanel.querySelector('.input-image');
+        if (imageInputElem) {
+            imageInputElem.addEventListener('focusout', function(e) {
+                const elem = e.target;
+                const parentElem = elem.parentNode.parentNode;
+                const changePropertiesArr = parentElem.id.split('-');
+                changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
+            }, false);
+        }
+
         // input=range 이벤트 추가
          const rangeElems = propertiesPanel.querySelectorAll('input[type=range]');
          for (i = 0, len = rangeElems.length; i < len; i++) {
