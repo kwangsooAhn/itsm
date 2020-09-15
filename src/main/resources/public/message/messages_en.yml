@@ -221,6 +221,8 @@ code:
     code: "Code"
     codeValue: "Code Value"
     pCode: "Parent Code"
+    name: "Code Name"
+    description: "Code Description"
   msg:
     duplicateCode: "Duplicate code Exists."
     enterCode: "Please enter a code."
@@ -327,6 +329,7 @@ document:
     confirmDeleteInstance: "Are you sure you want to delete all documents created in a temporary state?"
     description: "workflow edit"
     listDescription: "workflow edit"
+    checkDuplication: "Duplication document. check form and process"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
