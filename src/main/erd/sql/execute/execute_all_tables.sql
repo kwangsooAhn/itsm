@@ -1256,6 +1256,7 @@ insert into awf_url values ('/rest/auths/{id}', 'delete', '권한 삭제', 'TRUE
 insert into awf_url values ('/rest/board-admin', 'get', '게시판 관리 조회', 'TRUE');
 insert into awf_url values ('/rest/board-admin', 'post', '게시판 관리 등록', 'TRUE');
 insert into awf_url values ('/rest/board-admin', 'put', '게시판 관리 변경', 'TRUE');
+insert into awf_url values ('/rest/board-admin/{id}/view', 'get', '게시판 관리 상세정보', 'TRUE');
 insert into awf_url values ('/rest/board-admin/category', 'post', '게시판 관리 변경', 'TRUE');
 insert into awf_url values ('/rest/board-admin/category/{id}', 'delete', '카테고리 관리 삭제', 'TRUE');
 insert into awf_url values ('/rest/board-admin/{id}', 'delete', '게시판 관리 삭제', 'TRUE');
@@ -1581,6 +1582,8 @@ insert into awf_url_auth_map values ('/rest/auths/{id}', 'delete', 'auth.delete'
 insert into awf_url_auth_map values ('/rest/board-admin', 'get', 'board.admin.read');
 insert into awf_url_auth_map values ('/rest/board-admin', 'put', 'board.admin.update');
 insert into awf_url_auth_map values ('/rest/board-admin', 'post', 'board.admin.create');
+insert into awf_url_auth_map values ('/rest/board-admin/{id}/view', 'get', 'board.create');
+insert into awf_url_auth_map values ('/rest/board-admin/{id}/view', 'get', 'board.update');
 insert into awf_url_auth_map values ('/rest/board-admin/category', 'post', 'board.admin.create');
 insert into awf_url_auth_map values ('/rest/board-admin/category/{id}', 'delete', 'board.admin.delete');
 insert into awf_url_auth_map values ('/rest/board-admin/{id}', 'delete', 'board.admin.delete');

@@ -9,6 +9,7 @@ package co.brainz.itsm.boardAdmin.service
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminListDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminSearchDto
+import co.brainz.itsm.boardAdmin.dto.BoardCategoryDetailDto
 import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.boardAdmin.entity.PortalBoardCategoryEntity
@@ -105,7 +106,7 @@ class BoardAdminService(
      * @return List<BoardCategoryDto>
      */
     fun getBoardCategoryList(boardAdminId: String): List<BoardCategoryDto>? {
-        val boardCategoryList = boardCategoryRepository.findByBoardAdminOrderByBoardCategorySortAsc(boardAdminId)
+        val boardCategoryList = boardCategoryRepository.findByCategoryList(boardAdminId)
         val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
         val boardCategoryDtoList = mutableListOf<BoardCategoryDto>()
         for (boardCategory in boardCategoryList) {
@@ -113,12 +114,38 @@ class BoardAdminService(
                 BoardCategoryDto(
                     boardCategoryId = boardCategory.boardCategoryId,
                     boardAdmin = boardAdminEntity,
+                    boardAdminId = boardAdminEntity.boardAdminId,
                     boardCategoryName = boardCategory.boardCategoryName,
-                    boardCategorySort = boardCategory.boardCategorySort
+                    boardCategorySort = boardCategory.boardCategorySort,
+                    boardCount = boardCategory.boardCount
                 )
             )
         }
         return boardCategoryDtoList
+    }
+
+    /**
+     * 카테고리 리스트
+     *
+     * @param boardAdminId
+     * @return List<BoardCategoryDetailDto>
+     */
+    fun getBoardCategoryDetailList(boardAdminId: String): List<BoardCategoryDetailDto>? {
+        val boardCategoryList = boardCategoryRepository.findByCategoryList(boardAdminId)
+        val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
+        val boardCategoryDetailDtoList = mutableListOf<BoardCategoryDetailDto>()
+        for (boardCategory in boardCategoryList) {
+            boardCategoryDetailDtoList.add(
+                BoardCategoryDetailDto(
+                    boardCategoryId = boardCategory.boardCategoryId,
+                    boardAdminId = boardAdminEntity.boardAdminId,
+                    boardCategoryName = boardCategory.boardCategoryName,
+                    boardCategorySort = boardCategory.boardCategorySort,
+                    boardCount = boardCategory.boardCount
+                )
+            )
+        }
+        return boardCategoryDetailDtoList
     }
 
     /**
