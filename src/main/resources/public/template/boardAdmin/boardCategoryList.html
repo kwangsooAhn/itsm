@@ -21,12 +21,14 @@
                 <td width="60%" th:text="${boardCategory.boardCategoryName}"></td>
                 <td width="30%" th:text="${boardCategory.boardCategorySort}"></td>
                 <td width="10%">
-                    <button class="default-line" sec:authorize="hasAuthority('board.admin.delete')" th:text="#{common.btn.delete}"
+                    <button th:if="${boardCategory.boardCount == 0}" class="default-line"
+                            sec:authorize="hasAuthority('board.admin.delete')" th:text="#{common.btn.delete}"
                             th:attr="onclick=|deleteBoardCategory('${boardCategory.boardCategoryId}')|"></button>
+                    <button th:if="${boardCategory.boardCount > 0}" class="default-line" disabled
+                            sec:authorize="hasAuthority('board.admin.delete')" th:text="#{common.btn.delete}"></button>
                 </td>
             </tr>
         </tbody>
     </table>
-</div>
 </body>
 </html>

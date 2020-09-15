@@ -105,7 +105,7 @@ class BoardAdminService(
      * @return List<BoardCategoryDto>
      */
     fun getBoardCategoryList(boardAdminId: String): List<BoardCategoryDto>? {
-        val boardCategoryList = boardCategoryRepository.findByBoardAdminOrderByBoardCategorySortAsc(boardAdminId)
+        val boardCategoryList = boardCategoryRepository.findByCategoryList(boardAdminId)
         val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
         val boardCategoryDtoList = mutableListOf<BoardCategoryDto>()
         for (boardCategory in boardCategoryList) {
@@ -113,8 +113,10 @@ class BoardAdminService(
                 BoardCategoryDto(
                     boardCategoryId = boardCategory.boardCategoryId,
                     boardAdmin = boardAdminEntity,
+                    boardAdminId = boardAdminEntity.boardAdminId,
                     boardCategoryName = boardCategory.boardCategoryName,
-                    boardCategorySort = boardCategory.boardCategorySort
+                    boardCategorySort = boardCategory.boardCategorySort,
+                    boardCount = boardCategory.boardCount
                 )
             )
         }
