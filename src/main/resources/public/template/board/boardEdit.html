@@ -34,9 +34,9 @@
                                 th:selected="${boardAdmin.boardAdminId} == ${boardAdminInfo?.boardAdminId}"></option>
                     </select>
                 </div>
-                <div class="form-set" th:if="${boardAdminInfo.categoryYn}" id="divCategoryYn" name="divCategoryYn" >
+                <div class="form-set" id="divCategoryYn" name="divCategoryYn" >
                     <label class="required" th:text="#{board.label.category}" for="boardCategory" />
-                    <select id="boardCategory">
+                    <select id="boardCategory" name="boardCategory">
                         <option th:each="boardCategory: ${boardCategoryInfo}" th:value="${boardCategory.boardCategoryId}"
                                 th:text="#{${boardCategory.boardCategoryName}}">
                         </option>
@@ -50,8 +50,7 @@
                     <label th:text="#{common.label.contents}" for="boardContents"/>
                     <div class="text-editor" id="boardContents"></div>
                 </div>
-                <div class="form-set file-edit-contents" id="divFile" name="divFile"
-                     th:if="${boardAdminInfo.attachYn}">
+                <div class="form-set file-edit-contents" id="divFile" name="divFile">
                     <label class="file-head" th:text="#{common.label.attachFile}"/>
                     <div id="dropZoneFiles"></div>
                     <div id="dropZoneUploadedFiles"></div>
@@ -106,10 +105,11 @@
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
         const boardId = /*[[${boardInfo?.boardId}]]*/;
-        const boardAdminId = /*[[${boardAdminInfo?.boardAdminId}]]*/;
-        const attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
-        const attachFileSize  = /*[[${boardAdminInfo?.attachFileSize}]]*/;
-        const categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
+        //boardAdminId, attachYn, attachFileSize, categoryYn은 게시판 선택 변경이 가능하기 때문에 let으로 변경 함.
+        let boardAdminId = /*[[${boardAdminInfo?.boardAdminId}]]*/;
+        let attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
+        let attachFileSize  = /*[[${boardAdminInfo?.attachFileSize}]]*/;
+        let categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
         const replyYn = /*[[${replyYn}]]*/;
         const boardCreateDt = document.getElementById('spanCreateDt');
@@ -129,16 +129,20 @@
                     ownId = boardId;
                 }
                 fileUploader.init({extra: {formId: 'boardForm', ownId: ownId, dropZoneMaxFileSize: attachFileSize}});
+            } else {
+                document.getElementById('divFile').style.display = 'none';
             }
             if (categoryYn && /*[[${boardInfo?.boardCategoryId}]]*/ !== '') {
                 document.getElementById('boardCategory').value = /*[[${boardInfo?.boardCategoryId}]]*/;
+            }
+            if (!categoryYn) {
+                document.getElementById('divCategoryYn').style.display = 'none';
             }
             initTextEditor(false);
 
             document.getElementById('boardAdminId').addEventListener('change', function() {
                 restSubmit('get', '/rest/board-admin/'+this.value+'/view', '');
             });
-
         };
 
         function initTextEditor(flag) {
@@ -203,24 +207,45 @@
             location.href = '/boards/search/param?boardAdminId='+boardAdminId;
         }
 
+        //게시판 변경에 따른 값 초기화
         function getBoardView(data) {
-            if (data.attachYn && document.getElementById('divFile').childElementCount === 0) {
-                document.getElementById('divFile').style.display = 'block';
-                let ownId = '';
-                if (!replyYn) {
-                    ownId = boardId;
+            //게시판 변경에 따른 초기값 변경
+            boardAdminId = data.boardAdminId;
+            attachYn = data.attachYn;
+            attachFileSize = data.attachFileSize;
+            categoryYn = data.categoryYn;
+
+            let divFile = document.getElementById('divFile');
+            let divCategory = document.getElementById('divCategoryYn');
+
+            if (data.attachYn && divFile.style.display === 'none') {
+                document.getElementById('divFile').style.display = '';
+                if (document.getElementById('dropZoneFileUpload') === null) {
+                    fileUploader.init({extra: {formId: 'boardForm', ownId: boardId, dropZoneMaxFileSize: attachFileSize}});
                 }
-                fileUploader.init({extra: {formId: 'boardForm', ownId: ownId, dropZoneMaxFileSize: attachFileSize}});
-            } else if (data.attachYn && document.getElementById('divFile').childElementCount > 0) {
+            } else if (!data.attachYn && divFile.style.display === '') {
                 document.getElementById('divFile').style.display = 'none';
             }
 
-            /*if (data.categoryYn && document.getElementById('divCategoryYn').childElementCount === 0) {
-                document.getElementById('divCategoryYn').style.display = 'block';
-            } else if (!data.categoryYn && document.getElementById('divCategoryYn').childElementCount > 0) {
+            if (data.categoryYn && divCategory.style.display === 'none') {
+                document.getElementById('divCategoryYn').style.display = '';
+                let selectBoxCategory = document.getElementById('boardCategory');
+                while (selectBoxCategory.hasChildNodes()) {
+                    selectBoxCategory.removeChild(selectBoxCategory.firstChild);
+                }
+
+                let categoryInfo = data.categoryInfo;
+                for (let i = 0; i < categoryInfo.length; i++) {
+                    let option = document.createElement('option');
+                    option.value = categoryInfo[i].boardCategoryId;
+                    option.text = categoryInfo[i].boardCategoryName;
+                    selectBoxCategory.appendChild(option)
+                }
+            } else if (!data.categoryYn && divCategory.style.display === '') {
                 document.getElementById('divCategoryYn').style.display = 'none';
-            }*/
+            }
         }
+
         //REST API
         function restSubmit(method, url, data) {
             let resultMsg = '';
@@ -243,7 +268,6 @@
                     } else if (method === 'get') {
                         if (url.indexOf('/rest/board-admin') !== -1) {
                             let data = JSON.parse(response.responseText);
-                            console.log(data);
                             getBoardView(data)
                         } else {
                             document.getElementById('boardCommentList').innerHTML = response.responseText;

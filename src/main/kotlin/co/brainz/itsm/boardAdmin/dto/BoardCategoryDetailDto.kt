@@ -1,6 +1,10 @@
-package co.brainz.itsm.boardAdmin.dto
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
 
-import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
+package co.brainz.itsm.boardAdmin.dto
 
 data class BoardCategoryDetailDto(
     var boardCategoryId: String = "",

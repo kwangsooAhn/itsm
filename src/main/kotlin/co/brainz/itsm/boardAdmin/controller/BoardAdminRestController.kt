@@ -6,10 +6,10 @@
 
 package co.brainz.itsm.boardAdmin.controller
 
+import co.brainz.itsm.boardAdmin.dto.BoardAdminDetailDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminListDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminSearchDto
-import co.brainz.itsm.boardAdmin.dto.BoardAdminDetailDto
 import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.service.BoardAdminService
 import org.springframework.web.bind.annotation.DeleteMapping

@@ -6,7 +6,11 @@
 
 package co.brainz.itsm.boardAdmin.service
 
-import co.brainz.itsm.boardAdmin.dto.*
+import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
+import co.brainz.itsm.boardAdmin.dto.BoardAdminListDto
+import co.brainz.itsm.boardAdmin.dto.BoardAdminSearchDto
+import co.brainz.itsm.boardAdmin.dto.BoardCategoryDetailDto
+import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.boardAdmin.entity.PortalBoardCategoryEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
@@ -120,6 +124,12 @@ class BoardAdminService(
         return boardCategoryDtoList
     }
 
+    /**
+     * 카테고리 리스트
+     *
+     * @param boardAdminId
+     * @return List<BoardCategoryDetailDto>
+     */
     fun getBoardCategoryDetailList(boardAdminId: String): List<BoardCategoryDetailDto>? {
         val boardCategoryList = boardCategoryRepository.findByCategoryList(boardAdminId)
         val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
