@@ -470,6 +470,8 @@ span[class=required]::after {
   position: absolute;
   bottom: 0.625rem;
   right: 0.625rem;
+  line-height: 0;
+  padding: 0;
 }
 .alice-process-drawing-board button.minimap-button span.icon {
   width: 1.063rem;
@@ -548,6 +550,8 @@ span[class=required]::after {
   position: absolute;
   bottom: 3.438rem;
   right: 0.625rem;
+  line-height: 0;
+  padding: 0;
 }
 .alice-process-drawing-board button.simulation-report-icon span.icon {
   width: 1.25rem;
@@ -727,6 +731,7 @@ span[class=required]::after {
   width: 3.125rem;
   height: 2.5rem;
   margin-left: 0.188rem;
+  padding: 0;
 }
 .alice-process-properties-panel div.properties-container div.element-properties div.properties table {
   width: 100%;
