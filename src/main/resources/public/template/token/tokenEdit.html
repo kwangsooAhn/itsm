@@ -20,14 +20,14 @@
                     <label th:text="|#{document.label.docNo} : ${documentNo}|"></label>
                 </div>
                 <div>
-                    <div class="button-group">
+                    <div class="button-list">
                         <button type="button" class="default-line" onclick="openProcessStatusPopUp()"
                                 th:text="#{process.label.processMap}"></button>
                         <button type="button" class="default-line"
                                 th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
                                 th:text="#{common.btn.print}"></button>
                     </div>
-                    <div id="button-container" class="button-group"></div>
+                    <div id="button-container" class="button-list"></div>
                 </div>
             </div>
             <div>
