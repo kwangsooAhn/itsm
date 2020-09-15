@@ -165,24 +165,12 @@ $button-font-color:             $light-black;
 $button-border:                 0.0625rem solid transparent;
 $button-bg-color:               transparent;
 
-// fileuploader
-$dropzone-asset-path:           "../media/icons/dropzone";
-$dropzone-font-size:            16px;
-$dropzone-font-weight:          400; // regular
-$dropzone-line-height:          24px;
-$dropzone-font-color:           $gray;
-$dropzone-border:               0.0625rem solid $line-gray;
-$dropzone-bg-color:             $light-gray;
-$dropzone-progress-color:       $point-blue;
-$dropzone-progress-bg-color:    $line-gray;
-$dropzone-filename-font-color:  $dark-gray;
-$dropzone-filesize-font-color:  $gray;
-$dropzone-preview-height:       5rem; // 80px;
-$dropzone-point-color:          $point-blue;
-$dropzone-pressed-bg-color:     $white;
-
 // TODO: datepicker 변수 정리
 $datepicker-asset-path:         "../media/icons/datepicker";
+
+// dropzone
+$dropzone-folder-path:          "../media/icons/dropzone";
+$dropzone-pressed-bg-color:     $white;
 
 // container
 $container-background-color:    $light-gray;

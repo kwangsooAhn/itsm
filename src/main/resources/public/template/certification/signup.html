@@ -51,14 +51,14 @@
                     <input type="text" id="email" name="email" maxlength="100" required="required">
                     <label th:text="#{user.label.mobileNumber}"></label>
                     <input type="text" id="mobileNumber" name="mobileNumber" maxlength="100">
-                    <label th:text="#{user.label.avatar}"/>
-                    <div class="avatar-upload">
-                        <div class="avatar-upload-dz">
+                    <label th:text="#{user.label.avatar}"></label>
+                    <div class="avatar-edit-contents">
+                        <div class="avatar-sm-contents">
                             <div id="avatarDropZone"></div>
-                        </div>
-                        <div class="avatar-upload-description">
-                            <span th:text="#{user.label.FileSizeLimit}"></span>
-                            <span th:text="#{user.label.FileExtensionAllowed}"></span>
+                            <div class="avatar-description">
+                                <span class="avatar-text" th:text="#{user.label.FileSizeLimit}"></span>
+                                <span class="avatar-text" th:text="#{user.label.FileExtensionAllowed}"></span>
+                            </div>
                         </div>
                     </div>
                 </div>
