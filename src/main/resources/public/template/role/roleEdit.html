@@ -76,7 +76,7 @@
             </div>
             <div class="btn-bar">
                 <button class="point-fill" sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceJs.deleteConfirm(onDelete)|" th:text="#{common.btn.delete}"></button>
                 <button class="point-fill" sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button class="point-fill" sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist"

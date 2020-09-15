@@ -81,7 +81,7 @@
         }
 
         function deleteDownload() {
-            restSubmit('delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
+            aliceJs.deleteConfirm(restSubmit, '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
         }
 
         //REST API

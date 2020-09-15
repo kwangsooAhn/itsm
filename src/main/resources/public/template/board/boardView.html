@@ -116,7 +116,7 @@
 
         //게시판 삭제
         function deleteBoard(method) {
-            restSubmit(method, '/rest/boards/' + boardId);
+            aliceJs.deleteConfirm(restSubmit, '/rest/boards/' + boardId);
         }
 
         //게시판 댓글 저장

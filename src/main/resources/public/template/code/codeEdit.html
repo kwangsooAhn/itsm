@@ -68,7 +68,7 @@
                     <div class="btn-bar margin-top-50">
                         <button sec:authorize="hasAuthority('code.delete')"
                                 class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                                th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                                th:onclick="|javascript:aliceJs.deleteConfirm(onDelete)|" th:text="#{common.btn.delete}"></button>
                         <button sec:authorize="hasAuthority('code.update')"
                                 class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
                                 th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>

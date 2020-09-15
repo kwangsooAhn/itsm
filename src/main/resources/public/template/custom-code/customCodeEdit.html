@@ -265,7 +265,7 @@
                     restSubmit(method, '/rest/custom-codes', data);
                 }
             } else if (method === 'delete') {
-                restSubmit(method, '/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'');
+                aliceJs.deleteConfirm(restSubmit, '/rest/custom-codes/' + /*[[${customCode?.customCodeId}]]*/'');
             }
         }
 

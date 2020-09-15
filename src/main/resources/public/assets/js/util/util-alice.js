@@ -947,3 +947,16 @@ aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
     let totalObject = document.getElementById(objectId);
     return offset < totalObject.value;
 }
+
+/**
+ * 삭제 시, 삭제 재확인.
+ *
+ * @param url 호출 url
+ * @param callbackFunc 비동기 처리 함수
+ */
+aliceJs.deleteConfirm = function(callbackFunc, url) {
+    aliceJs.confirmIcon(
+        i18n.msg('common.msg.confirmDelete'),
+        () => callbackFunc('delete', url)
+    )
+}
