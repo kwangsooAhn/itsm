@@ -6,10 +6,7 @@
 
 package co.brainz.itsm.boardAdmin.service
 
-import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
-import co.brainz.itsm.boardAdmin.dto.BoardAdminListDto
-import co.brainz.itsm.boardAdmin.dto.BoardAdminSearchDto
-import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
+import co.brainz.itsm.boardAdmin.dto.*
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.boardAdmin.entity.PortalBoardCategoryEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
@@ -121,6 +118,24 @@ class BoardAdminService(
             )
         }
         return boardCategoryDtoList
+    }
+
+    fun getBoardCategoryDetailList(boardAdminId: String): List<BoardCategoryDetailDto>? {
+        val boardCategoryList = boardCategoryRepository.findByCategoryList(boardAdminId)
+        val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
+        val boardCategoryDetailDtoList = mutableListOf<BoardCategoryDetailDto>()
+        for (boardCategory in boardCategoryList) {
+            boardCategoryDetailDtoList.add(
+                BoardCategoryDetailDto(
+                    boardCategoryId = boardCategory.boardCategoryId,
+                    boardAdminId = boardAdminEntity.boardAdminId,
+                    boardCategoryName = boardCategory.boardCategoryName,
+                    boardCategorySort = boardCategory.boardCategorySort,
+                    boardCount = boardCategory.boardCount
+                )
+            )
+        }
+        return boardCategoryDetailDtoList
     }
 
     /**

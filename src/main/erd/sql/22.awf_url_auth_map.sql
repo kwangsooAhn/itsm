@@ -210,6 +210,8 @@ insert into awf_url_auth_map values ('/rest/auths/{id}', 'delete', 'auth.delete'
 insert into awf_url_auth_map values ('/rest/board-admin', 'get', 'board.admin.read');
 insert into awf_url_auth_map values ('/rest/board-admin', 'put', 'board.admin.update');
 insert into awf_url_auth_map values ('/rest/board-admin', 'post', 'board.admin.create');
+insert into awf_url_auth_map values ('/rest/board-admin/{id}/view', 'get', 'board.create');
+insert into awf_url_auth_map values ('/rest/board-admin/{id}/view', 'get', 'board.update');
 insert into awf_url_auth_map values ('/rest/board-admin/category', 'post', 'board.admin.create');
 insert into awf_url_auth_map values ('/rest/board-admin/category/{id}', 'delete', 'board.admin.delete');
 insert into awf_url_auth_map values ('/rest/board-admin/{id}', 'delete', 'board.admin.delete');

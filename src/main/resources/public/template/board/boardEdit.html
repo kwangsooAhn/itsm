@@ -34,7 +34,7 @@
                                 th:selected="${boardAdmin.boardAdminId} == ${boardAdminInfo?.boardAdminId}"></option>
                     </select>
                 </div>
-                <div class="form-set" th:if="${boardAdminInfo.categoryYn}">
+                <div class="form-set" th:if="${boardAdminInfo.categoryYn}" id="divCategoryYn" name="divCategoryYn" >
                     <label class="required" th:text="#{board.label.category}" for="boardCategory" />
                     <select id="boardCategory">
                         <option th:each="boardCategory: ${boardCategoryInfo}" th:value="${boardCategory.boardCategoryId}"
@@ -50,7 +50,8 @@
                     <label th:text="#{common.label.contents}" for="boardContents"/>
                     <div class="text-editor" id="boardContents"></div>
                 </div>
-                <div class="form-set file-edit-contents" th:if="${boardAdminInfo.attachYn}">
+                <div class="form-set file-edit-contents" id="divFile" name="divFile"
+                     th:if="${boardAdminInfo.attachYn}">
                     <label class="file-head" th:text="#{common.label.attachFile}"/>
                     <div id="dropZoneFiles"></div>
                     <div id="dropZoneUploadedFiles"></div>
@@ -123,7 +124,7 @@
             boardUpdateDt.value = i18n.userDateTime(boardUpdateDt.value);
 
             if (attachYn) {
-                var ownId = '';
+                let ownId = '';
                 if (!replyYn) {
                     ownId = boardId;
                 }
@@ -133,6 +134,11 @@
                 document.getElementById('boardCategory').value = /*[[${boardInfo?.boardCategoryId}]]*/;
             }
             initTextEditor(false);
+
+            document.getElementById('boardAdminId').addEventListener('change', function() {
+                restSubmit('get', '/rest/board-admin/'+this.value+'/view', '');
+            });
+
         };
 
         function initTextEditor(flag) {
@@ -197,6 +203,24 @@
             location.href = '/boards/search/param?boardAdminId='+boardAdminId;
         }
 
+        function getBoardView(data) {
+            if (data.attachYn && document.getElementById('divFile').childElementCount === 0) {
+                document.getElementById('divFile').style.display = 'block';
+                let ownId = '';
+                if (!replyYn) {
+                    ownId = boardId;
+                }
+                fileUploader.init({extra: {formId: 'boardForm', ownId: ownId, dropZoneMaxFileSize: attachFileSize}});
+            } else if (data.attachYn && document.getElementById('divFile').childElementCount > 0) {
+                document.getElementById('divFile').style.display = 'none';
+            }
+
+            /*if (data.categoryYn && document.getElementById('divCategoryYn').childElementCount === 0) {
+                document.getElementById('divCategoryYn').style.display = 'block';
+            } else if (!data.categoryYn && document.getElementById('divCategoryYn').childElementCount > 0) {
+                document.getElementById('divCategoryYn').style.display = 'none';
+            }*/
+        }
         //REST API
         function restSubmit(method, url, data) {
             let resultMsg = '';
@@ -217,7 +241,13 @@
                             searchBoard();
                         });
                     } else if (method === 'get') {
-                        document.getElementById('boardCommentList').innerHTML = response.responseText;
+                        if (url.indexOf('/rest/board-admin') !== -1) {
+                            let data = JSON.parse(response.responseText);
+                            console.log(data);
+                            getBoardView(data)
+                        } else {
+                            document.getElementById('boardCommentList').innerHTML = response.responseText;
+                        }
                     }
                 },
                 showProgressbar: false
