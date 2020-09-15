@@ -58,29 +58,29 @@
     </div>
     <div class="alice-process-element-palette">
         <span class="rectangle-menu shape event">
-            <label>Event</label>
+            <label th:text="#{process.designer.element.event}"></label>
         </span>
         <span class="rectangle-menu shape task">
-            <label>Task</label>
+            <label th:text="#{process.designer.element.task}">Task</label>
         </span>
         <span class="rectangle-menu shape subprocess">
-            <label>Subprocess</label>
+            <label th:text="#{process.designer.element.subprocess}">Subprocess</label>
         </span>
         <span class="rectangle-menu shape gateway">
-            <label>Gateway</label>
+            <label th:text="#{process.designer.element.gateway}">Gateway</label>
         </span>
         <span class="rectangle-menu shape group">
-            <label>Group</label>
+            <label th:text="#{process.designer.element.group}">Group</label>
         </span>
         <span class="rectangle-menu shape annotation">
-            <label>Annotation</label>
+            <label th:text="#{process.designer.element.annotation}">Annotation</label>
         </span>
 
         <span class="rectangle-menu connector">
-            <label>Connector</label>
+            <label th:text="#{process.designer.element.connector}">Connector</label>
         </span>
         <span class="rectangle-menu move-icon" id="icon-move-drawingboard">
-            <label>Background</label>
+            <label th:text="#{process.designer.element.background}">Background</label>
         </span>
     </div>
     <div class="alice-process-drawing-board"></div>
@@ -91,10 +91,10 @@
         </div>
         <template id="process-info">
             <div class="process-info-container">
-                <h3><span>Process Information</span></h3>
+                <h3><span th:text="#{process.designer.attribute.processInformation}">Process Information</span></h3>
                 <div class="info">
                     <div class="total">
-                        <span>Total Count : <label id="element_count"></label></span>
+                        <span th:text="|#{process.designer.attribute.totalCount} : |">Total Count</span><span id="element_count"></span>
                     </div>
                     <table>
                         <colgroup>
@@ -103,27 +103,27 @@
                         </colgroup>
                         <tbody>
                         <tr>
-                            <td>Event</td>
+                            <td th:text="#{process.designer.element.event}">Event</td>
                             <td><label id="event_count"></label></td>
                         </tr>
                         <tr>
-                            <td>Task</td>
+                            <td th:text="#{process.designer.element.task}">Task</td>
                             <td><label id="task_count"></label></td>
                         </tr>
                         <tr>
-                            <td>Gateway</td>
+                            <td th:text="#{process.designer.element.gateway}">Gateway</td>
                             <td><label id="gateway_count"></label></td>
                         </tr>
                         <tr>
-                            <td>Subprocess</td>
+                            <td th:text="#{process.designer.element.gateway}">Subprocess</td>
                             <td><label id="subprocess_count"></label></td>
                         </tr>
                         <tr>
-                            <td>Connector</td>
+                            <td th:text="#{process.designer.element.connector}">Connector</td>
                             <td><label id="connector_count"></label></td>
                         </tr>
                         <tr>
-                            <td>Artifact</td>
+                            <td th:text="#{process.designer.element.artifact}">Artifact</td>
                             <td><label id="artifact_count"></label></td>
                         </tr>
                         </tbody>

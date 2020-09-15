@@ -189,10 +189,10 @@ span[class="required"]::after {
             label {
                 @include h6();
                 position: absolute;
-                top: 2.5rem; // 40px
+                top: 2.8rem; // 46px
                 width: 100%;
                 text-align: center;
-                color: $light-black;
+                //color: $light-black;
             }
         }
 
