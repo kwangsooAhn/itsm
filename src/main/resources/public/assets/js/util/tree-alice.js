@@ -791,6 +791,9 @@
                     }
                 } else {
                     document.querySelector('#' + options.target).innerHTML = '';
+                    if (options.totalCount) {
+                        document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', 0);
+                    }
                 }
                 if (options.sessionKey !== null && sessionStorage.getItem(options.sessionKey) !== null) {
                     sessionStorage.removeItem(options.sessionKey);
