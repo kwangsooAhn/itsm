@@ -46,10 +46,12 @@ class WfFormService(
     fun forms(parameters: LinkedHashMap<String, Any>): List<RestTemplateFormDto> {
         var search = ""
         var status = listOf<String>()
-        var offset = 0L
+        var offset: Long? = null
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString().split(",")
-        if (parameters["offset"] != null) offset = parameters["offset"].toString().toLong()
+        if (parameters["offset"] != null) {
+            offset = parameters["offset"].toString().toLong()
+        }
         val queryResult = wfFormRepository.findFormEntityList(search, status, offset)
         val formList = mutableListOf<RestTemplateFormDto>()
         for (form in queryResult.results) {

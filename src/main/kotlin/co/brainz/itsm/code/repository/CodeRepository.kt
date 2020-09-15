@@ -14,11 +14,13 @@ interface CodeRepository : JpaRepository<CodeEntity, String>, CodeRepositoryCust
      * 코드 데이터 상세 정보 조회
      */
     @Query(
-        "SELECT NEW co.brainz.itsm.code.dto.CodeDetailDto(c.code, c.pCode.code, c.codeValue, c.editable, c.createDt, " +
-                "c.createUser.userKey, c.updateDt, c.updateUser.userKey, true, c.level) FROM CodeEntity c " +
+        "SELECT NEW co.brainz.itsm.code.dto.CodeDetailDto(c.code, c.pCode.code, c.codeName, c.codeValue, c.codeDesc, " +
+                "c.editable, c.createDt, c.createUser.userKey, c.updateDt, c.updateUser.userKey, true, c.level) FROM CodeEntity c " +
                 "WHERE c.code = :code "
     )
     fun findCodeDetail(code: String): CodeDetailDto
+
+    fun existsByCode(pCode: String): Boolean
 
     fun existsByCodeAndEditableTrue(code: String): Boolean
 

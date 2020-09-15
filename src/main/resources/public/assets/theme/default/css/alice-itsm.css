@@ -1268,7 +1268,7 @@ span.vertical-bar {
   background: #F7F8F9;
 }
 .container .contents-flex .flex {
-  padding: 3.125rem 19.375rem 3.125rem 19.375rem;
+  padding: 3.125rem 19.375rem 9.315rem 19.375rem;
   background-color: white;
   display: flex;
   flex-grow: 1;
@@ -3935,6 +3935,15 @@ button.minus:not(:disabled):active {
 button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
   outline: 0;
   background-color: rgba(230, 230, 230, 0.3);
+}
+
+.button-list {
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+}
+.button-list button {
+  margin-left: 0.3125rem;
 }
 
 .flex-row {
