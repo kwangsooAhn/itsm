@@ -687,17 +687,19 @@
             buttonPanel.className = 'button-board';
             body.appendChild(buttonPanel);
 
+            // 인쇄 버튼
+            const printButton = document.createElement('button');
+            printButton.type = 'button';
+            printButton.className = 'default-line';
+            printButton.innerText = i18n.get('common.btn.print');
+            printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
+            buttonPanel.appendChild(printButton);
+
+            // 동적 버튼
             const buttonGroup = document.createElement('div');
             buttonGroup.className = 'button-group';
             buttonGroup.id = 'button-container';
             buttonPanel.appendChild(buttonGroup);
-            // 인쇄 버튼
-            const printButton = document.createElement('button');
-            printButton.type = 'button';
-            printButton.className = 'default-fill';
-            printButton.innerText = i18n.get('common.btn.print');
-            printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
-            buttonPanel.appendChild(printButton);
 
             const documentPanel = document.createElement('div');
             documentPanel.className = 'drawing-board';
