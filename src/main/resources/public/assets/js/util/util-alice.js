@@ -61,8 +61,8 @@ aliceJs.xhrErrorResponse = function (elementId, text) {
         valueTd.innerText = obj.text;
     });
     //elmNode.appendChild(table);
-    console.log(data);
-    aliceJs.alertWarning('[' + data.status + ']' + data.error + '<br/>' + data.message)
+    console.info(data);
+    aliceJs.alertWarning(data.message);
 };
 
 /*!

@@ -5,19 +5,19 @@
 	<link th:href="@{/assets/css/alice-portal.css}" rel="stylesheet"/>
 </head>
 <body>
-<div class="list">
-	<div class="selected-group" th:id=${faqs.faqSelected.faqGroup}></div>
-	<div class="selected-id" th:id=${faqs.faqSelected.faqId}></div>
-	<details class="faq-group" th:each="faqGroup:${faqs.faqGroupList}" th:id="${faqGroup}">
-		<summary class="faq-group" th:text="#{|common.code.${faqGroup}|}"></summary>
-		<details class="faq-title" th:each="faqT:${faqs.faqList}" th:if="${faqT.faqGroup} == ${faqGroup}" th:id="${faqT.faqId}">
-			<summary class="faq-title" th:text="${faqT.faqTitle}"></summary>
-			<div class="horizontal-bar"></div>
-			<div class="faq-contents" th:each="faqC:${faqs.faqList}" th:if="${faqC.faqId} == ${faqT.faqId}">
-				<p th:text="${faqC.faqContent}"></p>
-			</div>
+	<div class="list-body">
+		<div class="selected-group" th:id=${faqs.faqSelected.faqGroup}></div>
+		<div class="selected-id" th:id=${faqs.faqSelected.faqId}></div>
+		<details class="faq-group" th:each="faqGroup:${faqs.faqGroupList}" th:id="${faqGroup}">
+			<summary class="faq-group" th:text="#{|common.code.${faqGroup}|}"></summary>
+			<details class="faq-title" th:each="faqT:${faqs.faqList}" th:if="${faqT.faqGroup} == ${faqGroup}" th:id="${faqT.faqId}">
+				<summary class="faq-title" th:text="${faqT.faqTitle}"></summary>
+				<div class="horizontal-bar"></div>
+				<div class="faq-contents" th:each="faqC:${faqs.faqList}" th:if="${faqC.faqId} == ${faqT.faqId}">
+					<p th:text="${faqC.faqContent}"></p>
+				</div>
+			</details>
 		</details>
-	</details>
-</div>
+	</div>
 </body>
 </html>

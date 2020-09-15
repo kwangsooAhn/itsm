@@ -22,7 +22,7 @@
 		</div>
 	</div>
 	<div class="portal-faq-result">
-		<div class="list" id="faqList"></div>
+		<div class="list"></div>
 	</div>
 </th:block>
 </body>
@@ -80,6 +80,7 @@
 	                        }
 	                    }
 	                }
+	                OverlayScrollbars(document.querySelectorAll('.portal-faq-result'), { className: 'scrollbar' });
 	            }
 	        };
 	        aliceJs.sendXhr(opt);

@@ -3,6 +3,7 @@ package co.brainz.workflow.document.service
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
 import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.workflow.component.repository.WfComponentDataRepository
 import co.brainz.workflow.component.repository.WfComponentRepository
 import co.brainz.workflow.document.constants.WfDocumentConstants
@@ -48,7 +49,8 @@ class WfDocumentService(
     private val wfComponentRepository: WfComponentRepository,
     private val wfComponentDataRepository: WfComponentDataRepository,
     private val wfElementRepository: WfElementRepository,
-    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository
+    private val aliceNumberingRuleRepository: AliceNumberingRuleRepository,
+    private val aliceMessageSource: AliceMessageSource
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -158,7 +160,10 @@ class WfDocumentService(
         val selectedProcess = wfProcessRepository.getOne(processId)
         val selectedDocument = wfDocumentRepository.findByFormAndProcess(selectedForm, selectedProcess)
         if (selectedDocument != null) {
-            throw AliceException(AliceErrorConstants.ERR, "Duplication document. check form and process")
+            throw AliceException(
+                AliceErrorConstants.ERR_00004,
+                aliceMessageSource.getMessage("document.msg.checkDuplication")
+            )
         }
 
         val form = WfFormEntity(formId = formId)
@@ -307,16 +312,16 @@ class WfDocumentService(
     }
 
     /**
-     * [processId]로 조회한 processEntity의 elementEntity 중 userTask 를 정렬하여 [List]로 반환
+     * [processId]로 조회한 processEntity 의 elementEntity 중 userTask 를 정렬하여 [List]로 반환
      */
     fun makeSortedUserTasks(processId: String): List<Map<String, Any>> {
-        // userTask를 저장할 변수
+        // userTask 를 저장할 변수
         val sortedUserTasks: MutableList<Map<String, Any>> = mutableListOf()
         // 게이트웨이가 가지는 컨넥터(화살표)를 저장할 큐
         val arrowConnectorsQueueInGateway: MutableMap<String, ArrayDeque<WfElementEntity>> = mutableMapOf()
         // 모든 컨넥터(화살표)를 꺼내서 체크된 gateway id 저장할 변수
         val checkedGatewayIds: MutableMap<String, String> = mutableMapOf()
-        // gateway에 여러개의 경우의 수가 있을 경우 저장
+        // gateway 에 여러개의 경우의 수가 있을 경우 저장
         val gatewayQueue = ArrayDeque<WfElementEntity>()
         val process = wfProcessRepository.getOne(processId)
         val processElementEntities = process.elementEntities
@@ -332,7 +337,7 @@ class WfDocumentService(
         }
         var currentElement = startElement
 
-        // while을 돌면서 전체 프로세스 확인
+        // while 을 돌면서 전체 프로세스 확인
         while (currentElement.elementType != WfElementConstants.ElementType.COMMON_END_EVENT.value) {
             val arrowConnector = getArrowConnector(
                 allElementEntitiesInProcess,
@@ -382,7 +387,7 @@ class WfDocumentService(
                         }
                     }
                 }
-                // 강제적으로 compoent가 추가 되었을때 기본값 출력
+                // 강제적으로 component 가 추가 되었을때 기본값 출력
                 if (!isDisplay) {
                     val displayMap = LinkedHashMap<String, Any>()
                     displayMap["elementId"] = elementEntity["elementId"].toString()
@@ -459,7 +464,7 @@ class WfDocumentService(
             }
             arrowConnector = arrowConnectorsQueueInGateway[currentElement.elementId]!!.pop()
 
-            // 컨넥터를 모두 꺼내서 사용 했으면 해당 gateway는 삭제하고 allCheckedGatewayIds 에 기록한다.
+            // 컨넥터를 모두 꺼내서 사용 했으면 해당 gateway 는 삭제하고 allCheckedGatewayIds 에 기록한다.
             if (arrowConnectorsQueueInGateway[currentElement.elementId]!!.size == 0) {
                 arrowConnectorsQueueInGateway.remove(currentElement.elementId)
                 gatewayQueue.remove(currentElement)

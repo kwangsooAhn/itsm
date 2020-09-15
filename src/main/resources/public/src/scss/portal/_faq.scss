@@ -15,8 +15,12 @@
         }
 
         &-result {
-            padding: 0 12.75rem; // 204px
-            margin-top: 54px;
+            margin: 3.375rem 0 0 12.75rem; // 54px 0 0 204px
+            height: calc(100vh - 21.5rem);
+            .list {
+                padding-right: 12.75rem; // 204px
+                display: block;
+            }
             details {
                 &.faq-group {
                     border: 1px solid $line-gray;

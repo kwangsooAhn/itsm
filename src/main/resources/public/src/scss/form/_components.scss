@@ -168,6 +168,18 @@
                 }
             }
 
+            // 파일업로드 컴포넌트
+            .dropzone {
+                min-height: 9.375rem; // 150px
+                .dz-default {
+                    margin: 0 0 1.25rem 0; // 20px
+                    padding: 4.375rem 0 0 0; // 70px
+                    &.dz-message {
+                        background: url($dropzone-folder-path +  "/icon_fileupload.svg") no-repeat center 0.625rem; // 10px
+                    }
+                }
+            }
+
             .field-img[src=""] {
                 display: none;
                 + .img-placeholder {
