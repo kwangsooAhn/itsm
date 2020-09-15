@@ -45,7 +45,7 @@ common:
     updateUser: "수정자"
     writeDate: "작성 일시"
     writer: "작성자"
-    searchWord: "검색어를 입력하세요"
+    searchWord: "검색어를 입력하세요."
   msg:
     confirmDelete: "정말 삭제하시겠습니까?"
     delete: "삭제되었습니다."
@@ -656,7 +656,7 @@ portal:
     notice: "공지사항"
     safari: "Safari"
     search: "검색"
-    topPhrase: "안녕하세요! 오늘은 어떻게 도와 드릴까요?"
+    topPhrase: "안녕하세요! 브레인즈컴퍼니에 오신 것을 환영합니다."
 
 # Process
 process:
