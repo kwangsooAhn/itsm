@@ -1,5 +1,6 @@
 /* dropzone css */
-@include keyframe (passing-through) {
+@import "../template/dropzone";
+/*@include keyframe (passing-through) {
     0% {
         opacity: 0;
         transform: translateY(40px);
@@ -304,3 +305,4 @@
     }
   }
 }
+*/

@@ -657,8 +657,8 @@
                     `<div id="dropZoneUploadedFiles-${this.id}">` +
                         `<div class="dropzone">` +
                             `<div class="dz-default dz-message">` +
-                                `<span>Drop files here to upload or&nbsp;</span>` +
-                                `<span class="dz-clickable">browse</span>` +
+                                `<span>Drop files here to upload</span>` +
+                                ` <div class="add-file-button-wrap"><span>or </span><span class="add-file-button dz-clickable">browse</span></div>` +
                             `</div>` +
                         `</div>` +
                     `</div>` +

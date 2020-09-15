@@ -27,11 +27,11 @@
                 <pre><span th:text="${faq?.faqContent}"/></pre>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="view-attach-file">
-                <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
-                <span class="vertical-bar"></span>
+            <div class="file-view-contents">
+                <label class="file-head" th:text="#{common.label.attachFile}"></label>
+                <div class="vertical-bar"></div>
                 <form id="frm" method="post">
-                    <div class="file-attach-input">
+                    <div class="file-list-contents">
                         <div id="dropZoneFiles"></div>
                         <div id="dropZoneUploadedFiles"></div>
                     </div>
@@ -59,7 +59,7 @@
                 });
                 return;
             }
-            fileUploader.init({extra: {formId: 'frm', ownId: faqId, editor: false}});
+            fileUploader.init({extra: {formId: 'frm', ownId: faqId, editor: false, isView: true}});
         }
         /*]]>*/
     </script>
