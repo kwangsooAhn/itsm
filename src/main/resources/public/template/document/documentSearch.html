@@ -112,7 +112,7 @@
             divCardDummy.className = 'document-card-dummy';
 
             let aCard = document.createElement('a');
-            if (document.getElementsByName('isRole')[0].value === true) {
+            if (document.getElementsByName('isRole')[0].value) {
                 aCard.onclick = function () {
                     openDocument(data.documentId);
                 }
