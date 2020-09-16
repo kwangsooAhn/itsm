@@ -95,7 +95,7 @@ button {
   cursor: pointer;
 }
 
-/* Variables */
+/* font-face */
 @font-face {
   font-family: "Noto Sans KR";
   src: local("Noto Sans KR"), url("font/NotoSansKR-Thin.otf") format("opentype");
@@ -138,48 +138,6 @@ button {
   font-weight: 900;
 }
 
-/*
-@font-face {
-    font-family: "Noto Sans KR";
-    src: local("Noto Sans KR"), url(font/NotoSansKR-Thin.otf) format("opentype");
-    font-style: normal;
-    font-weight: 100;
-
-}
-@font-face {
-    font-family: "Noto Sans KR";
-    src: local("Noto Sans KR"), url(font/NotoSansKR-Light.otf) format("opentype");
-    font-style: normal;
-    font-weight: 300;
-}
-
-@font-face {
-    font-family: "Noto Sans KR";
-    src: local("Noto Sans KR"),url(font/NotoSansKR-Regular.otf) format("opentype");
-    font-style: normal;
-    font-weight: 400;
-}
-
-@font-face {
-    font-family: "Noto Sans KR";
-    src: local("Noto Sans KR"),url(font/NotoSansKR-Medium.otf) format("opentype");
-    font-style: normal;
-    font-weight: 500;
-}
-
-@font-face {
-    font-family: "Noto Sans KR";
-    src: local("Noto Sans KR"),url(font/NotoSansKR-Bold.otf) format("opentype");
-    font-style: normal;
-    font-weight: 700;
-}
-
-@font-face {
-    font-family: "Noto Sans KR";
-    src: local("Noto Sans KR"),url(font/NotoSansKR-Black.otf) format("otf");
-    font-style: normal;
-    font-weight: 900;
-}*/
 /* 폼 디자이너 팝업 layout
  * container - toolbar : 상단 메뉴
  *           - contents : 왼쪽 패널
@@ -194,7 +152,8 @@ button {
 }
 
 body {
-  font-family: "Noto Sans KR";
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1rem;
 }
 
 .container-form {
@@ -3077,7 +3036,7 @@ body.document-modal-active {
 }
 
 .picker-modal {
-  font-family: "Noto Sans";
+  font-family: "Noto Sans KR";
   display: none;
   position: fixed;
   background-color: #ffffff;

@@ -1,8 +1,8 @@
-body, input, textarea, select, div, span, l, textarea {
+body, h1, h2, h3, h4, h5, h6, input, textarea, select, button, div, span {
     color: $element-font-color;
     font: {
-        family: $default-font-family;
-        size: 1rem; // 16px
+        family: $font-family;
+        size: $font-size-base; // 16px
     }
 }
 
