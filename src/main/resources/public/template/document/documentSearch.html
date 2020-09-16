@@ -108,9 +108,11 @@
         function getDataTemplate(data) {
             let divCardArea = document.querySelector('.card-area');
             let div = document.createElement('div');
+            let divCardDummy = document.createElement('div');
+            divCardDummy.className = 'document-card-dummy';
 
             let aCard = document.createElement('a');
-            if (document.getElementsByName('isRole')[0].value === 'true') {
+            if (document.getElementsByName('isRole')[0].value) {
                 aCard.onclick = function () {
                     openDocument(data.documentId);
                 }
@@ -135,7 +137,8 @@
             divDocumentCard.appendChild(h3Card);
             divDocumentCard.appendChild(h5Card);
             divDocumentCard.appendChild(divDocumentIcon);
-            aCard.appendChild(divDocumentCard);
+            divCardDummy.appendChild(divDocumentCard);
+            aCard.appendChild(divCardDummy);
             div.appendChild(aCard);
             divCardArea.appendChild(div);
         }

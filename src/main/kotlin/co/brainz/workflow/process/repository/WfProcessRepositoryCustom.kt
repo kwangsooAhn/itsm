@@ -5,5 +5,5 @@ import com.querydsl.core.QueryResults
 
 interface WfProcessRepositoryCustom {
 
-    fun findProcessEntityList(search: String, status: List<String>, offset: Long): QueryResults<WfProcessEntity>
+    fun findProcessEntityList(search: String, status: List<String>, offset: Long?): QueryResults<WfProcessEntity>
 }

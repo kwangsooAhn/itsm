@@ -115,6 +115,7 @@ insert into awf_url values ('/rest/auths/{id}', 'delete', '권한 삭제', 'TRUE
 insert into awf_url values ('/rest/board-admin', 'get', '게시판 관리 조회', 'TRUE');
 insert into awf_url values ('/rest/board-admin', 'post', '게시판 관리 등록', 'TRUE');
 insert into awf_url values ('/rest/board-admin', 'put', '게시판 관리 변경', 'TRUE');
+insert into awf_url values ('/rest/board-admin/{id}/view', 'get', '게시판 관리 상세정보', 'TRUE');
 insert into awf_url values ('/rest/board-admin/category', 'post', '게시판 관리 변경', 'TRUE');
 insert into awf_url values ('/rest/board-admin/category/{id}', 'delete', '카테고리 관리 삭제', 'TRUE');
 insert into awf_url values ('/rest/board-admin/{id}', 'delete', '게시판 관리 삭제', 'TRUE');

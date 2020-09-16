@@ -4587,6 +4587,15 @@ button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
   background-color: rgba(230, 230, 230, 0.3);
 }
 
+.button-list {
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+}
+.button-list button {
+  margin-left: 0.3125rem;
+}
+
 .flex-row {
   display: flex;
   flex-direction: row;

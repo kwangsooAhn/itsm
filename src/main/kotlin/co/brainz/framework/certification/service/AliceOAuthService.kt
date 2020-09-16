@@ -7,7 +7,9 @@ package co.brainz.framework.certification.service
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
+import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.certification.dto.AliceOAuthDto
@@ -47,7 +49,9 @@ class OAuthService(
     private val userService: UserService,
     private val userDetailsService: AliceUserDetailsService,
     private val avatarService: AliceAvatarService,
-    private val aliceCertificationRepository: AliceCertificationRepository
+    private val aliceCertificationService: AliceCertificationService,
+    private val aliceCertificationRepository: AliceCertificationRepository,
+    private val userRoleMapRepository: AliceUserRoleMapRepository
 ) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -58,13 +62,21 @@ class OAuthService(
         when (isExistUser(aliceOAuthDto)) {
             false -> {
                 logger.info("oAuth Save {}", aliceOAuthDto.oauthKey)
-                oAuthSave(aliceOAuthDto)
+                val user = oAuthSave(aliceOAuthDto)
+                oAuthDefaultOption(user, AliceUserConstants.USER_ID)
             }
         }
         oAuthLogin(aliceOAuthDto)
     }
 
-    fun oAuthSave(aliceOAuthDto: AliceOAuthDto) {
+    fun oAuthDefaultOption(user: AliceUserEntity, target: String) {
+        aliceCertificationService.getDefaultUserRoleList(AliceUserConstants.DefaultRole.USER_DEFAULT_ROLE.code)
+            .forEach { role ->
+                userRoleMapRepository.save(AliceUserRoleMapEntity(user, role))
+            }
+    }
+
+    fun oAuthSave(aliceOAuthDto: AliceOAuthDto): AliceUserEntity {
         val userEntity = AliceUserEntity(
             userKey = "",
             userId = aliceOAuthDto.userId,
@@ -80,7 +92,7 @@ class OAuthService(
             timeFormat = AliceUserConstants.USER_TIME_FORMAT,
             theme = AliceUserConstants.USER_THEME
         )
-        aliceCertificationRepository.save(userEntity)
+        return aliceCertificationRepository.save(userEntity)
     }
 
     fun oAuthLogin(aliceOAuthDto: AliceOAuthDto) {

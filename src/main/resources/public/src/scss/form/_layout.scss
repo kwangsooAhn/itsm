@@ -182,12 +182,6 @@ body {
                         }
                     }
                 }
-                > .button-group {
-                    display: inline-block;
-                    button {
-                        margin-right: 0.625rem; // 10px
-                    }
-                }
             }
 
             .drawing-board {
@@ -200,6 +194,7 @@ body {
                 border: $drawing-board-border;
                 box-shadow: $drawing-board-box-shadow;
                 margin-bottom: $document-content-drawing-board-top-margin;
+                margin-top: 0.625rem; // 10px;
             }
         }
     }
