@@ -237,6 +237,7 @@ span.vertical-bar {
                         .list-item {
                             height: 11.5625rem; // 185px
                             margin-top: 0.625rem; // 10px
+                            margin-right: 0.625rem; // 10px
                             display: flex;
                             .document {
                                 &-color {
@@ -251,17 +252,24 @@ span.vertical-bar {
                                     &-content {
                                         display: flex;
                                         justify-content: space-between;
-                                        .document-title {
-                                            display: flex;
-                                            align-items: center;
-                                            h5 {
-                                                &:first-child {
-                                                    color: $light-black;
-                                                    font-weight: 500;
-                                                }
-                                                &:last-child {
-                                                    color: $gray;
-                                                    margin-left: 0.3125rem; // 5px
+                                        a {
+                                            width: 100%;
+                                            .document-title {
+                                                display: flex;
+                                                align-items: center;
+                                                word-break: break-word;
+
+                                                h5 {
+                                                    &:first-child {
+                                                        color: $light-black;
+                                                        font-weight: 500;
+                                                        width: 50%;
+                                                    }
+
+                                                    &:last-child {
+                                                        color: $gray;
+                                                        margin-left: 0.3125rem; // 5px
+                                                    }
                                                 }
                                             }
                                         }
@@ -297,6 +305,7 @@ span.vertical-bar {
                         .list-item {
                             padding: 1.25rem 1.5625rem; // 20px 25px
                             margin-top: 0.625rem; // 10px
+                            margin-right: 0.625rem; // 10px
                             display: flex;
                             flex-direction: column;
                             border: 1px solid $line-gray;
@@ -304,6 +313,7 @@ span.vertical-bar {
                             .comment {
                                 &-row {
                                     margin-top: 0.0625rem; // 10px
+                                    word-break: break-word;
                                     &-info {
                                         display: flex;
                                         align-items: center;
