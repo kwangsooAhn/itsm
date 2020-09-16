@@ -1220,7 +1220,7 @@
                                     case 'inputbox':
                                         fieldTemplate =
                                             `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}</label>${tooltipTemplate}` +
-                                            `<input type="text" class="property-value" value="${fieldProp.value}"/>`;
+                                            `<input type="text" class="property-value" value="${fieldProp.value}" maxlength="100"/>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
@@ -1274,7 +1274,7 @@
                                         fieldTemplate =
                                             `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="property-field-image">` +
-                                                `<input type="text" class="input-image property-value" value="${fieldProp.value}" id="path-${selectedComponentIds[0]}">` +
+                                                `<input type="text" class="input-image property-value" value="${fieldProp.value}" id="path-${selectedComponentIds[0]}" maxlength="100"/>` +
                                                 `<button type="button" class="btn default-point-line" id="imageUploadPop"></button>` +
                                             `</div>`;
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1339,7 +1339,7 @@
                                             let labelName = i18n.msg('form.attribute.option.' + opt.id).split('{0}');
                                             let optionTemplate= ``;
                                             if (opt.id === 'date' || opt.id === 'datetime' || 'time') {
-                                                optionTemplate += `${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><span>" + labelName[1] + "</span>" : ""}` +
+                                                optionTemplate += `${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "' maxlength='4'/><span>" + labelName[1] + "</span>" : ""}` +
                                                     `${opt.id === 'datetime' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-day' value='" + optionDefaultArr[1] + "' /><span id='" + opt.id + "-day'>" + labelName[1] + "</span>" + "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "-hour' value='" + optionDefaultArr[2] + "' /><span id='" + opt.id + "-hour'>" + labelName[2] + "</span>" : ""}`;
 
                                             }
@@ -1413,7 +1413,7 @@
                                         fieldTemplate += `<div class="property-field-toggle button-group button-group-toggle">${fieldSessionOptions}</div>`;
 
                                         // 직접 입력할 경우 input box
-                                        fieldTemplate += `<input type='text' class='property-value ${fieldProp.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? propValueArr[1] : ""}'/>`;
+                                        fieldTemplate += `<input type='text' class='property-value ${fieldProp.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? propValueArr[1] : ""}' maxlength="100"/>`;
                                         // 자동 입력일 경우 select box
                                         const fieldSubOptions = fieldProp.option[1].items.map(function (opt) {
                                             return `<option value='${opt.id}' ${propValueArr[1] === opt.id ? "selected='selected'" : ""}>${opt.name}</option>`;
@@ -1475,7 +1475,7 @@
                                             `<input type="checkbox" id="checkbox-${opt[item.id]}" value="${opt[item.id]}" />` +
                                             `<span></span>` +
                                         `</label>` : 
-                                        `<input type="text" value="${opt[item.id]}"/>`}` +
+                                        `<input type="text" value="${opt[item.id]}" maxlength="100"/>`}` +
                                         `</td>`;
                                     }).join('')}</tr>`;
                                 }).join('');
