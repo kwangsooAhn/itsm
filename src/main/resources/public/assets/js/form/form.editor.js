@@ -1447,12 +1447,18 @@
 
                             // 유효성 검증 추가
                             if (typeof fieldProp.validate !== 'undefined' && fieldProp.validate !== '') {
-                                validateCheck('focusout', fieldGroupElem.querySelector('.property-value'), fieldProp.validate);
+                                const fieldValueElems = fieldGroupElem.querySelectorAll('.property-value');
+                                for (let i = 0, len = fieldValueElems.length; i < len; i++) {
+                                    validateCheck('focusout', fieldValueElems[i], fieldProp.validate);
+                                }
                             }
                             if (typeof fieldProp.option !== 'undefined') {
-                                const fieldValueElem = fieldGroupElem.querySelector('.property-value');
-                                if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
-                                    validateCheck('focusout',fieldValueElem, fieldValueElem.getAttribute('data-validate'));
+                                const fieldValueElems = fieldGroupElem.querySelectorAll('.property-value');
+                                for (let i = 0, len = fieldValueElems.length; i < len; i++) {
+                                    const fieldValueElem = fieldValueElems[i];
+                                     if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
+                                        validateCheck('focusout',fieldValueElem, fieldValueElem.getAttribute('data-validate'));
+                                    }
                                 }
                             }
                         } else { // type === table

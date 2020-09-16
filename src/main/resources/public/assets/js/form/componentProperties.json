@@ -1474,7 +1474,7 @@
                     {
                         "id": "date",
                         "name": "{0}days after",
-                        "validate": "number"
+                        "validate": "number|max[1000]"
                     },
                     {
                         "id": "datepicker",
@@ -1667,7 +1667,7 @@
                     {
                         "id": "time",
                         "name": "{0}hours later",
-                        "validate": "number"
+                        "validate": "number|max[1000]"
                     },
                     {
                         "id": "timepicker",
@@ -1860,7 +1860,7 @@
                     {
                         "id": "datetime",
                         "name": "{0}days{0}hours later",
-                        "validate": "number"
+                        "validate": "number|max[1000]"
                     },
                     {
                         "id": "datetimepicker",
