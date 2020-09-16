@@ -81,7 +81,7 @@
         }
 
         function deleteDownload() {
-            restSubmit('delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
+            aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
         }
 
         //REST API

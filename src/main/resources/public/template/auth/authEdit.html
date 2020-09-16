@@ -75,7 +75,7 @@
             <div class="btn-bar">
                 <button sec:authorize="hasAuthority('auth.delete')"
                         class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:onDelete()|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
                 <button sec:authorize="hasAuthority('auth.update')"
                         class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>

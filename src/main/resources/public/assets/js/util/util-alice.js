@@ -310,7 +310,7 @@ function showProgressBar() {
         divProgressBar.style.opacity = 0.5;
         divProgressBar.style.pointerEvents = 'all';
         divProgressBar.style.zIndex = 999;
-        
+
         let imgProgressBar = document.createElement('img');
         imgProgressBar.src = '/assets/media/image/loading_w_dark.gif';
         imgProgressBar.style.position = 'absolute';
@@ -614,7 +614,7 @@ aliceJs.alertDanger = function(message, callbackFunc) {
  * @param okCallbackFunc ok 시 callback function
  * @param cancelCallbackFunc cancel 시 callback function
  */
-aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
+aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc, param1, param2, param3, param4) {
     const myModal = new gModal({
         message: message,
         type: 'gmodal-icon-confirm',
@@ -634,7 +634,7 @@ aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {
-                        okCallbackFunc();
+                        okCallbackFunc(param1, param2, param3, param4);
                     }
                     modal.hide();
                 }
