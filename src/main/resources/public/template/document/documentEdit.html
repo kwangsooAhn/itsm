@@ -12,78 +12,79 @@
     <div class="edit">
         <h3 class="under-bar" th:if="${documentId}" th:text="#{document.label.modify}"></h3>
         <h3 class="under-bar" th:unless="${documentId}" th:text="#{document.label.register}"></h3>
-        <div class="form-set">
-            <label class="required" th:text="#{document.label.type}" for="document-type"></label>
-            <select id="document-type">
-                <option value="application-form" th:text="#{document.type.applicationForm}" selected></option>
-                <option value="workflow" th:text="#{document.type.workflow}"></option>
-            </select>
-        </div>
-        <div class="form-set">
-            <label class="required" th:text="#{document.label.name}" for="document-name"></label>
-            <input id="document-name" type="text" maxlength="50" required="required"/>
-        </div>
-        <div class="form-set">
-            <label th:text="#{document.label.description}" for="document-desc"></label>
-            <textarea id="document-desc" maxlength="128"></textarea>
-        </div>
-        <div class="form-set">
-            <label th:text="#{common.label.group}" for="document-group"></label>
-            <select id="document-group">
-                <option value="" th:text="#{document.label.notSelect}" selected></option>
-                <option th:each="group:${groupList}" th:value="${group.code}"
-                        th:text="${group.codeValue}"></option>
-            </select>
-        </div>
-        <div class="form-set">
-            <label class="required" th:text="#{document.label.form}" for="document-form"></label>
-            <select id="document-form" th:disabled="${documentId}">
-                <option th:each="form:${formList}"
-                        th:id="${form?.id}"
-                        th:value="${form?.id}"
-                        th:text="${form?.name}"></option>
-            </select>
-        </div>
-        <div class="form-set">
-            <label class="required" th:text="#{document.label.process}" for="document-process"></label>
-            <select id="document-process" th:disabled="${documentId}">
-                <option th:each="process:${processList}"
-                        th:id="${process?.id}"
-                        th:value="${process?.id}"
-                        th:text="${process?.name}" ></option>
-            </select>
-        </div>
-        <div class="form-set">
-            <label class="required" th:text="#{document.label.numberingRule}" for="document-numbering-rule"></label>
-            <select id="document-numbering-rule" th:disabled="${documentId}">
-                <option th:each="numberingRule:${numberingRuleList}"
-                        th:id="${numberingRule.numberingId}"
-                        th:value="${numberingRule.numberingId}"
-                        th:text="${numberingRule.numberingName}" ></option>
-            </select>
-        </div>
-        <div class="form-set">
-            <label th:text="#{document.label.status}" for="document-status"></label>
-            <select id="document-status">
-                <option th:each="status:${statusList}" th:value="${status.code}"
-                        th:text="${status.codeValue}" th:selected="${status.code == 'document.status.temporary'}"></option>
-            </select>
-        </div>
-        <div class="form-set">
-            <label class="required"  th:text="#{document.label.businessFlowColor}" for="document-color"></label>
-            <div class="color-picker">
-                <div class="color-input">
-                    <div class="selected-color-box">
-                        <div id="selected-color" name="selected-color" class="selected-color"></div>
+        <div class="edit-content">
+            <div class="form-set">
+                <label class="required" th:text="#{document.label.type}" for="document-type"></label>
+                <select id="document-type">
+                    <option value="application-form" th:text="#{document.type.applicationForm}" selected></option>
+                    <option value="workflow" th:text="#{document.type.workflow}"></option>
+                </select>
+            </div>
+            <div class="form-set">
+                <label class="required" th:text="#{document.label.name}" for="document-name"></label>
+                <input id="document-name" type="text" maxlength="50" required="required"/>
+            </div>
+            <div class="form-set">
+                <label th:text="#{document.label.description}" for="document-desc"></label>
+                <textarea id="document-desc" maxlength="128"></textarea>
+            </div>
+            <div class="form-set">
+                <label th:text="#{common.label.group}" for="document-group"></label>
+                <select id="document-group">
+                    <option value="" th:text="#{document.label.notSelect}" selected></option>
+                    <option th:each="group:${groupList}" th:value="${group.code}"
+                            th:text="${group.codeValue}"></option>
+                </select>
+            </div>
+            <div class="form-set">
+                <label class="required" th:text="#{document.label.form}" for="document-form"></label>
+                <select id="document-form" th:disabled="${documentId}">
+                    <option th:each="form:${formList}"
+                            th:id="${form?.id}"
+                            th:value="${form?.id}"
+                            th:text="${form?.name}"></option>
+                </select>
+            </div>
+            <div class="form-set">
+                <label class="required" th:text="#{document.label.process}" for="document-process"></label>
+                <select id="document-process" th:disabled="${documentId}">
+                    <option th:each="process:${processList}"
+                            th:id="${process?.id}"
+                            th:value="${process?.id}"
+                            th:text="${process?.name}" ></option>
+                </select>
+            </div>
+            <div class="form-set">
+                <label class="required" th:text="#{document.label.numberingRule}" for="document-numbering-rule"></label>
+                <select id="document-numbering-rule" th:disabled="${documentId}">
+                    <option th:each="numberingRule:${numberingRuleList}"
+                            th:id="${numberingRule.numberingId}"
+                            th:value="${numberingRule.numberingId}"
+                            th:text="${numberingRule.numberingName}" ></option>
+                </select>
+            </div>
+            <div class="form-set">
+                <label th:text="#{document.label.status}" for="document-status"></label>
+                <select id="document-status">
+                    <option th:each="status:${statusList}" th:value="${status.code}"
+                            th:text="${status.codeValue}" th:selected="${status.code == 'document.status.temporary'}"></option>
+                </select>
+            </div>
+            <div class="form-set">
+                <label class="required"  th:text="#{document.label.businessFlowColor}" for="document-color"></label>
+                <div class="color-picker">
+                    <div class="color-input">
+                        <div class="selected-color-box">
+                            <div id="selected-color" name="selected-color" class="selected-color"></div>
+                        </div>
+                        <input id="document-color" name="document-color" disabled/>
                     </div>
-                    <input id="document-color" name="document-color" disabled/>
-                </div>
-                <div id="color-palette-layer">
-                    <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
-                    <div id="document-colorPalette-opacity" name="document-colorPalette-opacity" class="color-palette-opacity"></div>
+                    <div id="color-palette-layer">
+                        <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
+                        <div id="document-colorPalette-opacity" name="document-colorPalette-opacity" class="color-palette-opacity"></div>
+                    </div>
                 </div>
             </div>
-            </td>
         </div>
     </div>
     <div class="horizontal-bar"></div>
@@ -133,6 +134,8 @@
                 }
                 initIconSelector();
             });
+
+            OverlayScrollbars(document.querySelector('.edit-content'), {className: 'scrollbar'});
         };
 
         function saveDocument(method) {
@@ -236,7 +239,7 @@
         // 신청서 아이콘 추가 (업무흐름: 신청서)
         function initIconSelector() {
             const documentType = document.getElementById('document-type');
-            const formObject = document.querySelector('.edit');
+            const formObject = document.querySelector('.edit-content');
             if (documentType.value === 'application-form') {
                 let formSet = document.createElement('div');
                 formSet.className = 'form-set';
@@ -260,7 +263,12 @@
 
                 formSet.appendChild(formSetLabel);
                 formSet.appendChild(formIcon);
-                formObject.appendChild(formSet);
+
+                if (formObject.classList.contains('scrollbar')) {
+                    formObject.querySelector('.os-content').appendChild(formSet);
+                } else {
+                    formObject.appendChild(formSet);
+                }
             } else {
                 if (document.querySelector('#document-icon') !== null) {
                     document.querySelector('#document-icon').parentElement.parentElement.remove();

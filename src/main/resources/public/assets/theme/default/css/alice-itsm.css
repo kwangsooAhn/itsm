@@ -697,6 +697,12 @@ span.vertical-bar {
   padding: 0;
   width: auto;
 }
+.container-popup .view-content, .container-popup .edit-content {
+  height: 44.625rem;
+}
+.container-popup .view-content div.form-set, .container-popup .edit-content div.form-set {
+  margin: 0 0.6875rem 0 0.6875rem;
+}
 .container-document {
   justify-content: flex-end;
   overflow: hidden;
