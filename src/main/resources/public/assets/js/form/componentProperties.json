@@ -69,7 +69,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",
@@ -337,7 +337,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",
@@ -540,7 +540,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",
@@ -710,7 +710,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",
@@ -916,7 +916,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",
@@ -1091,7 +1091,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",
@@ -1381,7 +1381,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",
@@ -1474,7 +1474,7 @@
                     {
                         "id": "date",
                         "name": "{0}days after",
-                        "validate": "number"
+                        "validate": "number|max[1000]"
                     },
                     {
                         "id": "datepicker",
@@ -1574,7 +1574,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",
@@ -1667,7 +1667,7 @@
                     {
                         "id": "time",
                         "name": "{0}hours later",
-                        "validate": "number"
+                        "validate": "number|max[1000]"
                     },
                     {
                         "id": "timepicker",
@@ -1767,7 +1767,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",
@@ -1860,7 +1860,7 @@
                     {
                         "id": "datetime",
                         "name": "{0}days{0}hours later",
-                        "validate": "number"
+                        "validate": "number|max[1000]"
                     },
                     {
                         "id": "datetimepicker",
@@ -1960,7 +1960,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",
@@ -2107,7 +2107,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "px",
-                "validate": "number|min[10]"
+                "validate": "number|min[10]|max[100]"
             },
             {
                 "id": "color",

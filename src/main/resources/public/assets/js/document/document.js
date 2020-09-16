@@ -606,20 +606,22 @@
      * @param commentId
      */
     function deleteComment(commentId) {
-        const opt = {
-            method: 'DELETE',
-            url: '/rest/comments/' + commentId,
-            callbackFunc: function(xhr) {
-                if (xhr.responseText) {
-                    aliceJs.alertSuccess(i18n.get('common.msg.delete'), function() {
-                        location.reload();
-                    });
-                } else {
-                    aliceJs.alertDanger(i18n.get('common.msg.fail'));
+        aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), function() {
+            const opt = {
+                method: 'DELETE',
+                url: '/rest/comments/' + commentId,
+                callbackFunc: function (xhr) {
+                    if (xhr.responseText) {
+                        aliceJs.alertSuccess(i18n.get('common.msg.delete'), function () {
+                            location.reload();
+                        });
+                    } else {
+                        aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                    }
                 }
-            }
-        };
-        aliceJs.sendXhr(opt);
+            };
+            aliceJs.sendXhr(opt);
+        });
     }
 
     /**
