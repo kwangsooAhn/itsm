@@ -244,7 +244,7 @@ class BoardService(
      */
     fun getBoardCategoryList(boardAdminId: String): List<BoardCategoryDto> {
         val boardCategoryDtoList = mutableListOf<BoardCategoryDto>()
-        boardCategoryRepository.findByBoardAdminOrderByBoardCategorySortAsc(boardAdminId)
+        boardCategoryRepository.findByCategoryList(boardAdminId)
             .forEach { PortalBoardCategoryEntity ->
                 boardCategoryDtoList.add(
                     BoardCategoryDto(

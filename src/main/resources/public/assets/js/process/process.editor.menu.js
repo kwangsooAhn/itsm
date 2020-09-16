@@ -5,6 +5,7 @@
 }(this, (function (exports) {
     'use strict';
 
+    const i18nMsgPrefix = 'process.designer.attribute.';
     const data = {};
     const iconDirectory = '/assets/media/icons/process';
     const itemSize = 16;
@@ -1055,7 +1056,7 @@
             targetMappingProperties.className = 'properties';
 
             let targetMappingLabel = document.createElement('label');
-            targetMappingLabel.textContent = 'Target Mapping ID'
+            targetMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'targetMappingId');
             targetMappingLabel.className = 'required';
 
             let targetMappingInput = document.createElement('input');
@@ -1070,7 +1071,7 @@
             sourceMappingProperties.className = 'properties';
 
             let sourceMappingLabel = document.createElement('label');
-            sourceMappingLabel.textContent = 'Source Mapping ID'
+            sourceMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'sourceMappingId');
             sourceMappingLabel.className = 'required';
 
             let sourceMappingInput = document.createElement('input');
@@ -1123,7 +1124,7 @@
 
             // condition 생성
             let conditionLabel = document.createElement('label');
-            conditionLabel.textContent = 'Condition';
+            conditionLabel.textContent = i18n.msg(i18nMsgPrefix + 'condition');
             actionContainer.appendChild(conditionLabel);
 
             let conditionInput = document.createElement('input');
@@ -1131,7 +1132,7 @@
 
             // file 생성
             let fileLabel = document.createElement('label');
-            fileLabel.textContent = 'File';
+            fileLabel.textContent = i18n.msg(i18nMsgPrefix + 'file');
             actionContainer.appendChild(fileLabel);
 
             let fileInput = document.createElement('input');
@@ -1152,7 +1153,7 @@
             let btnContainer = document.createElement('div');
             btnContainer.className = 'btn-container right';
             let btnAdd = document.createElement('button');
-            btnAdd.textContent = 'ADD';
+            btnAdd.textContent = i18n.msg('common.btn.add');
             btnContainer.appendChild(btnAdd);
 
             const saveData = function() {
@@ -1197,7 +1198,7 @@
                     conditionInput.value = '';
                     fileInput.value = '';
                 } else {
-                    aliceJs.alertWarning(i18n.get('process.msg.duplicateData'));
+                    aliceJs.alertWarning(i18n.msg('process.msg.duplicateData'));
                 }
             });
 
@@ -1245,8 +1246,8 @@
             let headValueColumn = document.createElement('th');
             let headReturnColumn = document.createElement('th');
             let delColumn = document.createElement('th');
-            headValueColumn.textContent = 'Condition';
-            headReturnColumn.textContent = 'File';
+            headValueColumn.textContent = i18n.msg(i18nMsgPrefix + 'condition');
+            headReturnColumn.textContent = i18n.msg(i18nMsgPrefix + 'file');
             headRow.appendChild(headValueColumn);
             headRow.appendChild(headReturnColumn);
             headRow.appendChild(delColumn);
@@ -1291,7 +1292,7 @@
         }
 
         let btnAdd = document.createElement('button');
-        btnAdd.innerText = 'ADD';
+        btnAdd.innerText = i18n.msg('common.btn.add');
 
         const saveData = function() {
             let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
@@ -1369,7 +1370,7 @@
         let thead = document.createElement('thead');
         let headRow = document.createElement('tr');
         let headNameColumn = document.createElement('th');
-        headNameColumn.textContent = 'Name';
+        headNameColumn.textContent = i18n.msg('common.label.name');
         headNameColumn.colSpan = 2;
         headRow.appendChild(headNameColumn);
         thead.appendChild(headRow);
@@ -1402,9 +1403,9 @@
         const elementContainer = propertiesContainer.querySelector('.element-properties');
         elementContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
-        let propertiesPanelTitle = 'Process';
+        let propertiesPanelTitle = i18n.msg(i18nMsgPrefix + 'process');
         if (id !== aliceProcessEditor.data.process.id) {
-            propertiesPanelTitle = properties.name;
+            propertiesPanelTitle = i18n.msg(i18nMsgPrefix + properties.type);
         }
         propertiesContainer.querySelector('.element-title > h2').textContent = propertiesPanelTitle;
 
@@ -1412,7 +1413,7 @@
             // property 구분 타이틀
             let title = document.createElement('h3');
             let span = document.createElement('span');
-            span.textContent = propertiesDivision[idx].title;
+            span.textContent = i18n.msg(i18nMsgPrefix + propertiesDivision[idx].title);
             title.appendChild(span);
             elementContainer.appendChild(title);
 
@@ -1423,7 +1424,7 @@
                 propertyContainer.className = 'properties';
                 if (typeof property.fieldset !== 'undefined') {
                     // property fieldset
-                    let fieldsetContainer = elementContainer.querySelector('fieldset[name="' + property.fieldset + '"]');
+                    let fieldsetContainer = elementContainer.querySelector('fieldset[name="' + i18n.msg(i18nMsgPrefix + property.fieldset) + '"]');
                     if (fieldsetContainer === null) {
                         fieldsetContainer = addFieldset(property, elementContainer);
                     }
@@ -1438,7 +1439,7 @@
                     labelObject.className = 'checkbox';
                 }
                 labelObject.htmlFor = property.id;
-                labelObject.textContent = property.name;
+                labelObject.textContent = i18n.msg(i18nMsgPrefix + property.id);
                 if (property.display === 'none') {
                     labelObject.style.display = 'none';
                 }

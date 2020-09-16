@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="20" viewBox="0 0 18 20">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #0060a5;
+      }
+    </style>
+  </defs>
+  <g transform="translate(-1899 -248)">
+    <path class="cls-1" d="M1916.71,253.29l-1.71-1.71-1.58-1.58-1.71-1.71a1.007,1.007,0,0,0-.71-.29h-11.5a.5.5,0,0,0-.5.5v19a.5.5,0,0,0,.5.5h17a.5.5,0,0,0,.5-.5V254A1.007,1.007,0,0,0,1916.71,253.29ZM1915,266h-14V250h3v.8a.2.2,0,0,0,.2.2h1.6a.2.2,0,0,0,.2-.2V250h4.58l4.42,4.42Z"/>
+    <path class="cls-1" d="M1907.073,259h-1.146a3.215,3.215,0,0,0-.927,2.358c0,1.558,1.147,1.642,1.5,1.642s1.5-.084,1.5-1.642A3.215,3.215,0,0,0,1907.073,259Zm-.573,3.621a.8.8,0,1,1,.838-.8A.819.819,0,0,1,1906.5,262.621Z"/>
+    <rect class="cls-1" width="2" height="2" rx="0.2" transform="translate(1906 251)"/>
+    <rect class="cls-1" width="2" height="2" rx="0.2" transform="translate(1904 253)"/>
+    <rect class="cls-1" width="2" height="2" rx="0.2" transform="translate(1906 255)"/>
+    <rect class="cls-1" width="2" height="2" rx="0.2" transform="translate(1904 257)"/>
+  </g>
+</svg>

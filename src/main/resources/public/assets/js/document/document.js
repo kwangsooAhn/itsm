@@ -293,6 +293,11 @@
         const componentElements = documentContainer.querySelectorAll('.component');
         for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
+
+            // 숨김 처리된 컴포넌트일 경우 저장하지 않는다.
+            const componentDisplayType = componentElements[eIndex].getAttribute('data-displayType');
+            if (componentDisplayType === 'hidden') { continue; }
+
             if (componentDataType === 'inputbox' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                 componentDataType === 'textbox' || componentDataType === 'dropdown' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
                 componentDataType === 'fileupload' || componentDataType === 'custom-code') {
@@ -689,17 +694,19 @@
             buttonPanel.className = 'button-board';
             body.appendChild(buttonPanel);
 
-            const buttonGroup = document.createElement('div');
-            buttonGroup.className = 'button-group';
-            buttonGroup.id = 'button-container';
-            buttonPanel.appendChild(buttonGroup);
             // 인쇄 버튼
             const printButton = document.createElement('button');
             printButton.type = 'button';
-            printButton.className = 'default-fill';
+            printButton.className = 'default-line';
             printButton.innerText = i18n.get('common.btn.print');
             printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
             buttonPanel.appendChild(printButton);
+
+            // 동적 버튼
+            const buttonGroup = document.createElement('div');
+            buttonGroup.className = 'button-list';
+            buttonGroup.id = 'button-container';
+            buttonPanel.appendChild(buttonGroup);
 
             const documentPanel = document.createElement('div');
             documentPanel.className = 'drawing-board';

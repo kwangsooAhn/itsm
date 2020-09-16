@@ -160,6 +160,15 @@ button {
     }
 }
 
+.button-list {
+    display: inline-flex;
+    vertical-align: middle;
+    position: relative;
+    button {
+        margin-left: 0.3125rem;
+    }
+}
+
 .button-group {
     display: inline-flex;
     vertical-align: middle;

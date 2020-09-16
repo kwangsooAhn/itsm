@@ -28,8 +28,8 @@
                 <label class="required" th:text="#{common.label.title}" />
                 <input type="text" id="downloadTitle" maxlength="100" th:value="${download?.downloadTitle}"></td>
             </div>
-            <div class="form-set">
-                <label th:text="#{common.label.attachFile}"/>
+            <div class="form-set file-edit-contents">
+                <label class="file-head" th:text="#{common.label.attachFile}"/>
                 <div id="dropZoneFiles"></div>
                 <div id="dropZoneUploadedFiles"></div>
             </div>

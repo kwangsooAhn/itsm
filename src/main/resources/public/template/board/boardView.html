@@ -32,11 +32,11 @@
                 </div>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="flex-item item-attach-file">
-                <span class="file-attachment" th:text="#{common.label.attachFile}"></span>
+            <div class="file-view-contents">
+                <label class="file-head" th:text="#{common.label.attachFile}"></label>
                 <div class="vertical-bar"></div>
                 <form id="frm" method="post">
-                    <div class="file-attach-input ">
+                    <div class="file-list-contents">
                         <div id="dropZoneFiles"></div>
                         <div id="dropZoneUploadedFiles"></div>
                     </div>
@@ -44,7 +44,8 @@
             </div>
             <div class="horizontal-bar"></div>
             <div class="btn-bar">
-                <button class="default-line" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
+                <button class="default-line" style="margin-right: 5px;" th:onclick="searchBoard()"
+                        th:text="#{common.btn.list}"></button>
                 <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
                         class="point-fill" th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
                         th:onclick ="'location.href =\'' + @{/boards/{id}/edit(id=${boardInfo?.boardId})}+'\''"
@@ -86,7 +87,7 @@
         window.onload = function() {
             boardCreateDt.textContent = i18n.userDateTime(boardCreateDt.textContent);
             if (attachYn) {
-                fileUploader.init({extra: {formId: 'frm', ownId: boardId, editor: false}});
+                fileUploader.init({extra: {formId: 'frm', ownId: boardId, editor: false, isView: true}});
             }
             if (boardId !== null && commentYn) {
                 getBoardCommentList();
@@ -137,7 +138,7 @@
         //게시판 댓글 수정
         function openCommentEdit(boardCommentId) {
             if (document.getElementById('editComments')) {
-                aliceJs.alertWarning(i18n.get('comment.msg.afterSavedEditComments'), function () {
+                aliceJs.alertWarning(i18n.msg('comment.msg.afterSavedEditComments'), function () {
                     return false;
                 });
             } else {
@@ -162,9 +163,9 @@
         function restSubmit(method, url, data) {
             let resultMsg = '';
             if (method === 'put' || method === 'post') {
-                resultMsg = i18n.get('common.msg.save');
+                resultMsg = i18n.msg('common.msg.save');
             } else if (method === 'delete') {
-                resultMsg = i18n.get('common.msg.delete');
+                resultMsg = i18n.msg('common.msg.delete');
             }
             const opt = {
                 method: method,
@@ -175,7 +176,8 @@
                     if (method === 'put' || method === 'post' || method === 'delete') {
                         aliceJs.alertSuccess(resultMsg, function () {
                             if (url.indexOf('/rest/boards/comments') !== -1) {
-                                location.reload();
+                                document.getElementById('boardComments').value = '';
+                                getBoardCommentList();
                             } else {
                                 searchBoard();
                             }

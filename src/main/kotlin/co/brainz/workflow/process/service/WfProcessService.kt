@@ -54,10 +54,12 @@ class WfProcessService(
     fun selectProcessList(parameters: LinkedHashMap<String, Any>): MutableList<RestTemplateProcessViewDto> {
         var search = ""
         var status = listOf<String>()
-        var offset = 0L
+        var offset: Long? = null
         if (parameters["search"] != null) search = parameters["search"].toString()
         if (parameters["status"] != null) status = parameters["status"].toString().split(",")
-        if (parameters["offset"] != null) offset = parameters["offset"].toString().toLong()
+        if (parameters["offset"] != null) {
+            offset = parameters["offset"].toString().toLong()
+        }
         val processViewDtoList = mutableListOf<RestTemplateProcessViewDto>()
         val queryResult = wfProcessRepository.findProcessEntityList(search, status, offset)
         for (process in queryResult.results) {

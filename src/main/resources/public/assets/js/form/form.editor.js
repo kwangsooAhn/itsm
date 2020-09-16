@@ -130,6 +130,9 @@
             let validateArray = validate.split('|');
             for (let i = 0; i < validateArray.length; i++) {
                 let validateValueArray = validateArray[i].split('[');
+                if (validateValueArray[0] !== 'required' && element.value === '') {
+                    break;
+                }
                 let arg = (typeof validateValueArray[1] !== 'undefined') ? validateValueArray[1].replace(/\]\s*$/gi, '') : '';
                 switch (validateValueArray[0]) {
                     case 'number':
@@ -1145,8 +1148,7 @@
             // 5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
             const componentTitleElem = componentElem.querySelector('.properties-title');
             if (!componentTitleElem.classList.contains('on')) {
-                const componentTitleData = component.getName(componentData.type);
-                componentTitleElem.insertAdjacentHTML('beforeend', `<label class="ghost">${componentTitleData.name}</label>`);
+                componentTitleElem.insertAdjacentHTML('beforeend', `<label class="ghost">${i18n.msg('form.component.' + componentData.type)}</label>`);
                 componentTitleElem.classList.add('on');
             }
         }
@@ -1217,7 +1219,7 @@
                                 switch (fieldProp.type) {
                                     case 'inputbox':
                                         fieldTemplate =
-                                            `<label class="property-name">${fieldProp.name}</label>${tooltipTemplate}` +
+                                            `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}</label>${tooltipTemplate}` +
                                             `<input type="text" class="property-value" value="${fieldProp.value}"/>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1227,7 +1229,7 @@
                                             `<label class="property-name checkbox-group" for="checkbox-${componentData.componentId}-${fieldProp.id}">` +
                                                 `<input type="checkbox" class="property-value" id="checkbox-${componentData.componentId}-${fieldProp.id}" name="${fieldProp.id}" ${fieldProp.value ? 'checked' : ''}>` +
                                                 `<span></span>` +
-                                                 `<span>${fieldProp.name}</span>${tooltipTemplate}` +
+                                                 `<span>${i18n.msg('form.attribute.' + fieldProp.id)}</span>${tooltipTemplate}` +
                                             `</label>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1243,7 +1245,7 @@
                                         }).join('');
 
                                         fieldTemplate =
-                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="button-group button-group-toggle property-field-${optionType}">${fieldOptions}</div>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1259,7 +1261,7 @@
                                         }).join('');
 
                                         fieldTemplate =
-                                            `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<select class='property-value' id='${fieldProp.id}'>${fieldCustomCodeOptions}</select>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1270,9 +1272,9 @@
                                         break;
                                     case 'image':
                                         fieldTemplate =
-                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="property-field-image">` +
-                                                `<input type="text" class="property-value" value="${fieldProp.value}" id="path-${selectedComponentIds[0]}">` +
+                                                `<input type="text" class="input-image property-value" value="${fieldProp.value}" id="path-${selectedComponentIds[0]}">` +
                                                 `<button type="button" class="btn default-point-line" id="imageUploadPop"></button>` +
                                             `</div>`;
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1292,7 +1294,7 @@
                                         fieldGroupElem.insertAdjacentHTML('beforeend', colorPicker);
 
                                         fieldTemplate =
-                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="color-input">` +
                                                 `<div class="selected-color-box">` +
                                                     `<span class="selected-color" style="background-color: ${fieldProp.value};"></span>` +
@@ -1334,7 +1336,7 @@
                                             if (defaultFormatArr[0] === opt.id) {
                                                 optionDefaultArr = defaultFormatArr;
                                             }
-                                            let labelName = opt.name.split('{0}');
+                                            let labelName = i18n.msg('form.attribute.option.' + opt.id).split('{0}');
                                             let optionTemplate= ``;
                                             if (opt.id === 'date' || opt.id === 'datetime' || 'time') {
                                                 optionTemplate += `${opt.id === 'date' || opt.id === 'time' ? "<input type='text' class='property-value' data-validate='" + opt.validate + "' id='" + opt.id + "' value='" + optionDefaultArr[1] + "'/><span>" + labelName[1] + "</span>" : ""}` +
@@ -1351,7 +1353,7 @@
                                             `</div>`;
                                         }).join('');
 
-                                        fieldTemplate = `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>${fieldDatetimeOptions}`;
+                                        fieldTemplate = `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>${fieldDatetimeOptions}`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
@@ -1362,7 +1364,7 @@
                                             return `<div class="vertical-group radio-custom">` +
                                             `<label class="radio-group" for="${opt.id}">` +
                                                 `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
-                                                `<span>${opt.name}</span>` +
+                                                `<span>${i18n.msg('form.attribute.option.' + opt.id)}</span>` +
                                             `</label>` +
                                             `${opt.id !== 'none' ? "<select>" + opt.items.map(function (item) {
                                                 return `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`
@@ -1370,7 +1372,7 @@
                                             `</div>`;
                                         }).join('');
 
-                                        fieldTemplate = `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>${fieldRadioOptions}`;
+                                        fieldTemplate = `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>${fieldRadioOptions}`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
 
@@ -1388,14 +1390,14 @@
                                             return `<option value='${opt.id}' ${fieldProp.value === opt.id && selectedComponentIds.length === 1 ? "selected='selected'" : ""}>${opt.name}</option>`;
                                         }).join('');
                                         fieldTemplate =
-                                            `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<select class='property-value'>${fieldSelectOptions}</select>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
                                     case 'slider':
                                         fieldTemplate =
-                                            `<label class="property-name">${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="property-field-range">` +
                                                 `<input type="range" class="property-value" id="${group + '-' + fieldProp.id}" min="1" max="12" value="${fieldProp.value}"/>` +
                                                 `<input type="text" id="${group + '-' + fieldProp.id}-value" value="${fieldProp.value}" readonly/>` +
@@ -1403,7 +1405,7 @@
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
                                     case 'session':
-                                        fieldTemplate = `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>`;
+                                        fieldTemplate = `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>`;
                                         const propValueArr = fieldProp.value.split('|');
                                         const fieldSessionOptions = fieldProp.option.map(function (opt) {
                                             return `<button type="button" name="${opt.id}" class="btn default-line ${propValueArr[0]  === opt.id ? 'active' : ''}">${opt.name}</button>`;
@@ -1431,7 +1433,7 @@
                                     case 'timepicker':
                                     case 'datetimepicker':
                                         fieldTemplate =
-                                            `<label class='property-name'>${fieldProp.name}${tooltipTemplate}</label>` +
+                                            `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<input type='text' class='${fieldProp.type} property-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}-${fieldProp.id}' value='${fieldProp.value}'>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1458,7 +1460,7 @@
                             if (tableElem !== null) {
                                 // 테이블 Header 추가
                                 const tableHeaderOptions = fieldProp.items.map(function(opt, index) {
-                                    return `<th data-default="${opt.value}">${index === 0 ? '': opt.name}</th>`;
+                                    return `<th data-default="${opt.value}">${index === 0 ? '': i18n.msg('form.attribute.option.' + opt.id)}</th>`;
                                 }).join('');
                                 let fieldTableTemplate = `<tr>${tableHeaderOptions}</tr>`;
 
@@ -1510,13 +1512,13 @@
             dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, setDateFormat);
         }
 
-        // focustout 이벤트 추가
-        const inputElems = propertiesPanel.querySelectorAll('input[type=text]:not([readonly])');
+        // keyup 이벤트 추가
+        const inputElems = propertiesPanel.querySelectorAll('input[type=text]:not([readonly]):not(.input-image)');
         for (i = 0, len = inputElems.length; i < len; i++) {
             if (inputElems[i].id === 'date' || inputElems[i].id === 'time' || inputElems[i].id === 'datetime-day' || inputElems[i].id === 'datetime-hour') {
-                inputElems[i].addEventListener('focusout', setDateFormat, false);
+                inputElems[i].addEventListener('keyup', setDateFormat, false);
             } else {
-                inputElems[i].addEventListener('focusout', function (e) {
+                inputElems[i].addEventListener('keyup', function (e) {
                     const elem = e.target;
                     let parentElem = elem.parentNode;
                     if (parentElem.classList.contains('picker-wrapper') || parentElem.classList.contains('wdp-hour-el-container')) { return false; } // date picker 제외
@@ -1535,6 +1537,17 @@
                 }, false);
             }
         }
+        // focustout 이벤트 추가
+        const imageInputElem = propertiesPanel.querySelector('.input-image');
+        if (imageInputElem) {
+            imageInputElem.addEventListener('focusout', function(e) {
+                const elem = e.target;
+                const parentElem = elem.parentNode.parentNode;
+                const changePropertiesArr = parentElem.id.split('-');
+                changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
+            }, false);
+        }
+
         // input=range 이벤트 추가
          const rangeElems = propertiesPanel.querySelectorAll('input[type=range]');
          for (i = 0, len = rangeElems.length; i < len; i++) {

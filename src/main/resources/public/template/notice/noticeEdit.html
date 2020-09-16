@@ -27,8 +27,8 @@
                     <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11" class="textarea-scroll-wrapper"
                               th:text="${notice?.noticeContents}"></textarea>
                 </div>
-                <div class="form-set">
-                    <label th:text="#{common.label.attachFile}"></label>
+                <div class="form-set file-edit-contents">
+                    <label class="file-head" th:text="#{common.label.attachFile}"></label>
                     <div id="dropZoneFiles"></div>
                     <div id="dropZoneUploadedFiles"></div>
                 </div>

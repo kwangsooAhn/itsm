@@ -35,8 +35,8 @@
                     <label class="required" th:text="#{common.label.contents}" for="faqContent"></label>
                     <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}" rows="11"></textarea>
                 </div>
-                <div class="form-set">
-                    <label th:text="#{common.label.attachFile}"></label>
+                <div class="form-set file-edit-contents">
+                    <label class="file-head" th:text="#{common.label.attachFile}"></label>
                     <div id="dropZoneFiles"></div>
                     <div id="dropZoneUploadedFiles"></div>
                 </div>

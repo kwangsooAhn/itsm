@@ -50,7 +50,7 @@
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="editable">` +
             `<div class="move-handler"></div>` +
-            `<div class="field-group" contenteditable="true" placeholder="Typing '/' for add component"></div>` +
+            `<div class="field-group" contenteditable="true" placeholder="${i18n.msg("form.help.component-placeholder")}"></div>` +
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
@@ -657,8 +657,8 @@
                     `<div id="dropZoneUploadedFiles-${this.id}">` +
                         `<div class="dropzone">` +
                             `<div class="dz-default dz-message">` +
-                                `<span>Drop files here to upload or&nbsp;</span>` +
-                                `<span class="dz-clickable">browse</span>` +
+                                `<span>Drop files here to upload</span>` +
+                                ` <div class="add-file-button-wrap"><span>or </span><span class="add-file-button dz-clickable">browse</span></div>` +
                             `</div>` +
                         `</div>` +
                     `</div>` +

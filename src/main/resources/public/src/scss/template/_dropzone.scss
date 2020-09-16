@@ -1,0 +1,643 @@
+/**
+ * dropzone
+ * http://www.dropzonejs.com
+ *
+ * @author woodajung
+ * @version 1.0
+ */
+$dropzone-font-family:          "Noto Sans KR";
+$dropzone-font-size:            16px;
+$dropzone-font-weight:          400; // regular
+$dropzone-font-color:           $gray;
+$dropzone-border:               0.0625rem solid $line-gray;
+$dropzone-bg-color:             $light-gray;
+$dropzone-progress-color:       $point-blue;
+$dropzone-progress-bg-color:    $line-gray;
+$dropzone-filename-font-color:  $dark-gray;
+$dropzone-filesize-font-color:  $gray;
+$dropzone-preview-height:       5rem; // 80px;
+$dropzone-point-color:          $point-blue;
+
+// TODO : mixin 공통으로 분리 필요
+@mixin keyframe($animation_name) {
+    @-webkit-keyframes #{$animation_name} {
+        @content;
+    }
+
+    @-moz-keyframes #{$animation_name} {
+        @content;
+    }
+
+    @-o-keyframes #{$animation_name} {
+        @content;
+    }
+
+    @keyframes #{$animation_name} {
+        @content;
+    }
+}
+
+@mixin animation($delay, $duration, $name, $timing, $count:1) {
+    animation-delay: $delay;
+    animation-duration: $duration;
+    animation-name: $name;
+    animation-timing-function: $timing;
+    animation-iteration-count: $count;
+}
+
+@mixin background($path, $size, $repeat, $posX, $posY, $color) {
+    background-image: url($dropzone-folder-path + '/' + $path);
+    background-size: if($size == null, auto, $size);
+    background-repeat: if($repeat == null, no-repeat, $repeat);
+    background-position-x: if($posX == null, center, $posX);
+    background-position-y: if($posY == null, center, $posY);
+    @if ($color != null) {
+      background-color: $color;
+    }
+}
+
+@mixin vertical-bar() {
+    width: 1.875rem; // 30px
+    border-right: 0.0625rem solid $line-gray; // 1px
+    margin-right: 1.875rem; // 30px
+}
+
+@mixin horizontal-bar() {
+    height: 0.0625rem; // 1px
+    margin: 0.625rem 0; // 10px
+    background-color: $line-gray;
+}
+
+@include keyframe(passing-through) {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    30%, 70% {
+        opacity: 1;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 0;
+        transform: translateY(0px);
+    }
+}
+
+@include keyframe(slide-in) {
+    0% {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    30% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+@include keyframe(pulse) {
+    0% {
+        transform: scale(1);
+    }
+    10% {
+        transform: scale(1.1);
+    }
+    20% {
+        transform: scale(1);
+    }
+}
+
+.vertical-bar {
+    @include vertical-bar();
+}
+
+.horizontal-bar {
+    @include horizontal-bar();
+}
+// 파일 업로드
+.file {
+    // edit
+    &-edit-contents {
+        display: flex;
+        flex-direction: column;
+        // 첨부파일 타이틀 
+        .file-head {
+            margin: 0.5625rem 0 0.5625rem 0; // 9px
+            font-size: 1rem; // 16px
+            font-weight: 500;
+            color: $light-black;
+        }
+    }
+    // view 
+    &-view-contents {
+        display: flex;
+        min-height: 3.125rem; // 50px
+        padding: 0.125rem 1.25rem; // 2px 20px
+        // 첨부파일 타이틀 
+        .file-head {
+            margin: auto 0;
+            font-size: 1rem; // 16px
+            font-weight: 400;
+            color: $dark-gray;
+        }
+        .file-list-contents {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+.dropzone {
+    font-family: $dropzone-font-family;
+    font-size: $dropzone-font-size;
+    font-weight: $dropzone-font-weight;
+    color: $dropzone-font-color;
+    min-height: 6.25rem;
+    background-color: $dropzone-bg-color;
+    border: $dropzone-border;
+    padding: 0.625rem 0.625rem 0 0.625rem; // 10px
+
+    // drag and drop 영역
+    .dz-default {
+        margin: 1.875rem 0;
+
+        &.dz-message {
+            text-align: center;
+            // Drop files here to upload 문구
+            span {
+                color: $dropzone-font-color;
+            }
+            // or brows 영역
+            .add-file-button-wrap {
+                margin-top: 0.5rem;
+                // browse 버튼
+                .dz-clickable {
+                    cursor: pointer;
+                    text-decoration: underline;
+                    color: $dropzone-point-color;
+                }
+            }
+        }
+    }
+    
+    &.dz-drag-hover {
+        border-style: solid;
+
+        .dz-message {
+            opacity: 0.5;
+        }
+    }
+
+    // 추가된 파일 목록
+    .dz-preview {
+        position: relative;
+        vertical-align: top;
+        height: $dropzone-preview-height;
+        border: $dropzone-border;
+        background-color: $white;
+        margin-bottom: 0.625rem; // 10px
+        padding: 1rem; // 16px;
+
+        &:hover {
+            z-index: 1000;
+
+            .dz-details {
+                opacity: 1;
+            }
+        }
+
+        &.dz-file-preview {
+            .dz-image {
+                border-radius: 1.25rem; // 20px
+                background: #999;
+                background: linear-gradient(to bottom, #eee, #ddd);
+            }
+
+            .dz-details {
+                opacity: 1;
+            }
+        }
+
+        &.dz-image-preview {
+            background: white;
+
+            .dz-details {
+                -webkit-transition: opacity 0.2s linear;
+                -moz-transition: opacity 0.2s linear;
+                -ms-transition: opacity 0.2s linear;
+                -o-transition: opacity 0.2s linear;
+                transition: opacity 0.2s linear;
+            }
+        }
+        //파일 다운로드 아이콘
+        .dz-download {
+            height: 100%;
+            text-align: center;
+            display: block;
+            cursor: pointer;
+            border: none;
+            grid-column: 3;
+            grid-row: 1 / span 2;
+            @include background ("icon_fileupload_download.svg", 1.25rem, no-repeat, center, center, null); // 20px
+        }
+
+        // 파일 삭제 아이콘
+        .dz-remove {
+            height: 100%;
+            text-align: center;
+            display: block;
+            cursor: pointer;
+            border: none;
+            grid-column: 5;
+            grid-row: 1 / span 2;
+            @include background ("icon_fileupload_delete.svg", 1.125rem 1.25rem, no-repeat, center, center, null); // 18px 20px
+        }
+
+        &:hover .dz-details {
+            opacity: 1;
+        }
+
+        .dz-details {
+            z-index: 20;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            min-width: 100%;
+            max-width: 100%;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.9);
+            line-height: 150%;
+            display: grid;
+            grid-template-columns: 2.25rem auto 1.25rem 1.25rem 1.125rem; // 20px 20px 18px
+            align-items: center;
+
+            .dz-filename {
+                white-space: nowrap;
+                text-align: left;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                padding: 0 20px; // 0 20px
+                grid-column: 2;
+
+                span {
+                    color: $dropzone-filename-font-color;
+                }
+            }
+
+            .dz-size {
+                text-align: left;
+                padding: 0 1.25rem; // 20px
+                grid-column: 2;
+
+                span {
+                    color: $dropzone-filesize-font-color;
+                }
+            }
+
+            .dz-file-type {
+                height: 100%;
+                grid-column: 1;
+                grid-row: 1 / span 2;
+                @include background ("icon_document_txt.svg", null, null, null, null, null);
+            }
+        }
+
+        &:hover .dz-image img {
+            -webkit-transform: scale(1.05, 1.05);
+            -moz-transform: scale(1.05, 1.05);
+            -ms-transform: scale(1.05, 1.05);
+            -o-transform: scale(1.05, 1.05);
+            transform: scale(1.05, 1.05);
+            -webkit-filter: blur(8px);
+            filter: blur(8px);
+        }
+
+        .dz-image {
+            overflow: hidden;
+            position: relative;
+            display: block;
+            z-index: 10;
+
+            img {
+                display: block;
+            }
+        }
+
+        &.dz-success .dz-success-mark {
+            @include animation (0s, 3s, passing-through, cubic-bezier(0.77, 0, 0.175, 1));
+        }
+
+        &.dz-error .dz-error-mark {
+            opacity: 1;
+            color: $red;
+            @include animation (0s, 3s, slide-in, cubic-bezier(0.77, 0, 0.175, 1));
+        }
+
+        .dz-success-mark, .dz-error-mark {
+            pointer-events: none;
+            opacity: 0;
+            z-index: 500;
+            position: absolute;
+            display: block;
+            top: 50%;
+            left: 50%;
+            margin-left: -1.688rem; // -27px
+            margin-top: -1.688rem;
+        }
+
+        .dz-success-mark svg, .dz-error-mark svg {
+            display: block;
+            width: 3.375rem; // 54px
+            height: 3.375rem; // 54px
+        }
+
+        &.dz-processing .dz-progress {
+            opacity: 1;
+            -webkit-transition: all 0.2s linear;
+            -moz-transition: all 0.2s linear;
+            -ms-transition: all 0.2s linear;
+            -o-transition: all 0.2s linear;
+            transition: all 0.2s linear;
+        }
+
+        &.dz-complete .dz-progress {
+            opacity: 0;
+            -webkit-transition: opacity 0.4s ease-in;
+            -moz-transition: opacity 0.4s ease-in;
+            -ms-transition: opacity 0.4s ease-in;
+            -o-transition: opacity 0.4s ease-in;
+            transition: opacity 0.4s ease-in;
+        }
+
+        &:not(.dz-processing) .dz-progress {
+            @include animation (0s, 6s, pulse, ease, infinite);
+        }
+
+        .dz-progress {
+            opacity: 1;
+            z-index: 1000;
+            pointer-events: none;
+            position: relative;
+            height: 0.25rem;
+            top: -1.375rem;
+            left: 0.625rem; // 10px
+            width: 90%;
+            margin: 0 5%;
+            background: $dropzone-progress-bg-color;
+            -webkit-transform: scale(1);
+            border-radius: 0.5rem; // 8px
+            overflow: hidden;
+
+            .dz-upload {
+                background: linear-gradient(to bottom, $dropzone-progress-color, $dropzone-progress-color);
+                position: absolute;
+                top: 0;
+                left: 0;
+                bottom: 0;
+                width: 0;
+                -webkit-transition: width 300ms ease-in-out;
+                -moz-transition: width 300ms ease-in-out;
+                -ms-transition: width 300ms ease-in-out;
+                -o-transition: width 300ms ease-in-out;
+                transition: width 300ms ease-in-out;
+            }
+        }
+
+        &.dz-error {
+            .dz-error-message {
+                display: block;
+            }
+
+            &:hover .dz-error-message {
+                opacity: 1;
+                pointer-events: auto;
+            }
+        }
+
+        .dz-error-message {
+            pointer-events: none;
+            z-index: 1000;
+            position: absolute;
+            display: block;
+            //display: none;
+            opacity: 0;
+            -webkit-transition: opacity 0.3s ease;
+            -moz-transition: opacity 0.3s ease;
+            -ms-transition: opacity 0.3s ease;
+            -o-transition: opacity 0.3s ease;
+            transition: opacity 0.3s ease;
+            border-radius: 0.5rem; // 8px
+            //font-size: 13px;
+            top: 8.75rem; // 140px
+            left: -0.625rem; // -10px
+            width: 8.75rem; // 140px
+            background: #be2626;
+            background: linear-gradient(to bottom, #be2626, #a92222);
+            padding: 0.5em 1.2em;
+            color: white;
+
+            &:after {
+                content: '';
+                position: absolute;
+                top: -0.375rem; // -6px
+                left: 4rem; // 64px
+                width: 0;
+                height: 0;
+                border-left: 0.375rem solid transparent;
+                border-right: 0.375rem solid transparent;
+                border-bottom: 0.375rem solid #be2626;
+            }
+        }
+    }
+
+     // 툴팁
+    .dz-error-message {
+        pointer-events: none;
+        z-index: 1000;
+        position: absolute;
+        display: block;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        border-radius: 0.5rem; // 8px
+        top: calc( -1 * #{$dropzone-preview-height});
+        left: 0;
+        width: auto;
+        background: $red;
+        padding: 0.5em 1.2em;
+        color: $white;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: -0.375rem; // -6px
+            left: 4rem; // 64px
+            width: 0;
+            height: 0;
+            border-left: 0.375rem solid transparent;
+            border-right: 0.375rem solid transparent;
+            border-bottom: 0.375rem solid $red;
+        }
+    }
+
+    // view 일 경우 
+    &.dz-uploaded {
+        min-height: auto;
+        padding: 0;
+        background-color: transparent;
+        border: 0;
+
+        .dz-preview {
+            height: auto;
+            border: none;
+            padding: 0;
+            margin-bottom: 0;
+            margin-top: 0.625rem;
+            
+            &:first-child {
+                margin-top: 0;
+            }
+
+            .dz-details {
+                display: inline-flex;
+                .dz-file-type {
+                    width: 1.125rem; // 18px
+                    height:  1.25rem; // 20px
+                }
+                .dz-filename {
+                    padding: 0 0.625rem 0 0.9375rem;  // 0 10px 0 15px
+                    span {
+                        text-decoration: underline;
+                    }
+                }
+                .dz-size {
+                    padding: 0;
+                }
+                .dz-download, 
+                .dz-remove {
+                    display: none;
+                }
+            }
+        }
+    }
+}
+
+// 아바타
+.avatar {
+    &-edit-contents {
+        display: flex;
+        flex-direction: column;
+        // 아바타 타이틀
+        .avatar-head {
+            margin: 0.5625rem 0 0.5625rem 0; // 9px
+            font-size: 1rem; // 16px
+            font-weight: 500;
+            color: $light-black;
+        }
+
+        .avatar {
+            width: 18.75rem; // 300px
+            height: 18.75rem;
+            padding: 0;
+            @include background ("icon_image.svg", 5rem, no-repeat, center, 5rem, null); // 65px
+            .dz-message {
+                margin: 12.5rem 0 3rem 0; // 200px 0 48px 0
+            }
+            .dz-preview {
+                height: 100%;
+                padding: 0;
+                border: 0;
+
+                .dz-image {
+                    overflow: hidden;
+                    position: relative;
+                    display: block;
+                    z-index: 10;
+
+                    img {
+                        display: block;
+                    }
+                }
+
+                .dz-details {
+                    position: absolute;
+                    display: block;
+
+                    .dz-file-type,
+                    .dz-filename,
+                    .dz-size {
+                        display: none;
+                    }
+                    .dz-remove {
+                        width: 1.125rem;
+                        height: 1.125rem;
+                        background-color: rgba(255, 255, 255, 0.4);
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        @include background ("icon_close.svg", 0.875rem, no-repeat, center, center, null); // 14px
+                        &:hover {
+                            background-color: rgba(255, 255, 255, 0.9);
+                        }
+                    }
+                }
+
+                .dz-progress {
+                    width: 85%;
+                }
+            }
+            &.dz-started .dz-message {
+                display: none;
+            }
+        }
+
+        .avatar-description {
+            margin-top: 1rem; // 16px
+            .avatar-text {
+                display: block;
+                font-size: 1rem; // 16px
+                font-weight: 400;
+                color: $gray;
+                text-align: left;
+                margin-bottom: 0.3125rem;
+            }
+        }
+        // 회원 가입시 아바타
+        .avatar-sm-contents {
+            margin-bottom: 1.25rem; // 20px
+
+            > div {
+                display: inline-block;
+                &:first-child {
+                    margin-right: 0.625rem;
+                }
+            }
+
+            .avatar {
+                width: 9.375rem; // 150px
+                height: 9.375rem;
+                padding: 0;
+                @include background ("icon_image_sm.svg", 2.813rem, no-repeat, center, 1.688rem, null); // 45px, 27px
+                .dz-message {
+                    margin: 5.625rem 0 0 0;
+                    span {
+                        font-size: 0.8125rem; // 13px
+                    }
+                }
+                .dz-preview {
+                    .dz-progress {
+                        width: 80%;
+                    }
+                }
+            }
+            
+            .avatar-description {
+                vertical-align: top;
+                .avatar-text {
+                    font-size: 0.8125rem;
+                }
+            }
+        }
+    }
+}

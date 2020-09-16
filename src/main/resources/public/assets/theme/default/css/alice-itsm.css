@@ -4,6 +4,12 @@
    v2.0 | 20110126
    License: none (public domain)
 */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -23,7 +29,6 @@ time, mark, audio, video {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
-  box-sizing: border-box;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -60,7 +65,6 @@ input, button, select, optgroup, textarea {
   font-family: inherit;
   font-size: inherit;
   line-height: inherit;
-  box-sizing: border-box;
 }
 
 a:link {
@@ -1264,7 +1268,7 @@ span.vertical-bar {
   background: #F7F8F9;
 }
 .container .contents-flex .flex {
-  padding: 3.125rem 19.375rem 3.125rem 19.375rem;
+  padding: 3.125rem 19.375rem 9.315rem 19.375rem;
   background-color: white;
   display: flex;
   flex-grow: 1;
@@ -1285,15 +1289,6 @@ span.vertical-bar {
 }
 .container .contents-flex .flex .flex-item.item-text span {
   margin: 0;
-}
-.container .contents-flex .flex .flex-item.item-attach-file {
-  min-height: 3.125rem;
-  padding: 0.125rem 1.25rem;
-}
-.container .contents-flex .flex .flex-item.item-attach-file .vertical-bar {
-  width: 1.875rem;
-  border-right: 0.0625rem solid #EBEBEB;
-  margin-right: 1.875rem;
 }
 .container .contents-list-edit {
   height: 100vh;
@@ -2721,109 +2716,220 @@ span.vertical-bar {
   overflow: hidden;
 }
 
+/**
+ * dropzone
+ * http://www.dropzonejs.com
+ *
+ * @author woodajung
+ * @version 1.0
+ */
+@-webkit-keyframes passing-through {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  30%, 70% {
+    opacity: 1;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0px);
+  }
+}
+@-moz-keyframes passing-through {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  30%, 70% {
+    opacity: 1;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0px);
+  }
+}
+@-o-keyframes passing-through {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  30%, 70% {
+    opacity: 1;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0px);
+  }
+}
+@keyframes passing-through {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  30%, 70% {
+    opacity: 1;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0px);
+  }
+}
+@-webkit-keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@-moz-keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@-o-keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@keyframes slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
+}
+@-webkit-keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.1);
+  }
+  20% {
+    transform: scale(1);
+  }
+}
+@-moz-keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.1);
+  }
+  20% {
+    transform: scale(1);
+  }
+}
+@-o-keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.1);
+  }
+  20% {
+    transform: scale(1);
+  }
+}
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  10% {
+    transform: scale(1.1);
+  }
+  20% {
+    transform: scale(1);
+  }
+}
+.vertical-bar {
+  width: 1.875rem;
+  border-right: 0.0625rem solid #EBEBEB;
+  margin-right: 1.875rem;
+}
+
+.horizontal-bar {
+  height: 0.0625rem;
+  margin: 0.625rem 0;
+  background-color: #EBEBEB;
+}
+
+.file-edit-contents {
+  display: flex;
+  flex-direction: column;
+}
+.file-edit-contents .file-head {
+  margin: 0.5625rem 0 0.5625rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3F4B56;
+}
+.file-view-contents {
+  display: flex;
+  min-height: 3.125rem;
+  padding: 0.125rem 1.25rem;
+}
+.file-view-contents .file-head {
+  margin: auto 0;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+}
+.file-view-contents .file-list-contents {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
 .dropzone {
-  box-sizing: border-box;
+  font-family: "Noto Sans KR";
+  font-size: 16px;
+  font-weight: 400;
+  color: #ACB4BF;
   min-height: 6.25rem;
+  background-color: #F7F8F9;
   border: 0.0625rem solid #EBEBEB;
-  background: white;
   padding: 0.625rem 0.625rem 0 0.625rem;
 }
-.dropzone * {
-  box-sizing: border-box;
+.dropzone .dz-default {
+  margin: 1.875rem 0;
 }
-.dropzone.avatar {
-  box-sizing: border-box;
-  width: 18.75rem;
-  height: 18.75rem;
-  padding: 0;
-  background-image: url("../icons/icon_image.png");
-  background-size: 5rem;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: 5rem;
-  background-color: #FDFDFD;
-}
-.dropzone.avatar .dz-message {
-  text-align: center;
-  margin: 12.5rem 0 3rem 0;
-  color: #7A8594;
-}
-.dropzone.avatar .dz-preview {
-  position: relative;
-  vertical-align: top;
-  height: 100%;
-  border: 0.0625rem solid #EBEBEB;
-  margin-bottom: 0.625rem;
-  padding: 0;
-  border: 0;
-}
-.dropzone.avatar .dz-preview .dz-image {
-  overflow: hidden;
-  position: relative;
-  display: block;
-  z-index: 10;
-}
-.dropzone.avatar .dz-preview .dz-image img {
-  display: block;
-}
-.dropzone.avatar .dz-preview .dz-details {
-  position: absolute;
-  top: 50%;
-  display: block;
-}
-.dropzone.avatar .dz-preview .dz-details .dz-file-type {
-  display: none;
-}
-.dropzone.avatar .dz-preview .dz-details .dz-filename {
-  display: none;
+.dropzone .dz-default.dz-message {
   text-align: center;
 }
-.dropzone.avatar .dz-preview .dz-details .dz-size {
-  display: none;
-  text-align: center;
+.dropzone .dz-default.dz-message span {
+  color: #ACB4BF;
 }
-.dropzone.avatar .dz-preview .dz-details .dz-size span {
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 3px;
-  color: #67717f;
+.dropzone .dz-default.dz-message .add-file-button-wrap {
+  margin-top: 0.5rem;
 }
-.dropzone.avatar .dz-preview .dz-details .dz-remove {
-  text-align: center;
-  width: 1.125rem;
-  height: 1.125rem;
-  background-color: rgba(255, 255, 255, 0.4);
-  margin: 0.625rem 8.813rem;
-  position: absolute;
-  top: -10rem;
-  left: 8.75rem;
-  background-image: url("../icons/icon_close.png");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-}
-.dropzone.avatar .dz-preview .dz-details .dz-remove:hover {
-  background-color: rgba(255, 255, 255, 0.9);
-}
-.dropzone.avatar .dz-preview .dz-progress {
-  width: 14.25rem;
-}
-.dropzone .dz-clickable {
+.dropzone .dz-default.dz-message .add-file-button-wrap .dz-clickable {
   cursor: pointer;
   text-decoration: underline;
-  color: #0050ff;
-}
-.dropzone .dz-clickable * {
-  cursor: default;
-}
-.dropzone .dz-clickable .dz-message {
-  cursor: pointer;
-}
-.dropzone .dz-clickable .dz-message * {
-  cursor: pointer;
-}
-.dropzone.dz-started .dz-message {
-  display: none;
+  color: #0098FF;
 }
 .dropzone.dz-drag-hover {
   border-style: solid;
@@ -2831,22 +2937,12 @@ span.vertical-bar {
 .dropzone.dz-drag-hover .dz-message {
   opacity: 0.5;
 }
-.dropzone .dz-uploaded {
-  border: 0;
-}
-.dropzone .dz-message {
-  text-align: center;
-  margin: 1.875rem 0;
-  color: #7A8594;
-}
-.dropzone .dz-message .add-file-button-wrap {
-  margin-top: 0.5rem;
-}
 .dropzone .dz-preview {
   position: relative;
   vertical-align: top;
   height: 5rem;
   border: 0.0625rem solid #EBEBEB;
+  background-color: #FFFFFF;
   margin-bottom: 0.625rem;
   padding: 1rem;
 }
@@ -2857,7 +2953,7 @@ span.vertical-bar {
   opacity: 1;
 }
 .dropzone .dz-preview.dz-file-preview .dz-image {
-  border-radius: 20px;
+  border-radius: 1.25rem;
   background: #999;
   background: linear-gradient(to bottom, #eee, #ddd);
 }
@@ -2874,7 +2970,7 @@ span.vertical-bar {
   -o-transition: opacity 0.2s linear;
   transition: opacity 0.2s linear;
 }
-.dropzone .dz-preview .dz-remove {
+.dropzone .dz-preview .dz-download {
   height: 100%;
   text-align: center;
   display: block;
@@ -2882,8 +2978,22 @@ span.vertical-bar {
   border: none;
   grid-column: 3;
   grid-row: 1/span 2;
-  background-image: url("../icons/icon_notice_delete.svg");
-  background-size: 1.125rem;
+  background-image: url("../../../media/icons/dropzone/icon_fileupload_download.svg");
+  background-size: 1.25rem;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+.dropzone .dz-preview .dz-remove {
+  height: 100%;
+  text-align: center;
+  display: block;
+  cursor: pointer;
+  border: none;
+  grid-column: 5;
+  grid-row: 1/span 2;
+  background-image: url("../../../media/icons/dropzone/icon_fileupload_delete.svg");
+  background-size: 1.125rem 1.25rem;
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
@@ -2902,44 +3012,34 @@ span.vertical-bar {
   color: rgba(0, 0, 0, 0.9);
   line-height: 150%;
   display: grid;
-  grid-template-columns: 2.25rem auto 1.125rem;
+  grid-template-columns: 2.25rem auto 1.25rem 1.25rem 1.125rem;
   align-items: center;
 }
 .dropzone .dz-preview .dz-details .dz-filename {
   white-space: nowrap;
   text-align: left;
-  padding: 0 0.4em;
-}
-.dropzone .dz-preview .dz-details .dz-filename:hover span {
-  border: 1px solid rgba(200, 200, 200, 0.8);
-  background-color: rgba(255, 255, 255, 0.8);
-}
-.dropzone .dz-preview .dz-details .dz-filename:not(:hover) {
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.dropzone .dz-preview .dz-details .dz-filename:not(:hover) span {
-  border: 1px solid transparent;
+  padding: 0 20px;
+  grid-column: 2;
 }
 .dropzone .dz-preview .dz-details .dz-filename span {
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 3px;
+  color: #586872;
 }
 .dropzone .dz-preview .dz-details .dz-size {
   text-align: left;
-  padding: 0 0.4em;
+  padding: 0 1.25rem;
+  grid-column: 2;
 }
 .dropzone .dz-preview .dz-details .dz-size span {
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 3px;
-  color: #67717f;
+  color: #ACB4BF;
 }
 .dropzone .dz-preview .dz-details .dz-file-type {
   height: 100%;
   grid-column: 1;
   grid-row: 1/span 2;
-  background-image: url("../icons/icon_notice_document.svg");
-  background-size: 2.25rem;
+  background-image: url("../../../media/icons/dropzone/icon_document_txt.svg");
+  background-size: auto;
   background-repeat: no-repeat;
   background-position-x: center;
   background-position-y: center;
@@ -2950,6 +3050,8 @@ span.vertical-bar {
   -ms-transform: scale(1.05, 1.05);
   -o-transform: scale(1.05, 1.05);
   transform: scale(1.05, 1.05);
+  -webkit-filter: blur(8px);
+  filter: blur(8px);
 }
 .dropzone .dz-preview .dz-image {
   overflow: hidden;
@@ -2961,19 +3063,20 @@ span.vertical-bar {
   display: block;
 }
 .dropzone .dz-preview.dz-success .dz-success-mark {
-  -webkit-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
-  -moz-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
-  -ms-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
-  -o-animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
-  animation: passing-through 3s cubic-bezier(0.77, 0, 0.175, 1);
+  animation-delay: 0s;
+  animation-duration: 3s;
+  animation-name: passing-through;
+  animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+  animation-iteration-count: 1;
 }
 .dropzone .dz-preview.dz-error .dz-error-mark {
   opacity: 1;
-  -webkit-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
-  -moz-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
-  -ms-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
-  -o-animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
-  animation: slide-in 3s cubic-bezier(0.77, 0, 0.175, 1);
+  color: #FF405A;
+  animation-delay: 0s;
+  animation-duration: 3s;
+  animation-name: slide-in;
+  animation-timing-function: cubic-bezier(0.77, 0, 0.175, 1);
+  animation-iteration-count: 1;
 }
 .dropzone .dz-preview .dz-success-mark, .dropzone .dz-preview .dz-error-mark {
   pointer-events: none;
@@ -2983,13 +3086,13 @@ span.vertical-bar {
   display: block;
   top: 50%;
   left: 50%;
-  margin-left: -27px;
-  margin-top: -27px;
+  margin-left: -1.688rem;
+  margin-top: -1.688rem;
 }
 .dropzone .dz-preview .dz-success-mark svg, .dropzone .dz-preview .dz-error-mark svg {
   display: block;
-  width: 54px;
-  height: 54px;
+  width: 3.375rem;
+  height: 3.375rem;
 }
 .dropzone .dz-preview.dz-processing .dz-progress {
   opacity: 1;
@@ -3008,11 +3111,11 @@ span.vertical-bar {
   transition: opacity 0.4s ease-in;
 }
 .dropzone .dz-preview:not(.dz-processing) .dz-progress {
-  -webkit-animation: pulse 6s ease infinite;
-  -moz-animation: pulse 6s ease infinite;
-  -ms-animation: pulse 6s ease infinite;
-  -o-animation: pulse 6s ease infinite;
-  animation: pulse 6s ease infinite;
+  animation-delay: 0s;
+  animation-duration: 6s;
+  animation-name: pulse;
+  animation-timing-function: ease;
+  animation-iteration-count: infinite;
 }
 .dropzone .dz-preview .dz-progress {
   opacity: 1;
@@ -3021,15 +3124,16 @@ span.vertical-bar {
   position: relative;
   height: 0.25rem;
   top: -1.375rem;
-  left: 2.25rem;
-  width: 36.25rem;
-  background: rgba(190, 197, 206, 0.9);
+  left: 0.625rem;
+  width: 90%;
+  margin: 0 5%;
+  background: #EBEBEB;
   -webkit-transform: scale(1);
-  border-radius: 8px;
+  border-radius: 0.5rem;
   overflow: hidden;
 }
 .dropzone .dz-preview .dz-progress .dz-upload {
-  background: linear-gradient(to bottom, #0050ff, #0050ff);
+  background: linear-gradient(to bottom, #0098FF, #0098FF);
   position: absolute;
   top: 0;
   left: 0;
@@ -3059,10 +3163,10 @@ span.vertical-bar {
   -ms-transition: opacity 0.3s ease;
   -o-transition: opacity 0.3s ease;
   transition: opacity 0.3s ease;
-  border-radius: 8px;
-  top: 140px;
-  left: -10px;
-  width: 140px;
+  border-radius: 0.5rem;
+  top: 8.75rem;
+  left: -0.625rem;
+  width: 8.75rem;
   background: #be2626;
   background: linear-gradient(to bottom, #be2626, #a92222);
   padding: 0.5em 1.2em;
@@ -3071,13 +3175,189 @@ span.vertical-bar {
 .dropzone .dz-preview .dz-error-message:after {
   content: "";
   position: absolute;
-  top: -6px;
-  left: 64px;
+  top: -0.375rem;
+  left: 4rem;
   width: 0;
   height: 0;
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-bottom: 6px solid #be2626;
+  border-left: 0.375rem solid transparent;
+  border-right: 0.375rem solid transparent;
+  border-bottom: 0.375rem solid #be2626;
+}
+.dropzone .dz-error-message {
+  pointer-events: none;
+  z-index: 1000;
+  position: absolute;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 0.5rem;
+  top: calc( -1 * 5rem);
+  left: 0;
+  width: auto;
+  background: #FF405A;
+  padding: 0.5em 1.2em;
+  color: #FFFFFF;
+}
+.dropzone .dz-error-message:after {
+  content: "";
+  position: absolute;
+  top: -0.375rem;
+  left: 4rem;
+  width: 0;
+  height: 0;
+  border-left: 0.375rem solid transparent;
+  border-right: 0.375rem solid transparent;
+  border-bottom: 0.375rem solid #FF405A;
+}
+.dropzone.dz-uploaded {
+  min-height: auto;
+  padding: 0;
+  background-color: transparent;
+  border: 0;
+}
+.dropzone.dz-uploaded .dz-preview {
+  height: auto;
+  border: none;
+  padding: 0;
+  margin-bottom: 0;
+  margin-top: 0.625rem;
+}
+.dropzone.dz-uploaded .dz-preview:first-child {
+  margin-top: 0;
+}
+.dropzone.dz-uploaded .dz-preview .dz-details {
+  display: inline-flex;
+}
+.dropzone.dz-uploaded .dz-preview .dz-details .dz-file-type {
+  width: 1.125rem;
+  height: 1.25rem;
+}
+.dropzone.dz-uploaded .dz-preview .dz-details .dz-filename {
+  padding: 0 0.625rem 0 0.9375rem;
+}
+.dropzone.dz-uploaded .dz-preview .dz-details .dz-filename span {
+  text-decoration: underline;
+}
+.dropzone.dz-uploaded .dz-preview .dz-details .dz-size {
+  padding: 0;
+}
+.dropzone.dz-uploaded .dz-preview .dz-details .dz-download,
+.dropzone.dz-uploaded .dz-preview .dz-details .dz-remove {
+  display: none;
+}
+
+.avatar-edit-contents {
+  display: flex;
+  flex-direction: column;
+}
+.avatar-edit-contents .avatar-head {
+  margin: 0.5625rem 0 0.5625rem 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3F4B56;
+}
+.avatar-edit-contents .avatar {
+  width: 18.75rem;
+  height: 18.75rem;
+  padding: 0;
+  background-image: url("../../../media/icons/dropzone/icon_image.svg");
+  background-size: 5rem;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 5rem;
+}
+.avatar-edit-contents .avatar .dz-message {
+  margin: 12.5rem 0 3rem 0;
+}
+.avatar-edit-contents .avatar .dz-preview {
+  height: 100%;
+  padding: 0;
+  border: 0;
+}
+.avatar-edit-contents .avatar .dz-preview .dz-image {
+  overflow: hidden;
+  position: relative;
+  display: block;
+  z-index: 10;
+}
+.avatar-edit-contents .avatar .dz-preview .dz-image img {
+  display: block;
+}
+.avatar-edit-contents .avatar .dz-preview .dz-details {
+  position: absolute;
+  display: block;
+}
+.avatar-edit-contents .avatar .dz-preview .dz-details .dz-file-type,
+.avatar-edit-contents .avatar .dz-preview .dz-details .dz-filename,
+.avatar-edit-contents .avatar .dz-preview .dz-details .dz-size {
+  display: none;
+}
+.avatar-edit-contents .avatar .dz-preview .dz-details .dz-remove {
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-image: url("../../../media/icons/dropzone/icon_close.svg");
+  background-size: 0.875rem;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+.avatar-edit-contents .avatar .dz-preview .dz-details .dz-remove:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+.avatar-edit-contents .avatar .dz-preview .dz-progress {
+  width: 85%;
+}
+.avatar-edit-contents .avatar.dz-started .dz-message {
+  display: none;
+}
+.avatar-edit-contents .avatar-description {
+  margin-top: 1rem;
+}
+.avatar-edit-contents .avatar-description .avatar-text {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
+  text-align: left;
+  margin-bottom: 0.3125rem;
+}
+.avatar-edit-contents .avatar-sm-contents {
+  margin-bottom: 1.25rem;
+}
+.avatar-edit-contents .avatar-sm-contents > div {
+  display: inline-block;
+}
+.avatar-edit-contents .avatar-sm-contents > div:first-child {
+  margin-right: 0.625rem;
+}
+.avatar-edit-contents .avatar-sm-contents .avatar {
+  width: 9.375rem;
+  height: 9.375rem;
+  padding: 0;
+  background-image: url("../../../media/icons/dropzone/icon_image_sm.svg");
+  background-size: 2.813rem;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: 1.688rem;
+}
+.avatar-edit-contents .avatar-sm-contents .avatar .dz-message {
+  margin: 5.625rem 0 0 0;
+}
+.avatar-edit-contents .avatar-sm-contents .avatar .dz-message span {
+  font-size: 0.8125rem;
+}
+.avatar-edit-contents .avatar-sm-contents .avatar .dz-preview .dz-progress {
+  width: 80%;
+}
+.avatar-edit-contents .avatar-sm-contents .avatar-description {
+  vertical-align: top;
+}
+.avatar-edit-contents .avatar-sm-contents .avatar-description .avatar-text {
+  font-size: 0.8125rem;
 }
 
 /* date picker css */
@@ -3655,6 +3935,15 @@ button.minus:not(:disabled):active {
 button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
   outline: 0;
   background-color: rgba(230, 230, 230, 0.3);
+}
+
+.button-list {
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+}
+.button-list button {
+  margin-left: 0.3125rem;
 }
 
 .flex-row {
