@@ -310,7 +310,7 @@ function showProgressBar() {
         divProgressBar.style.opacity = 0.5;
         divProgressBar.style.pointerEvents = 'all';
         divProgressBar.style.zIndex = 999;
-        
+
         let imgProgressBar = document.createElement('img');
         imgProgressBar.src = '/assets/media/image/loading_w_dark.gif';
         imgProgressBar.style.position = 'absolute';
@@ -614,7 +614,7 @@ aliceJs.alertDanger = function(message, callbackFunc) {
  * @param okCallbackFunc ok 시 callback function
  * @param cancelCallbackFunc cancel 시 callback function
  */
-aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
+aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc, param1, param2, param3, param4) {
     const myModal = new gModal({
         message: message,
         type: 'gmodal-icon-confirm',
@@ -634,7 +634,7 @@ aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {
-                        okCallbackFunc();
+                        okCallbackFunc(param1, param2, param3, param4);
                     }
                     modal.hide();
                 }
@@ -946,17 +946,4 @@ aliceJs.loadSvg = function() {
 aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
     let totalObject = document.getElementById(objectId);
     return offset < totalObject.value;
-}
-
-/**
- * 삭제 시, 삭제 재확인.
- *
- * @param url 호출 url
- * @param callbackFunc 비동기 처리 함수
- */
-aliceJs.deleteConfirm = function(callbackFunc, param1, param2, param3) {
-    aliceJs.confirmIcon(
-        i18n.msg('common.msg.confirmDelete'),
-        () => callbackFunc('delete', param1, param2, param3)
-    )
 }

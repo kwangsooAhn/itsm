@@ -129,7 +129,7 @@
 
         //게시판 관리 삭제
         function deleteBoardAdmin() {
-            aliceJs.deleteConfirm(restSubmit, '/rest/board-admin/' + boardAdminId);
+            aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/board-admin/' + boardAdminId);
         }
 
         //게시판 관리 저장

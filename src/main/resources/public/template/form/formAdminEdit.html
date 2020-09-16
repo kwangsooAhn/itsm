@@ -79,7 +79,7 @@
 
         // 폼 삭제
         function deleteForm(formId) {
-            aliceJs.deleteConfirm(restSubmit, '/rest/forms/' + formId, function(result) {
+            aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/forms/' + formId, function(result) {
                 if (result === 'true') {
                     aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
                         window.close();
