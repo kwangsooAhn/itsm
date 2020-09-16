@@ -702,7 +702,7 @@
 
             // 동적 버튼
             const buttonGroup = document.createElement('div');
-            buttonGroup.className = 'button-group';
+            buttonGroup.className = 'button-list';
             buttonGroup.id = 'button-container';
             buttonPanel.appendChild(buttonGroup);
 
