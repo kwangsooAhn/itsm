@@ -4326,7 +4326,6 @@ body.thumbnail-modal-active {
 .thumbnail-modal-wrapper {
   display: none;
   overflow: auto;
-  position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
