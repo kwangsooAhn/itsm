@@ -138,7 +138,7 @@
                                 const clientHeight = e.target.clientHeight;
                                 if (scrollHeight - scrollTop === clientHeight) {
                                     if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        getFormList(document.getElementById('search').value, true)
+                                        getFormList(document.getElementById('search').value, true);
                                     }
                                 }
                             }
@@ -188,7 +188,6 @@
             tdUpdate.style.width = '10%';
             let updateObject = document.createElement('a');
             updateObject.onclick = function() {
-                console.log(document.getElementById('editable').value)
                 if (document.getElementById('editable').value === 'true') {
                     openFormDesignerEdit(data.id);
                 } else {
@@ -204,7 +203,7 @@
 
             let tdState = document.createElement('td');
             tdState.style.width = '10%';
-            tdState.innerText = i18n.get(data.status);
+            tdState.innerText = i18n.msg(data.status);
 
             let tdDescription = document.createElement('td');
             tdDescription.style.width = '30%';
