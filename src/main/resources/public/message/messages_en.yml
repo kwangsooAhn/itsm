@@ -101,6 +101,7 @@ auth:
     enterAuthId: "Please enter a auth id."
     enterAuthName: "Please enter a auth name."
     searchPlaceholder: "Auth Name / Auth Desc"
+    accessDenied: "You do not have access."
   auth:
     read: "auth read"
     create: "auth create"
