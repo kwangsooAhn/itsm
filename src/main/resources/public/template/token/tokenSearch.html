@@ -58,26 +58,26 @@
             document.getElementById('toDt').value = i18n.getDate();
 
             // 검색 이벤트 핸들러 셋업
-            dateTimePicker.initDatePicker('searchFromDt', () => tokenSearches(false));
-            dateTimePicker.initDatePicker('toDt', () => tokenSearches(false));
+            dateTimePicker.initDatePicker('searchFromDt', () => tokenSearch(false));
+            dateTimePicker.initDatePicker('toDt', () => tokenSearch(false));
             document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function (element) {
-                element.addEventListener('change', () => tokenSearches(false), false);
+                element.addEventListener('change', () => tokenSearch(false), false);
             });
 
             document.getElementById('searchValue').addEventListener('keyup', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
-                    tokenSearches(false);
+                    tokenSearch(false);
                 }
             }, false);
 
-            tokenSearches(false);
+            tokenSearch(false);
         });
 
         /**
          * 문서함을 검색한다.
          */
-        function tokenSearches(isScroll) {
+        function tokenSearch(isScroll) {
             let urlParam = '';
             document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
             if (isScroll) {
@@ -126,7 +126,7 @@
                                     const clientHeight = e.target.clientHeight;
                                     if (scrollHeight - scrollTop === clientHeight) {
                                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                            tokenSearches(true);
+                                            tokenSearch(true);
                                         }
                                     }
                                     if (scrollTop > 20) {
