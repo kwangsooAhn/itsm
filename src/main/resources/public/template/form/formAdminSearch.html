@@ -11,6 +11,9 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
+    <input type="hidden" id="readable" th:value="${#authorization.expression('hasAuthority(''form.read'')')}"/>
+    <input type="hidden" id="editable" th:value="${#authorization.expression('hasAnyAuthority(''form.create'', ''form.update'')')}"/>
+    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''form.delete'')')}"/>
     <div class="contents-list">
         <div class="page-title">
             <h1 th:text="#{form.label.list}"></h1>
@@ -30,7 +33,7 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-    <script type="text/javascript">
+    <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         let offsetCount = 0;
         window.onload = function() {
@@ -164,24 +167,33 @@
             formNameObject.innerText = data.name;
             tdFormName.appendChild(formNameObject);
 
+            // 미리보기
             let tdFormPreview = document.createElement('td');
             tdFormPreview.style.width = '10%';
             let formPreviewObject = document.createElement('a');
             formPreviewObject.onclick = function() {
-                openFormDesignerView(data.id);
+                if (document.getElementById('readable').value === 'true') {
+                    openFormDesignerView(data.id);
+                } else {
+                    aliceJs.alertWarning([[#{auth.msg.accessDenied}]]);
+                }
             }
             let formPreviewImage = document.createElement('img');
             formPreviewImage.src = '../assets/media/icons/process/list/icon_preview.svg';
             formPreviewObject.appendChild(formPreviewImage);
             tdFormPreview.appendChild(formPreviewObject);
 
+            // 변경
             let tdUpdate = document.createElement('td');
             tdUpdate.style.width = '10%';
-
-            // TODO: 권한에 따라 처리
             let updateObject = document.createElement('a');
             updateObject.onclick = function() {
-                openFormDesignerEdit(data.id);
+                console.log(document.getElementById('editable').value)
+                if (document.getElementById('editable').value === 'true') {
+                    openFormDesignerEdit(data.id);
+                } else {
+                    aliceJs.alertWarning([[#{auth.msg.accessDenied}]]);
+                }
             }
             let updateImage = document.createElement('img');
             updateImage.src = '../assets/media/icons/process/list/icon_edit.svg';
