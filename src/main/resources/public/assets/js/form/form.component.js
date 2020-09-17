@@ -88,15 +88,17 @@
                     `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                        `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                        `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                            `${aliceJs.filterXSS(property.label.text)}` +
+                        `</div>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
-                    `<input type="text" placeholder="${property.display.placeholder}" value="${defaultValue}"` +
+                    `<input type="text" placeholder="${aliceJs.filterXSS(property.display.placeholder)}" value="${aliceJs.filterXSS(defaultValue)}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''}` +
                     ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}"` +
-                    ` regexp='${property.validate.regexp}' regexp-msg='${property.validate.regexpMsg}' />` +
+                    ` regexp='${property.validate.regexp}' regexp-msg='${aliceJs.filterXSS(property.validate.regexpMsg)}' />` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -131,7 +133,9 @@
                     `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                        `${aliceJs.filterXSS(property.label.text)}` +
+                    `</div>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -143,9 +147,10 @@
                         ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}">` +
                         `</div>` +
                     `</div>` : 
-                    `<textarea placeholder="${property.display.placeholder}" rows="${property.display.rows}" style="--data-row: ${property.display.rows};"` +
-                    `${displayType === 'editableRequired' ? ' required' : ''}` +
-                    ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}">${defaultValue}` +
+                    `<textarea placeholder="${aliceJs.filterXSS(property.display.placeholder)}" rows="${property.display.rows}"` +
+                    `style="--data-row: ${property.display.rows};" ${displayType === 'editableRequired' ? ' required' : ''}` +
+                    ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}">` +
+                        `${aliceJs.filterXSS(defaultValue)}` +
                     `</textarea>`}` +
                 `</div>` +
             `</div>` +
@@ -191,8 +196,8 @@
         this.renderOrder = property.display.order;
 
         const optionsTemplate = property.option.map(function (opt) {
-            return `<option value="${opt.value}" data-seq="${opt.seq}" ${(typeof property.value !== 'undefined' && opt.value === property.value) ? "selected='true'" : ""}>` +
-                `${opt.name}</option>`;
+            const isMatch = (typeof property.value !== 'undefined' && opt.value === property.value);
+            return `<option value="${aliceJs.filterXSS(opt.value)}" data-seq="${opt.seq}" ${isMatch ? "selected='true'" : ""}>${aliceJs.filterXSS(opt.name)}</option>`;
         }).join('');
 
         const displayType = property['dataAttribute']['displayType'];
@@ -204,12 +209,16 @@
                     `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                        `${aliceJs.filterXSS(property.label.text)}` +
+                    `</div>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
-                    `<select ${displayType === 'editableRequired' ? 'required' : ''}>${optionsTemplate}</select>` +
+                    `<select ${displayType === 'editableRequired' ? 'required' : ''}>` +
+                        `${optionsTemplate}` +
+                    `</select>` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -232,14 +241,14 @@
 
         const displayType = property['dataAttribute']['displayType'];
         const optionsTemplate = property.option.map(function (opt) {
-            return `<label class="field-radio radio-group" for='radio-${opt.value}-${opt.seq}'>` +
+            return `<label class="field-radio radio-group" for='radio-${property.componentId}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
-                    `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}"` + 
+                    `<input type="radio" id="radio-${property.componentId}-${opt.seq}" name="radio-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
                     `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>` +
-                    `<span>${opt.name}</span>` :
-                    `<span>${opt.name}</span>` +
-                    `<input type="radio" id="radio-${opt.value}-${opt.seq}" name="radio-${property.componentId}" value="${opt.value}"` +
+                    `<span>${aliceJs.filterXSS(opt.name)}</span>` :
+                    `<span>${aliceJs.filterXSS(opt.name)}</span>` +
+                    `<input type="radio" id="radio-${property.componentId}-${opt.seq}" name="radio-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
                     `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>`
                  }` +
@@ -254,12 +263,15 @@
                     `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                        `${aliceJs.filterXSS(property.label.text)}` +
+                    `</div>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div id="radio" class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
-                `${displayType === 'editableRequired' ? 'required' : ''}>${optionsTemplate}` +
+                `${displayType === 'editableRequired' ? 'required' : ''}>` +
+                    `${optionsTemplate}` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -283,14 +295,14 @@
         const displayType = property['dataAttribute']['displayType'];
         const checkboxValueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
         const optionsTemplate = property.option.map(function (opt) {
-            return `<label class="field-checkbox checkbox-group"  for='checkbox-${opt.value}-${opt.seq}'>` +
+            return `<label class="field-checkbox checkbox-group"  for='checkbox-${property.componentId}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
-                    `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}"` + 
+                    `<input type="checkbox" id="checkbox-${property.componentId}-${opt.seq}" name="checkbox-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
                     `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>` +
-                    `<span>${opt.name}</span>` :
-                    `<span>${opt.name}</span>` +
-                    `<input type="checkbox" id="checkbox-${opt.value}-${opt.seq}" name="checkbox-${property.componentId}" value="${opt.value}"` +
+                    `<span>${aliceJs.filterXSS(opt.name)}</span>` :
+                    `<span>${aliceJs.filterXSS(opt.name)}</span>` +
+                    `<input type="checkbox" id="checkbox-${property.componentId}-${opt.seq}" name="checkbox-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
                     `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>`
                 }` +
@@ -305,12 +317,15 @@
                         `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                        `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                        `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                            `${aliceJs.filterXSS(property.label.text)}` +
+                        `</div>` +
                         `<span class="required"></span>` +
                     `</div>` +
                     `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                     `<div id="chkbox" class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
-                    `${displayType === 'editableRequired' ? 'required' : ''}>${optionsTemplate}` +
+                    `${displayType === 'editableRequired' ? 'required' : ''}>` +
+                        `${optionsTemplate}` +
                     `</div>` +
                 `</div>` +
             `</div>`;
@@ -340,7 +355,9 @@
                     `<div class="label" style="color: ${property.display.color}; font-size: ${property.display.size}px;` +
                     `${property.display.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.display.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                    `${property.display.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.display.text}</div>` +
+                    `${property.display.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                        `${aliceJs.filterXSS(property.display.text)}` +
+                    `</div>` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -368,7 +385,7 @@
             `<div class="move-handler"></div>` +
                 `<div class="field-group">` +
                 `<div class="field-content ${property.display.align}">` +
-                    `<img class="field-img" id="imagebox-${this.id}" src="" alt="" data-path="${imageSrc}" width="${property.display.width}" height="${property.display.height}">` +
+                    `<img class="field-img" id="imagebox-${this.id}" src="" alt="" data-path="${aliceJs.filterXSS(imageSrc)}" width="${property.display.width}" height="${property.display.height}">` +
                     `<div class="img-placeholder"><img/><p>Select Your Image</p></div>` +
                 `</div>` +
             `</div>` +
@@ -467,7 +484,9 @@
                     `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                        `${aliceJs.filterXSS(property.label.text)}` +
+                    `</div>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -535,7 +554,9 @@
                     `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                        `${aliceJs.filterXSS(property.label.text)}` +
+                    `</div>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -604,7 +625,9 @@
                     `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                        `${aliceJs.filterXSS(property.label.text)}` +
+                    `</div>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -648,7 +671,9 @@
                     `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                        `${aliceJs.filterXSS(property.label.text)}` +
+                    `</div>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -741,14 +766,16 @@
                     `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
-                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">${property.label.text}</div>` +
+                    `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                        `${aliceJs.filterXSS(property.label.text)}` +
+                    `</div>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div class="field-content custom-code" style="--data-column: ${property.display.column};">` +
-                    `<input class="custom-code-text" type="text" id="custom-code-${this.id}" custom-data="${defaultCustomData}" value="${defaultValue}"` +
+                    `<input class="custom-code-text" type="text" id="custom-code-${this.id}" custom-data="${defaultCustomData}" value="${aliceJs.filterXSS(defaultValue)}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''} readonly />` +
-                    `<input type="button" id="codeBtn-${this.id}" value="${property.display.buttonText}">` +
+                    `<input type="button" id="codeBtn-${this.id}" value="${aliceJs.filterXSS(property.display.buttonText)}">` +
                 `</div>` +
             `</div>` +
         `</div>`;
