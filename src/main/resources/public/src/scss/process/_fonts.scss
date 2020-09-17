@@ -1,0 +1,6 @@
+/* font-face */
+@import "../template/_fonts.scss";
+
+@each $fname, $weight in $font-face-map {
+    @include font-face("Noto Sans KR", $font-folder-path + "/" + $fname , "opentype", normal, $weight);
+}

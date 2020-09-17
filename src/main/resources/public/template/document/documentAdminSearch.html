@@ -71,7 +71,7 @@
         }
 
         function deleteDocument(documentId) {
-            restSubmit('DELETE', '/rest/documents-admin/' + documentId, function(result) {
+            aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/documents-admin/' + documentId, function(result) {
                 if (JSON.parse(result)) {
                     aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
                         location.reload();

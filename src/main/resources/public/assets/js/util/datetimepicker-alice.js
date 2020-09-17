@@ -590,7 +590,8 @@
      */
     function initPicker(targetId, options) {
         let targetElement = document.getElementById(targetId);
-        targetElement.setAttribute('oncontextmenu','return false');
+        targetElement.setAttribute('oncontextmenu','return false;');
+        targetElement.setAttribute('onkeypress','return false;');
         options.value = (targetElement.value !== '' ? targetElement.value : 'now');
         options.inputEl = targetElement;
 
