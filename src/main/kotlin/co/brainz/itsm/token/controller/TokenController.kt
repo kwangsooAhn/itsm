@@ -58,7 +58,9 @@ class TokenController(
 
     @GetMapping("/list")
     fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto, model: Model): String {
-        model.addAttribute("tokenList", tokenService.getTokenList(restTemplateTokenSearchListDto))
+        val result = tokenService.getTokenList(restTemplateTokenSearchListDto)
+        model.addAttribute("tokenCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        model.addAttribute("tokenList", result)
         return tokenListPage
     }
 
