@@ -13,7 +13,6 @@
 <th:block layout:fragment="content">
     <input type="hidden" id="readable" th:value="${#authorization.expression('hasAuthority(''form.read'')')}"/>
     <input type="hidden" id="editable" th:value="${#authorization.expression('hasAnyAuthority(''form.create'', ''form.update'')')}"/>
-    <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''form.delete'')')}"/>
     <div class="contents-list">
         <div class="page-title">
             <h1 th:text="#{form.label.list}"></h1>
