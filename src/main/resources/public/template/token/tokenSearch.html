@@ -148,7 +148,7 @@
         }
 
         function getDataTemplate(data) {
-            let divTokenArea = document.querySelector('.token-area');
+            let divList = document.getElementById('tokenList');
 
             let divListItem = document.createElement('div');
             divListItem.className = 'list-item';
@@ -252,7 +252,7 @@
             divListItem.appendChild(divDocumentColor);
             divListItem.appendChild(divDocumentRow);
 
-            divTokenArea.appendChild(divListItem);
+            divList.appendChild(divListItem);
         }
 
         /**
