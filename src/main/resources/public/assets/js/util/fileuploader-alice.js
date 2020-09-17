@@ -88,15 +88,15 @@ const fileUploader = (function () {
         }
 
         if (extraParam.dictDefaultMessage === undefined) {
-            extraParam.dictDefaultMessage = 'Drop files here to upload'
+            extraParam.dictDefaultMessage = i18n.msg('file.msg.upload');
         }
 
         if (extraParam.clickableLineMessage === undefined) {
-            extraParam.clickableLineMessage = 'or '
+            extraParam.clickableLineMessage = i18n.msg('file.label.or') + ' ';
         }
 
         if (extraParam.clickableMessage === undefined) {
-            extraParam.clickableMessage = 'browse'
+            extraParam.clickableMessage = i18n.msg('file.msg.browser');
         }
 
         if (extraParam.isView === undefined) {
@@ -264,6 +264,7 @@ const fileUploader = (function () {
             autoQueue: true, // Make sure the files aren't queued until manually added
             clickable: '.' + extraParam.clickable, // Define the element that should be used as click trigger to select files.
             createImageThumbnails: false,
+            dictDefaultMessage: extraParam.dictDefaultMessage,
             headers: {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
             },

@@ -682,8 +682,8 @@
                     `<div id="dropZoneUploadedFiles-${this.id}">` +
                         `<div class="dropzone">` +
                             `<div class="dz-default dz-message">` +
-                                `<span>Drop files here to upload</span>` +
-                                ` <div class="add-file-button-wrap"><span>or </span><span class="add-file-button dz-clickable">browse</span></div>` +
+                                `<span>`+i18n.msg('file.msg.upload')+`</span>` +
+                                ` <div class="add-file-button-wrap"><span>`+i18n.msg('file.label.or')+ ` </span><span class="add-file-button dz-clickable">`+i18n.msg('file.msg.browser')+`</span></div>` +
                             `</div>` +
                         `</div>` +
                     `</div>` +

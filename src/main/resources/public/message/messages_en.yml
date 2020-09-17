@@ -902,3 +902,11 @@ validation:
 project:
   label:
     name: "Zenius ITSM"
+
+# uploader
+file:
+  label:
+    or: "or"
+  msg:
+    upload: "Drop files here to upload."
+    browser: "browser."
