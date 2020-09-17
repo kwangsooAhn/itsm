@@ -4,7 +4,8 @@
       .cls-1 {
         fill: #acb4bf;
         font-size: 16px;
-        font-family: NotoSansKR-Regular, Noto Sans KR;
+        font-family: 'Noto Sans KR';
+        font-weight: 400;
       }
     </style>
   </defs>

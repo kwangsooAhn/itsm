@@ -108,7 +108,7 @@
                     restSubmit('put', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
                 });
                 document.getElementById('btnDelete').addEventListener('click', function () {
-                    restSubmit('delete', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
+                    aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), restSubmit, null, 'delete', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
                 });
             }
             fileUploader.init({extra: {ownId: [[${faq?.faqId}]]}});

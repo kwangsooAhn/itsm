@@ -606,20 +606,22 @@
      * @param commentId
      */
     function deleteComment(commentId) {
-        const opt = {
-            method: 'DELETE',
-            url: '/rest/comments/' + commentId,
-            callbackFunc: function(xhr) {
-                if (xhr.responseText) {
-                    aliceJs.alertSuccess(i18n.get('common.msg.delete'), function() {
-                        location.reload();
-                    });
-                } else {
-                    aliceJs.alertDanger(i18n.get('common.msg.fail'));
+        aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), function() {
+            const opt = {
+                method: 'DELETE',
+                url: '/rest/comments/' + commentId,
+                callbackFunc: function (xhr) {
+                    if (xhr.responseText) {
+                        aliceJs.alertSuccess(i18n.get('common.msg.delete'), function () {
+                            location.reload();
+                        });
+                    } else {
+                        aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                    }
                 }
-            }
-        };
-        aliceJs.sendXhr(opt);
+            };
+            aliceJs.sendXhr(opt);
+        });
     }
 
     /**
@@ -702,7 +704,7 @@
 
             // 동적 버튼
             const buttonGroup = document.createElement('div');
-            buttonGroup.className = 'button-group';
+            buttonGroup.className = 'button-list';
             buttonGroup.id = 'button-container';
             buttonPanel.appendChild(buttonGroup);
 

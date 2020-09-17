@@ -1,51 +1,53 @@
-/* Variables */
+// Variables
 
 // font family
-$font-family:                     "Noto Sans KR";
-$font-size-base:                  1rem; /* 16px */
-
+$font-face-map: (
+    "NotoSansKR-Thin.otf":                    100,
+    "NotoSansKR-Light.otf":                   300,
+    "NotoSansKR-Regular.otf":                 400,
+    "NotoSansKR-Medium.otf":                  500,
+    "NotoSansKR-Bold.otf":                    700,
+    "NotoSansKR-Black.otf":                   900
+);
+$font-folder-path:                            "font";
+$font-family:                                 "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+$font-size-base:                              1rem;  // 16px
 
 // color
-$black:            #000000;
-$white:            #ffffff;
-$red:              #FF405A;
-$orange:           #FF7319;
-$green:            #00C462;
-$focus-black:      #283238;
-$ground-black:     #333D47;
-$light-black:      #3F4B56;
-$dark-gray:        #586872;
-$warm-gray:        #7E848C;
-$blue-gray:        #929AA6;
-$gray:             #ACB4BF;
-$pressed-gray:     #CCCED1;
-$default-gray:     #E1E3E6;
-$line-gray:        #EBEBEB;
-$light-gray:       #F7F8F9;
-$dark-blue:        #0060A5;
-$pressed-blue:     #0088E6;
-$point-blue:       #0098FF;
-$hover-blue:       #33ADFF;
-$light-blue:       #87CEFF;
+$black:                                       #000000;
+$white:                                       #ffffff;
+$red:                                         #FF405A;
+$orange:                                      #FF7319;
+$green:                                       #00C462;
+$focus-black:                                 #283238;
+$ground-black:                                #333D47;
+$light-black:                                 #3F4B56;
+$dark-gray:                                   #586872;
+$warm-gray:                                   #7E848C;
+$blue-gray:                                   #929AA6;
+$gray:                                        #ACB4BF;
+$pressed-gray:                                #CCCED1;
+$default-gray:                                #E1E3E6;
+$line-gray:                                   #EBEBEB;
+$light-gray:                                  #F7F8F9;
+$dark-blue:                                   #0060A5;
+$pressed-blue:                                #0088E6;
+$point-blue:                                  #0098FF;
+$hover-blue:                                  #33ADFF;
+$light-blue:                                  #87CEFF;
 
 // h1 ~ h5
-$h1-font-size:                    $font-size-base * 2.25; /* 36px */
-$h2-font-size:                    $font-size-base * 1.75; /* 28px */
-$h3-font-size:                    $font-size-base * 1.5;  /* 24px */
-$h4-font-size:                    $font-size-base * 1.25; /* 20px */
+$h1-font-size:                    $font-size-base * 2.25; // 36px
+$h2-font-size:                    $font-size-base * 1.75; // 28px
+$h3-font-size:                    $font-size-base * 1.5;  // 24px
+$h4-font-size:                    $font-size-base * 1.25; // 20px
 $h5-font-size:                    $font-size-base;
-$h6-font-size:                    $font-size-base * 0.875; /* 14px */
+$h6-font-size:                    $font-size-base * 0.875; // 14px
 
 $headings-font-family:            "Noto Sans KR";
 $headings-font-weight:            500;
 $headings-line-height:            1.2;
 $headings-color:                  $light-black;
-
-//$h1-font-color:      $light-black; 
-//$h2-font-color:      $light-black;
-//$h3-font-color:      $light-black;
-//$h4-font-color:      $dark-gray;
-//$h5-font-color:      $warm-gray;
 
 // input
 $input-font-size:            16px;

@@ -12,7 +12,10 @@
 }
 
 body {
-    font-family: $font-family;
+    font: {
+        family: $font-family;
+        size: $font-size-base;
+    }
 }
 .container {
     // 폼 양식

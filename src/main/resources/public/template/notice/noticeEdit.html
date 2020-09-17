@@ -103,7 +103,7 @@
                             th:text="#{notice.label.modifyCompleted}">
                     </button>
                     <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
-                            class="default-fill" th:onclick="restSubmit('delete',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])"
+                            class="default-fill" th:onclick="aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), restSubmit, null, 'delete', [[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])"
                             th:text="#{common.btn.delete}">
                     </button>
                 </div>
