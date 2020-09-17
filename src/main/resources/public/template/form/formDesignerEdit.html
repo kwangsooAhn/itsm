@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-        xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-        layout:decorator="form/formCore">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="form/formCore">
 <head>
     <title th:text="${isView != null} ? #{form.label.form} + #{common.label.blank} + #{form.label.preview} : #{form.label.edit}"></title>
     <meta http-equiv="expire" content="-1"/>
@@ -15,18 +16,20 @@
             <div class="toolbar">
                 <img class="load-svg logo"  th:src="@{/assets/media/icons/form/topmenu/logo.svg}"/>
                 <span class="name">Form Designer</span>
-                <th:block th:if="${#strings.isEmpty(isView)}">
+                <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
                     <span class="separator"></span>
                     <a href="javascript:void(0);" onclick="editor.save(false);">
                         <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save.svg}"/>
                         <!--<label th:text="#{common.btn.save}"></label>-->
                     </a>
                 </th:block>
-                <span class="separator"></span>
-                <a href="javascript:void(0);" onclick="editor.saveAs();">
-                    <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save_as.svg}"/>
-                    <!--<label th:text="#{common.btn.saveAs}"></label>-->
-                </a>
+                <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
+                    <span class="separator"></span>
+                    <a href="javascript:void(0);" onclick="editor.saveAs();">
+                        <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save_as.svg}"/>
+                        <!--<label th:text="#{common.btn.saveAs}"></label>-->
+                    </a>
+                </th:block>
                 <th:block th:if="${#strings.isEmpty(isView)}">
                     <span class="separator"></span>
                     <a href="javascript:void(0);" onclick="editor.undo();">
@@ -46,7 +49,7 @@
                     <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_preview.svg}"/>
                     <!--<label th:text="#{form.label.preview}"></label>-->
                 </a>
-                <th:block th:if="${#strings.isEmpty(isView)}">
+                <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAnyAuthority('form.create', 'form.update')">
                     <span class="separator"></span>
                     <a href="javascript:void(0);" onclick="editor.save(true);">
                         <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save_out.svg}"/>

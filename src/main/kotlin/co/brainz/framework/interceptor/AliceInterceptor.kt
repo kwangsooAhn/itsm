@@ -6,6 +6,7 @@ import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.exception.AliceErrorConstants
 import co.brainz.framework.exception.AliceException
+import co.brainz.framework.util.AliceMessageSource
 import co.brainz.framework.util.AliceUtil
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -22,7 +23,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter
 @Component
 class AliceInterceptor(
     private val aliceCryptoRsa: AliceCryptoRsa,
-    private val aliceMenuRepository: AliceMenuRepository
+    private val aliceMenuRepository: AliceMenuRepository,
+    private val aliceMessageSource: AliceMessageSource
 ) : HandlerInterceptorAdapter() {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -81,7 +83,7 @@ class AliceInterceptor(
                 }
                 throw AliceException(
                     AliceErrorConstants.ERR_00003,
-                    AliceErrorConstants.ERR_00003.message + "(URL: $requestUrl)"
+                    aliceMessageSource.getMessage("auth.msg.accessDenied") + " (URL: $requestUrl)"
                 )
             }
         }
