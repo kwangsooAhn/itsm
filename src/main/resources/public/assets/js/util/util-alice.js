@@ -946,4 +946,20 @@ aliceJs.loadSvg = function() {
 aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
     let totalObject = document.getElementById(objectId);
     return offset < totalObject.value;
-}
+};
+
+/**
+ * 문자열 <,>, ', ", & 등 특수문자에 대하여 코드로 변환해준다.
+ * 사용법은 아래와 같다.
+ * aliceJs.filterXSS('<p><script>alert('test');</script></p>')
+ *
+ * @param str 문자열
+ * @return {string} 변환된 문자열
+ */
+aliceJs.filterXSS = function (str) {
+    return str.replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/\"/g, '&quot;')
+        .replace(/\'/g, '&apos;');
+};

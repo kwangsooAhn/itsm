@@ -1220,7 +1220,7 @@
                                     case 'inputbox':
                                         fieldTemplate =
                                             `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}</label>${tooltipTemplate}` +
-                                            `<input type="text" class="property-value" value="${fieldProp.value}"/>`;
+                                            `<input type="text" class="property-value" value="${aliceJs.filterXSS(fieldProp.value)}"/>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
@@ -1257,7 +1257,7 @@
                                         break;
                                     case 'customcode':
                                         const fieldCustomCodeOptions = customCodeList.map(function (code) {
-                                            return `<option value='${code.customCodeId}' ${fieldProp.value === code.customCodeId ? "selected='selected'" : ""}>${code.customCodeName}</option>`;
+                                            return `<option value='${code.customCodeId}' ${fieldProp.value === code.customCodeId ? "selected='true'" : ""}>${aliceJs.filterXSS(code.customCodeName)}</option>`;
                                         }).join('');
 
                                         fieldTemplate =
@@ -1274,7 +1274,7 @@
                                         fieldTemplate =
                                             `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="property-field-image">` +
-                                                `<input type="text" class="input-image property-value" value="${fieldProp.value}" id="path-${selectedComponentIds[0]}">` +
+                                                `<input type="text" class="input-image property-value" value="${aliceJs.filterXSS(fieldProp.value)}" id="path-${selectedComponentIds[0]}">` +
                                                 `<button type="button" class="btn default-point-line" id="imageUploadPop"></button>` +
                                             `</div>`;
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1387,8 +1387,10 @@
                                             fieldSelectOptions += `<option value='' disabled selected style='display:none;'></option>`;
                                         }
                                          fieldSelectOptions += fieldProp.option.map(function (opt) {
-                                            return `<option value='${opt.id}' ${fieldProp.value === opt.id && selectedComponentIds.length === 1 ? "selected='selected'" : ""}>${opt.name}</option>`;
+                                            const isMatch = (fieldProp.value === opt.id && selectedComponentIds.length === 1);
+                                            return `<option value='${opt.id}' ${isMatch ? "selected='true'" : ""}>${opt.name}</option>`;
                                         }).join('');
+
                                         fieldTemplate =
                                             `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<select class='property-value'>${fieldSelectOptions}</select>`;
@@ -1413,10 +1415,10 @@
                                         fieldTemplate += `<div class="property-field-toggle button-group button-group-toggle">${fieldSessionOptions}</div>`;
 
                                         // 직접 입력할 경우 input box
-                                        fieldTemplate += `<input type='text' class='property-value ${fieldProp.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? propValueArr[1] : ""}'/>`;
+                                        fieldTemplate += `<input type='text' class='property-value ${fieldProp.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? aliceJs.filterXSS(propValueArr[1]) : ""}'/>`;
                                         // 자동 입력일 경우 select box
                                         const fieldSubOptions = fieldProp.option[1].items.map(function (opt) {
-                                            return `<option value='${opt.id}' ${propValueArr[1] === opt.id ? "selected='selected'" : ""}>${opt.name}</option>`;
+                                            return `<option value='${opt.id}' ${propValueArr[1] === opt.id ? "selected='true'" : ""}>${opt.name}</option>`;
                                         }).join('');
                                         fieldTemplate +=
                                             `<select class='property-value ${fieldProp.type}' id='select' style='${propValueArr[0] === "select" ? "" : "display: none;"}'>${fieldSubOptions}</select>`;
@@ -1475,7 +1477,7 @@
                                             `<input type="checkbox" id="checkbox-${opt[item.id]}" value="${opt[item.id]}" />` +
                                             `<span></span>` +
                                         `</label>` : 
-                                        `<input type="text" value="${opt[item.id]}"/>`}` +
+                                        `<input type="text" value="${aliceJs.filterXSS(opt[item.id])}"/>`}` +
                                         `</td>`;
                                     }).join('')}</tr>`;
                                 }).join('');
