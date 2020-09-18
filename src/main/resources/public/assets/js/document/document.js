@@ -228,7 +228,7 @@
                     let buttonProcessEle = document.createElement('button');
                     buttonProcessEle.type = 'button';
                     buttonProcessEle.className = 'default-fill';
-                    buttonProcessEle.innerText = element.name;
+                    buttonProcessEle.innerText = i18n.msg(element.name);
                     // 문서가 view 일 경우, 닫기 버튼을 제외하곤 disabled 처리한다.
                     if (documentContainer.hasAttribute('data-readonly') && element.value !== 'close') {
                         buttonProcessEle.disabled = true;
@@ -702,11 +702,16 @@
             printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
             buttonPanel.appendChild(printButton);
 
+            // 동적 버튼 추가
             // 동적 버튼
             const buttonGroup = document.createElement('div');
             buttonGroup.className = 'button-list';
             buttonGroup.id = 'button-container';
+            console.log("createButton");
+            console.log(buttonGroup);
+            console.log(buttonPanel);
             buttonPanel.appendChild(buttonGroup);
+
 
             const documentPanel = document.createElement('div');
             documentPanel.className = 'drawing-board';

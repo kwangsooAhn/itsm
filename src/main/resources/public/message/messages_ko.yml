@@ -20,6 +20,10 @@ common:
     update: "변경"
     write: "작성"
     select: "선택"
+    process: "처리"
+    withdraw: "회수"
+    reject: "반려"
+    terminate: "종결"
   label:
     attachFile: "첨부파일"
     blank: " "
