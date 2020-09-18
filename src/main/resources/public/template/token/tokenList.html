@@ -3,41 +3,42 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head></head>
 <body>
-<div class="no-data-found" th:if="${#lists.isEmpty(tokenList)}">
-    <img class="no-data-icon" />
-    <span class="no-data-text" th:text="#{common.msg.noData}"></span>
-</div>
-<div class="list-item" th:each="token: ${tokenList}">
-    <div class="document-color" th:style="|background-color: ${token.documentColor}|"></div>
-    <div class="document-row">
-        <div class="document-row-content">
-            <a href="#" th:onclick="openTokenEdit([[${token.tokenId}]]);return false;"
-               sec:authorize="hasAuthority('token.read')">
-                <div class="document-title">
-                    <h3 th:text="${token.documentName}"></h3>
-                    <h5 th:text="${token.documentNo}"></h5>
-                </div>
-                <div class="document-topic">
-                    <h5 th:each="topic: ${token.topics}" th:text="${topic}"></h5>
-                </div>
-            </a>
-        </div>
-        <div class="document-row-info">
-            <div class="document-detail">
-                <div class="document-user">
-                    <img class="profile-photo" alt="profile pic" th:src="${token.avatarPath}">
-                    <h5 th:text="${token.createUserName}"></h5>
-                </div>
-                <span class="vertical-bar"></span>
-                <h5 th:text="${token.createDt}" class="create-dt"></h5>
-                <span class="vertical-bar"></span>
-                <h5 th:text="${token.elementName}"></h5>
+    <div class="no-data-found" th:if="${#lists.isEmpty(tokenList)}">
+        <img class="no-data-icon"/>
+        <span class="no-data-text" th:text="#{common.msg.noData}"></span>
+    </div>
+    <div class="list-item" th:each="token: ${tokenList}">
+        <div class="document-color" th:style="|background-color: ${token.documentColor}|"></div>
+        <div class="document-row">
+            <div class="document-row-content">
+                <a href="#" th:onclick="openTokenEdit([[${token.tokenId}]]);return false;"
+                   sec:authorize="hasAuthority('token.read')">
+                    <div class="document-title">
+                        <h3 th:text="${token.documentName}"></h3>
+                        <h5 th:text="${token.documentNo}"></h5>
+                    </div>
+                    <div class="document-topic">
+                        <h5 th:each="topic: ${token.topics}" th:text="${topic}"></h5>
+                    </div>
+                </a>
             </div>
-            <div class="document-tag">
-                <span th:each="tag: ${token.tags}" th:text="${tag}"></span>
+            <div class="document-row-info">
+                <div class="document-detail">
+                    <div class="document-user">
+                        <img class="profile-photo" alt="profile pic" th:src="${token.avatarPath}">
+                        <h5 th:text="${token.createUserName}"></h5>
+                    </div>
+                    <span class="vertical-bar"></span>
+                    <h5 th:text="${token.createDt}" class="create-dt"></h5>
+                    <span class="vertical-bar"></span>
+                    <h5 th:text="${token.elementName}"></h5>
+                </div>
+                <div class="document-tag">
+                    <span th:each="tag: ${token.tags}" th:text="${tag}"></span>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <input th:type="hidden" id="totalCount" th:value="${tokenCount}"/>
 </body>
 </html>

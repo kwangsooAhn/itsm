@@ -1,54 +1,57 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
 </head>
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th width="20%" th:text="#{form.label.name}"></th>
-                <th width="10%" th:text="#{form.label.preview}"></th>
-                <th width="10%" th:text="#{common.label.update}"></th>
-                <th width="10%" th:text="#{form.label.state}"></th>
-                <th width="30%" th:text="#{form.label.description}"></th>
-                <th width="10%" th:text="#{common.label.writer}"></th>
-                <th width="10%" th:text="#{common.label.writeDate}"></th>
-            </tr>
-        </thead>
-        <tbody class="list-body">
-            <input type="hidden" id="totalCount" th:value="${formListCount}"/>
-            <tr class="no-data-found" th:if="${#arrays.isEmpty(formList)}">
-                <td colspan="7" th:text="#{common.msg.noData}"></td>
-            </tr>
-            <tr th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
-                <td width="20%" th:class="align-left">
-                    <div th:if="${form.editable == true}">
-                        <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
-                           th:attr="onclick=|openFormView('${form.id}')|"></a>
-                        <a sec:authorize="hasAuthority('form.update')" th:text="${form.name}"
-                           th:attr="onclick=|openFormEdit('${form.id}')|"></a>
-                    </div>
-                    <div th:unless="${form.editable == true}">
-                        <span th:text="${form.name}"></span>
-                    </div>
-                </td>
-                <td width="10%">
-                    <a th:attr="onclick=|openFormDesignerView('${form.id}')|">
-                        <img src="../assets/media/icons/process/list/icon_preview.svg"></a>
-                </td>
-                <td width="10%">
-                    <a th:if="${form.editable == true}" sec:authorize="hasAuthority('form.update')"
-                       th:disabled="${!form.editable}" th:attr="onclick=|openFormDesignerEdit('${form.id}')|">
-                       <img src="../assets/media/icons/process/list/icon_edit.svg"></a>
-                </td>
-                <td width="10%" th:text="#{${form.status}}"></td>
-                <td width="30%" th:class="align-left" th:text="${form.desc}"></td>
-                <td width="10%" th:text="${form.createUserName}"></td>
-                <td width="10%" th:name="createDt" th:text="${form.createDt}"></td>
-            </tr>
-        </tbody>
-    </table>
+<table>
+    <thead>
+    <tr>
+        <th width="20%" th:text="#{form.label.name}"></th>
+        <th width="10%" th:text="#{form.label.preview}"></th>
+        <th width="10%" th:text="#{common.label.update}"></th>
+        <th width="10%" th:text="#{form.label.state}"></th>
+        <th width="30%" th:text="#{form.label.description}"></th>
+        <th width="10%" th:text="#{common.label.writer}"></th>
+        <th width="10%" th:text="#{common.label.writeDate}"></th>
+    </tr>
+    </thead>
+    <tbody class="list-body">
+    <input type="hidden" id="totalCount" th:value="${formListCount}"/>
+    <tr class="no-data-found" th:if="${#arrays.isEmpty(formList)}">
+        <td colspan="7" th:text="#{common.msg.noData}"></td>
+    </tr>
+    <tr th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
+        <td width="20%" th:class="align-left">
+            <div th:if="${form.editable == true}">
+                <th:block th:switch="${#authorization.expression('hasAuthority(''form.read'')')}">
+                    <a th:case="true" th:text="${form.name}" th:attr="onclick=|openFormEdit('${form.id}')|"></a>
+                    <a th:case="*" th:text="${form.name}" th:attr="onclick=|openFormView('${form.id}')|"></a>
+                </th:block>
+            </div>
+            <div th:unless="${form.editable == true}">
+                <span th:text="${form.name}"></span>
+            </div>
+        </td>
+        <td width="10%">
+            <th:block th:switch="${#authorization.expression('hasAuthority(''form.read'')')}">
+                <a th:case="true" th:attr="onclick=|openFormDesignerView('${form.id}')|"><img src="../assets/media/icons/process/list/icon_preview.svg"/></a>
+                <a th:case="*" th:attr="onclick=|aliceJs.alertWarning('#{auth.msg.accessDenied}')|"><img src="../assets/media/icons/process/list/icon_preview.svg"/></a>
+            </th:block>
+        </td>
+        <td width="10%">
+            <th:block th:switch="${#authorization.expression('hasAnyAuthority(''form.create'', ''form.update'')')}">
+                <a th:case="true" th:disabled="${!form.editable}" th:attr="onclick=|openFormDesignerEdit('${form.id}')|"><img src="../assets/media/icons/process/list/icon_edit.svg"/></a>
+                <a th:case="*" th:disabled="${!form.editable}" th:attr="onclick=|aliceJs.alertWarning('#{auth.msg.accessDenied}')|"><img src="../assets/media/icons/process/list/icon_edit.svg"/></a>
+            </th:block>
+        </td>
+        <td width="10%" th:text="#{${form.status}}"></td>
+        <td width="30%" th:class="align-left" th:text="${form.desc}"></td>
+        <td width="10%" th:text="${form.createUserName}"></td>
+        <td width="10%" th:name="createDt" th:text="${form.createDt}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

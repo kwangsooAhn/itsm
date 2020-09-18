@@ -86,8 +86,53 @@
             }
         }
     }
-}
 
+    &.dashboard {
+        background: $white;
+        .header.dashboard{
+            padding-bottom: 2.875rem;
+            background: $light-gray;
+        }
+
+        .dashboard-statistic {
+            width: 100%;
+            padding: 0.625rem 3.75rem;
+            background-color: $white;
+            display: flex;
+            justify-content: space-between;
+            .statistic-box {
+                display: flex;
+                align-items: center;
+                width: 380px;
+                border: 1px solid $line-gray;
+                border-radius: 5px;
+                padding: 25px;
+                .statistic-info {
+                    margin-left: 25px;
+                    .statistic-count {
+                        @include h3;
+                        margin-bottom: 15px;
+                    }
+                    .statistic-type {
+                        @include h5;
+                        color: $blue-gray;
+                    }
+                }
+            }
+        }
+
+        .title-middle {
+            margin-top: 50px;
+            margin-left: 3.75rem;
+            @include h3();
+        }
+        .list {
+            .list-item {
+                margin: 0.625rem 3.75rem;
+            }
+        }
+    }
+}
 .total-count {
     line-height: 2;
 }

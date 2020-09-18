@@ -160,6 +160,12 @@ span.vertical-bar {
         .view, .edit {
             padding: 0;
             width: auto;
+            &-content {
+                height: 44.625rem; // 714px
+                div.form-set {
+                    margin: 0 0.6875rem 0 0.6875rem; // 11px
+                }
+            }
         }
     }
 

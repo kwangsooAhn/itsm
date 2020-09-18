@@ -175,7 +175,7 @@ h1 {
   color: #3F4B56;
   font-size: 2.25rem;
   font-weight: 700;
-  padding: 0.625rem 0 .625rem .3125rem;
+  padding: 0.625rem 0 0.625rem 0.3125rem;
 }
 
 h2 {
@@ -224,7 +224,7 @@ h6 {
   font-family: 맑은고딕;
   font-size: 0.875rem;
   font-weight: 400;
-  padding: 0 0 0 .625rem;
+  padding: 0 0 0 0.625rem;
 }
 
 option:hover {

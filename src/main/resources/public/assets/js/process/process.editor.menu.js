@@ -1424,7 +1424,7 @@
                 propertyContainer.className = 'properties';
                 if (typeof property.fieldset !== 'undefined') {
                     // property fieldset
-                    let fieldsetContainer = elementContainer.querySelector('fieldset[name="' + i18n.msg(i18nMsgPrefix + property.fieldset) + '"]');
+                    let fieldsetContainer = elementContainer.querySelector('fieldset[name="' + property.fieldset + '"]');
                     if (fieldsetContainer === null) {
                         fieldsetContainer = addFieldset(property, elementContainer);
                     }

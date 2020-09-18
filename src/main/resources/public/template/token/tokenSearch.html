@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{token.label.list}"></title>
 </head>
@@ -38,87 +39,220 @@
                                readonly="readonly"/>
                     </form>
                 </div>
-                <div class="right">
-                    <span class="total-count" id="totalCount"></span>
-                </div>
             </div>
         </div>
         <div class="scroll-wrap list">
-            <div class="list" id="tokenList">
-            </div>
+            <div class="list" id="tokenList"></div>
+            <input type="hidden" sec:authorize="hasAuthority('token.read')" th:name="isRole" th:value="true"/>
+            <input type="hidden" sec:authorize="!hasAuthority('token.read')" th:name="isRole" th:value="false"/>
         </div>
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[ */
+        let offsetCount = 0;
         window.addEventListener('load', function () {
             // date picker 초기화
             document.getElementById('searchFromDt').value = i18n.getDate({'months': -3});
             document.getElementById('toDt').value = i18n.getDate();
 
             // 검색 이벤트 핸들러 셋업
-            dateTimePicker.initDatePicker('searchFromDt', () => searchTokenList(false));
-            dateTimePicker.initDatePicker('toDt', () => searchTokenList(false));
+            dateTimePicker.initDatePicker('searchFromDt', () => tokenSearch(false));
+            dateTimePicker.initDatePicker('toDt', () => tokenSearch(false));
             document.querySelectorAll('#searchTokenType, #searchDocumentId').forEach(function (element) {
-                element.addEventListener('change', () => searchTokenList(false), false);
+                element.addEventListener('change', () => tokenSearch(false), false);
             });
 
             document.getElementById('searchValue').addEventListener('keyup', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
-                    searchTokenList(false);
+                    tokenSearch(false);
                 }
             }, false);
 
-            document.getElementById('tokenList').addEventListener('scroll', function (e) {
-                const contentHeight = document.getElementById('tokenList').parentElement.offsetHeight;
-                if (this.scrollTop - 100 === contentHeight - this.offsetHeight) { // 100은 뭐지?
-                    searchTokenList(true);
-                }
-            });
-
-            searchTokenList(false);
+            tokenSearch(false);
         });
 
         /**
          * 문서함을 검색한다.
          */
-        function searchTokenList(isScroll) {
-            const tokenListElement = document.getElementById('tokenList');
+        function tokenSearch(isScroll) {
+            let urlParam = '';
             document.getElementById('searchToDt').value = i18n.makeUserDate(document.getElementById('toDt').value, {'days': 1});
-            if (!isScroll) {
-                tokenListElement.innerHTML = '';
+            if (isScroll) {
+                if (offsetCount === 0) {
+                    offsetCount = aliceJs.searchDataCount;
+                }
+                urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/tokens?' + urlParam, isScroll);
+            } else {
+                offsetCount = 0;
+                urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount;
+                restSubmit('get', '/tokens/list?' + urlParam, isScroll);
             }
-            let listDocumentCount = tokenListElement.querySelectorAll('.token-list-item').length;
-            aliceJs.sendXhr({
-                method: 'get',
-                url: '/tokens/list?' + aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + listDocumentCount,
+        }
+
+        function restSubmit(method, url, isScroll) {
+            const opt = {
+                method: method,
+                url: url,
+                async: false,
+                showProgressbar: false,
                 callbackFunc: function (response) {
-                    tokenListElement.innerHTML = response.responseText;
-                    document.querySelectorAll('.create-dt').forEach(tokenCreateDt => {
-                        tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
-                        tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
-                    });
-                    OverlayScrollbars(document.querySelector('.list'), {
-                        className: 'scrollbar',
-                        callbacks: {
-                            onScroll: function(e) {
-                                const scrollTop = e.target.scrollTop;
-                                if (scrollTop > 20) {
-                                    document.getElementById('search-area').classList.remove('slide-down');
-                                    document.getElementById('search-area').classList.add('slide-up');
-                                    document.getElementById('search-main').style.display = 'none';
-                                } else {
-                                    document.getElementById('search-area').classList.remove('slide-up');
-                                    document.getElementById('search-area').classList.add('slide-down');
-                                    document.getElementById('search-main').style.display = 'block';
-                                }
+                    if (isScroll) {
+                        let dataList = JSON.parse(response.responseText);
+                        if (dataList.length > 0) {
+                            document.getElementById('totalCount').value = dataList[0].totalCount;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
+                                dataList.forEach(function (data) {
+                                    getDataTemplate(data);
+                                });
                             }
                         }
-                    });
+                    } else {
+                        document.getElementById('tokenList').innerHTML = response.responseText;
+                        document.querySelectorAll('.create-dt').forEach(tokenCreateDt => {
+                            tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
+                            tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
+                        });
+                        OverlayScrollbars(document.querySelector('.list'), {
+                            className: 'scrollbar',
+                            callbacks: {
+                                onScroll: function (e) {
+                                    const scrollHeight = e.target.scrollHeight;
+                                    const scrollTop = e.target.scrollTop;
+                                    const clientHeight = e.target.clientHeight;
+                                    if (scrollHeight - scrollTop === clientHeight) {
+                                        if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                            tokenSearch(true);
+                                        }
+                                    }
+                                    if (scrollTop > 20) {
+                                        document.getElementById('search-area').classList.remove('slide-down');
+                                        document.getElementById('search-area').classList.add('slide-up');
+                                        document.getElementById('search-main').style.display = 'none';
+                                    } else {
+                                        document.getElementById('search-area').classList.remove('slide-up');
+                                        document.getElementById('search-area').classList.add('slide-down');
+                                        document.getElementById('search-main').style.display = 'block';
+                                    }
+                                }
+                            }
+                        });
+                    }
                 }
-            });
+            };
+            aliceJs.sendXhr(opt);
+        }
+
+        function getDataTemplate(data) {
+            let divList = document.getElementById('tokenList');
+
+            let divListItem = document.createElement('div');
+            divListItem.className = 'list-item';
+
+            let divDocumentColor = document.createElement('div');
+            divDocumentColor.className = 'document-color';
+            divDocumentColor.style.backgroundColor = data.documentColor;
+
+            let divDocumentRow = document.createElement('div');
+            divDocumentRow.className = 'document-row';
+
+            let divDocumentRowContent = document.createElement('div');
+            divDocumentRowContent.className = 'document-row-content';
+
+            let aOpenTokenEdit = document.createElement('a');
+            if (document.getElementsByName('isRole')[0].value) {
+                aOpenTokenEdit.onclick = function () {
+                    openTokenEdit(data.tokenId);
+                    return false;
+                }
+            }
+
+            let divDocumentTitle = document.createElement('div');
+            divDocumentTitle.className = 'document-title';
+
+            let h3DocumentName = document.createElement('h3');
+            h3DocumentName.innerText = data.documentName;
+
+            let h5DocumentNo = document.createElement('h5');
+            h5DocumentNo.innerText = data.documentNo;
+
+            let divDocumentTopic = document.createElement('div');
+            divDocumentTopic.className = 'document-topic';
+
+            for (let i = 0; i < data.topics.length; i++) {
+                let h5Topic = document.createElement('h5');
+                h5Topic.innerText = data.topics[i];
+                divDocumentTopic.appendChild(h5Topic);
+            }
+
+            let divDocumentRowInfo = document.createElement('div');
+            divDocumentRowInfo.className = 'document-row-info';
+
+            let divDocumentDetail = document.createElement('div');
+            divDocumentDetail.className = 'document-detail';
+
+            let divDocumentUser = document.createElement('div');
+            divDocumentUser.className = 'document-user';
+
+            let imgProfilePhoto = document.createElement('img');
+            imgProfilePhoto.className = 'profile-photo';
+            imgProfilePhoto.alt = 'profile pic';
+            imgProfilePhoto.src = data.avatarPath;
+
+            let h5CreateUserName = document.createElement('h5');
+            h5CreateUserName.innerText = data.createUserName;
+
+            let spanUserVerticalBar = document.createElement('span');
+            spanUserVerticalBar.className = 'vertical-bar';
+
+            let spanNameVerticalBar = document.createElement('span');
+            spanNameVerticalBar.className = 'vertical-bar';
+
+            let h5CreateDt = document.createElement('h5');
+            h5CreateDt.className = 'create-dt';
+            h5CreateDt.title = i18n.userDateTime(data.createDt);
+            h5CreateDt.innerText = dateFormatFromNow(data.createDt);
+
+            let h5ElementName = document.createElement('h5');
+            h5ElementName.innerText = data.elementName;
+
+            let documentTag = document.createElement('div');
+            documentTag.className = 'document-tag';
+            for (let i = 0; i < data.tags.length; i++) {
+                let spanTag = document.createElement('span');
+                spanTag.innerText = data.tags[i];
+                documentTag.appendChild(spanTag);
+            }
+
+            divDocumentTitle.appendChild(h3DocumentName);
+            divDocumentTitle.appendChild(h5DocumentNo);
+            aOpenTokenEdit.appendChild(divDocumentTitle);
+            aOpenTokenEdit.appendChild(divDocumentTopic);
+            divDocumentRowContent.appendChild(aOpenTokenEdit);
+            divDocumentUser.appendChild(imgProfilePhoto);
+            divDocumentUser.appendChild(h5CreateDt);
+            divDocumentUser.appendChild(h5CreateUserName);
+
+            divDocumentDetail.appendChild(divDocumentUser);
+            divDocumentDetail.appendChild(spanUserVerticalBar);
+            divDocumentDetail.appendChild(h5CreateDt);
+            divDocumentDetail.appendChild(spanNameVerticalBar);
+            divDocumentDetail.appendChild(h5ElementName);
+
+            divDocumentRowInfo.appendChild(divDocumentDetail);
+            divDocumentRowInfo.appendChild(documentTag);
+
+            divDocumentRow.appendChild(divDocumentRowContent);
+            divDocumentRow.appendChild(divDocumentRowInfo);
+
+            divListItem.appendChild(divDocumentColor);
+            divListItem.appendChild(divDocumentRow);
+
+            divList.appendChild(divListItem);
         }
 
         /**

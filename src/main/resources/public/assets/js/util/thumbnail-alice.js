@@ -20,14 +20,14 @@
         isFilePrefix: true,    // 파일 선택시 파일명 앞에 'file:///' 추가 여부
         thumbnailDoubleClickUse: false, // 더블클릭으로 이미지 선택기능 여부
         buttons: [{
-            content: 'Confirm',
+            content: i18n.msg('common.btn.check'),
             classes: 'thumbnail-modal-button-default',
             bindKey: false,
             callback: function(modal) {
                 modal.save();
             }
         }, {
-            content: 'Cancel',
+            content: i18n.msg('common.btn.close'),
             classes: 'thumbnail-modal-button-default',
             bindKey: false,
             callback: function(modal) {
@@ -215,16 +215,23 @@
         this.create = function() { // 모달 draw
             if (typeof this.wrapper !== 'undefined') { return; }
             let backdrop, dialog;
-
             this.wrapper = document.createElement('div');
-            this.wrapper.className = 'thumbnail-modal-wrapper';
-            this.wrapper.id = 'thumbnail-modal-wrapper-' + this.id;
-
-            backdrop = document.createElement('div');
-            backdrop.className = 'thumbnail-modal-backdrop';
-
-            dialog = document.createElement('div');
-            dialog.className = 'thumbnail-modal-dialog';
+            if(this.options.type === 'image') {
+                this.wrapper.className = 'thumbnail-modal-wrapper';
+                this.wrapper.id = 'thumbnail-modal-wrapper-' + this.id;
+                backdrop = document.createElement('div');
+                backdrop.className = 'thumbnail-modal-backdrop';
+                dialog = document.createElement('div');
+                dialog.className = 'thumbnail-modal-dialog';
+            } else {
+                this.wrapper = document.createElement('div');
+                this.wrapper.className = 'thumbnail-icon-modal-wrapper';
+                this.wrapper.id = 'thumbnail-icon-modal-wrapper-' + this.id;
+                backdrop = document.createElement('div');
+                backdrop.className = 'thumbnail-modal-backdrop';
+                dialog = document.createElement('div');
+                dialog.className = 'thumbnail-icon-modal-dialog';
+            }
 
             // 제목
             if (this.options.title instanceof Element || (typeof this.options.title === "string" && this.options.title != '')) {
@@ -376,9 +383,6 @@
      * selectedPath = 기존 선택된 이미지 파일 경로
      */
     function init(userOptions) {
-        // 버튼 다국어 처리
-        defaults.buttons[0].content = i18n.msg('common.btn.check');
-        defaults.buttons[1].content = i18n.msg('common.btn.close');
         // TODO object merge시 array일 경우 기존 속성을 그대로 덮어씌우는 버그 있음
         let options = Object.assign({}, defaults, userOptions);
         // 이미지 파일 로드

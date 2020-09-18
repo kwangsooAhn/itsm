@@ -1198,8 +1198,8 @@ insert into awf_url values ('/forms/imageUpload/{id}/view', 'get', '이미지 �
 insert into awf_url values ('/forms-admin/list', 'get', '폼 리스트 화면', 'TRUE');
 insert into awf_url values ('/forms-admin/new', 'get', '폼 기본 정보 등록 화면', 'TRUE');
 insert into awf_url values ('/forms-admin/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
-insert into awf_url values ('/forms-admin/{id}/edit', 'get', '폼 디자이너 편집 화면', 'TRUE');
-insert into awf_url values ('/forms-admin/{id}/view', 'get', '폼 디자이너 상세화면', 'TRUE');
+insert into awf_url values ('/forms-admin/{formId}/edit', 'get', '폼 디자이너 편집 화면', 'TRUE');
+insert into awf_url values ('/forms-admin/{formId}/view', 'get', '폼 디자이너 상세화면', 'TRUE');
 insert into awf_url values ('/images', 'get', '이미지 관리 화면', 'TRUE');
 insert into awf_url values ('/notices/list', 'get', '공지사항 목록', 'TRUE');
 insert into awf_url values ('/notices/new', 'get', '공지사항 신규 등록 화면', 'TRUE');
@@ -1287,7 +1287,7 @@ insert into awf_url values ('/rest/forms/{id}', 'delete', '폼 디자이너 삭�
 insert into awf_url values ('/rest/forms/{id}/data', 'get', '폼 디자이너 세부 정보 불러오기', 'TRUE');
 insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
 insert into awf_url values ('/rest/forms-admin', 'post', '폼 디자이너 기본 정보 저장 / 다른 이름 저장 처리', 'TRUE');
-insert into awf_url values ('/rest/forms-admin/{id}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
+insert into awf_url values ('/rest/forms-admin/{formId}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
 insert into awf_url values ('/rest/forms-admin', 'get', '문서양식 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/images', 'post', '이미지 업로드', 'TRUE');
 insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE');
@@ -1348,6 +1348,7 @@ insert into awf_url values ('/users/new', 'get', '사용자 등록 화면', 'TRU
 insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 등 메인이 되는 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/editSelf', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
+
 /**
  * URL별권한매핑
  */
@@ -1484,32 +1485,17 @@ insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.update');
 insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.delete');
 insert into awf_url_auth_map values ('/faqs/{id}/edit', 'get', 'faq.create');
 insert into awf_url_auth_map values ('/faqs/{id}/view', 'get', 'faq.read');
-insert into awf_url_auth_map values ('/forms/import', 'get', 'form.create');
-insert into awf_url_auth_map values ('/forms/{id}/preview', 'post', 'form.update');
+insert into awf_url_auth_map values ('/forms/{id}/edit', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms/{id}/preview', 'post', 'form.create');
-insert into awf_url_auth_map values ('/forms/{id}/preview', 'get', 'form.update');
-insert into awf_url_auth_map values ('/forms/{id}/preview', 'get', 'form.create');
-insert into awf_url_auth_map values ('/forms/{id}/edit', 'get', 'form.create');
-insert into awf_url_auth_map values ('/forms/{id}/view', 'get', 'form.create');
-insert into awf_url_auth_map values ('/forms/{id}/view', 'get', 'form.update');
+insert into awf_url_auth_map values ('/forms/{id}/preview', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms/{id}/view', 'get', 'form.read');
-insert into awf_url_auth_map values ('/forms/imageUpload/{id}/view', 'get', 'form.create');
-insert into awf_url_auth_map values ('/forms/imageUpload/{id}/view', 'get', 'form.update');
-insert into awf_url_auth_map values ('/forms/imageUpload/{id}/view', 'get', 'form.delete');
-insert into awf_url_auth_map values ('/forms/imageUpload/{id}/view', 'get', 'form.read');
-insert into awf_url_auth_map values ('/forms-admin/list', 'get', 'form.create');
-insert into awf_url_auth_map values ('/forms-admin/list', 'get', 'form.update');
-insert into awf_url_auth_map values ('/forms-admin/list', 'get', 'form.delete');
 insert into awf_url_auth_map values ('/forms-admin/list', 'get', 'form.read');
-insert into awf_url_auth_map values ('/forms-admin/new', 'get', 'form.create');
+insert into awf_url_auth_map values ('/forms-admin/new', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms-admin/search', 'get', 'form.read');
-insert into awf_url_auth_map values ('/forms-admin/search', 'get', 'form.update');
-insert into awf_url_auth_map values ('/forms-admin/search', 'get', 'form.create');
-insert into awf_url_auth_map values ('/forms-admin/search', 'get', 'form.delete');
-insert into awf_url_auth_map values ('/forms-admin/{id}/edit', 'get', 'form.update');
-insert into awf_url_auth_map values ('/forms-admin/{id}/edit', 'get', 'form.create');
-insert into awf_url_auth_map values ('/forms-admin/{id}/view', 'get', 'form.update');
-insert into awf_url_auth_map values ('/forms-admin/{id}/view', 'get', 'form.create');
+insert into awf_url_auth_map values ('/forms-admin/{formId}/edit', 'get', 'form.read');
+insert into awf_url_auth_map values ('/forms-admin/{formId}/view', 'get', 'form.read');
+insert into awf_url_auth_map values ('/forms/imageUpload/{id}/view', 'get', 'form.read');
+insert into awf_url_auth_map values ('/forms/import', 'get', 'form.read');
 insert into awf_url_auth_map values ('/images', 'get', 'image.read');
 insert into awf_url_auth_map values ('/notices/list', 'get', 'notice.read');
 insert into awf_url_auth_map values ('/notices/new', 'get', 'notice.create');
@@ -1596,6 +1582,7 @@ insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'custom.code.u
 insert into awf_url_auth_map values ('/rest/custom-codes', 'post', 'custom.code.update');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'get', 'custom.code.update');
 insert into awf_url_auth_map values ('/rest/custom-codes', 'put', 'custom.code.delete');
+insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'get', 'form.update');
 insert into awf_url_auth_map values ('/rest/custom-codes/{id}', 'delete', 'custom.code.delete');
 insert into awf_url_auth_map values ('/rest/documents', 'get', 'process.update');
@@ -1631,21 +1618,24 @@ insert into awf_url_auth_map values ('/rest/faqs/{id}', 'put', 'faq.update');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'get', 'faq.read');
 insert into awf_url_auth_map values ('/rest/faqs/{id}', 'delete', 'faq.delete');
 insert into awf_url_auth_map values ('/rest/fileNameExtensionList', 'get', 'file.read');
+insert into awf_url_auth_map values ('/rest/forms/{id}', 'delete', 'form.delete');
+insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.read');
+insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.create');
+insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.create');
+insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.update');
+insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.update');
 insert into awf_url_auth_map values ('/rest/forms/data', 'put', 'form.update');
 insert into awf_url_auth_map values ('/rest/forms/data/{id}', 'get', 'form.update');
+insert into awf_url_auth_map values ('/rest/forms/data/{id}', 'get', 'form.read');
 insert into awf_url_auth_map values ('/rest/forms/imageDelete', 'delete', 'form.delete');
 insert into awf_url_auth_map values ('/rest/forms/imageUpload', 'post', 'form.update');
 insert into awf_url_auth_map values ('/rest/forms/imageUpload', 'post', 'form.delete');
 insert into awf_url_auth_map values ('/rest/forms/imageUpload', 'post', 'form.create');
 insert into awf_url_auth_map values ('/rest/forms/imageUpload', 'post', 'form.read');
-insert into awf_url_auth_map values ('/rest/forms/{id}', 'delete', 'form.delete');
-insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.create');
-insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.update');
-insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'get', 'form.create');
-insert into awf_url_auth_map values ('/rest/forms/{id}/data', 'put', 'form.update');
-insert into awf_url_auth_map values ('/rest/forms-admin', 'post', 'form.delete');
-insert into awf_url_auth_map values ('/rest/forms-admin/{id}', 'put', 'form.update');
 insert into awf_url_auth_map values ('/rest/forms-admin', 'get', 'form.read');
+insert into awf_url_auth_map values ('/rest/forms-admin', 'post', 'form.create');
+insert into awf_url_auth_map values ('/rest/forms-admin', 'post', 'form.delete');
+insert into awf_url_auth_map values ('/rest/forms-admin/{formId}', 'put', 'form.update');
 insert into awf_url_auth_map values ('/rest/images', 'put', 'image.update');
 insert into awf_url_auth_map values ('/rest/images', 'post', 'image.create');
 insert into awf_url_auth_map values ('/rest/images/{id}', 'delete', 'image.delete');
@@ -1793,7 +1783,6 @@ COMMENT ON COLUMN awf_user.update_dt IS '수정일시';
 
 insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$QsZ1uzooTk2yEkWIiV8tyOUc/UODpMrjdReNUQnNWm0SpjyPVOy26', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_user values ('system', 'system', 'system', '', 'system@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-
 /**
  * 사용자역할매핑
  */

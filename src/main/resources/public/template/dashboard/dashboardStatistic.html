@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div>
+    <h2 th:text="#{dashboard.label.documentStatus}"></h2>
+    <table>
+        <colgroup>
+            <col width="35%">
+            <col width="35%">
+            <col width="30%">
+        </colgroup>
+        <thead>
+        <tr>
+            <th width="35%" th:text="#{dashboard.status.running}"></th>
+            <th width="35%" th:text="#{dashboard.status.wait}"></th>
+            <th width="30%" th:text="#{dashboard.status.finish}"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:if="${#arrays.isEmpty(statusCountList)}">
+            <td colspan="3" th:text="#{common.msg.noData}"></td>
+        </tr>
+        <tr th:if="${#arrays.length(statusCountList)} > 0">
+            <td width="35%"><span th:each="statusCount:${statusCountList}" th:text="${statusCount.instanceStatus == 'running'} ? ${statusCount.instanceCount}:''"></span></td>
+            <td width="35%"><span th:each="statusCount:${statusCountList}" th:text="${statusCount.instanceStatus == 'wait'} ? ${statusCount.instanceCount}:''"></span></td>
+            <td width="30%"><span th:each="statusCount:${statusCountList}" th:text="${statusCount.instanceStatus == 'finish'} ? ${statusCount.instanceCount}:''"></span></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
