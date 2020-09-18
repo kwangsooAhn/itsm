@@ -194,7 +194,7 @@
             tdStatus.innerText = i18n.get(data.status);
 
             let tdDescription = document.createElement('td');
-            tdDescription.style.width = '30%';
+            tdDescription.style.width = '28%';
             tdDescription.innerText = data.description;
 
             let tdWriter = document.createElement('td');
@@ -202,7 +202,7 @@
             tdWriter.innerText = data.createUserName;
 
             let tdWriteDate = document.createElement('td');
-            tdWriteDate.style.width = '10%';
+            tdWriteDate.style.width = '12%';
             tdWriteDate.innerText = i18n.userDateTime(data.createDt);
 
             tr.appendChild(tdProcessName);
