@@ -87,16 +87,21 @@ const fileUploader = (function () {
             extraParam.enableImageThumbnails = false;
         }
 
+        console.log(extraParam.dictDefaultMessage);
         if (extraParam.dictDefaultMessage === undefined) {
+            console.log("================");
+            console.log(i18n.msg('file.msg.upload'));
+            console.log(i18n.msg('file.msg.upload', ''));
+            console.log(i18n.get('file.msg.upload'));
             extraParam.dictDefaultMessage = i18n.msg('file.msg.upload');
         }
 
         if (extraParam.clickableLineMessage === undefined) {
-            extraParam.clickableLineMessage = i18n.msg('file.label.or') + ' ';
+            extraParam.clickableLineMessage = i18n.msg('file.label.or', ' ');
         }
 
         if (extraParam.clickableMessage === undefined) {
-            extraParam.clickableMessage = i18n.msg('file.msg.browser');
+            extraParam.clickableMessage = i18n.msg('file.msg.browser', '');
         }
 
         if (extraParam.isView === undefined) {
@@ -396,7 +401,7 @@ const fileUploader = (function () {
                             if (extraParam.isDropzoneUnder) {
                                 dropzoneMessage.style.display = 'block';
                             }
-                            aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
+                            aliceJs.alertWarning(i18n.msg('fileupload.msg.extensionNotAvailable'));
                         }
                     });
 
@@ -450,12 +455,12 @@ const fileUploader = (function () {
 
                     this.on("maxfilesexceeded", function (file, maxFiles) {
                         this.removeFile(file);
-                        aliceJs.alert(i18n.get('fileupload.msg.maxFileCount', maxFiles));
+                        aliceJs.alert(i18n.msg('fileupload.msg.maxFileCount', maxFiles));
                     });
 
                     this.on("maxfilesizeexceeded", function (file, maxFileSize) {
                         this.removeFile(file);
-                        aliceJs.alert(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
+                        aliceJs.alert(i18n.msg('fileupload.msg.maxFileSize', maxFileSize));
                     });
                 } else {
                     dropZoneFiles.remove();
