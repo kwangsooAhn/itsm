@@ -12,9 +12,9 @@
                 <th width="10%" th:text="#{process.label.simulation}"></th>
                 <th width="10%" th:text="#{common.label.update}"></th>
                 <th width="10%" th:text="#{process.label.state}"></th>
-                <th width="30%" th:text="#{process.label.description}"></th>
+                <th width="28%" th:text="#{process.label.description}"></th>
                 <th width="10%" th:text="#{common.label.writer}"></th>
-                <th width="10%" th:text="#{common.label.writeDate}"></th>
+                <th width="12%" th:text="#{common.label.writeDate}"></th>
             </tr>
         </thead>
         <tbody class="list-body">
@@ -44,9 +44,9 @@
                         <img src="../assets/media/icons/process/list/icon_edit.svg"></a>
                 </td>
                 <td width="10%" th:text="#{${process.status}}"></td>
-                <td width="30%" class="align-left" th:text="${process.description}"></td>
+                <td width="28"%" class="align-left" th:text="${process.description}"></td>
                 <td width="10%" th:text="${process.createUserName}"></td>
-                <td width="10%" th:name="createDt" th:text="${process.createDt}"></td>
+                <td width="12%" th:name="createDt" th:text="${process.createDt}"></td>
             </tr>
         </tbody>
     </table>
