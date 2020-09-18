@@ -87,7 +87,8 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     window.onload = function() {
-        i18n.initMessages();
+        i18n.init(JSON.stringify({}));
+
         hiddenProgressBar();
         fileUploader.avatar({
             extra: {

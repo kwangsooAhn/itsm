@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/popupLayout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/popupLayout">
 <head>
     <title th:text="#{form.label.import}"></title>
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
@@ -19,8 +19,11 @@
             <textarea id="form_desc" maxlength="256" tabindex="2" class="textarea-scroll-wrapper"></textarea>
         </div>
         <div class="form-set">
-            <!--<input type="file" id="form_file" accept=".xml" tabindex="3"/>
-            <label th:text="#{form.label.importFile}" for="form_file"></label>-->
+            <!--<label th:text="#{form.label.importFile}" for="form_file"></label>
+            <input type="file" id="form_file" accept=".xml" tabindex="3" />-->
+            <label th:text="#{form.label.importFile}" ></label>
+            <div id="dropZoneFiles"></div>
+            <div id="dropZoneUploadedFiles"></div>
         </div>
         <div class="horizontal-bar"></div>
         <div class="btn-bar">
@@ -36,7 +39,8 @@
         let fileList = [];
 
         window.onload = function () {
-            const fileSelector = document.getElementById('form_file');
+            fileUploader.import({extra: {formId: 'downloadForm'}});
+            const fileSelector = document.getElementsByClassName('.dz-hidden-input');
             fileSelector.addEventListener('change', function (e) {
                 fileList = e.target.files;
             });
@@ -50,14 +54,15 @@
                     formDesc: document.getElementById('form_desc').value
                 };
                 if (fileList.length > 0) {
+                    console.log(fileList[0]);
                     workflowUtil.import(fileList[0], formInfo, 'form', function (result) {
                         if (result) {
-                            aliceJs.alertSuccess(i18n.get('common.msg.save'), function () {
+                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                                 opener.location.reload();
                                 window.close();
                             });
                         } else {
-                            aliceJs.alertDanger(i18n.get('common.label.fail'));
+                            aliceJs.alertDanger(i18n.msg('common.label.fail'));
                         }
                     });
                 } else {
@@ -71,15 +76,15 @@
             if (isEmpty('form_name', 'form.msg.enterFormName')) {
                 return false;
             }
-            if (isEmpty('form_file', 'form.msg.selectImportFile')) {
+            /*if (isEmpty('form_file', 'form.msg.selectImportFile')) {
                 return false;
-            }
+            }*/
             // 확장자 체크
-            let filename = document.getElementById('form_file').value;
+            /*let filename = document.getElementById('form_file').value;
             if (filename.split('.').pop().toUpperCase() !== allowedExtension) {
                 aliceJs.alertWarning(i18n.get('form.msg.fileExtensionNotAllow', allowedExtension));
                 return false;
-            }
+            }*/
             return true;
         }
 
