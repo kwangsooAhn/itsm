@@ -16,7 +16,11 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
     ): QueryResults<AliceUserEntity> {
         val user = QAliceUserEntity.aliceUserEntity
         val query = from(user)
-            .where(user.userName.containsIgnoreCase(search).or(user.userId.containsIgnoreCase(search)))
+            .where(
+                user.userName.containsIgnoreCase(search).or(user.userId.containsIgnoreCase(search))
+                    .or(user.position.containsIgnoreCase(search)).or(user.department.containsIgnoreCase(search))
+                    .or(user.officeNumber.containsIgnoreCase(search))
+            )
         if (category != "all") {
             query.where(user.platform.eq(category))
         }
