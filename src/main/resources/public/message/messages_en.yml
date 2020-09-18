@@ -20,6 +20,10 @@ common:
     update: "UPDATE"
     write: "WRITE"
     select: "SELECT"
+    process: "PROCESS"
+    withdraw: "WITHDRAW"
+    reject: "REJECT"
+    terminate: "TERMINATE"
   label:
     attachFile: "Attach file"
     blank: " "
