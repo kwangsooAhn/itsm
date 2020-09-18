@@ -273,7 +273,7 @@ customCode:
 # Dashboard
 dashboard:
   label:
-    dashboard: "대시보드"
+    dashboard: "개인 현황판"
     documentStatus: "신청한 문서 현황"
   status:
     finish: "완료"
@@ -565,7 +565,7 @@ login:
 # Menu
 menu:
   dashboard:
-    parent: "대시보드"
+    parent: "개인 현황판"
   token:
     parent: "문서함"
   document:
