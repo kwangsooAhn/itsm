@@ -22,7 +22,7 @@ class DashboardController(private val dashboardService: DashboardService) {
 
     private val logger: Logger = LoggerFactory.getLogger(this::class.java)
     private val dashboardViewPage: String = "dashboard/dashboardView"
-    private val dashboardListPage: String = "dashboard/dashboardList"
+    private val dashboardListPage: String = "dashboard/dashboardStatistic"
 
     /**
      * Dashboard 화면 호출
@@ -38,7 +38,7 @@ class DashboardController(private val dashboardService: DashboardService) {
      * @param model
      * @return String
      */
-    @GetMapping("/list")
+    @GetMapping("/statistic")
     fun getDashboardList(model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto

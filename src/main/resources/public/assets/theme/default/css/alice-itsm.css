@@ -969,6 +969,53 @@ span.vertical-bar {
   white-space: nowrap;
   overflow: hidden;
 }
+.container .contents-token.dashboard {
+  background: #ffffff;
+}
+.container .contents-token.dashboard .header.dashboard {
+  padding-bottom: 2.875rem;
+  background: #F7F8F9;
+}
+.container .contents-token.dashboard .dashboard-statistic {
+  width: 100%;
+  padding: 0.625rem 3.75rem;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+}
+.container .contents-token.dashboard .dashboard-statistic .statistic-box {
+  display: flex;
+  align-items: center;
+  width: 380px;
+  border: 1px solid #EBEBEB;
+  border-radius: 5px;
+  padding: 25px;
+}
+.container .contents-token.dashboard .dashboard-statistic .statistic-box .statistic-info {
+  margin-left: 25px;
+}
+.container .contents-token.dashboard .dashboard-statistic .statistic-box .statistic-info .statistic-count {
+  color: #3F4B56;
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin-bottom: 15px;
+}
+.container .contents-token.dashboard .dashboard-statistic .statistic-box .statistic-info .statistic-type {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #929AA6;
+}
+.container .contents-token.dashboard .title-middle {
+  margin-top: 50px;
+  margin-left: 3.75rem;
+  color: #3F4B56;
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+.container .contents-token.dashboard .list .list-item {
+  margin: 0.625rem 3.75rem;
+}
 .container .total-count {
   line-height: 2;
 }
