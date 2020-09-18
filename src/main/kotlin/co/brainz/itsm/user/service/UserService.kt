@@ -66,7 +66,7 @@ class UserService(
             val userDto = userMapper.toUserDto(userEntity)
             userDto.avatarPath = avatarPath
             userDto.department?.let {
-                userEntity.department = codeService.getDetailCodes(userEntity.department!!)?.codeValue
+                userDto.department = codeService.getDetailCodes(userEntity.department!!)?.codeValue
             }
             userDto.totalCount = queryResult.total
             userList.add(userDto)
