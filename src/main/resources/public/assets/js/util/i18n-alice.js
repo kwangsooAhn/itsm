@@ -268,6 +268,7 @@
         aliceJs.sendXhr({
             method: 'GET',
             url: '/i18n/messages',
+            async: false,
             callbackFunc: function(xhr) {
                 messages = JSON.parse(xhr.responseText);
                 if (typeof callbackFunc === 'function') {
