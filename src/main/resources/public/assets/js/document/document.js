@@ -702,16 +702,11 @@
             printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
             buttonPanel.appendChild(printButton);
 
-            // 동적 버튼 추가
             // 동적 버튼
             const buttonGroup = document.createElement('div');
             buttonGroup.className = 'button-list';
             buttonGroup.id = 'button-container';
-            console.log("createButton");
-            console.log(buttonGroup);
-            console.log(buttonPanel);
             buttonPanel.appendChild(buttonGroup);
-
 
             const documentPanel = document.createElement('div');
             documentPanel.className = 'drawing-board';
