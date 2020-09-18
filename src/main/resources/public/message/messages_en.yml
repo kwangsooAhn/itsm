@@ -834,7 +834,7 @@ user:
     profile: "Profile"
     rePassword: "rePassword"
     role: "User Role"
-    searchPlaceholder: "ID/Name/Position/Dept/Number"
+    searchPlaceholder: "ID/Name/Dept/Position/Number"
     signUpDate: "SignUp Date"
     theme: "Theme"
     time: "Time Format"
