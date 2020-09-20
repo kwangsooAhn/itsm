@@ -35,14 +35,16 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
-        const allowedExtension = 'XML';
         let fileList = [];
 
         window.onload = function () {
-            fileUploader.import({extra: {formId: 'downloadForm'}});
-            const fileSelector = document.getElementsByClassName('.dz-hidden-input');
-            fileSelector.addEventListener('change', function (e) {
-                fileList = e.target.files;
+            fileUploader.import({
+                extra: {
+                    formId: 'downloadForm',
+                    dropZoneMaxFiles: 1,
+                    acceptedFiles: '.xml',
+                    editor: true
+                }
             });
             OverlayScrollbars(document.getElementById('form_desc'), {className: 'inner-scrollbar'});
         };
@@ -53,6 +55,12 @@
                     formName: document.getElementById('form_name').value,
                     formDesc: document.getElementById('form_desc').value
                 };
+
+                console.log("test");
+                console.log(element.querySelector('.dz-hidden-input').value);
+                fileList = element.querySelector('.dz-hidden-input').value;
+
+
                 if (fileList.length > 0) {
                     console.log(fileList[0]);
                     workflowUtil.import(fileList[0], formInfo, 'form', function (result) {
@@ -77,12 +85,6 @@
                 return false;
             }
             /*if (isEmpty('form_file', 'form.msg.selectImportFile')) {
-                return false;
-            }*/
-            // 확장자 체크
-            /*let filename = document.getElementById('form_file').value;
-            if (filename.split('.').pop().toUpperCase() !== allowedExtension) {
-                aliceJs.alertWarning(i18n.get('form.msg.fileExtensionNotAllow', allowedExtension));
                 return false;
             }*/
             return true;
