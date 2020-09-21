@@ -16,11 +16,12 @@
         </div>
         <div class="form-set">
             <label th:text="#{process.label.description}" for="process_desc"></label>
-            <textarea id="process_desc" maxlength="500" tabindex="2" class="textarea-scroll-wrapper"></textarea>
+            <textarea id="process_desc" maxlength="256" tabindex="2" class="textarea-scroll-wrapper"></textarea>
         </div>
         <div class="form-set">
-            <label th:text="#{process.label.importFile}" for="process_file"></label>
-            <input type="file" id="process_file" accept=".xml" tabindex="3"/>
+            <label class="required" th:text="#{process.label.importFile}"></label>
+            <div id="dropZoneFiles"></div>
+            <div id="dropZoneUploadedFiles"></div>
         </div>
         <div class="horizontal-bar"></div>
         <div class="btn-bar">
@@ -32,37 +33,29 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
-        const allowedExtension = 'XML';
-        let fileList = [];
-
         window.onload = function () {
-            const fileSelector = document.getElementById('process_file');
-            fileSelector.addEventListener('change', function (e) {
-                fileList = e.target.files;
-            });
+            fileUploader.import({extra: {formId: 'importProcess', dropZoneMaxFiles: 1}});
             OverlayScrollbars(document.getElementById('process_desc'), {className: 'inner-scrollbar'});
         };
 
         function importProcess() {
             if (validation()) {
+                let fileList = fileUploader.getFile();
                 const processInfo = {
                     processName: document.getElementById('process_name').value,
                     processDesc: document.getElementById('process_desc').value
                 };
-                if (fileList.length > 0) {
-                    workflowUtil.import(fileList[0], processInfo, 'process', function (result) {
-                        if (result) {
-                            aliceJs.alertSuccess(i18n.get('common.msg.save'), function () {
-                                opener.location.reload();
-                                window.close();
-                            });
-                        } else {
-                            aliceJs.alertDanger(i18n.get('common.label.fail'));
-                        }
-                    });
-                } else {
-                    console.error('No file selected.');
-                }
+
+                workflowUtil.import(fileList, processInfo, 'process', function (result) {
+                    if (result) {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            opener.location.reload();
+                            window.close();
+                        });
+                    } else {
+                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
+                    }
+                });
             }
         }
 
@@ -71,13 +64,10 @@
             if (isEmpty('process_name', 'process.msg.enterProcessName')) {
                 return false;
             }
-            if (isEmpty('process_file', 'process.msg.selectImportFile')) {
-                return false;
-            }
-            // 확장자 체크
-            let filename = document.getElementById('process_file').value;
-            if (filename.split('.').pop().toUpperCase() !== allowedExtension) {
-                aliceJs.alertWarning(i18n.get('process.msg.fileExtensionNotAllow', allowedExtension));
+
+            // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
+            if (document.getElementById('fileTemplate') === null) {
+                aliceJs.alertWarning(i18n.msg('process.msg.selectImportFile'));
                 return false;
             }
             return true;

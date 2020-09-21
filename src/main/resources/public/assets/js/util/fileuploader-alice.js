@@ -16,7 +16,7 @@ const fileUploader = (function () {
         addFileBtnWrapClassName, exportFile;
 
     //외부로 file 정보를 내보냄.
-    function getFile() {
+    const getFile = function() {
         return exportFile;
     }
 
@@ -101,11 +101,11 @@ const fileUploader = (function () {
         }
 
         if (extraParam.clickableLineMessage === undefined) {
-            extraParam.clickableLineMessage = i18n.msg('file.label.or', ' ');
+            extraParam.clickableLineMessage = i18n.msg('file.label.or') + ' ';
         }
 
         if (extraParam.clickableMessage === undefined) {
-            extraParam.clickableMessage = i18n.msg('file.msg.browser', '');
+            extraParam.clickableMessage = i18n.msg('file.msg.browser');
         }
 
         if (extraParam.isView === undefined) {
@@ -662,7 +662,7 @@ const fileUploader = (function () {
             url: extraParam.dropZoneUrl,
             maxThumbnailFilesize: 10, // MB, 썸네일 생성 최소 기준값, 초과시 썸네일 생성 안함
             maxFiles: extraParam.dropZoneMaxFiles, // 첨부파일 개수 제한
-            autoProcessQueue: false, //자동업로드, processQueue() 사용  --kimsungmin
+            autoProcessQueue: false, //자동업로드, processQueue() 사용
             addRemoveLinks: false,
             acceptedFiles: extraParam.acceptedFiles,
             previewTemplate: createTemplate(), // 기본 출력 템플릿 변경시 사용, API 참조 할 것.
@@ -675,188 +675,71 @@ const fileUploader = (function () {
             },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
-                // 등록된 파일이 있으면 조회.
-                const opt = {
-                    method: 'get',
-                    url: '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : '')
-                        +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
-                    callbackFunc: function (response) {
-                        const files = JSON.parse(response.responseText);
-                        files.forEach(function (fileMap) {
-                            let file = fileMap.fileLocDto;
-                            const fileBytes = file.fileSize;
-                            const logValueDigit = 1024;
-                            const unit = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-                            const fileSizeLogValue = Math.floor(Math.log(fileBytes) / Math.log(logValueDigit));
-                            let convertedFileSize;
-                            if (fileSizeLogValue === Number.NEGATIVE_INFINITY) {
-                                convertedFileSize = "0 " + unit[0];
-                            } else {
-                                convertedFileSize = (fileBytes / Math.pow(logValueDigit, Math.floor(fileSizeLogValue))).toFixed(2) + " " + unit[fileSizeLogValue];
-                            }
 
-                            // 파일 목록 생성
-                            const fileType = document.createElement('div');
-                            fileType.className = 'dz-file-type';
-                            fileType.style.backgroundImage = setFileIcon(file.originName, extraParam.isView);
+                const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
+                _this.element.querySelector('.dz-message').appendChild(addFileBtn);
 
-                            const fileName = document.createElement('div');
-                            fileName.className = 'dz-filename';
-                            fileName.setAttribute('name', 'loadedFileNames');
-                            const fileNameStr = document.createElement('span');
-                            fileNameStr.textContent = file.originName;
-                            fileName.appendChild(fileNameStr);
-                            const fileSize = document.createElement('div');
-                            fileSize.className = 'dz-size';
-                            fileSize.setAttribute('name', 'loadedFileSize');
-                            const fileSizeStr = document.createElement('span');
-                            fileSizeStr.textContent = convertedFileSize;
-                            fileSize.appendChild(fileSizeStr);
-                            const download = document.createElement('div');
-                            download.className = 'dz-download';
-                            const remove = document.createElement('div');
-                            remove.className = 'dz-remove';
-                            const fileSeq = document.createElement('input');
-                            fileSeq.setAttribute('type', 'hidden');
-                            fileSeq.setAttribute('name', 'loadedFileSeq');
-                            fileSeq.value = file.fileSeq;
-                            const fileDetails = document.createElement('div');
-                            fileDetails.className = 'dz-details';
-                            fileDetails.append(fileType);
-                            fileDetails.append(fileName);
-                            fileDetails.append(fileSize);
-                            fileDetails.append(download);
-                            fileDetails.append(remove);
-                            fileDetails.append(fileSeq);
-                            const uploadedFileView = document.createElement('div');
-                            uploadedFileView.className = 'dz-preview dz-file-preview';
-                            uploadedFileView.appendChild(fileDetails);
+                //파일 확장자 목록 관련 출력
+                let fileNameExtensionList = ['XML'];
 
-                            if (extraParam.isView) { // view 일때
-                                fileName.style.cursor = 'pointer';
-                                //파일 다운로드
-                                fileName.addEventListener('click', fileDownloadHandler);
+                this.on("addedfile", function (file) {
+                    const dropzoneMessage = _this.element.querySelector('.dz-message');
+                    if (extraParam.isDropzoneUnder) {
+                        dropzoneMessage.style.display = 'none';
+                    }
+                    let fileName = file.name;
+                    let fileNameLength = file.name.length;
+                    let lastDot = fileName.lastIndexOf('.');
+                    file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(fileName, extraParam.isView);
 
-                                dropZoneUploadedFiles.className = 'dropzone dz-uploaded';
-                                dropZoneUploadedFiles.appendChild(uploadedFileView);
+                    let extensionValueArr = [];
+                    for (let i = 0; i < fileNameExtensionList.length; i++)  {
+                        extensionValueArr[i] = fileNameExtensionList[i];
+                    }
 
-                            } else { // edit 일때
-                                document.querySelector(dropzoneId).appendChild(uploadedFileView);
-
-                                // 파일 다운로드
-                                download.addEventListener('click', fileDownloadHandler);
-
-                                // 파일삭제 : 첨부파일 목록에서 제외, 삭제 flag 추가
-                                remove.addEventListener('click', function (e) {
-                                    const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]');
-                                    delFile.setAttribute('name', delFileAttrName);
-                                    delFile.closest('.dz-preview').style.display = 'none';
-                                });
-                            }
-                        });
-                    },
-                    params: '',
-                    async: false
-                };
-                aliceJs.sendXhr(opt);
-
-                if (extraParam.editor) {
-                    const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
-                    _this.element.querySelector('.dz-message').appendChild(addFileBtn);
-
-                    //파일 확장자 목록 관련 출력
-                    let fileNameExtensionList = ['XML'];
-
-                    this.on("addedfile", function (file) {
-                        const dropzoneMessage = _this.element.querySelector('.dz-message');
+                    if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
+                        this.removeFile(file);
                         if (extraParam.isDropzoneUnder) {
-                            dropzoneMessage.style.display = 'none';
-                        }
-                        let fileName = file.name;
-                        let fileNameLength = file.name.length;
-                        let lastDot = fileName.lastIndexOf('.');
-                        file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(fileName, extraParam.isView);
-
-                        let extensionValueArr = [];
-                        for (let i = 0; i < fileNameExtensionList.length; i++)  {
-                            extensionValueArr[i] = fileNameExtensionList[i];
-                        }
-
-                        if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
-                            this.removeFile(file);
-                            if (extraParam.isDropzoneUnder) {
-                                dropzoneMessage.style.display = 'block';
-                            }
-                            aliceJs.alertWarning(i18n.msg('fileupload.msg.extensionNotAvailable'));
-                        }
-                        exportFile = file;
-                        if (exportFile !== null) {
-                            _this.element.querySelector('.dz-progress').style.display = 'none';
-                        }
-                    });
-
-                    this.on("removedfile", function (file) {
-                    });
-
-                    this.on("sending", function (file, xhr, formData) {
-                    });
-
-                    // Update the total progress bar
-                    this.on("totaluploadprogress", function (progress) {
-                        //document.querySelector("#total-progress .progress-bar").style.width = progress + "%";
-                    });
-
-                    this.on("success", function (file, response) {
-                        const seq = document.createElement('input');
-                        seq.setAttribute('type', 'hidden');
-                        seq.setAttribute('name', fileAttrName);
-                        seq.value = response.file.fileSeq;
-                        file.previewElement.appendChild(seq);
-                    });
-
-                    this.on("error", function (file, errorMsg, xhr) {
-                        const res = JSON.parse(xhr.response);
-                        file.previewElement.querySelector('.dz-error-message').innerText = res.message;
-                    });
-
-                    this.on("complete", function (file) {
-                        if (extraParam.isDropzoneUnder) {
-                            const dropzoneMessage = _this.element.querySelector('.dz-message');
-                            document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
                             dropzoneMessage.style.display = 'block';
                         }
-                    });
+                        aliceJs.alertWarning(i18n.msg('fileupload.msg.extensionNotAvailable'));
+                    }
+                    exportFile = file;
+                    if (exportFile !== null) {
+                        _this.element.querySelector('.dz-progress').style.display = 'none';
+                    }
+                });
 
-                    // Hide the total progress bar when nothing's uploading anymore
-                    this.on("queuecomplete", function (progress) {
-                        //document.querySelector("#total-progress").style.opacity = "0";
-                    });
+                this.on("success", function (file, response) {
+                    const seq = document.createElement('input');
+                    seq.setAttribute('type', 'hidden');
+                    seq.setAttribute('name', fileAttrName);
+                    seq.value = response.file.fileSeq;
+                    file.previewElement.appendChild(seq);
+                });
 
-                    this.on("canceled", function () {
-                    });
+                this.on("error", function (file, errorMsg, xhr) {
+                    const res = JSON.parse(xhr.response);
+                    file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                });
 
-                    this.on("maxfilesexceeded", function (file, maxFiles) {
-                        this.removeFile(file);
-                        aliceJs.alert(i18n.msg('fileupload.msg.maxFileCount', maxFiles));
-                    });
+                this.on("complete", function (file) {
+                    if (extraParam.isDropzoneUnder) {
+                        const dropzoneMessage = _this.element.querySelector('.dz-message');
+                        document.getElementById(dragAndDropZoneId).appendChild(dropzoneMessage);
+                        dropzoneMessage.style.display = 'block';
+                    }
+                });
 
-                    this.on("maxfilesizeexceeded", function (file, maxFileSize) {
-                        this.removeFile(file);
-                        aliceJs.alert(i18n.msg('fileupload.msg.maxFileSize', maxFileSize));
-                    });
-                } else {
-                    dropZoneFiles.remove();
-                    dropZoneUploadedFiles.querySelectorAll('.dz-remove').forEach(element => {
-                        element.style.setProperty('background-image', 'none');
-                    });
-                }
-            },
-            accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
-                if (file.name === "justinbieber.jpg") {
-                    done("Naha, you don't.");
-                } else {
-                    done();
-                }
+                this.on("maxfilesexceeded", function (file, maxFiles) {
+                    this.removeFile(file);
+                    aliceJs.alert(i18n.msg('fileupload.msg.maxFileCount', maxFiles));
+                });
+
+                this.on("maxfilesizeexceeded", function (file, maxFileSize) {
+                    this.removeFile(file);
+                    aliceJs.alert(i18n.msg('fileupload.msg.maxFileSize', maxFileSize));
+                });
             }
         });
     };
