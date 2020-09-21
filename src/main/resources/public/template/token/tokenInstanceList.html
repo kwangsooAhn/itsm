@@ -2,10 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
-<table class="table table-hover" style="text-align: center">
+<table id="instanceTable">
     <colgroup>
         <col width="5%">
         <col width="15%">
@@ -15,24 +14,24 @@
         <col width="20%">
     </colgroup>
     <thead>
-    <tr>
-        <th></th>
-        <th th:text="#{document.label.docNo}"></th>
-        <th th:text="#{document.label.name}"></th>
-        <th th:text="#{token.label.startDt}"></th>
-        <th th:text="#{token.label.endDt}"></th>
-        <th th:text="#{common.label.createUser}"></th>
-    </tr>
+        <tr>
+            <th></th>
+            <th th:text="#{document.label.docNo}"></th>
+            <th th:text="#{document.label.name}"></th>
+            <th th:text="#{token.label.startDt}"></th>
+            <th th:text="#{token.label.endDt}"></th>
+            <th th:text="#{common.label.createUser}"></th>
+        </tr>
     </thead>
     <tbody id="instanceList">
-    <tr th:each="instance, index : ${instanceList}">
-        <td><input type="checkbox" th:id="${index.index}" th:name="chk" th:value="${instance.instanceId}"></td>
-        <td th:text="${instance.documentNo}"></td>
-        <td th:text="${instance.documentName}"></td>
-        <td th:name="instanceDt" th:text="${instance.instanceStartDt}"/>
-        <td th:name="instanceDt" th:text="${instance.instanceEndDt}"/>
-        <td th:text="${instance.instanceCreateUserName}"></td>
-    </tr>
+        <tr th:each="instance, index : ${instanceList}">
+            <td><input type="checkbox" th:id="${index.index}" th:name="chk" th:value="${instance.instanceId}"></td>
+            <td th:text="${instance.documentNo}"></td>
+            <td th:text="${instance.documentName}"></td>
+            <td th:name="instanceDt" th:text="${instance.instanceStartDt}"/>
+            <td th:name="instanceDt" th:text="${instance.instanceEndDt}"/>
+            <td th:text="${instance.instanceCreateUserName}"></td>
+        </tr>
     </tbody>
 </table>
 </body>
