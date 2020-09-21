@@ -32,6 +32,9 @@
             <td th:name="instanceDt" th:text="${instance.instanceEndDt}"/>
             <td th:text="${instance.instanceCreateUserName}"></td>
         </tr>
+        <tr th:if="${#arrays.isEmpty(instanceList)}">
+            <td colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
+        </tr>
     </tbody>
 </table>
 </body>
