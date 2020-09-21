@@ -13,7 +13,12 @@ const fileUploader = (function () {
     "use strict";
 
     let extraParam, fileAttrName, delFileAttrName, dragAndDropZoneId,
-        addFileBtnWrapClassName;
+        addFileBtnWrapClassName, exportFile;
+
+    //외부로 file 정보를 내보냄.
+    function getFile() {
+        return exportFile;
+    }
 
     const createUid = function () {
         function s4() {
@@ -762,13 +767,6 @@ const fileUploader = (function () {
                     //파일 확장자 목록 관련 출력
                     let fileNameExtensionList = ['XML'];
 
-
-                    //파일접근시 사용.
-                    //all accepted files: .getAcceptedFiles()
-                    //all rejected files: .getRejectedFiles()
-                    //all queued files: .getQueuedFiles()
-                    //all uploading files: .getUploadingFiles()
-
                     this.on("addedfile", function (file) {
                         const dropzoneMessage = _this.element.querySelector('.dz-message');
                         if (extraParam.isDropzoneUnder) {
@@ -782,7 +780,6 @@ const fileUploader = (function () {
                         let extensionValueArr = [];
                         for (let i = 0; i < fileNameExtensionList.length; i++)  {
                             extensionValueArr[i] = fileNameExtensionList[i];
-                            console.log(extensionValueArr[i]);
                         }
 
                         if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
@@ -791,6 +788,10 @@ const fileUploader = (function () {
                                 dropzoneMessage.style.display = 'block';
                             }
                             aliceJs.alertWarning(i18n.msg('fileupload.msg.extensionNotAvailable'));
+                        }
+                        exportFile = file;
+                        if (exportFile !== null) {
+                            _this.element.querySelector('.dz-progress').style.display = 'none';
                         }
                     });
 
@@ -872,6 +873,9 @@ const fileUploader = (function () {
         import: function (param) {
             setExtraParam(param.extra);
             createImportUploader();
+        },
+        getFile: function() {
+            return getFile();
         }
     }
 }());

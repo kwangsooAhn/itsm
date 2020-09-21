@@ -19,9 +19,7 @@
             <textarea id="form_desc" maxlength="256" tabindex="2" class="textarea-scroll-wrapper"></textarea>
         </div>
         <div class="form-set">
-            <!--<label th:text="#{form.label.importFile}" for="form_file"></label>
-            <input type="file" id="form_file" accept=".xml" tabindex="3" />-->
-            <label th:text="#{form.label.importFile}" ></label>
+            <label class="required" th:text="#{form.label.importFile}"></label>
             <div id="dropZoneFiles"></div>
             <div id="dropZoneUploadedFiles"></div>
         </div>
@@ -35,8 +33,6 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
-        let fileList = [];
-
         window.onload = function () {
             fileUploader.import({
                 extra: {
@@ -51,31 +47,22 @@
 
         function importForm() {
             if (validation()) {
+                let fileList = fileUploader.getFile();
                 const formInfo = {
                     formName: document.getElementById('form_name').value,
                     formDesc: document.getElementById('form_desc').value
                 };
 
-                console.log("test");
-                console.log(element.querySelector('.dz-hidden-input').value);
-                fileList = element.querySelector('.dz-hidden-input').value;
-
-
-                if (fileList.length > 0) {
-                    console.log(fileList[0]);
-                    workflowUtil.import(fileList[0], formInfo, 'form', function (result) {
-                        if (result) {
-                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
-                                opener.location.reload();
-                                window.close();
-                            });
-                        } else {
-                            aliceJs.alertDanger(i18n.msg('common.label.fail'));
-                        }
-                    });
-                } else {
-                    console.error('No file selected.');
-                }
+                workflowUtil.import(fileList, formInfo, 'form', function (result) {
+                    if (result) {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            opener.location.reload();
+                            window.close();
+                        });
+                    } else {
+                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
+                    }
+                });
             }
         }
 
@@ -84,9 +71,12 @@
             if (isEmpty('form_name', 'form.msg.enterFormName')) {
                 return false;
             }
-            /*if (isEmpty('form_file', 'form.msg.selectImportFile')) {
+
+            // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
+            if (document.getElementById('fileTemplate') === null) {
+                aliceJs.alertWarning(i18n.msg('form.msg.selectImportFile'));
                 return false;
-            }*/
+            }
             return true;
         }
 
