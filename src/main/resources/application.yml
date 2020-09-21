@@ -78,7 +78,7 @@ server:
       timeout: 60m
 
 # user defalut profile path
-user.default.profile.path: \public\assets\media\image\avatar\profile_sample.jpg
+user.default.profile: \public\assets\media\image\avatar\profile_sample.jpg
 
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\files

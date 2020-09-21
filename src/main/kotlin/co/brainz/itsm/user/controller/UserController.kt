@@ -42,8 +42,9 @@ class UserController(
     private val userListPage: String = "user/userList"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
-    @Value("\${user.default.profile.path}")
-    private val userDefaultProfilePath: String = ""
+
+    @Value("\${user.default.profile}")
+    private val userDefaultProfile: String = ""
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -89,7 +90,7 @@ class UserController(
         if (userEntity.avatar.uploaded) {
             users.avatarSize = Paths.get(userEntity.avatar.uploadedLocation).toFile().length()
         } else {
-            val resource = ClassPathResource(userDefaultProfilePath)
+            val resource = ClassPathResource(userDefaultProfile)
             val path = Paths.get(resource.uri)
             users.avatarSize = path.toFile().length()
         }
