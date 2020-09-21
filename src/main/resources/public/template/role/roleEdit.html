@@ -156,7 +156,7 @@
         function onGetDetail(roleId) {
             const opt = {
                 method: 'get',
-                url: '/rest/roles/' +  roleId,
+                url: '/rest/roles/' +  encodeURIComponent(roleId),
                 callbackFunc: function(response) {
                     let responseJson = JSON.parse(response.responseText);
                     document.getElementById('txtRoleId').value = responseJson.roleId;

@@ -61,7 +61,7 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                     msg += "\n" + throwable.message
                     throwable = throwable.cause
                 }
-                errorAttributes["message"] = msg
+                errorAttributes["message"] = errorAttributes["message"] ?: msg
             }
         }
         logger.error("Error attribute {}", errorAttributes)
