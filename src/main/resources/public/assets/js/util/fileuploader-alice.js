@@ -239,6 +239,44 @@ const fileUploader = (function () {
     };
 
     /**
+     * 파일업로드 validation (파일확장자, 최대 파일 수, 최대 파일 사이즈)
+     * dropzone : 현재 dropzone 객체
+     * file : 첨부한 파일 file
+     */
+    const validation = function(dropzone, file) {
+        //파일 확장자 목록 관련 출력
+        let fileNameExtensionList;
+        const opt2 = {
+            method: 'GET',
+            url: '/rest/fileNameExtensionList',
+            async: false,
+            callbackFunc: function (response) {
+                fileNameExtensionList = JSON.parse(response.responseText);
+            }
+        };
+        aliceJs.sendXhr(opt2);
+
+        let extensionValueArr = [];
+        for (let i = 0; i < fileNameExtensionList.length; i++) {
+            extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
+        }
+
+        if (!(extensionValueArr.includes(getExtension(file.name).toUpperCase()))) {
+            dropzone.removeFile(file);
+            if (extraParam.isDropzoneUnder) {
+                dropzoneMessage.style.display = 'block';
+            }
+            aliceJs.alertWarning(i18n.msg('fileupload.msg.extensionNotAvailable'));
+        } else if (file.size > extraParam.dropZoneMaxFileSize * 1024 * 1024) {
+            dropzone.removeFile(file);
+            aliceJs.alert(i18n.msg('fileupload.msg.maxFileSize', extraParam.dropZoneMaxFileSize));
+        } else if (extraParam.dropZoneMaxFiles !== null && (dropzone.files.length > extraParam.dropZoneMaxFiles)) {
+            dropzone.removeFile(file);
+            aliceJs.alert(i18n.msg('fileupload.msg.maxFileCount', extraParam.dropZoneMaxFiles));
+        }
+    }
+
+    /**
      * 파일업로드 드랍존 생성
      */
     const createFileUploader = function () {
@@ -358,17 +396,6 @@ const fileUploader = (function () {
                     const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
                     _this.element.querySelector('.dz-message').appendChild(addFileBtn);
 
-                    //파일 확장자 목록 관련 출력
-                    let fileNameExtensionList;
-                    const opt2 = {
-                        method: 'GET',
-                        url: '/rest/fileNameExtensionList',
-                        callbackFunc: function (response) {
-                            fileNameExtensionList = JSON.parse(response.responseText);
-                        }
-                    };
-                    aliceJs.sendXhr(opt2);
-
                     //파일접근시 사용.
                     //all accepted files: .getAcceptedFiles()
                     //all rejected files: .getRejectedFiles()
@@ -380,23 +407,8 @@ const fileUploader = (function () {
                         if (extraParam.isDropzoneUnder) {
                             dropzoneMessage.style.display = 'none';
                         }
-                        let fileName = file.name;
-                        let fileNameLength = file.name.length;
-                        let lastDot = fileName.lastIndexOf('.');
-                        file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(fileName, extraParam.isView);
-
-                        let extensionValueArr = [];
-                        for (let i = 0; i < fileNameExtensionList.length; i++)  {
-                            extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
-                        }
-
-                        if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
-                            this.removeFile(file);
-                            if (extraParam.isDropzoneUnder) {
-                                dropzoneMessage.style.display = 'block';
-                            }
-                            aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
-                        }
+                        file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(file.name, extraParam.isView);
+                        validation(this, file);
                     });
 
                     this.on("removedfile", function (file) {
@@ -423,8 +435,10 @@ const fileUploader = (function () {
                     });
 
                     this.on("error", function (file, errorMsg, xhr) {
-                        const res = JSON.parse(xhr.response);
-                        file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                        if (xhr !== undefined) {
+                            const res = JSON.parse(xhr.response);
+                            file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                        }
                         // file.previewElement.querySelector('.dz-success-mark').style.display = '';
                         // file.previewElement.querySelector('.dz-success-mark').style.display = 'none';
                         // aliceJs.xhrErrorResponse()
@@ -445,16 +459,6 @@ const fileUploader = (function () {
                     });
 
                     this.on("canceled", function () {
-                    });
-
-                    this.on("maxfilesexceeded", function (file, maxFiles) {
-                        this.removeFile(file);
-                        aliceJs.alert(i18n.get('fileupload.msg.maxFileCount', maxFiles));
-                    });
-
-                    this.on("maxfilesizeexceeded", function (file, maxFileSize) {
-                        this.removeFile(file);
-                        aliceJs.alert(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
                     });
                 } else {
                     dropZoneFiles.remove();
@@ -534,35 +538,10 @@ const fileUploader = (function () {
                     _this.emit('complete', mockFile);
                 }
 
-                //파일 확장자 목록 관련 출력
-                let fileNameExtensionList;
-                const opt2 = {
-                    method: 'GET',
-                    url: '/rest/fileNameExtensionList',
-                    callbackFunc: function (response) {
-                        fileNameExtensionList = JSON.parse(response.responseText);
-                    }
-                };
-                aliceJs.sendXhr(opt2);
-
                 this.on("addedfile", function (file) {
                     extraParam.fileName = createUid();
                     document.getElementById('avatarUUID').value = extraParam.fileName;
-
-                    let fileName = file.name;
-                    let fileNameLength = file.name.length;
-                    let lastDot = fileName.lastIndexOf('.');
-                    let extensionValueArr = [];
-
-                    for (var i = 0; i < fileNameExtensionList.length; i++)  {
-                        extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
-                    }
-
-                    if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
-                        this.removeFile(file);
-                        aliceJs.alert(i18n.get('fileupload.msg.extensionNotAvailable'));
-                    }
-
+                    validation(this, file);
                 });
 
                 this.on("removedfile", function (file) {
@@ -591,8 +570,10 @@ const fileUploader = (function () {
                 });
 
                 this.on("error", function (file, errorMsg, xhr) {
-                    const res = JSON.parse(xhr.response);
-                    file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                    if (xhr !== undefined) {
+                        const res = JSON.parse(xhr.response);
+                        file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                    }
                     // file.previewElement.querySelector('.dz-success-mark').style.display = '';
                     // file.previewElement.querySelector('.dz-success-mark').style.display = 'none';
                     // aliceJs.xhrErrorResponse()
@@ -611,16 +592,6 @@ const fileUploader = (function () {
                 });
 
                 this.on("canceled", function () {
-                });
-
-                this.on("maxfilesexceeded", function (file, maxFiles) {
-                    this.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxFileCount', maxFiles));
-                });
-
-                this.on("maxfilesizeexceeded", function (file, maxFileSize) {
-                    this.removeFile(file);
-                    aliceJs.alert(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
