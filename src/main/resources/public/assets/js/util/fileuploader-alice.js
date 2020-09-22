@@ -241,24 +241,33 @@ const fileUploader = (function () {
     /**
      * 파일업로드 validation (파일확장자, 최대 파일 수, 최대 파일 사이즈)
      * dropzone : 현재 dropzone 객체
-     * file : 첨부한 파일 file
+     * file : 첨부한 파일
+     * uploaderType : 어느 uploader가 호출 했는지(fileUploader, avatarUploader)
      */
-    const validation = function(dropzone, file) {
+    const validation = function(dropzone, file, uploaderType) {
         //파일 확장자 목록 관련 출력
         let fileNameExtensionList;
-        const opt2 = {
-            method: 'GET',
-            url: '/rest/fileNameExtensionList',
-            async: false,
-            callbackFunc: function (response) {
-                fileNameExtensionList = JSON.parse(response.responseText);
-            }
-        };
-        aliceJs.sendXhr(opt2);
-
         let extensionValueArr = [];
-        for (let i = 0; i < fileNameExtensionList.length; i++) {
-            extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
+        // 수용 파일 확장자가 없다면 기본 파일 확장자 제한(DB)에서 확인 한다.
+        if (extraParam.acceptedFiles === null) {
+            const opt2 = {
+                method: 'GET',
+                url: '/rest/fileNameExtensionList',
+                async: false,
+                callbackFunc: function (response) {
+                    fileNameExtensionList = JSON.parse(response.responseText);
+                }
+            };
+            aliceJs.sendXhr(opt2);
+    
+            for (let i = 0; i < fileNameExtensionList.length; i++) {
+                extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
+            }
+        } else {
+            let acceptedFiles = extraParam.acceptedFiles.split('.');
+            for (let i = 0; i < acceptedFiles.length; i++) {
+                extensionValueArr[i] = acceptedFiles[i].replace(',','').trim().toUpperCase();
+            }
         }
 
         if (!(extensionValueArr.includes(getExtension(file.name).toUpperCase()))) {
@@ -271,8 +280,16 @@ const fileUploader = (function () {
             dropzone.removeFile(file);
             aliceJs.alert(i18n.msg('fileupload.msg.maxFileSize', extraParam.dropZoneMaxFileSize));
         } else if (extraParam.dropZoneMaxFiles !== null && (dropzone.files.length > extraParam.dropZoneMaxFiles)) {
-            dropzone.removeFile(file);
-            aliceJs.alert(i18n.msg('fileupload.msg.maxFileCount', extraParam.dropZoneMaxFiles));
+            if (uploaderType === 'avatarUploader' && extraParam.dropZoneMaxFiles === 1) {
+                if (dropzone.files.length > 1) {
+                    dropzone.removeFile(dropzone.files[0]);
+                }
+                extraParam.fileName = createUid();
+                document.getElementById('avatarUUID').value = extraParam.fileName;
+            } else {
+                dropzone.removeFile(file);
+                aliceJs.alert(i18n.msg('fileupload.msg.maxFileCount', extraParam.dropZoneMaxFiles));
+            }
         }
     }
 
@@ -311,7 +328,7 @@ const fileUploader = (function () {
                 const opt = {
                     method: 'get',
                     url: '/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : '')
-                                  +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
+                        +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
                         files.forEach(function (fileMap) {
@@ -408,7 +425,7 @@ const fileUploader = (function () {
                             dropzoneMessage.style.display = 'none';
                         }
                         file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(file.name, extraParam.isView);
-                        validation(this, file);
+                        validation(this, file, 'fileUploader');
                     });
 
                     this.on("removedfile", function (file) {
@@ -541,7 +558,7 @@ const fileUploader = (function () {
                 this.on("addedfile", function (file) {
                     extraParam.fileName = createUid();
                     document.getElementById('avatarUUID').value = extraParam.fileName;
-                    validation(this, file);
+                    validation(this, file, 'avatarUploader');
                 });
 
                 this.on("removedfile", function (file) {
