@@ -228,7 +228,11 @@
                     let buttonProcessEle = document.createElement('button');
                     buttonProcessEle.type = 'button';
                     buttonProcessEle.className = 'default-fill';
-                    buttonProcessEle.innerText = i18n.msg(element.name);
+                    if (element.customYn === true) {
+                        buttonProcessEle.innerText = element.name;
+                    } else {
+                        buttonProcessEle.innerText = i18n.msg(element.name);
+                    }
                     // 문서가 view 일 경우, 닫기 버튼을 제외하곤 disabled 처리한다.
                     if (documentContainer.hasAttribute('data-readonly') && element.value !== 'close') {
                         buttonProcessEle.disabled = true;

@@ -455,7 +455,6 @@ input:disabled, input:read-only {
   pointer-events: none;
 }
 input.validate-error {
-  color: #FF405A !important;
   border: 0.0625rem solid #FF405A !important;
 }
 
@@ -490,7 +489,6 @@ textarea:disabled {
   cursor: default;
 }
 textarea.validate-error {
-  color: #FF405A !important;
   border: 0.0625rem solid #FF405A !important;
 }
 
@@ -1233,7 +1231,6 @@ button.default-point-line:not(:disabled):active span.icon {
 
 .validate-error {
   border: 1px solid #FF405A !important;
-  color: #FF405A !important;
 }
 
 /* 컨텍스트 메뉴 */
