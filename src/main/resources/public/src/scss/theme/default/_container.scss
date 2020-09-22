@@ -217,7 +217,14 @@ span.vertical-bar {
                                 }
                             }
                             th { color: $light-black; font-weight: 500; }
-                            td { color: $dark-gray; font-weight: 400;}
+                            td {
+                                color: $dark-gray;
+                                font-weight: 400;
+                                max-width: 0;
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                white-space: nowrap;
+                            }
                             th,td {
                                 border: none;
                                 text-align: left;
