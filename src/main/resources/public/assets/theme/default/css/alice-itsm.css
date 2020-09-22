@@ -633,8 +633,10 @@ span.vertical-bar {
 .container-popup .edit .table-set {
   margin-top: 0.6875rem;
   height: 28.125rem;
-  width: 57.5rem;
   overflow: auto;
+}
+.container-popup .edit .table-set thead tr {
+  border-bottom: 0.125rem solid #E1E3E6;
 }
 .container-popup .edit .table-set tr {
   height: 2.5rem;
@@ -643,7 +645,6 @@ span.vertical-bar {
   font-weight: 500;
   padding: 1rem;
   vertical-align: middle;
-  max-width: 10rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -764,6 +765,10 @@ span.vertical-bar {
 .container-document .token-info-contents .token-history .table td {
   color: #586872;
   font-weight: 400;
+  max-width: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .container-document .token-info-contents .token-history .table th, .container-document .token-info-contents .token-history .table td {
   border: none;
@@ -1165,8 +1170,10 @@ span.vertical-bar {
 .container .contents-edit .edit .table-set {
   margin-top: 0.6875rem;
   height: 28.125rem;
-  width: 57.5rem;
   overflow: auto;
+}
+.container .contents-edit .edit .table-set thead tr {
+  border-bottom: 0.125rem solid #E1E3E6;
 }
 .container .contents-edit .edit .table-set tr {
   height: 2.5rem;
@@ -1175,7 +1182,6 @@ span.vertical-bar {
   font-weight: 500;
   padding: 1rem;
   vertical-align: middle;
-  max-width: 10rem;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

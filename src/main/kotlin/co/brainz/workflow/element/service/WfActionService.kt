@@ -89,7 +89,7 @@ class WfActionService(
      */
     private fun preActions(): MutableList<RestTemplateActionDto> {
         val preActions: MutableList<RestTemplateActionDto> = mutableListOf()
-        preActions.add(RestTemplateActionDto(name = "common.btn.save", value = WfElementConstants.Action.SAVE.value))
+        preActions.add(RestTemplateActionDto(name = "common.btn.save", value = WfElementConstants.Action.SAVE.value, customYn = false))
         return preActions
     }
 
@@ -100,7 +100,7 @@ class WfActionService(
      */
     private fun closeActions(): MutableList<RestTemplateActionDto> {
         val closeActions: MutableList<RestTemplateActionDto> = mutableListOf()
-        closeActions.add(RestTemplateActionDto(name = "common.btn.close", value = WfElementConstants.Action.CLOSE.value))
+        closeActions.add(RestTemplateActionDto(name = "common.btn.close", value = WfElementConstants.Action.CLOSE.value, customYn = false))
         return closeActions
     }
 
@@ -116,15 +116,15 @@ class WfActionService(
         // 현재 element 속성에 회수, 반려가 존재할 경우
         element.elementDataEntities.forEach {
             if (it.attributeId == WfElementConstants.AttributeId.WITHDRAW.value && it.attributeValue == WfElementConstants.AttributeValue.WITHDRAW_ENABLE.value) {
-                postActions.add(RestTemplateActionDto(name = "common.btn.withdraw", value = WfElementConstants.Action.WITHDRAW.value))
+                postActions.add(RestTemplateActionDto(name = "common.btn.withdraw", value = WfElementConstants.Action.WITHDRAW.value, customYn = false))
             }
             if (it.attributeId == WfElementConstants.AttributeId.REJECT_ID.value && it.attributeValue.isNotEmpty()) {
-                postActions.add(RestTemplateActionDto(name = "common.btn.reject", value = WfElementConstants.Action.REJECT.value))
+                postActions.add(RestTemplateActionDto(name = "common.btn.reject", value = WfElementConstants.Action.REJECT.value, customYn = false))
             }
         }
 
-        postActions.add(RestTemplateActionDto(name = "common.btn.cancel", value = WfElementConstants.Action.CANCEL.value))
-        postActions.add(RestTemplateActionDto(name = "common.btn.terminate", value = WfElementConstants.Action.TERMINATE.value))
+        postActions.add(RestTemplateActionDto(name = "common.btn.cancel", value = WfElementConstants.Action.CANCEL.value, customYn = false))
+        postActions.add(RestTemplateActionDto(name = "common.btn.terminate", value = WfElementConstants.Action.TERMINATE.value, customYn = false))
         logger.info("Make actions. {} ", postActions)
 
         return postActions
@@ -162,7 +162,7 @@ class WfActionService(
             }
         }
         if (typeActions.isEmpty()) {
-            typeActions.add(RestTemplateActionDto(name = "common.btn.process", value = WfElementConstants.Action.PROGRESS.value))
+            typeActions.add(RestTemplateActionDto(name = "common.btn.process", value = WfElementConstants.Action.PROGRESS.value, customYn = false))
         }
 
         return typeActions
@@ -187,7 +187,7 @@ class WfActionService(
             }
         }
         if (actionName.isNotEmpty() && actionValue.isNotEmpty()) {
-            actionList.add(RestTemplateActionDto(name = actionName, value = actionValue))
+            actionList.add(RestTemplateActionDto(name = actionName, value = actionValue, customYn = true))
         }
         return actionList
     }
