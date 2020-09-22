@@ -17,8 +17,19 @@
         <h1 th:text="#{error.label.middlePhrase}"></h1>
         <p th:text="|#{error.label.errorCode} : ${error} (${status})|" class="error-code-txt"/>
         <p th:text="#{error.label.bottomPhrase}" class="error-bottom-txt"/>
-        <button th:text="#{error.btn.return}" class="error-btn" th:onclick="|javascript:history.go(-1)|"></button>
+        <button th:text="#{error.btn.return}" class="error-btn"></button>
     </div>
 </div>
 </body>
+<script type="text/javascript">
+    window.addEventListener('load', function () {
+        document.querySelector('.error-btn').addEventListener('click', function () {
+            if (window.opener) {
+                self.close();
+            } else {
+                history.go(-1);
+            }
+        })
+    })
+</script>
 </html>

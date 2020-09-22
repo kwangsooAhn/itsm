@@ -765,6 +765,10 @@ span.vertical-bar {
 .container-document .token-info-contents .token-history .table td {
   color: #586872;
   font-weight: 400;
+  max-width: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .container-document .token-info-contents .token-history .table th, .container-document .token-info-contents .token-history .table td {
   border: none;
