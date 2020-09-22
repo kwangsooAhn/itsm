@@ -12,8 +12,7 @@
 const fileUploader = (function () {
     "use strict";
 
-    let extraParam, fileAttrName, delFileAttrName, dragAndDropZoneId,
-        addFileBtnWrapClassName, exportFile;
+    let extraParam, fileAttrName, delFileAttrName, dragAndDropZoneId, addFileBtnWrapClassName, exportFile;
 
     //외부로 file 정보를 내보냄.
     const getFile = function() {
@@ -36,7 +35,11 @@ const fileUploader = (function () {
         if (isView) {
             return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '_s.svg")';
         } else {
-            return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
+            if (getExtension(fileName) === 'xml') {
+                return 'url("/assets/media/icons/dropzone/icon_fileupload.svg")';
+            } else {
+                return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
+            }
         }
     }
 
@@ -430,25 +433,9 @@ const fileUploader = (function () {
                         if (extraParam.isDropzoneUnder) {
                             dropzoneMessage.style.display = 'none';
                         }
-                        let fileName = file.name;
-                        let fileNameLength = file.name.length;
-                        let lastDot = fileName.lastIndexOf('.');
-                        file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(fileName, extraParam.isView);
-
-                        let extensionValueArr = [];
-                        for (let i = 0; i < fileNameExtensionList.length; i++)  {
-                            extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
-                        }
-
-                        if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
-                            this.removeFile(file);
-                            if (extraParam.isDropzoneUnder) {
-                                dropzoneMessage.style.display = 'block';
-                            }
-                            aliceJs.alertWarning(i18n.msg('fileupload.msg.extensionNotAvailable'));
-                        }
                         file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(file.name, extraParam.isView);
                         validation(this, file, 'fileUploader');
+                        exportFile = file;
                     });
 
                     this.on("removedfile", function (file) {
@@ -470,8 +457,10 @@ const fileUploader = (function () {
                         const seq = document.createElement('input');
                         seq.setAttribute('type', 'hidden');
                         seq.setAttribute('name', fileAttrName);
-                        seq.value = response.file.fileSeq;
-                        file.previewElement.appendChild(seq);
+                        if (response.file !== undefined) {
+                            seq.value = response.file.fileSeq;
+                            file.previewElement.appendChild(seq);
+                        }
                     });
 
                     this.on("error", function (file, errorMsg, xhr) {
@@ -499,16 +488,6 @@ const fileUploader = (function () {
                     });
 
                     this.on("canceled", function () {
-                    });
-
-                    this.on("maxfilesexceeded", function (file, maxFiles) {
-                        this.removeFile(file);
-                        aliceJs.alert(i18n.msg('fileupload.msg.maxFileCount', maxFiles));
-                    });
-
-                    this.on("maxfilesizeexceeded", function (file, maxFileSize) {
-                        this.removeFile(file);
-                        aliceJs.alert(i18n.msg('fileupload.msg.maxFileSize', maxFileSize));
                     });
                 } else {
                     dropZoneFiles.remove();
@@ -592,6 +571,7 @@ const fileUploader = (function () {
                     extraParam.fileName = createUid();
                     document.getElementById('avatarUUID').value = extraParam.fileName;
                     validation(this, file, 'avatarUploader');
+                    exportFile = file;
                 });
 
                 this.on("removedfile", function (file) {
@@ -662,10 +642,6 @@ const fileUploader = (function () {
         avatar: function (param) {
             setExtraParam(param.extra);
             createAvatarUploader();
-        },
-        import: function (param) {
-            setExtraParam(param.extra);
-            createImportUploader();
         },
         getFile: function() {
             return getFile();

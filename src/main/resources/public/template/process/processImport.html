@@ -34,7 +34,15 @@
     <script type="text/javascript">
         /*<![CDATA[*/
         window.onload = function () {
-            fileUploader.import({extra: {formId: 'importProcess', dropZoneMaxFiles: 1}});
+            fileUploader.init({
+                extra: {
+                    formId: 'importProcess',
+                    dropZoneMaxFiles: 1,
+                    acceptedFiles: '.xml',
+                    dropZoneUrl: '/fileupload?target=import',
+                    editor: true
+                }
+            });
             OverlayScrollbars(document.getElementById('process_desc'), {className: 'inner-scrollbar'});
         };
 
