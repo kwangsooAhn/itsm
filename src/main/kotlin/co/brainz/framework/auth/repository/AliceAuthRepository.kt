@@ -16,7 +16,7 @@ interface AliceAuthRepository : JpaRepository<AliceAuthEntity, String> {
                 "from AliceAuthEntity a " +
                 "join fetch a.createUser " +
                 "left outer join a.updateUser " +
-                "order by a.AuthName"
+                "order by a.authName"
     )
     fun findByOrderByAuthNameAsc(): MutableList<AliceAuthEntity>
 
