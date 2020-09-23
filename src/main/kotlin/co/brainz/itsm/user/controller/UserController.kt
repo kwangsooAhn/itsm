@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -40,6 +42,9 @@ class UserController(
     private val userListPage: String = "user/userList"
     private val userEditSelfPage: String = "user/userEditSelf"
     private val userEditPage: String = "user/userEdit"
+
+    @Value("\${user.default.profile}")
+    private val userDefaultProfile: String = ""
 
     /**
      * 사용자 검색, 목록 등 메인이 되는 조회 화면을 호출한다.
@@ -82,7 +87,13 @@ class UserController(
         users.avatarId = userEntity.avatar.avatarId
         users.avatarPath = avatarService.makeAvatarPath(userEntity.avatar)
         users.avatarValue = userEntity.avatar.avatarValue
-        users.avatarSize = Paths.get(userEntity.avatar.uploadedLocation).toFile().length()
+        if (userEntity.avatar.uploaded) {
+            users.avatarSize = Paths.get(userEntity.avatar.uploadedLocation).toFile().length()
+        } else {
+            val resource = ClassPathResource(userDefaultProfile)
+            val path = resource.inputStream
+            users.avatarSize = path.available().toLong()
+        }
         val roleEntities = mutableSetOf<AliceRoleEntity>()
         val timeFormat = users.timeFormat!!.split(' ')
         val usersDate = timeFormat[0]

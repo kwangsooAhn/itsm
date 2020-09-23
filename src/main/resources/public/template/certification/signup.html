@@ -87,9 +87,9 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     window.onload = function() {
-        i18n.initMessages();
-        hiddenProgressBar();
+        i18n.init();
 
+        hiddenProgressBar();
         fileUploader.avatar({
             extra: {
                 dropZoneFilesId: 'avatarDropZone',
@@ -99,11 +99,6 @@
                 dropZoneMaxFiles: 1,
                 acceptedFiles: '.png,.jpeg,.jpg,.gif',
                 enableImageThumbnails: true,
-                thumbnailWidth: 150,
-                thumbnailHeight: 150,
-                dictDefaultMessage: 'Drop files here to',
-                clickableLineMessage: 'upload or ',
-                clickableMessage: 'browse',
                 avatar: {
                     id: [[${users?.avatarId}]],
                     path: [[${users?.avatarPath}]],
