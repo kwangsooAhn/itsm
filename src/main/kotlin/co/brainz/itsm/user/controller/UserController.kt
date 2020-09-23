@@ -90,9 +90,9 @@ class UserController(
         if (userEntity.avatar.uploaded) {
             users.avatarSize = Paths.get(userEntity.avatar.uploadedLocation).toFile().length()
         } else {
-            val resource = ClassPathResource(userDefaultProfile).uri
-            val path = Paths.get(resource)
-            users.avatarSize = path.toFile().length()
+            val resource = ClassPathResource(userDefaultProfile)
+            val path = resource.inputStream
+            users.avatarSize = path.available().toLong()
         }
         val roleEntities = mutableSetOf<AliceRoleEntity>()
         val timeFormat = users.timeFormat!!.split(' ')
@@ -151,4 +151,3 @@ class UserController(
         return userEditPage
     }
 }
-
