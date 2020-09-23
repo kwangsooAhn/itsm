@@ -25,10 +25,7 @@
     <tr th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
         <td width="20%" th:class="align-left">
             <div th:if="${form.editable == true}">
-                <th:block th:switch="${#authorization.expression('hasAuthority(''form.read'')')}">
-                    <a th:case="true" th:text="${form.name}" th:attr="onclick=|openFormEdit('${form.id}')|"></a>
-                    <a th:case="*" th:text="${form.name}" th:attr="onclick=|openFormView('${form.id}')|"></a>
-                </th:block>
+                    <a th:text="${form.name}" th:attr="onclick=|openFormView('${form.id}')|"></a>
             </div>
             <div th:unless="${form.editable == true}">
                 <span th:text="${form.name}"></span>
