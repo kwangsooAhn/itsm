@@ -12,8 +12,12 @@
 const fileUploader = (function () {
     "use strict";
 
-    let extraParam, fileAttrName, delFileAttrName, dragAndDropZoneId,
-        addFileBtnWrapClassName;
+    let extraParam, fileAttrName, delFileAttrName, dragAndDropZoneId, addFileBtnWrapClassName, exportFile;
+
+    //외부로 file 정보를 내보냄.
+    const getFile = function() {
+        return exportFile;
+    }
 
     const createUid = function () {
         function s4() {
@@ -24,14 +28,18 @@ const fileUploader = (function () {
 
     const getExtension = function(fileName) {
         let dot = fileName.lastIndexOf('.')
-        return fileName.substring(dot+1, fileName.length).toLowerCase()
+        return fileName.substring(dot+1, fileName.length).toLowerCase();
     }
 
     const setFileIcon = function (fileName, isView) {
         if (isView) {
             return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '_s.svg")';
         } else {
-            return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
+            if (getExtension(fileName) === 'xml') {
+                return 'url("/assets/media/icons/dropzone/icon_document_txt.svg")';
+            } else {
+                return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
+            }
         }
     }
 
@@ -59,7 +67,7 @@ const fileUploader = (function () {
         }
 
         if (extraParam.dropZoneUrl === undefined) {
-            extraParam.dropZoneUrl = '/fileupload'
+            extraParam.dropZoneUrl = '/fileupload';
         }
 
         if (extraParam.dropZoneMaxFiles === undefined) {
@@ -74,7 +82,7 @@ const fileUploader = (function () {
             extraParam.acceptedFiles = null;
         }
 
-        extraParam.type = (extraParam.type === undefined) ? 'dropzone':'dropzone ' + extraParam.type
+        extraParam.type = (extraParam.type === undefined) ? 'dropzone':'dropzone ' + extraParam.type;
         if (extraParam.type === 'avatar') {
             extraParam.enableImageThumbnails = true;
         }
@@ -88,15 +96,15 @@ const fileUploader = (function () {
         }
 
         if (extraParam.dictDefaultMessage === undefined) {
-            extraParam.dictDefaultMessage = 'Drop files here to upload'
+            extraParam.dictDefaultMessage = i18n.msg('file.msg.upload');
         }
 
         if (extraParam.clickableLineMessage === undefined) {
-            extraParam.clickableLineMessage = 'or '
+            extraParam.clickableLineMessage = i18n.msg('file.label.or') + ' ';
         }
 
         if (extraParam.clickableMessage === undefined) {
-            extraParam.clickableMessage = 'browse'
+            extraParam.clickableMessage = i18n.msg('file.msg.browser');
         }
 
         if (extraParam.isView === undefined) {
@@ -131,7 +139,7 @@ const fileUploader = (function () {
         addFileBtn.textContent = extraParam.clickableMessage;
 
         const addFileBtnWrap = document.createElement('div');
-        addFileBtnWrap.className = addFileBtnWrapClassName
+        addFileBtnWrap.className = addFileBtnWrapClassName;
         addFileBtnWrap.appendChild(justText);
         addFileBtnWrap.appendChild(addFileBtn);
         dragAndDropZone.appendChild(addFileBtnWrap);
@@ -207,7 +215,7 @@ const fileUploader = (function () {
         const fileView = document.createElement('div');
         fileView.appendChild(fileViewTemplate);
 
-        return fileView.innerHTML
+        return fileView.innerHTML;
     }
 
     /**
@@ -259,7 +267,7 @@ const fileUploader = (function () {
                 }
             };
             aliceJs.sendXhr(opt2);
-    
+
             for (let i = 0; i < fileNameExtensionList.length; i++) {
                 extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
             }
@@ -319,6 +327,7 @@ const fileUploader = (function () {
             autoQueue: true, // Make sure the files aren't queued until manually added
             clickable: '.' + extraParam.clickable, // Define the element that should be used as click trigger to select files.
             createImageThumbnails: false,
+            dictDefaultMessage: extraParam.dictDefaultMessage,
             headers: {
                 'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
             },
@@ -426,6 +435,7 @@ const fileUploader = (function () {
                         }
                         file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(file.name, extraParam.isView);
                         validation(this, file, 'fileUploader');
+                        exportFile = file;
                     });
 
                     this.on("removedfile", function (file) {
@@ -447,8 +457,10 @@ const fileUploader = (function () {
                         const seq = document.createElement('input');
                         seq.setAttribute('type', 'hidden');
                         seq.setAttribute('name', fileAttrName);
-                        seq.value = response.file.fileSeq;
-                        file.previewElement.appendChild(seq);
+                        if (response.file !== undefined) {
+                            seq.value = response.file.fileSeq;
+                            file.previewElement.appendChild(seq);
+                        }
                     });
 
                     this.on("error", function (file, errorMsg, xhr) {
@@ -542,7 +554,7 @@ const fileUploader = (function () {
                         accepted: true,
                         isNew: false
                     };
-                    extraParam.fileName = extraParam.avatar.id
+                    extraParam.fileName = extraParam.avatar.id;
                     document.getElementById('avatarUUID').value = extraParam.fileName;
                     _this.files.push(mockFile);
                     _this.emit("addedfile", mockFile);
@@ -559,6 +571,7 @@ const fileUploader = (function () {
                     extraParam.fileName = createUid();
                     document.getElementById('avatarUUID').value = extraParam.fileName;
                     validation(this, file, 'avatarUploader');
+                    exportFile = file;
                 });
 
                 this.on("removedfile", function (file) {
@@ -584,6 +597,22 @@ const fileUploader = (function () {
                     seq.setAttribute('name', fileAttrName);
                     seq.value = response.file.fileSeq;
                     file.previewElement.appendChild(seq);
+
+                    let thumbs = document.querySelectorAll('.dz-image');
+                    [].forEach.call(thumbs, function (thumb) {
+                        thumb.style = 'width: 100%; height: 100%;';
+                    });
+                });
+
+                this.on('thumbnail', function(file, dataUrl) {
+                    let thumbs = document.querySelectorAll('.dz-image');
+                    [].forEach.call(thumbs, function (thumb) {
+                        let img = thumb.querySelector('img');
+                        if (img) {
+                            img.setAttribute('width', '100%');
+                            img.setAttribute('height', '100%');
+                        }
+                    });
                 });
 
                 this.on("error", function (file, errorMsg, xhr) {
@@ -629,6 +658,9 @@ const fileUploader = (function () {
         avatar: function (param) {
             setExtraParam(param.extra);
             createAvatarUploader();
+        },
+        getFile: function() {
+            return getFile();
         }
     }
 }());
