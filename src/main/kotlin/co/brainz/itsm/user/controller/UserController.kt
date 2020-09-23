@@ -87,12 +87,14 @@ class UserController(
         users.avatarId = userEntity.avatar.avatarId
         users.avatarPath = avatarService.makeAvatarPath(userEntity.avatar)
         users.avatarValue = userEntity.avatar.avatarValue
+        var path = ""
         if (userEntity.avatar.uploaded) {
             users.avatarSize = Paths.get(userEntity.avatar.uploadedLocation).toFile().length()
         } else {
             val resource = ClassPathResource(userDefaultProfile)
-            val path = Paths.get(resource.uri)
-            users.avatarSize = path.toFile().length()
+            path = Paths.get(resource.uri).toString()
+            //users.avatarSize = path.toFile().length()
+            users.avatarSize = 1;
         }
         val roleEntities = mutableSetOf<AliceRoleEntity>()
         val timeFormat = users.timeFormat!!.split(' ')
@@ -123,7 +125,7 @@ class UserController(
         model.addAttribute("timezoneList", userService.selectTimezoneList())
         model.addAttribute("dateList", codeService.selectCodeByParent(UserConstants.PDATECODE.value))
         model.addAttribute("timeList", codeService.selectCodeByParent(UserConstants.PTIMECODE.value))
-
+        model.addAttribute("path", path);
         when (target) {
             "editSelf" -> {
                 returnUrl = userEditSelfPage
