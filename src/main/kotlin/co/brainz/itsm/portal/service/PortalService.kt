@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.portal.service
 
-import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.dto.DownloadDto
 import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
@@ -42,13 +41,6 @@ class PortalService(
         return portalRepository.findPortalSearchList(
             portalSearchDto.searchValue, portalSearchDto.offset
         )
-    }
-
-    /**
-     * 포탈 검색 리스트 글 전체 개수 조회
-     */
-    fun findPortalListOrSearchCount(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
-        return noticeRepository.findPortalListOrSearchCount(portalSearchDto.searchValue)
     }
 
     fun getTopList(limit: Long): LinkedHashMap<String, Any> {
