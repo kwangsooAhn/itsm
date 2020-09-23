@@ -1,4 +1,4 @@
-@import "../common/_reset.scss";
+@import "../template/_reset.scss";
 @import "_variables.scss";
 @import "_fonts.scss";
 @import "_mixins.scss";
@@ -11,7 +11,7 @@
 @import "_fileUploader.scss";
 @import "_modal.scss";
 @import "_datepicker.scss";
-@import "../_thumbnail.scss";
+@import "../template/_thumbnail.scss";
 @import "_quill.scss";
 @import "_colorpicker.scss";
 @import "_tooltip.scss";

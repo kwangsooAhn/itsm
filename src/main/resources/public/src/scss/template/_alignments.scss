@@ -1,3 +1,5 @@
+/* template/_alignments.scss */
+
 $flex-align-type: (row, column);
 @each $direction in $flex-align-type {
     .flex-#{$direction} {

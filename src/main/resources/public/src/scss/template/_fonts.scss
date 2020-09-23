@@ -1,3 +1,5 @@
+/* template/_fonts.scss */
+
 @mixin font-face($name, $path, $format, $style, $weight) {
     @font-face {
         font-family: $name;

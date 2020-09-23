@@ -95,6 +95,7 @@ button {
   cursor: pointer;
 }
 
+/* template/_alignments.scss */
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -106,44 +107,45 @@ button {
 }
 
 /* font-face */
+/* template/_fonts.scss */
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("font/NotoSansKR-Thin.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
   font-style: normal;
   font-weight: 100;
 }
 
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("font/NotoSansKR-Light.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
   font-style: normal;
   font-weight: 300;
 }
 
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("font/NotoSansKR-Regular.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
   font-style: normal;
   font-weight: 400;
 }
 
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("font/NotoSansKR-Medium.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
   font-style: normal;
   font-weight: 500;
 }
 
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("font/NotoSansKR-Bold.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
   font-style: normal;
   font-weight: 700;
 }
 
 @font-face {
   font-family: "Noto Sans KR";
-  src: local("Noto Sans KR"), url("font/NotoSansKR-Black.otf") format("opentype");
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
   font-style: normal;
   font-weight: 900;
 }
@@ -287,7 +289,7 @@ input:focus {
 }
 
 input.search {
-  background: url("../media/image/portalSearch/icon_search.png") no-repeat 97%;
+  background: url("../media/images/portalSearch/icon_search.png") no-repeat 97%;
   background-color: #FFFFFF;
 }
 
@@ -644,7 +646,7 @@ a {
 }
 
 .portal-search-area input.icon {
-  background-image: url("../media/image/portalSearch/icon_search.png");
+  background-image: url("../media/images/portalSearch/icon_search.png");
   background-position: 38.0625rem;
   background-repeat: no-repeat;
 }
@@ -748,6 +750,10 @@ a {
   text-decoration: none;
 }
 
+.portal-search-content ul li.part-box .list table a h5 {
+  line-height: 2rem;
+}
+
 .portal-search-result {
   padding: 3.75rem 0 0 12.75rem;
 }
@@ -845,15 +851,15 @@ a {
 }
 
 .portal-search-result .list .row .type-icon.notice {
-  background-image: url("../media/image/portal/graphic_notice.png");
+  background-image: url("../media/images/portal/graphic_notice.png");
 }
 
 .portal-search-result .list .row .type-icon.faq {
-  background-image: url("../media/image/portal/graphic_faq.png");
+  background-image: url("../media/images/portal/graphic_faq.png");
 }
 
 .portal-search-result .list .row .type-icon.download {
-  background-image: url("../media/image/portal/graphic_download.png");
+  background-image: url("../media/images/portal/graphic_download.png");
 }
 
 .portal-search-result .list .row .content-box {
@@ -1014,7 +1020,7 @@ a {
 }
 
 .help-tooltip .help-tooltip-icon:before {
-  content: url("../media/image/icon_info.png");
+  content: url("../media/images/icon_info.png");
 }
 
 .help-tooltip .tooltip-contents {
@@ -1052,7 +1058,7 @@ a {
 }
 
 .help-tooltip:hover .help-tooltip-icon {
-  content: url("../media/image/icon_info_select.png");
+  content: url("../media/images/icon_info_select.png");
 }
 
 .login-logo {
@@ -1124,7 +1130,7 @@ a {
 }
 
 .login-btn-google-icon {
-  background-image: url("../media/image/login/icon_google.png");
+  background-image: url("../media/images/login/icon_google.png");
   background-size: 1.188rem;
   background-repeat: no-repeat;
   background-position-y: center;
@@ -1139,7 +1145,7 @@ a {
 }
 
 .login-btn-kakao-icon {
-  background-image: url("../media/image/login/icon_kakao.png");
+  background-image: url("../media/images/login/icon_kakao.png");
   background-size: 1.188rem;
   background-repeat: no-repeat;
   background-position-y: center;
@@ -1554,6 +1560,7 @@ a {
   margin-left: 0.3125rem;
 }
 
+/* template/_alignments.scss */
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -1585,13 +1592,7 @@ a {
   margin: auto 1.25rem auto 0;
 }
 
-/**
- * dropzone
- * http://www.dropzonejs.com
- *
- * @author woodajung
- * @version 1.0
- */
+/* template/_dropzone.scss */
 @-webkit-keyframes passing-through {
   0% {
     opacity: 0;

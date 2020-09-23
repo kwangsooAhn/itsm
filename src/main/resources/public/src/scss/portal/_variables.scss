@@ -9,13 +9,13 @@ $font-face-map: (
     "NotoSansKR-Bold.otf":                    700,
     "NotoSansKR-Black.otf":                   900
 );
-$font-folder-path:                            "font";
+$font-folder-path:                            "../fonts";
 $font-family:                                 "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 $font-size-base:                              1rem;  // 16px
 
 // Default Setting
 $icon-folder-path:                            "../media/icons/";
-$image-folder-path:                           "../media/image/";
+$image-folder-path:                           "../media/images/";
 $alice-primary:                              #0050ff !default;
 
 // DOM Elements

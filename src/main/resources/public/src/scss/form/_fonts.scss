@@ -1,4 +1,4 @@
-/* font-face */
+/* form/_fonts.scss */
 @import "../template/_fonts.scss";
 
 @each $fname, $weight in $font-face-map {
