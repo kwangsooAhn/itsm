@@ -42,7 +42,7 @@
                         <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="textarea-scroll-wrapper"></textarea>
                     </div>
                     <div class="form-set">
-                        <label th:text="'*' + #{role.label.auth}"></label>
+                        <label th:text="#{role.label.auth}" class="required"></label>
                         <div class="checkbox-list">
                             <ul>
                                 <li th:each="auth : ${authList}">

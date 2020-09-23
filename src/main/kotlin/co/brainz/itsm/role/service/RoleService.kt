@@ -43,7 +43,7 @@ class RoleService(
      * 전체 권한정보를 가져온다.
      */
     fun selectAuthList(): MutableList<AliceAuthEntity> {
-        return authRepository.findByOrderByAuthIdAsc()
+        return authRepository.findByOrderByAuthNameAsc()
     }
 
     /**
