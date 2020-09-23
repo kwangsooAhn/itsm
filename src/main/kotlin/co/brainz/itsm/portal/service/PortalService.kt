@@ -18,6 +18,7 @@ import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
+import co.brainz.itsm.portal.repository.PortalRepository
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
@@ -26,7 +27,8 @@ import org.springframework.stereotype.Service
 class PortalService(
     private val noticeRepository: NoticeRepository,
     private val faqRepository: FaqRepository,
-    private val downloadRepository: DownloadRepository
+    private val downloadRepository: DownloadRepository,
+    private val portalRepository: PortalRepository
 ) {
     private val faqMapper: FaqMapper = Mappers.getMapper(FaqMapper::class.java)
     private val downloadMapper: DownloadMapper = Mappers.getMapper(DownloadMapper::class.java)
@@ -37,7 +39,7 @@ class PortalService(
      * 포탈 리스트 , 포탈 검색 리스트
      */
     fun findPortalListOrSearchList(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
-        return noticeRepository.findPortalListOrSearchList(
+        return portalRepository.findPortalSearchList(
             portalSearchDto.searchValue, ItsmConstants
                 .SEARCH_DATA_COUNT, portalSearchDto.offset
         )
