@@ -28,7 +28,7 @@ const fileUploader = (function () {
 
     const getExtension = function(fileName) {
         let dot = fileName.lastIndexOf('.')
-        return fileName.substring(dot+1, fileName.length).toLowerCase()
+        return fileName.substring(dot+1, fileName.length).toLowerCase();
     }
 
     const setFileIcon = function (fileName, isView) {
@@ -67,7 +67,7 @@ const fileUploader = (function () {
         }
 
         if (extraParam.dropZoneUrl === undefined) {
-            extraParam.dropZoneUrl = '/fileupload'
+            extraParam.dropZoneUrl = '/fileupload';
         }
 
         if (extraParam.dropZoneMaxFiles === undefined) {
@@ -82,7 +82,7 @@ const fileUploader = (function () {
             extraParam.acceptedFiles = null;
         }
 
-        extraParam.type = (extraParam.type === undefined) ? 'dropzone':'dropzone ' + extraParam.type
+        extraParam.type = (extraParam.type === undefined) ? 'dropzone':'dropzone ' + extraParam.type;
         if (extraParam.type === 'avatar') {
             extraParam.enableImageThumbnails = true;
         }
@@ -139,7 +139,7 @@ const fileUploader = (function () {
         addFileBtn.textContent = extraParam.clickableMessage;
 
         const addFileBtnWrap = document.createElement('div');
-        addFileBtnWrap.className = addFileBtnWrapClassName
+        addFileBtnWrap.className = addFileBtnWrapClassName;
         addFileBtnWrap.appendChild(justText);
         addFileBtnWrap.appendChild(addFileBtn);
         dragAndDropZone.appendChild(addFileBtnWrap);
@@ -215,7 +215,7 @@ const fileUploader = (function () {
         const fileView = document.createElement('div');
         fileView.appendChild(fileViewTemplate);
 
-        return fileView.innerHTML
+        return fileView.innerHTML;
     }
 
     /**
@@ -554,7 +554,7 @@ const fileUploader = (function () {
                         accepted: true,
                         isNew: false
                     };
-                    extraParam.fileName = extraParam.avatar.id
+                    extraParam.fileName = extraParam.avatar.id;
                     document.getElementById('avatarUUID').value = extraParam.fileName;
                     _this.files.push(mockFile);
                     _this.emit("addedfile", mockFile);
