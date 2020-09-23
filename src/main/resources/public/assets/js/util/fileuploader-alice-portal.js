@@ -12,8 +12,12 @@
 const portalFileUploader = (function () {
     "use strict";
 
-    let extraParam, fileAttrName, delFileAttrName, dragAndDropZoneId,
-        addFileBtnWrapClassName;
+    let extraParam, fileAttrName, delFileAttrName, dragAndDropZoneId, addFileBtnWrapClassName, exportFile;
+
+    //외부로 file 정보를 내보냄.
+    const getFile = function() {
+        return exportFile;
+    }
 
     const createUid = function () {
         function s4() {
@@ -23,15 +27,19 @@ const portalFileUploader = (function () {
     }
 
     const getExtension = function(fileName) {
-        let dot = fileName.lastIndexOf('.')
-        return fileName.substring(dot+1, fileName.length).toLowerCase()
+        let dot = fileName.lastIndexOf('.');
+        return fileName.substring(dot+1, fileName.length).toLowerCase();
     }
 
     const setFileIcon = function (fileName, isView) {
         if (isView) {
             return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '_s.svg")';
         } else {
-            return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
+            if (getExtension(fileName) === 'xml') {
+                return 'url("/assets/media/icons/dropzone/icon_document_txt.svg")';
+            } else {
+                return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
+            }
         }
     }
 
@@ -59,7 +67,7 @@ const portalFileUploader = (function () {
         }
 
         if (extraParam.dropZoneUrl === undefined) {
-            extraParam.dropZoneUrl = '/fileupload'
+            extraParam.dropZoneUrl = '/fileupload';
         }
 
         if (extraParam.dropZoneMaxFiles === undefined) {
@@ -74,7 +82,7 @@ const portalFileUploader = (function () {
             extraParam.acceptedFiles = null;
         }
 
-        extraParam.type = (extraParam.type === undefined) ? 'dropzone':'dropzone ' + extraParam.type
+        extraParam.type = (extraParam.type === undefined) ? 'dropzone':'dropzone ' + extraParam.type;
         if (extraParam.type === 'avatar') {
             extraParam.enableImageThumbnails = true;
         }
@@ -88,15 +96,15 @@ const portalFileUploader = (function () {
         }
 
         if (extraParam.dictDefaultMessage === undefined) {
-            extraParam.dictDefaultMessage = 'Drop files here to upload'
+            extraParam.dictDefaultMessage = i18n.msg('file.msg.upload');
         }
 
         if (extraParam.clickableLineMessage === undefined) {
-            extraParam.clickableLineMessage = 'or '
+            extraParam.clickableLineMessage = i18n.msg('file.label.or') + ' ';
         }
 
         if (extraParam.clickableMessage === undefined) {
-            extraParam.clickableMessage = 'browse'
+            extraParam.clickableMessage = i18n.msg('file.msg.browser');
         }
 
         if (extraParam.isView === undefined) {
@@ -131,7 +139,7 @@ const portalFileUploader = (function () {
         addFileBtn.textContent = extraParam.clickableMessage;
 
         const addFileBtnWrap = document.createElement('div');
-        addFileBtnWrap.className = addFileBtnWrapClassName
+        addFileBtnWrap.className = addFileBtnWrapClassName;
         addFileBtnWrap.appendChild(justText);
         addFileBtnWrap.appendChild(addFileBtn);
         dragAndDropZone.appendChild(addFileBtnWrap);
@@ -207,7 +215,7 @@ const portalFileUploader = (function () {
         const fileView = document.createElement('div');
         fileView.appendChild(fileViewTemplate);
 
-        return fileView.innerHTML
+        return fileView.innerHTML;
     }
 
     /**
@@ -239,6 +247,61 @@ const portalFileUploader = (function () {
     }
 
     /**
+     * 파일업로드 validation (파일확장자, 최대 파일 수, 최대 파일 사이즈)
+     * dropzone : 현재 dropzone 객체
+     * file : 첨부한 파일
+     * uploaderType : 어느 uploader가 호출 했는지(fileUploader, avatarUploader)
+     */
+    const validation = function(dropzone, file, uploaderType) {
+        //파일 확장자 목록 관련 출력
+        let fileNameExtensionList;
+        let extensionValueArr = [];
+        // 수용 파일 확장자가 없다면 기본 파일 확장자 제한(DB)에서 확인 한다.
+        if (extraParam.acceptedFiles === null) {
+            const opt2 = {
+                method: 'GET',
+                url: '/rest/portal/fileNameExtensionList',
+                async: false,
+                callbackFunc: function (response) {
+                    fileNameExtensionList = JSON.parse(response.responseText);
+                }
+            };
+            aliceJs.sendXhr(opt2);
+
+            for (let i = 0; i < fileNameExtensionList.length; i++) {
+                extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
+            }
+        } else {
+            let acceptedFiles = extraParam.acceptedFiles.split('.');
+            for (let i = 0; i < acceptedFiles.length; i++) {
+                extensionValueArr[i] = acceptedFiles[i].replace(',','').trim().toUpperCase();
+            }
+        }
+
+        if (!(extensionValueArr.includes(getExtension(file.name).toUpperCase()))) {
+            dropzone.removeFile(file);
+            if (extraParam.isDropzoneUnder) {
+                dropzoneMessage.style.display = 'block';
+            }
+            aliceJs.alertWarning(i18n.msg('fileupload.msg.extensionNotAvailable'));
+        } else if (file.size > extraParam.dropZoneMaxFileSize * 1024 * 1024) {
+            dropzone.removeFile(file);
+            aliceJs.alert(i18n.msg('fileupload.msg.maxFileSize', extraParam.dropZoneMaxFileSize));
+        } else if (extraParam.dropZoneMaxFiles !== null && (dropzone.files.length > extraParam.dropZoneMaxFiles)) {
+            if (uploaderType === 'avatarUploader' && extraParam.dropZoneMaxFiles === 1) {
+                if (dropzone.files.length > 1) {
+                    dropzone.removeFile(dropzone.files[0]);
+                }
+                extraParam.fileName = createUid();
+                document.getElementById('avatarUUID').value = extraParam.fileName;
+            } else {
+                dropzone.removeFile(file);
+                aliceJs.alert(i18n.msg('fileupload.msg.maxFileCount', extraParam.dropZoneMaxFiles));
+            }
+        }
+    }
+
+    /**
      * 파일업로드 드랍존 생성
      */
     const createFileUploader = function () {
@@ -264,6 +327,7 @@ const portalFileUploader = (function () {
             autoQueue: true, // Make sure the files aren't queued until manually added
             clickable: '.' + extraParam.clickable, // Define the element that should be used as click trigger to select files.
             createImageThumbnails: false,
+            dictDefaultMessage: extraParam.dictDefaultMessage,
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
                 // 등록된 파일이 있으면 조회.
@@ -352,17 +416,6 @@ const portalFileUploader = (function () {
                     const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
                     _this.element.querySelector('.dz-message').appendChild(addFileBtn);
 
-                    //파일 확장자 목록 관련 출력
-                    let fileNameExtensionList;
-                    const opt2 = {
-                        method: 'GET',
-                        url: '/rest/portal/fileNameExtensionList',
-                        callbackFunc: function (response) {
-                            fileNameExtensionList = JSON.parse(response.responseText);
-                        }
-                    };
-                    aliceJs.sendXhr(opt2);
-
                     //파일접근시 사용.
                     //all accepted files: .getAcceptedFiles()
                     //all rejected files: .getRejectedFiles()
@@ -374,23 +427,9 @@ const portalFileUploader = (function () {
                         if (extraParam.isDropzoneUnder) {
                             dropzoneMessage.style.display = 'none';
                         }
-                        let fileName = file.name;
-                        let fileNameLength = file.name.length;
-                        let lastDot = fileName.lastIndexOf('.');
-                        file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(fileName, extraParam.isView);
-
-                        let extensionValueArr = [];
-                        for (let i = 0; i < fileNameExtensionList.length; i++)  {
-                            extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
-                        }
-
-                        if (!(extensionValueArr.includes(getExtension(fileName).toUpperCase()))) {
-                            this.removeFile(file);
-                            if (extraParam.isDropzoneUnder) {
-                                dropzoneMessage.style.display = 'block';
-                            }
-                            aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
-                        }
+                        file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(file.name, extraParam.isView);
+                        validation(this, file, 'fileUploader');
+                        exportFile = file;
                     });
 
                     this.on("removedfile", function (file) {
@@ -412,13 +451,17 @@ const portalFileUploader = (function () {
                         const seq = document.createElement('input');
                         seq.setAttribute('type', 'hidden');
                         seq.setAttribute('name', fileAttrName);
-                        seq.value = response.file.fileSeq;
-                        file.previewElement.appendChild(seq);
+                        if (response.file !== undefined) {
+                            seq.value = response.file.fileSeq;
+                            file.previewElement.appendChild(seq);
+                        }
                     });
 
                     this.on("error", function (file, errorMsg, xhr) {
-                        const res = JSON.parse(xhr.response);
-                        file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                        if (xhr !== undefined) {
+                            const res = JSON.parse(xhr.response);
+                            file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                        }
                         // file.previewElement.querySelector('.dz-success-mark').style.display = '';
                         // file.previewElement.querySelector('.dz-success-mark').style.display = 'none';
                         // aliceJs.xhrErrorResponse()
@@ -439,16 +482,6 @@ const portalFileUploader = (function () {
                     });
 
                     this.on("canceled", function () {
-                    });
-
-                    this.on("maxfilesexceeded", function (file, maxFiles) {
-                        this.removeFile(file);
-                        aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileCount', maxFiles));
-                    });
-
-                    this.on("maxfilesizeexceeded", function (file, maxFileSize) {
-                        this.removeFile(file);
-                        aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
                     });
                 } else {
                     dropZoneFiles.remove();
@@ -496,9 +529,6 @@ const portalFileUploader = (function () {
             thumbnailWidth: extraParam.thumbnailWidth,
             thumbnailHeight: extraParam.thumbnailHeight,
             dictDefaultMessage: extraParam.dictDefaultMessage,
-            headers: {
-                'X-CSRF-Token': document.querySelector('meta[name="_csrf"]').getAttribute("content")
-            },
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
 
@@ -515,7 +545,7 @@ const portalFileUploader = (function () {
                         accepted: true,
                         isNew: false
                     };
-                    extraParam.fileName = extraParam.avatar.id
+                    extraParam.fileName = extraParam.avatar.id;
                     document.getElementById('avatarUUID').value = extraParam.fileName;
                     _this.files.push(mockFile);
                     _this.emit("addedfile", mockFile);
@@ -542,21 +572,8 @@ const portalFileUploader = (function () {
                 this.on("addedfile", function (file) {
                     extraParam.fileName = createUid();
                     document.getElementById('avatarUUID').value = extraParam.fileName;
-
-                    let fileName = file.name;
-                    let fileNameLength = file.name.length;
-                    let lastDot = fileName.lastIndexOf('.');
-                    let extensionValueArr = [];
-
-                    for (var i = 0; i < fileNameExtensionList.length; i++)  {
-                        extensionValueArr[i] = fileNameExtensionList[i].fileNameExtension;
-                    }
-
-                    if (!(extensionValueArr.includes(getExtension(fileName)))) {
-                        this.removeFile(file);
-                        aliceJs.alertWarning(i18n.get('fileupload.msg.extensionNotAvailable'));
-                    }
-
+                    validation(this, file, 'avatarUploader');
+                    exportFile = file;
                 });
 
                 this.on("removedfile", function (file) {
@@ -582,11 +599,29 @@ const portalFileUploader = (function () {
                     seq.setAttribute('name', fileAttrName);
                     seq.value = response.file.fileSeq;
                     file.previewElement.appendChild(seq);
+
+                    let thumbs = document.querySelectorAll('.dz-image');
+                    [].forEach.call(thumbs, function (thumb) {
+                        thumb.style = 'width: 100%; height: 100%;';
+                    });
+                });
+
+                this.on('thumbnail', function(file, dataUrl) {
+                    let thumbs = document.querySelectorAll('.dz-image');
+                    [].forEach.call(thumbs, function (thumb) {
+                        let img = thumb.querySelector('img');
+                        if (img) {
+                            img.setAttribute('width', '100%');
+                            img.setAttribute('height', '100%');
+                        }
+                    });
                 });
 
                 this.on("error", function (file, errorMsg, xhr) {
-                    const res = JSON.parse(xhr.response);
-                    file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                    if (xhr !== undefined) {
+                        const res = JSON.parse(xhr.response);
+                        file.previewElement.querySelector('.dz-error-message').innerText = res.message;
+                    }
                     // file.previewElement.querySelector('.dz-success-mark').style.display = '';
                     // file.previewElement.querySelector('.dz-success-mark').style.display = 'none';
                     // aliceJs.xhrErrorResponse()
@@ -605,16 +640,6 @@ const portalFileUploader = (function () {
                 });
 
                 this.on("canceled", function () {
-                });
-
-                this.on("maxfilesexceeded", function (file, maxFiles) {
-                    this.removeFile(file);
-                    aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileCount', maxFiles));
-                });
-
-                this.on("maxfilesizeexceeded", function (file, maxFileSize) {
-                    this.removeFile(file);
-                    aliceJs.alertWarning(i18n.get('fileupload.msg.maxFileSize', maxFileSize));
                 });
             },
             accept: function (file, done) { // done 함수 호출시 인수없이 호출해야 정상 업로드 진행
@@ -635,6 +660,9 @@ const portalFileUploader = (function () {
         avatar: function (param) {
             setExtraParam(param.extra);
             createAvatarUploader();
+        },
+        getFile: function() {
+            return getFile();
         }
     }
 }());

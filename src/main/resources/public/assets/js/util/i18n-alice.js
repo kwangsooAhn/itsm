@@ -21,6 +21,9 @@
      * @param {String} userInfo 사용자 국제화 정보
      */
     function init(userInfo) {
+        if (userInfo === undefined) {
+            userInfo = JSON.stringify({});
+        }
         const sessionInfo = JSON.parse(userInfo);
         i18n.dateTimeFormat = (typeof sessionInfo.dateTimeFormat !== 'undefined') ? sessionInfo.dateTimeFormat : defaultDateTimeFormat;
         i18n.dateFormat = (typeof sessionInfo.dateFormat !== 'undefined') ? sessionInfo.dateFormat : defaultDateFormat;
