@@ -36,7 +36,7 @@ const portalFileUploader = (function () {
             return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '_s.svg")';
         } else {
             if (getExtension(fileName) === 'xml') {
-                return 'url("/assets/media/icons/dropzone/icon_fileupload.svg")';
+                return 'url("/assets/media/icons/dropzone/icon_document_txt.svg")';
             } else {
                 return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
             }
@@ -599,6 +599,22 @@ const portalFileUploader = (function () {
                     seq.setAttribute('name', fileAttrName);
                     seq.value = response.file.fileSeq;
                     file.previewElement.appendChild(seq);
+
+                    let thumbs = document.querySelectorAll('.dz-image');
+                    [].forEach.call(thumbs, function (thumb) {
+                        thumb.style = 'width: 100%; height: 100%;';
+                    });
+                });
+
+                this.on('thumbnail', function(file, dataUrl) {
+                    let thumbs = document.querySelectorAll('.dz-image');
+                    [].forEach.call(thumbs, function (thumb) {
+                        let img = thumb.querySelector('img');
+                        if (img) {
+                            img.setAttribute('width', '100%');
+                            img.setAttribute('height', '100%');
+                        }
+                    });
                 });
 
                 this.on("error", function (file, errorMsg, xhr) {

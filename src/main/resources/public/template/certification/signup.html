@@ -87,7 +87,7 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     window.onload = function() {
-        i18n.init(JSON.stringify({}));
+        i18n.init();
 
         hiddenProgressBar();
         fileUploader.avatar({
@@ -99,8 +99,6 @@
                 dropZoneMaxFiles: 1,
                 acceptedFiles: '.png,.jpeg,.jpg,.gif',
                 enableImageThumbnails: true,
-                thumbnailWidth: 150,
-                thumbnailHeight: 150,
                 avatar: {
                     id: [[${users?.avatarId}]],
                     path: [[${users?.avatarPath}]],
