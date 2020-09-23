@@ -91,8 +91,10 @@ class UserController(
         if (userEntity.avatar.uploaded) {
             users.avatarSize = Paths.get(userEntity.avatar.uploadedLocation).toFile().length()
         } else {
-            val resource = ClassPathResource(userDefaultProfile)
-            path = Paths.get(resource.uri).toString()
+            if (userDefaultProfile != "") {
+                val resource = ClassPathResource(userDefaultProfile)
+                path = Paths.get(resource.uri).toString()
+            }
             //users.avatarSize = path.toFile().length()
             users.avatarSize = 1;
         }
