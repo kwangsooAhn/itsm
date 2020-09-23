@@ -1,10 +1,16 @@
 @charset "UTF-8";
-/* CSS Document */
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-*,
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+/* _reset.scss 
+ *
+ * 파일 경로 : template/_reset.scss
+ * @description CSS Reset
+ * @author http://meyerweb.com/eric/tools/css/reset/
+ * @vertionn 2.0 | 20110126
+ * License: none (public domain)
+ */
 *::before,
 *::after {
   box-sizing: border-box;
@@ -95,8 +101,13 @@ button {
   cursor: pointer;
 }
 
-/* form/_fonts.scss */
-/* template/_fonts.scss */
+/* _fonts.scss 
+ *
+ * 파일 경로 : template/_fonts.scss
+ * @description 폰트 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
 @font-face {
   font-family: "Noto Sans KR";
   src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
@@ -496,6 +507,7 @@ input:disabled, input:read-only {
 }
 
 input.validate-error {
+  color: #FF405A !important;
   border: 0.0625rem solid #FF405A !important;
 }
 
@@ -535,6 +547,7 @@ textarea:disabled {
 }
 
 textarea.validate-error {
+  color: #FF405A !important;
   border: 0.0625rem solid #FF405A !important;
 }
 
@@ -1419,6 +1432,7 @@ button.default-point-line:not(:disabled):active span.icon {
 
 .validate-error {
   border: 1px solid #FF405A !important;
+  color: #FF405A !important;
 }
 
 /* 컨텍스트 메뉴 */
@@ -1953,7 +1967,13 @@ button.default-point-line:not(:disabled):active span.icon {
 }
 
 /* dropzone css */
-/* template/_dropzone.scss */
+/* _dropzone.scss 
+ *
+ * 파일 경로 : template/_dropzone.scss
+ * @description 파일 업로드 관련 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
 @-webkit-keyframes passing-through {
   0% {
     opacity: 0;
@@ -2981,7 +3001,13 @@ body.document-modal-active {
   margin-left: 0.3125rem;
 }
 
-/* template/_thumbnail.scss */
+/* _thumbnail.scss 
+ *
+ * 파일 경로 : template/_thumbnail.scss
+ * @description 썸네일 디자인
+ * @author jy.lim
+ * @vertionn 1.0
+ */
 body.thumbnail-modal-active {
   overflow: hidden !important;
 }
@@ -3261,7 +3287,13 @@ body.thumbnail-modal-active {
   background-color: #969696;
 }
 
-/* template/_text-editor.scss */
+/* _text-editor.scss 
+ *
+ * 파일 경로 : template/_text-editor.scss
+ * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
+ * @author wdj
+ * @vertionn 1.0
+ */
 .ql-toolbar *:focus {
   outline: none !important;
 }
@@ -3493,7 +3525,13 @@ body.thumbnail-modal-active {
   border-color: transparent;
 }
 
-/* template/_colorpicker.scss */
+/* _color-picker.scss 
+ *
+ * 파일 경로 : template/_color-picker.scss
+ * @description 컬러 피커 디자인
+ * @author jy.lim
+ * @vertionn 1.0
+ */
 .color-picker {
   display: flex;
   flex-direction: column;

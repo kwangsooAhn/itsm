@@ -1,10 +1,16 @@
 @charset "UTF-8";
-/* CSS Document */
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-*,
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+/* _reset.scss 
+ *
+ * 파일 경로 : template/_reset.scss
+ * @description CSS Reset
+ * @author http://meyerweb.com/eric/tools/css/reset/
+ * @vertionn 2.0 | 20110126
+ * License: none (public domain)
+ */
 *::before,
 *::after {
   box-sizing: border-box;
@@ -95,7 +101,13 @@ button {
   cursor: pointer;
 }
 
-/* template/_alignments.scss */
+/* _alignments.scss 
+ *
+ * 파일 경로 : template/_alignments.scss
+ * @description 정렬, 배치 관련 디자인
+ * @author jy.lim
+ * @vertionn 1.0
+ */
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -106,8 +118,13 @@ button {
   flex-direction: column;
 }
 
-/* font-face */
-/* template/_fonts.scss */
+/* _fonts.scss 
+ *
+ * 파일 경로 : template/_fonts.scss
+ * @description 폰트 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
 @font-face {
   font-family: "Noto Sans KR";
   src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
@@ -716,7 +733,13 @@ span[class="required"]::after {
   margin-left: 1.5625rem;
   margin-right: 1.5625rem;
   font-size: 0.688rem;
-  /* template/_colorpicker.scss */
+  /* _color-picker.scss 
+ *
+ * 파일 경로 : template/_color-picker.scss
+ * @description 컬러 피커 디자인
+ * @author jy.lim
+ * @vertionn 1.0
+ */
 }
 
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .flex-row {

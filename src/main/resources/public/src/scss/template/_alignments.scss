@@ -1,4 +1,10 @@
-/* template/_alignments.scss */
+/* _alignments.scss 
+ *
+ * 파일 경로 : template/_alignments.scss
+ * @description 정렬, 배치 관련 디자인
+ * @author jy.lim
+ * @vertionn 1.0
+ */
 
 $flex-align-type: (row, column);
 @each $direction in $flex-align-type {

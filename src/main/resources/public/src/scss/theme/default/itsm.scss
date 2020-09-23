@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+@charset 'utf-8';
+
 @import "../../template/_reset.scss";
 @import "_variables.scss";
 @import "_fonts.scss";
@@ -5,7 +11,6 @@
 @import "_elements.scss";
 @import "_column.scss";
 @import "_container.scss";
-@import "_paging.scss";
 @import "_gnb.scss";
 @import "_notification.scss";
 @import "_fileUploader.scss";
@@ -16,6 +21,6 @@
 @import "_alignment.scss";
 @import "_quill.scss";
 @import "_tooltip.scss";
-@import "../../template/_thumbnail.scss";
+@import "_thumbnail.scss";
 @import "_reply.scss";
 @import "_tree.scss";
