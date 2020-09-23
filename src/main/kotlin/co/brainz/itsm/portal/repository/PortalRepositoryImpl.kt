@@ -1,5 +1,6 @@
 package co.brainz.itsm.portal.repository
 
+import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.entity.QDownloadEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.notice.entity.NoticeEntity
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Repository
 @Repository
 class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java), PortalRepositoryCustom {
 
-    override fun findPortalSearchList(searchValue: String, limit: Long, offset: Long): MutableList<PortalDto> {
+    override fun findPortalSearchList(searchValue: String, offset: Long): MutableList<PortalDto> {
         val notice = QNoticeEntity.noticeEntity
         val faq = QFaqEntity.faqEntity
         val download = QDownloadEntity.downloadEntity
@@ -69,16 +70,36 @@ class PortalRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 .where(download.downloadTitle.containsIgnoreCase(searchValue))
                 .fetch()
 
-        val list = mutableListOf<PortalDto>()
+        var list = mutableListOf<PortalDto>()
         list.addAll(noticeList)
         list.addAll(faqList)
         list.addAll(downloadList)
-        list.sortByDescending { portalDto -> portalDto.createDt }
-//        list.subList(offset.toInt(), offset.toInt() + limit.toInt())
 
-        //val list = mutableListOf<PortalDto>()
-        //list.addAll(noticeList)
+        val totalSize = list.size
+        if (!list.isNullOrEmpty()) {
+            list.sortByDescending { portalDto -> portalDto.createDt }
+            var fromRow = offset.toInt()
+            var toRow = ItsmConstants.SEARCH_DATA_COUNT.toInt()
+            if (fromRow == 0) {
+                if (list.size < toRow) {
+                    toRow = list.size
+                }
+            } else {
+                if (list.size < fromRow) {
+                    fromRow = list.size
+                }
+                toRow = fromRow + ItsmConstants.SEARCH_DATA_COUNT.toInt()
+                if (list.size < toRow) {
+                    toRow = list.size
+                }
+            }
+            list = list.subList(fromRow, toRow)
+        }
+
+        list.forEach { data ->
+            data.totalCount = totalSize
+        }
+
         return list
-
     }
 }

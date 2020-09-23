@@ -686,6 +686,9 @@ a {
 .portal-search-result {
   padding: 3.75rem 0 0 12.75rem;
 }
+.portal-search-result .list {
+  height: 550px;
+}
 .portal-search-result .list table {
   width: 100%;
 }

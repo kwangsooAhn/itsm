@@ -5,5 +5,5 @@ import co.brainz.itsm.portal.dto.PortalDto
 
 interface PortalRepositoryCustom : AliceRepositoryCustom {
 
-    fun findPortalSearchList(searchValue: String, limit: Long, offset: Long): MutableList<PortalDto>
+    fun findPortalSearchList(searchValue: String, offset: Long): MutableList<PortalDto>
 }

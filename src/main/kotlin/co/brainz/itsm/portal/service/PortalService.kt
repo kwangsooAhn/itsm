@@ -40,8 +40,7 @@ class PortalService(
      */
     fun findPortalListOrSearchList(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
         return portalRepository.findPortalSearchList(
-            portalSearchDto.searchValue, ItsmConstants
-                .SEARCH_DATA_COUNT, portalSearchDto.offset
+            portalSearchDto.searchValue, portalSearchDto.offset
         )
     }
 

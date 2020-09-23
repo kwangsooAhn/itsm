@@ -62,11 +62,9 @@ class PortalController(
     @GetMapping("/list")
     fun getPortalList(portalSearchDto: PortalSearchDto, model: Model): String {
         model.addAttribute("portalSearchValue", portalSearchDto.searchValue)
-        model.addAttribute(
-            "totalCount",
-            portalService.findPortalListOrSearchCount(portalSearchDto)[0].totalCount
-        )
-        model.addAttribute("portalList", portalService.findPortalListOrSearchList(portalSearchDto))
+        val portalList = portalService.findPortalListOrSearchList(portalSearchDto)
+        model.addAttribute("portalList", portalList)
+        model.addAttribute("totalCount", if (portalList.isNotEmpty()) portalList[0].totalCount else 0)
         return portalListPage
     }
 
