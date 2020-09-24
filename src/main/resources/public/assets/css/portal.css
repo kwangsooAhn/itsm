@@ -1,18 +1,21 @@
 @charset "UTF-8";
 /*
+ * portal.scss
+ * 
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
 /* _reset.scss 
  *
  * 파일 경로 : template/_reset.scss
- * @description CSS Reset
- * @author http://meyerweb.com/eric/tools/css/reset/
- * @vertionn 2.0 | 20110126
- * License: none (public domain)
+ * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
+ * @author wdj
+ * @vertionn 1.0
  */
+*,
 *::before,
 *::after {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -37,7 +40,6 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
@@ -66,39 +68,8 @@ table {
   border-spacing: 0;
 }
 
-input, button, select, optgroup, textarea {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-a:link {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:visited {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-a:active {
-  text-decoration: none;
-}
-
-button {
-  background: inherit;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-  overflow: visible;
-  cursor: pointer;
+template {
+  display: none;
 }
 
 /* _alignments.scss 
@@ -250,6 +221,83 @@ option:active {
 }
 option:focus {
   color: #0050ff;
+}
+
+/* _elements.scss 
+ *
+ * 파일 경로 : template/_elements.scss
+ * @description HTML element 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1;
+  margin: 0;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1;
+  margin: 0;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
 }
 
 select {

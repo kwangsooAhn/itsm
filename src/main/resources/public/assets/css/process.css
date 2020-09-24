@@ -1,18 +1,21 @@
 @charset "UTF-8";
 /*
+ * process.scss
+ * 
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
 /* _reset.scss 
  *
  * 파일 경로 : template/_reset.scss
- * @description CSS Reset
- * @author http://meyerweb.com/eric/tools/css/reset/
- * @vertionn 2.0 | 20110126
- * License: none (public domain)
+ * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
+ * @author wdj
+ * @vertionn 1.0
  */
+*,
 *::before,
 *::after {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -37,7 +40,6 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
@@ -66,39 +68,8 @@ table {
   border-spacing: 0;
 }
 
-input, button, select, optgroup, textarea {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-a:link {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:visited {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-a:active {
-  text-decoration: none;
-}
-
-button {
-  background: inherit;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-  overflow: visible;
-  cursor: pointer;
+template {
+  display: none;
 }
 
 /* _alignments.scss 
@@ -165,6 +136,293 @@ button {
   src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
   font-style: normal;
   font-weight: 900;
+}
+
+/* _elements.scss 
+ *
+ * 파일 경로 : template/_elements.scss
+ * @description HTML element 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1;
+  margin: 0;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1;
+  margin: 0;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
+svg {
+  background-color: #f2f5fa;
+}
+
+svg g.element-container g.element .node {
+  fill: #ffffff;
+  opacity: 1;
+  stroke-width: 1;
+}
+
+svg g.element-container g.element .element-type.task,
+svg g.element-container g.element .element-type.subprocess {
+  stroke-width: 1;
+  stroke-dasharray: 0, 40, 40, 40;
+}
+
+svg g.element-container g.element .node.task.userTask,
+svg g.element-container g.element .element-type.task.userTask {
+  stroke: #1CC7D0;
+}
+
+svg g.element-container g.element .node.task.manualTask,
+svg g.element-container g.element .element-type.task.manualTask {
+  stroke: #2ECE7E;
+}
+
+svg g.element-container g.element .node.task.scriptTask,
+svg g.element-container g.element .element-type.task.scriptTask {
+  stroke: #93C431;
+}
+
+svg g.element-container g.element .node.subprocess,
+svg g.element-container g.element .element-type.subprocess {
+  stroke: #CF87FF;
+}
+
+svg g.element-container g.element .node.gateway {
+  stroke: #FFC336;
+}
+
+svg g.element-container g.element .node.event {
+  stroke: #FF5EAF;
+}
+
+svg g.element-container g.element .node.event.commonEnd,
+svg g.element-container g.element .node.event.messageEnd {
+  stroke-width: 2;
+}
+
+svg g.element-container g.element .node.selected {
+  stroke: #0050ff !important;
+  stroke-width: 2 !important;
+}
+
+svg g.element-container g.element .node.selected.error {
+  stroke: #ff405a !important;
+}
+
+svg g.element-container g.element .node.reject-element {
+  stroke: #ff0000 !important;
+  stroke-width: 2 !important;
+}
+
+svg g.element-container g.element .annotation {
+  stroke: #000000;
+  fill-opacity: 0;
+  stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
+}
+
+svg g.element-container g.element text {
+  fill: #3F4B56;
+  font-weight: bold;
+  font-size: 0.813rem;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  user-select: none;
+}
+
+svg g.element-container g.element.selected .node,
+svg g.element-container g.element.selected .element-type.task,
+svg g.element-container g.element.selected .element-type.subprocess {
+  stroke: #0098FF !important;
+  stroke-width: 2 !important;
+}
+
+svg g.element-container g.element.selected.error {
+  stroke: #ff405a !important;
+}
+
+svg g.group-artifact-container g.element .group {
+  stroke: #000000;
+  fill-opacity: 0;
+  stroke-dasharray: 5, 5;
+}
+
+svg g.group-artifact-container g.element .node.selected {
+  stroke: #0098FF !important;
+  stroke-width: 2 !important;
+}
+
+svg g.group-artifact-container g.element .node.selected.error {
+  stroke: #ff405a !important;
+}
+
+svg g.group-artifact-container g.element text {
+  fill: #3F4B56;
+  font-weight: bold;
+  font-size: 0.813rem;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  user-select: none;
+}
+
+svg g.connector-container g.connector path.connector {
+  fill: none;
+  stroke: #586872;
+  stroke-width: 1;
+  cursor: default;
+}
+
+svg g.connector-container g.connector path.connector.selected {
+  stroke-dasharray: 10, 2;
+  stroke-width: 2;
+}
+
+svg g.connector-container g.connector path.connector.selected.error {
+  stroke: #0098FF !important;
+}
+
+svg g.connector-container g.connector path.connector.is-default {
+  stroke-width: 3;
+}
+
+svg g.connector-container g.connector path.connector.hidden {
+  stroke-width: 0;
+}
+
+svg g.connector-container g.connector path.painted-connector {
+  fill: none;
+  stroke: none;
+  stroke-width: 20;
+  pointer-events: stroke;
+}
+
+svg g.connector-container g.connector text {
+  fill: #3F4B56;
+  font-weight: bold;
+  font-size: 0.813rem;
+  dominant-baseline: text-before-edge;
+  user-select: none;
+}
+
+svg g.connector-container g.connector text.selected {
+  fill: #0098FF;
+}
+
+svg g.connector-container g.connector circle.pointer {
+  fill: #0098FF;
+  cursor: move;
+}
+
+svg g.connector-container g.connector circle.pointer.move {
+  fill: #0098FF;
+}
+
+svg defs marker path {
+  fill: #596f7a;
+}
+
+svg g.alice-tooltip rect.tooltip-container {
+  fill: #ffffff;
+  stroke: #bec4ce;
+  stroke-width: 0.5;
+}
+
+svg g.alice-tooltip rect.action-tooltip-item:hover,
+svg g.alice-tooltip rect.element-tooltip-item:hover {
+  cursor: pointer;
+}
+
+svg g.grid path {
+  display: none;
+}
+
+svg g.grid line {
+  stroke: #e5ebf5;
+  stroke-width: 1;
+  stroke-opacity: 1;
+  shape-rendering: crispEdges;
+}
+
+svg g.guides-container line.guides-line {
+  stroke: darkgray;
+  stroke-width: 0;
+}
+
+svg path.connector {
+  fill: none;
+  stroke: #596f7a;
+  stroke-width: 1;
+}
+
+svg path.connector.drag-line {
+  pointer-events: none;
+}
+
+svg path.connector.hidden {
+  stroke-width: 0;
 }
 
 body {
@@ -1487,214 +1745,4 @@ button.default-point-line:not(:disabled):active span.icon {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
   border-right-color: transparent;
-}
-
-svg {
-  background-color: #f2f5fa;
-}
-
-svg g.element-container g.element .node {
-  fill: #ffffff;
-  opacity: 1;
-  stroke-width: 1;
-}
-
-svg g.element-container g.element .element-type.task,
-svg g.element-container g.element .element-type.subprocess {
-  stroke-width: 1;
-  stroke-dasharray: 0, 40, 40, 40;
-}
-
-svg g.element-container g.element .node.task.userTask,
-svg g.element-container g.element .element-type.task.userTask {
-  stroke: #1CC7D0;
-}
-
-svg g.element-container g.element .node.task.manualTask,
-svg g.element-container g.element .element-type.task.manualTask {
-  stroke: #2ECE7E;
-}
-
-svg g.element-container g.element .node.task.scriptTask,
-svg g.element-container g.element .element-type.task.scriptTask {
-  stroke: #93C431;
-}
-
-svg g.element-container g.element .node.subprocess,
-svg g.element-container g.element .element-type.subprocess {
-  stroke: #CF87FF;
-}
-
-svg g.element-container g.element .node.gateway {
-  stroke: #FFC336;
-}
-
-svg g.element-container g.element .node.event {
-  stroke: #FF5EAF;
-}
-
-svg g.element-container g.element .node.event.commonEnd,
-svg g.element-container g.element .node.event.messageEnd {
-  stroke-width: 2;
-}
-
-svg g.element-container g.element .node.selected {
-  stroke: #0050ff !important;
-  stroke-width: 2 !important;
-}
-
-svg g.element-container g.element .node.selected.error {
-  stroke: #ff405a !important;
-}
-
-svg g.element-container g.element .node.reject-element {
-  stroke: #ff0000 !important;
-  stroke-width: 2 !important;
-}
-
-svg g.element-container g.element .annotation {
-  stroke: #000000;
-  fill-opacity: 0;
-  stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
-}
-
-svg g.element-container g.element text {
-  fill: #3F4B56;
-  font-weight: bold;
-  font-size: 0.813rem;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  user-select: none;
-}
-
-svg g.element-container g.element.selected .node,
-svg g.element-container g.element.selected .element-type.task,
-svg g.element-container g.element.selected .element-type.subprocess {
-  stroke: #0098FF !important;
-  stroke-width: 2 !important;
-}
-
-svg g.element-container g.element.selected.error {
-  stroke: #ff405a !important;
-}
-
-svg g.group-artifact-container g.element .group {
-  stroke: #000000;
-  fill-opacity: 0;
-  stroke-dasharray: 5, 5;
-}
-
-svg g.group-artifact-container g.element .node.selected {
-  stroke: #0098FF !important;
-  stroke-width: 2 !important;
-}
-
-svg g.group-artifact-container g.element .node.selected.error {
-  stroke: #ff405a !important;
-}
-
-svg g.group-artifact-container g.element text {
-  fill: #3F4B56;
-  font-weight: bold;
-  font-size: 0.813rem;
-  text-anchor: middle;
-  dominant-baseline: middle;
-  user-select: none;
-}
-
-svg g.connector-container g.connector path.connector {
-  fill: none;
-  stroke: #586872;
-  stroke-width: 1;
-  cursor: default;
-}
-
-svg g.connector-container g.connector path.connector.selected {
-  stroke-dasharray: 10, 2;
-  stroke-width: 2;
-}
-
-svg g.connector-container g.connector path.connector.selected.error {
-  stroke: #0098FF !important;
-}
-
-svg g.connector-container g.connector path.connector.is-default {
-  stroke-width: 3;
-}
-
-svg g.connector-container g.connector path.connector.hidden {
-  stroke-width: 0;
-}
-
-svg g.connector-container g.connector path.painted-connector {
-  fill: none;
-  stroke: none;
-  stroke-width: 20;
-  pointer-events: stroke;
-}
-
-svg g.connector-container g.connector text {
-  fill: #3F4B56;
-  font-weight: bold;
-  font-size: 0.813rem;
-  dominant-baseline: text-before-edge;
-  user-select: none;
-}
-
-svg g.connector-container g.connector text.selected {
-  fill: #0098FF;
-}
-
-svg g.connector-container g.connector circle.pointer {
-  fill: #0098FF;
-  cursor: move;
-}
-
-svg g.connector-container g.connector circle.pointer.move {
-  fill: #0098FF;
-}
-
-svg defs marker path {
-  fill: #596f7a;
-}
-
-svg g.alice-tooltip rect.tooltip-container {
-  fill: #ffffff;
-  stroke: #bec4ce;
-  stroke-width: 0.5;
-}
-
-svg g.alice-tooltip rect.action-tooltip-item:hover,
-svg g.alice-tooltip rect.element-tooltip-item:hover {
-  cursor: pointer;
-}
-
-svg g.grid path {
-  display: none;
-}
-
-svg g.grid line {
-  stroke: #e5ebf5;
-  stroke-width: 1;
-  stroke-opacity: 1;
-  shape-rendering: crispEdges;
-}
-
-svg g.guides-container line.guides-line {
-  stroke: darkgray;
-  stroke-width: 0;
-}
-
-svg path.connector {
-  fill: none;
-  stroke: #596f7a;
-  stroke-width: 1;
-}
-
-svg path.connector.drag-line {
-  pointer-events: none;
-}
-
-svg path.connector.hidden {
-  stroke-width: 0;
 }
