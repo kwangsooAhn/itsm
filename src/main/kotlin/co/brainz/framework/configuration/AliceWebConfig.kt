@@ -4,6 +4,7 @@ import java.util.Locale
 import java.util.MissingResourceException
 import java.util.ResourceBundle
 import javax.net.ssl.SSLContext
+import javax.validation.Validator
 import net.rakugakibox.util.YamlResourceBundle
 import org.apache.http.client.HttpClient
 import org.apache.http.conn.ssl.NoopHostnameVerifier
@@ -71,6 +72,13 @@ class AliceWebConfig {
         ms.setUseCodeAsDefaultMessage(true)
         ms.setFallbackToSystemLocale(true)
         return ms
+    }
+
+    @Bean("validator")
+    fun validator(): LocalValidatorFactoryBean {
+        val bean = LocalValidatorFactoryBean()
+        bean.setValidationMessageSource(this.messageSource())
+        return bean
     }
 
     @Bean

@@ -60,7 +60,7 @@ class AliceErrorAttributes(private val messageSource: AliceMessageSource) : Defa
                 var message = ""
                 val errors = exception.bindingResult.fieldErrors
                 for (i in errors.indices) {
-                    message += errors[i].defaultMessage?.let { messageSource.getMessage(it) } ?: ""
+                    message += errors[i].defaultMessage ?: ""
                     if (i < errors.size - 1) {
                         message += "\n"
                     }
