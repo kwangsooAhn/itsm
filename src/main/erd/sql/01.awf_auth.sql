@@ -43,10 +43,10 @@ insert into awf_auth values ('code.create', '코드 등록', '', '0509e09412534a
 insert into awf_auth values ('code.delete', '코드 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('code.read', '코드 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('code.update', '코드 수정', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('custom.code.create', '사용자 정의 코드 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('custom.code.delete', '사용자 정의 코드 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('custom.code.read', '사용자 정의 코드 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_auth values ('custom.code.update', '사용자 정의 코드 수정', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('custom.code.create', '커스텀 코드 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('custom.code.delete', '커스텀 코드 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('custom.code.read', '커스텀 코드 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('custom.code.update', '커스텀 코드 수정', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('document.admin.create', '업무흐름 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('document.admin.delete', '업무흐름 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('document.admin.read', '업무흐름 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
