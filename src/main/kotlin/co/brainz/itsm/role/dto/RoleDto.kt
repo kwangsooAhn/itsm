@@ -10,10 +10,10 @@ import javax.validation.constraints.Email
  * 역할 조회시 사용한다.
  */
 data class RoleDto(
-    @CheckUnacceptableCharInUrl @Email
+    @CheckUnacceptableCharInUrl
     var roleId: String?,
-    @Email var roleName: String?,
-    @Email var roleDesc: String?,
+    var roleName: String?,
+    var roleDesc: String?,
     var createUserName: String?,
     var createDt: LocalDateTime?,
     var updateUserName: String?,
