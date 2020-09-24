@@ -16,5 +16,5 @@ data class PortalDto(
     var createDt: LocalDateTime? = null,
     var updateDt: LocalDateTime? = null,
     var tableName: String? = null,
-    val totalCount: Int? = 0
+    var totalCount: Int? = 0
 ) : Serializable
