@@ -8,17 +8,14 @@
 <body>
 <th:block layout:fragment="content">
     <div class="edit">
-        <h3 class="under-bar" th:if="${formInfo?.id}" th:text="#{form.label.detail}"></h3>
-        <h3 class="under-bar" th:if="!${formInfo?.id}" th:text="#{form.label.create}"></h3>
+        <h3 class="under-bar" th:text="#{form.label.detail}"></h3>
         <div class="form-set">
-            <label th:text="#{form.label.name}" for="form_name"></label>
-            <input type="text" id="form_name" maxlength="50" required="required" tabindex="1"
-                   th:value="${formInfo?.name}" disabled/>
+            <label th:text="#{form.label.name}"></label>
+            <span id="form_name" th:text="${formInfo?.name}"/>
         </div>
         <div class="form-set">
-            <label th:text="#{form.label.description}" for="form_desc"></label>
-            <textarea id="form_desc" maxlength="128" tabindex="2" th:text="${formInfo?.desc}"
-                      class="textarea-scroll-wrapper" disabled></textarea>
+            <label th:text="#{form.label.description}"></label>
+            <textarea id="form_desc" th:text="${formInfo?.desc}" class="textarea-scroll-wrapper" disabled/>
         </div>
         <div class="horizontal-bar"></div>
         <div class="btn-bar">
@@ -26,5 +23,14 @@
         </div>
     </div>
 </th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            document.getElementById('form_name').focus();
+            OverlayScrollbars(document.getElementById('form_desc'), { className: 'scrollbar' });
+        }
+        /*]]>*/
+    </script>
 </body>
 </html>
