@@ -63,7 +63,7 @@ object AliceUserConstants {
     /**
      * 사용자 아바타 기본 디렉터리
      */
-    const val AVATAR_BASIC_FILE_PATH: String = "/assets/media/image/avatar/"
+    const val AVATAR_BASIC_FILE_PATH: String = "/assets/media/images/avatar/"
 
     /**
      * 사용자 아바타 기본 파일명

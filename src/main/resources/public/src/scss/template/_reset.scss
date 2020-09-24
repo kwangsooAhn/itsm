@@ -1,12 +1,12 @@
-@charset "utf-8";
-/* CSS Document */
-
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-
-*,
+/* _reset.scss 
+ *
+ * 파일 경로 : template/_reset.scss
+ * @description CSS Reset
+ * @author http://meyerweb.com/eric/tools/css/reset/
+ * @vertionn 2.0 | 20110126
+ * License: none (public domain)
+ */
+ 
 *::before,
 *::after {
     box-sizing: border-box; // 1
