@@ -93,6 +93,17 @@
         let AUTH_DELETE = false;
         let AUTH_CREATE = false;
         let AUTH_UPDATE = false;
+        let defaultMenuList = [];
+        let defaultUrlList = [];
+
+        /*[# th:each="defaultUserMenu : ${defaultUserMenuList}"]*/
+        defaultMenuList.push(/*[[${defaultUserMenu.codeValue}]]*/);
+        /*[/]*/
+
+        /*[# th:each="defaultUserUrl : ${defaultUserUrlList}"]*/
+        defaultUrlList.push(/*[[${defaultUserUrl.codeValue}]]*/);
+        /*[/]*/
+
         getAuthList(true);
 
         window.onload = function () {
@@ -169,14 +180,26 @@
             document.getElementById('txtAuthDesc').value = '';
 
             let authMenus = document.getElementsByName('authMenu');
-            for(let i = 0; i < authMenus.length; i++) {
+            for (let i = 0; i < authMenus.length; i++) {
                 authMenus[i].checked = false;
+                for (let k = 0; k < defaultMenuList.length; k++) {
+                    if (authMenus[i].id == defaultMenuList[k]) {
+                        authMenus[i].checked = true;
+                        authMenus[i].disabled = true;
+                    }
+                }
             }
             let authUrls = document.getElementsByName('authUrl');
-            for(let i = 0; i < authUrls.length; i++) {
+            for (let i = 0; i < authUrls.length; i++) {
                 authUrls[i].checked = false;
+                for (let k = 0; k < defaultUrlList.length; k++) {
+                    if (authUrls[i].id == defaultUrlList[k]) {
+                        authUrls[i].checked = true;
+                        authUrls[i].disabled = true;
+                    }
+                }
             }
-            let activeTr = document.querySelector('tr.active')
+            let activeTr = document.querySelector('tr.active');
             if (activeTr !== null) {
                 activeTr.classList.remove('active');
             }
@@ -234,13 +257,13 @@
             obj.authId = document.getElementById('txtAuthId').value;    //권한 아이디
             obj.authName = document.getElementById('txtAuthName').value;//권한명
             obj.authDesc= document.getElementById('txtAuthDesc').value; //권한 설명
-            
+
             let arrMenuId = [];                                         //권한-메뉴
             Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]:checked'), function(item) {
                 arrMenuId.push(item.id);
             });
             obj.arrMenuId = arrMenuId;
-            
+
             let arrUrl = [];                                             //권한-Url
             Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]:checked'), function(item) {
                 arrUrl.push(item.id);
@@ -265,7 +288,7 @@
                     });
                 }
             };
-            
+
             aliceJs.sendXhr(opt);
         }
 
@@ -355,9 +378,16 @@
                     let arrMenuList = responseJson.arrMenuList;
                     Array.prototype.forEach.call(document.querySelectorAll('input[name=authMenu]'), function(authMenu) {
                         authMenu.checked = false;
-                        for (let i = 0; i<arrMenuList.length; i++) {
+                        authMenu.disabled = false;
+                        for (let i = 0; i < arrMenuList.length; i++) {
                             if (authMenu.id == arrMenuList[i].menuId) {
                                 authMenu.checked = true;
+                            }
+                            for (let k = 0; k < defaultMenuList.length; k++) {
+                                if (authMenu.id == defaultMenuList[k]) {
+                                    authMenu.checked = true;
+                                    authMenu.disabled = true;
+                                }
                             }
                         }
                     });
@@ -365,9 +395,16 @@
                     let arrUrlList = responseJson.arrUrlList;
                     Array.prototype.forEach.call(document.querySelectorAll('input[name=authUrl]'), function(authUrl) {
                         authUrl.checked = false;
-                        for (let i = 0; i<arrUrlList.length; i++) {
+                        authUrl.disabled = false;
+                        for (let i = 0; i < arrUrlList.length; i++) {
                             if (authUrl.id == arrUrlList[i].url) {
                                 authUrl.checked = true;
+                            }
+                            for (let k = 0; k < defaultUrlList.length; k++) {
+                                if (authUrl.id == defaultUrlList[k]) {
+                                    authUrl.checked = true;
+                                    authUrl.disabled = true;
+                                }
                             }
                         }
                     });
