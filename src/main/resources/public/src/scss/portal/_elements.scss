@@ -71,6 +71,8 @@ option {
     &:focus{color:$alice-primary}
 }
 
+@import "../template/_elements.scss";
+
 select {
     height: 2.5rem; // 40px
     font-size: $element-font-size;

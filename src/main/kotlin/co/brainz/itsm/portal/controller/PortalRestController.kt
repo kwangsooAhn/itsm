@@ -44,8 +44,8 @@ class PortalRestController(
      */
     @GetMapping("/list")
     fun getPortalList(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
-        val totalCount = portalService.findPortalListOrSearchCount(portalSearchDto)[0].totalCount
         val portalResult = portalService.findPortalListOrSearchList(portalSearchDto)
+        val totalCount = if (portalResult.isNotEmpty()) portalResult[0].totalCount else 0
         val portalResultList = mutableListOf<PortalDto>()
         for (data in portalResult) {
             val portalDto = PortalDto(
