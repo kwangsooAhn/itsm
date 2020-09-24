@@ -4,7 +4,6 @@ import java.util.Locale
 import java.util.MissingResourceException
 import java.util.ResourceBundle
 import javax.net.ssl.SSLContext
-import javax.validation.Validator
 import net.rakugakibox.util.YamlResourceBundle
 import org.apache.http.client.HttpClient
 import org.apache.http.conn.ssl.NoopHostnameVerifier
