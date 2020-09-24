@@ -902,6 +902,7 @@ validation:
     pwNotContainSpace: "비밀번호에 공백을 포함할 수 없습니다."
     pwOneBetween10And20: "1가지 문자 구성의 경우 10자~20자의 비밀번호를 설정해야 합니다."
     pwTwoBetween8And20: "2가지 문자 구성의 경우 8자~20자의 비밀번호를 설정해야 합니다."
+    unacceptableCharacters: "허용하지 않는 특수문자(/ \ % ;)가 포함되어 있습니다."
 
 # Project
 project:
