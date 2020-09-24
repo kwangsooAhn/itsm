@@ -509,7 +509,7 @@ textarea:focus {
 .trash-icon {
   width: 18px;
   height: 20px;
-  background: url("../icons/icon_trash.svg") no-repeat center center;
+  background: url("../../../media/icons/document/icon_trash.svg") no-repeat center center;
 }
 
 .trash-icon:hover {
@@ -519,7 +519,7 @@ textarea:focus {
 .edit-icon {
   width: 20px;
   height: 20px;
-  background: url("../icons/icon_edit.svg") no-repeat center center;
+  background: url("../../../media/icons/document/icon_edit.svg") no-repeat center center;
 }
 
 .edit-icon:hover {
