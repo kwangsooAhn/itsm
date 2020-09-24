@@ -1,13 +1,15 @@
 /*
+ * portal.scss
+ * 
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
 @charset 'utf-8';
 
-@import "../template/_reset.scss";
-@import "../template/_alignments.scss";
-@import "_variables.scss";
-@import "_fonts.scss";
+@import '../template/_reset.scss';
+@import '../template/_alignments.scss';
+@import '_variables.scss';
+@import '_fonts.scss';
 
 .alice-portal-container {
     overflow: auto;
@@ -15,19 +17,19 @@
     width: 100vw;
 }
 
-@import "_mixin.scss";
-@import "_elements.scss";
-@import "_column.scss";
-@import "_browserGuide.scss";
-@import "_signup.scss";
-@import "_error.scss";
-@import "_sessionInvalid.scss";
-@import "_search.scss";
-@import "_tooltip.scss";
-@import "_login.scss";
-@import "_scrollbar.scss";
-@import "_datepicker.scss";
-@import "_alignment.scss";
-@import "_fileUploader.scss";
-@import "_buttons.scss";
-@import "_faq.scss";
+@import '_mixin.scss';
+@import '_elements.scss';
+@import '_column.scss';
+@import '_browserGuide.scss';
+@import '_signup.scss';
+@import '_error.scss';
+@import '_sessionInvalid.scss';
+@import '_search.scss';
+@import '_tooltip.scss';
+@import '_login.scss';
+@import '_scrollbar.scss';
+@import '_datepicker.scss';
+@import '_alignment.scss';
+@import '_fileUploader.scss';
+@import '_buttons.scss';
+@import '_faq.scss';
