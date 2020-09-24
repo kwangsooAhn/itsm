@@ -312,7 +312,7 @@ function showProgressBar() {
         divProgressBar.style.zIndex = 999;
 
         let imgProgressBar = document.createElement('img');
-        imgProgressBar.src = '/assets/media/image/loading_w_dark.gif';
+        imgProgressBar.src = '/assets/media/images/loading_w_dark.gif';
         imgProgressBar.style.position = 'absolute';
         if (document.querySelector('.container') !== null) {
             imgProgressBar.style.left = '42%';

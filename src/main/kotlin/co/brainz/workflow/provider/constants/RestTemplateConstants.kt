@@ -194,5 +194,5 @@ object RestTemplateConstants {
      * 이미지 컴포넌트 디렉터리.
      */
     const val BASE_DIR: String = "public"
-    const val FORM_IMAGE_DIR: String = "assets/media/image/form/"
+    const val FORM_IMAGE_DIR: String = "assets/media/images/form/"
 }
