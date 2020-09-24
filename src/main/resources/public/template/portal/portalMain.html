@@ -21,7 +21,7 @@
                 <div class="header">
                     <div class="icon">
                         <a th:attr="onclick=|goMenu('notice');|">
-                            <img th:src="@{/assets/media/image/portal/graphic_notice.png}"/>
+                            <img th:src="@{/assets/media/images/portal/graphic_notice.png}"/>
                         </a>
                     </div>
                     <h3 th:text="#{menu.notice.parent}"></h3>
@@ -34,7 +34,7 @@
                 <div class="header">
                     <div class="icon">
 	                    <a th:attr="onclick=|goMenu('faq');|">
-                            <img th:src="@{/assets/media/image/portal/graphic_faq.png}"/>
+                            <img th:src="@{/assets/media/images/portal/graphic_faq.png}"/>
 	                    </a>
                     </div>
                     <h3 th:text="#{menu.faq.parent}"></h3>
@@ -47,7 +47,7 @@
                 <div class="header">
                     <div class="icon">
                         <a th:attr="onclick=|goMenu('download');|">
-                            <img th:src="@{/assets/media/image/portal/graphic_download.png}"/>
+                            <img th:src="@{/assets/media/images/portal/graphic_download.png}"/>
                         </a>
                     </div>
                     <h3 th:text="#{menu.download.parent}"></h3>
@@ -185,12 +185,10 @@
                                     document.getElementById('portal-search-area').classList.remove('slide-down');
                                     document.getElementById('portal-search-area').classList.add('slide-up');
                                     document.getElementById('portal-search-main').style.display='none';
-                                    document.querySelector('.os-host').style.height = '43.81rem'; //701px
                                 } else {
                                     document.getElementById('portal-search-area').classList.remove('slide-up');
                                     document.getElementById('portal-search-area').classList.add('slide-down');
                                     document.getElementById('portal-search-main').style.display='block';
-                                    document.querySelector('.os-host').style.height = '37.31rem';  //597px
                                 }
                                 if (scrollHeight - scrollTop === clientHeight) {
                                     if (scrollerEventCheck()) {

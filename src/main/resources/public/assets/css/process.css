@@ -1,0 +1,1748 @@
+@charset "UTF-8";
+/*
+ * process.scss
+ * 
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+/* _reset.scss 
+ *
+ * 파일 경로 : template/_reset.scss
+ * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
+ * @author wdj
+ * @vertionn 1.0
+ */
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+
+body {
+  line-height: 1;
+}
+
+ol, ul {
+  list-style: none;
+}
+
+blockquote, q {
+  quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+template {
+  display: none;
+}
+
+/* _alignments.scss 
+ *
+ * 파일 경로 : template/_alignments.scss
+ * @description 정렬, 배치 관련 디자인
+ * @author jy.lim
+ * @vertionn 1.0
+ */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* _fonts.scss 
+ *
+ * 파일 경로 : template/_fonts.scss
+ * @description 폰트 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
+  font-style: normal;
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
+  font-style: normal;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
+  font-style: normal;
+  font-weight: 900;
+}
+
+/* _elements.scss 
+ *
+ * 파일 경로 : template/_elements.scss
+ * @description HTML element 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1;
+  margin: 0;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1;
+  margin: 0;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
+svg {
+  background-color: #f2f5fa;
+}
+
+svg g.element-container g.element .node {
+  fill: #ffffff;
+  opacity: 1;
+  stroke-width: 1;
+}
+
+svg g.element-container g.element .element-type.task,
+svg g.element-container g.element .element-type.subprocess {
+  stroke-width: 1;
+  stroke-dasharray: 0, 40, 40, 40;
+}
+
+svg g.element-container g.element .node.task.userTask,
+svg g.element-container g.element .element-type.task.userTask {
+  stroke: #1CC7D0;
+}
+
+svg g.element-container g.element .node.task.manualTask,
+svg g.element-container g.element .element-type.task.manualTask {
+  stroke: #2ECE7E;
+}
+
+svg g.element-container g.element .node.task.scriptTask,
+svg g.element-container g.element .element-type.task.scriptTask {
+  stroke: #93C431;
+}
+
+svg g.element-container g.element .node.subprocess,
+svg g.element-container g.element .element-type.subprocess {
+  stroke: #CF87FF;
+}
+
+svg g.element-container g.element .node.gateway {
+  stroke: #FFC336;
+}
+
+svg g.element-container g.element .node.event {
+  stroke: #FF5EAF;
+}
+
+svg g.element-container g.element .node.event.commonEnd,
+svg g.element-container g.element .node.event.messageEnd {
+  stroke-width: 2;
+}
+
+svg g.element-container g.element .node.selected {
+  stroke: #0050ff !important;
+  stroke-width: 2 !important;
+}
+
+svg g.element-container g.element .node.selected.error {
+  stroke: #ff405a !important;
+}
+
+svg g.element-container g.element .node.reject-element {
+  stroke: #ff0000 !important;
+  stroke-width: 2 !important;
+}
+
+svg g.element-container g.element .annotation {
+  stroke: #000000;
+  fill-opacity: 0;
+  stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
+}
+
+svg g.element-container g.element text {
+  fill: #3F4B56;
+  font-weight: bold;
+  font-size: 0.813rem;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  user-select: none;
+}
+
+svg g.element-container g.element.selected .node,
+svg g.element-container g.element.selected .element-type.task,
+svg g.element-container g.element.selected .element-type.subprocess {
+  stroke: #0098FF !important;
+  stroke-width: 2 !important;
+}
+
+svg g.element-container g.element.selected.error {
+  stroke: #ff405a !important;
+}
+
+svg g.group-artifact-container g.element .group {
+  stroke: #000000;
+  fill-opacity: 0;
+  stroke-dasharray: 5, 5;
+}
+
+svg g.group-artifact-container g.element .node.selected {
+  stroke: #0098FF !important;
+  stroke-width: 2 !important;
+}
+
+svg g.group-artifact-container g.element .node.selected.error {
+  stroke: #ff405a !important;
+}
+
+svg g.group-artifact-container g.element text {
+  fill: #3F4B56;
+  font-weight: bold;
+  font-size: 0.813rem;
+  text-anchor: middle;
+  dominant-baseline: middle;
+  user-select: none;
+}
+
+svg g.connector-container g.connector path.connector {
+  fill: none;
+  stroke: #586872;
+  stroke-width: 1;
+  cursor: default;
+}
+
+svg g.connector-container g.connector path.connector.selected {
+  stroke-dasharray: 10, 2;
+  stroke-width: 2;
+}
+
+svg g.connector-container g.connector path.connector.selected.error {
+  stroke: #0098FF !important;
+}
+
+svg g.connector-container g.connector path.connector.is-default {
+  stroke-width: 3;
+}
+
+svg g.connector-container g.connector path.connector.hidden {
+  stroke-width: 0;
+}
+
+svg g.connector-container g.connector path.painted-connector {
+  fill: none;
+  stroke: none;
+  stroke-width: 20;
+  pointer-events: stroke;
+}
+
+svg g.connector-container g.connector text {
+  fill: #3F4B56;
+  font-weight: bold;
+  font-size: 0.813rem;
+  dominant-baseline: text-before-edge;
+  user-select: none;
+}
+
+svg g.connector-container g.connector text.selected {
+  fill: #0098FF;
+}
+
+svg g.connector-container g.connector circle.pointer {
+  fill: #0098FF;
+  cursor: move;
+}
+
+svg g.connector-container g.connector circle.pointer.move {
+  fill: #0098FF;
+}
+
+svg defs marker path {
+  fill: #596f7a;
+}
+
+svg g.alice-tooltip rect.tooltip-container {
+  fill: #ffffff;
+  stroke: #bec4ce;
+  stroke-width: 0.5;
+}
+
+svg g.alice-tooltip rect.action-tooltip-item:hover,
+svg g.alice-tooltip rect.element-tooltip-item:hover {
+  cursor: pointer;
+}
+
+svg g.grid path {
+  display: none;
+}
+
+svg g.grid line {
+  stroke: #e5ebf5;
+  stroke-width: 1;
+  stroke-opacity: 1;
+  shape-rendering: crispEdges;
+}
+
+svg g.guides-container line.guides-line {
+  stroke: darkgray;
+  stroke-width: 0;
+}
+
+svg path.connector {
+  fill: none;
+  stroke: #596f7a;
+  stroke-width: 1;
+}
+
+svg path.connector.drag-line {
+  pointer-events: none;
+}
+
+svg path.connector.hidden {
+  stroke-width: 0;
+}
+
+body {
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 0.688rem;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+label {
+  display: inline-block;
+  margin-top: 0.25rem;
+}
+
+input {
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #586872;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
+  height: 2.5rem;
+}
+
+input::placeholder {
+  color: #ACB4BF;
+}
+
+input:focus, input:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+input:disabled, input:read-only {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  cursor: default;
+  pointer-events: none;
+}
+
+input.validate-error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
+}
+
+textarea {
+  font-size: 16px;
+  line-height: 1.2;
+  font-weight: 400;
+  color: #586872;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #ffffff;
+  resize: none;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+textarea::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+textarea::placeholder {
+  color: #ACB4BF;
+}
+
+textarea:focus, textarea:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+textarea:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  cursor: default;
+}
+
+textarea.validate-error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
+}
+
+span {
+  font-size: 1rem;
+  font-weight: 400;
+  vertical-align: middle;
+}
+
+span[class="required"] {
+  padding-left: 0.3125rem;
+  font-weight: 700;
+}
+
+span[class="required"]::after {
+  color: #FF405A;
+  content: "\002a";
+}
+
+.alice-process-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  min-width: 75rem;
+  min-height: 41.563rem;
+}
+
+.alice-process-toolbar {
+  width: 100vw;
+  min-width: 75rem;
+  height: 3.125rem;
+  background-color: #0098FF;
+  color: #ffffff;
+  padding-top: 0.563rem;
+  padding-bottom: 0.563rem;
+  line-height: 1.0rem;
+  display: flex;
+  align-items: center;
+}
+
+.alice-process-toolbar .logo {
+  width: 13.125rem;
+  height: 1.999rem;
+  float: left;
+  background-color: transparent;
+  background-size: initial;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("../media/icons/process/editor/logo.svg");
+}
+
+.alice-process-toolbar .process-designer {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #fff;
+}
+
+.alice-process-toolbar a {
+  text-decoration: none;
+  margin-right: 2.5625rem;
+  height: 1.999rem;
+  line-height: 1.999rem;
+  vertical-align: middle;
+  float: left;
+  display: flex;
+  align-items: center;
+}
+
+.alice-process-toolbar a img {
+  cursor: pointer;
+}
+
+.alice-process-toolbar span.separator {
+  width: 0.063rem;
+  height: 1.999rem;
+  background-color: #3079ff;
+  margin: 0 1.25rem;
+  float: left;
+}
+
+.alice-process-toolbar .process-name {
+  height: 1.999rem;
+  line-height: 1.999rem;
+  margin-left: auto;
+  margin-right: 0.938rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.alice-process-element-palette {
+  display: inline-block;
+  width: 6.25rem;
+  height: calc(100vh - 3.125rem);
+  min-height: 38.438rem;
+  background-color: #ffffff;
+  position: absolute;
+  top: 3.125rem;
+  color: #666f7a;
+  box-shadow: 0.063rem 0 0.313rem -0.25rem #182738;
+}
+
+.alice-process-element-palette .rectangle-menu {
+  position: relative;
+  display: inline-block;
+  width: 5.625rem;
+  height: 4.375rem;
+  margin: 0.313rem 0.313rem 0 0.313rem;
+  border: 0.063rem solid #EBEBEB;
+  border-radius: 0.1875rem;
+  background-color: transparent;
+  background-size: initial;
+  background-repeat: no-repeat;
+  background-position: 50% 30%;
+}
+
+.alice-process-element-palette .rectangle-menu label {
+  color: #7E848C;
+  font-family: 맑은고딕;
+  font-size: 0.875rem;
+  font-weight: 400;
+  position: absolute;
+  top: 2.8rem;
+  width: 100%;
+  text-align: center;
+}
+
+.alice-process-element-palette .connector {
+  position: absolute;
+  bottom: 5rem;
+  left: 0;
+  background-color: #F7F8F9;
+  background-image: url("../media/icons/process/element/connector.png");
+}
+
+.alice-process-element-palette .connector label {
+  color: #ACB4BF;
+}
+
+.alice-process-element-palette .connector.selected {
+  border-color: #0098FF;
+  background-color: transparent;
+  background-image: url("../media/icons/process/element/connector-select.png");
+}
+
+.alice-process-element-palette .connector.selected label {
+  color: #0098FF;
+}
+
+.alice-process-element-palette .shape.event {
+  background-image: url("../media/icons/process/element/event.png");
+}
+
+.alice-process-element-palette .shape.task {
+  background-image: url("../media/icons/process/element/task.png");
+}
+
+.alice-process-element-palette .shape.subprocess {
+  background-image: url("../media/icons/process/element/subprocess.png");
+}
+
+.alice-process-element-palette .shape.gateway {
+  background-image: url("../media/icons/process/element/gateway.png");
+}
+
+.alice-process-element-palette .shape.group {
+  background-image: url("../media/icons/process/element/group.png");
+}
+
+.alice-process-element-palette .shape.annotation {
+  background-image: url("../media/icons/process/element/annotation.png");
+}
+
+.alice-process-element-palette .move-icon {
+  position: absolute;
+  bottom: 0.313rem;
+  left: 0;
+  background-color: #F7F8F9;
+  background-image: url("../media/icons/process/editor/icon-background.png");
+}
+
+.alice-process-element-palette .move-icon label {
+  color: #ACB4BF;
+}
+
+.alice-process-element-palette .move-icon.selected {
+  border-color: #0098FF;
+  background-color: transparent;
+  background-image: url("../media/icons/process/editor/icon-background-select.png");
+}
+
+.alice-process-element-palette .move-icon.selected label {
+  color: #0098FF;
+}
+
+.alice-process-drawing-board {
+  display: inline-block;
+  position: absolute;
+  top: 3.125rem;
+  left: 6.25rem;
+  width: calc(100vw - 25rem);
+  min-width: 50rem;
+  height: calc(100vh - 3.125rem);
+  min-height: 38.438rem;
+  overflow: hidden;
+  /*버튼 공통*/
+  /*미니맵*/
+  /*시뮬레이션*/
+}
+
+.alice-process-drawing-board button.gray-line {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #EBEBEB;
+  background-color: #fff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.1875rem;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.alice-process-drawing-board button.gray-line span.icon {
+  display: inline-block;
+  background: #CCCED1;
+}
+
+.alice-process-drawing-board button.gray-line:focus, .alice-process-drawing-board button.gray-line:hover {
+  outline: 0;
+  border-color: #0098FF;
+}
+
+.alice-process-drawing-board button.gray-line:focus span.icon, .alice-process-drawing-board button.gray-line:hover span.icon {
+  background: #0098FF;
+}
+
+.alice-process-drawing-board button.gray-line.active {
+  border-color: #0098FF;
+}
+
+.alice-process-drawing-board button.gray-line.active span.icon {
+  background: #0098FF;
+}
+
+.alice-process-drawing-board div.minimap {
+  background-color: #ffffff;
+  display: inline-block;
+  width: 12.5rem;
+  height: 9.375rem;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0.625rem;
+  right: 3.438rem;
+  border: 0.0625rem solid #EBEBEB;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+}
+
+.alice-process-drawing-board div.minimap svg {
+  position: absolute;
+  top: 1.25rem;
+  left: 1.25rem;
+  background-color: #eef2f7;
+  border: 1px solid #c8ced8;
+}
+
+.alice-process-drawing-board div.minimap svg rect.minimap-guide {
+  fill: #A3B6CC;
+  fill-opacity: 0.25;
+  stroke-width: 0;
+}
+
+.alice-process-drawing-board div.minimap.closed {
+  display: none;
+}
+
+.alice-process-drawing-board button.minimap-button {
+  position: absolute;
+  bottom: 0.625rem;
+  right: 0.625rem;
+  line-height: 0;
+  padding: 0;
+}
+
+.alice-process-drawing-board button.minimap-button span.icon {
+  width: 1.063rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/process/editor/icon-map.svg");
+  mask-image: url("../media/icons/process/editor/icon-map.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+.alice-process-drawing-board .simulation-report {
+  position: absolute;
+  width: 63.75rem;
+  height: 22.688rem;
+  display: block;
+  background-color: #ffffff;
+  overflow: hidden;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
+  border: solid 1px #ebebeb;
+}
+
+.alice-process-drawing-board .simulation-report .title {
+  height: 3.375rem;
+  border-bottom: solid 1px #ebebeb;
+  font-size: 1.125rem;
+  padding: 1.063rem;
+}
+
+.alice-process-drawing-board .simulation-report .title-text {
+  display: inline-block;
+}
+
+.alice-process-drawing-board .simulation-report .title-close {
+  display: inline-block;
+  width: 16px;
+  height: 18px;
+  float: right;
+  background-image: url("../media/icons/process/editor/icon-simulation-close.svg");
+  background-position-y: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.alice-process-drawing-board .simulation-report .contents {
+  position: relative;
+  height: calc(100% - 3.375rem);
+  font-size: 1.125rem;
+}
+
+.alice-process-drawing-board .simulation-report .contents .result {
+  margin: 0.938rem;
+}
+
+.alice-process-drawing-board .simulation-report .contents .result.success {
+  color: #00c462;
+}
+
+.alice-process-drawing-board .simulation-report .contents .result.failed {
+  color: #ff405a;
+}
+
+.alice-process-drawing-board .simulation-report .contents .details {
+  font-size: 1rem;
+  color: #586872;
+}
+
+.alice-process-drawing-board .simulation-report .contents .details div {
+  margin: 0.313rem 0 0.313rem 0.75rem;
+}
+
+.alice-process-drawing-board .simulation-report .contents .details div.failed {
+  color: #ff405a;
+}
+
+.alice-process-drawing-board .simulation-report .contents .details-number-of, .alice-process-drawing-board .simulation-report .contents .details-result, .alice-process-drawing-board .simulation-report .contents .details-element-info, .alice-process-drawing-board .simulation-report .contents .details-failed-message {
+  margin-left: 0.313rem;
+}
+
+.alice-process-drawing-board .simulation-report.closed {
+  display: none;
+}
+
+.alice-process-drawing-board button.simulation-report-icon {
+  position: absolute;
+  bottom: 3.438rem;
+  right: 0.625rem;
+  line-height: 0;
+  padding: 0;
+}
+
+.alice-process-drawing-board button.simulation-report-icon span.icon {
+  width: 1.25rem;
+  height: 1rem;
+  -webkit-mask-image: url("../media/icons/process/editor/icon-simulation-report.svg");
+  mask-image: url("../media/icons/process/editor/icon-simulation-report.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+.alice-process-properties-panel {
+  display: inline-block;
+  background-color: #fafbfd;
+  width: 18.75rem;
+  height: calc(100vh - 3.125rem);
+  min-height: 38.438rem;
+  position: absolute;
+  top: 3.125rem;
+  right: 0;
+  box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7;
+}
+
+.alice-process-properties-panel h3 {
+  margin: 1.25rem 0 1rem 1.5625rem;
+}
+
+.alice-process-properties-panel h3 span {
+  padding-right: 0.625rem;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #33ADFF;
+  font-weight: 500;
+}
+
+.alice-process-properties-panel div.properties-container {
+  height: calc(100vh - 3.125rem);
+}
+
+.alice-process-properties-panel div.properties-container div.element-title {
+  height: 2.5rem;
+  background-color: #33ADFF;
+}
+
+.alice-process-properties-panel div.properties-container div.element-title h2 {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #fff;
+  font-weight: 500;
+  padding: 0.719rem 0 0.719rem 0.938rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties {
+  height: calc(100vh - 3.125rem - 2.5rem);
+  overflow: auto;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties fieldset {
+  border: 0.063rem solid #c8ced8;
+  padding: 0.5rem;
+  margin-right: 1.25rem;
+  margin-left: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties fieldset legend {
+  width: 6.25rem;
+  height: 1.875rem;
+  display: flex;
+  align-items: center;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties fieldset legend input {
+  margin: 0 0.3125rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties fieldset legend label {
+  font-size: 0.688rem;
+  font-weight: bold;
+  margin-top: 0;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties {
+  margin: 1rem 0.5rem 0 0.5rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties label {
+  width: 12.5rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-top: 1rem;
+  margin-left: 1.5625rem;
+  margin-right: 1.5625rem;
+  font-size: 0.688rem;
+  /* _color-picker.scss 
+ *
+ * 파일 경로 : template/_color-picker.scss
+ * @description 컬러 피커 디자인
+ * @author jy.lim
+ * @vertionn 1.0
+ */
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .flex-row {
+  width: 100%;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties label {
+  display: inline-block;
+  width: 100%;
+  vertical-align: top;
+  margin-bottom: 0.5625rem;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: 500;
+  color: #3F4B56;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties label.required::after {
+  color: #E83828;
+  content: "\002a";
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties label.checkbox {
+  width: initial;
+  margin-left: 0.625rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input[type=checkbox] {
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties select {
+  border: 0.063rem solid #EBEBEB;
+  color: #68717c;
+  padding-left: 0.438rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:focus,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
+  border-color: #0098FF;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]),
+.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties select {
+  width: 100%;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  border-color: #EBEBEB;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]):focus,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
+  border-color: #0098FF;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea {
+  height: 7.5rem;
+  padding: 0.5rem 0.625rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus {
+  border-color: #0098FF;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]), .alice-process-properties-panel div.properties-container div.element-properties div.properties select {
+  height: 2.5rem;
+  width: 100%;
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  border-color: #EBEBEB;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]):focus, .alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
+  border-color: #0098FF;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input:read-only {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input.color,
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input.copy {
+  flex: 1;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties select.candidate {
+  flex: 1;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties input.file {
+  width: 10rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties button {
+  border: 0.063rem solid #EBEBEB;
+  background-color: #ffffff;
+  width: 3.125rem;
+  height: 2.5rem;
+  margin-left: 0.188rem;
+  padding: 0;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table {
+  width: 100%;
+  margin-top: 0.188rem;
+  font-size: 1rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tr {
+  border-top: 0.063rem solid #c8ced8;
+  border-bottom: 0.063rem solid #c8ced8;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table thead th {
+  background-color: #ffffff;
+  height: 2.5rem;
+  vertical-align: middle;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(odd) {
+  background-color: #eff3f8;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td {
+  height: 2.5rem;
+  vertical-align: middle;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:first-child {
+  padding-left: 0.313rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child {
+  text-align: right;
+  padding-right: 0.313rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  border: 0.063rem solid #c8ced8;
+  background-color: #ffffff;
+  cursor: pointer;
+  position: relative;
+  vertical-align: middle;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove:after {
+  position: absolute;
+  left: 0.0625rem;
+  top: -0.125rem;
+  content: '\2212';
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker {
+  display: flex;
+  flex-direction: column;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input {
+  display: inline-flex;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: auto;
+  cursor: pointer;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.3125rem;
+  border: 0.0625rem solid #EBEBEB;
+  cursor: pointer;
+  display: flex;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  background-color: white;
+  width: 30rem;
+  margin-top: 0.3125rem;
+  padding: 1.25rem 0 0.625rem 1.25rem;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.625rem;
+  margin-bottom: 0.625rem;
+  cursor: pointer;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
+  border: 0.375rem solid white;
+  outline: 0.063rem solid #0098FF;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0.1875rem solid #68717c;
+  margin: 0;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
+  width: 2.5rem;
+  height: 2.5rem;
+  margin-right: 0.313rem;
+  border: 0.063rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding-top: 0.3125rem;
+  padding-left: 0.3125rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
+  width: 15.625rem;
+  margin-top: 0.188rem;
+  border: 0.063rem solid #c8ced8;
+  padding-left: 0.219rem;
+  padding-top: 0.188rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  margin-top: 0.375rem;
+  margin-left: 0.4375rem;
+  margin-right: 0;
+  margin-bottom: 0;
+  border: 0.063rem solid #a3adbb;
+  cursor: pointer;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
+  border: 0.125rem solid #ffffff;
+  outline: 0.063rem solid #0055ff;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity {
+  background-color: #ffffff;
+  width: 15.625rem;
+  border: 0.063rem solid #c8ced8;
+  border-top: none;
+  padding-left: 0.219rem;
+  display: none;
+  height: 3rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input {
+  vertical-align: middle;
+  width: 1.875rem;
+  height: 2rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range] {
+  -webkit-appearance: none;
+  /*&::-webkit-slider-runnable-track {
+                    -webkit-appearance: none;
+                }*/
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 0.0625rem solid #c8ced8;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-thumb {
+  width: 0.625rem;
+  height: 0.625rem;
+  border: 0.0625rem solid #c8ced8;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
+  background-color: #0055ff;
+  height: 0.0625rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-object {
+  width: 10rem;
+  height: 0.0625rem;
+  background: #c8ced8;
+  border: initial;
+  padding: initial;
+  outline: none;
+  margin-left: 0.594rem;
+  margin-right: 0.625rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-input {
+  width: 2.5rem;
+  text-align: right;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span label {
+  margin: 0 0 0 0.25rem;
+  width: 0.813rem;
+  height: 1.25rem;
+  line-height: 1.25rem;
+  vertical-align: middle;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container {
+  width: 100%;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container.right {
+  text-align: right;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 0.188rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip .file-tooltip-button {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.063rem solid #EBEBEB;
+  background-size: initial;
+  background-repeat: no-repeat;
+  background-image: url("../media/icons/process/editor/icon-search.png");
+  background-position: center center;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr {
+  border-top: 0.063rem solid #c8ced8;
+  border-bottom: 0.063rem solid #c8ced8;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr:nth-child(even) {
+  background-color: #ffffff;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr:nth-child(odd) {
+  background-color: #eff3f8;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > th, .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table td {
+  height: 2.5rem;
+  vertical-align: middle;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:first-child {
+  padding-left: 0.625rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:last-child {
+  text-align: right;
+  padding-right: 0.625rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table label {
+  height: 0.938rem;
+  margin: 0;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .condition-txt {
+  width: 30%;
+  word-break: break-all;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-txt {
+  width: 50%;
+  word-break: break-all;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 0.3125rem;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-button {
+  display: inline-block;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0.063rem solid #EBEBEB;
+  border-radius: 0.1875rem;
+  background-size: initial;
+  background-repeat: no-repeat;
+  background-image: url("../media/icons/process/editor/icon-clipboard.png");
+  background-position: center center;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-text {
+  visibility: hidden;
+  width: 8.75rem;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 0.375rem;
+  padding: 0.313rem;
+  position: absolute;
+  z-index: 1;
+  bottom: 120%;
+  left: 50%;
+  margin-left: -8.125rem;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-text::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -0.313rem;
+  border-width: 0.313rem;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip:hover .clipboard-tooltip-text {
+  visibility: visible;
+  opacity: 1;
+}
+
+.alice-process-properties-panel div.properties-container div.process-info-container {
+  overflow: hidden;
+  border-top: 0.063rem solid #EBEBEB;
+  margin-top: 1.875rem;
+  padding-top: 0.25rem;
+}
+
+.alice-process-properties-panel div.properties-container div.process-info-container div.info {
+  margin-top: 0.5rem;
+  margin-left: 1.25rem;
+  margin-right: 1.25rem;
+  padding-bottom: 1.3125rem;
+  font-size: 0.688rem;
+}
+
+.alice-process-properties-panel div.properties-container div.process-info-container div.info div.total {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: 500;
+  color: #3F4B56;
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
+.alice-process-properties-panel div.properties-container div.process-info-container div.info table {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  font-weight: 500;
+  color: #586872;
+  margin-top: 0.5rem;
+  width: 100%;
+}
+
+.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr:first-child {
+  border-top: 0.125rem solid #EBEBEB;
+}
+
+.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td {
+  height: 2.4375rem;
+  vertical-align: middle;
+  height: 2.4375rem;
+}
+
+.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td:first-child {
+  padding-left: 0.625rem;
+}
+
+.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td:last-child {
+  text-align: right;
+  padding-right: 0.625rem;
+}
+
+.alice-process-properties-panel div.properties-container div.process-info-container div.info table label {
+  height: 0.938rem;
+  margin: 0;
+}
+
+/* button 공통 */
+button {
+  display: inline-block;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 500;
+  color: #3F4B56;
+  background-color: transparent;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.1875rem;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  opacity: 1;
+  cursor: pointer;
+  padding: 0.4375rem 1.5rem;
+}
+
+button:focus, button:hover {
+  outline: 0;
+  background-color: rgba(230, 230, 230, 0.3);
+}
+
+button:disabled {
+  background-color: #fff;
+  opacity: 0.3;
+  cursor: default;
+}
+
+button:not(:disabled):active {
+  background-color: #EBEBEB;
+}
+
+button.default-line {
+  color: #3F4B56;
+  background-color: #fff;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+button.default-line:focus, button.default-line:hover {
+  outline: 0;
+  background-color: rgba(230, 230, 230, 0.3);
+}
+
+button.default-line:disabled {
+  opacity: 0.3;
+}
+
+button.default-line:not(:disabled):active {
+  background-color: #EBEBEB;
+  border: 0.0625rem solid #CCCED1;
+}
+
+button.default-fill {
+  color: #3F4B56;
+  background-color: #E1E3E6;
+  border: 0.0625rem solid transparent;
+}
+
+button.default-fill:focus, button.default-fill:hover {
+  outline: 0;
+  background-color: #EBEBEB;
+}
+
+button.default-fill:disabled {
+  opacity: 0.3;
+}
+
+button.default-fill:not(:disabled):active {
+  background-color: #CCCED1;
+}
+
+button.point-line {
+  color: #0098FF;
+  background-color: #fff;
+  border: 0.0625rem solid #0098FF;
+}
+
+button.point-line:focus, button.point-line:hover {
+  outline: 0;
+  background-color: rgba(0, 152, 255, 0.1);
+}
+
+button.point-line:disabled {
+  opacity: 0.3;
+}
+
+button.point-line:not(:disabled):active {
+  background-color: #33ADFF;
+  opacity: 0.3;
+}
+
+button.point-fill {
+  color: #fff;
+  background-color: #0098FF;
+  border: 0.0625rem solid transparent;
+}
+
+button.point-fill:focus, button.point-fill:hover {
+  outline: 0;
+  background-color: #33ADFF;
+}
+
+button.point-fill:disabled {
+  opacity: 0.3;
+}
+
+button.point-fill:not(:disabled):active {
+  background-color: #0088E6;
+}
+
+button.default-point-line {
+  color: #3F4B56;
+  background-color: #fff;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+button.default-point-line span.icon {
+  display: inline-block;
+  background: #CCCED1;
+}
+
+button.default-point-line:focus, button.default-point-line:hover {
+  outline: 0;
+  border-color: #0098FF;
+}
+
+button.default-point-line:focus span.icon, button.default-point-line:hover span.icon {
+  background: #0098FF;
+}
+
+button.default-point-line:disabled {
+  opacity: 0.3;
+}
+
+button.default-point-line:not(:disabled):active {
+  background-color: #fff;
+  border-color: #0098FF;
+}
+
+button.default-point-line:not(:disabled):active span.icon {
+  background: #EBEBEB;
+}
+
+.button-group {
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+}
+
+.button-group button {
+  flex: 1 1 auto;
+  color: #3F4B56;
+  background-color: #fff;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+.button-group button:first-child {
+  margin-left: 0;
+}
+
+.button-group button span.icon {
+  display: inline-block;
+  background: #3F4B56;
+}
+
+.button-group button.active {
+  color: #0098FF;
+  border-color: #0098FF;
+  background-color: #fff;
+}
+
+.button-group button.active span.icon {
+  background: #0098FF;
+}
+
+.button-group button.active + button {
+  border-left-color: #0098FF;
+}
+
+.button-group button:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.button-group button:not(:last-of-type) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-color: transparent;
+}
+
+.button-group-toggle button {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+.button-group-toggle button span.icon {
+  background: #ACB4BF;
+}
+
+.button-group-toggle button.active {
+  color: #0098FF;
+  background-color: #fff;
+  border-color: #0098FF;
+}
+
+.button-group-toggle button.active span.icon {
+  background: #0098FF;
+}
+
+.button-group-toggle button:focus span.icon, .button-group-toggle button:hover span.icon {
+  background: #3F4B56;
+}
+
+.button-group-toggle button:not(:last-child) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-color: transparent;
+}

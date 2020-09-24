@@ -68,7 +68,7 @@ class AliceFileService(
     private val allowedImageExtensions = listOf("png", "gif", "jpg", "jpeg")
     private val fileUploadRootDirectory = "uploadRoot"
     private val processAttachFileRootDirectory = this.imagesRootDirectory
-    private val documentIconRootDirector = "public/assets/media/image/document"
+    private val documentIconRootDirector = "public/assets/media/images/document"
 
     /**
      * 파일 허용 확장자 목록 가져오기

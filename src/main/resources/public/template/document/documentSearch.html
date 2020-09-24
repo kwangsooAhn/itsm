@@ -7,7 +7,7 @@
     <title th:text="#{document.label.list}"></title>
 </head>
 <th:block layout:fragment="cssLink">
-    <link th:href="@{/assets/css/form-designer.css}" rel="stylesheet"/>
+    <link th:href="@{/assets/css/form.css}" rel="stylesheet"/>
 </th:block>
 <th:block layout:fragment="scriptLink">
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
@@ -131,7 +131,7 @@
             divDocumentIcon.className = 'document-icon';
 
             let imgDocumentIcon = document.createElement('img');
-            imgDocumentIcon.src = '/assets/media/image/document/' + data.documentIcon;
+            imgDocumentIcon.src = '/assets/media/images/document/' + data.documentIcon;
             divDocumentIcon.appendChild(imgDocumentIcon);
 
             divDocumentCard.appendChild(h3Card);

@@ -75,9 +75,6 @@
                         <input id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                     </div>
-                    <div class="form-set">
-                        <label class="required" th:text="${path}" for="userId"></label>
-                    </div>
                 </div>
                 <div class="column-6">
                     <div class="form-set avatar-edit-contents">
@@ -180,11 +177,6 @@
                     dropZoneMaxFiles: 1,
                     acceptedFiles: '.png,.jpeg,.jpg,.gif',
                     enableImageThumbnails: true,
-                    thumbnailWidth: 300,
-                    thumbnailHeight: 300,
-                    dictDefaultMessage: 'Drop files here to upload',
-                    clickableLineMessage: 'or ',
-                    clickableMessage: 'browse',
                     avatar: {
                         id: [[${users?.avatarId}]],
                         path: [[${users?.avatarPath}]],
