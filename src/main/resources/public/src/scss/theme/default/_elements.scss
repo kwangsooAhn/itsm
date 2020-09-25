@@ -90,6 +90,7 @@ input {
     &.search {
         background: url($icon-folder-path + "icon_search.svg") no-repeat center right;
         background-color: $element-background-color;
+        padding-right: 1.875rem; // 30px
     }
     &.search-datetime {
         background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%;

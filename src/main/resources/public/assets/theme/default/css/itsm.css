@@ -328,6 +328,7 @@ input:disabled {
 input.search {
   background: url("../media/icons/icon_search.svg") no-repeat center right;
   background-color: #FFFFFF;
+  padding-right: 1.875rem;
 }
 
 input.search-datetime {
