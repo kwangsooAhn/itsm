@@ -11,7 +11,6 @@ import javax.validation.ConstraintValidatorContext
 import javax.validation.Payload
 import kotlin.reflect.KClass
 
-
 /**
  * 문자열에 url 호출시 허용하지 않는 특수문자가 포함되어 있는지 확인한다.
  */
