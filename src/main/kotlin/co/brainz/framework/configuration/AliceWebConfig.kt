@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.context.support.ResourceBundleMessageSource
 import org.springframework.core.io.ClassPathResource
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean
 import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.LocaleResolver
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor
@@ -30,6 +31,12 @@ class AliceWebConfig {
 
     @Value("\${server.ssl.trust-store-password}")
     private var trustStorePassword = ""
+
+    @Value("\${spring.messages.basename}")
+    private var basename: String = ""
+
+    @Value("\${spring.messages.encoding}")
+    private val encoding: String = ""
 
     // 1. LocaleResolver
     @Bean("localeResolver")
@@ -49,10 +56,7 @@ class AliceWebConfig {
     }
 
     @Bean("messageSource")
-    fun messageSource(
-        @Value("\${spring.messages.basename}") basename: String,
-        @Value("\${spring.messages.encoding}") encoding: String
-    ): MessageSource {
+    fun messageSource(): MessageSource {
         class YamlMessageSource : ResourceBundleMessageSource() {
             @Throws(MissingResourceException::class)
             override fun doGetBundle(basename: String, locale: Locale): ResourceBundle {
@@ -67,6 +71,13 @@ class AliceWebConfig {
         ms.setUseCodeAsDefaultMessage(true)
         ms.setFallbackToSystemLocale(true)
         return ms
+    }
+
+    @Bean("validator")
+    fun validator(): LocalValidatorFactoryBean {
+        val bean = LocalValidatorFactoryBean()
+        bean.setValidationMessageSource(this.messageSource())
+        return bean
     }
 
     @Bean

@@ -1,18 +1,20 @@
 @charset "UTF-8";
 /*
+ * default itsm.scss
  * Copyright 2020 Brainzcompany Co., Ltd.
  * https://www.brainz.co.kr
  */
 /* _reset.scss 
  *
  * 파일 경로 : template/_reset.scss
- * @description CSS Reset
- * @author http://meyerweb.com/eric/tools/css/reset/
- * @vertionn 2.0 | 20110126
- * License: none (public domain)
+ * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
+ * @author wdj
+ * @vertionn 1.0
  */
+*,
 *::before,
 *::after {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -37,7 +39,6 @@ time, mark, audio, video {
   vertical-align: baseline;
 }
 
-/* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
   display: block;
@@ -66,39 +67,8 @@ table {
   border-spacing: 0;
 }
 
-input, button, select, optgroup, textarea {
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  line-height: inherit;
-}
-
-a:link {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:visited {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-a:active {
-  text-decoration: none;
-}
-
-button {
-  background: inherit;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-  overflow: visible;
-  cursor: pointer;
+template {
+  display: none;
 }
 
 /* _fonts.scss 
@@ -148,6 +118,83 @@ button {
   src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
   font-style: normal;
   font-weight: 900;
+}
+
+/* _elements.scss 
+ *
+ * 파일 경로 : template/_elements.scss
+ * @description HTML element 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1;
+  margin: 0;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
+}
+
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1;
+  margin: 0;
+}
+
+a:link {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
+}
+
+button {
+  background: inherit;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
+  padding: 0;
+  overflow: visible;
+  cursor: pointer;
 }
 
 body, h1, h2, h3, h4, h5, h6, input, textarea, select, button, div, span {
@@ -840,6 +887,25 @@ span.vertical-bar {
 .container-document .token-info-contents .token-tag {
   display: none;
   margin-top: 1.25rem;
+}
+
+.container-document .token-info-contents .token-tag .tag-input tags > span {
+  min-width: 26.875rem;
+}
+
+.container-document .token-info-contents .token-tag .tag-input tag div {
+  background: rgba(229,	229, 229, 1);
+  max-width: 27.6875rem;
+  border-radius: 0.1875rem;
+}
+
+.container-document .token-info-contents .token-tag .tag-input tag div:hover {
+  background: rgba(211, 226, 226, 1);
+}
+
+.container-document .token-info-contents .token-tag .tag-input tag span {
+  max-width: 26.875rem;
+  white-space: pre-line;
 }
 
 .container-document .token-info-contents .token-history {

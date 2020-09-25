@@ -1,4 +1,14 @@
-@import "form.core";
+/*
+ * documnent.scss
+ * 
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+ @charset 'utf-8';
+
+ @import '../template/_reset.scss';
+ @import '_variables.scss';
+ @import '_elements.scss';
 
 .drawing-board {
     display: flex; 
@@ -88,6 +98,10 @@
             white-space: nowrap;
         }
     }
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
 }
 
 .validate-error {
