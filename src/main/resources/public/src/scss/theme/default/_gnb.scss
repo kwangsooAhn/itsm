@@ -132,8 +132,12 @@
 .logo {
     width: $logo-width;
     height: $logo-height;
-    background: $menu-bg-color url($icon-folder-path + "icon_menu_open_logo.png") no-repeat 1.25rem center; // 20px
+    background-color: $menu-bg-color;
     position: fixed;
+
+    .navigation-logo {
+      padding: 15px 20px 15px 20px;; // 15px 20px 15px 20px;
+    }
 }
 
 .menu {

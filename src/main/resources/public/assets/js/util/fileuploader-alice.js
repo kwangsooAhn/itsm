@@ -32,16 +32,12 @@ const fileUploader = (function () {
     }
 
     const setFileIcon = function (fileName, isView) {
-        if (isView) {
-            return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '_s.svg")';
+        if (getExtension(fileName) === 'xml') {
+            return '/assets/media/icons/dropzone/icon_document_txt.svg';
         } else {
-            if (getExtension(fileName) === 'xml') {
-                return 'url("/assets/media/icons/dropzone/icon_document_txt.svg")';
-            } else {
-                return 'url("/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg")';
-            }
+            return '/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg';
         }
-    }
+    };
 
     /**
      * 호출하는 곳에서 전달하는 파라미터를 내부에서 사용할 수 있도록 셋업한다.
@@ -163,7 +159,7 @@ const fileUploader = (function () {
         progressData.dataset.dzUploadprogress = '';
         progressData.className = 'dz-upload';
 
-        const fileType = document.createElement('div');
+        const fileType = document.createElement('img');
         fileType.className = 'dz-file-type';
         const remove = document.createElement('div');
         remove.className = 'dz-remove';
@@ -354,9 +350,9 @@ const fileUploader = (function () {
                             }
 
                             // 파일 목록 생성
-                            const fileType = document.createElement('div');
+                            const fileType = document.createElement('img');
                             fileType.className = 'dz-file-type';
-                            fileType.style.backgroundImage = setFileIcon(file.originName, extraParam.isView);
+                            fileType.src = setFileIcon(file.originName, extraParam.isView);
 
                             const fileName = document.createElement('div');
                             fileName.className = 'dz-filename';
@@ -433,7 +429,7 @@ const fileUploader = (function () {
                         if (extraParam.isDropzoneUnder) {
                             dropzoneMessage.style.display = 'none';
                         }
-                        file.previewElement.querySelector('.dz-file-type').style.backgroundImage = setFileIcon(file.name, extraParam.isView);
+                        file.previewElement.querySelector('.dz-file-type').src = setFileIcon(file.name, extraParam.isView);
                         validation(this, file, 'fileUploader');
                         exportFile = file;
                     });

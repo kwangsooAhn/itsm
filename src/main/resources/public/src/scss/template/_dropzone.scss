@@ -301,7 +301,6 @@ $dropzone-point-color:          $point-blue;
                 height: 100%;
                 grid-column: 1;
                 grid-row: 1 / span 2;
-                @include background ("icon_document_txt.svg", null, null, null, null, null);
             }
         }
 
