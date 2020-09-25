@@ -3,6 +3,7 @@ package co.brainz.itsm.code.controller
 import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.service.CodeService
+import javax.validation.Valid
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -40,7 +41,7 @@ class CodeRestController(private val codeService: CodeService) {
      * 코드 데이터 등록
      */
     @PostMapping("/", "")
-    fun createCode(@RequestBody codeDetailDto: CodeDetailDto): String {
+    fun createCode(@RequestBody @Valid codeDetailDto: CodeDetailDto): String {
         return codeService.createCode(codeDetailDto)
     }
 
@@ -48,7 +49,7 @@ class CodeRestController(private val codeService: CodeService) {
      * 코드 데이터 수정
      */
     @PutMapping("/{code}")
-    fun updateCode(@RequestBody codeDetailDto: CodeDetailDto): String {
+    fun updateCode(@RequestBody @Valid codeDetailDto: CodeDetailDto): String {
         return codeService.updateCode(codeDetailDto)
     }
 
