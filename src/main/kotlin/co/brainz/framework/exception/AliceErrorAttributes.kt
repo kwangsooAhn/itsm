@@ -57,15 +57,7 @@ class AliceErrorAttributes(private val messageSource: AliceMessageSource) : Defa
                 errorAttributes["errorInfo"] = jsonToMap["errorInfo"]
             }
             is MethodArgumentNotValidException -> {
-                var message = ""
-                val errors = exception.bindingResult.fieldErrors
-                for (i in errors.indices) {
-                    message += errors[i].defaultMessage ?: ""
-                    if (i < errors.size - 1) {
-                        message += "\n"
-                    }
-                }
-                errorAttributes["message"] = message
+                errorAttributes["message"] = exception.bindingResult.fieldError?.defaultMessage
             }
             else -> {
                 var throwable = exception.cause
