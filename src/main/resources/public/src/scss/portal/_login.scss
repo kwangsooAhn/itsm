@@ -63,7 +63,7 @@
             width: 100%;
 
             &-icon {
-                background-image: url($image-folder-path + "login/icon_google.png");
+                background-image: url($icon-folder-path + "login/icon_login_google.svg");
                 background-size: 1.188rem; // 19px
                 background-repeat: no-repeat;
                 background-position-y: center;
@@ -78,7 +78,7 @@
             width: 100%;
 
             &-icon {
-                background-image: url($image-folder-path + "login/icon_kakao.png");
+                background-image: url($icon-folder-path + "login/icon_login_kakao.svg");
                 background-size: 1.188rem; // 19px
                 background-repeat: no-repeat;
                 background-position-y: center;

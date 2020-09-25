@@ -232,6 +232,10 @@ insert into awf_code values ('user.date.yyyymmdd', 'user.date', 'yyyy-MM-dd', nu
 insert into awf_code values ('user.default', 'user', null, '기본 값', null, false, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('user.default.role', 'user.default', null, '기본 역할', null, false, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('user.default.role.users.general', 'user.default.role', 'users.general', '역할 - 사용자 일반', null, false, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('user.default.url', 'user.default', null, '기본 URL', null, false, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('user.default.url.dashboard', 'user.default.url', '/dashboard/view', '개인 현황판 URL', null, true, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('user.default.menu', 'user.default', null, '기본 메뉴', null, false, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('user.default.menu.dashboard', 'user.default.menu', 'dashboard', '개인 현황판 메뉴 아이디', null, true, 5, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('user.department', 'user', null, '부서', null, false, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('user.extensionNumber', 'user', null, '내선번호', null, false, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('user.id', 'user', null, '아이디', null, false, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);

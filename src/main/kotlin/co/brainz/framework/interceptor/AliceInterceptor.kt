@@ -1,5 +1,6 @@
 package co.brainz.framework.interceptor
 
+import co.brainz.framework.auth.dto.AliceMenuDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.constants.AliceConstants
@@ -108,13 +109,18 @@ class AliceInterceptor(
         }
 
         val requestUrl = request.requestURI
-        val menuEntity = aliceMenuRepository.findAliceMenuEntityByUrl(requestUrl)
-        if (menuEntity.isPresent) {
-            val session = request.getSession(true)
-            session.setAttribute("active_url_parent", menuEntity.get().pMenuId)
-            session.setAttribute("active_url", menuEntity.get().url)
+        val session = request.getSession(false)
+        if (session != null) {
+            if (session.getAttribute("menu") != null) {
+                val menuList: MutableList<AliceMenuDto> = session.getAttribute("menu") as MutableList<AliceMenuDto>
+                menuList.forEach { menu ->
+                    if (menu.url == requestUrl) {
+                        session.setAttribute("active_url_parent", menu.pMenuId)
+                        session.setAttribute("active_url", menu.url)
+                    }
+                }
+            }
         }
-
         var requestInfo = request.method + "|URI:" + request.requestURI
         if (modelAndView != null) {
             requestInfo += "|Viewname: " + modelAndView.viewName

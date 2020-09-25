@@ -113,7 +113,7 @@ input {
         border-radius: 0.0625rem; // 1px
     }
     &.search {
-        background: url($image-folder-path + "portalSearch/icon_search.png") no-repeat 100%-3;
+        background: url($icon-folder-path + "icon_search.svg") no-repeat 100%-3;
         background-color: $element-background-color;
     }
     &.search-date {

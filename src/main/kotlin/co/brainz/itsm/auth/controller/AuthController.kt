@@ -1,6 +1,8 @@
 package co.brainz.itsm.auth.controller
 
+import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.itsm.auth.service.AuthService
+import co.brainz.itsm.code.service.CodeService
 import javax.servlet.http.HttpServletRequest
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -10,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @RequestMapping("/auths")
 @Controller
-class AuthController(private val authService: AuthService) {
+class AuthController(
+    private val authService: AuthService,
+    private val codeService: CodeService
+) {
 
     val logger = LoggerFactory.getLogger(AuthController::class.java)
     private val authEditPage: String = "auth/authEdit"
@@ -22,8 +27,13 @@ class AuthController(private val authService: AuthService) {
     @GetMapping("/edit", "")
     fun getRolelist(request: HttpServletRequest, model: Model): String {
 
+        val defaultUserMenuList = codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code)
+        val defaultUserUrlList = codeService.selectCodeByParent(AliceUserConstants.DefaultUrl.USER_DEFAULT_URL.code)
         val menuAllList = authService.getMenuList()
         val urlAllList = authService.getUrlList()
+
+        model.addAttribute("defaultUserMenuList", defaultUserMenuList)
+        model.addAttribute("defaultUserUrlList", defaultUserUrlList)
         model.addAttribute("menuList", menuAllList)
         model.addAttribute("urlList", urlAllList)
 

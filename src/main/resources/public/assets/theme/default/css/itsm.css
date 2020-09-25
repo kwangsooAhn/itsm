@@ -328,6 +328,7 @@ input:disabled {
 input.search {
   background: url("../media/icons/icon_search.svg") no-repeat center right;
   background-color: #FFFFFF;
+  padding-right: 1.875rem;
 }
 
 input.search-datetime {
@@ -2838,8 +2839,12 @@ span.vertical-bar {
 .logo {
   width: 13.75rem;
   height: 3.8125rem;
-  background: #333D47 url("../media/icons/icon_menu_open_logo.png") no-repeat 1.25rem center;
+  background-color: #333D47;
   position: fixed;
+}
+
+.logo .navigation-logo {
+  padding: 15px 20px 15px 20px;
 }
 
 .menu {

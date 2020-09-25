@@ -1,37 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/popupLayout">
 <head>
     <title th:text="#{form.label.detail}"></title>
-    <th:block th:replace="layout/fragments/commonHead"></th:block>
-    <!-- 임시 style -->
-    <style>
-        table th {
-            text-align: left;
-        }
-        table td > input, textarea, select {
-            width: 500px;
-        }
-    </style>
 </head>
 <body>
-    <div style="margin: 10px 0 0 10px;">
-        <table>
-            <tr>
-                <th th:text="|#{form.label.name} *|"></th>
-            </tr>
-            <tr>
-                <td><span th:text="${formInfo?.name}"></span></td>
-            </tr>
-            <tr>
-                <th th:text="#{form.label.description}"></th>
-            </tr>
-            <tr>
-                <td><span th:text="${formInfo?.desc}"></span></td>
-            </tr>
-        </table>
-        <div>
-            <button type="button" th:text="#{common.btn.close}" onclick="window.close();"></button>
+<th:block layout:fragment="content">
+    <div class="edit">
+        <h3 class="under-bar" th:text="#{form.label.detail}"></h3>
+        <div class="form-set">
+            <label th:text="#{form.label.name}"></label>
+            <span id="form_name" th:text="${formInfo?.name}"/>
+        </div>
+        <div class="form-set">
+            <label th:text="#{form.label.description}"></label>
+            <textarea id="form_desc" th:text="${formInfo?.desc}" class="textarea-scroll-wrapper" disabled/>
+        </div>
+        <div class="horizontal-bar"></div>
+        <div class="btn-bar">
+            <button class="default-fill" th:attr="onclick=|window.close()|" th:text="#{common.btn.close}"></button>
         </div>
     </div>
+</th:block>
+<th:block layout:fragment="pageScript">
+    <script type="text/javascript">
+        /*<![CDATA[*/
+        window.onload = function() {
+            document.getElementById('form_name').focus();
+            OverlayScrollbars(document.getElementById('form_desc'), { className: 'scrollbar' });
+        }
+        /*]]>*/
+    </script>
 </body>
 </html>
