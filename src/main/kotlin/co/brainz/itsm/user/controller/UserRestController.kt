@@ -23,6 +23,7 @@ import co.brainz.itsm.user.service.UserService
 import java.util.Locale
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import javax.validation.Valid
 import kotlin.random.Random
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
@@ -62,7 +63,7 @@ class UserRestController(
      * 사용자를 등록한다.
      */
     @PostMapping("/", "")
-    fun createUser(@RequestBody aliceSignUpDto: AliceSignUpDto): String {
+    fun createUser(@RequestBody @Valid aliceSignUpDto: AliceSignUpDto): String {
         val fromNum = 1000000000
         val toNum = 9999999999
         val randomNumber = Random.nextLong(toNum - fromNum) + fromNum

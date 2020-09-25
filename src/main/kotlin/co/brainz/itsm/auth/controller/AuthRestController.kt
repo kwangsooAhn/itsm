@@ -3,6 +3,7 @@ package co.brainz.itsm.auth.controller
 import co.brainz.framework.auth.entity.AliceAuthEntity
 import co.brainz.itsm.auth.dto.AuthDto
 import co.brainz.itsm.auth.service.AuthService
+import javax.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -42,7 +43,7 @@ class AuthRestController(private val authService: AuthService) {
      * 권한 등록
      */
     @PostMapping("/", "")
-    fun createAuth(@RequestBody auth: AuthDto): String {
+    fun createAuth(@RequestBody @Valid auth: AuthDto): String {
         return authService.createAuth(auth)
     }
 
@@ -50,7 +51,7 @@ class AuthRestController(private val authService: AuthService) {
      * 권한 수정
      */
     @PutMapping("/{authId}")
-    fun updateAuth(@RequestBody auth: AuthDto): String {
+    fun updateAuth(@RequestBody @Valid auth: AuthDto): String {
         return authService.updateAuth(auth)
     }
 

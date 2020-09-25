@@ -1,5 +1,6 @@
 package co.brainz.framework.exception
 
+import co.brainz.framework.util.AliceMessageSource
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinModule
@@ -8,6 +9,7 @@ import java.lang.reflect.UndeclaredThrowableException
 import org.slf4j.LoggerFactory
 import org.springframework.boot.web.servlet.error.DefaultErrorAttributes
 import org.springframework.stereotype.Component
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.client.HttpStatusCodeException
 import org.springframework.web.context.request.WebRequest
 
@@ -24,7 +26,7 @@ import org.springframework.web.context.request.WebRequest
  * info: 기타 추가로 넘겨줄 정보
  */
 @Component
-class AliceErrorAttributes : DefaultErrorAttributes() {
+class AliceErrorAttributes(private val messageSource: AliceMessageSource) : DefaultErrorAttributes() {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     override fun getErrorAttributes(webRequest: WebRequest, includeStackTrace: Boolean): MutableMap<String, Any?> {
@@ -54,6 +56,9 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                 errorAttributes["exceptionType"] = jsonToMap["exceptionType"]
                 errorAttributes["errorInfo"] = jsonToMap["errorInfo"]
             }
+            is MethodArgumentNotValidException -> {
+                errorAttributes["message"] = exception.bindingResult.fieldError?.defaultMessage
+            }
             else -> {
                 var throwable = exception.cause
                 var msg = ""
@@ -61,7 +66,7 @@ class AliceErrorAttributes : DefaultErrorAttributes() {
                     msg += "\n" + throwable.message
                     throwable = throwable.cause
                 }
-                errorAttributes["message"] = msg
+                errorAttributes["message"] = errorAttributes["message"] ?: msg
             }
         }
         logger.error("Error attribute {}", errorAttributes)

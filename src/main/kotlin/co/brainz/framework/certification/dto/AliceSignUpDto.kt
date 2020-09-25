@@ -5,9 +5,11 @@
 
 package co.brainz.framework.certification.dto
 
+import co.brainz.framework.validator.CheckUnacceptableCharInUrl
 import java.io.Serializable
 
 data class AliceSignUpDto(
+    @CheckUnacceptableCharInUrl
     var userId: String,
     var userName: String,
     var password: String?,
