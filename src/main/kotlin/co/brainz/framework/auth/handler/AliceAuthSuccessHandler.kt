@@ -1,6 +1,8 @@
 package co.brainz.framework.auth.handler
 
+import co.brainz.framework.auth.dto.AliceMenuDto
 import co.brainz.framework.auth.dto.AliceUserDto
+import co.brainz.framework.auth.repository.AliceMenuRepository
 import java.util.Locale
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -20,7 +22,8 @@ import org.springframework.web.servlet.LocaleResolver
  */
 @Component
 class AliceAuthSuccessHandler(
-    private val localeResolver: LocaleResolver
+    private val localeResolver: LocaleResolver,
+    private val aliceMenuRepository: AliceMenuRepository
 ) : SimpleUrlAuthenticationSuccessHandler() {
 
     private val thisLogger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -52,6 +55,19 @@ class AliceAuthSuccessHandler(
                 super.onAuthenticationSuccess(request, response, authentication)
             }
             else -> {
+                val menuEntities = aliceMenuRepository.findAll()
+                val menuList = mutableListOf<AliceMenuDto>()
+                menuEntities.forEach { menu ->
+                    menuList.add(
+                        AliceMenuDto(
+                            menuId = menu.menuId,
+                            pMenuId = menu.pMenuId,
+                            url = menu.url
+                        )
+                    )
+                }
+                session.setAttribute("menu", menuList)
+
                 val redirectUrl = session.getAttribute("redirectUrl")
                 if (redirectUrl != null) {
                     session.removeAttribute("redirectUrl")
