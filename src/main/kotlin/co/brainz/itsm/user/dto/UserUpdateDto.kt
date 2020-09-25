@@ -5,10 +5,12 @@
 
 package co.brainz.itsm.user.dto
 
+import co.brainz.framework.validator.CheckUnacceptableCharInUrl
 import java.io.Serializable
 
 data class UserUpdateDto(
     var userKey: String,
+    @CheckUnacceptableCharInUrl
     var userId: String,
     var userName: String?,
     var password: String?,

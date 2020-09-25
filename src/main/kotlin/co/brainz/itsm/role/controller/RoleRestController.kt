@@ -3,6 +3,7 @@ package co.brainz.itsm.role.controller
 import co.brainz.itsm.role.dto.RoleDto
 import co.brainz.itsm.role.dto.RoleListDto
 import co.brainz.itsm.role.service.RoleService
+import javax.validation.Valid
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -42,7 +43,7 @@ class RoleRestController(private val roleService: RoleService) {
      * 역할 등록 한다.
      */
     @PostMapping("/", "")
-    fun insertRole(@RequestBody role: RoleDto): String {
+    fun insertRole(@RequestBody @Valid role: RoleDto): String {
         return roleService.insertRole(role)
     }
 
@@ -50,7 +51,7 @@ class RoleRestController(private val roleService: RoleService) {
      * 역할 수정 한다.
      */
     @PutMapping("/{roleId}")
-    fun updateRole(@RequestBody role: RoleDto): String {
+    fun updateRole(@RequestBody @Valid role: RoleDto): String {
         return roleService.updateRole(role)
     }
 
