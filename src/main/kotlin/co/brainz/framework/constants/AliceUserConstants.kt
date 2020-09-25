@@ -139,6 +139,20 @@ object AliceUserConstants {
     }
 
     /**
+     * 사용자 기본 메뉴.
+     */
+    enum class DefaultMenu(val code: String) {
+        USER_DEFAULT_MENU("user.default.menu")
+    }
+
+    /**
+     * 사용자 기본 URL
+     */
+    enum class DefaultUrl(val code: String) {
+        USER_DEFAULT_URL("user.default.url")
+    }
+
+    /**
      * 사용자 접근 플랫폼.
      */
     enum class Platform(val code: String, val value: String) {
