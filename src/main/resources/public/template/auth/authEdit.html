@@ -363,11 +363,11 @@
             aliceJs.sendXhr(opt);
         }
 
-        function onGetDetail(roleId) {
+        function onGetDetail(authId) {
             const opt = {
                 method: 'get',
                 async: false,
-                url: '/rest/auths/' +  roleId,
+                url: '/rest/auths/' +  authId,
                 callbackFunc: function(response) {
                     let responseJson = JSON.parse(response.responseText)[0];
                     document.getElementById('txtAuthId').value = responseJson.authId;
@@ -422,7 +422,7 @@
         }
 
         function sortMenuList() {
-            var menuList = document.getElementById("menuList");
+            let menuList = document.getElementById("menuList");
             var switching = true;
             var liTag, switchLiTag;
 
