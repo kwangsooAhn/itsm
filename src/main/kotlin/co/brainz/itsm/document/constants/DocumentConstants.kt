@@ -15,7 +15,7 @@ object DocumentConstants {
     /**
      * default document icon.
      */
-    const val DEFAULT_DOCUMENT_ICON = "document_icon_01.png"
+    const val DEFAULT_DOCUMENT_ICON = "img_document_01.png"
 
     /**
      * document type.

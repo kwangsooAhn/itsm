@@ -68,7 +68,7 @@ object AliceUserConstants {
     /**
      * 사용자 아바타 기본 파일명
      */
-    const val AVATAR_BASIC_FILE_NAME: String = "default_profile.jpg"
+    const val AVATAR_BASIC_FILE_NAME: String = "img_avatar_01.png"
 
     /**
      * 사용자 아바타 이미지 임시 경로

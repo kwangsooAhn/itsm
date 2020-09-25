@@ -331,22 +331,22 @@ input.search {
 }
 
 input.search-datetime {
-  background: url("../media/icons/icon_calendar.png") no-repeat 95% 50%;
+  background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
   background-color: #FFFFFF;
 }
 
 input.search-date {
-  background: url("../media/icons/icon_calendar.png") no-repeat 95% 50%;
+  background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
   background-color: #FFFFFF;
 }
 
 input.search-time {
-  background: url("../media/icons/icon_calendar.png") no-repeat 95% 50%;
+  background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
   background-color: #FFFFFF;
 }
 
 input.date {
-  background: url("../media/icons/icon_calendar.png") no-repeat calc(100% - 10px) 50%;
+  background: url("../media/icons/icon_calendar.svg") no-repeat calc(100% - 10px) 50%;
   background-color: #FFFFFF;
 }
 
@@ -894,13 +894,13 @@ span.vertical-bar {
 }
 
 .container-document .token-info-contents .token-tag .tag-input tag div {
-  background: rgba(229,	229, 229, 1);
+  background: #e5e5e5;
   max-width: 27.6875rem;
   border-radius: 0.1875rem;
 }
 
 .container-document .token-info-contents .token-tag .tag-input tag div:hover {
-  background: rgba(211, 226, 226, 1);
+  background: #d3e2e2;
 }
 
 .container-document .token-info-contents .token-tag .tag-input tag span {
@@ -2007,7 +2007,7 @@ span.vertical-bar {
 }
 
 .container .contents-tree-edit > .edit-area .form-set .date-icon {
-  background: url("../media/icons/icon_calendar.png") no-repeat 95% 50%;
+  background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
   background-color: #F7F8F9;
 }
 
@@ -2728,15 +2728,11 @@ span.vertical-bar {
   height: 3.125rem;
   width: 100%;
   cursor: pointer;
-}
-
-.navigation-config .notification-menu svg {
-  margin: 0.5rem 0 0.5rem 1.25rem;
-  fill: #929AA6;
+  padding: 0.5rem 0 0.5rem 1.25rem;
 }
 
 .navigation-config .notification-menu .notification-num {
-  margin: 1rem 0 1rem 1rem;
+  margin: 0.3125rem 1rem;
   padding: 0.125rem 0.625rem;
   border-radius: 1.25rem;
   background-color: #929AA6;
@@ -2827,8 +2823,8 @@ span.vertical-bar {
   width: 27px;
   height: 27px;
   background: #929AA6;
-  -webkit-mask: url("../media/icons/icon_logout.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_logout.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_logout.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_logout.svg");
   mask-repeat: no-repeat;
   mask-position: center;
   margin-left: 1.25rem;
@@ -2983,48 +2979,48 @@ span.vertical-bar {
 }
 
 .icon-gnb-board {
-  -webkit-mask: url("../media/icons/icon_gnb_board.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_board.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_board.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_board.svg");
 }
 
 .icon-gnb-dashboard {
-  -webkit-mask: url("../media/icons/icon_gnb_dashboard.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_dashboard.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_dashboard.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_dashboard.svg");
 }
 
 .icon-gnb-document {
-  -webkit-mask: url("../media/icons/icon_gnb_document.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_document.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_document.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_document.svg");
 }
 
 .icon-gnb-download {
-  -webkit-mask: url("../media/icons/icon_gnb_download.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_download.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_download.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_download.svg");
 }
 
 .icon-gnb-faq {
-  -webkit-mask: url("../media/icons/icon_gnb_faq.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_faq.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_faq.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_faq.svg");
 }
 
 .icon-gnb-notice {
-  -webkit-mask: url("../media/icons/icon_gnb_notice.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_notice.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_notice.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_notice.svg");
 }
 
 .icon-gnb-config {
-  -webkit-mask: url("../media/icons/icon_gnb_config.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_config.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_config.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_config.svg");
 }
 
 .icon-gnb-workflow {
-  -webkit-mask: url("../media/icons/icon_gnb_workflow.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_workflow.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_workflow.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_workflow.svg");
 }
 
 .icon-gnb-token {
-  -webkit-mask: url("../media/icons/icon_gnb_token.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_token.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_token.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_token.svg");
 }
 
 /* 알림 임시 css */

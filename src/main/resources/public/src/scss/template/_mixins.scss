@@ -1,1 +1,38 @@
 // 공통으로 사용하고자 하는 디자인 묶음을 mixin으로 정의합니다.
+
+@mixin keyframe($animation_name) {
+  @-webkit-keyframes #{$animation_name} {
+    @content;
+  }
+
+  @-moz-keyframes #{$animation_name} {
+    @content;
+  }
+
+  @-o-keyframes #{$animation_name} {
+    @content;
+  }
+
+  @keyframes #{$animation_name} {
+    @content;
+  }
+}
+
+@mixin animation($delay, $duration, $name, $timing, $count:1) {
+  animation-delay: $delay;
+  animation-duration: $duration;
+  animation-name: $name;
+  animation-timing-function: $timing;
+  animation-iteration-count: $count;
+}
+
+@mixin background($path, $size, $repeat, $posX, $posY, $color) {
+  background-image: url($path);
+  background-size: if($size == null, auto, $size);
+  background-repeat: if($repeat == null, no-repeat, $repeat);
+  background-position-x: if($posX == null, center, $posX);
+  background-position-y: if($posY == null, center, $posY);
+  @if ($color != null) {
+    background-color: $color;
+  }
+}

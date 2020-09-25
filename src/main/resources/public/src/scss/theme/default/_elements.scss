@@ -92,19 +92,19 @@ input {
         background-color: $element-background-color;
     }
     &.search-datetime {
-        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%;
+        background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
         background-color: $element-background-color;
     }
     &.search-date {
-        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%;
+        background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
         background-color: $element-background-color;
     }
     &.search-time {
-        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%;
+        background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
         background-color: $element-background-color;
     }
     &.date {
-        background: url($icon-folder-path + "icon_calendar.png") no-repeat calc(100% - 10px) 50%;
+        background: url($icon-folder-path + "icon_calendar.svg") no-repeat calc(100% - 10px) 50%;
         background-color: $element-background-color;
     }
     &.px {
