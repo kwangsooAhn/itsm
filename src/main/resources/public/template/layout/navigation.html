@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <body>
-<div class="logo"></div>
+<div class="logo">
+    <img class="navigation-logo" th:src="@{/assets/theme/{theme}/media/icons/(theme=${#authentication.details.theme})} + 'icon_logo.svg'" width="174.72" height="25" alt="Zenius ITSM">
+</div>
 <div class="navigation">
     <div class="breadcrumb">
     </div>

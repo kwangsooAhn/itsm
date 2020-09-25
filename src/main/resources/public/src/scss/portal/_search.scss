@@ -51,7 +51,7 @@
                 font-weight: 400;
                 font-size: 0.938rem; // 15px
                 &.icon {
-                    background-image: url($image-folder-path + "portalSearch/icon_search.png");
+                    background-image: url($icon-folder-path + "icon_search.svg");
                     background-position: 38.0625rem; // 609px
                     background-repeat: no-repeat;
                 }
@@ -248,15 +248,15 @@
                         background-position-y: center;
                         margin-right: 0.938rem; // 15px
                         &.notice {
-                            background-image: url($image-folder-path + "portal/graphic_notice.png");
+                            background-image: url($image-folder-path + "portal/img_portal_notice.png");
                         }
 
                         &.faq {
-                            background-image: url($image-folder-path + "portal/graphic_faq.png");
+                            background-image: url($image-folder-path + "portal/img_portal_faq.png");
                         }
 
                         &.download {
-                            background-image: url($image-folder-path + "portal/graphic_download.png");
+                            background-image: url($image-folder-path + "portal/img_portal_download.png");
                         }
                     }
 
