@@ -205,6 +205,25 @@ span.vertical-bar {
                     &-tag {
                         display: none;
                         margin-top: 1.25rem; // 20px
+                        .tag-input {
+                            tags > span {
+                                min-width: 26.875rem; // 430px
+                            }
+                            tag {
+                                div {
+                                    background: rgba(229, 229, 229, 1);
+                                    max-width: 27.6875rem; // 443px
+                                    border-radius: 0.1875rem; // 3px;
+                                    &:hover {
+                                        background: rgba(211, 226, 226, 1);
+                                    }
+                                }
+                                span {
+                                    max-width: 26.875rem; // 430px
+                                    white-space: pre-line;
+                                }
+                            }
+                        }
                     }
                     &-history {
                         .table {
