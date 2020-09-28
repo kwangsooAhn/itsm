@@ -13,6 +13,8 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
+    <input type="hidden" id="instanceId" th:value="${instanceId}"/>
+    <input type="hidden" id="tokenId" th:value="${tokenId}"/>
     <div class="container-document">
         <div class="contents token-document">
             <div class="button-board-document">
@@ -21,11 +23,8 @@
                 </div>
                 <div>
                     <div class="button-list">
-                        <button type="button" class="default-line" onclick="openProcessStatusPopUp()"
-                                th:text="#{process.label.processMap}"></button>
-                        <button type="button" class="default-line"
-                                th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])"
-                                th:text="#{common.btn.print}"></button>
+                        <button type="button" class="default-line" onclick="openProcessStatusPopUp()" th:text="#{process.label.processMap}"></button>
+                        <button type="button" class="default-line" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])" th:text="#{common.btn.print}"></button>
                     </div>
                     <div id="button-container" class="button-list"></div>
                 </div>
@@ -36,91 +35,7 @@
                 </form>
             </div>
         </div>
-        <div class="token-info">
-            <div class="token-info-tab">
-                <h4 data-target-contents="token-history" th:text="#{token.label.history}"></h4>
-                <h4 data-target-contents="token-related" th:text="#{token.label.relatedInstance}"></h4>
-                <h4 data-target-contents="token-comment" th:text="#{common.label.comment}"></h4>
-                <h4 data-target-contents="token-tag" th:text="#{common.label.tag}"></h4>
-            </div>
-            <div class="token-info-contents">
-                <div class="token-history">
-                    <table class="table table-hover">
-                        <thead>
-                        <tr>
-                            <th width="45%" th:text="#{token.label.startDt}">시작일시</th>
-                            <th width="35%" th:text="#{token.label.elementName}">업무</th>
-                            <th width="20%" th:text="#{token.label.assignee}">담당자</th>
-                        </tr>
-                        </thead>
-                        <tbody id="history" class="list-wrap">
-                        <tr th:each="tokenHistory : ${instanceHistory}">
-                            <td width="45%" class="user-date-time" th:name="tokenDt"
-                                th:text="${tokenHistory.tokenStartDt}"/>
-                            <td width="35%" th:text="${tokenHistory.elementName}"></td>
-                            <td width="20%" th:text="${tokenHistory.assigneeName}"></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="token-related">
-                    <div class="list-item" th:each="rInstance: ${relatedInstance}">
-                        <div class="document-color" th:style="|background-color: ${rInstance.documentColor}|"></div>
-                        <div class="document-row">
-                            <div class="document-row-content">
-                                <a th:onclick="openTokenEdit([[${rInstance.tokenId}]])">
-                                    <div class="document-title">
-                                        <h5 th:text="${rInstance.documentName}"></h5>
-                                        <h5 th:text="${rInstance.documentNo}"></h5>
-                                    </div>
-                                </a>
-                                <button type="button" class="trash-icon" th:onclick="aliceDocument.deleteRelatedDoc({folderId: [[${rInstance.folderId}]], instanceId: [[${rInstance.instanceId}]]})"></button>
-                            </div>
-                            <div class="document-row-topic">
-                                <!--                            <h4 th:each="topic: ${rInstance.topics}" th:text="${topic}"></h4>-->
-                            </div>
-                            <div class="document-row-info">
-                                <div class="document-user">
-                                    <img class="profile-photo" th:src="@{${rInstance.avatarPath}}"/>
-                                    <h5 th:text="${rInstance.instanceCreateUserName}"></h5>
-                                </div>
-                                <span class="vertical-bar"></span>
-                                <h5 class="dateFormatFromNow" th:text="${rInstance.instanceStartDt}"></h5>
-                                <span class="vertical-bar"></span>
-                                <h5 th:text="#{|common.code.token.status.${rInstance.instanceStatus}|}"></h5>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="related-add list-item">
-                        <button class="plus" th:onclick="openPopUp([[${tokenId}]])"></button>
-                    </div>
-                </div>
-                <div id="commentList" class="token-comment">
-                    <div class="list-item" th:each="comment : ${commentList}">
-                        <div class="comment-row-info">
-                            <div class="comment-user">
-                                <img class="profile-photo" th:src="@{${comment.avatarPath}}"/>
-                                <h5 th:text="${comment.createUserName}"></h5>
-                            </div>
-                            <h5 class="user-date-time" th:text="${comment.createDt}"></h5>
-                            <div th:if="${#authentication.details.userKey} == ${comment.createUserKey}">
-                                <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|"
-                                        class="trash-icon"></button>
-                            </div>
-                        </div>
-                        <div class="comment-row">
-                            <span th:text="${comment.content}"></span>
-                        </div>
-                    </div>
-                    <div id="comment-container" class="comment comment-input"></div>
-                </div>
-                <div class="token-tag">
-                    <div class="tag-input">
-                        <input name="tags" id="tags" th:value="|${tagList}|"/>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div class="token-info"></div>
     </div>
 </th:block>
 </body>
@@ -131,89 +46,9 @@
         /*<![CDATA[*/
         window.onload = function () {
             aliceForm.init(aliceDocument.initToken, '[[${tokenId}]]');
-
-            initAddEventListener();
-            initUserDate();
-
-            let tagInput = document.querySelector('input[name=tags]');
-            new Tagify(tagInput, {
-                pattern: /^.{0,100}$/,
-                editTags: false,
-                callbacks: {
-                    'add': onAddTag,
-                    'remove': onRemoveTag
-                },
-                placeholder: '[[#{token.msg.tag}]]'
-            });
-
-            const selectedTab = sessionStorage.getItem('token-info-tab');
-            if (selectedTab !== null) {
-                document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
-            } else {
-                document.querySelector('h4[data-target-contents="token-history"]').click();
-            }
+            aliceDocument.createTokenInfoTab({instanceId: '[[${instanceId}]]', tokenId: '[[${tokenId}]]'});
             OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
-
-            OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
         };
-
-        /**
-         * 이벤트 리스터 등록
-         */
-        function initAddEventListener() {
-            // 탭 동작 이벤트
-            document.querySelectorAll('.token-info-tab > h4').forEach((ele) => {
-                ele.addEventListener('click', (e) => {
-                    // 탭 동작
-                    Array.prototype.filter.call(e.target.parentNode.children, function (child) {
-                        return child !== e.target;
-                    }).forEach((sblingEle) => {
-                        sblingEle.classList.remove('active');
-                    });
-                    e.target.classList.add('active');
-                    // 컨텐츠 내용 동작
-                    let targetElement = document.querySelector('.' + e.target.dataset.targetContents);
-                    if (targetElement != null) {
-                        Array.prototype.filter.call(targetElement.parentNode.children, function (child) {
-                            return child !== targetElement;
-                        }).forEach((sblingEle) => {
-                            sblingEle.style.display = 'none';
-                        });
-                        targetElement.style.display = 'block';
-                    }
-                    // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
-                    sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
-                });
-            });
-        }
-
-        /**
-         * userDateTime으로 변환
-         */
-        function initUserDate() {
-            document.querySelectorAll('.dateFormatFromNow').forEach((ele) => {
-                ele.textContent = dateFormatFromNow(ele.textContent);
-            });
-            document.querySelectorAll('.user-date-time').forEach((element) => {
-                element.textContent = i18n.userDateTime(element.textContent);
-            });
-        }
-
-        function onAddTag(tag) {
-            const jsonData = {
-                tagContent: tag.detail.data.value,
-                instanceId: '[[${instanceId}]]'
-            };
-            restSubmit('POST', '/rest/tags', function () {
-                location.reload();
-            }, jsonData, false);
-        }
-
-        function onRemoveTag(tag) {
-            restSubmit('DELETE', '/rest/tags/' + tag.detail.data.id, function () {
-                location.reload();
-            });
-        }
 
         function openPopUp(tokenId) {
             window.open('/tokens/' + tokenId + '/view-pop', tokenId, 'width=1300, height=670');

@@ -27,7 +27,6 @@ class TokenController(
     private val folderService: FolderService,
     private val tokenService: TokenService
 ) {
-
     private val statusPage: String = "redirect:/certification/status"
     private val tokenSearchPage: String = "token/tokenSearch"
     private val tokenListPage: String = "token/tokenList"
@@ -36,6 +35,7 @@ class TokenController(
     private val tokenPrintPage: String = "token/tokenPrint"
     private val tokenPopUpPage: String = "/token/tokenPopUp"
     private val tokenInstanceListPage: String = "/token/tokenInstanceList"
+    private val tokenEditTab: String = "/token/tokenEditTab"
 
     /**
      * 처리할 문서 리스트 호출 화면.
@@ -73,16 +73,26 @@ class TokenController(
     @GetMapping("{tokenId}/edit")
     fun getDocumentEdit(@PathVariable tokenId: String, model: Model): String {
         model.addAttribute("tokenId", tokenId)
-        model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
-        model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
         val instanceId = instanceService.getInstanceId(tokenId)!!
-        val folderId = folderService.getFolderId(tokenId)
-        model.addAttribute("folderId", folderId)
+        model.addAttribute("folderId", folderService.getFolderId(tokenId))
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("documentNo", instanceService.getInstance(instanceId).documentNo)
+        return tokenEditPage
+    }
+
+    /**
+     * [tokenId] 문서의 오른쪽 정보를 보여주는 탭 정보를 조회한다.
+     */
+    @GetMapping("{tokenId}/edit-tab")
+    fun getDocumentInfoTab(@PathVariable tokenId: String, model: Model): String {
+        val instanceId = instanceService.getInstanceId(tokenId)!!
+        model.addAttribute("instanceId", instanceId)
+        model.addAttribute("folderId", folderService.getFolderId(tokenId))
+        model.addAttribute("instanceHistory", instanceService.getInstanceHistory(tokenId))
+        model.addAttribute("relatedInstance", folderService.getRelatedInstance(tokenId))
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
         model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
-        return tokenEditPage
+        return tokenEditTab
     }
 
     /**

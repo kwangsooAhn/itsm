@@ -546,11 +546,7 @@
         if (data.actions !== undefined) {
             addButton(data.actions);
         }
-
-        //Add Comment Box
-        if (data.instanceId !== undefined) {
-            addCommentBox(data.instanceId);
-        }
+        createTokenInfoTab();
     }
 
     /**
@@ -595,7 +591,7 @@
             contentType: 'application/json',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
-                    location.reload();
+                    createTokenInfoTab();
                 } else {
                     aliceJs.alertDanger(i18n.get('common.msg.fail'));
                 }
@@ -617,7 +613,7 @@
                 callbackFunc: function (xhr) {
                     if (xhr.responseText) {
                         aliceJs.alertSuccess(i18n.get('common.msg.delete'), function () {
-                            location.reload();
+                            createTokenInfoTab();
                         });
                     } else {
                         aliceJs.alertDanger(i18n.get('common.msg.fail'));
@@ -642,7 +638,7 @@
                 callbackFunc: function(xhr) {
                     if (xhr.responseText) {
                         aliceJs.alertSuccess(i18n.get('common.msg.delete'), function() {
-                            location.reload();
+                            createTokenInfoTab();
                         });
                     } else {
                         aliceJs.alertDanger(i18n.get('common.msg.fail'));
@@ -803,6 +799,109 @@
         window.open(url + '/print', '_blank');
     }
 
+    function onAddTag(tag) {
+        const jsonData = {
+            tagContent: tag.detail.data.value,
+            instanceId: document.getElementById('instanceId').value
+        };
+        aliceJs.sendXhr({
+            method: 'POST',
+            url: '/rest/tags',
+            params: JSON.stringify(jsonData),
+            contentType: 'application/json',
+            showProgressbar: true,
+            callbackFunc: function (response) {
+                createTokenInfoTab();
+            }
+        });
+    }
+
+    function onRemoveTag(tag) {
+        aliceJs.sendXhr({
+            method: 'DELETE',
+            url: '/rest/tags/' + tag.detail.data.id,
+            showProgressbar: true,
+            callbackFunc: function (response) {
+                createTokenInfoTab();
+            }
+        });
+    }
+
+    /**
+     * 문서의 오른쪽 탭 정보를 조회한다.
+     * @param data 탭 정보를 생성함에 있어 사용할 parameters.
+     */
+    function createTokenInfoTab() {
+        let instanceId = document.getElementById('instanceId').value;
+        let tokenId = document.getElementById('tokenId').value;
+
+        // 탭 정보들 조회하여 셋팅.
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/tokens/' + tokenId + '/edit-tab',
+            async: false,
+            showProgressbar: true,
+            callbackFunc: function (response) {
+                if (document.querySelector('.token-info').children) {
+                    document.querySelector('.token-info').remove();
+                    let tokenInfo = document.createElement('div');
+                    tokenInfo.className = 'token-info';
+                    document.querySelector('.container-document').append(tokenInfo);
+                }
+                document.querySelector('.token-info').innerHTML = response.responseText;
+
+                // 탭 정보에 이벤트를 등록
+                document.querySelectorAll('.token-info-tab > h4').forEach((ele) => {
+                    ele.addEventListener('click', (e) => {
+                        // 탭 동작
+                        Array.prototype.filter.call(e.target.parentNode.children, function (child) {
+                            return child !== e.target;
+                        }).forEach((sblingEle) => {
+                            sblingEle.classList.remove('active');
+                        });
+                        e.target.classList.add('active');
+                        // 컨텐츠 내용 동작
+                        let targetElement = document.querySelector('.' + e.target.dataset.targetContents);
+                        if (targetElement != null) {
+                            Array.prototype.filter.call(targetElement.parentNode.children, function (child) {
+                                return child !== targetElement;
+                            }).forEach((sblingEle) => {
+                                sblingEle.style.display = 'none';
+                            });
+                            targetElement.style.display = 'block';
+                        }
+                        // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
+                        sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
+                    });
+                });
+
+                // userDate 변환
+                document.querySelectorAll('.dateFormatFromNow').forEach((ele) => {
+                    ele.textContent = dateFormatFromNow(ele.textContent);
+                });
+                document.querySelectorAll('.user-date-time').forEach((element) => {
+                    element.textContent = i18n.userDateTime(element.textContent);
+                });
+
+                addCommentBox(instanceId);
+
+                new Tagify(document.querySelector('input[name=tags]'), {
+                    pattern: /^.{0,100}$/,
+                    editTags: false,
+                    callbacks: {
+                        'add': onAddTag,
+                        'remove': onRemoveTag
+                    },
+                    placeholder: i18n.msg('token.msg.tag')
+                });
+
+                const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab'):"token-history";
+                document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
+                OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
+            }
+        });
+    }
+
     exports.init = init;
     exports.initToken = initToken;
     exports.save = save;
@@ -811,6 +910,8 @@
     exports.drawDocument = drawDocument;
     exports.checkValidate = checkValidate;
     exports.deleteRelatedDoc = deleteRelatedDoc;
+    exports.addCommentBox = addCommentBox;
+    exports.createTokenInfoTab = createTokenInfoTab;
     exports.print = print;
 
     Object.defineProperty(exports, '__esModule', {value: true});
