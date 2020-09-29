@@ -878,8 +878,8 @@
                 });
 
                 // userDate 변환
-                document.querySelectorAll('.dateFormatFromNow').forEach((ele) => {
-                    ele.textContent = dateFormatFromNow(ele.textContent);
+                document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
+                    element.textContent = dateFormatFromNow(element.textContent);
                 });
                 document.querySelectorAll('.user-date-time').forEach((element) => {
                     element.textContent = i18n.userDateTime(element.textContent);
