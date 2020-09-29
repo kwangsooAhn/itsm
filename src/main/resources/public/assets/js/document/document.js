@@ -60,7 +60,7 @@
         }
         const validateElement = document.querySelectorAll('.validate-error');
         if (validateElement.length !== 0) {
-            aliceJs.alertWarning(i18n.get('document.msg.checkDocument'), function () {
+            aliceJs.alertWarning(i18n.msg('document.msg.checkDocument'), function () {
                 if (validateElement[0].classList.contains('editor-container')) {
                     Quill.find(validateElement[0]).focus();
                 } else if (validateElement[0].id === 'radio' || validateElement[0].id === 'chkbox') {
@@ -100,33 +100,33 @@
                             length = element.value.length;
                         }
                         if (attribute.nodeName === 'minlength' && length < Number(nodeValue)) {
-                            message = i18n.get('document.msg.lengthMin', nodeValue);
+                            message = i18n.msg('document.msg.lengthMin', nodeValue);
                         } else if (attribute.nodeName === 'maxlength' && length > Number(nodeValue)) {
-                            message = i18n.get('document.msg.lengthMax', nodeValue);
+                            message = i18n.msg('document.msg.lengthMax', nodeValue);
                         }
                         break;
                     case 'date-min':
                     case 'date-max':
                         if (attribute.nodeName === 'date-min' && i18n.compareSystemDate(element.value, nodeValue)) {
-                            message = i18n.get('common.msg.selectAfterDate', nodeValue);
+                            message = i18n.msg('common.msg.selectAfterDate', nodeValue);
                         } else if (attribute.nodeName === 'date-max' && i18n.compareSystemDate(nodeValue, element.value)) {
-                            message = i18n.get('common.msg.selectBeforeDate', nodeValue);
+                            message = i18n.msg('common.msg.selectBeforeDate', nodeValue);
                         }
                         break;
                     case 'time-min':
                     case 'time-max':
                         if (attribute.nodeName === 'time-min' && i18n.compareSystemTime(element.value, nodeValue)) {
-                            message = i18n.get('common.msg.selectAfterTime', nodeValue);
+                            message = i18n.msg('common.msg.selectAfterTime', nodeValue);
                         } else if (attribute.nodeName === 'time-max' && i18n.compareSystemTime(nodeValue, element.value)) {
-                            message = i18n.get('common.msg.selectBeforeTime', nodeValue);
+                            message = i18n.msg('common.msg.selectBeforeTime', nodeValue);
                         }
                         break;
                     case 'datetime-min':
                     case 'datetime-max':
                         if (attribute.nodeName === 'datetime-min' && i18n.compareSystemDateTime(element.value, nodeValue)) {
-                            message = i18n.get('common.msg.selectAfterDateTime', nodeValue);
+                            message = i18n.msg('common.msg.selectAfterDateTime', nodeValue);
                         } else if (attribute.nodeName === 'datetime-max' && i18n.compareSystemDateTime(nodeValue, element.value)) {
-                            message = i18n.get('common.msg.selectBeforeDateTime', nodeValue);
+                            message = i18n.msg('common.msg.selectBeforeDateTime', nodeValue);
                         }
                         break;
                     case 'regexp':
@@ -189,26 +189,26 @@
             case 'editor':
                 let textEditor = Quill.find(element);
                 if (textEditor.getLength() === 1) {
-                    message = i18n.get('common.msg.requiredEnter');
+                    message = i18n.msg('common.msg.requiredEnter');
                 }
                 break;
             case 'radio':
             case 'chkbox':
                 if (!checkSelect(element)) {
-                    message = i18n.get('common.msg.requiredSelect');
+                    message = i18n.msg('common.msg.requiredSelect');
                 }
                 break;
             case 'fileupload':
                 if (element.querySelectorAll('input[name=loadedFileSeq], input[name=fileSeq]').length === 0) {
-                    message = i18n.get('document.msg.requiredFileupload');
+                    message = i18n.msg('document.msg.requiredFileupload');
                 }
                 break;
             default :
                 if (element.value === '') {
                     if (element.classList.contains('custom-code-text')) { // custom-code
-                        message = i18n.get('common.msg.requiredSelect');
+                        message = i18n.msg('common.msg.requiredSelect');
                     } else {
-                        message = i18n.get('common.msg.requiredEnter');
+                        message = i18n.msg('common.msg.requiredEnter');
                     }
                 }
                 break;
@@ -429,12 +429,12 @@
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
             tokenObject.assigneeId = aliceForm.session.userKey;
             tokenObject.assigneeType = defaultAssigneeTypeForSave;
-            actionMsg = i18n.get('common.msg.save');
+            actionMsg = i18n.msg('common.msg.save');
         } else {
             tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
             tokenObject.assigneeId = '';
             tokenObject.assigneeType = '';
-            actionMsg = i18n.get('document.msg.process');
+            actionMsg = i18n.msg('document.msg.process');
         }
 
         const componentArrayList = getComponentData();
@@ -468,7 +468,7 @@
                         }
                     });
                 } else {
-                    aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                    aliceJs.alertDanger(i18n.msg('common.msg.fail'));
                 }
             }
         };
@@ -561,10 +561,10 @@
         if (commentContainer !== null) {
 
             let commentBoxTextarea = document.createElement('textarea');
-            commentBoxTextarea.setAttribute('placeholder',i18n.get('comment.msg.enterComments'));
+            commentBoxTextarea.setAttribute('placeholder',i18n.msg('comment.msg.enterComments'));
             let commentButton = document.createElement('button');
             commentButton.type = 'button';
-            commentButton.innerText = i18n.get('common.btn.register');
+            commentButton.innerText = i18n.msg('common.btn.register');
             commentButton.classList.add('default-line');
             commentButton.addEventListener('click', function () {
                 aliceDocument.saveComment(instanceId, commentBoxTextarea.value);
@@ -595,7 +595,7 @@
                 if (xhr.responseText) {
                     createTokenInfoTab();
                 } else {
-                    aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                    aliceJs.alertDanger(i18n.msg('common.msg.fail'));
                 }
             }
         };
@@ -608,17 +608,17 @@
      * @param commentId
      */
     function deleteComment(commentId) {
-        aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), function() {
+        aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/comments/' + commentId,
                 callbackFunc: function (xhr) {
                     if (xhr.responseText) {
-                        aliceJs.alertSuccess(i18n.get('common.msg.delete'), function () {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
                             createTokenInfoTab();
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
                     }
                 }
             };
@@ -631,7 +631,7 @@
      * @param dataForDeletion
      */
     function deleteRelatedDoc(dataForDeletion) {
-        aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), function() {
+        aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/folders/' + dataForDeletion.folderId,
@@ -639,11 +639,11 @@
                 params: JSON.stringify(dataForDeletion),
                 callbackFunc: function(xhr) {
                     if (xhr.responseText) {
-                        aliceJs.alertSuccess(i18n.get('common.msg.delete'), function() {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
                             createTokenInfoTab();
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
                     }
                 }
             };
@@ -700,7 +700,7 @@
             const printButton = document.createElement('button');
             printButton.type = 'button';
             printButton.className = 'default-line';
-            printButton.innerText = i18n.get('common.btn.print');
+            printButton.innerText = i18n.msg('common.btn.print');
             printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
             buttonPanel.appendChild(printButton);
 
