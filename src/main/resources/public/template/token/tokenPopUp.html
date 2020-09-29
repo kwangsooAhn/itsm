@@ -56,7 +56,7 @@
             }
 
             restSubmit('POST', '/rest/folders', function() {
-                aliceDocument.createTokenInfoTab();
+                opener.aliceDocument.createTokenInfoTab();
                 window.close();
             }, jsonArray, false);
         }
