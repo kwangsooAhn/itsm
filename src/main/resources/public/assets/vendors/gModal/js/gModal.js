@@ -155,6 +155,7 @@ var gModal = (function() {
                 addClass(document.body, 'gmodal-active');
                 this.display = true;
                 this.options.onShow(this);
+                this.wrapper.querySelector('.gmodal-dialog .gmodal-button').focus();
             }
         };
 
