@@ -546,7 +546,6 @@
         if (data.actions !== undefined) {
             addButton(data.actions);
         }
-        createTokenInfoTab();
     }
 
     /**
