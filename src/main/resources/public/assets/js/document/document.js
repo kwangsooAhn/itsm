@@ -542,13 +542,12 @@
         if (data.token !== undefined) {
             addIdComponent('tokenId', data.token.tokenId);
             addIdComponent('instanceId', data.instanceId);
+            createTokenInfoTab()
             isDocument = false;
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
         }
-
-        createTokenInfoTab()
     }
 
     /**
