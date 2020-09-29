@@ -910,7 +910,6 @@
     exports.drawDocument = drawDocument;
     exports.checkValidate = checkValidate;
     exports.deleteRelatedDoc = deleteRelatedDoc;
-    exports.addCommentBox = addCommentBox;
     exports.createTokenInfoTab = createTokenInfoTab;
     exports.print = print;
 
