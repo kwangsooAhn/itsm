@@ -60,7 +60,7 @@
         }
         const validateElement = document.querySelectorAll('.validate-error');
         if (validateElement.length !== 0) {
-            aliceJs.alertWarning(i18n.get('document.msg.checkDocument'), function () {
+            aliceJs.alertWarning(i18n.msg('document.msg.checkDocument'), function () {
                 if (validateElement[0].classList.contains('editor-container')) {
                     Quill.find(validateElement[0]).focus();
                 } else if (validateElement[0].id === 'radio' || validateElement[0].id === 'chkbox') {
@@ -100,33 +100,33 @@
                             length = element.value.length;
                         }
                         if (attribute.nodeName === 'minlength' && length < Number(nodeValue)) {
-                            message = i18n.get('document.msg.lengthMin', nodeValue);
+                            message = i18n.msg('document.msg.lengthMin', nodeValue);
                         } else if (attribute.nodeName === 'maxlength' && length > Number(nodeValue)) {
-                            message = i18n.get('document.msg.lengthMax', nodeValue);
+                            message = i18n.msg('document.msg.lengthMax', nodeValue);
                         }
                         break;
                     case 'date-min':
                     case 'date-max':
                         if (attribute.nodeName === 'date-min' && i18n.compareSystemDate(element.value, nodeValue)) {
-                            message = i18n.get('common.msg.selectAfterDate', nodeValue);
+                            message = i18n.msg('common.msg.selectAfterDate', nodeValue);
                         } else if (attribute.nodeName === 'date-max' && i18n.compareSystemDate(nodeValue, element.value)) {
-                            message = i18n.get('common.msg.selectBeforeDate', nodeValue);
+                            message = i18n.msg('common.msg.selectBeforeDate', nodeValue);
                         }
                         break;
                     case 'time-min':
                     case 'time-max':
                         if (attribute.nodeName === 'time-min' && i18n.compareSystemTime(element.value, nodeValue)) {
-                            message = i18n.get('common.msg.selectAfterTime', nodeValue);
+                            message = i18n.msg('common.msg.selectAfterTime', nodeValue);
                         } else if (attribute.nodeName === 'time-max' && i18n.compareSystemTime(nodeValue, element.value)) {
-                            message = i18n.get('common.msg.selectBeforeTime', nodeValue);
+                            message = i18n.msg('common.msg.selectBeforeTime', nodeValue);
                         }
                         break;
                     case 'datetime-min':
                     case 'datetime-max':
                         if (attribute.nodeName === 'datetime-min' && i18n.compareSystemDateTime(element.value, nodeValue)) {
-                            message = i18n.get('common.msg.selectAfterDateTime', nodeValue);
+                            message = i18n.msg('common.msg.selectAfterDateTime', nodeValue);
                         } else if (attribute.nodeName === 'datetime-max' && i18n.compareSystemDateTime(nodeValue, element.value)) {
-                            message = i18n.get('common.msg.selectBeforeDateTime', nodeValue);
+                            message = i18n.msg('common.msg.selectBeforeDateTime', nodeValue);
                         }
                         break;
                     case 'regexp':
@@ -189,26 +189,26 @@
             case 'editor':
                 let textEditor = Quill.find(element);
                 if (textEditor.getLength() === 1) {
-                    message = i18n.get('common.msg.requiredEnter');
+                    message = i18n.msg('common.msg.requiredEnter');
                 }
                 break;
             case 'radio':
             case 'chkbox':
                 if (!checkSelect(element)) {
-                    message = i18n.get('common.msg.requiredSelect');
+                    message = i18n.msg('common.msg.requiredSelect');
                 }
                 break;
             case 'fileupload':
                 if (element.querySelectorAll('input[name=loadedFileSeq], input[name=fileSeq]').length === 0) {
-                    message = i18n.get('document.msg.requiredFileupload');
+                    message = i18n.msg('document.msg.requiredFileupload');
                 }
                 break;
             default :
                 if (element.value === '') {
                     if (element.classList.contains('custom-code-text')) { // custom-code
-                        message = i18n.get('common.msg.requiredSelect');
+                        message = i18n.msg('common.msg.requiredSelect');
                     } else {
-                        message = i18n.get('common.msg.requiredEnter');
+                        message = i18n.msg('common.msg.requiredEnter');
                     }
                 }
                 break;
@@ -429,12 +429,12 @@
             tokenObject.isComplete = false; //해당 값이 false라면 저장이다.
             tokenObject.assigneeId = aliceForm.session.userKey;
             tokenObject.assigneeType = defaultAssigneeTypeForSave;
-            actionMsg = i18n.get('common.msg.save');
+            actionMsg = i18n.msg('common.msg.save');
         } else {
             tokenObject.isComplete = true; //해당 값이 true라면 처리이다.
             tokenObject.assigneeId = '';
             tokenObject.assigneeType = '';
-            actionMsg = i18n.get('document.msg.process');
+            actionMsg = i18n.msg('document.msg.process');
         }
 
         const componentArrayList = getComponentData();
@@ -468,7 +468,7 @@
                         }
                     });
                 } else {
-                    aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                    aliceJs.alertDanger(i18n.msg('common.msg.fail'));
                 }
             }
         };
@@ -541,15 +541,12 @@
 
         if (data.token !== undefined) {
             addIdComponent('tokenId', data.token.tokenId);
+            addIdComponent('instanceId', data.instanceId);
+            createTokenInfoTab()
             isDocument = false;
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
-        }
-
-        //Add Comment Box
-        if (data.instanceId !== undefined) {
-            addCommentBox(data.instanceId);
         }
     }
 
@@ -563,10 +560,10 @@
         if (commentContainer !== null) {
 
             let commentBoxTextarea = document.createElement('textarea');
-            commentBoxTextarea.setAttribute('placeholder',i18n.get('comment.msg.enterComments'));
+            commentBoxTextarea.setAttribute('placeholder',i18n.msg('comment.msg.enterComments'));
             let commentButton = document.createElement('button');
             commentButton.type = 'button';
-            commentButton.innerText = i18n.get('common.btn.register');
+            commentButton.innerText = i18n.msg('common.btn.register');
             commentButton.classList.add('default-line');
             commentButton.addEventListener('click', function () {
                 aliceDocument.saveComment(instanceId, commentBoxTextarea.value);
@@ -595,9 +592,9 @@
             contentType: 'application/json',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
-                    location.reload();
+                    createTokenInfoTab();
                 } else {
-                    aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                    aliceJs.alertDanger(i18n.msg('common.msg.fail'));
                 }
             }
         };
@@ -610,17 +607,17 @@
      * @param commentId
      */
     function deleteComment(commentId) {
-        aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), function() {
+        aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/comments/' + commentId,
                 callbackFunc: function (xhr) {
                     if (xhr.responseText) {
-                        aliceJs.alertSuccess(i18n.get('common.msg.delete'), function () {
-                            location.reload();
+                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                            createTokenInfoTab();
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
                     }
                 }
             };
@@ -633,7 +630,7 @@
      * @param dataForDeletion
      */
     function deleteRelatedDoc(dataForDeletion) {
-        aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), function() {
+        aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), function() {
             const opt = {
                 method: 'DELETE',
                 url: '/rest/folders/' + dataForDeletion.folderId,
@@ -641,11 +638,11 @@
                 params: JSON.stringify(dataForDeletion),
                 callbackFunc: function(xhr) {
                     if (xhr.responseText) {
-                        aliceJs.alertSuccess(i18n.get('common.msg.delete'), function() {
-                            location.reload();
+                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
+                            createTokenInfoTab();
                         });
                     } else {
-                        aliceJs.alertDanger(i18n.get('common.msg.fail'));
+                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
                     }
                 }
             };
@@ -702,7 +699,7 @@
             const printButton = document.createElement('button');
             printButton.type = 'button';
             printButton.className = 'default-line';
-            printButton.innerText = i18n.get('common.btn.print');
+            printButton.innerText = i18n.msg('common.btn.print');
             printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
             buttonPanel.appendChild(printButton);
 
@@ -803,6 +800,109 @@
         window.open(url + '/print', '_blank');
     }
 
+    function onAddTag(tag) {
+        const jsonData = {
+            tagContent: tag.detail.data.value,
+            instanceId: document.getElementById('instanceId').getAttribute('data-id')
+        };
+        aliceJs.sendXhr({
+            method: 'POST',
+            url: '/rest/tags',
+            params: JSON.stringify(jsonData),
+            contentType: 'application/json',
+            showProgressbar: true,
+            callbackFunc: function (response) {
+                createTokenInfoTab();
+            }
+        });
+    }
+
+    function onRemoveTag(tag) {
+        aliceJs.sendXhr({
+            method: 'DELETE',
+            url: '/rest/tags/' + tag.detail.data.id,
+            showProgressbar: true,
+            callbackFunc: function (response) {
+                createTokenInfoTab();
+            }
+        });
+    }
+
+    /**
+     * 문서의 오른쪽 탭 정보를 조회한다.
+     * @param data 탭 정보를 생성함에 있어 사용할 parameters.
+     */
+    function createTokenInfoTab() {
+        let instanceId = document.getElementById('instanceId').getAttribute('data-id');
+        let tokenId = document.getElementById('tokenId').getAttribute('data-id');
+
+        // 탭 정보들 조회하여 셋팅.
+        aliceJs.sendXhr({
+            method: 'GET',
+            url: '/tokens/' + tokenId + '/edit-tab',
+            async: false,
+            showProgressbar: true,
+            callbackFunc: function (response) {
+                if (document.querySelector('.token-info').children) {
+                    document.querySelector('.token-info').remove();
+                    let tokenInfo = document.createElement('div');
+                    tokenInfo.className = 'token-info';
+                    document.querySelector('.container-document').append(tokenInfo);
+                }
+                document.querySelector('.token-info').innerHTML = response.responseText;
+
+                // 탭 정보에 이벤트를 등록
+                document.querySelectorAll('.token-info-tab > h4').forEach((ele) => {
+                    ele.addEventListener('click', (e) => {
+                        // 탭 동작
+                        Array.prototype.filter.call(e.target.parentNode.children, function (child) {
+                            return child !== e.target;
+                        }).forEach((sblingEle) => {
+                            sblingEle.classList.remove('active');
+                        });
+                        e.target.classList.add('active');
+                        // 컨텐츠 내용 동작
+                        let targetElement = document.querySelector('.' + e.target.dataset.targetContents);
+                        if (targetElement != null) {
+                            Array.prototype.filter.call(targetElement.parentNode.children, function (child) {
+                                return child !== targetElement;
+                            }).forEach((sblingEle) => {
+                                sblingEle.style.display = 'none';
+                            });
+                            targetElement.style.display = 'block';
+                        }
+                        // 선택된 탭을 저장 > 새로고침시 초기화를 막기 위함
+                        sessionStorage.setItem('token-info-tab', e.target.dataset.targetContents);
+                    });
+                });
+
+                // userDate 변환
+                document.querySelectorAll('.dateFormatFromNow').forEach((element) => {
+                    element.textContent = dateFormatFromNow(element.textContent);
+                });
+                document.querySelectorAll('.user-date-time').forEach((element) => {
+                    element.textContent = i18n.userDateTime(element.textContent);
+                });
+
+                addCommentBox(instanceId);
+
+                new Tagify(document.querySelector('input[name=tags]'), {
+                    pattern: /^.{0,100}$/,
+                    editTags: false,
+                    callbacks: {
+                        'add': onAddTag,
+                        'remove': onRemoveTag
+                    },
+                    placeholder: i18n.msg('token.msg.tag')
+                });
+
+                const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab'):"token-history";
+                document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
+                OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
+            }
+        });
+    }
+
     exports.init = init;
     exports.initToken = initToken;
     exports.save = save;
@@ -811,6 +911,7 @@
     exports.drawDocument = drawDocument;
     exports.checkValidate = checkValidate;
     exports.deleteRelatedDoc = deleteRelatedDoc;
+    exports.createTokenInfoTab = createTokenInfoTab;
     exports.print = print;
 
     Object.defineProperty(exports, '__esModule', {value: true});
