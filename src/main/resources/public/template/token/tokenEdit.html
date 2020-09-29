@@ -13,8 +13,6 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <input type="hidden" id="instanceId" th:value="${instanceId}"/>
-    <input type="hidden" id="tokenId" th:value="${tokenId}"/>
     <div class="container-document">
         <div class="contents token-document">
             <div class="button-board-document">
@@ -46,7 +44,6 @@
         /*<![CDATA[*/
         window.onload = function () {
             aliceForm.init(aliceDocument.initToken, '[[${tokenId}]]');
-            aliceDocument.createTokenInfoTab({instanceId: '[[${instanceId}]]', tokenId: '[[${tokenId}]]'});
             OverlayScrollbars(document.querySelectorAll('.list-wrap'), {className: 'scrollbar'});
         };
 

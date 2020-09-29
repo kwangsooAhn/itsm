@@ -541,11 +541,14 @@
 
         if (data.token !== undefined) {
             addIdComponent('tokenId', data.token.tokenId);
+            addIdComponent('instanceId', data.instanceId);
             isDocument = false;
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
         }
+
+        createTokenInfoTab()
     }
 
     /**
@@ -801,7 +804,7 @@
     function onAddTag(tag) {
         const jsonData = {
             tagContent: tag.detail.data.value,
-            instanceId: document.getElementById('instanceId').value
+            instanceId: document.getElementById('instanceId').getAttribute('data-id')
         };
         aliceJs.sendXhr({
             method: 'POST',
@@ -831,8 +834,8 @@
      * @param data 탭 정보를 생성함에 있어 사용할 parameters.
      */
     function createTokenInfoTab() {
-        let instanceId = document.getElementById('instanceId').value;
-        let tokenId = document.getElementById('tokenId').value;
+        let instanceId = document.getElementById('instanceId').getAttribute('data-id');
+        let tokenId = document.getElementById('tokenId').getAttribute('data-id');
 
         // 탭 정보들 조회하여 셋팅.
         aliceJs.sendXhr({
