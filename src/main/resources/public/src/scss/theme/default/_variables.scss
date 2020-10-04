@@ -14,7 +14,7 @@ $font-family:                                 "Noto Sans KR", "맑은고딕", "M
 $font-size-base:                              1rem;  // 16px
 
 $icon-folder-path: "../media/icons/";
-$image-folder-path: "../../../media/images/";
+$image-folder-path: "../media/images/";
 $alice-primary:#0050ff !default;
 
 // Color palette
@@ -102,9 +102,8 @@ $icon-gnb-config: $icon-folder-path + "gnb/icon_gnb_config.svg";
 $icon-gnb-workflow: $icon-folder-path + "gnb/icon_gnb_workflow.svg";
 $icon-gnb-token: $icon-folder-path + "gnb/icon_gnb_token.svg";
 
-$icon-arrow-left: $icon-folder-path + "icon_arrow_l.svg";
-$icon-arrow-right: $icon-folder-path + "icon_arrow_r.svg";
-$icon-arrow-bottom: $icon-folder-path + "icon_arrow_d.svg";
+$icon-arrow-left: $icon-folder-path + "icon_arrow_left.svg";
+$icon-arrow-bottom: $icon-folder-path + "icon_arrow_bottom.svg";
 
 // dropzone
 $dropzone-folder-path: "../../../media/icons/dropzone/";

@@ -126,7 +126,7 @@ button { // 기본 버튼 : ghost
         width: 24px;
         height: 24px;
         border: 1px solid $point-blue;
-        background: white url($icon-folder-path + "icon_add.svg") no-repeat center center;
+        background: white url($icon-folder-path + "icon_plus.svg") no-repeat center center;
         padding: 0;
         &:not(:disabled) {
             &:active { // pressed

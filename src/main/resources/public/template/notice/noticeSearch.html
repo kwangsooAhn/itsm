@@ -197,14 +197,16 @@
             tdPopYn.style.width = '5%';
             let aPopYn = document.createElement('a');
             if (data.popYn === true) {
-                let imgPopYn = document.createElement('img');
-                let theme = '[[${#authentication.details.theme}]]'.split('"');
-                imgPopYn.src = '/assets/theme/' + theme[1] +
-                    '/media/icons/icon_popup.svg';
-                imgPopYn.onclick = function() {
+                const popYnBtn = document.createElement('button');
+                popYnBtn.type = 'button';
+                popYnBtn.className = 'default-fill';
+                const icon =  document.createElement('span');
+                icon.className = 'icon-search';
+                popYnBtn.appendChild(icon);
+                aPopYn.appendChild(popYnBtn);
+                aPopYn.onclick = function() {
                     openPopUp(data.noticeNo, data.popWidth, data.popHeight);
-                }
-                aPopYn.appendChild(imgPopYn);
+                };
                 tdPopYn.appendChild(aPopYn);
             }
 

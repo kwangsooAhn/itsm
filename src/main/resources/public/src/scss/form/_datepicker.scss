@@ -43,12 +43,16 @@ $datepicker-active-color: $point-blue;
         border-bottom: solid 0.0625rem $datepicker-border-color; // 1px
         padding: 1.125rem 0; // 18px
 
-        img.close {
+        span.close {
             position: absolute;
             right: 1.25rem; // 20px
+            background: $pressed-gray;
             width: 0.875rem; // 14px
             height: 0.875rem; // 14px
-            content: url("#{$datepicker-asset-path}/icon_close.png");
+            -webkit-mask: url($datepicker-asset-path + "/icon_close.svg") no-repeat center center;
+            mask-image: url($datepicker-asset-path + "/icon_close.svg") ;
+            mask-repeat: no-repeat;
+            mask-position: center;
             cursor: pointer;
         }
     }

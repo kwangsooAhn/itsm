@@ -1031,49 +1031,18 @@ span.vertical-bar {
             cursor: auto;
         }
 
-        &-add {
+        &-add { // 사용 안함
             display: inline-block;
-            background: url($icon-folder-path + "icon_add.svg") no-repeat center center;
+            background: url($icon-folder-path + "icon_plus.svg") no-repeat center center;
             padding: 10px;
             border-radius: 2px;
             border: 1px solid rgba(0, 80, 255, 1);
             text-align: center;
 
             &:hover {
-                background: rgba(0, 80, 255, 1) url($icon-folder-path + "icon_add_ov.svg") no-repeat center center;
+                background: rgba(0, 80, 255, 1) url($icon-folder-path + "icon_plus.svg") no-repeat center center;
                 color: $alice-primary;
                 border: rgba(64, 158, 230, 0.05) 1px solid;
-            }
-        }
-
-        &-import {
-            display: inline-block;
-            background: rgba(255, 255, 255, 1) url($icon-folder-path + "icon_import.svg") no-repeat center center;
-            padding: 10px;
-            border-radius: 2px;
-            border: 1px solid rgba(200, 206, 216, 1);
-            text-align: center;
-            position: relative;
-            right: 3px;
-
-            &:hover {
-                background: rgba(233, 235, 237, 1) url($icon-folder-path + "icon_import_ov.svg") no-repeat center center;
-                color: rgba(233, 235, 237, 1);
-                border: rgba(200, 206, 216, 1) 1px solid;
-                position: relative;
-                right: 3px;
-            }
-        }
-
-        &-info {
-            background: url("../icons/icon_info.png") no-repeat right;
-            display: inline-block;
-            margin-left: 5px;
-            width: 15px;
-            height: 15px;
-
-            &:hover {
-                background: url("../icons/icon_info_select.png") no-repeat right;
             }
         }
 

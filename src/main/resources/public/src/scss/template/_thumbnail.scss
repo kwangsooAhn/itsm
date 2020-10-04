@@ -193,7 +193,7 @@ body.thumbnail-modal-active {
                         img {
                             width: 0.9375rem; // 15px
                             height: 0.9375rem; // 15px
-                            content: url("#{$thumbnail-asset-path}/icon_thumbnail_delete.png");
+                            content: url("#{$icon-folder-path}icon_delete.svg");
                         }
                     }
                 }

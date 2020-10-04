@@ -106,10 +106,10 @@
         el.appendChild(pickerTitle);
 
         // create title > close icon
-        const imgClose = document.createElement('img');
-        imgClose.className = 'close';
-        imgClose.addEventListener('click', this.close, false);
-        pickerTitle.appendChild(imgClose);
+        const spanClose = document.createElement('span');
+        spanClose.className = 'close';
+        spanClose.addEventListener('click', this.close, false);
+        pickerTitle.appendChild(spanClose);
 
         // create sub title > 시간 날짜 표시
         let pickerSubTitle = document.createElement('div');
