@@ -1400,7 +1400,6 @@ span.vertical-bar {
   display: inline-block;
   width: 18px;
   height: 18px;
-  background: #ACB4BF;
   -webkit-mask-image: url("../media/icons/icon_search.svg");
   mask-image: url("../media/icons/icon_search.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1409,6 +1408,7 @@ span.vertical-bar {
   mask-position: center;
   -webkit-mask-size: 18px 18px;
   mask-size: 18px 18px;
+  background: #ACB4BF;
 }
 
 .container .contents-edit {
@@ -1768,7 +1768,6 @@ span.vertical-bar {
   display: inline-block;
   width: 18px;
   height: 18px;
-  background: #ACB4BF;
   -webkit-mask-image: url("../media/icons/icon_search.svg");
   mask-image: url("../media/icons/icon_search.svg");
   -webkit-mask-repeat: no-repeat;
@@ -1777,6 +1776,7 @@ span.vertical-bar {
   mask-position: center;
   -webkit-mask-size: 18px 18px;
   mask-size: 18px 18px;
+  background: #ACB4BF;
 }
 
 .container .contents-list-edit > .edit-area {
@@ -1997,7 +1997,6 @@ span.vertical-bar {
   display: inline-block;
   width: 18px;
   height: 18px;
-  background: #ACB4BF;
   -webkit-mask-image: url("../media/icons/icon_search.svg");
   mask-image: url("../media/icons/icon_search.svg");
   -webkit-mask-repeat: no-repeat;
@@ -2006,6 +2005,7 @@ span.vertical-bar {
   mask-position: center;
   -webkit-mask-size: 18px 18px;
   mask-size: 18px 18px;
+  background: #ACB4BF;
 }
 
 .container .contents-tree-edit > .tree-area .list {
