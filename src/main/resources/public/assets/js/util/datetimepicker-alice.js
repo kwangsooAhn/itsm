@@ -233,10 +233,10 @@
             pickerDate.appendChild(monthPanel);
 
             // prev month
-            const imgPrevArrow = document.createElement('img');
-            imgPrevArrow.className = 'date-prev';
-            imgPrevArrow.addEventListener('click', _this.prevMonth, false);
-            monthPanel.appendChild(imgPrevArrow);
+            const prevArrow = document.createElement('span');
+            prevArrow.className = 'date-prev';
+            prevArrow.addEventListener('click', _this.prevMonth, false);
+            monthPanel.appendChild(prevArrow);
 
             // text
             const currentText = document.createElement('span');
@@ -246,10 +246,10 @@
             monthPanel.appendChild(currentText);
 
             // next month
-            const imgNextArrow = document.createElement('img');
-            imgNextArrow.className = 'date-next';
-            imgNextArrow.addEventListener('click', _this.nextMonth, false);
-            monthPanel.appendChild(imgNextArrow);
+            const nextArrow = document.createElement('span');
+            nextArrow.className = 'date-next';
+            nextArrow.addEventListener('click', _this.nextMonth, false);
+            monthPanel.appendChild(nextArrow);
 
             // create calendar
             const calendarPanel = document.createElement('div');
@@ -325,7 +325,7 @@
             hourGroup.className = 'hour-group';
             pickerTime.appendChild(hourGroup);
             // △ 버튼
-            const hourArrowUp = document.createElement('img');
+            const hourArrowUp = document.createElement('span');
             hourArrowUp.classList.add('arrow-up', 'hour-up');
             hourArrowUp.addEventListener('click', _this.changeTime.bind(_this, { hours: 1 }), false);
             hourGroup.appendChild(hourArrowUp);
@@ -339,7 +339,7 @@
             digitHour.addEventListener('focusout', _this.setHour, false);
             hourGroup.appendChild(digitHour);
             // ▽ 버튼
-            const hourArrowDown = document.createElement('img');
+            const hourArrowDown = document.createElement('span');
             hourArrowDown.classList.add('arrow-down', 'hour-down');
             hourArrowDown.addEventListener('click', _this.changeTime.bind(_this, { hours: -1 }), false);
             hourGroup.appendChild(hourArrowDown);
@@ -356,7 +356,7 @@
             minuteGroup.className = 'minute-group';
             pickerTime.appendChild(minuteGroup);
             // △ 버튼
-            const minuteArrowUp = document.createElement('img');
+            const minuteArrowUp = document.createElement('span');
             minuteArrowUp.classList.add('arrow-up', 'minute-up');
             minuteArrowUp.addEventListener('click', _this.changeTime.bind(_this, { minutes: 1 }), false);
             minuteGroup.appendChild(minuteArrowUp);
@@ -370,7 +370,7 @@
             digitMinute.addEventListener('focusout', _this.setMinute, false);
             minuteGroup.appendChild(digitMinute);
             // ▽ 버튼
-            const minuteArrowDown = document.createElement('img');
+            const minuteArrowDown = document.createElement('span');
             minuteArrowDown.classList.add('arrow-down', 'minute-down');
             minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this, { minutes: -1 }), false);
             minuteGroup.appendChild(minuteArrowDown);

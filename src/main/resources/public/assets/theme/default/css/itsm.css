@@ -2873,9 +2873,6 @@ span.vertical-bar {
   height: 3.8125rem;
   background-color: #333D47;
   position: fixed;
-}
-
-.logo .navigation-logo {
   padding: 15px 20px 15px 20px;
 }
 
@@ -4054,13 +4051,19 @@ span.vertical-bar {
   font-size: 0.8125rem;
 }
 
-/* date picker css */
+/* _date-picker.scss 
+ *
+ * 파일 경로 : template/_date-picker.scss
+ * @description Date/Time picker 관련 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
 .picker-wrapper-date {
   display: inline-block;
 }
 
 .picker-modal {
-  font-family: "Noto Sans KR";
+  font-family: inherit;
   display: none;
   position: fixed;
   background-color: #ffffff;
@@ -4092,8 +4095,8 @@ span.vertical-bar {
   background: #CCCED1;
   width: 0.875rem;
   height: 0.875rem;
-  -webkit-mask: url("../../../media/icons/datepicker/icon_close.svg") no-repeat center center;
-  mask-image: url("../../../media/icons/datepicker/icon_close.svg");
+  -webkit-mask: url("../media/icons/icon_close.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_close.svg");
   mask-repeat: no-repeat;
   mask-position: center;
   cursor: pointer;
@@ -4142,8 +4145,15 @@ span.vertical-bar {
 }
 
 .picker-modal-content-date-months .date-prev {
+  display: inline-block;
+  background: #586872;
+  width: 10px;
+  height: 6px;
+  -webkit-mask: url("../media/icons/icon_arrow_left.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_left.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_left.png");
 }
 
 .picker-modal-content-date-months .date-text {
@@ -4158,8 +4168,15 @@ span.vertical-bar {
 }
 
 .picker-modal-content-date-months .date-next {
+  display: inline-block;
+  background: #586872;
+  width: 10px;
+  height: 6px;
+  -webkit-mask: url("../media/icons/icon_arrow_right.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_right.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_right.png");
 }
 
 .picker-modal-content-date-calendar {
@@ -4172,7 +4189,7 @@ span.vertical-bar {
   width: 1.875rem;
   height: 1.875rem;
   line-height: 0.8125rem;
-  padding: 0.5625rem 0 0 0;
+  padding: 0.4375rem;
   margin: 0.25rem 0.5rem;
   text-align: center;
 }
@@ -4230,24 +4247,38 @@ span.vertical-bar {
 
 .picker-modal-content-time .hour-group img.arrow-up,
 .picker-modal-content-time .minute-group img.arrow-up {
+  display: inline-block;
+  background: #CCCED1;
+  width: 18px;
+  height: 10px;
+  -webkit-mask: url("../media/icons/icon_triangle_up.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_triangle_up.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_top.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-up:hover,
 .picker-modal-content-time .minute-group img.arrow-up:hover {
-  content: url("../../../media/icons/datepicker/icon_arrow_top_select.png");
+  background: #0098FF;
 }
 
 .picker-modal-content-time .hour-group img.arrow-down,
 .picker-modal-content-time .minute-group img.arrow-down {
+  display: inline-block;
+  background: #CCCED1;
+  width: 18px;
+  height: 10px;
+  -webkit-mask: url("../media/icons/icon_triangle_down.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_triangle_down.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_under.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-down:hover,
 .picker-modal-content-time .minute-group img.arrow-down:hover {
-  content: url("../../../media/icons/datepicker/icon_arrow_under_select.png");
+  background: #0098FF;
 }
 
 .picker-modal-content-time .hour-group .digit,

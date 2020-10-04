@@ -17,7 +17,7 @@
     @content;
   }
 }
-
+// 애니메이션
 @mixin animation($delay, $duration, $name, $timing, $count:1) {
   animation-delay: $delay;
   animation-duration: $duration;
@@ -25,7 +25,7 @@
   animation-timing-function: $timing;
   animation-iteration-count: $count;
 }
-
+// 배경 이미지
 @mixin background($path, $size, $repeat, $posX, $posY, $color) {
   background-image: url($path);
   background-size: if($size == null, auto, $size);
@@ -35,4 +35,24 @@
   @if ($color != null) {
     background-color: $color;
   }
+}
+// 아이콘
+@mixin maskImage($path, $width, $height, $repeat, $pos, $size, $color) {
+  @if ($width != null) {
+    width: $width;
+  }
+  @if ($height != null) {
+    height: $height;
+  }
+  -webkit-mask-image: url($path);
+  mask-image: url($path);
+  -webkit-mask-repeat: if($repeat == null, no-repeat, $repeat);
+  mask-repeat: if($repeat == null, no-repeat, $repeat);
+  -webkit-mask-position: if($pos == null, center, $pos);
+  mask-position: if($pos == null, center, $pos);
+  @if ($size != null) {
+    -webkit-mask-size: $size;
+    mask-size: $size;
+  }
+  background: $color;
 }
