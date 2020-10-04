@@ -332,22 +332,22 @@ input.search {
 }
 
 input.search-datetime {
-  background: url("../media/icons/icon_calendar.png") no-repeat 95% 50%;
+  background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
   background-color: #FFFFFF;
 }
 
 input.search-date {
-  background: url("../media/icons/icon_calendar.png") no-repeat 95% 50%;
+  background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
   background-color: #FFFFFF;
 }
 
 input.search-time {
-  background: url("../media/icons/icon_calendar.png") no-repeat 95% 50%;
+  background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
   background-color: #FFFFFF;
 }
 
 input.date {
-  background: url("../media/icons/icon_calendar.png") no-repeat calc(100% - 10px) 50%;
+  background: url("../media/icons/icon_calendar.svg") no-repeat calc(100% - 10px) 50%;
   background-color: #FFFFFF;
 }
 
@@ -895,13 +895,13 @@ span.vertical-bar {
 }
 
 .container-document .token-info-contents .token-tag .tag-input tag div {
-  background: rgba(229,	229, 229, 1);
+  background: #e5e5e5;
   max-width: 27.6875rem;
   border-radius: 0.1875rem;
 }
 
 .container-document .token-info-contents .token-tag .tag-input tag div:hover {
-  background: rgba(211, 226, 226, 1);
+  background: #d3e2e2;
 }
 
 .container-document .token-info-contents .token-tag .tag-input tag span {
@@ -1323,7 +1323,7 @@ span.vertical-bar {
   padding-top: 1.25rem;
 }
 
-.container .contents-list .list a {
+.container .contents-list .list a, .container .contents-list .list button {
   cursor: pointer;
 }
 
@@ -1388,6 +1388,27 @@ span.vertical-bar {
 
 .container .contents-list .list table tbody tr td:first-child {
   padding-left: 1.25rem;
+}
+
+.container .contents-list .list table tbody tr td button {
+  margin: 0;
+  padding: 0 5px;
+  height: 30px;
+}
+
+.container .contents-list .list table tbody tr td button .icon-search {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  -webkit-mask-image: url("../media/icons/icon_search.svg");
+  mask-image: url("../media/icons/icon_search.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 18px 18px;
+  mask-size: 18px 18px;
+  background: #ACB4BF;
 }
 
 .container .contents-edit {
@@ -1670,7 +1691,7 @@ span.vertical-bar {
   padding-top: 1.25rem;
 }
 
-.container .contents-list-edit > .list-area .list a {
+.container .contents-list-edit > .list-area .list a, .container .contents-list-edit > .list-area .list button {
   cursor: pointer;
 }
 
@@ -1735,6 +1756,27 @@ span.vertical-bar {
 
 .container .contents-list-edit > .list-area .list table tbody tr td:first-child {
   padding-left: 1.25rem;
+}
+
+.container .contents-list-edit > .list-area .list table tbody tr td button {
+  margin: 0;
+  padding: 0 5px;
+  height: 30px;
+}
+
+.container .contents-list-edit > .list-area .list table tbody tr td button .icon-search {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  -webkit-mask-image: url("../media/icons/icon_search.svg");
+  mask-image: url("../media/icons/icon_search.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 18px 18px;
+  mask-size: 18px 18px;
+  background: #ACB4BF;
 }
 
 .container .contents-list-edit > .edit-area {
@@ -1878,7 +1920,7 @@ span.vertical-bar {
   padding-top: 1.25rem;
 }
 
-.container .contents-tree-edit > .tree-area .list a {
+.container .contents-tree-edit > .tree-area .list a, .container .contents-tree-edit > .tree-area .list button {
   cursor: pointer;
 }
 
@@ -1945,6 +1987,27 @@ span.vertical-bar {
   padding-left: 1.25rem;
 }
 
+.container .contents-tree-edit > .tree-area .list table tbody tr td button {
+  margin: 0;
+  padding: 0 5px;
+  height: 30px;
+}
+
+.container .contents-tree-edit > .tree-area .list table tbody tr td button .icon-search {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  -webkit-mask-image: url("../media/icons/icon_search.svg");
+  mask-image: url("../media/icons/icon_search.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 18px 18px;
+  mask-size: 18px 18px;
+  background: #ACB4BF;
+}
+
 .container .contents-tree-edit > .tree-area .list {
   height: 600px;
 }
@@ -2008,7 +2071,7 @@ span.vertical-bar {
 }
 
 .container .contents-tree-edit > .edit-area .form-set .date-icon {
-  background: url("../media/icons/icon_calendar.png") no-repeat 95% 50%;
+  background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
   background-color: #F7F8F9;
 }
 
@@ -2629,7 +2692,7 @@ span.vertical-bar {
 
 .container .btn-add {
   display: inline-block;
-  background: url("../media/icons/icon_add.svg") no-repeat center center;
+  background: url("../media/icons/icon_plus.svg") no-repeat center center;
   padding: 10px;
   border-radius: 2px;
   border: 1px solid #0050ff;
@@ -2637,40 +2700,9 @@ span.vertical-bar {
 }
 
 .container .btn-add:hover {
-  background: #0050ff url("../media/icons/icon_add_ov.svg") no-repeat center center;
+  background: #0050ff url("../media/icons/icon_plus.svg") no-repeat center center;
   color: #0050ff;
   border: rgba(64, 158, 230, 0.05) 1px solid;
-}
-
-.container .btn-import {
-  display: inline-block;
-  background: white url("../media/icons/icon_import.svg") no-repeat center center;
-  padding: 10px;
-  border-radius: 2px;
-  border: 1px solid #c8ced8;
-  text-align: center;
-  position: relative;
-  right: 3px;
-}
-
-.container .btn-import:hover {
-  background: #e9ebed url("../media/icons/icon_import_ov.svg") no-repeat center center;
-  color: #e9ebed;
-  border: #c8ced8 1px solid;
-  position: relative;
-  right: 3px;
-}
-
-.container .btn-info {
-  background: url("../icons/icon_info.png") no-repeat right;
-  display: inline-block;
-  margin-left: 5px;
-  width: 15px;
-  height: 15px;
-}
-
-.container .btn-info:hover {
-  background: url("../icons/icon_info_select.png") no-repeat right;
 }
 
 .container .btn-gray {
@@ -2729,15 +2761,11 @@ span.vertical-bar {
   height: 3.125rem;
   width: 100%;
   cursor: pointer;
-}
-
-.navigation-config .notification-menu svg {
-  margin: 0.5rem 0 0.5rem 1.25rem;
-  fill: #929AA6;
+  padding: 0.5rem 0 0.5rem 1.25rem;
 }
 
 .navigation-config .notification-menu .notification-num {
-  margin: 1rem 0 1rem 1rem;
+  margin: 0.3125rem 1rem;
   padding: 0.125rem 0.625rem;
   border-radius: 1.25rem;
   background-color: #929AA6;
@@ -2828,8 +2856,8 @@ span.vertical-bar {
   width: 27px;
   height: 27px;
   background: #929AA6;
-  -webkit-mask: url("../media/icons/icon_logout.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_logout.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_logout.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_logout.svg");
   mask-repeat: no-repeat;
   mask-position: center;
   margin-left: 1.25rem;
@@ -2845,9 +2873,6 @@ span.vertical-bar {
   height: 3.8125rem;
   background-color: #333D47;
   position: fixed;
-}
-
-.logo .navigation-logo {
   padding: 15px 20px 15px 20px;
 }
 
@@ -2934,8 +2959,8 @@ span.vertical-bar {
   background: #929aa6;
   mask-repeat: no-repeat;
   mask-position: center center;
-  -webkit-mask: url("../media/icons/icon_arrow_l.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_arrow_l.svg");
+  -webkit-mask: url("../media/icons/icon_arrow_left.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_left.svg");
 }
 
 .gnb-area > ul > li > a span.arrow-down {
@@ -2947,8 +2972,8 @@ span.vertical-bar {
   background: #929aa6;
   mask-repeat: no-repeat;
   mask-position: center center;
-  -webkit-mask: url("../media/icons/icon_arrow_d.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_arrow_d.svg");
+  -webkit-mask: url("../media/icons/icon_arrow_bottom.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_bottom.svg");
 }
 
 .gnb-area > ul > li > ul > li {
@@ -2988,48 +3013,48 @@ span.vertical-bar {
 }
 
 .icon-gnb-board {
-  -webkit-mask: url("../media/icons/icon_gnb_board.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_board.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_board.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_board.svg");
 }
 
 .icon-gnb-dashboard {
-  -webkit-mask: url("../media/icons/icon_gnb_dashboard.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_dashboard.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_dashboard.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_dashboard.svg");
 }
 
 .icon-gnb-document {
-  -webkit-mask: url("../media/icons/icon_gnb_document.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_document.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_document.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_document.svg");
 }
 
 .icon-gnb-download {
-  -webkit-mask: url("../media/icons/icon_gnb_download.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_download.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_download.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_download.svg");
 }
 
 .icon-gnb-faq {
-  -webkit-mask: url("../media/icons/icon_gnb_faq.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_faq.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_faq.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_faq.svg");
 }
 
 .icon-gnb-notice {
-  -webkit-mask: url("../media/icons/icon_gnb_notice.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_notice.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_notice.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_notice.svg");
 }
 
 .icon-gnb-config {
-  -webkit-mask: url("../media/icons/icon_gnb_config.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_config.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_config.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_config.svg");
 }
 
 .icon-gnb-workflow {
-  -webkit-mask: url("../media/icons/icon_gnb_workflow.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_workflow.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_workflow.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_workflow.svg");
 }
 
 .icon-gnb-token {
-  -webkit-mask: url("../media/icons/icon_gnb_token.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_gnb_token.svg");
+  -webkit-mask: url("../media/icons/gnb/icon_gnb_token.svg") no-repeat center center;
+  mask-image: url("../media/icons/gnb/icon_gnb_token.svg");
 }
 
 /* 알림 임시 css */
@@ -3167,7 +3192,7 @@ span.vertical-bar {
   float: left;
   width: 6.25rem;
   height: 6.25rem;
-  background: url("../icons/graphic_under_notification.svg") no-repeat center center;
+  background: url("../images/notification/img_notification_logo.png") no-repeat center center;
 }
 
 .alice-toastify.alice-toastify-content div.content {
@@ -3591,7 +3616,7 @@ span.vertical-bar {
   border: none;
   grid-column: 3;
   grid-row: 1 / span 2;
-  background-image: url("../../../media/icons/dropzone/icon_fileupload_download.svg");
+  background-image: url("../media/icons/icon_download.svg");
   background-size: 1.25rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -3606,7 +3631,7 @@ span.vertical-bar {
   border: none;
   grid-column: 5;
   grid-row: 1 / span 2;
-  background-image: url("../../../media/icons/dropzone/icon_fileupload_delete.svg");
+  background-image: url("../media/icons/icon_delete.svg");
   background-size: 1.125rem 1.25rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -3659,11 +3684,6 @@ span.vertical-bar {
   height: 100%;
   grid-column: 1;
   grid-row: 1 / span 2;
-  background-image: url("../../../media/icons/dropzone/icon_document_txt.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
 }
 
 .dropzone .dz-preview:hover .dz-image img {
@@ -3910,7 +3930,7 @@ span.vertical-bar {
   width: 18.75rem;
   height: 18.75rem;
   padding: 0;
-  background-image: url("../../../media/icons/dropzone/icon_image.svg");
+  background-image: url("../media/icons/icon_image.svg");
   background-size: 5rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -3956,7 +3976,7 @@ span.vertical-bar {
   position: absolute;
   top: 0;
   right: 0;
-  background-image: url("../../../media/icons/dropzone/icon_close.svg");
+  background-image: url("../media/icons/icon_close.svg");
   background-size: 0.875rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -4004,7 +4024,7 @@ span.vertical-bar {
   width: 9.375rem;
   height: 9.375rem;
   padding: 0;
-  background-image: url("../../../media/icons/dropzone/icon_image_sm.svg");
+  background-image: url("../media/icons/icon_image.svg");
   background-size: 2.813rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -4031,13 +4051,19 @@ span.vertical-bar {
   font-size: 0.8125rem;
 }
 
-/* date picker css */
+/* _date-picker.scss 
+ *
+ * 파일 경로 : template/_date-picker.scss
+ * @description Date/Time picker 관련 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
 .picker-wrapper-date {
   display: inline-block;
 }
 
 .picker-modal {
-  font-family: "Noto Sans KR";
+  font-family: inherit;
   display: none;
   position: fixed;
   background-color: #ffffff;
@@ -4063,12 +4089,16 @@ span.vertical-bar {
   padding: 1.125rem 0;
 }
 
-.picker-modal-title img.close {
+.picker-modal-title span.close {
   position: absolute;
   right: 1.25rem;
+  background: #CCCED1;
   width: 0.875rem;
   height: 0.875rem;
-  content: url("../../../media/icons/datepicker/icon_close.png");
+  -webkit-mask: url("../media/icons/icon_close.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_close.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
 }
 
@@ -4115,8 +4145,15 @@ span.vertical-bar {
 }
 
 .picker-modal-content-date-months .date-prev {
+  display: inline-block;
+  background: #586872;
+  width: 10px;
+  height: 6px;
+  -webkit-mask: url("../media/icons/icon_arrow_left.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_left.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_left.png");
 }
 
 .picker-modal-content-date-months .date-text {
@@ -4131,8 +4168,15 @@ span.vertical-bar {
 }
 
 .picker-modal-content-date-months .date-next {
+  display: inline-block;
+  background: #586872;
+  width: 10px;
+  height: 6px;
+  -webkit-mask: url("../media/icons/icon_arrow_right.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_right.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_right.png");
 }
 
 .picker-modal-content-date-calendar {
@@ -4145,7 +4189,7 @@ span.vertical-bar {
   width: 1.875rem;
   height: 1.875rem;
   line-height: 0.8125rem;
-  padding: 0.5625rem 0 0 0;
+  padding: 0.4375rem;
   margin: 0.25rem 0.5rem;
   text-align: center;
 }
@@ -4203,24 +4247,38 @@ span.vertical-bar {
 
 .picker-modal-content-time .hour-group img.arrow-up,
 .picker-modal-content-time .minute-group img.arrow-up {
+  display: inline-block;
+  background: #CCCED1;
+  width: 18px;
+  height: 10px;
+  -webkit-mask: url("../media/icons/icon_triangle_up.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_triangle_up.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_top.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-up:hover,
 .picker-modal-content-time .minute-group img.arrow-up:hover {
-  content: url("../../../media/icons/datepicker/icon_arrow_top_select.png");
+  background: #0098FF;
 }
 
 .picker-modal-content-time .hour-group img.arrow-down,
 .picker-modal-content-time .minute-group img.arrow-down {
+  display: inline-block;
+  background: #CCCED1;
+  width: 18px;
+  height: 10px;
+  -webkit-mask: url("../media/icons/icon_triangle_down.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_triangle_down.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../../../media/icons/datepicker/icon_arrow_under.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-down:hover,
 .picker-modal-content-time .minute-group img.arrow-down:hover {
-  content: url("../../../media/icons/datepicker/icon_arrow_under_select.png");
+  background: #0098FF;
 }
 
 .picker-modal-content-time .hour-group .digit,
@@ -4678,7 +4736,7 @@ button.plus {
   width: 24px;
   height: 24px;
   border: 1px solid #0098FF;
-  background: white url("../media/icons/icon_add.svg") no-repeat center center;
+  background: white url("../media/icons/icon_plus.svg") no-repeat center center;
   padding: 0;
 }
 
@@ -5005,7 +5063,11 @@ button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
 }
 
 .help-tooltip .help-tooltip-icon:before {
-  content: url("../../../media/images/icon_info.png");
+  background: #CCCED1;
+  -webkit-mask: url("../media/icons/icon_tooltip.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_tooltip.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
 }
 
 .help-tooltip .tooltip-contents {
@@ -5038,7 +5100,7 @@ button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
 }
 
 .help-tooltip:hover .help-tooltip-icon {
-  content: url("../../../media/images/icon_info_select.png");
+  background: #0098FF;
 }
 
 .thumbnail-container {
@@ -5123,7 +5185,7 @@ button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
 .thumbnail-container .thumbnail div.thumbnail-bottom img {
   width: 0.9375rem;
   height: 0.9375rem;
-  content: url("../../../media/icons/thumbnail/icon_thumbnail_delete.png");
+  content: url("../media/icons/icon_delete.svg");
   cursor: pointer;
 }
 
@@ -5350,7 +5412,7 @@ body.thumbnail-modal-active {
 .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-bottom img {
   width: 0.9375rem;
   height: 0.9375rem;
-  content: url("../../../media/icons/thumbnail/icon_thumbnail_delete.png");
+  content: url("../media/icons/icon_delete.svg");
 }
 
 .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail-upload {
@@ -5634,7 +5696,7 @@ body.thumbnail-modal-active {
 .thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-bottom img {
   width: 0.9375rem;
   height: 0.9375rem;
-  content: url("../../../media/icons/thumbnail/icon_thumbnail_delete.png");
+  content: url("../media/icons/icon_delete.svg");
 }
 
 .thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail-upload {

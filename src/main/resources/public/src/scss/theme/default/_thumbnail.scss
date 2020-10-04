@@ -85,7 +85,7 @@ $thumbnail-selected-background-color: rgba(0, 152, 255, 0.05);
             img {
                 width: 0.9375rem; // 15px
                 height: 0.9375rem; // 15px
-                content: url("#{$thumbnail-asset-path}/icon_thumbnail_delete.png");
+                content: url("#{$icon-folder-path}icon_delete.svg");
                 cursor: pointer;
             }
         }
@@ -299,7 +299,7 @@ body.thumbnail-modal-active {
                         img {
                             width: 0.9375rem; // 15px
                             height: 0.9375rem; // 15px
-                            content: url("#{$thumbnail-asset-path}/icon_thumbnail_delete.png");
+                            content: url("#{$icon-folder-path}icon_delete.svg");
                         }
                     }
                 }
@@ -558,7 +558,7 @@ body.thumbnail-modal-active {
                         img {
                             width: 0.9375rem; // 15px
                             height: 0.9375rem; // 15px
-                            content: url("#{$thumbnail-asset-path}/icon_thumbnail_delete.png");
+                            content: url("#{$icon-folder-path}icon_delete.svg");
                         }
                     }
                 }

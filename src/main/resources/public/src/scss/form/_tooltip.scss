@@ -4,7 +4,11 @@
     vertical-align: middle;
 
     .help-tooltip-icon:before {
-        content: url($image-folder-path + "icon_info.png");
+        background: $pressed-gray;
+         -webkit-mask: url($icon-folder-path + "icon_tooltip.svg") no-repeat center center;
+        mask-image: url($icon-folder-path + "icon_tooltip.svg") ;
+        mask-repeat: no-repeat;
+        mask-position: center;
     }
 
     .tooltip-contents {
@@ -41,7 +45,7 @@
             animation-timing-function: ease-in-out;
         }
         .help-tooltip-icon {
-            content: url($image-folder-path + "icon_info_select.png");
+            background: $point-blue;
         }
     }
 }

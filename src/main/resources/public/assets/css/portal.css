@@ -1087,7 +1087,11 @@ a {
 }
 
 .help-tooltip .help-tooltip-icon:before {
-  content: url("../media/images/icon_info.png");
+  background: #CCCED1;
+  -webkit-mask: url("../media/icons/icon_tooltip.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_tooltip.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
 }
 
 .help-tooltip .tooltip-contents {
@@ -1125,7 +1129,7 @@ a {
 }
 
 .help-tooltip:hover .help-tooltip-icon {
-  content: url("../media/images/icon_info_select.png");
+  background: #0098FF;
 }
 
 .login-logo {
@@ -1363,13 +1367,19 @@ a {
   left: -2px;
 }
 
-/* date picker css */
+/* _date-picker.scss 
+ *
+ * 파일 경로 : template/_date-picker.scss
+ * @description Date/Time picker 관련 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
 .picker-wrapper-date {
   display: inline-block;
 }
 
 .picker-modal {
-  font-family: "Noto Sans KR";
+  font-family: inherit;
   display: none;
   position: fixed;
   background-color: #ffffff;
@@ -1395,12 +1405,16 @@ a {
   padding: 1.125rem 0;
 }
 
-.picker-modal-title img.close {
+.picker-modal-title span.close {
   position: absolute;
   right: 1.25rem;
+  background: #CCCED1;
   width: 0.875rem;
   height: 0.875rem;
-  content: url("../media/icons/datepicker/icon_close.png");
+  -webkit-mask: url("../media/icons/icon_close.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_close.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
 }
 
@@ -1447,8 +1461,15 @@ a {
 }
 
 .picker-modal-content-date-months .date-prev {
+  display: inline-block;
+  background: #586872;
+  width: 10px;
+  height: 6px;
+  -webkit-mask: url("../media/icons/icon_arrow_left.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_left.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_left.png");
 }
 
 .picker-modal-content-date-months .date-text {
@@ -1463,8 +1484,15 @@ a {
 }
 
 .picker-modal-content-date-months .date-next {
+  display: inline-block;
+  background: #586872;
+  width: 10px;
+  height: 6px;
+  -webkit-mask: url("../media/icons/icon_arrow_right.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_right.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_right.png");
 }
 
 .picker-modal-content-date-calendar {
@@ -1536,23 +1564,23 @@ a {
 .picker-modal-content-time .hour-group img.arrow-up,
 .picker-modal-content-time .minute-group img.arrow-up {
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_top.png");
+  content: url("../media/icons//icon_arrow_top.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-up:hover,
 .picker-modal-content-time .minute-group img.arrow-up:hover {
-  content: url("../media/icons/datepicker/icon_arrow_top_select.png");
+  content: url("../media/icons//icon_arrow_top_select.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-down,
 .picker-modal-content-time .minute-group img.arrow-down {
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_under.png");
+  content: url("../media/icons//icon_arrow_under.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-down:hover,
 .picker-modal-content-time .minute-group img.arrow-down:hover {
-  content: url("../media/icons/datepicker/icon_arrow_under_select.png");
+  content: url("../media/icons//icon_arrow_under_select.png");
 }
 
 .picker-modal-content-time .hour-group .digit,
@@ -1958,7 +1986,7 @@ a {
   border: none;
   grid-column: 3;
   grid-row: 1 / span 2;
-  background-image: url("../media/icons/dropzone/icon_fileupload_download.svg");
+  background-image: url("../media/icons/icon_download.svg");
   background-size: 1.25rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -1973,7 +2001,7 @@ a {
   border: none;
   grid-column: 5;
   grid-row: 1 / span 2;
-  background-image: url("../media/icons/dropzone/icon_fileupload_delete.svg");
+  background-image: url("../media/icons/icon_delete.svg");
   background-size: 1.125rem 1.25rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2272,7 +2300,7 @@ a {
   width: 18.75rem;
   height: 18.75rem;
   padding: 0;
-  background-image: url("../media/icons/dropzone/icon_image.svg");
+  background-image: url("../media/icons/icon_image.svg");
   background-size: 5rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2318,7 +2346,7 @@ a {
   position: absolute;
   top: 0;
   right: 0;
-  background-image: url("../media/icons/dropzone/icon_close.svg");
+  background-image: url("../media/icons/icon_close.svg");
   background-size: 0.875rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2366,7 +2394,7 @@ a {
   width: 9.375rem;
   height: 9.375rem;
   padding: 0;
-  background-image: url("../media/icons/dropzone/icon_image_sm.svg");
+  background-image: url("../media/icons/icon_image.svg");
   background-size: 2.813rem;
   background-repeat: no-repeat;
   background-position-x: center;

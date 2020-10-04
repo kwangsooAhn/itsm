@@ -31,12 +31,9 @@
             height: 3.125rem; // 50px
             width: 100%;
             cursor: pointer;
-            svg {
-                margin: 0.5rem 0 0.5rem 1.25rem; // 8px 0 8px 20px
-                fill: $blue-gray;
-            }
+                padding: 0.5rem 0 0.5rem 1.25rem; // 8px 0 8px 20px
             .notification-num {
-                margin: 1rem 0 1rem 1rem; // 16px 0 16px 10px
+                margin: 0.3125rem 1rem; // 5px 16px
                 padding: 0.125rem 0.625rem; // 2px 10px
                 border-radius: 1.25rem; // 20px
                 background-color: $blue-gray;
@@ -114,8 +111,8 @@
                     width: 27px;
                     height: 27px;
                     background: $blue-gray;
-                    -webkit-mask: url($icon-folder-path + "icon_logout.svg") no-repeat center center;
-                    mask-image: url($icon-folder-path + "icon_logout.svg");
+                    -webkit-mask: url($icon-folder-path + "gnb/icon_gnb_logout.svg") no-repeat center center;
+                    mask-image: url($icon-folder-path + "gnb/icon_gnb_logout.svg");
                     mask-repeat: no-repeat;
                     mask-position: center;
                     margin-left: 1.25rem; // 20px
@@ -134,10 +131,7 @@
     height: $logo-height;
     background-color: $menu-bg-color;
     position: fixed;
-
-    .navigation-logo {
-      padding: 15px 20px 15px 20px;; // 15px 20px 15px 20px;
-    }
+    padding: 15px 20px 15px 20px;; // 15px 20px 15px 20px;
 }
 
 .menu {

@@ -1,1 +1,58 @@
 // 공통으로 사용하고자 하는 디자인 묶음을 mixin으로 정의합니다.
+
+@mixin keyframe($animation_name) {
+  @-webkit-keyframes #{$animation_name} {
+    @content;
+  }
+
+  @-moz-keyframes #{$animation_name} {
+    @content;
+  }
+
+  @-o-keyframes #{$animation_name} {
+    @content;
+  }
+
+  @keyframes #{$animation_name} {
+    @content;
+  }
+}
+// 애니메이션
+@mixin animation($delay, $duration, $name, $timing, $count:1) {
+  animation-delay: $delay;
+  animation-duration: $duration;
+  animation-name: $name;
+  animation-timing-function: $timing;
+  animation-iteration-count: $count;
+}
+// 배경 이미지
+@mixin background($path, $size, $repeat, $posX, $posY, $color) {
+  background-image: url($path);
+  background-size: if($size == null, auto, $size);
+  background-repeat: if($repeat == null, no-repeat, $repeat);
+  background-position-x: if($posX == null, center, $posX);
+  background-position-y: if($posY == null, center, $posY);
+  @if ($color != null) {
+    background-color: $color;
+  }
+}
+// 아이콘
+@mixin maskImage($path, $width, $height, $repeat, $pos, $size, $color) {
+  @if ($width != null) {
+    width: $width;
+  }
+  @if ($height != null) {
+    height: $height;
+  }
+  -webkit-mask-image: url($path);
+  mask-image: url($path);
+  -webkit-mask-repeat: if($repeat == null, no-repeat, $repeat);
+  mask-repeat: if($repeat == null, no-repeat, $repeat);
+  -webkit-mask-position: if($pos == null, center, $pos);
+  mask-position: if($pos == null, center, $pos);
+  @if ($size != null) {
+    -webkit-mask-size: $size;
+    mask-size: $size;
+  }
+  background: $color;
+}

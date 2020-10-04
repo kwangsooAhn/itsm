@@ -47,7 +47,7 @@ $dropzone-point-color:          $point-blue;
 }
 
 @mixin background($path, $size, $repeat, $posX, $posY, $color) {
-    background-image: url($dropzone-folder-path + '/' + $path);
+    background-image: url($path);
     background-size: if($size == null, auto, $size);
     background-repeat: if($repeat == null, no-repeat, $repeat);
     background-position-x: if($posX == null, center, $posX);
@@ -241,7 +241,7 @@ $dropzone-point-color:          $point-blue;
             border: none;
             grid-column: 3;
             grid-row: 1 / span 2;
-            @include background ("icon_fileupload_download.svg", 1.25rem, no-repeat, center, center, null); // 20px
+            @include background ($icon-folder-path + 'icon_download.svg', 1.25rem, no-repeat, center, center, null); // 20px
         }
 
         // 파일 삭제 아이콘
@@ -253,7 +253,7 @@ $dropzone-point-color:          $point-blue;
             border: none;
             grid-column: 5;
             grid-row: 1 / span 2;
-            @include background ("icon_fileupload_delete.svg", 1.125rem 1.25rem, no-repeat, center, center, null); // 18px 20px
+            @include background ($icon-folder-path + 'icon_delete.svg', 1.125rem 1.25rem, no-repeat, center, center, null); // 18px 20px
         }
 
         &:hover .dz-details {
@@ -540,7 +540,7 @@ $dropzone-point-color:          $point-blue;
             width: 18.75rem; // 300px
             height: 18.75rem;
             padding: 0;
-            @include background ("icon_image.svg", 5rem, no-repeat, center, 5rem, null); // 65px
+            @include background ($icon-folder-path + 'icon_image.svg', 5rem, no-repeat, center, 5rem, null); // 65px
             .dz-message {
                 margin: 12.5rem 0 3rem 0; // 200px 0 48px 0
             }
@@ -576,7 +576,7 @@ $dropzone-point-color:          $point-blue;
                         position: absolute;
                         top: 0;
                         right: 0;
-                        @include background ("icon_close.svg", 0.875rem, no-repeat, center, center, null); // 14px
+                        @include background ($icon-folder-path + 'icon_close.svg', 0.875rem, no-repeat, center, center, null); // 14px
                         &:hover {
                             background-color: rgba(255, 255, 255, 0.9);
                         }
@@ -618,7 +618,7 @@ $dropzone-point-color:          $point-blue;
                 width: 9.375rem; // 150px
                 height: 9.375rem;
                 padding: 0;
-                @include background ("icon_image_sm.svg", 2.813rem, no-repeat, center, 1.688rem, null); // 45px, 27px
+                @include background ($icon-folder-path + 'icon_image.svg', 2.813rem, no-repeat, center, 1.688rem, null); // 45px, 27px
                 .dz-message {
                     margin: 5.625rem 0 0 0;
                     span {
