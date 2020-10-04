@@ -24,12 +24,12 @@
             </tr>
             <tr th:unless="${#arrays.isEmpty(processList)}" th:each="process: ${processList}">
                 <td width="20%" th:class="align-left">
-                    <div th:if="${process.enabled == true}">
+                    <th:block th:if="${process.enabled == true}">
                         <a sec:authorize="!hasAuthority('process.update')" th:text="${process.name}"
                            th:attr="onclick=|openProcessView('${process.id}')|"></a>
                         <a sec:authorize="hasAuthority('process.update')" th:text="${process.name}"
                            th:attr="onclick=|openProcessEdit('${process.id}')|"></a>
-                    </div>
+                    </th:block>
                     <div th:unless="${process.enabled == true}">
                         <span th:text="${process.name}"></span>
                     </div>

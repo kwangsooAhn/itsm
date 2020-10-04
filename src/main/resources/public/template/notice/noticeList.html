@@ -32,7 +32,7 @@
                 </td>
                 <td width="5%" th:if="${topNotice.popYn}">
                     <a th:attr="onclick=|openPopUp('${topNotice.noticeNo}', '${topNotice.popWidth}', '${topNotice.popHeight}')|">
-                        <img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_popup.svg'">
+                        <img th:src="@{/assets/theme/{theme}/media/icons/(theme=${#authentication.details.theme})} + 'icon_popup.svg'">
                     </a>
                 </td>
                 <td width="5%" th:unless="${topNotice.popYn}"></td>
@@ -50,7 +50,7 @@
                 </td>
                 <td width="5%" th:if="${notice.popYn}">
                     <a th:attr="onclick=|openPopUp('${notice.noticeNo}', '${notice.popWidth}', '${notice.popHeight}')|">
-                        <img th:src="@{/assets/theme/{theme}/icons/(theme=${#authentication.details.theme})} + 'icon_popup.svg'">
+                        <img th:src="@{/assets/theme/{theme}/media/icons/(theme=${#authentication.details.theme})} + 'icon_popup.svg'">
                     </a>
                 </td>
                 <td width="5%" th:unless="${notice.popYn}"></td>
