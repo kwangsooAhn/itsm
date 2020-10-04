@@ -13,6 +13,9 @@ $font-folder-path:                            "../fonts";
 $font-family:                                 "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
 $font-size-base:                              1rem;  // 16px
 
+$icon-folder-path:                            "../media/icons/";
+$image-folder-path:                           "../media/images/";
+
 // color
 $black:                                       #000000;
 $white:                                       #ffffff;
@@ -171,7 +174,7 @@ $button-bg-color:               transparent;
 $datepicker-asset-path:         "../media/icons/datepicker";
 
 // dropzone
-$dropzone-folder-path:          "../media/icons/dropzone";
+$dropzone-folder-path:          "../media/icons/dropzone/";
 $dropzone-pressed-bg-color:     $white;
 
 // container
