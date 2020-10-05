@@ -602,7 +602,6 @@ notice:
     edit: "Edit Notice"
     height: "Height"
     list: "Notice"
-    modifyCompleted: "Modify Completed"
     noticePeriod: "Notice Period"
     notSet: "Not Set"
     popUp:  "PopUp"

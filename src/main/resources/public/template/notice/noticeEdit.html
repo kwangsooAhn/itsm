@@ -33,7 +33,7 @@
                     <div id="dropZoneUploadedFiles"></div>
                 </div>
                 <div class="form-set">
-                    <label th:text="#{common.label.createUser}"></label>
+                    <label th:text="#{common.label.writer}"></label>
                     <input th:value="${notice?.aliceUserEntity?.userName} ? ${notice.aliceUserEntity.userName} : ${#authentication.details.userName}"
                            disabled/>
                 </div>
@@ -100,7 +100,7 @@
                     </button>
                     <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update"
                             class="point-fill" th:onclick="restSubmit('put',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])"
-                            th:text="#{notice.label.modifyCompleted}">
+                            th:text="#{common.btn.modify}">
                     </button>
                     <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
                             class="default-fill" th:onclick="aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), restSubmit, null, 'delete', [[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])"

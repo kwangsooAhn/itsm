@@ -602,7 +602,6 @@ notice:
     edit: "공지사항 수정"
     height: "높이"
     list: "공지사항"
-    modifyCompleted: "수정 완료"
     noticePeriod: "공지 기간"
     notSet: "미설정"
     popUp: "팝업"
