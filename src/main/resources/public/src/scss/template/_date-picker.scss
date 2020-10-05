@@ -181,42 +181,23 @@ $datepicker-active-color: $point-blue;
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
+                
+                .arrow-up {
+                  display: inline-block;
+                  @include maskImage('#{$icon-folder-path}icon_triangle_up.svg', 18px, 10px, no-repeat, center, null, $pressed-gray);
+                  cursor: pointer;
+                  &:hover {
+                    background: $point-blue;
+                  }
+                }
 
-                img {
-                    width: 1.125rem; // 18px
-                    height: 0.625rem; // 10px
-
-                    &.arrow-up {
-                      display: inline-block;
-                      background: $pressed-gray;
-                      width: 18px; // 18px
-                      height: 10px; // 10px
-                      -webkit-mask: url($icon-folder-path + "icon_triangle_up.svg") no-repeat center center;
-                      mask-image: url($icon-folder-path + "icon_triangle_up.svg") ;
-                      mask-repeat: no-repeat;
-                      mask-position: center;
-                      cursor: pointer;
-
-                      &:hover {
-                        background: $point-blue;
-                      }
-                    }
-
-                    &.arrow-down {
-                      display: inline-block;
-                      background: $pressed-gray;
-                      width: 18px; // 18px
-                      height: 10px; // 10px
-                      -webkit-mask: url($icon-folder-path + "icon_triangle_down.svg") no-repeat center center;
-                      mask-image: url($icon-folder-path + "icon_triangle_down.svg") ;
-                      mask-repeat: no-repeat;
-                      mask-position: center;
-                      cursor: pointer;
-
-                      &:hover {
-                        background: $point-blue;
-                      }
-                    }
+                .arrow-down {
+                  display: inline-block;
+                  @include maskImage('#{$icon-folder-path}icon_triangle_down.svg', 18px, 10px, no-repeat, center, null, $pressed-gray);
+                  cursor: pointer;
+                  &:hover {
+                    background: $point-blue;
+                  }
                 }
 
                 .digit {

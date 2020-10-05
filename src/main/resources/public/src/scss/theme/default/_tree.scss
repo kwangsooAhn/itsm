@@ -11,7 +11,7 @@ $tree-hover-background-color: #DCEDFF;
 
 ul.tree {
     list-style-type: none;
-    background: url("#{$tree-asset-path}/vline.png") repeat-y;
+    background: url("#{$tree-asset-path}/icon_tree_vline.svg") repeat-y;
     margin: 0;
     padding: 0 0 0 0.438rem; // 7px
     -webkit-user-select: none;
@@ -20,7 +20,7 @@ ul.tree {
     cursor: default;
     ul {
         list-style-type: none;
-        background: url("#{$tree-asset-path}/vline.png") repeat-y;
+        background: url("#{$tree-asset-path}/icon_tree_vline.svg") repeat-y;
         margin: 0;
         padding: 0 0 0 0.438rem; // 7px
         -webkit-user-select: none;
@@ -32,14 +32,14 @@ ul.tree {
         margin: 0.625rem 0 0.625rem 0; // 10px 0 10px 0
         padding: 0 0.75rem; // 12px
         line-height: 1.375rem; // 22px
-        background: url("#{$tree-asset-path}/node.png") no-repeat;
+        background: url("#{$tree-asset-path}/icon_tree_hline.svg") no-repeat;
     }
     li.last {
-        background: #F7F8F9 url("#{$tree-asset-path}/lastnode.png") no-repeat;
+        background: #F7F8F9 url("#{$tree-asset-path}/icon_tree_lastline.svg") no-repeat;
     }
 }
 li.last {
-    background-image: url("#{$tree-asset-path}/vline.png");
+    background-image: url("#{$tree-asset-path}/icon_tree_vline.svg");
     background-repeat: no-repeat;
 }
 img.exp_col {
