@@ -8,14 +8,14 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CodeRepository : JpaRepository<CodeEntity, String>, CodeRepositoryCustom {
-    fun findByPCodeOrderByCode(pCode: CodeEntity): MutableList<CodeEntity>
+    fun findByPCodeOrderBySeqNumAscCodeAsc(pCode: CodeEntity): MutableList<CodeEntity>
 
     /**
      * 코드 데이터 상세 정보 조회
      */
     @Query(
         "SELECT NEW co.brainz.itsm.code.dto.CodeDetailDto(c.code, c.pCode.code, c.codeName, c.codeValue, c.codeDesc, " +
-                "c.editable, c.createDt, c.createUser.userKey, c.updateDt, c.updateUser.userKey, true, c.level) FROM CodeEntity c " +
+                "c.editable, c.createDt, c.createUser.userKey, c.updateDt, c.updateUser.userKey, true, c.level, c.seqNum) FROM CodeEntity c " +
                 "WHERE c.code = :code "
     )
     fun findCodeDetail(code: String): CodeDetailDto

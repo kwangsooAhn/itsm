@@ -52,6 +52,10 @@
                         </div>
                     </div>
                     <div class="form-set">
+                        <label th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
+                        <input id="txtSeqNum" name="txtSeqNum" type="text" th:value="${codeDetail?.seqNum}" maxlength="5"/>
+                    </div>
+                    <div class="form-set">
                         <label th:text="#{code.label.description}" for="txtCodeDesc"></label>
                         <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7" th:text="${codeDetail?.codeDesc}"></textarea>
                     </div>
@@ -139,6 +143,7 @@
                         document.getElementById('txtCodeName').value = responseJson.codeName;
                         document.getElementById('txtCodeValue').value = responseJson.codeValue;
                         document.getElementById('txtCodeDesc').value = responseJson.codeDesc;
+                        document.getElementById('txtSeqNum').value = responseJson.seqNum;
                         document.getElementById('txtCreateUserName').value = responseJson.createUserName;
                         document.getElementById('txtCreateDt').value = i18n.userDateTime(responseJson.createDt);
                         document.getElementById('txtUpdateUserName').value = responseJson.updateUserName;
@@ -196,7 +201,8 @@
                 pCode: document.getElementById('txtPCode').value,
                 codeName: document.getElementById('txtCodeName').value,
                 codeValue: document.getElementById('txtCodeValue').value,
-                codeDesc: document.getElementById('txtCodeDesc').value
+                codeDesc: document.getElementById('txtCodeDesc').value,
+                seqNum: document.getElementById('txtSeqNum').value
             };
 
             if (jsonData.code === null || jsonData.code === '') {
