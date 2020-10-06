@@ -93,7 +93,7 @@
                     <label class="required" th:text="#{user.label.timezone}" for="timezone"></label>
                     <select class="custom-setting-top-select" name="timezone" id="timezone">
                         <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
-                                th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone?:'Asia/Seoul'}"></option>
+                                th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone?:defaultTimezone}"></option>
                     </select>
                 </div>
                 <div class="form-set column-6">

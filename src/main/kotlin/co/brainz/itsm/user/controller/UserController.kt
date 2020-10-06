@@ -141,6 +141,7 @@ class UserController(
      */
     @GetMapping("/new")
     fun getUserRegister(model: Model): String {
+        model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
         model.addAttribute("themeList", codeService.selectCodeByParent(UserConstants.PTHEMECODE.value))
         model.addAttribute("langList", codeService.selectCodeByParent(UserConstants.PLANGCODE.value))
         model.addAttribute("timezoneList", userService.selectTimezoneList())
