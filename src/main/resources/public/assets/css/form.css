@@ -72,6 +72,13 @@ template {
   display: none;
 }
 
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.15;
+  margin: 0;
+}
+
 /* _fonts.scss 
  *
  * 파일 경로 : template/_fonts.scss
@@ -128,81 +135,33 @@ template {
  * @author wdj
  * @vertionn 1.0
  */
-input, button, select, optgroup, textarea {
-  font-family: inherit;
-  font-size: 100%;
-  line-height: 1;
-  margin: 0;
-}
-
-a:link {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:visited {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-a:active {
-  text-decoration: none;
-}
-
-button {
-  background: inherit;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-  overflow: visible;
-  cursor: pointer;
-}
-
-input, button, select, optgroup, textarea {
-  font-family: inherit;
-  font-size: 100%;
-  line-height: 1;
-  margin: 0;
-}
-
-a:link {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:visited {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:hover {
-  text-decoration: none;
-}
-
-a:active {
-  text-decoration: none;
-}
-
-button {
-  background: inherit;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-  overflow: visible;
-  cursor: pointer;
+body {
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Noto Sans KR";
+  font-family: inherit;
   font-weight: 500;
   line-height: 1.2;
   color: #3F4B56;
+}
+
+h1 .dark, h2 .dark, h3 .dark, h4 .dark, h5 .dark, h6 .dark {
+  color: #586872;
+}
+
+h1 .ghost, h2 .ghost, h3 .ghost, h4 .ghost, h5 .ghost, h6 .ghost {
+  color: #929AA6;
+}
+
+h1 .point, h2 .point, h3 .point, h4 .point, h5 .point, h6 .point {
+  color: #0098FF;
+}
+
+h1 .info, h2 .info, h3 .info, h4 .info, h5 .info, h6 .info {
+  color: #33ADFF;
 }
 
 h1 {
@@ -226,12 +185,38 @@ h5 {
 }
 
 h6 {
+  font-family: 'Malgun Gothic';
   font-size: 0.875rem;
 }
 
+input::placeholder,
+textarea::placeholder {
+  color: #ACB4BF;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+a:link,
+a:visited {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover,
+a:active {
+  text-decoration: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
 input {
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.2;
   font-weight: 400;
   color: #586872;
   border: 0.0625rem solid #EBEBEB;
@@ -1266,7 +1251,7 @@ button.default-point-line:not(:disabled):active span.icon {
 }
 
 .component .field-group .field-content .dropzone .dz-default.dz-message {
-  background: url("../media/icons/dropzone/icon_fileupload.svg") no-repeat center 0.625rem;
+  background: url("../media/icons/formicon_component_fileupload.svg") no-repeat center 0.625rem;
 }
 
 .component .field-group .field-content .field-img[src=""] {
@@ -2307,7 +2292,7 @@ button.default-point-line:not(:disabled):active span.icon {
   border: none;
   grid-column: 3;
   grid-row: 1 / span 2;
-  background-image: url("../media/icons/dropzone/icon_fileupload_download.svg");
+  background-image: url("../media/icons/icon_download.svg");
   background-size: 1.25rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2322,7 +2307,7 @@ button.default-point-line:not(:disabled):active span.icon {
   border: none;
   grid-column: 5;
   grid-row: 1 / span 2;
-  background-image: url("../media/icons/dropzone/icon_fileupload_delete.svg");
+  background-image: url("../media/icons/icon_delete.svg");
   background-size: 1.125rem 1.25rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2375,11 +2360,6 @@ button.default-point-line:not(:disabled):active span.icon {
   height: 100%;
   grid-column: 1;
   grid-row: 1 / span 2;
-  background-image: url("../media/icons/dropzone/icon_document_txt.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
 }
 
 .dropzone .dz-preview:hover .dz-image img {
@@ -2626,7 +2606,7 @@ button.default-point-line:not(:disabled):active span.icon {
   width: 18.75rem;
   height: 18.75rem;
   padding: 0;
-  background-image: url("../media/icons/dropzone/icon_image.svg");
+  background-image: url("../media/icons/icon_image.svg");
   background-size: 5rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2672,7 +2652,7 @@ button.default-point-line:not(:disabled):active span.icon {
   position: absolute;
   top: 0;
   right: 0;
-  background-image: url("../media/icons/dropzone/icon_close.svg");
+  background-image: url("../media/icons/icon_close.svg");
   background-size: 0.875rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2720,7 +2700,7 @@ button.default-point-line:not(:disabled):active span.icon {
   width: 9.375rem;
   height: 9.375rem;
   padding: 0;
-  background-image: url("../media/icons/dropzone/icon_image_sm.svg");
+  background-image: url("../media/icons/icon_image.svg");
   background-size: 2.813rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2784,13 +2764,19 @@ body.document-modal-active {
   right: 0;
 }
 
-/* date picker css */
+/* _date-picker.scss 
+ *
+ * 파일 경로 : template/_date-picker.scss
+ * @description Date/Time picker 관련 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
 .picker-wrapper-date {
   display: inline-block;
 }
 
 .picker-modal {
-  font-family: "Noto Sans KR";
+  font-family: inherit;
   display: none;
   position: fixed;
   background-color: #ffffff;
@@ -2816,12 +2802,16 @@ body.document-modal-active {
   padding: 1.125rem 0;
 }
 
-.picker-modal-title img.close {
+.picker-modal-title span.close {
   position: absolute;
   right: 1.25rem;
+  background: #CCCED1;
   width: 0.875rem;
   height: 0.875rem;
-  content: url("../media/icons/datepicker/icon_close.png");
+  -webkit-mask: url("../media/icons/icon_close.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_close.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
 }
 
@@ -2868,8 +2858,15 @@ body.document-modal-active {
 }
 
 .picker-modal-content-date-months .date-prev {
+  display: inline-block;
+  background: #586872;
+  width: 10px;
+  height: 6px;
+  -webkit-mask: url("../media/icons/icon_arrow_left.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_left.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_left.png");
 }
 
 .picker-modal-content-date-months .date-text {
@@ -2884,8 +2881,15 @@ body.document-modal-active {
 }
 
 .picker-modal-content-date-months .date-next {
+  display: inline-block;
+  background: #586872;
+  width: 10px;
+  height: 6px;
+  -webkit-mask: url("../media/icons/icon_arrow_right.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_right.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_right.png");
 }
 
 .picker-modal-content-date-calendar {
@@ -2898,7 +2902,7 @@ body.document-modal-active {
   width: 1.875rem;
   height: 1.875rem;
   line-height: 0.8125rem;
-  padding: 0.5625rem 0 0 0;
+  padding: 0.4375rem;
   margin: 0.25rem 0.5rem;
   text-align: center;
 }
@@ -2956,24 +2960,38 @@ body.document-modal-active {
 
 .picker-modal-content-time .hour-group img.arrow-up,
 .picker-modal-content-time .minute-group img.arrow-up {
+  display: inline-block;
+  background: #CCCED1;
+  width: 18px;
+  height: 10px;
+  -webkit-mask: url("../media/icons/icon_triangle_up.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_triangle_up.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_top.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-up:hover,
 .picker-modal-content-time .minute-group img.arrow-up:hover {
-  content: url("../media/icons/datepicker/icon_arrow_top_select.png");
+  background: #0098FF;
 }
 
 .picker-modal-content-time .hour-group img.arrow-down,
 .picker-modal-content-time .minute-group img.arrow-down {
+  display: inline-block;
+  background: #CCCED1;
+  width: 18px;
+  height: 10px;
+  -webkit-mask: url("../media/icons/icon_triangle_down.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_triangle_down.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_under.png");
 }
 
 .picker-modal-content-time .hour-group img.arrow-down:hover,
 .picker-modal-content-time .minute-group img.arrow-down:hover {
-  content: url("../media/icons/datepicker/icon_arrow_under_select.png");
+  background: #0098FF;
 }
 
 .picker-modal-content-time .hour-group .digit,
@@ -3243,7 +3261,7 @@ body.thumbnail-modal-active {
 .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-bottom img {
   width: 0.9375rem;
   height: 0.9375rem;
-  content: url("../media/icons/thumbnail/icon_thumbnail_delete.png");
+  content: url("../media/icons/icon_delete.svg");
 }
 
 .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail-upload {
@@ -3742,7 +3760,11 @@ body.thumbnail-modal-active {
 }
 
 .help-tooltip .help-tooltip-icon:before {
-  content: url("../media/images/icon_info.png");
+  background: #CCCED1;
+  -webkit-mask: url("../media/icons/icon_tooltip.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_tooltip.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
 }
 
 .help-tooltip .tooltip-contents {
@@ -3780,5 +3802,5 @@ body.thumbnail-modal-active {
 }
 
 .help-tooltip:hover .help-tooltip-icon {
-  content: url("../media/images/icon_info_select.png");
+  background: #0098FF;
 }

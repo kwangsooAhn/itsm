@@ -1,19 +1,5 @@
 @import "../template/_elements.scss";
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: $headings-font-family;
-    font-weight: $headings-font-weight;
-    line-height: $headings-line-height;
-    color: $headings-color;
-}
-
-h1 { font-size: $h1-font-size; }
-h2 { font-size: $h2-font-size; }
-h3 { font-size: $h3-font-size; }
-h4 { font-size: $h4-font-size; }
-h5 { font-size: $h5-font-size; }
-h6 { font-size: $h6-font-size; }
-
 input {
     font-size: $input-font-size;
     line-height: $input-line-height;
@@ -320,8 +306,7 @@ table {
     border: $table-border;
     background-color: $table-bg-color;
     tr {
-        height: 2.5rem;
-        // 40px
+        height: 2.5rem; // 40px
         td,
         th {
             text-align: center;

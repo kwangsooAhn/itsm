@@ -65,3 +65,12 @@ table {
 template {
   display: none;
 }
+
+// Change the font styles in all browsers.
+// Remove the margin in Firefox and Safari.
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 0;
+}
