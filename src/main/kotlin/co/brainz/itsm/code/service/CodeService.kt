@@ -14,12 +14,11 @@ import org.springframework.stereotype.Service
 @Service
 class CodeService(
     private val codeRepository: CodeRepository,
-    private val customCodeRepository: CustomCodeRepository,
     private val userRepository: UserRepository
 ) {
 
     fun selectCodeByParent(code: String): MutableList<CodeEntity> {
-        return codeRepository.findByPCodeOrderByCode(codeRepository.findById(code).orElse(CodeEntity(code = code)))
+        return codeRepository.findByPCodeOrderBySeqNumAscCodeAsc(codeRepository.findById(code).orElse(CodeEntity(code = code)))
     }
 
     /**
@@ -65,9 +64,10 @@ class CodeService(
                     codeValue = codeEntity.codeValue,
                     codeDesc = codeEntity.codeDesc,
                     editable = codeEntity.editable,
+                    level = codeEntity.level,
+                    seqNum = codeEntity.seqNum,
                     createUserName = codeEntity.createUser?.userName,
                     updateUserName = codeEntity.updateUser?.userName,
-                    level = codeEntity.level,
                     totalCount = queryResults.total
                 )
             )
@@ -102,7 +102,8 @@ class CodeService(
             codeName = codeDetailDto.codeName,
             codeValue = codeDetailDto.codeValue,
             codeDesc = codeDetailDto.codeDesc,
-            editable = codeDetailDto.editable
+            editable = codeDetailDto.editable,
+            seqNum = codeDetailDto.seqNum
         )
 
         if (codeRepository.existsByCodeAndEditableTrue(codeDetailDto.code)) {
@@ -132,7 +133,8 @@ class CodeService(
             codeName = codeDetailDto.codeName,
             codeValue = codeDetailDto.codeValue,
             codeDesc = codeDetailDto.codeDesc,
-            editable = codeDetailDto.editable
+            editable = codeDetailDto.editable,
+            seqNum = codeDetailDto.seqNum
         )
 
         if (codeDetailDto.pCode.isNullOrEmpty()) {

@@ -36,6 +36,9 @@ data class CodeEntity(
     var editable: Boolean? = true,
 
     @Column(name = "level")
-    var level: Int? = null
+    var level: Int? = null,
+
+    @Column(name = "seq_num")
+    var seqNum: Int? = null
 
 ) : Serializable, AliceMetaEntity()

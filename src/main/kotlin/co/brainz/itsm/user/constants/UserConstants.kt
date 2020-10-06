@@ -21,7 +21,9 @@ enum class UserConstants(val value: String) {
     PTIMECODE("user.time"),
 
     /** 부서 관리 사용할 부모 코드 */
-    PDEPTCODE("department.group")
+    PDEPTCODE("department.group"),
+
+    DEFAULT_TIMEZONE("Asia/Seoul")
     ;
 
     /**
