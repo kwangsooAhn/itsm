@@ -35,14 +35,14 @@
         </td>
         <td width="10%">
             <th:block th:switch="${#authorization.expression('hasAuthority(''form.read'')')}">
-                <a th:case="true" th:attr="onclick=|openFormDesignerView('${form.id}')|"><img src="../assets/media/icons/process/list/icon_preview.svg"/></a>
-                <a th:case="*" th:attr="onclick=|aliceJs.alertWarning('#{auth.msg.accessDenied}')|"><img src="../assets/media/icons/process/list/icon_preview.svg"/></a>
+                <a th:case="true" th:attr="onclick=|openFormDesignerView('${form.id}')|"><img src="../assets/media/icons/icon_preview.svg"/></a>
+                <a th:case="*" th:attr="onclick=|aliceJs.alertWarning('#{auth.msg.accessDenied}')|"><img src="../assets/media/icons/icon_preview.svg"/></a>
             </th:block>
         </td>
         <td width="10%">
             <th:block th:switch="${#authorization.expression('hasAnyAuthority(''form.create'', ''form.update'')')}">
-                <a th:case="true" th:disabled="${!form.editable}" th:attr="onclick=|openFormDesignerEdit('${form.id}')|"><img src="../assets/media/icons/process/list/icon_edit.svg"/></a>
-                <a th:case="*" th:disabled="${!form.editable}" th:attr="onclick=|aliceJs.alertWarning('#{auth.msg.accessDenied}')|"><img src="../assets/media/icons/process/list/icon_edit.svg"/></a>
+                <a th:case="true" th:disabled="${!form.editable}" th:attr="onclick=|openFormDesignerEdit('${form.id}')|"><img src="../assets/media/icons/icon_edit.svg"/></a>
+                <a th:case="*" th:disabled="${!form.editable}" th:attr="onclick=|aliceJs.alertWarning('#{auth.msg.accessDenied}')|"><img src="../assets/media/icons/icon_edit.svg"/></a>
             </th:block>
         </td>
         <td width="10%" th:text="#{${form.status}}"></td>

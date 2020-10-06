@@ -510,7 +510,7 @@ textarea:focus {
 .trash-icon {
   width: 18px;
   height: 20px;
-  background: url("../../../media/icons/document/icon_trash.svg") no-repeat center center;
+  background: url("../../../media/icons/icon_delete.svg") no-repeat center center;
 }
 
 .trash-icon:hover {
@@ -3072,8 +3072,6 @@ span.vertical-bar {
 }
 
 .notification-menu img, .notification-menu button {
-  width: 1.125rem;
-  height: 1.125rem;
   margin: 0;
   border: none;
   background-color: transparent;
@@ -4246,45 +4244,43 @@ span.vertical-bar {
   align-items: center;
 }
 
-.picker-modal-content-time .hour-group img,
-.picker-modal-content-time .minute-group img {
-  width: 1.125rem;
-  height: 0.625rem;
-}
-
-.picker-modal-content-time .hour-group img.arrow-up,
-.picker-modal-content-time .minute-group img.arrow-up {
+.picker-modal-content-time .hour-group .arrow-up,
+.picker-modal-content-time .minute-group .arrow-up {
   display: inline-block;
-  background: #CCCED1;
   width: 18px;
   height: 10px;
-  -webkit-mask: url("../media/icons/icon_triangle_up.svg") no-repeat center center;
+  -webkit-mask-image: url("../media/icons/icon_triangle_up.svg");
   mask-image: url("../media/icons/icon_triangle_up.svg");
+  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+  -webkit-mask-position: center;
   mask-position: center;
+  background: #CCCED1;
   cursor: pointer;
 }
 
-.picker-modal-content-time .hour-group img.arrow-up:hover,
-.picker-modal-content-time .minute-group img.arrow-up:hover {
+.picker-modal-content-time .hour-group .arrow-up:hover,
+.picker-modal-content-time .minute-group .arrow-up:hover {
   background: #0098FF;
 }
 
-.picker-modal-content-time .hour-group img.arrow-down,
-.picker-modal-content-time .minute-group img.arrow-down {
+.picker-modal-content-time .hour-group .arrow-down,
+.picker-modal-content-time .minute-group .arrow-down {
   display: inline-block;
-  background: #CCCED1;
   width: 18px;
   height: 10px;
-  -webkit-mask: url("../media/icons/icon_triangle_down.svg") no-repeat center center;
+  -webkit-mask-image: url("../media/icons/icon_triangle_down.svg");
   mask-image: url("../media/icons/icon_triangle_down.svg");
+  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+  -webkit-mask-position: center;
   mask-position: center;
+  background: #CCCED1;
   cursor: pointer;
 }
 
-.picker-modal-content-time .hour-group img.arrow-down:hover,
-.picker-modal-content-time .minute-group img.arrow-down:hover {
+.picker-modal-content-time .hour-group .arrow-down:hover,
+.picker-modal-content-time .minute-group .arrow-down:hover {
   background: #0098FF;
 }
 
@@ -5857,7 +5853,7 @@ body.thumbnail-modal-active {
 
 ul.tree {
   list-style-type: none;
-  background: url("../../../media/icons/tree/vline.png") repeat-y;
+  background: url("../../../media/icons/tree/icon_tree_vline.svg") repeat-y;
   margin: 0;
   padding: 0 0 0 0.438rem;
   -webkit-user-select: none;
@@ -5868,7 +5864,7 @@ ul.tree {
 
 ul.tree ul {
   list-style-type: none;
-  background: url("../../../media/icons/tree/vline.png") repeat-y;
+  background: url("../../../media/icons/tree/icon_tree_vline.svg") repeat-y;
   margin: 0;
   padding: 0 0 0 0.438rem;
   -webkit-user-select: none;
@@ -5881,15 +5877,15 @@ ul.tree li {
   margin: 0.625rem 0 0.625rem 0;
   padding: 0 0.75rem;
   line-height: 1.375rem;
-  background: url("../../../media/icons/tree/node.png") no-repeat;
+  background: url("../../../media/icons/tree/icon_tree_hline.svg") no-repeat;
 }
 
 ul.tree li.last {
-  background: #F7F8F9 url("../../../media/icons/tree/lastnode.png") no-repeat;
+  background: #F7F8F9 url("../../../media/icons/tree/icon_tree_lastline.svg") no-repeat;
 }
 
 li.last {
-  background-image: url("../../../media/icons/tree/vline.png");
+  background-image: url("../../../media/icons/tree/icon_tree_vline.svg");
   background-repeat: no-repeat;
 }
 
