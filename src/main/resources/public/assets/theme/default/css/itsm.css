@@ -540,6 +540,13 @@ textarea:focus {
   margin-right: 0.625rem;
 }
 
+.user-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 8.75rem;
+}
+
 .document-color-circle {
   height: 1rem;
   width: 1rem;
