@@ -193,6 +193,15 @@ label.radio-group {
             }
         }
     }
+    &:focus {
+        input[type=radio] {
+          + span {
+            &:before {
+              border-color: $point-blue;
+            }
+          }
+        }
+      }
 }
 
 label.checkbox-group {
@@ -256,31 +265,36 @@ label.checkbox-group {
             }
         }
     }
+    &:focus {
+            input[type=checkbox] {
+              + span {
+                &:before {
+                  border-color: $point-blue;
+                }
+              }
+            }
+          }
 }
 
 input[type=range] {
     -webkit-appearance: none;
     width: 78%;
     height: 0.0625rem; // 1px
-    background-color: $input-range-border-color;
+    background-color: $line-gray;
     outline: 0;
     &::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 1.125rem;
-        // 18px
-        height: 1.125rem;
-        // 18px
+        width: 1.125rem; // 18px
+        height: 1.125rem; // 18px
         border: $input-range-round-border;
         border-radius: 50%;
         background: $input-range-round-bg-color;
         cursor: pointer;
     }
     &::-moz-range-thumb {
-        width: 1.125rem;
-        // 18px
-        height: 1.125rem;
-        // 18px
+        width: 1.125rem; // 18px
+        height: 1.125rem; // 18px
         border: $input-range-round-border;
         border-radius: 50%;
         background: $input-range-round-bg-color;

@@ -75,7 +75,7 @@ template {
 input, button, select, optgroup, textarea {
   font-family: inherit;
   font-size: 100%;
-  line-height: 1.15;
+  line-height: 1.2;
   margin: 0;
 }
 
@@ -189,15 +189,6 @@ h6 {
   font-size: 0.875rem;
 }
 
-input::placeholder,
-textarea::placeholder {
-  color: #ACB4BF;
-}
-
-.underline {
-  text-decoration: underline;
-}
-
 a:link,
 a:visited {
   text-decoration: none;
@@ -209,9 +200,226 @@ a:active {
   text-decoration: none;
 }
 
+input {
+  height: 2.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding: 0 0.625rem 0 0.625rem;
+}
+
+input::placeholder {
+  color: #ACB4BF;
+}
+
+input:focus {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+}
+
+input:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+input:disabled, input:read-only {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
+}
+
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding: 0.5rem 0.625rem 0.5rem 0.625rem;
+  resize: vertical;
+}
+
+textarea::placeholder {
+  color: #ACB4BF;
+}
+
+textarea:focus {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+}
+
+textarea:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+textarea:disabled, textarea:read-only {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
+}
+
 table {
   border-collapse: collapse;
   border-spacing: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+table tr {
+  height: 2.5rem;
+}
+
+table tr td, table tr th {
+  border: 0.0625rem solid #EBEBEB;
+}
+
+select {
+  height: 2.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding: 0 0.625rem 0 0.625rem;
+}
+
+select:focus {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+}
+
+select:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+select:disabled, select:read-only {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
+}
+
+span {
+  margin: auto 0;
+}
+
+.radio {
+  position: relative;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+}
+
+.radio input[type=radio] {
+  display: none;
+}
+
+.radio input[type=radio] + span {
+  cursor: pointer;
+}
+
+.radio input[type=radio] + span:before {
+  content: '';
+  display: inline-block;
+  position: relative;
+  width: 1.125rem;
+  height: 1.125rem;
+  top: -0.0625rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 50%;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.radio input[type=radio] + span:after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.radio input[type=radio]:checked + span:before {
+  border-color: #EBEBEB;
+}
+
+.radio input[type=radio]:checked + span:after {
+  background-color: #0098FF;
+  transform: translate(0.25rem, 0.5rem) scale(1);
+}
+
+.radio input[type=radio]:hover + span:before {
+  border-color: #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+.radio input[type=radio]:disabled + span {
+  color: #ACB4BF;
+}
+
+.radio input[type=radio]:disabled + span:before {
+  border-color: #F7F8F9;
+}
+
+.radio input[type=radio]:disabled + span:after {
+  background-color: #F7F8F9;
+}
+
+.radio:focus input[type=radio] + span:before {
+  border-color: #0098FF;
+}
+
+.checkbox {
+  position: relative;
+}
+
+.switch {
+  position: relative;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.description {
+  color: #7E848C;
+}
+
+.required {
+  padding-left: 0.3125rem;
+  font-weight: 700;
+}
+
+.required::after {
+  color: #FF405A;
+  content: "\002a";
 }
 
 input {
@@ -414,6 +622,10 @@ label.radio-group input[type=radio]:disabled + span:after {
   background-color: #F7F8F9;
 }
 
+label.radio-group:focus input[type=radio] + span:before {
+  border-color: #0098FF;
+}
+
 label.checkbox-group {
   font-size: 16px;
   line-height: 24px;
@@ -470,6 +682,10 @@ label.checkbox-group input[type=checkbox]:disabled + span {
 
 label.checkbox-group input[type=checkbox]:disabled + span:before {
   background-color: #F7F8F9;
+}
+
+label.checkbox-group:focus input[type=checkbox] + span:before {
+  border-color: #0098FF;
 }
 
 input[type=range] {
