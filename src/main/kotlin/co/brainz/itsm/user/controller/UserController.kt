@@ -172,13 +172,43 @@ class UserController(
      */
     @GetMapping("/new")
     fun getUserRegister(model: Model): String {
+        val selectCodeList = mutableListOf(
+            UserConstants.PTHEMECODE.value,
+            UserConstants.PLANGCODE.value,
+            UserConstants.PDATECODE.value,
+            UserConstants.PTIMECODE.value
+        )
+
+        var codeList = codeService.selectCodeByParent(selectCodeList)
+        var themeList = mutableListOf<CodeEntity>()
+        var langList = mutableListOf<CodeEntity>()
+        var dateList = mutableListOf<CodeEntity>()
+        var timeList = mutableListOf<CodeEntity>()
+
+        codeList.forEach {
+            when (it.pCode?.code) {
+                UserConstants.PTHEMECODE.value -> {
+                    themeList.add(it)
+                }
+                UserConstants.PLANGCODE.value -> {
+                    langList.add(it)
+                }
+                UserConstants.PDATECODE.value -> {
+                    dateList.add(it)
+                }
+                UserConstants.PTIMECODE.value -> {
+                    timeList.add(it)
+                }
+            }
+        }
+
         model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
         model.addAttribute("roles", roleService.getRoles(mutableSetOf()))
-        model.addAttribute("dateList", codeService.selectCodeByParent(UserConstants.PDATECODE.value))
-        model.addAttribute("timeList", codeService.selectCodeByParent(UserConstants.PTIMECODE.value))
-        model.addAttribute("themeList", codeService.selectCodeByParent(UserConstants.PTHEMECODE.value))
-        model.addAttribute("langList", codeService.selectCodeByParent(UserConstants.PLANGCODE.value))
+        model.addAttribute("themeList", themeList)
+        model.addAttribute("langList", langList)
+        model.addAttribute("dateList", dateList)
+        model.addAttribute("timeList", timeList)
 
         return userEditPage
     }
