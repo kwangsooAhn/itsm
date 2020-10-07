@@ -6,8 +6,10 @@
  */
 @charset 'utf-8';
 
-@import '../template/_reset.scss';
-@import '../template/_alignments.scss';
+@import '../template/_reset.scss'; // 상속 불가
+@import '../template/_functions.scss'; // 상속 불가
+@import '../template/_mixins.scss'; // 상속 불가
+@import '../template/_alignments.scss'; // 상속 불가
 @import '_variables.scss';
 @import '_fonts.scss';
 

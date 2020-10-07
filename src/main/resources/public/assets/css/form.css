@@ -72,6 +72,23 @@ template {
   display: none;
 }
 
+/* _alignments.scss 
+ *
+ * 파일 경로 : template/_alignments.scss
+ * @description 정렬, 배치 관련 디자인
+ * @author jy.lim
+ * @vertionn 1.0
+ */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 /* _fonts.scss 
  *
  * 파일 경로 : template/_fonts.scss
@@ -1179,11 +1196,11 @@ button.default-point-line:not(:disabled):active span.icon {
 
 .component .field-group .field-content .datepicker,
 .component .field-group .field-content .datetimepicker {
-  background: #ffffff url("../media/icons/datepicker/icon_calendar.svg") no-repeat 98% 50%;
+  background: #ffffff url("../media/icons/icon_calendar.svg") no-repeat 98% 50%;
 }
 
 .component .field-group .field-content .timepicker {
-  background: #ffffff url("../media/icons/datepicker/icon_clock.svg") no-repeat 98% 50%;
+  background: #ffffff url("../media/icons/icon_clock.svg") no-repeat 98% 50%;
 }
 
 .component .field-group .field-content .picker-wrapper-date {
@@ -1266,7 +1283,7 @@ button.default-point-line:not(:disabled):active span.icon {
 }
 
 .component .field-group .field-content .dropzone .dz-default.dz-message {
-  background: url("../media/icons/dropzone/icon_fileupload.svg") no-repeat center 0.625rem;
+  background: url("../media/icons/form/icon_component_fileupload.svg") no-repeat center 0.625rem;
 }
 
 .component .field-group .field-content .field-img[src=""] {
@@ -1981,11 +1998,11 @@ button.default-point-line:not(:disabled):active span.icon {
 
 .property-group .property-field .picker-wrapper-date .datepicker,
 .property-group .property-field .picker-wrapper-date .datetimepicker {
-  background: #ffffff url("../media/icons/datepicker/icon_calendar.svg") no-repeat 98% 50%;
+  background: #ffffff url("../media/icons/icon_calendar.svg") no-repeat 98% 50%;
 }
 
 .property-group .property-field .picker-wrapper-date .timepicker {
-  background: #ffffff url("../media/icons/datepicker/icon_clock.svg") no-repeat 98% 50%;
+  background: #ffffff url("../media/icons/icon_clock.svg") no-repeat 98% 50%;
 }
 
 .property-group .property-field span.property-field-unit {
@@ -2307,7 +2324,7 @@ button.default-point-line:not(:disabled):active span.icon {
   border: none;
   grid-column: 3;
   grid-row: 1 / span 2;
-  background-image: url("../media/icons/dropzone/icon_fileupload_download.svg");
+  background-image: url("../media/icons/icon_download.svg");
   background-size: 1.25rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2322,7 +2339,7 @@ button.default-point-line:not(:disabled):active span.icon {
   border: none;
   grid-column: 5;
   grid-row: 1 / span 2;
-  background-image: url("../media/icons/dropzone/icon_fileupload_delete.svg");
+  background-image: url("../media/icons/icon_delete.svg");
   background-size: 1.125rem 1.25rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2375,11 +2392,6 @@ button.default-point-line:not(:disabled):active span.icon {
   height: 100%;
   grid-column: 1;
   grid-row: 1 / span 2;
-  background-image: url("../media/icons/dropzone/icon_document_txt.svg");
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
 }
 
 .dropzone .dz-preview:hover .dz-image img {
@@ -2626,7 +2638,7 @@ button.default-point-line:not(:disabled):active span.icon {
   width: 18.75rem;
   height: 18.75rem;
   padding: 0;
-  background-image: url("../media/icons/dropzone/icon_image.svg");
+  background-image: url("../media/icons/icon_image.svg");
   background-size: 5rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2672,7 +2684,7 @@ button.default-point-line:not(:disabled):active span.icon {
   position: absolute;
   top: 0;
   right: 0;
-  background-image: url("../media/icons/dropzone/icon_close.svg");
+  background-image: url("../media/icons/icon_close.svg");
   background-size: 0.875rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2720,7 +2732,7 @@ button.default-point-line:not(:disabled):active span.icon {
   width: 9.375rem;
   height: 9.375rem;
   padding: 0;
-  background-image: url("../media/icons/dropzone/icon_image_sm.svg");
+  background-image: url("../media/icons/icon_image.svg");
   background-size: 2.813rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -2784,13 +2796,19 @@ body.document-modal-active {
   right: 0;
 }
 
-/* date picker css */
+/* _date-picker.scss 
+ *
+ * 파일 경로 : template/_date-picker.scss
+ * @description Date/Time picker 관련 디자인
+ * @author wdj
+ * @vertionn 1.0
+ */
 .picker-wrapper-date {
   display: inline-block;
 }
 
 .picker-modal {
-  font-family: "Noto Sans KR";
+  font-family: inherit;
   display: none;
   position: fixed;
   background-color: #ffffff;
@@ -2816,12 +2834,16 @@ body.document-modal-active {
   padding: 1.125rem 0;
 }
 
-.picker-modal-title img.close {
+.picker-modal-title span.close {
   position: absolute;
   right: 1.25rem;
+  background: #CCCED1;
   width: 0.875rem;
   height: 0.875rem;
-  content: url("../media/icons/datepicker/icon_close.png");
+  -webkit-mask: url("../media/icons/icon_close.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_close.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
 }
 
@@ -2868,8 +2890,15 @@ body.document-modal-active {
 }
 
 .picker-modal-content-date-months .date-prev {
+  display: inline-block;
+  background: #586872;
+  width: 10px;
+  height: 6px;
+  -webkit-mask: url("../media/icons/icon_arrow_left.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_left.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_left.png");
 }
 
 .picker-modal-content-date-months .date-text {
@@ -2884,8 +2913,15 @@ body.document-modal-active {
 }
 
 .picker-modal-content-date-months .date-next {
+  display: inline-block;
+  background: #586872;
+  width: 10px;
+  height: 6px;
+  -webkit-mask: url("../media/icons/icon_arrow_right.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_arrow_right.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_right.png");
 }
 
 .picker-modal-content-date-calendar {
@@ -2898,7 +2934,7 @@ body.document-modal-active {
   width: 1.875rem;
   height: 1.875rem;
   line-height: 0.8125rem;
-  padding: 0.5625rem 0 0 0;
+  padding: 0.4375rem;
   margin: 0.25rem 0.5rem;
   text-align: center;
 }
@@ -2948,32 +2984,44 @@ body.document-modal-active {
   align-items: center;
 }
 
-.picker-modal-content-time .hour-group img,
-.picker-modal-content-time .minute-group img {
-  width: 1.125rem;
-  height: 0.625rem;
-}
-
-.picker-modal-content-time .hour-group img.arrow-up,
-.picker-modal-content-time .minute-group img.arrow-up {
+.picker-modal-content-time .hour-group .arrow-up,
+.picker-modal-content-time .minute-group .arrow-up {
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  -webkit-mask-image: url("../media/icons/icon_triangle_up.svg");
+  mask-image: url("../media/icons/icon_triangle_up.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_top.png");
 }
 
-.picker-modal-content-time .hour-group img.arrow-up:hover,
-.picker-modal-content-time .minute-group img.arrow-up:hover {
-  content: url("../media/icons/datepicker/icon_arrow_top_select.png");
+.picker-modal-content-time .hour-group .arrow-up:hover,
+.picker-modal-content-time .minute-group .arrow-up:hover {
+  background: #0098FF;
 }
 
-.picker-modal-content-time .hour-group img.arrow-down,
-.picker-modal-content-time .minute-group img.arrow-down {
+.picker-modal-content-time .hour-group .arrow-down,
+.picker-modal-content-time .minute-group .arrow-down {
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  -webkit-mask-image: url("../media/icons/icon_triangle_down.svg");
+  mask-image: url("../media/icons/icon_triangle_down.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
   cursor: pointer;
-  content: url("../media/icons/datepicker/icon_arrow_under.png");
 }
 
-.picker-modal-content-time .hour-group img.arrow-down:hover,
-.picker-modal-content-time .minute-group img.arrow-down:hover {
-  content: url("../media/icons/datepicker/icon_arrow_under_select.png");
+.picker-modal-content-time .hour-group .arrow-down:hover,
+.picker-modal-content-time .minute-group .arrow-down:hover {
+  background: #0098FF;
 }
 
 .picker-modal-content-time .hour-group .digit,
@@ -3243,7 +3291,7 @@ body.thumbnail-modal-active {
 .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-bottom img {
   width: 0.9375rem;
   height: 0.9375rem;
-  content: url("../media/icons/thumbnail/icon_thumbnail_delete.png");
+  content: url("../media/icons/icon_delete.svg");
 }
 
 .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail-upload {
@@ -3742,7 +3790,11 @@ body.thumbnail-modal-active {
 }
 
 .help-tooltip .help-tooltip-icon:before {
-  content: url("../media/images/icon_info.png");
+  background: #CCCED1;
+  -webkit-mask: url("../media/icons/icon_tooltip.svg") no-repeat center center;
+  mask-image: url("../media/icons/icon_tooltip.svg");
+  mask-repeat: no-repeat;
+  mask-position: center;
 }
 
 .help-tooltip .tooltip-contents {
@@ -3780,5 +3832,5 @@ body.thumbnail-modal-active {
 }
 
 .help-tooltip:hover .help-tooltip-icon {
-  content: url("../media/images/icon_info_select.png");
+  background: #0098FF;
 }

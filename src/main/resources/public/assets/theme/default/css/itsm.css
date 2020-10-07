@@ -520,7 +520,7 @@ textarea:focus {
 .edit-icon {
   width: 20px;
   height: 20px;
-  background: url("../../../media/icons/document/icon_edit.svg") no-repeat center center;
+  background: url("../../../media/icons/icon_edit.svg") no-repeat center center;
 }
 
 .edit-icon:hover {
@@ -931,6 +931,7 @@ span.vertical-bar {
 
 .container-document .token-info-contents .token-history .table thead tr {
   display: flex;
+  align-items: center;
 }
 
 .container-document .token-info-contents .token-history .table th {
