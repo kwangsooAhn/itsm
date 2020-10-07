@@ -18,5 +18,6 @@ data class CodeDetailDto(
     var updateDt: LocalDateTime? = null,
     var updateUserName: String? = null,
     var enabled: Boolean? = true,
-    var level: Int? = null
+    var level: Int? = null,
+    var seqNum: Int? = null
 ) : Serializable

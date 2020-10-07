@@ -41,13 +41,13 @@
         <td style="width: 10%;">
             <a sec:authorize="hasAuthority('document.admin.update')"
                th:attr="onclick=|openDocumentEdit('${document.documentId}')|">
-                <img src="../assets/media/icons/document/icon_edit.svg"></a>
+                <img src="../assets/media/icons/icon_edit.svg"></a>
             </a>
         </td>
         <td style="width: 10%;">
             <a sec:authorize="hasAuthority('document.admin.delete')"
                th:attr="onclick=|deleteDocument('${document.documentId}')|">
-                <img src="../assets/media/icons/document/icon_trash.svg"></a>
+                <img src="../assets/media/icons/icon_delete.svg"></a>
         </td>
     </tr>
     </tbody>

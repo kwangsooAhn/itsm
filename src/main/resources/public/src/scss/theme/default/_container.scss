@@ -7,13 +7,13 @@
 .trash-icon {
     width: 18px;
     height: 20px;
-    background: url("../../../media/icons/document/icon_trash.svg") no-repeat center center;
+    background: url("../../../media/icons/icon_delete.svg") no-repeat center center;
     &:hover { background-color: rgba(0,0,0,0);}
 }
 .edit-icon {
     width: 20px;
     height: 20px;
-    background: url("../../../media/icons/document/icon_edit.svg") no-repeat center center;
+    background: url("../../../media/icons/icon_edit.svg") no-repeat center center;
     &:hover { background-color: rgba(0,0,0,0);}
 }
 .required::after {
@@ -28,6 +28,13 @@
     border-radius: 50%;
     background: rgba(240, 240, 240, 1);
     margin-right: 0.625rem; // 10px
+}
+
+.user-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 8.75rem; // 140px
 }
 
 // 리스트 출력용 아바타 이미지
@@ -233,6 +240,7 @@ span.vertical-bar {
                                 display: block;
                                 tr {
                                     display: flex;
+                                    align-items: center;
                                 }
                             }
                             th { color: $light-black; font-weight: 500; }

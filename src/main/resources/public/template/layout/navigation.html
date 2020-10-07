@@ -20,7 +20,6 @@
             <a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}">
                 <img class="user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
                 <span class="user-name" sec:authentication="details.userName"></span>
-                <span class="my-modify"></span>
             </a>
         </div>
         <div class="logout-menu">

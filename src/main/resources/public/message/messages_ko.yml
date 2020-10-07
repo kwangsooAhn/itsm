@@ -228,6 +228,7 @@ code:
     pCode: "부모 코드"
     name : "코드 이름"
     description: "코드 설명"
+    seqNum: "출력 순서"
   msg:
     duplicateCode: "중복된 코드가 존재합니다."
     enterCode: "코드를 입력하세요."
