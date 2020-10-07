@@ -5,6 +5,7 @@ import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
@@ -114,25 +115,45 @@ class UserController(
             model.addAttribute("deptCodeDetail", deptCodeDetail)
         }
 
-        val codeList = mutableListOf(
+        val selectCodeList = mutableListOf(
             UserConstants.PTHEMECODE.value,
             UserConstants.PLANGCODE.value,
             UserConstants.PDATECODE.value,
             UserConstants.PTIMECODE.value
         )
 
-        var test = (codeService.selectCodeByParent(codeList))
+        var codeList = codeService.selectCodeByParent(selectCodeList)
+        var themeList = mutableListOf<CodeEntity>()
+        var langList = mutableListOf<CodeEntity>()
+        var dateList = mutableListOf<CodeEntity>()
+        var timeList = mutableListOf<CodeEntity>()
 
+        codeList.forEach {
+            when (it.pCode?.code) {
+                UserConstants.PTHEMECODE.value -> {
+                    themeList.add(it)
+                }
+                UserConstants.PLANGCODE.value -> {
+                    langList.add(it)
+                }
+                UserConstants.PDATECODE.value -> {
+                    dateList.add(it)
+                }
+                UserConstants.PTIMECODE.value -> {
+                    timeList.add(it)
+                }
+            }
+        }
 
         model.addAttribute("users", users)
         model.addAttribute("roles", roles)
         model.addAttribute("usersDate", usersDate)
         model.addAttribute("usersTime", usersTime)
         model.addAttribute("timezoneList", userService.selectTimezoneList())
-        model.addAttribute("themeList", codeService.selectCodeByParent(UserConstants.PTHEMECODE.value))
-        model.addAttribute("langList", codeService.selectCodeByParent(UserConstants.PLANGCODE.value))
-        model.addAttribute("dateList", codeService.selectCodeByParent(UserConstants.PDATECODE.value))
-        model.addAttribute("timeList", codeService.selectCodeByParent(UserConstants.PTIMECODE.value))
+        model.addAttribute("themeList", themeList)
+        model.addAttribute("langList", langList)
+        model.addAttribute("dateList", dateList)
+        model.addAttribute("timeList", timeList)
 
         when (target) {
             "editSelf" -> {

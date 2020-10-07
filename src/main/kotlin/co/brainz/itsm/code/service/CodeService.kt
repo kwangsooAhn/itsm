@@ -17,8 +17,8 @@ class CodeService(
 ) {
 
     fun selectCodeByParent(code: Any): MutableList<CodeEntity> {
-        var codeList : MutableList<*>? = mutableListOf<Any>()
-        var pCodeList: MutableList<MutableList<CodeEntity>>? = mutableListOf()
+        var codeList : MutableList<*> = mutableListOf<Any>()
+
         when (code) {
             is String -> {
                 codeList = codeRepository.findByPCodeOrderBySeqNumAscCodeAsc(
@@ -26,13 +26,7 @@ class CodeService(
                 )
             }
             is MutableList<*> -> {
-                for (data in code) {
-                    var codeData = codeRepository.findByPCodeOrderBySeqNumAscCodeAsc(
-                        codeRepository.findById(data as String).orElse(CodeEntity(code = data)))
-
-                    pCodeList?.add(codeData)
-                }
-                codeList = pCodeList
+                codeList = codeRepository.findByPCodeIn(codeRepository.findByCodeIn(code as MutableList<CodeEntity>))
             }
         }
         return codeList as MutableList<CodeEntity>
