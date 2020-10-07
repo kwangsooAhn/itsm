@@ -1555,32 +1555,44 @@ a {
   align-items: center;
 }
 
-.picker-modal-content-time .hour-group img,
-.picker-modal-content-time .minute-group img {
-  width: 1.125rem;
-  height: 0.625rem;
-}
-
-.picker-modal-content-time .hour-group img.arrow-up,
-.picker-modal-content-time .minute-group img.arrow-up {
+.picker-modal-content-time .hour-group .arrow-up,
+.picker-modal-content-time .minute-group .arrow-up {
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  -webkit-mask-image: url("../media/icons/icon_triangle_up.svg");
+  mask-image: url("../media/icons/icon_triangle_up.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
   cursor: pointer;
-  content: url("../media/icons//icon_arrow_top.png");
 }
 
-.picker-modal-content-time .hour-group img.arrow-up:hover,
-.picker-modal-content-time .minute-group img.arrow-up:hover {
-  content: url("../media/icons//icon_arrow_top_select.png");
+.picker-modal-content-time .hour-group .arrow-up:hover,
+.picker-modal-content-time .minute-group .arrow-up:hover {
+  background: #0098FF;
 }
 
-.picker-modal-content-time .hour-group img.arrow-down,
-.picker-modal-content-time .minute-group img.arrow-down {
+.picker-modal-content-time .hour-group .arrow-down,
+.picker-modal-content-time .minute-group .arrow-down {
+  display: inline-block;
+  width: 18px;
+  height: 10px;
+  -webkit-mask-image: url("../media/icons/icon_triangle_down.svg");
+  mask-image: url("../media/icons/icon_triangle_down.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
   cursor: pointer;
-  content: url("../media/icons//icon_arrow_under.png");
 }
 
-.picker-modal-content-time .hour-group img.arrow-down:hover,
-.picker-modal-content-time .minute-group img.arrow-down:hover {
-  content: url("../media/icons//icon_arrow_under_select.png");
+.picker-modal-content-time .hour-group .arrow-down:hover,
+.picker-modal-content-time .minute-group .arrow-down:hover {
+  background: #0098FF;
 }
 
 .picker-modal-content-time .hour-group .digit,

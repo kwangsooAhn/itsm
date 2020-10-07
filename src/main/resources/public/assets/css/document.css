@@ -72,6 +72,23 @@ template {
   display: none;
 }
 
+/* _alignments.scss 
+ *
+ * 파일 경로 : template/_alignments.scss
+ * @description 정렬, 배치 관련 디자인
+ * @author jy.lim
+ * @vertionn 1.0
+ */
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 /* _elements.scss 
  *
  * 파일 경로 : template/_elements.scss

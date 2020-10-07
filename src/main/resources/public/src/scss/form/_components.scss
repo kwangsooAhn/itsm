@@ -94,10 +94,10 @@
 
             .datepicker,
             .datetimepicker {
-                background: $input-bg-color url("#{$datepicker-asset-path}/icon_calendar.svg") no-repeat 98% 50%;
+                background: $input-bg-color url("#{$icon-folder-path}icon_calendar.svg") no-repeat 98% 50%;
             }
             .timepicker {
-                background: $input-bg-color url("#{$datepicker-asset-path}/icon_clock.svg") no-repeat 98% 50%;
+                background: $input-bg-color url("#{$icon-folder-path}icon_clock.svg") no-repeat 98% 50%;
             }
 
             .picker-wrapper-date {
@@ -175,7 +175,7 @@
                     margin: 0 0 1.25rem 0; // 20px
                     padding: 4.375rem 0 0 0; // 70px
                     &.dz-message {
-                        background: url($form-asset-path +  "icon_component_fileupload.svg") no-repeat center 0.625rem; // 10px
+                        background: url($form-asset-path +  "/icon_component_fileupload.svg") no-repeat center 0.625rem; // 10px
                     }
                 }
             }
