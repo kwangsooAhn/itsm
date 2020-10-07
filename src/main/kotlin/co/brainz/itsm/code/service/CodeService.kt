@@ -6,7 +6,6 @@ import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
-import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.user.repository.UserRepository
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
@@ -17,8 +16,26 @@ class CodeService(
     private val userRepository: UserRepository
 ) {
 
-    fun selectCodeByParent(code: String): MutableList<CodeEntity> {
-        return codeRepository.findByPCodeOrderBySeqNumAscCodeAsc(codeRepository.findById(code).orElse(CodeEntity(code = code)))
+    fun selectCodeByParent(code: Any): MutableList<CodeEntity> {
+        var codeList : MutableList<*>? = mutableListOf<Any>()
+        var pCodeList: MutableList<MutableList<CodeEntity>>? = mutableListOf()
+        when (code) {
+            is String -> {
+                codeList = codeRepository.findByPCodeOrderBySeqNumAscCodeAsc(
+                    codeRepository.findById(code).orElse(CodeEntity(code = code))
+                )
+            }
+            is MutableList<*> -> {
+                for (data in code) {
+                    var codeData = codeRepository.findByPCodeOrderBySeqNumAscCodeAsc(
+                        codeRepository.findById(data as String).orElse(CodeEntity(code = data)))
+
+                    pCodeList?.add(codeData)
+                }
+                codeList = pCodeList
+            }
+        }
+        return codeList as MutableList<CodeEntity>
     }
 
     /**

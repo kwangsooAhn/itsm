@@ -114,13 +114,23 @@ class UserController(
             model.addAttribute("deptCodeDetail", deptCodeDetail)
         }
 
+        val codeList = mutableListOf(
+            UserConstants.PTHEMECODE.value,
+            UserConstants.PLANGCODE.value,
+            UserConstants.PDATECODE.value,
+            UserConstants.PTIMECODE.value
+        )
+
+        var test = (codeService.selectCodeByParent(codeList))
+
+
         model.addAttribute("users", users)
         model.addAttribute("roles", roles)
         model.addAttribute("usersDate", usersDate)
         model.addAttribute("usersTime", usersTime)
+        model.addAttribute("timezoneList", userService.selectTimezoneList())
         model.addAttribute("themeList", codeService.selectCodeByParent(UserConstants.PTHEMECODE.value))
         model.addAttribute("langList", codeService.selectCodeByParent(UserConstants.PLANGCODE.value))
-        model.addAttribute("timezoneList", userService.selectTimezoneList())
         model.addAttribute("dateList", codeService.selectCodeByParent(UserConstants.PDATECODE.value))
         model.addAttribute("timeList", codeService.selectCodeByParent(UserConstants.PTIMECODE.value))
 
@@ -142,12 +152,12 @@ class UserController(
     @GetMapping("/new")
     fun getUserRegister(model: Model): String {
         model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
-        model.addAttribute("themeList", codeService.selectCodeByParent(UserConstants.PTHEMECODE.value))
-        model.addAttribute("langList", codeService.selectCodeByParent(UserConstants.PLANGCODE.value))
         model.addAttribute("timezoneList", userService.selectTimezoneList())
+        model.addAttribute("roles", roleService.getRoles(mutableSetOf()))
         model.addAttribute("dateList", codeService.selectCodeByParent(UserConstants.PDATECODE.value))
         model.addAttribute("timeList", codeService.selectCodeByParent(UserConstants.PTIMECODE.value))
-        model.addAttribute("roles", roleService.getRoles(mutableSetOf()))
+        model.addAttribute("themeList", codeService.selectCodeByParent(UserConstants.PTHEMECODE.value))
+        model.addAttribute("langList", codeService.selectCodeByParent(UserConstants.PLANGCODE.value))
 
         return userEditPage
     }
