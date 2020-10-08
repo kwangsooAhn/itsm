@@ -11,6 +11,8 @@ $font-face-map: (
 );
 $font-folder-path:                            "../fonts";
 $font-family:                                 "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+
+// font size
 $font-size-base:                              1rem;  // 16px
 
 $icon-folder-path:                            "../media/icons/";
@@ -51,18 +53,11 @@ $headings-font-weight:                        500; // medium
 $headings-line-height:                        1.2; // normal
 $headings-color:                              $light-black;
 
-$headings-theme: (
-  "dark":                                     $dark-gray,
-  "ghost":                                    $blue-gray,
-  "point":                                    $point-blue,
-  "info":                                     $hover-blue
-);
-
 // input
 $input-font-size:                            $font-size-base;
 $input-font-weight:                          400; // regular
 $input-line-height:                          1.2; // normal
-$input-font-color:                           $dark-gray;
+$input-font-color:                                $dark-gray;
 
 $input-border:               0.0625rem solid $line-gray;
 $input-bg-color:             $white;

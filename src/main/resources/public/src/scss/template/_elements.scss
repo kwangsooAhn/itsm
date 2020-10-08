@@ -14,44 +14,33 @@ body {
   -webkit-text-size-adjust: 100%;
 }
 
-// heading 
-$headings-theme: (
-  "dark": $dark-gray,
-  "ghost": $blue-gray,
-  "point": $point-blue,
-  "info": $hover-blue
-);
+// headings
 h1, h2, h3, h4, h5, h6 {
   font-family: inherit;
-  font-weight: 500; // medium
-  line-height: 1.2; // normal
-  color: $light-black;
-
-  @each $theme, $color in $headings-theme {
-    .#{$theme} {
-      color: $color;
-    }
-  }
+  font-weight: $headings-font-weight;
+  line-height: $headings-line-height;
+  color: $headings-font-color;
 }
 
 h1 { 
-  font-size: $font-size-base * 2.25; // 36px
+  font-size: $h1-font-size;
+  font-weight: 700;
 }
 h2 { 
-  font-size: $font-size-base * 1.75; // 28px
+  font-size: $h2-font-size;
 }
 h3 { 
-  font-size: $font-size-base * 1.5;  // 24px
+  font-size: $h3-font-size;
 }
 h4 { 
-  font-size: $font-size-base * 1.25; // 20px
+  font-size: $h4-font-size;
 }
 h5 { 
-  font-size: $font-size-base;
+  font-size: $h5-font-size;
 }
 h6 { 
   font-family: 'Malgun Gothic'; // h6 만 기본 값이 맑은 고딕.
-  font-size: $font-size-base * 0.875; // 14px
+  font-size: $h6-font-size;
 }
 // a
 a:link,
@@ -67,34 +56,33 @@ a:active {
 input {
   height: 2.5rem; // 40px
   font-family: inherit;
-  font-size: $font-size-base;
-  font-weight: 400; // regular
-  line-height: 1.2; // normal
-  color: $dark-gray;
-  background-color: $white;
-  border: 0.0625rem solid $line-gray; // 1px
-  border-radius: 0.0625rem; // 1px
-  padding: 0 0.625rem 0 0.625rem; // 들여쓰기 0 10px 0 10px
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
+  background-color: $element-bg-color;
+  border: $element-border;
+  border-radius: $element-border-radius; // 1px
+  padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px
 
   &::placeholder {
-    color: $gray;
+    color: $element-placeholder-font-color;
   }
 
   &:focus {
     outline: 0;
-    border: 0.0625rem solid $point-blue; // 1px
+    border: $element-focus-border;
   }
 
   &:hover {
     outline: 0;
-    border: 0.0625rem solid $point-blue; // 1px
-    box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+    border: $element-hover-border;
+    box-shadow: $element-hover-box-shadow;
   }
 
-  &:disabled,
-  &:read-only {
+  &:disabled {
     color: $gray;
-    background-color: $light-gray;
+    background-color: $element-disabled-bg-color;
     pointer-events: none;
     cursor: default;
   }
@@ -103,25 +91,25 @@ input {
     -webkit-appearance: none;
     appearance: none;
     height: 0.0625rem; // 1px
-    background-color: $line-gray;
+    background-color: $element-border-color;
     outline: 0;
 
-    &::-webkit-slider-thumb {
+    &::-webkit-slider-thumb { // 동그라미
       -webkit-appearance: none;
       appearance: none;
       width: 1.125rem; // 18px
       height: 1.125rem; // 18px
-      background-color: $white;
-      border: 0.0625rem solid $line-gray; // 1px
+      background-color: $element-bg-color;
+      border: $element-border;
       border-radius: 50%;
       cursor: pointer;
     }
 
-    &::-moz-range-thumb {
+    &::-moz-range-thumb { // 동그라미
       width: 1.125rem; // 18px
       height: 1.125rem; // 18px
-      background-color: $white;
-      border: 0.0625rem solid $line-gray; // 1px
+      background-color: $element-bg-color;
+      border: $element-border;
       border-radius: 50%;
       cursor: pointer;
     }
@@ -130,35 +118,34 @@ input {
 // textarea
 textarea {
   font-family: inherit;
-  font-size: $font-size-base;
-  font-weight: 400; // regular
-  line-height: 1.2; // normal
-  color: $dark-gray;
-  background-color: $white;
-  border: 0.0625rem solid $line-gray; // 1px
-  border-radius: 0.0625rem; // 1px
-  padding: 0.5rem 0.625rem 0.5rem 0.625rem; // 들여쓰기 8px 10px 8px 10px
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
+  background-color: $element-bg-color;
+  border: $element-border;
+  border-radius: $element-border-radius;
+  padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
   resize: vertical;
 
   &::placeholder {
-    color: $gray;
+    color: $element-placeholder-font-color;
   }
 
   &:focus {
     outline: 0;
-    border: 0.0625rem solid $point-blue; // 1px
+    border: $element-focus-border;
   }
 
   &:hover {
     outline: 0;
-    border: 0.0625rem solid $point-blue; // 1px
-    box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+    border: $element-hover-border;
+    box-shadow: $element-hover-box-shadow;
   }
 
-  &:disabled,
-  &:read-only {
-    color: $gray;
-    background-color: $light-gray;
+  &:disabled {
+    color: $element-disabled-font-color;
+    background-color: $element-disabled-bg-color;
     pointer-events: none;
     cursor: default;
   }
@@ -168,17 +155,17 @@ table {
   border-collapse: collapse;
   border-spacing: 0; // 테이블 요소 사이의 간격을 제거
   font-family: inherit;
-  font-size: $font-size-base;
-  font-weight: 400; // regular
-  color: $dark-gray;
-  background-color: $white;
-  border: 0.0625rem solid $line-gray; // 1px
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  color: $element-font-color;
+  background-color: transparent;
+  border: $element-border;
 
   tr {
     height: 2.5rem; // 40px
 
     td, th {
-      border: 0.0625rem solid $line-gray; // 1px
+      border: $element-border;
     }
   }
 }
@@ -186,30 +173,29 @@ table {
 select {
   height: 2.5rem; // 40px
   font-family: inherit;
-  font-size: $font-size-base;
-  font-weight: 400; // regular
-  line-height: 1.2; // normal
-  color: $dark-gray;
-  background-color: $white;
-  border: 0.0625rem solid $line-gray; // 1px
-  border-radius: 0.0625rem; // 1px
-  padding: 0 0.625rem 0 0.625rem; // 들여쓰기 0 10px 0 10px
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
+  background-color: $element-bg-color;
+  border: $element-border;
+  border-radius: $element-border-radius;
+  padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px 0 10px
 
   &:focus {
     outline: 0;
-    border: 0.0625rem solid $point-blue; // 1px
+    border: $element-focus-border;
   }
 
   &:hover {
     outline: 0;
-    border: 0.0625rem solid $point-blue; // 1px
-    box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+    border: $element-hover-border;
+    box-shadow: $element-hover-box-shadow;
   }
 
-  &:disabled,
-  &:read-only {
-    color: $gray;
-    background-color: $light-gray;
+  &:disabled {
+    color: $element-disabled-font-color;
+    background-color: $element-disabled-bg-color;
     pointer-events: none;
     cursor: default;
   }
@@ -219,19 +205,13 @@ span {
   margin: auto 0;
 }
 // radio button
-// 적용 방법
-// <label class="radio" for="radio-1" tabindex="0">
-//   <input type="radio" id="radio-1" name="" value="option1">
-//   <span></span>
-//   <span class="label">option1</span>
-// </label>
 .radio {
   position: relative;
   font-family: inherit;
-  font-size: $font-size-base;
-  font-weight: 400; // regular
-  line-height: 1.2; // normal
-  color: $dark-gray;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
 
   input[type=radio] {
     display: none;
@@ -246,8 +226,8 @@ span {
         width: 1.125rem; // 18px
         height: 1.125rem; // 18px
         top: -0.0625rem; // -1px
-        background-color: $radio-bg-color;
-        border: 0.0625rem solid $line-gray; // 1px
+        background-color: $element-bg-color;
+        border: $element-border;
         border-radius: 50%;
         vertical-align: middle;
         text-align: center;
@@ -268,10 +248,10 @@ span {
     &:checked {
       + span {
         &::before {
-          border-color: $line-gray;
+          border-color: $element-border-color;
         }
         &::after {
-          background-color: $point-blue;
+          background-color: $element-checked-bg-color;
           transform: translate(0.25rem, 0.5rem) scale(1); // 4px, 8.5px
         }
       }
@@ -280,25 +260,24 @@ span {
     &:hover {
       + span {
         &::before {
-          border-color: $point-blue;
-          box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+          border-color: $element-hover-border-color;
+          box-shadow: $element-hover-box-shadow;
         }
       }
     }
 
     &:disabled {
       + span {
-        color: $gray;
         &::before {
-          border-color: $line-gray;
-          background-color: $light-gray;
+          border-color: $element-disabled-border-color;
+          background-color: $element-disabled-bg-color;
         }
         &::after {
-          background-color: $gray;
+          background-color: $element-disabled-font-color;
         }
       }
       ~ .label {
-        color: $gray;
+        color: $element-disabled-font-color;
       }
     }
   }
@@ -307,25 +286,19 @@ span {
     input[type=radio] {
       + span {
         &:before {
-          border-color: $point-blue;
+          border-color: $element-focus-border-color;
         }
       }
     }
   }
 }
-// checkbox 
-// 적용 방법
-// <label class="checkbox" for="checkbox-1" tabindex="0">
-//   <input type="checkbox" id="checkbox-1" name="" value="option1">
-//   <span></span>
-//   <span class="label">option1</span>
-// </label>
+// checkbox
 .checkbox {
   font-family: inherit;
-  font-size: $font-size-base;
-  font-weight: 400; // regular
-  line-height: 1.2; // normal
-  color: $dark-gray;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
 
   input[type=checkbox] {
     display: none;
@@ -339,15 +312,16 @@ span {
         display: inline-block;
         width: 1.125rem; // 18px
         height: 1.125rem; // 18px
-        background-color: $white;
-        border: 0.0625rem solid $line-gray; // 1px
-        border-radius: 0.0625rem; // 1px
+        background-color: $element-bg-color;
+        border: $element-border;
+        border-radius: $element-border-radius;
         vertical-align: middle;
       }
     }
 
     &:checked {
       + span {
+        // 체크 기호
         &::after {
           content: '';
           position: absolute;
@@ -355,7 +329,7 @@ span {
           height: 0.375rem; // 6px
           top: 0.375rem; // 6px
           left: 0;
-          border: solid 0.125rem $checkbox-pressed-color; // 2px
+          border: 0.125rem solid $element-checked-bg-color; // 2px
           border-right: none;
           border-top: none;
           transform: translate(0.1875rem, 0.25rem) rotate(-45deg); // 3px, 4px
@@ -366,8 +340,8 @@ span {
     &:hover {
       + span {
         &::before {
-          border-color: $point-blue;
-          box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+          border-color: $element-hover-border-color;
+          box-shadow: $element-hover-box-shadow;
         }
       }
     }
@@ -375,14 +349,14 @@ span {
     &:disabled {
       + span {
         &::before {
-          background-color: $light-gray;
+          background-color: $element-disabled-bg-color;
         }
         &::after {
-          border-color: $gray;
+          border-color: $element-disabled-font-color;
         }
       }
       ~ .label {
-        color: $gray;
+        color: $element-disabled-font-color;
       }
     }
   }
@@ -391,27 +365,21 @@ span {
     input[type=checkbox] {
       + span {
         &:before {
-          border-color: $point-blue;
+          border-color: $element-focus-border-color;
         }
       }
     }
   }
 }
 // switch
-// 적용 방법
-// <label class="switch" tabindex="0">
-//   <input type="checkbox"  onclick="toggle(this);" checked="checked">
-//   <span></span>
-//   <span class="label">On</span>
-// </label>
 .switch {
   position: relative;
   height: 2.188rem; // 35px
   font-family: inherit;
-  font-size: $font-size-base;
-  font-weight: 400; // regular
-  line-height: 1.2; // normal
-  color: $dark-gray;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  color: $element-font-color;
 
   input[type=checkbox] {
     display: none;
@@ -443,7 +411,7 @@ span {
 
     &:checked {
       + span {
-        background-color: $point-blue;
+        background-color: $element-checked-bg-color;
 
         &::before {
           -webkit-transform: translateX(2.875rem); // 46px
@@ -455,8 +423,8 @@ span {
     &:hover {
       + span {
         &::before {
-          border-color: $point-blue;
-          box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+          border-color: $element-hover-border-color;
+          box-shadow: $element-hover-box-shadow;
         }
       }
     }
@@ -466,26 +434,9 @@ span {
     input[type=checkbox] {
       + span {
         &:before {
-          border-color: $point-blue;
+          border-color: $element-focus-border-color;
         }
       }
     }
   }
-}
-// underline
-.underline {
-  text-decoration: underline;
-}
-// description
-.description {
-  color: $warm-gray;
-}
-// 필수 (*) 표시
-.required {
-  padding-left: 0.3125rem; //5px
-  font-weight: 700;
-  &::after {
-    color: $red;
-    content: "\002a"; // *
-  } 
 }
