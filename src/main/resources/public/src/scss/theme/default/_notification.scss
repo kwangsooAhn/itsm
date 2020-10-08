@@ -157,12 +157,6 @@
 
 .notification-content {
     div {
-        &.title {
-            padding-bottom: 0.625rem; // 10px
-        }
-        &.message {
-            padding-bottom: 1.563rem; // 25px
-        }
         label {
             display: flex;
             float: left;
@@ -202,6 +196,7 @@
                 color: $light-black;
                 max-width: 18.13rem; // 290px
                 padding-left: 0.625rem; // 10px
+                height: 1.625rem; // 26px
             }
             &.message {
                 font-size: 1rem; // 16px
@@ -209,6 +204,7 @@
                 color: $dark-gray;
                 max-width: 22.5rem; // 360px
                 padding-left: 1.75rem; // 28px
+                height: 2.563rem; // 41px
             }
             &.date {
                 font-size: 0.875rem; // 14px
