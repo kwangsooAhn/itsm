@@ -6,7 +6,6 @@ import co.brainz.itsm.code.dto.CodeDetailDto
 import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
-import co.brainz.itsm.customCode.repository.CustomCodeRepository
 import co.brainz.itsm.user.repository.UserRepository
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
