@@ -10,7 +10,7 @@
  * 파일 경로 : template/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
  * @author wdj
- * @vertionn 1.0
+ * @version 1.0
  */
 *,
 *::before,
@@ -84,7 +84,7 @@ input, button, select, optgroup, textarea {
  * 파일 경로 : template/_alignments.scss
  * @description 정렬, 배치 관련 디자인
  * @author jy.lim
- * @vertionn 1.0
+ * @version 1.0
  */
 .flex-row {
   display: flex;
@@ -101,7 +101,7 @@ input, button, select, optgroup, textarea {
  * 파일 경로 : template/_common.scss
  * @description 공통으로 사용되는 디자인
  * @author wdj
- * @vertionn 1.0
+ * @version 1.0
  */
 .underline {
   text-decoration: underline;
@@ -126,7 +126,7 @@ input, button, select, optgroup, textarea {
  * 파일 경로 : template/_fonts.scss
  * @description 폰트 디자인
  * @author wdj
- * @vertionn 1.0
+ * @version 1.0
  */
 @font-face {
   font-family: "Noto Sans KR";
@@ -175,7 +175,7 @@ input, button, select, optgroup, textarea {
  * 파일 경로 : template/_elements.scss
  * @description HTML element 디자인
  * @author wdj
- * @vertionn 1.0
+ * @version 1.0
  */
 body {
   font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
@@ -1352,7 +1352,7 @@ span[class="required"]::after {
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
  * @author jy.lim
- * @vertionn 1.0
+ * @version 1.0
  */
 }
 
