@@ -1226,7 +1226,7 @@
                                         break;
                                     case 'checkbox-boolean': // 라벨 클릭시에 체크박스가 동작한다.
                                         fieldTemplate =
-                                            `<label class="property-name checkbox-group" for="checkbox-${componentData.componentId}-${fieldProp.id}">` +
+                                            `<label class="property-name checkbox-group" for="checkbox-${componentData.componentId}-${fieldProp.id}" tabindex="0">` +
                                                 `<input type="checkbox" class="property-value" id="checkbox-${componentData.componentId}-${fieldProp.id}" name="${fieldProp.id}" ${fieldProp.value ? 'checked' : ''}>` +
                                                 `<span></span>` +
                                                  `<span>${i18n.msg('form.attribute.' + fieldProp.id)}</span>${tooltipTemplate}` +
@@ -1479,7 +1479,7 @@
                                     return `<tr>${fieldProp.items.map(function(item, index) {
                                         return `<td id="${item.id}">` +
                                         `${index === 0 ? 
-                                        `<label class="checkbox-group" for="checkbox-${opt[item.id]}">` +
+                                        `<label class="checkbox-group" for="checkbox-${opt[item.id]}" tabindex="0">` +
                                             `<input type="checkbox" id="checkbox-${opt[item.id]}" value="${opt[item.id]}" />` +
                                             `<span></span>` +
                                         `</label>` : 

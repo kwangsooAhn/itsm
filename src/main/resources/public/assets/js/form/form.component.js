@@ -270,7 +270,7 @@
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                 `<div id="radio" class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
-                `${displayType === 'editableRequired' ? 'required' : ''}>` +
+                `${displayType === 'editableRequired' ? 'required' : ''} tabindex="0">` +
                     `${optionsTemplate}` +
                 `</div>` +
             `</div>` +
@@ -324,7 +324,7 @@
                     `</div>` +
                     `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
                     `<div id="chkbox" class="field-content ${property.display.direction}" style="--data-column: ${property.display.column};"` +
-                    `${displayType === 'editableRequired' ? 'required' : ''}>` +
+                    `${displayType === 'editableRequired' ? 'required' : ''} tabindex="0">` +
                         `${optionsTemplate}` +
                     `</div>` +
                 `</div>` +

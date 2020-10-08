@@ -10,7 +10,7 @@
  * 파일 경로 : template/_reset.scss
  * @description Customize CSS Reset (http://meyerweb.com/eric/tools/css/reset/)
  * @author wdj
- * @vertionn 1.0
+ * @version 1.0
  */
 *,
 *::before,
@@ -72,12 +72,19 @@ template {
   display: none;
 }
 
+input, button, select, optgroup, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: 1.2;
+  margin: 0;
+}
+
 /* _alignments.scss 
  *
  * 파일 경로 : template/_alignments.scss
  * @description 정렬, 배치 관련 디자인
  * @author jy.lim
- * @vertionn 1.0
+ * @version 1.0
  */
 .flex-row {
   display: flex;
@@ -89,12 +96,37 @@ template {
   flex-direction: column;
 }
 
+/* _common.scss 
+ *
+ * 파일 경로 : template/_common.scss
+ * @description 공통으로 사용되는 디자인
+ * @author wdj
+ * @version 1.0
+ */
+.underline {
+  text-decoration: underline;
+}
+
+.desc {
+  color: #7E848C;
+}
+
+.required {
+  padding-left: 0.3125rem;
+  font-weight: 700;
+}
+
+.required::after {
+  color: #FF405A;
+  content: '\002a';
+}
+
 /* _fonts.scss 
  *
  * 파일 경로 : template/_fonts.scss
  * @description 폰트 디자인
  * @author wdj
- * @vertionn 1.0
+ * @version 1.0
  */
 @font-face {
   font-family: "Noto Sans KR";
@@ -143,76 +175,400 @@ template {
  * 파일 경로 : template/_elements.scss
  * @description HTML element 디자인
  * @author wdj
- * @vertionn 1.0
+ * @version 1.0
  */
-input, button, select, optgroup, textarea {
+body {
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
   font-family: inherit;
-  font-size: 100%;
-  line-height: 1;
-  margin: 0;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #3F4B56;
 }
 
-a:link {
-  text-decoration: none;
-  color: inherit;
+h1 {
+  font-size: 2.25rem;
+  font-weight: 700;
 }
 
+h2 {
+  font-size: 1.75rem;
+}
+
+h3 {
+  font-size: 1.5rem;
+}
+
+h4 {
+  font-size: 1.25rem;
+}
+
+h5 {
+  font-size: 1rem;
+}
+
+h6 {
+  font-family: 'Malgun Gothic';
+  font-size: 0.875rem;
+}
+
+a:link,
 a:visited {
   text-decoration: none;
   color: inherit;
 }
 
-a:hover {
-  text-decoration: none;
-}
-
+a:hover,
 a:active {
   text-decoration: none;
 }
 
-button {
-  background: inherit;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-  overflow: visible;
-  cursor: pointer;
-}
-
-input, button, select, optgroup, textarea {
+input {
+  height: 2.5rem;
   font-family: inherit;
-  font-size: 100%;
-  line-height: 1;
-  margin: 0;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding: 0 0 0.625rem 0 0 0.625rem;
 }
 
-a:link {
-  text-decoration: none;
-  color: inherit;
+input::placeholder {
+  color: #ACB4BF;
 }
 
-a:visited {
-  text-decoration: none;
-  color: inherit;
+input:focus {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
 }
 
-a:hover {
-  text-decoration: none;
+input:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
 
-a:active {
-  text-decoration: none;
+input:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
 }
 
-button {
-  background: inherit;
-  border: none;
-  box-shadow: none;
-  border-radius: 0;
-  padding: 0;
-  overflow: visible;
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 0.0625rem;
+  background-color: #EBEBEB;
+  outline: 0;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 50%;
   cursor: pointer;
+}
+
+input[type=range]::-moz-range-thumb {
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+textarea {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding: 0.5rem 0 0.625rem 0.5rem 0 0.625rem;
+  resize: vertical;
+}
+
+textarea::placeholder {
+  color: #ACB4BF;
+}
+
+textarea:focus {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+}
+
+textarea:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+textarea:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+  background-color: transparent;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+table tr {
+  height: 2.5rem;
+}
+
+table tr td, table tr th {
+  border: 0.0625rem solid #EBEBEB;
+}
+
+select {
+  height: 2.5rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  padding: 0 0 0.625rem 0 0 0.625rem;
+}
+
+select:focus {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+}
+
+select:hover {
+  outline: 0;
+  border: 0.0625rem solid #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+select:disabled {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  pointer-events: none;
+  cursor: default;
+}
+
+span {
+  margin: auto 0;
+}
+
+.radio {
+  position: relative;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+}
+
+.radio input[type=radio] {
+  display: none;
+}
+
+.radio input[type=radio] + span {
+  cursor: pointer;
+}
+
+.radio input[type=radio] + span::before {
+  content: '';
+  display: inline-block;
+  position: relative;
+  width: 1.125rem;
+  height: 1.125rem;
+  top: -0.0625rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 50%;
+  vertical-align: middle;
+  text-align: center;
+}
+
+.radio input[type=radio] + span::after {
+  content: '';
+  position: absolute;
+  width: 0.625rem;
+  height: 0.625rem;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  border-radius: 50%;
+}
+
+.radio input[type=radio]:checked + span::before {
+  border-color: #EBEBEB;
+}
+
+.radio input[type=radio]:checked + span::after {
+  background-color: #0098FF;
+  transform: translate(0.25rem, 0.5rem) scale(1);
+}
+
+.radio input[type=radio]:hover + span::before {
+  border-color: #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+.radio input[type=radio]:disabled + span::before {
+  border-color: #EBEBEB;
+  background-color: #F7F8F9;
+}
+
+.radio input[type=radio]:disabled + span::after {
+  background-color: #ACB4BF;
+}
+
+.radio input[type=radio]:disabled ~ .label {
+  color: #ACB4BF;
+}
+
+.radio:focus input[type=radio] + span:before {
+  border-color: #0098FF;
+}
+
+.checkbox {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+}
+
+.checkbox input[type=checkbox] {
+  display: none;
+}
+
+.checkbox input[type=checkbox] + span {
+  position: relative;
+  cursor: pointer;
+}
+
+.checkbox input[type=checkbox] + span::before {
+  content: '';
+  display: inline-block;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  vertical-align: middle;
+}
+
+.checkbox input[type=checkbox]:checked + span::after {
+  content: '';
+  position: absolute;
+  width: 0.75rem;
+  height: 0.375rem;
+  top: 0.375rem;
+  left: 0;
+  border: 0.125rem solid #0098FF;
+  border-right: none;
+  border-top: none;
+  transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
+}
+
+.checkbox input[type=checkbox]:hover + span::before {
+  border-color: #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+.checkbox input[type=checkbox]:disabled + span::before {
+  background-color: #F7F8F9;
+}
+
+.checkbox input[type=checkbox]:disabled + span::after {
+  border-color: #ACB4BF;
+}
+
+.checkbox input[type=checkbox]:disabled ~ .label {
+  color: #ACB4BF;
+}
+
+.checkbox:focus input[type=checkbox] + span:before {
+  border-color: #0098FF;
+}
+
+.switch {
+  position: relative;
+  height: 2.188rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+}
+
+.switch input[type=checkbox] {
+  display: none;
+}
+
+.switch input[type=checkbox] + span {
+  position: absolute;
+  width: 5rem;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #E1E3E6;
+  border-radius: 2.5rem;
+  cursor: pointer;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.switch input[type=checkbox] + span::before {
+  content: '';
+  position: absolute;
+  width: 1.563rem;
+  height: 1.563rem;
+  left: 0.25rem;
+  bottom: 0.3125rem;
+  background-color: #fff;
+  border-radius: 50%;
+}
+
+.switch input[type=checkbox]:checked + span {
+  background-color: #0098FF;
+}
+
+.switch input[type=checkbox]:checked + span::before {
+  -webkit-transform: translateX(2.875rem);
+  transform: translateX(2.875rem);
+}
+
+.switch input[type=checkbox]:hover + span::before {
+  border-color: #0098FF;
+  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+}
+
+.switch:focus input[type=checkbox] + span:before {
+  border-color: #0098FF;
 }
 
 svg {
@@ -996,7 +1352,7 @@ span[class="required"]::after {
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
  * @author jy.lim
- * @vertionn 1.0
+ * @version 1.0
  */
 }
 

@@ -1,19 +1,5 @@
 @import "../template/_elements.scss";
 
-h1, h2, h3, h4, h5, h6 {
-    font-family: $headings-font-family;
-    font-weight: $headings-font-weight;
-    line-height: $headings-line-height;
-    color: $headings-color;
-}
-
-h1 { font-size: $h1-font-size; }
-h2 { font-size: $h2-font-size; }
-h3 { font-size: $h3-font-size; }
-h4 { font-size: $h4-font-size; }
-h5 { font-size: $h5-font-size; }
-h6 { font-size: $h6-font-size; }
-
 input {
     font-size: $input-font-size;
     line-height: $input-line-height;
@@ -207,6 +193,15 @@ label.radio-group {
             }
         }
     }
+    &:focus {
+        input[type=radio] {
+          + span {
+            &:before {
+              border-color: $point-blue;
+            }
+          }
+        }
+      }
 }
 
 label.checkbox-group {
@@ -270,31 +265,36 @@ label.checkbox-group {
             }
         }
     }
+    &:focus {
+            input[type=checkbox] {
+              + span {
+                &:before {
+                  border-color: $point-blue;
+                }
+              }
+            }
+          }
 }
 
 input[type=range] {
     -webkit-appearance: none;
     width: 78%;
     height: 0.0625rem; // 1px
-    background-color: $input-range-border-color;
+    background-color: $line-gray;
     outline: 0;
     &::-webkit-slider-thumb {
         -webkit-appearance: none;
         appearance: none;
-        width: 1.125rem;
-        // 18px
-        height: 1.125rem;
-        // 18px
+        width: 1.125rem; // 18px
+        height: 1.125rem; // 18px
         border: $input-range-round-border;
         border-radius: 50%;
         background: $input-range-round-bg-color;
         cursor: pointer;
     }
     &::-moz-range-thumb {
-        width: 1.125rem;
-        // 18px
-        height: 1.125rem;
-        // 18px
+        width: 1.125rem; // 18px
+        height: 1.125rem; // 18px
         border: $input-range-round-border;
         border-radius: 50%;
         background: $input-range-round-bg-color;
@@ -320,8 +320,7 @@ table {
     border: $table-border;
     background-color: $table-bg-color;
     tr {
-        height: 2.5rem;
-        // 40px
+        height: 2.5rem; // 40px
         td,
         th {
             text-align: center;
