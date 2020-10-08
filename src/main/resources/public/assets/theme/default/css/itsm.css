@@ -3240,14 +3240,6 @@ span.vertical-bar {
   color: #ACB4BF;
 }
 
-.notification-content div.title {
-  padding-bottom: 0.625rem;
-}
-
-.notification-content div.message {
-  padding-bottom: 1.563rem;
-}
-
 .notification-content div label {
   display: flex;
   float: left;
@@ -3293,6 +3285,7 @@ span.vertical-bar {
   color: #3F4B56;
   max-width: 18.13rem;
   padding-left: 0.625rem;
+  height: 1.625rem;
 }
 
 .notification-content div span.message {
@@ -3301,6 +3294,7 @@ span.vertical-bar {
   color: #586872;
   max-width: 22.5rem;
   padding-left: 1.75rem;
+  height: 2.563rem;
 }
 
 .notification-content div span.date {
