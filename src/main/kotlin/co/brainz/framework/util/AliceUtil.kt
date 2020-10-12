@@ -9,6 +9,7 @@ import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.configuration.AliceApplicationRunner
 import co.brainz.framework.constants.AliceConstants
+import co.brainz.itsm.code.entity.CodeEntity
 import javax.servlet.http.HttpServletRequest
 
 class AliceUtil {
@@ -100,5 +101,17 @@ class AliceUtil {
             aliceUser.theme,
             aliceUser.avatarPath
         )
+    }
+
+    fun getCodes(codeList: MutableList<CodeEntity>, search: String): MutableList<CodeEntity> {
+        val codes = mutableListOf<CodeEntity>()
+        codeList.forEach {
+            when (it.pCode?.code == search) {
+                true -> {
+                    codes.add(it)
+                }
+            }
+        }
+        return codes
     }
 }
