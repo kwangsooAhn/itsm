@@ -58,8 +58,8 @@
 
         &-google {
             background-color: #ffffff;
-            border-color: #c8ced8;
-            color: #3E4752;
+            border-color: $line-gray;
+            color: $light-black;
             width: 100%;
 
             &-icon {
@@ -72,9 +72,9 @@
         }
 
         &-kakao {
-            background-color: #ffde00;
+            background-color: #FFDE00;
             border-color: #EBCC00;
-            color: #3E4752;
+            color: $light-black;
             width: 100%;
 
             &-icon {
@@ -98,7 +98,7 @@
         &::before {
             content: '';
             flex-grow: 1;
-            background: $gray;
+            background: $line-gray;
             height: 0.063rem; // 1px
             margin-right: 1rem; // 16px
         }
@@ -106,7 +106,7 @@
         &::after {
             content: '';
             flex-grow: 1;
-            background: $gray;
+            background: $line-gray;
             height: 0.063rem; // 1px
             margin-left: 1rem; // 16px
         }

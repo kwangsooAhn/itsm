@@ -43,6 +43,9 @@ h6 {
   font-size: $h6-font-size;
 }
 // a
+a {
+  cursor: pointer;
+}
 a:link,
 a:visited { 
   text-decoration: none;
@@ -62,6 +65,7 @@ input {
   color: $element-font-color;
   background-color: $element-bg-color;
   border: $element-border;
+
   border-radius: $element-border-radius; // 1px
   padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px
 
@@ -85,6 +89,10 @@ input {
     background-color: $element-disabled-bg-color;
     pointer-events: none;
     cursor: default;
+  }
+
+  &.icon {
+    padding-right: 2.5rem; // 아이콘 크기만큼 들여 쓰기 40px
   }
 
   &[type=range] {
@@ -151,7 +159,8 @@ textarea {
   }
 }
 // table
-table { 
+table {
+  table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0; // 테이블 요소 사이의 간격을 제거
   font-family: inherit;
@@ -159,13 +168,16 @@ table {
   font-weight: $element-font-weight;
   color: $element-font-color;
   background-color: transparent;
-  border: $element-border;
+  border: $element-border-width solid transparent;
 
   tr {
     height: 2.5rem; // 40px
 
     td, th {
-      border: $element-border;
+      border: $element-border-width solid transparent;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space:nowrap;
     }
   }
 }
@@ -200,9 +212,28 @@ select {
     cursor: default;
   }
 }
+
+option {
+  &:hover {
+    background-color: $element-hover-bg-color;
+  }
+  &:visited {
+    color: $element-selected-font-color;
+    background-color: $element-bg-color;
+  }
+  &:active,
+  &:focus {
+    color: $element-selected-font-color;
+  }
+}
 // span
 span {
+  font-family: inherit;
   margin: auto 0;
+}
+// label
+label {
+  font-family: inherit;
 }
 // radio button
 .radio {

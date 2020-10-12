@@ -5,23 +5,25 @@
     <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
     <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
 </head>
-<body class="session-body">
-<div class="session-div flex-row">
-    <div class="session-div-left">
-        <img th:src="@{/assets/media/images/session/img_session_main.png}"/>
-        <img th:src="@{/assets/media/images/session/img_session_logo_alice.png}" class="session-img">
-    </div>
-    <div class="session-div-right">
-        <h1 th:text="#{login.msg.sessionExpired}"></h1>
-        <div class="flex-row">
-            <h1 id="counter" class="session-count-txt"></h1>
-            <h1 th:text="#{login.msg.redirectedLoginPage}"></h1>
+<body>
+<div class="alice-wrapper">
+    <div class="portal-container flex-row">
+        <div class="session-div-left">
+            <img th:src="@{/assets/media/images/session/img_session_main.png}"/>
+            <img th:src="@{/assets/media/images/session/img_session_logo_alice.png}" class="session-img">
         </div>
-        <button id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}" th:onclick="location.href='/login'"
-                class="session-btn"></button>
+        <div class="session-div-right">
+            <h1 th:text="#{login.msg.sessionExpired}"></h1>
+            <div class="flex-row">
+                <h1 id="counter" class="session-count-txt"></h1>
+                <h1 th:text="#{login.msg.redirectedLoginPage}"></h1>
+            </div>
+            <button id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}" th:onclick="location.href='/login'"
+                    class="session-btn"></button>
+        </div>
     </div>
+    <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
 </div>
-<form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     window.onload = function () {

@@ -10,8 +10,8 @@
 <th:block layout:fragment="content">
 	<div class="portal-faq-container">
 		<div class="page-title">
-			<h1 class="title" th:text="#{faq.label.list}"></h1>
-			<h6 class="title-description" th:text="#{faq.label.description}"></h6>
+			<h1 th:text="#{faq.label.list}"></h1>
+			<h6 class="description" th:text="#{faq.label.description}"></h6>
 		</div>
 		<div class="portal-faq-select">
 			<select id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')" class="column-4">

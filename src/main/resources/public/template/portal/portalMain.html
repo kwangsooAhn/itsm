@@ -12,15 +12,15 @@
             <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
     </div>
     <div id="portal-search-area" class="portal-search-area">
-            <input class="icon" type="text" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
+            <input type="text" class="icon search" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
                    th:placeholder="#{common.label.searchWord}"/>
     </div>
     <div class="portal-search-content">
         <ul>
             <li class="part-box">
-                <div class="header">
+                <div class="part-box-header">
                     <div class="icon">
-                        <a th:attr="onclick=|goMenu('notice');|">
+                        <a href="/portal/notices/search">
                             <img th:src="@{/assets/media/images/portal/img_portal_notice.png}" width="120" height="120" alt="Notice">
                         </a>
                     </div>
@@ -31,9 +31,9 @@
                 </div>
             </li>
             <li class="part-box">
-                <div class="header">
+                <div class="part-box-header">
                     <div class="icon">
-	                    <a th:attr="onclick=|goMenu('faq');|">
+	                    <a href="/portal/faqs">
                             <img th:src="@{/assets/media/images/portal/img_portal_faq.png}" width="120" height="120" alt="Faq">
 	                    </a>
                     </div>
@@ -44,9 +44,9 @@
                 </div>
             </li>
             <li class="part-box">
-                <div class="header">
+                <div class="part-box-header">
                     <div class="icon">
-                        <a th:attr="onclick=|goMenu('download');|">
+                        <a href="/portal/downloads/search">
                             <img th:src="@{/assets/media/images/portal/img_portal_download.png}" width="120" height="120" alt="Download">
                         </a>
                     </div>
@@ -113,7 +113,7 @@
                                     contentAnchor.setAttribute('href', '/portal/downloads/'+ data['downloadId'] +'/view');
 	                                break;
 	                        }
-                            let contentText = document.createElement('h5');
+                            let contentText = document.createElement('span');
                             contentText.classList.add('text-ellipsis');
                             contentText.textContent = '[' + i18n.userDateTime(data['createDt']) + '] ' + data[topElement.id + 'Title'];
                             contentAnchor.appendChild(contentText);
@@ -251,20 +251,6 @@
             divRow.appendChild(divContentBox);
             div.appendChild(divRow);
         }
-
-        /*
-        * 포탈 조회 화면 이동
-        */
-        function goMenu(page) {
-            if (page === 'notice') {
-                location.href = '/portal/notices/search';
-            } else if (page === 'faq') {
-                location.href='/portal/faqs';
-            } else if (page === 'download') {
-                location.href = '/portal/downloads/search';
-            }
-        }
-
         /* ]]> */
     </script>
 </th:block>
