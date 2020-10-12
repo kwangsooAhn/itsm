@@ -5,6 +5,7 @@ import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.framework.util.AliceUtil
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.service.RoleService
 import co.brainz.itsm.user.constants.UserConstants
@@ -114,15 +115,28 @@ class UserController(
             model.addAttribute("deptCodeDetail", deptCodeDetail)
         }
 
+        val codes = mutableListOf(
+            UserConstants.PTHEMECODE.value,
+            UserConstants.PLANGCODE.value,
+            UserConstants.PDATECODE.value,
+            UserConstants.PTIMECODE.value
+        )
+
+        val codeList = codeService.selectCodeByParent(codes)
+        val themeList =  AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
+        val langList = AliceUtil().getCodes(codeList, UserConstants.PLANGCODE.value)
+        val dateList = AliceUtil().getCodes(codeList, UserConstants.PDATECODE.value)
+        val timeList = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
+
         model.addAttribute("users", users)
         model.addAttribute("roles", roles)
         model.addAttribute("usersDate", usersDate)
         model.addAttribute("usersTime", usersTime)
-        model.addAttribute("themeList", codeService.selectCodeByParent(UserConstants.PTHEMECODE.value))
-        model.addAttribute("langList", codeService.selectCodeByParent(UserConstants.PLANGCODE.value))
         model.addAttribute("timezoneList", userService.selectTimezoneList())
-        model.addAttribute("dateList", codeService.selectCodeByParent(UserConstants.PDATECODE.value))
-        model.addAttribute("timeList", codeService.selectCodeByParent(UserConstants.PTIMECODE.value))
+        model.addAttribute("themeList", themeList)
+        model.addAttribute("langList", langList)
+        model.addAttribute("dateList", dateList)
+        model.addAttribute("timeList", timeList)
 
         when (target) {
             "editSelf" -> {
@@ -141,13 +155,26 @@ class UserController(
      */
     @GetMapping("/new")
     fun getUserRegister(model: Model): String {
+        val codes = mutableListOf(
+            UserConstants.PTHEMECODE.value,
+            UserConstants.PLANGCODE.value,
+            UserConstants.PDATECODE.value,
+            UserConstants.PTIMECODE.value
+        )
+
+        val codeList = codeService.selectCodeByParent(codes)
+        val themeList =  AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
+        val langList = AliceUtil().getCodes(codeList, UserConstants.PLANGCODE.value)
+        val dateList = AliceUtil().getCodes(codeList, UserConstants.PDATECODE.value)
+        val timeList = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
+
         model.addAttribute("defaultTimezone", UserConstants.DEFAULT_TIMEZONE.value)
-        model.addAttribute("themeList", codeService.selectCodeByParent(UserConstants.PTHEMECODE.value))
-        model.addAttribute("langList", codeService.selectCodeByParent(UserConstants.PLANGCODE.value))
         model.addAttribute("timezoneList", userService.selectTimezoneList())
-        model.addAttribute("dateList", codeService.selectCodeByParent(UserConstants.PDATECODE.value))
-        model.addAttribute("timeList", codeService.selectCodeByParent(UserConstants.PTIMECODE.value))
         model.addAttribute("roles", roleService.getRoles(mutableSetOf()))
+        model.addAttribute("themeList", themeList)
+        model.addAttribute("langList", langList)
+        model.addAttribute("dateList", dateList)
+        model.addAttribute("timeList", timeList)
 
         return userEditPage
     }

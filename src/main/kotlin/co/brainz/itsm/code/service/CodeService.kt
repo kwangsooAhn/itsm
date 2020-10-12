@@ -16,8 +16,23 @@ class CodeService(
     private val userRepository: UserRepository
 ) {
 
-    fun selectCodeByParent(code: String): MutableList<CodeEntity> {
-        return codeRepository.findByPCodeOrderBySeqNumAscCodeAsc(codeRepository.findById(code).orElse(CodeEntity(code = code)))
+    fun selectCodeByParent(code: Any): MutableList<CodeEntity> {
+        val codeList = mutableListOf<CodeEntity>()
+
+        when (code) {
+            is String -> {
+                codeList.addAll(
+                    codeRepository.findByPCodeOrderBySeqNumAscCodeAsc(
+                        codeRepository.findById(code).orElse(CodeEntity(code = code))
+                    )
+                )
+            }
+            is MutableList<*> -> {
+                codeList.addAll(
+                    codeRepository.findByPCodeIn(codeRepository.findByCodeIn(code.distinct() as MutableList<CodeEntity>)))
+            }
+        }
+        return codeList
     }
 
     /**
