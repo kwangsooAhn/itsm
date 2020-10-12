@@ -209,7 +209,7 @@
 
         &[id="dataAttribute-isTopic"],
         &[id="display-editorUseYn"] {
-            .checkbox-group span:first-of-type {
+            .checkbox span:first-of-type {
                 padding-right: 0.4375rem; // 7px
             }
         }
@@ -440,10 +440,10 @@
             width: 100%;
             .datepicker,
             .datetimepicker {
-                background: $input-bg-color url("#{$icon-folder-path}icon_calendar.svg") no-repeat 98% 50%;
+                background: $white url("#{$icon-folder-path}icon_calendar.svg") no-repeat 98% 50%;
             }
             .timepicker {
-                background: $input-bg-color url("#{$icon-folder-path}icon_clock.svg") no-repeat 98% 50%;
+                background: $white url("#{$icon-folder-path}icon_clock.svg") no-repeat 98% 50%;
             }
         }
 
@@ -470,6 +470,16 @@
             &:hover {
                 border-color: $point-blue;
             }
+        }
+    }
+
+    input[type=range] {
+        width: 78%;
+        + input[type=text] {
+            width: 16%;
+            margin-left: 4%;
+            text-align: center;
+            padding: 0;
         }
     }
 }

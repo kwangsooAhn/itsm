@@ -4,255 +4,238 @@
  *                   - drawing-board : 실제 컴포넌트들이 그려지는 영역
  *           - aside : 오른쪽 패널
  */
-*,
-*::after,
-*::before {
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
+// 폼 양식
+.form-container {
+  width: 100vw;
+  height: 100vh;
+  min-width: 93.75rem; // 1500px
+  min-height: 56.25rem; // 900px
+  padding: 0;
+  margin: 0;
+  background-color: $container-background-color;
+
+  & *:focus {
+    outline: none !important;
+  }
+  
+  .toolbar {
+    width: 100vw;
+    height: $toolbar-height;
+    font-size: $toolbar-font-size;
+    font-weight: $toolbar-font-weight;
+    color: $toolbar-font-color;
+    background-color: $toolbar-bg-color;
+    padding: $toolbar-top-bottom-padding $toolbar-margin-right;
+    svg.logo { // 로고
+      float: left;
+    }
+    span.name { // 문구
+      float: left;
+      padding: 0 $toolbar-margin-right;
+      line-height: $toolbar-real-height;
+    }
+
+    span.separator { // 아이콘 구분자  
+      width: 0.063rem; // 1px
+      height: $toolbar-real-height;
+      background-color: $toolbar-separator-color;
+      margin-right: $toolbar-margin-right;
+      float: left;
+      opacity: 0.3;
+    }
+
+    a { // 아이콘
+      height: $toolbar-real-height;
+      line-height: $toolbar-real-height;
+      margin-right: $toolbar-margin-right;
+      float: left;
+      img {
+        cursor: pointer;
+      }
+    }
+
+    span.form-name { // 상단 우측 이름
+      height: $toolbar-real-height;
+      line-height: $toolbar-real-height;
+      font-size: $toolbar-name-font-size;
+      line-height: $toolbar-real-height;
+      float: right;
+    }
+  }
+
+  .contents {
+    display: flex;
+    justify-content: center;
+    left: 0;
+    top: $toolbar-height;
+    width: calc(100vw - #{$form-aside-width});
+    height: calc(100vh - #{$toolbar-height});
+    min-width: calc(100vw - #{$form-aside-width});
+    min-height: calc(100vh - #{$toolbar-height});
+    float: left;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    @include scrollbar-hidden;
+
+    .drawing-board {
+      display: table;
+      width: $form-drawing-board-width;
+      max-width: $form-drawing-board-width;
+      min-height: 100%;
+      margin-top: $form-drawing-board-top-margin;
+      margin-bottom: $form-drawing-board-top-margin;
+      padding: 6.25rem 4.063rem; // 100px 65px;
+      background-color: $drawing-board-bg-color;
+      border: $drawing-board-border;
+      box-shadow: $drawing-board-box-shadow;
+
+      &[data-readonly=true] {
+        // 폼 양식 화면에서 수정을 막음
+        .dropzone,
+        .ql-toolbar,
+        textarea,
+        button,
+        input[type=text],
+        input[type=button],
+        label.radio,
+        label.checkbox,
+        select {
+          pointer-events: none;
+        }
+        .component .move-handler {
+          display: inherit;
+        }
+      }
+    }
+  }
+
+  .aside {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    float: left;
+    right: 0;
+    top: $toolbar-height;
+    width: $form-aside-width;
+    height: calc(100vh - #{$toolbar-height});
+    min-height: calc(100vh - #{$toolbar-height});
+    background-color: $form-aside-bg-color;
+    box-shadow: $form-aside-box-shadow;
+    overflow-y: auto;
+    @include scrollbar-hidden;
+  }
 }
 
-body {
-    font: {
-        family: $font-family;
-        size: $font-size-base;
+// 문서 양식
+.document-container {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+  background-color: $container-background-color;
+  overflow: auto;
+  @include scrollbar-hidden;
+
+  & *:focus {
+    outline: none !important;
+  }
+  .contents {
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    float: left;
+    height: 100vh;
+    min-width: auto;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+
+    .button-board {
+      @include document-button;
+      justify-content: flex-end;
+      &-document {
+      @include document-button;
+      justify-content: space-between;
+      > .numbering-content {
+        label {
+          color: $gray;
+        }
+      }
+      }
     }
+
+    .drawing-board {
+      display: table;
+      width: $document-content-drawing-board-width;
+      max-width: $document-content-drawing-board-width;
+      min-height: 100%;
+      padding: 6.25rem 4.063rem; // 100px 65px;
+      background-color: $drawing-board-bg-color;
+      border: $drawing-board-border;
+      box-shadow: $drawing-board-box-shadow;
+      margin-bottom: $document-content-drawing-board-top-margin;
+      margin-top: 0.625rem; // 10px;
+    }
+  }
 }
-.container {
-    // 폼 양식
-    &-form {
-        width: 100vw;
-        height: 100vh;
-        min-width: 93.75rem; // 1500px
-        min-height: 56.25rem; // 900px
-        padding: 0;
-        margin: 0;
-        background-color: $container-background-color;
 
-        & *:focus {
-            outline: none !important;
-        }
-        .toolbar {
-            width: 100vw;
-            height: $toolbar-height;
-            font-size: $toolbar-font-size;
-            font-weight: $toolbar-font-weight;
-            color: $toolbar-font-color;
-            background-color: $toolbar-bg-color;
-            padding: $toolbar-top-bottom-padding $toolbar-margin-right;
-            svg.logo {
-                // 로고
-                float: left;
-            }
-            span.name {
-                // 문구
-                float: left;
-                padding: 0 $toolbar-margin-right;
-                line-height: $toolbar-real-height;
-            }
-    
-            span.separator {
-                // 아이콘 구분자  
-                width: 0.063rem; // 1px
-                height: $toolbar-real-height;
-                background-color: $toolbar-separator-color;
-                margin-right: $toolbar-margin-right;
-                float: left;
-                opacity: 0.3;
-            }
-    
-            a {
-                // 아이콘
-                height: $toolbar-real-height;
-                line-height: $toolbar-real-height;
-                margin-right: $toolbar-margin-right;
-                float: left;
-                img {
-                    cursor: pointer;
-                }
-            }
-    
-            span.form-name {
-                // 상단 우측 이름
-                height: $toolbar-real-height;
-                line-height: $toolbar-real-height;
-                font-size: $toolbar-name-font-size;
-                line-height: $toolbar-real-height;
-                float: right;
-            }
-        }
-        .contents {
-            display: flex;
-            justify-content: center;
-            left: 0;
-            top: $toolbar-height;
-            width: calc(100vw - #{$form-aside-width});
-            height: calc(100vh - #{$toolbar-height});
-            min-width: calc(100vw - #{$form-aside-width});
-            min-height: calc(100vh - #{$toolbar-height});
-            float: left;
-            padding: 0;
-            margin: 0;
-            overflow-y: auto;
-            @include scrollbar-hidden;
+// 프린트
+.print-container {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
 
-            .drawing-board {
-                display: table;
-                width: $form-drawing-board-width;
-                max-width: $form-drawing-board-width;
-                min-height: 100%;
-                margin-top: $form-drawing-board-top-margin;
-                margin-bottom: $form-drawing-board-top-margin;
-                padding: 6.25rem 4.063rem; // 100px 65px;
-                background-color: $drawing-board-bg-color;
-                border: $drawing-board-border;
-                box-shadow: $drawing-board-box-shadow;
+  & *:focus {
+    outline: none !important;
+  }
 
-                &[data-readonly=true] {
-                    // 폼 양식 화면에서 수정을 막음
-                    .dropzone,
-                    .ql-toolbar,
-                    textarea,
-                    button,
-                    input[type=text],
-                    input[type=button],
-                    label.checkbox-group,
-                    label.radio-group,
-                    select {
-                        pointer-events: none;
-                    }
-                    .component .move-handler {
-                        display: inherit;
-                    }
-                }
-            }
-        }
+  .contents {
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    float: left;
+    min-width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    @include scrollbar-hidden;
 
-        .aside {
-            display: flex;
-            flex: 0 0 auto;
-            flex-direction: column;
-            float: left;
-            right: 0;
-            top: $toolbar-height;
-            width: $form-aside-width;
-            height: calc(100vh - #{$toolbar-height});
-            min-height: calc(100vh - #{$toolbar-height});
-            background-color: $form-aside-bg-color;
-            box-shadow: $form-aside-box-shadow;
-            overflow-y: auto;
-            @include scrollbar-hidden;
-        }
+    .print-area {
+      justify-content: center;
     }
 
-    // 문서 양식
-    &-document {
-        display: flex;
-        justify-content: center;
-        width: 100vw;
-        height: 100vh;
-        padding: 0;
-        margin: 0;
-        background-color: $container-background-color;
-        overflow: auto;
-        @include scrollbar-hidden;
-
-        & *:focus {
-            outline: none !important;
-        }
-        .contents {
-            display: flex;
-            flex-direction: column;
-            left: 0;
-            float: left;
-            height: 100vh;
-            min-width: auto;
-            min-height: 100vh;
-            padding: 0;
-            margin: 0;
-
-            .button-board {
-                @include document-button;
-                justify-content: flex-end;
-                &-document {
-                    @include document-button;
-                    justify-content: space-between;
-                    > .numbering-content {
-                        label {
-                            color: $gray;
-                        }
-                    }
-                }
-            }
-
-            .drawing-board {
-                display: table;
-                width: $document-content-drawing-board-width;
-                max-width: $document-content-drawing-board-width;
-                min-height: 100%;
-                padding: 6.25rem 4.063rem; // 100px 65px;
-                background-color: $drawing-board-bg-color;
-                border: $drawing-board-border;
-                box-shadow: $drawing-board-box-shadow;
-                margin-bottom: $document-content-drawing-board-top-margin;
-                margin-top: 0.625rem; // 10px;
-            }
-        }
+    .print-board {
+      margin: 0.9375rem; // 15px;
+      height: 4.5rem; // 72px
+      span {
+        float: right;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 400; // regular
+        color: $black;
+        text-align: right;
+      }
     }
-    // 프린트
-    &-print {
-        width: 100vw;
-        height: 100vh;
-        padding: 0;
-        margin: 0;
 
-        & *:focus {
-            outline: none !important;
-        }
-
-        .contents {
-            display: flex;
-            flex-direction: column;
-            left: 0;
-            float: left;
-            min-width: 100vw;
-            height: 100vh;
-            min-height: 100vh;
-            padding: 0;
-            margin: 0;
-            overflow: auto;
-            @include scrollbar-hidden;
-
-            .print-area {
-                justify-content: center;
-            }
-
-            .print-board {
-                margin: 0.9375rem; // 15px;
-                height: 4.5rem; // 72px
-                span {
-                    float: right;
-                    font-size: 16px;
-                    line-height: 24px;
-                    font-weight: 400; // regular
-                    color: $black;
-                    text-align: right;
-                }
-            }
-
-            .drawing-board {
-                margin: 0 auto;
-                display: table;
-                width: $document-content-drawing-board-width;
-                max-width: $document-content-drawing-board-width;
-                min-height: 100%;
-                padding: 6.25rem 4.063rem; // 100px 65px;
-                background-color: $drawing-board-bg-color;
-                border: $drawing-board-border;
-                box-shadow: $drawing-board-box-shadow;
-                .component {
-                    page-break-inside: avoid;
-                }
-            }
-        }
+    .drawing-board {
+      margin: 0 auto;
+      display: table;
+      width: $document-content-drawing-board-width;
+      max-width: $document-content-drawing-board-width;
+      min-height: 100%;
+      padding: 6.25rem 4.063rem; // 100px 65px;
+      background-color: $drawing-board-bg-color;
+      border: $drawing-board-border;
+      box-shadow: $drawing-board-box-shadow;
+      .component {
+        page-break-inside: avoid;
+      }
     }
+  }
 }

@@ -12,7 +12,7 @@
 <body>
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
-        <div class="container-form">
+        <div class="form-container">
             <div class="toolbar">
                 <img class="load-svg logo"  th:src="@{/assets/media/icons/form/topmenu/logo.svg}"/>
                 <span class="name">Form Designer</span>
@@ -217,7 +217,7 @@
             <div class="property-group on last">
                 <div class="property-field" id="formId">
                     <label class="property-name" for="formId" th:text="#{form.properties.id}"></label>
-                    <input type="text" class="property-value" readonly="true">
+                    <input type="text" class="property-value" disabled>
                 </div>
                 <div class="property-field" id="name">
                     <label class="property-name" for="name" th:text="#{form.properties.name}"></label>
