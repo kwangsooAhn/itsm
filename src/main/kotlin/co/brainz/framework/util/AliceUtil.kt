@@ -103,10 +103,13 @@ class AliceUtil {
         )
     }
 
-    fun getCodes(codeList: MutableList<CodeEntity>, search: String): MutableList<CodeEntity> {
+    /**
+     * 전달받은 코드 리스트에서 특정 코드를 찾은 후, 해당 코드들을 리턴한다.
+     */
+    fun getCodes(codeList: MutableList<CodeEntity>, searchCode: String): MutableList<CodeEntity> {
         val codes = mutableListOf<CodeEntity>()
         codeList.forEach {
-            when (it.pCode?.code == search) {
+            when (it.pCode?.code == searchCode) {
                 true -> {
                     codes.add(it)
                 }
