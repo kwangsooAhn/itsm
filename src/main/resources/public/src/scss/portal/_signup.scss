@@ -59,7 +59,7 @@
         font-size: 0.875rem; // 14px
 
         &-login {
-            background-color: $alice-primary;
+            background-color: $point-blue;
             border-color: #FFFFFF;
             color: #FFFFFF;
             min-width: 11.75rem; // 210px
@@ -67,15 +67,9 @@
         }
 
         &-submit {
-            background-color: $alice-primary;
-            border-color: #0048E6;
+            background-color: $point-blue;
             color: #FFFFFF;
             min-width: 22.5rem; // 360px
         }
     }
-}
-
-.required::after {
-    content: "\002a"; // *
-    color: #E83828;
 }

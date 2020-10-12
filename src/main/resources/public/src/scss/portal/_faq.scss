@@ -11,6 +11,9 @@
                 padding: 3.625rem 0; // 58px
                 display: flex;
                 align-items: baseline;
+                .description {
+                  margin-left: 0.625rem; // 10px
+                }
             }
         }
 
@@ -69,16 +72,21 @@
 }
 
 .faq {
-    &-group {
-        @include h4();
+    &-group { // summary
+        font-size: 1.125rem; // 18px
+        font-weight: $font-weight-medium;
+        color: $light-black;
     }
 
-    &-title {
-        @include h5();
-        font-weight: 500;
+    &-title { // details
+        font-size: 1rem; // 16px
+        font-weight: $font-weight-medium;
+        color: $light-black;
     }
     &-contents {
-        @include h5();
+        font-size: 1rem; // 16px
+        font-weight: $font-weight-regular;
+        color: $dark-gray;
         margin-top: 20px;
         margin-left: 17px;
     }

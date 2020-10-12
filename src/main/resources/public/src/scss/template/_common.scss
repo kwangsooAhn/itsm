@@ -8,9 +8,10 @@
 // 밑줄
 .underline {
   text-decoration: underline;
+  text-underline-position: under;
 }
-// 설명 (description)
-.desc {
+// 설명
+.description {
   color: $warm-gray;
 }
 // 필수 (*) 표시
@@ -21,4 +22,10 @@
     color: $red;
     content: '\002a'; // *
   }
+}
+// 말줄임
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
