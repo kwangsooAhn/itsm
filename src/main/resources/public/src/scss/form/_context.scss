@@ -11,7 +11,7 @@
     font-size: $context-menu-font-size;
     color: $context-menu-font-color;
     overflow: auto;
-    @include scrollbar-hidden;
+    @include scrollbarHidden;
 
     .menu {
         padding: 0 0.625rem; // 0 10px

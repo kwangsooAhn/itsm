@@ -206,14 +206,6 @@
             //    }
             //}
         }
-
-        &[id="dataAttribute-isTopic"],
-        &[id="display-editorUseYn"] {
-            .checkbox span:first-of-type {
-                padding-right: 0.4375rem; // 7px
-            }
-        }
-
         //  아이콘로 이루어진 버튼 그룹
         div.property-field-icon {
             width: 100%;

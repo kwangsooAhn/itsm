@@ -85,8 +85,9 @@ input {
   }
 
   &:disabled {
-    color: $gray;
+    color: $element-disabled-font-color;
     background-color: $element-disabled-bg-color;
+    border-color: $element-disabled-border-color;
     pointer-events: none;
     cursor: default;
   }
@@ -261,6 +262,10 @@ label {
   line-height: $element-line-height;
   color: $element-font-color;
 
+  span:first-of-type {
+    padding-right: $element-indent;
+  }
+
   input[type=radio] {
     display: none;
     // ⓞ 로 사용될 span
@@ -295,12 +300,14 @@ label {
 
     &:checked {
       + span {
+        position: relative;
+        
         &::before {
           border-color: $element-border-color;
         }
         &::after {
           background-color: $element-checked-bg-color;
-          transform: translate(0.25rem, 0.5rem) scale(1); // 4px, 8.5px
+          transform: translate(4px, 9px) scale(1); // 4px, 9px
         }
       }
     }
@@ -320,12 +327,17 @@ label {
           border-color: $element-disabled-border-color;
           background-color: $element-disabled-bg-color;
         }
-        &::after {
-          background-color: $element-disabled-font-color;
-        }
       }
       ~ .label {
         color: $element-disabled-font-color;
+      }
+    }
+
+    &[disabled]:checked {
+      + span {
+        &::after {
+          background-color: $element-disabled-font-color;
+        }
       }
     }
   }
@@ -347,6 +359,10 @@ label {
   font-weight: $element-font-weight;
   line-height: $element-line-height;
   color: $element-font-color;
+
+  span:first-of-type {
+    padding-right: $element-indent;
+  }
 
   input[type=checkbox] {
     display: none;
