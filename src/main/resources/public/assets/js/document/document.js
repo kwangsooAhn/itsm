@@ -58,7 +58,7 @@
             if (componentChild === null) { continue; }
             checkValidate(componentChild);
         }
-        const validateElement = document.querySelectorAll('.validate-error');
+        const validateElement = document.querySelectorAll('.error');
         if (validateElement.length !== 0) {
             aliceJs.alertWarning(i18n.msg('document.msg.checkDocument'), function () {
                 if (validateElement[0].classList.contains('editor-container')) {
@@ -80,8 +80,8 @@
      * @param element element
      */
     function checkValidate(element) {
-        if (element.classList.contains('validate-error')) {
-            element.classList.remove('validate-error');
+        if (element.classList.contains('error')) {
+            element.classList.remove('error');
             element.removeAttribute('title');
         }
 
@@ -140,7 +140,7 @@
             }
 
             if (message !== null) {
-                element.classList.add('validate-error');
+                element.classList.add('error');
                 element.title = message;
                 return true;
             }
@@ -685,7 +685,7 @@
             backdrop.className = 'document-modal-backdrop';
 
             dialog = document.createElement('div');
-            dialog.classList.add('document-modal-dialog', 'container-document');
+            dialog.classList.add('document-modal-dialog', 'document-container');
 
             const body = document.createElement('div');
             body.className = 'contents';
@@ -847,7 +847,7 @@
                     document.querySelector('.token-info').remove();
                     let tokenInfo = document.createElement('div');
                     tokenInfo.className = 'token-info';
-                    document.querySelector('.container-document').append(tokenInfo);
+                    document.querySelector('.document-container').append(tokenInfo);
                 }
                 document.querySelector('.token-info').innerHTML = response.responseText;
 

@@ -188,27 +188,6 @@ input, button, select, optgroup, textarea {
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');}
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
 */
-h1.title {
-  padding: 0.625rem 0 0.625rem 0.3125rem;
-}
-
-h3.under-bar {
-  padding-bottom: 0.625rem;
-  margin-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
-  margin-top: 3.125rem;
-}
-
-h3.under-bar:first-of-type {
-  margin-top: 0;
-}
-
-h4.under-bar {
-  padding-bottom: 0.625rem;
-  margin-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
-}
-
 /* _elements.scss 
  *
  * 파일 경로 : template/_elements.scss
@@ -309,6 +288,11 @@ input.icon {
   padding-right: 2.5rem;
 }
 
+input.error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
+}
+
 input[type=range] {
   -webkit-appearance: none;
   appearance: none;
@@ -372,6 +356,11 @@ textarea:disabled {
   cursor: default;
 }
 
+textarea.error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
+}
+
 table {
   table-layout: fixed;
   border-collapse: collapse;
@@ -386,6 +375,10 @@ table {
 
 table tr {
   height: 2.5rem;
+}
+
+table tr th {
+  font-weight: 500;
 }
 
 table tr td, table tr th {
@@ -446,6 +439,9 @@ span {
 
 label {
   font-family: inherit;
+  color: #3F4B56;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .radio {
@@ -640,6 +636,27 @@ label {
   border-color: #0098FF;
 }
 
+h1.title {
+  padding: 0.625rem 0 0.625rem 0.3125rem;
+}
+
+h3.under-bar {
+  padding-bottom: 0.625rem;
+  margin-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+  margin-top: 3.125rem;
+}
+
+h3.under-bar:first-of-type {
+  margin-top: 0;
+}
+
+h4.under-bar {
+  padding-bottom: 0.625rem;
+  margin-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+
 select {
   margin-right: 0.0625rem;
   vertical-align: middle;
@@ -647,9 +664,6 @@ select {
 
 label {
   display: inline-block;
-  color: #3E4752;
-  font-size: 1rem;
-  font-weight: 500;
   margin-bottom: 0.5rem;
   margin-top: 1rem;
 }

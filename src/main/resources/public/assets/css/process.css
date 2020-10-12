@@ -824,11 +824,6 @@ input:disabled, input:read-only {
   pointer-events: none;
 }
 
-input.validate-error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
-}
-
 textarea {
   font-size: 16px;
   line-height: 1.2;
@@ -862,11 +857,6 @@ textarea:disabled {
   color: #ACB4BF;
   background-color: #F7F8F9;
   cursor: default;
-}
-
-textarea.validate-error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
 }
 
 span {

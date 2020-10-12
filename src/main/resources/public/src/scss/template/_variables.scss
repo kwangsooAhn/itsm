@@ -89,6 +89,12 @@ $element-checked-bg-color:                    $point-blue;
 $element-selected-font-color:                 $point-blue;
 $element-hover-bg-color:                      rgba(0, 152, 255, 0.08);
 
+// 유효성 검증 실패시 디자인 변수
+$element-error-font-color:                    $red !important;
+$element-error-border-color:                  $red;
+$element-error-border-width:                  0.0625rem; // 1px
+$element-error-border:                        $element-error-border-width solid $element-error-border-color !important;
+
 // headings
 $h1-font-size:                                $font-size-base * 2.25; // 36px
 $h2-font-size:                                $font-size-base * 1.75; // 28px
@@ -100,3 +106,11 @@ $h6-font-size:                                $font-size-base * 0.875; // 14px
 $headings-font-color:                         $light-black;
 $headings-font-weight:                        $font-weight-medium;
 $headings-line-height:                        1.2;
+
+// label
+$label-font-color:                            $light-black;
+$label-font-size:                             $font-size-base;
+$label-font-weight:                           $font-weight-medium;
+
+// table
+$table-th-font-weight:                        $font-weight-medium;
