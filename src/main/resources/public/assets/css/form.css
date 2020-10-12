@@ -269,6 +269,7 @@ input:hover {
 input:disabled {
   color: #ACB4BF;
   background-color: #F7F8F9;
+  border-color: #EBEBEB;
   pointer-events: none;
   cursor: default;
 }
@@ -442,6 +443,10 @@ label {
   color: #586872;
 }
 
+.radio span:first-of-type {
+  padding-right: 0.625rem;
+}
+
 .radio input[type=radio] {
   display: none;
 }
@@ -475,13 +480,17 @@ label {
   border-radius: 50%;
 }
 
+.radio input[type=radio]:checked + span {
+  position: relative;
+}
+
 .radio input[type=radio]:checked + span::before {
   border-color: #EBEBEB;
 }
 
 .radio input[type=radio]:checked + span::after {
   background-color: #0098FF;
-  transform: translate(0.25rem, 0.5rem) scale(1);
+  transform: translate(4px, 9px) scale(1);
 }
 
 .radio input[type=radio]:hover + span::before {
@@ -494,12 +503,12 @@ label {
   background-color: #F7F8F9;
 }
 
-.radio input[type=radio]:disabled + span::after {
-  background-color: #ACB4BF;
-}
-
 .radio input[type=radio]:disabled ~ .label {
   color: #ACB4BF;
+}
+
+.radio input[type=radio][disabled]:checked + span::after {
+  background-color: #ACB4BF;
 }
 
 .radio:focus input[type=radio] + span:before {
@@ -512,6 +521,10 @@ label {
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
+}
+
+.checkbox span:first-of-type {
+  padding-right: 0.625rem;
 }
 
 .checkbox input[type=checkbox] {
@@ -1832,10 +1845,6 @@ button.default-point-line:not(:disabled):active span.icon {
   flex-grow: 0;
   vertical-align: top;
   margin-bottom: 0.375rem;
-}
-
-.property-group .property-field[id="dataAttribute-isTopic"] .checkbox span:first-of-type, .property-group .property-field[id="display-editorUseYn"] .checkbox span:first-of-type {
-  padding-right: 0.4375rem;
 }
 
 .property-group .property-field div.property-field-icon {

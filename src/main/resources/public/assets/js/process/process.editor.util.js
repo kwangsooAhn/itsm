@@ -583,11 +583,11 @@
      * @return {Promise<unknown[]>}
      */
     function loadProcessImage(viewBox, svgNode) {
-        let svg = d3.select(svgNode).html(d3.select('.alice-process-drawing-board > svg').html());
+        let svg = d3.select(svgNode).html(d3.select('.process-drawing-board > svg').html());
         svg.attr('width', viewBox[2])
             .attr('height', viewBox[3])
             .attr('viewBox', viewBox.join(' '))
-            .classed('alice-process-drawing-board', true);
+            .classed('process-drawing-board', true);
 
         svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
@@ -694,7 +694,7 @@
      * focus properties panel.
      */
     function focusPropertiesPanel() {
-        let panel = document.querySelector('.alice-process-properties-panel');
+        let panel = document.querySelector('.process-properties-panel');
         let items = panel.querySelectorAll('input:not([readonly]), select');
         if (items.length === 0) {
             return false;
@@ -706,7 +706,7 @@
      * 미니맵을 표시한다.
      */
     function setProcessMinimap() {
-        const drawingboardContainer = document.querySelector('.alice-process-drawing-board');
+        const drawingboardContainer = document.querySelector('.process-drawing-board');
         let drawingBoard = d3.select(drawingboardContainer).select('svg');
         let content = drawingBoard.html();
         const minimapSvg = d3.select('div.minimap').select('svg');
@@ -750,7 +750,7 @@
         if (isMinimapClosed) {
             d3.select('div.minimap').classed('closed', false);
         }
-        const drawingBoard = d3.select(document.querySelector('.alice-process-drawing-board'));
+        const drawingBoard = d3.select(document.querySelector('.process-drawing-board'));
         const minimapSvg = d3.select('div.minimap').select('svg');
         const nodeTopArray = [],
             nodeRightArray = [],
@@ -784,7 +784,7 @@
      * 드로잉보드 오른쪽 하단 버튼 기능 추가
      */
     function initializeButtonOnDrawingBoard() {
-        const drawingBoard = document.querySelector('.alice-process-drawing-board');
+        const drawingBoard = document.querySelector('.process-drawing-board');
 
         // 미니맵 초기화 설정
         const minimapContainer = document.createElement('div');

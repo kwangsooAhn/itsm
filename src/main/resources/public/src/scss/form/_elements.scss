@@ -2,7 +2,7 @@
 
 textarea {
   resize: none;
-  @include scrollbar-hidden;
+  @include scrollbarHidden;
 }
 
 label {
