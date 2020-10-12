@@ -37,12 +37,12 @@
             if (count !== 1) {
                 count -= 1;
                 setCounter(count);
-                timer = setTimeout(counting, 100000);
+                timer = setTimeout(counting, 1000);
             } else {
                 gotoLoginPage();
             }
         };
-        timer = setTimeout(counting, 100000);
+        timer = setTimeout(counting, 1000);
 
         function setCounter(count) {
             document.querySelector('#counter').textContent = count;
