@@ -6,6 +6,21 @@
  * @version 1.0
  */
 
+$text-align-type: (center, left, right);
+@each $direction in $text-align-type {
+    .align-#{$direction} {
+        text-align: #{$direction};
+    }
+}
+
+$vertical-align-type: (baseline, top, middle, bottom, text-bottom, text-top);
+@each $direction in $vertical-align-type {
+    .align-#{$direction} {
+        vertical-align: #{$direction} !important;
+    }
+}
+
+// #9223 추후 _flex.scss(가제)로 이동
 $flex-align-type: (row, column);
 @each $direction in $flex-align-type {
     .flex-#{$direction} {
