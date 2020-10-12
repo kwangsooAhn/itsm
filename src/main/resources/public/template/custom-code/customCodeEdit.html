@@ -99,6 +99,7 @@
         const STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST = '3';
 
         window.onload = function() {
+            document.getElementById('customCodeName').focus();
             const targetTable = document.getElementById('targetTable');
             const condition = document.getElementById('condition');
             targetTable.addEventListener('change', function () {

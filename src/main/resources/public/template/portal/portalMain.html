@@ -71,6 +71,7 @@
         window.onload = function () {
             initEventListener();
             initPortalTops('get', '/rest/portal/top?limit=' + topSize);
+            document.getElementById('searchValue').focus();
         }
 
         /*
