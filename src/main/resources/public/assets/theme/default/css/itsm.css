@@ -858,6 +858,68 @@ textarea:focus {
   width: 100%;
 }
 
+/* _alignments.scss
+ *
+ * 파일 경로 : template/_alignments.scss
+ * @description 정렬, 배치 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.align-center {
+  text-align: center;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-baseline {
+  vertical-align: baseline !important;
+}
+
+.align-top {
+  vertical-align: top !important;
+}
+
+.align-middle {
+  vertical-align: middle !important;
+}
+
+.align-bottom {
+  vertical-align: bottom !important;
+}
+
+.align-text-bottom {
+  vertical-align: text-bottom !important;
+}
+
+.align-text-top {
+  vertical-align: text-top !important;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.row-right span:last-child {
+  margin: auto 1.25rem auto 0;
+}
+
 .wrap-screen {
   position: relative;
   min-height: 100vh;
@@ -2776,18 +2838,6 @@ span.vertical-bar {
   cursor: pointer;
 }
 
-.container .contents .list .align-center {
-  text-align: center;
-}
-
-.container .contents .list .align-left {
-  text-align: left;
-}
-
-.container .contents .list .align-right {
-  text-align: right;
-}
-
 .container .contents .list .scroller-wrap {
   height: 28.75rem;
 }
@@ -3094,18 +3144,6 @@ span.vertical-bar {
 
 .container .float-clear {
   clear: both;
-}
-
-.container .align-center {
-  text-align: center;
-}
-
-.container .align-left {
-  text-align: left;
-}
-
-.container .align-right {
-  text-align: right;
 }
 
 .navigation {
@@ -5140,68 +5178,6 @@ button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
 
 .button-list button {
   margin-left: 0.3125rem;
-}
-
-/* _alignments.scss 
- *
- * 파일 경로 : template/_alignments.scss
- * @description 정렬, 배치 관련 디자인
- * @author jy.lim
- * @version 1.0
- */
- .align-center {
-   text-align: center;
- }
-
- .align-left {
-   text-align: left;
- }
-
- .align-right {
-   text-align: right;
- }
-
- .align-baseline {
-   vertical-align: baseline !important;
- }
-
- .align-top {
-   vertical-align: top !important;
- }
-
- .align-middle {
-   vertical-align: middle !important;
- }
-
- .align-bottom {
-   vertical-align: bottom !important;
- }
-
- .align-text-bottom {
-   vertical-align: text-bottom !important;
- }
-
- .align-text-top {
-   vertical-align: text-top !important;
- }
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
-.row-right {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.row-right span:last-child {
-  margin: auto 1.25rem auto 0;
 }
 
 /* _text-editor.scss 

@@ -86,41 +86,41 @@ input, button, select, optgroup, textarea {
  * @author jy.lim
  * @version 1.0
  */
- .align-center {
-   text-align: center;
- }
+.align-center {
+  text-align: center;
+}
 
- .align-left {
-   text-align: left;
- }
+.align-left {
+  text-align: left;
+}
 
- .align-right {
-   text-align: right;
- }
+.align-right {
+  text-align: right;
+}
 
- .align-baseline {
-   vertical-align: baseline !important;
- }
+.align-baseline {
+  vertical-align: baseline !important;
+}
 
- .align-top {
-   vertical-align: top !important;
- }
+.align-top {
+  vertical-align: top !important;
+}
 
- .align-middle {
-   vertical-align: middle !important;
- }
+.align-middle {
+  vertical-align: middle !important;
+}
 
- .align-bottom {
-   vertical-align: bottom !important;
- }
+.align-bottom {
+  vertical-align: bottom !important;
+}
 
- .align-text-bottom {
-   vertical-align: text-bottom !important;
- }
+.align-text-bottom {
+  vertical-align: text-bottom !important;
+}
 
- .align-text-top {
-   vertical-align: text-top !important;
- }
+.align-text-top {
+  vertical-align: text-top !important;
+}
 
 .flex-row {
   display: flex;
