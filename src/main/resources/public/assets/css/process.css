@@ -255,12 +255,12 @@ input::placeholder {
   color: #ACB4BF;
 }
 
-input:focus {
+input:not(:disabled):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
 
-input:hover {
+input:not(:disabled):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -328,12 +328,12 @@ textarea::placeholder {
   color: #ACB4BF;
 }
 
-textarea:focus {
+textarea:not(:disabled):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
 
-textarea:hover {
+textarea:not(:disabled):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -391,12 +391,12 @@ select {
   padding: 0 0.625rem 0 0.625rem;
 }
 
-select:focus {
+select:not(:disabled):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
 
-select:hover {
+select:not(:disabled):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -441,6 +441,7 @@ label {
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
+  outline: none;
 }
 
 .radio span:first-of-type {
@@ -452,6 +453,7 @@ label {
 }
 
 .radio input[type=radio] + span {
+  position: relative;
   cursor: pointer;
 }
 
@@ -480,20 +482,20 @@ label {
   border-radius: 50%;
 }
 
-.radio input[type=radio]:checked + span {
-  position: relative;
+.radio input[type=radio] ~ .label {
+  cursor: pointer;
 }
 
-.radio input[type=radio]:checked + span::before {
+.radio input[type=radio]:not(:disabled):checked + span::before {
   border-color: #EBEBEB;
 }
 
-.radio input[type=radio]:checked + span::after {
+.radio input[type=radio]:not(:disabled):checked + span::after {
   background-color: #0098FF;
   transform: translate(4px, 9px) scale(1);
 }
 
-.radio input[type=radio]:hover + span::before {
+.radio input[type=radio]:not(:disabled):hover + span::before {
   border-color: #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
@@ -507,11 +509,12 @@ label {
   color: #ACB4BF;
 }
 
-.radio input[type=radio][disabled]:checked + span::after {
+.radio input[type=radio]:disabled:checked + span::after {
   background-color: #ACB4BF;
+  transform: translate(4px, 9px) scale(1);
 }
 
-.radio:focus input[type=radio] + span:before {
+.radio:focus input[type=radio]:not(:disabled) + span:before {
   border-color: #0098FF;
 }
 
@@ -521,6 +524,7 @@ label {
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
+  outline: none;
 }
 
 .checkbox span:first-of-type {
@@ -547,7 +551,11 @@ label {
   vertical-align: middle;
 }
 
-.checkbox input[type=checkbox]:checked + span::after {
+.checkbox input[type=checkbox] ~ .label {
+  cursor: pointer;
+}
+
+.checkbox input[type=checkbox]:not(:disabled):checked + span::after {
   content: '';
   position: absolute;
   width: 0.75rem;
@@ -560,7 +568,7 @@ label {
   transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
 }
 
-.checkbox input[type=checkbox]:hover + span::before {
+.checkbox input[type=checkbox]:not(:disabled):hover + span::before {
   border-color: #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
@@ -577,7 +585,7 @@ label {
   color: #ACB4BF;
 }
 
-.checkbox:focus input[type=checkbox] + span:before {
+.checkbox:focus input[type=checkbox]:not(:disabled) + span:before {
   border-color: #0098FF;
 }
 
@@ -589,6 +597,15 @@ label {
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
+  outline: none;
+}
+
+.switch .label {
+  display: inline-block;
+  height: 2.188rem;
+  line-height: 2.0;
+  margin-left: 5.625rem;
+  cursor: pointer;
 }
 
 .switch input[type=checkbox] {

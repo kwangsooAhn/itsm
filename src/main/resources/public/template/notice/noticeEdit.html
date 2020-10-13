@@ -39,11 +39,10 @@
                 </div>
                 <div class="form-set">
                     <label class="switch">
-                        <input type="checkbox" id="popYn" name="popYn" onclick="toggle(this);"
-                               onchange="setDisplay('popTab',this)"
+                        <input type="checkbox" id="popYn" name="popYn" onchange="setDisplay('popTab',this)"
                                th:checked="${notice?.popYn == true}">
-                        <span class="slider round"></span>
-                        <span class="switch-label" th:text="#{notice.label.popUpNoticeSettings}"></span>
+                        <span></span>
+                        <span class="label" th:text="#{notice.label.popUpNoticeSettings}"></span>
                     </label>
                 </div>
                 <div id="popTab" class="form_set">
@@ -74,11 +73,10 @@
                 </div>
                 <div class="form-set">
                     <label class="switch">
-                        <input type="checkbox" id="topNoticeYn" name="topNoticeYn" onclick="toggle(this);"
-                               onchange="setDisplay('topNoticeTab',this)"
+                        <input type="checkbox" id="topNoticeYn" name="topNoticeYn" onchange="setDisplay('topNoticeTab',this)"
                                th:checked="${notice?.topNoticeYn == true}">
-                        <span class="slider round"></span>
-                        <span class="switch-label" th:text="#{notice.label.topNoticeSettings}"></span>
+                        <span></span>
+                        <span class="label" th:text="#{notice.label.topNoticeSettings}"></span>
                     </label>
                 </div>
                 <div id="topNoticeTab" class="form-set">

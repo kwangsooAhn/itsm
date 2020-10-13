@@ -8,8 +8,8 @@ $font-face-map: (
     "NotoSansKR-Bold.otf":                    700,
     "NotoSansKR-Black.otf":                   900
 );
-
-$font-family:                                 "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+// 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (") 사용
+$font-family:                                 "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif; 
 
 // font size
 $font-size-base:                              1rem !default;  // 16px
@@ -23,9 +23,9 @@ $font-weight-bold:                            700 !default;
 $font-weight-bolder:                          900 !default;
 
 // asset path
-$font-folder-path:                            "../fonts";
-$icon-folder-path:                            "../media/icons/";
-$image-folder-path:                           "../media/images/";
+$font-folder-path:                            '../fonts';
+$icon-folder-path:                            '../media/icons/';
+$image-folder-path:                           '../media/images/';
 
 // color
 $black:                                       #000000;
