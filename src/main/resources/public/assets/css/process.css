@@ -1737,10 +1737,6 @@ span[class="required"]::after {
   width: 100%;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container.right {
-  text-align: right;
-}
-
 .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip {
   position: relative;
   display: inline-block;

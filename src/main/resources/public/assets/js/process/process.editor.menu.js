@@ -1151,7 +1151,7 @@
 
             // button
             let btnContainer = document.createElement('div');
-            btnContainer.className = 'btn-container right';
+            btnContainer.className = 'btn-container';
             let btnAdd = document.createElement('button');
             btnAdd.textContent = i18n.msg('common.btn.add');
             btnContainer.appendChild(btnAdd);
