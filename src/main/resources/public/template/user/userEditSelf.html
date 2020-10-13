@@ -179,7 +179,7 @@
                     acceptedFiles: '.png,.jpeg,.jpg,.gif',
                     enableImageThumbnails: true,
                     avatar: {
-                        id: [[${users?.avatarId}]],
+                        id: [[${users?.userKey}]],
                         path: [[${users?.avatarPath}]],
                         value: [[${users?.avatarValue}]],
                         size: [[${users?.avatarSize}]]
@@ -230,8 +230,8 @@
                 timeFormat: document.getElementById('date').value +' '+ document.getElementById('time').value,
                 fileSeq: document.getElementsByName('fileSeq').value,
                 avatarUUID: document.getElementById('avatarUUID').value
-                //isAvatar: !!document.getElementById('avatarDropZone').querySelector('img')
             };
+            console.log(data.avatarUUID);
             const password = document.getElementById('password').value;
             if (password !== '') {
                 const rsa = new RSAKey();
