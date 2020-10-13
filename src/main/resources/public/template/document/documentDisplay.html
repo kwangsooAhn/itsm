@@ -84,7 +84,7 @@
 
             for (let i = 0; i < values.length; i++) {
                 const option = document.createElement('option');
-                option.text = i18n.get('document.display.' + values[i]);
+                option.text = i18n.msg('document.display.' + values[i]);
                 option.value = values[i];
                 if (values[i] === displayDetail) {
                     option.setAttribute('selected', 'true');
@@ -120,7 +120,7 @@
                 params: displayJson,
                 contentType: 'application/json',
                 callbackFunc: function () {
-                    aliceJs.alertSuccess(i18n.get('common.msg.save'), function() {
+                    aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
                         location.href = '/documents/search';
                         window.close();
                     });

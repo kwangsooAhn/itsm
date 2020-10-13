@@ -341,7 +341,6 @@
     exports.compareSystemDateTime = compareSystemDateTime;
     exports.compareSystemDate = compareSystemDate;
     exports.compareSystemTime = compareSystemTime;
-    exports.get = getMessage; // 앞으로 msg로 사용하고 get은 다 msg로 수정하면 지우자.
     exports.msg = getMessage;
     exports.makeUserDate = makeUserDate;
 

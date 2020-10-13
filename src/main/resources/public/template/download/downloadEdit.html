@@ -82,18 +82,18 @@
         }
 
         function deleteDownload() {
-            aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
+            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/downloads/' + /*[[${download?.downloadId}]]*/'');
         }
 
         //REST API
         function restSubmit(method, url, data) {
             var resultMsg;
             if (method.toLowerCase() === 'post') {
-                resultMsg = i18n.get('common.msg.save');
+                resultMsg = i18n.msg('common.msg.save');
             } else if (method.toLowerCase() === 'put') {
-                resultMsg = i18n.get('common.msg.update');
+                resultMsg = i18n.msg('common.msg.update');
             } else if (method.toLowerCase() === 'delete') {
-                resultMsg = i18n.get('common.msg.delete');
+                resultMsg = i18n.msg('common.msg.delete');
             }
             const opt = {
                 method: method,

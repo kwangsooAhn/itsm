@@ -62,7 +62,7 @@
             if (element.id === 'fromDt') {
                 const toDtValue = document.getElementById('searchToDt').value;
                 if (i18n.systemDate(toDtValue) < i18n.systemDate(element.value)) {
-                    aliceJs.alertWarning(i18n.get("common.msg.selectBeforeDate", toDtValue), function () {
+                    aliceJs.alertWarning(i18n.msg("common.msg.selectBeforeDate", toDtValue), function () {
                         picker.open();
                     });
                 } else {
@@ -71,7 +71,7 @@
             } else {
                 const fromDtValue = document.getElementById('fromDt').value;
                 if (i18n.systemDate(fromDtValue) > i18n.systemDate(element.value)) {
-                    aliceJs.alertWarning(i18n.get("common.msg.selectAfterDate", fromDtValue), function () {
+                    aliceJs.alertWarning(i18n.msg("common.msg.selectAfterDate", fromDtValue), function () {
                         picker.open();
                     });
                 } else {
@@ -165,7 +165,7 @@
             tdDownloadSeq.style.width = '5%';
 
             let tdDownloadCategory = document.createElement('td');
-            tdDownloadCategory.innerText = i18n.get(data.downloadCategory);
+            tdDownloadCategory.innerText = i18n.msg(data.downloadCategory);
             tdDownloadCategory.style.width = '10%';
 
             let tdDownloadTitle = document.createElement('td');

@@ -79,7 +79,7 @@
             </div>
             <div class="btn-bar">
                 <button class="point-fill" sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
                 <button class="point-fill" sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button class="point-fill" sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist"
@@ -283,7 +283,7 @@
                                 });
                                 break;
                             case "false":
-                                aliceJs.alertDanger(i18n.get('common.label.delete') + i18n.get('common.label.blank') + i18n.get('common.msg.fail'));
+                                aliceJs.alertDanger(i18n.msg('common.label.delete') + i18n.msg('common.label.blank') + i18n.msg('common.msg.fail'));
                                 break;
                             default :
                                 aliceJs.alertDanger([[#{common.msg.fail}]]);

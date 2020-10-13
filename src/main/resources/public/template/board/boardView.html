@@ -117,7 +117,7 @@
 
         //게시판 삭제
         function deleteBoard(method) {
-            aliceJs.confirmIcon(i18n.get('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/boards/' + boardId);
+            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/boards/' + boardId);
         }
 
         //게시판 댓글 저장
@@ -144,7 +144,7 @@
             } else {
                 let context = document.getElementById(boardCommentId).innerText;
                 document.getElementById(boardCommentId).innerHTML = "<input type='text' maxlength='500' id='editComments' name='editComments' value='"+context+"'/>" +
-                    "<button class='default-line' onclick=\"saveBoardEditComment('put','"+boardCommentId+"')\">"+i18n.get('common.btn.save')+"</button>";
+                    "<button class='default-line' onclick=\"saveBoardEditComment('put','"+boardCommentId+"')\">"+i18n.msg('common.btn.save')+"</button>";
             }
         }
 
