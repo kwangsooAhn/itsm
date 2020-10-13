@@ -14,8 +14,8 @@
                 <a href="#" th:onclick="openTokenEdit([[${token.tokenId}]]);return false;"
                    sec:authorize="hasAuthority('token.read')">
                     <div class="document-title">
-                        <h3 th:text="${token.documentName}"></h3>
-                        <h5 th:text="${token.documentNo}"></h5>
+                        <h3 th:text="${token.documentName}" class="text-ellipsis"></h3>
+                        <h5 th:text="${token.documentNo}" class="text-ellipsis"></h5>
                     </div>
                     <div class="document-topic">
                         <h5 th:each="topic: ${token.topics}" th:text="${topic}"></h5>
