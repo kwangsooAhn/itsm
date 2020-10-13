@@ -130,18 +130,10 @@ class UserService(
 
                 logger.debug("targetEntity {}, update {}", targetEntity, userUpdateDto)
                 userRepository.save(targetEntity)
+
                 if (targetEntity.uploaded) {
                     aliceFileService.avatarFileNameMod(targetEntity)
-                    //aliceFileService.avatarFileNameMod(aliceAliceAvatarEntity)
                 }
-                /*val aliceAliceAvatarEntity = aliceFileService.uploadAvatarFile(
-                    targetEntity.avatar.avatarId,
-                    userUpdateDto.avatarUUID,
-                    AliceUserConstants.AvatarType.FILE.code
-                )
-                if (aliceAliceAvatarEntity.uploaded) {
-                    aliceFileService.avatarFileNameMod(aliceAliceAvatarEntity)
-                }*/
 
                 when (userEditType == AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code) {
                     true -> {
