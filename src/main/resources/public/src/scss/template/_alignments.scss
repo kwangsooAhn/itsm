@@ -16,7 +16,7 @@ $text-align-type: (center, left, right);
 $vertical-align-type: (baseline, top, middle, bottom, text-bottom, text-top);
 @each $direction in $vertical-align-type {
     .align-#{$direction} {
-        vertical-align: #{$direction} !important;
+        vertical-align: #{$direction};
     }
 }
 
