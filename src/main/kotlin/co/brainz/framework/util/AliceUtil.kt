@@ -9,6 +9,7 @@ import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.configuration.AliceApplicationRunner
 import co.brainz.framework.constants.AliceConstants
+import co.brainz.itsm.code.entity.CodeEntity
 import javax.servlet.http.HttpServletRequest
 
 class AliceUtil {
@@ -100,5 +101,20 @@ class AliceUtil {
             aliceUser.theme,
             aliceUser.avatarPath
         )
+    }
+
+    /**
+     * 전달받은 코드 리스트에서 특정 코드를 찾은 후, 해당 코드들을 리턴한다.
+     */
+    fun getCodes(codeList: MutableList<CodeEntity>, searchCode: String): MutableList<CodeEntity> {
+        val codes = mutableListOf<CodeEntity>()
+        codeList.forEach {
+            when (it.pCode?.code == searchCode) {
+                true -> {
+                    codes.add(it)
+                }
+            }
+        }
+        return codes
     }
 }

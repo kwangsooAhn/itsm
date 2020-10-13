@@ -48,8 +48,11 @@
                         <div class="checkbox-list">
                             <ul>
                                 <li th:each="url : ${urlList}">
-                                    <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
-                                    <label th:for="${url?.url}" th:text="|[${url?.method}] ${url?.url}|"></label>
+                                    <label class="checkbox" th:for="${url?.url}" tabindex="0">
+                                        <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
+                                        <span></span>
+                                        <span class="label" th:text="|[${url?.method}] ${url?.url}|"></span>
+                                    </label>
                                 </li>
                             </ul>
                         </div>
@@ -59,9 +62,12 @@
                         <div class="checkbox-list">
                             <ul id='menuList'>
                                 <li th:each="menu : ${menuList}">
-                                    <input class="auth-list-check" type="checkbox" name="authMenu" th:id="${menu?.menuId}"
-                                           th:value="${menu?.menuId}">
-                                    <label th:for="${menu?.menuId}" th:text="#{|menu.${menu?.menuId}|}"></label>
+                                    <label class="checkbox" th:for="${menu?.menuId}" tabindex="0">
+                                        <input class="auth-list-check" type="checkbox" name="authMenu" th:id="${menu?.menuId}"
+                                               th:value="${menu?.menuId}">
+                                        <span></span>
+                                        <span class="label" th:text="#{|menu.${menu?.menuId}|}"></span>
+                                    </label>
                                 </li>
                             </ul>
                         </div>

@@ -85,12 +85,12 @@
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
-                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                         `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                             `${aliceJs.filterXSS(property.label.text)}` +
-                        `</div>` +
+                        `</label>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -130,12 +130,12 @@
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
-                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                         `${aliceJs.filterXSS(property.label.text)}` +
-                    `</div>` +
+                    `</label>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -206,12 +206,12 @@
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
-                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                         `${aliceJs.filterXSS(property.label.text)}` +
-                    `</div>` +
+                    `</label>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -241,13 +241,13 @@
 
         const displayType = property['dataAttribute']['displayType'];
         const optionsTemplate = property.option.map(function (opt) {
-            return `<label class="field-radio radio-group" for='radio-${property.componentId}-${opt.seq}'>` +
+            return `<label class="field-radio radio" for='radio-${property.componentId}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
                     `<input type="radio" id="radio-${property.componentId}-${opt.seq}" name="radio-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
                     `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>` +
-                    `<span>${aliceJs.filterXSS(opt.name)}</span>` :
-                    `<span>${aliceJs.filterXSS(opt.name)}</span>` +
+                    `<span class="label">${aliceJs.filterXSS(opt.name)}</span>` :
+                    `<span class="label">${aliceJs.filterXSS(opt.name)}</span>` +
                     `<input type="radio" id="radio-${property.componentId}-${opt.seq}" name="radio-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
                     `${(typeof property.value !== 'undefined' && opt.value === property.value) ? " checked='true'" : ""}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>`
@@ -260,12 +260,12 @@
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
-                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                         `${aliceJs.filterXSS(property.label.text)}` +
-                    `</div>` +
+                    `</label>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -295,13 +295,13 @@
         const displayType = property['dataAttribute']['displayType'];
         const checkboxValueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
         const optionsTemplate = property.option.map(function (opt) {
-            return `<label class="field-checkbox checkbox-group"  for='checkbox-${property.componentId}-${opt.seq}'>` +
+            return `<label class="field-checkbox checkbox"  for='checkbox-${property.componentId}-${opt.seq}'>` +
                 `${(property.display.position === 'right') ?
                     `<input type="checkbox" id="checkbox-${property.componentId}-${opt.seq}" name="checkbox-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
                     `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>` +
-                    `<span>${aliceJs.filterXSS(opt.name)}</span>` :
-                    `<span>${aliceJs.filterXSS(opt.name)}</span>` +
+                    `<span class="label">${aliceJs.filterXSS(opt.name)}</span>` :
+                    `<span class="label">${aliceJs.filterXSS(opt.name)}</span>` +
                     `<input type="checkbox" id="checkbox-${property.componentId}-${opt.seq}" name="checkbox-${property.componentId}" value="${aliceJs.filterXSS(opt.value)}"` +
                     `${(checkboxValueArr.indexOf(opt.value) > -1) ? " checked='true'" : ""}` +
                     `${displayType === 'readonly' ? ' disabled' : ''}><span></span>`
@@ -314,12 +314,12 @@
                 `<div class="move-handler"></div>` +
                 `<div class="field-group">` +
                     `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
-                        `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                        `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                         `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                             `${aliceJs.filterXSS(property.label.text)}` +
-                        `</div>` +
+                        `</label>` +
                         `<span class="required"></span>` +
                     `</div>` +
                     `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -352,12 +352,12 @@
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.display.align}" >` +
-                    `<div class="label" style="color: ${property.display.color}; font-size: ${property.display.size}px;` +
+                    `<label style="color: ${property.display.color}; font-size: ${property.display.size}px;` +
                     `${property.display.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.display.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.display.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                         `${aliceJs.filterXSS(property.display.text)}` +
-                    `</div>` +
+                    `</label>` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -481,12 +481,12 @@
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
-                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                         `${aliceJs.filterXSS(property.label.text)}` +
-                    `</div>` +
+                    `</label>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -551,12 +551,12 @@
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
-                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                         `${aliceJs.filterXSS(property.label.text)}` +
-                    `</div>` +
+                    `</label>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -622,12 +622,12 @@
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
-                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                         `${aliceJs.filterXSS(property.label.text)}` +
-                    `</div>` +
+                    `</label>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -668,12 +668,12 @@
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
-                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                         `${aliceJs.filterXSS(property.label.text)}` +
-                    `</div>` +
+                    `</label>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
@@ -763,12 +763,12 @@
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
                 `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
-                    `<div class="label" style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
                     `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
                         `${aliceJs.filterXSS(property.label.text)}` +
-                    `</div>` +
+                    `</label>` +
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +

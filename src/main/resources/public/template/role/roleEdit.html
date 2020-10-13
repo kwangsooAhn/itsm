@@ -46,8 +46,11 @@
                         <div class="checkbox-list">
                             <ul>
                                 <li th:each="auth : ${authList}">
-                                    <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
-                                    <span th:text="${auth?.authName}"></span>
+                                    <label class="checkbox" th:for="${auth?.authId}" tabindex="0">
+                                        <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
+                                        <span></span>
+                                        <span class="label" th:text="${auth?.authName}"></span>
+                                    </label>
                                 </li>
                             </ul>
                         </div>

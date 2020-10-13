@@ -105,9 +105,10 @@ input, button, select, optgroup, textarea {
  */
 .underline {
   text-decoration: underline;
+  text-underline-position: under;
 }
 
-.desc {
+.description {
   color: #7E848C;
 }
 
@@ -119,6 +120,12 @@ input, button, select, optgroup, textarea {
 .required::after {
   color: #FF405A;
   content: '\002a';
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* _fonts.scss 
@@ -216,6 +223,10 @@ h6 {
   font-size: 0.875rem;
 }
 
+a {
+  cursor: pointer;
+}
+
 a:link,
 a:visited {
   text-decoration: none;
@@ -237,19 +248,19 @@ input {
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
-  padding: 0 0 0.625rem 0 0 0.625rem;
+  padding: 0 0.625rem 0 0.625rem;
 }
 
 input::placeholder {
   color: #ACB4BF;
 }
 
-input:focus {
+input:not(:disabled):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
 
-input:hover {
+input:not(:disabled):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -258,8 +269,18 @@ input:hover {
 input:disabled {
   color: #ACB4BF;
   background-color: #F7F8F9;
+  border-color: #EBEBEB;
   pointer-events: none;
   cursor: default;
+}
+
+input.icon {
+  padding-right: 2.5rem;
+}
+
+input.error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
 }
 
 input[type=range] {
@@ -299,7 +320,7 @@ textarea {
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
-  padding: 0.5rem 0 0.625rem 0.5rem 0 0.625rem;
+  padding: 0.5rem 0.625rem 0.5rem 0.625rem;
   resize: vertical;
 }
 
@@ -307,12 +328,12 @@ textarea::placeholder {
   color: #ACB4BF;
 }
 
-textarea:focus {
+textarea:not(:disabled):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
 
-textarea:hover {
+textarea:not(:disabled):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -325,7 +346,13 @@ textarea:disabled {
   cursor: default;
 }
 
+textarea.error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
+}
+
 table {
+  table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
   font-family: inherit;
@@ -333,15 +360,22 @@ table {
   font-weight: 400;
   color: #586872;
   background-color: transparent;
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid transparent;
 }
 
 table tr {
   height: 2.5rem;
 }
 
+table tr th {
+  font-weight: 500;
+}
+
 table tr td, table tr th {
-  border: 0.0625rem solid #EBEBEB;
+  border: 0.0625rem solid transparent;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 select {
@@ -354,15 +388,15 @@ select {
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
-  padding: 0 0 0.625rem 0 0 0.625rem;
+  padding: 0 0.625rem 0 0.625rem;
 }
 
-select:focus {
+select:not(:disabled):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
 
-select:hover {
+select:not(:disabled):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -375,8 +409,29 @@ select:disabled {
   cursor: default;
 }
 
+option:hover {
+  background-color: rgba(0, 152, 255, 0.08);
+}
+
+option:visited {
+  color: #0098FF;
+  background-color: #ffffff;
+}
+
+option:active, option:focus {
+  color: #0098FF;
+}
+
 span {
+  font-family: inherit;
   margin: auto 0;
+}
+
+label {
+  font-family: inherit;
+  color: #3F4B56;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .radio {
@@ -386,6 +441,11 @@ span {
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
+  outline: none;
+}
+
+.radio span:first-of-type {
+  padding-right: 0.625rem;
 }
 
 .radio input[type=radio] {
@@ -393,6 +453,7 @@ span {
 }
 
 .radio input[type=radio] + span {
+  position: relative;
   cursor: pointer;
 }
 
@@ -421,16 +482,20 @@ span {
   border-radius: 50%;
 }
 
-.radio input[type=radio]:checked + span::before {
+.radio input[type=radio] ~ .label {
+  cursor: pointer;
+}
+
+.radio input[type=radio]:not(:disabled):checked + span::before {
   border-color: #EBEBEB;
 }
 
-.radio input[type=radio]:checked + span::after {
+.radio input[type=radio]:not(:disabled):checked + span::after {
   background-color: #0098FF;
-  transform: translate(0.25rem, 0.5rem) scale(1);
+  transform: translate(4px, 9px) scale(1);
 }
 
-.radio input[type=radio]:hover + span::before {
+.radio input[type=radio]:not(:disabled):hover + span::before {
   border-color: #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
@@ -440,15 +505,16 @@ span {
   background-color: #F7F8F9;
 }
 
-.radio input[type=radio]:disabled + span::after {
-  background-color: #ACB4BF;
-}
-
 .radio input[type=radio]:disabled ~ .label {
   color: #ACB4BF;
 }
 
-.radio:focus input[type=radio] + span:before {
+.radio input[type=radio]:disabled:checked + span::after {
+  background-color: #ACB4BF;
+  transform: translate(4px, 9px) scale(1);
+}
+
+.radio:focus input[type=radio]:not(:disabled) + span:before {
   border-color: #0098FF;
 }
 
@@ -458,6 +524,11 @@ span {
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
+  outline: none;
+}
+
+.checkbox span:first-of-type {
+  padding-right: 0.625rem;
 }
 
 .checkbox input[type=checkbox] {
@@ -480,7 +551,11 @@ span {
   vertical-align: middle;
 }
 
-.checkbox input[type=checkbox]:checked + span::after {
+.checkbox input[type=checkbox] ~ .label {
+  cursor: pointer;
+}
+
+.checkbox input[type=checkbox]:not(:disabled):checked + span::after {
   content: '';
   position: absolute;
   width: 0.75rem;
@@ -493,7 +568,7 @@ span {
   transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
 }
 
-.checkbox input[type=checkbox]:hover + span::before {
+.checkbox input[type=checkbox]:not(:disabled):hover + span::before {
   border-color: #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
@@ -510,7 +585,7 @@ span {
   color: #ACB4BF;
 }
 
-.checkbox:focus input[type=checkbox] + span:before {
+.checkbox:focus input[type=checkbox]:not(:disabled) + span:before {
   border-color: #0098FF;
 }
 
@@ -522,6 +597,15 @@ span {
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
+  outline: none;
+}
+
+.switch .label {
+  display: inline-block;
+  height: 2.188rem;
+  line-height: 2.0;
+  margin-left: 5.625rem;
+  cursor: pointer;
 }
 
 .switch input[type=checkbox] {
@@ -569,6 +653,38 @@ span {
 
 .switch:focus input[type=checkbox] + span:before {
   border-color: #0098FF;
+}
+
+input:read-only {
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  border-color: #EBEBEB;
+  pointer-events: none;
+  cursor: default;
+}
+
+textarea {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+  min-height: 5.625rem;
+  resize: vertical;
+}
+
+textarea::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+label {
+  display: inline-block;
+  margin-top: 0.25rem;
+}
+
+table {
+  width: 100%;
+  margin-top: 0.5rem;
 }
 
 svg {
@@ -781,111 +897,7 @@ svg path.connector.hidden {
   stroke-width: 0;
 }
 
-body {
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 0.688rem;
-}
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-label {
-  display: inline-block;
-  margin-top: 0.25rem;
-}
-
-input {
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-  color: #586872;
-  border: 0.0625rem solid #EBEBEB;
-  background-color: #ffffff;
-  height: 2.5rem;
-}
-
-input::placeholder {
-  color: #ACB4BF;
-}
-
-input:focus, input:hover {
-  outline: 0;
-  border: 0.0625rem solid #0098FF;
-  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-}
-
-input:disabled, input:read-only {
-  color: #ACB4BF;
-  background-color: #F7F8F9;
-  cursor: default;
-  pointer-events: none;
-}
-
-input.validate-error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
-}
-
-textarea {
-  font-size: 16px;
-  line-height: 1.2;
-  font-weight: 400;
-  color: #586872;
-  border: 0.0625rem solid #EBEBEB;
-  background-color: #ffffff;
-  resize: none;
-  -ms-overflow-style: none;
-  /* IE and Edge */
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-textarea::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-
-textarea::placeholder {
-  color: #ACB4BF;
-}
-
-textarea:focus, textarea:hover {
-  outline: 0;
-  border: 0.0625rem solid #0098FF;
-  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
-}
-
-textarea:disabled {
-  color: #ACB4BF;
-  background-color: #F7F8F9;
-  cursor: default;
-}
-
-textarea.validate-error {
-  color: #FF405A !important;
-  border: 0.0625rem solid #FF405A !important;
-}
-
-span {
-  font-size: 1rem;
-  font-weight: 400;
-  vertical-align: middle;
-}
-
-span[class="required"] {
-  padding-left: 0.3125rem;
-  font-weight: 700;
-}
-
-span[class="required"]::after {
-  color: #FF405A;
-  content: "\002a";
-}
-
-.alice-process-container {
+.process-container {
   position: relative;
   width: 100vw;
   height: 100vh;
@@ -893,7 +905,7 @@ span[class="required"]::after {
   min-height: 41.563rem;
 }
 
-.alice-process-toolbar {
+.process-toolbar {
   width: 100vw;
   min-width: 75rem;
   height: 3.125rem;
@@ -906,7 +918,7 @@ span[class="required"]::after {
   align-items: center;
 }
 
-.alice-process-toolbar .logo {
+.process-toolbar .logo {
   width: 13.125rem;
   height: 1.999rem;
   float: left;
@@ -917,13 +929,13 @@ span[class="required"]::after {
   background-image: url("../media/icons/process/editor/logo.svg");
 }
 
-.alice-process-toolbar .process-designer {
+.process-toolbar .process-designer {
   font-size: 1.125rem;
   font-weight: 500;
   color: #fff;
 }
 
-.alice-process-toolbar a {
+.process-toolbar a {
   text-decoration: none;
   margin-right: 2.5625rem;
   height: 1.999rem;
@@ -934,11 +946,11 @@ span[class="required"]::after {
   align-items: center;
 }
 
-.alice-process-toolbar a img {
+.process-toolbar a img {
   cursor: pointer;
 }
 
-.alice-process-toolbar span.separator {
+.process-toolbar span.separator {
   width: 0.063rem;
   height: 1.999rem;
   background-color: #3079ff;
@@ -946,7 +958,7 @@ span[class="required"]::after {
   float: left;
 }
 
-.alice-process-toolbar .process-name {
+.process-toolbar .process-name {
   height: 1.999rem;
   line-height: 1.999rem;
   margin-left: auto;
@@ -955,7 +967,7 @@ span[class="required"]::after {
   font-weight: 500;
 }
 
-.alice-process-element-palette {
+.process-element-palette {
   display: inline-block;
   width: 6.25rem;
   height: calc(100vh - 3.125rem);
@@ -967,7 +979,7 @@ span[class="required"]::after {
   box-shadow: 0.063rem 0 0.313rem -0.25rem #182738;
 }
 
-.alice-process-element-palette .rectangle-menu {
+.process-element-palette .rectangle-menu {
   position: relative;
   display: inline-block;
   width: 5.625rem;
@@ -981,18 +993,17 @@ span[class="required"]::after {
   background-position: 50% 30%;
 }
 
-.alice-process-element-palette .rectangle-menu label {
-  color: #7E848C;
-  font-family: 맑은고딕;
+.process-element-palette .rectangle-menu label {
   font-size: 0.875rem;
   font-weight: 400;
+  color: #3F4B56;
   position: absolute;
   top: 2.8rem;
   width: 100%;
   text-align: center;
 }
 
-.alice-process-element-palette .connector {
+.process-element-palette .connector {
   position: absolute;
   bottom: 5rem;
   left: 0;
@@ -1000,45 +1011,45 @@ span[class="required"]::after {
   background-image: url("../media/icons/process/element/connector.png");
 }
 
-.alice-process-element-palette .connector label {
+.process-element-palette .connector label {
   color: #ACB4BF;
 }
 
-.alice-process-element-palette .connector.selected {
+.process-element-palette .connector.selected {
   border-color: #0098FF;
   background-color: transparent;
   background-image: url("../media/icons/process/element/connector-select.png");
 }
 
-.alice-process-element-palette .connector.selected label {
+.process-element-palette .connector.selected label {
   color: #0098FF;
 }
 
-.alice-process-element-palette .shape.event {
+.process-element-palette .shape.event {
   background-image: url("../media/icons/process/element/event.png");
 }
 
-.alice-process-element-palette .shape.task {
+.process-element-palette .shape.task {
   background-image: url("../media/icons/process/element/task.png");
 }
 
-.alice-process-element-palette .shape.subprocess {
+.process-element-palette .shape.subprocess {
   background-image: url("../media/icons/process/element/subprocess.png");
 }
 
-.alice-process-element-palette .shape.gateway {
+.process-element-palette .shape.gateway {
   background-image: url("../media/icons/process/element/gateway.png");
 }
 
-.alice-process-element-palette .shape.group {
+.process-element-palette .shape.group {
   background-image: url("../media/icons/process/element/group.png");
 }
 
-.alice-process-element-palette .shape.annotation {
+.process-element-palette .shape.annotation {
   background-image: url("../media/icons/process/element/annotation.png");
 }
 
-.alice-process-element-palette .move-icon {
+.process-element-palette .move-icon {
   position: absolute;
   bottom: 0.313rem;
   left: 0;
@@ -1046,21 +1057,21 @@ span[class="required"]::after {
   background-image: url("../media/icons/process/editor/icon-background.png");
 }
 
-.alice-process-element-palette .move-icon label {
+.process-element-palette .move-icon label {
   color: #ACB4BF;
 }
 
-.alice-process-element-palette .move-icon.selected {
+.process-element-palette .move-icon.selected {
   border-color: #0098FF;
   background-color: transparent;
   background-image: url("../media/icons/process/editor/icon-background-select.png");
 }
 
-.alice-process-element-palette .move-icon.selected label {
+.process-element-palette .move-icon.selected label {
   color: #0098FF;
 }
 
-.alice-process-drawing-board {
+.process-drawing-board {
   display: inline-block;
   position: absolute;
   top: 3.125rem;
@@ -1075,7 +1086,7 @@ span[class="required"]::after {
   /*시뮬레이션*/
 }
 
-.alice-process-drawing-board button.gray-line {
+.process-drawing-board button.gray-line {
   display: inline-block;
   width: 2.5rem;
   height: 2.5rem;
@@ -1091,29 +1102,29 @@ span[class="required"]::after {
   cursor: pointer;
 }
 
-.alice-process-drawing-board button.gray-line span.icon {
+.process-drawing-board button.gray-line span.icon {
   display: inline-block;
   background: #CCCED1;
 }
 
-.alice-process-drawing-board button.gray-line:focus, .alice-process-drawing-board button.gray-line:hover {
+.process-drawing-board button.gray-line:focus, .process-drawing-board button.gray-line:hover {
   outline: 0;
   border-color: #0098FF;
 }
 
-.alice-process-drawing-board button.gray-line:focus span.icon, .alice-process-drawing-board button.gray-line:hover span.icon {
+.process-drawing-board button.gray-line:focus span.icon, .process-drawing-board button.gray-line:hover span.icon {
   background: #0098FF;
 }
 
-.alice-process-drawing-board button.gray-line.active {
+.process-drawing-board button.gray-line.active {
   border-color: #0098FF;
 }
 
-.alice-process-drawing-board button.gray-line.active span.icon {
+.process-drawing-board button.gray-line.active span.icon {
   background: #0098FF;
 }
 
-.alice-process-drawing-board div.minimap {
+.process-drawing-board div.minimap {
   background-color: #ffffff;
   display: inline-block;
   width: 12.5rem;
@@ -1126,7 +1137,7 @@ span[class="required"]::after {
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
 }
 
-.alice-process-drawing-board div.minimap svg {
+.process-drawing-board div.minimap svg {
   position: absolute;
   top: 1.25rem;
   left: 1.25rem;
@@ -1134,17 +1145,17 @@ span[class="required"]::after {
   border: 1px solid #c8ced8;
 }
 
-.alice-process-drawing-board div.minimap svg rect.minimap-guide {
+.process-drawing-board div.minimap svg rect.minimap-guide {
   fill: #A3B6CC;
   fill-opacity: 0.25;
   stroke-width: 0;
 }
 
-.alice-process-drawing-board div.minimap.closed {
+.process-drawing-board div.minimap.closed {
   display: none;
 }
 
-.alice-process-drawing-board button.minimap-button {
+.process-drawing-board button.minimap-button {
   position: absolute;
   bottom: 0.625rem;
   right: 0.625rem;
@@ -1152,7 +1163,7 @@ span[class="required"]::after {
   padding: 0;
 }
 
-.alice-process-drawing-board button.minimap-button span.icon {
+.process-drawing-board button.minimap-button span.icon {
   width: 1.063rem;
   height: 1.25rem;
   -webkit-mask-image: url("../media/icons/process/editor/icon-map.svg");
@@ -1163,7 +1174,7 @@ span[class="required"]::after {
   mask-position: center;
 }
 
-.alice-process-drawing-board .simulation-report {
+.process-drawing-board .simulation-report {
   position: absolute;
   width: 63.75rem;
   height: 22.688rem;
@@ -1178,18 +1189,18 @@ span[class="required"]::after {
   border: solid 1px #ebebeb;
 }
 
-.alice-process-drawing-board .simulation-report .title {
+.process-drawing-board .simulation-report .title {
   height: 3.375rem;
   border-bottom: solid 1px #ebebeb;
   font-size: 1.125rem;
   padding: 1.063rem;
 }
 
-.alice-process-drawing-board .simulation-report .title-text {
+.process-drawing-board .simulation-report .title-text {
   display: inline-block;
 }
 
-.alice-process-drawing-board .simulation-report .title-close {
+.process-drawing-board .simulation-report .title-close {
   display: inline-block;
   width: 16px;
   height: 18px;
@@ -1200,46 +1211,46 @@ span[class="required"]::after {
   cursor: pointer;
 }
 
-.alice-process-drawing-board .simulation-report .contents {
+.process-drawing-board .simulation-report .contents {
   position: relative;
   height: calc(100% - 3.375rem);
   font-size: 1.125rem;
 }
 
-.alice-process-drawing-board .simulation-report .contents .result {
+.process-drawing-board .simulation-report .contents .result {
   margin: 0.938rem;
 }
 
-.alice-process-drawing-board .simulation-report .contents .result.success {
+.process-drawing-board .simulation-report .contents .result.success {
   color: #00c462;
 }
 
-.alice-process-drawing-board .simulation-report .contents .result.failed {
+.process-drawing-board .simulation-report .contents .result.failed {
   color: #ff405a;
 }
 
-.alice-process-drawing-board .simulation-report .contents .details {
+.process-drawing-board .simulation-report .contents .details {
   font-size: 1rem;
   color: #586872;
 }
 
-.alice-process-drawing-board .simulation-report .contents .details div {
+.process-drawing-board .simulation-report .contents .details div {
   margin: 0.313rem 0 0.313rem 0.75rem;
 }
 
-.alice-process-drawing-board .simulation-report .contents .details div.failed {
+.process-drawing-board .simulation-report .contents .details div.failed {
   color: #ff405a;
 }
 
-.alice-process-drawing-board .simulation-report .contents .details-number-of, .alice-process-drawing-board .simulation-report .contents .details-result, .alice-process-drawing-board .simulation-report .contents .details-element-info, .alice-process-drawing-board .simulation-report .contents .details-failed-message {
+.process-drawing-board .simulation-report .contents .details-number-of, .process-drawing-board .simulation-report .contents .details-result, .process-drawing-board .simulation-report .contents .details-element-info, .process-drawing-board .simulation-report .contents .details-failed-message {
   margin-left: 0.313rem;
 }
 
-.alice-process-drawing-board .simulation-report.closed {
+.process-drawing-board .simulation-report.closed {
   display: none;
 }
 
-.alice-process-drawing-board button.simulation-report-icon {
+.process-drawing-board button.simulation-report-icon {
   position: absolute;
   bottom: 3.438rem;
   right: 0.625rem;
@@ -1247,7 +1258,7 @@ span[class="required"]::after {
   padding: 0;
 }
 
-.alice-process-drawing-board button.simulation-report-icon span.icon {
+.process-drawing-board button.simulation-report-icon span.icon {
   width: 1.25rem;
   height: 1rem;
   -webkit-mask-image: url("../media/icons/process/editor/icon-simulation-report.svg");
@@ -1258,7 +1269,7 @@ span[class="required"]::after {
   mask-position: center;
 }
 
-.alice-process-properties-panel {
+.process-properties-panel {
   display: inline-block;
   background-color: #fafbfd;
   width: 18.75rem;
@@ -1270,11 +1281,11 @@ span[class="required"]::after {
   box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7;
 }
 
-.alice-process-properties-panel h3 {
+.process-properties-panel h3 {
   margin: 1.25rem 0 1rem 1.5625rem;
 }
 
-.alice-process-properties-panel h3 span {
+.process-properties-panel h3 span {
   padding-right: 0.625rem;
   color: #586872;
   font-size: 1rem;
@@ -1283,16 +1294,16 @@ span[class="required"]::after {
   font-weight: 500;
 }
 
-.alice-process-properties-panel div.properties-container {
+.process-properties-panel div.properties-container {
   height: calc(100vh - 3.125rem);
 }
 
-.alice-process-properties-panel div.properties-container div.element-title {
+.process-properties-panel div.properties-container div.element-title {
   height: 2.5rem;
   background-color: #33ADFF;
 }
 
-.alice-process-properties-panel div.properties-container div.element-title h2 {
+.process-properties-panel div.properties-container div.element-title h2 {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
@@ -1301,12 +1312,12 @@ span[class="required"]::after {
   padding: 0.719rem 0 0.719rem 0.938rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties {
+.process-properties-panel div.properties-container div.element-properties {
   height: calc(100vh - 3.125rem - 2.5rem);
   overflow: auto;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties fieldset {
+.process-properties-panel div.properties-container div.element-properties fieldset {
   border: 0.063rem solid #c8ced8;
   padding: 0.5rem;
   margin-right: 1.25rem;
@@ -1314,32 +1325,30 @@ span[class="required"]::after {
   margin-bottom: 0.5rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties fieldset legend {
+.process-properties-panel div.properties-container div.element-properties fieldset legend {
   width: 6.25rem;
   height: 1.875rem;
   display: flex;
   align-items: center;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties fieldset legend input {
+.process-properties-panel div.properties-container div.element-properties fieldset legend input {
   margin: 0 0.3125rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties fieldset legend label {
-  font-size: 0.688rem;
-  font-weight: bold;
+.process-properties-panel div.properties-container div.element-properties fieldset legend label {
   margin-top: 0;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties {
+.process-properties-panel div.properties-container div.element-properties fieldset div.properties {
   margin: 1rem 0.5rem 0 0.5rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties fieldset div.properties label {
+.process-properties-panel div.properties-container div.element-properties fieldset div.properties label {
   width: 12.5rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties {
+.process-properties-panel div.properties-container div.element-properties div.properties {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1356,11 +1365,11 @@ span[class="required"]::after {
  */
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .flex-row {
+.process-properties-panel div.properties-container div.element-properties div.properties .flex-row {
   width: 100%;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties label {
+.process-properties-panel div.properties-container div.element-properties div.properties label {
   display: inline-block;
   width: 100%;
   vertical-align: top;
@@ -1372,93 +1381,30 @@ span[class="required"]::after {
   color: #3F4B56;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties label.required::after {
-  color: #E83828;
-  content: "\002a";
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties label.checkbox {
-  width: initial;
-  margin-left: 0.625rem;
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input[type=checkbox] {
-  width: 1.125rem;
-  height: 1.125rem;
-  border: 0.0625rem solid #EBEBEB;
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input,
-.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea,
-.alice-process-properties-panel div.properties-container div.element-properties div.properties select {
-  border: 0.063rem solid #EBEBEB;
-  color: #68717c;
-  padding-left: 0.438rem;
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input:focus,
-.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus,
-.alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
-  border-color: #0098FF;
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]),
-.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea,
-.alice-process-properties-panel div.properties-container div.element-properties div.properties select {
+.process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]),
+.process-properties-panel div.properties-container div.element-properties div.properties textarea,
+.process-properties-panel div.properties-container div.element-properties div.properties select {
   width: 100%;
-  color: #586872;
-  font-size: 1rem;
-  font-weight: 400;
-  border-color: #EBEBEB;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]):focus,
-.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus,
-.alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
-  border-color: #0098FF;
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea {
+.process-properties-panel div.properties-container div.element-properties div.properties textarea {
   height: 7.5rem;
-  padding: 0.5rem 0.625rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties textarea:focus {
-  border-color: #0098FF;
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]), .alice-process-properties-panel div.properties-container div.element-properties div.properties select {
-  height: 2.5rem;
-  width: 100%;
-  color: #586872;
-  font-size: 1rem;
-  font-weight: 400;
-  border-color: #EBEBEB;
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input:not([type=checkbox]):focus, .alice-process-properties-panel div.properties-container div.element-properties div.properties select:focus {
-  border-color: #0098FF;
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input:read-only {
-  color: #ACB4BF;
-  background-color: #F7F8F9;
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input.color,
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input.copy {
+.process-properties-panel div.properties-container div.element-properties div.properties input.color,
+.process-properties-panel div.properties-container div.element-properties div.properties input.copy {
   flex: 1;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties select.candidate {
+.process-properties-panel div.properties-container div.element-properties div.properties select.candidate {
   flex: 1;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties input.file {
+.process-properties-panel div.properties-container div.element-properties div.properties input.file {
   width: 10rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties button {
+.process-properties-panel div.properties-container div.element-properties div.properties button {
   border: 0.063rem solid #EBEBEB;
   background-color: #ffffff;
   width: 3.125rem;
@@ -1467,46 +1413,42 @@ span[class="required"]::after {
   padding: 0;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table {
-  width: 100%;
+.process-properties-panel div.properties-container div.element-properties div.properties table {
   margin-top: 0.188rem;
-  font-size: 1rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table tr {
+.process-properties-panel div.properties-container div.element-properties div.properties table tr {
   border-top: 0.063rem solid #c8ced8;
   border-bottom: 0.063rem solid #c8ced8;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table thead th {
+.process-properties-panel div.properties-container div.element-properties div.properties table thead th {
   background-color: #ffffff;
-  height: 2.5rem;
   vertical-align: middle;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(even) {
+.process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(even) {
   background-color: #ffffff;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(odd) {
+.process-properties-panel div.properties-container div.element-properties div.properties table tbody tr:nth-child(odd) {
   background-color: #eff3f8;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td {
-  height: 2.5rem;
+.process-properties-panel div.properties-container div.element-properties div.properties table tbody td {
   vertical-align: middle;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:first-child {
+.process-properties-panel div.properties-container div.element-properties div.properties table tbody td:first-child {
   padding-left: 0.313rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child {
+.process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child {
   text-align: right;
   padding-right: 0.313rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove {
+.process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove {
   display: inline-block;
   width: 1rem;
   height: 1rem;
@@ -1517,30 +1459,30 @@ span[class="required"]::after {
   vertical-align: middle;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove:after {
+.process-properties-panel div.properties-container div.element-properties div.properties table tbody td:last-child span.remove:after {
   position: absolute;
   left: 0.0625rem;
   top: -0.125rem;
   content: '\2212';
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker {
   display: flex;
   flex-direction: column;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input {
   display: inline-flex;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
   width: 1.75rem;
   height: 1.75rem;
   margin: auto;
   cursor: pointer;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
   width: 2.5rem;
   height: 2.5rem;
   margin-right: 0.3125rem;
@@ -1549,7 +1491,7 @@ span[class="required"]::after {
   display: flex;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -1560,7 +1502,7 @@ span[class="required"]::after {
   border: 0.0625rem solid #EBEBEB;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
   display: inline-block;
   width: 2.5rem;
   height: 2.5rem;
@@ -1569,19 +1511,19 @@ span[class="required"]::after {
   cursor: pointer;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
   border: 0.375rem solid white;
   outline: 0.063rem solid #0098FF;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
   width: 1.75rem;
   height: 1.75rem;
   border: 0.1875rem solid #68717c;
   margin: 0;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
   width: 2.5rem;
   height: 2.5rem;
   margin-right: 0.313rem;
@@ -1591,7 +1533,7 @@ span[class="required"]::after {
   padding-left: 0.3125rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
   width: 15.625rem;
   margin-top: 0.188rem;
   border: 0.063rem solid #c8ced8;
@@ -1599,7 +1541,7 @@ span[class="required"]::after {
   padding-top: 0.188rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
   display: inline-block;
   width: 1rem;
   height: 1rem;
@@ -1611,12 +1553,12 @@ span[class="required"]::after {
   cursor: pointer;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
   border: 0.125rem solid #ffffff;
   outline: 0.063rem solid #0055ff;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity {
   background-color: #ffffff;
   width: 15.625rem;
   border: 0.063rem solid #c8ced8;
@@ -1626,25 +1568,25 @@ span[class="required"]::after {
   height: 3rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span {
   display: table-cell;
   vertical-align: middle;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input {
   vertical-align: middle;
   width: 1.875rem;
   height: 2rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range] {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range] {
   -webkit-appearance: none;
   /*&::-webkit-slider-runnable-track {
                     -webkit-appearance: none;
                 }*/
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 0.625rem;
   height: 0.625rem;
@@ -1654,7 +1596,7 @@ span[class="required"]::after {
   cursor: pointer;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-thumb {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-thumb {
   width: 0.625rem;
   height: 0.625rem;
   border: 0.0625rem solid #c8ced8;
@@ -1663,12 +1605,12 @@ span[class="required"]::after {
   cursor: pointer;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
   background-color: #0055ff;
   height: 0.0625rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-object {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-object {
   width: 10rem;
   height: 0.0625rem;
   background: #c8ced8;
@@ -1679,12 +1621,12 @@ span[class="required"]::after {
   margin-right: 0.625rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-input {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-input {
   width: 2.5rem;
   text-align: right;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span label {
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span label {
   margin: 0 0 0 0.25rem;
   width: 0.813rem;
   height: 1.25rem;
@@ -1692,27 +1634,27 @@ span[class="required"]::after {
   vertical-align: middle;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container {
   display: flex;
   flex-wrap: wrap;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container {
   width: 100%;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container.right {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .btn-container.right {
   text-align: right;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip {
   position: relative;
   display: inline-block;
   cursor: pointer;
   margin-left: 0.188rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip .file-tooltip-button {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip .file-tooltip-button {
   display: inline-block;
   width: 2.5rem;
   height: 2.5rem;
@@ -1723,61 +1665,55 @@ span[class="required"]::after {
   background-position: center center;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table {
-  margin-top: 0.5rem;
-  width: 100%;
-}
-
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr {
   border-top: 0.063rem solid #c8ced8;
   border-bottom: 0.063rem solid #c8ced8;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr:nth-child(even) {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr:nth-child(even) {
   background-color: #ffffff;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr:nth-child(odd) {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr:nth-child(odd) {
   background-color: #eff3f8;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > th, .alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table td {
-  height: 2.5rem;
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > th, .process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table td {
   vertical-align: middle;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:first-child {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:first-child {
   padding-left: 0.625rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:last-child {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table tr > td:last-child {
   text-align: right;
   padding-right: 0.625rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table label {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container table label {
   height: 0.938rem;
   margin: 0;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .condition-txt {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .condition-txt {
   width: 30%;
   word-break: break-all;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-txt {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-txt {
   width: 50%;
   word-break: break-all;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip {
+.process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip {
   position: relative;
   display: inline-block;
   cursor: pointer;
   margin-left: 0.3125rem;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-button {
+.process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-button {
   display: inline-block;
   width: 2.5rem;
   height: 2.5rem;
@@ -1789,7 +1725,7 @@ span[class="required"]::after {
   background-position: center center;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-text {
+.process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-text {
   visibility: hidden;
   width: 8.75rem;
   background-color: #555;
@@ -1806,7 +1742,7 @@ span[class="required"]::after {
   transition: opacity 0.3s;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-text::after {
+.process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip .clipboard-tooltip-text::after {
   content: "";
   position: absolute;
   top: 100%;
@@ -1817,67 +1753,58 @@ span[class="required"]::after {
   border-color: #555 transparent transparent transparent;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip:hover .clipboard-tooltip-text {
+.process-properties-panel div.properties-container div.element-properties div.properties .clipboard-tooltip:hover .clipboard-tooltip-text {
   visibility: visible;
   opacity: 1;
 }
 
-.alice-process-properties-panel div.properties-container div.process-info-container {
+.process-properties-panel div.properties-container div.process-info-container {
   overflow: hidden;
   border-top: 0.063rem solid #EBEBEB;
   margin-top: 1.875rem;
   padding-top: 0.25rem;
 }
 
-.alice-process-properties-panel div.properties-container div.process-info-container div.info {
+.process-properties-panel div.properties-container div.process-info-container div.info {
   margin-top: 0.5rem;
   margin-left: 1.25rem;
   margin-right: 1.25rem;
   padding-bottom: 1.3125rem;
-  font-size: 0.688rem;
 }
 
-.alice-process-properties-panel div.properties-container div.process-info-container div.info div.total {
-  color: #586872;
+.process-properties-panel div.properties-container div.process-info-container div.info div.total {
   font-size: 1rem;
-  font-weight: 400;
   font-weight: 500;
   color: #3F4B56;
   margin-top: 0.5rem;
   text-align: right;
 }
 
-.alice-process-properties-panel div.properties-container div.process-info-container div.info table {
+.process-properties-panel div.properties-container div.process-info-container div.info table {
   color: #586872;
-  font-size: 1rem;
-  font-weight: 400;
-  font-weight: 500;
-  color: #586872;
-  margin-top: 0.5rem;
-  width: 100%;
 }
 
-.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr:first-child {
+.process-properties-panel div.properties-container div.process-info-container div.info table tr:first-child {
   border-top: 0.125rem solid #EBEBEB;
 }
 
-.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td {
-  height: 2.4375rem;
+.process-properties-panel div.properties-container div.process-info-container div.info table tr > td {
   vertical-align: middle;
   height: 2.4375rem;
 }
 
-.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td:first-child {
+.process-properties-panel div.properties-container div.process-info-container div.info table tr > td:first-child {
   padding-left: 0.625rem;
 }
 
-.alice-process-properties-panel div.properties-container div.process-info-container div.info table tr > td:last-child {
+.process-properties-panel div.properties-container div.process-info-container div.info table tr > td:last-child {
   text-align: right;
   padding-right: 0.625rem;
 }
 
-.alice-process-properties-panel div.properties-container div.process-info-container div.info table label {
+.process-properties-panel div.properties-container div.process-info-container div.info table label {
   height: 0.938rem;
+  color: #586872;
   margin: 0;
 }
 

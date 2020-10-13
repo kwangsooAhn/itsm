@@ -42,7 +42,9 @@ $datepicker-active-color: $point-blue;
     &.active { display: block; z-index: 999;}
 
     &-title {
-        @include h4();
+        font-size: 1.125rem; // 18px
+        font-weight: $font-weight-medium;
+        color: $light-black;
         height: 3.3125rem; // 53px
         background-color: $datepicker-title-background-color;
         border-bottom: solid 0.0625rem $datepicker-border-color; // 1px

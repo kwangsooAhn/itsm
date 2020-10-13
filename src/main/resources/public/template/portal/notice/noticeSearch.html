@@ -10,17 +10,17 @@
 <th:block layout:fragment="content">
     <div class="portal-search-container">
         <div class="page-title">
-            <h1 class="title" th:text="#{notice.label.list}"></h1>
-            <h6 class="title-description" th:text="#{notice.msg.portalDescription}"></h6>
+            <h1 th:text="#{notice.label.list}"></h1>
+            <h6 class="description" th:text="#{notice.msg.portalDescription}"></h6>
         </div>
         <div>
             <form id="searchFrm">
-                <input class="search column-5" id="searchValue" name="searchValue" type="text" maxlength="100"
+                <input type="text" class="search column-5" id="searchValue" name="searchValue" maxlength="100"
                        th:placeholder="#{notice.label.searchPlaceholder}"/>
-                <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                <input type="text" class="search-date column-2" id="fromDt" name="fromDt" readonly="readonly"/>
                 <span>~</span>
-                <input class="search-date column-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
-                <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
+                <input type="text" class="search-date column-2" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
             </form>
         </div>
     </div>

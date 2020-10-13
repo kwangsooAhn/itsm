@@ -7,7 +7,7 @@
     <div class="row" th:each="portalList : ${portalList}">
         <div class="type-icon" th:classappend="${portalList.tableName} != '' ? ${portalList.tableName}"></div>
         <div class="content-box">
-            <div class="title text-ellipsis" th:switch="${portalList.tableName}">
+            <h5 class="title underline text-ellipsis" th:switch="${portalList.tableName}">
                 <a th:case="#{'notice'}" th:href="@{/portal/notices/{id}/view(id=${portalList.portalId})}"
                    th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a>
                 <a th:case="#{'faq'}" th:href="@{/portal/faqs?id={id}(id=${portalList.portalId})}"
@@ -15,9 +15,9 @@
                 <a th:case="#{'download'}" th:href="@{/portal/downloads/{id}/view(id=${portalList.portalId})}"
                    th:if="${portalList.portalTitle != null}"
                    th:text="${portalList.portalTitle}"></a>
-            </div>
-            <div th:switch="${portalList.tableName}">
-                <div class="content text-ellipsis" th:case="#{'download'}"
+            </h5>
+            <div class="content" th:switch="${portalList.tableName}">
+                <div class="text-ellipsis" th:case="#{'download'}"
                      th:text="#{${portalList.portalContent}}"></div>
                 <div class="content text-ellipsis" th:case="*" th:text="${portalList.portalContent}"></div>
             </div>

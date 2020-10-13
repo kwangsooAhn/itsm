@@ -131,11 +131,13 @@
                 <div class="checkbox-list scroll-wrap">
                     <ul>
                         <li class="user-role-checkbox-wrap" th:each="role : ${roles}">
-                            <input class="user-role-checkbox" type="checkbox"
-                                   th:id="|roles*{roleStat.index}|" name="roles"
-                                   th:value="*{role.roleId}" th:checked="*{role.checked}">
-                            <label class="checkbox-label" th:for="|roles*{roleStat.index}|"
-                                   th:title="*{role.roleName}" th:text="*{role.roleName}"></label>
+                            <label class="checkbox" th:for="|roles*{roleStat.index}|" th:title="*{role.roleName}" tabindex="0">
+                                <input class="user-role-checkbox" type="checkbox"
+                                       th:id="|roles*{roleStat.index}|" name="roles"
+                                       th:value="*{role.roleId}" th:checked="*{role.checked}">
+                                <span></span>
+                                <span class="label" th:text="*{role.roleName}"></span>
+                            </label>
                         </li>
                     </ul>
                 </div>
@@ -143,10 +145,10 @@
             <h3 class="under-bar" th:text="#{user.label.usageStatus}"></h3>
             <div class="form-set">
                 <label class="switch">
-                    <input type="checkbox" id="usageStatus" name="usageStatus" onclick="toggle(this);"
+                    <input type="checkbox" id="usageStatus" name="usageStatus"
                            th:checked="${users?.useYn == null || users?.useYn == true}">
-                    <span class="slider round"></span>
-                    <span class="switch-label" th:text="#{user.msg.usageStatus}"></span>
+                    <span></span>
+                    <span class="label" th:text="#{user.msg.usageStatus}"></span>
                 </label>
             </div>
             <div class="btn-bar">

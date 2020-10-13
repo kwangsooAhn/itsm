@@ -8,8 +8,8 @@ $font-face-map: (
     "NotoSansKR-Bold.otf":                    700,
     "NotoSansKR-Black.otf":                   900
 );
-
-$font-family:                                 "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+// 폰트 패밀리만 작은 따옴표(') 대신 큰 따옴표 (") 사용
+$font-family:                                 "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif; 
 
 // font size
 $font-size-base:                              1rem !default;  // 16px
@@ -23,9 +23,9 @@ $font-weight-bold:                            700 !default;
 $font-weight-bolder:                          900 !default;
 
 // asset path
-$font-folder-path:                            "../fonts";
-$icon-folder-path:                            "../media/icons/";
-$image-folder-path:                           "../media/images/";
+$font-folder-path:                            '../fonts';
+$icon-folder-path:                            '../media/icons/';
+$image-folder-path:                           '../media/images/';
 
 // color
 $black:                                       #000000;
@@ -60,25 +60,40 @@ $element-border-color:                        $line-gray;
 $element-border-width:                        0.0625rem; // 1px
 $element-border:                              $element-border-width solid $element-border-color;
 $element-border-radius:                       0.0625rem; // 1px
-$element-indent:                              0 0.625rem; // 10px 내부 들여쓰기
+$element-indent:                              0.625rem; // 10px 내부 들여쓰기
+
 // 사용자 미입력시 나올 문구 = placeholder
 $element-placeholder-font-color:              $gray;
+
 // 키보드 또는 선택시, 해당 element에 포커싱되었을때 사용하는 디자인 변수
 $element-focus-border-color:                  $point-blue;
 $element-focus-border-width:                  0.0625rem; // 1px
 $element-focus-border:                        $element-focus-border-width solid $element-focus-border-color;
+
 // element 마우스 오버시 사용하는 디자인 변수 
 $element-hover-border-color:                  $point-blue;
 $element-hover-border-width:                  0.0625rem; // 1px
 $element-hover-border:                        $element-hover-border-width solid $element-hover-border-color;
 $element-hover-box-shadow:                    0 0 0.3125rem 0 rgba(0, 152, 255, 0.2); // 흐림 5px
+
 // element disabled시 사용하는 디자인 변수
 $element-disabled-font-color:                 $gray;
 $element-disabled-bg-color:                   $light-gray;
 $element-disabled-border-color:               $line-gray;
 $element-disabled-border-width:               0.0625rem; // 1px
+
 // 체크박스, 라디오 버튼, 스위치 등 선택되었을때 (ON) 디자인 변수
 $element-checked-bg-color:                    $point-blue;
+
+//셀렉트 박스 선택되었을때 옵션에 사용하는 디자인 변수
+$element-selected-font-color:                 $point-blue;
+$element-hover-bg-color:                      rgba(0, 152, 255, 0.08);
+
+// 유효성 검증 실패시 디자인 변수
+$element-error-font-color:                    $red !important;
+$element-error-border-color:                  $red;
+$element-error-border-width:                  0.0625rem; // 1px
+$element-error-border:                        $element-error-border-width solid $element-error-border-color !important;
 
 // headings
 $h1-font-size:                                $font-size-base * 2.25; // 36px
@@ -91,3 +106,11 @@ $h6-font-size:                                $font-size-base * 0.875; // 14px
 $headings-font-color:                         $light-black;
 $headings-font-weight:                        $font-weight-medium;
 $headings-line-height:                        1.2;
+
+// label
+$label-font-color:                            $light-black;
+$label-font-size:                             $font-size-base;
+$label-font-weight:                           $font-weight-medium;
+
+// table
+$table-th-font-weight:                        $font-weight-medium;

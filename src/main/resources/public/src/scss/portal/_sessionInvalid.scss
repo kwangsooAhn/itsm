@@ -1,42 +1,28 @@
-.session-body {
-    width: 100vw;
+.session-div-left {
+    width: 50vw;
     height: 100vh;
-    margin: 0rem;
-    padding: 0rem;
-    font-size: 0rem;
-    overflow: auto;
+    float: left;
+    background-color: #F2F5F9;
 }
 
-.session-div {
-    width: 100vw;
-    height: 100vh;
+.session-img {
+    position: relative;
+    top: -59.1875rem; // -947px
+    margin: 5rem 0 0 5rem; // 80px 80x
+}
 
-    .session-div-left {
-        width: 50vw;
-        height: 100vh;
-        float: left;
-        background-color: #F2F5F9;
+.session-div-right {
+    float: right;
+    background-color: white;
+    padding: 21.5625rem 6.25rem; // 345px 100px
+    border-left: 0.0625rem solid $line-gray;
+
+    h1 {
+        line-height: 1.7;
     }
 
-    .session-img {
-        position: relative;
-        top: -59.1875rem; // -947px
-        margin: 5rem 0 0 5rem; // 80px 80x
-    }
-
-    .session-div-right {
-        float: right;
-        background-color: white;
-        padding: 21.5625rem 6.25rem; // 345px 100px
-        border-left: 0.0625rem solid $line-gray;
-
-        h1 {
-            line-height: 1.7;
-        }
-
-        .session-count-txt {
-            color: $point-blue;
-        }
+    .session-count-txt {
+        color: $point-blue;
     }
 }
 .session-btn {
