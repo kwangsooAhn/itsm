@@ -2,7 +2,6 @@ package co.brainz.workflow.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.numbering.service.AliceNumberingService
 import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants

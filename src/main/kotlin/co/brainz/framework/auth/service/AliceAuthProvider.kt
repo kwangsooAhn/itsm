@@ -7,7 +7,6 @@ package co.brainz.framework.auth.service
 
 import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
-import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.exception.AliceErrorConstants

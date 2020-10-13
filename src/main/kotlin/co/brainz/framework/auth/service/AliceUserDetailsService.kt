@@ -54,8 +54,6 @@ class AliceUserDetailsService(
             aliceUserAuthDto.userKey.let { aliceMenuRepository.findByUserKey(aliceUserAuthDto.userKey) }
         aliceUserAuthDto.urls =
             aliceUserAuthDto.userKey.let { aliceAuthRepository.findByUserKey(aliceUserAuthDto.userKey) }
-        /*aliceUserAuthDto.avatar =
-            aliceUserAuthDto.userKey.let { aliceUserRepository.findByUserId(aliceUserAuthDto.userId).avatar }*/
         return aliceUserAuthDto
     }
 
@@ -67,29 +65,35 @@ class AliceUserDetailsService(
     /**
      * 아바타 타입에 따른 경로를 반환한다. 이때 uploaded가 false를 기본값으로 본다.
      */
-    fun makeAvatarPath(user: AliceUserAuthDto): String {
-        return when (user.avatarType) {
-            AliceUserConstants.AvatarType.FILE.code ->
-                if (user.uploaded) {
-                    resourcesUriPath + "/" + AliceUserConstants.AVATAR_IMAGE_DIR + "/" + user.avatarValue
-                } else {
-                    AliceUserConstants.AVATAR_BASIC_FILE_PATH + AliceUserConstants.AVATAR_BASIC_FILE_NAME
-                }
-            AliceUserConstants.AvatarType.URL.code -> user.uploadedLocation
-            else -> user.uploadedLocation
+    fun makeAvatarPath(user: Any): String {
+        var avatarType = ""
+        var uploaded = false
+        var avatarValue = ""
+        var uploadedLocation = ""
+        when (user) {
+            is AliceUserAuthDto -> {
+                avatarType = user.avatarType.toString()
+                avatarValue = user.avatarValue.toString()
+                uploaded = user.uploaded
+                uploadedLocation = user.uploadedLocation
+            }
+            is AliceUserEntity -> {
+                avatarType = user.avatarType
+                avatarValue = user.avatarValue
+                uploaded = user.uploaded
+                uploadedLocation = user.uploadedLocation
+            }
         }
-    }
 
-    fun makeAvatarPath(user: AliceUserEntity): String {
-        return when (user.avatarType) {
+        return when (avatarType) {
             AliceUserConstants.AvatarType.FILE.code ->
-                if (user.uploaded) {
-                    resourcesUriPath + "/" + AliceUserConstants.AVATAR_IMAGE_DIR + "/" + user.avatarValue
+                if (uploaded) {
+                    resourcesUriPath + "/" + AliceUserConstants.AVATAR_IMAGE_DIR + "/" + avatarValue
                 } else {
                     AliceUserConstants.AVATAR_BASIC_FILE_PATH + AliceUserConstants.AVATAR_BASIC_FILE_NAME
                 }
-            AliceUserConstants.AvatarType.URL.code -> user.uploadedLocation
-            else -> user.uploadedLocation
+            AliceUserConstants.AvatarType.URL.code -> uploadedLocation
+            else -> uploadedLocation
         }
     }
 }

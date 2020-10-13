@@ -7,7 +7,6 @@ package co.brainz.framework.fileTransaction.service
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.framework.avatar.entity.AliceAvatarEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
@@ -540,27 +539,5 @@ class AliceFileService(
                 userRepository.save(userEntity)
             }
         }
-    }
-
-    fun avatarFileNameMod(aliceAvatarEntity: AliceAvatarEntity) {
-        /*if (aliceAvatarEntity.avatarType == AliceUserConstants.AvatarType.FILE.code &&
-            aliceAvatarEntity.uploaded && aliceAvatarEntity.avatarId != aliceAvatarEntity.avatarValue
-        ) {
-            val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
-            val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarValue)
-            val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarId)
-            val avatarUploadFile = File(avatarFilePath.toString())
-            if (avatarUploadFile.exists()) {
-                Files.move(avatarFilePath, avatarIdFilePath, StandardCopyOption.REPLACE_EXISTING)
-                val avatarEntity = AliceAvatarEntity(
-                    avatarId = aliceAvatarEntity.avatarId,
-                    avatarType = aliceAvatarEntity.avatarType,
-                    avatarValue = aliceAvatarEntity.avatarId,
-                    uploaded = aliceAvatarEntity.uploaded,
-                    uploadedLocation = avatarIdFilePath.toString()
-                )
-                aliceAvatarRepository.save(avatarEntity)
-            }
-        }*/
     }
 }

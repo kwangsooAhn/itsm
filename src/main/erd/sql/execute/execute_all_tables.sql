@@ -105,39 +105,6 @@ insert into awf_auth values ('user.delete', '사용자 삭제', '', '0509e094125
 insert into awf_auth values ('user.read', '사용자 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('user.update', '사용자 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
-
-/**
- * 아바타
- */
-DROP TABLE IF EXISTS awf_avatar cascade;
-
-CREATE TABLE awf_avatar
-(
-    avatar_id varchar(128) NOT NULL,
-    avatar_type varchar(100),
-    avatar_value varchar(512),
-    uploaded boolean DEFAULT 'false' NOT NULL,
-    uploaded_location varchar(512),
-    create_user_key varchar(128),
-    create_dt timestamp,
-    update_user_key varchar(128),
-    update_dt timestamp,
-    CONSTRAINT awf_avatar_pk PRIMARY KEY (avatar_id)
-);
-
-COMMENT ON TABLE awf_avatar IS '아바타';
-COMMENT ON COLUMN awf_avatar.avatar_id IS '아바타 아이디';
-COMMENT ON COLUMN awf_avatar.avatar_type IS '아바타 종류';
-COMMENT ON COLUMN awf_avatar.avatar_value IS '아바타 value';
-COMMENT ON COLUMN awf_avatar.uploaded IS '업로드 여부';
-COMMENT ON COLUMN awf_avatar.uploaded_location IS '업로드 경로';
-COMMENT ON COLUMN awf_avatar.create_user_key IS '등록자';
-COMMENT ON COLUMN awf_avatar.create_dt IS '등록일';
-COMMENT ON COLUMN awf_avatar.update_user_key IS '수정자';
-COMMENT ON COLUMN awf_avatar.update_dt IS '수정일';
-
-insert into awf_avatar values('0509e09412534a6e98f04ca79abb6424', 'FILE', 'img_avatar_01.png', false, '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-
 /**
  * 코드정보
  */
@@ -1755,11 +1722,14 @@ CREATE TABLE awf_user
 	lang varchar(100),
 	time_format varchar(100),
 	theme varchar(100) DEFAULT 'default',
-    avatar_id varchar(128) NOT NULL,
 	create_user_key varchar(128),
 	create_dt timestamp,
 	update_user_key varchar(128),
 	update_dt timestamp,
+    avatar_type varchar(100),
+    avatar_value varchar(512),
+    uploaded boolean DEFAULT 'false',
+    uploaded_location varchar(512),
 	CONSTRAINT awf_user_pk PRIMARY KEY (user_key),
 	CONSTRAINT awf_user_uk UNIQUE (user_id ),
     CONSTRAINT awf_user_fk FOREIGN KEY (avatar_id) REFERENCES awf_avatar (avatar_id)
@@ -1786,14 +1756,17 @@ COMMENT ON COLUMN awf_user.oauth_key IS 'OAUTH인증키';
 COMMENT ON COLUMN awf_user.lang IS '언어';
 COMMENT ON COLUMN awf_user.time_format IS '시간포맷';
 COMMENT ON COLUMN awf_user.theme IS '테마';
-COMMENT ON COLUMN awf_user.avatar_id IS '아바타 아이디';
 COMMENT ON COLUMN awf_user.create_user_key IS '등록자';
 COMMENT ON COLUMN awf_user.create_dt IS '등록일시';
 COMMENT ON COLUMN awf_user.update_user_key IS '수정자';
 COMMENT ON COLUMN awf_user.update_dt IS '수정일시';
+COMMENT ON COLUMN awf_user.avatar_type IS '아바타 종류';
+COMMENT ON COLUMN awf_user.avatar_value IS '아바타 value';
+COMMENT ON COLUMN awf_user.uploaded IS '업로드 여부';
+COMMENT ON COLUMN awf_user.uploaded_location IS '업로드 경로';
 
-insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$QsZ1uzooTk2yEkWIiV8tyOUc/UODpMrjdReNUQnNWm0SpjyPVOy26', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
-insert into awf_user values ('system', 'system', 'system', '', 'system@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$QsZ1uzooTk2yEkWIiV8tyOUc/UODpMrjdReNUQnNWm0SpjyPVOy26', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '');
+insert into awf_user values ('system', 'system', 'system', '', 'system@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '');
 /**
  * 사용자역할매핑
  */
