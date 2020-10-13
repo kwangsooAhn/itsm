@@ -935,19 +935,106 @@ svg path.connector.hidden {
   color: #fff;
 }
 
-.process-toolbar a {
-  text-decoration: none;
+.process-toolbar button {
   margin-right: 2.5625rem;
+  padding: 0;
   height: 1.999rem;
   line-height: 1.999rem;
   vertical-align: middle;
   float: left;
   display: flex;
   align-items: center;
+  cursor: pointer;
 }
 
-.process-toolbar a img {
-  cursor: pointer;
+.process-toolbar button .icon-save {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/process/topmenu/icon_save.svg");
+  mask-image: url("../media/icons/process/topmenu/icon_save.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #fff;
+}
+
+.process-toolbar button .icon-save-as {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/process/topmenu/icon_save_as.svg");
+  mask-image: url("../media/icons/process/topmenu/icon_save_as.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #fff;
+}
+
+.process-toolbar button .icon-simulation {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/process/topmenu/icon_simulation.svg");
+  mask-image: url("../media/icons/process/topmenu/icon_simulation.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #fff;
+}
+
+.process-toolbar button .icon-undo {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/process/topmenu/icon_undo.svg");
+  mask-image: url("../media/icons/process/topmenu/icon_undo.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #fff;
+}
+
+.process-toolbar button .icon-redo {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/process/topmenu/icon_redo.svg");
+  mask-image: url("../media/icons/process/topmenu/icon_redo.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #fff;
+}
+
+.process-toolbar button .icon-image-download {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/process/topmenu/icon_image_download.svg");
+  mask-image: url("../media/icons/process/topmenu/icon_image_download.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #fff;
 }
 
 .process-toolbar span.separator {

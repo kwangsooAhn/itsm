@@ -35,13 +35,15 @@
                     </div>
                 </td>
                 <td width="10%">
-                    <a th:attr="onclick=|openProcessDesignerView('${process.id}')|">
-                        <img src="../assets/media/icons/icon_preview.svg"></a>
+                    <button type="button" class="default-fill" th:onclick="openProcessDesignerView([[${process.id}]])">
+                        <span class="icon-search"></span>
+                    </button>
                 </td>
                 <td width="10%">
-                    <a th:if="${process.enabled == true}" sec:authorize="hasAuthority('process.update')"
-                       th:disabled="${!process.enabled}" th:attr="onclick=|openProcessDesignerEdit('${process.id}')|">
-                        <img src="../assets/media/icons/icon_edit.svg"></a>
+                    <button type="button" th:if="${process.enabled == true}" sec:authorize="hasAuthority('process.update')"
+                            th:disabled="${!process.enabled}" th:onclick="openProcessDesignerEdit([[${process.id}]])">
+                        <span class="icon-edit"></span>
+                    </button>
                 </td>
                 <td width="10%" th:text="#{${process.status}}"></td>
                 <td width="28%" class="align-left" th:text="${process.description}"></td>

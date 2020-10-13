@@ -43,14 +43,41 @@
       float: left;
       opacity: 0.3;
     }
-
-    a { // 아이콘
+    
+    button {
+      margin-right: 2.5625rem; // 41px
+      padding: 0;
       height: $toolbar-real-height;
       line-height: $toolbar-real-height;
-      margin-right: $toolbar-margin-right;
+      vertical-align: middle;
       float: left;
-      img {
-        cursor: pointer;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+
+      .icon-save {
+        display: inline-block;
+        @include maskImage('#{$icon-folder-path}form/topmenu/icon_save.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
+      }
+      .icon-save-as {
+        display: inline-block;
+        @include maskImage('#{$icon-folder-path}form/topmenu/icon_save_as.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
+      }
+      .icon-undo {
+        display: inline-block;
+        @include maskImage('#{$icon-folder-path}form/topmenu/icon_undo.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
+      }
+      .icon-redo {
+        display: inline-block;
+        @include maskImage('#{$icon-folder-path}form/topmenu/icon_redo.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
+      }
+      .icon-preview {
+        display: inline-block;
+        @include maskImage('#{$icon-folder-path}form/topmenu/icon_preview.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
+      }
+      .icon-save-out {
+        display: inline-block;
+        @include maskImage('#{$icon-folder-path}form/topmenu/icon_save_out.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
       }
     }
 
