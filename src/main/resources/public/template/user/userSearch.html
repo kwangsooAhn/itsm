@@ -30,6 +30,7 @@
         /*<![CDATA[*/
         let offsetCount = 0;
         window.onload = function() {
+            document.getElementById('search').focus();
             document.getElementById('search').addEventListener('keyup', getUserList.bind(null, false), false);
             getUserList(false);
         }

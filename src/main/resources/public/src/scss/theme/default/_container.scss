@@ -746,20 +746,6 @@ span.vertical-bar {
                 cursor: pointer;
             }
 
-
-
-            .align-center {
-                text-align: center;
-            }
-
-            .align-left {
-                text-align: left;
-            }
-
-            .align-right {
-                text-align: right;
-            }
-
             .scroller-wrap {
                 height: 28.75rem; //460px
                 & table {
@@ -1079,18 +1065,5 @@ span.vertical-bar {
 
     .float-clear {
         clear: both;
-    }
-
-    // 텍스트 정렬
-    .align-center {
-        text-align: center;
-    }
-
-    .align-left {
-        text-align: left;
-    }
-
-    .align-right {
-        text-align: right;
     }
 }

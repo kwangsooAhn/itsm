@@ -38,6 +38,7 @@
         /*<![CDATA[*/
         let offsetCount = 0;
         window.onload = function() {
+            document.getElementById('searchDocuments').focus();
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
                 search.addEventListener('keyup', function() {
                     documentSearches(false);

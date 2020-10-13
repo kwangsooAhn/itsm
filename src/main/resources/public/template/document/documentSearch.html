@@ -36,6 +36,7 @@
         /*<![CDATA[*/
         let offsetCount = 0;
         window.onload = function() {
+            document.getElementById('searchDocuments').focus();
             document.querySelectorAll('#searchDocuments, #searchProcessName, #searchFormName').forEach(search => {
                 search.addEventListener('keyup', function() {
                     documentSearches(false);
@@ -122,9 +123,11 @@
             divDocumentCard.className = 'document-card';
 
             let h3Card = document.createElement('h3');
+            h3Card.className = 'text-ellipsis';
             h3Card.innerText = data.documentName;
 
             let h5Card = document.createElement('h5');
+            h5Card.className = 'text-ellipsis';
             h5Card.innerText = data.documentDesc;
 
             let divDocumentIcon = document.createElement('div');

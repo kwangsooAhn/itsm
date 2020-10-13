@@ -114,6 +114,7 @@
     <script th:inline="javascript">
         /*<![CDATA[ */
         window.onload = function() {
+            document.getElementById('noticeTitle').focus();
             setDisplay('popTab',document.getElementById('popYn'));
             setDisplay('topNoticeTab',document.getElementById('topNoticeYn'));
             fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
@@ -243,6 +244,10 @@
 
     <script th:inline="javascript" th:if="${notice?.noticeNo}">
         /*<![CDATA[ */
+        window.onload = function() {
+            document.getElementById('noticeTitle').focus();
+        };
+
         function restSubmit(method, url, async) {
             let jsonData = '';
             if (method === 'put') {

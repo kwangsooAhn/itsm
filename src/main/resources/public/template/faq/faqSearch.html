@@ -34,6 +34,7 @@
         var offsetCount = 0;
         const offsetSize = 15;
         window.onload = function () {
+            document.getElementById('search').focus();
             document.getElementById('search').addEventListener('keyup', function() { searchFaqs(false); });
             searchFaqs(false);
         }

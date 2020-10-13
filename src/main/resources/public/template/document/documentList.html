@@ -14,8 +14,8 @@
     <div th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
         <div class="document-card-dummy" sec:authorize="hasAuthority('document.create')" th:onclick="openDocument([[${document.documentId}]])">
             <div class="document-card">
-                <h3 th:text="${document.documentName}"></h3>
-                <h5 th:text="${document.documentDesc}"></h5>
+                <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
+                <h5 th:text="${document.documentDesc}" class="text-ellipsis"></h5>
                 <div class="document-icon">
                     <img th:src="@{/assets/media/images/document/{documentIcon}(documentIcon=${document.documentIcon})}"/>
                 </div>

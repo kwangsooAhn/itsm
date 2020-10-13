@@ -53,6 +53,7 @@
         /*<![CDATA[ */
         let offsetCount = 0;
         window.addEventListener('load', function () {
+            document.getElementById('searchValue').focus();
             // date picker 초기화
             document.getElementById('searchFromDt').value = i18n.getDate({'months': -3});
             document.getElementById('toDt').value = i18n.getDate();
