@@ -87,9 +87,10 @@ input, button, select, optgroup, textarea {
  */
 .underline {
   text-decoration: underline;
+  text-underline-position: under;
 }
 
-.desc {
+.description {
   color: #7E848C;
 }
 
@@ -101,6 +102,12 @@ input, button, select, optgroup, textarea {
 .required::after {
   color: #FF405A;
   content: '\002a';
+}
+
+.text-ellipsis {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 /* _fonts.scss 
@@ -198,6 +205,10 @@ h6 {
   font-size: 0.875rem;
 }
 
+a {
+  cursor: pointer;
+}
+
 a:link,
 a:visited {
   text-decoration: none;
@@ -219,7 +230,7 @@ input {
   background-color: #ffffff;
   border: 0.0625rem;
   border-radius: 0.0625rem;
-  padding: 0 0 0.625rem 0 0 0.625rem;
+  padding: 0 0.625rem 0 0.625rem;
 }
 
 input::placeholder {
@@ -242,6 +253,15 @@ input:disabled {
   background-color: #F7F8F9;
   pointer-events: none;
   cursor: default;
+}
+
+input.icon {
+  padding-right: 2.5rem;
+}
+
+input.error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
 }
 
 input[type=range] {
@@ -281,7 +301,7 @@ textarea {
   background-color: #ffffff;
   border: 0.0625rem;
   border-radius: 0.0625rem;
-  padding: 0.5rem 0 0.625rem 0.5rem 0 0.625rem;
+  padding: 0.5rem 0.625rem 0.5rem 0.625rem;
   resize: vertical;
 }
 
@@ -307,7 +327,13 @@ textarea:disabled {
   cursor: default;
 }
 
+textarea.error {
+  color: #FF405A !important;
+  border: 0.0625rem solid #FF405A !important;
+}
+
 table {
+  table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;
   font-family: inherit;
@@ -315,15 +341,22 @@ table {
   font-weight: 400;
   color: #586872;
   background-color: transparent;
-  border: 0.0625rem;
+  border: 0.0625rem solid transparent;
 }
 
 table tr {
   height: 2.5rem;
 }
 
+table tr th {
+  font-weight: 500;
+}
+
 table tr td, table tr th {
-  border: 0.0625rem;
+  border: 0.0625rem solid transparent;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 
 select {
@@ -336,7 +369,7 @@ select {
   background-color: #ffffff;
   border: 0.0625rem;
   border-radius: 0.0625rem;
-  padding: 0 0 0.625rem 0 0 0.625rem;
+  padding: 0 0.625rem 0 0.625rem;
 }
 
 select:focus {
@@ -357,8 +390,29 @@ select:disabled {
   cursor: default;
 }
 
+option:hover {
+  background-color: rgba(0, 152, 255, 0.08);
+}
+
+option:visited {
+  color: #0098FF;
+  background-color: #ffffff;
+}
+
+option:active, option:focus {
+  color: #0098FF;
+}
+
 span {
+  font-family: inherit;
   margin: auto 0;
+}
+
+label {
+  font-family: inherit;
+  color: #3F4B56;
+  font-size: 1rem;
+  font-weight: 500;
 }
 
 .radio {
@@ -1105,6 +1159,260 @@ span.vertical-bar {
   margin-bottom: 0.3125rem;
 }
 
+.document-container {
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.document-container .token-document {
+  flex: 1;
+  overflow: auto;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.document-container .token-document::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+.document-container .token-document > div {
+  margin: 0 auto;
+}
+
+.document-container .token-info {
+  width: 37.5rem;
+  padding: 0 4.0625rem;
+  background-color: white;
+}
+
+.document-container .token-info-tab {
+  display: flex;
+  margin-top: 7.8125rem;
+}
+
+.document-container .token-info-tab h4 {
+  flex: 1;
+  text-align: center;
+  color: #ACB4BF;
+  padding-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+
+.document-container .token-info-tab .active {
+  border-bottom: 0.25rem solid #0098FF;
+  color: #3F4B56;
+}
+
+.document-container .token-info-contents {
+  height: 43.75rem;
+  overflow-y: auto;
+}
+
+.document-container .token-info-contents .token-tag {
+  display: none;
+  margin-top: 1.25rem;
+}
+
+.document-container .token-info-contents .token-tag .tag-input tags > span {
+  min-width: 26.875rem;
+}
+
+.document-container .token-info-contents .token-tag .tag-input tag div {
+  background: #e5e5e5;
+  max-width: 27.6875rem;
+  border-radius: 0.1875rem;
+}
+
+.document-container .token-info-contents .token-tag .tag-input tag div:hover {
+  background: #d3e2e2;
+}
+
+.document-container .token-info-contents .token-tag .tag-input tag span {
+  max-width: 26.875rem;
+  white-space: pre-line;
+}
+
+.document-container .token-info-contents .token-history {
+  height: 100%;
+}
+
+.document-container .token-info-contents .token-history .table {
+  border: none;
+}
+
+.document-container .token-info-contents .token-history .table thead {
+  border-bottom: 0.0625rem solid #E1E3E6;
+  display: block;
+}
+
+.document-container .token-info-contents .token-history .table thead tr {
+  display: flex;
+  align-items: center;
+}
+
+.document-container .token-info-contents .token-history .table th {
+  color: #3F4B56;
+  font-weight: 500;
+}
+
+.document-container .token-info-contents .token-history .table td {
+  color: #586872;
+  font-weight: 400;
+  max-width: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.document-container .token-info-contents .token-history .table th, .document-container .token-info-contents .token-history .table td {
+  border: none;
+  text-align: left;
+}
+
+.document-container .token-info-contents .token-history .table tbody {
+  display: block;
+  height: 35.3125rem;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.document-container .token-info-contents .token-history .table tbody tr {
+  display: table;
+  width: 100%;
+}
+
+.document-container .token-info-contents .token-related {
+  padding-top: 0.625rem;
+  display: flex;
+  flex-direction: column;
+  display: none;
+}
+
+.document-container .token-info-contents .token-related .list-item {
+  height: 11.5625rem;
+  margin-top: 0.625rem;
+  margin-right: 0.625rem;
+  display: flex;
+}
+
+.document-container .token-info-contents .token-related .list-item .document-color {
+  width: 0.625rem;
+}
+
+.document-container .token-info-contents .token-related .list-item .document-row {
+  border: 0.0625rem solid #EBEBEB;
+  padding: 1.25rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.document-container .token-info-contents .token-related .list-item .document-row-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.document-container .token-info-contents .token-related .list-item .document-row-content a {
+  width: 100%;
+}
+
+.document-container .token-info-contents .token-related .list-item .document-row-content a .document-title {
+  display: flex;
+  align-items: center;
+  word-break: break-word;
+}
+
+.document-container .token-info-contents .token-related .list-item .document-row-content a .document-title h5:first-child {
+  color: #3F4B56;
+  font-weight: 500;
+  width: 50%;
+}
+
+.document-container .token-info-contents .token-related .list-item .document-row-content a .document-title h5:last-child {
+  color: #ACB4BF;
+  margin-left: 0.3125rem;
+}
+
+.document-container .token-info-contents .token-related .list-item .document-row-topic {
+  height: 100%;
+}
+
+.document-container .token-info-contents .token-related .list-item .document-row-info {
+  display: flex;
+  align-items: center;
+}
+
+.document-container .token-info-contents .token-related .list-item .document-row-info .document-user {
+  display: flex;
+  align-items: center;
+}
+
+.document-container .token-info-contents .token-related .related-add {
+  height: 11.5625rem;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #F7F8F9;
+  align-items: center;
+  justify-content: center;
+}
+
+.document-container .token-info-contents .token-comment {
+  display: none;
+  padding-top: 0.625rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.document-container .token-info-contents .token-comment .list-item {
+  padding: 1.25rem 1.5625rem;
+  margin-top: 0.625rem;
+  margin-right: 0.625rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #EBEBEB;
+  background-color: #F7F8F9;
+}
+
+.document-container .token-info-contents .token-comment .list-item .comment-row {
+  margin-top: 0.0625rem;
+  word-break: break-word;
+}
+
+.document-container .token-info-contents .token-comment .list-item .comment-row-info {
+  display: flex;
+  align-items: center;
+}
+
+.document-container .token-info-contents .token-comment .list-item .comment-row-info .comment-user {
+  display: flex;
+  align-items: center;
+}
+
+.document-container .token-info-contents .token-comment .list-item .comment-row-info div, .document-container .token-info-contents .token-comment .list-item .comment-row-info h5 {
+  flex: none;
+}
+
+.document-container .token-info-contents .token-comment .list-item .comment-row-info > h5 {
+  margin-left: 0.9375rem;
+  color: #ACB4BF;
+}
+
+.document-container .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
+  margin-left: auto;
+}
+
+.document-container .token-info-contents .token-comment .comment-input {
+  margin-top: 0.625rem;
+  padding: 0;
+  align-items: start;
+}
+
+.document-container .token-info-contents .token-comment .comment-input textarea {
+  resize: none;
+  height: 4.3750rem;
+  flex: 1;
+}
+
 .container {
   height: 100%;
   padding: 0 0 0 13.75rem;
@@ -1258,260 +1566,6 @@ span.vertical-bar {
 
 .container-popup .view-content div.form-set, .container-popup .edit-content div.form-set {
   margin: 0 0.6875rem 0 0.6875rem;
-}
-
-.container-document {
-  justify-content: flex-end;
-  overflow: hidden;
-}
-
-.container-document .token-document {
-  flex: 1;
-  overflow: auto;
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-.container-document .token-document::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-
-.container-document .token-document > div {
-  margin: 0 auto;
-}
-
-.container-document .token-info {
-  width: 37.5rem;
-  padding: 0 4.0625rem;
-  background-color: white;
-}
-
-.container-document .token-info-tab {
-  display: flex;
-  margin-top: 7.8125rem;
-}
-
-.container-document .token-info-tab h4 {
-  flex: 1;
-  text-align: center;
-  color: #ACB4BF;
-  padding-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
-}
-
-.container-document .token-info-tab .active {
-  border-bottom: 0.25rem solid #0098FF;
-  color: #3F4B56;
-}
-
-.container-document .token-info-contents {
-  height: 43.75rem;
-  overflow-y: auto;
-}
-
-.container-document .token-info-contents .token-tag {
-  display: none;
-  margin-top: 1.25rem;
-}
-
-.container-document .token-info-contents .token-tag .tag-input tags > span {
-  min-width: 26.875rem;
-}
-
-.container-document .token-info-contents .token-tag .tag-input tag div {
-  background: #e5e5e5;
-  max-width: 27.6875rem;
-  border-radius: 0.1875rem;
-}
-
-.container-document .token-info-contents .token-tag .tag-input tag div:hover {
-  background: #d3e2e2;
-}
-
-.container-document .token-info-contents .token-tag .tag-input tag span {
-  max-width: 26.875rem;
-  white-space: pre-line;
-}
-
-.container-document .token-info-contents .token-history {
-  height: 100%;
-}
-
-.container-document .token-info-contents .token-history .table {
-  border: none;
-}
-
-.container-document .token-info-contents .token-history .table thead {
-  border-bottom: 0.0625rem solid #E1E3E6;
-  display: block;
-}
-
-.container-document .token-info-contents .token-history .table thead tr {
-  display: flex;
-  align-items: center;
-}
-
-.container-document .token-info-contents .token-history .table th {
-  color: #3F4B56;
-  font-weight: 500;
-}
-
-.container-document .token-info-contents .token-history .table td {
-  color: #586872;
-  font-weight: 400;
-  max-width: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.container-document .token-info-contents .token-history .table th, .container-document .token-info-contents .token-history .table td {
-  border: none;
-  text-align: left;
-}
-
-.container-document .token-info-contents .token-history .table tbody {
-  display: block;
-  height: 35.3125rem;
-  overflow-y: auto;
-  width: 100%;
-}
-
-.container-document .token-info-contents .token-history .table tbody tr {
-  display: table;
-  width: 100%;
-}
-
-.container-document .token-info-contents .token-related {
-  padding-top: 0.625rem;
-  display: flex;
-  flex-direction: column;
-  display: none;
-}
-
-.container-document .token-info-contents .token-related .list-item {
-  height: 11.5625rem;
-  margin-top: 0.625rem;
-  margin-right: 0.625rem;
-  display: flex;
-}
-
-.container-document .token-info-contents .token-related .list-item .document-color {
-  width: 0.625rem;
-}
-
-.container-document .token-info-contents .token-related .list-item .document-row {
-  border: 0.0625rem solid #EBEBEB;
-  padding: 1.25rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.container-document .token-info-contents .token-related .list-item .document-row-content {
-  display: flex;
-  justify-content: space-between;
-}
-
-.container-document .token-info-contents .token-related .list-item .document-row-content a {
-  width: 100%;
-}
-
-.container-document .token-info-contents .token-related .list-item .document-row-content a .document-title {
-  display: flex;
-  align-items: center;
-  word-break: break-word;
-}
-
-.container-document .token-info-contents .token-related .list-item .document-row-content a .document-title h5:first-child {
-  color: #3F4B56;
-  font-weight: 500;
-  width: 50%;
-}
-
-.container-document .token-info-contents .token-related .list-item .document-row-content a .document-title h5:last-child {
-  color: #ACB4BF;
-  margin-left: 0.3125rem;
-}
-
-.container-document .token-info-contents .token-related .list-item .document-row-topic {
-  height: 100%;
-}
-
-.container-document .token-info-contents .token-related .list-item .document-row-info {
-  display: flex;
-  align-items: center;
-}
-
-.container-document .token-info-contents .token-related .list-item .document-row-info .document-user {
-  display: flex;
-  align-items: center;
-}
-
-.container-document .token-info-contents .token-related .related-add {
-  height: 11.5625rem;
-  border: 0.0625rem solid #EBEBEB;
-  background-color: #F7F8F9;
-  align-items: center;
-  justify-content: center;
-}
-
-.container-document .token-info-contents .token-comment {
-  display: none;
-  padding-top: 0.625rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.container-document .token-info-contents .token-comment .list-item {
-  padding: 1.25rem 1.5625rem;
-  margin-top: 0.625rem;
-  margin-right: 0.625rem;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #EBEBEB;
-  background-color: #F7F8F9;
-}
-
-.container-document .token-info-contents .token-comment .list-item .comment-row {
-  margin-top: 0.0625rem;
-  word-break: break-word;
-}
-
-.container-document .token-info-contents .token-comment .list-item .comment-row-info {
-  display: flex;
-  align-items: center;
-}
-
-.container-document .token-info-contents .token-comment .list-item .comment-row-info .comment-user {
-  display: flex;
-  align-items: center;
-}
-
-.container-document .token-info-contents .token-comment .list-item .comment-row-info div, .container-document .token-info-contents .token-comment .list-item .comment-row-info h5 {
-  flex: none;
-}
-
-.container-document .token-info-contents .token-comment .list-item .comment-row-info > h5 {
-  margin-left: 0.9375rem;
-  color: #ACB4BF;
-}
-
-.container-document .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
-  margin-left: auto;
-}
-
-.container-document .token-info-contents .token-comment .comment-input {
-  margin-top: 0.625rem;
-  padding: 0;
-  align-items: start;
-}
-
-.container-document .token-info-contents .token-comment .comment-input textarea {
-  resize: none;
-  height: 4.3750rem;
-  flex: 1;
 }
 
 .container .contents-token {
@@ -3710,13 +3764,6 @@ span.vertical-bar {
   background-color: rgba(135, 206, 255, 0.1);
 }
 
-.text-ellipsis {
-  display: inline-block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-
 /* _dropzone.scss 
  *
  * 파일 경로 : template/_dropzone.scss
@@ -4474,9 +4521,9 @@ span.vertical-bar {
 }
 
 .picker-modal-title {
-  color: #3F4B56;
   font-size: 1.125rem;
   font-weight: 500;
+  color: #3F4B56;
   height: 3.3125rem;
   background-color: #ffffff;
   border-bottom: solid 0.0625rem #EBEBEB;

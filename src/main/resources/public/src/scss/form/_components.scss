@@ -94,10 +94,10 @@
 
             .datepicker,
             .datetimepicker {
-                background: $input-bg-color url("#{$icon-folder-path}icon_calendar.svg") no-repeat 98% 50%;
+                background: $white url("#{$icon-folder-path}icon_calendar.svg") no-repeat 98% 50%;
             }
             .timepicker {
-                background: $input-bg-color url("#{$icon-folder-path}icon_clock.svg") no-repeat 98% 50%;
+                background: $white url("#{$icon-folder-path}icon_clock.svg") no-repeat 98% 50%;
             }
 
             .picker-wrapper-date {
@@ -196,7 +196,7 @@
             &.custom-code {
                 display: flex;
                 input[type=text] {
-                    background-color: $input-bg-color;
+                    background-color: $white;
                     &:read-only {
                         pointer-events: none;
                     }
@@ -206,9 +206,9 @@
                     width: 6.875rem; // 110px
                     height: 2.5rem; // 40px
                     white-space: nowrap;
-                    border: $input-border;
+                    border: 0.0625rem solid $line-gray;
                     border-left: 0;
-                    background-color: $input-bg-color;
+                    background-color: $white;
                     cursor: pointer;
                 }
             }
@@ -385,8 +385,4 @@
         color: $component-disabled-font-color !important;
         pointer-events: none;
     }
-}
-.validate-error {
-    border: 1px solid $red !important;
-    color: $red !important;
 }

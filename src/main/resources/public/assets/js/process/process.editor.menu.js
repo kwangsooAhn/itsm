@@ -448,7 +448,7 @@
             }
         }
 
-        const tooltipItemContainer = d3.select('.alice-process-drawing-board').select('svg').append('g')
+        const tooltipItemContainer = d3.select('.process-drawing-board').select('svg').append('g')
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
@@ -928,7 +928,7 @@
      * @param id process ID or element ID
      */
     function changePropertiesDataValue(id) {
-        const container = document.querySelector('.alice-process-properties-panel .properties-container'),
+        const container = document.querySelector('.process-properties-panel .properties-container'),
               propertyObjects = container.querySelectorAll('input:not([type=radio]), select, textarea');
         if (id === aliceProcessEditor.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data.process));
@@ -1399,7 +1399,7 @@
      * @param elemData 속성데이터
      */
     function makePropertiesItem(id, properties, elemData) {
-        const propertiesContainer = document.querySelector('.alice-process-properties-panel .properties-container');
+        const propertiesContainer = document.querySelector('.process-properties-panel .properties-container');
         const elementContainer = propertiesContainer.querySelector('.element-properties');
         elementContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
@@ -1435,10 +1435,11 @@
 
                 // property title
                 let labelObject = document.createElement('label');
+                labelObject.htmlFor = property.id;
                 if (property.type === 'checkbox') {
                     labelObject.className = 'checkbox';
+                    labelObject.tabindex = 0;
                 }
-                labelObject.htmlFor = property.id;
                 labelObject.textContent = i18n.msg(i18nMsgPrefix + property.id);
                 if (property.display === 'none') {
                     labelObject.style.display = 'none';
@@ -1550,7 +1551,7 @@
      * @param elemData element data
      */
     function addSpecialProperties(id, elemData) {
-        const propertiesContainer = document.querySelector('.alice-process-properties-panel .properties-container');
+        const propertiesContainer = document.querySelector('.process-properties-panel .properties-container');
         const elementContainer = propertiesContainer.querySelector('.element-properties');
 
         const selectedElement = d3.select(document.getElementById(id));
@@ -1609,18 +1610,33 @@
      * @return {HTMLFieldSetElement}
      */
     function addFieldset(property, elementContainer) {
+        // fieldset
         const fieldsetContainer = document.createElement('fieldset');
         fieldsetContainer.name = property.fieldset;
-        let legend = document.createElement('legend');
-        let selectRadio = document.createElement('input');
-        selectRadio.type = 'radio';
-        selectRadio.disabled = true;
-        selectRadio.name = 'fieldset_' + id;
-        selectRadio.value = property.fieldset;
-        legend.appendChild(selectRadio);
-        let legendLabel = document.createElement('label');
-        legendLabel.textContent = property.fieldset;
-        legend.appendChild(legendLabel);
+        // legend
+        const legend = document.createElement('legend');
+        // label
+        const radioGroup = document.createElement('label');
+        radioGroup.className = 'radio';
+        radioGroup.tabindex = 0
+        radioGroup.htmlFor = 'fieldset_' + property.id;
+        // radio
+        let radio = document.createElement('input');
+        radio.type = 'radio';
+        radio.disabled = true;
+        radio.name = 'fieldset_' + property.id;
+        radio.value = property.fieldset;
+        radioGroup.appendChild(radio);
+        // radio custom
+        const radioSpan = document.createElement('span');
+        radioGroup.appendChild(radioSpan);
+        // radio label
+        const radioLabel = document.createElement('span');
+        radioLabel.className = 'label';
+        radioLabel.textContent = property.fieldset;
+        radioGroup.appendChild(radioLabel);
+
+        legend.appendChild(radioGroup);
         fieldsetContainer.appendChild(legend);
         elementContainer.appendChild(fieldsetContainer);
         return fieldsetContainer;
@@ -1685,12 +1701,21 @@
                 propertyContainer.appendChild(elementObject);
                 break;
             case 'checkbox':
+                const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
+                const labelText = labelElem.textContent;
+                labelElem.textContent = '';
                 elementObject = document.createElement('input');
                 elementObject.type = 'checkbox';
                 if (elemData[property.id] && elemData[property.id] === 'Y') {
                     elementObject.checked = true;
                 }
-                propertyContainer.insertBefore(elementObject,propertyContainer.childNodes[propertyContainer.childNodes.length-1]);
+                labelElem.appendChild(elementObject);
+                labelElem.appendChild(document.createElement('span'));
+
+                const spanElem = document.createElement('span');
+                spanElem.className = 'label';
+                spanElem.textContent = labelText;
+                labelElem.appendChild(spanElem);
                 break;
             case 'select':
                 elementObject = document.createElement('select');
@@ -1876,7 +1901,7 @@
             });
             countList.push({category: item, count: count});
         });
-        let infoContainer = document.querySelector('.alice-process-properties-panel .info');
+        let infoContainer = document.querySelector('.process-properties-panel .info');
         infoContainer.querySelectorAll('label').forEach(function(label) {
             label.textContent = '0';
         });

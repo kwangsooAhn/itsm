@@ -85,14 +85,20 @@ input {
   }
 
   &:disabled {
-    color: $gray;
+    color: $element-disabled-font-color;
     background-color: $element-disabled-bg-color;
+    border-color: $element-disabled-border-color;
     pointer-events: none;
     cursor: default;
   }
 
   &.icon {
     padding-right: 2.5rem; // 아이콘 크기만큼 들여 쓰기 40px
+  }
+
+  &.error {
+    color: $element-error-font-color;
+    border: $element-error-border;
   }
 
   &[type=range] {
@@ -157,6 +163,11 @@ textarea {
     pointer-events: none;
     cursor: default;
   }
+
+  &.error {
+    color: $element-error-font-color;
+    border: $element-error-border;
+  }
 }
 // table
 table {
@@ -172,6 +183,10 @@ table {
 
   tr {
     height: 2.5rem; // 40px
+
+    th {
+      font-weight: $table-th-font-weight;
+    }
 
     td, th {
       border: $element-border-width solid transparent;
@@ -234,6 +249,9 @@ span {
 // label
 label {
   font-family: inherit;
+  color: $label-font-color;
+  font-size: $label-font-size;
+  font-weight: $label-font-weight;
 }
 // radio button
 .radio {
@@ -243,6 +261,10 @@ label {
   font-weight: $element-font-weight;
   line-height: $element-line-height;
   color: $element-font-color;
+
+  span:first-of-type {
+    padding-right: $element-indent;
+  }
 
   input[type=radio] {
     display: none;
@@ -278,12 +300,14 @@ label {
 
     &:checked {
       + span {
+        position: relative;
+        
         &::before {
           border-color: $element-border-color;
         }
         &::after {
           background-color: $element-checked-bg-color;
-          transform: translate(0.25rem, 0.5rem) scale(1); // 4px, 8.5px
+          transform: translate(4px, 9px) scale(1); // 4px, 9px
         }
       }
     }
@@ -303,12 +327,17 @@ label {
           border-color: $element-disabled-border-color;
           background-color: $element-disabled-bg-color;
         }
-        &::after {
-          background-color: $element-disabled-font-color;
-        }
       }
       ~ .label {
         color: $element-disabled-font-color;
+      }
+    }
+
+    &[disabled]:checked {
+      + span {
+        &::after {
+          background-color: $element-disabled-font-color;
+        }
       }
     }
   }
@@ -330,6 +359,10 @@ label {
   font-weight: $element-font-weight;
   line-height: $element-line-height;
   color: $element-font-color;
+
+  span:first-of-type {
+    padding-right: $element-indent;
+  }
 
   input[type=checkbox] {
     display: none;

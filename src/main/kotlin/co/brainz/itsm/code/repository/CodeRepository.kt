@@ -8,6 +8,10 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface CodeRepository : JpaRepository<CodeEntity, String>, CodeRepositoryCustom {
+    fun findByCodeIn(codeList: MutableList<CodeEntity>): MutableList<CodeEntity>
+
+    fun findByPCodeIn(codeList: MutableList<CodeEntity>): MutableList<CodeEntity>
+
     fun findByPCodeOrderBySeqNumAscCodeAsc(pCode: CodeEntity): MutableList<CodeEntity>
 
     /**

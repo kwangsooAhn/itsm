@@ -123,8 +123,8 @@
         };
 
         element.addEventListener(eventName, function(e) {
-            if (element.classList.contains('validate-error')) {
-                element.classList.remove('validate-error');
+            if (element.classList.contains('error')) {
+                element.classList.remove('error');
             }
             let result = true;
             let validateArray = validate.split('|');
@@ -166,7 +166,7 @@
                 }
                 if (!result) {
                     e.stopImmediatePropagation();
-                    element.classList.add('validate-error');
+                    element.classList.add('error');
                     aliceJs.alertWarning(i18n.msg('form.msg.' + validateValueArray[0], arg), function() {
                         element.value = '';
                         element.focus();
@@ -187,7 +187,7 @@
         if (isView) { return false; }
 
         // 유효성이 통과되지 않으면 저장되지 않는다.
-        const validateElement = document.querySelectorAll('.validate-error');
+        const validateElement = document.querySelectorAll('.error');
         if (validateElement.length !== 0) {  return false; }
 
         data = JSON.parse(JSON.stringify(editor.data));
@@ -1226,10 +1226,10 @@
                                         break;
                                     case 'checkbox-boolean': // 라벨 클릭시에 체크박스가 동작한다.
                                         fieldTemplate =
-                                            `<label class="property-name checkbox-group" for="checkbox-${componentData.componentId}-${fieldProp.id}" tabindex="0">` +
+                                            `<label class="property-name checkbox" for="checkbox-${componentData.componentId}-${fieldProp.id}" tabindex="0">` +
                                                 `<input type="checkbox" class="property-value" id="checkbox-${componentData.componentId}-${fieldProp.id}" name="${fieldProp.id}" ${fieldProp.value ? 'checked' : ''}>` +
                                                 `<span></span>` +
-                                                 `<span>${i18n.msg('form.attribute.' + fieldProp.id)}</span>${tooltipTemplate}` +
+                                                `<span class="label">${i18n.msg('form.attribute.' + fieldProp.id)}</span>${tooltipTemplate}` +
                                             `</label>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1344,9 +1344,9 @@
 
                                             }
                                             return `<div class='vertical-group radio-datetime'>` +
-                                                `<label class="radio-group" for="${opt.id}">` +
-                                                    `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
-                                                    `${opt.id === 'now' || opt.id === 'none' ? "<span>" + labelName[0] + "</span>" : ""}`+
+                                                `<label class="radio" for="${opt.id}">` +
+                                                    `<input type="radio" id="${opt.id}" name="${group}-${fieldProp.id}" value="${opt.id}" ${defaultFormatArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
+                                                    `${opt.id === 'now' || opt.id === 'none' ? '<span class="label">' + labelName[0] + '</span>' : ''}`+
                                                 `</label>` +
                                                 `${opt.id === 'date' || opt.id === 'datetime' || opt.id === 'time' ? "<div>" + optionTemplate + "</div>" : ""}`+
                                                 `${opt.id === 'datepicker' || opt.id === 'timepicker' || opt.id === 'datetimepicker' ? "<input type='text' class='" + opt.id + "' id='" + opt.id + "-" + componentData.componentId + "' value='" + optionDefaultArr[1] + "'/>" : ""}` +
@@ -1362,9 +1362,9 @@
                                         const fieldValueArr = fieldProp.value.split('|');
                                         const fieldRadioOptions = fieldProp.option.map(function (opt) {
                                             return `<div class="vertical-group radio-custom">` +
-                                            `<label class="radio-group" for="${opt.id}">` +
-                                                `<input type='radio' id='${opt.id}' name='${group}-${fieldProp.id}' value='${opt.id}' ${fieldValueArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
-                                                `<span>${i18n.msg('form.attribute.option.' + opt.id)}</span>` +
+                                            `<label class="radio" for="${opt.id}">` +
+                                                `<input type="radio" id="${opt.id}" name="${group}-${fieldProp.id}" value="${opt.id}" ${fieldValueArr[0] === opt.id ? "checked='true'" : ""} /><span></span>` +
+                                                `<span class="label" >${i18n.msg('form.attribute.option.' + opt.id)}</span>` +
                                             `</label>` +
                                             `${opt.id !== 'none' ? "<select>" + opt.items.map(function (item) {
                                                 return `<option value='${item.id}' ${item.id === fieldValueArr[1] ? "selected='selected'" : ""}>${item.name}</option>`
@@ -1479,7 +1479,7 @@
                                     return `<tr>${fieldProp.items.map(function(item, index) {
                                         return `<td id="${item.id}">` +
                                         `${index === 0 ? 
-                                        `<label class="checkbox-group" for="checkbox-${opt[item.id]}" tabindex="0">` +
+                                        `<label class="checkbox" for="checkbox-${opt[item.id]}" tabindex="0">` +
                                             `<input type="checkbox" id="checkbox-${opt[item.id]}" value="${opt[item.id]}" />` +
                                             `<span></span>` +
                                         `</label>` : 
