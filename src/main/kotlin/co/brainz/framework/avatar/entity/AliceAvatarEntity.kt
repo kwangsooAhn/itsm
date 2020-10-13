@@ -5,24 +5,31 @@
 
 package co.brainz.framework.avatar.entity
 
-import co.brainz.framework.auditor.AliceMetaEntity
+import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.constants.AliceUserConstants
 import java.io.Serializable
 import javax.persistence.Column
 import javax.persistence.Entity
-import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
-import org.hibernate.annotations.GenericGenerator
+import javax.persistence.FetchType
+import javax.persistence.IdClass
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 
 @Entity
 @Table(name = "awf_avatar")
+@IdClass(AliceAvatarPk::class)
 data class AliceAvatarEntity(
+
     @Id
-    @GeneratedValue(generator = "system-uuid")
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(name = "avatar_id", length = 128)
+    @Column(name = "avatar_id")
     var avatarId: String = "",
+
+    @Id
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_key")
+    val user: AliceUserEntity,
 
     @Column(name = "avatar_type", length = 100)
     var avatarType: String = AliceUserConstants.AvatarType.FILE.code,
@@ -36,4 +43,9 @@ data class AliceAvatarEntity(
     @Column(name = "uploaded_location")
     var uploadedLocation: String = ""
 
-) : Serializable, AliceMetaEntity()
+) : Serializable
+
+data class AliceAvatarPk(
+    val user: String = "",
+    val avatarId: String = ""
+) : Serializable

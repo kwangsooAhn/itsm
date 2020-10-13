@@ -39,7 +39,6 @@ import org.springframework.web.context.request.ServletRequestAttributes
 @Component
 class AliceAuthProvider(
     private val userDetailsService: AliceUserDetailsService,
-    private val avatarService: AliceAvatarService,
     private val aliceCryptoRsa: AliceCryptoRsa
 ) : AuthenticationProvider {
 
@@ -76,7 +75,7 @@ class AliceAuthProvider(
         }
 
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
-        aliceUser.avatarPath = avatarService.makeAvatarPath(aliceUser.avatar)
+        aliceUser.avatarPath = userDetailsService.makeAvatarPath(aliceUser)
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(userId, password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)

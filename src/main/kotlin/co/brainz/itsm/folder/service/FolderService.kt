@@ -2,7 +2,7 @@ package co.brainz.itsm.folder.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.framework.avatar.service.AliceAvatarService
+import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
@@ -18,8 +18,8 @@ import org.springframework.util.LinkedMultiValueMap
 @Service
 class FolderService(
     private val restTemplate: RestTemplateProvider,
-    private val aliceAvatarService: AliceAvatarService,
-    private val aliceUserRepository: AliceUserRepository
+    private val aliceUserRepository: AliceUserRepository,
+    private val userDetailsService: AliceUserDetailsService
 ) {
     val mapper: ObjectMapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -39,7 +39,7 @@ class FolderService(
         val moreInfoAddRelatedInstance: MutableList<RestTemplateRelatedInstanceDto> = mutableListOf()
         relatedInstance.forEach {
             val user = aliceUserRepository.getOne(it.instanceCreateUserKey!!)
-            val avatarPath = aliceAvatarService.makeAvatarPath(user.avatar)
+            val avatarPath = userDetailsService.makeAvatarPath(user)
             it.avatarPath = avatarPath
             moreInfoAddRelatedInstance.add(it)
         }

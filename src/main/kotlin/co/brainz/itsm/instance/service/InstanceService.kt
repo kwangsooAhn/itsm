@@ -1,7 +1,7 @@
 package co.brainz.itsm.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.framework.avatar.service.AliceAvatarService
+import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
@@ -25,7 +25,7 @@ import org.springframework.util.LinkedMultiValueMap
 class InstanceService(
     private val restTemplate: RestTemplateProvider,
     private val aliceUserRepository: AliceUserRepository,
-    private val aliceAvatarService: AliceAvatarService
+    private val userDetailsService: AliceUserDetailsService
 ) {
     private val mapper: ObjectMapper =
         ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -96,7 +96,7 @@ class InstanceService(
         val moreInfoAddCommentsDto: MutableList<RestTemplateCommentDto> = mutableListOf()
         commentsDto.forEach {
             val user = aliceUserRepository.getOne(it.createUserKey!!)
-            val avatarPath = aliceAvatarService.makeAvatarPath(user.avatar)
+            val avatarPath = userDetailsService.makeAvatarPath(user)
             it.avatarPath = avatarPath
             moreInfoAddCommentsDto.add(it)
         }

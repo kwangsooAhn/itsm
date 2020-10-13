@@ -13,6 +13,10 @@ import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
+import co.brainz.itsm.portal.dto.PortalTopDto
+import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
+import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -59,10 +63,19 @@ class FaqRepositoryImpl(
         return faqList.toList()
     }
 
-    override fun findFaqTopList(limit: Long): List<FaqEntity> {
+    override fun findFaqTopList(limit: Long): List<PortalTopDto> {
         val faq = QFaqEntity.faqEntity
 
         return from(faq).distinct()
+            .select(
+                Projections.constructor(
+                    PortalTopDto::class.java,
+                    faq.faqId,
+                    faq.faqTitle,
+                    faq.faqContent,
+                    faq.createDt
+                )
+            )
             .orderBy(faq.createDt.desc())
             .limit(limit)
             .fetch()

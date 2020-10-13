@@ -11,7 +11,6 @@ import co.brainz.framework.auth.entity.AliceUserRoleMapEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.certification.dto.AliceOAuthDto
 import co.brainz.framework.certification.repository.AliceCertificationRepository
 import co.brainz.framework.constants.AliceUserConstants
@@ -48,7 +47,6 @@ import org.springframework.web.client.exchange
 class OAuthService(
     private val userService: UserService,
     private val userDetailsService: AliceUserDetailsService,
-    private val avatarService: AliceAvatarService,
     private val aliceCertificationService: AliceCertificationService,
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val userRoleMapRepository: AliceUserRoleMapRepository
@@ -104,7 +102,7 @@ class OAuthService(
             )
         )
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
-        aliceUser.avatarPath = avatarService.makeAvatarPath(aliceUser.avatar)
+        aliceUser.avatarPath = userDetailsService.makeAvatarPath(aliceUser)
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(aliceUser.oauthKey, aliceUser.password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)

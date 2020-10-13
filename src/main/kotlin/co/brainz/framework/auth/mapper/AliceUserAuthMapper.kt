@@ -35,7 +35,10 @@ interface AliceUserAuthMapper {
         Mapping(target = "certificationCode", ignore = true),
         Mapping(target = "platform", ignore = true),
         Mapping(target = "userRoleMapEntities", ignore = true),
-        Mapping(target = "avatar", ignore = true)
+        Mapping(target = "avatarType", ignore = true),
+        Mapping(target = "avatarValue", ignore = true),
+        Mapping(target = "uploaded", ignore = true),
+        Mapping(target = "uploadedLocation", ignore = true)
     )
     fun toAliceUserEntity(aliceUserDto: AliceUserDto): AliceUserEntity
 

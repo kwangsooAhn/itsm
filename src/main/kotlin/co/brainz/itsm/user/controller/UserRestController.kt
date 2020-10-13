@@ -9,7 +9,6 @@ import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.framework.avatar.service.AliceAvatarService
 import co.brainz.framework.certification.dto.AliceSignUpDto
 import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.certification.service.AliceCertificationService
@@ -51,7 +50,6 @@ class UserRestController(
     private val aliceCertificationMailService: AliceCertificationMailService,
     private val userService: UserService,
     private val userDetailsService: AliceUserDetailsService,
-    private val avatarService: AliceAvatarService,
     private val localeResolver: LocaleResolver,
     private val aliceCryptoRsa: AliceCryptoRsa
 ) {
@@ -154,7 +152,7 @@ class UserRestController(
     private fun createNewAuthentication(user: UserUpdateDto): Authentication {
         var aliceUser: AliceUserAuthDto = userMapper.toAliceUserAuthDto(userService.selectUserKey(user.userKey))
         aliceUser = userDetailsService.getAuthInfo(aliceUser)
-        aliceUser.avatarPath = avatarService.makeAvatarPath(aliceUser.avatar)
+        aliceUser.avatarPath = userDetailsService.makeAvatarPath(aliceUser)
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)

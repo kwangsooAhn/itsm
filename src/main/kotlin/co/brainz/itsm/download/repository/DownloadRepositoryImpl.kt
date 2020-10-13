@@ -12,7 +12,9 @@ import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.download.dto.DownloadListDto
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.entity.QDownloadEntity
+import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.QueryResults
+import com.querydsl.core.types.Projections
 import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -68,15 +70,24 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         return downloadList.toList()
     }
 
-    override fun findDownloadTopList(limit: Long): List<DownloadEntity> {
+    override fun findDownloadTopList(limit: Long): List<PortalTopDto> {
         val download = QDownloadEntity.downloadEntity
         val fileMap = QAliceFileOwnMapEntity.aliceFileOwnMapEntity
         val fileLoc = QAliceFileLocEntity.aliceFileLocEntity
 
         return from(download).distinct()
+            .select(
+                Projections.constructor(
+                    PortalTopDto::class.java,
+                    download.downloadId,
+                    download.downloadTitle,
+                    download.downloadCategory,
+                    download.createDt
+                )
+            )
             .leftJoin(fileMap).on(download.downloadId.eq(fileMap.ownId))
             .leftJoin(fileLoc).on(fileMap.fileLocEntity.fileSeq.eq(fileLoc.fileSeq))
-            .orderBy(download.downloadSeq.desc())
+            .orderBy(download.createDt.desc())
             .limit(limit)
             .fetch()
     }

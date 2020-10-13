@@ -80,7 +80,8 @@ class CertificationTest {
             lang = "en",
             timeFormat = "YYYY-MM-DD HH:MM",
             theme = AliceUserConstants.USER_THEME,
-            avatarPath = avatarService.makeAvatarPath(userDto.avatar)
+            avatarPath = ""
+            //avatarPath = userDto.avatar?.let { avatarService.makeAvatarPath(it) }
         )
         val usernamePasswordAuthenticationToken =
             UsernamePasswordAuthenticationToken(userDto.userId, userDto.password, emptySet())

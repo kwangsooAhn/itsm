@@ -2,7 +2,7 @@ package co.brainz.itsm.user.controller
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
 import co.brainz.framework.auth.mapper.AliceUserAuthMapper
-import co.brainz.framework.avatar.service.AliceAvatarService
+import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.util.AliceUtil
@@ -33,7 +33,7 @@ class UserController(
     private val codeService: CodeService,
     private val userService: UserService,
     private val roleService: RoleService,
-    private val avatarService: AliceAvatarService
+    private val userDetailsService: AliceUserDetailsService
 ) {
 
     val logger: Logger = LoggerFactory.getLogger(this::class.java)
@@ -85,11 +85,9 @@ class UserController(
         var returnUrl = ""
         val userEntity = userService.selectUserKey(userKey)
         val users = userMapper.toUserDto(userEntity)
-        users.avatarId = userEntity.avatar.avatarId
-        users.avatarPath = avatarService.makeAvatarPath(userEntity.avatar)
-        users.avatarValue = userEntity.avatar.avatarValue
-        if (userEntity.avatar.uploaded) {
-            users.avatarSize = Paths.get(userEntity.avatar.uploadedLocation).toFile().length()
+        users.avatarPath = userDetailsService.makeAvatarPath(userEntity)
+        if (userEntity.uploaded) {
+            users.avatarSize = Paths.get(userEntity.uploadedLocation).toFile().length()
         } else {
             val resource = ClassPathResource(userDefaultProfile)
             val path = resource.inputStream

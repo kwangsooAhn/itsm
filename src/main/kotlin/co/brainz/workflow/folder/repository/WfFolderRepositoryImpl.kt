@@ -51,7 +51,7 @@ class WfFolderRepositoryImpl : QuerydslRepositorySupport(WfFolderEntity::class.j
                     folder.instance.instanceStatus,
                     user.userKey,
                     user.userName,
-                    user.avatar.avatarValue
+                    user.avatarValue
                 )
             )
             .leftJoin(user).on(folder.instance.instanceCreateUser.userKey.eq(user.userKey))

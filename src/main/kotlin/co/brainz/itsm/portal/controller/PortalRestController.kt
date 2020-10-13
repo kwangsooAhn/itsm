@@ -18,6 +18,7 @@ import co.brainz.itsm.notice.dto.NoticeSearchDto
 import co.brainz.itsm.notice.service.NoticeService
 import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
+import co.brainz.itsm.portal.dto.PortalTopDto
 import co.brainz.itsm.portal.service.PortalService
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -63,7 +64,7 @@ class PortalRestController(
     }
 
     @GetMapping("/top")
-    fun getTopList(@RequestParam(value = "limit") limit: Long): LinkedHashMap<String, Any> {
+    fun getTopList(@RequestParam(value = "limit") limit: Long): LinkedHashMap<String, List<PortalTopDto>> {
         return portalService.getTopList(limit)
     }
 
