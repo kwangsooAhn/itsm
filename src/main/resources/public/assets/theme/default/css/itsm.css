@@ -228,7 +228,7 @@ input {
   line-height: 1.2;
   color: #586872;
   background-color: #ffffff;
-  border: 0.0625rem;
+  border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   padding: 0 0.625rem 0 0.625rem;
 }
@@ -237,12 +237,12 @@ input::placeholder {
   color: #ACB4BF;
 }
 
-input:focus {
+input:not(:disabled):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
 
-input:hover {
+input:not(:disabled):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -251,6 +251,7 @@ input:hover {
 input:disabled {
   color: #ACB4BF;
   background-color: #F7F8F9;
+  border-color: #EBEBEB;
   pointer-events: none;
   cursor: default;
 }
@@ -278,7 +279,7 @@ input[type=range]::-webkit-slider-thumb {
   width: 1.125rem;
   height: 1.125rem;
   background-color: #ffffff;
-  border: 0.0625rem;
+  border: 0.0625rem solid #EBEBEB;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -287,7 +288,7 @@ input[type=range]::-moz-range-thumb {
   width: 1.125rem;
   height: 1.125rem;
   background-color: #ffffff;
-  border: 0.0625rem;
+  border: 0.0625rem solid #EBEBEB;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -299,7 +300,7 @@ textarea {
   line-height: 1.2;
   color: #586872;
   background-color: #ffffff;
-  border: 0.0625rem;
+  border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   padding: 0.5rem 0.625rem 0.5rem 0.625rem;
   resize: vertical;
@@ -309,12 +310,12 @@ textarea::placeholder {
   color: #ACB4BF;
 }
 
-textarea:focus {
+textarea:not(:disabled):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
 
-textarea:hover {
+textarea:not(:disabled):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -367,17 +368,17 @@ select {
   line-height: 1.2;
   color: #586872;
   background-color: #ffffff;
-  border: 0.0625rem;
+  border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   padding: 0 0.625rem 0 0.625rem;
 }
 
-select:focus {
+select:not(:disabled):focus {
   outline: 0;
   border: 0.0625rem solid #0098FF;
 }
 
-select:hover {
+select:not(:disabled):hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
@@ -422,6 +423,11 @@ label {
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
+  outline: none;
+}
+
+.radio span:first-of-type {
+  padding-right: 0.625rem;
 }
 
 .radio input[type=radio] {
@@ -429,6 +435,7 @@ label {
 }
 
 .radio input[type=radio] + span {
+  position: relative;
   cursor: pointer;
 }
 
@@ -440,7 +447,7 @@ label {
   height: 1.125rem;
   top: -0.0625rem;
   background-color: #ffffff;
-  border: 0.0625rem;
+  border: 0.0625rem solid #EBEBEB;
   border-radius: 50%;
   vertical-align: middle;
   text-align: center;
@@ -457,16 +464,20 @@ label {
   border-radius: 50%;
 }
 
-.radio input[type=radio]:checked + span::before {
+.radio input[type=radio] ~ .label {
+  cursor: pointer;
+}
+
+.radio input[type=radio]:not(:disabled):checked + span::before {
   border-color: #EBEBEB;
 }
 
-.radio input[type=radio]:checked + span::after {
+.radio input[type=radio]:not(:disabled):checked + span::after {
   background-color: #0098FF;
-  transform: translate(0.25rem, 0.5rem) scale(1);
+  transform: translate(4px, 9px) scale(1);
 }
 
-.radio input[type=radio]:hover + span::before {
+.radio input[type=radio]:not(:disabled):hover + span::before {
   border-color: #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
@@ -476,15 +487,16 @@ label {
   background-color: #F7F8F9;
 }
 
-.radio input[type=radio]:disabled + span::after {
-  background-color: #ACB4BF;
-}
-
 .radio input[type=radio]:disabled ~ .label {
   color: #ACB4BF;
 }
 
-.radio:focus input[type=radio] + span:before {
+.radio input[type=radio]:disabled:checked + span::after {
+  background-color: #ACB4BF;
+  transform: translate(4px, 9px) scale(1);
+}
+
+.radio:focus input[type=radio]:not(:disabled) + span:before {
   border-color: #0098FF;
 }
 
@@ -494,6 +506,11 @@ label {
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
+  outline: none;
+}
+
+.checkbox span:first-of-type {
+  padding-right: 0.625rem;
 }
 
 .checkbox input[type=checkbox] {
@@ -511,12 +528,16 @@ label {
   width: 1.125rem;
   height: 1.125rem;
   background-color: #ffffff;
-  border: 0.0625rem;
+  border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   vertical-align: middle;
 }
 
-.checkbox input[type=checkbox]:checked + span::after {
+.checkbox input[type=checkbox] ~ .label {
+  cursor: pointer;
+}
+
+.checkbox input[type=checkbox]:not(:disabled):checked + span::after {
   content: '';
   position: absolute;
   width: 0.75rem;
@@ -529,7 +550,7 @@ label {
   transform: translate(0.1875rem, 0.25rem) rotate(-45deg);
 }
 
-.checkbox input[type=checkbox]:hover + span::before {
+.checkbox input[type=checkbox]:not(:disabled):hover + span::before {
   border-color: #0098FF;
   box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
@@ -546,7 +567,7 @@ label {
   color: #ACB4BF;
 }
 
-.checkbox:focus input[type=checkbox] + span:before {
+.checkbox:focus input[type=checkbox]:not(:disabled) + span:before {
   border-color: #0098FF;
 }
 
@@ -558,6 +579,15 @@ label {
   font-weight: 400;
   line-height: 1.2;
   color: #586872;
+  outline: none;
+}
+
+.switch .label {
+  display: inline-block;
+  height: 2.188rem;
+  line-height: 2.0;
+  margin-left: 5.625rem;
+  cursor: pointer;
 }
 
 .switch input[type=checkbox] {
@@ -605,12 +635,6 @@ label {
 
 .switch:focus input[type=checkbox] + span:before {
   border-color: #0098FF;
-}
-
-body, h1, h2, h3, h4, h5, h6, input, textarea, select, button, div, span {
-  color: #586872;
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  font-size: 1rem;
 }
 
 h1 {
@@ -669,101 +693,45 @@ h4.under-bar {
   border-bottom: 0.125rem solid #E1E3E6;
 }
 
-span {
-  margin: auto 0;
-}
-
 .picker-wrapper-date {
   display: inline;
 }
 
-option:hover {
-  background-color: rgba(0, 80, 255, 0.05);
-}
-
-option:visited {
-  color: #0050ff;
-  background-color: white;
-}
-
-option:active {
-  color: #0050ff;
-}
-
-option:focus {
-  color: #0050ff;
-}
-
-select {
-  height: 2.5rem;
-  font-size: 1rem;
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  padding: 0 10px;
-  margin-right: 0.0625rem;
-  vertical-align: middle;
-  background-color: #FFFFFF;
-}
-
-select:focus {
-  outline: 0.0625rem solid #0050ff;
-  border-radius: 0.0625rem;
-}
-
 input {
-  height: 2.5rem;
-  font-size: 1rem;
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.0625rem;
   padding: 0 10px;
   margin-right: 0.0625rem;
   vertical-align: middle;
-  background-color: #FFFFFF;
-}
-
-input::placeholder {
-  color: #ACB4BF;
-}
-
-input:focus {
-  outline: 0.0625rem solid #0050ff;
-  border-radius: 0.0625rem;
-}
-
-input:disabled {
-  background: #F7F8F9;
-  color: #ACB4BF;
 }
 
 input.search {
   background: url("../media/icons/icon_search.svg") no-repeat center right;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   padding-right: 1.875rem;
 }
 
 input.search-datetime {
   background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 input.search-date {
   background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 input.search-time {
   background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 input.date {
   background: url("../media/icons/icon_calendar.svg") no-repeat calc(100% - 10px) 50%;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 input.px {
   background: url("../media/icons/icon_px.svg") no-repeat calc(100% - 10px) 50%;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 }
 
 input[type=checkbox] {
@@ -789,83 +757,14 @@ label {
 }
 
 textarea {
-  padding: 0.5rem 0.625rem;
   display: block;
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  background-color: #FFFFFF;
-  font-size: 1rem;
+  padding: 0.5rem 0.625rem;
   resize: vertical;
   line-height: 1.3;
 }
 
-textarea:focus {
-  outline: 0.0625rem solid #0050ff;
-  border-radius: 0.0625rem;
-}
-
 .switch {
-  position: relative;
-  height: 25px;
   margin: 1.875rem 0 1.25rem 0;
-}
-
-.switch input {
-  display: none;
-}
-
-.switch input:checked + .slider {
-  background-color: #0050ff;
-}
-
-.switch input:checked + .slider:before {
-  -webkit-transform: translateX(33px);
-  transform: translateX(33px);
-}
-
-.switch input:focus + .slider {
-  -webkit-box-shadow: 0 0 1px #707579;
-  box-shadow: 0 0 1px #707579;
-}
-
-.switch .slider.round {
-  border-radius: 34px;
-  width: 60px;
-}
-
-.switch .slider.round::before {
-  border-radius: 50%;
-}
-
-.switch .switch-label {
-  vertical-align: -4px;
-  color: #586872;
-  font-weight: 400;
-  margin-left: 70px;
-}
-
-.switch .slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.switch .slider:before {
-  position: absolute;
-  content: "";
-  height: 17px;
-  width: 17px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
 }
 
 .column-1 {
@@ -990,9 +889,6 @@ textarea:focus {
 }
 
 .page-title > h1 {
-  color: #3F4B56;
-  font-size: 2.25rem;
-  font-weight: 700;
   padding: 0.625rem 0 0.625rem 0.3125rem;
 }
 
@@ -2300,12 +2196,6 @@ span.vertical-bar {
   position: absolute;
   top: 3.75rem;
   left: 23.125rem;
-}
-
-.container .contents-document .service-request .card-area .document-card-dummy h3 {
-  color: #3F4B56;
-  font-size: 1.5rem;
-  font-weight: 500;
 }
 
 .container .contents-document .service-request .card-area .document-card-dummy h5 {
@@ -4911,7 +4801,7 @@ span.vertical-bar {
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   color: #586872;
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   font-size: 1rem;
   font-weight: 400;
   resize: vertical;
@@ -4919,7 +4809,7 @@ span.vertical-bar {
 }
 
 .textarea-scroll-wrapper:focus-within {
-  outline: 0.0625rem solid #0050ff;
+  outline: 0.0625rem solid #EBEBEB solid #0050ff;
   border-radius: 0.0625rem;
 }
 

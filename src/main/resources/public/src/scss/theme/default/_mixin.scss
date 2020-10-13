@@ -223,14 +223,14 @@
             }
             .checkbox-list {
                 height: 13.5rem; // 216px
-                border: 0.0625rem solid $border-color; // 1px
+                border: 0.0625rem solid $element-border-color; // 1px
                 border-radius: $element-border-radius;
                 overflow-y: auto;
                 padding: 0.5rem 0.625rem; // 8px 10px
             }
             .radio-list {
                 height: 27rem;
-                border: 0.0625rem solid $border-color; // 1px
+                border: 0.0625rem solid $element-border-color; // 1px
                 border-radius: $element-border-radius;
                 overflow-y: auto;
                 padding: 0.5rem 0.625rem; // 8px 10px
@@ -248,49 +248,37 @@
 
 @mixin h1() {
     color: $light-black;
-    font: {
-        size: 2.25rem; // 36px
-        weight: 700;
-    }
+    font-size: 2.25rem; // 36px
+    font-weight: 700;
 }
 
 @mixin h2() {
     color: $light-black;
-    font: {
-        size: 1.75rem; // 28px
-        weight: 500;
-    }
+    font-size: 1.75rem; // 28px
+    font-weight: 500;
 }
 
 @mixin h3() {
     color: $light-black;
-    font: {
-        size: 1.5rem; // 24px
-        weight: 500;
-    }
+    font-size: 1.5rem; // 24px
+    font-weight: 500;
 }
 
 @mixin h4() {
     color: $light-black;
-    font: {
-        size: 1.125rem; // 18px
-        weight: 500;
-    }
+    font-size: 1.125rem; // 18px
+    font-weight: 500;
 }
 
 @mixin h5() {
     color: $dark-gray;
-    font: {
-        size: 1rem; // 16px
-        weight: 400;
-    }
+    font-size: 1rem; // 16px
+    font-weight: 400;
 }
 
 @mixin h6() {
     color: $warm-gray;
-    font: {
-        family: 맑은고딕;
-        size: 0.875rem; // 14px
-        weight: 400;
-    }
+    font-family: 맑은고딕;
+    font-size: 0.875rem; // 14px
+    font-weight: 400;
 }

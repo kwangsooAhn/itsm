@@ -64,9 +64,7 @@
     display: flex;
     align-items: baseline;
 
-    // 아래 부분은 신청서 화면에서 form, itsm 2개의 css가 충돌나서 다시 정의한 부분.
     & > h1 {
-        @include h1();
         padding: 0.625rem 0 0.625rem 0.3125rem;
     }
 
@@ -142,7 +140,7 @@ span.vertical-bar {
 
 .avatar {
     @include h5();
-    color: $placeholder-color;
+    color: $gray;
     &-text {
         text-align: center;
     }

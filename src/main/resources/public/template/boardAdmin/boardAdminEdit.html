@@ -22,11 +22,10 @@
             </div>
             <div class="form-set">
                 <label class="switch">
-                    <span class="switch-label" th:text="#{board.label.useYn}"></span>
-                    <input type="checkbox" id="boardUseYn" name="boardUseYn" onclick="toggle(this);"
+                    <span class="label" th:text="#{board.label.useYn}"></span>
+                    <input type="checkbox" id="boardUseYn" name="boardUseYn"
                            th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}">
-                    <span class="slider round"></span>
-
+                    <span></span>
                 </label>
             </div>
             <div class="form-set">
@@ -42,35 +41,35 @@
             </div>
             <div class="form-set">
                 <label class="switch">
-                    <span class="switch-label" th:text="#{board.label.replyYn}"></span>
-                    <input type="checkbox" id="replyYn" name="replyYn" onclick="toggle(this);"
+                    <span class="label" th:text="#{board.label.replyYn}"></span>
+                    <input type="checkbox" id="replyYn" name="replyYn"
                            th:checked="${boardAdmin?.replyYn == null || boardAdmin?.replyYn == true}">
-                    <span class="slider round"></span>
+                    <span></span>
                 </label>
             </div>
             <div class="form-set">
                 <label class="switch">
-                    <span class="switch-label" th:text="#{board.label.commentYn}"></span>
-                    <input type="checkbox" id="commentYn" name="commentYn" onclick="toggle(this);"
+                    <span class="label" th:text="#{board.label.commentYn}"></span>
+                    <input type="checkbox" id="commentYn" name="commentYn"
                            th:checked="${boardAdmin?.commentYn == null || boardAdmin?.commentYn == true}">
-                    <span class="slider round"></span>
+                    <span></span>
                 </label>
             </div>
             <div class="form-set">
                 <label class="switch">
-                    <span class="switch-label" th:text="#{board.label.category}"></span>
-                    <input type="checkbox" id="categoryYn" name="categoryYn" onclick="toggle(this);"
+                    <span class="label" th:text="#{board.label.category}"></span>
+                    <input type="checkbox" id="categoryYn" name="categoryYn"
                            th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}">
-                    <span class="slider round"></span>
+                    <span></span>
                 </label>
             </div>
             <div class="form-set">
                 <label class="switch">
-                    <span class="switch-label" th:text="#{board.label.attachFileYn}"></span>
-                    <input type="checkbox" id="attachYn" name="attachYn" onclick="toggle(this);"
+                    <span class="label" th:text="#{board.label.attachFileYn}"></span>
+                    <input type="checkbox" id="attachYn" name="attachYn"
                            th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}"
                            onchange="setDisplay('attachFileSize', this.checked)">
-                    <span class="slider round"></span>
+                    <span></span>
                 </label>
             </div>
             <div class="form-set">
