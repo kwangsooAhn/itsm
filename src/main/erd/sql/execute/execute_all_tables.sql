@@ -2221,7 +2221,7 @@ CREATE TABLE wf_component_data
 (
 	component_id varchar(128) NOT NULL,
 	attribute_id varchar(100) NOT NULL,
-	attribute_value varchar(512) NOT NULL,
+	attribute_value text NOT NULL,
 	attribute_order int,
 	CONSTRAINT wf_component_data_pk PRIMARY KEY (component_id, attribute_id),
 	CONSTRAINT wf_component_data_fk FOREIGN KEY (component_id) REFERENCES wf_component (component_id)
