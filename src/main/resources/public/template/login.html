@@ -69,7 +69,7 @@
         keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
         const authFailedMsg = [[${#httpServletRequest.getParameter(\'authfailed\')}]];
         if (authFailedMsg !== null) {
-            aliceJs.alertWarning(i18n.get(authFailedMsg), function() {
+            aliceJs.alertWarning(i18n.msg(authFailedMsg), function() {
                 document.getElementById('uid').focus();
             });
         } else {

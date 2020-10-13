@@ -124,7 +124,7 @@
             } else {
                 aFaqId.href = '/faqs/'+ data.faqId +'/edit';
             }
-            aFaqId.innerText = i18n.get('common.code.'+data.faqGroup);
+            aFaqId.innerText = i18n.msg('common.code.'+data.faqGroup);
             tdFaqId.appendChild(aFaqId);
 
             let tdFaqTitle = document.createElement('td');
