@@ -490,6 +490,9 @@ class AliceFileService(
         multipartFile.transferTo(filePath.toFile())
     }
 
+    /**
+     * 업로드한 아바타 이미지정보를 [userEntity] ,[avatarUUID] 를 받아서 처리한다.
+     */
     fun uploadAvatarFile(userEntity: AliceUserEntity, avatarUUID: String) {
         val tempDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
         val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
@@ -503,70 +506,18 @@ class AliceFileService(
             userEntity.avatarValue = avatarUUID
             userEntity.uploaded = true
             userEntity.uploadedLocation = avatarFilePath.toString()
-        } else if (avatarUUID !== "" && userEntity.uploaded) {
-            //userEntity.avatarValue = avatarInfo.avatarValue
-            //avatarUploaded = avatarInfo.uploaded
-            //avatarUploadedLocation = avatarInfo.uploadedLocation
         } else {
-            val uploadedFile = Paths.get(userEntity.uploadedLocation)
-            if (uploadedFile.toFile().exists()) {
-                Files.delete(uploadedFile)
+            if (avatarUUID == "" || !userEntity.uploaded) {
+                val uploadedFile = Paths.get(userEntity.uploadedLocation)
+                if (uploadedFile.toFile().exists()) {
+                    Files.delete(uploadedFile)
+                }
+                userEntity.avatarValue = AliceUserConstants.AVATAR_BASIC_FILE_NAME
+                userEntity.uploaded = false
+                userEntity.uploadedLocation = AliceUserConstants.AVATAR_BASIC_FILE_PATH
             }
-            userEntity.avatarValue = AliceUserConstants.AVATAR_BASIC_FILE_NAME
-            userEntity.uploaded = false
-            userEntity.uploadedLocation = AliceUserConstants.AVATAR_BASIC_FILE_PATH
         }
     }
-
-    /**
-     * 업로드한 아바타 이미지정보를[avatarId] ,[avatarUUID], [avatarType]를 받아서 아바타 정보[AliceAvatarEntity]를 반환한다.
-     */
-    /*fun uploadAvatarFile(avatarId: String, avatarUUID: String, avatarType: String): AliceAvatarEntity {
-        val tempDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
-        val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
-        val tempFile = File(tempPath.toString())
-
-        val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
-        val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
-
-        var avatarInfo = AliceAvatarEntity()
-        val avatarUploadedLocation: String
-        val avatarValue: String
-        val avatarUploaded: Boolean
-        if (avatarId != "") {
-            avatarInfo = aliceAvatarRepository.findByAvatarId(avatarId)
-        }
-
-        // 임시폴더에서 파일이 없으면 아바타를 등록/수정 하지 않았다고 본다.
-        if (avatarUUID !== "" && tempFile.exists()) {
-            Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
-            avatarValue = avatarUUID
-            avatarUploaded = true
-            avatarUploadedLocation = avatarFilePath.toString()
-        } else if (avatarUUID !== "" && avatarInfo.uploaded) {
-            avatarValue = avatarInfo.avatarValue
-            avatarUploaded = avatarInfo.uploaded
-            avatarUploadedLocation = avatarInfo.uploadedLocation
-        } else {
-            val uploadedFile = Paths.get(avatarInfo.uploadedLocation)
-            if (uploadedFile.toFile().exists()) {
-                Files.delete(uploadedFile)
-            }
-            avatarValue = AliceUserConstants.AVATAR_BASIC_FILE_NAME
-            avatarUploaded = false
-            avatarUploadedLocation = AliceUserConstants.AVATAR_BASIC_FILE_PATH
-        }
-
-        val avatarEntity = AliceAvatarEntity(
-            avatarId = avatarId,
-            avatarType = avatarType,
-            avatarValue = avatarValue,
-            uploaded = avatarUploaded,
-            uploadedLocation = avatarUploadedLocation
-        )
-
-        return aliceAvatarRepository.save(avatarEntity)
-    }*/
 
     /**
      * 아바타 이미지명을 uuid에서 ID 값으로 변경 한다.
@@ -587,14 +538,6 @@ class AliceFileService(
                 userEntity.avatarValue = userEntity.userKey
                 userEntity.uploadedLocation = avatarIdFilePath.toString()
                 userRepository.save(userEntity)
-                /*val avatarEntity = AliceAvatarEntity(
-                    avatarId = aliceAvatarEntity.avatarId,
-                    avatarType = aliceAvatarEntity.avatarType,
-                    avatarValue = aliceAvatarEntity.avatarId,
-                    uploaded = aliceAvatarEntity.uploaded,
-                    uploadedLocation = avatarIdFilePath.toString()
-                )*/
-                //aliceAvatarRepository.save(avatarEntity)
             }
         }
     }
