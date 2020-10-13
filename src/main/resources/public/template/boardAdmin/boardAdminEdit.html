@@ -99,6 +99,7 @@
         let attachDisable = /*[[${boardAdmin?.attachYn}]]*/;
 
         window.onload = function() {
+            document.getElementById('boardAdminTitle').focus();
             if (!attachDisable && attachDisable !== null) {
                 document.getElementById('attachFileSize').disabled = 'false';
             }
