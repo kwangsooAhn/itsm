@@ -10,13 +10,13 @@
 @import '../template/_variables.scss';
 @import '../template/_functions.scss'; // 상속 불가
 @import '../template/_mixins.scss'; // 상속 불가
-@import '../template/_alignments.scss'; // 상속 불가
 @import '../template/_common.scss'; // 상속 불가
 @import '_variables.scss';
 @import '_fonts.scss';
 @import '_mixin.scss';
 @import '_elements.scss';
 @import '_column.scss';
+@import '_alignment.scss';
 @import '_layout.scss';
 @import '_browserGuide.scss';
 @import '_signup.scss';
@@ -27,7 +27,6 @@
 @import '_login.scss';
 @import '_scrollbar.scss';
 @import "../template/_date-picker.scss";
-@import '_alignment.scss';
 @import '_fileUploader.scss';
 @import '_buttons.scss';
 @import '_faq.scss';
