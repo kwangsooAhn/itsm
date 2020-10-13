@@ -37,6 +37,7 @@
 
         window.onload = function () {
             // initialization date picker
+            document.getElementById('searchValue').focus();
             document.getElementById('fromDt').value = i18n.getDate({'months': -1});
             document.getElementById('searchToDt').value = i18n.getDate();
             dateTimePicker.initDatePicker('fromDt', setDatePicker);

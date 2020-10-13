@@ -244,11 +244,6 @@ input::placeholder {
   color: #ACB4BF;
 }
 
-input:focus {
-  outline: 0;
-  border: 0.0625rem solid #0098FF;
-}
-
 input:hover {
   outline: 0;
   border: 0.0625rem solid #0098FF;
@@ -583,12 +578,6 @@ input {
 
 input::placeholder {
   color: #ACB4BF;
-}
-
-input:focus, input:hover {
-  outline: 0;
-  border: 0.0625rem solid #0098FF;
-  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
 }
 
 input:disabled, input:read-only {
