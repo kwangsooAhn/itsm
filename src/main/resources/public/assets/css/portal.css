@@ -79,23 +79,6 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
-/* _alignments.scss 
- *
- * 파일 경로 : template/_alignments.scss
- * @description 정렬, 배치 관련 디자인
- * @author jy.lim
- * @version 1.0
- */
-.flex-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss
@@ -750,6 +733,68 @@ input.search-date {
 
 .column-fluid {
   width: 100%;
+}
+
+/* _alignments.scss
+ *
+ * 파일 경로 : template/_alignments.scss
+ * @description 정렬, 배치 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.align-center {
+  text-align: center;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-baseline {
+  vertical-align: baseline;
+}
+
+.align-top {
+  vertical-align: top;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.align-bottom {
+  vertical-align: bottom;
+}
+
+.align-text-bottom {
+  vertical-align: text-bottom;
+}
+
+.align-text-top {
+  vertical-align: text-top;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.row-right {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.row-right span:last-child {
+  margin: auto 1.25rem auto 0;
 }
 
 .portal-container {
@@ -1992,44 +2037,6 @@ input.search-date {
 
 .picker-modal-button button {
   margin-left: 0.3125rem;
-}
-
-/* _alignments.scss 
- *
- * 파일 경로 : template/_alignments.scss
- * @description 정렬, 배치 관련 디자인
- * @author jy.lim
- * @version 1.0
- */
-.flex-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
-.align-center {
-  text-align: center;
-}
-
-.align-left {
-  text-align: left;
-}
-
-.align-right {
-  text-align: right;
-}
-
-.row-right {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.row-right span:last-child {
-  margin: auto 1.25rem auto 0;
 }
 
 /* _dropzone.scss 

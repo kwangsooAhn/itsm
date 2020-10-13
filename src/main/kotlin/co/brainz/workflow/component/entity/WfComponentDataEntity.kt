@@ -23,7 +23,7 @@ data class WfComponentDataEntity(
     @Column(name = "attribute_id", length = 100)
     val attributeId: String,
 
-    @Column(name = "attribute_value", length = 512)
+    @Column(name = "attribute_value")
     val attributeValue: String,
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

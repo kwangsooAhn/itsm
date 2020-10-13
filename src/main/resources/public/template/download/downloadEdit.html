@@ -51,6 +51,7 @@
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
+            document.getElementById('downloadTitle').focus();
             fileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download?.downloadId}]]}});
         };
 

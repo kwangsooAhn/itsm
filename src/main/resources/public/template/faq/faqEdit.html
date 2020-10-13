@@ -99,6 +99,7 @@
         }
 
         window.onload = function () {
+            document.getElementById('faqTitle').focus();
             if ([[${faq?.faqId}]] === null) {
                 document.getElementById('btnRegist').addEventListener('click', function () {
                     restSubmit('post', [[@{/rest/faqs}]]);
