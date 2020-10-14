@@ -9,4 +9,3 @@ data class PortalTopDto(
     val content: String = "",
     var createDt: LocalDateTime? = null
 ) : Serializable
-

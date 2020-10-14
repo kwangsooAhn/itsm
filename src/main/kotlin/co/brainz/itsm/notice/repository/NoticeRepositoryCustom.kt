@@ -8,7 +8,6 @@ package co.brainz.itsm.notice.repository
 
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.notice.dto.NoticeListDto
-import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
 import java.time.LocalDateTime
 

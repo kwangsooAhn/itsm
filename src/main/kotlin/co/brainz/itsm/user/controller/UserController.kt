@@ -121,7 +121,7 @@ class UserController(
         )
 
         val codeList = codeService.selectCodeByParent(codes)
-        val themeList =  AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
+        val themeList = AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
         val langList = AliceUtil().getCodes(codeList, UserConstants.PLANGCODE.value)
         val dateList = AliceUtil().getCodes(codeList, UserConstants.PDATECODE.value)
         val timeList = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)
@@ -161,7 +161,7 @@ class UserController(
         )
 
         val codeList = codeService.selectCodeByParent(codes)
-        val themeList =  AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
+        val themeList = AliceUtil().getCodes(codeList, UserConstants.PTHEMECODE.value)
         val langList = AliceUtil().getCodes(codeList, UserConstants.PLANGCODE.value)
         val dateList = AliceUtil().getCodes(codeList, UserConstants.PDATECODE.value)
         val timeList = AliceUtil().getCodes(codeList, UserConstants.PTIMECODE.value)

@@ -14,9 +14,7 @@ import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
-import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
 import com.querydsl.core.types.Projections
-import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
