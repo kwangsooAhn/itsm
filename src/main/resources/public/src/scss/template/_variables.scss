@@ -114,3 +114,14 @@ $label-font-weight:                           $font-weight-medium;
 
 // table
 $table-th-font-weight:                        $font-weight-medium;
+
+// button, a
+$btn-font-size:                              $font-size-base;
+$btn-font-color:                             $light-black;
+$btn-font-weight:                            $font-weight-medium;
+$btn-line-height:                            1.2;
+$btn-bg-color:                               transparent;
+$btn-border-color:                           transparent;
+$btn-border-width:                           0.0625rem; // 1px
+$btn-border:                                 $btn-border-width solid $btn-border-color;
+$btn-border-radius:                          0.1875rem; // 3px
