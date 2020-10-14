@@ -31,11 +31,10 @@ CREATE TABLE awf_user
 	update_dt timestamp,
 	avatar_type varchar(100),
 	avatar_value varchar(512),
-    uploaded boolean DEFAULT 'false',
-    uploaded_location varchar(512),
+	uploaded boolean DEFAULT 'false',
+	uploaded_location varchar(512),
 	CONSTRAINT awf_user_pk PRIMARY KEY (user_key),
-	CONSTRAINT awf_user_uk UNIQUE (user_id ),
-    CONSTRAINT awf_user_fk FOREIGN KEY (avatar_id) REFERENCES awf_avatar (avatar_id)
+	CONSTRAINT awf_user_uk UNIQUE (user_id )
 );
 
 COMMENT ON TABLE awf_user IS '사용자정보';
