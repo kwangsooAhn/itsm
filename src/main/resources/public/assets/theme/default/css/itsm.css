@@ -734,23 +734,6 @@ input.px {
   background-color: #ffffff;
 }
 
-input[type=checkbox] {
-  margin-right: 0.625rem;
-  width: 1.125rem;
-  height: 1.125rem;
-  border-radius: 0.0625rem;
-  border: 0.0625rem solid #EBEBEB;
-}
-
-input[type=checkbox]:checked {
-  background-color: #ffffff;
-}
-
-input[type=radio] {
-  margin-right: 0.625rem;
-  height: auto;
-}
-
 label {
   margin: 0.5625rem 0 0.5625rem 0;
   color: #3F4B56;
@@ -1513,6 +1496,10 @@ span.vertical-bar {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 
+.container .contents-token .list-item .document-row-content {
+  cursor: pointer;
+}
+
 .container .contents-token .list-item .document-row-content .document-title {
   display: flex;
   flex-direction: row;
@@ -1786,6 +1773,36 @@ span.vertical-bar {
   -webkit-mask-size: 18px 18px;
   mask-size: 18px 18px;
   background: #ACB4BF;
+}
+
+.container .contents-list .list table tbody tr td button .icon-edit {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/icon_edit.svg");
+  mask-image: url("../media/icons/icon_edit.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #586872;
+}
+
+.container .contents-list .list table tbody tr td button .icon_delete {
+  display: inline-block;
+  width: 18px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/icon_delete.svg");
+  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 18px 20px;
+  mask-size: 18px 20px;
+  background: #586872;
 }
 
 .container .contents-edit {
@@ -2156,6 +2173,36 @@ span.vertical-bar {
   background: #ACB4BF;
 }
 
+.container .contents-list-edit > .list-area .list table tbody tr td button .icon-edit {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/icon_edit.svg");
+  mask-image: url("../media/icons/icon_edit.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #586872;
+}
+
+.container .contents-list-edit > .list-area .list table tbody tr td button .icon_delete {
+  display: inline-block;
+  width: 18px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/icon_delete.svg");
+  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 18px 20px;
+  mask-size: 18px 20px;
+  background: #586872;
+}
+
 .container .contents-list-edit > .edit-area {
   padding: 9.625rem 2.1875rem 3.125rem 0;
   width: 38.125rem;
@@ -2378,6 +2425,36 @@ span.vertical-bar {
   -webkit-mask-size: 18px 18px;
   mask-size: 18px 18px;
   background: #ACB4BF;
+}
+
+.container .contents-tree-edit > .tree-area .list table tbody tr td button .icon-edit {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/icon_edit.svg");
+  mask-image: url("../media/icons/icon_edit.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #586872;
+}
+
+.container .contents-tree-edit > .tree-area .list table tbody tr td button .icon_delete {
+  display: inline-block;
+  width: 18px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/icon_delete.svg");
+  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 18px 20px;
+  mask-size: 18px 20px;
+  background: #586872;
 }
 
 .container .contents-tree-edit > .tree-area .list {
@@ -5365,12 +5442,19 @@ button.minus:not(:disabled):focus, button.minus:not(:disabled):hover {
   vertical-align: middle;
 }
 
-.help-tooltip .help-tooltip-icon:before {
-  background: #CCCED1;
-  -webkit-mask: url("../media/icons/icon_tooltip.svg") no-repeat center center;
+.help-tooltip .help-tooltip-icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  -webkit-mask-image: url("../media/icons/icon_tooltip.svg");
   mask-image: url("../media/icons/icon_tooltip.svg");
+  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+  -webkit-mask-position: center;
   mask-position: center;
+  -webkit-mask-size: 16px 16px;
+  mask-size: 16px 16px;
+  background: #CCCED1;
 }
 
 .help-tooltip .tooltip-contents {
@@ -6221,7 +6305,7 @@ span.node {
   padding-bottom: 0.25rem;
 }
 
-span.node a {
+span.node span {
   padding-left: 0.188rem;
 }
 

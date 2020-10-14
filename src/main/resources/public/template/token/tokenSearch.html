@@ -164,13 +164,13 @@
             let divDocumentRowContent = document.createElement('div');
             divDocumentRowContent.className = 'document-row-content';
 
-            let aOpenTokenEdit = document.createElement('a');
-            if (document.getElementsByName('isRole')[0].value) {
-                aOpenTokenEdit.onclick = function () {
+            let aOpenTokenEdit = document.createElement('span');
+            aOpenTokenEdit.addEventListener('click', function (e) {
+                console.log(document.getElementsByName('isRole'));
+                if (document.getElementsByName('isRole')[0].value) {
                     openTokenEdit(data.tokenId);
-                    return false;
                 }
-            }
+            }, false);
 
             let divDocumentTitle = document.createElement('div');
             divDocumentTitle.className = 'document-title';

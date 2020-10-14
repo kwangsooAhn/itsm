@@ -166,13 +166,13 @@
             let divDocumentRowContent = document.createElement('div');
             divDocumentRowContent.className = 'document-row-content';
 
-            let aOpenTokenEdit = document.createElement('a');
-            if (document.getElementsByName('isRole')[0].value) {
-                aOpenTokenEdit.onclick = function () {
+            let aOpenTokenEdit = document.createElement('span');
+            aOpenTokenEdit.addEventListener('click', function (e) {
+                console.log(document.getElementsByName('isRole'));
+                if (document.getElementsByName('isRole')[0].value) {
                     openTokenEdit(data.tokenId);
-                    return false;
                 }
-            }
+            }, false);
 
             let divDocumentTitle = document.createElement('div');
             divDocumentTitle.className = 'document-title';
@@ -262,12 +262,7 @@
          * 클릭한 문서를 연다. 완료된 문서일 경우 보기 화면을 연다.
          */
         function openTokenEdit(tokenId) {
-            const tokenTypeSelectBox = document.getElementById('searchTokenType');
-            const tokenType = tokenTypeSelectBox.options[tokenTypeSelectBox.selectedIndex].value;
             let popUpUrl = '/tokens/' + tokenId + '/edit';
-            if (tokenType === 'token.type.completed') { // 완료된 문서
-                popUpUrl = '/tokens/' + tokenId + '/view'
-            }
             window.open(popUpUrl, 'token_' + tokenId, 'width=' + (screen.width - 50) + ', height=' + (screen.height - 150));
         }
 

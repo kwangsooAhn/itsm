@@ -102,7 +102,7 @@
         // create title
         let pickerTitle = document.createElement('div');
         pickerTitle.className = 'picker-modal-title';
-        pickerTitle.textContent = i18n.get(options.title);
+        pickerTitle.textContent = i18n.msg(options.title);
         el.appendChild(pickerTitle);
 
         // create title > close icon
@@ -149,7 +149,7 @@
         let buttonCancel = document.createElement('button');
         buttonCancel.type = 'button';
         buttonCancel.className = 'default-line';
-        buttonCancel.innerText = i18n.get('common.btn.cancel');
+        buttonCancel.innerText = i18n.msg('common.btn.cancel');
         buttonCancel.addEventListener('click', this.close, false);
         pickerButton.appendChild(buttonCancel);
 
@@ -157,7 +157,7 @@
         let buttonConfirm = document.createElement('button');
         buttonConfirm.type = 'button';
         buttonConfirm.className = 'default-line';
-        buttonConfirm.innerText = i18n.get('common.btn.check');
+        buttonConfirm.innerText = i18n.msg('common.btn.check');
         buttonConfirm.addEventListener('click', this.changeTarget, false);
         pickerButton.appendChild(buttonConfirm);
      }
@@ -393,7 +393,7 @@
                 }
                 buttonAM.type = 'button';
                 buttonAM.id = 'AM';
-                buttonAM.innerText = i18n.get('datepicker.btn.am');
+                buttonAM.innerText = i18n.msg('datepicker.btn.am');
                 buttonAM.addEventListener('click', function(e) {
                     const elem = e.target; // 선택된 toggle 버튼
                     const parentElem = elem.parentNode;
@@ -420,7 +420,7 @@
                 }
                 buttonPM.type = 'button';
                 buttonPM.id = 'PM';
-                buttonPM.innerText = i18n.get('datepicker.btn.pm');
+                buttonPM.innerText = i18n.msg('datepicker.btn.pm');
                 buttonPM.addEventListener('click', function(e) {
                     const elem = e.target; // 선택된 toggle 버튼
                     const parentElem = elem.parentNode;

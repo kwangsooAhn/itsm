@@ -62,7 +62,7 @@
                         <div class="row">
                             <input class="column-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" disabled>
                             <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
-                            <input class="default-fill column-1" type="button" onclick="deptPopUp();" th:value="#{common.btn.select}"/>
+                            <button type="button" class="default-fill column-1" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
                     <div class="form-set">
@@ -310,7 +310,7 @@
             const rootCode = 'department.group';
             tree.load({
                 view: 'modal',
-                title: i18n.get('department.label.deptList'),
+                title: i18n.msg('department.label.deptList'),
                 search: '',
                 root: rootCode,
                 rootLevel: 5,

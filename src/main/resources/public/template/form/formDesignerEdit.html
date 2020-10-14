@@ -18,43 +18,43 @@
                 <span class="name">Form Designer</span>
                 <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
                     <span class="separator"></span>
-                    <a href="javascript:void(0);" onclick="editor.save(false);">
-                        <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save.svg}"/>
+                    <button type="button" id="btnSave" onclick="editor.save(false);">
+                        <span class="icon-save"></span>
                         <!--<label th:text="#{common.btn.save}"></label>-->
-                    </a>
+                    </button>
                 </th:block>
                 <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
                     <span class="separator"></span>
-                    <a href="javascript:void(0);" onclick="editor.saveAs();">
-                        <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save_as.svg}"/>
+                    <button type="button" id="btnSaveAs" onclick="editor.saveAs();">
+                        <span class="icon-save-as"></span>
                         <!--<label th:text="#{common.btn.saveAs}"></label>-->
-                    </a>
+                    </button>
                 </th:block>
                 <th:block th:if="${#strings.isEmpty(isView)}">
                     <span class="separator"></span>
-                    <a href="javascript:void(0);" onclick="editor.undo();">
-                        <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_undo.svg}"/>
+                    <button type="button" id="btnUndo" onclick="editor.undo();">
+                        <span class="icon-undo"></span>
                         <!--<label th:text="#{form.label.undo}"></label>-->
-                    </a>
+                    </button>
                 </th:block>
                 <th:block th:if="${#strings.isEmpty(isView)}">
                     <span class="separator"></span>
-                    <a href="javascript:void(0);" onclick="editor.redo();">
-                        <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_redo.svg}"/>
+                    <button type="button" id="btnRedo" onclick="editor.redo();">
+                        <span class="icon-redo"></span>
                         <!--<label th:text="#{form.label.redo}"></label>-->
-                    </a>
+                    </button>
                 </th:block>
                 <span class="separator"></span>
-                <a href="javascript:void(0);" onclick="editor.preview();">
-                    <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_preview.svg}"/>
+                <button type="button" id="btnPreview" onclick="editor.preview();">
+                    <span class="icon-preview"></span>
                     <!--<label th:text="#{form.label.preview}"></label>-->
-                </a>
+                </button>
                 <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAnyAuthority('form.create', 'form.update')">
                     <span class="separator"></span>
-                    <a href="javascript:void(0);" onclick="editor.save(true);">
-                        <img class="load-svg"  th:src="@{/assets/media/icons/form/topmenu/icon_save_out.svg}"/>
+                    <button type="button" id="btnSaveExit" onclick="editor.save(true);">
+                        <span class="icon-save-out"></span>
                         <!--<label th:text="#{form.label.saveExit}"></label>-->
-                    </a>
+                    </button>
                 </th:block>
                 <span class="form-name"></span>
             </div>
@@ -151,27 +151,27 @@
         <div class="tooltip-menu">
             <ul class="menu">
                 <li class="menu-item list" data-action="list">
-                    <a href="javascript:void(0);">
+                    <div>
                         <span class="icon list"></span>
                         <!--<label th:text="#{form.label.list}"></label>-->
-                    </a>
+                    </div>
                 </li>
                 <li class="menu-item copy" data-action="copy">
-                    <a href="javascript:void(0);">
+                    <div>
                         <span class="icon copy"></span>
-                    </a>
+                    </div>
                 </li>
                 <li class="menu-item delete" data-action="delete">
-                    <a href="javascript:void(0);">
+                    <div>
                         <span class="icon delete"></span>
                         <!--<label th:text="#{common.btn.delete}"></label>-->
-                    </a>
+                    </div>
                 </li>
                 <li class="menu-item add" data-action="add">
-                    <a href="javascript:void(0);">
+                    <div>
                         <span class="icon add"></span>
                         <!--<label th:text="#{form.label.addBelow}"></label>-->
-                    </a>
+                    </div>
                 </li>
             </ul>
         </div>

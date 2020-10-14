@@ -775,7 +775,7 @@
                 `<div class="field-content custom-code" style="--data-column: ${property.display.column};">` +
                     `<input class="custom-code-text" type="text" id="custom-code-${this.id}" custom-data="${defaultCustomData}" value="${aliceJs.filterXSS(defaultValue)}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''} readonly />` +
-                    `<input type="button" id="codeBtn-${this.id}" value="${aliceJs.filterXSS(property.display.buttonText)}">` +
+                    `<button type="button" id="codeBtn-${this.id}">${aliceJs.filterXSS(property.display.buttonText)}</button>` +
                 `</div>` +
             `</div>` +
         `</div>`;

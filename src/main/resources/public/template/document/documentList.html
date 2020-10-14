@@ -12,17 +12,15 @@
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
     <div th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
-        <a sec:authorize="hasAuthority('document.create')" th:attr="onclick=|openDocument('${document.documentId}')|">
-            <div class="document-card-dummy">
-                <div class="document-card">
-                    <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
-                    <h5 th:text="${document.documentDesc}" class="test-ellipsis"></h5>
-                    <div class="document-icon">
-                        <img th:src="@{/assets/media/images/document/{documentIcon}(documentIcon=${document.documentIcon})}"/>
-                    </div>
+        <div class="document-card-dummy" sec:authorize="hasAuthority('document.create')" th:onclick="openDocument([[${document.documentId}]])">
+            <div class="document-card">
+                <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
+                <h5 th:text="${document.documentDesc}" class="text-ellipsis"></h5>
+                <div class="document-icon">
+                    <img th:src="@{/assets/media/images/document/{documentIcon}(documentIcon=${document.documentIcon})}"/>
                 </div>
             </div>
-        </a>
+        </div>
     </div>
 </div>
 </body>
