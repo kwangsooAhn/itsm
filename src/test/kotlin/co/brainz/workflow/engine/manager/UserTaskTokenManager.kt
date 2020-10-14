@@ -3,7 +3,7 @@
  * https://www.brainz.co.kr
  */
 
-package co.brainz.workflow.engine.manager
+/*package co.brainz.workflow.engine.manager
 
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.repository.WfElementDataRepository
@@ -27,10 +27,10 @@ import org.springframework.test.context.junit4.SpringRunner
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.MOCK)
 @AutoConfigureMockMvc
 @Transactional
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@FixMethodOrder(MethodSorters.NAME_ASCENDING)*/
 class UserTaskTokenManager {
 
-    @Autowired
+    /*@Autowired
     lateinit var initTestData: InitTestData
 
     @Autowired
@@ -46,11 +46,11 @@ class UserTaskTokenManager {
 
     private var tokenDto: WfTokenDto = WfTokenDto()
 
-    /**
+    *//**
      * 초기 데이터 셋팅.
      * 데이터 설정 후 initTestData.getData() 로 등록한 데이터를 가져올 수 있음.
      * 추가 설정은 [InitTestData] 에 구현 후 호출.
-     */
+     *//*
     @Before
     fun init() {
         initTestData.setUsers()
@@ -64,9 +64,9 @@ class UserTaskTokenManager {
             .createTokenManager(WfElementConstants.ElementType.USER_TASK.value)
     }
 
-    /**
+    *//**
      * 토큰 생성 (기본).
-     */
+     *//*
     @Test
     fun userTaskTokenManager_createToken_default_OK() {
         var elementId = ""
@@ -90,9 +90,9 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.tokenId).isNotBlank()
     }
 
-    /**
+    *//**
      * 토큰 종료 여부.
-     */
+     *//*
     @Test
     fun userTaskTokenManager_completeToken_default_OK() {
         this.userTaskTokenManager_createToken_default_OK()
@@ -102,9 +102,9 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.tokenEndDt).isNotNull()
     }
 
-    /**
+    *//**
      * 다음 토큰 존재 여부 확인.
-     */
+     *//*
     @Test
     fun userTaskTokenManager_createNextToken_element_Exists() {
         this.userTaskTokenManager_createToken_default_OK()
@@ -115,9 +115,9 @@ class UserTaskTokenManager {
         Assertions.assertThat(nextTokenDto.tokenId).isNotBlank()
     }
 
-    /**
+    *//**
      * 토큰 생성시 담당자 타입을 Assignee 으로 설정.
-     */
+     *//*
     @Test
     fun userTaskTokenManager_createToken_assigneeType_assignee_Exists() {
         var elementId = ""
@@ -146,9 +146,9 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.assigneeId).isNotBlank()
     }
 
-    /**
+    *//**
      * 토큰 생성시 담당자를 빈값으로 처리할 경우.
-     */
+     *//*
     @Test
     fun userTaskTokenManager_createToken_assigneeId_Empty() {
         var elementId = ""
@@ -173,9 +173,9 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.assigneeId).isBlank()
     }
 
-    /**
+    *//**
      * 토큰 생성시 담당자 타입을 사용자로 설정할 경우 후보자 설정에 데이터가 존재하는지 확인.
-     */
+     *//*
     @Test
     fun userTaskTokenManager_createToken_assigneeType_assigneeUsers_Exists() {
         var elementId = ""
@@ -215,9 +215,9 @@ class UserTaskTokenManager {
         Assertions.assertThat(assigneeList).size().isNotZero
     }
 
-    /**
+    *//**
      * 토큰 생성시 알림 기능 ON.
-     */
+     *//*
     @Test
     fun userTaskTokenManager_createToken_notification_TRUE() {
         var elementId = ""
@@ -245,9 +245,9 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.element.notification).isTrue()
     }
 
-    /**
+    *//**
      * 토큰 생성시 알림 기능 OFF.
-     */
+     *//*
     @Test
     fun userTaskTokenManager_createToken_notification_FALSE() {
         var elementId = ""
@@ -275,9 +275,9 @@ class UserTaskTokenManager {
         Assertions.assertThat(token.element.notification).isFalse()
     }
 
-    /**
+    *//**
      * 토큰 생성시 토큰 상태를 Waiting 으로 설정.
-     */
+     *//*
     @Test
     fun userTaskTokenManager_createToken_status_Waiting() {
         var elementId = ""
@@ -304,5 +304,5 @@ class UserTaskTokenManager {
 
         val token = wfTokenManagerService.getToken(tokenDto.tokenId)
         Assertions.assertThat(token.tokenStatus).isEqualTo(WfTokenConstants.Status.WAITING.code)
-    }
+    }*/
 }
