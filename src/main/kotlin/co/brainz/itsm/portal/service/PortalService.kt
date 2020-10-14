@@ -6,19 +6,14 @@
 
 package co.brainz.itsm.portal.service
 
-import co.brainz.itsm.download.dto.DownloadDto
-import co.brainz.itsm.download.mapper.DownloadMapper
 import co.brainz.itsm.download.repository.DownloadRepository
-import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.entity.FaqEntity
-import co.brainz.itsm.faq.mapper.FaqMapper
 import co.brainz.itsm.faq.repository.FaqRepository
-import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.portal.dto.PortalDto
 import co.brainz.itsm.portal.dto.PortalSearchDto
+import co.brainz.itsm.portal.dto.PortalTopDto
 import co.brainz.itsm.portal.repository.PortalRepository
-import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
@@ -29,9 +24,6 @@ class PortalService(
     private val downloadRepository: DownloadRepository,
     private val portalRepository: PortalRepository
 ) {
-    private val faqMapper: FaqMapper = Mappers.getMapper(FaqMapper::class.java)
-    private val downloadMapper: DownloadMapper = Mappers.getMapper(DownloadMapper::class.java)
-
     private val logger = LoggerFactory.getLogger(this::class.java)
 
     /**
@@ -43,36 +35,11 @@ class PortalService(
         )
     }
 
-    fun getTopList(limit: Long): LinkedHashMap<String, Any> {
-        val noticeTopList = mutableListOf<NoticeListDto>()
-        val noticeEntities = noticeRepository.findNoticeTopList(limit)
-        noticeEntities.forEach {
-            noticeTopList.add(
-                NoticeListDto(
-                    noticeNo = it.noticeNo,
-                    noticeTitle = it.noticeTitle,
-                    createDt = it.createDt
-                )
-            )
-        }
-
-        val faqTopList = mutableListOf<FaqListDto>()
-        val faqEntities = faqRepository.findFaqTopList(limit)
-        faqEntities.forEach {
-            faqTopList.add(faqMapper.toFaqListDto(it))
-        }
-
-        val downloadTopList = mutableListOf<DownloadDto>()
-        val downloadEntities = downloadRepository.findDownloadTopList(limit)
-        downloadEntities.forEach {
-            downloadTopList.add(downloadMapper.toDownloadDto(it))
-        }
-
-        val top = LinkedHashMap<String, Any>()
-        top["notice"] = noticeTopList
-        top["faq"] = faqTopList
-        top["download"] = downloadTopList
-
+    fun getTopList(limit: Long): LinkedHashMap<String, List<PortalTopDto>> {
+        val top = LinkedHashMap<String, List<PortalTopDto>>()
+        top["notice"] = noticeRepository.findNoticeTopList(limit)
+        top["faq"] = faqRepository.findFaqTopList(limit)
+        top["download"] = downloadRepository.findDownloadTopList(limit)
         return top
     }
 

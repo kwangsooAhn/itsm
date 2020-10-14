@@ -9,7 +9,7 @@ package co.brainz.itsm.faq.repository
 import co.brainz.framework.querydsl.AliceRepositoryCustom
 import co.brainz.itsm.faq.dto.FaqListDto
 import co.brainz.itsm.faq.dto.FaqSearchRequestDto
-import co.brainz.itsm.faq.entity.FaqEntity
+import co.brainz.itsm.portal.dto.PortalTopDto
 
 interface FaqRepositoryCustom : AliceRepositoryCustom {
 
@@ -21,5 +21,5 @@ interface FaqRepositoryCustom : AliceRepositoryCustom {
     /**
      * Portal FAQ 목록 조회 (갯수).
      */
-    fun findFaqTopList(limit: Long): List<FaqEntity>
+    fun findFaqTopList(limit: Long): List<PortalTopDto>
 }

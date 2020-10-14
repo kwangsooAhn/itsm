@@ -5,8 +5,8 @@
 package co.brainz.framework.fileTransaction.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
-import co.brainz.framework.avatar.entity.AliceAvatarEntity
-import co.brainz.framework.avatar.repository.AliceAvatarRepository
+import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.exception.AliceErrorConstants
@@ -58,7 +58,7 @@ class AliceFileService(
     private val aliceFileLocRepository: AliceFileLocRepository,
     private val aliceFileNameExtensionRepository: AliceFileNameExtensionRepository,
     private val aliceFileOwnMapRepository: AliceFileOwnMapRepository,
-    private val aliceAvatarRepository: AliceAvatarRepository,
+    private val userRepository: AliceUserRepository,
     environment: Environment
 ) : AliceFileUtil(environment) {
     private val logger = LoggerFactory.getLogger(this::class.java)
@@ -490,9 +490,9 @@ class AliceFileService(
     }
 
     /**
-     * 업로드한 아바타 이미지정보를[avatarId] ,[avatarUUID], [avatarType]를 받아서 아바타 정보[AliceAvatarEntity]를 반환한다.
+     * 업로드한 아바타 이미지정보를 [userEntity] ,[avatarUUID] 를 받아서 처리한다.
      */
-    fun uploadAvatarFile(avatarId: String, avatarUUID: String, avatarType: String): AliceAvatarEntity {
+    fun uploadAvatarFile(userEntity: AliceUserEntity, avatarUUID: String) {
         val tempDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_TEMP_DIR)
         val tempPath = Paths.get(tempDir.toString() + File.separator + avatarUUID)
         val tempFile = File(tempPath.toString())
@@ -500,43 +500,22 @@ class AliceFileService(
         val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
         val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + avatarUUID)
 
-        var avatarInfo = AliceAvatarEntity()
-        val avatarUploadedLocation: String
-        val avatarValue: String
-        val avatarUploaded: Boolean
-        if (avatarId != "") {
-            avatarInfo = aliceAvatarRepository.findByAvatarId(avatarId)
-        }
-
-        // 임시폴더에서 파일이 없으면 아바타를 등록/수정 하지 않았다고 본다.
         if (avatarUUID !== "" && tempFile.exists()) {
             Files.move(tempPath, avatarFilePath, StandardCopyOption.REPLACE_EXISTING)
-            avatarValue = avatarUUID
-            avatarUploaded = true
-            avatarUploadedLocation = avatarFilePath.toString()
-        } else if (avatarUUID !== "" && avatarInfo.uploaded) {
-            avatarValue = avatarInfo.avatarValue
-            avatarUploaded = avatarInfo.uploaded
-            avatarUploadedLocation = avatarInfo.uploadedLocation
+            userEntity.avatarValue = avatarUUID
+            userEntity.uploaded = true
+            userEntity.uploadedLocation = avatarFilePath.toString()
         } else {
-            val uploadedFile = Paths.get(avatarInfo.uploadedLocation)
-            if (uploadedFile.toFile().exists()) {
-                Files.delete(uploadedFile)
+            if (avatarUUID == "" || !userEntity.uploaded) {
+                val uploadedFile = Paths.get(userEntity.uploadedLocation)
+                if (uploadedFile.toFile().exists()) {
+                    Files.delete(uploadedFile)
+                }
+                userEntity.avatarValue = AliceUserConstants.AVATAR_BASIC_FILE_NAME
+                userEntity.uploaded = false
+                userEntity.uploadedLocation = AliceUserConstants.AVATAR_BASIC_FILE_PATH
             }
-            avatarValue = AliceUserConstants.AVATAR_BASIC_FILE_NAME
-            avatarUploaded = false
-            avatarUploadedLocation = AliceUserConstants.AVATAR_BASIC_FILE_PATH
         }
-
-        val avatarEntity = AliceAvatarEntity(
-            avatarId = avatarId,
-            avatarType = avatarType,
-            avatarValue = avatarValue,
-            uploaded = avatarUploaded,
-            uploadedLocation = avatarUploadedLocation
-        )
-
-        return aliceAvatarRepository.save(avatarEntity)
     }
 
     /**
@@ -545,24 +524,19 @@ class AliceFileService(
      * 임시적으로 생성한 avatar_uuid로 파일명을 만든다. avatar_uuid가 고유 값을 보장 하지 못하기 때문에
      * 사용자, 아바타 정보를 등록 후 다시 한번 파일명 및 아바타 이미지명을 변경한다.
      */
-    fun avatarFileNameMod(aliceAvatarEntity: AliceAvatarEntity) {
-        if (aliceAvatarEntity.avatarType == AliceUserConstants.AvatarType.FILE.code &&
-            aliceAvatarEntity.uploaded && aliceAvatarEntity.avatarId != aliceAvatarEntity.avatarValue
+    fun avatarFileNameMod(userEntity: AliceUserEntity) {
+        if (userEntity.avatarType == AliceUserConstants.AvatarType.FILE.code &&
+            userEntity.uploaded && userEntity.userKey != userEntity.avatarValue
         ) {
             val avatarDir = super.getWorkflowDir(AliceUserConstants.AVATAR_IMAGE_DIR)
-            val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarValue)
-            val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + aliceAvatarEntity.avatarId)
+            val avatarFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.avatarValue)
+            val avatarIdFilePath = Paths.get(avatarDir.toString() + File.separator + userEntity.userKey)
             val avatarUploadFile = File(avatarFilePath.toString())
             if (avatarUploadFile.exists()) {
                 Files.move(avatarFilePath, avatarIdFilePath, StandardCopyOption.REPLACE_EXISTING)
-                val avatarEntity = AliceAvatarEntity(
-                    avatarId = aliceAvatarEntity.avatarId,
-                    avatarType = aliceAvatarEntity.avatarType,
-                    avatarValue = aliceAvatarEntity.avatarId,
-                    uploaded = aliceAvatarEntity.uploaded,
-                    uploadedLocation = avatarIdFilePath.toString()
-                )
-                aliceAvatarRepository.save(avatarEntity)
+                userEntity.avatarValue = userEntity.userKey
+                userEntity.uploadedLocation = avatarIdFilePath.toString()
+                userRepository.save(userEntity)
             }
         }
     }
