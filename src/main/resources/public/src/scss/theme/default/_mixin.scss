@@ -104,6 +104,14 @@
                             display: inline-block;
                             @include maskImage('#{$icon-folder-path}icon_search.svg', 18px, 18px, no-repeat, center, 18px 18px, $gray);
                           }
+                          .icon-edit {
+                            display: inline-block;
+                            @include maskImage('#{$icon-folder-path}icon_edit.svg', 20px, 20px, no-repeat, center, 20px 20px, $dark-gray);
+                          }
+                          .icon_delete {
+                            display: inline-block;
+                            @include maskImage('#{$icon-folder-path}icon_delete.svg', 18px, 20px, no-repeat, center, 18px 20px, $dark-gray);
+                          }
                         }
                     }
                 }

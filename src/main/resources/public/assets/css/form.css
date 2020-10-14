@@ -772,15 +772,106 @@ table tr td, table tr th {
   opacity: 0.3;
 }
 
-.form-container .toolbar a {
+.form-container .toolbar button {
+  margin-right: 2.5625rem;
+  padding: 0;
   height: 1.25rem;
   line-height: 1.25rem;
-  margin-right: 1.25rem;
+  vertical-align: middle;
   float: left;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
 }
 
-.form-container .toolbar a img {
-  cursor: pointer;
+.form-container .toolbar button .icon-save {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/form/topmenu/icon_save.svg");
+  mask-image: url("../media/icons/form/topmenu/icon_save.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #ffffff;
+}
+
+.form-container .toolbar button .icon-save-as {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/form/topmenu/icon_save_as.svg");
+  mask-image: url("../media/icons/form/topmenu/icon_save_as.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #ffffff;
+}
+
+.form-container .toolbar button .icon-undo {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/form/topmenu/icon_undo.svg");
+  mask-image: url("../media/icons/form/topmenu/icon_undo.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #ffffff;
+}
+
+.form-container .toolbar button .icon-redo {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/form/topmenu/icon_redo.svg");
+  mask-image: url("../media/icons/form/topmenu/icon_redo.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #ffffff;
+}
+
+.form-container .toolbar button .icon-preview {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/form/topmenu/icon_preview.svg");
+  mask-image: url("../media/icons/form/topmenu/icon_preview.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #ffffff;
+}
+
+.form-container .toolbar button .icon-save-out {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  -webkit-mask-image: url("../media/icons/form/topmenu/icon_save_out.svg");
+  mask-image: url("../media/icons/form/topmenu/icon_save_out.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 20px 20px;
+  mask-size: 20px 20px;
+  background: #ffffff;
 }
 
 .form-container .toolbar span.form-name {
@@ -833,7 +924,6 @@ table tr td, table tr th {
 .form-container .contents .drawing-board[data-readonly=true] textarea,
 .form-container .contents .drawing-board[data-readonly=true] button,
 .form-container .contents .drawing-board[data-readonly=true] input[type=text],
-.form-container .contents .drawing-board[data-readonly=true] input[type=button],
 .form-container .contents .drawing-board[data-readonly=true] label.radio,
 .form-container .contents .drawing-board[data-readonly=true] label.checkbox,
 .form-container .contents .drawing-board[data-readonly=true] select {
@@ -1453,7 +1543,7 @@ button.default-point-line:not(:disabled):active span.icon {
   pointer-events: none;
 }
 
-.component .field-group .field-content.custom-code input[type=button] {
+.component .field-group .field-content.custom-code button {
   flex: 1 1 auto;
   width: 6.875rem;
   height: 2.5rem;
@@ -1483,12 +1573,12 @@ button.default-point-line:not(:disabled):active span.icon {
   display: inline-block;
 }
 
-.component .tooltip-menu .menu .menu-item a {
+.component .tooltip-menu .menu .menu-item div {
   margin: 0 0.25rem;
   padding: 0 0.5rem;
 }
 
-.component .tooltip-menu .menu .menu-item a span.icon {
+.component .tooltip-menu .menu .menu-item div span.icon {
   display: inline-block;
   width: 1.25rem;
   height: 1.25rem;
@@ -1499,22 +1589,22 @@ button.default-point-line:not(:disabled):active span.icon {
   mask-position: center;
 }
 
-.component .tooltip-menu .menu .menu-item a span.icon.list {
+.component .tooltip-menu .menu .menu-item div span.icon.list {
   -webkit-mask-image: url("../media/icons/form/tooltip/icon_list.svg");
   mask-image: url("../media/icons/form/tooltip/icon_list.svg");
 }
 
-.component .tooltip-menu .menu .menu-item a span.icon.copy {
+.component .tooltip-menu .menu .menu-item div span.icon.copy {
   -webkit-mask-image: url("../media/icons/form/tooltip/icon_copy.svg");
   mask-image: url("../media/icons/form/tooltip/icon_copy.svg");
 }
 
-.component .tooltip-menu .menu .menu-item a span.icon.delete {
+.component .tooltip-menu .menu .menu-item div span.icon.delete {
   -webkit-mask-image: url("../media/icons/form/tooltip/icon_delete.svg");
   mask-image: url("../media/icons/form/tooltip/icon_delete.svg");
 }
 
-.component .tooltip-menu .menu .menu-item a span.icon.add {
+.component .tooltip-menu .menu .menu-item div span.icon.add {
   -webkit-mask-image: url("../media/icons/form/tooltip/icon_add.svg");
   mask-image: url("../media/icons/form/tooltip/icon_add.svg");
 }
@@ -1523,7 +1613,7 @@ button.default-point-line:not(:disabled):active span.icon {
   cursor: pointer;
 }
 
-.component .tooltip-menu .menu .menu-item:hover a span.icon {
+.component .tooltip-menu .menu .menu-item:hover div span.icon {
   background: #0098FF;
 }
 
@@ -1629,7 +1719,7 @@ button.default-point-line:not(:disabled):active span.icon {
 }
 
 .component[data-displayType="readonly"] input[type=text],
-.component[data-displayType="readonly"] input[type=button],
+.component[data-displayType="readonly"] button,
 .component[data-displayType="readonly"] select,
 .component[data-displayType="readonly"] textarea {
   background-color: #F7F8F9 !important;

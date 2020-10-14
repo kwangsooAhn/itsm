@@ -5,12 +5,9 @@
     height: 0.9375rem; // 15px
     vertical-align: middle;
 
-    .help-tooltip-icon:before {
-        background: $pressed-gray;
-         -webkit-mask: url($icon-folder-path + "icon_tooltip.svg") no-repeat center center;
-        mask-image: url($icon-folder-path + "icon_tooltip.svg") ;
-        mask-repeat: no-repeat;
-        mask-position: center;
+    .help-tooltip-icon {
+        display: inline-block;
+        @include maskImage('#{$icon-folder-path}icon_tooltip.svg', 16px, 16px, no-repeat, center, 16px 16px, $pressed-gray);
     }
 
     .tooltip-contents {

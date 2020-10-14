@@ -201,7 +201,7 @@
                         pointer-events: none;
                     }
                 }
-                input[type=button] {
+                button {
                     flex: 1 1 auto;
                     width: 6.875rem; // 110px
                     height: 2.5rem; // 40px
@@ -229,7 +229,7 @@
             padding: 0.5625rem 0 0; // 9px 0 0 0
             .menu-item {
                 display: inline-block;
-                a {
+                div {
                     margin: 0 0.25rem; // 0 4px
                     padding: 0 0.5rem; // 0 8px
                     span.icon {
@@ -261,7 +261,7 @@
                 }
                 &:hover {
                     cursor: pointer;
-                    a span.icon {
+                    div span.icon {
                         background: $point-blue;
                     }
                 }
@@ -378,7 +378,7 @@
 }
 .component[data-displayType="readonly"] {
     input[type=text],
-    input[type=button],
+    button,
     select,
     textarea {
         background-color: $component-disabled-bg-color !important;
