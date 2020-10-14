@@ -37,7 +37,7 @@ input {
         background-color: $element-bg-color;
     }
     &.search-date {
-        background: url($icon-folder-path + "icon_calendar.png") no-repeat 100%-5 50%;
+        background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
         background-color: $element-bg-color;
     }
 }

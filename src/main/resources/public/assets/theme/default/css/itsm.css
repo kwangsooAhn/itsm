@@ -976,7 +976,7 @@ div.no-data-found {
 }
 
 div.no-data-found img.no-data-icon {
-  content: url("../icons/icon_no_data.svg");
+  content: url("../media/icons/icon_no_data.svg");
 }
 
 div.no-data-found span.no-data-text {
