@@ -170,7 +170,8 @@ class AliceCertificationService(
             lang = AliceUserConstants.USER_LOCALE_LANG,
             timezone = TimeZone.getDefault().id,
             timeFormat = AliceUserConstants.USER_TIME_FORMAT,
-            theme = AliceUserConstants.USER_THEME
+            theme = AliceUserConstants.USER_THEME,
+            createUser = AliceUserConstants.CREATE_USER_ID
         )
 
         when (target) {

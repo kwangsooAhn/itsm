@@ -88,7 +88,8 @@ class OAuthService(
             timezone = TimeZone.getDefault().id,
             lang = AliceUserConstants.USER_LOCALE_LANG,
             timeFormat = AliceUserConstants.USER_TIME_FORMAT,
-            theme = AliceUserConstants.USER_THEME
+            theme = AliceUserConstants.USER_THEME,
+            createUser = AliceUserConstants.CREATE_USER_ID
         )
         return aliceCertificationRepository.save(userEntity)
     }
