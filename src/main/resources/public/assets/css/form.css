@@ -924,7 +924,6 @@ table tr td, table tr th {
 .form-container .contents .drawing-board[data-readonly=true] textarea,
 .form-container .contents .drawing-board[data-readonly=true] button,
 .form-container .contents .drawing-board[data-readonly=true] input[type=text],
-.form-container .contents .drawing-board[data-readonly=true] input[type=button],
 .form-container .contents .drawing-board[data-readonly=true] label.radio,
 .form-container .contents .drawing-board[data-readonly=true] label.checkbox,
 .form-container .contents .drawing-board[data-readonly=true] select {
