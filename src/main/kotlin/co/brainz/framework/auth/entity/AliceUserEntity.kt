@@ -5,23 +5,22 @@
 
 package co.brainz.framework.auth.entity
 
-import co.brainz.framework.auditor.AliceMetaEntity
-import co.brainz.framework.avatar.entity.AliceAvatarEntity
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import java.io.Serializable
 import java.time.LocalDateTime
-import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.JoinColumn
 import javax.persistence.OneToMany
-import javax.persistence.OneToOne
 import javax.persistence.Table
 import org.hibernate.annotations.GenericGenerator
+import org.springframework.data.annotation.CreatedBy
+import org.springframework.data.annotation.CreatedDate
+import org.springframework.data.annotation.LastModifiedBy
+import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.format.annotation.DateTimeFormat
 
 @Entity
@@ -91,11 +90,35 @@ data class AliceUserEntity(
     @Column(name = "theme", length = 100)
     var theme: String = "",
 
-    @OneToOne(cascade = [CascadeType.ALL], optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "avatar_id")
-    var avatar: AliceAvatarEntity = AliceAvatarEntity()
+    @Column(name = "avatar_type", length = 100)
+    var avatarType: String = AliceUserConstants.AvatarType.FILE.code,
 
-) : Serializable, AliceMetaEntity() {
+    @Column(name = "avatar_value", length = 512)
+    var avatarValue: String = AliceUserConstants.AVATAR_BASIC_FILE_NAME,
+
+    @Column(name = "uploaded")
+    var uploaded: Boolean = false,
+
+    @Column(name = "uploaded_location")
+    var uploadedLocation: String = "",
+
+    @CreatedBy
+    @Column(name = "create_user_key", nullable = false, updatable = false)
+    var createUser: String? = null,
+
+    @CreatedDate
+    @Column(name = "create_dt", nullable = false, updatable = false)
+    var createDt: LocalDateTime = LocalDateTime.now(),
+
+    @LastModifiedBy
+    @Column(name = "update_user_key", insertable = false)
+    var updateUser: String? = null,
+
+    @LastModifiedDate
+    @Column(name = "update_dt", insertable = false)
+    var updateDt: LocalDateTime? = LocalDateTime.now()
+
+) : Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     val userRoleMapEntities = mutableListOf<AliceUserRoleMapEntity>()
 }

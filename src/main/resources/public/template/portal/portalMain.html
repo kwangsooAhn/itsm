@@ -105,18 +105,18 @@
                             let contentAnchor = document.createElement('a');
                             switch (topName) {
 	                            case 'notice':
-                                    contentAnchor.setAttribute('href', '/portal/notices/'+ data['noticeNo'] +'/view');
+                                    contentAnchor.setAttribute('href', '/portal/notices/'+ data['id'] +'/view');
 	                                break;
 	                            case 'faq':
-	                                contentAnchor.setAttribute('href', '/portal/faqs?id=' + data['faqId']);
+	                                contentAnchor.setAttribute('href', '/portal/faqs?id=' + data['id']);
 	                                break;
                                 case 'download':
-                                    contentAnchor.setAttribute('href', '/portal/downloads/'+ data['downloadId'] +'/view');
+                                    contentAnchor.setAttribute('href', '/portal/downloads/'+ data['id'] +'/view');
 	                                break;
 	                        }
                             let contentText = document.createElement('span');
                             contentText.classList.add('text-ellipsis');
-                            contentText.textContent = '[' + i18n.userDateTime(data['createDt']) + '] ' + data[topElement.id + 'Title'];
+                            contentText.textContent = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
                             contentAnchor.appendChild(contentText);
                             cell.appendChild(contentAnchor);
                             row.appendChild(cell);

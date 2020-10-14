@@ -5,6 +5,7 @@ import co.brainz.itsm.notice.dto.NoticeListDto
 import co.brainz.itsm.notice.dto.NoticeQueryResultDto
 import co.brainz.itsm.notice.entity.NoticeEntity
 import co.brainz.itsm.notice.entity.QNoticeEntity
+import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.types.Projections
 import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -13,11 +14,19 @@ import org.springframework.stereotype.Repository
 @Repository
 class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java), NoticeRepositoryCustom {
 
-    override fun findNoticeTopList(limit: Long): List<NoticeEntity> {
+    override fun findNoticeTopList(limit: Long): List<PortalTopDto> {
         val notice = QNoticeEntity.noticeEntity
 
         return from(notice).distinct()
-            .leftJoin(notice.aliceUserEntity)
+            .select(
+                Projections.constructor(
+                    PortalTopDto::class.java,
+                    notice.noticeNo,
+                    notice.noticeTitle,
+                    notice.noticeContents,
+                    notice.createDt
+                )
+            )
             .orderBy(notice.createDt.desc())
             .limit(limit)
             .fetch()
