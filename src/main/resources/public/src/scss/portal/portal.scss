@@ -15,6 +15,8 @@
 @import '_fonts.scss';
 @import '_mixin.scss';
 @import '_elements.scss';
+@import '_buttons.scss';
+// TODO 아래 순서 정리
 @import '_column.scss';
 @import '_alignment.scss';
 @import '_layout.scss';
@@ -28,5 +30,4 @@
 @import '_scrollbar.scss';
 @import "../template/_date-picker.scss";
 @import '_fileUploader.scss';
-@import '_buttons.scss';
 @import '_faq.scss';

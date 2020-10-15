@@ -79,7 +79,7 @@
                             <input id="txtUpdateDt" name="txtUpdateDt" class="date-icon" type="text" th:disabled="true" maxlength="100"/>
                         </div>
                     </div>
-                    <div class="btn-bar margin-top-50">
+                    <div class="btn-list btn-bar">
                         <button sec:authorize="hasAuthority('code.delete')"
                                 class="point-fill" type="button" id="btnDelete" name="btnDelete"
                                 th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>

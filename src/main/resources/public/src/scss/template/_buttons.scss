@@ -5,6 +5,363 @@
  * @author wdj
  * @version 1.0
  */
- button {
-  background: inherit ; border:none; box-shadow:none; border-radius:0; padding:0; overflow:visible; cursor:pointer;
+ $btn-themes: (
+   'point-fill', 
+   'point-line', 
+   'default-fill',
+   'default-line',
+   'ghost-fill',
+   'ghost-line'
+);
+// font color
+$btn-font-colors: (
+  "point-fill":                  $white,
+  "point-line":                  $point-blue,
+  "default-fill":                $light-black,
+  "default-line":                $light-black,
+  "ghost-fill":                  $light-black,
+  "ghost-line":                  $pressed-gray
+);
+// background color
+$btn-bg-colors: (
+    "point-fill":                $point-blue,
+    "point-line":                $white,
+    "default-fill":              $default-gray,
+    "default-line":              $white,
+    "ghost-fill":                transparent,
+    "ghost-line":                $white
+);
+// border color
+$btn-border-colors: (
+    "point-fill":                transparent,
+    "point-line":                $point-blue,
+    "default-fill":              transparent,
+    "default-line":              $line-gray,
+    "ghost-fill":                transparent,
+    "ghost-line":                $line-gray
+);
+// hover , focus 시 디자인 요소
+// hover font color
+$btn-hover-font-colors: (
+  "point-fill":                  $white,
+  "point-line":                  $point-blue,
+  "default-fill":                $light-black,
+  "default-line":                $light-black,
+  "ghost-fill":                  $light-black,
+  "ghost-line":                  $point-blue
+);
+// hover background color
+$btn-hover-bg-colors: (
+    "point-fill":                $hover-blue,
+    "point-line":                rgba(0, 152, 255, 0.1),
+    "default-fill":              $line-gray,
+    "default-line":              rgba(230, 230, 230, 0.3),
+    "ghost-fill":                rgba(230, 230, 230, 0.3),
+    "ghost-line":                $white
+);
+// hover border color
+$btn-hover-border-colors: (
+    "point-fill":                transparent,
+    "point-line":                $point-blue,
+    "default-fill":              transparent,
+    "default-line":              $line-gray,
+    "ghost-fill":                transparent,
+    "ghost-line":                $point-blue
+);
+// pressed 시 디자인 요소
+// pressed font color
+$btn-pressed-font-colors: (
+  "point-fill":                  $white,
+  "point-line":                  $white,
+  "default-fill":                $light-black,
+  "default-line":                $light-black,
+  "ghost-fill":                  $light-black,
+  "ghost-line":                  $point-blue
+);
+// pressed background color
+$btn-pressed-bg-colors: (
+    "point-fill":                $pressed-blue,
+    "point-line":                $hover-blue,
+    "default-fill":              $pressed-gray,
+    "default-line":              $line-gray,
+    "ghost-fill":                $line-gray,
+    "ghost-line":                $white
+);
+// pressed border color
+$btn-pressed-border-colors: (
+    "point-fill":                transparent,
+    "point-line":                $point-blue,
+    "default-fill":              transparent,
+    "default-line":              $pressed-gray,
+    "ghost-fill":                transparent,
+    "ghost-line":                $point-blue
+);
+// disabled 시 디자인 요소
+// disabled font color
+$btn-disabled-font-colors: (
+  "point-fill":                  $white,
+  "point-line":                  $point-blue,
+  "default-fill":                $light-black,
+  "default-line":                $light-black,
+  "ghost-fill":                  $light-black,
+  "ghost-line":                  $pressed-gray
+);
+// disabled background color
+$btn-disabled-bg-colors: (
+    "point-fill":                $point-blue,
+    "point-line":                $white,
+    "default-fill":              $default-gray,
+    "default-line":              $white,
+    "ghost-fill":                transparent,
+    "ghost-line":                $light-gray
+);
+// disabled border color
+$btn-disabled-border-colors: (
+    "point-fill":                transparent,
+    "point-line":                $point-blue,
+    "default-fill":              transparent,
+    "default-line":              $line-gray,
+    "ghost-fill":                transparent,
+    "ghost-line":                $line-gray
+);
+// <a class="btn"></a>  or button
+.btn, 
+button {
+  display: inline-block;
+  font-family: inherit;
+  font-size: $btn-font-size;
+  font-weight: $btn-font-weight;
+  line-height: $btn-line-height;
+  color: $btn-font-color;
+  background-color: $btn-bg-color;
+  border: $btn-border;
+  border-radius: $btn-border-radius;
+  opacity: 1;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  overflow:visible;
+  padding: 0.5625rem 1.563rem 0.5625rem 1.563rem; // 9.5px 25px 9.5px 25px
+  cursor: pointer;
+
+  &:focus,
+  &:hover {
+      outline: 0;
+  }
+  &:disabled {
+    cursor: default;
+  }
+  // 단일 버튼 (테마별 적용)
+  @each $theme in $btn-themes {
+    &.#{$theme} {
+      color: map-get($btn-font-colors, #{$theme});
+      background-color: map-get($btn-bg-colors, #{$theme});
+      border-color: map-get($btn-border-colors, #{$theme});
+      // 아이콘이 존재한다면
+      .icon {
+        display: inline-block;
+        background: map-get($btn-font-colors, #{$theme});
+      }
+
+      &:focus,
+      &:hover {
+        color: map-get($btn-hover-font-colors, #{$theme});
+        background-color: map-get($btn-hover-bg-colors, #{$theme});
+        border-color: map-get($btn-hover-border-colors, #{$theme});
+
+        .icon {
+          background: map-get($btn-hover-font-colors, #{$theme});
+        }
+      }
+
+      &:not(:disabled) {
+        &:active { // pressed
+          color: map-get($btn-pressed-font-colors, #{$theme});
+          background-color: map-get($btn-pressed-bg-colors, #{$theme});
+          border-color: map-get($btn-pressed-border-colors, #{$theme});
+          @if $theme == 'point-line' {
+            opacity: 0.3;
+          }
+
+          .icon {
+            background: map-get($btn-pressed-font-colors, #{$theme});
+          }
+        }
+      }
+
+      &:disabled {
+        color: map-get($btn-disabled-font-colors, #{$theme});
+        background-color: map-get($btn-disabled-bg-colors, #{$theme});
+        border-color: map-get($btn-disabled-border-colors, #{$theme});
+        @if $theme == 'ghost-line' {
+          opacity: 1;
+        } @else if $theme == 'default-fill' {
+          opacity: 0.5;
+        } @else {
+          opacity: 0.3;
+        }
+
+        .icon {
+          background: map-get($btn-disabled-font-colors, #{$theme});
+        }
+      }
+    } 
+  }
+}
+
+// 버튼 그룹
+.btn-group {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+
+  .btn,
+  button {
+    flex: 1 1 auto;
+    font-size: $btn-group-font-size;
+    font-weight: $btn-group-font-weight;
+    line-height: $btn-group-line-height;
+    color: $btn-group-font-color;
+    background-color: $btn-group-bg-color;
+    border: $btn-group-border; // 1px
+    // 아이콘이 존재한다면
+    .icon {
+      display: inline-block;
+      background: $btn-group-font-color;
+    }
+
+    &:focus,
+    &:hover {
+      color: $btn-group-hover-font-color;
+      background-color: $btn-group-hover-bg-color;
+      border-color: $btn-group-hover-border-color;
+
+      .icon {
+        background: $btn-group-hover-font-color;
+      }
+    }
+
+    &:not(:disabled) {
+      &:active,
+      &.active { // pressed
+        color: $btn-group-pressed-font-color;
+        background-color: $btn-group-pressed-bg-color;
+        border-color: $btn-group-pressed-border-color;
+
+        .icon {
+          background: $btn-group-pressed-font-color;
+        }
+        + .btn,
+        + button {
+          border-left-color: $btn-group-pressed-border-color;
+        }
+      }
+    }
+
+    &:disabled {
+      color: $btn-group-disabled-font-color;
+      background-color: $btn-group-disabled-bg-color;
+      border-color: $btn-group-disabled-border-color;
+
+      .icon {
+        background: $btn-group-disabled-font-color;
+      }
+    }
+  }
+  // 양 끝 테두리 둥글게
+  .btn:not(:first-child),
+  button:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .btn:not(:last-of-type),
+  button:not(:last-of-type) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+  }
+}
+// 버튼 그룹 토글
+.btn-group-toggle {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+  
+  .btn,
+  button {
+    flex: 1 1 auto;
+    font-size: $btn-group-font-size;
+    font-weight: $btn-group-font-weight;
+    line-height: $btn-group-line-height;
+    color: $btn-group-toggle-font-color;
+    background-color: $btn-group-toggle-bg-color;
+    border: $btn-group-border; // 1px
+    // 아이콘이 존재한다면
+    .icon {
+      display: inline-block;
+      background: $btn-group-toggle-font-color;
+    }
+
+    &:focus,
+    &:hover {
+      color: $btn-group-hover-font-color;
+      background-color: $btn-group-hover-bg-color;
+      border-color: $btn-group-hover-border-color;
+
+      .icon {
+        background: $btn-group-hover-font-color;
+      }
+    }
+
+    &:not(:disabled) {
+      &:active,
+      &.active { // pressed
+        color: $btn-group-pressed-font-color;
+        background-color: $btn-group-pressed-bg-color;
+        border-color: $btn-group-pressed-border-color;
+
+        .icon {
+          background: $btn-group-pressed-font-color;
+        }
+      }
+    }
+
+    &:disabled {
+      color: $btn-group-disabled-font-color;
+      background-color: $btn-group-disabled-bg-color;
+      border-color: $btn-group-disabled-border-color;
+
+      .icon {
+        background: $btn-group-disabled-font-color;
+      }
+    }
+  }
+
+  // 양 끝 테두리 둥글게
+  .btn:not(:first-child),
+  button:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+
+  .btn:not(:last-of-type),
+  button:not(:last-of-type) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right-color: transparent;
+  }
+}
+
+// 버튼 리스트
+.btn-list {
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+
+  .btn,
+  button {
+      margin-left: 0.3125rem; // 5px
+  }
 }

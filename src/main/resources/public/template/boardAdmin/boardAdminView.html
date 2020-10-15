@@ -78,8 +78,8 @@
                 <input class="column-2" id="attachFileSize" name="attachFileSize" type="text"
                        th:value="${boardAdmin?.attachFileSize}" maxlength="4" disabled/>MB
             </div>
-            <div class="btn-bar">
-                <button class="default-line" onclick="location.href='/board-admin/search'" th:text="#{common.btn.list}"></button>
+            <div class="btn-list btn-bar">
+                <a class="btn default-line" href="/board-admin/search" th:text="#{common.btn.list}"></a>
                 <button class="point-fill" sec:authorize="hasAuthority('board.admin.update')" th:if="${boardAdmin?.boardAdminId}" type="button" th:onclick ="'location.href =\'' + @{/board-admin/{id}/edit(id=${boardAdmin.boardAdminId})}+'\''" th:text="#{common.btn.modify}"></button>
                 <button class="default-line" sec:authorize="hasAuthority('board.admin.delete')" th:if="${boardAdmin?.boardAdminId}" type="button" id="delete" th:disabled="${!boardAdmin.enabled}" th:onclick="restSubmit('DELETE',[[@{/rest/board-admin/{boardAdminId}(boardAdminId=${boardAdmin.boardAdminId})}]])" th:text="#{common.btn.delete}"></button>
             </div>

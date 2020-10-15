@@ -31,7 +31,7 @@
                        th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}"></a>
                 </td>
                 <td width="5%" th:if="${topNotice.popYn}">
-                    <button type="button" class="default-fill" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
+                    <button type="button" class="default-fill list-popup" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
                         <span class="icon-search"></span>
                     </button>
                 </td>
@@ -49,7 +49,7 @@
                        th:href="@{/notices/{id}/edit(id=${notice.noticeNo})}"></a>
                 </td>
                 <td width="5%" th:if="${notice.popYn}">
-                    <button type="button" class="default-fill" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
+                    <button type="button" class="default-fill list-popup" th:onclick="openPopUp([[${notice.noticeNo}]], [[${notice.popWidth}]], [[${notice.popHeight}]])">
                         <span class="icon-search"></span>
                     </button>
                 </td>

@@ -35,10 +35,10 @@
         </td>
         <td width="10%">
             <th:block th:switch="${#authorization.expression('hasAuthority(''form.read'')')}">
-                <button th:case="true" type="button" class="default-fill" th:onclick="openFormDesignerView([[${form.id}]])">
+                <button th:case="true" type="button" class="default-fill list-popup" th:onclick="openFormDesignerView([[${form.id}]])">
                     <span class="icon-search"></span>
                 </button>
-                <button th:case="*" type="button" class="default-fill" th:onclick="|aliceJs.alertWarning('#{auth.msg.accessDenied}')|">
+                <button th:case="*" type="button" class="default-fill list-popup" th:onclick="|aliceJs.alertWarning('#{auth.msg.accessDenied}')|">
                     <span class="icon-search"></span>
                 </button>
             </th:block>

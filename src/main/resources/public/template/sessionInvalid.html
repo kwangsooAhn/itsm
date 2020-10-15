@@ -18,8 +18,7 @@
                 <h1 id="counter" class="session-count-txt"></h1>
                 <h1 th:text="#{login.msg.redirectedLoginPage}"></h1>
             </div>
-            <button id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}" th:onclick="location.href='/login'"
-                    class="session-btn"></button>
+            <a class="btn session-return" href="/login" id="gotoLoginPage" th:text="#{login.btn.gotoLoginPage}"></a>
         </div>
     </div>
     <form id="logoutForm" name="logoutForm" th:action="@{/logout}" method="post"></form>
@@ -37,12 +36,12 @@
             if (count !== 1) {
                 count -= 1;
                 setCounter(count);
-                timer = setTimeout(counting, 1000);
+                timer = setTimeout(counting, 100000);
             } else {
                 gotoLoginPage();
             }
         };
-        timer = setTimeout(counting, 1000);
+        timer = setTimeout(counting, 100000);
 
         function setCounter(count) {
             document.querySelector('#counter').textContent = count;
