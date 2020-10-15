@@ -78,7 +78,11 @@
                     </div>
                 </div>
                 <div class="btn-list btn-bar">
-                    <a class="btn default-line" th:href="@{/boards/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
+                    <button class="point-fill" sec:authorize="hasAuthority('board.create')"
+                            th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
+                            onclick="saveBoard('post', 'reply')"
+                            th:text="#{board.btn.reply}">
+                    </button>
                     <button class="point-fill" sec:authorize="hasAuthority('board.update')"
                             th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')
                                and ${boardInfo?.boardId} and ${replyYn} == false"
@@ -88,13 +92,9 @@
                     <button class="point-fill" sec:authorize="hasAuthority('board.create')"
                             th:if="(!${boardInfo?.boardId} and ${replyYn} == false)"
                             onclick="saveBoard('post', 'normal')"
-                            th:text="#{common.btn.save}">
+                            th:text="#{common.btn.register}">
                     </button>
-                    <button class="point-fill" sec:authorize="hasAuthority('board.create')"
-                            th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
-                            onclick="saveBoard('post', 'reply')"
-                            th:text="#{board.btn.reply}">
-                    </button>
+                    <a class="btn default-line" th:href="@{/boards/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 </div>
             </form>
         </div>

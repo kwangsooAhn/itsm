@@ -44,9 +44,9 @@ class WfActionService(
             val nextElementId = getNextElementId(arrow)
             val nextElement = getElement(nextElementId)
 
-            actions.addAll(preActions())
             actions.addAll(typeActions(arrow, nextElement))
             actions.addAll(postActions(currentElement))
+            actions.addAll(preActions())
         }
         actions.addAll(closeActions())
         return actions
