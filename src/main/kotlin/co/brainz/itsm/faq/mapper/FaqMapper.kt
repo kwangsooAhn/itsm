@@ -17,7 +17,6 @@ interface FaqMapper {
 
     @Mappings(
         Mapping(source = "createUser.userName", target = "createUserName"),
-        Mapping(source = "updateUser.userName", target = "updateUserName"),
         Mapping(target = "totalCount", ignore = true)
     )
     fun toFaqListDto(faqEntity: FaqEntity): FaqListDto
