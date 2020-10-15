@@ -18,19 +18,13 @@
 
     &-login-face {
         position: absolute;
-        top: 53.1875rem;
-        left:  28.3750rem;
-        font-size: 0.875rem; // 14px
-        font-weight: 500; // Medium
-        a:visited, a:link {
-            color: #FFFFFF;
-        }
+        top: 5rem; // 80px
+        left:  890px; // 890px
     }
 
     &-login-note {
-        font-size: 1.25rem; // 20px
         font-weight: 500; // Medium
-        color: #FFFFFF;
+        color: $white;
         vertical-align: middle;
     }
 
@@ -46,30 +40,6 @@
         .signup-base-form {
             display: flex;
             flex-direction: column;
-        }
-    }
-
-    &-btn {
-        border: 1px solid; // 0.0625px
-        border-radius: 1px; // 0.0625px
-        display: inline-block;
-        text-align: center;
-        vertical-align: middle;
-        padding: 0.75rem 0.625rem; // 12px 10px
-        font-size: 0.875rem; // 14px
-
-        &-login {
-            background-color: $point-blue;
-            border-color: #FFFFFF;
-            color: #FFFFFF;
-            min-width: 11.75rem; // 210px
-            margin-left: 2.5rem; // 40px
-        }
-
-        &-submit {
-            background-color: $point-blue;
-            color: #FFFFFF;
-            min-width: 22.5rem; // 360px
         }
     }
 }

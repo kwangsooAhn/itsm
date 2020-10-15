@@ -125,3 +125,34 @@ $btn-border-color:                           transparent;
 $btn-border-width:                           0.0625rem; // 1px
 $btn-border:                                 $btn-border-width solid $btn-border-color;
 $btn-border-radius:                          0.1875rem; // 3px
+
+// button-group 디자인 요소
+$btn-group-font-size:                        $font-size-base;
+$btn-group-font-color:                       $light-black;
+$btn-group-font-weight:                      $font-weight-medium;
+$btn-group-line-height:                      1.2;
+$btn-group-font-color:                       $light-black;
+$btn-group-bg-color:                         $white;
+$btn-group-border-color:                     $line-gray;
+$btn-group-border-width:                     0.0625rem; // 1px
+$btn-group-border:                           $btn-group-border-width solid $btn-group-border-color;
+$btn-group-border-radius:                    0.1875rem; // 3px
+
+// button-group hover 시 디자인 요소
+$btn-group-hover-font-color:                 $light-black;
+$btn-group-hover-bg-color:                   rgba(230, 230, 230, 0.3);
+$btn-group-hover-border-color:               $line-gray;
+
+// button-group pressed 시 디자인 요소
+$btn-group-pressed-font-color:               $point-blue;
+$btn-group-pressed-bg-color:                 $white;
+$btn-group-pressed-border-color:             $point-blue;
+
+// button-group disabled 시 디자인 요소
+$btn-group-disabled-font-color:              $light-black;
+$btn-group-disabled-bg-color:                $white;
+$btn-group-disabled-border-color:            $line-gray;
+
+// button-group-toggle 디자인 요소
+$btn-group-toggle-font-color:                $gray;
+$btn-group-toggle-bg-color:                  $light-gray;

@@ -15,7 +15,7 @@
             <img class="signup-main-image" th:src="@{/assets/media/images/signup/img_signup_main.png}" width="1310" height="800" alt="Signup Main">
             <div class="signup-login-face">
                 <span class="signup-login-note" th:text="#{login.label.loginNote}"></span>
-                <a class="signup-btn signup-btn-login" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
+                <a class="btn signup-return" href="/login" id="sendLogin" th:text="#{login.btn.login}"></a>
             </div>
         </div>
         <div class="signup-form">
@@ -64,7 +64,7 @@
                         </div>
                     </div>
                 </form>
-                <button class="signup-btn signup-btn-submit" id="userSignUp" th:text="#{login.btn.doSignUp}"
+                <button class="signup-submit" id="userSignUp" th:text="#{login.btn.doSignUp}"
                         onclick="userRegister()"></button>
             </div>
         </div>

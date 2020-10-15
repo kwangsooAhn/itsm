@@ -1,1 +1,64 @@
 @import "../template/_buttons.scss";
+
+// 되돌아가기
+.login-return {
+  position: absolute;
+  top: 5rem; // 80px
+  left: 66rem; // 1056px
+  color: $white;
+  border-color: $white;
+  padding: 0.75rem 3rem; // 12px 48px
+}
+// 로그인
+.login-submit {
+  width: 100%;
+  color: $white;
+  background-color: $point-blue;
+}
+
+// 구글 로그인
+.login-google {
+  width: 100%;
+  color: $light-black;
+  background-color: $white;
+  border-color: $line-gray;
+  
+  &.icon-google {
+    @include background ($icon-folder-path + 'login/icon_login_google.svg', 1.188rem, no-repeat, 0.625rem, center, null); // 19px 10px
+  }
+}
+
+// 카카오 로그인
+.login-kakao {
+  width: 100%;
+  color: $light-black;
+  background-color: #FFDE00;
+  border-color: #EBCC00;
+
+  &.icon-kakao {
+    @include background ($icon-folder-path + 'login/icon_login_kakao.svg', 1.188rem, no-repeat, 0.625rem, center, null); // 19px 10px
+  }
+}
+
+// 로그인 되돌아가기
+.signup-return {
+  color: $white;
+  border-color: $white;
+  padding: 0.75rem 3rem; // 12px 48px
+  margin-left: 2.5rem; // 40px
+}
+
+// 로그인
+.signup-submit {
+  width: 100%;
+  color: $white;
+  background-color: $point-blue;
+}
+
+// 세션 Invalid > 로그인 되돌아가기
+.session-return {
+  margin-top: 6.25rem;
+  background-color: $point-blue;
+  color: $white;
+  padding: 0.75rem 1.563rem; // 12px 25px
+}
