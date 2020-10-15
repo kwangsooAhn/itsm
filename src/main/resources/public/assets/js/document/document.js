@@ -693,7 +693,7 @@
 
             // 상단 button 추가
             const buttonPanel = document.createElement('div');
-            buttonPanel.className = 'button-board';
+            buttonPanel.classList.add('button-board', 'btn-list');
             body.appendChild(buttonPanel);
 
             // 동적 버튼
