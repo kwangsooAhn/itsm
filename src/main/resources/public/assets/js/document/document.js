@@ -219,6 +219,7 @@
     /**
      * button를 만든다.
      * 저장과 취소 버튼은 기본적으로 생성된다.
+     * '프로세스맵', ['접수' , '반려', '처리'], '저장', '닫기', '인쇄' 순으로 표기한다.
      * @param  buttonData : button 정보 값
      */
     function addButton(buttonData) {
@@ -695,6 +696,12 @@
             buttonPanel.className = 'button-board';
             body.appendChild(buttonPanel);
 
+            // 동적 버튼
+            const buttonGroup = document.createElement('div');
+            buttonGroup.className = 'button-list';
+            buttonGroup.id = 'button-container';
+            buttonPanel.appendChild(buttonGroup);
+
             // 인쇄 버튼
             const printButton = document.createElement('button');
             printButton.type = 'button';
@@ -702,12 +709,6 @@
             printButton.innerText = i18n.msg('common.btn.print');
             printButton.addEventListener('click', print.bind(null, '/documents/' + this.id), false);
             buttonPanel.appendChild(printButton);
-
-            // 동적 버튼
-            const buttonGroup = document.createElement('div');
-            buttonGroup.className = 'button-list';
-            buttonGroup.id = 'button-container';
-            buttonPanel.appendChild(buttonGroup);
 
             const documentPanel = document.createElement('div');
             documentPanel.className = 'drawing-board';

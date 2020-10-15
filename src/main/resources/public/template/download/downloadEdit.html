@@ -34,14 +34,14 @@
                 <div id="dropZoneUploadedFiles"></div>
             </div>
             <div class="btn-bar">
-                <button onclick="location.href='/downloads/search'"
-                        class="default-line" th:text="#{common.btn.list}"></button>
                 <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
                         class="point-fill" th:text="#{common.btn.modify}"></button>
                 <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
-                        class="point-fill" th:text="#{common.btn.save}"></button>
+                        class="point-fill" th:text="#{common.btn.register}"></button>
                 <button th:if="${download?.downloadId}" onclick="deleteDownload()"
                         class="default-fill" th:text="#{common.btn.delete}"></button>
+                <button onclick="location.href='/downloads/search'"
+                        class="default-line" th:text="#{common.btn.list}"></button>
             </div>
         </div>
     </div>

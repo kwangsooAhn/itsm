@@ -41,14 +41,14 @@
                     <div id="dropZoneUploadedFiles"></div>
                 </div>
                 <div class="btn-bar">
-                    <button type="button" class="default-line" id="btnList" onclick="location.href='/faqs/search'"
-                            th:text="#{common.btn.list}"></button>
                     <button type="button" class="point-fill" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
-                            th:if="!${faq?.faqId}" th:text="#{common.btn.save}"></button>
+                            th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
                     <button type="button" class="point-fill" id="btnUpdate" sec:authorize="hasAuthority('faq.update')"
-                            th:if="${faq?.faqId}" th:text="#{common.btn.save}"></button>
+                            th:if="${faq?.faqId}" th:text="#{common.btn.modify}"></button>
                     <button type="button" class="default-fill" id="btnDelete" sec:authorize="hasAuthority('faq.delete')"
                             th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
+                    <button type="button" class="default-line" id="btnList" onclick="location.href='/faqs/search'"
+                            th:text="#{common.btn.list}"></button>
                 </div>
             </form>
         </div>

@@ -78,16 +78,16 @@
                 </div>
             </div>
             <div class="btn-bar">
-                <button class="default-line" onclick="location.href='/custom-codes/search'"
-                        th:text="#{common.btn.list}"></button>
                 <button class="point-fill" th:if="${customCode == null}" sec:authorize="hasAuthority('custom.code.create')"
-                        onclick="actionCustomCode('post')" th:text="#{common.btn.save}"></button>
+                        onclick="actionCustomCode('post')" th:text="#{common.btn.register}"></button>
                 <button class="point-fill" th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.update')"
                         th:disabled="${!customCode.enabled}" onclick="actionCustomCode('put')" th:text="#{common.btn.modify}">
                 </button>
                 <button class="default-fill" th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.delete')"
                         th:disabled="${!customCode.enabled}" onclick="actionCustomCode('delete')" th:text="#{common.btn.delete}">
                 </button>
+                <button class="default-line" onclick="location.href='/custom-codes/search'"
+                        th:text="#{common.btn.list}"></button>
             </div>
         </div>
     </div>

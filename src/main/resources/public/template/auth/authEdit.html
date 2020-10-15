@@ -79,15 +79,15 @@
                 </div>
             </div>
             <div class="btn-bar">
-                <button sec:authorize="hasAuthority('auth.delete')"
-                        class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
-                <button sec:authorize="hasAuthority('auth.update')"
-                        class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
-                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
                 <button sec:authorize="hasAuthority('auth.create')"
                         class="point-fill" type="button" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                <button sec:authorize="hasAuthority('auth.update')"
+                        class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                <button sec:authorize="hasAuthority('auth.delete')"
+                        class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
     </div>
