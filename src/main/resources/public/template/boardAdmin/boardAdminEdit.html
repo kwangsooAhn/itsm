@@ -78,9 +78,8 @@
                            th:value="${boardAdmin?.attachFileSize}" maxlength="4"
                            onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>MB
             </div>
-            <div class="btn-bar">
-                <button class="default-line" onclick="location.href='/board-admin/search'"
-                        th:text="#{common.btn.list}"></button>
+            <div class="btn-list btn-bar">
+                <a class="btn default-line" href="/board-admin/search" th:text="#{common.btn.list}"></a>
                 <button class="point-fill" th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')"
                         th:text="#{common.btn.modify}"></button>
                 <button class="default-line" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin()"

@@ -43,9 +43,8 @@
                 </form>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="btn-bar">
-                <button class="default-line" style="margin-right: 5px;" th:onclick="searchBoard()"
-                        th:text="#{common.btn.list}"></button>
+            <div class="btn-list btn-bar">
+                <a class="btn default-line" th:href="@{/boards/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
                         class="point-fill" th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
                         th:onclick ="'location.href =\'' + @{/boards/{id}/edit(id=${boardInfo?.boardId})}+'\''"

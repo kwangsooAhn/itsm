@@ -77,9 +77,8 @@
                     <input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}">
                 </div>
             </div>
-            <div class="btn-bar">
-                <button class="default-line" onclick="location.href='/custom-codes/search'"
-                        th:text="#{common.btn.list}"></button>
+            <div class="btn-list btn-bar">
+                <a class="btn default-line" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
                 <button class="point-fill" th:if="${customCode == null}" sec:authorize="hasAuthority('custom.code.create')"
                         onclick="actionCustomCode('post')" th:text="#{common.btn.save}"></button>
                 <button class="point-fill" th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.update')"

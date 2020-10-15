@@ -200,7 +200,7 @@
             if (data.popYn === true) {
                 const popYnBtn = document.createElement('button');
                 popYnBtn.type = 'button';
-                popYnBtn.className = 'default-fill';
+                popYnBtn.classList.add('default-fill', 'list-popup');
                 const icon =  document.createElement('span');
                 icon.className = 'icon-search';
                 popYnBtn.appendChild(icon);

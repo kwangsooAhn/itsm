@@ -711,7 +711,7 @@ button {
   white-space: nowrap;
   vertical-align: middle;
   overflow: visible;
-  padding: 0.75rem 1.563rem 0.75rem 1.563rem;
+  padding: 0.5625rem 1.563rem 0.5625rem 1.563rem;
   cursor: pointer;
 }
 
@@ -726,256 +726,316 @@ button:disabled {
   cursor: default;
 }
 
-.point-fill {
+.btn.point-fill,
+button.point-fill {
   color: #ffffff;
   background-color: #0098FF;
   border-color: transparent;
 }
 
-.point-fill .icon {
+.btn.point-fill .icon,
+button.point-fill .icon {
   display: inline-block;
   background: #ffffff;
 }
 
-.point-fill:focus, .point-fill:hover {
+.btn.point-fill:focus, .btn.point-fill:hover,
+button.point-fill:focus,
+button.point-fill:hover {
   color: #ffffff;
   background-color: #33ADFF;
   border-color: transparent;
 }
 
-.point-fill:focus .icon, .point-fill:hover .icon {
+.btn.point-fill:focus .icon, .btn.point-fill:hover .icon,
+button.point-fill:focus .icon,
+button.point-fill:hover .icon {
   background: #ffffff;
 }
 
-.point-fill:not(:disabled):active {
+.btn.point-fill:not(:disabled):active,
+button.point-fill:not(:disabled):active {
   color: #ffffff;
   background-color: #0088E6;
   border-color: transparent;
 }
 
-.point-fill:not(:disabled):active .icon {
+.btn.point-fill:not(:disabled):active .icon,
+button.point-fill:not(:disabled):active .icon {
   background: #ffffff;
 }
 
-.point-fill:disabled {
+.btn.point-fill:disabled,
+button.point-fill:disabled {
   color: #ffffff;
   background-color: #0098FF;
   border-color: transparent;
   opacity: 0.3;
 }
 
-.point-fill:disabled .icon {
+.btn.point-fill:disabled .icon,
+button.point-fill:disabled .icon {
   background: #ffffff;
 }
 
-.point-line {
+.btn.point-line,
+button.point-line {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
 }
 
-.point-line .icon {
+.btn.point-line .icon,
+button.point-line .icon {
   display: inline-block;
   background: #0098FF;
 }
 
-.point-line:focus, .point-line:hover {
+.btn.point-line:focus, .btn.point-line:hover,
+button.point-line:focus,
+button.point-line:hover {
   color: #0098FF;
   background-color: rgba(0, 152, 255, 0.1);
   border-color: #0098FF;
 }
 
-.point-line:focus .icon, .point-line:hover .icon {
+.btn.point-line:focus .icon, .btn.point-line:hover .icon,
+button.point-line:focus .icon,
+button.point-line:hover .icon {
   background: #0098FF;
 }
 
-.point-line:not(:disabled):active {
+.btn.point-line:not(:disabled):active,
+button.point-line:not(:disabled):active {
   color: #ffffff;
   background-color: #33ADFF;
   border-color: #0098FF;
   opacity: 0.3;
 }
 
-.point-line:not(:disabled):active .icon {
+.btn.point-line:not(:disabled):active .icon,
+button.point-line:not(:disabled):active .icon {
   background: #ffffff;
 }
 
-.point-line:disabled {
+.btn.point-line:disabled,
+button.point-line:disabled {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
   opacity: 0.3;
 }
 
-.point-line:disabled .icon {
+.btn.point-line:disabled .icon,
+button.point-line:disabled .icon {
   background: #0098FF;
 }
 
-.default-fill {
+.btn.default-fill,
+button.default-fill {
   color: #3F4B56;
   background-color: #E1E3E6;
   border-color: transparent;
 }
 
-.default-fill .icon {
+.btn.default-fill .icon,
+button.default-fill .icon {
   display: inline-block;
   background: #3F4B56;
 }
 
-.default-fill:focus, .default-fill:hover {
+.btn.default-fill:focus, .btn.default-fill:hover,
+button.default-fill:focus,
+button.default-fill:hover {
   color: #3F4B56;
   background-color: #EBEBEB;
   border-color: transparent;
 }
 
-.default-fill:focus .icon, .default-fill:hover .icon {
+.btn.default-fill:focus .icon, .btn.default-fill:hover .icon,
+button.default-fill:focus .icon,
+button.default-fill:hover .icon {
   background: #3F4B56;
 }
 
-.default-fill:not(:disabled):active {
+.btn.default-fill:not(:disabled):active,
+button.default-fill:not(:disabled):active {
   color: #3F4B56;
   background-color: #CCCED1;
   border-color: transparent;
 }
 
-.default-fill:not(:disabled):active .icon {
+.btn.default-fill:not(:disabled):active .icon,
+button.default-fill:not(:disabled):active .icon {
   background: #3F4B56;
 }
 
-.default-fill:disabled {
+.btn.default-fill:disabled,
+button.default-fill:disabled {
   color: #3F4B56;
   background-color: #E1E3E6;
   border-color: transparent;
   opacity: 0.5;
 }
 
-.default-fill:disabled .icon {
+.btn.default-fill:disabled .icon,
+button.default-fill:disabled .icon {
   background: #3F4B56;
 }
 
-.default-line {
+.btn.default-line,
+button.default-line {
   color: #3F4B56;
   background-color: #ffffff;
   border-color: #EBEBEB;
 }
 
-.default-line .icon {
+.btn.default-line .icon,
+button.default-line .icon {
   display: inline-block;
   background: #3F4B56;
 }
 
-.default-line:focus, .default-line:hover {
+.btn.default-line:focus, .btn.default-line:hover,
+button.default-line:focus,
+button.default-line:hover {
   color: #3F4B56;
   background-color: rgba(230, 230, 230, 0.3);
   border-color: #EBEBEB;
 }
 
-.default-line:focus .icon, .default-line:hover .icon {
+.btn.default-line:focus .icon, .btn.default-line:hover .icon,
+button.default-line:focus .icon,
+button.default-line:hover .icon {
   background: #3F4B56;
 }
 
-.default-line:not(:disabled):active {
+.btn.default-line:not(:disabled):active,
+button.default-line:not(:disabled):active {
   color: #3F4B56;
   background-color: #EBEBEB;
   border-color: #CCCED1;
 }
 
-.default-line:not(:disabled):active .icon {
+.btn.default-line:not(:disabled):active .icon,
+button.default-line:not(:disabled):active .icon {
   background: #3F4B56;
 }
 
-.default-line:disabled {
+.btn.default-line:disabled,
+button.default-line:disabled {
   color: #3F4B56;
   background-color: #ffffff;
   border-color: #EBEBEB;
   opacity: 0.3;
 }
 
-.default-line:disabled .icon {
+.btn.default-line:disabled .icon,
+button.default-line:disabled .icon {
   background: #3F4B56;
 }
 
-.ghost-fill {
+.btn.ghost-fill,
+button.ghost-fill {
   color: #3F4B56;
   background-color: transparent;
   border-color: transparent;
 }
 
-.ghost-fill .icon {
+.btn.ghost-fill .icon,
+button.ghost-fill .icon {
   display: inline-block;
   background: #3F4B56;
 }
 
-.ghost-fill:focus, .ghost-fill:hover {
+.btn.ghost-fill:focus, .btn.ghost-fill:hover,
+button.ghost-fill:focus,
+button.ghost-fill:hover {
   color: #3F4B56;
   background-color: rgba(230, 230, 230, 0.3);
   border-color: transparent;
 }
 
-.ghost-fill:focus .icon, .ghost-fill:hover .icon {
+.btn.ghost-fill:focus .icon, .btn.ghost-fill:hover .icon,
+button.ghost-fill:focus .icon,
+button.ghost-fill:hover .icon {
   background: #3F4B56;
 }
 
-.ghost-fill:not(:disabled):active {
+.btn.ghost-fill:not(:disabled):active,
+button.ghost-fill:not(:disabled):active {
   color: #3F4B56;
   background-color: #EBEBEB;
   border-color: transparent;
 }
 
-.ghost-fill:not(:disabled):active .icon {
+.btn.ghost-fill:not(:disabled):active .icon,
+button.ghost-fill:not(:disabled):active .icon {
   background: #3F4B56;
 }
 
-.ghost-fill:disabled {
+.btn.ghost-fill:disabled,
+button.ghost-fill:disabled {
   color: #3F4B56;
   background-color: transparent;
   border-color: transparent;
   opacity: 0.3;
 }
 
-.ghost-fill:disabled .icon {
+.btn.ghost-fill:disabled .icon,
+button.ghost-fill:disabled .icon {
   background: #3F4B56;
 }
 
-.ghost-line {
+.btn.ghost-line,
+button.ghost-line {
   color: #CCCED1;
   background-color: #ffffff;
   border-color: #EBEBEB;
 }
 
-.ghost-line .icon {
+.btn.ghost-line .icon,
+button.ghost-line .icon {
   display: inline-block;
   background: #CCCED1;
 }
 
-.ghost-line:focus, .ghost-line:hover {
+.btn.ghost-line:focus, .btn.ghost-line:hover,
+button.ghost-line:focus,
+button.ghost-line:hover {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
 }
 
-.ghost-line:focus .icon, .ghost-line:hover .icon {
+.btn.ghost-line:focus .icon, .btn.ghost-line:hover .icon,
+button.ghost-line:focus .icon,
+button.ghost-line:hover .icon {
   background: #0098FF;
 }
 
-.ghost-line:not(:disabled):active {
+.btn.ghost-line:not(:disabled):active,
+button.ghost-line:not(:disabled):active {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
 }
 
-.ghost-line:not(:disabled):active .icon {
+.btn.ghost-line:not(:disabled):active .icon,
+button.ghost-line:not(:disabled):active .icon {
   background: #0098FF;
 }
 
-.ghost-line:disabled {
+.btn.ghost-line:disabled,
+button.ghost-line:disabled {
   color: #CCCED1;
   background-color: #F7F8F9;
   border-color: #EBEBEB;
   opacity: 1;
 }
 
-.ghost-line:disabled .icon {
+.btn.ghost-line:disabled .icon,
+button.ghost-line:disabled .icon {
   background: #CCCED1;
 }
 

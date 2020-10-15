@@ -77,7 +77,7 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-bar">
+            <div class="btn-list btn-bar">
                 <button class="point-fill" sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
                 <button class="point-fill" sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate"

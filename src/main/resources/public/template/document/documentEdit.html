@@ -88,7 +88,7 @@
         </div>
     </div>
     <div class="horizontal-bar"></div>
-    <div class="btn-bar">
+    <div class="btn-list btn-bar">
         <button class="point-fill" th:if="${documentId}" onclick="saveDocument('put')" th:text="#{common.btn.modify}"></button>
         <button class="point-fill" th:unless="${documentId}" onclick="saveDocument('post')" th:text="#{common.btn.register}"></button>
         <button class="point-line" th:if="${documentId}" onclick="openDisplay();" th:text="#{document.label.display}"></button>
@@ -255,7 +255,7 @@
                 formIconInput.disabled = true;
                 let formIconButton = document.createElement('button');
                 formIconButton.innerText = /*[[#{common.btn.select}]]*/;
-                formIconButton.className = 'point-line';
+                formIconButton.className = 'default-line';
                 formIconButton.onclick = function() {
                     openIcon();
                 }

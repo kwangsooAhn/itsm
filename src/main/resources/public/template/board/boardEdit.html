@@ -77,8 +77,8 @@
                                th:value="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''"/>
                     </div>
                 </div>
-                <div class="btn-bar">
-                    <button class="default-line" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
+                <div class="btn-list btn-bar">
+                    <a class="btn default-line" th:href="@{/boards/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                     <button class="point-fill" sec:authorize="hasAuthority('board.update')"
                             th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')
                                and ${boardInfo?.boardId} and ${replyYn} == false"

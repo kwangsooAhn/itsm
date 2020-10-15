@@ -39,8 +39,8 @@
                 </form>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="btn-bar">
-                <button class="default-line" th:text="#{common.btn.list}" onclick="location.href='/downloads/search'"></button>
+            <div class="btn-list btn-bar">
+                <a class="btn default-line" href="/downloads/search" th:text="#{common.btn.list}"></a>
                 <button th:text="#{common.btn.modify}" sec:authorize="hasAuthority('download.update')"
                         class="point-fill" th:onclick="'location.href=\'' + @{/downloads/{id}/edit(id=${download.downloadId})} + '\''"></button>
             </div>

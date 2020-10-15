@@ -25,7 +25,7 @@
                       th:text="${processInfo?.description}"></textarea>
         </div>
         <div class="horizontal-bar"></div>
-        <div class="btn-bar">
+        <div class="btn-list btn-bar">
             <button class="point-fill" th:if="!${processInfo?.id}" th:attr="onclick=|saveProcess()|"
                     th:text="#{common.btn.register}"></button>
             <button class="point-fill" th:if="${processInfo?.id}" sec:authorize="hasAnyAuthority('process.create', 'process.update')"

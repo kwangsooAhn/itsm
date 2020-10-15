@@ -1,1 +1,28 @@
-@import "../template/_buttons.scss";
+@import "../../template/_buttons.scss";
+
+.btn,
+button {
+  // 팝업 버튼 
+  &.list-popup {
+    &:focus,
+    &:hover {
+      background-color: $default-gray;
+    }
+    
+  }
+  // 돋보기 아이콘
+  .icon-search {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_search.svg', 18px, 18px, no-repeat, center, 18px 18px, $gray);
+  }
+  // 편집 아이콘
+  .icon-edit {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_edit.svg', 20px, 20px, no-repeat, center, 20px 20px, $dark-gray);
+  }
+  // 삭제 아이콘
+  .icon_delete {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_delete.svg', 18px, 20px, no-repeat, center, 18px 20px, $dark-gray);
+  }
+}
