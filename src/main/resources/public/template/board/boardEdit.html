@@ -77,7 +77,7 @@
                                th:value="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''"/>
                     </div>
                 </div>
-                <div class="btn-bar">
+                <div class="btn-list btn-bar">
                     <button class="point-fill" sec:authorize="hasAuthority('board.create')"
                             th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
                             onclick="saveBoard('post', 'reply')"
@@ -94,7 +94,7 @@
                             onclick="saveBoard('post', 'normal')"
                             th:text="#{common.btn.register}">
                     </button>
-                    <button class="default-line" th:onclick="searchBoard()" th:text="#{common.btn.list}"></button>
+                    <a class="btn default-line" th:href="@{/boards/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 </div>
             </form>
         </div>

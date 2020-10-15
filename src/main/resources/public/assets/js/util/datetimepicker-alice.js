@@ -382,7 +382,7 @@
 
                 const curHourType = _this.selectLuxon.toFormat(minuteFormatArr[1]);
                 const hourType = document.createElement('div');
-                hourType.className = 'button-group';
+                hourType.className = 'btn-group';
                 pickerTime.appendChild(hourType);
 
                  // create button > am

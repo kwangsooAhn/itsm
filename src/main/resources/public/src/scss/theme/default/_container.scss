@@ -1001,59 +1001,6 @@ span.vertical-bar {
         background: rgba(234, 241, 247, 1);
     }
 
-    .btn {
-        display: inline-block;
-        font-size: 13px;
-        color: #0050ff;
-        padding: 10px;
-        border-radius: 2px;
-        border: 1px solid #0050ff;
-        text-align: center;
-
-        &:hover {
-            background: #0050ff;
-            color: #fff;
-            border: 1px solid #0050ff;
-        }
-
-        &:disabled {
-            background: white;
-            color: #c8ced8;
-            border: 1px solid #c8ced8;
-            cursor: auto;
-        }
-
-        &-add { // 사용 안함
-            display: inline-block;
-            background: url($icon-folder-path + "icon_plus.svg") no-repeat center center;
-            padding: 10px;
-            border-radius: 2px;
-            border: 1px solid rgba(0, 80, 255, 1);
-            text-align: center;
-
-            &:hover {
-                background: rgba(0, 80, 255, 1) url($icon-folder-path + "icon_plus.svg") no-repeat center center;
-                color: $alice-primary;
-                border: rgba(64, 158, 230, 0.05) 1px solid;
-            }
-        }
-
-        &-gray {
-            width: 64px;
-            height: 30px;
-            padding: 7px 12px;
-            border: 1px solid #BEC5CE;
-            color: #3D4752;
-            border-radius: 2px;
-            font-size: 14px;
-
-            &:hover {
-                background-color: #BEC5CE;
-                color: white;
-            }
-        }
-    }
-
     // 플롯 정렬
     .float-left {
         float: left;

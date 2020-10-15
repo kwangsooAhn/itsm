@@ -62,7 +62,7 @@
                         <div class="row">
                             <input class="column-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" disabled>
                             <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
-                            <button type="button" class="default-fill column-1" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
+                            <button type="button" class="default-line column-1" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
                     <div class="form-set">
@@ -153,10 +153,12 @@
             </div>
             <div class="btn-bar">
                 <button class="point-fill" type="button" th:if="!${users?.userKey}" th:text="#{common.btn.register}"
+            <div class="btn-list btn-bar">
+                <button class="point-fill" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
                         th:onclick="restSubmit('post', [[@{/rest/users}]])"></button>
                 <button class="point-fill" type="button" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
                         th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])"></button>
-                <button class="default-line" th:text="#{common.btn.list}" onclick="location.href='/users/search'"></button>
+                <a class="btn default-line" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
         </div>
     </div>

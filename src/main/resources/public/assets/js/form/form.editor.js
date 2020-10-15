@@ -1178,7 +1178,7 @@
                             if (fieldProp.type === 'button-group') { // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
                                 if (!buttonGroupExist) {
                                     buttonGroupElem = document.createElement('div');
-                                    buttonGroupElem.classList.add('button-group', 'property-field-button');
+                                    buttonGroupElem.classList.add('btn-group', 'property-field-button');
                                     fieldGroupElem.appendChild(buttonGroupElem);
                                     groupElem.appendChild(fieldGroupElem);
 
@@ -1186,18 +1186,18 @@
                                 }
                                 if (typeof fieldProp.option !== 'undefined') { //align
                                     const fieldButtonOptions = fieldProp.option.map(function (opt) {
-                                        return `<button type='button' id='${opt.id}' class='btn default-line ${fieldProp.value === opt.id ? "active" : ""}'>` +
+                                        return `<button type='button' id='${opt.id}' class='btn ${fieldProp.value === opt.id ? "active" : ""}'>` +
                                                    `<span class="icon"></span> ` +
                                                `</button>`
                                     }).join('');
-                                    buttonGroupElem.insertAdjacentHTML('beforeend', `<div class="button-group button-group-toggle" id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
+                                    buttonGroupElem.insertAdjacentHTML('beforeend', `<div class="btn-group-toggle" id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
 
                                     const buttonElemList = buttonGroupElem.querySelector('#' + fieldProp.id).children;
                                     for (let i = 0, len = buttonElemList.length; i < len; i++) {
                                         buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
                                     }
                                 } else { //bold, italic, underline
-                                    const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn default-line ${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
+                                    const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn ${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
                                             `<span class="icon"></span>` +
                                         `</button>`;
                                     buttonGroupElem.insertAdjacentHTML('beforeend', buttonTemplate);
@@ -1246,7 +1246,7 @@
 
                                         fieldTemplate =
                                             `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
-                                            `<div class="button-group button-group-toggle property-field-${optionType}">${fieldOptions}</div>`;
+                                            `<div class="btn-group-toggle property-field-${optionType}">${fieldOptions}</div>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         // 버튼 이벤트 핸들러 추가
@@ -1412,7 +1412,7 @@
                                         const fieldSessionOptions = fieldProp.option.map(function (opt) {
                                             return `<button type="button" name="${opt.id}" class="btn default-line ${propValueArr[0]  === opt.id ? 'active' : ''}">${opt.name}</button>`;
                                         }).join('');
-                                        fieldTemplate += `<div class="property-field-toggle button-group button-group-toggle">${fieldSessionOptions}</div>`;
+                                        fieldTemplate += `<div class="property-field-toggle btn-group-toggle">${fieldSessionOptions}</div>`;
 
                                         // 직접 입력할 경우 input box
                                         fieldTemplate += `<input type='text' class='property-value ${fieldProp.type}' id='none' style='${propValueArr[0] === "none" ? "" : "display: none;"}' value='${propValueArr[0] === "none" ? aliceJs.filterXSS(propValueArr[1]) : ""}' maxlength="100"/>`;

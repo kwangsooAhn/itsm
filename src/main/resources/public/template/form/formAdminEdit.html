@@ -24,7 +24,7 @@
                       class="textarea-scroll-wrapper"></textarea>
         </div>
         <div class="horizontal-bar"></div>
-        <div class="btn-bar">
+        <div class="btn-list btn-bar">
             <button class="point-fill" th:if="!${formInfo?.id}" th:attr="onclick=|saveForm()|"
                     th:text="#{common.btn.register}"></button>
             <button class="point-fill" th:if="${formInfo?.id}" sec:authorize="hasAnyAuthority('form.create', 'form.update')"
