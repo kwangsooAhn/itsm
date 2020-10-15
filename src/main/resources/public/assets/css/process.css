@@ -164,7 +164,7 @@ input, button, select, optgroup, textarea {
   overflow: hidden;
 }
 
-/* _fonts.scss
+/* _fonts.scss 
  *
  * 파일 경로 : template/_fonts.scss
  * @description 폰트 디자인
@@ -264,11 +264,7 @@ a {
 }
 
 a:link,
-a:visited {
-  text-decoration: none;
-  color: inherit;
-}
-
+a:visited,
 a:hover,
 a:active {
   text-decoration: none;
@@ -933,6 +929,531 @@ svg path.connector.hidden {
   stroke-width: 0;
 }
 
+/* _buttons.scss 
+ *
+ * 파일 경로 : template/_buttons.scss
+ * @description 버튼 디자인
+ * @author wdj
+ * @version 1.0
+ */
+.btn,
+button {
+  display: inline-block;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #3F4B56;
+  background-color: transparent;
+  border: 0.0625rem solid transparent;
+  border-radius: 0.1875rem;
+  opacity: 1;
+  text-align: center;
+  user-select: none;
+  white-space: nowrap;
+  vertical-align: middle;
+  overflow: visible;
+  padding: 0.5625rem 1.563rem 0.5625rem 1.563rem;
+  cursor: pointer;
+}
+
+.btn:focus, .btn:hover,
+button:focus,
+button:hover {
+  outline: 0;
+}
+
+.btn:disabled,
+button:disabled {
+  cursor: default;
+}
+
+.btn.point-fill,
+button.point-fill {
+  color: #fff;
+  background-color: #0098FF;
+  border-color: transparent;
+}
+
+.btn.point-fill .icon,
+button.point-fill .icon {
+  display: inline-block;
+  background: #fff;
+}
+
+.btn.point-fill:focus, .btn.point-fill:hover,
+button.point-fill:focus,
+button.point-fill:hover {
+  color: #fff;
+  background-color: #33ADFF;
+  border-color: transparent;
+}
+
+.btn.point-fill:focus .icon, .btn.point-fill:hover .icon,
+button.point-fill:focus .icon,
+button.point-fill:hover .icon {
+  background: #fff;
+}
+
+.btn.point-fill:not(:disabled):active,
+button.point-fill:not(:disabled):active {
+  color: #fff;
+  background-color: #0088E6;
+  border-color: transparent;
+}
+
+.btn.point-fill:not(:disabled):active .icon,
+button.point-fill:not(:disabled):active .icon {
+  background: #fff;
+}
+
+.btn.point-fill:disabled,
+button.point-fill:disabled {
+  color: #fff;
+  background-color: #0098FF;
+  border-color: transparent;
+  opacity: 0.3;
+}
+
+.btn.point-fill:disabled .icon,
+button.point-fill:disabled .icon {
+  background: #fff;
+}
+
+.btn.point-line,
+button.point-line {
+  color: #0098FF;
+  background-color: #fff;
+  border-color: #0098FF;
+}
+
+.btn.point-line .icon,
+button.point-line .icon {
+  display: inline-block;
+  background: #0098FF;
+}
+
+.btn.point-line:focus, .btn.point-line:hover,
+button.point-line:focus,
+button.point-line:hover {
+  color: #0098FF;
+  background-color: rgba(0, 152, 255, 0.1);
+  border-color: #0098FF;
+}
+
+.btn.point-line:focus .icon, .btn.point-line:hover .icon,
+button.point-line:focus .icon,
+button.point-line:hover .icon {
+  background: #0098FF;
+}
+
+.btn.point-line:not(:disabled):active,
+button.point-line:not(:disabled):active {
+  color: #fff;
+  background-color: #33ADFF;
+  border-color: #0098FF;
+  opacity: 0.3;
+}
+
+.btn.point-line:not(:disabled):active .icon,
+button.point-line:not(:disabled):active .icon {
+  background: #fff;
+}
+
+.btn.point-line:disabled,
+button.point-line:disabled {
+  color: #0098FF;
+  background-color: #fff;
+  border-color: #0098FF;
+  opacity: 0.3;
+}
+
+.btn.point-line:disabled .icon,
+button.point-line:disabled .icon {
+  background: #0098FF;
+}
+
+.btn.default-fill,
+button.default-fill {
+  color: #3F4B56;
+  background-color: #E1E3E6;
+  border-color: transparent;
+}
+
+.btn.default-fill .icon,
+button.default-fill .icon {
+  display: inline-block;
+  background: #3F4B56;
+}
+
+.btn.default-fill:focus, .btn.default-fill:hover,
+button.default-fill:focus,
+button.default-fill:hover {
+  color: #3F4B56;
+  background-color: #EBEBEB;
+  border-color: transparent;
+}
+
+.btn.default-fill:focus .icon, .btn.default-fill:hover .icon,
+button.default-fill:focus .icon,
+button.default-fill:hover .icon {
+  background: #3F4B56;
+}
+
+.btn.default-fill:not(:disabled):active,
+button.default-fill:not(:disabled):active {
+  color: #3F4B56;
+  background-color: #CCCED1;
+  border-color: transparent;
+}
+
+.btn.default-fill:not(:disabled):active .icon,
+button.default-fill:not(:disabled):active .icon {
+  background: #3F4B56;
+}
+
+.btn.default-fill:disabled,
+button.default-fill:disabled {
+  color: #3F4B56;
+  background-color: #E1E3E6;
+  border-color: transparent;
+  opacity: 0.5;
+}
+
+.btn.default-fill:disabled .icon,
+button.default-fill:disabled .icon {
+  background: #3F4B56;
+}
+
+.btn.default-line,
+button.default-line {
+  color: #3F4B56;
+  background-color: #fff;
+  border-color: #EBEBEB;
+}
+
+.btn.default-line .icon,
+button.default-line .icon {
+  display: inline-block;
+  background: #3F4B56;
+}
+
+.btn.default-line:focus, .btn.default-line:hover,
+button.default-line:focus,
+button.default-line:hover {
+  color: #3F4B56;
+  background-color: rgba(230, 230, 230, 0.3);
+  border-color: #EBEBEB;
+}
+
+.btn.default-line:focus .icon, .btn.default-line:hover .icon,
+button.default-line:focus .icon,
+button.default-line:hover .icon {
+  background: #3F4B56;
+}
+
+.btn.default-line:not(:disabled):active,
+button.default-line:not(:disabled):active {
+  color: #3F4B56;
+  background-color: #EBEBEB;
+  border-color: #CCCED1;
+}
+
+.btn.default-line:not(:disabled):active .icon,
+button.default-line:not(:disabled):active .icon {
+  background: #3F4B56;
+}
+
+.btn.default-line:disabled,
+button.default-line:disabled {
+  color: #3F4B56;
+  background-color: #fff;
+  border-color: #EBEBEB;
+  opacity: 0.3;
+}
+
+.btn.default-line:disabled .icon,
+button.default-line:disabled .icon {
+  background: #3F4B56;
+}
+
+.btn.ghost-fill,
+button.ghost-fill {
+  color: #3F4B56;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.btn.ghost-fill .icon,
+button.ghost-fill .icon {
+  display: inline-block;
+  background: #3F4B56;
+}
+
+.btn.ghost-fill:focus, .btn.ghost-fill:hover,
+button.ghost-fill:focus,
+button.ghost-fill:hover {
+  color: #3F4B56;
+  background-color: rgba(230, 230, 230, 0.3);
+  border-color: transparent;
+}
+
+.btn.ghost-fill:focus .icon, .btn.ghost-fill:hover .icon,
+button.ghost-fill:focus .icon,
+button.ghost-fill:hover .icon {
+  background: #3F4B56;
+}
+
+.btn.ghost-fill:not(:disabled):active,
+button.ghost-fill:not(:disabled):active {
+  color: #3F4B56;
+  background-color: #EBEBEB;
+  border-color: transparent;
+}
+
+.btn.ghost-fill:not(:disabled):active .icon,
+button.ghost-fill:not(:disabled):active .icon {
+  background: #3F4B56;
+}
+
+.btn.ghost-fill:disabled,
+button.ghost-fill:disabled {
+  color: #3F4B56;
+  background-color: transparent;
+  border-color: transparent;
+  opacity: 0.3;
+}
+
+.btn.ghost-fill:disabled .icon,
+button.ghost-fill:disabled .icon {
+  background: #3F4B56;
+}
+
+.btn.ghost-line,
+button.ghost-line {
+  color: #CCCED1;
+  background-color: #fff;
+  border-color: #EBEBEB;
+}
+
+.btn.ghost-line .icon,
+button.ghost-line .icon {
+  display: inline-block;
+  background: #CCCED1;
+}
+
+.btn.ghost-line:focus, .btn.ghost-line:hover,
+button.ghost-line:focus,
+button.ghost-line:hover {
+  color: #0098FF;
+  background-color: #fff;
+  border-color: #0098FF;
+}
+
+.btn.ghost-line:focus .icon, .btn.ghost-line:hover .icon,
+button.ghost-line:focus .icon,
+button.ghost-line:hover .icon {
+  background: #0098FF;
+}
+
+.btn.ghost-line:not(:disabled):active,
+button.ghost-line:not(:disabled):active {
+  color: #0098FF;
+  background-color: #fff;
+  border-color: #0098FF;
+}
+
+.btn.ghost-line:not(:disabled):active .icon,
+button.ghost-line:not(:disabled):active .icon {
+  background: #0098FF;
+}
+
+.btn.ghost-line:disabled,
+button.ghost-line:disabled {
+  color: #CCCED1;
+  background-color: #F7F8F9;
+  border-color: #EBEBEB;
+  opacity: 1;
+}
+
+.btn.ghost-line:disabled .icon,
+button.ghost-line:disabled .icon {
+  background: #CCCED1;
+}
+
+.btn-group {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.btn-group .btn,
+.btn-group button {
+  flex: 1 1 auto;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #3F4B56;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+.btn-group .btn .icon,
+.btn-group button .icon {
+  display: inline-block;
+  background: #3F4B56;
+}
+
+.btn-group .btn:focus, .btn-group .btn:hover,
+.btn-group button:focus,
+.btn-group button:hover {
+  color: #3F4B56;
+  background-color: rgba(230, 230, 230, 0.3);
+  border-color: #EBEBEB;
+}
+
+.btn-group .btn:focus .icon, .btn-group .btn:hover .icon,
+.btn-group button:focus .icon,
+.btn-group button:hover .icon {
+  background: #3F4B56;
+}
+
+.btn-group .btn:not(:disabled):active, .btn-group .btn:not(:disabled).active,
+.btn-group button:not(:disabled):active,
+.btn-group button:not(:disabled).active {
+  color: #0098FF;
+  background-color: #ffffff;
+  border-color: #0098FF;
+}
+
+.btn-group .btn:not(:disabled):active .icon, .btn-group .btn:not(:disabled).active .icon,
+.btn-group button:not(:disabled):active .icon,
+.btn-group button:not(:disabled).active .icon {
+  background: #0098FF;
+}
+
+.btn-group .btn:not(:disabled):active + .btn,
+.btn-group .btn:not(:disabled):active + button, .btn-group .btn:not(:disabled).active + .btn,
+.btn-group .btn:not(:disabled).active + button,
+.btn-group button:not(:disabled):active + .btn,
+.btn-group button:not(:disabled):active + button,
+.btn-group button:not(:disabled).active + .btn,
+.btn-group button:not(:disabled).active + button {
+  border-left-color: #0098FF;
+}
+
+.btn-group .btn:disabled,
+.btn-group button:disabled {
+  color: #3F4B56;
+  background-color: #ffffff;
+  border-color: #EBEBEB;
+}
+
+.btn-group .btn:disabled .icon,
+.btn-group button:disabled .icon {
+  background: #3F4B56;
+}
+
+.btn-group .btn:not(:first-child),
+.btn-group button:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn-group .btn:not(:last-of-type),
+.btn-group button:not(:last-of-type) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+}
+
+.btn-group-toggle {
+  position: relative;
+  display: inline-flex;
+  vertical-align: middle;
+}
+
+.btn-group-toggle .btn,
+.btn-group-toggle button {
+  flex: 1 1 auto;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #ACB4BF;
+  background-color: #F7F8F9;
+  border: 0.0625rem solid #EBEBEB;
+}
+
+.btn-group-toggle .btn .icon,
+.btn-group-toggle button .icon {
+  display: inline-block;
+  background: #ACB4BF;
+}
+
+.btn-group-toggle .btn:focus, .btn-group-toggle .btn:hover,
+.btn-group-toggle button:focus,
+.btn-group-toggle button:hover {
+  color: #3F4B56;
+  background-color: rgba(230, 230, 230, 0.3);
+  border-color: #EBEBEB;
+}
+
+.btn-group-toggle .btn:focus .icon, .btn-group-toggle .btn:hover .icon,
+.btn-group-toggle button:focus .icon,
+.btn-group-toggle button:hover .icon {
+  background: #3F4B56;
+}
+
+.btn-group-toggle .btn:not(:disabled):active, .btn-group-toggle .btn:not(:disabled).active,
+.btn-group-toggle button:not(:disabled):active,
+.btn-group-toggle button:not(:disabled).active {
+  color: #0098FF;
+  background-color: #ffffff;
+  border-color: #0098FF;
+}
+
+.btn-group-toggle .btn:not(:disabled):active .icon, .btn-group-toggle .btn:not(:disabled).active .icon,
+.btn-group-toggle button:not(:disabled):active .icon,
+.btn-group-toggle button:not(:disabled).active .icon {
+  background: #0098FF;
+}
+
+.btn-group-toggle .btn:disabled,
+.btn-group-toggle button:disabled {
+  color: #3F4B56;
+  background-color: #ffffff;
+  border-color: #EBEBEB;
+}
+
+.btn-group-toggle .btn:disabled .icon,
+.btn-group-toggle button:disabled .icon {
+  background: #3F4B56;
+}
+
+.btn-group-toggle .btn:not(:first-child),
+.btn-group-toggle button:not(:first-child) {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.btn-group-toggle .btn:not(:last-of-type),
+.btn-group-toggle button:not(:last-of-type) {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right-color: transparent;
+}
+
+.btn-list {
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+}
+
+.btn-list .btn,
+.btn-list button {
+  margin-left: 0.3125rem;
+}
+
 .process-container {
   position: relative;
   width: 100vw;
@@ -1479,7 +2000,7 @@ svg path.connector.hidden {
   margin-left: 1.5625rem;
   margin-right: 1.5625rem;
   font-size: 0.688rem;
-  /* _color-picker.scss
+  /* _color-picker.scss 
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -1766,7 +2287,7 @@ svg path.connector.hidden {
   width: 100%;
 }
 
-.alice-process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip {
+.process-properties-panel div.properties-container div.element-properties div.properties .script-action-container .file-tooltip {
   position: relative;
   display: inline-block;
   cursor: pointer;
@@ -1925,226 +2446,4 @@ svg path.connector.hidden {
   height: 0.938rem;
   color: #586872;
   margin: 0;
-}
-
-/* button 공통 */
-button {
-  display: inline-block;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 500;
-  color: #3F4B56;
-  background-color: transparent;
-  border: 0.0625rem solid transparent;
-  border-radius: 0.1875rem;
-  text-align: center;
-  user-select: none;
-  white-space: nowrap;
-  vertical-align: middle;
-  opacity: 1;
-  cursor: pointer;
-  padding: 0.4375rem 1.5rem;
-}
-
-button:focus, button:hover {
-  outline: 0;
-  background-color: rgba(230, 230, 230, 0.3);
-}
-
-button:disabled {
-  background-color: #fff;
-  opacity: 0.3;
-  cursor: default;
-}
-
-button:not(:disabled):active {
-  background-color: #EBEBEB;
-}
-
-button.default-line {
-  color: #3F4B56;
-  background-color: #fff;
-  border: 0.0625rem solid #EBEBEB;
-}
-
-button.default-line:focus, button.default-line:hover {
-  outline: 0;
-  background-color: rgba(230, 230, 230, 0.3);
-}
-
-button.default-line:disabled {
-  opacity: 0.3;
-}
-
-button.default-line:not(:disabled):active {
-  background-color: #EBEBEB;
-  border: 0.0625rem solid #CCCED1;
-}
-
-button.default-fill {
-  color: #3F4B56;
-  background-color: #E1E3E6;
-  border: 0.0625rem solid transparent;
-}
-
-button.default-fill:focus, button.default-fill:hover {
-  outline: 0;
-  background-color: #EBEBEB;
-}
-
-button.default-fill:disabled {
-  opacity: 0.3;
-}
-
-button.default-fill:not(:disabled):active {
-  background-color: #CCCED1;
-}
-
-button.point-line {
-  color: #0098FF;
-  background-color: #fff;
-  border: 0.0625rem solid #0098FF;
-}
-
-button.point-line:focus, button.point-line:hover {
-  outline: 0;
-  background-color: rgba(0, 152, 255, 0.1);
-}
-
-button.point-line:disabled {
-  opacity: 0.3;
-}
-
-button.point-line:not(:disabled):active {
-  background-color: #33ADFF;
-  opacity: 0.3;
-}
-
-button.point-fill {
-  color: #fff;
-  background-color: #0098FF;
-  border: 0.0625rem solid transparent;
-}
-
-button.point-fill:focus, button.point-fill:hover {
-  outline: 0;
-  background-color: #33ADFF;
-}
-
-button.point-fill:disabled {
-  opacity: 0.3;
-}
-
-button.point-fill:not(:disabled):active {
-  background-color: #0088E6;
-}
-
-button.default-point-line {
-  color: #3F4B56;
-  background-color: #fff;
-  border: 0.0625rem solid #EBEBEB;
-}
-
-button.default-point-line span.icon {
-  display: inline-block;
-  background: #CCCED1;
-}
-
-button.default-point-line:focus, button.default-point-line:hover {
-  outline: 0;
-  border-color: #0098FF;
-}
-
-button.default-point-line:focus span.icon, button.default-point-line:hover span.icon {
-  background: #0098FF;
-}
-
-button.default-point-line:disabled {
-  opacity: 0.3;
-}
-
-button.default-point-line:not(:disabled):active {
-  background-color: #fff;
-  border-color: #0098FF;
-}
-
-button.default-point-line:not(:disabled):active span.icon {
-  background: #EBEBEB;
-}
-
-.button-group {
-  display: inline-flex;
-  vertical-align: middle;
-  position: relative;
-}
-
-.button-group button {
-  flex: 1 1 auto;
-  color: #3F4B56;
-  background-color: #fff;
-  border: 0.0625rem solid #EBEBEB;
-}
-
-.button-group button:first-child {
-  margin-left: 0;
-}
-
-.button-group button span.icon {
-  display: inline-block;
-  background: #3F4B56;
-}
-
-.button-group button.active {
-  color: #0098FF;
-  border-color: #0098FF;
-  background-color: #fff;
-}
-
-.button-group button.active span.icon {
-  background: #0098FF;
-}
-
-.button-group button.active + button {
-  border-left-color: #0098FF;
-}
-
-.button-group button:not(:first-child) {
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.button-group button:not(:last-of-type) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-right-color: transparent;
-}
-
-.button-group-toggle button {
-  color: #ACB4BF;
-  background-color: #F7F8F9;
-  border: 0.0625rem solid #EBEBEB;
-}
-
-.button-group-toggle button span.icon {
-  background: #ACB4BF;
-}
-
-.button-group-toggle button.active {
-  color: #0098FF;
-  background-color: #fff;
-  border-color: #0098FF;
-}
-
-.button-group-toggle button.active span.icon {
-  background: #0098FF;
-}
-
-.button-group-toggle button:focus span.icon, .button-group-toggle button:hover span.icon {
-  background: #3F4B56;
-}
-
-.button-group-toggle button:not(:last-child) {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-right-color: transparent;
 }
