@@ -12,8 +12,6 @@ data class CodeDto(
     var editable: Boolean? = true,
     var createDt: LocalDateTime? = null,
     var createUserName: String? = null,
-    var updateDt: LocalDateTime? = null,
-    var updateUserName: String? = null,
     var level: Int? = null,
     var seqNum: Int? = null,
     var totalCount: Long = 0
