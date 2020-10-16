@@ -7,7 +7,8 @@
 package co.brainz.itsm.portal.service
 
 import co.brainz.itsm.download.repository.DownloadRepository
-import co.brainz.itsm.faq.entity.FaqEntity
+import co.brainz.itsm.faq.dto.FaqListDto
+import co.brainz.itsm.faq.dto.FaqSearchRequestDto
 import co.brainz.itsm.faq.repository.FaqRepository
 import co.brainz.itsm.notice.repository.NoticeRepository
 import co.brainz.itsm.portal.dto.PortalDto
@@ -56,8 +57,15 @@ class PortalService(
             true -> faqRepository.getAllFaqGroupList()
             false -> faqRepository.getFaqGroupList(category)
         }
-        faqInfo["faqList"] = faqRepository.findAll()
-        faqInfo["faqSelected"] = faqRepository.findById(faqId).orElse(FaqEntity(faqId))
+        val faqList = faqRepository.findFaqs(FaqSearchRequestDto())
+        var selectedFaq = FaqListDto()
+        if (faqId.isNotEmpty()) {
+            selectedFaq = faqList.filter {
+                it.faqId == faqId
+            }[0]
+        }
+        faqInfo["faqList"] = faqList
+        faqInfo["faqSelected"] = selectedFaq
         return faqInfo
     }
 }

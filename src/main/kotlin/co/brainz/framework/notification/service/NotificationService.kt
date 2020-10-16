@@ -20,15 +20,9 @@ class NotificationService(
     /**
      * 알림 리스트.
      */
-    fun getNotificationList(): MutableList<NotificationDto> {
+    fun getNotificationList(): List<NotificationDto> {
         val userId = SecurityContextHolder.getContext().authentication.principal as String
-        val userEntity = userRepository.findByUserId(userId)
-        val notificationList = mutableListOf<NotificationDto>()
-        val notificationEntityList = notificationRepository.findNotificationList(userEntity)
-        notificationEntityList.forEach {
-            notificationList.add(notificationMapper.toNotificationDto(it))
-        }
-        return notificationList
+        return notificationRepository.findNotificationList(userId)
     }
 
     /**

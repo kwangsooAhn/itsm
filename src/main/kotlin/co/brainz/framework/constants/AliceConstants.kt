@@ -99,4 +99,9 @@ object AliceConstants {
         IMAGE("image"),
         ICON("icon")
     }
+
+    /**
+     * 알림 개수.
+     */
+    const val NOTIFICATION_SIZE = 50L
 }
