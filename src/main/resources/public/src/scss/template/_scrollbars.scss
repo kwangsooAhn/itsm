@@ -1,3 +1,11 @@
+/* _scrollbars.scss 
+ *
+ * 파일 경로 : template/_scrollbars.scss
+ * @description 스크롤바 디자인
+ * @author wdj
+ * @version 1.0
+ */
+// 기본 scrollbar
 .scrollbar {
   >.os-scrollbar-horizontal {
     right: 10px;
@@ -21,7 +29,7 @@
   }
   >.os-scrollbar-vertical {
     bottom: 10px;
-    width: 8px;
+    width: $scrollbar-thick;
     >.os-scrollbar-track {
       >.os-scrollbar-handle {
         min-height: 30px;
@@ -48,21 +56,20 @@
     box-sizing: border-box;
     background: transparent;
     >.os-scrollbar-track { // scrollbar 배경
-      background: rgba(235,235,235, 0.6);
-      border-radius: 8px; // scrollbar 배경 모서리 곡선
+      background: $scrollbar-bg-color;
+      border-radius: $scrollbar-border-radius;
       >.os-scrollbar-handle {
-        border-radius: 8px;
-        background: $default-gray;
+        border-radius: $scrollbar-border-radius;
+        background: $scrollbar-color;
       }
       >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
-        background: $pressed-gray;
+        background: $scrollbar-hover-color;
       }
     }
     &:hover {
       >.os-scrollbar-track {
         >.os-scrollbar-handle { // scrollbar 마우스 오버
-          // background: rgba(0, 0, 0, .55);
-          background: $pressed-gray;
+          background: $scrollbar-hover-color;
         }
       }
     }
@@ -115,24 +122,31 @@
     }
   }
 }
-
+// textarea scrollbar
 .textarea-scroll-wrapper {
-  padding: 0.5rem 0.625rem; // 8px 10px
   display: block;
-  border: 0.0625rem solid $element-border-color; // 1px
-  border-radius: $element-border-radius;
+  // 라이브러리 사용으로 CSS를 다시 정의해줌
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
   color: $element-font-color;
   background-color: $element-bg-color;
-  font-size: $element-font-size;
-  font-weight: 400;
+  border: $element-border;
+  border-radius: $element-border-radius;
+  padding: 0.5rem $element-indent 0.5rem $element-indent; // 들여쓰기 8px 10px 8px 10px
   resize: vertical;
-  line-height: 1.3;
-  &:focus-within {
-    outline: $element-border solid $alice-primary;
-    border-radius: $element-border-radius;
+
+  &:focus-within { // focus 시
+    outline: 0;
+    border: $element-focus-border;
+  }
+  &:hover {
+    outline: 0;
+    border: $element-hover-border;
+    box-shadow: $element-hover-box-shadow;
   }
 }
-
+// element 내부 scrollbar
 .inner-scrollbar {
   >.os-scrollbar-horizontal {
     right: 10px;
@@ -156,7 +170,7 @@
   }
   >.os-scrollbar-vertical {
     bottom: 10px;
-    width: 4px;
+    width: $scrollbar-thick-sm;
     >.os-scrollbar-track {
       >.os-scrollbar-handle {
         min-height: 30px;
@@ -183,21 +197,20 @@
     box-sizing: border-box;
     background: transparent;
     >.os-scrollbar-track { // scrollbar 배경
-      background: rgba(235,235,235, 0.6);
-      border-radius: 8px; // scrollbar 배경 모서리 곡선
+      background: $scrollbar-bg-color;
+      border-radius: $scrollbar-border-radius; // scrollbar 배경 모서리 곡선
       >.os-scrollbar-handle {
-        border-radius: 8px;
-        background: $default-gray;
+        border-radius: $scrollbar-border-radius;
+        background: $scrollbar-color;
       }
       >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
-        background: $pressed-gray;
+        background: $scrollbar-hover-color;
       }
     }
     &:hover {
       >.os-scrollbar-track {
         >.os-scrollbar-handle { // scrollbar 마우스 오버
-          // background: rgba(0, 0, 0, .55);
-          background: $pressed-gray;
+          background: $scrollbar-hover-color;
         }
       }
     }
