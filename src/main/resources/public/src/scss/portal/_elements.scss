@@ -33,7 +33,7 @@ label {
 
 input {
     &.search {
-        background: url($icon-folder-path + "icon_search.svg") no-repeat 100%-3;
+        background: url($icon-folder-path + "icon_search.svg") no-repeat 100%-3 50%;
         background-color: $element-bg-color;
     }
     &.search-date {
