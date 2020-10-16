@@ -10,6 +10,7 @@
 @import '../../template/_functions.scss'; // 상속 불가
 @import '../../template/_mixins.scss'; // 상속 불가
 @import '../../template/_common.scss'; // 상속 불가
+@import '../../template/_scrollbars.scss';
 @import '_variables.scss';
 @import '_fonts.scss';
 @import '_mixin.scss';
@@ -24,7 +25,6 @@
 @import '_fileUploader.scss';
 @import "../../template/_date-picker.scss";
 @import '_colorpicker.scss';
-@import '_scrollbar.scss';
 @import '_quill.scss';
 @import '_tooltip.scss';
 @import '_thumbnail.scss';
