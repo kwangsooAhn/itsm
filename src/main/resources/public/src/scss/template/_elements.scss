@@ -62,9 +62,9 @@ input {
   color: $element-font-color;
   background-color: $element-bg-color;
   border: $element-border;
-
   border-radius: $element-border-radius; // 1px
   padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px
+  vertical-align: middle;
 
   &::placeholder {
     color: $element-placeholder-font-color;
@@ -209,6 +209,7 @@ select {
   border: $element-border;
   border-radius: $element-border-radius;
   padding: 0 $element-indent 0 $element-indent; // 들여쓰기 0 10px 0 10px
+  vertical-align: middle;
 
   &:not(:disabled) {
     &:focus {

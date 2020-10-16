@@ -61,7 +61,9 @@
             </div>
         </div>
         <div class="related-add list-item">
-            <button class="plus" th:onclick="openPopUp([[${tokenId}]])"></button>
+            <button th:onclick="openPopUp([[${tokenId}]])">
+                <span class="icon-plus"></span>
+            </button>
         </div>
     </div>
     <div id="commentList" class="token-comment">

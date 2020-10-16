@@ -239,6 +239,7 @@ input {
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   padding: 0 0.625rem 0 0.625rem;
+  vertical-align: middle;
 }
 
 input::placeholder {
@@ -379,6 +380,7 @@ select {
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   padding: 0 0.625rem 0 0.625rem;
+  vertical-align: middle;
 }
 
 select:not(:disabled):focus {
@@ -678,7 +680,7 @@ label {
 }
 
 input.search {
-  background: url("../media/icons/icon_search.svg") no-repeat 97%;
+  background: url("../media/icons/icon_search.svg") no-repeat 97% 50%;
   background-color: #ffffff;
 }
 

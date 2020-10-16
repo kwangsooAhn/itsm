@@ -8,8 +8,12 @@ button {
     &:hover {
       background-color: $default-gray;
     }
-    
   }
+  // 커스텀 코드 + 버튼
+  &.plus {
+    padding: 0;
+  }
+  // + 버튼
   // 돋보기 아이콘
   .icon-search {
     display: inline-block;
@@ -24,5 +28,9 @@ button {
   .icon_delete {
     display: inline-block;
     @include maskImage('#{$icon-folder-path}icon_delete.svg', 18px, 20px, no-repeat, center, 18px 20px, $dark-gray);
+  }
+  .icon-plus {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_plus.svg', 24px, 24px, no-repeat, center, 20px 20px, $pressed-gray);
   }
 }
