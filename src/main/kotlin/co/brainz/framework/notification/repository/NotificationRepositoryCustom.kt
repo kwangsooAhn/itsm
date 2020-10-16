@@ -1,8 +1,7 @@
 package co.brainz.framework.notification.repository
 
-import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.framework.notification.entity.NotificationEntity
+import co.brainz.framework.notification.dto.NotificationDto
 
 interface NotificationRepositoryCustom {
-    fun findNotificationList(receivedUser: AliceUserEntity): List<NotificationEntity>
+    fun findNotificationList(receivedUser: String): List<NotificationDto>
 }
