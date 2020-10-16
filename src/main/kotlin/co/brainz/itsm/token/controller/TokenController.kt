@@ -33,10 +33,10 @@ class TokenController(
     private val tokenEditPage: String = "token/tokenEdit"
     private val tokenViewPage: String = "token/tokenView"
     private val tokenPrintPage: String = "token/tokenPrint"
-    private val tokenPopUpPage: String = "/token/tokenPopUp"
-    private val tokenInstanceListPage: String = "/token/tokenInstanceList"
-    private val tokenEditTab: String = "/token/tokenEditTab"
-    private val tokenViewTab: String = "/token/tokenViewTab"
+    private val tokenPopUpPage: String = "token/tokenPopUp"
+    private val tokenInstanceListPage: String = "token/tokenInstanceList"
+    private val tokenEditTab: String = "token/tokenEditTab"
+    private val tokenViewTab: String = "token/tokenViewTab"
 
     /**
      * 처리할 문서 리스트 호출 화면.
