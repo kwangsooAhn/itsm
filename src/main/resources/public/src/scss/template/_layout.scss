@@ -1,0 +1,38 @@
+/* _layout.scss
+ *
+ * 파일 경로 : template/_layout.scss
+ * @description HTML layout 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+$properties-box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6);// -1px 15px 7px 0px $pressed-gray, 불투명도 60%;
+
+@mixin container {
+    max-width: 120rem;
+    margin: 0 auto;
+}
+
+@mixin header {
+    display: flex;
+    width: 100vw;
+    height: 3.125rem;
+    background-color: $point-blue;
+    align-items: center;
+    color: $white;
+    font-weight: $font-weight-medium;
+}
+
+@mixin properties {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    float: right;
+    width: 18.75rem;
+    height: calc(100vh - 3.125rem);
+    min-height: calc(100vh - 3.125rem);
+    box-shadow: properties-box-shadow;
+    overflow-y: auto;
+}
+
+// 추후 테마 등 추가가 가능한 상황을 고려하여 구성에 포함합니다.
+// @mixin footer {}

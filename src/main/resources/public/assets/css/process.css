@@ -1683,20 +1683,18 @@ button.ghost-line:disabled .icon {
   min-height: 41.563rem;
 }
 
-.process-toolbar {
-  width: 100vw;
-  min-width: 75rem;
-  height: 3.125rem;
-  background-color: #0098FF;
-  color: #ffffff;
-  padding-top: 0.563rem;
-  padding-bottom: 0.563rem;
-  line-height: 1.0rem;
+.process-header {
   display: flex;
+  width: 100vw;
+  height: 3.125rem;
+  background-color: #0098ff;
   align-items: center;
+  color: #ffffff;
+  font-weight: 500;
+  min-width: 75rem;
 }
 
-.process-toolbar .logo {
+.process-header .logo {
   width: 13.125rem;
   height: 1.999rem;
   float: left;
@@ -1707,13 +1705,13 @@ button.ghost-line:disabled .icon {
   background-image: url("../media/icons/process/editor/logo.svg");
 }
 
-.process-toolbar .process-designer {
+.process-header .process-designer {
   font-size: 1.125rem;
   font-weight: 500;
   color: #fff;
 }
 
-.process-toolbar button {
+.process-header button {
   margin-right: 2.5625rem;
   padding: 0;
   height: 1.999rem;
@@ -1725,7 +1723,7 @@ button.ghost-line:disabled .icon {
   cursor: pointer;
 }
 
-.process-toolbar button .icon-save {
+.process-header button .icon-save {
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -1740,7 +1738,7 @@ button.ghost-line:disabled .icon {
   background: #fff;
 }
 
-.process-toolbar button .icon-save-as {
+.process-header button .icon-save-as {
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -1755,7 +1753,7 @@ button.ghost-line:disabled .icon {
   background: #fff;
 }
 
-.process-toolbar button .icon-simulation {
+.process-header button .icon-simulation {
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -1770,7 +1768,7 @@ button.ghost-line:disabled .icon {
   background: #fff;
 }
 
-.process-toolbar button .icon-undo {
+.process-header button .icon-undo {
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -1785,7 +1783,7 @@ button.ghost-line:disabled .icon {
   background: #fff;
 }
 
-.process-toolbar button .icon-redo {
+.process-header button .icon-redo {
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -1800,7 +1798,7 @@ button.ghost-line:disabled .icon {
   background: #fff;
 }
 
-.process-toolbar button .icon-image-download {
+.process-header button .icon-image-download {
   display: inline-block;
   width: 20px;
   height: 20px;
@@ -1815,7 +1813,7 @@ button.ghost-line:disabled .icon {
   background: #fff;
 }
 
-.process-toolbar span.separator {
+.process-header span.separator {
   width: 0.063rem;
   height: 1.999rem;
   background-color: #3079ff;
@@ -1823,7 +1821,7 @@ button.ghost-line:disabled .icon {
   float: left;
 }
 
-.process-toolbar .process-name {
+.process-header .process-name {
   height: 1.999rem;
   line-height: 1.999rem;
   margin-left: auto;
@@ -2135,15 +2133,16 @@ button.ghost-line:disabled .icon {
 }
 
 .process-properties-panel {
-  display: inline-block;
-  background-color: #fafbfd;
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  float: right;
   width: 18.75rem;
   height: calc(100vh - 3.125rem);
-  min-height: 38.438rem;
-  position: absolute;
-  top: 3.125rem;
-  right: 0;
+  min-height: calc(100vh - 3.125rem);
   box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7;
+  overflow-y: auto;
+  background-color: #fafbfd;
 }
 
 .process-properties-panel h3 {

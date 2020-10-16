@@ -1676,6 +1676,8 @@ button .icon-plus {
 .wrap-screen {
   position: relative;
   min-height: 100vh;
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
 .trash-icon {
@@ -3946,7 +3948,7 @@ span.vertical-bar {
   width: 13.75rem;
   height: calc(100vh - 9.375rem - 3.8125rem);
   background-color: #333D47;
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 3.8125rem;
   z-index: 999;

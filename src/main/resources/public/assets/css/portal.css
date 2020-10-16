@@ -1434,9 +1434,9 @@ button.ghost-line:disabled .icon {
 }
 
 .login-return {
-  position: absolute;
-  top: 5rem;
-  left: 66rem;
+  position: inherit;
+  float: right;
+  margin: 5rem 5rem 0 0;
   color: #ffffff;
   border-color: #ffffff;
   padding: 0.75rem 3rem;
@@ -1604,21 +1604,32 @@ button.ghost-line:disabled .icon {
   margin: auto 1.25rem auto 0;
 }
 
+/* _layout.scss
+ *
+ * 파일 경로 : template/_layout.scss
+ * @description HTML layout 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
 .portal-container {
   overflow: auto;
   height: 100vh;
   width: 100vw;
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
 .portal-container .header {
   display: flex;
+  width: 100vw;
   height: 3.125rem;
-  background-color: #0098FF;
+  background-color: #0098ff;
   align-items: center;
+  color: #fff;
+  font-weight: 500;
 }
 
 .portal-container .header .title {
-  color: #ffffff;
   font-size: 1.125rem;
   font-weight: 500;
   margin-left: 0.625rem;
@@ -1635,7 +1646,6 @@ button.ghost-line:disabled .icon {
 }
 
 .portal-container .header .login {
-  color: #ffffff;
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
@@ -1682,7 +1692,7 @@ button.ghost-line:disabled .icon {
 }
 
 .signup-logo {
-  position: absolute;
+  position: relative;
   top: 5rem;
   left: 5rem;
 }
@@ -1694,14 +1704,17 @@ button.ghost-line:disabled .icon {
 }
 
 .signup-background .signup-main-image {
-  position: absolute;
-  bottom: 0;
+  position: inherit;
+  margin-top: 1.6875rem; // 27px
+  width: inherit;
+  height: initial;
 }
 
 .signup-login-face {
-  position: absolute;
+  position: inherit;
   top: 5rem;
-  left: 890px;
+  float: right;
+  margin: 5rem 5rem 0 0;
 }
 
 .signup-login-note {
@@ -2273,7 +2286,7 @@ button.ghost-line:disabled .icon {
 }
 
 .login-logo {
-  position: absolute;
+  position: relative;
   top: 5rem;
   left: 5rem;
 }
@@ -2286,7 +2299,7 @@ button.ghost-line:disabled .icon {
 }
 
 .login-background .login-main-image {
-  margin-top: 155px;
+  margin-top: 0.9375rem;
   margin-left: 6.875rem;
   height: 44.375rem;
   width: 66.9375rem;

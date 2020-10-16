@@ -1,3 +1,5 @@
+@import '../template/_layout.scss';
+
 .process {
   &-container {
       position: relative;
@@ -7,21 +9,12 @@
       min-height: $process-container-min-height;
   }
 
-  &-toolbar {
-      width: 100vw;
-      min-width: $process-container-min-width;
-      height: $process-toolbar-height;
-      background-color: $point-blue;
-      color: #ffffff;
-      padding-top: $process-toolbar-top-bottom-padding;
-      padding-bottom: $process-toolbar-top-bottom-padding;
-      line-height: 1.0rem;
-      display: flex;
-      align-items: center;
+  &-header {
+      @include header;
 
       .logo {
           width: 13.125rem; // 210px
-          height: $process-toolbar-real-height;
+          height: $process-header-real-height;
           float: left;
           background: {
               color: transparent;
@@ -41,8 +34,8 @@
       button {
         margin-right: 2.5625rem; // 41px
         padding: 0;
-        height: $process-toolbar-real-height;
-        line-height: $process-toolbar-real-height;
+        height: $process-header-real-height;
+        line-height: $process-header-real-height;
         vertical-align: middle;
         float: left;
         display: flex;
@@ -77,15 +70,15 @@
 
       span.separator {
           width: 0.063rem; // 1px
-          height: $process-toolbar-real-height;
+          height: $process-header-real-height;
           background-color: #3079ff;
           margin: 0 1.25rem; // 20px
           float: left;
       }
 
       .process-name {
-          height: $process-toolbar-real-height;
-          line-height: $process-toolbar-real-height;
+          height: $process-header-real-height;
+          line-height: $process-header-real-height;
           //float: right;
           margin-left: auto;
           margin-right: 0.938rem; // 15px
@@ -97,11 +90,11 @@
   &-element-palette {
       display: inline-block;
       width: $process-element-palette-width;
-      height: calc(100vh - #{$process-toolbar-height});
-      min-height: #{$process-container-min-height - $process-toolbar-height};
+      height: calc(100vh - #{$process-header-height});
+      min-height: #{$process-container-min-height - $process-header-height};
       background-color: #ffffff;
       position: absolute;
-      top: $process-toolbar-height;
+      top: $process-header-height;
       color: #666f7a;
       box-shadow: 0.063rem 0 0.313rem -0.25rem #182738;
 
@@ -200,12 +193,12 @@
   &-drawing-board {
       display: inline-block;
       position: absolute;
-      top: $process-toolbar-height;
+      top: $process-header-height;
       left: $process-element-palette-width;
       width: calc(100vw - #{$process-element-palette-width + $process-properties-panel-width});
       min-width: #{$process-container-min-width - ($process-element-palette-width + $process-properties-panel-width)};
-      height: calc(100vh - #{$process-toolbar-height});
-      min-height: #{$process-container-min-height - $process-toolbar-height};
+      height: calc(100vh - #{$process-header-height});
+      min-height: #{$process-container-min-height - $process-header-height};
       overflow: hidden;
 
       /*버튼 공통*/
@@ -391,15 +384,8 @@
   }
 
   &-properties-panel {
-      display: inline-block;
+      @include properties;
       background-color: #fafbfd;
-      width: $process-properties-panel-width;
-      height: calc(100vh - #{$process-toolbar-height});
-      min-height: #{$process-container-min-height - $process-toolbar-height};
-      position: absolute;
-      top: $process-toolbar-height;
-      right: 0;
-      box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7; // -1px 0 5px -4px #def9f7
 
       h3 {
           margin: 1.25rem 0 1rem 1.5625rem; // 20px 0 16px 25px
@@ -412,7 +398,7 @@
       }
 
       div.properties-container {
-          height: calc(100vh - #{$process-toolbar-height});
+          height: calc(100vh - #{$process-header-height});
 
           div.element-title {
               height: 2.5rem; // 40px
@@ -427,7 +413,7 @@
           }
 
           div.element-properties {
-              height: calc(100vh - #{$process-toolbar-height} - 2.5rem);
+              height: calc(100vh - #{$process-header-height} - 2.5rem);
               overflow: auto;
 
               fieldset {
