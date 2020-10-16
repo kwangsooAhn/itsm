@@ -63,7 +63,7 @@
                 </div>
                 <div class="form-set">
                     <div class="row">
-                        <label th:text="#{customCode.label.condition}"></label>
+                        <label id="conditionLabel" th:text="#{customCode.label.condition}"></label>
                         <button class="plus" onclick="addCondition()"></button>
                     </div>
                     <div id="condition"></div>
@@ -160,6 +160,7 @@
         function addCondition() {
             const searchColumnLength = document.getElementById('searchColumn').childNodes.length;
             if (document.getElementById('condition').childNodes.length < searchColumnLength) {
+                document.getElementById('conditionLabel').classList.add('required');
                 drawCondition();
             } else {
                 aliceJs.alertWarning(i18n.msg('customCode.msg.addCondition', searchColumnLength));
@@ -184,12 +185,15 @@
             const valueInput = document.createElement('input');
             valueInput.classList.add('column-7');
             valueInput.type = 'text';
+            valueInput.name = 'conditionValue';
             valueInput.maxLength = 100;
             valueInput.value = (typeof param !== 'undefined') ? param.value : '';
             const minusBtn = document.createElement('button');
             minusBtn.classList.add('minus');
             minusBtn.addEventListener('click', function () {
-                minusBtn.parentNode.parentNode.remove();
+                aliceJs.confirmIcon(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
+                    minusBtn.parentNode.parentNode.remove();
+                }, null);
             });
 
             divRow.appendChild(keySelect);
@@ -223,10 +227,18 @@
 
         //empty Check
         function emptyCheck(type) {
+            var conditionElem = document.querySelectorAll('input[name=conditionValue]');
             if (type === 'table') {
                 if (isEmpty('customCodeName', 'customCode.msg.enterCustomCode')) { return false; }
                 if (isEmpty('targetTable', 'customCode.msg.enterTableTarget')) { return false; }
                 if (isEmpty('searchColumn', 'customCode.msg.enterSearchColumn')) { return false; }
+                for (let i = 0; i < conditionElem.length; i++) {
+                    if (conditionElem[i].value === '') {
+                        aliceJs.alertWarning(i18n.msg('customCode.msg.enterCondition'));
+                        conditionElem[i].focus();
+                        return false;
+                    }
+                }
                 return !isEmpty('valueColumn', 'customCode.msg.enterValueColumn');
             } else {
                 if (isEmpty('customCodeName', 'customCode.msg.enterCustomCode')) { return false; }
