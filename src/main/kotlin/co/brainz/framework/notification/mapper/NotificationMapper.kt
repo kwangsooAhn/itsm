@@ -10,18 +10,10 @@ import org.mapstruct.Mappings
 interface NotificationMapper {
 
     @Mappings(
-        Mapping(source = "receivedUser.userKey", target = "receivedUser"),
-        Mapping(source = "createUser.userName", target = "createUserName"),
-        Mapping(source = "updateUser.userName", target = "updateUserName")
-    )
-    fun toNotificationDto(notificationEntity: NotificationEntity): NotificationDto
-
-    @Mappings(
         Mapping(target = "receivedUser", ignore = true),
         Mapping(target = "createDt", ignore = true),
         Mapping(target = "updateDt", ignore = true),
-        Mapping(target = "createUser", ignore = true),
-        Mapping(target = "updateUser", ignore = true)
+        Mapping(target = "createUser", ignore = true)
     )
     fun toNotificationEntity(notificationDto: NotificationDto): NotificationEntity
 }
