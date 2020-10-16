@@ -13,8 +13,8 @@ import co.brainz.itsm.download.dto.DownloadListDto
 import co.brainz.itsm.download.entity.DownloadEntity
 import co.brainz.itsm.download.entity.QDownloadEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
-import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -36,11 +36,24 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         val query = from(download).distinct()
             .leftJoin(fileMap).on(download.downloadId.eq(fileMap.ownId))
             .leftJoin(fileLoc).on(fileMap.fileLocEntity.fileSeq.eq(fileLoc.fileSeq))
+            .select(
+                Projections.constructor(
+                    DownloadListDto::class.java,
+                    download.downloadId,
+                    download.downloadSeq,
+                    download.downloadCategory,
+                    download.downloadTitle,
+                    download.views,
+                    Expressions.numberPath(Long::class.java, "0"),
+                    download.createDt,
+                    download.createUser.userName
+                )
+            )
         if (category.isNotEmpty()) {
             query.where(download.downloadCategory.eq(category))
         }
 
-        val queryResult: QueryResults<DownloadEntity> = query.where(
+        query.where(
             super.likeIgnoreCase(
                 download.downloadTitle, search
             )?.or(super.likeIgnoreCase(fileLoc.originName, search))
@@ -49,23 +62,12 @@ class DownloadRepositoryImpl : QuerydslRepositorySupport(DownloadEntity::class.j
         ).orderBy(download.downloadSeq.desc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
             .offset(offset)
-            .fetchResults()
 
+        val result = query.fetchResults()
         val downloadList = mutableListOf<DownloadListDto>()
-        for (data in queryResult.results) {
-            val downloadDto = DownloadListDto(
-                downloadId = data.downloadId,
-                downloadSeq = data.downloadSeq,
-                downloadCategory = data.downloadCategory,
-                downloadTitle = data.downloadTitle,
-                views = data.views,
-                totalCount = queryResult.total,
-                createDt = data.createDt,
-                createUserName = data.createUser?.userName,
-                updateDt = data.updateDt,
-                updateUserName = data.updateUser?.userName
-            )
-            downloadList.add(downloadDto)
+        for (data in result.results) {
+            data.totalCount = result.total
+            downloadList.add(data)
         }
         return downloadList.toList()
     }

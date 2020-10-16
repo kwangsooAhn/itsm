@@ -16,7 +16,5 @@ data class FaqListDto(
     var faqContent: String = "",
     var totalCount: Long = 0,
     var createDt: LocalDateTime? = null,
-    var createUserName: String? = "",
-    var updateDt: LocalDateTime? = null,
-    var updateUserName: String? = ""
+    var createUserName: String? = ""
 ) : Serializable

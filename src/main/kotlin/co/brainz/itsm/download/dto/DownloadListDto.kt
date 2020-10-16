@@ -17,7 +17,5 @@ data class DownloadListDto(
     var views: Int = 0,
     var totalCount: Long = 0,
     var createDt: LocalDateTime? = null,
-    var createUserName: String? = null,
-    var updateDt: LocalDateTime? = null,
-    var updateUserName: String? = null
+    var createUserName: String? = null
 ) : Serializable
