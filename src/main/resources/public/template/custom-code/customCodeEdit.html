@@ -113,6 +113,10 @@
             });
             initColumnSelectBox(targetTable.value);
             initCondition();
+            const conditionElem = document.querySelector('input[name=conditionValue]');
+            if (conditionElem !== null) {
+                document.getElementById('conditionLabel').classList.add('required');
+            }
         };
 
         //column select box 초기화
@@ -194,7 +198,12 @@
             minusBtn.classList.add('minus');
             minusBtn.addEventListener('click', function () {
                 aliceJs.confirmIcon(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
+                    const conditionElems = document.querySelectorAll('input[name=conditionValue]');
+                    if (conditionElems.length === 1) {
+                        document.getElementById('conditionLabel').classList.remove('required');
+                    }
                     minusBtn.parentNode.parentNode.remove();
+
                 }, null);
             });
 
@@ -229,15 +238,15 @@
 
         //empty Check
         function emptyCheck(type) {
-            var conditionElem = document.querySelectorAll('input[name=conditionValue]');
+            const conditionElems = document.querySelectorAll('input[name=conditionValue]');
             if (type === 'table') {
                 if (isEmpty('customCodeName', 'customCode.msg.enterCustomCode')) { return false; }
                 if (isEmpty('targetTable', 'customCode.msg.enterTableTarget')) { return false; }
                 if (isEmpty('searchColumn', 'customCode.msg.enterSearchColumn')) { return false; }
-                for (let i = 0; i < conditionElem.length; i++) {
-                    if (conditionElem[i].value === '') {
+                for (let i = 0; i < conditionElems.length; i++) {
+                    if (conditionElems[i].value === '') {
                         aliceJs.alertWarning(i18n.msg('customCode.msg.enterCondition'));
-                        conditionElem[i].focus();
+                        conditionElems[i].focus();
                         return false;
                     }
                 }
