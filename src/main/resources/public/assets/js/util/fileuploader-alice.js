@@ -588,8 +588,14 @@ const fileUploader = (function () {
             init: function () { // 드랍존 초기화시 사용할 이벤트 리스너 등록
                 let _this = this;
 
-                const addFileBtn = document.querySelector('.' + addFileBtnWrapClassName);
-                document.querySelector('.dz-message').appendChild(addFileBtn);
+                const dropzoneMessage = _this.element.querySelector('.dz-message');
+                // 아이콘 추가
+                const dropzoneIcon = document.createElement('span');
+                dropzoneIcon.className = 'icon-no-img';
+                dropzoneMessage.insertBefore(dropzoneIcon, dropzoneMessage.firstChild);
+                 // browse 버튼 추가
+                const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
+                dropzoneMessage.appendChild(addFileBtn);
 
                 if (extraParam.avatar.id !== null && extraParam.avatar.size > 0) {
                     let mockFile = {

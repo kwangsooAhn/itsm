@@ -5,21 +5,6 @@
  * @author wdj
  * @version 1.0
  */
-@include keyframe(passing-through) {
-    0% {
-        opacity: 0;
-        transform: translateY(40px);
-    }
-    30%, 70% {
-        opacity: 1;
-        transform: translateY(20px);
-    }
-    100% {
-        opacity: 0;
-        transform: translateY(0px);
-    }
-}
-
 @include keyframe(slide-in) {
     0% {
         opacity: 0;
@@ -229,7 +214,7 @@
             cursor: pointer;
           }
         }
-        // 이미지
+        // 이미지 디자인상 보이지 않음
         .dz-image {
           display: block;
           position: relative;
@@ -241,35 +226,11 @@
         }
         // 파일업로드 성공 및 실패 메시지는 디자인상 보이지 않음
         .dz-success-mark, .dz-error-mark {
-          //display: block;
           display: none;
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          margin-left: -1.688rem; // -27px
-          margin-top: -1.688rem;
-          opacity: 0;
-          z-index: 500;
-          pointer-events: none;
-        
-          svg {
-            display: block;
-            width: 3.375rem; // 54px
-            height: 3.375rem; // 54px
-          }
         }
 
-        &.dz-success .dz-success-mark {
-          @include animation(0s, 3s, passing-through, cubic-bezier(0.77, 0, 0.175, 1));
-        }
         &.dz-error {
           border-color: $red;
-
-          .dz-error-mark {
-            opacity: 1;
-            color: $red;
-            @include animation(0s, 3s, slide-in, cubic-bezier(0.77, 0, 0.175, 1));
-          }
           // 툴팁
           .dz-error-message {
             display: block;
