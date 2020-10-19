@@ -157,8 +157,10 @@ $btn-group-disabled-border-color:            $line-gray;
 $btn-group-toggle-font-color:                $gray;
 $btn-group-toggle-bg-color:                  $light-gray;
 
-// layout-properties box-shadow
-$properties-box-shadow:                      -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6); // -1px 15px 7px 0px $pressed-gray, 불투명도 60%;
+// layout-header 디자인 요소
+$layout-header-height:                       3.125rem; // 50px
+// layout-properties 디자인 요소
+$layout-properties-box-shadow:               -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6); // -1px 15px 7px 0px $pressed-gray, 불투명도 60%;
 
 //////////////////////////////// scrollbar ////////////////////////////////
 // scrollbar 두께

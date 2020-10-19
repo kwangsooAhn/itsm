@@ -1675,6 +1675,12 @@ button.ghost-line:disabled .icon {
   margin-left: 0.3125rem;
 }
 
+.alice-wrapper {
+  display: flex;
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
 .process-container {
   position: relative;
   width: 100vw;
@@ -1684,15 +1690,16 @@ button.ghost-line:disabled .icon {
 }
 
 .process-header {
+  min-width: 75rem;
+  background-color: #0098ff;
+  color: #ffffff;
+  font-weight: 500;
   display: flex;
   position: fixed;
   width: 100vw;
   height: 3.125rem;
-  background-color: #0098ff;
   align-items: center;
-  color: #ffffff;
-  font-weight: 500;
-  min-width: 75rem;
+
 }
 
 .process-header .logo {
@@ -2144,6 +2151,8 @@ button.ghost-line:disabled .icon {
   box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7;
   overflow-y: auto;
   background-color: #fafbfd;
+  top: 3.125rem;
+  position: relative;
 }
 
 .process-properties-panel h3 {

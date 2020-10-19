@@ -1471,6 +1471,12 @@ button.ghost-line:disabled .icon {
  *                   - drawing-board : 실제 컴포넌트들이 그려지는 영역
  *           - aside : 오른쪽 패널
  */
+.alice-wrapper {
+  display: flex;
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
 .form-container {
   width: 100vw;
   height: 100vh;
@@ -1486,15 +1492,15 @@ button.ghost-line:disabled .icon {
 }
 
 .form-container .header {
+  background-color: #0098ff;
+  color: #ffffff;
+  font-weight: 500;
+  font-size: 18px;
   display: flex;
   position: fixed;
   width: 100vw;
   height: 3.125rem;
-  background-color: #0098ff;
   align-items: center;
-  color: #ffffff;
-  font-weight: 500;
-  font-size: 18px;
 }
 
 .form-container .header svg.logo {
@@ -1628,6 +1634,7 @@ button.ghost-line:disabled .icon {
 
 .form-container .contents {
   display: flex;
+  position: relative;
   justify-content: center;
   left: 0;
   top: 3.125rem;
@@ -1680,6 +1687,7 @@ button.ghost-line:disabled .icon {
 
 .form-container .properties {
   background-color: #ffffff;
+  margin-top: 3.125rem;
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;

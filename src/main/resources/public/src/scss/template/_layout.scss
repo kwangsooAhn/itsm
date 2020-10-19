@@ -7,6 +7,12 @@
  */
 $properties-box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6);// -1px 15px 7px 0px $pressed-gray, 불투명도 60%;
 
+.alice-wrapper {
+    display: flex;
+    max-width: 120rem;
+    margin: 0 auto;
+}
+
 @mixin container {
     max-width: 120rem;
     margin: 0 auto;
@@ -16,11 +22,8 @@ $properties-box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6
     display: flex;
     position: fixed;
     width: 100vw;
-    height: 3.125rem;
-    background-color: $point-blue;
+    height: $layout-header-height;
     align-items: center;
-    color: $white;
-    font-weight: $font-weight-medium;
 }
 
 @mixin properties {
@@ -31,7 +34,7 @@ $properties-box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6
     width: 18.75rem;
     height: calc(100vh - 3.125rem);
     min-height: calc(100vh - 3.125rem);
-    box-shadow: properties-box-shadow;
+    box-shadow: $layout-properties-box-shadow;
     overflow-y: auto;
 }
 

@@ -1673,9 +1673,8 @@ button .icon-plus {
   margin: auto 1.25rem auto 0;
 }
 
-.wrap-screen {
-  position: relative;
-  min-height: 100vh;
+.alice-wrapper {
+  display: flex;
   max-width: 120rem;
   margin: 0 auto;
 }
@@ -2113,7 +2112,9 @@ span.vertical-bar {
 
 .container {
   height: 100%;
-  padding: 0 0 0 13.75rem;
+  min-height: 100vh;
+  width: 100%;
+  max-width: calc(100% - 13.75rem);
   /* 상세 조회 화면 */
 }
 
@@ -3948,7 +3949,7 @@ span.vertical-bar {
   width: 13.75rem;
   height: calc(100vh - 9.375rem - 3.8125rem);
   background-color: #333D47;
-  position: absolute;
+  position: relative;
   left: 0;
   top: 3.8125rem;
   z-index: 999;

@@ -21,8 +21,11 @@
   }
   
   .header {
-    @include header;
+    background-color: $point-blue;
+    color: $white;
+    font-weight: $font-weight-medium;
     font-size: $header-font-size;
+    @include header;
     svg.logo { // 로고
       float: left;
     }
@@ -89,6 +92,7 @@
 
   .contents {
     display: flex;
+    position: relative;
     justify-content: center;
     left: 0;
     top: $header-height;
@@ -135,6 +139,7 @@
 
   .properties {
     background-color: $form-properties-bg-color;
+    margin-top: $layout-header-height;
     @include properties;
     @include scrollbarHidden;
   }

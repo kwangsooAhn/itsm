@@ -10,6 +10,10 @@
   }
 
   &-header {
+      min-width: 75rem;
+      background-color: $point-blue;
+      color: $white;
+      font-weight: $font-weight-medium;
       @include header;
 
       .logo {
@@ -386,6 +390,8 @@
   &-properties-panel {
       @include properties;
       background-color: #fafbfd;
+      top: $process-header-height;
+      position: relative;
 
       h3 {
           margin: 1.25rem 0 1rem 1.5625rem; // 20px 0 16px 25px

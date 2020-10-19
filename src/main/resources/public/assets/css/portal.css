@@ -1611,6 +1611,12 @@ button.ghost-line:disabled .icon {
  * @author jy.lim
  * @version 1.0
  */
+.alice-wrapper {
+  display: flex;
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
 .portal-container {
   overflow: auto;
   height: 100vh;
@@ -1620,14 +1626,15 @@ button.ghost-line:disabled .icon {
 }
 
 .portal-container .header {
+  max-width: 120rem;
+  background-color: #0098ff;
+  color: #fff;
+  font-weight: 500;
   display: flex;
   position: fixed;
   width: 100vw;
   height: 3.125rem;
-  background-color: #0098ff;
   align-items: center;
-  color: #fff;
-  font-weight: 500;
 }
 
 .portal-container .header .title {
@@ -1650,6 +1657,10 @@ button.ghost-line:disabled .icon {
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+}
+
+.portal-container .portal-contents {
+  margin-top: 3.125rem;
 }
 
 .guide-body {
