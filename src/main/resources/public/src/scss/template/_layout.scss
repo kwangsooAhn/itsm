@@ -32,8 +32,8 @@ $properties-box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6
     flex-direction: column;
     float: right;
     width: 18.75rem;
-    height: calc(100vh - 3.125rem);
-    min-height: calc(100vh - 3.125rem);
+    height: $layout-properties-height;
+    min-height: $layout-properties-height;
     box-shadow: $layout-properties-box-shadow;
     overflow-y: auto;
 }
