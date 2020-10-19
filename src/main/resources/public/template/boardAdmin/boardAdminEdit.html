@@ -30,7 +30,7 @@
             </div>
             <div class="form-set">
                 <label th:text="#{board.label.order}" for="boardAdminSort"></label>
-                <input class="column-2" id="boardAdminSort" name="boardAdminSort" type="text"
+                <input class="col-2" id="boardAdminSort" name="boardAdminSort" type="text"
                        th:value="${boardAdmin?.boardAdminSort}" maxlength="2"
                        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
             </div>
@@ -74,7 +74,7 @@
             </div>
             <div class="form-set">
                 <label th:text="#{board.label.attachFileSize}" for="attachFileSize"></label>
-                <input class="column-2" id="attachFileSize" name="attachFileSize" type="text"
+                <input class="col-2" id="attachFileSize" name="attachFileSize" type="text"
                            th:value="${boardAdmin?.attachFileSize}" maxlength="4"
                            onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>MB
             </div>

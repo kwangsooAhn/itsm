@@ -39,20 +39,6 @@ $menu-selected-color: $white;
 $menu-hover: $blue-gray;
 $menu-font: 1rem; // 16px;
 
-// Column width
-$column-init: 5rem; // 80px
-$column-1: $column-init * 1; // 80px
-$column-2: $column-init * 2; // 160px
-$column-3: $column-init * 3; // 240px
-$column-4: $column-init * 4; // 320px
-$column-5: $column-init * 5; // 400px
-$column-6: $column-init * 6; // 480px
-$column-7: $column-init * 7; // 560px
-$column-8: $column-init * 8; // 640px
-$column-9: $column-init * 9; // 720px
-$column-10: $column-init * 10; // 800px
-$column-fluid: 100%;
-
 // Menu Icons
 $icon-gnb-board: $icon-folder-path + "gnb/icon_gnb_board.svg";
 $icon-gnb-dashboard: $icon-folder-path + "gnb/icon_gnb_dashboard.svg";

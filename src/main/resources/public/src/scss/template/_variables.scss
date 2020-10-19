@@ -167,15 +167,31 @@ $layout-properties-box-shadow:               -0.0625rem 0.9375rem 0.4375rem 0 rg
 // scrollbar 두께
 $scrollbar-thick:                            8px; // 8px
 // element 내부 scrollbar 두께
-$scrollbar-thick-sm:                         4px; // 4px 
+$scrollbar-thick-sm:                         4px; // 4px
 // scrollbar 색상
 $scrollbar-color:                            $default-gray;
 // scrollbar 모서리 곡선
-$scrollbar-border-radius:                     8px; // 8px 
+$scrollbar-border-radius:                     8px; // 8px
 // scrollbar 배경 색상
 $scrollbar-bg-color:                         rgba(235,235,235, 0.6);
 // scrollbar hover, click 이동시 색상
 $scrollbar-hover-color:                      $pressed-gray;
+
+///////////////////////////////// columns /////////////////////////////////
+// Column width (fixed)
+$column-init: 5rem; // 80px
+$column-1: $column-init * 1; // 80px
+$column-2: $column-init * 2; // 160px
+$column-3: $column-init * 3; // 240px
+$column-4: $column-init * 4; // 320px
+$column-5: $column-init * 5; // 400px
+$column-6: $column-init * 6; // 480px
+$column-7: $column-init * 7; // 560px
+$column-8: $column-init * 8; // 640px
+$column-9: $column-init * 9; // 720px
+$column-10: $column-init * 10; // 800px
+$column-11: $column-init * 11; // 880px
+$column-12: $column-init * 12; // 960px
 
 //////////////////////////////// fileuploader ////////////////////////////////
 $file-uploader-font-size:                    $font-size-base;
@@ -218,3 +234,20 @@ $avatar-dropzone-clickable-font-color:       $point-blue;
 $avatar-desc-font-size:                      $font-size-base;
 $avatar-desc-font-color:                     $gray;
 $avatar-desc-font-weight:                    $font-weight-regular;
+$scrollbar-hover-color: $pressed-gray;
+
+///////////////////////////////// columns /////////////////////////////////
+// Column width (fixed)
+$column-init: 5rem; // 80px
+$column-1: $column-init * 1; // 80px
+$column-2: $column-init * 2; // 160px
+$column-3: $column-init * 3; // 240px
+$column-4: $column-init * 4; // 320px
+$column-5: $column-init * 5; // 400px
+$column-6: $column-init * 6; // 480px
+$column-7: $column-init * 7; // 560px
+$column-8: $column-init * 8; // 640px
+$column-9: $column-init * 9; // 720px
+$column-10: $column-init * 10; // 800px
+$column-11: $column-init * 11; // 880px
+$column-12: $column-init * 12; // 960px

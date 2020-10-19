@@ -174,7 +174,7 @@
             const divRow = document.createElement('div');
             divRow.classList.add('row');
             const keySelect = document.createElement('select');
-            keySelect.classList.add('column-4');
+            keySelect.classList.add('col-4');
             const searchColumn = document.getElementById('searchColumn');
             for (let i = 0; i < searchColumn.length; i++) {
                 let option = searchColumn[i].cloneNode(true);
@@ -184,7 +184,7 @@
             const equalSpan = document.createElement('span');
             equalSpan.textContent = '=';
             const valueInput = document.createElement('input');
-            valueInput.classList.add('column-7');
+            valueInput.classList.add('col-7');
             valueInput.type = 'text';
             valueInput.maxLength = 100;
             valueInput.value = (typeof param !== 'undefined') ? param.value : '';
