@@ -25,7 +25,7 @@
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
             <h3 class="under-bar" th:text="#{user.label.profile}"></h3>
             <div class="row align-top">
-                <div class="column-6">
+                <div class="col-6">
                     <div th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <div class="form-set">
                             <label class="required" th:text="#{user.label.id}" for="userId"></label>
@@ -60,9 +60,9 @@
                     <div class="form-set">
                         <label th:text="#{user.label.department}" for="department"></label>
                         <div class="row">
-                            <input class="column-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" disabled>
+                            <input class="col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" disabled>
                             <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
-                            <button type="button" class="default-line column-1" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
+                            <button type="button" class="default-line col-1" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
                         </div>
                     </div>
                     <div class="form-set">
@@ -76,7 +76,7 @@
                                onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                     </div>
                 </div>
-                <div class="column-6">
+                <div class="col-6">
                     <div class="form-set avatar-edit-contents">
                         <label class="avatar-head" th:text="#{user.label.avatar}"></label>
                         <div id="avatarDropZone"></div>
@@ -89,21 +89,21 @@
             </div>
             <h3 class="under-bar" th:text="#{user.label.customSetting}"></h3>
             <div class="row">
-                <div class="form-set column-6">
+                <div class="form-set col-6">
                     <label class="required" th:text="#{user.label.timezone}" for="timezone"></label>
                     <select class="custom-setting-top-select" name="timezone" id="timezone">
                         <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
                                 th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone?:defaultTimezone}"></option>
                     </select>
                 </div>
-                <div class="form-set column-6">
+                <div class="form-set col-6">
                     <label th:text="#{user.label.timeFormat}" for="date"></label>
                     <div class="row">
-                        <select class="select-date-time column-4" name="date" id="date">
+                        <select class="select-date-time col-4" name="date" id="date">
                             <option th:each="date: ${dateList}" th:value="${date.codeValue}"
                                     th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
                         </select>
-                        <select class="hour-select column-2" name="time" id="time">
+                        <select class="hour-select col-2" name="time" id="time">
                             <option th:each="time: ${timeList}" th:value="${time.codeValue}"
                                     th:text="${time.code}" th:selected="${time.codeValue} == ${usersTime}"></option>
                         </select>
@@ -111,14 +111,14 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-set column-6">
+                <div class="form-set col-6">
                     <label class="required" th:text="#{user.label.lang}" for="lang"></label>
                     <select class="language-select" name="lang" id="lang">
                         <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
                                 th:text="${lang.codeValue}" th:selected="${lang.codeValue} == ${users?.lang}"></option>
                     </select>
                 </div>
-                <div class="form-set column-6">
+                <div class="form-set col-6">
                     <label class="required" th:text="#{user.label.theme}" for="theme"></label>
                     <select class="theme-color-select" name="theme" id="theme">
                         <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"

@@ -1498,47 +1498,106 @@ button.ghost-line:disabled .icon {
   padding: 0.75rem 1.563rem;
 }
 
-.column-1 {
+/* _columns.scss
+ *
+ * 파일 경로 : template/_columns.scss
+ * @description HTML element 너비 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.col-1 {
   width: 5rem;
 }
 
-.column-2 {
+.col-2 {
   width: 10rem;
 }
 
-.column-3 {
+.col-3 {
   width: 15rem;
 }
 
-.column-4 {
+.col-4 {
   width: 20rem;
 }
 
-.column-5 {
+.col-5 {
   width: 25rem;
 }
 
-.column-6 {
+.col-6 {
   width: 30rem;
 }
 
-.column-7 {
+.col-7 {
   width: 35rem;
 }
 
-.column-8 {
+.col-8 {
   width: 40rem;
 }
 
-.column-9 {
+.col-9 {
   width: 45rem;
 }
 
-.column-10 {
+.col-10 {
   width: 50rem;
 }
 
-.column-fluid {
+.col-11 {
+  width: 55rem;
+}
+
+.col-12 {
+  width: 60rem;
+}
+
+.col-pct-1 {
+  width: 8.3333333333%;
+}
+
+.col-pct-2 {
+  width: 16.6666666667%;
+}
+
+.col-pct-3 {
+  width: 25%;
+}
+
+.col-pct-4 {
+  width: 33.3333333333%;
+}
+
+.col-pct-5 {
+  width: 41.6666666667%;
+}
+
+.col-pct-6 {
+  width: 50%;
+}
+
+.col-pct-7 {
+  width: 58.3333333333%;
+}
+
+.col-pct-8 {
+  width: 66.6666666667%;
+}
+
+.col-pct-9 {
+  width: 75%;
+}
+
+.col-pct-10 {
+  width: 83.3333333333%;
+}
+
+.col-pct-11 {
+  width: 91.6666666667%;
+}
+
+.col-pct-12 {
   width: 100%;
 }
 

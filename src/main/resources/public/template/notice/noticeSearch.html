@@ -18,11 +18,11 @@
                 <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
                 <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
                 <form id="searchFrm">
-                    <input class="search column-5" id="searchValue" name="searchValue" type="text" maxlength="100"
+                    <input class="search col-5" id="searchValue" name="searchValue" type="text" maxlength="100"
                            th:placeholder="#{notice.label.searchPlaceholder}"/>
-                    <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <input class="search-date col-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                     <span>~</span>
-                    <input class="search-date column-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                    <input class="search-date col-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
                     <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
                 </form>
             </div>

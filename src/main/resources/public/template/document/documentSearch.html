@@ -161,11 +161,11 @@
                 <div class="left">
                     <form id="searchDocumentsFrm">
                         <input type="text" id="searchDocuments" name="searchDocuments"
-                               th:placeholder="#{document.label.searchPlaceholder}" class="search column-3"/>
+                               th:placeholder="#{document.label.searchPlaceholder}" class="search col-4"/>
                         <input type="text" id="searchProcessName" name="searchProcessName"
-                               th:placeholder="#{document.label.process}" class="search"/>
+                               th:placeholder="#{document.label.process}" class="search col-3"/>
                         <input type="text" id="searchFormName" name="searchFormName"
-                               th:placeholder="#{document.label.form}" class="search"/>
+                               th:placeholder="#{document.label.form}" class="search col-3"/>
                         <input sec:authorize="hasAuthority('document.read.admin')"
                                type="hidden" id="viewType" name="viewType" value="admin"/>
                         <input type="hidden" id="searchDocumentType" name="searchDocumentType"

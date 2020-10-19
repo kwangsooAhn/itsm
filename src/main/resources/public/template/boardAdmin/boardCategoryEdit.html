@@ -20,11 +20,11 @@
                 <input th:value="${boardAdmin.boardAdminTitle}" disabled>
             </div>
             <div class="row">
-                <div class="form-set column-8">
+                <div class="form-set col-8">
                     <label class="required" th:text="#{board.label.categoryName}" for="boardCategoryName"></label>
                     <input type="text" id="boardCategoryName" maxlength="100" required="required"/>
                 </div>
-                <div class="form-set column-4">
+                <div class="form-set col-4">
                     <label th:text="#{board.label.order}" for="boardCategorySort"></label>
                     <input type="text" id="boardCategorySort" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
                 </div>
