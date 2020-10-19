@@ -18,14 +18,14 @@
                 <input type="hidden" name="isRole" sec:authorize="hasAuthority('download.update')" th:value="true"/>
                 <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
                 <form id="searchFrm">
-                    <select id="category" name="category" class="column-2">
+                    <select id="category" name="category" class="col-2">
                         <option value="" th:text="#{download.category.all}"></option>
                         <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
                     </select>
-                    <input type="text" id="search" name="search" class="search column-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
-                    <input type="text" id="fromDt" name="fromDt" class="search-date column-2" readonly="readonly"/>
+                    <input type="text" id="search" name="search" class="search col-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
+                    <input type="text" id="fromDt" name="fromDt" class="search-date col-2" readonly="readonly"/>
                     <span>~</span>
-                    <input class="search-date column-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                    <input class="search-date col-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
                     <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
                 </form>
             </div>

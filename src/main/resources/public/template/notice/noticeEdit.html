@@ -47,13 +47,13 @@
                 </div>
                 <div id="popTab" class="form_set">
                     <div class="row">
-                        <div class="form-set column-6">
+                        <div class="form-set col-6">
                             <label th:text="#{notice.label.height}" for="popHeight"></label>
                             <input type="text" id="popHeight" name="popHeight" class="px"
                                    th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
                                    oninput="maxLengthCheck(this)" />
                         </div>
-                        <div class="form-set column-6">
+                        <div class="form-set col-6">
                             <label th:text="#{notice.label.width}" for="popWidth"></label>
                             <input type="text" id="popWidth" name="popWidth" class="px"
                                    th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
@@ -61,13 +61,13 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="form-set column-6">
+                        <div class="form-set col-6">
                             <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
-                            <input type="text" id="popStrtDt" name="popStrtDt" class="date column-fluid" />
+                            <input type="text" id="popStrtDt" name="popStrtDt" class="date col-pct-12" />
                         </div>
-                        <div class="form-set column-6">
+                        <div class="form-set col-6">
                             <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
-                            <input type="text" id="popEndDt" name="popEndDt" class="date column-fluid" />
+                            <input type="text" id="popEndDt" name="popEndDt" class="date col-pct-12" />
                         </div>
                     </div>
                 </div>
@@ -81,13 +81,13 @@
                 </div>
                 <div id="topNoticeTab" class="form-set">
                     <div class="row">
-                        <div class="form-set column-6">
+                        <div class="form-set col-6">
                             <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
-                            <input type="text" id="topNoticeStrtDt" class="date column-fluid" name="topNoticeStrtDt"/>
+                            <input type="text" id="topNoticeStrtDt" class="date col-pct-12" name="topNoticeStrtDt"/>
                         </div>
-                        <div class="form-set column-6">
+                        <div class="form-set col-6">
                             <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
-                            <input type="text" id="topNoticeEndDt" class="date column-fluid" name="topNoticeEndDt"/>
+                            <input type="text" id="topNoticeEndDt" class="date col-pct-12" name="topNoticeEndDt"/>
                         </div>
                     </div>
                 </div>

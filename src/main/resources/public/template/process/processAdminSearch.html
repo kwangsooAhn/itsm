@@ -16,7 +16,7 @@
         </div>
         <div class="search-area">
             <div class="left">
-                <input class="search column-5" id="search" type="text" maxlength="100" th:placeholder="#{process.label.searchPlaceholder}">
+                <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{process.label.searchPlaceholder}">
             </div>
             <div class="right">
                 <button th:class="default-line" onclick="openProcessImport();" sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>

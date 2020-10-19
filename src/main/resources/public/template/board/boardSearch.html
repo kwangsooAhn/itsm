@@ -16,15 +16,15 @@
         <div class="search-area">
             <div class="left">
                 <form id="searchFrm">
-                    <select class="search-selectBox column-3" id="boardAdminId" name="boardAdminId">
+                    <select class="search-selectBox col-3" id="boardAdminId" name="boardAdminId">
                         <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
                             th:text="#{${boardAdmin.boardAdminTitle}}"></option>
                     </select>
-                    <input class="search column-3" id="search" name="search" type="text" maxlength="100"
+                    <input class="search col-3" id="search" name="search" type="text" maxlength="100"
                            th:placeholder="#{board.label.searchBoardPlaceholder}"/>
-                    <input class="search-date column-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <input class="search-date col-2" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
                     <span>~</span>
-                    <input class="search-date column-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                    <input class="search-date col-2" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
                     <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
                 </form>
             </div>
