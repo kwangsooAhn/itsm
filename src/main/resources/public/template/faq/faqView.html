@@ -27,17 +27,6 @@
                 <pre><span th:text="${faq?.faqContent}"/></pre>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="file-view-contents">
-                <label class="file-head" th:text="#{common.label.attachFile}"></label>
-                <div class="vertical-bar"></div>
-                <form id="frm" method="post">
-                    <div class="file-list-contents">
-                        <div id="dropZoneFiles"></div>
-                        <div id="dropZoneUploadedFiles"></div>
-                    </div>
-                </form>
-            </div>
-            <div class="horizontal-bar"></div>
             <div class="btn-bar">
                 <a class="btn default-line" href="/faqs/search" th:text="#{common.btn.list}"></a>
             </div>
@@ -59,7 +48,6 @@
                 });
                 return;
             }
-            fileUploader.init({extra: {formId: 'frm', ownId: faqId, editor: false, isView: true}});
         }
         /*]]>*/
     </script>
