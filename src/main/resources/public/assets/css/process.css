@@ -1685,6 +1685,7 @@ button.ghost-line:disabled .icon {
 
 .process-header {
   display: flex;
+  position: fixed;
   width: 100vw;
   height: 3.125rem;
   background-color: #0098ff;
