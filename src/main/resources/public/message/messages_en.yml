@@ -914,5 +914,6 @@ file:
   label:
     or: "or"
   msg:
-    upload: "Drop files here to upload."
     browser: "browser."
+    noAttachFile: "There are no attachments."
+    upload: "Drop files here to upload."

@@ -25,7 +25,7 @@ button {
     @include maskImage('#{$icon-folder-path}icon_edit.svg', 20px, 20px, no-repeat, center, 20px 20px, $dark-gray);
   }
   // 삭제 아이콘
-  .icon_delete {
+  .icon-delete {
     display: inline-block;
     @include maskImage('#{$icon-folder-path}icon_delete.svg', 18px, 20px, no-repeat, center, 18px 20px, $dark-gray);
   }

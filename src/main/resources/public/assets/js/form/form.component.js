@@ -677,11 +677,12 @@
                     `<span class="required"></span>` +
                 `</div>` +
                 `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
-                `<div class="field-content" id="fileupload"${displayType === 'editableRequired' ? ' required' : ''} style="--data-column: ${property.display.column};">` +
+                `<div class="field-content file-uploader-edit" id="fileupload"${displayType === 'editableRequired' ? ' required' : ''} style="--data-column: ${property.display.column};">` +
                     `<div id="dropZoneFiles-${this.id}"></div>` +
                     `<div id="dropZoneUploadedFiles-${this.id}">` +
                         `<div class="dropzone">` +
                             `<div class="dz-default dz-message">` +
+                                `<span class="icon-no-file"></span>` +
                                 `<span>${i18n.msg('file.msg.upload')}</span>` +
                                 ` <div class="add-file-button-wrap"><span>${i18n.msg('file.label.or')} </span><span class="add-file-button dz-clickable">${i18n.msg('file.msg.browser')}</span></div>` +
                             `</div>` +

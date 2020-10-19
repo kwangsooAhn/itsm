@@ -131,7 +131,7 @@ const fileUploader = (function () {
         justText.textContent = extraParam.clickableLineMessage;
 
         const addFileBtn = document.createElement('span');
-        addFileBtn.className = extraParam.clickable;
+        addFileBtn.classList.add(extraParam.clickable, 'underline');
         addFileBtn.textContent = extraParam.clickableMessage;
 
         const addFileBtnWrap = document.createElement('div');
@@ -336,6 +336,15 @@ const fileUploader = (function () {
                         +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
+                        _this.isFileExist = (files.length > 0);
+                        // 파일이 존재하지 않으면
+                        if (!_this.isFileExist && extraParam.isView) {
+                            const noFileStr = document.createElement('span');
+                            noFileStr.className = 'text-no-file';
+                            noFileStr.textContent = i18n.msg('file.msg.noAttachFile');
+                            dropZoneUploadedFiles.appendChild(noFileStr);
+                        }
+
                         files.forEach(function (fileMap) {
                             let file = fileMap.fileLocDto;
                             const fileBytes = file.fileSize;
@@ -366,10 +375,18 @@ const fileUploader = (function () {
                             const fileSizeStr = document.createElement('span');
                             fileSizeStr.textContent = convertedFileSize;
                             fileSize.appendChild(fileSizeStr);
+                            // 다운로드
                             const download = document.createElement('div');
                             download.className = 'dz-download';
+                            const downloadIcon = document.createElement('span');
+                            downloadIcon.className = 'icon-download';
+                            download.appendChild(downloadIcon);
+                            // 삭제
                             const remove = document.createElement('div');
                             remove.className = 'dz-remove';
+                            const removeIcon = document.createElement('span');
+                            removeIcon.className = 'icon-delete';
+                            remove.appendChild(removeIcon);
                             const fileSeq = document.createElement('input');
                             fileSeq.setAttribute('type', 'hidden');
                             fileSeq.setAttribute('name', 'loadedFileSeq');
@@ -404,7 +421,16 @@ const fileUploader = (function () {
                                 remove.addEventListener('click', function (e) {
                                     const delFile = this.parentElement.querySelector('input[name=loadedFileSeq]');
                                     delFile.setAttribute('name', delFileAttrName);
-                                    delFile.closest('.dz-preview').style.display = 'none';
+
+                                    const delFilePreview = delFile.closest('.dz-preview');
+                                    delFilePreview.style.display = 'none';
+
+                                    // 파일이 하나도 없다면 아이콘을 보여준다.
+                                    let previewList = delFilePreview.parentNode.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
+                                    if (previewList.length === 0) {
+                                        delFilePreview.parentNode.querySelector('.icon-no-file').style.display = 'block';
+                                        _this.isFileExist = false;
+                                    }
                                 });
                             }
                         });
@@ -415,8 +441,17 @@ const fileUploader = (function () {
                 aliceJs.sendXhr(opt);
 
                 if (extraParam.editor) {
+                    const dropzoneMessage = _this.element.querySelector('.dz-message');
+                    // 아이콘 추가
+                    const dropzoneIcon = document.createElement('span');
+                    dropzoneIcon.className = 'icon-no-file';
+                    if (_this.isFileExist) {
+                      dropzoneIcon.style.display = 'none';
+                    }
+                    dropzoneMessage.insertBefore(dropzoneIcon, dropzoneMessage.firstChild);
+                    // browse 버튼 추가
                     const addFileBtn = _this.element.querySelector('.' + addFileBtnWrapClassName);
-                    _this.element.querySelector('.dz-message').appendChild(addFileBtn);
+                    dropzoneMessage.appendChild(addFileBtn);
 
                     //파일접근시 사용.
                     //all accepted files: .getAcceptedFiles()
@@ -429,12 +464,28 @@ const fileUploader = (function () {
                         if (extraParam.isDropzoneUnder) {
                             dropzoneMessage.style.display = 'none';
                         }
+                        // 파일 추가시 아이콘 숨기기
+                        if (!_this.isFileExist) {
+                            dropzoneMessage.firstChild.style.display = 'none';
+                            _this.isFileExist = true;
+                        }
                         file.previewElement.querySelector('.dz-file-type').src = setFileIcon(file.name, extraParam.isView);
+                        // 삭제 아이콘 추가
+                        const removeIcon = document.createElement('span');
+                        removeIcon.className = 'icon-delete';
+                        file.previewElement.querySelector('.dz-remove').appendChild(removeIcon);
+
                         validation(this, file, 'fileUploader');
                         exportFile = file;
                     });
 
                     this.on("removedfile", function (file) {
+                        let previewList = _this.element.querySelectorAll('.dz-preview:not([style*="display:none"]):not([style*="display: none"])');
+                        if (_this.files.length === 0 && previewList.length === 0) {
+                            const dropzoneMessage = _this.element.querySelector('.dz-message');
+                            dropzoneMessage.firstChild.style.display = 'block';
+                            _this.isFileExist = false;
+                        }
                     });
 
                     this.on("sending", function (file, xhr, formData) {

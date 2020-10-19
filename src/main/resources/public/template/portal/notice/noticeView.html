@@ -29,11 +29,11 @@
                 <pre><span th:text="${notice?.noticeContents}"/></pre>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="file-view-contents">
-                <label class="file-head" th:text="#{common.label.attachFile}"></label>
+            <div class="file-uploader-view">
+                <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
                 <div class="vertical-bar"></div>
                 <form id="frm" method="post">
-                    <div class="file-list-contents">
+                    <div class="file-uploader-list">
                         <div id="dropZoneFiles"></div>
                         <div id="dropZoneUploadedFiles"></div>
                     </div>

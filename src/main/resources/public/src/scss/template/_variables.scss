@@ -159,14 +159,35 @@ $btn-group-toggle-bg-color:                  $light-gray;
 
 //////////////////////////////// scrollbar ////////////////////////////////
 // scrollbar 두께
-$scrollbar-thick: 8px; // 8px
+$scrollbar-thick:                            8px; // 8px
 // element 내부 scrollbar 두께
-$scrollbar-thick-sm: 4px; // 4px 
+$scrollbar-thick-sm:                         4px; // 4px 
 // scrollbar 색상
-$scrollbar-color: $default-gray;
+$scrollbar-color:                            $default-gray;
 // scrollbar 모서리 곡선
-$scrollbar-border-radius: 8px; // 8px 
+$scrollbar-border-radius:                     8px; // 8px 
 // scrollbar 배경 색상
-$scrollbar-bg-color: rgba(235,235,235, 0.6);
+$scrollbar-bg-color:                         rgba(235,235,235, 0.6);
 // scrollbar hover, click 이동시 색상
-$scrollbar-hover-color: $pressed-gray;
+$scrollbar-hover-color:                      $pressed-gray;
+
+//////////////////////////////// fileuploader ////////////////////////////////
+$file-uploader-font-size:                    $font-size-base;
+$file-uploader-font-color:                   $dark-gray;
+$file-uploader-font-weight:                  $font-weight-regular;
+// drag and drop 영역
+$dropzone-font-size:                         $font-size-base;
+$dropzone-font-color:                        $gray;
+$dropzone-font-weight:                       $font-weight-regular;
+$dropzone-bg-color:                          $light-gray;
+$dropzone-border:                            0.0625rem solid $line-gray; // 1px
+// browse click 버튼
+$dropzone-clickable-font-color:             $point-blue;
+// 미리보기
+$file-uploader-preview-height:               5rem; // 80px;
+$file-uploader-progress-color:               $point-blue;
+$file-uploader-progress-bg-color:            $line-gray;
+$file-uploader-filename-font-color:          $dark-gray;
+$file-uploader-filesize-font-color:          $gray;
+// 파일 미존재시
+$file-uploader-no-date-font-color:           $gray;

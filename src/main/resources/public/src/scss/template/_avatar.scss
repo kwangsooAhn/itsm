@@ -1,0 +1,124 @@
+/* _avatar.scss 
+ *
+ * 파일 경로 : template/_avatar.scss
+ * @description 아바타 관련 디자인
+ * @author wdj
+ * @version 1.0
+ */
+.avatar {
+    &-edit-contents {
+        display: flex;
+        flex-direction: column;
+        // 아바타 타이틀
+        .avatar-head {
+            margin: 0.5625rem 0 0.5625rem 0; // 9px
+            font-size: 1rem; // 16px
+            font-weight: 500;
+            color: $light-black;
+        }
+
+        .avatar {
+            width: 18.75rem; // 300px
+            height: 18.75rem;
+            padding: 0;
+            @include background ($icon-folder-path + 'icon_image.svg', 5rem, no-repeat, center, 5rem, null); // 65px
+            .dz-message {
+                margin: 12.5rem 0 3rem 0; // 200px 0 48px 0
+            }
+            .dz-preview {
+                height: 100%;
+                padding: 0;
+                border: 0;
+
+                .dz-image {
+                    overflow: hidden;
+                    position: relative;
+                    display: block;
+                    z-index: 10;
+
+                    img {
+                        display: block;
+                    }
+                }
+
+                .dz-details {
+                    position: absolute;
+                    display: block;
+
+                    .dz-file-type,
+                    .dz-filename,
+                    .dz-size {
+                        display: none;
+                    }
+                    .dz-remove {
+                        width: 1.125rem;
+                        height: 1.125rem;
+                        background-color: rgba(255, 255, 255, 0.4);
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                        @include background ($icon-folder-path + 'icon_close.svg', 0.875rem, no-repeat, center, center, null); // 14px
+                        &:hover {
+                            background-color: rgba(255, 255, 255, 0.9);
+                        }
+                    }
+                }
+
+                .dz-progress {
+                    width: 85%;
+                }
+            }
+            &.dz-started .dz-message {
+                display: none;
+            }
+        }
+
+        .avatar-description {
+            margin-top: 1rem; // 16px
+            .avatar-text {
+                display: block;
+                font-size: 1rem; // 16px
+                font-weight: 400;
+                color: $gray;
+                text-align: left;
+                margin-bottom: 0.3125rem;
+            }
+        }
+        // 회원 가입시 아바타
+        .avatar-sm-contents {
+            margin-bottom: 1.25rem; // 20px
+
+            > div {
+                display: inline-block;
+                &:first-child {
+                    margin-right: 0.625rem;
+                }
+            }
+
+            .avatar {
+                width: 9.375rem; // 150px
+                height: 9.375rem;
+                padding: 0;
+                @include background ($icon-folder-path + 'icon_image.svg', 2.813rem, no-repeat, center, 1.688rem, null); // 45px, 27px
+                .dz-message {
+                    margin: 5.625rem 0 0 0;
+                    span {
+                        font-size: 0.8125rem; // 13px
+                    }
+                }
+                .dz-preview {
+                    .dz-progress {
+                        width: 80%;
+                    }
+                }
+            }
+            
+            .avatar-description {
+                vertical-align: top;
+                .avatar-text {
+                    font-size: 0.8125rem;
+                }
+            }
+        }
+    }
+}
