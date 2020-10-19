@@ -15,7 +15,7 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
             .where(
                 super.likeIgnoreCase(role.roleId, search)
                     ?.or(super.likeIgnoreCase(role.roleDesc, search))
-            ).orderBy(role.roleId.asc())
+            ).orderBy(role.roleName.asc())
             .fetchResults()
     }
 }

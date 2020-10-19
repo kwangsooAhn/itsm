@@ -13,7 +13,7 @@
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
         <div class="form-container">
-            <div class="toolbar">
+            <div class="header">
                 <img class="load-svg logo"  th:src="@{/assets/media/icons/form/topmenu/logo.svg}"/>
                 <span class="name">Form Designer</span>
                 <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
@@ -61,7 +61,7 @@
             <div class="contents">
                 <div class="drawing-board" id="form-panel"></div>
             </div>
-            <div class="aside" id="properties-panel"></div>
+            <div class="properties" id="properties-panel"></div>
         </div>
         <div class="context-menu" id="context-menu">
             <ul class="menu">

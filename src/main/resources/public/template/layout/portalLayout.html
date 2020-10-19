@@ -19,7 +19,9 @@
                     <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"
                             th:text="#{portal.label.login}"></div>
                 </div>
-                <th:block layout:fragment="content"></th:block>
+                <div class="portal-contents">
+                    <th:block layout:fragment="content"></th:block>
+                </div>
             </div>
         </div>
         <th:block layout:fragment="pageScript"></th:block>

@@ -6,7 +6,6 @@
 
 package co.brainz.itsm.faq.service
 
-import co.brainz.framework.fileTransaction.dto.AliceFileDto
 import co.brainz.framework.fileTransaction.service.AliceFileService
 import co.brainz.itsm.faq.dto.FaqDto
 import co.brainz.itsm.faq.dto.FaqListDto
@@ -70,8 +69,7 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
             faqTitle = faqDto.faqTitle,
             faqContent = faqDto.faqContent
         )
-        val savedFaq = faqRepository.save(faqEntity)
-        aliceFileService.upload(AliceFileDto(ownId = savedFaq.faqId, fileSeq = faqDto.fileSeq))
+        faqRepository.save(faqEntity)
     }
 
     /**
@@ -84,7 +82,6 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
         faqEntity.faqTitle = faqDto.faqTitle
         faqEntity.faqContent = faqDto.faqContent
         faqRepository.save(faqEntity)
-        aliceFileService.upload(AliceFileDto(ownId = faqId, fileSeq = faqDto.fileSeq, delFileSeq = faqDto.delFileSeq))
     }
 
     /**
@@ -93,6 +90,5 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
     @Transactional
     fun deleteFaq(faqId: String) {
         faqRepository.deleteById(faqId)
-        aliceFileService.delete(faqId)
     }
 }

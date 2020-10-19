@@ -35,11 +35,6 @@
                     <label class="required" th:text="#{common.label.contents}" for="faqContent"></label>
                     <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}" rows="11"></textarea>
                 </div>
-                <div class="form-set file-uploader-edit">
-                    <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
-                    <div id="dropZoneFiles"></div>
-                    <div id="dropZoneUploadedFiles"></div>
-                </div>
                 <div class="btn-list btn-bar">
                     <button type="button" class="point-fill" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
                             th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
@@ -111,7 +106,6 @@
                     aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
                 });
             }
-            fileUploader.init({extra: {ownId: [[${faq?.faqId}]]}});
         };
         /*]]>*/
     </script>

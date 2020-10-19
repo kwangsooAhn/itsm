@@ -44,7 +44,7 @@ class PortalController(
     private val portalNoticeViewPage: String = "portal/notice/noticeView"
     private val portalFaqPage: String = "portal/faq/portalFaq"
     private val portalFaqListPage: String = "portal/faq/portalFaqList"
-    private val portalDwnloadSearchPage: String = "portal/download/downloadSearch"
+    private val portalDownloadSearchPage: String = "portal/download/downloadSearch"
     private val portalDownloadListPage: String = "portal/download/downloadList"
     private val portalDownloadViewPage: String = "portal/download/downloadView"
 
@@ -131,7 +131,7 @@ class PortalController(
             "categoryList",
             codeService.selectCodeByParent(DownloadConstants.DOWNLOAD_CATEGORY_P_CODE)
         )
-        return portalDwnloadSearchPage
+        return portalDownloadSearchPage
     }
 
     /**

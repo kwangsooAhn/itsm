@@ -15,6 +15,7 @@ import co.brainz.itsm.faq.entity.FaqEntity
 import co.brainz.itsm.faq.entity.QFaqEntity
 import co.brainz.itsm.portal.dto.PortalTopDto
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
 
@@ -34,6 +35,18 @@ class FaqRepositoryImpl(
         }
 
         val query = from(faq)
+            .select(
+                Projections.constructor(
+                    FaqListDto::class.java,
+                    faq.faqId,
+                    faq.faqGroup,
+                    faq.faqTitle,
+                    faq.faqContent,
+                    Expressions.numberPath(Long::class.java, "0"),
+                    faq.createDt,
+                    faq.createUser.userName
+                )
+            )
             .where(
                 super.likeIgnoreCase(faq.faqTitle, searchRequestDto.search)
                     ?.or(super.inner(faq.faqGroup, searchRequestDto.groupCodes))
@@ -44,18 +57,8 @@ class FaqRepositoryImpl(
 
         val faqList = mutableListOf<FaqListDto>()
         for (data in query.results) {
-            val faqListDto = FaqListDto(
-                faqId = data.faqId,
-                faqGroup = data.faqGroup,
-                faqTitle = data.faqTitle,
-                faqContent = data.faqContent,
-                totalCount = query.total,
-                createDt = data.createDt,
-                createUserName = data.createUser?.userName,
-                updateDt = data.updateDt,
-                updateUserName = data.updateUser?.userName
-            )
-            faqList.add(faqListDto)
+            data.totalCount = query.total
+            faqList.add(data)
         }
 
         return faqList.toList()

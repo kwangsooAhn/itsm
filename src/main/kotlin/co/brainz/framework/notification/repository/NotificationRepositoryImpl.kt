@@ -1,20 +1,34 @@
 package co.brainz.framework.notification.repository
 
-import co.brainz.framework.auth.entity.AliceUserEntity
+import co.brainz.framework.constants.AliceConstants
+import co.brainz.framework.notification.dto.NotificationDto
 import co.brainz.framework.notification.entity.NotificationEntity
 import co.brainz.framework.notification.entity.QNotificationEntity
+import com.querydsl.core.types.Projections
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 
 class NotificationRepositoryImpl : QuerydslRepositorySupport(NotificationEntity::class.java),
     NotificationRepositoryCustom {
-    override fun findNotificationList(receivedUser: AliceUserEntity): List<NotificationEntity> {
+
+    override fun findNotificationList(receivedUser: String): List<NotificationDto> {
         val notification = QNotificationEntity.notificationEntity
         return from(notification)
-            .innerJoin(notification.receivedUser).fetchJoin()
-            .where(notification.receivedUser.eq(receivedUser))
-            .orderBy(notification.confirmYn.asc())
-            .orderBy(notification.createDt.desc())
-            .limit(50)
+            .select(
+                Projections.constructor(
+                    NotificationDto::class.java,
+                    notification.notificationId,
+                    notification.receivedUser.userKey,
+                    notification.title,
+                    notification.message,
+                    notification.instanceId,
+                    notification.confirmYn,
+                    notification.displayYn,
+                    notification.createDt
+                )
+            )
+            .where(notification.receivedUser.userId.eq(receivedUser))
+            .orderBy(notification.confirmYn.asc(), notification.createDt.desc())
+            .limit(AliceConstants.NOTIFICATION_SIZE)
             .fetch()
     }
 }
