@@ -11,7 +11,5 @@ data class FaqDto(
     var createDt: LocalDateTime = LocalDateTime.now(),
     var createUserKey: String?,
     var updateDt: LocalDateTime = LocalDateTime.now(),
-    var updateUserKey: String?,
-    var fileSeq: List<Long>?,
-    var delFileSeq: List<Long>?
+    var updateUserKey: String?
 ) : Serializable
