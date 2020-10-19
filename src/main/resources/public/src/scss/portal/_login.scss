@@ -1,6 +1,6 @@
 .login {
     &-logo {
-        position: absolute;
+        position: relative;
         top: 5rem; // 80px
         left: 5rem; // 80px
     }
@@ -11,7 +11,7 @@
         width: 80.3125rem; // 1285px;
         color: $white;
         .login-main-image {
-            margin-top: 155px;
+            margin-top: 0.9375rem; // 15px;
             margin-left: 6.875rem; // 110px
             height: 44.375rem; // 710px
             width: 66.9375rem; // 1071px

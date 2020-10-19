@@ -1,6 +1,6 @@
 .signup {
     &-logo {
-        position: absolute;
+        position: relative;
         top: 5rem; // 80px
         left: 5rem; // 80px
     }
@@ -10,16 +10,19 @@
         height: 100%;
         width: 80.3125rem;
         .signup-main-image {
-            position: absolute;
-            bottom: 0; // .1875rem; // 99px
+            position: inherit;
+            margin-top: 1.6875rem; // 27px
+            width: inherit;
+            height: initial;
         }
     }
 
 
     &-login-face {
-        position: absolute;
+        position: inherit;
         top: 5rem; // 80px
-        left:  890px; // 890px
+        float: right;
+        margin-right: 5rem; // 80px
     }
 
     &-login-note {
