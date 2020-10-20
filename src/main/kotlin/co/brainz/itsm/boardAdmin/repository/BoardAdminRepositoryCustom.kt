@@ -15,4 +15,6 @@ interface BoardAdminRepositoryCustom : AliceRepositoryCustom {
         search: String,
         offset: Long
     ): List<BoardAdminListDto>
+
+    fun findPortalBoardAdmin(): List<BoardAdminListDto>
 }

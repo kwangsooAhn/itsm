@@ -14,6 +14,7 @@ import co.brainz.itsm.boardAdmin.entity.QPortalBoardAdminEntity
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 import org.springframework.stereotype.Repository
@@ -77,12 +78,30 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 boardBoardCount = data.boardBoardCount,
                 totalCount = query.total,
                 createDt = data.createDt,
-                createUserName = data.createUser?.userName,
-                updateDt = data.updateDt,
-                updateUserName = data.updateUser?.userName
+                createUserName = data.createUser?.userName
             )
             boardAdminList.add(boardAdminListDto)
         }
         return boardAdminList.toList()
+    }
+
+    override fun findPortalBoardAdmin(): List<BoardAdminListDto> {
+        val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
+        return from(boardAdmin)
+            .select(
+                Projections.constructor(
+                    BoardAdminListDto::class.java,
+                    boardAdmin.boardAdminId,
+                    boardAdmin.boardAdminTitle,
+                    boardAdmin.categoryYn,
+                    Expressions.numberPath(Long::class.java, "0"),
+                    Expressions.numberPath(Long::class.java, "0"),
+                    boardAdmin.createDt,
+                    boardAdmin.createUser.userName
+                )
+            )
+            .where(boardAdmin.boardUseYn.eq(true))
+            .orderBy(boardAdmin.boardAdminSort.asc())
+            .fetch()
     }
 }

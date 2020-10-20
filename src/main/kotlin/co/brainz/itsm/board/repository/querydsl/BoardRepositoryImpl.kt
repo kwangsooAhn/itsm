@@ -8,6 +8,7 @@ package co.brainz.itsm.board.repository.querydsl
 
 import co.brainz.itsm.board.dto.BoardDto
 import co.brainz.itsm.board.dto.BoardListDto
+import co.brainz.itsm.board.dto.BoardViewDto
 import co.brainz.itsm.board.entity.PortalBoardEntity
 import co.brainz.itsm.board.entity.QPortalBoardCommentEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
@@ -16,6 +17,7 @@ import co.brainz.itsm.boardAdmin.entity.QPortalBoardCategoryEntity
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import java.time.LocalDateTime
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
@@ -89,5 +91,26 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
             boardList.add(boardListDto)
         }
         return boardList.toList()
+    }
+
+    override fun findByBoardId(boardId: String): BoardViewDto {
+        val board = QPortalBoardEntity.portalBoardEntity
+
+        return from(board)
+            .select(
+                Projections.constructor(
+                    BoardViewDto::class.java,
+                    board.boardId,
+                    board.boardAdmin,
+                    board.boardCategoryId,
+                    Expressions.asString(""),
+                    board.boardTitle,
+                    board.boardContents,
+                    board.createDt,
+                    board.createUser
+                )
+            )
+            .where(board.boardId.eq(boardId))
+            .fetchOne()
     }
 }
