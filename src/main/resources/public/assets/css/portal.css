@@ -1060,6 +1060,280 @@ input, button, select, optgroup, textarea {
   font-size: 0.8125rem;
 }
 
+/* _date-picker.scss 
+ *
+ * 파일 경로 : template/_date-picker.scss
+ * @description Date/Time picker 관련 디자인
+ * @author wdj
+ * @version 1.0
+ */
+.picker-wrapper-date {
+  display: inline-block;
+}
+
+.picker-modal {
+  display: none;
+  position: fixed;
+  min-width: 23.375rem;
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #586872;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.0625rem;
+  box-shadow: 0 0 0.3125rem 0 #ebebeb;
+  text-align: center;
+  z-index: 999;
+}
+
+.picker-modal.active {
+  display: block;
+  z-index: 999;
+}
+
+.picker-modal-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #3F4B56;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  padding: 1.125rem 0;
+}
+
+.picker-modal-title .icon-close {
+  position: absolute;
+  display: inline-block;
+  right: 1.25rem;
+  cursor: pointer;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_close.svg");
+  mask-image: url("../media/icons/icon_close.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+}
+
+.picker-modal-title .icon-close:hover {
+  background: #0098FF;
+}
+
+.picker-modal-sub-title {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+  background-color: #F7F8F9;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  padding: 0.625rem 0;
+}
+
+.picker-modal-content {
+  display: flex;
+  justify-content: center;
+  border-bottom: 0.0625rem solid #EBEBEB;
+  padding: 1.25rem 0 0.9375rem 0;
+}
+
+.picker-modal-content-date {
+  display: none;
+  width: 23.375rem;
+}
+
+.picker-modal-content-date.active {
+  display: inline-block;
+}
+
+.picker-modal-content-date.active + div.active {
+  border-left: 0.0625rem solid #EBEBEB;
+}
+
+.picker-modal-content-date-months {
+  display: table;
+  height: 1.563rem;
+  margin: 0 2.813rem;
+}
+
+.picker-modal-content-date-months img {
+  vertical-align: middle;
+}
+
+.picker-modal-content-date-months .date-prev {
+  display: table-cell;
+  cursor: pointer;
+  width: 0.625rem;
+  height: 1.563rem;
+  -webkit-mask-image: url("../media/icons/icon_arrow_left.svg");
+  mask-image: url("../media/icons/icon_arrow_left.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #586872;
+}
+
+.picker-modal-content-date-months .date-text {
+  display: table-cell;
+  width: 16.5rem;
+  margin: 0;
+  padding: 0;
+  vertical-align: middle;
+}
+
+.picker-modal-content-date-months .date-next {
+  display: table-cell;
+  cursor: pointer;
+  width: 0.625rem;
+  height: 1.563rem;
+  -webkit-mask-image: url("../media/icons/icon_arrow_right.svg");
+  mask-image: url("../media/icons/icon_arrow_right.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #586872;
+}
+
+.picker-modal-content-date-calendar {
+  color: #ACB4BF;
+  padding: 0.625rem 1.5rem 0 1.5rem;
+}
+
+.picker-modal-content-date-calendar .calendar-cell {
+  display: inline-block;
+  width: 1.875rem;
+  height: 1.875rem;
+  line-height: 1.75rem;
+  padding: 0;
+  margin: 0.25rem 0.4375rem;
+  text-align: center;
+}
+
+.picker-modal-content-date-calendar .calendar-cell.calendar-title {
+  pointer-events: none;
+}
+
+.picker-modal-content-date-calendar .calendar-cell:not(.calendar-title) {
+  cursor: pointer;
+}
+
+.picker-modal-content-date-calendar .calendar-cell.active {
+  color: #586872;
+}
+
+.picker-modal-content-date-calendar .calendar-cell.selected {
+  color: #ffffff;
+  background-color: #0098FF;
+  border-radius: 50%;
+}
+
+.picker-modal-content-time {
+  display: none;
+  width: 23.375rem;
+  justify-content: center;
+  padding: 1.188rem 2.25rem;
+}
+
+.picker-modal-content-time.active {
+  display: flex;
+}
+
+.picker-modal-content-time .hour-group,
+.picker-modal-content-time .minute-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.picker-modal-content-time .hour-group .arrow-up,
+.picker-modal-content-time .minute-group .arrow-up {
+  display: inline-block;
+  margin: 0;
+  cursor: pointer;
+  width: 1.125rem;
+  height: 0.625rem;
+  -webkit-mask-image: url("../media/icons/icon_triangle_up.svg");
+  mask-image: url("../media/icons/icon_triangle_up.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+}
+
+.picker-modal-content-time .hour-group .arrow-up:hover,
+.picker-modal-content-time .minute-group .arrow-up:hover {
+  background: #0098FF;
+}
+
+.picker-modal-content-time .hour-group .arrow-down,
+.picker-modal-content-time .minute-group .arrow-down {
+  display: inline-block;
+  margin: 0;
+  cursor: pointer;
+  width: 1.125rem;
+  height: 0.625rem;
+  -webkit-mask-image: url("../media/icons/icon_triangle_down.svg");
+  mask-image: url("../media/icons/icon_triangle_down.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+}
+
+.picker-modal-content-time .hour-group .arrow-down:hover,
+.picker-modal-content-time .minute-group .arrow-down:hover {
+  background: #0098FF;
+}
+
+.picker-modal-content-time .hour-group .digit,
+.picker-modal-content-time .minute-group .digit {
+  width: 3.75rem;
+  height: 3.75rem;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: #3F4B56;
+  text-align: center;
+  padding: 0;
+  margin: 2.1875rem 0;
+}
+
+.picker-modal-content-time .hour-group .digit:focus,
+.picker-modal-content-time .minute-group .digit:focus {
+  outline: none;
+  border: 0.0625rem solid #0098FF;
+}
+
+.picker-modal-content-time .btn-vertical {
+  padding-left: 0.625rem;
+}
+
+.picker-modal-content-time .btn-vertical button {
+  width: 3.75rem;
+  height: 1.875rem;
+  border-radius: 0.0625rem;
+  padding: 4px 14px;
+}
+
+.picker-modal-content-time .separator {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 2.5rem;
+  font-size: 1.75rem;
+  font-weight: 500;
+  color: #3F4B56;
+}
+
+.picker-modal-button {
+  float: right;
+  margin: 1.25rem 1.25rem 1.25rem 0;
+}
+
 /* _fonts.scss 
  *
  * 파일 경로 : template/_fonts.scss
@@ -2005,6 +2279,7 @@ button.ghost-line:disabled .icon {
   color: #3F4B56;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.1875rem;
 }
 
 .btn-group .btn .icon,
@@ -2033,22 +2308,13 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
+  z-index: 1;
 }
 
 .btn-group .btn:not(:disabled):active .icon, .btn-group .btn:not(:disabled).active .icon,
 .btn-group button:not(:disabled):active .icon,
 .btn-group button:not(:disabled).active .icon {
   background: #0098FF;
-}
-
-.btn-group .btn:not(:disabled):active + .btn,
-.btn-group .btn:not(:disabled):active + button, .btn-group .btn:not(:disabled).active + .btn,
-.btn-group .btn:not(:disabled).active + button,
-.btn-group button:not(:disabled):active + .btn,
-.btn-group button:not(:disabled):active + button,
-.btn-group button:not(:disabled).active + .btn,
-.btn-group button:not(:disabled).active + button {
-  border-left-color: #0098FF;
 }
 
 .btn-group .btn:disabled,
@@ -2065,6 +2331,7 @@ button.ghost-line:disabled .icon {
 
 .btn-group .btn:not(:first-child),
 .btn-group button:not(:first-child) {
+  margin-left: -0.0625rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -2073,7 +2340,32 @@ button.ghost-line:disabled .icon {
 .btn-group button:not(:last-of-type) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-right: none;
+}
+
+.btn-group.btn-vertical {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.btn-group.btn-vertical .btn,
+.btn-group.btn-vertical button {
+  flex: 0 1 auto;
+  border-radius: 0.1875rem;
+}
+
+.btn-group.btn-vertical .btn:not(:first-child),
+.btn-group.btn-vertical button:not(:first-child) {
+  margin-left: 0;
+  margin-top: -0.0625rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.btn-group.btn-vertical .btn:not(:last-of-type),
+.btn-group.btn-vertical button:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .btn-group-toggle {
@@ -2084,13 +2376,14 @@ button.ghost-line:disabled .icon {
 
 .btn-group-toggle .btn,
 .btn-group-toggle button {
-  flex: 1 1 auto;
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.2;
   color: #ACB4BF;
   background-color: #F7F8F9;
   border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.1875rem;
+  flex: 1 1 auto;
 }
 
 .btn-group-toggle .btn .icon,
@@ -2119,6 +2412,7 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
+  z-index: 1;
 }
 
 .btn-group-toggle .btn:not(:disabled):active .icon, .btn-group-toggle .btn:not(:disabled).active .icon,
@@ -2141,6 +2435,7 @@ button.ghost-line:disabled .icon {
 
 .btn-group-toggle .btn:not(:first-child),
 .btn-group-toggle button:not(:first-child) {
+  margin-left: -0.0625rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -2149,7 +2444,32 @@ button.ghost-line:disabled .icon {
 .btn-group-toggle button:not(:last-of-type) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-right-color: transparent;
+}
+
+.btn-group-toggle.btn-vertical {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.btn-group-toggle.btn-vertical .btn,
+.btn-group-toggle.btn-vertical button {
+  flex: 0 1 auto;
+  border-radius: 0.1875rem;
+}
+
+.btn-group-toggle.btn-vertical .btn:not(:first-child),
+.btn-group-toggle.btn-vertical button:not(:first-child) {
+  margin-left: 0;
+  margin-top: -0.0625rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.btn-group-toggle.btn-vertical .btn:not(:last-of-type),
+.btn-group-toggle.btn-vertical button:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .btn-list {
@@ -3177,306 +3497,6 @@ button.ghost-line:disabled .icon {
 
 .login-other-signUp:last-child, .login-other-findPwd:last-child, .login-other-findId:last-child {
   border: none;
-}
-
-/* _date-picker.scss 
- *
- * 파일 경로 : template/_date-picker.scss
- * @description Date/Time picker 관련 디자인
- * @author wdj
- * @version 1.0
- */
-.picker-wrapper-date {
-  display: inline-block;
-}
-
-.picker-modal {
-  font-family: inherit;
-  display: none;
-  position: fixed;
-  background-color: #ffffff;
-  border: solid 0.0625rem #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #ebebeb;
-  text-align: center;
-  z-index: 999;
-  min-width: 23.375rem;
-}
-
-.picker-modal.active {
-  display: block;
-  z-index: 999;
-}
-
-.picker-modal-title {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #3F4B56;
-  height: 3.3125rem;
-  background-color: #ffffff;
-  border-bottom: solid 0.0625rem #EBEBEB;
-  padding: 1.125rem 0;
-}
-
-.picker-modal-title span.close {
-  position: absolute;
-  right: 1.25rem;
-  background: #CCCED1;
-  width: 0.875rem;
-  height: 0.875rem;
-  -webkit-mask: url("../media/icons/icon_close.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_close.svg");
-  mask-repeat: no-repeat;
-  mask-position: center;
-  cursor: pointer;
-}
-
-.picker-modal-sub-title {
-  color: #586872;
-  font-size: 1rem;
-  font-weight: 400;
-  background-color: #F7F8F9;
-  border-bottom: solid 0.0625rem #EBEBEB;
-  padding: 0.5rem 0;
-}
-
-.picker-modal-content {
-  display: flex;
-  justify-content: center;
-  border-bottom: solid 0.0625rem #EBEBEB;
-  padding: 1.25rem 0 0.5625rem 0;
-  color: #586872;
-  font-size: 1rem;
-  font-weight: 400;
-  background-color: #ffffff;
-}
-
-.picker-modal-content-date {
-  display: none;
-  width: 23.375rem;
-}
-
-.picker-modal-content-date.active {
-  display: inline-block;
-}
-
-.picker-modal-content-date.active + div.active {
-  border-left: solid 0.0625rem #EBEBEB;
-}
-
-.picker-modal-content-date-months {
-  height: 1.125rem;
-  margin: 0 2rem;
-}
-
-.picker-modal-content-date-months img {
-  vertical-align: middle;
-}
-
-.picker-modal-content-date-months .date-prev {
-  display: inline-block;
-  background: #586872;
-  width: 10px;
-  height: 6px;
-  -webkit-mask: url("../media/icons/icon_arrow_left.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_arrow_left.svg");
-  mask-repeat: no-repeat;
-  mask-position: center;
-  cursor: pointer;
-}
-
-.picker-modal-content-date-months .date-text {
-  color: #586872;
-  font-size: 1rem;
-  font-weight: 400;
-  display: inline-block;
-  width: 16.875rem;
-  color: #586872;
-  margin: 0;
-  padding: 0;
-}
-
-.picker-modal-content-date-months .date-next {
-  display: inline-block;
-  background: #586872;
-  width: 10px;
-  height: 6px;
-  -webkit-mask: url("../media/icons/icon_arrow_right.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_arrow_right.svg");
-  mask-repeat: no-repeat;
-  mask-position: center;
-  cursor: pointer;
-}
-
-.picker-modal-content-date-calendar {
-  padding: 1.25rem 1.5rem 0 1.5rem;
-  color: #C2CBD6;
-}
-
-.picker-modal-content-date-calendar .calendar-cell {
-  display: inline-block;
-  width: 1.875rem;
-  height: 1.875rem;
-  line-height: 0.8125rem;
-  padding: 0.4375rem;
-  margin: 0.25rem 0.5rem;
-  text-align: center;
-}
-
-.picker-modal-content-date-calendar .calendar-cell.calendar-title {
-  color: #586872;
-  font-size: 1rem;
-  font-weight: 400;
-  color: #ACB4BF;
-  pointer-events: none;
-}
-
-.picker-modal-content-date-calendar .calendar-cell:not(.calendar-title) {
-  cursor: pointer;
-}
-
-.picker-modal-content-date-calendar .calendar-cell.active {
-  color: #586872;
-}
-
-.picker-modal-content-date-calendar .calendar-cell.prev, .picker-modal-content-date-calendar .calendar-cell.next {
-  color: #ACB4BF;
-}
-
-.picker-modal-content-date-calendar .calendar-cell.selected {
-  background-color: #0098FF;
-  color: #ffffff;
-  border-radius: 48%;
-}
-
-.picker-modal-content-time {
-  display: none;
-  width: 23.375rem;
-  justify-content: center;
-  padding: 1.188rem 2.25rem;
-}
-
-.picker-modal-content-time.active {
-  display: flex;
-}
-
-.picker-modal-content-time .hour-group,
-.picker-modal-content-time .minute-group {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.picker-modal-content-time .hour-group .arrow-up,
-.picker-modal-content-time .minute-group .arrow-up {
-  display: inline-block;
-  width: 18px;
-  height: 10px;
-  -webkit-mask-image: url("../media/icons/icon_triangle_up.svg");
-  mask-image: url("../media/icons/icon_triangle_up.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #CCCED1;
-  cursor: pointer;
-}
-
-.picker-modal-content-time .hour-group .arrow-up:hover,
-.picker-modal-content-time .minute-group .arrow-up:hover {
-  background: #0098FF;
-}
-
-.picker-modal-content-time .hour-group .arrow-down,
-.picker-modal-content-time .minute-group .arrow-down {
-  display: inline-block;
-  width: 18px;
-  height: 10px;
-  -webkit-mask-image: url("../media/icons/icon_triangle_down.svg");
-  mask-image: url("../media/icons/icon_triangle_down.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #CCCED1;
-  cursor: pointer;
-}
-
-.picker-modal-content-time .hour-group .arrow-down:hover,
-.picker-modal-content-time .minute-group .arrow-down:hover {
-  background: #0098FF;
-}
-
-.picker-modal-content-time .hour-group .digit,
-.picker-modal-content-time .minute-group .digit {
-  width: 3.75rem;
-  height: 3.75rem;
-  color: #505964;
-  font-size: 1.438rem;
-  font-weight: 500;
-  text-align: center;
-  margin: 2.1875rem 0;
-  border: 0.0625rem solid #EBEBEB;
-  padding: 0;
-}
-
-.picker-modal-content-time .hour-group .digit:focus,
-.picker-modal-content-time .minute-group .digit:focus {
-  outline: none !important;
-  border: 0.0625rem solid #0098FF;
-}
-
-.picker-modal-content-time .btn-group {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.picker-modal-content-time .btn-group button {
-  width: 3.75rem;
-  height: 1.875rem;
-  color: #ACB4BF;
-  font-size: 1rem;
-  font-weight: 500;
-  margin-left: 0.625rem;
-  background-color: #F7F8F9;
-  border: 0.0625rem solid #EBEBEB;
-  padding: 0;
-  cursor: pointer;
-  flex: none;
-}
-
-.picker-modal-content-time .btn-group button.active {
-  color: #0098FF;
-  background-color: #ffffff;
-  border: 0.0625rem solid #0098FF;
-}
-
-.picker-modal-content-time .btn-group button.active + button {
-  border-left-color: #EBEBEB;
-}
-
-.picker-modal-content-time .btn-group button:focus {
-  outline: none !important;
-}
-
-.picker-modal-content-time .separator {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 2rem;
-  color: #3F4B56;
-  font-size: 1.438rem;
-  font-weight: 500;
-}
-
-.picker-modal-button {
-  float: right;
-  margin: 1.25rem 1.25rem 1.25rem 0;
-}
-
-.picker-modal-button button {
-  margin-left: 0.3125rem;
 }
 
 .portal-faq-container {

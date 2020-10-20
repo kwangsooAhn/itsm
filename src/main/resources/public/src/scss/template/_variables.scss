@@ -251,3 +251,42 @@ $column-9: $column-init * 9; // 720px
 $column-10: $column-init * 10; // 800px
 $column-11: $column-init * 11; // 880px
 $column-12: $column-init * 12; // 960px
+
+///////////////////////////////// date picker /////////////////////////////////
+$datepicker-font-size:                       $font-size-base;
+$datepicker-font-color:                      $dark-gray;
+$datepicker-font-weight:                     $font-weight-regular;
+$datepicker-line-height:                     1.2;
+$datepicker-bg-color:                        $white;
+$datepicker-border-color:                    $line-gray;
+$datepicker-border-width:                    0.0625rem; // 1px
+$datepicker-border:                          $datepicker-border-width solid $datepicker-border-color;
+$datepicker-border-radius:                   0.0625rem; // 1px
+$datepicker-border-box-shadow:               0 0 0.3125rem 0 rgba(235, 235, 235, 1); // 0 0 5px 0 $line-gray
+$datepicker-hover-color:                     $point-blue;
+// focus
+$datepicker-focus-border-color:              $point-blue;
+$datepicker-focus-border-width:              0.0625rem; // 1px
+$datepicker-focus-border:                    $datepicker-focus-border-width solid $datepicker-focus-border-color;
+// title
+$datepicker-title-font-size:                 1.125rem; // 18px
+$datepicker-title-font-color:                $light-black;
+$datepicker-title-font-weight:               $font-weight-medium;
+// sub title
+$datepicker-sub-title-font-size:             $font-size-base;
+$datepicker-sub-title-font-color:            $dark-gray;
+$datepicker-sub-title-font-weight:           $font-weight-regular;
+$datepicker-sub-title-bg-color:              $light-gray;
+// cell
+$datepicker-cell-font-color:                 $gray;
+// current cell
+$datepicker-current-cell-font-color:         $dark-gray;
+// selected cell
+$datepicker-selected-cell-font-color:        $white;
+$datepicker-selected-cell-bg-color:          $point-blue;;
+// time
+$datepicker-time-font-size:                  1.75rem; // 28px
+$datepicker-time-font-color:                 $light-black;
+$datepicker-time-font-weight:                $font-weight-medium;
+// toggle button
+$datepicker-btn-border-radius:               0.0625rem; // 1px

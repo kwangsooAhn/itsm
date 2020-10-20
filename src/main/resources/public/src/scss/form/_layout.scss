@@ -95,11 +95,11 @@
     position: relative;
     justify-content: center;
     left: 0;
-    top: $header-height;
+    top: $layout-header-height;
     width: calc(100vw - #{$form-properties-width});
-    height: calc(100vh - #{$header-height});
+    height: calc(100vh - #{$layout-header-height});
     min-width: calc(100vw - #{$form-properties-width});
-    min-height: calc(100vh - #{$header-height});
+    min-height: calc(100vh - #{$layout-header-height});
     float: left;
     padding: 0;
     margin: 0;
