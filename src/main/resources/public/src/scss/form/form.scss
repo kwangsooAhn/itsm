@@ -13,6 +13,7 @@
 @import '../template/_alignments.scss'; // 상속 불가
 @import '../template/_common.scss'; // 상속 불가
 @import '../template/_scrollbars.scss';
+@import '../template/_file-uploader.scss';
 @import '_variables.scss';
 @import '_fonts.scss';
 @import '_mixins.scss';
@@ -23,7 +24,6 @@
 @import '_components.scss';
 @import '_context.scss';
 @import '_properties.scss';
-@import '_fileUploader.scss';
 @import '_modal.scss';
 @import '../template/_date-picker.scss';
 @import '../template/_thumbnail.scss';

@@ -1,0 +1,199 @@
+/* _avatar.scss 
+ *
+ * 파일 경로 : template/_avatar.scss
+ * @description 아바타 관련 디자인
+ * @author wdj
+ * @version 1.0
+ */
+.avatar {
+  &-edit {
+    display: flex;
+    flex-direction: column;
+    // 아바타 타이틀
+    .avatar-title {
+      font-size: $avatar-font-size;
+      font-weight: $avatar-font-weight;
+      color: $avatar-font-color;
+      margin: 0.5625rem 0 0.5625rem 0; // 9px
+    }
+    // dropzone
+    .avatar {
+      width: $avatar-dropzone-width;
+      height: $avatar-dropzone-height;
+      background-color: $avatar-dropzone-bg-color;
+      border: $avatar-dropzone-border;
+      padding: 0;
+
+      // drag and drop 영역
+      .dz-default {
+        margin: 1.875rem 0;
+        // Drop files here to upload or browse 문구
+        &.dz-message {
+          font-size: $avatar-dropzone-font-size;
+          font-weight: $avatar-dropzone-font-weight;
+          color: $avatar-dropzone-font-color;
+          text-align: center;
+          margin-top: 85px; // 85px
+          // 아이콘
+          .icon-no-img {
+            display: inline-block;
+            @include maskImage('#{$icon-folder-path}icon_image.svg', 100%, 5rem, no-repeat, center, 5rem, $pressed-gray); // 65px
+            margin-bottom: 1.25rem; // 20px
+          }
+          // or brows 영역
+          .add-file-button-wrap {
+            margin-top: 0.5rem;
+            // browse 버튼
+            .dz-clickable {
+              color: $avatar-dropzone-clickable-font-color;
+              cursor: pointer;
+            }
+          }
+        }
+
+        &.dz-drag-hover {
+         border-style: solid;
+          .dz-message {
+            opacity: 0.5;
+          }
+        }
+      }
+       // 업로드된 파일 미리보기
+      .dz-preview {
+        position: relative;
+        height: 100%;
+        padding: 0;
+        border: 0;
+
+        .dz-image {
+          overflow: hidden;
+          position: relative;
+          display: contents;
+          z-index: 10;
+
+          img {
+            object-fit: cover;
+          }
+        }
+        .dz-success-mark, .dz-error-mark {
+          display: none;
+        }
+        // 마우스 오버시 효과
+        &:hover {
+          z-index: 1000;
+          .dz-details {
+            opacity: 1;
+          }
+        }
+
+        &.dz-image-preview {
+          background: $white;
+          .dz-details {
+            -webkit-transition: opacity 0.2s linear;
+            -moz-transition: opacity 0.2s linear;
+            -ms-transition: opacity 0.2s linear;
+            -o-transition: opacity 0.2s linear;
+            transition: opacity 0.2s linear;
+          }
+        }
+
+        .dz-details {
+          position: absolute;
+          display: block;
+          min-width: 100%;
+          max-width: 100%;
+          align-items: center;
+          line-height: 150%;
+          top: 0;
+          left: 0;
+          text-align: center;
+          color: rgba(0, 0, 0, 0.9);
+          opacity: 0;
+          z-index: 20;
+
+          .dz-file-type,
+          .dz-filename,
+          .dz-size {
+            display: none;
+          }
+          .dz-remove {
+            display: block;
+            width: 1.125rem;
+            height: 1.125rem;
+            background-color: rgba(255, 255, 255, 0.4);
+            position: absolute;
+            top: 0;
+            right: 0;
+            @include background ($icon-folder-path + 'icon_close.svg', 0.875rem, no-repeat, center, center, null); // 14px
+            cursor: pointer;
+
+            &:hover {
+              background-color: rgba(255, 255, 255, 0.9);
+            }
+          }
+        }
+
+        .dz-progress {
+          display: none;
+        }
+      }
+
+      &.dz-started .dz-message {
+        display: none;
+      }
+    }
+    // 상세 설명
+    .avatar-description {
+      margin-top: 1rem; // 16px
+
+      .avatar-text {
+        display: block;
+        font-size: $avatar-desc-font-size;
+        font-weight: $avatar-desc-font-weight;
+        color: $avatar-desc-font-color;
+        text-align: left;
+        margin-bottom: 0.3125rem;
+      }
+    }
+    // 회원 가입시 아바타는 기존 크기보다 작다.
+    .avatar-sm {
+      margin-bottom: 1.25rem; // 20px
+
+      > div {
+        display: inline-block;
+
+        &:first-child {
+          margin-right: 0.625rem;
+        }
+      }
+
+      .avatar {
+        width: $avatar-dropzone-sm-width;
+        height: $avatar-dropzone-sm-height;
+        padding: 0;
+
+        .dz-message {
+          margin-top: 1.25rem; // 20px
+          // 이미지 축소
+          .icon-no-img {
+            height: 2.813rem; // 45px
+            -webkit-mask-size: 2.813rem;
+            mask-size: 2.813rem;
+            margin-bottom: 0.9375rem; // 15px
+          }
+
+          span {
+            font-size: 0.8125rem; // 13px
+          }
+        }
+      }
+      // 상세 설명
+      .avatar-description {
+        vertical-align: top;
+        .avatar-text {
+          font-size: 0.8125rem; // 13px
+        }
+      }
+    }
+  }
+}
