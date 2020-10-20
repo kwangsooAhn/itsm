@@ -63,7 +63,7 @@
                 </div>
                 <div class="form-set">
                     <div class="row">
-                        <label th:text="#{customCode.label.condition}"></label>
+                        <label id="conditionLabel" th:text="#{customCode.label.condition}"></label>
                         <button class="default-line plus" onclick="addCondition()">
                             <span class="icon-plus"></span>
                         </button>
@@ -113,6 +113,10 @@
             });
             initColumnSelectBox(targetTable.value);
             initCondition();
+            const conditionElem = document.querySelector('input[name=conditionValue]');
+            if (conditionElem !== null) {
+                document.getElementById('conditionLabel').classList.add('required');
+            }
         };
 
         //column select box 초기화
@@ -162,6 +166,7 @@
         function addCondition() {
             const searchColumnLength = document.getElementById('searchColumn').childNodes.length;
             if (document.getElementById('condition').childNodes.length < searchColumnLength) {
+                document.getElementById('conditionLabel').classList.add('required');
                 drawCondition();
             } else {
                 aliceJs.alertWarning(i18n.msg('customCode.msg.addCondition', searchColumnLength));
@@ -186,12 +191,20 @@
             const valueInput = document.createElement('input');
             valueInput.classList.add('col-7');
             valueInput.type = 'text';
+            valueInput.name = 'conditionValue';
             valueInput.maxLength = 100;
             valueInput.value = (typeof param !== 'undefined') ? param.value : '';
             const minusBtn = document.createElement('button');
             minusBtn.classList.add('minus');
             minusBtn.addEventListener('click', function () {
-                minusBtn.parentNode.parentNode.remove();
+                aliceJs.confirmIcon(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
+                    const conditionElems = document.querySelectorAll('input[name=conditionValue]');
+                    if (conditionElems.length === 1) {
+                        document.getElementById('conditionLabel').classList.remove('required');
+                    }
+                    minusBtn.parentNode.parentNode.remove();
+
+                }, null);
             });
 
             divRow.appendChild(keySelect);
@@ -225,10 +238,18 @@
 
         //empty Check
         function emptyCheck(type) {
+            const conditionElems = document.querySelectorAll('input[name=conditionValue]');
             if (type === 'table') {
                 if (isEmpty('customCodeName', 'customCode.msg.enterCustomCode')) { return false; }
                 if (isEmpty('targetTable', 'customCode.msg.enterTableTarget')) { return false; }
                 if (isEmpty('searchColumn', 'customCode.msg.enterSearchColumn')) { return false; }
+                for (let i = 0; i < conditionElems.length; i++) {
+                    if (conditionElems[i].value === '') {
+                        aliceJs.alertWarning(i18n.msg('customCode.msg.enterCondition'));
+                        conditionElems[i].focus();
+                        return false;
+                    }
+                }
                 return !isEmpty('valueColumn', 'customCode.msg.enterValueColumn');
             } else {
                 if (isEmpty('customCodeName', 'customCode.msg.enterCustomCode')) { return false; }
@@ -294,7 +315,7 @@
                                 aliceJs.alertSuccess(i18n.msg('customCode.msg.customCodeUsed'));
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_NAME_DUPLICATION:
-                                aliceJs.alertWarning(i18n.msg('customCode.msg.customCodeNameDuplication'));
+                                aliceJs.alertWarning(i18n.msg('customCode.msg.duplicateCustomCodeName'));
                                 break;
                             case STATUS_ERROR_CUSTOM_CODE_P_CODE_NOT_EXIST:
                                 aliceJs.alertWarning(i18n.msg('customCode.msg.pCodeNotExist'));
