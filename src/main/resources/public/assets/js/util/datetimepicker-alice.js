@@ -107,7 +107,7 @@
 
         // create title > close icon
         const spanClose = document.createElement('span');
-        spanClose.className = 'close';
+        spanClose.className = 'icon-close';
         spanClose.addEventListener('click', this.close, false);
         pickerTitle.appendChild(spanClose);
 
@@ -142,16 +142,8 @@
 
         // create button
         let pickerButton = document.createElement('div');
-        pickerButton.className = 'picker-modal-button';
+        pickerButton.className = 'btn-list picker-modal-button';
         el.appendChild(pickerButton);
-
-        // create button > cancel
-        let buttonCancel = document.createElement('button');
-        buttonCancel.type = 'button';
-        buttonCancel.className = 'default-line';
-        buttonCancel.innerText = i18n.msg('common.btn.cancel');
-        buttonCancel.addEventListener('click', this.close, false);
-        pickerButton.appendChild(buttonCancel);
 
         // create button > confirm
         let buttonConfirm = document.createElement('button');
@@ -160,6 +152,14 @@
         buttonConfirm.innerText = i18n.msg('common.btn.check');
         buttonConfirm.addEventListener('click', this.changeTarget, false);
         pickerButton.appendChild(buttonConfirm);
+
+        // create button > cancel
+        let buttonCancel = document.createElement('button');
+        buttonCancel.type = 'button';
+        buttonCancel.className = 'default-line';
+        buttonCancel.innerText = i18n.msg('common.btn.cancel');
+        buttonCancel.addEventListener('click', this.close, false);
+        pickerButton.appendChild(buttonCancel);
      }
 
     Object.assign(Picker.prototype, {
@@ -382,7 +382,7 @@
 
                 const curHourType = _this.selectLuxon.toFormat(minuteFormatArr[1]);
                 const hourType = document.createElement('div');
-                hourType.className = 'btn-group';
+                hourType.className = 'btn-group-toggle btn-vertical';
                 pickerTime.appendChild(hourType);
 
                  // create button > am

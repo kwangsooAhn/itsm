@@ -41,7 +41,7 @@ $container-background-color:    $light-gray;
 // container > header
 $header-font-size:             18px;
 $header-top-bottom-padding:    0.9375rem; // 15px
-$header-real-height:           $header-height - ($header-top-bottom-padding * 2); // 25px
+$header-real-height:           $layout-header-height - ($header-top-bottom-padding * 2); // 25px
 $header-separator-color:       $white;
 $header-margin-right:          1.25rem; // 20px
 $header-name-font-size:        16px;
