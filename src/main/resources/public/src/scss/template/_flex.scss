@@ -1,0 +1,30 @@
+.flex {
+  // flex-direction 정렬 기준(방향)관련 클래스
+  .flex-row               : { flex-direction: row; }
+  .flex-column            : { flex-direction: column; }
+
+  // justify-content 기본 축 아이템 정렬(좌우 정렬) 관련 클래스
+  .justify-content-start  : { justify-content: flex-start; }
+  .justify-content-end    : { justify-content: flex-end; }
+  .justify-content-center : { justify-content: center; }
+
+  // align 내부 아이템 수직 정렬 관련 클래스
+  .align-items-start      : { align-items: flex-start; }
+  .align-items-end        : { align-items: flex-end; }
+  .align-items-center     : { align-items: center; }
+  .align-items-baseline   : { align-items: baseline; }
+
+  // align-self flex 내부에서 단일 item만 수직 정렬(align-self) 클래스 (보류)
+  .align-self-start       : { align-self: flex-start; }
+  .align-self-end         : { align-self: flex-end; }
+  .align-self-center      : { align-self: center; }
+  .align-self-baseline    : { align-self: baseline; }
+
+    // fill 이 클래스가 붙은 아이템은 좌, 우측 여백을 자신의 영역으로 차지합니다.
+    만약 flex 내부에 이 클래스가 붙은 아이템이 n개라면 1개 아이템 당 n등분 된 여백을 자신의 영역으로 차지하게 됩니다.
+    .flex-fill              : { flex: 1 1 auto; )
+
+    // auto margins flex내부에서는 float 정렬이 적용되지 않습니다. margin-(left or right): auto로 정렬합니다.
+    .mr-auto                : {margin-right: auto}    // 왼쪽 정렬 + 오른쪽에 공백 채우기
+    .ml-auto                : {margin-right: auto}    // 오른쪽 정렬 + 왼쪽에 공백 채우기
+}
