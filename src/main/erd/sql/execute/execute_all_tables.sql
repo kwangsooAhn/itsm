@@ -105,6 +105,12 @@ insert into awf_auth values ('user.delete', '사용자 삭제', '', '0509e094125
 insert into awf_auth values ('user.read', '사용자 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('user.update', '사용자 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
+
+/**
+ * 아바타
+ */
+DROP TABLE IF EXISTS awf_avatar cascade;
+
 /**
  * 코드정보
  */
@@ -424,6 +430,7 @@ insert into awf_file_name_extension values ('PDF', 'application/pdf', '0509e0941
 insert into awf_file_name_extension values ('JPG', 'image/jpeg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('JPEG', 'image/jpeg', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('PNG', 'image/png', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_file_name_extension values ('GIF', 'image/gif', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('DOC', 'application/msword', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('DOCX', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_file_name_extension values ('XLS', 'application/vnd.ms-excel', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -912,12 +919,14 @@ insert into awf_role_auth_map values ('service.user', 'role.read');
 insert into awf_role_auth_map values ('service.user', 'notice.create');
 insert into awf_role_auth_map values ('service.user', 'notice.read');
 insert into awf_role_auth_map values ('users.general', 'board.read');
+insert into awf_role_auth_map values ('users.general', 'code.read');
 insert into awf_role_auth_map values ('users.general', 'notice.read');
 insert into awf_role_auth_map values ('users.general', 'faq.read');
 insert into awf_role_auth_map values ('users.general', 'token.read');
 insert into awf_role_auth_map values ('users.general', 'token.create');
 insert into awf_role_auth_map values ('users.general', 'document.read');
 insert into awf_role_auth_map values ('users.general', 'document.create');
+insert into awf_role_auth_map values ('users.general', 'download.read');
 insert into awf_role_auth_map values ('users.manager', 'process.create');
 insert into awf_role_auth_map values ('users.manager', 'process.delete');
 insert into awf_role_auth_map values ('users.manager', 'role.delete');
@@ -1766,6 +1775,7 @@ COMMENT ON COLUMN awf_user.uploaded_location IS '업로드 경로';
 
 insert into awf_user values ('0509e09412534a6e98f04ca79abb6424', 'admin', 'ADMIN', '$2a$10$QsZ1uzooTk2yEkWIiV8tyOUc/UODpMrjdReNUQnNWm0SpjyPVOy26', 'admin@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '');
 insert into awf_user values ('system', 'system', 'system', '', 'system@gmail.com', TRUE, 0, now() + interval '3 month', null, null, 'KEAKvaudICgcbRwNaTTNSQ2XSvIcQyTdKdlYo80qvyQjbN5fAd', 'user.status.certified', null, null, 'user.platform.alice', 'Asia/Seoul', null, 'ko', 'yyyy-MM-dd HH:mm', 'default', '0509e09412534a6e98f04ca79abb6424', now(), null, null, 'FILE', 'img_avatar_01.png', FALSE, '');
+
 /**
  * 사용자역할매핑
  */
