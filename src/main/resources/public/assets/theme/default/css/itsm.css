@@ -78,6 +78,49 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
+/* _alignments.scss
+ *
+ * 파일 경로 : template/_alignments.scss
+ * @description 정렬, 배치 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.align-center {
+  text-align: center;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-baseline {
+  vertical-align: baseline;
+}
+
+.align-top {
+  vertical-align: top;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.align-bottom {
+  vertical-align: bottom;
+}
+
+.align-text-bottom {
+  vertical-align: text-bottom;
+}
+
+.align-text-top {
+  vertical-align: text-top;
+}
+
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss
@@ -2720,48 +2763,13 @@ button .icon-plus {
   width: 100%;
 }
 
-/* _alignments.scss 
+/* _flex.scss
  *
- * 파일 경로 : template/_alignments.scss
- * @description 정렬, 배치 관련 디자인
+ * 파일 경로 : template/_flex.scss
+ * @description flex display 관련 디자인
  * @author jy.lim
  * @version 1.0
  */
-.align-center {
-  text-align: center;
-}
-
-.align-left {
-  text-align: left;
-}
-
-.align-right {
-  text-align: right;
-}
-
-.align-baseline {
-  vertical-align: baseline;
-}
-
-.align-top {
-  vertical-align: top;
-}
-
-.align-middle {
-  vertical-align: middle;
-}
-
-.align-bottom {
-  vertical-align: bottom;
-}
-
-.align-text-bottom {
-  vertical-align: text-bottom;
-}
-
-.align-text-top {
-  vertical-align: text-top;
-}
 
 .flex-row {
   display: flex;
@@ -2773,8 +2781,64 @@ button .icon-plus {
   flex-direction: column;
 }
 
+.justify-content-start {
+  justify-content: flex-start;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-start {
+  align-items: flex-start;
+}
+
+.align-items-end {
+  align-items: flex-end;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.align-items-baseline {
+  align-items: baseline;
+}
+
+.align-self-start {
+  align-self: flex-start;
+}
+
+.align-self-end {
+  align-self: flex-end;
+}
+
+.align-self-center {
+  align-self: center;
+}
+
+.align-self-baseline {
+  align-self: baseline;
+}
+
+.flex-fill {
+  flex: 1 1 auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
 .row-right {
-  display: flex;
+  display: inherit;
   justify-content: flex-end;
 }
 

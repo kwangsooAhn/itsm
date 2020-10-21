@@ -19,12 +19,3 @@ $vertical-align-type: (baseline, top, middle, bottom, text-bottom, text-top);
         vertical-align: #{$direction};
     }
 }
-
-// #9223 추후 _flex.scss(가제)로 이동
-$flex-align-type: (row, column);
-@each $direction in $flex-align-type {
-    .flex-#{$direction} {
-        display: flex;
-        flex-direction: #{$direction};
-    }
-}

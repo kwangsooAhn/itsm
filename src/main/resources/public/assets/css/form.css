@@ -122,6 +122,14 @@ input, button, select, optgroup, textarea {
   vertical-align: text-top;
 }
 
+/* _flex.scss
+ *
+ * 파일 경로 : template/_flex.scss
+ * @description flex display 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -130,6 +138,62 @@ input, button, select, optgroup, textarea {
 .flex-column {
   display: flex;
   flex-direction: column;
+}
+
+.justify-content-start {
+  justify-content: flex-start;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-start {
+  align-items: flex-start;
+}
+
+.align-items-end {
+  align-items: flex-end;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.align-items-baseline {
+  align-items: baseline;
+}
+
+.align-self-start {
+  align-self: flex-start;
+}
+
+.align-self-end {
+  align-self: flex-end;
+}
+
+.align-self-center {
+  align-self: center;
+}
+
+.align-self-baseline {
+  align-self: baseline;
+}
+
+.flex-fill {
+  flex: 1 1 auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
 }
 
 /* _common.scss 
@@ -2468,8 +2532,6 @@ button.ghost-line:disabled .icon {
   height: 1.25rem;
   line-height: 1.25rem;
   font-size: 16px;
-  margin-left: auto;
-  margin-right: 0.938rem;
 }
 
 .form-container .contents {

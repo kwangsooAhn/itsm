@@ -11,12 +11,12 @@
             <div class="portal-container flex-column">
                 <div class="header">
                     <a href="/portal/portalMain">
-                        <img class="left" th:src="@{/assets/media/icons/icon_logo.svg}" width="174.72" height="25" alt="Alice">
+                        <img class="logo" th:src="@{/assets/media/icons/icon_logo.svg}" width="174.72" height="25" alt="Alice">
                     </a>
                     <div class="title" th:text="#{portal.label.mainPhrase}"></div>
-                    <div class="right login" sec:authorize="isAuthenticated()" onclick="location.href='/layout'"
+                    <div class="login ml-auto" sec:authorize="isAuthenticated()" onclick="location.href='/layout'"
                             th:text="#{portal.label.main}"></div>
-                    <div class="right login" sec:authorize="isAnonymous()" onclick="location.href='/login'"
+                    <div class="login ml-auto" sec:authorize="isAnonymous()" onclick="location.href='/login'"
                             th:text="#{portal.label.login}"></div>
                 </div>
                 <div class="portal-contents">
