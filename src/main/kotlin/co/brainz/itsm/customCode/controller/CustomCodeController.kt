@@ -42,9 +42,7 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
      */
     @GetMapping("/list")
     fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto, model: Model): String {
-        val offset = customCodeSearchDto.offset
-        val viewType = customCodeSearchDto.viewType
-        val result = customCodeService.getCustomCodeList(offset, viewType)
+        val result = customCodeService.getCustomCodeList(customCodeSearchDto)
         model.addAttribute("customCodeList", result)
         model.addAttribute("customCodeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return customCodeListPage

@@ -17,6 +17,11 @@
         <div class="search-area">
             <input type="hidden" sec:authorize="hasAuthority('custom.code.update')" th:name="isRole" th:value="true"/>
             <input type="hidden" sec:authorize="!hasAuthority('custom.code.update')" th:name="isRole" th:value="false"/>
+            <div class="left">
+                <form id="searchFrm">
+                    <input class="search col-4" id="search" name="search" type="text" maxlength="100" th:placeholder="#{customCode.label.searchPlaceholder}"/>
+                </form>
+            </div>
             <div class="right">
                 <button class="default-fill" onclick="location.href='/custom-codes/new'"
                         sec:authorize="hasAuthority('custom.code.create')" th:text="#{common.btn.add}"></button>
@@ -28,21 +33,26 @@
 </body>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
-        var offsetCount = 0;
+        let offsetCount = 0;
         const offsetSize = 15;
         window.onload = function() {
+            document.getElementById('search').focus();
+            document.getElementById('search').addEventListener('keyup', function() { getCustomCodeList(false); });
             getCustomCodeList(false);
         };
 
         function getCustomCodeList(isScroll) {
+            let urlParam = '';
             if (isScroll) {
                 if (offsetCount === 0) {
                     offsetCount = offsetSize;
                 }
-                restSubmit('get', '/rest/custom-codes?offset=' + offsetCount, isScroll);
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/rest/custom-codes?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
-                restSubmit('get', '/custom-codes/list?offset=' + offsetCount, isScroll);
+                urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
+                restSubmit('get', '/custom-codes/list?' + urlParam, isScroll);
             }
         }
 

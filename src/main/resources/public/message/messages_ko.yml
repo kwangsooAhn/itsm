@@ -257,6 +257,7 @@ customCode:
     targetTable: "대상 테이블 명"
     type: "타입"
     valueColumn: "값 컬럼 명"
+    searchPlaceholder: "커스텀 코드 명"
   msg:
     addCondition: "{0}개 이하만 추가 가능합니다."
     confirmDeleteCondition : "조건을 삭제하시겠습니까?"

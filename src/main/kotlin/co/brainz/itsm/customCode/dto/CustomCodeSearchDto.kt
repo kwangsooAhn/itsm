@@ -10,5 +10,6 @@ import java.io.Serializable
 
 data class CustomCodeSearchDto(
     var offset: Long = 0,
-    var viewType: String?
+    var viewType: String?,
+    var search: String? = null
 ) : Serializable
