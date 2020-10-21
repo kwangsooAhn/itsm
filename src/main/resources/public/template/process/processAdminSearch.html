@@ -15,6 +15,7 @@
             <h6 class="title-description" th:text="#{process.msg.description}"></h6>
         </div>
         <div class="search-area">
+            <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''process.update'')')}"/>
             <div class="left">
                 <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{process.label.searchPlaceholder}">
             </div>
@@ -157,7 +158,11 @@
             if (data.enabled == true) {
                 processNameObject = document.createElement('a');
                 processNameObject.onclick = function () {
-                    openProcessEdit(data.id);
+                    if (document.getElementById('updatable').value === 'true') {
+                        openProcessEdit(data.id);
+                    } else {
+                        openProcessView(data.id);
+                    }
                 }
             } else {
                 processNameObject = document.createElement('span');
@@ -182,7 +187,11 @@
             // TODO: 권한에 따른 처리
             let updateObject = document.createElement('a');
             updateObject.onclick = function() {
-                openProcessDesignerEdit(data.id);
+                if (document.getElementById('updatable').value === 'true') {
+                    openProcessDesignerEdit(data.id);
+                } else {
+                    aliceJs.alertWarning(i18n.msg('auth.msg.accessDenied'));
+                }
             }
             let updateImage = document.createElement('img');
             updateImage.src = '../assets/media/icons/icon_edit.svg';
