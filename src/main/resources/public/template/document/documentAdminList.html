@@ -39,14 +39,24 @@
         <td style="width: 20%;" th:text="${document.documentDesc}"></td>
         <td style="width: 15%;" th:text="#{${document.documentStatus}}"></td>
         <td style="width: 10%;">
-            <button type="button" sec:authorize="hasAuthority('document.admin.update')" th:onclick="openDocumentEdit([[${document.documentId}]])">
-                <span class="icon-edit"></span>
-            </button>
+            <th:block th:switch="${#authorization.expression('hasAuthority(''document.admin.update'')')}">
+                <button th:case="true" type="button" sec:authorize="hasAuthority('document.admin.update')" th:onclick="openDocumentEdit([[${document.documentId}]])">
+                    <span class="icon-edit"></span>
+                </button>
+                <button th:case="*" type="button" th:onclick="|aliceJs.alertWarning(i18n.msg('auth.msg.accessDenied'))|">
+                    <span class="icon-edit"></span>
+                </button>
+            </th:block>
         </td>
         <td style="width: 10%;">
-            <button type="button" sec:authorize="hasAuthority('document.admin.delete')" th:onclick="deleteDocument([[${document.documentId}]])">
-                <span class="icon-delete"></span>
-            </button>
+            <th:block th:switch="${#authorization.expression('hasAuthority(''document.admin.delete'')')}">
+                <button th:case="true" type="button" sec:authorize="hasAuthority('document.admin.delete')" th:onclick="deleteDocument([[${document.documentId}]])">
+                    <span class="icon-delete"></span>
+                </button>
+                <button th:case="*" type="button" th:onclick="|aliceJs.alertWarning(i18n.msg('auth.msg.accessDenied'))|">
+                    <span class="icon-edit"></span>
+                </button>
+            </th:block>
         </td>
     </tr>
     </tbody>
