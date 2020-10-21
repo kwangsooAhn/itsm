@@ -23,7 +23,5 @@ data class BoardAdminDetailDto(
     var enabled: Boolean? = null,
     var categoryInfo: List<BoardCategoryDetailDto>? = null,
     var createDt: LocalDateTime? = null,
-    var createUserName: String? = "",
-    var updateDt: LocalDateTime? = null,
-    var updateUserName: String? = ""
+    var createUserName: String? = ""
 )

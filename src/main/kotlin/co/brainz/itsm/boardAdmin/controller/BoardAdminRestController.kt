@@ -55,9 +55,7 @@ class BoardAdminRestController(private val boardAdminService: BoardAdminService)
             boardBoardCount = boardAdminDetail.boardBoardCount,
             categoryInfo = boardAdminService.getBoardCategoryDetailList(boardAdminId),
             createDt = boardAdminDetail.createDt,
-            createUserName = boardAdminDetail.createUser?.userName,
-            updateDt = boardAdminDetail.updateDt,
-            updateUserName = boardAdminDetail.updateUser?.userName
+            createUserName = boardAdminDetail.createUser?.userName
         )
     }
 
