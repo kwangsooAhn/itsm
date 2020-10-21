@@ -529,7 +529,7 @@ input, button, select, optgroup, textarea {
 
 .file-uploader-edit .dropzone .dz-preview.dz-file-preview .dz-image {
   border-radius: 1.25rem;
-  background: #999;
+  background: #999999;
   background: linear-gradient(to bottom, #eee, #ddd);
 }
 
@@ -2788,7 +2788,7 @@ button.ghost-line:disabled .icon {
 }
 
 .browser-box {
-  background-color: white;
+  background-color: #ffffff;
   display: inline-block;
   height: 22.5rem;
   width: 22.5rem;
@@ -2937,7 +2937,7 @@ button.ghost-line:disabled .icon {
 
 .session-div-right {
   float: right;
-  background-color: white;
+  background-color: #ffffff;
   padding: 21.5625rem 6.25rem;
   border-left: 0.0625rem solid #EBEBEB;
 }
@@ -3285,7 +3285,7 @@ button.ghost-line:disabled .icon {
 
 .portal-search-view .view {
   padding: 3.125rem 12.75rem 3.125rem 12.75rem;
-  background-color: white;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -3370,7 +3370,7 @@ button.ghost-line:disabled .icon {
 
 .help-tooltip .tooltip-contents {
   visibility: hidden;
-  background-color: white;
+  background-color: #ffffff;
   width: 22.5rem;
   font-size: 0.8125rem;
   color: #0098FF;
