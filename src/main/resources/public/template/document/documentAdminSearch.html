@@ -14,6 +14,8 @@
             <h6 class="title-description" th:text="#{document.msg.description}"></h6>
         </div>
         <div class="search-area">
+            <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''document.admin.update'')')}"/>
+            <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''document.admin.delete'')')}"/>
             <div class="left">
                 <form id="searchDocumentsFrm">
                     <select id="searchGroupName" name="searchGroupName">
@@ -185,7 +187,11 @@
             tdDocumentEdit.style.width = '10%';
             let documentEditObject = document.createElement('a');
             documentEditObject.onclick = function() {
-                openDocumentEdit(data.documentId);
+                if (document.getElementById('updatable').value === 'true') {
+                    openDocumentEdit(data.documentId);
+                } else {
+                    aliceJs.alertWarning(i18n.msg('auth.msg.accessDenied'));
+                }
             };
             let documentEditImage = document.createElement('img');
             documentEditImage.src = '../assets/media/icons/icon_edit.svg';
@@ -196,7 +202,11 @@
             tdDocumentDelete.style.width = '10%';
             let documentDeleteObject = document.createElement('a');
             documentDeleteObject.onclick = function() {
-                deleteDocument(data.documentId);
+                if (document.getElementById('deletable').value === 'true') {
+                    deleteDocument(data.documentId);
+                } else {
+                    aliceJs.alertWarning(i18n.msg('auth.msg.accessDenied'));
+                }
             };
             let documentDeleteImage = document.createElement('img');
             documentDeleteImage.src = '../assets/media/icons/icon_delete.svg';
