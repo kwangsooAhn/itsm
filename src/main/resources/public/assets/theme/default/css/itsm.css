@@ -528,7 +528,7 @@ input, button, select, optgroup, textarea {
 
 .file-uploader-edit .dropzone .dz-preview.dz-file-preview .dz-image {
   border-radius: 1.25rem;
-  background: #999;
+  background: #999999;
   background: linear-gradient(to bottom, #eee, #ddd);
 }
 
@@ -3039,7 +3039,7 @@ button .icon-plus {
 }
 
 .trash-icon:hover {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: #000000;
 }
 
 .edit-icon {
@@ -3049,7 +3049,7 @@ button .icon-plus {
 }
 
 .edit-icon:hover {
-  background-color: rgba(0, 0, 0, 0);
+  background-color: #000000;
 }
 
 .required::after {
@@ -3233,7 +3233,7 @@ span.vertical-bar {
 .document-container .token-info {
   width: 37.5rem;
   padding: 0 4.0625rem;
-  background-color: white;
+  background-color: #ffffff;
 }
 
 .document-container .token-info-tab {
@@ -3473,7 +3473,7 @@ span.vertical-bar {
 
 .container-popup {
   padding: 1.875rem 2.5rem 1.25rem 2.5rem;
-  background-color: white;
+  background-color: #ffffff;
 }
 
 .container-popup .header {
@@ -3483,7 +3483,7 @@ span.vertical-bar {
 
 .container-popup .view {
   padding: 3.125rem 19.375rem 3.125rem 19.375rem;
-  background-color: white;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -3637,7 +3637,7 @@ span.vertical-bar {
 }
 
 .container .contents-token .list {
-  background-color: white;
+  background-color: #ffffff;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -3646,7 +3646,7 @@ span.vertical-bar {
 
 .container .contents-token .list-item {
   margin: 0.625rem 3.75rem;
-  background-color: white;
+  background-color: #ffffff;
   display: flex;
 }
 
@@ -3942,7 +3942,7 @@ span.vertical-bar {
   background: #F7F8F9;
   display: flex;
   flex-direction: column;
-  background-color: white;
+  background-color: #ffffff;
 }
 
 .container .contents-edit .header {
@@ -4129,7 +4129,7 @@ span.vertical-bar {
 
 .container .contents-view .view {
   padding: 3.125rem 19.375rem 3.125rem 19.375rem;
-  background-color: white;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -4168,7 +4168,7 @@ span.vertical-bar {
 
 .container .contents-flex .flex {
   padding: 3.125rem 19.375rem 9.315rem 19.375rem;
-  background-color: white;
+  background-color: #ffffff;
   display: flex;
   flex-grow: 1;
 }
@@ -4297,7 +4297,7 @@ span.vertical-bar {
 .container .contents-list-edit > .edit-area {
   padding: 9.625rem 2.1875rem 3.125rem 0;
   width: 38.125rem;
-  background: white;
+  background: #ffffff;
   font-weight: 500;
 }
 
@@ -4346,7 +4346,7 @@ span.vertical-bar {
 }
 
 .container .contents-document .service-request {
-  background-color: white;
+  background-color: #ffffff;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
@@ -4514,7 +4514,7 @@ span.vertical-bar {
 .container .contents-tree-edit > .edit-area {
   padding: 9.625rem 2.1875rem 3.125rem 0;
   width: 1050px;
-  background: white;
+  background: #ffffff;
   font-weight: 500;
 }
 
@@ -4592,7 +4592,7 @@ span.vertical-bar {
 }
 
 .container .contents .contents-body {
-  background: white;
+  background: #ffffff;
   padding: 4% 8%;
 }
 
@@ -4624,7 +4624,7 @@ span.vertical-bar {
 .container .contents .contents-body .edit-area .input-button {
   width: 60px;
   height: 30px;
-  background: white;
+  background: #ffffff;
   border: 1px solid #C8CED8;
   margin-left: -63px;
   font-size: 14px;
@@ -4752,7 +4752,7 @@ span.vertical-bar {
 
 .container .contents .contents-body .edit-area .btn-register:hover {
   background-color: #0050ff;
-  color: white;
+  color: #ffffff;
 }
 
 .container .contents .contents-body .edit-area .browse-link {
@@ -4782,7 +4782,7 @@ span.vertical-bar {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc;
+  background-color: #cccccc;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -4794,7 +4794,7 @@ span.vertical-bar {
   width: 17px;
   left: 4px;
   bottom: 4px;
-  background-color: white;
+  background-color: #ffffff;
   -webkit-transition: .4s;
   transition: .4s;
 }
@@ -4828,7 +4828,7 @@ span.vertical-bar {
 }
 
 .container .contents .contents-body-auth {
-  background: white;
+  background: #ffffff;
   padding: 4% 4%;
   display: inline-block;
 }
@@ -4896,7 +4896,7 @@ span.vertical-bar {
 }
 
 .container .contents .list table tr:first-child {
-  background: rgba(0, 80, 255, 0);
+  background: #0050ff;
 }
 
 .container .contents .list a {
@@ -5767,7 +5767,7 @@ span.vertical-bar {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  background-color: white;
+  background-color: #ffffff;
   width: 30rem;
   margin-top: 0.3125rem;
   padding: 1.25rem 0 0.625rem 1.25rem;
@@ -5813,7 +5813,7 @@ span.vertical-bar {
 
 .help-tooltip .tooltip-contents {
   visibility: hidden;
-  background-color: white;
+  background-color: #ffffff;
   width: 22.5rem;
   font-size: 0.8125rem;
   color: #0050ff;
