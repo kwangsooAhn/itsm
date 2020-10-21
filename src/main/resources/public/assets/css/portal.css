@@ -79,7 +79,50 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
-/* _common.scss 
+/* _alignments.scss
+ *
+ * 파일 경로 : template/_alignments.scss
+ * @description 정렬, 배치 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.align-center {
+  text-align: center;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-baseline {
+  vertical-align: baseline;
+}
+
+.align-top {
+  vertical-align: top;
+}
+
+.align-middle {
+  vertical-align: middle;
+}
+
+.align-bottom {
+  vertical-align: bottom;
+}
+
+.align-text-bottom {
+  vertical-align: text-bottom;
+}
+
+.align-text-top {
+  vertical-align: text-top;
+}
+
+/* _common.scss
  *
  * 파일 경로 : template/_common.scss
  * @description 공통으로 사용되는 디자인
@@ -2354,48 +2397,13 @@ button.ghost-line:disabled .icon {
   width: 100%;
 }
 
-/* _alignments.scss 
+/* _flex.scss
  *
- * 파일 경로 : template/_alignments.scss
- * @description 정렬, 배치 관련 디자인
+ * 파일 경로 : template/_flex.scss
+ * @description flex display 관련 디자인
  * @author jy.lim
  * @version 1.0
  */
-.align-center {
-  text-align: center;
-}
-
-.align-left {
-  text-align: left;
-}
-
-.align-right {
-  text-align: right;
-}
-
-.align-baseline {
-  vertical-align: baseline;
-}
-
-.align-top {
-  vertical-align: top;
-}
-
-.align-middle {
-  vertical-align: middle;
-}
-
-.align-bottom {
-  vertical-align: bottom;
-}
-
-.align-text-bottom {
-  vertical-align: text-bottom;
-}
-
-.align-text-top {
-  vertical-align: text-top;
-}
 
 .flex-row {
   display: flex;
@@ -2407,8 +2415,64 @@ button.ghost-line:disabled .icon {
   flex-direction: column;
 }
 
+.justify-content-start {
+  justify-content: flex-start;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.justify-content-center {
+  justify-content: center;
+}
+
+.align-items-start {
+  align-items: flex-start;
+}
+
+.align-items-end {
+  align-items: flex-end;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.align-items-baseline {
+  align-items: baseline;
+}
+
+.align-self-start {
+  align-self: flex-start;
+}
+
+.align-self-end {
+  align-self: flex-end;
+}
+
+.align-self-center {
+  align-self: center;
+}
+
+.align-self-baseline {
+  align-self: baseline;
+}
+
+.flex-fill {
+  flex: 1 1 auto;
+}
+
+.mr-auto {
+  margin-right: auto;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
 .row-right {
-  display: flex;
+  display: inherit;
   justify-content: flex-end;
 }
 .row-right span:last-child {
@@ -2446,24 +2510,24 @@ button.ghost-line:disabled .icon {
   height: 3.125rem;
   align-items: center;
 }
+
+.portal-container .header .logo {
+  margin-left: 1.25rem;
+}
+
 .portal-container .header .title {
   font-size: 1.125rem;
   font-weight: 500;
   margin-left: 0.625rem;
 }
-.portal-container .header .left {
-  flex: none;
-  margin-left: 1.25rem;
-}
-.portal-container .header .right {
-  margin-left: auto;
-  margin-right: 1.25rem;
-}
+
 .portal-container .header .login {
   font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
+  margin-right: 1.25rem;
 }
+
 .portal-container .portal-contents {
   margin-top: 3.125rem;
 }
@@ -2524,7 +2588,7 @@ button.ghost-line:disabled .icon {
   position: inherit;
   top: 5rem;
   float: right;
-  margin-right: 5rem;
+  margin: 5rem 5rem 0 0;
 }
 .signup-login-note {
   font-weight: 500;
