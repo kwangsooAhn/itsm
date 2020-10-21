@@ -950,7 +950,7 @@ label {
   height: 1.563rem;
   left: 0.25rem;
   bottom: 0.3125rem;
-  background-color: #fff;
+  background-color: #ffffff;
   border-radius: 50%;
 }
 
@@ -1255,7 +1255,7 @@ button:disabled {
 
 .btn.point-fill,
 button.point-fill {
-  color: #fff;
+  color: #ffffff;
   background-color: #0098FF;
   border-color: transparent;
 }
@@ -1263,13 +1263,13 @@ button.point-fill {
 .btn.point-fill .icon,
 button.point-fill .icon {
   display: inline-block;
-  background: #fff;
+  background: #ffffff;
 }
 
 .btn.point-fill:focus, .btn.point-fill:hover,
 button.point-fill:focus,
 button.point-fill:hover {
-  color: #fff;
+  color: #ffffff;
   background-color: #33ADFF;
   border-color: transparent;
 }
@@ -1277,24 +1277,24 @@ button.point-fill:hover {
 .btn.point-fill:focus .icon, .btn.point-fill:hover .icon,
 button.point-fill:focus .icon,
 button.point-fill:hover .icon {
-  background: #fff;
+  background: #ffffff;
 }
 
 .btn.point-fill:not(:disabled):active,
 button.point-fill:not(:disabled):active {
-  color: #fff;
+  color: #ffffff;
   background-color: #0088E6;
   border-color: transparent;
 }
 
 .btn.point-fill:not(:disabled):active .icon,
 button.point-fill:not(:disabled):active .icon {
-  background: #fff;
+  background: #ffffff;
 }
 
 .btn.point-fill:disabled,
 button.point-fill:disabled {
-  color: #fff;
+  color: #ffffff;
   background-color: #0098FF;
   border-color: transparent;
   opacity: 0.3;
@@ -1302,13 +1302,13 @@ button.point-fill:disabled {
 
 .btn.point-fill:disabled .icon,
 button.point-fill:disabled .icon {
-  background: #fff;
+  background: #ffffff;
 }
 
 .btn.point-line,
 button.point-line {
   color: #0098FF;
-  background-color: #fff;
+  background-color: #ffffff;
   border-color: #0098FF;
 }
 
@@ -1334,7 +1334,7 @@ button.point-line:hover .icon {
 
 .btn.point-line:not(:disabled):active,
 button.point-line:not(:disabled):active {
-  color: #fff;
+  color: #ffffff;
   background-color: #33ADFF;
   border-color: #0098FF;
   opacity: 0.3;
@@ -1342,13 +1342,13 @@ button.point-line:not(:disabled):active {
 
 .btn.point-line:not(:disabled):active .icon,
 button.point-line:not(:disabled):active .icon {
-  background: #fff;
+  background: #ffffff;
 }
 
 .btn.point-line:disabled,
 button.point-line:disabled {
   color: #0098FF;
-  background-color: #fff;
+  background-color: #ffffff;
   border-color: #0098FF;
   opacity: 0.3;
 }
@@ -1413,7 +1413,7 @@ button.default-fill:disabled .icon {
 .btn.default-line,
 button.default-line {
   color: #3F4B56;
-  background-color: #fff;
+  background-color: #ffffff;
   border-color: #EBEBEB;
 }
 
@@ -1452,7 +1452,7 @@ button.default-line:not(:disabled):active .icon {
 .btn.default-line:disabled,
 button.default-line:disabled {
   color: #3F4B56;
-  background-color: #fff;
+  background-color: #ffffff;
   border-color: #EBEBEB;
   opacity: 0.3;
 }
@@ -1517,7 +1517,7 @@ button.ghost-fill:disabled .icon {
 .btn.ghost-line,
 button.ghost-line {
   color: #CCCED1;
-  background-color: #fff;
+  background-color: #ffffff;
   border-color: #EBEBEB;
 }
 
@@ -1531,7 +1531,7 @@ button.ghost-line .icon {
 button.ghost-line:focus,
 button.ghost-line:hover {
   color: #0098FF;
-  background-color: #fff;
+  background-color: #ffffff;
   border-color: #0098FF;
 }
 
@@ -1544,7 +1544,7 @@ button.ghost-line:hover .icon {
 .btn.ghost-line:not(:disabled):active,
 button.ghost-line:not(:disabled):active {
   color: #0098FF;
-  background-color: #fff;
+  background-color: #ffffff;
   border-color: #0098FF;
 }
 
@@ -1779,7 +1779,7 @@ button.ghost-line:disabled .icon {
 .process-header .process-designer {
   font-size: 1.125rem;
   font-weight: 500;
-  color: #fff;
+  color: #ffffff;
 }
 
 .process-header button {
@@ -1806,7 +1806,7 @@ button.ghost-line:disabled .icon {
   mask-position: center;
   -webkit-mask-size: 20px 20px;
   mask-size: 20px 20px;
-  background: #fff;
+  background: #ffffff;
 }
 
 .process-header button .icon-save-as {
@@ -1821,7 +1821,7 @@ button.ghost-line:disabled .icon {
   mask-position: center;
   -webkit-mask-size: 20px 20px;
   mask-size: 20px 20px;
-  background: #fff;
+  background: #ffffff;
 }
 
 .process-header button .icon-simulation {
@@ -1836,7 +1836,7 @@ button.ghost-line:disabled .icon {
   mask-position: center;
   -webkit-mask-size: 20px 20px;
   mask-size: 20px 20px;
-  background: #fff;
+  background: #ffffff;
 }
 
 .process-header button .icon-undo {
@@ -1851,7 +1851,7 @@ button.ghost-line:disabled .icon {
   mask-position: center;
   -webkit-mask-size: 20px 20px;
   mask-size: 20px 20px;
-  background: #fff;
+  background: #ffffff;
 }
 
 .process-header button .icon-redo {
@@ -1866,7 +1866,7 @@ button.ghost-line:disabled .icon {
   mask-position: center;
   -webkit-mask-size: 20px 20px;
   mask-size: 20px 20px;
-  background: #fff;
+  background: #ffffff;
 }
 
 .process-header button .icon-image-download {
@@ -1881,7 +1881,7 @@ button.ghost-line:disabled .icon {
   mask-position: center;
   -webkit-mask-size: 20px 20px;
   mask-size: 20px 20px;
-  background: #fff;
+  background: #ffffff;
 }
 
 .process-header span.separator {
@@ -2023,7 +2023,7 @@ button.ghost-line:disabled .icon {
   width: 2.5rem;
   height: 2.5rem;
   color: #EBEBEB;
-  background-color: #fff;
+  background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.1875rem;
   text-align: center;
@@ -2242,7 +2242,7 @@ button.ghost-line:disabled .icon {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
-  color: #fff;
+  color: #ffffff;
   font-weight: 500;
   padding: 0.719rem 0 0.719rem 0.938rem;
 }
@@ -2430,7 +2430,7 @@ button.ghost-line:disabled .icon {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  background-color: white;
+  background-color: #ffffff;
   width: 30rem;
   margin-top: 0.3125rem;
   padding: 1.25rem 0 0.625rem 1.25rem;
@@ -2527,7 +2527,7 @@ button.ghost-line:disabled .icon {
   height: 0.625rem;
   border: 0.0625rem solid #c8ced8;
   border-radius: 50%;
-  background: #fff;
+  background: #ffffff;
   cursor: pointer;
 }
 
@@ -2536,7 +2536,7 @@ button.ghost-line:disabled .icon {
   height: 0.625rem;
   border: 0.0625rem solid #c8ced8;
   border-radius: 50%;
-  background: #fff;
+  background: #ffffff;
   cursor: pointer;
 }
 
@@ -2660,7 +2660,7 @@ button.ghost-line:disabled .icon {
   visibility: hidden;
   width: 8.75rem;
   background-color: #555;
-  color: #fff;
+  color: #ffffff;
   text-align: center;
   border-radius: 0.375rem;
   padding: 0.313rem;

@@ -199,6 +199,13 @@
                             }
                         }
                     });
+
+                    if (document.getElementById('searchValue').value !== '') {
+                        document.querySelectorAll('.row > .content-box > .content > .content').forEach(function(data) {
+                            let regex = new RegExp(document.getElementById('searchValue').value, 'gi');
+                            data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + document.getElementById('searchValue').value + "</span>");
+                        });
+                    }
                 }
             };
             aliceJs.sendXhr(opt);

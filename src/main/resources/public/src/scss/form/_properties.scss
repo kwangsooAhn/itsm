@@ -92,29 +92,17 @@
             height: 1.5rem; // 24px
             padding: 0;
             line-height: inherit;
-            span.icon {
-                width: 1.5rem; // 24px
-                height: 1.5rem; // 24px
-            }
         }
         // 옵션 버튼
-        button[class*="option-minus"] span.icon {
-            -webkit-mask-image: url("#{$form-asset-path}/editor/icon_option_minus.svg");
-            mask-image: url("#{$form-asset-path}/editor/icon_option_minus.svg");
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-            -webkit-mask-position: center;
-            mask-position: center;
-
+        button[class*="option-minus"] .icon {
+            display: inline-block;
+            cursor: pointer;
+            @include maskImage('#{$form-asset-path}/editor/icon_option_minus.svg', 1.5rem, 1.5rem, no-repeat, center, null, $pressed-gray); // 24px 24px
         }
-        button[class*="option-plus"] span.icon {
-            -webkit-mask-image: url("#{$form-asset-path}/editor/icon_option_plus.svg");
-            mask-image: url("#{$form-asset-path}/editor/icon_option_plus.svg");
-            -webkit-mask-repeat: no-repeat;
-            mask-repeat: no-repeat;
-            -webkit-mask-position: center;
-            mask-position: center;
-
+        button[class*="option-plus"] .icon {
+            display: inline-block;
+            cursor: pointer;
+            @include maskImage('#{$form-asset-path}/editor/icon_option_plus.svg', 1.5rem, 1.5rem, no-repeat, center, null, $pressed-gray); // 24px 24px
         }
     }
 
@@ -176,7 +164,7 @@
             //        top: 1.125rem; // 18px
             //        right: -0.6875rem;
             //        //-11px
-            //        color: #FFF;
+            //        color: #ffffff;
             //        font-size: 0.6875rem;
             //        //11px
             //        line-height: 1.3;

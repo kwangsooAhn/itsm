@@ -13,9 +13,7 @@ data class BoardAdminListDto(
     var boardAdminTitle: String? = "",
     var categoryYn: Boolean = false,
     var boardBoardCount: Long = 0,
-    var totalCount: Long? = 0,
+    var totalCount: Long = 0,
     var createDt: LocalDateTime? = null,
-    var createUserName: String? = "",
-    var updateDt: LocalDateTime? = null,
-    var updateUserName: String? = ""
+    var createUserName: String? = ""
 )

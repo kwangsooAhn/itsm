@@ -164,7 +164,7 @@ span.vertical-bar {
     .token-info {
         width: 37.5rem; // 600px
         padding: 0 4.0625rem; // 65px
-        background-color: white;
+        background-color: $white;
         &-tab {
             display: flex;
             margin-top: 7.8125rem; // 125px
@@ -610,7 +610,7 @@ span.vertical-bar {
                     left: 0;
                     right: 0;
                     bottom: 0;
-                    background-color: #ccc;
+                    background-color: #cccccc;
                     -webkit-transition: .4s;
                     transition: .4s;
 
@@ -659,7 +659,7 @@ span.vertical-bar {
             }
 
             &-auth {
-                background: white;
+                background: $white;
                 padding: 4% 4%;
                 display: inline-block;
 
@@ -727,7 +727,7 @@ span.vertical-bar {
                     }
 
                     &:first-child {
-                        background: rgba(0, 80, 255, 0);
+                        background: #0050ff;
                     }
                 }
             }
