@@ -1275,7 +1275,7 @@
                                             `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="property-field-image">` +
                                                 `<input type="text" class="input-image property-value" value="${aliceJs.filterXSS(fieldProp.value)}" id="path-${selectedComponentIds[0]}" maxlength="100"/>` +
-                                                `<button type="button" class="btn default-point-line" id="imageUploadPop"></button>` +
+                                                `<button type="button" class="btn ghost-line" id="imageUploadPop"></button>` +
                                             `</div>`;
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
 

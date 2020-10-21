@@ -290,3 +290,21 @@ $datepicker-time-font-color:                 $light-black;
 $datepicker-time-font-weight:                $font-weight-medium;
 // toggle button
 $datepicker-btn-border-radius:               0.0625rem; // 1px
+
+///////////////////////////////// text editor /////////////////////////////////
+$text-editor-font-size:                      $font-size-base;
+$text-editor-font-color:                     $dark-gray;
+$text-editor-font-weight:                    $font-weight-regular;
+$text-editor-line-height:                    1.5;
+$text-editor-border-color:                   $line-gray;
+$text-editor-bg-color:                       $white;
+$text-editor-border-width:                   0.0625rem; // 1px
+$text-editor-border:                         $text-editor-border-width solid $text-editor-border-color;
+$text-editor-toolbar-font-size:              $font-size-base;
+$text-editor-toolbar-font-color:             $light-black;
+$text-editor-toolbar-font-weight:            $font-weight-medium;
+$text-editor-toolbar-box-shadow:             0 0 0.3125rem 0 $line-gray;
+// text editor의 hover와 pressec 는 동일한 디자인이다.
+$text-editor-toolbar-hover-font-color:       $light-black;
+$text-editor-toolbar-hover-bg-color:         $line-gray;
+$text-editor-toolbar-selected-font-color:    $point-blue;
