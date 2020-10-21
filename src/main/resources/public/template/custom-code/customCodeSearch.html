@@ -19,6 +19,10 @@
             <input type="hidden" sec:authorize="!hasAuthority('custom.code.update')" th:name="isRole" th:value="false"/>
             <div class="left">
                 <form id="searchFrm">
+                    <select id="searchType" name="searchType">
+                        <option value="" th:text="#{customCode.label.all}" selected/>
+                        <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
+                    </select>
                     <input class="search col-4" id="search" name="search" type="text" maxlength="100" th:placeholder="#{customCode.label.searchPlaceholder}"/>
                 </form>
             </div>
@@ -38,6 +42,7 @@
         window.onload = function() {
             document.getElementById('search').focus();
             document.getElementById('search').addEventListener('keyup', function() { getCustomCodeList(false); });
+            document.getElementById('searchType').addEventListener('change', getCustomCodeList.bind(null, false), false);
             getCustomCodeList(false);
         };
 

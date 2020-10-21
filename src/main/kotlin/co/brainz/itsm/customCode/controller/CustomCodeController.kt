@@ -6,6 +6,7 @@
 
 package co.brainz.itsm.customCode.controller
 
+import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.customCode.constants.CustomCodeConstants
 import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
 import co.brainz.itsm.customCode.service.CustomCodeService
@@ -18,7 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/custom-codes")
-class CustomCodeController(private val customCodeService: CustomCodeService) {
+class CustomCodeController(
+    private val codeService: CodeService,
+    private val customCodeService: CustomCodeService
+) {
 
     private val customCodeSearchPage: String = "custom-code/customCodeSearch"
     private val customCodeListPage: String = "custom-code/customCodeList"
@@ -32,7 +36,8 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
      * @return String
      */
     @GetMapping("/search")
-    fun getCustomCodeSearch(): String {
+    fun getCustomCodeSearch(model: Model): String {
+        model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE))
         return customCodeSearchPage
     }
 
@@ -43,6 +48,7 @@ class CustomCodeController(private val customCodeService: CustomCodeService) {
     @GetMapping("/list")
     fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto, model: Model): String {
         val result = customCodeService.getCustomCodeList(customCodeSearchDto)
+        model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE))
         model.addAttribute("customCodeList", result)
         model.addAttribute("customCodeCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return customCodeListPage

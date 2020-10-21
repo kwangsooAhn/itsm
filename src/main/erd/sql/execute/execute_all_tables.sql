@@ -245,6 +245,10 @@ insert into awf_code values ('24', 'user.time', 'HH:mm', null, null, false, 4, 1
 insert into awf_code values ('12', 'user.time', 'hh:mm a', null, null, false, 4, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('version', 'root', null, null, null, false, 1, 11, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('version.workflow', 'version', '20200515', null, null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode', 'root', null, '커스텀코드', null, false, 1, 12, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.type', 'customCode', null, '신청서 목록', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.type.table', 'customCode.type', 'table', '테이블', null, true, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('customCode.type.code', 'customCode.type', 'code', '코드', null, true, 3, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 
 /**
  * 사용자정의코드

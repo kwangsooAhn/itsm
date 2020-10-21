@@ -34,7 +34,12 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     customCode.createUser.userName
                 )
             )
-            .where(super.likeIgnoreCase(customCode.customCodeName, customCodeSearchDto.search))
+            .where(
+                super.likeIgnoreCase(customCode.type, customCodeSearchDto.searchType)
+            )
+            .where(
+                super.likeIgnoreCase(customCode.customCodeName, customCodeSearchDto.search)
+            )
             .orderBy(customCode.customCodeName.asc())
         if (customCodeSearchDto.viewType != "formEditor") {
             query.limit(ItsmConstants.SEARCH_DATA_COUNT).offset(customCodeSearchDto.offset)
