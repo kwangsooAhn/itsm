@@ -7,7 +7,9 @@ package co.brainz.workflow.process.service.simulation.element.impl
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.WfElementEntity
 import co.brainz.workflow.element.repository.WfElementRepository
+import co.brainz.workflow.process.constants.WfProcessConstants
 import co.brainz.workflow.process.service.simulation.element.WfProcessSimulationElement
+import java.util.regex.Pattern
 
 /**
  * 시뮬레이션 검증 - arrow connector
@@ -15,6 +17,10 @@ import co.brainz.workflow.process.service.simulation.element.WfProcessSimulation
 class WfProcessSimulationArrow(private val wfElementRepository: WfElementRepository) : WfProcessSimulationElement() {
 
     override fun validate(element: WfElementEntity): Boolean {
+        val actionValue = element.getElementDataValue(WfElementConstants.AttributeId.ACTION_VALUE.value)
+        if (!actionValue.isNullOrEmpty() && this.checkActionValueForbidden(actionValue.toString())) {
+            return failed("Action value is a forbidden word.")
+        }
         val sourceElementId = element.getElementDataValue(WfElementConstants.AttributeId.SOURCE_ID.value)
         val sourceElement = wfElementRepository.findWfElementEntityByElementId(sourceElementId!!)
         val arrowConnectors = wfElementRepository.findAllArrowConnectorElement(sourceElement.elementId)
@@ -100,5 +106,20 @@ class WfProcessSimulationArrow(private val wfElementRepository: WfElementReposit
             count++
         }
         return count
+    }
+
+    /**
+     * connector[element] 에 action 동작시 전달 값 금지어 체크
+     */
+    private fun checkActionValueForbidden(actionValue: String): Boolean {
+        val pattern = Pattern.compile(WfProcessConstants.FORBIDDEN_WORD_LIST, Pattern.CASE_INSENSITIVE)
+        val matcher = pattern.matcher(actionValue)
+        var isExistForbidden = false
+        while (!isExistForbidden && matcher.find()) {
+            if (matcher.group().equals(actionValue, true)) {
+                isExistForbidden = true
+            }
+        }
+        return isExistForbidden
     }
 }
