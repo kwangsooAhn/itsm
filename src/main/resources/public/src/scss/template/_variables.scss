@@ -204,7 +204,7 @@ $dropzone-font-weight:                       $font-weight-regular;
 $dropzone-bg-color:                          $light-gray;
 $dropzone-border:                            0.0625rem solid $line-gray; // 1px
 // browse click 버튼
-$dropzone-clickable-font-color:             $point-blue;
+$dropzone-clickable-font-color:              $point-blue;
 // 미리보기
 $file-uploader-preview-height:               5rem; // 80px;
 $file-uploader-progress-color:               $point-blue;
@@ -234,23 +234,6 @@ $avatar-dropzone-clickable-font-color:       $point-blue;
 $avatar-desc-font-size:                      $font-size-base;
 $avatar-desc-font-color:                     $gray;
 $avatar-desc-font-weight:                    $font-weight-regular;
-$scrollbar-hover-color: $pressed-gray;
-
-///////////////////////////////// columns /////////////////////////////////
-// Column width (fixed)
-$column-init: 5rem; // 80px
-$column-1: $column-init * 1; // 80px
-$column-2: $column-init * 2; // 160px
-$column-3: $column-init * 3; // 240px
-$column-4: $column-init * 4; // 320px
-$column-5: $column-init * 5; // 400px
-$column-6: $column-init * 6; // 480px
-$column-7: $column-init * 7; // 560px
-$column-8: $column-init * 8; // 640px
-$column-9: $column-init * 9; // 720px
-$column-10: $column-init * 10; // 800px
-$column-11: $column-init * 11; // 880px
-$column-12: $column-init * 12; // 960px
 
 ///////////////////////////////// date picker /////////////////////////////////
 $datepicker-font-size:                       $font-size-base;
@@ -308,3 +291,42 @@ $text-editor-toolbar-box-shadow:             0 0 0.3125rem 0 $line-gray;
 $text-editor-toolbar-hover-font-color:       $light-black;
 $text-editor-toolbar-hover-bg-color:         $line-gray;
 $text-editor-toolbar-selected-font-color:    $point-blue;
+
+///////////////////////////////// tree /////////////////////////////////
+$tree-folder-path:                           '/../media/icons/tree';
+$tree-font-size:                             $font-size-base;
+$tree-font-color:                            $light-black;
+$tree-font-weight:                           $font-weight-medium;
+// tree 간격
+$tree-line-height:                           1.875rem; // 30px
+$tree-bg-color:                              $light-gray;
+$tree-line-color:                            $default-gray;
+$tree-line-width:                            0.0625rem; // 1px
+$tree-line:                                  $tree-line-width solid $tree-line-color;
+// +, - icon
+$tree-toggle-icon-width:                     0.875rem; // 14px
+// folder icon
+$tree-folder-icon-width:                     1.438rem; // 23px
+// folder icon margin left
+$tree-folder-margin-left:                    0.5rem; // 8px
+// line 위치 계산
+$tree-indentation:                           calc((#{$tree-toggle-icon-width} / 2) + #{$tree-folder-margin-left} + (#{$tree-folder-icon-width} / 2));
+// node 선택
+$tree-selected-border-color:                 $point-blue;
+$tree-selected-border-width:                 0.0625rem; // 1px;
+$tree-selected-border:                       $tree-selected-border-width solid $tree-selected-border-color;
+$tree-selected-bg-color:                     rgba(0, 152, 255, 0.05);
+$tree-hover-bg-color:                        rgba(0, 152, 255, 0.05);
+
+///////////////////////////////// modal //////////////////////////////
+// 모달 오픈시 바탕 어둡게
+$modal-backdrop-bg-color:                    rgba(116, 147, 179, 0.5);
+$modal-border-color:                         $line-gray;
+$modal-bg-color:                             $white;
+$modal-border-width:                         0.0625rem; // 1px
+$modal-border:                               $modal-border-width solid $modal-border-color;
+$modal-box-shadow:                           0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
+// 모달 제목
+$modal-title-font-size:                      1.5rem; // 24px
+$modal-title-font-color:                     $light-black;
+$modal-title-font-weight:                    $font-weight-medium;

@@ -5,3 +5,197 @@
  * @author wdj
  * @version 1.0
  */
+// Level 1
+// -------------------------
+ul.tree {
+  font-family: $font-family;
+  font-size:  $tree-font-size;
+  font-weight:  $tree-font-weight;
+  color: $tree-font-color;
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  cursor: default;
+
+  li {
+    position: relative;
+    line-height: $tree-line-height;
+  }
+  // Level 2
+  // -------------------------
+  ul {
+    position: relative;
+    margin: 0 0 0 calc(#{$tree-toggle-icon-width} / 2);
+    padding: 0;
+    list-style-type: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    // vertical line
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -$tree-line-width;
+      border-left: $tree-line;
+    }
+
+    li {
+      padding-left: $tree-indentation;
+      // horizontal line
+      &:before {
+        content: '';
+        position: absolute;
+        top: ($tree-line-height / 2); // half of line-height
+        left: 0;
+        width: $tree-indentation; 
+        height: $tree-line-width; // 1px
+        border-top: $tree-line;
+      }
+       // cover the excess line
+       &:last-child:before {
+        background-color: $tree-bg-color;
+        height: auto;
+        top: ($tree-line-height / 2);
+        left: -$tree-line-width;
+        bottom: 0;
+      }
+
+      // Level 3+
+      // -------------------------
+      ul {
+        margin-left: calc(#{$tree-toggle-icon-width} / 2);
+      }
+    }
+  }
+}
+// +, - 아이콘
+img.exp_col {
+  cursor: pointer;
+}
+
+img.exp_col_empty {
+  width: 1rem; // 16px
+  cursor: pointer;
+}
+// 폴더 아이콘
+img.icon_tree {
+  vertical-align: middle;
+  padding-left: 0.188rem; // 3px
+  margin-top: -0.188rem; // 3px
+}
+
+span.node {
+  margin-left: $tree-folder-margin-left;
+  padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
+  border: $tree-selected-border-width solid transparent;
+  &:hover {
+    background-color: $tree-hover-bg-color;
+    border-radius: 0.125rem; // 2px
+  }
+  label {
+    padding-left: $tree-folder-margin-left;
+    cursor: pointer;
+  }
+  cursor: pointer;
+}
+// 노드 선택시
+span.node_selected {
+  margin-left: $tree-folder-margin-left;
+  padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
+  background-color: $tree-selected-bg-color;
+  border: $tree-selected-border;
+  border-radius: 0.125rem; // 2px
+  label {
+    padding-left: $tree-folder-margin-left;
+    cursor: pointer;
+  }
+  cursor: pointer;
+}
+
+// 트리 전용 모달
+body.tree-modal-active {
+  overflow:hidden !important;
+}
+
+.tree-modal-wrapper {
+  display:none;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow:auto;
+  // 모달 오픈
+  &.tree-modal-active {
+    display:block;
+  }
+  // 배경
+  .tree-modal-backdrop {
+    position:fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: $modal-backdrop-bg-color;
+    z-index: 2001;
+  }
+
+  .tree-modal-dialog {
+    position: absolute;
+    top: 6em;
+    left: 0;
+    right: 0;
+    width: 40rem; // 640px
+    font-family: $font-family;
+    background-color: $modal-bg-color;
+    box-shadow: $modal-box-shadow;
+    margin: 0 auto 0 auto;
+    z-index: 2001;
+
+    .tree-modal-body {
+      overflow: auto;
+      height: auto;
+      box-sizing:border-box;
+      border-bottom: $modal-border;
+
+      .tree-container {
+        font-family: $font-family;
+        margin: 1.875rem 2.5rem; // 30px 40px
+        position: relative;
+
+        .tree-title {
+          height: 2.5rem; // 40px
+          font-size:  $modal-title-font-size;
+          font-weight:  $modal-title-font-weight;
+          color: $modal-title-font-color;
+          border-bottom: $modal-border;
+        }
+
+        .tree-list {
+          margin-top: 0.625rem; // 10px
+          height: 32.5rem; // 520px
+        }
+
+        .tree-nodata {
+          display: inline-block;
+          width: 100%;
+          height: 100%;
+          text-align: center;
+          font-size: $tree-font-size;
+          font-weight: $tree-font-weight;
+          color: $tree-font-color;
+        }
+      }
+    }
+
+    .tree-modal-buttons {
+      height: 4.5rem; // 72px
+      float: right;
+      padding: 1rem; // 16px
+    }
+  }
+}
