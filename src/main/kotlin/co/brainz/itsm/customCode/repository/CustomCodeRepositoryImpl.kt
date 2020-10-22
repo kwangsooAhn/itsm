@@ -38,7 +38,7 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                 super.likeIgnoreCase(customCode.type, customCodeSearchDto.searchType)
             )
             .where(
-                super.likeIgnoreCase(customCode.customCodeName, customCodeSearchDto.search)
+                super.likeIgnoreCase(customCode.customCodeName, customCodeSearchDto.search.toString().trim())
             )
             .orderBy(customCode.customCodeName.asc())
         if (customCodeSearchDto.viewType != "formEditor") {
