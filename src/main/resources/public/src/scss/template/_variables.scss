@@ -298,17 +298,17 @@ $tree-font-size:                             $font-size-base;
 $tree-font-color:                            $light-black;
 $tree-font-weight:                           $font-weight-medium;
 // tree 간격
-$tree-line-height:                           30px; // 30px
+$tree-line-height:                           1.875rem; // 30px
 $tree-bg-color:                              $light-gray;
 $tree-line-color:                            $default-gray;
 $tree-line-width:                            0.0625rem; // 1px
 $tree-line:                                  $tree-line-width solid $tree-line-color;
 // +, - icon
-$tree-toggle-icon-width:                     14px; // 14px
+$tree-toggle-icon-width:                     0.875rem; // 14px
 // folder icon
-$tree-folder-icon-width:                     23px; // 23px
+$tree-folder-icon-width:                     1.438rem; // 23px
 // folder icon margin left
-$tree-folder-margin-left:                    8px; // 8px
+$tree-folder-margin-left:                    0.5rem; // 8px
 // line 위치 계산
 $tree-indentation:                           calc((#{$tree-toggle-icon-width} / 2) + #{$tree-folder-margin-left} + (#{$tree-folder-icon-width} / 2));
 // node 선택
