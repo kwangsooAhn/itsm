@@ -12,7 +12,7 @@
 	<category_index>0</category_index>
 	<zoom>1.0</zoom>
 	<x>-270</x>
-	<y>732</y>
+	<y>773</y>
 	<default_color>
 		<r>128</r>
 		<g>128</g>
@@ -201,7 +201,7 @@
 			</connections>
 			<display>false</display>
 			<creation_date>2019-08-26 13:08:23</creation_date>
-			<updated_date>2020-10-13 18:26:59</updated_date>
+			<updated_date>2020-10-22 01:26:41</updated_date>
 			<model_property>
 				<name>프로젝트명</name>
 				<value></value>
@@ -1053,7 +1053,7 @@
 		</word>
 		<word>
 			<id>51</id>
-			<length>1024</length>
+			<length>128</length>
 			<decimal>null</decimal>
 			<array>false</array>
 			<array_dimension>null</array_dimension>
@@ -1645,7 +1645,7 @@
 		</word>
 		<word>
 			<id>88</id>
-			<length>1024</length>
+			<length>128</length>
 			<decimal>null</decimal>
 			<array>false</array>
 			<array_dimension>null</array_dimension>
@@ -2559,7 +2559,7 @@
 			<connections>
 				<relation>
 					<id>0</id>
-					<source>6</source>
+					<source>24</source>
 					<target>0</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2581,7 +2581,7 @@
 				</relation>
 				<relation>
 					<id>1</id>
-					<source>24</source>
+					<source>6</source>
 					<target>0</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -2612,7 +2612,7 @@
 				<normal_column>
 					<id>4</id>
 					<referenced_column>30</referenced_column>
-					<relation>0</relation>
+					<relation>1</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -2646,7 +2646,7 @@
 				<normal_column>
 					<id>5</id>
 					<referenced_column>113</referenced_column>
-					<relation>1</relation>
+					<relation>0</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -7039,7 +7039,7 @@
 			<connections>
 				<relation>
 					<id>9</id>
-					<source>1</source>
+					<source>24</source>
 					<target>23</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -7061,7 +7061,7 @@
 				</relation>
 				<relation>
 					<id>10</id>
-					<source>24</source>
+					<source>1</source>
 					<target>23</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -7092,7 +7092,7 @@
 				<normal_column>
 					<id>110</id>
 					<referenced_column>6</referenced_column>
-					<relation>9</relation>
+					<relation>10</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -7126,7 +7126,7 @@
 				<normal_column>
 					<id>111</id>
 					<referenced_column>7</referenced_column>
-					<relation>9</relation>
+					<relation>10</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -7160,7 +7160,7 @@
 				<normal_column>
 					<id>112</id>
 					<referenced_column>113</referenced_column>
-					<relation>10</relation>
+					<relation>9</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -8219,7 +8219,7 @@
 			<connections>
 				<relation>
 					<id>14</id>
-					<source>29</source>
+					<source>4</source>
 					<target>28</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -8241,7 +8241,7 @@
 				</relation>
 				<relation>
 					<id>15</id>
-					<source>4</source>
+					<source>29</source>
 					<target>28</target>
 						<source_xp>-1</source_xp>
 						<source_yp>-1</source_yp>
@@ -8272,7 +8272,7 @@
 				<normal_column>
 					<id>137</id>
 					<referenced_column>139</referenced_column>
-					<relation>14</relation>
+					<relation>15</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>
@@ -8306,7 +8306,7 @@
 				<normal_column>
 					<id>138</id>
 					<referenced_column>16</referenced_column>
-					<relation>15</relation>
+					<relation>14</relation>
 					<description></description>
 					<unique_key_name></unique_key_name>
 					<logical_name></logical_name>

@@ -57,7 +57,7 @@
                 </div>
                 <div id="boardUserInfo">
                     <div class="form-set">
-                        <label th:text="#{common.label.createUser}"/>
+                        <label th:text="#{common.label.writer}"/>
                         <input id="spanCreateUserKey" name="spanCreateUserKey" type="text" disabled
                                th:value="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"/>
                     </div>
@@ -65,16 +65,6 @@
                         <label th:text="#{common.label.createDate}"/>
                         <input id="spanCreateDt" name="spanCreateDt" type="text" disabled
                                th:value="${boardInfo?.createDt} ? ${boardInfo.createDt} : ''"/>
-                    </div>
-                    <div class="form-set">
-                        <label th:text="#{common.label.updateUser}"/>
-                        <input id="spanUpdateUserKey" name="spanUpdateUserKey" type="text" disabled
-                               th:value="${boardInfo?.updateUser} ? ${boardInfo.updateUser.userName} : ''"/>
-                    </div>
-                    <div class="form-set">
-                        <label th:text="#{common.label.updateDate}"/>
-                        <input id="spanUpdateDt" name="spanUpdateDt" type="text" disabled
-                               th:value="${boardInfo?.updateDt} ? ${boardInfo.updateDt} : ''"/>
                     </div>
                 </div>
                 <div class="btn-list btn-bar">
@@ -113,7 +103,6 @@
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
         const replyYn = /*[[${replyYn}]]*/;
         const boardCreateDt = document.getElementById('spanCreateDt');
-        const boardUpdateDt = document.getElementById('spanUpdateDt');
 
         window.onload = function() {
             document.getElementById('boardTitle').focus();
@@ -122,7 +111,6 @@
             }
 
             boardCreateDt.value = i18n.userDateTime(boardCreateDt.value);
-            boardUpdateDt.value = i18n.userDateTime(boardUpdateDt.value);
 
             if (attachYn) {
                 let ownId = '';

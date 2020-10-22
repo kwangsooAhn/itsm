@@ -21,8 +21,8 @@ import co.brainz.itsm.board.repository.BoardCommentRepository
 import co.brainz.itsm.board.repository.BoardReadRepository
 import co.brainz.itsm.board.repository.BoardRepository
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
+import co.brainz.itsm.boardAdmin.dto.BoardAdminListDto
 import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
-import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.boardAdmin.repository.BoardAdminRepository
 import co.brainz.itsm.boardAdmin.repository.BoardCategoryRepository
 import java.time.LocalDateTime
@@ -46,10 +46,8 @@ class BoardService(
      *
      * @return MutableList<PortalBoardAdminEntity>
      */
-    fun getBoardAdminList(): MutableList<PortalBoardAdminEntity>? {
-        return if (boardAdminRepository.count() > 0) {
-            boardAdminRepository.findAllByBoardUseYnTrueOrderByBoardAdminSortAsc()
-        } else null
+    fun getBoardAdminList(): List<BoardAdminListDto>? {
+        return boardAdminRepository.findPortalBoardAdmin()
     }
 
     /**
@@ -135,26 +133,19 @@ class BoardService(
             boardReadRepository.save(boardReadEntity)
         }
 
-        val boardEntity = boardRepository.findById(boardId).orElse(null)
-        var categoryName = ""
-        if (boardEntity.boardCategoryId != "") {
-            categoryName =
-                boardEntity.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }
+        val boardDto = boardRepository.findByBoardId(boardId)
+        if (!boardDto.boardCategoryId.isNullOrEmpty()) {
+            boardDto.boardCategoryName =
+                boardDto.boardCategoryId?.let { boardCategoryRepository.findById(it).get().boardCategoryName }
                     .toString()
         }
-
-        return BoardViewDto(
-            boardId = boardEntity.boardId,
-            boardAdmin = boardEntity.boardAdmin,
-            boardCategoryId = boardEntity.boardCategoryId,
-            boardCategoryName = categoryName,
-            boardTitle = if (type == "reply") "RE : " + boardEntity.boardTitle else boardEntity.boardTitle,
-            boardContents = if (type == "reply") "" else boardEntity.boardContents,
-            createDt = if (type == "reply") null else boardEntity.createDt,
-            createUser = if (type == "reply") null else boardEntity.createUser,
-            updateDt = if (type == "reply") null else boardEntity.updateDt,
-            updateUser = if (type == "reply") null else boardEntity.updateUser
-        )
+        if (type == "reply") {
+            boardDto.boardTitle = "RE : " + boardDto.boardTitle
+            boardDto.boardContents = ""
+            boardDto.createDt = null
+            boardDto.createUser = null
+        }
+        return boardDto
     }
 
     /**

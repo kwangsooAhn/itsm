@@ -11,9 +11,6 @@ data class BoardViewDto(
     var boardCategoryName: String? = "",
     var boardTitle: String? = "",
     var boardContents: String? = "",
-    var fileSeqList: List<Long>? = null,
     var createDt: LocalDateTime? = null,
-    var createUser: AliceUserEntity? = null,
-    var updateDt: LocalDateTime? = null,
-    var updateUser: AliceUserEntity? = null
+    var createUser: AliceUserEntity? = null
 )

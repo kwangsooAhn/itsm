@@ -10,6 +10,7 @@
 @import '../template/_variables.scss';
 @import '../template/_functions.scss'; // 상속 불가
 @import '../template/_mixins.scss'; // 상속 불가
+@import '../template/_alignment.scss'; // 상속 불가
 @import '../template/_common.scss'; // 상속 불가
 @import '_variables.scss';
 @import '../template/_scrollbars.scss';
@@ -22,7 +23,7 @@
 @import '_buttons.scss';
 // TODO 아래 순서 정리
 @import '_column.scss';
-@import '_alignment.scss';
+@import '_flex.scss';
 @import '_layout.scss';
 @import '_browserGuide.scss';
 @import '_signup.scss';
