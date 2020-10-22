@@ -40,12 +40,9 @@
                     </button>
                 </td>
                 <td width="10%">
-                    <th:block th:switch="${#authorization.expression('hasAuthority(''process.update'')')}">
-                        <button th:case="true" type="button" th:if="${process.enabled == true}" th:disabled="${!process.enabled}"
+                    <th:block th:if="${process.enabled == true}">
+                        <button type="button" sec:authorize="hasAuthority('process.update')"
                                 th:onclick="openProcessDesignerEdit([[${process.id}]])">
-                            <span class="icon-edit"></span>
-                        </button>
-                        <button th:case="*" type="button" th:onclick="|aliceJs.alertWarning(i18n.msg('auth.msg.accessDenied'))|">
                             <span class="icon-edit"></span>
                         </button>
                     </th:block>

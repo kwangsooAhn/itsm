@@ -157,7 +157,7 @@
             let processNameObject;
             if (data.enabled == true) {
                 processNameObject = document.createElement('a');
-                processNameObject.onclick = function () {
+                processNameObject.onclick = function() {
                     if (document.getElementById('updatable').value === 'true') {
                         openProcessEdit(data.id);
                     } else {
@@ -172,33 +172,30 @@
 
             let tdProcessPreview = document.createElement('td');
             tdProcessPreview.style.width = '10%';
-            let processPreviewObject = document.createElement('a');
-            processPreviewObject.onclick = function() {
+            let processPreviewBtn = document.createElement('button');
+            let spanProcessPreview = document.createElement('span');
+            processPreviewBtn.className = 'default-fill list-popup';
+            spanProcessPreview.className = 'icon-search';
+            processPreviewBtn.onclick = function () {
                 openProcessDesignerView(data.id);
             }
-            let processPreviewImage = document.createElement('img');
-            processPreviewImage.src = '../assets/media/icons/icon_preview.svg';
-            processPreviewObject.appendChild(processPreviewImage);
-            tdProcessPreview.appendChild(processPreviewObject);
+            processPreviewBtn.appendChild(spanProcessPreview);
+            tdProcessPreview.appendChild(processPreviewBtn);
 
-            let tdUpdate = document.createElement('td');
-            tdUpdate.style.width = '10%';
 
-            // TODO: 권한에 따른 처리
-            let updateObject = document.createElement('a');
-            updateObject.onclick = function() {
-                if (document.getElementById('updatable').value === 'true') {
+            let tdProcessUpdate = document.createElement('td');
+            tdProcessUpdate.style.width = '10%';
+            if (document.getElementById('updatable').value === 'true' && data.enabled == true) {
+                let updateBtn = document.createElement('button');
+                let spanUpdate = document.createElement('span');
+                spanUpdate.className='icon-edit';
+                tdProcessUpdate.onclick = function() {
                     openProcessDesignerEdit(data.id);
-                } else {
-                    aliceJs.alertWarning(i18n.msg('auth.msg.accessDenied'));
                 }
+                updateBtn.appendChild(spanUpdate);
+                tdProcessUpdate.appendChild(updateBtn);
             }
-            let updateImage = document.createElement('img');
-            updateImage.src = '../assets/media/icons/icon_edit.svg';
-            if (data.enabled == true) {
-                updateObject.appendChild(updateImage);
-                tdUpdate.appendChild(updateObject);
-            }
+
             let tdStatus = document.createElement('td');
             tdStatus.style.width = '10%';
             tdStatus.innerText = i18n.msg(data.status);
@@ -217,7 +214,7 @@
 
             tr.appendChild(tdProcessName);
             tr.appendChild(tdProcessPreview);
-            tr.appendChild(tdUpdate);
+            tr.appendChild(tdProcessUpdate);
             tr.appendChild(tdStatus);
             tr.appendChild(tdDescription);
             tr.appendChild(tdWriter);
