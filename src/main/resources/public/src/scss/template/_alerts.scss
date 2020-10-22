@@ -7,13 +7,13 @@
  */
 .gmodal {
   &-active {
-    overflow:hidden !important;
+    overflow: hidden !important;
   }
 
   &-wrapper {
-    display:none;
-    overflow:auto;
-    position:fixed;
+    display: none;
+    overflow: auto;
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
@@ -21,13 +21,13 @@
 
     &.gmodal-active {
       z-index: 2002;
-      display:block;
+      display: block;
     }
   }
 
   &-backdrop {
-    z-index:999999998;
-    position:fixed;
+    z-index: 999999998;
+    position: fixed;
     top: 0;
     right: 0;
     bottom: 0;
@@ -36,7 +36,7 @@
   }
 
   &-dialog {
-    z-index:999999999;
+    z-index: 999999999;
     border: solid 0.0625rem #C8CED8;  // 1px
     border-radius: 0.0625rem;         // 1px
     position: absolute;
@@ -57,7 +57,7 @@
     padding: 1em;
     text-align: center;
     font-size: 1.25em;
-    box-sizing:border-box;
+    box-sizing: border-box;
   }
 
   &-body {
@@ -78,8 +78,8 @@
   }
 
   &-buttons {
-    box-sizing:border-box;
-    text-align:right;
+    box-sizing: border-box;
+    text-align: right;
   }
 
   &-button {
@@ -91,18 +91,32 @@
     font-size: 1rem;                    // 16px
     font-weight: $font-weight-medium;
     text-transform: uppercase;
-    cursor:pointer;
+    cursor: pointer;
     display: inline-block;
     -webkit-border-radius: 0.0625rem;   // 1px
     -moz-border-radius: 0.0625rem;      // 1px
     border-radius: 0.0625rem;           // 1px
     text-decoration: none;
-
-    &-red { border: solid 0.0625rem #e51c23; color:#e51c23; }   // 1px
-    &-blue { border: solid 0.0625rem #0050ff; color:#0050ff; }  // 1px
-    &-green { border: solid 0.0625rem #00ca3c; color:#00ca3c; } // 1px
-    &-gray { border: solid 0.0625rem #969696; color:#969696; }  // 1px
   }
+
+  &-icon {
+    &-success {
+      @include background ('#{$icon-folder-path}icon_alert_success.svg', null, no-repeat, 0, 0.3125rem, null); // 5px
+    }
+    &-info {
+      @include background ('#{$icon-folder-path}icon_alert_info.svg', null, no-repeat, 0, 0.3125rem, null);    // 5px
+    }
+    &-warning {
+      @include background ('#{$icon-folder-path}icon_alert_warning.svg', null, no-repeat, 0, 0.3125rem, null); // 5px
+    }
+    &-danger {
+      @include background ('#{$icon-folder-path}icon_alert_danger.svg', null, no-repeat, 0, 0.3125rem, null);  // 5px
+    }
+    &-confirm {
+      @include background ('#{$icon-folder-path}icon_alert_confirm.svg', null, no-repeat, 0, 0.3125rem, null); // 5px
+    }
+  }
+  &-no-icon { padding: 0; }
 
   &-input {
     width: 100%;
@@ -143,7 +157,7 @@
 }
 @media only screen and (max-width:32em){
   .gmodal-button{
-    display:block;
+    display: block;
     margin: 0.5em;
   }
 }

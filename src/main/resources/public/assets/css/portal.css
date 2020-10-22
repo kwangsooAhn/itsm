@@ -253,26 +253,6 @@ input, button, select, optgroup, textarea {
   text-decoration: none;
 }
 
-.gmodal-button-red {
-  border: solid 0.0625rem #e51c23;
-  color: #e51c23;
-}
-
-.gmodal-button-blue {
-  border: solid 0.0625rem #0050ff;
-  color: #0050ff;
-}
-
-.gmodal-button-green {
-  border: solid 0.0625rem #00ca3c;
-  color: #00ca3c;
-}
-
-.gmodal-button-gray {
-  border: solid 0.0625rem #969696;
-  color: #969696;
-}
-
 .gmodal-icon-success {
   background-image: url('../media/icons/alert/icon_alert_success.svg');
   background-size: auto;
@@ -336,17 +316,17 @@ input, button, select, optgroup, textarea {
 }
 @media only screen and (max-width: 53em) {
   .gmodal-dialog {
-       width: auto;
-       margin: 0 auto 0.3125rem auto;
-       top: 0.3125rem;
-       right: 0.3125rem;
-       left: 0.3125rem;
+     width: auto;
+     margin: 0 auto 0.3125rem auto;
+     top: 0.3125rem;
+     right: 0.3125rem;
+     left: 0.3125rem;
   }
 }
 @media only screen and (max-width: 32em) {
   .gmodal-button {
-       display: block;
-       margin: 0.5em;
+     display: block;
+     margin: 0.5em;
   }
 }
 
