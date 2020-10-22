@@ -21,4 +21,6 @@ object WfProcessConstants {
     enum class SaveType(val code: String) {
         SAVE_AS("saveas")
     }
+
+    const val FORBIDDEN_WORD_LIST = "save|reject|progress|withdraw|cancel|terminate|close"
 }
