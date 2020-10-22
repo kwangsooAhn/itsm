@@ -1517,6 +1517,7 @@ button.ghost-line:disabled .icon {
   color: #3F4B56;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.1875rem;
 }
 
 .btn-group .btn .icon,
@@ -1545,22 +1546,13 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
+  z-index: 1;
 }
 
 .btn-group .btn:not(:disabled):active .icon, .btn-group .btn:not(:disabled).active .icon,
 .btn-group button:not(:disabled):active .icon,
 .btn-group button:not(:disabled).active .icon {
   background: #0098FF;
-}
-
-.btn-group .btn:not(:disabled):active + .btn,
-.btn-group .btn:not(:disabled):active + button, .btn-group .btn:not(:disabled).active + .btn,
-.btn-group .btn:not(:disabled).active + button,
-.btn-group button:not(:disabled):active + .btn,
-.btn-group button:not(:disabled):active + button,
-.btn-group button:not(:disabled).active + .btn,
-.btn-group button:not(:disabled).active + button {
-  border-left-color: #0098FF;
 }
 
 .btn-group .btn:disabled,
@@ -1577,6 +1569,7 @@ button.ghost-line:disabled .icon {
 
 .btn-group .btn:not(:first-child),
 .btn-group button:not(:first-child) {
+  margin-left: -0.0625rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -1585,7 +1578,32 @@ button.ghost-line:disabled .icon {
 .btn-group button:not(:last-of-type) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-right: none;
+}
+
+.btn-group.btn-vertical {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.btn-group.btn-vertical .btn,
+.btn-group.btn-vertical button {
+  flex: 0 1 auto;
+  border-radius: 0.1875rem;
+}
+
+.btn-group.btn-vertical .btn:not(:first-child),
+.btn-group.btn-vertical button:not(:first-child) {
+  margin-left: 0;
+  margin-top: -0.0625rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.btn-group.btn-vertical .btn:not(:last-of-type),
+.btn-group.btn-vertical button:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .btn-group-toggle {
@@ -1596,13 +1614,14 @@ button.ghost-line:disabled .icon {
 
 .btn-group-toggle .btn,
 .btn-group-toggle button {
-  flex: 1 1 auto;
   font-size: 1rem;
   font-weight: 500;
   line-height: 1.2;
   color: #ACB4BF;
   background-color: #F7F8F9;
   border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.1875rem;
+  flex: 1 1 auto;
 }
 
 .btn-group-toggle .btn .icon,
@@ -1631,6 +1650,7 @@ button.ghost-line:disabled .icon {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
+  z-index: 1;
 }
 
 .btn-group-toggle .btn:not(:disabled):active .icon, .btn-group-toggle .btn:not(:disabled).active .icon,
@@ -1653,6 +1673,7 @@ button.ghost-line:disabled .icon {
 
 .btn-group-toggle .btn:not(:first-child),
 .btn-group-toggle button:not(:first-child) {
+  margin-left: -0.0625rem;
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
@@ -1661,7 +1682,32 @@ button.ghost-line:disabled .icon {
 .btn-group-toggle button:not(:last-of-type) {
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  border-right-color: transparent;
+}
+
+.btn-group-toggle.btn-vertical {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+.btn-group-toggle.btn-vertical .btn,
+.btn-group-toggle.btn-vertical button {
+  flex: 0 1 auto;
+  border-radius: 0.1875rem;
+}
+
+.btn-group-toggle.btn-vertical .btn:not(:first-child),
+.btn-group-toggle.btn-vertical button:not(:first-child) {
+  margin-left: 0;
+  margin-top: -0.0625rem;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.btn-group-toggle.btn-vertical .btn:not(:last-of-type),
+.btn-group-toggle.btn-vertical button:not(:last-of-type) {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .btn-list {
@@ -1675,6 +1721,13 @@ button.ghost-line:disabled .icon {
   margin-left: 0.3125rem;
 }
 
+/* _layout.scss
+ *
+ * 파일 경로 : template/_layout.scss
+ * @description HTML layout 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
 .alice-wrapper {
   display: flex;
   max-width: 120rem;
@@ -1691,15 +1744,14 @@ button.ghost-line:disabled .icon {
 
 .process-header {
   min-width: 75rem;
-  background-color: #0098ff;
-  color: #ffffff;
+  background-color: #0098FF;
+  color: #fff;
   font-weight: 500;
   display: flex;
   position: fixed;
   width: 100vw;
   height: 3.125rem;
   align-items: center;
-
 }
 
 .process-header .logo {
@@ -2148,7 +2200,7 @@ button.ghost-line:disabled .icon {
   width: 18.75rem;
   height: calc(100vh - 3.125rem);
   min-height: calc(100vh - 3.125rem);
-  box-shadow: -0.063rem 0 0.313rem -0.25rem #def9f7;
+  box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6);
   overflow-y: auto;
   background-color: #fafbfd;
   top: 3.125rem;

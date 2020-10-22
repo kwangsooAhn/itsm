@@ -208,13 +208,12 @@
 
             if (this.options.buttons.length > 0) {
                 const buttons = document.createElement('div');
-                buttons.className = 'tree-modal-buttons';
+                buttons.className = 'tree-modal-buttons btn-list';
 
                 for (let i = 0; i < this.options.buttons.length; i++) {
-                    const button = document.createElement('a');
-                    button.setAttribute('href', 'javascript:void(0);');
-
-                    button.className = 'tree-modal-button';
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'default-line';
                     if (typeof this.options.buttons[i].classes !== 'undefined') {
                         button.className += ' ' + this.options.buttons[i].classes;
                     }
@@ -422,7 +421,7 @@
                 if (v_icon !== undefined) {
                     v_span.appendChild(v_icon);
                 }
-                let v_a = createSimpleElement('a', null, null);
+                let v_a = createSimpleElement('label', null, null);
                 v_a.innerHTML = p_node.text;
                 v_span.appendChild(v_a);
                 v_li.appendChild(v_exp_col);
@@ -730,7 +729,7 @@
         let expandCodes = [];
         document.querySelectorAll('#toggle_off').forEach(function(object){
             if (object.style.visibility !== 'hidden') {
-                expandCodes.push(object.nextElementSibling.querySelector('a').textContent);
+                expandCodes.push(object.nextElementSibling.querySelector('label').textContent);
             }
         });
         sessionStorage.setItem(sessionKey, JSON.stringify(expandCodes));
