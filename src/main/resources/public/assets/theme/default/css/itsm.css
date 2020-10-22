@@ -163,6 +163,7 @@ input, button, select, optgroup, textarea {
 .gmodal-active {
   overflow: hidden !important;
 }
+
 .gmodal-wrapper {
   display: none;
   overflow: auto;
@@ -172,10 +173,12 @@ input, button, select, optgroup, textarea {
   bottom: 0;
   left: 0;
 }
+
 .gmodal-wrapper.gmodal-active {
   z-index: 2002;
   display: block;
 }
+
 .gmodal-backdrop {
   z-index: 999999998;
   position: fixed;
@@ -185,6 +188,7 @@ input, button, select, optgroup, textarea {
   left: 0;
   background: rgba(116, 147, 179, 0.5);
 }
+
 .gmodal-dialog {
   z-index: 999999999;
   border: solid 0.0625rem #c8ced8;
@@ -202,44 +206,14 @@ input, button, select, optgroup, textarea {
   box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
   padding: 1.5625rem;
 }
-.gmodal-close-in:hover {
-  opacity: 1;
-}
-.gmodal-close-in:before, .gmodal-close-in:after {
-  position: absolute;
-  left: 0.9375rem;
-  content: ' ';
-  height: 2.0625rem;
-  width: 0.125rem;
-}
-.gmodal-close-out:hover {
-  opacity: 1;
-}
-.gmodal-close-out:before, .gmodal-close-out:after {
-  position: absolute;
-  left: 0.9375rem;
-  content: ' ';
-  height: 2.0625rem;
-  width: 0.125rem;
-}
-.gmodal-close-in:before, .gmodal-close-in:after {
-  background-color: #333;
-}
-.gmodal-close-out:before, .gmodal-close-out:after {
-  background-color: #ccc;
-}
-.gmodal-close-in:before, .gmodal-close-out:before {
-  transform: rotate(-45deg);
-}
-.gmodal-close-in:after, .gmodal-close-out:after {
-  transform: rotate(45deg);
-}
+
 .gmodal-title {
   padding: 1em;
   text-align: center;
   font-size: 1.25em;
   box-sizing: border-box;
 }
+
 .gmodal-body {
   padding: 0 0 0 3.875rem;
   margin-bottom: 2rem;
@@ -247,6 +221,7 @@ input, button, select, optgroup, textarea {
   min-height: 3.4375rem;
   box-sizing: border-box;
 }
+
 .gmodal-message {
   display: flex;
   align-items: center;
@@ -255,10 +230,12 @@ input, button, select, optgroup, textarea {
   font-weight: 500;
   line-height: 1.7143;
 }
+
 .gmodal-buttons {
   box-sizing: border-box;
   text-align: right;
 }
+
 .gmodal-button {
   border: solid 0.0625rem #ebebeb;
   margin: 0rem 0rem 0rem 0.3125rem;
@@ -275,22 +252,27 @@ input, button, select, optgroup, textarea {
   border-radius: 0.0625rem;
   text-decoration: none;
 }
+
 .gmodal-button-red {
   border: solid 0.0625rem #e51c23;
   color: #e51c23;
 }
+
 .gmodal-button-blue {
   border: solid 0.0625rem #0050ff;
   color: #0050ff;
 }
+
 .gmodal-button-green {
   border: solid 0.0625rem #00ca3c;
   color: #00ca3c;
 }
+
 .gmodal-button-gray {
   border: solid 0.0625rem #969696;
   color: #969696;
 }
+
 .gmodal-icon-success {
   background-image: url('../media/icons/alert/icon_alert_success.svg');
   background-size: auto;
@@ -298,6 +280,7 @@ input, button, select, optgroup, textarea {
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
+
 .gmodal-icon-info {
   background-image: url('../media/icons/alert/icon_alert_info.svg');
   background-size: auto;
@@ -305,6 +288,7 @@ input, button, select, optgroup, textarea {
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
+
 .gmodal-icon-warning {
   background-image: url('../media/icons/alert/icon_alert_warning.svg');
   background-size: auto;
@@ -312,6 +296,7 @@ input, button, select, optgroup, textarea {
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
+
 .gmodal-icon-danger {
   background-image: url('../media/icons/alert/icon_alert_danger.svg');
   background-size: auto;
@@ -319,6 +304,7 @@ input, button, select, optgroup, textarea {
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
+
 .gmodal-icon-confirm {
   background-image: url('../media/icons/alert/icon_alert_confirm.svg');
   background-size: auto;
@@ -326,33 +312,40 @@ input, button, select, optgroup, textarea {
   background-position-x: 0;
   background-position-y: 0.3125rem;
 }
+
 .gmodal-no-icon {
   padding: 0;
 }
+
 .gmodal-input {
   width: 100%;
 }
+
 .gmodal-input-text {
   width: 100%;
   padding-left: 0.438rem;
 }
+
 .gmodal-input-textarea {
   width: 100%;
   min-height: 5.625rem;
   padding-left: 0.438rem;
 }
+
 .gmodal-input-label {
   display: block;
   margin: 0.3125rem 0;
 }
+
 .gmodal-required {
   display: none;
   text-align: center;
   font-size: 1rem;
   color: #ff405a;
 }
+
 @media only screen and (max-width: 53em) {
-  .gmodal-dialog {
+.gmodal-dialog {
        width: auto;
        margin: 0 auto 0.3125rem auto;
        top: 0.3125rem;
@@ -360,6 +353,7 @@ input, button, select, optgroup, textarea {
        left: 0.3125rem;
   }
 }
+
 @media only screen and (max-width: 32em) {
   .gmodal-button {
        display: block;

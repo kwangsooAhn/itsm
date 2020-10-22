@@ -25,7 +25,7 @@
     }
   }
 
-  &-backdrop{
+  &-backdrop {
     z-index:999999998;
     position:fixed;
     top: 0;
@@ -35,7 +35,7 @@
     background: rgba(116, 147, 179, 0.5);
   }
 
-  &-dialog{
+  &-dialog {
     z-index:999999999;
     border: solid 0.0625rem #C8CED8;  // 1px
     border-radius: 0.0625rem;         // 1px
@@ -51,39 +51,6 @@
     background: #FFFFFF;
     box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);  // 5px
     padding: 1.5625rem;                                             // 25px
-  }
-
-  &-close {
-    $close-type: (in, out);
-    @each $type in $close-type {
-      &-#{$type}:hover {
-        opacity:1;
-      }
-      &-#{$type}:before,
-      &-#{$type}:after {
-          position: absolute;
-          left: 0.9375rem;    // 15px
-          content: ' ';
-          height: 2.0625rem;  // 33px
-          width: 0.125rem;    //2px
-      }
-    }
-    &-in:before,
-    &-in:after {
-      background-color: #333333;
-    }
-    &-out:before,
-    &-out:after {
-      background-color: #CCCCCC;
-    }
-    &-in:before,
-    &-out:before {
-      transform: rotate(-45deg);
-    }
-    &-in:after,
-    &-out:after {
-      transform: rotate(45deg);
-    }
   }
 
   &-title {
@@ -110,12 +77,12 @@
     line-height: 1.7143;
   }
 
-  &-buttons{
+  &-buttons {
     box-sizing:border-box;
     text-align:right;
   }
 
-  &-button{
+  &-button {
     border: solid 0.0625rem $line-gray;  // 1px
     margin: 0rem 0rem 0rem 0.3125rem;
     padding: 0.4375rem 1.5rem;
@@ -130,9 +97,7 @@
     -moz-border-radius: 0.0625rem;      // 1px
     border-radius: 0.0625rem;           // 1px
     text-decoration: none;
-  }
 
-  &-button {
     &-red { border: solid 0.0625rem #e51c23; color:#e51c23; }   // 1px
     &-blue { border: solid 0.0625rem #0050ff; color:#0050ff; }  // 1px
     &-green { border: solid 0.0625rem #00ca3c; color:#00ca3c; } // 1px
