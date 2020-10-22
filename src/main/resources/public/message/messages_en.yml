@@ -873,9 +873,9 @@ user:
     pwRule: "※ At least two types of characters (upper case, lower case, special characters, numbers),
     &nbsp;&nbsp;&nbsp;&nbsp;More than 8 characters, less than 8 characters, if one kind character used, 10~20 length limit
     ※ Do not include your ID.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) If the ID is alice, alic comprises available, alice is not included.<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) If the ID is zenius, zenius comprises available, zenius is not included.<br/><br/>
     ※ Do not include your email ID.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID alice, alic comprises available<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID zenius, zenius comprises available<br/>
     ※ Do not allow spaces.<br/>"
 
 

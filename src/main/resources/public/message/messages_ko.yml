@@ -874,10 +874,10 @@ user:
     &nbsp;&nbsp;&nbsp;&nbsp;8자 이상 20자 미만, 1가지 종류의 문자 구성인 경우 10자 이상
     &nbsp;&nbsp;&nbsp;&nbsp;20자 미만의 비밀번호 입력 제한 범위를 가진다.<br/><br/>
     ※ 사용자의 ID를 포함하지 않는다.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) ID가 alice인 경우, alic는 포함 가능, alice는 포함 불가.<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) ID가 zenius인 경우, zenius는 포함 가능, zenius는 포함 불가.<br/><br/>
     ※ 사용자의 이메일 ID를 포함하지 않는다.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) 이메일ID가 alice인 경우, alic는 포함 가능,<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alice는 포함 불가<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) 이메일ID가 zenius인 경우, zenius는 포함 가능,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zenius는 포함 불가<br/><br/>
     ※ 공백을 허용하지 않는다.<br/>"
   platform:
     alice: "Alice"
