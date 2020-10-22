@@ -30,9 +30,7 @@ class CustomCodeRestController(private val customCodeService: CustomCodeService)
      */
     @GetMapping("")
     fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): List<CustomCodeListDto> {
-        val offset = customCodeSearchDto.offset
-        val viewType = customCodeSearchDto.viewType
-        return customCodeService.getCustomCodeList(offset, viewType)
+        return customCodeService.getCustomCodeList(customCodeSearchDto)
     }
 
     /**

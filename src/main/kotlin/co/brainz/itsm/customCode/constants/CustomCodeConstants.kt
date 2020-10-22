@@ -13,6 +13,11 @@ object CustomCodeConstants {
     const val ATTRIBUTE_ID_DISPLAY: String = "display"
 
     /**
+     * 사용자 정의 코드 p_code.
+     */
+    const val CUSTOM_CODE_TYPE_P_CODE = "customCode.type"
+
+    /**
      * 사용자 정의 코드 편집 상태.
      */
     enum class Status(val code: String) {

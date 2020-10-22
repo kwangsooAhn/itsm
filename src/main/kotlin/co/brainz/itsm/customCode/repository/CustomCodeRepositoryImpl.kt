@@ -9,6 +9,7 @@ package co.brainz.itsm.customCode.repository
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
+import co.brainz.itsm.customCode.dto.CustomCodeSearchDto
 import co.brainz.itsm.customCode.entity.QCustomCodeEntity
 import com.querydsl.core.types.Projections
 import com.querydsl.core.types.dsl.Expressions
@@ -19,11 +20,7 @@ import org.springframework.stereotype.Repository
 class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntity::class.java),
     CustomCodeRepositoryCustom {
 
-    override fun findByCustomCodeList(
-        offset: Long,
-        viewType: String?
-    ): List<CustomCodeListDto> {
-
+    override fun findByCustomCodeList(customCodeSearchDto: CustomCodeSearchDto): List<CustomCodeListDto> {
         val customCode = QCustomCodeEntity.customCodeEntity
         val query = from(customCode)
             .select(
@@ -37,9 +34,15 @@ class CustomCodeRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
                     customCode.createUser.userName
                 )
             )
+            .where(
+                super.likeIgnoreCase(customCode.type, customCodeSearchDto.searchType)
+            )
+            .where(
+                super.likeIgnoreCase(customCode.customCodeName, customCodeSearchDto.search.toString().trim())
+            )
             .orderBy(customCode.customCodeName.asc())
-        if (viewType != "formEditor") {
-            query.limit(ItsmConstants.SEARCH_DATA_COUNT).offset(offset)
+        if (customCodeSearchDto.viewType != "formEditor") {
+            query.limit(ItsmConstants.SEARCH_DATA_COUNT).offset(customCodeSearchDto.offset)
         }
 
         val result = query.fetchResults()
