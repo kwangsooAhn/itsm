@@ -165,13 +165,13 @@ $layout-properties-box-shadow:               -0.0625rem 0.9375rem 0.4375rem 0 rg
 
 //////////////////////////////// scrollbar ////////////////////////////////
 // scrollbar 두께
-$scrollbar-thick:                            8px; // 8px
+$scrollbar-thick:                            0.5rem; // 8px
 // element 내부 scrollbar 두께
-$scrollbar-thick-sm:                         4px; // 4px
+$scrollbar-thick-sm:                         0.25rem; // 4px
 // scrollbar 색상
 $scrollbar-color:                            $default-gray;
 // scrollbar 모서리 곡선
-$scrollbar-border-radius:                     8px; // 8px
+$scrollbar-border-radius:                     0.5rem; // 8px
 // scrollbar 배경 색상
 $scrollbar-bg-color:                         rgba(235,235,235, 0.6);
 // scrollbar hover, click 이동시 색상
@@ -330,3 +330,11 @@ $modal-box-shadow:                           0 0 0.3125rem 0 $line-gray; // 흐�
 $modal-title-font-size:                      1.5rem; // 24px
 $modal-title-font-color:                     $light-black;
 $modal-title-font-weight:                    $font-weight-medium;
+
+///////////////////////////////// alert //////////////////////////////
+$alert-font-size:                            1rem;
+$alert-border-size:                          0.0625rem;  // 1px
+$alert-border:                               solid $alert-border-size $line-gray;  // 1px
+$alert-margin-size:                          0.3125rem;  // 5px
+$alert-box-sizing:                           border-box;
+$alert-box-shadow:                           0 0 $alert-margin-size $alert-margin-size rgba(116, 147, 179, 0.25);

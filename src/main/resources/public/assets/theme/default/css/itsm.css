@@ -78,7 +78,7 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
-/* _alignments.scss
+/* _alignments.scss 
  *
  * 파일 경로 : template/_alignments.scss
  * @description 정렬, 배치 관련 디자인
@@ -153,6 +153,194 @@ input, button, select, optgroup, textarea {
   overflow: hidden;
 }
 
+/* _alerts.scss 
+ *
+ * 파일 경로 : template/_alerts.scss
+ * @description 알림 모달
+ * @author jy.lim
+ * @version 1.0
+ */
+.gmodal-active {
+  overflow: hidden !important;
+}
+
+.gmodal-wrapper {
+  display: none;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.gmodal-wrapper.gmodal-active {
+  z-index: 2002;
+  display: block;
+}
+
+.gmodal-backdrop {
+  z-index: 999999998;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(116, 147, 179, 0.5);
+}
+
+.gmodal-dialog {
+  z-index: 999999999;
+  border: solid 0.0625rem #EBEBEB;
+  border-radius: 0.0625rem;
+  position: absolute;
+  top: 8em;
+  left: 0;
+  right: 0;
+  width: 100%;
+  line-height: 1;
+  max-width: 26.875rem;
+  margin: 0 auto 2em auto;
+  box-sizing: border-box;
+  background: #ffffff;
+  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
+  padding: 1.5625rem;
+}
+
+.gmodal-title {
+  padding: 1em;
+  text-align: center;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.gmodal-body {
+  padding: 0 0 0 3.875rem;
+  margin-bottom: 2rem;
+  overflow: auto;
+  min-height: 3.4375rem;
+  box-sizing: border-box;
+}
+
+.gmodal-message {
+  display: flex;
+  align-items: center;
+  min-height: 3.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.7143;
+}
+
+.gmodal-buttons {
+  box-sizing: border-box;
+  text-align: right;
+}
+
+.gmodal-button {
+  border: solid 0.0625rem #EBEBEB;
+  margin: 0rem 0rem 0rem 0.3125rem;
+  padding: 0.4375rem 1.5rem;
+  text-align: center;
+  color: #3F4B56;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  cursor: pointer;
+  display: inline-block;
+  -webkit-border-radius: 0.0625rem;
+  -moz-border-radius: 0.0625rem;
+  border-radius: 0.0625rem;
+  text-decoration: none;
+}
+
+.gmodal-icon-success {
+  background-image: url("../media/icons/alert/icon_alert_success.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 0;
+  background-position-y: 0.3125rem;
+}
+
+.gmodal-icon-info {
+  background-image: url("../media/icons/alert/icon_alert_info.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 0;
+  background-position-y: 0.3125rem;
+}
+
+.gmodal-icon-warning {
+  background-image: url("../media/icons/alert/icon_alert_warning.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 0;
+  background-position-y: 0.3125rem;
+}
+
+.gmodal-icon-danger {
+  background-image: url("../media/icons/alert/icon_alert_danger.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 0;
+  background-position-y: 0.3125rem;
+}
+
+.gmodal-icon-confirm {
+  background-image: url("../media/icons/alert/icon_alert_confirm.svg");
+  background-size: auto;
+  background-repeat: no-repeat;
+  background-position-x: 0;
+  background-position-y: 0.3125rem;
+}
+
+.gmodal-no-icon {
+  padding: 0;
+}
+
+.gmodal-input {
+  width: 100%;
+}
+
+.gmodal-input-text {
+  width: 100%;
+  padding-left: 0.438rem;
+}
+
+.gmodal-input-textarea {
+  width: 100%;
+  min-height: 5.625rem;
+  padding-left: 0.438rem;
+}
+
+.gmodal-input-label {
+  display: block;
+  margin: 0.3125rem 0;
+}
+
+.gmodal-required {
+  display: none;
+  text-align: center;
+  font-size: 1rem;
+  color: #FF405A;
+}
+
+@media only screen and (max-width: 53em) {
+  .gmodal-dialog {
+    width: auto;
+    margin: 0 auto 0.3125rem auto;
+    top: 0.3125rem;
+    right: 0.3125rem;
+    left: 0.3125rem;
+  }
+}
+
+@media only screen and (max-width: 32em) {
+  .gmodal-button {
+    display: block;
+    margin: 0.5em;
+  }
+}
+
 /* _scrollbars.scss 
  *
  * 파일 경로 : template/_scrollbars.scss
@@ -161,12 +349,12 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 .scrollbar > .os-scrollbar-horizontal {
-  right: 10px;
-  height: 12px;
+  right: 0.625rem;
+  height: 0.75rem;
 }
 
 .scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
-  min-width: 30px;
+  min-width: 1.875rem;
 }
 
 .scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
@@ -175,17 +363,17 @@ input, button, select, optgroup, textarea {
   left: 0;
   right: 0;
   display: block;
-  top: -6px;
-  bottom: -2px;
+  top: -0.375rem;
+  bottom: -0.125rem;
 }
 
 .scrollbar > .os-scrollbar-vertical {
-  bottom: 10px;
-  width: 8px;
+  bottom: 0.625rem;
+  width: 0.5rem;
 }
 
 .scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
-  min-height: 30px;
+  min-height: 1.875rem;
 }
 
 .scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
@@ -194,13 +382,13 @@ input, button, select, optgroup, textarea {
   top: 0;
   bottom: 0;
   display: block;
-  left: -6px;
-  right: -2px;
+  left: -0.375rem;
+  right: -0.125rem;
 }
 
 .scrollbar > .os-scrollbar-corner {
-  height: 10px;
-  width: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
   background-color: transparent;
 }
 
@@ -211,11 +399,11 @@ input, button, select, optgroup, textarea {
 
 .scrollbar > .os-scrollbar > .os-scrollbar-track {
   background: rgba(235, 235, 235, 0.6);
-  border-radius: 8px;
+  border-radius: 0.5rem;
 }
 
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background: #E1E3E6;
 }
 
@@ -232,7 +420,7 @@ input, button, select, optgroup, textarea {
 }
 
 .scrollbar.os-host-rtl > .os-scrollbar-horizontal {
-  left: 10px;
+  left: 0.625rem;
   right: 0;
 }
 
@@ -250,8 +438,8 @@ input, button, select, optgroup, textarea {
 }
 
 .os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
-  right: -6px;
-  left: -2px;
+  right: -0.375rem;
+  left: -0.125rem;
 }
 
 .textarea-scroll-wrapper {
@@ -279,12 +467,12 @@ input, button, select, optgroup, textarea {
 }
 
 .inner-scrollbar > .os-scrollbar-horizontal {
-  right: 10px;
-  height: 12px;
+  right: 0.625rem;
+  height: 0.75rem;
 }
 
 .inner-scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
-  min-width: 30px;
+  min-width: 1.875rem;
 }
 
 .inner-scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
@@ -293,17 +481,17 @@ input, button, select, optgroup, textarea {
   left: 0;
   right: 0;
   display: block;
-  top: -6px;
-  bottom: -2px;
+  top: -0.375rem;
+  bottom: -0.125rem;
 }
 
 .inner-scrollbar > .os-scrollbar-vertical {
-  bottom: 10px;
-  width: 4px;
+  bottom: 0.625rem;
+  width: 0.25rem;
 }
 
 .inner-scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
-  min-height: 30px;
+  min-height: 1.875rem;
 }
 
 .inner-scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
@@ -312,13 +500,13 @@ input, button, select, optgroup, textarea {
   top: 0;
   bottom: 0;
   display: block;
-  left: -6px;
-  right: -2px;
+  left: -0.375rem;
+  right: -0.125rem;
 }
 
 .inner-scrollbar > .os-scrollbar-corner {
-  height: 10px;
-  width: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
   background-color: transparent;
 }
 
@@ -329,11 +517,11 @@ input, button, select, optgroup, textarea {
 
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track {
   background: rgba(235, 235, 235, 0.6);
-  border-radius: 8px;
+  border-radius: 0.5rem;
 }
 
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background: #E1E3E6;
 }
 
@@ -350,7 +538,7 @@ input, button, select, optgroup, textarea {
 }
 
 .scrollbar.os-host-rtl > .os-scrollbar-horizontal {
-  left: 10px;
+  left: 0.625rem;
   right: 0;
 }
 
@@ -368,8 +556,31 @@ input, button, select, optgroup, textarea {
 }
 
 .os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
-  right: -6px;
-  left: -2px;
+  right: -0.375rem;
+  left: -0.125rem;
+}
+
+.ql-container .ql-editor::-webkit-scrollbar-track {
+  background-color: rgba(235, 235, 235, 0.6);
+  border-radius: 0.5rem;
+}
+
+.ql-container .ql-editor::-webkit-scrollbar {
+  width: 0.5rem;
+  background-color: transparent;
+}
+
+.ql-container .ql-editor::-webkit-scrollbar-thumb {
+  background-color: #E1E3E6;
+  border-radius: 0.5rem;
+}
+
+.ql-container .ql-editor::-webkit-scrollbar-thumb:hover {
+  background-color: #CCCED1;
+}
+
+.ql-container .ql-editor::-webkit-scrollbar-thumb:active {
+  background-color: #CCCED1;
 }
 
 /* _file-uploader.scss 
@@ -1636,12 +1847,12 @@ ul.tree {
 
 ul.tree li {
   position: relative;
-  line-height: 30px;
+  line-height: 1.875rem;
 }
 
 ul.tree ul {
   position: relative;
-  margin: 0 0 0 calc(14px / 2);
+  margin: 0 0 0 calc(0.875rem / 2);
   padding: 0;
   list-style-type: none;
   -webkit-user-select: none;
@@ -1659,15 +1870,15 @@ ul.tree ul:before {
 }
 
 ul.tree ul li {
-  padding-left: calc((14px / 2) + 8px + (23px / 2));
+  padding-left: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
 }
 
 ul.tree ul li:before {
   content: '';
   position: absolute;
-  top: 15px;
+  top: 0.9375rem;
   left: 0;
-  width: calc((14px / 2) + 8px + (23px / 2));
+  width: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
   height: 0.0625rem;
   border-top: 0.0625rem solid #E1E3E6;
 }
@@ -1675,13 +1886,13 @@ ul.tree ul li:before {
 ul.tree ul li:last-child:before {
   background-color: #F7F8F9;
   height: auto;
-  top: 15px;
+  top: 0.9375rem;
   left: -0.0625rem;
   bottom: 0;
 }
 
 ul.tree ul li ul {
-  margin-left: calc(14px / 2);
+  margin-left: calc(0.875rem / 2);
 }
 
 img.exp_col {
@@ -1700,7 +1911,7 @@ img.icon_tree {
 }
 
 span.node {
-  margin-left: 8px;
+  margin-left: 0.5rem;
   padding: 0.25rem 0.188rem 0.25rem 0;
   border: 0.0625rem solid transparent;
   cursor: pointer;
@@ -1712,12 +1923,12 @@ span.node:hover {
 }
 
 span.node label {
-  padding-left: 8px;
+  padding-left: 0.5rem;
   cursor: pointer;
 }
 
 span.node_selected {
-  margin-left: 8px;
+  margin-left: 0.5rem;
   padding: 0.25rem 0.188rem 0.25rem 0;
   background-color: rgba(0, 152, 255, 0.05);
   border: 0.0625rem solid #0098FF;
@@ -1726,7 +1937,7 @@ span.node_selected {
 }
 
 span.node_selected label {
-  padding-left: 8px;
+  padding-left: 0.5rem;
   cursor: pointer;
 }
 
@@ -3206,7 +3417,6 @@ button .icon-plus {
  * @author jy.lim
  * @version 1.0
  */
-
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -3302,7 +3512,7 @@ button .icon-plus {
 }
 
 .trash-icon:hover {
-  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .edit-icon {
@@ -3312,7 +3522,7 @@ button .icon-plus {
 }
 
 .edit-icon:hover {
-  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .required::after {
@@ -3736,7 +3946,7 @@ span.vertical-bar {
 
 .container-popup {
   padding: 1.875rem 2.5rem 1.25rem 2.5rem;
-  background-color: #ffffff;
+  background-color: white;
 }
 
 .container-popup .header {
@@ -3746,7 +3956,7 @@ span.vertical-bar {
 
 .container-popup .view {
   padding: 3.125rem 19.375rem 3.125rem 19.375rem;
-  background-color: #ffffff;
+  background-color: white;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -4205,7 +4415,7 @@ span.vertical-bar {
   background: #F7F8F9;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: white;
 }
 
 .container .contents-edit .header {
@@ -4392,7 +4602,7 @@ span.vertical-bar {
 
 .container .contents-view .view {
   padding: 3.125rem 19.375rem 3.125rem 19.375rem;
-  background-color: #ffffff;
+  background-color: white;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -4431,7 +4641,7 @@ span.vertical-bar {
 
 .container .contents-flex .flex {
   padding: 3.125rem 19.375rem 9.315rem 19.375rem;
-  background-color: #ffffff;
+  background-color: white;
   display: flex;
   flex-grow: 1;
 }
@@ -4855,7 +5065,7 @@ span.vertical-bar {
 }
 
 .container .contents .contents-body {
-  background: #ffffff;
+  background: white;
   padding: 4% 8%;
 }
 
@@ -4887,7 +5097,7 @@ span.vertical-bar {
 .container .contents .contents-body .edit-area .input-button {
   width: 60px;
   height: 30px;
-  background: #ffffff;
+  background: white;
   border: 1px solid #C8CED8;
   margin-left: -63px;
   font-size: 14px;
@@ -5015,7 +5225,7 @@ span.vertical-bar {
 
 .container .contents .contents-body .edit-area .btn-register:hover {
   background-color: #0050ff;
-  color: #ffffff;
+  color: white;
 }
 
 .container .contents .contents-body .edit-area .browse-link {
@@ -5057,7 +5267,7 @@ span.vertical-bar {
   width: 17px;
   left: 4px;
   bottom: 4px;
-  background-color: #ffffff;
+  background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
 }
