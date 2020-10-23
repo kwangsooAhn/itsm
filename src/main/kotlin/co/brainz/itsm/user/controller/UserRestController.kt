@@ -85,7 +85,7 @@ class UserRestController(
      * 사용자가 다른 사용자의 정보를 업데이트한다.
      */
     @PutMapping("/{userKey}/all")
-    fun updateUserEdit(@RequestBody user: UserUpdateDto): String {
+    fun updateUserEdit(@RequestBody @Valid user: UserUpdateDto): String {
         return userService.updateUserEdit(user, AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code)
     }
 
@@ -94,7 +94,7 @@ class UserRestController(
      */
     @PutMapping("/{userKey}/info")
     fun updateUserEditSelf(
-        @RequestBody user: UserUpdateDto,
+        @RequestBody @Valid user: UserUpdateDto,
         request: HttpServletRequest,
         response: HttpServletResponse
     ): String {
