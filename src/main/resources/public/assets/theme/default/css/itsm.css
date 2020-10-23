@@ -78,7 +78,7 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
-/* _alignments.scss
+/* _alignments.scss 
  *
  * 파일 경로 : template/_alignments.scss
  * @description 정렬, 배치 관련 디자인
@@ -161,12 +161,12 @@ input, button, select, optgroup, textarea {
  * @version 1.0
  */
 .scrollbar > .os-scrollbar-horizontal {
-  right: 10px;
-  height: 12px;
+  right: 0.625rem;
+  height: 0.75rem;
 }
 
 .scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
-  min-width: 30px;
+  min-width: 1.875rem;
 }
 
 .scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
@@ -175,17 +175,17 @@ input, button, select, optgroup, textarea {
   left: 0;
   right: 0;
   display: block;
-  top: -6px;
-  bottom: -2px;
+  top: -0.375rem;
+  bottom: -0.125rem;
 }
 
 .scrollbar > .os-scrollbar-vertical {
-  bottom: 10px;
-  width: 8px;
+  bottom: 0.625rem;
+  width: 0.5rem;
 }
 
 .scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
-  min-height: 30px;
+  min-height: 1.875rem;
 }
 
 .scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
@@ -194,13 +194,13 @@ input, button, select, optgroup, textarea {
   top: 0;
   bottom: 0;
   display: block;
-  left: -6px;
-  right: -2px;
+  left: -0.375rem;
+  right: -0.125rem;
 }
 
 .scrollbar > .os-scrollbar-corner {
-  height: 10px;
-  width: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
   background-color: transparent;
 }
 
@@ -211,11 +211,11 @@ input, button, select, optgroup, textarea {
 
 .scrollbar > .os-scrollbar > .os-scrollbar-track {
   background: rgba(235, 235, 235, 0.6);
-  border-radius: 8px;
+  border-radius: 0.5rem;
 }
 
 .scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background: #E1E3E6;
 }
 
@@ -232,7 +232,7 @@ input, button, select, optgroup, textarea {
 }
 
 .scrollbar.os-host-rtl > .os-scrollbar-horizontal {
-  left: 10px;
+  left: 0.625rem;
   right: 0;
 }
 
@@ -250,8 +250,8 @@ input, button, select, optgroup, textarea {
 }
 
 .os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
-  right: -6px;
-  left: -2px;
+  right: -0.375rem;
+  left: -0.125rem;
 }
 
 .textarea-scroll-wrapper {
@@ -279,12 +279,12 @@ input, button, select, optgroup, textarea {
 }
 
 .inner-scrollbar > .os-scrollbar-horizontal {
-  right: 10px;
-  height: 12px;
+  right: 0.625rem;
+  height: 0.75rem;
 }
 
 .inner-scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
-  min-width: 30px;
+  min-width: 1.875rem;
 }
 
 .inner-scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
@@ -293,17 +293,17 @@ input, button, select, optgroup, textarea {
   left: 0;
   right: 0;
   display: block;
-  top: -6px;
-  bottom: -2px;
+  top: -0.375rem;
+  bottom: -0.125rem;
 }
 
 .inner-scrollbar > .os-scrollbar-vertical {
-  bottom: 10px;
-  width: 4px;
+  bottom: 0.625rem;
+  width: 0.25rem;
 }
 
 .inner-scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
-  min-height: 30px;
+  min-height: 1.875rem;
 }
 
 .inner-scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
@@ -312,13 +312,13 @@ input, button, select, optgroup, textarea {
   top: 0;
   bottom: 0;
   display: block;
-  left: -6px;
-  right: -2px;
+  left: -0.375rem;
+  right: -0.125rem;
 }
 
 .inner-scrollbar > .os-scrollbar-corner {
-  height: 10px;
-  width: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
   background-color: transparent;
 }
 
@@ -329,11 +329,11 @@ input, button, select, optgroup, textarea {
 
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track {
   background: rgba(235, 235, 235, 0.6);
-  border-radius: 8px;
+  border-radius: 0.5rem;
 }
 
 .inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-  border-radius: 8px;
+  border-radius: 0.5rem;
   background: #E1E3E6;
 }
 
@@ -350,7 +350,7 @@ input, button, select, optgroup, textarea {
 }
 
 .scrollbar.os-host-rtl > .os-scrollbar-horizontal {
-  left: 10px;
+  left: 0.625rem;
   right: 0;
 }
 
@@ -368,8 +368,31 @@ input, button, select, optgroup, textarea {
 }
 
 .os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
-  right: -6px;
-  left: -2px;
+  right: -0.375rem;
+  left: -0.125rem;
+}
+
+.ql-container .ql-editor::-webkit-scrollbar-track {
+  background-color: rgba(235, 235, 235, 0.6);
+  border-radius: 0.5rem;
+}
+
+.ql-container .ql-editor::-webkit-scrollbar {
+  width: 0.5rem;
+  background-color: transparent;
+}
+
+.ql-container .ql-editor::-webkit-scrollbar-thumb {
+  background-color: #E1E3E6;
+  border-radius: 0.5rem;
+}
+
+.ql-container .ql-editor::-webkit-scrollbar-thumb:hover {
+  background-color: #CCCED1;
+}
+
+.ql-container .ql-editor::-webkit-scrollbar-thumb:active {
+  background-color: #CCCED1;
 }
 
 /* _file-uploader.scss 
@@ -3007,7 +3030,6 @@ button .icon-plus {
  * @author jy.lim
  * @version 1.0
  */
-
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -3103,7 +3125,7 @@ button .icon-plus {
 }
 
 .trash-icon:hover {
-  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .edit-icon {
@@ -3113,7 +3135,7 @@ button .icon-plus {
 }
 
 .edit-icon:hover {
-  background-color: #000000;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 .required::after {
@@ -3537,7 +3559,7 @@ span.vertical-bar {
 
 .container-popup {
   padding: 1.875rem 2.5rem 1.25rem 2.5rem;
-  background-color: #ffffff;
+  background-color: white;
 }
 
 .container-popup .header {
@@ -3547,7 +3569,7 @@ span.vertical-bar {
 
 .container-popup .view {
   padding: 3.125rem 19.375rem 3.125rem 19.375rem;
-  background-color: #ffffff;
+  background-color: white;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -4006,7 +4028,7 @@ span.vertical-bar {
   background: #F7F8F9;
   display: flex;
   flex-direction: column;
-  background-color: #ffffff;
+  background-color: white;
 }
 
 .container .contents-edit .header {
@@ -4193,7 +4215,7 @@ span.vertical-bar {
 
 .container .contents-view .view {
   padding: 3.125rem 19.375rem 3.125rem 19.375rem;
-  background-color: #ffffff;
+  background-color: white;
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -4232,7 +4254,7 @@ span.vertical-bar {
 
 .container .contents-flex .flex {
   padding: 3.125rem 19.375rem 9.315rem 19.375rem;
-  background-color: #ffffff;
+  background-color: white;
   display: flex;
   flex-grow: 1;
 }
@@ -4656,7 +4678,7 @@ span.vertical-bar {
 }
 
 .container .contents .contents-body {
-  background: #ffffff;
+  background: white;
   padding: 4% 8%;
 }
 
@@ -4688,7 +4710,7 @@ span.vertical-bar {
 .container .contents .contents-body .edit-area .input-button {
   width: 60px;
   height: 30px;
-  background: #ffffff;
+  background: white;
   border: 1px solid #C8CED8;
   margin-left: -63px;
   font-size: 14px;
@@ -4816,7 +4838,7 @@ span.vertical-bar {
 
 .container .contents .contents-body .edit-area .btn-register:hover {
   background-color: #0050ff;
-  color: #ffffff;
+  color: white;
 }
 
 .container .contents .contents-body .edit-area .browse-link {
@@ -4858,7 +4880,7 @@ span.vertical-bar {
   width: 17px;
   left: 4px;
   bottom: 4px;
-  background-color: #ffffff;
+  background-color: white;
   -webkit-transition: .4s;
   transition: .4s;
 }

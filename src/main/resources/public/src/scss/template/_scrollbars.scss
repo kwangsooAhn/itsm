@@ -263,3 +263,29 @@
     }
   }
 }
+// text editor scrollbar
+.ql-container {
+  .ql-editor {
+    // background of the scrollbar
+    &::-webkit-scrollbar-track {
+      background-color: $scrollbar-bg-color;
+      border-radius: $scrollbar-border-radius;
+    }
+    // total width
+    &::-webkit-scrollbar {
+      width: $scrollbar-thick;
+      background-color: transparent;
+    }
+    // scrollbar
+    &::-webkit-scrollbar-thumb {
+      background-color: $scrollbar-color;
+      border-radius: $scrollbar-border-radius;
+      &:hover {
+        background-color: $scrollbar-hover-color;
+      }
+      &:active {
+        background-color: $scrollbar-hover-color;
+      }
+    }
+  }
+}
