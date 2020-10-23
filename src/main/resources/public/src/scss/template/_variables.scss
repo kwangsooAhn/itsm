@@ -332,9 +332,9 @@ $modal-title-font-color:                     $light-black;
 $modal-title-font-weight:                    $font-weight-medium;
 
 ///////////////////////////////// alert //////////////////////////////
-$alert-font-size: 1rem;
-$alert-border-size: 0.0625rem;  // 1px
-$alert-border: solid $alert-border-size $line-gray;  // 1px
-$alert-margin-size: 0.3125rem;  // 5px
-$alert-box-sizing:  border-box;
-$alert-box-shadow: 0 0 $alert-margin-size $alert-margin-size rgba(116, 147, 179, 0.25);
+$alert-font-size:                            1rem;
+$alert-border-size:                          0.0625rem;  // 1px
+$alert-border:                               solid $alert-border-size $line-gray;  // 1px
+$alert-margin-size:                          0.3125rem;  // 5px
+$alert-box-sizing:                           border-box;
+$alert-box-shadow:                           0 0 $alert-margin-size $alert-margin-size rgba(116, 147, 179, 0.25);
