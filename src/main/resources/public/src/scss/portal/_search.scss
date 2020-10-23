@@ -26,7 +26,7 @@ $portal-search-result-list-height: 647px; // 647px
     &-search {
         &-main {
             height: $portal-search-main-height;
-            background-color: $line-gray;
+            background-color: $light-gray;
             border-bottom: 0.0625rem solid $line-gray; // 1px
             .title {
                 text-align: center;
@@ -36,7 +36,7 @@ $portal-search-result-list-height: 647px; // 647px
 
         &-area {
             height: 8.5rem; // 136px
-            background-color: $line-gray;
+            background-color: $light-gray;
             border-bottom: 0.0625rem solid $line-gray; // 1px
             padding: 3rem 0 3rem 0;
             text-align: center;
@@ -58,8 +58,8 @@ $portal-search-result-list-height: 647px; // 647px
 
         &-container {
             height: 15rem; // 240px
-            background-color: $line-gray;
             padding: 0 0 0 12.75rem; // 204px
+            background-color: $light-gray;
             border-bottom: 0.0625rem solid $line-gray; // 1px
 
             .page-title {
@@ -245,7 +245,7 @@ $portal-search-result-list-height: 647px; // 647px
                         width: 57.688rem; // 923px
                         .title {
                             padding-bottom: 0.5rem; // 8px
-                            
+
                             a {
                                 color: $light-black;
                             }

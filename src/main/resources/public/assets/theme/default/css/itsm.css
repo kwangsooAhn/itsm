@@ -3952,6 +3952,7 @@ span.vertical-bar {
 .container-popup .header {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
   background: #F7F8F9;
+  border-bottom: 0.0625rem solid #ebebeb;
 }
 
 .container-popup .view {
@@ -3984,6 +3985,7 @@ span.vertical-bar {
 .container-popup .header {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
   background: #F7F8F9;
+  border-bottom: 0.0625rem solid #ebebeb;
 }
 
 .container-popup .edit {
@@ -4106,6 +4108,7 @@ span.vertical-bar {
 
 .container .contents-token .search-area {
   padding: 1.875rem 3.75rem 1.875rem 3.75rem;
+  border-bottom: 0.0625rem solid #ebebeb;
   height: 6.25rem;
 }
 
@@ -4212,7 +4215,8 @@ span.vertical-bar {
 
 .container .contents-token.dashboard .header.dashboard {
   padding-bottom: 2.875rem;
-  background: #F7F8F9;
+  background-color: #f7f8f9;
+  border-bottom: 0.0625rem solid #ebebeb;
 }
 
 .container .contents-token.dashboard .dashboard-statistic {
@@ -4420,7 +4424,8 @@ span.vertical-bar {
 
 .container .contents-edit .header {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
-  background: #F7F8F9;
+  background-color: #f7f8f9;
+  border-bottom: 0.0625rem solid #ebebeb;
 }
 
 .container .contents-edit .edit {
@@ -4598,6 +4603,7 @@ span.vertical-bar {
 .container .contents-view .header {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
   background: #F7F8F9;
+  border-bottom: 0.0625rem solid #ebebeb;
 }
 
 .container .contents-view .view {
@@ -4637,6 +4643,7 @@ span.vertical-bar {
 .container .contents-flex .header {
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
   background: #F7F8F9;
+  border-bottom: 0.0625rem solid #ebebeb;
 }
 
 .container .contents-flex .flex {
@@ -4816,6 +4823,8 @@ span.vertical-bar {
 
 .container .contents-document .header {
   padding: 2.875rem 3.75rem 0.625rem 3.75rem;
+  background-color: #f7f8f9;
+  border-bottom: 0.0625rem solid #ebebeb;
 }
 
 .container .contents-document .service-request {
@@ -5014,7 +5023,7 @@ span.vertical-bar {
   justify-content: space-between;
 }
 
-.container .contents-tree-edit > .edit-area .form-row .column-2 {
+.container .contents-tree-edit > .edit-area .form-row .form-div {
   width: 49%;
 }
 
