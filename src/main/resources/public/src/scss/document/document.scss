@@ -13,8 +13,9 @@
 @import '../template/_alignments.scss'; // 상속 불가
 @import '../template/_flex.scss';
 @import '../template/_common.scss'; // 상속 불가
-@import '../template/_scrollbars.scss';
 @import '_variables.scss';
+@import '../template/_alerts.scss';
+@import '../template/_scrollbars.scss';
 @import '_elements.scss';
 
 .drawing-board {

@@ -11,12 +11,14 @@
 @import '../../template/_mixins.scss'; // 상속 불가
 @import '../../template/_alignments.scss'; // 상속 불가
 @import '../../template/_common.scss'; // 상속 불가
+@import '_variables.scss';
+@import '../../template/_alerts.scss';
 @import '../../template/_scrollbars.scss';
 @import '../../template/_file-uploader.scss';
 @import '../../template/_avatar.scss';
 @import "../../template/_date-picker.scss";
 @import "../../template/_text-editor.scss";
-@import '_variables.scss';
+@import '../../template/_tree.scss';
 @import '_fonts.scss';
 @import '_mixin.scss';
 @import '_elements.scss';
@@ -31,4 +33,3 @@
 @import '_tooltip.scss';
 @import '_thumbnail.scss';
 @import '_reply.scss';
-@import '_tree.scss';
