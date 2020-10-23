@@ -40,10 +40,12 @@
                     </button>
                 </td>
                 <td width="10%">
-                    <button type="button" th:if="${process.enabled == true}" sec:authorize="hasAuthority('process.update')"
-                            th:disabled="${!process.enabled}" th:onclick="openProcessDesignerEdit([[${process.id}]])">
-                        <span class="icon-edit"></span>
-                    </button>
+                    <th:block th:if="${process.enabled == true}">
+                        <button type="button" sec:authorize="hasAuthority('process.update')"
+                                th:onclick="openProcessDesignerEdit([[${process.id}]])">
+                            <span class="icon-edit"></span>
+                        </button>
+                    </th:block>
                 </td>
                 <td width="10%" th:text="#{${process.status}}"></td>
                 <td width="28%" class="align-left" th:text="${process.description}"></td>
