@@ -255,7 +255,7 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-icon-success {
-  background-image: url("../media/icons/icon_alert_success.svg");
+  background-image: url("../media/icons/alert/icon_alert_success.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -263,7 +263,7 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-icon-info {
-  background-image: url("../media/icons/icon_alert_info.svg");
+  background-image: url("../media/icons/alert/icon_alert_info.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -271,7 +271,7 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-icon-warning {
-  background-image: url("../media/icons/icon_alert_warning.svg");
+  background-image: url("../media/icons/alert/icon_alert_warning.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -279,7 +279,7 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-icon-danger {
-  background-image: url("../media/icons/icon_alert_danger.svg");
+  background-image: url("../media/icons/alert/icon_alert_danger.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -287,7 +287,7 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-icon-confirm {
-  background-image: url("../media/icons/icon_alert_confirm.svg");
+  background-image: url("../media/icons/alert/icon_alert_confirm.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
