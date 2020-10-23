@@ -153,7 +153,7 @@ input, button, select, optgroup, textarea {
   overflow: hidden;
 }
 
-/* _alerts.scss
+/* _alerts.scss 
  *
  * 파일 경로 : template/_alerts.scss
  * @description 알림 모달
@@ -191,7 +191,7 @@ input, button, select, optgroup, textarea {
 
 .gmodal-dialog {
   z-index: 999999999;
-  border: solid 0.0625rem #c8ced8;
+  border: solid 0.0625rem #EBEBEB;
   border-radius: 0.0625rem;
   position: absolute;
   top: 8em;
@@ -202,7 +202,7 @@ input, button, select, optgroup, textarea {
   max-width: 26.875rem;
   margin: 0 auto 2em auto;
   box-sizing: border-box;
-  background: #fff;
+  background: #ffffff;
   box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
   padding: 1.5625rem;
 }
@@ -210,7 +210,7 @@ input, button, select, optgroup, textarea {
 .gmodal-title {
   padding: 1em;
   text-align: center;
-  font-size: 1.25em;
+  font-size: 1rem;
   box-sizing: border-box;
 }
 
@@ -237,11 +237,11 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-button {
-  border: solid 0.0625rem #ebebeb;
+  border: solid 0.0625rem #EBEBEB;
   margin: 0rem 0rem 0rem 0.3125rem;
   padding: 0.4375rem 1.5rem;
   text-align: center;
-  color: #3f4b56;
+  color: #3F4B56;
   font-size: 1rem;
   font-weight: 500;
   text-transform: uppercase;
@@ -254,7 +254,7 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-icon-success {
-  background-image: url('../media/icons/alert/icon_alert_success.svg');
+  background-image: url("../media/icons/icon_alert_success.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -262,7 +262,7 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-icon-info {
-  background-image: url('../media/icons/alert/icon_alert_info.svg');
+  background-image: url("../media/icons/icon_alert_info.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -270,7 +270,7 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-icon-warning {
-  background-image: url('../media/icons/alert/icon_alert_warning.svg');
+  background-image: url("../media/icons/icon_alert_warning.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -278,7 +278,7 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-icon-danger {
-  background-image: url('../media/icons/alert/icon_alert_danger.svg');
+  background-image: url("../media/icons/icon_alert_danger.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -286,7 +286,7 @@ input, button, select, optgroup, textarea {
 }
 
 .gmodal-icon-confirm {
-  background-image: url('../media/icons/alert/icon_alert_confirm.svg');
+  background-image: url("../media/icons/icon_alert_confirm.svg");
   background-size: auto;
   background-repeat: no-repeat;
   background-position-x: 0;
@@ -321,23 +321,23 @@ input, button, select, optgroup, textarea {
   display: none;
   text-align: center;
   font-size: 1rem;
-  color: #ff405a;
+  color: #FF405A;
 }
 
 @media only screen and (max-width: 53em) {
-.gmodal-dialog {
-     width: auto;
-     margin: 0 auto 0.3125rem auto;
-     top: 0.3125rem;
-     right: 0.3125rem;
-     left: 0.3125rem;
+  .gmodal-dialog {
+    width: auto;
+    margin: 0 auto 0.3125rem auto;
+    top: 0.3125rem;
+    right: 0.3125rem;
+    left: 0.3125rem;
   }
 }
 
 @media only screen and (max-width: 32em) {
   .gmodal-button {
-     display: block;
-     margin: 0.5em;
+    display: block;
+    margin: 0.5em;
   }
 }
 
@@ -1847,12 +1847,12 @@ ul.tree {
 
 ul.tree li {
   position: relative;
-  line-height: 30px;
+  line-height: 1.875rem;
 }
 
 ul.tree ul {
   position: relative;
-  margin: 0 0 0 calc(14px / 2);
+  margin: 0 0 0 calc(0.875rem / 2);
   padding: 0;
   list-style-type: none;
   -webkit-user-select: none;
@@ -1870,15 +1870,15 @@ ul.tree ul:before {
 }
 
 ul.tree ul li {
-  padding-left: calc((14px / 2) + 8px + (23px / 2));
+  padding-left: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
 }
 
 ul.tree ul li:before {
   content: '';
   position: absolute;
-  top: 15px;
+  top: 0.9375rem;
   left: 0;
-  width: calc((14px / 2) + 8px + (23px / 2));
+  width: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
   height: 0.0625rem;
   border-top: 0.0625rem solid #E1E3E6;
 }
@@ -1886,13 +1886,13 @@ ul.tree ul li:before {
 ul.tree ul li:last-child:before {
   background-color: #F7F8F9;
   height: auto;
-  top: 15px;
+  top: 0.9375rem;
   left: -0.0625rem;
   bottom: 0;
 }
 
 ul.tree ul li ul {
-  margin-left: calc(14px / 2);
+  margin-left: calc(0.875rem / 2);
 }
 
 img.exp_col {
@@ -1911,7 +1911,7 @@ img.icon_tree {
 }
 
 span.node {
-  margin-left: 8px;
+  margin-left: 0.5rem;
   padding: 0.25rem 0.188rem 0.25rem 0;
   border: 0.0625rem solid transparent;
   cursor: pointer;
@@ -1923,12 +1923,12 @@ span.node:hover {
 }
 
 span.node label {
-  padding-left: 8px;
+  padding-left: 0.5rem;
   cursor: pointer;
 }
 
 span.node_selected {
-  margin-left: 8px;
+  margin-left: 0.5rem;
   padding: 0.25rem 0.188rem 0.25rem 0;
   background-color: rgba(0, 152, 255, 0.05);
   border: 0.0625rem solid #0098FF;
@@ -1937,7 +1937,7 @@ span.node_selected {
 }
 
 span.node_selected label {
-  padding-left: 8px;
+  padding-left: 0.5rem;
   cursor: pointer;
 }
 
