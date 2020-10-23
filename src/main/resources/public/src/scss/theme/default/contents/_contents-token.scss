@@ -3,6 +3,7 @@
     .header { padding: 2.875rem 3.75rem 0.625rem 3.75rem; } // 46px 60px 10px 60px
     .search-area {
         padding: 1.875rem 3.75rem 1.875rem 3.75rem; // 30px 60px 30px 60px
+        border-bottom: 0.0625rem solid $line-gray;
         height: 6.25rem; // 100px
     }
     .list {
