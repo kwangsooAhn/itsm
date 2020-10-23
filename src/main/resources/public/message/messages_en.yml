@@ -781,7 +781,7 @@ role:
     enterRoleId: "Please enter a role id."
     enterRoleName: "Please enter a role name."
     selectAuth: "Please select a auth."
-    description: "Role management."
+    description: "View, add, or edit user's role."
     searchPlaceholder: "Role Name / Role Desc."
 
 # Token
