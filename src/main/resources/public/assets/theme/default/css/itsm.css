@@ -4190,8 +4190,8 @@ span.vertical-bar {
 
 .container .contents-token.dashboard .header.dashboard {
   padding-bottom: 2.875rem;
-  border-bottom: $line-gray solid 0.0625rem;
-  background: #F7F8F9;
+  background-color: #f7f8f9;
+  border-bottom: 0.0625rem solid #ebebeb;
 }
 
 .container .contents-token.dashboard .dashboard-statistic {

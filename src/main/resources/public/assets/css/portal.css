@@ -2950,8 +2950,7 @@ button.ghost-line:disabled .icon {
 }
 .portal-search-main {
   height: 6.5rem;
-  background-color: #EBEBEB;
-  border-bottom: 0.0625rem solid #EBEBEB;
+  background-color: #f7f8f9;
 }
 .portal-search-main .title {
   text-align: center;
@@ -2959,8 +2958,8 @@ button.ghost-line:disabled .icon {
 }
 .portal-search-area {
   height: 8.5rem;
-  background-color: #EBEBEB;
-  border-bottom: 0.0625rem solid #EBEBEB;
+  background-color: #f7f8f9;
+  border-bottom: 0.0625rem solid #ebebeb;
   padding: 3rem 0 3rem 0;
   text-align: center;
 }
@@ -2969,9 +2968,9 @@ button.ghost-line:disabled .icon {
 }
 .portal-search-container {
   height: 15rem;
-  background-color: #EBEBEB;
   padding: 0 0 0 12.75rem;
-  border-bottom: 0.0625rem solid #EBEBEB;
+  background-color: #f7f8f9;
+  border-bottom: 0.0625rem solid #ebebeb;
 }
 .portal-search-container .page-title {
   display: flex;
@@ -3341,9 +3340,9 @@ button.ghost-line:disabled .icon {
 
 .portal-faq-container {
   height: 15rem;
-  background-color: #EBEBEB;
   padding: 0 0 0 12.75rem;
-  border-bottom: 0.0625rem solid #EBEBEB;
+  background-color: #f7f8f9;
+  border-bottom: 0.0625rem solid #ebebeb;
 }
 .portal-faq-container .page-title {
   text-align: left;
