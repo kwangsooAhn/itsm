@@ -1,14 +1,9 @@
-/*
- * Copyright 2020 Brainzcompany Co., Ltd.
- * https://www.brainz.co.kr
- */
-
 package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class RestTemplateDocumentDto(
+data class RestTemplateDocumentListDto(
     val documentId: String = "",
     val documentType: String = "",
     val documentName: String = "",
@@ -23,5 +18,6 @@ data class RestTemplateDocumentDto(
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
     var updateDt: LocalDateTime? = null,
-    var documentIcon: String? = null
+    var documentIcon: String? = null,
+    var totalCount: Long = 0
 ) : Serializable
