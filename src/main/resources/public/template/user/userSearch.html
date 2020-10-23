@@ -43,7 +43,7 @@
             const searchOpt = {
                 search: document.getElementById('search').value.trim()
             }
-            let urlParam = 'category=all&search=' + searchOpt.search;
+            let urlParam = 'search=' + searchOpt.search;
             if (isScroll) {
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
