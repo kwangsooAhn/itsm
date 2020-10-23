@@ -36,6 +36,8 @@
   }
 
   .portal-contents {
+    height: 100%;
     margin-top: $layout-header-height;
+    overflow: hidden;
   }
 }

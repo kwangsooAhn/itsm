@@ -11,8 +11,7 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <input type="hidden" id="readable" th:value="${#authorization.expression('hasAuthority(''form.read'')')}"/>
-    <input type="hidden" id="editable" th:value="${#authorization.expression('hasAnyAuthority(''form.create'', ''form.update'')')}"/>
+    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
     <div class="contents-list">
         <div class="page-title">
             <h1 th:text="#{form.label.list}"></h1>
@@ -158,8 +157,12 @@
             let formNameObject;
             if (data.editable == true) {
                 formNameObject = document.createElement('a');
-                formNameObject.onclick = function () {
-                    openFormEdit(data.id);
+                formNameObject.onclick = function() {
+                    if (document.getElementById('updatable').value === 'true') {
+                        openFormEdit(data.id);
+                    } else {
+                        openFormView(data.id);
+                    }
                 }
             } else {
                 formNameObject = document.createElement('span');
@@ -170,35 +173,28 @@
             // 미리보기
             let tdFormPreview = document.createElement('td');
             tdFormPreview.style.width = '10%';
-            let formPreviewObject = document.createElement('a');
-            formPreviewObject.onclick = function() {
-                if (document.getElementById('readable').value === 'true') {
-                    openFormDesignerView(data.id);
-                } else {
-                    aliceJs.alertWarning([[#{auth.msg.accessDenied}]]);
-                }
+            let formPreviewBtn = document.createElement('button');
+            let spanFormPreview = document.createElement('span');
+            formPreviewBtn.className = 'default-fill list-popup';
+            spanFormPreview.className = 'icon-search';
+            formPreviewBtn.onclick = function() {
+                openFormDesignerView(data.id);
             }
-            let formPreviewImage = document.createElement('img');
-            formPreviewImage.src = '../assets/media/icons/icon_preview.svg';
-            formPreviewObject.appendChild(formPreviewImage);
-            tdFormPreview.appendChild(formPreviewObject);
+            formPreviewBtn.appendChild(spanFormPreview);
+            tdFormPreview.appendChild(formPreviewBtn);
 
             // 변경
-            let tdUpdate = document.createElement('td');
-            tdUpdate.style.width = '10%';
-            let updateObject = document.createElement('a');
-            updateObject.onclick = function() {
-                if (document.getElementById('editable').value === 'true') {
+            let tdFormUpdate = document.createElement('td');
+            tdFormUpdate.style.width = '10%';
+            if (document.getElementById('updatable').value === 'true' && data.editable == true) {
+                let formUpdateBtn = document.createElement('button');
+                let spanFormUpdate = document.createElement('span');
+                spanFormUpdate.className = 'icon-edit';
+                formUpdateBtn.onclick = function() {
                     openFormDesignerEdit(data.id);
-                } else {
-                    aliceJs.alertWarning([[#{auth.msg.accessDenied}]]);
                 }
-            }
-            let updateImage = document.createElement('img');
-            updateImage.src = '../assets/media/icons/icon_edit.svg';
-            if (data.editable == true) {
-                updateObject.appendChild(updateImage);
-                tdUpdate.appendChild(updateObject);
+                formUpdateBtn.appendChild(spanFormUpdate);
+                tdFormUpdate.appendChild(formUpdateBtn);
             }
 
             let tdState = document.createElement('td');
@@ -220,7 +216,7 @@
 
             tr.appendChild(tdFormName);
             tr.appendChild(tdFormPreview);
-            tr.appendChild(tdUpdate);
+            tr.appendChild(tdFormUpdate);
             tr.appendChild(tdState);
             tr.appendChild(tdDescription);
             tr.appendChild(tdWriter);

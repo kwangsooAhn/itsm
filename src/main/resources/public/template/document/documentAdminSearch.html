@@ -14,6 +14,8 @@
             <h6 class="title-description" th:text="#{document.msg.description}"></h6>
         </div>
         <div class="search-area">
+            <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''document.admin.update'')')}"/>
+            <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''document.admin.delete'')')}"/>
             <div class="left">
                 <form id="searchDocumentsFrm">
                     <select id="searchGroupName" name="searchGroupName">
@@ -183,25 +185,29 @@
 
             let tdDocumentEdit = document.createElement('td');
             tdDocumentEdit.style.width = '10%';
-            let documentEditObject = document.createElement('a');
-            documentEditObject.onclick = function() {
-                openDocumentEdit(data.documentId);
-            };
-            let documentEditImage = document.createElement('img');
-            documentEditImage.src = '../assets/media/icons/icon_edit.svg';
-            documentEditObject.appendChild(documentEditImage);
-            tdDocumentEdit.appendChild(documentEditObject);
+            if (document.getElementById('updatable').value === 'true') {
+                let documentEditBtn = document.createElement('button');
+                let spanDocumentEdit = document.createElement('span');
+                spanDocumentEdit.className = 'icon-edit';
+                documentEditBtn.onclick = function() {
+                    openDocumentEdit(data.documentId);
+                }
+                documentEditBtn.appendChild(spanDocumentEdit);
+                tdDocumentEdit.appendChild(documentEditBtn);
+            }
 
             let tdDocumentDelete = document.createElement('td');
             tdDocumentDelete.style.width = '10%';
-            let documentDeleteObject = document.createElement('a');
-            documentDeleteObject.onclick = function() {
-                deleteDocument(data.documentId);
-            };
-            let documentDeleteImage = document.createElement('img');
-            documentDeleteImage.src = '../assets/media/icons/icon_delete.svg';
-            documentDeleteObject.appendChild(documentDeleteImage);
-            tdDocumentDelete.appendChild(documentDeleteObject);
+            if (document.getElementById('deletable').value === 'true') {
+                let documentDeleteBtn = document.createElement('button');
+                let spanDocumentDelete = document.createElement('span');
+                spanDocumentDelete.className = 'icon-delete';
+                documentDeleteBtn.onclick = function() {
+                    deleteDocument(data.documentId);
+                }
+                documentDeleteBtn.appendChild(spanDocumentDelete);
+                tdDocumentDelete.appendChild(documentDeleteBtn);
+            }
 
             tr.appendChild(tdDocumentName);
             tr.appendChild(tdDocumentType);

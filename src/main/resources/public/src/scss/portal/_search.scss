@@ -20,11 +20,14 @@
     }
 }
 
+$portal-search-main-height: 6.5rem; // 104px
+$portal-search-result-list-height: 647px; // 647px
 .portal {
     &-search {
         &-main {
-            height: 6.5rem; // 104px
+            height: $portal-search-main-height;
             background-color: $light-gray;
+            border-bottom: 0.0625rem solid $line-gray; // 1px
             .title {
                 text-align: center;
                 padding: 3.625rem 0 0.625rem 0; // 58px 0px 10px 0px
@@ -39,6 +42,17 @@
             text-align: center;
             input {
                 width: 40rem; // 640px
+            }
+            // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨
+            &.slide-up {
+                + .portal-search-result .list {
+                    height: calc(#{$portal-search-main-height} + #{$portal-search-result-list-height});
+                }
+            }
+            &.slide-down {
+                + .portal-search-result .list {
+                    height: $portal-search-result-list-height;
+                }
             }
         }
 
@@ -125,9 +139,10 @@
         }
 
         &-result {
-            padding: 3.75rem 0 0 12.75rem; // 60px 0 0 204px
+            padding: 0; // padding: 3.75rem 0 0 12.75rem; // 60px 0 0 204px
             .list {
-                height: 550px;
+                height: $portal-search-result-list-height;
+                padding: 3.125rem 15% 0 15%; // 50px 15% 0 15%;
                 table {
                     width: 100%;
                     thead {
@@ -191,7 +206,7 @@
 
                 .row {
                     display: flex;
-                    width: 80%;
+                    width: 100%;
                     align-items: center;
                     border-bottom: 0.063rem solid $line-gray; // 1px
                     padding: 10px 0 10px 0;
@@ -230,6 +245,10 @@
                         width: 57.688rem; // 923px
                         .title {
                             padding-bottom: 0.5rem; // 8px
+
+                            a {
+                                color: $light-black;
+                            }
                         }
 
                         .content {
