@@ -35,9 +35,9 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
     val token: QWfTokenEntity = QWfTokenEntity.wfTokenEntity
     val tokenData: QWfTokenDataEntity = QWfTokenDataEntity.wfTokenDataEntity
-
     val comment: QWfCommentEntity = QWfCommentEntity.wfCommentEntity
     val tagMap: QWfTagMapEntity = QWfTagMapEntity.wfTagMapEntity
+    val tag: QWfTagEntity = QWfTagEntity.wfTagEntity
     val folder: QWfFolderEntity = QWfFolderEntity.wfFolderEntity
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val searchDataCount: Long = WfTokenConstants.searchDataCount
@@ -56,7 +56,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
         val elementDataSub = QWfElementDataEntity("elementDataSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
-        val tagSub = QWfTagEntity("tagSub")
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
 
         val assigneeUsers = JPAExpressions
@@ -112,19 +111,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 )
         )
 
-        val query = getInstancesQuery()
-        if (tags.isNotEmpty()) {
-            builder.and(
-                instance.eq(
-                    JPAExpressions
-                        .select(tagMap.instance)
-                        .from(tagMap)
-                        .join(tagSub).on(
-                            tagMap.tagId.eq(tagSub.tagId).and(tagSub.tagContent.`in`(tags))
-                        )
-                )
-            )
-        }
+        val query = getInstancesQuery(tags)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -144,8 +131,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
-        val tagSub = QWfTagEntity("tagSub")
-
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
         builder.and(instance.instanceCreateUser.userKey.eq(userKey))
         builder.and(
@@ -157,19 +142,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             )
         )
 
-        val query = getInstancesQuery()
-        if (tags.isNotEmpty()) {
-            builder.and(
-                instance.eq(
-                    JPAExpressions
-                        .select(tagMap.instance)
-                        .from(tagMap)
-                        .join(tagSub).on(
-                            tagMap.tagId.eq(tagSub.tagId).and(tagSub.tagContent.`in`(tags))
-                        )
-                )
-            )
-        }
+        val query = getInstancesQuery(tags)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -190,7 +163,6 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
-        val tagSub = QWfTagEntity("tagSub")
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(
@@ -210,19 +182,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             )
         )
 
-        val query = getInstancesQuery()
-        if (tags.isNotEmpty()) {
-            builder.and(
-                instance.eq(
-                    JPAExpressions
-                        .select(tagMap.instance)
-                        .from(tagMap)
-                        .join(tagSub).on(
-                            tagMap.tagId.eq(tagSub.tagId).and(tagSub.tagContent.`in`(tags))
-                        )
-                )
-            )
-        }
+        val query = getInstancesQuery(tags)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -234,8 +194,8 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     /**
      * 문서함 목록 조회.
      */
-    private fun getInstancesQuery(): JPQLQuery<WfInstanceListViewDto> {
-        return from(token)
+    private fun getInstancesQuery(tags: Set<String>): JPQLQuery<WfInstanceListViewDto> {
+        val query = from(token)
             .select(
                 Projections.constructor(
                     WfInstanceListViewDto::class.java,
@@ -248,6 +208,20 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             .fetchJoin()
             .innerJoin(document).on(instance.document.eq(document))
             .fetchJoin()
+        if (tags.isNotEmpty()) {
+            query.where(
+                instance.instanceId.`in`(
+                    JPAExpressions
+                        .select(tagMap.instance.instanceId)
+                        .from(tagMap)
+                        .join(tag).on(
+                            tagMap.tagId.eq(tag.tagId).and(tag.tagContent.`in`(tags))
+                        )
+                )
+            )
+                .fetchJoin()
+        }
+        return query
     }
 
     /**
