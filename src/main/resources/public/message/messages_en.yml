@@ -447,7 +447,7 @@ form:
     selectImportFile: "Please select an import file."
   component:
     checkbox: "Checkbox"
-    customCode: "Custom Code"
+    custom-code: "Custom Code"
     date: "Date"
     datetime: "Date Time"
     divider: "Divider"
@@ -470,6 +470,8 @@ form:
     time-default: "You can set the default value displayed on the component.<br/>'Now' prints the current time.<br/>'hours later' means +, -hour from current time.<br/>The last item is used to show a specific time as fixed."
     component-placeholder: "Typing '/' for add component."
   properties:
+    title: "Form"
+    common: "Common"
     dataAttribute: "Data Attribute"
     desc: "Description"
     display: "Display"
@@ -480,6 +482,7 @@ form:
     status: "Status"
     validate: "Validate"
   attribute:
+    align: "Align"
     mappingId: "Mapping ID"
     isTopic: "is Topic"
     position: "Position"

@@ -84,7 +84,7 @@
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
                     `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -129,7 +129,7 @@
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
                     `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -205,7 +205,7 @@
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
                     `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -259,7 +259,7 @@
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
                     `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -313,7 +313,7 @@
             `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
                 `<div class="move-handler"></div>` +
                 `<div class="field-group">` +
-                    `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
                         `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                         `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -351,7 +351,7 @@
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.display.align}" >` +
+                `<div class="field-label align-${property.display.align}" >` +
                     `<label style="color: ${property.display.color}; font-size: ${property.display.size}px;` +
                     `${property.display.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.display.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -386,7 +386,7 @@
                 `<div class="field-group">` +
                 `<div class="field-content ${property.display.align}">` +
                     `<img class="field-img" id="imagebox-${this.id}" src="" alt="" data-path="${aliceJs.filterXSS(imageSrc)}" width="${property.display.width}" height="${property.display.height}">` +
-                    `<div class="img-placeholder"><img/><p>Select Your Image</p></div>` +
+                    `<div class="img-placeholder"><span class="icon-no-img"></span><p>Select Your Image</p></div>` +
                 `</div>` +
             `</div>` +
         `</div>`;
@@ -480,7 +480,7 @@
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
                     `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -550,7 +550,7 @@
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
                     `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -621,7 +621,7 @@
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
                     `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -667,7 +667,7 @@
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
                     `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -763,7 +763,7 @@
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
-                `<div class="field-label ${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
                     `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
                     `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                     `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -776,7 +776,7 @@
                 `<div class="field-content custom-code" style="--data-column: ${property.display.column};">` +
                     `<input class="custom-code-text" type="text" id="custom-code-${this.id}" custom-data="${defaultCustomData}" value="${aliceJs.filterXSS(defaultValue)}"` +
                     `${displayType === 'editableRequired' ? ' required' : ''} readonly />` +
-                    `<button type="button" id="codeBtn-${this.id}">${aliceJs.filterXSS(property.display.buttonText)}</button>` +
+                    `<button type="button" class="ghost-line" id="codeBtn-${this.id}">${aliceJs.filterXSS(property.display.buttonText)}</button>` +
                 `</div>` +
             `</div>` +
         `</div>`;

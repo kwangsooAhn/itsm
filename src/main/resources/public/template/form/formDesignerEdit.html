@@ -13,55 +13,53 @@
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
         <div class="form-container">
-            <div class="header">
+            <div class="form-header">
                 <img class="load-svg logo"  th:src="@{/assets/media/icons/form/topmenu/logo.svg}"/>
                 <span class="name">Form Designer</span>
+                <span class="separator"></span>
                 <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
-                    <span class="separator"></span>
-                    <button type="button" id="btnSave" onclick="editor.save(false);">
+                    <button type="button" id="btnSave" class="btn-header" onclick="editor.save(false);">
                         <span class="icon-save"></span>
                         <!--<label th:text="#{common.btn.save}"></label>-->
                     </button>
                 </th:block>
                 <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
-                    <span class="separator"></span>
-                    <button type="button" id="btnSaveAs" onclick="editor.saveAs();">
+                    <button type="button" id="btnSaveAs" class="btn-header" onclick="editor.saveAs();">
                         <span class="icon-save-as"></span>
                         <!--<label th:text="#{common.btn.saveAs}"></label>-->
                     </button>
                 </th:block>
                 <th:block th:if="${#strings.isEmpty(isView)}">
-                    <span class="separator"></span>
-                    <button type="button" id="btnUndo" onclick="editor.undo();">
+                    <button type="button" id="btnUndo" class="btn-header" onclick="editor.undo();">
                         <span class="icon-undo"></span>
                         <!--<label th:text="#{form.label.undo}"></label>-->
                     </button>
                 </th:block>
                 <th:block th:if="${#strings.isEmpty(isView)}">
-                    <span class="separator"></span>
-                    <button type="button" id="btnRedo" onclick="editor.redo();">
+                    <button type="button" id="btnRedo" class="btn-header" onclick="editor.redo();">
                         <span class="icon-redo"></span>
                         <!--<label th:text="#{form.label.redo}"></label>-->
                     </button>
                 </th:block>
-                <span class="separator"></span>
-                <button type="button" id="btnPreview" onclick="editor.preview();">
+                <button type="button" id="btnPreview" class="btn-header" onclick="editor.preview();">
                     <span class="icon-preview"></span>
                     <!--<label th:text="#{form.label.preview}"></label>-->
                 </button>
                 <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAnyAuthority('form.create', 'form.update')">
-                    <span class="separator"></span>
                     <button type="button" id="btnSaveExit" onclick="editor.save(true);">
                         <span class="icon-save-out"></span>
                         <!--<label th:text="#{form.label.saveExit}"></label>-->
                     </button>
                 </th:block>
-                <span class="form-name ml-auto"></span>
+                <span class="ml-auto" id="form-name"></span>
             </div>
-            <div class="contents">
+            <div class="form-main flex-row justify-content-center">
                 <div class="drawing-board" id="form-panel"></div>
             </div>
-            <div class="properties" id="properties-panel"></div>
+            <div class="form-properties-header">
+                <span id="properties-name"></span>
+            </div>
+            <div class="form-properties" id="properties-panel"></div>
         </div>
         <div class="context-menu" id="context-menu">
             <ul class="menu">
@@ -140,7 +138,7 @@
                 <li class="menu-item custom-code" data-action="custom-code">
                     <div>
                         <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/custom-code.svg}"/>
-                        <label th:text="#{form.component.customCode}"></label>
+                        <label th:text="#{form.component.custom-code}"></label>
                     </div>
                 </li>
             </ul>
@@ -151,25 +149,25 @@
         <div class="tooltip-menu">
             <ul class="menu">
                 <li class="menu-item list" data-action="list">
-                    <div>
-                        <span class="icon list"></span>
+                    <div class="item">
+                        <span class="icon icon-list"></span>
                         <!--<label th:text="#{form.label.list}"></label>-->
                     </div>
                 </li>
                 <li class="menu-item copy" data-action="copy">
-                    <div>
-                        <span class="icon copy"></span>
+                    <div class="item">
+                        <span class="icon icon-copy"></span>
                     </div>
                 </li>
                 <li class="menu-item delete" data-action="delete">
-                    <div>
-                        <span class="icon delete"></span>
+                    <div class="item">
+                        <span class="icon icon-delete"></span>
                         <!--<label th:text="#{common.btn.delete}"></label>-->
                     </div>
                 </li>
                 <li class="menu-item add" data-action="add">
-                    <div>
-                        <span class="icon add"></span>
+                    <div class="item">
+                        <span class="icon icon-add"></span>
                         <!--<label th:text="#{form.label.addBelow}"></label>-->
                     </div>
                 </li>
@@ -178,58 +176,59 @@
     </template>
     <!-- 컴포넌트 properties 템플릿 -->
     <template id="component-template">
-        <div class="properties-title">
-        </div>
         <div class="component-properties">
             <div class="property-empty">
-                <h3 th:text="#{form.msg.information}"></h3>
+                <h5 th:text="#{form.msg.information}"></h5>
             </div>
             <div class="property-group" id="dataAttribute">
-                <h3><label class="point" th:text="#{form.properties.dataAttribute}"></label></h3>
+                <h5><label class="property-group-name" th:text="#{form.properties.dataAttribute}"></label></h5>
             </div>
             <div class="property-group" id="label">
-                <h3><label class="point" th:text="#{form.properties.label}"></label></h3>
+                <h5><label class="property-group-name" th:text="#{form.properties.label}"></label></h5>
             </div>
             <div class="property-group" id="display">
-                <h3><label class="point" th:text="#{form.properties.display}"></label></h3>
+                <h5><label class="property-group-name" th:text="#{form.properties.display}"></label></h5>
             </div>
             <div class="property-group" id="option">
-                <h3>
-                    <label class="point" th:text="#{form.properties.option}"></label>
+                <h5>
+                    <label class="property-group-name" th:text="#{form.properties.option}"></label>
                     <div class="property-group-option">
-                        <button type="button" class="btn ghost-line option-minus"><span class="icon"></span></button>
-                        <button type="button" class="btn ghost-line option-plus"><span class="icon"></span></button>
+                        <button type="button" class="ghost-line btn-option" id="option-minus"><span class="icon icon-minus"></span></button>
+                        <button type="button" class="ghost-line btn-option" id="option-plus"><span class="icon icon-plus"></span></button>
                     </div>
-                </h3>
-                <table class="property-field-table"></table>
+                </h5>
+                <table class="property-field-table">
+                    <colgroup>
+                        <col width="20%">
+                        <col width="40%">
+                        <col width="40%">
+                    </colgroup>
+                </table>
             </div>
             <div class="property-group" id="validate">
-                <h3><label class="point" th:text="#{form.properties.validate}"></label></h3>
+                <h5><label class="property-group-name" th:text="#{form.properties.validate}"></label></h5>
             </div>
         </div>
     </template>
     <!-- 폼 properties 템플릿 -->
     <template id="form-template">
-        <div class="properties-title on">
-            <label class="ghost">Form</label>
-        </div>
         <div class="form-properties">
             <div class="property-group on last">
                 <div class="property-field" id="formId">
-                    <label class="property-name" for="formId" th:text="#{form.properties.id}"></label>
+                    <label class="property-field-name" for="formId" th:text="#{form.properties.id}"></label>
                     <input type="text" class="property-value" disabled>
                 </div>
                 <div class="property-field" id="name">
-                    <label class="property-name" for="name" th:text="#{form.properties.name}"></label>
+                    <label class="property-field-name" for="name" th:text="#{form.properties.name}"></label>
                     <span class="required"></span>
                     <input type="text" class="property-value" required="required" maxlength="20">
                 </div>
                 <div class="property-field" id="desc">
-                    <label class="property-name" for="desc" th:text="#{form.properties.desc}"></label>
+                    <label class="property-field-name" for="desc" th:text="#{form.properties.desc}"></label>
                     <textarea class="property-value" maxlength="200"></textarea>
                 </div>
                 <div class="property-field" id="status">
-                    <label class="property-name" for="status" th:text="#{form.properties.status}"></label>
+                    <label class="property-field-name" for="status" th:text="#{form.properties.status}"></label>
                     <select class="property-value">
                         <option value="form.status.edit" th:text="#{form.status.edit}"></option>
                         <option value="form.status.publish" th:text="#{form.status.publish}"></option>

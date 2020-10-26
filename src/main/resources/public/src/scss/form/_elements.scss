@@ -1,23 +1,8 @@
 @import "../template/_elements.scss";
 
 textarea {
-  resize: none;
-  @include scrollbarHidden;
-}
-
-label {
-  &.point {
-    color: $label-point-font-color;
-  }
-
-  &.ghost {
-    color: $label-ghost-font-color;
-  }
-}
-
-span {
-  font-size: $span-font-size;
-  font-weight: $span-font-weight;
+  min-height: 7.5rem; // 120px
+  resize: vertical;
 }
 
 table {

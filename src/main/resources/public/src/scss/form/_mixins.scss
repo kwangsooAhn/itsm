@@ -24,13 +24,6 @@
     animation-iteration-count: $count;
 }
 
-@mixin background($path) {
-    background-size: initial;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-image: url("#{$form-asset-path}/" + $path);
-}
-
 @mixin document-button {
     display: flex;
     align-items: center;
