@@ -799,6 +799,7 @@ token:
     searchPlaceholder: "Create User / Contents"
     startDt: "Start Date"
     status: "Status"
+    tagPlaceHolder: "#Tags"
     write: "My Document"
     view: "Document View"
   msg:

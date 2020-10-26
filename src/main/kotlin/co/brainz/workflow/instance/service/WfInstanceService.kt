@@ -35,6 +35,7 @@ import java.time.format.DateTimeFormatter
 import org.mapstruct.factory.Mappers
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.util.StringUtils
 
 @Service
 class WfInstanceService(
@@ -56,6 +57,15 @@ class WfInstanceService(
      * Search Instances.
      */
     fun instances(parameters: LinkedHashMap<String, Any>): List<RestTemplateInstanceViewDto> {
+
+        var tagList = emptyList<String>()
+        if (parameters["tags"].toString().isNotEmpty()) {
+            tagList = StringUtils.trimAllWhitespace(parameters["tags"].toString())
+                .replace("#", "")
+                .split(",")
+        }
+        parameters["tags"] = HashSet<String>(tagList)
+
         val queryResults = when (parameters["tokenType"].toString()) {
             WfTokenConstants.SearchType.REQUESTED.code -> requestedInstances(parameters)
             WfTokenConstants.SearchType.PROGRESS.code -> relatedInstances(
@@ -137,11 +147,13 @@ class WfInstanceService(
     /**
      * 신청한 문서 조회.
      */
+    @Suppress("UNCHECKED_CAST")
     private fun requestedInstances(parameters: LinkedHashMap<String, Any>): QueryResults<WfInstanceListViewDto> {
         return wfInstanceRepository.findRequestedInstances(
             parameters["userKey"].toString(),
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
+            parameters["tags"] as Set<String>,
             LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
             LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
@@ -151,6 +163,7 @@ class WfInstanceService(
     /**
      * 진행중 / 완료된 문서 조회.
      */
+    @Suppress("UNCHECKED_CAST")
     private fun relatedInstances(
         status: List<String>?,
         parameters: LinkedHashMap<String, Any>
@@ -160,6 +173,7 @@ class WfInstanceService(
             parameters["userKey"].toString(),
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
+            parameters["tags"] as Set<String>,
             LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
             LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()
@@ -169,6 +183,7 @@ class WfInstanceService(
     /**
      * 처리할 문서 조회.
      */
+    @Suppress("UNCHECKED_CAST")
     private fun todoInstances(
         status: List<String>?,
         tokenStatus: List<String>?,
@@ -180,6 +195,7 @@ class WfInstanceService(
             parameters["userKey"].toString(),
             parameters["documentId"].toString(),
             parameters["searchValue"].toString(),
+            parameters["tags"] as Set<String>,
             LocalDateTime.parse(parameters["fromDt"].toString(), DateTimeFormatter.ISO_DATE_TIME),
             LocalDateTime.parse(parameters["toDt"].toString(), DateTimeFormatter.ISO_DATE_TIME).plusDays(1),
             parameters["offset"].toString().toLong()

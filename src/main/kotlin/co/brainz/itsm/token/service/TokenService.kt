@@ -74,6 +74,7 @@ class TokenService(
         params.add("offset", restTemplateTokenSearchListDto.offset)
         params.add("fromDt", restTemplateTokenSearchListDto.searchFromDt)
         params.add("toDt", restTemplateTokenSearchListDto.searchToDt)
+        params.add("tags", restTemplateTokenSearchListDto.searchTags)
 
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_INSTANCES.url, parameters = params)
         val responseBody = restTemplate.get(url)
