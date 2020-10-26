@@ -1,9 +1,15 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.document.controller
 
 import co.brainz.workflow.document.service.WfDocumentService
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import javax.transaction.Transactional
@@ -29,9 +35,8 @@ class WfDocumentRestController(
      * @return List<RestTemplateDocumentDto>
      */
     @GetMapping("")
-    fun getDocuments(
-        restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto
-    ): List<RestTemplateDocumentDto> {
+    fun getDocuments(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
+            List<RestTemplateDocumentListDto> {
         return wfDocumentService.documents(restTemplateDocumentSearchListDto)
     }
 
