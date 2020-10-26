@@ -4806,6 +4806,11 @@ span.vertical-bar {
   height: 1.5rem;
 }
 
+.container .contents-list-edit > .edit-area .form-set .checkbox-all {
+  display: table-cell;
+  padding-top: 0.3125rem;
+}
+
 .container .contents-list-edit > .edit-area .form-set .checkbox-list {
   height: 13.5rem;
   border: 0.0625rem solid #EBEBEB;

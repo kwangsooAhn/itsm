@@ -769,6 +769,8 @@ process:
 
 # Role
 role:
+  btn:
+    selectAll: "전체 선택"
   label:
     auth: "권한"
     desc: "역할 설명"

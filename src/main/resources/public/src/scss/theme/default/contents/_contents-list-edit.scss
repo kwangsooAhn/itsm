@@ -40,6 +40,10 @@
                 font-weight: 400;
                 height: 1.5rem; // 24px
             }
+            .checkbox-all {
+                display: table-cell;
+                padding-top: 0.3125rem; // 5px
+            }
             .checkbox-list {
                 height: 13.5rem; // 216px
                 border: 0.0625rem solid $element-border-color; // 1px
