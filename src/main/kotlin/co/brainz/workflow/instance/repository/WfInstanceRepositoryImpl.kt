@@ -14,6 +14,7 @@ import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.tag.entity.QWfTagEntity
 import co.brainz.workflow.tag.entity.QWfTagMapEntity
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfTokenDataEntity
@@ -47,6 +48,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         userKey: String,
         documentId: String,
         searchValue: String,
+        tags: Set<String>,
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
@@ -54,6 +56,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
 
         val elementDataSub = QWfElementDataEntity("elementDataSub")
         val roleSub = QAliceUserRoleMapEntity("roleSub")
+        val tagSub = QWfTagEntity("tagSub")
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
 
         val assigneeUsers = JPAExpressions
@@ -110,6 +113,18 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         )
 
         val query = getInstancesQuery()
+        if (tags.isNotEmpty()) {
+            builder.and(
+                instance.eq(
+                    JPAExpressions
+                        .select(tagMap.instance)
+                        .from(tagMap)
+                        .join(tagSub).on(
+                            tagMap.tagId.eq(tagSub.tagId).and(tagSub.tagContent.`in`(tags))
+                        )
+                )
+            )
+        }
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -122,12 +137,14 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         userKey: String,
         documentId: String,
         searchValue: String,
+        tags: Set<String>,
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
+        val tagSub = QWfTagEntity("tagSub")
 
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
         builder.and(instance.instanceCreateUser.userKey.eq(userKey))
@@ -141,6 +158,18 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         )
 
         val query = getInstancesQuery()
+        if (tags.isNotEmpty()) {
+            builder.and(
+                instance.eq(
+                    JPAExpressions
+                        .select(tagMap.instance)
+                        .from(tagMap)
+                        .join(tagSub).on(
+                            tagMap.tagId.eq(tagSub.tagId).and(tagSub.tagContent.`in`(tags))
+                        )
+                )
+            )
+        }
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -154,12 +183,14 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         userKey: String,
         documentId: String,
         searchValue: String,
+        tags: Set<String>,
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
+        val tagSub = QWfTagEntity("tagSub")
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
         builder.and(instance.instanceStatus.`in`(status))
         builder.and(
@@ -180,6 +211,18 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         )
 
         val query = getInstancesQuery()
+        if (tags.isNotEmpty()) {
+            builder.and(
+                instance.eq(
+                    JPAExpressions
+                        .select(tagMap.instance)
+                        .from(tagMap)
+                        .join(tagSub).on(
+                            tagMap.tagId.eq(tagSub.tagId).and(tagSub.tagContent.`in`(tags))
+                        )
+                )
+            )
+        }
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())

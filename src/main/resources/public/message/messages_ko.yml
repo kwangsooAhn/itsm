@@ -799,6 +799,7 @@ token:
     searchPlaceholder: "등록자 / 내용"
     startDt: "시작 일시"
     status: "상태"
+    tagPlaceHolder: "#태그"
     write: "처리할 문서"
     view: "문서 조회"
   msg:

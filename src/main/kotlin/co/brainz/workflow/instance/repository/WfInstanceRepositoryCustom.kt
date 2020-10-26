@@ -14,6 +14,7 @@ interface WfInstanceRepositoryCustom {
         userKey: String,
         documentId: String,
         searchValue: String,
+        tags: Set<String>,
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
@@ -23,6 +24,7 @@ interface WfInstanceRepositoryCustom {
         userKey: String,
         documentId: String,
         searchValue: String,
+        tags: Set<String>,
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
@@ -33,6 +35,7 @@ interface WfInstanceRepositoryCustom {
         userKey: String,
         documentId: String,
         searchValue: String,
+        tags: Set<String>,
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
