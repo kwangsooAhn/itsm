@@ -12,6 +12,7 @@ import co.brainz.framework.auth.repository.AliceMenuRepository
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.AliceUserConstants
+import co.brainz.itsm.user.dto.UserListDto
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.EmptyResultDataAccessException
@@ -74,6 +75,12 @@ class AliceUserDetailsService(
             is AliceUserAuthDto -> {
                 avatarType = user.avatarType.toString()
                 avatarValue = user.avatarValue.toString()
+                uploaded = user.uploaded
+                uploadedLocation = user.uploadedLocation
+            }
+            is UserListDto -> {
+                avatarType = user.avatarType
+                avatarValue = user.avatarValue
                 uploaded = user.uploaded
                 uploadedLocation = user.uploadedLocation
             }

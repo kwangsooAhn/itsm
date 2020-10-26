@@ -8,7 +8,7 @@ package co.brainz.itsm.user.dto
 import java.io.Serializable
 import java.time.LocalDateTime
 
-data class UserListDto(
+data class UserListDataDto(
     var userKey: String = "",
     var userId: String = "",
     var userName: String = "",
@@ -17,11 +17,9 @@ data class UserListDto(
     var department: String? = null,
     var officeNumber: String? = null,
     var mobileNumber: String? = null,
-    var avatarPath: String = "",
     var avatarType: String = "",
     var avatarValue: String = "",
     var uploaded: Boolean = false,
     var uploadedLocation: String = "",
-    var createDt: LocalDateTime? = null,
-    var totalCount: Long = 0L
+    var createDt: LocalDateTime? = null
 ) : Serializable
