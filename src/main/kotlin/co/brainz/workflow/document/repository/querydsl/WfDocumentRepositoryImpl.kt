@@ -81,7 +81,7 @@ class WfDocumentRepositoryImpl :
 
         val documentList = mutableListOf<RestTemplateDocumentListDto>()
         for (data in query.results) {
-            val document = RestTemplateDocumentListDto(
+            val documentData = RestTemplateDocumentListDto(
                 documentId = data.documentId,
                 documentType = data.documentType,
                 documentName = data.documentName,
@@ -99,7 +99,7 @@ class WfDocumentRepositoryImpl :
                 totalCount = query.total,
                 documentIcon = data.documentIcon
             )
-            documentList.add(document)
+            documentList.add(documentData)
         }
         return documentList
     }
