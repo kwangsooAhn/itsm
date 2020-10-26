@@ -42,7 +42,18 @@
                         <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="textarea-scroll-wrapper"></textarea>
                     </div>
                     <div class="form-set">
-                        <label th:text="#{role.label.auth}" class="required"></label>
+                        <div class="flex-row">
+                            <div class="flex-row">
+                                <label th:text="#{role.label.auth}" class="required"></label>
+                            </div>
+                            <div class="ml-auto">
+                                <label class="checkbox checkbox-all">
+                                    <input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"/>
+                                    <span></span>
+                                    <span class="label" th:text="#{role.btn.selectAll}"/>
+                                </label>
+                            </div>
+                        </div>
                         <div class="checkbox-list">
                             <ul>
                                 <li th:each="auth : ${authList}">
@@ -345,6 +356,20 @@
                 }
             };
             aliceJs.sendXhr(opt);
+        }
+
+        function selectAll() {
+            let checkFlag = document.getElementById('selectAll').checked;
+            let roleAuths = document.getElementsByName('roleAuth');
+            if (checkFlag === false) {
+                for (let i = 0; i < roleAuths.length; i++) {
+                    roleAuths[i].checked = false;
+                }
+            } else {
+                for(let i = 0; i < roleAuths.length; i++) {
+                    roleAuths[i].checked = true;
+                }
+            }
         }
         /*]]>*/
     </script>
