@@ -3438,7 +3438,7 @@ button.ghost-line:disabled .icon {
   display: flex;
   height: 2.125rem;
   border-bottom: 0.125rem solid #E1E3E6;
-  width: 88%;
+  width: 100%;
 }
 
 .portal-search-result .list table thead tr th {
@@ -3459,7 +3459,7 @@ button.ghost-line:disabled .icon {
 
 .portal-search-result .list table tbody tr {
   height: 2.875rem;
-  width: 88%;
+  width: 100%;
   display: table;
   table-layout: fixed;
 }
