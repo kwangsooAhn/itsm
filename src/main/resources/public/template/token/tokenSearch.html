@@ -5,6 +5,93 @@
     layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{token.label.list}"></title>
+    <style>
+        .select-hidden {
+            visibility: hidden;
+            padding-right: 10px;
+        }
+        .select {
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+            font-size: 16px;
+            height: 40px;
+        }
+        .select-styled {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: #ffffff;
+            color: #586872;
+            padding: 8px 10px;
+            border: 1px solid #EBEBEB;
+            border-radius: 1px;
+            display: flex;
+            align-items: center;
+        }
+
+        .select-styled:after {
+             content:" ";
+             width: 0;
+             height: 0;
+             border: 10px solid transparent;
+             background: url("../assets/theme/default/media/icons/icon_arrow_bottom.svg") no-repeat center left;
+             position: absolute;
+             right: 10px;
+        }
+
+        .select-styled:hover {
+             outline: 0;
+             border: 0.0625rem solid #0098FF;
+             box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+        }
+
+        .select-styled:active, .select-styled.active {
+            outline: 0;
+            border: 0.0625rem solid #0098FF;
+            box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+        }
+        .select-styled:active:after {
+             top: 9px;
+            background: url("../assets/theme/default/media/icons/icon_arrow_up.svg") no-repeat center left;
+        }
+
+        .select-styled.active:after {
+            top: 9px;
+            background: url("../assets/theme/default/media/icons/icon_arrow_up.svg") no-repeat center left;
+        }
+        .select-options {
+            display: none;
+            position: absolute;
+            top: calc(100% + 5px);
+            right: 0;
+            left: 0;
+            z-index: 999;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            color: #586872;
+            background-color: #FFFFFF;
+            outline: 0;
+            border: 0.0625rem solid #EBEBEB;
+            border-radius: 1px;
+            box-shadow: 0 0 0.3125rem 0 rgba(235, 235, 235, 1);
+        }
+        .select-options li {
+            margin: 0;
+            padding: 12px 0;
+            text-indent: 10px;
+        }
+
+        .select-options li:hover {
+            background: rgba(0, 152, 255, 0.08);
+         }
+        .select-options li[rel="hide"] {
+             display: none;
+         }
+    </style>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -50,6 +137,73 @@
 </th:block>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
+
+        document.querySelectorAll('select').forEach(function(el){
+            let numberOfOptions = el.childElementCount;
+
+            // 기존 SELECT 태그는 숨기기
+            el.classList.add('select-hidden');
+
+            // 기존 SELECT 태그와 새로 만든 Dropdown을 포함하는 껍데기 만들기
+            let wrapElement = document.createElement('div');
+            wrapElement.classList.add('select');
+            el.parentElement.insertBefore(wrapElement, el);
+            wrapElement.append(el);
+
+            // 디자인된 SELECT 박스 창 만들기
+            let styledSelect = document.createElement('div');
+            styledSelect.classList.add('select-styled');
+            wrapElement.insertBefore(styledSelect, el.nextSibling);
+            styledSelect.innerText = el.options[0].text;
+
+            // 옵션 리스트 만들기
+            let ulElement = document.createElement('ul');
+            ulElement.classList.add('select-options');
+            wrapElement.insertBefore(ulElement, el.nextSibling);
+
+            for (var i = 0; i < numberOfOptions; i++) {
+                var liElement = document.createElement('li');
+                liElement.innerText = el.options[i].text;
+                liElement.setAttribute('rel', el.options[i].value);
+                ulElement.appendChild(liElement);
+            }
+
+            // 화면의 select box (실제로는 styledSelect)를 클릭할때 이벤트
+            styledSelect.addEventListener('click', (function(e) {
+                e.stopPropagation();
+                var clickSelect = e.target;
+                document.querySelectorAll('div.select-styled.active').forEach(function(rs){
+                    if (rs != clickSelect) {
+                        rs.classList.remove('active');
+                        rs.parentElement.querySelector('ul.select-options').style.display = 'none';
+                    }
+                });
+                if (clickSelect.classList.contains('active')) {
+                    this.classList.remove('active');
+                    this.parentElement.querySelector('ul.select-options').style.display = 'none';
+                } else {
+                    this.classList.add('active');
+                    this.parentElement.querySelector('ul.select-options').style.display = 'block';
+                }
+            }));
+
+            // option을 선택하는 경우 이벤트
+            ulElement.childNodes.forEach(function(liEl) {
+                liEl.addEventListener('click', function (e) {
+                    e.stopPropagation();
+                    styledSelect.innerText = liEl.innerText;
+                    styledSelect.classList.remove('active');
+                    el.value = liEl.getAttribute('rel');
+                    el.parentElement.querySelector('ul.select-options').style.display = 'none';
+                });
+            });
+
+            document.addEventListener('click', function() {
+                styledSelect.classList.remove('active');
+                ulElement.style.display = 'none';
+            });
+        });
+
         /*<![CDATA[ */
         let offsetCount = 0;
         window.addEventListener('load', function () {
