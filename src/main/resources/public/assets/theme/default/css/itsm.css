@@ -3724,7 +3724,7 @@ span.vertical-bar {
 
 .container .contents-token .search-area {
   padding: 1.875rem 3.75rem 1.875rem 3.75rem;
-  border-bottom: 0.0625rem solid #ebebeb;
+  border-bottom: 0.0625rem solid #EBEBEB;
   height: 6.25rem;
 }
 
@@ -3831,8 +3831,8 @@ span.vertical-bar {
 
 .container .contents-token.dashboard .header.dashboard {
   padding-bottom: 2.875rem;
-  background-color: #f7f8f9;
-  border-bottom: 0.0625rem solid #ebebeb;
+  background: #F7F8F9;
+  border-bottom: 0.0625rem solid #EBEBEB;
 }
 
 .container .contents-token.dashboard .dashboard-statistic {
@@ -4040,8 +4040,8 @@ span.vertical-bar {
 
 .container .contents-edit .header {
   padding: 3.1875rem 3.75rem 3.1875rem 3.75rem;
-  background-color: #f7f8f9;
-  border-bottom: 0.0625rem solid #ebebeb;
+  background: #F7F8F9;
+  border-bottom: 0.0625rem solid #EBEBEB;
 }
 
 .container .contents-edit .edit {
@@ -4211,20 +4211,20 @@ span.vertical-bar {
 
 .container .contents-flex {
   height: 100vh;
-  background: #f7f8f9;
+  background: #F7F8F9;
   display: flex;
   flex-direction: column;
 }
 
 .container .contents-flex .header {
   padding: 3.1875rem 3.75rem 3.1875rem 3.75rem;
-  background: #f7f8f9;
-  border-bottom: 0.0625rem solid #ebebeb;
+  background: #F7F8F9;
+  border-bottom: 0.0625rem solid #EBEBEB;
 }
 
 .container .contents-flex .flex {
   padding: 3.125rem 19.375rem 9.315rem 19.375rem;
-  background-color: white;
+  background-color: #ffffff;
   display: flex;
   flex-grow: 1;
   height: calc(100vh - 10.375rem);
@@ -4407,8 +4407,8 @@ span.vertical-bar {
 
 .container .contents-document .header {
   padding: 2.875rem 3.75rem 0.625rem 3.75rem;
-  background-color: #f7f8f9;
-  border-bottom: 0.0625rem solid #ebebeb;
+  background: #F7F8F9;
+  border-bottom: 0.0625rem solid #EBEBEB;
 }
 
 .container .contents-document .service-request {
