@@ -963,3 +963,83 @@ aliceJs.filterXSS = function (str) {
         .replace(/\"/g, '&quot;')
         .replace(/\'/g, '&apos;');
 };
+
+/**
+ * select box 디자인을 위한 초기화 함수.
+ * 1) select tag 디자인을 적용하기 위해서 기존 select tag 는 숨기고
+ * 2) div, ul 로 기존 select tag 를 대신할 객체를 만들고
+ * 3) 그에 따른 이벤트 등록.
+ */
+aliceJs.initDesignedSelectTag = function () {
+    document.querySelectorAll('select').forEach(function(originSelectTag){
+        let numOfOptions = originSelectTag.childElementCount;
+
+        // select tag 숨기기.
+        originSelectTag.classList.add('select-hidden');
+
+        // select tag 와 추가되는 div, ul 을 감싸는 wrapper 생성.
+        let selectWrapper = document.createElement('div');
+        selectWrapper.classList.add('select');
+        originSelectTag.parentElement.insertBefore(selectWrapper, originSelectTag);
+        selectWrapper.append(originSelectTag);
+
+        // 디자인된 SELECT 박스 창 만들기
+        let designedSelectBox = document.createElement('div');
+        designedSelectBox.classList.add('designed-select');
+        selectWrapper.insertBefore(designedSelectBox, originSelectTag.nextSibling);
+        designedSelectBox.innerText = originSelectTag.options[0].text;
+
+        // 옵션 리스트용 박스 만들기
+        let ulElement = document.createElement('ul');
+        ulElement.classList.add('designed-options');
+        selectWrapper.insertBefore(ulElement, originSelectTag.nextSibling);
+
+        // option 복사
+        let options = document.createDocumentFragment();
+        for (var i = 0; i < numOfOptions; i++) {
+            let liElement = document.createElement('li');
+            liElement.innerText = originSelectTag.options[i].text;
+            liElement.setAttribute('rel', originSelectTag.options[i].value);
+            options.appendChild(liElement.cloneNode(true));
+        }
+        ulElement.appendChild(options);
+
+        // 화면의 select box (실제로는 styledSelect)를 클릭할때 이벤트
+        designedSelectBox.addEventListener('click', (function(e) {
+            e.stopPropagation();
+            let clickedSelect = e.target;
+            document.querySelectorAll('div.designed-select.active').forEach(function(selectTag){
+                if (selectTag !== clickedSelect) {
+                    selectTag.classList.remove('active');
+                    selectTag.parentElement.querySelector('ul.designed-options').style.display = 'none';
+                }
+            });
+            // toggle
+            if (clickedSelect.classList.contains('active')) {
+                this.classList.remove('active');
+                this.parentElement.querySelector('ul.designed-options').style.display = 'none';
+            } else {
+                this.classList.add('active');
+                this.parentElement.querySelector('ul.designed-options').style.display = 'block';
+            }
+        }));
+
+        // option 을 선택하는 경우 이벤트
+        ulElement.childNodes.forEach(function(option) {
+            option.addEventListener('click', function (clickedOption) {
+                clickedOption.stopPropagation();
+                designedSelectBox.innerText = option.innerText;
+                designedSelectBox.classList.remove('active');
+                originSelectTag.value = option.getAttribute('rel');
+                originSelectTag.parentElement.querySelector('ul.designed-options').style.display = 'none';
+                let changeEvent = new Event('change');
+                originSelectTag.dispatchEvent(changeEvent);
+            });
+        });
+
+        document.addEventListener('click', function() {
+            designedSelectBox.classList.remove('active');
+            ulElement.style.display = 'none';
+        });
+    });
+};

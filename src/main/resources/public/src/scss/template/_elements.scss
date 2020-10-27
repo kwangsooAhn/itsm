@@ -232,6 +232,96 @@ select {
   }
 }
 
+// designed select
+.select-hidden {
+  visibility: hidden;
+  padding-right: 0.625rem; // 10px
+}
+.select {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  font-size: $element-font-size;
+  height: 2.5rem; // 40px
+}
+.designed-select {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 0.5rem 0.625rem; // 8px 10px
+  background-color: $element-bg-color;
+  color: $element-font-color;
+  border: $element-border;
+  border-radius: $element-border-radius;
+  font-family: inherit;
+  font-size: $element-font-size;
+  font-weight: $element-font-weight;
+  line-height: $element-line-height;
+  display: flex;
+  align-items: center;
+  &:after {
+    content:"";
+    width: 0;
+    height: 0;
+    border: 0.625rem solid transparent; // 10px
+    background: url($icon-folder-path + "icon_arrow_bottom.svg") no-repeat center left;
+    position: absolute;
+    right: 0.625rem; // 10px
+  }
+  &:hover {
+    outline: 0;
+    border: $element-hover-border;
+    box-shadow: $element-hover-box-shadow;
+  }
+  &:active {
+    outline: 0;
+    border: $element-focus-border;
+    &:after {
+      top: 0.5625rem; // 9px
+      background: url($icon-folder-path + "icon_arrow_up.svg") no-repeat center left;
+    }
+  }
+  &.active {
+    outline: 0;
+    border: $element-focus-border;
+    &:after {
+      top: 0.5625rem; // 9px
+      background: url($icon-folder-path + "icon_arrow_up.svg") no-repeat center left;
+    }
+  }
+}
+
+.designed-options {
+  display: none;
+  position: absolute;
+  top: calc(100% + 0.3125rem); // 5px
+  right: 0;
+  left: 0;
+  z-index: 999;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: $element-font-color;
+  background-color: $element-bg-color;
+  outline: 0;
+  border: $element-border;
+  border-radius: $element-border-radius;
+  box-shadow: $datepicker-border-box-shadow; // TODO: 변수를 따로 빼야 하나?
+  li {
+    margin: 0;
+    padding: 0.75rem 0; // 12px
+    text-indent: 0.625rem; // 10px
+    &:hover {
+      background: rgba(0, 152, 255, 0.08); // TODO: 변수로 따로 빼야 하나?
+    }
+    &[rel="hide"] {
+      display: none;
+    }
+  }
+}
+
 option {
   &:hover {
     background-color: $element-hover-bg-color;
