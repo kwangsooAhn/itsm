@@ -2345,8 +2345,7 @@ CREATE TABLE wf_tag
 (
 	tag_id varchar(128) NOT NULL,
 	tag_content varchar(256) NOT NULL,
-	CONSTRAINT wf_tag_pk PRIMARY KEY (tag_id),
-	CONSTRAINT wf_tag_uk UNIQUE (tag_content)
+	CONSTRAINT wf_tag_pk PRIMARY KEY (tag_id)
 );
 
 COMMENT ON TABLE wf_tag IS '태그';
