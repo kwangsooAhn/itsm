@@ -1,8 +1,13 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentActionService
 import co.brainz.itsm.document.service.DocumentService
-import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -32,7 +37,7 @@ class DocumentRestController(
     @GetMapping("/", "")
     fun getDocuments(
         restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto
-    ): List<RestTemplateDocumentDto> {
+    ): List<RestTemplateDocumentListDto> {
         return documentService.getDocumentList(restTemplateDocumentSearchListDto)
     }
 }

@@ -12,9 +12,11 @@ data class UserUpdateDto(
     var userKey: String,
     @CheckUnacceptableCharInUrl
     var userId: String,
+    @CheckUnacceptableCharInUrl
     var userName: String?,
     var password: String?,
     var email: String?,
+    @CheckUnacceptableCharInUrl
     var position: String?,
     var department: String?,
     var officeNumber: String?,

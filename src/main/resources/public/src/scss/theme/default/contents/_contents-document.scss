@@ -1,7 +1,11 @@
 // 문서함 리스트 화면
 .contents-document {
     @include contents-template();
-    .header { padding: 2.875rem 3.75rem 0.625rem 3.75rem; } // 46px 60px 10px 60px
+    .header {
+        padding: 2.875rem 3.75rem 0.625rem 3.75rem; // 46px 60px 10px 60px
+        background: $light-gray;
+        border-bottom: 0.0625rem solid $line-gray;
+    }
     .service-request {
         background-color: $white;
         overflow-y: auto;

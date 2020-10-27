@@ -62,11 +62,10 @@ class UserController(
     @GetMapping("/list")
     fun getUserList(
         @RequestParam(value = "search", defaultValue = "") search: String,
-        @RequestParam(value = "category", defaultValue = "") category: String,
         @RequestParam(value = "offset", defaultValue = "0") offset: String,
         model: Model
     ): String {
-        val userList = userService.selectUserList(search, category, offset.toLong())
+        val userList = userService.selectUserList(search, offset.toLong())
         model.addAttribute("userList", userList)
         model.addAttribute("userListCount", if (userList.isNotEmpty()) userList[0].totalCount else 0)
         return userListPage

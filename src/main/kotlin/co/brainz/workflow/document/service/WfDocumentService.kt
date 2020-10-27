@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.document.service
 
 import co.brainz.framework.exception.AliceErrorConstants
@@ -28,6 +33,7 @@ import co.brainz.workflow.process.repository.WfProcessRepository
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplaySaveDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayViewDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateRequestDocumentDto
 import java.util.ArrayDeque
@@ -60,32 +66,8 @@ class WfDocumentService(
      *
      * @return List<RestTemplateDocumentDto>
      */
-    fun documents(searchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
-        val queryResult = wfDocumentRepository.findByDocuments(searchListDto)
-        val documentList = mutableListOf<RestTemplateDocumentDto>()
-        for (document in queryResult.results) {
-            documentList.add(
-                RestTemplateDocumentDto(
-                    documentId = document.documentId,
-                    documentType = document.documentType,
-                    documentName = document.documentName,
-                    documentDesc = document.documentDesc,
-                    documentStatus = document.documentStatus,
-                    processId = document.process.processId,
-                    formId = document.form.formId,
-                    documentNumberingRuleId = document.numberingRule.numberingId,
-                    documentColor = document.documentColor,
-                    documentGroup = document.documentGroup,
-                    createUserKey = document.createUserKey,
-                    createDt = document.createDt,
-                    updateUserKey = document.updateUserKey,
-                    updateDt = document.updateDt,
-                    totalCount = queryResult.total,
-                    documentIcon = document.documentIcon
-                )
-            )
-        }
-        return documentList
+    fun documents(searchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentListDto> {
+        return wfDocumentRepository.findByDocuments(searchListDto)
     }
 
     /**

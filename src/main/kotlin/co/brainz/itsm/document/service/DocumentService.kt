@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.document.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
@@ -8,6 +13,7 @@ import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDisplayDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentDto
+import co.brainz.workflow.provider.dto.RestTemplateDocumentListDto
 import co.brainz.workflow.provider.dto.RestTemplateDocumentSearchListDto
 import co.brainz.workflow.provider.dto.RestTemplateFormDto
 import co.brainz.workflow.provider.dto.RestTemplateProcessViewDto
@@ -39,9 +45,8 @@ class DocumentService(
      *
      * @return List<DocumentDto>
      */
-    fun getDocumentList(
-        restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto
-    ): List<RestTemplateDocumentDto> {
+    fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
+            List<RestTemplateDocumentListDto> {
         val multiVal: MultiValueMap<String, String> = LinkedMultiValueMap()
         multiVal.setAll(
             objMapper.convertValue<Map<String, String>>(
@@ -53,9 +58,9 @@ class DocumentService(
         val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url, parameters = multiVal)
         val responseBody = restTemplate.get(url) // providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
-        val documentList: List<RestTemplateDocumentDto> = mapper.readValue(
+        val documentList: List<RestTemplateDocumentListDto> = mapper.readValue(
             responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateDocumentDto::class.java)
+            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateDocumentListDto::class.java)
         )
         for (document in documentList) {
             if (document.documentIcon.isNullOrEmpty()) {

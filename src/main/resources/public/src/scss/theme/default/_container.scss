@@ -158,9 +158,7 @@ span.vertical-bar {
 
     &-popup {
         padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
-        @include view-template();
-        @include edit-template();
-        .view, .edit {
+        .view {
             padding: 0;
             width: auto;
             &-content {
@@ -175,7 +173,6 @@ span.vertical-bar {
     @import "contents/_contents-token.scss";
     @import "contents/_contents-list.scss";
     @import "contents/_contents-edit.scss";
-    @import "contents/_contents-view.scss";
     @import "contents/_contents-flex.scss";
     @import "contents/_contents-list-edit.scss";
     @import "contents/_contents-document.scss";

@@ -20,13 +20,11 @@
     }
 }
 
-$portal-search-main-height: 6.5rem; // 104px
-$portal-search-result-list-height: 647px; // 647px
 .portal {
     &-search {
         &-main {
             height: $portal-search-main-height;
-            background-color: $line-gray;
+            background-color: $light-gray;
             border-bottom: 0.0625rem solid $line-gray; // 1px
             .title {
                 text-align: center;
@@ -36,7 +34,7 @@ $portal-search-result-list-height: 647px; // 647px
 
         &-area {
             height: 8.5rem; // 136px
-            background-color: $line-gray;
+            background-color: $light-gray;
             border-bottom: 0.0625rem solid $line-gray; // 1px
             padding: 3rem 0 3rem 0;
             text-align: center;
@@ -56,10 +54,10 @@ $portal-search-result-list-height: 647px; // 647px
             }
         }
 
-        &-container {
+        &-header {
             height: 15rem; // 240px
-            background-color: $line-gray;
             padding: 0 0 0 12.75rem; // 204px
+            background-color: $light-gray;
             border-bottom: 0.0625rem solid $line-gray; // 1px
 
             .page-title {
@@ -151,7 +149,7 @@ $portal-search-result-list-height: 647px; // 647px
                             display: flex;
                             height: 2.125rem; //34px
                             border-bottom: 0.125rem solid #E1E3E6;
-                            width: 88%;
+                            width: 100%;
                             th {
                                 color: #3F4B56;
                                 font-size: 1.125rem;
@@ -169,7 +167,7 @@ $portal-search-result-list-height: 647px; // 647px
                         height: 34.38rem;  //550px
                         tr {
                             height: 2.875rem;
-                            width: 88%;
+                            width: 100%;
                             display: table;
                             table-layout: fixed;
                             td {
@@ -245,7 +243,7 @@ $portal-search-result-list-height: 647px; // 647px
                         width: 57.688rem; // 923px
                         .title {
                             padding-bottom: 0.5rem; // 8px
-                            
+
                             a {
                                 color: $light-black;
                             }
@@ -274,32 +272,7 @@ $portal-search-result-list-height: 647px; // 647px
         }
 
         &-view {
-            .view {
-                padding: 3.125rem 12.75rem 3.125rem 12.75rem; // 50px 204px 50px 204px
-                background-color: $white;
-                display: flex;
-                flex-direction: column;
-                flex-grow: 1;
-                div {
-                    &.view-text {
-                        height: 13.5rem; // 240px
-                        padding: 0.3125rem 1.25rem; // 5px 20px
-                        margin-bottom: 0.75rem; // 12px
-                        span {margin: 0;}
-                    }
-                    &.page-view-text {
-                        height: 25rem; // 400px
-                    }
-
-                    &.view-attach-file {
-                        min-height: 3.125rem; // 50px
-                        max-height: 8.3rem; // 132px
-                        padding: 0.125rem 1.25rem; // 2px 20px
-                        display: flex;
-                        .file-attach-input {margin: 0.625rem 0 0 0;} //10px
-                    }
-                }
-            }
+            @include view-template()
 
             span.vertical-bar {
                 width: 1.875rem; // 30px

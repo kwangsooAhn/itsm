@@ -14,6 +14,7 @@ import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.tag.entity.QWfTagEntity
 import co.brainz.workflow.tag.entity.QWfTagMapEntity
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.entity.QWfTokenDataEntity
@@ -34,9 +35,9 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     val instance: QWfInstanceEntity = QWfInstanceEntity.wfInstanceEntity
     val token: QWfTokenEntity = QWfTokenEntity.wfTokenEntity
     val tokenData: QWfTokenDataEntity = QWfTokenDataEntity.wfTokenDataEntity
-
     val comment: QWfCommentEntity = QWfCommentEntity.wfCommentEntity
     val tagMap: QWfTagMapEntity = QWfTagMapEntity.wfTagMapEntity
+    val tag: QWfTagEntity = QWfTagEntity.wfTagEntity
     val folder: QWfFolderEntity = QWfFolderEntity.wfFolderEntity
     val document: QWfDocumentEntity = QWfDocumentEntity.wfDocumentEntity
     val searchDataCount: Long = WfTokenConstants.searchDataCount
@@ -47,6 +48,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         userKey: String,
         documentId: String,
         searchValue: String,
+        tags: Set<String>,
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
@@ -109,7 +111,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
                 )
         )
 
-        val query = getInstancesQuery()
+        val query = getInstancesQuery(tags)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -122,13 +124,13 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         userKey: String,
         documentId: String,
         searchValue: String,
+        tags: Set<String>,
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
     ): QueryResults<WfInstanceListViewDto> {
 
         val tokenSub = QWfTokenEntity("tokenSub")
-
         val builder = getInstancesWhereCondition(documentId, searchValue, fromDt, toDt)
         builder.and(instance.instanceCreateUser.userKey.eq(userKey))
         builder.and(
@@ -140,7 +142,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             )
         )
 
-        val query = getInstancesQuery()
+        val query = getInstancesQuery(tags)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -154,6 +156,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         userKey: String,
         documentId: String,
         searchValue: String,
+        tags: Set<String>,
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
@@ -179,7 +182,7 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             )
         )
 
-        val query = getInstancesQuery()
+        val query = getInstancesQuery(tags)
         return query
             .where(builder)
             .orderBy(instance.instanceStartDt.desc())
@@ -191,8 +194,8 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
     /**
      * 문서함 목록 조회.
      */
-    private fun getInstancesQuery(): JPQLQuery<WfInstanceListViewDto> {
-        return from(token)
+    private fun getInstancesQuery(tags: Set<String>): JPQLQuery<WfInstanceListViewDto> {
+        val query = from(token)
             .select(
                 Projections.constructor(
                     WfInstanceListViewDto::class.java,
@@ -205,6 +208,20 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             .fetchJoin()
             .innerJoin(document).on(instance.document.eq(document))
             .fetchJoin()
+        if (tags.isNotEmpty()) {
+            query.where(
+                instance.instanceId.`in`(
+                    JPAExpressions
+                        .select(tagMap.instance.instanceId)
+                        .from(tagMap)
+                        .join(tag).on(
+                            tagMap.tagId.eq(tag.tagId).and(tag.tagContent.`in`(tags))
+                        )
+                )
+            )
+                .fetchJoin()
+        }
+        return query
     }
 
     /**

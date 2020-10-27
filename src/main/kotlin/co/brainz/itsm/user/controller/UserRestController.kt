@@ -15,8 +15,8 @@ import co.brainz.framework.certification.service.AliceCertificationService
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
 import co.brainz.framework.util.AliceUtil
-import co.brainz.itsm.user.dto.UserDto
 import co.brainz.itsm.user.dto.UserListDto
+import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.service.UserService
 import java.util.Locale
@@ -85,7 +85,7 @@ class UserRestController(
      * 사용자가 다른 사용자의 정보를 업데이트한다.
      */
     @PutMapping("/{userKey}/all")
-    fun updateUserEdit(@RequestBody user: UserUpdateDto): String {
+    fun updateUserEdit(@RequestBody @Valid user: UserUpdateDto): String {
         return userService.updateUserEdit(user, AliceUserConstants.UserEditType.ADMIN_USER_EDIT.code)
     }
 
@@ -94,7 +94,7 @@ class UserRestController(
      */
     @PutMapping("/{userKey}/info")
     fun updateUserEditSelf(
-        @RequestBody user: UserUpdateDto,
+        @RequestBody @Valid user: UserUpdateDto,
         request: HttpServletRequest,
         response: HttpServletResponse
     ): String {
@@ -129,7 +129,7 @@ class UserRestController(
      * 전체 사용자 목록 조회.
      */
     @GetMapping("/", "")
-    fun getUsers(): MutableList<UserListDto> {
+    fun getUsers(): MutableList<UserSelectListDto> {
         return userService.selectUserListOrderByName()
     }
 
@@ -139,11 +139,10 @@ class UserRestController(
     @GetMapping("/list")
     fun getUserList(
         @RequestParam(value = "search", defaultValue = "") search: String,
-        @RequestParam(value = "category", defaultValue = "") category: String,
         @RequestParam(value = "offset", defaultValue = "0") offset: String,
         model: Model
-    ): MutableList<UserDto> {
-        return userService.selectUserList(search, category, offset.toLong())
+    ): MutableList<UserListDto> {
+        return userService.selectUserList(search, offset.toLong())
     }
 
     /**

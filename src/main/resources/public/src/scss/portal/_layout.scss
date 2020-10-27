@@ -11,21 +11,13 @@
     background-color: $point-blue;
     color: $white;
     font-weight: $font-weight-medium;
+    padding: 0 1.25rem; // 20px
     @include header;
-
-    .logo {
-      margin-left: 1.25rem; // 20px
-    }
 
     .title {
       font-size: 1.125rem; // 18px
       font-weight: $font-weight-medium;
       margin-left: 0.625rem; // 10px
-    }
-
-    .left {
-      flex: none;
-      margin-left: 1.25rem; // 20px
     }
 
     .login {
