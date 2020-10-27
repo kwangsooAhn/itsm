@@ -300,7 +300,7 @@
      */
     function onKeyUpHandler(e) {
         isCtrlPressed = false;
-        if (aliceJs.clickInsideElement(e, 'aside')) { return false; }
+        if (aliceJs.clickInsideElement(e, 'form-properties') || aliceJs.clickInsideElement(e, 'form-properties-header')) { return false; }
 
         let userKeyCode = e.keyCode ? e.keyCode : e.which;
         if (selectedItem && (userKeyCode === keycode.arrowUp || userKeyCode === keycode.arrowDown)) { return false; }
@@ -341,7 +341,9 @@
      */
     function onLeftClickHandler(e) {
         //상단메뉴 및 우측 세부 속성창을 클릭한 경우, 아무 동작도 하지 않는다.
-        if (aliceJs.clickInsideElement(e, 'aside') || aliceJs.clickInsideElement(e, 'toolbar')) {
+        if (aliceJs.clickInsideElement(e, 'form-properties') ||
+            aliceJs.clickInsideElement(e, 'form-properties-header') ||
+            aliceJs.clickInsideElement(e, 'form-header')) {
             contextMenuOff();
             return false;
         }
@@ -352,7 +354,7 @@
             menuItemListener(clickedElem);
         } else {
             contextMenuOff();
-            if (e.target.classList.contains('contents') || e.target.classList.contains('drawing-board')) {
+            if (e.target.classList.contains('form-main') || e.target.classList.contains('drawing-board')) {
                 editor.showFormProperties();
             }
             itemInContext = aliceJs.clickInsideElement(e, 'component');
@@ -551,7 +553,7 @@
         document.addEventListener('keyup', onKeyUpHandler, false);
         document.addEventListener('contextmenu', onRightClickHandler, false);
         document.addEventListener('click', onLeftClickHandler, false);
-        document.getElementById('form-panel').addEventListener('mousewheel', onMouseScrollHandler, false);
+        document.querySelector('.form-main').addEventListener('mousewheel', onMouseScrollHandler, false);
         
         //컴포넌트 drag & drop 이벤트
         document.addEventListener('mousedown', onMouseDownHandler, false);

@@ -162,6 +162,7 @@ button {
       .icon {
         display: inline-block;
         background: map-get($btn-font-colors, #{$theme});
+        vertical-align: middle;
       }
 
       &:focus,
@@ -230,6 +231,7 @@ button {
     .icon {
       display: inline-block;
       background: $btn-group-font-color;
+      vertical-align: middle;
     }
 
     &:focus,
@@ -329,6 +331,7 @@ button {
     .icon {
       display: inline-block;
       background: $btn-group-toggle-font-color;
+      vertical-align: middle;
     }
 
     &:focus,

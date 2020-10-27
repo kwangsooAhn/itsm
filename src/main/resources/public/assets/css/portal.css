@@ -1546,7 +1546,7 @@ input, button, select, optgroup, textarea {
 
 .picker-modal-content-time .hour-group .digit,
 .picker-modal-content-time .minute-group .digit {
-  width: 3.75rem;
+  width: 3.75rem !important;
   height: 3.75rem;
   font-size: 1.75rem;
   font-weight: 500;
@@ -1913,7 +1913,7 @@ label {
   outline: none;
 }
 
-.radio span:first-of-type {
+.radio > span:first-of-type {
   padding-right: 0.625rem;
 }
 
@@ -1996,7 +1996,7 @@ label {
   outline: none;
 }
 
-.checkbox span:first-of-type {
+.checkbox > span:first-of-type {
   padding-right: 0.625rem;
 }
 
@@ -2216,6 +2216,7 @@ button.point-fill {
 button.point-fill .icon {
   display: inline-block;
   background: #ffffff;
+  vertical-align: middle;
 }
 
 .btn.point-fill:focus, .btn.point-fill:hover,
@@ -2268,6 +2269,7 @@ button.point-line {
 button.point-line .icon {
   display: inline-block;
   background: #0098FF;
+  vertical-align: middle;
 }
 
 .btn.point-line:focus, .btn.point-line:hover,
@@ -2321,6 +2323,7 @@ button.default-fill {
 button.default-fill .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.default-fill:focus, .btn.default-fill:hover,
@@ -2373,6 +2376,7 @@ button.default-line {
 button.default-line .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.default-line:focus, .btn.default-line:hover,
@@ -2425,6 +2429,7 @@ button.ghost-fill {
 button.ghost-fill .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.ghost-fill:focus, .btn.ghost-fill:hover,
@@ -2477,6 +2482,7 @@ button.ghost-line {
 button.ghost-line .icon {
   display: inline-block;
   background: #CCCED1;
+  vertical-align: middle;
 }
 
 .btn.ghost-line:focus, .btn.ghost-line:hover,
@@ -2540,6 +2546,7 @@ button.ghost-line:disabled .icon {
 .btn-group button .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn-group .btn:focus, .btn-group .btn:hover,
@@ -2644,6 +2651,7 @@ button.ghost-line:disabled .icon {
 .btn-group-toggle button .icon {
   display: inline-block;
   background: #ACB4BF;
+  vertical-align: middle;
 }
 
 .btn-group-toggle .btn:focus, .btn-group-toggle .btn:hover,
@@ -2932,6 +2940,10 @@ button.ghost-line:disabled .icon {
 
 .justify-content-center {
   justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
 }
 
 .align-items-start {
@@ -3307,7 +3319,7 @@ button.ghost-line:disabled .icon {
 
 .portal-search-main {
   height: 6.5rem;
-  background-color: #f7f8f9;
+  background-color: #F7F8F9;
 }
 
 .portal-search-main .title {
@@ -3317,8 +3329,8 @@ button.ghost-line:disabled .icon {
 
 .portal-search-area {
   height: 8.5rem;
-  background-color: #f7f8f9;
-  border-bottom: 0.0625rem solid #ebebeb;
+  background-color: #F7F8F9;
+  border-bottom: 0.0625rem solid #EBEBEB;
   padding: 3rem 0 3rem 0;
   text-align: center;
 }
@@ -3338,8 +3350,8 @@ button.ghost-line:disabled .icon {
 .portal-search-header {
   height: 15rem;
   padding: 0 0 0 12.75rem;
-  background-color: #f7f8f9;
-  border-bottom: 0.0625rem solid #ebebeb;
+  background-color: #F7F8F9;
+  border-bottom: 0.0625rem solid #EBEBEB;
 }
 
 .portal-search-header .page-title {
@@ -3568,7 +3580,7 @@ button.ghost-line:disabled .icon {
 
 .portal-search-view .flex {
   padding: 3.125rem 19.375rem 9.315rem 19.375rem;
-  background-color: white;
+  background-color: #ffffff;
   display: flex;
   flex-grow: 1;
   height: calc(100vh - 10.375rem);
@@ -3784,8 +3796,8 @@ button.ghost-line:disabled .icon {
 .portal-faq-container {
   height: 15rem;
   padding: 0 0 0 12.75rem;
-  background-color: #f7f8f9;
-  border-bottom: 0.0625rem solid #ebebeb;
+  background-color: #F7F8F9;
+  border-bottom: 0.0625rem solid #EBEBEB;
 }
 
 .portal-faq-container .page-title {

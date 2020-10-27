@@ -6,29 +6,25 @@
  */
 @charset 'utf-8';
 
-@import '../template/_reset.scss'; // 상속 불가
-@import '../template/_variables.scss';
-@import '../template/_functions.scss'; // 상속 불가
-@import '../template/_mixins.scss'; // 상속 불가
-@import '../template/_alignments.scss'; // 상속 불가
-@import '../template/_flex.scss';
-@import '../template/_common.scss'; // 상속 불가
+@import '../template/_reset.scss';          // 상속 불가
+@import '../template/_variables.scss';      // 상속 불가
+@import '../template/_functions.scss';      // 상속 불가
+@import '../template/_mixins.scss';         // 상속 불가
+@import '../template/_alignments.scss';     // 상속 불가
+@import '../template/_flex.scss';           // 상속 불가
+@import '../template/_common.scss';         // 상속 불가
 @import '_variables.scss';
-@import '../template/_alerts.scss';
-@import '../template/_scrollbars.scss';
-@import '../template/_file-uploader.scss';
-@import '../template/_date-picker.scss';
-@import "../template/_text-editor.scss";
 @import '_fonts.scss';
-@import '_mixins.scss';
+@import '_layout.scss';
 @import '_elements.scss';
 @import '_buttons.scss';
-// TODO 아래 순서 정리
-@import '_layout.scss';
+@import '_alerts.scss';
+@import '_scrollbars.scss';
+@import '_file-uploader.scss';
+@import '_date-picker.scss';
+@import "_text-editor.scss";
+@import '_color-picker.scss';
+@import '_thumbnail.scss';
+@import '_tooltip.scss';
 @import '_components.scss';
 @import '_context.scss';
-@import '_properties.scss';
-@import '_modal.scss';
-@import '../template/_thumbnail.scss';
-@import '_colorpicker.scss';
-@import '_tooltip.scss';

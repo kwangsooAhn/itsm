@@ -1,1 +1,120 @@
 @import "../template/_buttons.scss";
+
+// header button
+.btn-header {
+  width: 3.75rem; // 60px
+  height: 3.125rem; // 50px
+  padding: 0;
+  border-radius: 0;
+
+  // 첫번째 버튼만 구분자를 가리기 위해 구분자 너비만큼 margin을 -1px 로 조정한다.
+  &:first-of-type {
+    margin-left: -0.063rem; // -1px
+  }
+
+  // mouse over
+  &:focus,
+  &:hover {
+    background-color: #26A7FF; 
+  }
+  // mouse pressed
+  &:active {
+    background-color: #26A7FF; 
+  }
+
+  .icon-save {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_save.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white); // 20px 20px 
+  }
+  .icon-save-as {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_save_as.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-undo {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_undo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-redo {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_redo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-preview {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_preview.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-save-out {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/topmenu/icon_save_out.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+}
+// properties option button
+.btn-option {
+  width: 1.5rem; // 24px
+  height: 1.5rem; // 24px
+  padding: 0;
+
+  .icon-minus {
+    @include maskImage('#{$icon-folder-path}icon_minus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $pressed-gray); // 14px 14px 
+  }
+  .icon-plus {
+    @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $pressed-gray); // 14px 14px
+  }
+}
+// properties filed button
+.btn-field {
+  width: 2.5rem; // 40px
+  height: 2.5rem; // 40px
+  padding: 0;
+
+  .icon-bold {
+    @include maskImage('#{$icon-folder-path}form/property/icon_bold.svg', 16px, 20px, no-repeat, center, null, $light-black); // 16px 20px
+  }
+  .icon-italic {
+    @include maskImage('#{$icon-folder-path}form/property/icon_italic.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+  }
+  .icon-underline {
+    @include maskImage('#{$icon-folder-path}form/property/icon_underline.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+  }
+  .icon-align-left {
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_left.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+  }
+  .icon-align-center {
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_center.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+  }
+  .icon-align-right {
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_right.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+  }
+  .icon-label-position-left {
+    @include maskImage('#{$icon-folder-path}form/property/icon_label_position_left.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+  }
+  .icon-label-position-top {
+    @include maskImage('#{$icon-folder-path}form/property/icon_label_position_top.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+  }
+  .icon-label-position-hidden {
+    @include maskImage('#{$icon-folder-path}form/property/icon_label_position_hidden.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+  }
+  .icon-display-position-left {
+    @include maskImage('#{$icon-folder-path}form/property/icon_display_left.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+  }
+  .icon-display-position-right {
+    @include maskImage('#{$icon-folder-path}form/property/icon_display_right.svg', 20px, 20px, no-repeat, center, null, $light-black); // 20px 20px
+  }
+  .icon-display-align-left {
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_left.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+  }
+  .icon-display-align-center {
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_center.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+  }
+  .icon-display-align-right {
+    @include maskImage('#{$icon-folder-path}form/property/icon_align_right.svg', 20px, 18px, no-repeat, center, null, $light-black); // 20px 18px
+  }
+}
+
+.btn,
+button {
+  // 돋보기 아이콘
+  .icon-search {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_search.svg', 18px, 18px, no-repeat, center, 18px 18px, $gray);
+  }
+}

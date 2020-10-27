@@ -23,6 +23,9 @@ $flex-align-type: (row, column);
 .justify-content-center {
   justify-content: center;
 }
+.justify-content-between {
+  justify-content: space-between;
+}
 
 .align-items-start {
   align-items: flex-start;

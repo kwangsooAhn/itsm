@@ -919,7 +919,7 @@
      * @param e 이벤트
      */
     function toggleOptionButtonClickHandler(e) {
-        const elem = aliceJs.clickInsideElement(e, 'btn');
+        const elem = aliceJs.clickInsideElement(e, 'btn-field');
         const parentElem = elem.parentNode; // property-field-position, property-field-align
         let changePropertiesArr = parentElem.parentNode.id.split('-'); // property-field
         const isActive = elem.classList.contains('active');
@@ -971,7 +971,7 @@
      * @param e 이벤트
      */
     function toggleButtonClickHandler(e) {
-        const elem = aliceJs.clickInsideElement(e, 'btn');
+        const elem = aliceJs.clickInsideElement(e, 'btn-field');
         const parentElem = elem.parentNode;
         const isActive = elem.classList.contains('active');
         if (parentElem.id === 'align') {
@@ -1002,7 +1002,7 @@
      * @param e 이벤트
      */
     function addOptionHandler(e) {
-        const elem = aliceJs.clickInsideElement(e, 'btn');
+        const elem = aliceJs.clickInsideElement(e, 'btn-option');
         const tb = elem.parentNode.parentNode.parentNode.querySelector('table');
         const row = document.createElement('tr');
         const rowCount = tb.rows.length;
@@ -1038,7 +1038,7 @@
      * @param e
      */
     function removeOptionHandler(e) {
-        const elem = aliceJs.clickInsideElement(e, 'btn');
+        const elem = aliceJs.clickInsideElement(e, 'btn-option');
         const tb = elem.parentNode.parentNode.parentNode.querySelector('table');
         const compIdx = getComponentIndex(selectedComponentIds[0]);
         let removeOptionData = JSON.parse(JSON.stringify(editor.data.components[compIdx][tb.parentNode.id]));
@@ -1121,10 +1121,12 @@
 
         const componentTemplate = document.getElementById('component-template');
         const componentElem = componentTemplate.content.cloneNode(true);
+        const componentTitleElem = document.getElementById('properties-name');
 
         // 1. 컴포넌트가 2개 이상이면 dataAttribute 속성은 보여주지 않는다.
         // 2. 컴포넌트가 2개 이상이면, label과 display의 column 속성만 보여진다.
         if (selectedComponentIds.length > 1) {
+            componentTitleElem.innerHTML = i18n.msg('form.properties.common');
             // 3. 서로 다른 컴포넌트이고, Divider, Image, Label가 포함되어 있다면 아무 속성도 출력하지 않는다.
             if ((selectedComponentTypes.length > 1 && isHideComponent) || (selectedComponentTypes.length === 1 && selectedComponentTypes[0] === aliceForm.defaultType)) {
                 const emptyPanel = componentElem.querySelector('.property-empty');
@@ -1146,11 +1148,7 @@
 
         } else {
             // 5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
-            const componentTitleElem = componentElem.querySelector('.properties-title');
-            if (!componentTitleElem.classList.contains('on')) {
-                componentTitleElem.insertAdjacentHTML('beforeend', `<label class="ghost">${i18n.msg('form.component.' + componentData.type)}</label>`);
-                componentTitleElem.classList.add('on');
-            }
+            componentTitleElem.innerHTML = i18n.msg('form.component.' + componentData.type);
         }
 
         // 세부 속성을 출력한다.
@@ -1164,8 +1162,8 @@
 
                 // 옵션이 존재할 경우 이벤트 핸들러 등록
                 if (group === 'option') {
-                    groupElem.querySelector('.option-minus').addEventListener('click', removeOptionHandler, false);
-                    groupElem.querySelector('.option-plus').addEventListener('click', addOptionHandler, false);
+                    groupElem.querySelector('#option-minus').addEventListener('click', removeOptionHandler, false);
+                    groupElem.querySelector('#option-plus').addEventListener('click', addOptionHandler, false);
                 }
                 // 세부 속성 추가
                 if (Array.isArray(properties[group])) {
@@ -1186,8 +1184,8 @@
                                 }
                                 if (typeof fieldProp.option !== 'undefined') { //align
                                     const fieldButtonOptions = fieldProp.option.map(function (opt) {
-                                        return `<button type='button' id='${opt.id}' class='btn ${fieldProp.value === opt.id ? "active" : ""}'>` +
-                                                   `<span class="icon"></span> ` +
+                                        return `<button type='button' id='${opt.id}' class='btn-field${fieldProp.value === opt.id ? " active" : ""}'>` +
+                                                   `<span class="icon icon-align-${opt.id}"></span> ` +
                                                `</button>`
                                     }).join('');
                                     buttonGroupElem.insertAdjacentHTML('beforeend', `<div class="btn-group-toggle" id='${fieldProp.id}'>${fieldButtonOptions}</div>`);
@@ -1197,8 +1195,8 @@
                                         buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
                                     }
                                 } else { //bold, italic, underline
-                                    const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn ${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
-                                            `<span class="icon"></span>` +
+                                    const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn-field${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
+                                            `<span class="icon icon-${fieldProp.id}"></span>` +
                                         `</button>`;
                                     buttonGroupElem.insertAdjacentHTML('beforeend', buttonTemplate);
                                     buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', toggleButtonClickHandler, false);
@@ -1219,18 +1217,18 @@
                                 switch (fieldProp.type) {
                                     case 'inputbox':
                                         fieldTemplate =
-                                            `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}</label>${tooltipTemplate}` +
+                                            `<label class="property-field-name">${i18n.msg('form.attribute.' + fieldProp.id)}</label>${tooltipTemplate}` +
                                             `<input type="text" class="property-value" value="${aliceJs.filterXSS(fieldProp.value)}" maxlength="100"/>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
                                     case 'checkbox-boolean': // 라벨 클릭시에 체크박스가 동작한다.
                                         fieldTemplate =
-                                            `<label class="property-name checkbox" for="checkbox-${componentData.componentId}-${fieldProp.id}" tabindex="0">` +
+                                            `<label class="property-field-name checkbox" for="checkbox-${componentData.componentId}-${fieldProp.id}" tabindex="0">` +
                                                 `<input type="checkbox" class="property-value" id="checkbox-${componentData.componentId}-${fieldProp.id}" name="${fieldProp.id}" ${fieldProp.value ? 'checked' : ''}>` +
                                                 `<span></span>` +
-                                                `<span class="label">${i18n.msg('form.attribute.' + fieldProp.id)}</span>${tooltipTemplate}` +
-                                            `</label>`;
+                                                `<span class="label">${i18n.msg('form.attribute.' + fieldProp.id)}</span>` +
+                                            `</label>${tooltipTemplate}`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
@@ -1239,13 +1237,13 @@
                                         let optionType = fieldProp.type.split('-')[2];
 
                                         const fieldOptions = fieldProp.option.map(function (opt) {
-                                            return `<button type="button" id="${opt.id}" class="btn default-line ${fieldProp.value === opt.id ? 'active' : ''}">${optionType === 'text' ? opt.name : ''}` +
-                                                       `<span class="icon"></span>` +
+                                            return `<button type="button" id="${opt.id}" class="btn-field${fieldProp.value === opt.id ? ' active' : ''}">${optionType === 'text' ? opt.name : ''}` +
+                                                       `<span class="icon icon-${group}-${fieldProp.id}-${opt.id}"></span>` +
                                                    `</button>`;
                                         }).join('');
 
                                         fieldTemplate =
-                                            `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
+                                            `<label class="property-field-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="btn-group-toggle property-field-${optionType}">${fieldOptions}</div>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1261,7 +1259,7 @@
                                         }).join('');
 
                                         fieldTemplate =
-                                            `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
+                                            `<label class='property-field-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<select class='property-value' id='${fieldProp.id}'>${fieldCustomCodeOptions}</select>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1272,10 +1270,10 @@
                                         break;
                                     case 'image':
                                         fieldTemplate =
-                                            `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
+                                            `<label class="property-field-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="property-field-image">` +
                                                 `<input type="text" class="input-image property-value" value="${aliceJs.filterXSS(fieldProp.value)}" id="path-${selectedComponentIds[0]}" maxlength="100"/>` +
-                                                `<button type="button" class="btn ghost-line" id="imageUploadPop"></button>` +
+                                                `<button type="button" class="ghost-line" id="imageUploadPop"><span class="icon icon-search"></span></button>` +
                                             `</div>`;
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
 
@@ -1294,7 +1292,7 @@
                                         fieldGroupElem.insertAdjacentHTML('beforeend', colorPicker);
 
                                         fieldTemplate =
-                                            `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
+                                            `<label class="property-field-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="color-input">` +
                                                 `<div class="selected-color-box">` +
                                                     `<span class="selected-color" style="background-color: ${fieldProp.value};"></span>` +
@@ -1353,7 +1351,7 @@
                                             `</div>`;
                                         }).join('');
 
-                                        fieldTemplate = `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>${fieldDatetimeOptions}`;
+                                        fieldTemplate = `<label class='property-field-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>${fieldDatetimeOptions}`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
@@ -1372,7 +1370,7 @@
                                             `</div>`;
                                         }).join('');
 
-                                        fieldTemplate = `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>${fieldRadioOptions}`;
+                                        fieldTemplate = `<label class='property-field-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>${fieldRadioOptions}`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
 
@@ -1392,14 +1390,14 @@
                                         }).join('');
 
                                         fieldTemplate =
-                                            `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
+                                            `<label class='property-field-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<select class='property-value'>${fieldSelectOptions}</select>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
                                     case 'slider':
                                         fieldTemplate =
-                                            `<label class="property-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
+                                            `<label class="property-field-name">${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<div class="property-field-range">` +
                                                 `<input type="range" class="property-value" id="${group + '-' + fieldProp.id}" min="1" max="12" value="${fieldProp.value}"/>` +
                                                 `<input type="text" id="${group + '-' + fieldProp.id}-value" value="${fieldProp.value}" readonly/>` +
@@ -1407,7 +1405,7 @@
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
                                         break;
                                     case 'session':
-                                        fieldTemplate = `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>`;
+                                        fieldTemplate = `<label class='property-field-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>`;
                                         const propValueArr = fieldProp.value.split('|');
                                         const fieldSessionOptions = fieldProp.option.map(function (opt) {
                                             return `<button type="button" name="${opt.id}" class="btn default-line ${propValueArr[0]  === opt.id ? 'active' : ''}">${opt.name}</button>`;
@@ -1435,7 +1433,7 @@
                                     case 'timepicker':
                                     case 'datetimepicker':
                                         fieldTemplate =
-                                            `<label class='property-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
+                                            `<label class='property-field-name'>${i18n.msg('form.attribute.' + fieldProp.id)}${tooltipTemplate}</label>` +
                                             `<input type='text' class='${fieldProp.type} property-value' id='${fieldProp.id}-${componentData.componentId}' name='${group}-${fieldProp.id}' value='${fieldProp.value}'>`;
 
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
@@ -1699,6 +1697,9 @@
             previousComponentIds.length = 0;
         }
         let formProperties = editor.data;
+        // 제목 변경
+        const formTitleElem = document.getElementById('properties-name');
+        formTitleElem.innerHTML = i18n.msg('form.properties.title');
         //폼 속성 출력
         const formTemplate = document.getElementById('form-template');
         const formElem = formTemplate.content.cloneNode(true);
@@ -1792,7 +1793,7 @@
      * 폼 이름 변경.
      */
     function changeFormName() {
-        document.querySelector('.form-name').textContent = (isEdited ? '*' : '') + editor.data.name;
+        document.getElementById('form-name').textContent = (isEdited ? '*' : '') + editor.data.name;
     }
 
     /**
