@@ -769,6 +769,8 @@ process:
 
 # Role
 role:
+  btn:
+    selectAll: "SELECT ALL"
   label:
     auth: "Role Auth"
     desc: "Role Desc"
@@ -799,6 +801,7 @@ token:
     searchPlaceholder: "Create User / Contents"
     startDt: "Start Date"
     status: "Status"
+    tagPlaceHolder: "#Tags"
     write: "My Document"
     view: "Document View"
   msg:
