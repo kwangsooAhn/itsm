@@ -1137,6 +1137,7 @@ button.point-fill {
 button.point-fill .icon {
   display: inline-block;
   background: #ffffff;
+  vertical-align: middle;
 }
 
 .btn.point-fill:focus, .btn.point-fill:hover,
@@ -1189,6 +1190,7 @@ button.point-line {
 button.point-line .icon {
   display: inline-block;
   background: #0098FF;
+  vertical-align: middle;
 }
 
 .btn.point-line:focus, .btn.point-line:hover,
@@ -1242,6 +1244,7 @@ button.default-fill {
 button.default-fill .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.default-fill:focus, .btn.default-fill:hover,
@@ -1294,6 +1297,7 @@ button.default-line {
 button.default-line .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.default-line:focus, .btn.default-line:hover,
@@ -1346,6 +1350,7 @@ button.ghost-fill {
 button.ghost-fill .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.ghost-fill:focus, .btn.ghost-fill:hover,
@@ -1398,6 +1403,7 @@ button.ghost-line {
 button.ghost-line .icon {
   display: inline-block;
   background: #CCCED1;
+  vertical-align: middle;
 }
 
 .btn.ghost-line:focus, .btn.ghost-line:hover,
@@ -1461,6 +1467,7 @@ button.ghost-line:disabled .icon {
 .btn-group button .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn-group .btn:focus, .btn-group .btn:hover,
@@ -1565,6 +1572,7 @@ button.ghost-line:disabled .icon {
 .btn-group-toggle button .icon {
   display: inline-block;
   background: #ACB4BF;
+  vertical-align: middle;
 }
 
 .btn-group-toggle .btn:focus, .btn-group-toggle .btn:hover,
@@ -1788,7 +1796,6 @@ button.ghost-line:disabled .icon {
 .btn-field {
   width: 2.5rem;
   height: 2.5rem;
-  line-height: inherit;
   padding: 0;
 }
 

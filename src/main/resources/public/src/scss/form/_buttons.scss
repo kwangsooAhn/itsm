@@ -64,7 +64,6 @@
 .btn-field {
   width: 2.5rem; // 40px
   height: 2.5rem; // 40px
-  line-height: inherit;
   padding: 0;
 
   .icon-bold {
@@ -112,7 +111,7 @@
 }
 
 .btn,
-button { 
+button {
   // 돋보기 아이콘
   .icon-search {
     display: inline-block;
