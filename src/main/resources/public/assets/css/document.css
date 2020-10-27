@@ -129,7 +129,6 @@ input, button, select, optgroup, textarea {
  * @author jy.lim
  * @version 1.0
  */
-
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -150,6 +149,10 @@ input, button, select, optgroup, textarea {
 
 .justify-content-center {
   justify-content: center;
+}
+
+.justify-content-between {
+  justify-content: space-between;
 }
 
 .align-items-start {
@@ -228,412 +231,416 @@ input, button, select, optgroup, textarea {
   overflow: hidden;
 }
 
-/* _alerts.scss
+/* _fonts.scss 
  *
- * 파일 경로 : template/_alerts.scss
- * @description 알림 모달
- * @author jy.lim
- * @version 1.0
- */
-
-.gmodal-active {
-  overflow: hidden !important;
-}
-
-.gmodal-wrapper {
-  display: none;
-  overflow: auto;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.gmodal-wrapper.gmodal-active {
-  z-index: 2002;
-  display: block;
-}
-
-.gmodal-backdrop {
-  z-index: 999999998;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(116, 147, 179, 0.5);
-}
-
-.gmodal-dialog {
-  z-index: 999999999;
-  border: solid 0.0625rem #c8ced8;
-  border-radius: 0.0625rem;
-  position: absolute;
-  top: 8em;
-  left: 0;
-  right: 0;
-  width: 100%;
-  line-height: 1;
-  max-width: 26.875rem;
-  margin: 0 auto 2em auto;
-  box-sizing: border-box;
-  background: #fff;
-  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  padding: 1.5625rem;
-}
-
-.gmodal-title {
-  padding: 1em;
-  text-align: center;
-  font-size: 1.25em;
-  box-sizing: border-box;
-}
-
-.gmodal-body {
-  padding: 0 0 0 3.875rem;
-  margin-bottom: 2rem;
-  overflow: auto;
-  min-height: 3.4375rem;
-  box-sizing: border-box;
-}
-
-.gmodal-message {
-  display: flex;
-  align-items: center;
-  min-height: 3.5rem;
-  font-size: 1rem;
-  font-weight: 500;
-  line-height: 1.7143;
-}
-
-.gmodal-buttons {
-  box-sizing: border-box;
-  text-align: right;
-}
-
-.gmodal-button {
-  border: solid 0.0625rem #ebebeb;
-  margin: 0rem 0rem 0rem 0.3125rem;
-  padding: 0.4375rem 1.5rem;
-  text-align: center;
-  color: #3f4b56;
-  font-size: 1rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  cursor: pointer;
-  display: inline-block;
-  -webkit-border-radius: 0.0625rem;
-  -moz-border-radius: 0.0625rem;
-  border-radius: 0.0625rem;
-  text-decoration: none;
-}
-
-.gmodal-icon-success {
-  background-image: url('../media/icons/alert/icon_alert_success.svg');
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
-}
-
-.gmodal-icon-info {
-  background-image: url('../media/icons/alert/icon_alert_info.svg');
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
-}
-
-.gmodal-icon-warning {
-  background-image: url('../media/icons/alert/icon_alert_warning.svg');
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
-}
-
-.gmodal-icon-danger {
-  background-image: url('../media/icons/alert/icon_alert_danger.svg');
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
-}
-
-.gmodal-icon-confirm {
-  background-image: url('../media/icons/alert/icon_alert_confirm.svg');
-  background-size: auto;
-  background-repeat: no-repeat;
-  background-position-x: 0;
-  background-position-y: 0.3125rem;
-}
-
-.gmodal-no-icon {
-  padding: 0;
-}
-
-.gmodal-input {
-  width: 100%;
-}
-
-.gmodal-input-text {
-  width: 100%;
-  padding-left: 0.438rem;
-}
-
-.gmodal-input-textarea {
-  width: 100%;
-  min-height: 5.625rem;
-  padding-left: 0.438rem;
-}
-
-.gmodal-input-label {
-  display: block;
-  margin: 0.3125rem 0;
-}
-
-.gmodal-required {
-  display: none;
-  text-align: center;
-  font-size: 1rem;
-  color: #ff405a;
-}
-
-@media only screen and (max-width: 53em) {
-  .gmodal-dialog {
-     width: auto;
-     margin: 0 auto 0.3125rem auto;
-     top: 0.3125rem;
-     right: 0.3125rem;
-     left: 0.3125rem;
-  }
-}
-
-@media only screen and (max-width: 32em) {
-  .gmodal-button {
-     display: block;
-     margin: 0.5em;
-  }
-}
-
-/* _scrollbars.scss 
- *
- * 파일 경로 : template/_scrollbars.scss
- * @description 스크롤바 디자인
+ * 파일 경로 : template/_fonts.scss
+ * @description 폰트 디자인
  * @author wdj
  * @version 1.0
  */
-.scrollbar > .os-scrollbar-horizontal {
-  right: 10px;
-  height: 12px;
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Thin.otf") format("opentype");
+  font-style: normal;
+  font-weight: 100;
 }
 
-.scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
-  min-width: 30px;
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Light.otf") format("opentype");
+  font-style: normal;
+  font-weight: 300;
 }
 
-.scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  display: block;
-  top: -6px;
-  bottom: -2px;
-}
-
-.scrollbar > .os-scrollbar-vertical {
-  bottom: 10px;
-  width: 8px;
-}
-
-.scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
-  min-height: 30px;
-}
-
-.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  display: block;
-  left: -6px;
-  right: -2px;
-}
-
-.scrollbar > .os-scrollbar-corner {
-  height: 10px;
-  width: 10px;
-  background-color: transparent;
-}
-
-.scrollbar > .os-scrollbar {
-  box-sizing: border-box;
-  background: transparent;
-}
-
-.scrollbar > .os-scrollbar > .os-scrollbar-track {
-  background: rgba(235, 235, 235, 0.6);
-  border-radius: 8px;
-}
-
-.scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-  border-radius: 8px;
-  background: #E1E3E6;
-}
-
-.scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
-  background: #CCCED1;
-}
-
-.scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #CCCED1;
-}
-
-.scrollbar > .os-scrollbar.os-scrollbar-unusable {
-  background: transparent;
-}
-
-.scrollbar.os-host-rtl > .os-scrollbar-horizontal {
-  left: 10px;
-  right: 0;
-}
-
-.scrollbar.os-host-transition > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-  -webkit-transition: background-color 0.3s;
-  transition: background-color 0.3s;
-}
-
-.scrollbar.os-host-scrollbar-horizontal-hidden > .os-scrollbar-horizontal .os-scrollbar-handle:before {
-  display: none;
-}
-
-.scrollbar.os-host-scrollbar-vertical-hidden > .os-scrollbar-vertical .os-scrollbar-handle:before {
-  display: none;
-}
-
-.os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
-  right: -6px;
-  left: -2px;
-}
-
-.textarea-scroll-wrapper {
-  display: block;
-  font-size: 1rem;
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Regular.otf") format("opentype");
+  font-style: normal;
   font-weight: 400;
-  line-height: 1.2;
-  color: #586872;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Medium.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Bold.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: local("Noto Sans KR"), url("../fonts/NotoSansKR-Black.otf") format("opentype");
+  font-style: normal;
+  font-weight: 900;
+}
+
+/* _layout.scss
+ *
+ * 파일 경로 : template/_layout.scss
+ * @description HTML layout 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.alice-wrapper {
+  display: flex;
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+/* 신청서 / 처리할 문서 양식 layout
+ * document-container
+ *                - document-main : 문서양식 메인
+ *                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
+ *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역
+ *                - document-properties : 문서이력, 관련문서, 의견, 태그
+ */
+.document-container {
+  max-width: 120rem;
+  margin: 0 auto;
+}
+
+.document-container .document-main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 37.5rem;
+  bottom: 0;
+  overflow-y: auto;
+  background-color: #F7F8F9;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.document-container .document-main::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+.document-container .document-main.preview {
+  right: 0;
+}
+
+.document-container .document-main .document-main-header {
+  width: 60rem;
+  max-width: 60rem;
+  padding: 8.438rem 0 0.9375rem 0;
+}
+
+.document-container .document-main .drawing-board {
+  display: table;
+  width: 60rem;
+  max-width: 60rem;
+  min-height: 100%;
+  margin: 0 0 7.5rem 0;
+  padding: 6.25rem 4.688rem;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  padding: 0.5rem 0.625rem 0.5rem 0.625rem;
-  resize: vertical;
+  box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
 }
 
-.textarea-scroll-wrapper:focus-within {
-  outline: 0;
-  border: 0.0625rem solid #0098FF;
+.document-container .document-main .drawing-board *:focus {
+  outline: none !important;
 }
 
-.textarea-scroll-wrapper:hover {
-  outline: 0;
-  border: 0.0625rem solid #0098FF;
-  box-shadow: 0 0 0.3125rem 0 rgba(0, 152, 255, 0.2);
+.document-container .document-main .drawing-board[data-readonly=true] .dropzone,
+.document-container .document-main .drawing-board[data-readonly=true] .ql-toolbar,
+.document-container .document-main .drawing-board[data-readonly=true] textarea,
+.document-container .document-main .drawing-board[data-readonly=true] button,
+.document-container .document-main .drawing-board[data-readonly=true] input[type=text],
+.document-container .document-main .drawing-board[data-readonly=true] label.radio,
+.document-container .document-main .drawing-board[data-readonly=true] label.checkbox,
+.document-container .document-main .drawing-board[data-readonly=true] select {
+  pointer-events: none;
 }
 
-.inner-scrollbar > .os-scrollbar-horizontal {
-  right: 10px;
-  height: 12px;
+.document-container .document-main .drawing-board[data-readonly=true] .component .move-handler {
+  display: inherit;
 }
 
-.inner-scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
-  min-width: 30px;
-}
-
-.inner-scrollbar > .os-scrollbar-horizontal .os-scrollbar-handle:before {
-  content: '';
-  position: absolute;
-  left: 0;
+.document-container .document-properties {
+  position: fixed;
+  top: 0;
   right: 0;
+  bottom: 0;
+  width: 37.5rem;
+  background-color: #ffffff;
+  border-left: 0.0625rem solid #EBEBEB;
+  padding: 0 4.0625rem;
+}
+
+.document-container .document-properties .token-info-tab {
+  display: flex;
+  margin-top: 7.8125rem;
+}
+
+.document-container .document-properties .token-info-tab h4 {
+  flex: 1;
+  text-align: center;
+  color: #ACB4BF;
+  padding-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+
+.document-container .document-properties .token-info-tab .active {
+  border-bottom: 0.25rem solid #0098FF;
+  color: #3F4B56;
+}
+
+.document-container .document-properties .token-info-contents {
+  height: 43.75rem;
+  overflow-y: auto;
+}
+
+.document-container .document-properties .token-info-contents .token-tag {
+  display: none;
+  margin-top: 1.25rem;
+}
+
+.document-container .document-properties .token-info-contents .token-tag .tag-input tags > span {
+  min-width: 26.875rem;
+}
+
+.document-container .document-properties .token-info-contents .token-tag .tag-input tag div {
+  background: #e5e5e5;
+  max-width: 27.6875rem;
+  border-radius: 0.1875rem;
+}
+
+.document-container .document-properties .token-info-contents .token-tag .tag-input tag div:hover {
+  background: #d3e2e2;
+}
+
+.document-container .document-properties .token-info-contents .token-tag .tag-input tag span {
+  max-width: 26.875rem;
+  white-space: pre-line;
+}
+
+.document-container .document-properties .token-info-contents .token-history {
+  height: 100%;
+}
+
+.document-container .document-properties .token-info-contents .token-history .table {
+  border: none;
+}
+
+.document-container .document-properties .token-info-contents .token-history .table thead {
+  border-bottom: 0.0625rem solid #E1E3E6;
   display: block;
-  top: -6px;
-  bottom: -2px;
 }
 
-.inner-scrollbar > .os-scrollbar-vertical {
-  bottom: 10px;
-  width: 4px;
+.document-container .document-properties .token-info-contents .token-history .table thead tr {
+  display: flex;
+  align-items: center;
 }
 
-.inner-scrollbar > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
-  min-height: 30px;
+.document-container .document-properties .token-info-contents .token-history .table th {
+  color: #3F4B56;
+  font-weight: 500;
 }
 
-.inner-scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
-  content: '';
+.document-container .document-properties .token-info-contents .token-history .table td {
+  color: #586872;
+  font-weight: 400;
+  max-width: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.document-container .document-properties .token-info-contents .token-history .table th, .document-container .document-properties .token-info-contents .token-history .table td {
+  border: none;
+  text-align: left;
+}
+
+.document-container .document-properties .token-info-contents .token-history .table tbody {
+  display: block;
+  height: 35.3125rem;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.document-container .document-properties .token-info-contents .token-history .table tbody tr {
+  display: table;
+  width: 100%;
+}
+
+.document-container .document-properties .token-info-contents .token-related {
+  padding-top: 0.625rem;
+  display: flex;
+  flex-direction: column;
+  display: none;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item {
+  height: 11.5625rem;
+  margin-top: 0.625rem;
+  margin-right: 0.625rem;
+  display: flex;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item .document-color {
+  width: 0.625rem;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item .document-row {
+  border: 0.0625rem solid #EBEBEB;
+  padding: 1.25rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a {
+  width: 100%;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a .document-title {
+  display: flex;
+  align-items: center;
+  word-break: break-word;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:first-child {
+  color: #3F4B56;
+  font-weight: 500;
+  width: 50%;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:last-child {
+  color: #ACB4BF;
+  margin-left: 0.3125rem;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item .document-row-topic {
+  height: 100%;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item .document-row-info {
+  display: flex;
+  align-items: center;
+}
+
+.document-container .document-properties .token-info-contents .token-related .list-item .document-row-info .document-user {
+  display: flex;
+  align-items: center;
+}
+
+.document-container .document-properties .token-info-contents .token-related .related-add {
+  height: 11.5625rem;
+  border: 0.0625rem solid #EBEBEB;
+  background-color: #F7F8F9;
+  align-items: center;
+  justify-content: center;
+}
+
+.document-container .document-properties .token-info-contents .token-comment {
+  display: none;
+  padding-top: 0.625rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.document-container .document-properties .token-info-contents .token-comment .list-item {
+  padding: 1.25rem 1.5625rem;
+  margin-top: 0.625rem;
+  margin-right: 0.625rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #EBEBEB;
+  background-color: #F7F8F9;
+}
+
+.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row {
+  margin-top: 0.0625rem;
+  word-break: break-word;
+}
+
+.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info {
+  display: flex;
+  align-items: center;
+}
+
+.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info .comment-user {
+  display: flex;
+  align-items: center;
+}
+
+.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info div, .document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info h5 {
+  flex: none;
+}
+
+.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info > h5 {
+  margin-left: 0.9375rem;
+  color: #ACB4BF;
+}
+
+.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
+  margin-left: auto;
+}
+
+.document-container .document-properties .token-info-contents .token-comment .comment-input {
+  margin-top: 0.625rem;
+  padding: 0;
+  align-items: start;
+}
+
+.document-container .document-properties .token-info-contents .token-comment .comment-input textarea {
+  resize: none;
+  height: 4.3750rem;
+  flex: 1;
+}
+
+.document-modal-active {
+  overflow: hidden !important;
+}
+
+.document-modal-wrapper {
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow: auto;
+}
+
+.document-modal-wrapper.document-modal-active {
+  display: block;
+  z-index: 2001;
+}
+
+.document-modal-wrapper .document-modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2001;
+}
+
+.document-modal-wrapper .document-modal-dialog {
   position: absolute;
   top: 0;
-  bottom: 0;
-  display: block;
-  left: -6px;
-  right: -2px;
-}
-
-.inner-scrollbar > .os-scrollbar-corner {
-  height: 10px;
-  width: 10px;
-  background-color: transparent;
-}
-
-.inner-scrollbar > .os-scrollbar {
-  box-sizing: border-box;
-  background: transparent;
-}
-
-.inner-scrollbar > .os-scrollbar > .os-scrollbar-track {
-  background: rgba(235, 235, 235, 0.6);
-  border-radius: 8px;
-}
-
-.inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-  border-radius: 8px;
-  background: #E1E3E6;
-}
-
-.inner-scrollbar > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
-  background: #CCCED1;
-}
-
-.inner-scrollbar > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
-  background: #CCCED1;
-}
-
-.inner-scrollbar > .os-scrollbar.os-scrollbar-unusable {
-  background: transparent;
-}
-
-.scrollbar.os-host-rtl > .os-scrollbar-horizontal {
-  left: 10px;
+  left: 0;
   right: 0;
+  z-index: 2001;
 }
 
-.scrollbar.os-host-transition > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
-  -webkit-transition: background-color 0.3s;
-  transition: background-color 0.3s;
-}
-
-.scrollbar.os-host-scrollbar-horizontal-hidden > .os-scrollbar-horizontal .os-scrollbar-handle:before {
-  display: none;
-}
-
-.scrollbar.os-host-scrollbar-vertical-hidden > .os-scrollbar-vertical .os-scrollbar-handle:before {
-  display: none;
-}
-
-.os-host-rtl.scrollbar > .os-scrollbar-vertical .os-scrollbar-handle:before {
-  right: -6px;
-  left: -2px;
+.document-modal-wrapper .document-modal-dialog .document-main {
+  right: 0;
 }
 
 /* _elements.scss 
@@ -901,7 +908,7 @@ label {
   outline: none;
 }
 
-.radio span:first-of-type {
+.radio > span:first-of-type {
   padding-right: 0.625rem;
 }
 
@@ -984,7 +991,7 @@ label {
   outline: none;
 }
 
-.checkbox span:first-of-type {
+.checkbox > span:first-of-type {
   padding-right: 0.625rem;
 }
 
@@ -1112,44 +1119,78 @@ label {
   border-color: #0098FF;
 }
 
-.drawing-board {
+/* _print.scss 
+ *
+ * 파일 경로 : document/_print.scss
+ * @description 프린트 화면 디자인
+ * @author wdj
+ * @version 1.0
+ */
+.print-container {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+}
+
+.print-container *:focus {
+  outline: none !important;
+}
+
+.print-container .contents {
   display: flex;
-  flex: 1 1 auto;
   flex-direction: column;
-  align-items: center;
-  height: 46.875rem;
-  /* 750px */
-  border: 0.0625rem solid #BCC5D3;
-  background: #ffffff;
+  left: 0;
+  float: left;
+  min-width: 100vw;
+  height: 100vh;
+  min-height: 100vh;
+  padding: 0;
+  margin: 0;
   overflow: auto;
-  margin: 0.625rem;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
-.drawing-board .move-icon,
-.drawing-board .add-icon {
+.print-container .contents::-webkit-scrollbar {
   display: none;
+  /* Chrome, Safari, Opera*/
 }
 
-.drawing-board .component[data-readonly=true] .group {
-  pointer-events: none;
+.print-container .contents .print-area {
+  justify-content: center;
 }
 
-.drawing-board .component[data-readonly=true] .group div#fileupload {
-  pointer-events: auto;
+.print-container .contents .print-board {
+  margin: 0.9375rem;
+  height: 4.5rem;
 }
 
-/*미리 보기*/
-.drawing-board[data-readonly=true] input[type=text],
-.drawing-board[data-readonly=true] select,
-.drawing-board[data-readonly=true] textarea,
-.drawing-board[data-readonly=true] button,
-.drawing-board[data-readonly=true] .ql-toolbar,
-.drawing-board[data-readonly=true] .editor-container {
-  pointer-events: none;
+.print-container .contents .print-board span {
+  float: right;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  color: #000000;
+  text-align: right;
 }
 
-.drawing-board[data-readonly=true] .component[data-type="editbox"] {
-  pointer-events: none;
+.print-container .contents .drawing-board {
+  margin: 0 auto;
+  display: table;
+  width: 60rem;
+  max-width: 60rem;
+  min-height: 100%;
+  padding: 6.25rem 4.063rem;
+  background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
+  box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
+}
+
+.print-container .contents .drawing-board .component {
+  page-break-inside: avoid;
 }
 
 .print-btn {

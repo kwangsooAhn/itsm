@@ -151,6 +151,10 @@ input, button, select, optgroup, textarea {
   justify-content: center;
 }
 
+.justify-content-between {
+  justify-content: space-between;
+}
+
 .align-items-start {
   align-items: flex-start;
 }
@@ -359,6 +363,10 @@ input, button, select, optgroup, textarea {
   box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
 }
 
+.form-container .form-main .drawing-board *:focus {
+  outline: none !important;
+}
+
 .form-container .form-main .drawing-board[data-readonly=true] .dropzone,
 .form-container .form-main .drawing-board[data-readonly=true] .ql-toolbar,
 .form-container .form-main .drawing-board[data-readonly=true] textarea,
@@ -394,6 +402,7 @@ input, button, select, optgroup, textarea {
   bottom: 0;
   width: 18.75rem;
   background-color: #ffffff;
+  border-left: 0.0625rem solid #EBEBEB;
   box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.15);
   overflow-x: hidden;
   overflow-y: auto;
@@ -591,115 +600,6 @@ input, button, select, optgroup, textarea {
   margin: 1.563rem;
 }
 
-/*.document-container {
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-  background-color: $container-background-color;
-  overflow: auto;
-  @include scrollbarHidden;
-
-  & *:focus {
-    outline: none !important;
-  }
-  .contents {
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    float: left;
-    height: 100vh;
-    min-width: auto;
-    min-height: 100vh;
-    padding: 0;
-    margin: 0;
-
-    .button-board {
-      @include document-button;
-      justify-content: flex-end;
-      &-document {
-      @include document-button;
-      justify-content: space-between;
-      > .numbering-content {
-        label {
-          color: $gray;
-        }
-      }
-      }
-    }
-
-    .drawing-board {
-      display: table;
-      width: $document-content-drawing-board-width;
-      max-width: $document-content-drawing-board-width;
-      min-height: 100%;
-      padding: 6.25rem 4.063rem; // 100px 65px;
-      background-color: $drawing-board-bg-color;
-      border: $drawing-board-border;
-      box-shadow: $drawing-board-box-shadow;
-      margin-bottom: $document-content-drawing-board-top-margin;
-      margin-top: 0.625rem; // 10px;
-    }
-  }
-}*/
-/*.print-container {
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-
-  & *:focus {
-    outline: none !important;
-  }
-
-  .contents {
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    float: left;
-    min-width: 100vw;
-    height: 100vh;
-    min-height: 100vh;
-    padding: 0;
-    margin: 0;
-    overflow: auto;
-    @include scrollbarHidden;
-
-    .print-area {
-      justify-content: center;
-    }
-
-    .print-board {
-      margin: 0.9375rem; // 15px;
-      height: 4.5rem; // 72px
-      span {
-        float: right;
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: 400; // regular
-        color: $black;
-        text-align: right;
-      }
-    }
-
-    .drawing-board {
-      margin: 0 auto;
-      display: table;
-      width: $document-content-drawing-board-width;
-      max-width: $document-content-drawing-board-width;
-      min-height: 100%;
-      padding: 6.25rem 4.063rem; // 100px 65px;
-      background-color: $drawing-board-bg-color;
-      border: $drawing-board-border;
-      box-shadow: $drawing-board-box-shadow;
-      .component {
-        page-break-inside: avoid;
-      }
-    }
-  }
-}*/
 /* _elements.scss 
  *
  * 파일 경로 : template/_elements.scss
@@ -4059,10 +3959,6 @@ body.thumbnail-modal-active {
   padding: 1.25rem 2.125rem 1.25rem 0.8125rem;
 }
 
-.component *:focus {
-  outline: none !important;
-}
-
 .component .move-handler {
   margin: 0 0.5rem 0 0;
   content: '';
@@ -4401,10 +4297,6 @@ body.thumbnail-modal-active {
   visibility: hidden;
 }
 
-.component:focus {
-  outline: none !important;
-}
-
 .component:hover [data-type="editbox"] {
   cursor: text;
 }
@@ -4507,41 +4399,4 @@ body.thumbnail-modal-active {
 
 .context-menu.on {
   display: block;
-}
-
-/* 신청서, 처리할 문서 모달 */
-body.document-modal-active {
-  overflow: hidden !important;
-}
-
-.document-modal-wrapper {
-  display: none;
-  overflow: auto;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.document-modal-wrapper.document-modal-active {
-  z-index: 2001;
-  display: block;
-}
-
-.document-modal-wrapper .document-modal-backdrop {
-  z-index: 2001;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.document-modal-wrapper .document-modal-dialog {
-  z-index: 2001;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
 }

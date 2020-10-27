@@ -1,0 +1,315 @@
+@import '../template/_layout.scss';
+
+/* 신청서 / 처리할 문서 양식 layout
+ * document-container
+ *                - document-main : 문서양식 메인
+ *                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
+ *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역
+ *                - document-properties : 문서이력, 관련문서, 의견, 태그
+ */
+
+// 신청서, 문서함 공통
+.document-container {
+  @include container;
+
+  .document-main {
+    position:fixed;
+    top: $layout-header-height;
+    left: 0;
+    right: $layout-properties-width;
+    bottom: 0;
+    overflow-y: auto;
+    background-color: $layout-main-bg-color;
+    @include scrollbarHidden;
+
+    // 미리보기 화면
+    &.preview { right: 0; }
+    
+    // 버튼 그려지는 영역
+    .document-main-header {
+      width: $drawing-board-width;
+      max-width: $drawing-board-width;
+      padding: 8.438rem 0 0.9375rem 0; // 135px 0 15px 0
+    }
+    // 폼이 그려지는 영역
+    .drawing-board {
+      display: table;
+      width: $drawing-board-width;
+      max-width: $drawing-board-width;
+      min-height: 100%;
+      margin: $drawing-board-margin;
+      padding: $drawing-board-padding;
+      background-color: $drawing-board-bg-color;
+      border: $drawing-board-border;
+      box-shadow: $drawing-board-box-shadow;
+
+      & *:focus {
+        outline: none !important;
+      }
+      // 미리보기일 경우 화면에서 수정을 막음
+      &[data-readonly=true] {
+        .dropzone,
+        .ql-toolbar,
+        textarea,
+        button,
+        input[type=text],
+        label.radio,
+        label.checkbox,
+        select {
+          pointer-events: none;
+        }
+        .component .move-handler {
+          display: inherit;
+        }
+      }
+    }
+  }
+
+  .document-properties {
+    position:fixed;
+    top: $layout-header-height;
+    right: 0;
+    bottom: 0;
+    width: $layout-properties-width;
+    background-color: $layout-properties-bg-color;
+    border-left: $layout-properties-border;
+    padding: 0 4.0625rem; // 65px
+    // TODO 처리할 문서 디자인 소스 리팩토링
+    .token-info-tab {
+      display: flex;
+      margin-top: 7.8125rem; // 125px
+      h4 {
+          flex: 1;
+          text-align: center;
+          color: $gray;
+          padding-bottom: 0.625rem; // 10px
+          border-bottom: 0.125rem solid $default-gray; // 2px
+      }
+      .active {
+          border-bottom: 0.25rem solid $point-blue; // 4px
+          color: $light-black;
+      }
+    }
+    .token-info-contents {
+      height: 43.75rem; // 700px
+      overflow-y: auto;
+      .token {
+        &-tag {
+          display: none;
+          margin-top: 1.25rem; // 20px
+          .tag-input {
+            tags > span {
+              min-width: 26.875rem; // 430px
+            }
+            tag {
+              div {
+                background: rgba(229, 229, 229, 1);
+                max-width: 27.6875rem; // 443px
+                border-radius: 0.1875rem; // 3px;
+                &:hover {
+                  background: rgba(211, 226, 226, 1);
+                }
+              }
+              span {
+                max-width: 26.875rem; // 430px
+                white-space: pre-line;
+              }
+            }
+          }
+        }
+        &-history {
+          height: 100%;
+          .table {
+            border: none;
+            thead {
+              border-bottom: 0.0625rem solid $default-gray; // 1px
+              display: block;
+              tr {
+                  display: flex;
+                  align-items: center;
+              }
+            }
+            th { color: $light-black; font-weight: 500; }
+            td {
+              color: $dark-gray;
+              font-weight: 400;
+              max-width: 0;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+            }
+            th,td {
+              border: none;
+              text-align: left;
+            }
+            tbody {
+              display: block;
+              height: 35.3125rem; // 565px;
+              overflow-y: auto;
+              width: 100%;
+              tr {
+                  display: table;
+                  width: 100%;
+              }
+            }
+          }
+        }
+        &-related {
+          padding-top: 0.625rem; // 10px
+          display: flex;
+          flex-direction: column;
+          display: none;
+          .list-item {
+            height: 11.5625rem; // 185px
+            margin-top: 0.625rem; // 10px
+            margin-right: 0.625rem; // 10px
+            display: flex;
+            .document {
+              &-color {
+                  width: 0.625rem; // 10px
+              }
+              &-row {
+                border: 0.0625rem solid $line-gray; // 1px
+                padding: 1.25rem 2.5rem; // 20px 40px
+                display: flex;
+                flex-direction: column;
+                flex: 1;
+                &-content {
+                  display: flex;
+                  justify-content: space-between;
+                  a {
+                    width: 100%;
+                    .document-title {
+                      display: flex;
+                      align-items: center;
+                      word-break: break-word;
+
+                      h5 {
+                        &:first-child {
+                          color: $light-black;
+                          font-weight: 500;
+                          width: 50%;
+                        }
+
+                        &:last-child {
+                          color: $gray;
+                          margin-left: 0.3125rem; // 5px
+                        }
+                      }
+                    }
+                  }
+                }
+                &-topic {
+                  height: 100%;
+                }
+                &-info {
+                  display: flex;
+                  align-items: center;
+                  .document-user {
+                    display: flex;
+                    align-items: center;
+                  }
+                }
+              }
+            }
+          }
+          .related-add {
+            height: 11.5625rem; // 185px
+            border: 0.0625rem solid $line-gray; // 1px
+            background-color: $light-gray;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+        &-comment {
+          display: none;
+          padding-top: 0.625rem; // 10px
+          display: flex;
+          flex-direction: column;
+          .list-item {
+            padding: 1.25rem 1.5625rem; // 20px 25px
+            margin-top: 0.625rem; // 10px
+            margin-right: 0.625rem; // 10px
+            display: flex;
+            flex-direction: column;
+            border: 1px solid $line-gray;
+            background-color: $light-gray;
+            .comment {
+              &-row {
+                margin-top: 0.0625rem; // 10px
+                word-break: break-word;
+                &-info {
+                  display: flex;
+                  align-items: center;
+                  .comment-user {
+                    display: flex;
+                    align-items: center;
+                  }
+                  div, h5 {
+                    flex: none;
+                  }
+                  & > h5 {
+                    margin-left: 0.9375rem; // 15px
+                    color: $gray;
+                  }
+                  div:last-child {
+                    margin-left: auto;
+                  }
+                }
+              }
+            }
+          }
+          .comment-input {
+            margin-top: 0.625rem; // 10px
+            padding: 0;
+            align-items: start;
+            textarea {
+                resize: none;
+                height: 4.3750rem; // 70px
+                flex: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// 신청서 모달
+.document-modal-active {
+  overflow:hidden !important;
+}
+
+.document-modal-wrapper {
+  display:none;
+  position:fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  overflow:auto;
+
+  &.document-modal-active {
+    display:block;
+    z-index: 2001;
+  }
+  // 배경
+  .document-modal-backdrop { 
+    position:fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2001;
+  }
+  // document-container
+  .document-modal-dialog {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 2001;
+    // 신청서일 경우 우측 properties가 존재하지 않음
+    .document-main { right: 0; }
+  }
+}

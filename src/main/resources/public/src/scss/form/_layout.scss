@@ -40,8 +40,6 @@
     left: 0;
     right: $layout-properties-width;
     bottom: 0;
-    //display: flex;
-    //justify-content: center;
     overflow-y: auto;
     background-color: $layout-main-bg-color;
     @include scrollbarHidden;
@@ -56,6 +54,10 @@
       background-color: $drawing-board-bg-color;
       border: $drawing-board-border;
       box-shadow: $drawing-board-box-shadow;
+
+      & *:focus {
+        outline: none !important;
+      }
 
       &[data-readonly=true] {
         // 폼 양식 화면에서 수정을 막음
@@ -97,6 +99,7 @@
     bottom: 0;
     width: $layout-properties-width;
     background-color: $layout-properties-bg-color;
+    border-left: $layout-properties-border;
     box-shadow: $layout-properties-box-shadow;
     overflow-x: hidden;
     overflow-y: auto;
@@ -272,116 +275,3 @@
     }
   }
 }
-
-// 문서 양식
-/*.document-container {
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-  background-color: $container-background-color;
-  overflow: auto;
-  @include scrollbarHidden;
-
-  & *:focus {
-    outline: none !important;
-  }
-  .contents {
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    float: left;
-    height: 100vh;
-    min-width: auto;
-    min-height: 100vh;
-    padding: 0;
-    margin: 0;
-
-    .button-board {
-      @include document-button;
-      justify-content: flex-end;
-      &-document {
-      @include document-button;
-      justify-content: space-between;
-      > .numbering-content {
-        label {
-          color: $gray;
-        }
-      }
-      }
-    }
-
-    .drawing-board {
-      display: table;
-      width: $document-content-drawing-board-width;
-      max-width: $document-content-drawing-board-width;
-      min-height: 100%;
-      padding: 6.25rem 4.063rem; // 100px 65px;
-      background-color: $drawing-board-bg-color;
-      border: $drawing-board-border;
-      box-shadow: $drawing-board-box-shadow;
-      margin-bottom: $document-content-drawing-board-top-margin;
-      margin-top: 0.625rem; // 10px;
-    }
-  }
-}*/
-
-// 프린트
-/*.print-container {
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-
-  & *:focus {
-    outline: none !important;
-  }
-
-  .contents {
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    float: left;
-    min-width: 100vw;
-    height: 100vh;
-    min-height: 100vh;
-    padding: 0;
-    margin: 0;
-    overflow: auto;
-    @include scrollbarHidden;
-
-    .print-area {
-      justify-content: center;
-    }
-
-    .print-board {
-      margin: 0.9375rem; // 15px;
-      height: 4.5rem; // 72px
-      span {
-        float: right;
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: 400; // regular
-        color: $black;
-        text-align: right;
-      }
-    }
-
-    .drawing-board {
-      margin: 0 auto;
-      display: table;
-      width: $document-content-drawing-board-width;
-      max-width: $document-content-drawing-board-width;
-      min-height: 100%;
-      padding: 6.25rem 4.063rem; // 100px 65px;
-      background-color: $drawing-board-bg-color;
-      border: $drawing-board-border;
-      box-shadow: $drawing-board-box-shadow;
-      .component {
-        page-break-inside: avoid;
-      }
-    }
-  }
-}*/

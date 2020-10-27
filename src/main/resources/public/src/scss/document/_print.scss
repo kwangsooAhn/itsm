@@ -1,0 +1,123 @@
+/* _print.scss 
+ *
+ * 파일 경로 : document/_print.scss
+ * @description 프린트 화면 디자인
+ * @author wdj
+ * @version 1.0
+ */
+ // TODO: 프린트 디자인 소스 리팩토링
+.print-container {
+  width: 100vw;
+  height: 100vh;
+  padding: 0;
+  margin: 0;
+
+  & *:focus {
+    outline: none !important;
+  }
+
+  .contents {
+    display: flex;
+    flex-direction: column;
+    left: 0;
+    float: left;
+    min-width: 100vw;
+    height: 100vh;
+    min-height: 100vh;
+    padding: 0;
+    margin: 0;
+    overflow: auto;
+    @include scrollbarHidden;
+
+    .print-area {
+      justify-content: center;
+    }
+
+    .print-board {
+      margin: 0.9375rem; // 15px;
+      height: 4.5rem; // 72px
+      span {
+        float: right;
+        font-size: 16px;
+        line-height: 24px;
+        font-weight: 400; // regular
+        color: $black;
+        text-align: right;
+      }
+    }
+
+    .drawing-board {
+      margin: 0 auto;
+      display: table;
+      width: $drawing-board-width;
+      max-width: $drawing-board-width;
+      min-height: 100%;
+      padding: 6.25rem 4.063rem; // 100px 65px;
+      background-color: $drawing-board-bg-color;
+      border: $drawing-board-border;
+      box-shadow: $drawing-board-box-shadow;
+      .component {
+        page-break-inside: avoid;
+      }
+    }
+  }
+}
+
+.print-btn {
+    margin: 0.625rem;
+    text-align: right;
+}
+
+.print-hr {
+    border-top: 1px solid;
+}
+
+.print-header {
+    margin: 0.9375rem 3.75rem;
+    height: 45px;
+    span {
+        float: right;
+        text-align: right;
+    }
+}
+
+.print-body {
+    .component {
+        page-break-inside: avoid;
+        .group {
+            pointer-events: none;
+        }
+    }
+}
+
+.print-history {
+    margin: 0.9375rem 3.75rem;
+}
+
+.comment {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    border: none;
+    padding: 0.625rem 1.25rem;
+    background-color: #ffffff;
+    .field {
+        display: flex;
+        height: 3.563rem;
+        textarea {
+            width: 100%;
+            resize: vertical;
+        }
+        button {
+            flex: 1 1 auto;
+            line-height: 1rem;
+            padding: 0 0.625rem;
+            white-space: nowrap;
+        }
+    }
+}
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+}

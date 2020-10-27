@@ -1545,7 +1545,7 @@ input, button, select, optgroup, textarea {
 
 .picker-modal-content-time .hour-group .digit,
 .picker-modal-content-time .minute-group .digit {
-  width: 3.75rem;
+  width: 3.75rem !important;
   height: 3.75rem;
   font-size: 1.75rem;
   font-weight: 500;
@@ -2337,7 +2337,7 @@ label {
   outline: none;
 }
 
-.radio span:first-of-type {
+.radio > span:first-of-type {
   padding-right: 0.625rem;
 }
 
@@ -2420,7 +2420,7 @@ label {
   outline: none;
 }
 
-.checkbox span:first-of-type {
+.checkbox > span:first-of-type {
   padding-right: 0.625rem;
 }
 
@@ -3439,6 +3439,10 @@ button .icon-plus {
   justify-content: center;
 }
 
+.justify-content-between {
+  justify-content: space-between;
+}
+
 .align-items-start {
   align-items: flex-start;
 }
@@ -3680,260 +3684,6 @@ span.vertical-bar {
 
 .avatar-bottom-text {
   margin-bottom: 0.3125rem;
-}
-
-.document-container {
-  justify-content: flex-end;
-  overflow: hidden;
-}
-
-.document-container .token-document {
-  flex: 1;
-  overflow: auto;
-  scrollbar-width: none;
-  /* Firefox */
-}
-
-.document-container .token-document::-webkit-scrollbar {
-  display: none;
-  /* Chrome, Safari, Opera*/
-}
-
-.document-container .token-document > div {
-  margin: 0 auto;
-}
-
-.document-container .token-info {
-  width: 37.5rem;
-  padding: 0 4.0625rem;
-  background-color: #ffffff;
-}
-
-.document-container .token-info-tab {
-  display: flex;
-  margin-top: 7.8125rem;
-}
-
-.document-container .token-info-tab h4 {
-  flex: 1;
-  text-align: center;
-  color: #ACB4BF;
-  padding-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
-}
-
-.document-container .token-info-tab .active {
-  border-bottom: 0.25rem solid #0098FF;
-  color: #3F4B56;
-}
-
-.document-container .token-info-contents {
-  height: 43.75rem;
-  overflow-y: auto;
-}
-
-.document-container .token-info-contents .token-tag {
-  display: none;
-  margin-top: 1.25rem;
-}
-
-.document-container .token-info-contents .token-tag .tag-input tags > span {
-  min-width: 26.875rem;
-}
-
-.document-container .token-info-contents .token-tag .tag-input tag div {
-  background: #e5e5e5;
-  max-width: 27.6875rem;
-  border-radius: 0.1875rem;
-}
-
-.document-container .token-info-contents .token-tag .tag-input tag div:hover {
-  background: #d3e2e2;
-}
-
-.document-container .token-info-contents .token-tag .tag-input tag span {
-  max-width: 26.875rem;
-  white-space: pre-line;
-}
-
-.document-container .token-info-contents .token-history {
-  height: 100%;
-}
-
-.document-container .token-info-contents .token-history .table {
-  border: none;
-}
-
-.document-container .token-info-contents .token-history .table thead {
-  border-bottom: 0.0625rem solid #E1E3E6;
-  display: block;
-}
-
-.document-container .token-info-contents .token-history .table thead tr {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .token-info-contents .token-history .table th {
-  color: #3F4B56;
-  font-weight: 500;
-}
-
-.document-container .token-info-contents .token-history .table td {
-  color: #586872;
-  font-weight: 400;
-  max-width: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.document-container .token-info-contents .token-history .table th, .document-container .token-info-contents .token-history .table td {
-  border: none;
-  text-align: left;
-}
-
-.document-container .token-info-contents .token-history .table tbody {
-  display: block;
-  height: 35.3125rem;
-  overflow-y: auto;
-  width: 100%;
-}
-
-.document-container .token-info-contents .token-history .table tbody tr {
-  display: table;
-  width: 100%;
-}
-
-.document-container .token-info-contents .token-related {
-  padding-top: 0.625rem;
-  display: flex;
-  flex-direction: column;
-  display: none;
-}
-
-.document-container .token-info-contents .token-related .list-item {
-  height: 11.5625rem;
-  margin-top: 0.625rem;
-  margin-right: 0.625rem;
-  display: flex;
-}
-
-.document-container .token-info-contents .token-related .list-item .document-color {
-  width: 0.625rem;
-}
-
-.document-container .token-info-contents .token-related .list-item .document-row {
-  border: 0.0625rem solid #EBEBEB;
-  padding: 1.25rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-}
-
-.document-container .token-info-contents .token-related .list-item .document-row-content {
-  display: flex;
-  justify-content: space-between;
-}
-
-.document-container .token-info-contents .token-related .list-item .document-row-content a {
-  width: 100%;
-}
-
-.document-container .token-info-contents .token-related .list-item .document-row-content a .document-title {
-  display: flex;
-  align-items: center;
-  word-break: break-word;
-}
-
-.document-container .token-info-contents .token-related .list-item .document-row-content a .document-title h5:first-child {
-  color: #3F4B56;
-  font-weight: 500;
-  width: 50%;
-}
-
-.document-container .token-info-contents .token-related .list-item .document-row-content a .document-title h5:last-child {
-  color: #ACB4BF;
-  margin-left: 0.3125rem;
-}
-
-.document-container .token-info-contents .token-related .list-item .document-row-topic {
-  height: 100%;
-}
-
-.document-container .token-info-contents .token-related .list-item .document-row-info {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .token-info-contents .token-related .list-item .document-row-info .document-user {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .token-info-contents .token-related .related-add {
-  height: 11.5625rem;
-  border: 0.0625rem solid #EBEBEB;
-  background-color: #F7F8F9;
-  align-items: center;
-  justify-content: center;
-}
-
-.document-container .token-info-contents .token-comment {
-  display: none;
-  padding-top: 0.625rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.document-container .token-info-contents .token-comment .list-item {
-  padding: 1.25rem 1.5625rem;
-  margin-top: 0.625rem;
-  margin-right: 0.625rem;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #EBEBEB;
-  background-color: #F7F8F9;
-}
-
-.document-container .token-info-contents .token-comment .list-item .comment-row {
-  margin-top: 0.0625rem;
-  word-break: break-word;
-}
-
-.document-container .token-info-contents .token-comment .list-item .comment-row-info {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .token-info-contents .token-comment .list-item .comment-row-info .comment-user {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .token-info-contents .token-comment .list-item .comment-row-info div, .document-container .token-info-contents .token-comment .list-item .comment-row-info h5 {
-  flex: none;
-}
-
-.document-container .token-info-contents .token-comment .list-item .comment-row-info > h5 {
-  margin-left: 0.9375rem;
-  color: #ACB4BF;
-}
-
-.document-container .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
-  margin-left: auto;
-}
-
-.document-container .token-info-contents .token-comment .comment-input {
-  margin-top: 0.625rem;
-  padding: 0;
-  align-items: start;
-}
-
-.document-container .token-info-contents .token-comment .comment-input textarea {
-  resize: none;
-  height: 4.3750rem;
-  flex: 1;
 }
 
 .container {

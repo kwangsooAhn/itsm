@@ -5,6 +5,9 @@
 <head>
     <title th:text="#{form.label.preview}"></title>
 </head>
+<th:block layout:fragment="css">
+    <link th:href="@{/assets/css/document.css}" rel="stylesheet"/>
+</th:block>
 <th:block layout:fragment="script">
     <script th:src="@{/assets/js/document/document.js}"></script>
     <script type="text/javascript">
@@ -20,8 +23,8 @@
 <th:block layout:fragment="content">
     <form id="frm" name="frm">
         <div class="document-container">
-            <div class="contents">
-                <div class="button-board">
+            <div class="document-main flex-column align-items-center preview">
+                <div class="document-main-header flex-row justify-content-end align-items-center">
                     <button class="default-fill" th:text="#{common.btn.close}" onclick="window.close();"></button>
                 </div>
                 <div class="drawing-board" id="document-panel" data-readonly="true"></div>

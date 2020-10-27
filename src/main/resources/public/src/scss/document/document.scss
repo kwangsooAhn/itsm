@@ -6,107 +6,15 @@
  */
 @charset 'utf-8';
 
-@import '../template/_reset.scss'; // 상속 불가
-@import '../template/_variables.scss';
-@import '../template/_functions.scss'; // 상속 불가
-@import '../template/_mixins.scss'; // 상속 불가
-@import '../template/_alignments.scss'; // 상속 불가
-@import '../template/_flex.scss';
-@import '../template/_common.scss'; // 상속 불가
+@import '../template/_reset.scss';          // 상속 불가
+@import '../template/_variables.scss';      // 상속 불가
+@import '../template/_functions.scss';      // 상속 불가
+@import '../template/_mixins.scss';         // 상속 불가
+@import '../template/_alignments.scss';     // 상속 불가
+@import '../template/_flex.scss';           // 상속 불가
+@import '../template/_common.scss';         // 상속 불가
 @import '_variables.scss';
-@import '../template/_alerts.scss';
-@import '../template/_scrollbars.scss';
+@import '_fonts.scss';
+@import '_layout.scss';
 @import '_elements.scss';
-
-.drawing-board {
-    display: flex; 
-    flex: 1 1 auto;
-    flex-direction: column;
-    align-items: center;
-    height: 46.875rem; /* 750px */
-    border: 0.0625rem solid #BCC5D3;  //1px
-    background: $white;
-    overflow: auto;
-    margin: 0.625rem;
-    .move-icon,
-    .add-icon { display: none; }
-    .component[data-readonly=true] .group {
-        pointer-events: none;
-        div#fileupload {
-            pointer-events: auto;
-        }
-    }
-}
-/*미리 보기*/
-.drawing-board[data-readonly=true] {
-    input[type=text],
-    select,
-    textarea,
-    button,
-    .ql-toolbar,
-    .editor-container {
-        pointer-events: none;
-    }
-    .component[data-type="editbox"] { 
-        pointer-events: none;
-    }
-}
-
-.print-btn {
-    margin: 0.625rem;
-    text-align: right;
-}
-
-.print-hr {
-    border-top: 1px solid;
-}
-
-.print-header {
-    margin: 0.9375rem 3.75rem;
-    height: 45px;
-    span {
-        float: right;
-        text-align: right;
-    }
-}
-
-.print-body {
-    .component {
-        page-break-inside: avoid;
-        .group {
-            pointer-events: none;
-        }
-    }
-}
-
-.print-history {
-    margin: 0.9375rem 3.75rem;
-}
-
-.comment {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    border: none;
-    padding: 0.625rem 1.25rem;
-    background-color: #ffffff;
-    .field {
-        display: flex;
-        height: 3.563rem;
-        textarea {
-            width: 100%;
-            resize: vertical;
-        }
-        button {
-            flex: 1 1 auto;
-            line-height: 1rem;
-            padding: 0 0.625rem;
-            white-space: nowrap;
-        }
-    }
-}
-.table {
-    width: 100%;
-    margin-bottom: 1rem;
-}
+@import '_print.scss';

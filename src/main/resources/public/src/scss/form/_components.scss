@@ -13,9 +13,6 @@
   border: $component-border;
   padding: 1.25rem 2.125rem 1.25rem 0.8125rem; // 20px 34.8px 20px 13px
 
-  & *:focus {
-    outline: none !important;
-  }
   // drag and drop icon
   .move-handler {
     margin: 0 0.5rem 0 0; // 0 8.8px 0 0
@@ -241,7 +238,6 @@
       display: none;
     }
   }
-
   // 컴포넌트 선택시
   &.selected {
     background-color: $component-pressed-bg-color;
@@ -287,10 +283,6 @@
           visibility: hidden;
       }
     }
-  }
-  // 컴포넌트 포커스시
-  &:focus {
-    outline: none !important;
   }
   // 컴포넌트 마우스 오버시
   &:hover {
