@@ -62,12 +62,18 @@ class UserRestController(
      */
     @PostMapping("/", "")
     fun createUser(@RequestBody @Valid aliceSignUpDto: AliceSignUpDto): String {
-        val fromNum = 1000000000
-        val toNum = 9999999999
-        val randomNumber = Random.nextLong(toNum - fromNum) + fromNum
-        val password = randomNumber.toString()
+        var password = StringBuffer()
+        for (i in 0..10) {
+            val randomIndex = Random.nextInt(3)
+            when (randomIndex) {
+                0 -> password.append(((Random.nextInt(26)) + 97).toChar())
+                1 -> password.append(((Random.nextInt(26)) + 65).toChar())
+                2 -> password.append((Random.nextInt(10)))
+            }
+        }
+
         val publicKey = aliceCryptoRsa.getPublicKey()
-        aliceSignUpDto.password = aliceCryptoRsa.encrypt(publicKey, password)
+        aliceSignUpDto.password = aliceCryptoRsa.encrypt(publicKey, password.toString())
 
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
         if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
@@ -75,7 +81,7 @@ class UserRestController(
                 aliceSignUpDto.userId,
                 aliceSignUpDto.email,
                 AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code,
-                password
+                password.toString()
             )
         }
         return result

@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/defaultLayout">
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{user.label.editUserInfo}"></title>
 </head>
@@ -21,7 +20,7 @@
             <h3 class="under-bar" th:text="#{user.label.profile}"></h3>
             <div class="row align-top">
                 <div class="col-6">
-                    <div  th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
+                    <div th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <div class="form-set">
                             <div class="label-row">
                                 <label class="required" th:text="#{user.label.id}" for="userId"></label>
@@ -134,7 +133,8 @@
                     <label class="required" th:text="#{user.label.theme}" for="theme"></label>
                     <select class="theme-color-select" name="theme" id="theme">
                         <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
-                                th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"></option>
+                                th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"
+                                th:unless="${theme.codeValue} == 'dark'"></option>
                     </select>
                 </div>
             </div>
