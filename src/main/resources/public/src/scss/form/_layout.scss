@@ -1,121 +1,63 @@
 @import '../template/_layout.scss';
 
 /* 폼 디자이너 팝업 layout
- * container - header : 상단 메뉴
- *           - contents : 왼쪽 패널
- *                   - drawing-board : 실제 컴포넌트들이 그려지는 영역
- *           - properties : 오른쪽 패널
+ * form-container - form-header : 상단
+ *                - form-main : 폼 메인
+ *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역
+ *                - form-properties-header : 세부속성 상단
+ *                - form-properties : 세부속성
  */
 // 폼 양식
 .form-container {
-  width: 100vw;
-  height: 100vh;
-  min-width: 93.75rem; // 1500px
-  min-height: 56.25rem; // 900px
-  padding: 0;
-  margin: 0;
-  background-color: $container-background-color;
+  @include container;
 
-  & *:focus {
-    outline: none !important;
-  }
-  
-  .header {
-    background-color: $point-blue;
-    color: $white;
-    font-weight: $font-weight-medium;
-    font-size: $header-font-size;
+  .form-header {
     @include header;
-    svg.logo { // 로고
-      float: left;
+    top:0;
+    left:0;
+    right:0;
+    font-size: $layout-header-font-size;
+    font-weight: $layout-header-font-weight;
+    color: $layout-header-font-color;
+    background-color: $layout-header-bg-color;
+    padding: 0 1.25rem; // 0 20px
+    // form designer 문구
+    .name {
+      font-size: 1.125rem; // 18px
+      padding: 0 0.9375rem; // 15px
     }
-    span.name { // 문구
-      float: left;
-      padding: 0 $header-margin-right;
-      line-height: $header-real-height;
-    }
-
-    span.separator { // 아이콘 구분자  
+    // 아이콘 구분자  
+    .separator { 
       width: 0.063rem; // 1px
-      height: $header-real-height;
-      background-color: $header-separator-color;
-      margin-right: $header-margin-right;
-      float: left;
-      opacity: 0.3;
-    }
-    
-    button {
-      margin-right: 2.5625rem; // 41px
-      padding: 0;
-      height: $header-real-height;
-      line-height: $header-real-height;
-      vertical-align: middle;
-      float: left;
-      display: flex;
-      align-items: center;
-      cursor: pointer;
-
-      .icon-save {
-        display: inline-block;
-        @include maskImage('#{$icon-folder-path}form/topmenu/icon_save.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-      }
-      .icon-save-as {
-        display: inline-block;
-        @include maskImage('#{$icon-folder-path}form/topmenu/icon_save_as.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-      }
-      .icon-undo {
-        display: inline-block;
-        @include maskImage('#{$icon-folder-path}form/topmenu/icon_undo.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-      }
-      .icon-redo {
-        display: inline-block;
-        @include maskImage('#{$icon-folder-path}form/topmenu/icon_redo.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-      }
-      .icon-preview {
-        display: inline-block;
-        @include maskImage('#{$icon-folder-path}form/topmenu/icon_preview.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-      }
-      .icon-save-out {
-        display: inline-block;
-        @include maskImage('#{$icon-folder-path}form/topmenu/icon_save_out.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-      }
-    }
-
-    span.form-name { // 상단 우측 이름
-      height: $header-real-height;
-      line-height: $header-real-height;
-      font-size: $header-name-font-size;
-      margin-right: 0.938rem;
+      height: 1.25rem; // 20px
+      background-color: #4DB7FF;
     }
   }
 
-  .contents {
-    display: flex;
-    position: relative;
-    justify-content: center;
-    left: 0;
+  .form-main {
+    position:fixed;
     top: $layout-header-height;
-    width: calc(100vw - #{$form-properties-width});
-    height: calc(100vh - #{$layout-header-height});
-    min-width: calc(100vw - #{$form-properties-width});
-    min-height: calc(100vh - #{$layout-header-height});
-    float: left;
-    padding: 0;
-    margin: 0;
+    left: 0;
+    right: $layout-properties-width;
+    bottom: 0;
     overflow-y: auto;
+    background-color: $layout-main-bg-color;
     @include scrollbarHidden;
 
     .drawing-board {
       display: table;
-      width: $form-drawing-board-width;
-      max-width: $form-drawing-board-width;
+      width: $drawing-board-width;
+      max-width: $drawing-board-width;
       min-height: 100%;
-      margin-top: $form-drawing-board-top-margin;
-      margin-bottom: $form-drawing-board-top-margin;
-      padding: 6.25rem 4.063rem; // 100px 65px;
+      margin: $drawing-board-margin;
+      padding: $drawing-board-padding;
       background-color: $drawing-board-bg-color;
       border: $drawing-board-border;
       box-shadow: $drawing-board-box-shadow;
+
+      & *:focus {
+        outline: none !important;
+      }
 
       &[data-readonly=true] {
         // 폼 양식 화면에서 수정을 막음
@@ -136,122 +78,199 @@
     }
   }
 
-  .properties {
-    background-color: $form-properties-bg-color;
-    margin-top: $layout-header-height;
-    @include properties;
+  .form-properties-header {
+    position:fixed;
+    top: $layout-header-height;
+    right: 0;
+    width: $layout-properties-width;
+    height: $layout-properties-header-height;
+    font-size: $layout-properties-header-font-size;
+    font-weight: $layout-properties-header-font-weight;
+    color: $layout-properties-header-font-color;
+    background-color: $layout-properties-header-bg-color;
+    padding: 0.625rem 1.563rem; // 10px 25px;
+  }
+
+  .form-properties {
+    //@include properties;
+    position:fixed;
+    top: calc(#{$layout-header-height} + #{$layout-properties-header-height});
+    right: 0;
+    bottom: 0;
+    width: $layout-properties-width;
+    background-color: $layout-properties-bg-color;
+    border-left: $layout-properties-border;
+    box-shadow: $layout-properties-box-shadow;
+    overflow-x: hidden;
+    overflow-y: auto;
     @include scrollbarHidden;
-  }
-}
 
-// 문서 양식
-.document-container {
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-  background-color: $container-background-color;
-  overflow: auto;
-  @include scrollbarHidden;
+    // 그룹 속성
+    .property-group {
+      display: none;
+      border-bottom: $layout-properties-border;
+      padding: 0 1.563rem 0.625rem 1.563rem; // 0 25px 10px 25px
+      // 표시
+      &.on {
+        display: block;
+        &.last { border-bottom-color: transparent; }
+      }
+      // 소제목: Data Attribute, Label, Display, Option 등
+      h5 {
+        margin: 1.563rem 0; // 25px 0
 
-  & *:focus {
-    outline: none !important;
-  }
-  .contents {
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    float: left;
-    height: 100vh;
-    min-width: auto;
-    min-height: 100vh;
-    padding: 0;
-    margin: 0;
+        .property-group-name {
+          color: $point-blue;
+        }
+      }
 
-    .button-board {
-      @include document-button;
-      justify-content: flex-end;
-      &-document {
-      @include document-button;
-      justify-content: space-between;
-      > .numbering-content {
-        label {
+      input[type=text],
+      select,
+      textarea {
+        width: 100%;
+      }
+      // 옵션
+      &[id="option"] {
+        position: relative;
+
+        .property-group-option {
+          float: right;
+        }
+      }
+      // 필드 속성
+      .property-field {
+        position: relative;
+        margin: 1.25rem 0; // 20px 0
+        // 필드 속성 제목
+        .property-field-name {
+          display: inline-block;
+          margin-bottom: 0.4375rem; // 7px
+        }
+        // range
+        .property-field-range {
+          input[type=range] {
+            width: 72%;
+            + input[type=text] {
+              width: 25%;
+              margin-left: 2%;
+              text-align: center;
+              padding: 0;
+            }
+          }
+        }
+        // button group : bold, italic, underline, align
+        .property-field-button {
+          .btn-group-toggle {
+            margin-left: 0.625rem; // 10px
+          }
+        }
+        // button group : position
+        .property-field-icon {
+          width: 100%;
+        }
+        // display > default 항목
+        &[id="display-default"] .property-field-name {
+          width: 100%;
+        }
+
+        .property-field-toggle {
+          ~ input[type=text],
+          ~ select {
+            margin-top: 0.4375rem; // 7px
+          }
+        }
+        // image path
+        .property-field-image {
+          display: flex;
+          width: 100%;
+          input[type=text] {
+            &:focus,
+            &:hover {
+              z-index: 1;
+            }
+          }
+          button {
+            flex: 1 1 auto;
+            width: 2.5rem; // 40px
+            padding: 0;
+            margin-left: -$btn-border-width;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+
+            &:focus,
+            &:hover,
+            &:active {
+              z-index: 1;
+            }
+          }
+        }
+        // default
+        &.vertical {
+          .property-value {
+            width: 2.813rem !important; //45px
+            margin: 0 0.3125rem 0 0; // 5px
+          }
+          .vertical-group {
+            width: 100%;
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 0.4375rem 0; // 7px 0
+            .picker-wrapper-date {
+                display: inline-block;
+                width: auto;
+                [class*="timepicker"],
+                [class*="datepicker"],
+                [class*="datetimepicker"] {
+                    width: 13.13rem; // 210px
+                    margin: 0;
+                }
+            }
+            span {
+                margin-right: 0.3125rem; // 5px
+            }
+            select {
+                margin-top: 0.3125rem; // 5px
+            }
+          }
+        }
+        // datepicker library
+        .picker-wrapper-date {
+          width: 100%;
+          .datepicker,
+          .datetimepicker {
+            @include background($icon-folder-path + 'icon_calendar.svg', auto, no-repeat, 98%, 50%, null);
+          }
+          .timepicker {
+            @include background($icon-folder-path + 'icon_clock.svg', auto, no-repeat, 98%, 50%, null);
+          }
+        }
+        // 단위
+        .property-field-unit {
+          position: absolute;
+          top: 50%;
+          right: $element-indent;
           color: $gray;
         }
       }
+      // 테이블
+      .property-field-table {
+        width: 100%;
+        label { margin: 0 0.625rem; } // 10px
+        input[type=text] {
+          border-color: transparent;
+          padding: 0;
+          text-align: center;
+        }
       }
     }
 
-    .drawing-board {
-      display: table;
-      width: $document-content-drawing-board-width;
-      max-width: $document-content-drawing-board-width;
-      min-height: 100%;
-      padding: 6.25rem 4.063rem; // 100px 65px;
-      background-color: $drawing-board-bg-color;
-      border: $drawing-board-border;
-      box-shadow: $drawing-board-box-shadow;
-      margin-bottom: $document-content-drawing-board-top-margin;
-      margin-top: 0.625rem; // 10px;
-    }
-  }
-}
-
-// 프린트
-.print-container {
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-
-  & *:focus {
-    outline: none !important;
-  }
-
-  .contents {
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    float: left;
-    min-width: 100vw;
-    height: 100vh;
-    min-height: 100vh;
-    padding: 0;
-    margin: 0;
-    overflow: auto;
-    @include scrollbarHidden;
-
-    .print-area {
-      justify-content: center;
-    }
-
-    .print-board {
-      margin: 0.9375rem; // 15px;
-      height: 4.5rem; // 72px
-      span {
-        float: right;
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: 400; // regular
-        color: $black;
-        text-align: right;
-      }
-    }
-
-    .drawing-board {
-      margin: 0 auto;
-      display: table;
-      width: $document-content-drawing-board-width;
-      max-width: $document-content-drawing-board-width;
-      min-height: 100%;
-      padding: 6.25rem 4.063rem; // 100px 65px;
-      background-color: $drawing-board-bg-color;
-      border: $drawing-board-border;
-      box-shadow: $drawing-board-box-shadow;
-      .component {
-        page-break-inside: avoid;
+    // 컴포넌트가 여러개 선택될 경우 세부 속성은 존재하지 않는다.
+    .property-empty {
+      display: none;
+      &.on { display: block; }
+      h5 {
+          margin: 1.563rem; //25px
       }
     }
   }

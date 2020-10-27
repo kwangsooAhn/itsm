@@ -357,7 +357,7 @@ label {
   color: $element-font-color;
   outline: none;
   
-  span:first-of-type {
+  > span:first-of-type {
     padding-right: $element-indent;
   }
 
@@ -461,7 +461,7 @@ label {
   color: $element-font-color;
   outline: none;
 
-  span:first-of-type {
+  > span:first-of-type {
     padding-right: $element-indent;
   }
 

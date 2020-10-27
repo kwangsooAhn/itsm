@@ -630,7 +630,6 @@ aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc, para
                 }
             },{
                 content: i18n.msg('common.btn.check'),
-                classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {
@@ -670,7 +669,6 @@ aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
                 }
             },{
                 content: i18n.msg('common.btn.check'),
-                classes: 'gmodal-button-blue',
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {

@@ -24,31 +24,25 @@
     </tr>
     <tr th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
         <td width="20%" th:class="align-left">
-            <th:block th:switch="${#authorization.expression('hasAuthority(''form.read'')')}"
-                      th:if="${form.editable == true}">
-                <a th:case="true" th:text="${form.name}" th:attr="onclick=|openFormEdit('${form.id}')|"></a>
-                <a th:case="*" th:text="${form.name}" th:attr="onclick=|openFormView('${form.id}')|"></a>
+            <th:block th:if="${form.editable == true}">
+                <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
+                   th:attr="onclick=|openFormView('${form.id}')|"></a>
+                <a sec:authorize="hasAuthority('form.update')" th:text="${form.name}"
+                   th:attr="onclick=|openFormEdit('${form.id}')|"></a>
             </th:block>
             <div th:unless="${form.editable == true}">
                 <span th:text="${form.name}"></span>
             </div>
         </td>
         <td width="10%">
-            <th:block th:switch="${#authorization.expression('hasAuthority(''form.read'')')}">
-                <button th:case="true" type="button" class="default-fill list-popup" th:onclick="openFormDesignerView([[${form.id}]])">
-                    <span class="icon-search"></span>
-                </button>
-                <button th:case="*" type="button" class="default-fill list-popup" th:onclick="|aliceJs.alertWarning('#{auth.msg.accessDenied}')|">
-                    <span class="icon-search"></span>
-                </button>
-            </th:block>
+            <button type="button" class="default-fill list-popup" th:onclick="openFormDesignerView([[${form.id}]])">
+                <span class="icon-search"></span>
+            </button>
         </td>
         <td width="10%">
-            <th:block th:switch="${#authorization.expression('hasAnyAuthority(''form.create'', ''form.update'')')}">
-                <button th:case="true" type="button" th:disabled="${!form.editable}" th:onclick="openFormDesignerEdit([[${form.id}]])">
-                    <span class="icon-edit"></span>
-                </button>
-                <button th:case="*" type="button" th:onclick="|aliceJs.alertWarning('#{auth.msg.accessDenied}')|">
+            <th:block th:if="${form.editable == true}">
+                <button type="button" sec:authorize="hasAuthority('form.update')"
+                        th:onclick="openFormDesignerEdit([[${form.id}]])">
                     <span class="icon-edit"></span>
                 </button>
             </th:block>

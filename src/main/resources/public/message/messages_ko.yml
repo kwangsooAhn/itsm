@@ -447,7 +447,7 @@ form:
     selectImportFile: "IMPORT 파일을 선택하세요."
   component:
     checkbox: "Checkbox"
-    customCode: "Custom Code"
+    custom-code: "Custom Code"
     date: "Date"
     datetime: "Date Time"
     divider: "Divider"
@@ -470,6 +470,8 @@ form:
     time-default: "컴포넌트에 표시되는 기본값을 설정할 수 있습니다.<br/>'None'을 선택하는 경우 기본 값은 출력되지 않습니다.<br/>'Now'로 선택하는 경우 해당 신청서 작성 시점의 시간이 기본 값으로 출력됩니다.<br/>'hours later'로 선택하고 숫자로 된 값을 넣으면 문서를 작성하는 시점을 기준으로 해당 숫자만큼 이후의 시간이 기본 값으로 사용됩니다. 마이너스 값을 입력하는 경우 이전 시간을 지정할 수 있습니다.<br/>마지막 항목은 특정 시간을 고정으로 표시할 경우 사용하시면 됩니다."
     component-placeholder: "명령어 사용 시 '/'를 입력하세요."
   properties:
+    title: "Form"
+    common: "공통"
     dataAttribute: "컴포넌트 속성"
     desc: "설명"
     display: "출력속성"
@@ -480,6 +482,7 @@ form:
     status: "상태"
     validate: "유효성"
   attribute:
+    align: "정렬"
     mappingId: "매핑 아이디"
     isTopic: "미리보기"
     position: "위치"
@@ -769,6 +772,8 @@ process:
 
 # Role
 role:
+  btn:
+    selectAll: "전체 선택"
   label:
     auth: "권한"
     desc: "역할 설명"
@@ -781,7 +786,7 @@ role:
     enterRoleId: "역할 아이디를 입력하세요."
     enterRoleName: "역할 명을 입력하세요."
     selectAuth: "권한을 선택하세요."
-    description: "역할을 관리하세요."
+    description: "역할을 조회하거나 추가, 변경할 수 있습니다."
     searchPlaceholder: "역할 명 / 역할 설명"
 
 # Token
@@ -799,6 +804,7 @@ token:
     searchPlaceholder: "등록자 / 내용"
     startDt: "시작 일시"
     status: "상태"
+    tagPlaceHolder: "#태그"
     write: "처리할 문서"
     view: "문서 조회"
   msg:
@@ -876,10 +882,10 @@ user:
     &nbsp;&nbsp;&nbsp;&nbsp;8자 이상 20자 미만, 1가지 종류의 문자 구성인 경우 10자 이상
     &nbsp;&nbsp;&nbsp;&nbsp;20자 미만의 비밀번호 입력 제한 범위를 가진다.<br/><br/>
     ※ 사용자의 ID를 포함하지 않는다.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) ID가 alice인 경우, alic는 포함 가능, alice는 포함 불가.<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) ID가 zenius인 경우, zenius는 포함 가능, zenius는 포함 불가.<br/><br/>
     ※ 사용자의 이메일 ID를 포함하지 않는다.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) 이메일ID가 alice인 경우, alic는 포함 가능,<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; alice는 포함 불가<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) 이메일ID가 zenius인 경우, zenius는 포함 가능,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zenius는 포함 불가<br/><br/>
     ※ 공백을 허용하지 않는다.<br/>"
   platform:
     alice: "Alice"

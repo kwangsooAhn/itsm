@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.provider.dto
 
 import java.io.Serializable
@@ -18,6 +23,5 @@ data class RestTemplateDocumentDto(
     var createDt: LocalDateTime? = null,
     var updateUserKey: String? = null,
     var updateDt: LocalDateTime? = null,
-    var documentIcon: String? = null,
-    var totalCount: Long = 0
+    var documentIcon: String? = null
 ) : Serializable

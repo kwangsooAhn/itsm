@@ -1,24 +1,19 @@
-// Variables
+//////////////////////////// layout ////////////////////////////
+// header
+$layout-header-height:                       0; // 0px
 
-// color
-$black:                                       #000000;
-$white:                                       #ffffff;
-$red:                                         #FF405A;
-$orange:                                      #FF7319;
-$green:                                       #00C462;
-$focus-black:                                 #283238;
-$ground-black:                                #333D47;
-$light-black:                                 #3F4B56;
-$dark-gray:                                   #586872;
-$warm-gray:                                   #7E848C;
-$blue-gray:                                   #929AA6;
-$gray:                                        #ACB4BF;
-$pressed-gray:                                #CCCED1;
-$default-gray:                                #E1E3E6;
-$line-gray:                                   #EBEBEB;
-$light-gray:                                  #F7F8F9;
-$dark-blue:                                   #0060A5;
-$pressed-blue:                                #0088E6;
-$point-blue:                                  #0098FF;
-$hover-blue:                                  #33ADFF;
-$light-blue:                                  #87CEFF;
+// main
+$layout-main-bg-color:                       $light-gray;
+
+// main > drawing-board
+$drawing-board-width:                        60rem; // 960px
+$drawing-board-bg-color:                     $white;
+$drawing-board-border:                       0.0625rem solid $line-gray; // 1px
+$drawing-board-box-shadow:                   0 0 0.9375rem 0 rgba(204, 206, 209, 0.3); // 흐림 15px,  $pressed-gray, 불투명도 30%;
+$drawing-board-margin:                       0 0 7.5rem 0; // 0 0 120px 0
+$drawing-board-padding:                      6.25rem 4.688rem; // 100px 75px;
+
+// properties
+$layout-properties-width:                    37.5rem; // 600px
+$layout-properties-bg-color:                 $white;
+$layout-properties-border:                   0.0625rem solid $line-gray; // 1px

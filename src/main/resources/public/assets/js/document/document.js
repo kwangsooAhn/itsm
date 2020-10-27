@@ -5,8 +5,8 @@
 }(this, (function (exports) {
     'use strict';
 
-    let documentContainer = null;
-    let buttonContainer = null;
+    let documentPanel = null;
+    let buttonPanel = null;
     let commentContainer = null;
     let documentModal = null;
     let isDocument = true; // 신청서 vs 처리할 문서
@@ -235,7 +235,7 @@
                         buttonProcessEle.innerText = i18n.msg(element.name);
                     }
                     // 문서가 view 일 경우, 닫기 버튼을 제외하곤 disabled 처리한다.
-                    if (documentContainer.hasAttribute('data-readonly') && element.value !== 'close') {
+                    if (documentPanel.hasAttribute('data-readonly') && element.value !== 'close') {
                         buttonProcessEle.disabled = true;
                     }
                     buttonProcessEle.addEventListener('click', function () {
@@ -249,8 +249,8 @@
                            aliceDocument.save(element.value);
                        }
                     });
-                    if (buttonContainer !== null) {
-                        buttonContainer.appendChild(buttonProcessEle);
+                    if (buttonPanel !== null) {
+                        buttonPanel.appendChild(buttonProcessEle);
                     }
                 }
             });
@@ -280,7 +280,7 @@
         const comp = document.createElement('div');
         comp.id = v_kind;
         comp.setAttribute('data-id', v_data);
-        documentContainer.appendChild(comp);
+        documentPanel.appendChild(comp);
     }
 
     /**
@@ -295,7 +295,7 @@
      */
     function getComponentData(target) {
         let componentArrayList = [];
-        const componentElements = documentContainer.querySelectorAll('.component');
+        const componentElements = documentPanel.querySelectorAll('.component');
         for (let eIndex = 0; eIndex < componentElements.length; eIndex++) {
             let componentDataType = componentElements[eIndex].getAttribute('data-type');
 
@@ -487,10 +487,10 @@
         }
 
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
-        documentContainer = document.getElementById('document-panel');
-        component.init(documentContainer);
+        documentPanel = document.getElementById('document-panel');
+        component.init(documentPanel);
 
-        buttonContainer = document.getElementById('button-container');
+        buttonPanel = document.getElementById('button-panel');
         if (data.form.components.length > 0) {
             if (data.form.components.length > 2) {
                 data.form.components.sort(function (a, b) {
@@ -504,7 +504,7 @@
                 data.form.components[i] = componentObj.property;
             }
             //유효성 검증 추가
-            if (!documentContainer.hasAttribute('data-readonly')) {
+            if (!documentPanel.hasAttribute('data-readonly')) {
                 const checkComponents = ['inputbox', 'textbox', 'dropdown', 'radio', 'checkbox'];
                 const componentElements = document.querySelectorAll('.component');
                 for (let i = 0; i < componentElements.length; i++) {
@@ -689,17 +689,22 @@
             dialog.classList.add('document-modal-dialog', 'document-container');
 
             const body = document.createElement('div');
-            body.className = 'contents';
+            body.className = 'document-main flex-column align-items-center'; // contents
+
+            // 메인 상단 영역
+            const mainHeader = document.createElement('div');
+            mainHeader.className = 'document-main-header flex-row justify-content-end align-items-center';
+            body.appendChild(mainHeader);
 
             // 상단 button 추가
             const buttonPanel = document.createElement('div');
-            buttonPanel.classList.add('button-board', 'btn-list');
-            body.appendChild(buttonPanel);
+            buttonPanel.className = 'btn-list';
+            mainHeader.appendChild(buttonPanel);
 
             // 동적 버튼
             const buttonGroup = document.createElement('div');
             buttonGroup.className = 'btn-list';
-            buttonGroup.id = 'button-container';
+            buttonGroup.id = 'button-panel';
             buttonPanel.appendChild(buttonGroup);
 
             // 인쇄 버튼
@@ -844,13 +849,13 @@
             async: false,
             showProgressbar: true,
             callbackFunc: function (response) {
-                if (document.querySelector('.token-info').children) {
-                    document.querySelector('.token-info').remove();
+                if (document.querySelector('.document-properties').children) {
+                    document.querySelector('.document-properties').remove();
                     let tokenInfo = document.createElement('div');
-                    tokenInfo.className = 'token-info';
+                    tokenInfo.className = 'document-properties';
                     document.querySelector('.document-container').append(tokenInfo);
                 }
-                document.querySelector('.token-info').innerHTML = response.responseText;
+                document.querySelector('.document-properties').innerHTML = response.responseText;
 
                 // 탭 정보에 이벤트를 등록
                 document.querySelectorAll('.token-info-tab > h4').forEach((ele) => {

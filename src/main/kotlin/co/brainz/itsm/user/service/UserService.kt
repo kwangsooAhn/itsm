@@ -19,8 +19,8 @@ import co.brainz.framework.timezone.AliceTimezoneEntity
 import co.brainz.framework.timezone.AliceTimezoneRepository
 import co.brainz.itsm.code.service.CodeService
 import co.brainz.itsm.role.repository.RoleRepository
-import co.brainz.itsm.user.dto.UserDto
 import co.brainz.itsm.user.dto.UserListDto
+import co.brainz.itsm.user.dto.UserSelectListDto
 import co.brainz.itsm.user.dto.UserUpdateDto
 import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserRepository
@@ -57,19 +57,14 @@ class UserService(
     /**
      * 사용자 목록을 조회한다.
      */
-    fun selectUserList(search: String, category: String, offset: Long): MutableList<UserDto> {
-        val queryResult =
-            userRepository.findAliceUserEntityList(search, category, offset)
-        val userList: MutableList<UserDto> = mutableListOf()
-        for (userEntity in queryResult.results) {
-            val avatarPath = userDetailsService.makeAvatarPath(userEntity)
-            val userDto = userMapper.toUserDto(userEntity)
-            userDto.avatarPath = avatarPath
-            userDto.department?.let {
-                userDto.department = codeService.getDetailCodes(userEntity.department!!)?.codeValue
-            }
-            userDto.totalCount = queryResult.total
-            userList.add(userDto)
+    fun selectUserList(search: String, offset: Long): MutableList<UserListDto> {
+        val queryResult = userRepository.findAliceUserEntityList(search, offset)
+        val userList: MutableList<UserListDto> = mutableListOf()
+
+        for (user in queryResult) {
+            val avatarPath = userDetailsService.makeAvatarPath(user)
+            user.avatarPath = avatarPath
+            userList.add(user)
         }
         return userList
     }
@@ -223,12 +218,12 @@ class UserService(
      * 모든 사용자 정보를 조회한다.
      * (selectbox 용으로 key, id, name 조회)
      */
-    fun selectUserListOrderByName(): MutableList<UserListDto> {
+    fun selectUserListOrderByName(): MutableList<UserSelectListDto> {
         val userList = userRepository.findByOrderByUserNameAsc()
-        val userDtoList = mutableListOf<UserListDto>()
+        val userDtoList = mutableListOf<UserSelectListDto>()
         for (userEntity in userList) {
             userDtoList.add(
-                UserListDto(
+                UserSelectListDto(
                     userKey = userEntity.userKey,
                     userId = userEntity.userId,
                     userName = userEntity.userName
