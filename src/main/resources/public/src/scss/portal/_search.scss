@@ -20,8 +20,6 @@
     }
 }
 
-$portal-search-main-height: 6.5rem; // 104px
-$portal-search-result-list-height: 647px; // 647px
 .portal {
     &-search {
         &-main {
@@ -56,7 +54,7 @@ $portal-search-result-list-height: 647px; // 647px
             }
         }
 
-        &-container {
+        &-header {
             height: 15rem; // 240px
             padding: 0 0 0 12.75rem; // 204px
             background-color: $light-gray;
@@ -274,32 +272,7 @@ $portal-search-result-list-height: 647px; // 647px
         }
 
         &-view {
-            .view {
-                padding: 3.125rem 12.75rem 3.125rem 12.75rem; // 50px 204px 50px 204px
-                background-color: $white;
-                display: flex;
-                flex-direction: column;
-                flex-grow: 1;
-                div {
-                    &.view-text {
-                        height: 13.5rem; // 240px
-                        padding: 0.3125rem 1.25rem; // 5px 20px
-                        margin-bottom: 0.75rem; // 12px
-                        span {margin: 0;}
-                    }
-                    &.page-view-text {
-                        height: 25rem; // 400px
-                    }
-
-                    &.view-attach-file {
-                        min-height: 3.125rem; // 50px
-                        max-height: 8.3rem; // 132px
-                        padding: 0.125rem 1.25rem; // 2px 20px
-                        display: flex;
-                        .file-attach-input {margin: 0.625rem 0 0 0;} //10px
-                    }
-                }
-            }
+            @include view-template()
 
             span.vertical-bar {
                 width: 1.875rem; // 30px

@@ -3013,6 +3013,7 @@ button.ghost-line:disabled .icon {
   background-color: #0098FF;
   color: #ffffff;
   font-weight: 500;
+  padding: 0 1.25rem;
   display: flex;
   position: fixed;
   width: 100vw;
@@ -3020,19 +3021,10 @@ button.ghost-line:disabled .icon {
   align-items: center;
 }
 
-.portal-container .header .logo {
-  margin-left: 1.25rem;
-}
-
 .portal-container .header .title {
   font-size: 1.125rem;
   font-weight: 500;
   margin-left: 0.625rem;
-}
-
-.portal-container .header .left {
-  flex: none;
-  margin-left: 1.25rem;
 }
 
 .portal-container .header .login {
@@ -3343,25 +3335,25 @@ button.ghost-line:disabled .icon {
   height: 647px;
 }
 
-.portal-search-container {
+.portal-search-header {
   height: 15rem;
   padding: 0 0 0 12.75rem;
   background-color: #f7f8f9;
   border-bottom: 0.0625rem solid #ebebeb;
 }
 
-.portal-search-container .page-title {
+.portal-search-header .page-title {
   display: flex;
   align-items: baseline;
   text-align: left;
   padding: 3.625rem 0;
 }
 
-.portal-search-container .page-title .description {
+.portal-search-header .page-title .description {
   margin-left: 0.625rem;
 }
 
-.portal-search-container input {
+.portal-search-header input {
   margin-right: 0.0625rem;
   vertical-align: middle;
 }
@@ -3574,37 +3566,36 @@ button.ghost-line:disabled .icon {
   align-items: center;
 }
 
-.portal-search-view .view {
-  padding: 3.125rem 12.75rem 3.125rem 12.75rem;
-  background-color: #ffffff;
+.portal-search-view .flex {
+  padding: 3.125rem 19.375rem 9.315rem 19.375rem;
+  background-color: white;
   display: flex;
-  flex-direction: column;
   flex-grow: 1;
+  height: calc(100vh - 10.375rem);
 }
 
-.portal-search-view .view div.view-text {
-  height: 13.5rem;
+.portal-search-view .flex.flex-column {
+  flex-direction: column;
+}
+
+.portal-search-view .flex.flex-row {
+  flex-direction: row;
+}
+
+.portal-search-view .flex .flex-item {
+  display: flex;
+}
+
+.portal-search-view .flex .flex-item.item-text {
+  min-height: 13.4375rem;
   padding: 0.3125rem 1.25rem;
   margin-bottom: 0.75rem;
 }
 
-.portal-search-view .view div.view-text span {
+.portal-search-view .flex .flex-item.item-text span {
   margin: 0;
-}
-
-.portal-search-view .view div.page-view-text {
-  height: 25rem;
-}
-
-.portal-search-view .view div.view-attach-file {
-  min-height: 3.125rem;
-  max-height: 8.3rem;
-  padding: 0.125rem 1.25rem;
-  display: flex;
-}
-
-.portal-search-view .view div.view-attach-file .file-attach-input {
-  margin: 0.625rem 0 0 0;
+  white-space: normal;
+  word-break: normal;
 }
 
 .portal-search-view span.vertical-bar {
