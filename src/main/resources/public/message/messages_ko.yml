@@ -820,6 +820,8 @@ workflowAdmin:
 
 # User
 user:
+  btn:
+    resetPassword: "비밀번호 초기화"
   label:
     all: "전체"
     avatar: "아바타"
@@ -863,6 +865,7 @@ user:
     enterUserPassword: "비밀번호를 입력하세요."
     enterUserRePassword: "재확인 비밀번호를 입력하세요."
     passwordNotEquals: "비밀번호가 일치하지 않습니다."
+    resetPassword: "비밀번호가 초기화되었습니다."
     sameEmail: "이미 사용중인 이메일입니다."
     sameUserId: "동일한 아이디가 존재합니다."
     signUp: "가입되었습니다.<br/>가입 시 등록한 메일에서 인증을 진행하세요."
