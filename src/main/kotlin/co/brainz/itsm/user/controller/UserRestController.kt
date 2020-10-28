@@ -23,7 +23,6 @@ import java.util.Locale
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
-import kotlin.random.Random
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -32,6 +31,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -62,18 +62,9 @@ class UserRestController(
      */
     @PostMapping("/", "")
     fun createUser(@RequestBody @Valid aliceSignUpDto: AliceSignUpDto): String {
-        var password = StringBuffer()
-        for (i in 0..10) {
-            val randomIndex = Random.nextInt(3)
-            when (randomIndex) {
-                0 -> password.append(((Random.nextInt(26)) + 97).toChar())
-                1 -> password.append(((Random.nextInt(26)) + 65).toChar())
-                2 -> password.append((Random.nextInt(10)))
-            }
-        }
-
+        val password = userService.makePassword()
         val publicKey = aliceCryptoRsa.getPublicKey()
-        aliceSignUpDto.password = aliceCryptoRsa.encrypt(publicKey, password.toString())
+        aliceSignUpDto.password = aliceCryptoRsa.encrypt(publicKey, password)
 
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.ADMIN_ID)
         if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
@@ -81,7 +72,7 @@ class UserRestController(
                 aliceSignUpDto.userId,
                 aliceSignUpDto.email,
                 AliceUserConstants.SendMailStatus.CREATE_USER_ADMIN.code,
-                password.toString()
+                password
             )
         }
         return result
@@ -163,5 +154,14 @@ class UserRestController(
             UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)
         return usernamePasswordAuthenticationToken
+    }
+
+    /**
+     * 사용자의 비밀번호를 초기화한다.
+     */
+    @PutMapping("/{userKey}/resetPassword")
+    private fun resetPassword(@PathVariable userKey: String): String {
+        val password = userService.makePassword()
+        return userService.resetPassword(userKey, password)
     }
 }
