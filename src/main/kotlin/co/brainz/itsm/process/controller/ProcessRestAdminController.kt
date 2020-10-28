@@ -56,7 +56,7 @@ class ProcessRestAdminController(
     /**
      * 프로세스 리스트 조회 (스크롤).
      */
-    @GetMapping("/list")
+    @GetMapping("/", "")
     fun getProcessList(request: HttpServletRequest, model: Model): List<RestTemplateProcessViewDto> {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")
@@ -78,7 +78,7 @@ class ProcessRestAdminController(
     /**
      * 프로세스 목록 조회.
      */
-    @GetMapping("/", "")
+    @GetMapping("/all")
     fun getProcessList(
         @RequestParam(
             value = "status",
