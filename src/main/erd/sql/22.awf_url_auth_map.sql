@@ -300,7 +300,7 @@ insert into awf_url_auth_map values ('/rest/notices/{id}', 'put', 'notice.update
 insert into awf_url_auth_map values ('/rest/processes-admin', 'post', 'process.read');
 insert into awf_url_auth_map values ('/rest/processes-admin', 'put', 'process.update');
 insert into awf_url_auth_map values ('/rest/processes-admin', 'get', 'process.read');
-insert into awf_url_auth_map values ('/rest/processes-admin/list', 'get', 'process.read');
+insert into awf_url_auth_map values ('/rest/processes-admin/all', 'get', 'process.read');
 insert into awf_url_auth_map values ('/rest/processes/{id}', 'delete', 'process.delete');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'get', 'process.create');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'put', 'process.update');
@@ -324,7 +324,7 @@ insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.cre
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
 insert into awf_url_auth_map values ('/rest/users', 'get', 'user.read');
-insert into awf_url_auth_map values ('/rest/users/list', 'get', 'user.read');
+insert into awf_url_auth_map values ('/rest/users/all', 'get', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.update');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.read');

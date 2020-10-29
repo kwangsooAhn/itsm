@@ -128,7 +128,7 @@ class UserRestController(
     /**
      * 전체 사용자 목록 조회.
      */
-    @GetMapping("/", "")
+    @GetMapping("/all")
     fun getUsers(): MutableList<UserSelectListDto> {
         return userService.selectUserListOrderByName()
     }
@@ -136,7 +136,7 @@ class UserRestController(
     /**
      * 사용자 목록 조회 (스크롤).
      */
-    @GetMapping("/list")
+    @GetMapping("/", "")
     fun getUserList(
         @RequestParam(value = "search", defaultValue = "") search: String,
         @RequestParam(value = "offset", defaultValue = "0") offset: String,

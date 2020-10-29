@@ -1977,7 +1977,7 @@
 
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/users',
+            url: '/rest/users/all',
             contentType: 'application/json; charset=utf-8',
             callbackFunc: function(xhr) {
                 assigneeTypeData.users = JSON.parse(xhr.responseText);
