@@ -276,6 +276,6 @@ class UserService(
             AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
             password
         )
-        return  AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code
+        return AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code
     }
 }
