@@ -150,25 +150,63 @@ span.vertical-bar {
         margin-bottom: 0.3125rem; // 5px
     }
 }
+
+.popup {
+    padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
+    // 문서함 > 관련 문서
+    .related-instance-header {
+      h3.under-bar {
+        border-width: 0.0625rem; // 1px
+      }
+    }
+    .related-instance-main {
+      margin-top: 0.9375rem; // 15px
+      .table-set {
+        margin-top: 2.188rem; // 35px
+        table {
+          width: 100%;
+          thead {
+            tr {
+              color: $light-black;
+              border-bottom: 0.125rem solid $default-gray;
+            }
+          }
+          tbody {
+            display: table;
+            width: 100%;
+            height: 32.5rem; // 520px
+            color: $dark-gray;
+            overflow-y: auto;
+            tr {
+              display: table;
+              width: 100%;
+              height: 3.125rem; // 50px
+              td {
+                display: inline-block; // 말줄임 적용을 위해 추가
+                vertical-align: middle;
+              }
+            }
+          }
+        }
+      }
+    }
+    .view {
+        padding: 0;
+        width: auto;
+        &-content {
+            height: 44.625rem; // 714px
+            div.form-set {
+                margin: 0 0.6875rem 0 0.6875rem; // 11px
+            }
+        }
+    }
+}
+
 .container {
     height: 100%;
     min-height: 100vh;
     width: 100%;
     max-width: calc(100% - 13.75rem);
-
-    &-popup {
-        padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
-        .view {
-            padding: 0;
-            width: auto;
-            &-content {
-                height: 44.625rem; // 714px
-                div.form-set {
-                    margin: 0 0.6875rem 0 0.6875rem; // 11px
-                }
-            }
-        }
-    }
 
     @import "contents/_contents-token.scss";
     @import "contents/_contents-list.scss";

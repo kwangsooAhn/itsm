@@ -25,6 +25,10 @@
       width: $drawing-board-width;
       max-width: $drawing-board-width;
       padding: 8.438rem 0 0.9375rem 0; // 135px 0 15px 0
+      // 문서 번호
+      .numbering-content {
+        label { color: $gray; }
+      }
     }
     // 폼이 그려지는 영역
     .drawing-board {
@@ -99,6 +103,7 @@
         &-history {
           height: 100%;
           .table {
+            width: 100%;
             thead {
               border-bottom: 0.0625rem solid $default-gray; // 1px
               tr {

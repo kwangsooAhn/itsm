@@ -1,60 +1,71 @@
+/* 태그 기능 디자인
+ * /document/_tag.scss
+ * 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
+ */
 .tagify {
-  height: 54px; // 54px
-  padding-left: 5px; // 5px
+  height: 3.375rem; // 54px
+  padding-left: 0.3125rem; // 5px
+  // 태그
+  tag {
+    margin: 0.625rem 0 0.625rem 0.3125rem; // 10px 0 10px 5px
+    div {
+      color: $tag-font-color;
+      border-radius: 0.0625rem; // 1px
+      padding: 0.375rem 0.5rem; // 6px 8px
+      &::before {
+        box-shadow: 0 0 0 1.25rem $tag-bg-color inset;
+      }
+      span {
+        height: 1.25rem; // 20px
+      }
+      &:hover {
+        &::before {
+          color: $tag-hover-font-color;
+          box-shadow: 0 0 0 1.25rem $tag-hover-bg-color inset !important;
+        }
+      }
+    }
+    &:hover {
+      div::before {
+        color: $tag-hover-font-color;
+        box-shadow: 0 0 0 1.25rem $tag-hover-bg-color inset !important;
+      }
+    }
+  }
   // 삭제 버튼
   .tagify__tag__removeBtn {
     font-weight: $font-weight-bold;
     color: $hover-blue;
     &:hover {
+      color: $white;
       background-color: $tag-invalid-font-color;
-      div {
+      + div {
         color: $tag-invalid-font-color;
         &::before {
-          box-shadow: 0 0 0 1.1em $tag-invalid-bg-color inset;
+          box-shadow: 0 0 0 1.25rem $tag-invalid-bg-color inset !important;
         }
       }
     }
   }
   // 동일 태그 입력시
-  .tagify__tag--editable {
-    div {
-      color: $tag-invalid-font-color;
+  .tagify--notAllowed:not(.tagify__tag--editable) {
+    .tagify__tag__removeBtn {
+      color: $tag-invalid-font-color !important;
     }
-    &.tagify--invalid {
-      div {
-        &::before {
-          box-shadow: 0 0 0 1.1em $tag-invalid-bg-color inset;
-        }
-      }
-    }
-  }
-  .tagify__tag--editable {
     div {
-      color: $tag-invalid-font-color;
-    }
-  }
-  // 태그
-  tag {
-    margin: 10px 0 10px 5px; // 10px 0 10px 5px
-    div {
-      color: $tag-font-color;
-      border-radius: 0.0625rem; // 1px
-      padding: 8px; // 8px
+      color: $tag-invalid-font-color !important;
       &::before {
-        box-shadow: 0 0 0 20px $tag-bg-color inset;
+        box-shadow: 0 0 0 1.25rem $tag-invalid-bg-color inset !important;
       }
-      &:hover {
-        &::before {
-          color: $tag-hover-font-color;
-          box-shadow: 0 0 0 20px $tag-hover-bg-color inset;
-        }
+      span {
+        opacity: 1;
       }
     }
   }
   // 태그를 입력하세요 input box
   .tagify__input {
-    margin: 10px 5px; // 10px 5px
-    padding: 7px; // 7px
+    margin: 0.625rem 0.3125rem; // 10px 5px
+    padding: 0.4375rem; // 7px
     white-space: pre-line;
   }
 }

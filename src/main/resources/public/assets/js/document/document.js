@@ -841,6 +841,8 @@
     function createTokenInfoTab() {
         let instanceId = document.getElementById('instanceId').getAttribute('data-id');
         let tokenId = document.getElementById('tokenId').getAttribute('data-id');
+        // 프린트 페이지일 경우,
+        if (document.querySelector('.token-properties') === null) { return false; }
 
         // 탭 정보들 조회하여 셋팅.
         aliceJs.sendXhr({

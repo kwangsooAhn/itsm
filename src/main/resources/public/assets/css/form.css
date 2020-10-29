@@ -122,6 +122,18 @@ input, button, select, optgroup, textarea {
   vertical-align: text-top;
 }
 
+.float-clear {
+  clear: both;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
 /* _flex.scss
  *
  * 파일 경로 : template/_flex.scss
@@ -789,6 +801,7 @@ table tr {
 }
 
 table tr th {
+  font-size: 1.125rem;
   font-weight: 500;
 }
 
