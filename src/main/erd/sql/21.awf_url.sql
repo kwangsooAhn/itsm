@@ -213,6 +213,7 @@ insert into awf_url values ('/rest/users', 'get', '전체 사용자 목록 조�
 insert into awf_url values ('/rest/users/list', 'get', '사용자 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/all', 'put', '사용자가 자신의 정보를 업데이트', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 다른 사용자의 정보를 업데이트', 'FALSE');
+insert into awf_url values ('/rest/users/{userkey}/resetPassword', 'put', '사용자 비밀번호 초기화', 'TRUE');
 insert into awf_url values ('/rest/wf/instances/{id}/history', 'get', 'test', 'FALSE');
 insert into awf_url values ('/rest/wf/instances/{id}/latest', 'get', '마지막 토큰 정보 조회', 'FALSE');
 insert into awf_url values ('/roles/edit', 'get', '역할 설정 뷰 호출', 'TRUE');
