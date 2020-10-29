@@ -849,13 +849,13 @@
             async: false,
             showProgressbar: true,
             callbackFunc: function (response) {
-                if (document.querySelector('.document-properties').children) {
-                    document.querySelector('.document-properties').remove();
+                if (document.querySelector('.token-properties').children) {
+                    document.querySelector('.token-properties').remove();
                     let tokenInfo = document.createElement('div');
-                    tokenInfo.className = 'document-properties';
+                    tokenInfo.className = 'token-properties';
                     document.querySelector('.document-container').append(tokenInfo);
                 }
-                document.querySelector('.document-properties').innerHTML = response.responseText;
+                document.querySelector('.token-properties').innerHTML = response.responseText;
 
                 // 탭 정보에 이벤트를 등록
                 document.querySelectorAll('.token-info-tab > h4').forEach((ele) => {
@@ -902,7 +902,7 @@
                     placeholder: i18n.msg('token.msg.tag')
                 });
 
-                const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab'):"token-history";
+                const selectedTab = sessionStorage.getItem('token-info-tab') ? sessionStorage.getItem('token-info-tab') : "token-history";
                 document.querySelector('h4[data-target-contents="' + selectedTab + '"]').click();
                 OverlayScrollbars(document.querySelectorAll('.token-info-contents'), {className: 'scrollbar'});
             }

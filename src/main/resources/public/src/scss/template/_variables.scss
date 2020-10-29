@@ -157,10 +157,9 @@ $btn-group-disabled-border-color:            $line-gray;
 $btn-group-toggle-font-color:                $gray;
 $btn-group-toggle-bg-color:                  $light-gray;
 
-// layout-header 디자인 요소
+//////////////////////////////// layout ////////////////////////////////
 $layout-header-height:                       3.125rem; // 50px
-// layout-properties 디자인 요소
-$layout-properties-height:                   calc(100vh - #{$layout-header-height});
+$layout-properties-width:                    18.75rem; // 300px
 
 //////////////////////////////// scrollbar ////////////////////////////////
 // scrollbar 두께

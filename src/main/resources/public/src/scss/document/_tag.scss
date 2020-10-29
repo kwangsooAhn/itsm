@@ -1,0 +1,60 @@
+.tagify {
+  height: 54px; // 54px
+  padding-left: 5px; // 5px
+  // 삭제 버튼
+  .tagify__tag__removeBtn {
+    font-weight: $font-weight-bold;
+    color: $hover-blue;
+    &:hover {
+      background-color: $tag-invalid-font-color;
+      div {
+        color: $tag-invalid-font-color;
+        &::before {
+          box-shadow: 0 0 0 1.1em $tag-invalid-bg-color inset;
+        }
+      }
+    }
+  }
+  // 동일 태그 입력시
+  .tagify__tag--editable {
+    div {
+      color: $tag-invalid-font-color;
+    }
+    &.tagify--invalid {
+      div {
+        &::before {
+          box-shadow: 0 0 0 1.1em $tag-invalid-bg-color inset;
+        }
+      }
+    }
+  }
+  .tagify__tag--editable {
+    div {
+      color: $tag-invalid-font-color;
+    }
+  }
+  // 태그
+  tag {
+    margin: 10px 0 10px 5px; // 10px 0 10px 5px
+    div {
+      color: $tag-font-color;
+      border-radius: 0.0625rem; // 1px
+      padding: 8px; // 8px
+      &::before {
+        box-shadow: 0 0 0 20px $tag-bg-color inset;
+      }
+      &:hover {
+        &::before {
+          color: $tag-hover-font-color;
+          box-shadow: 0 0 0 20px $tag-hover-bg-color inset;
+        }
+      }
+    }
+  }
+  // 태그를 입력하세요 input box
+  .tagify__input {
+    margin: 10px 5px; // 10px 5px
+    padding: 7px; // 7px
+    white-space: pre-line;
+  }
+}

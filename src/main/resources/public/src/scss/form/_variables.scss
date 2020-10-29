@@ -88,8 +88,3 @@ $context-menu-border:                         0.0625rem solid $line-gray; // 1px
 $context-menu-box-shadow:                     0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
 $context-menu-focus-bg-color:                 rgba(135, 206, 255, 0.1);
 $context-menu-focus-font-color:               $point-blue;
-
-// document
-// container > contents > button-board, drawing-board
-$document-content-drawing-board-width:  61.56rem; // 985px
-$document-content-drawing-board-top-margin: 6.563rem; // 105px

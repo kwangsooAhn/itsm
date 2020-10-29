@@ -29,12 +29,12 @@
                 <div class="drawing-board" id="document-panel"></div>
             </div>
         </form>
-        <div class="document-properties">
+        <div class="token-properties">
             <div class="token-info-tab">
-                <h4 data-target-contents="token-history" th:text="#{token.label.history}"></h4>
-                <h4 data-target-contents="token-related" th:text="#{token.label.relatedInstance}"></h4>
-                <h4 data-target-contents="token-comment" th:text="#{common.label.comment}"></h4>
-                <h4 data-target-contents="token-tag" th:text="#{common.label.tag}"></h4>
+                <h4 class="align-center" data-target-contents="token-history" th:text="#{token.label.history}"></h4>
+                <h4 class="align-center" data-target-contents="token-related" th:text="#{token.label.relatedInstance}"></h4>
+                <h4 class="align-center" data-target-contents="token-comment" th:text="#{common.label.comment}"></h4>
+                <h4 class="align-center" data-target-contents="token-tag" th:text="#{common.label.tag}"></h4>
             </div>
             <div class="token-info-contents">
                 <div class="token-history">
@@ -42,36 +42,39 @@
                         <thead>
                         <tr>
                             <th width="45%" th:text="#{token.label.startDt}">시작일시</th>
-                            <th width="35%" th:text="#{token.label.elementName}">업무</th>
-                            <th width="20%" th:text="#{token.label.assignee}">담당자</th>
+                            <th width="40%" th:text="#{token.label.elementName}">업무</th>
+                            <th width="15%" th:text="#{token.label.assignee}">담당자</th>
                         </tr>
                         </thead>
                         <tbody id="history" class="list-wrap">
                         <tr th:each="tokenHistory : ${instanceHistory}">
                             <td width="45%" th:name="tokenDt" th:text="${tokenHistory.tokenStartDt}"/>
-                            <td width="35%" th:text="${tokenHistory.elementName}"></td>
-                            <td width="20%" th:text="${tokenHistory.assigneeName}"></td>
+                            <td width="40%" th:text="${tokenHistory.elementName}"></td>
+                            <td width="15%" th:text="${tokenHistory.assigneeName}"></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
                 <div class="token-related">
-                    <div class="list-item" th:each="rInstance: ${relatedInstance}">
+                    <div class="list-item flex-row" th:each="rInstance: ${relatedInstance}">
                         <div class="document-color" th:style="|background-color: ${rInstance.documentColor}|"></div>
-                        <div class="document-row">
-                            <div class="document-row-content">
+                        <div class="document-row flex-column">
+                            <div class="document-row-content flex-row justify-content-between">
                                 <a th:onclick="openTokenEdit([[${rInstance.tokenId}]])">
-                                    <div class="document-title">
+                                    <div class="document-title flex-row align-items-center">
                                         <h5 th:text="${rInstance.documentName}"></h5>
                                         <h5 th:text="${rInstance.documentNo}"></h5>
                                     </div>
                                 </a>
-                                <div class="trash-icon"></div>
+                                <button type="button"
+                                        th:onclick="aliceDocument.deleteRelatedDoc({folderId: [[${rInstance.folderId}]], instanceId: [[${rInstance.instanceId}]]})">
+                                    <span class="icon icon-delete"></span>
+                                </button>
                             </div>
                             <div class="document-row-topic">
                             </div>
-                            <div class="document-row-info">
-                                <div class="document-user">
+                            <div class="document-row-info flex-row align-items-center">
+                                <div class="document-user flex-row align-items-center">
                                     <img class="profile-photo" th:src="@{${rInstance.avatarPath}}"/>
                                     <h5 th:text="${rInstance.instanceCreateUserName}"></h5>
                                 </div>
@@ -82,30 +85,31 @@
                             </div>
                         </div>
                     </div>
-                    <div class="related-add list-item">
+                    <div class="related-add flex-row justify-content-center align-items-center">
                         <button th:onclick="openPopUp([[${tokenId}]])">
                             <span class="icon-plus"></span>
                         </button>
                     </div>
                 </div>
                 <div id="commentList" class="token-comment">
-                    <div class="list-item" th:each="comment : ${commentList}">
-                        <div class="comment-row-info">
-                            <div class="comment-user">
+                    <div class="list-item flex-column" th:each="comment : ${commentList}">
+                        <div class="comment-row-info flex-row align-items-center">
+                            <div class="comment-user flex-row align-items-center">
                                 <img class="profile-photo" th:src="@{${comment.avatarPath}}"/>
-                                <h5 th:text="${comment.createUserName}"></h5>
+                                <h5 class="user-name" th:text="${comment.createUserName}"></h5>
                             </div>
                             <h5 class="should-be-modify-userdate" th:text="${comment.createDt}"></h5>
                             <div th:if="${#authentication.details.userKey} == ${comment.createUserKey}">
-                                <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|"
-                                        class="trash-icon"></button>
+                                <button th:attr="onclick=|aliceDocument.deleteComment('${comment.commentId}')|">
+                                    <span class="icon icon-delete"></span>
+                                </button>
                             </div>
                         </div>
                         <div class="comment-row">
                             <span th:text="${comment.content}"></span>
                         </div>
                     </div>
-                    <div id="comment-container" class="comment comment-input"></div>
+                    <div id="comment-container" class="comment comment-input flex-row align-items-start"></div>
                 </div>
                 <div class="token-tag">
                     <div style="margin-bottom: 1rem;">

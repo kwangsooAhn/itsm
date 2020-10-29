@@ -297,8 +297,8 @@ input, button, select, optgroup, textarea {
  * document-container
  *                - document-main : 문서양식 메인
  *                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
- *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역
- *                - document-properties : 문서이력, 관련문서, 의견, 태그
+ *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > form/_component.scss )
+ *                - token-properties : 문서이력, 관련문서, 의견, 태그
  */
 .document-container {
   max-width: 120rem;
@@ -309,7 +309,7 @@ input, button, select, optgroup, textarea {
   position: fixed;
   top: 0;
   left: 0;
-  right: 37.5rem;
+  right: 38.13rem;
   bottom: 0;
   overflow-y: auto;
   background-color: #F7F8F9;
@@ -365,242 +365,207 @@ input, button, select, optgroup, textarea {
   display: inherit;
 }
 
-.document-container .document-properties {
+.document-container .token-properties {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 37.5rem;
+  width: 38.13rem;
+  overflow-y: auto;
   background-color: #ffffff;
   border-left: 0.0625rem solid #EBEBEB;
   padding: 0 4.0625rem;
 }
 
-.document-container .document-properties .token-info-tab {
+.document-container .token-properties .token-info-tab {
   display: flex;
   margin-top: 7.8125rem;
 }
 
-.document-container .document-properties .token-info-tab h4 {
-  flex: 1;
-  text-align: center;
+.document-container .token-properties .token-info-tab h4 {
+  font-size: 1.125rem;
+  font-weight: 500;
   color: #ACB4BF;
+  flex: 1;
   padding-bottom: 0.625rem;
   border-bottom: 0.125rem solid #E1E3E6;
+  cursor: pointer;
 }
 
-.document-container .document-properties .token-info-tab .active {
-  border-bottom: 0.25rem solid #0098FF;
+.document-container .token-properties .token-info-tab .active {
   color: #3F4B56;
+  border-bottom: 0.25rem solid #0098FF;
 }
 
-.document-container .document-properties .token-info-contents {
+.document-container .token-properties .token-info-contents {
   height: 43.75rem;
   overflow-y: auto;
 }
 
-.document-container .document-properties .token-info-contents .token-tag {
+.document-container .token-properties .token-info-contents .token-tag {
   display: none;
   margin-top: 1.25rem;
 }
 
-.document-container .document-properties .token-info-contents .token-tag .tag-input tags > span {
-  min-width: 26.875rem;
-}
-
-.document-container .document-properties .token-info-contents .token-tag .tag-input tag div {
-  background: #e5e5e5;
-  max-width: 27.6875rem;
-  border-radius: 0.1875rem;
-}
-
-.document-container .document-properties .token-info-contents .token-tag .tag-input tag div:hover {
-  background: #d3e2e2;
-}
-
-.document-container .document-properties .token-info-contents .token-tag .tag-input tag span {
-  max-width: 26.875rem;
-  white-space: pre-line;
-}
-
-.document-container .document-properties .token-info-contents .token-history {
+.document-container .token-properties .token-info-contents .token-history {
   height: 100%;
 }
 
-.document-container .document-properties .token-info-contents .token-history .table {
-  border: none;
-}
-
-.document-container .document-properties .token-info-contents .token-history .table thead {
+.document-container .token-properties .token-info-contents .token-history .table thead {
   border-bottom: 0.0625rem solid #E1E3E6;
-  display: block;
 }
 
-.document-container .document-properties .token-info-contents .token-history .table thead tr {
+.document-container .token-properties .token-info-contents .token-history .table thead tr {
   display: flex;
   align-items: center;
+  height: 55px;
 }
 
-.document-container .document-properties .token-info-contents .token-history .table th {
-  color: #3F4B56;
-  font-weight: 500;
-}
-
-.document-container .document-properties .token-info-contents .token-history .table td {
-  color: #586872;
-  font-weight: 400;
-  max-width: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.document-container .document-properties .token-info-contents .token-history .table th, .document-container .document-properties .token-info-contents .token-history .table td {
-  border: none;
+.document-container .token-properties .token-info-contents .token-history .table th, .document-container .token-properties .token-info-contents .token-history .table td {
   text-align: left;
 }
 
-.document-container .document-properties .token-info-contents .token-history .table tbody {
-  display: block;
-  height: 35.3125rem;
-  overflow-y: auto;
-  width: 100%;
+.document-container .token-properties .token-info-contents .token-history .table th {
+  color: #3F4B56;
 }
 
-.document-container .document-properties .token-info-contents .token-history .table tbody tr {
+.document-container .token-properties .token-info-contents .token-history .table td {
+  color: #586872;
+}
+
+.document-container .token-properties .token-info-contents .token-history .table th:nth-child(3n + 1),
+.document-container .token-properties .token-info-contents .token-history .table td:nth-child(3n + 1) {
+  padding-left: 0.625rem;
+}
+
+.document-container .token-properties .token-info-contents .token-history .table tbody {
+  display: block;
+  width: 100%;
+  height: 37.5rem;
+  overflow-y: auto;
+}
+
+.document-container .token-properties .token-info-contents .token-history .table tbody tr {
   display: table;
   width: 100%;
 }
 
-.document-container .document-properties .token-info-contents .token-related {
-  padding-top: 0.625rem;
-  display: flex;
-  flex-direction: column;
+.document-container .token-properties .token-info-contents .token-related {
   display: none;
+  padding-top: 0.625rem;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item {
+.document-container .token-properties .token-info-contents .token-related .list-item {
   height: 11.5625rem;
-  margin-top: 0.625rem;
-  margin-right: 0.625rem;
-  display: flex;
+  margin: 0.625rem 0.625rem 0 0;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-color {
+.document-container .token-properties .token-info-contents .token-related .list-item .document-color {
   width: 0.625rem;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row {
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row {
+  flex: 1;
   border: 0.0625rem solid #EBEBEB;
   padding: 1.25rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content {
-  display: flex;
-  justify-content: space-between;
-}
-
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a {
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a {
   width: 100%;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a .document-title {
-  display: flex;
-  align-items: center;
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title {
   word-break: break-word;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:first-child {
-  color: #3F4B56;
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:first-child {
   font-weight: 500;
-  width: 50%;
+  color: #3F4B56;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:last-child {
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:last-child {
+  font-weight: 400;
   color: #ACB4BF;
   margin-left: 0.3125rem;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-topic {
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content button {
+  padding: 0;
+}
+
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content button .icon-delete {
+  background: #CCCED1;
+}
+
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-topic {
   height: 100%;
+  color: #586872;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-info {
-  display: flex;
-  align-items: center;
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-info h5 {
+  color: #586872;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-info .document-user {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .document-properties .token-info-contents .token-related .related-add {
+.document-container .token-properties .token-info-contents .token-related .related-add {
   height: 11.5625rem;
   border: 0.0625rem solid #EBEBEB;
   background-color: #F7F8F9;
-  align-items: center;
-  justify-content: center;
+  margin: 0.625rem 0.625rem 0 0;
 }
 
-.document-container .document-properties .token-info-contents .token-comment {
+.document-container .token-properties .token-info-contents .token-comment {
   display: none;
   padding-top: 0.625rem;
-  display: flex;
-  flex-direction: column;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .list-item {
+.document-container .token-properties .token-info-contents .token-comment .list-item {
   padding: 1.25rem 1.5625rem;
-  margin-top: 0.625rem;
-  margin-right: 0.625rem;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #EBEBEB;
+  margin: 0.625rem 0.625rem 0 0;
+  border: 0.0625rem solid #EBEBEB;
   background-color: #F7F8F9;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row {
-  margin-top: 0.0625rem;
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row {
+  color: #586872;
+  margin-top: 0.625rem;
   word-break: break-word;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info .comment-user {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info div, .document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info h5 {
-  flex: none;
-}
-
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info > h5 {
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info h5 {
   margin-left: 0.9375rem;
+}
+
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-name {
+  color: #586872;
+}
+
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-date-time {
   color: #ACB4BF;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info button {
+  padding: 0;
+}
+
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info button .icon-delete {
+  background: #CCCED1;
+}
+
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
   margin-left: auto;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .comment-input {
+.document-container .token-properties .token-info-contents .token-comment .comment-input {
   margin-top: 0.625rem;
   padding: 0;
-  align-items: start;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .comment-input textarea {
-  resize: none;
+.document-container .token-properties .token-info-contents .token-comment .comment-input textarea {
   height: 4.3750rem;
+  margin-right: 0.3125rem;
   flex: 1;
+  border-radius: 0.1875rem;
+  resize: none;
 }
 
 .document-modal-active {
@@ -1117,6 +1082,65 @@ label {
 
 .switch:focus input[type=checkbox] + span:before {
   border-color: #0098FF;
+}
+
+.tagify {
+  height: 54px;
+  padding-left: 5px;
+}
+
+.tagify .tagify__tag__removeBtn {
+  font-weight: 700;
+  color: #33ADFF;
+}
+
+.tagify .tagify__tag__removeBtn:hover {
+  background-color: #FF405A;
+}
+
+.tagify .tagify__tag__removeBtn:hover div {
+  color: #FF405A;
+}
+
+.tagify .tagify__tag__removeBtn:hover div::before {
+  box-shadow: 0 0 0 1.1em rgba(255, 64, 90, 0.1) inset;
+}
+
+.tagify .tagify__tag--editable div {
+  color: #FF405A;
+}
+
+.tagify .tagify__tag--editable.tagify--invalid div::before {
+  box-shadow: 0 0 0 1.1em rgba(255, 64, 90, 0.1) inset;
+}
+
+.tagify .tagify__tag--editable div {
+  color: #FF405A;
+}
+
+.tagify tag {
+  margin: 10px 0 10px 5px;
+}
+
+.tagify tag div {
+  color: #0098FF;
+  border-radius: 0.0625rem;
+  padding: 8px;
+}
+
+.tagify tag div::before {
+  box-shadow: 0 0 0 20px rgba(0, 152, 255, 0.1) inset;
+}
+
+.tagify tag div:hover::before {
+  color: #0098FF;
+  box-shadow: 0 0 0 20px rgba(0, 152, 255, 0.1) inset;
+}
+
+.tagify .tagify__input {
+  margin: 10px 5px;
+  padding: 7px;
+  white-space: pre-line;
 }
 
 /* _print.scss 
