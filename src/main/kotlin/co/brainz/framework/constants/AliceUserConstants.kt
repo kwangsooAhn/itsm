@@ -120,7 +120,8 @@ object AliceUserConstants {
         STATUS_ERROR("2"),
         STATUS_ERROR_EMAIL_DUPLICATION("3"),
         STATUS_SUCCESS_EDIT_EMAIL("4"),
-        STATUS_SUCCESS_EDIT_ADMIN("5")
+        STATUS_SUCCESS_EDIT_ADMIN("5"),
+        STATUS_SUCCESS_EDIT_PASSWORD("6")
     }
 
     /**
@@ -168,6 +169,7 @@ object AliceUserConstants {
         CREATE_USER("0"),
         UPDATE_USER("1"),
         UPDATE_USER_EMAIL("2"),
-        CREATE_USER_ADMIN("3")
+        CREATE_USER_ADMIN("3"),
+        UPDATE_USER_PASSWORD("4")
     }
 }
