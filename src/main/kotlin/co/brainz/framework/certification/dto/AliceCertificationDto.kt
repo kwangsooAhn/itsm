@@ -7,5 +7,6 @@ data class AliceCertificationDto(
     val email: String,
     val certificationCode: String,
     val status: String,
-    val password: String? = ""
+    val password: String? = "",
+    val classificationCode: String? = ""
 ) : Serializable

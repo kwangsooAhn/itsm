@@ -329,6 +329,8 @@ insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.u
 insert into awf_url_auth_map values ('/rest/users/{userkey}/all', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.read');
 insert into awf_url_auth_map values ('/rest/users/{userkey}/info', 'put', 'user.update');
+insert into awf_url_auth_map values ('/rest/users/{userkey}/resetPassword', 'put', 'user.read');
+insert into awf_url_auth_map values ('/rest/users/{userkey}/resetPassword', 'put', 'user.update');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.update');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.read');
 insert into awf_url_auth_map values ('/roles/edit', 'get', 'role.create');

@@ -32,16 +32,10 @@
                             <input id="userId" name="userId" maxlength="100" th:value="${users?.userId}"
                                    required="required"/>
                         </div>
-                        <div class="form-set">
-                            <label class="required" th:text="#{user.label.password}" for="password"></label>
-                            <input type="password" id="password" name="password" maxlength="100"
-                                   autocomplete="new-password" required="required"/>
-                        </div>
-                        <div class="form-set">
-                            <label class="required" th:text="#{user.label.rePassword}" for="rePassword"></label>
-                            <input type="password" id="rePassword" name="rePassword" maxlength="100"
-                                   autocomplete="new-password" required="required"/>
-                        </div>
+                    </div>
+                    <div class="form-set" th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice')}">
+                        <label th:text="#{user.label.password}"></label>
+                        <button class="point-fill" type="button" th:text="#{user.btn.resetPassword}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/resetPassword(userKey=${users.userKey})}]], 'false')"/>
                     </div>
                     <div class="form-set">
                         <label class="required" th:text="#{user.label.name}" for="userName"></label>
@@ -122,7 +116,8 @@
                     <label class="required" th:text="#{user.label.theme}" for="theme"></label>
                     <select class="theme-color-select" name="theme" id="theme">
                         <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
-                                th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"></option>
+                                th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"
+                                th:unless="${theme.codeValue} == 'dark'"></option>
                     </select>
                 </div>
             </div>
@@ -152,12 +147,10 @@
                 </label>
             </div>
             <div class="btn-list btn-bar">
-                <button class="point-fill" type="button" th:if="!${users?.userKey}"
-                        th:text="#{common.btn.register}"></button>
                 <button class="point-fill" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
-                        th:onclick="restSubmit('post', [[@{/rest/users}]])"></button>
+                        th:onclick="restSubmit('post', [[@{/rest/users}]], 'true')"></button>
                 <button class="point-fill" type="button" th:if="${users?.userKey}" th:text="#{common.btn.modify}"
-                        th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]])"></button>
+                        th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/all(userKey=${users.userKey})}]], 'true')"></button>
                 <a class="btn default-line" href="/users/search" th:text="#{common.btn.list}"></a>
             </div>
         </div>
@@ -216,10 +209,13 @@
         const STATUS_ERROR_EMAIL_DUPLICATION = '3';
         const STATUS_SUCCESS_EDIT_EMAIL = '4';
         const STATUS_SUCCESS_EDIT_ADMIN = '5';
+        const STATUS_SUCCESS_EDIT_PASSWORD = '6';
 
-        function restSubmit(method, url) {
-            if (!validation()) {
-                return false;
+        function restSubmit(method, url, activeValidation) {
+            if (activeValidation === 'true') {
+                if (!validation()) {
+                    return false;
+                }
             }
             let arrRoleValue = [];
             document.querySelectorAll('input[name=roles]:checked').forEach(function(item) {
@@ -243,14 +239,6 @@
                 roles: arrRoleValue,
                 avatarUUID: document.getElementById('avatarUUID').value
             };
-            let password = document.getElementById('password').value;
-            if (password !== '' && method === 'put') {
-                const keyModule = [[${#request.getAttribute('_publicKeyModulus')}]];
-                const keyExponent = [[${#request.getAttribute('_publicKeyExponent')}]];
-                const rsa = new RSAKey();
-                rsa.setPublic(keyModule, keyExponent);
-                data.password = rsa.encrypt(password);
-            }
 
             aliceJs.sendXhr({
                 method: method,
@@ -274,6 +262,9 @@
                                 window.location.reload();
                             });
                             break;
+                        case STATUS_SUCCESS_EDIT_PASSWORD:
+                            aliceJs.alertSuccess([[#{user.msg.resetPassword}]]);
+                            break;
                         case STATUS_ERROR_USER_ID_DUPLICATION:
                             aliceJs.alertWarning([[#{user.msg.sameUserId}]]);
                             break;
@@ -290,12 +281,6 @@
 
         function validation() {
             if (isEmpty('userId', 'user.msg.enterUserId')) return false;
-            if (isAndOperator(isEmpty('password'), isNotEmpty('rePassword'), 'user.msg.enterUserPassword')) return false;
-            if (isAndOperator(isNotEmpty('password'), isEmpty('rePassword'), 'user.msg.enterUserRePassword')) return false;
-            if (isNotEquals('password', 'rePassword', 'user.msg.passwordNotEquals')) return false;
-            if (isAndOperator(isNotEmpty('password'), isNotEmpty('rePassword'))) {
-                if (!isValidPassword('password')) return false;
-            }
             if (!isValidUserId("userId")) return false;
             if (isEmpty('userName', 'user.msg.enterUserName')) return false;
             if (isEmpty('email', 'user.msg.enterUserEmail')) return false;
