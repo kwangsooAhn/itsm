@@ -5861,7 +5861,7 @@ span.vertical-bar {
 }
 
 .color-picker .color-palette div.selected {
-  border: 0.375rem solid white;
+  border: 0.375rem solid #ffffff;
   outline: 0.063rem solid #0098ff;
 }
 

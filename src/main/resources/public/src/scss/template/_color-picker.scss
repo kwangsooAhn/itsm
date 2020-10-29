@@ -48,7 +48,7 @@
         margin-bottom: $color-picker-palette-margin; // 10px;
         cursor: pointer;
         &.selected {
-            border: 0.375rem solid white; // 6px
+            border: 0.375rem solid $white; // 6px
             outline: 0.063rem solid $point-blue; // 1px
         }
     }
@@ -60,9 +60,9 @@
     justify-content: flex-start;
     background-color: $white;
     width: 100%;
-    margin-top: 0.188rem; // 3px
-    border: 0.0625rem solid $line-gray;
+    margin-top: 0.188rem;
     padding: 0.9375rem 0 0.9375rem 0.9375rem; // 15px 0 15px 15px
+    border: 0.0625rem solid $line-gray;
     & div {
         display: inline-block;
         width: 1rem; // 16px
@@ -71,7 +71,7 @@
         cursor: pointer;
         &:last-child { border: 0.0625rem solid $line-gray; }
         &.selected {
-            border: 0.125rem solid #ffffff; // 2px
+            border: 0.125rem solid $white; // 2px
             outline: 0.063rem solid $point-blue; // 1px
         }
     }

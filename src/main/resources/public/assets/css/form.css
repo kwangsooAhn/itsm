@@ -3479,8 +3479,8 @@ button .icon-search {
   background-color: #ffffff;
   width: 100%;
   margin-top: 0.188rem;
-  border: 0.0625rem solid #ebebeb;
   padding: 0.9375rem 0 0.9375rem 0.9375rem;
+  border: 0.0625rem solid #ebebeb;
 }
 
 .color-picker .color-palette div {
