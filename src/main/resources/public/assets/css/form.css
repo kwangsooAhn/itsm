@@ -3456,7 +3456,7 @@ button .icon-search {
 .color-picker .color-input .selected-color {
   width: 1.75rem;
   height: 1.75rem;
-  margin: auto;
+  margin: 0.3125rem;
   cursor: pointer;
 }
 
@@ -3464,9 +3464,12 @@ button .icon-search {
   width: 2.5rem;
   height: 2.5rem;
   margin-right: 0.3125rem;
-  border: 0.0625rem solid #EBEBEB;
-  cursor: pointer;
+  border: 0.0625rem solid #ebebeb;
   display: flex;
+}
+
+.color-picker .color-input .selected-color-box:hover {
+  border: 0.0625rem solid #0098ff;
 }
 
 .color-picker .color-palette {
@@ -3474,59 +3477,33 @@ button .icon-search {
   flex-wrap: wrap;
   justify-content: flex-start;
   background-color: #ffffff;
-  width: 30rem;
-  margin-top: 0.3125rem;
-  padding: 1.25rem 0 0.625rem 1.25rem;
-  border: 0.0625rem solid #EBEBEB;
-}
-
-.color-picker .color-palette div {
-  display: inline-block;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 0.625rem;
-  margin-bottom: 0.625rem;
-  cursor: pointer;
-}
-
-.color-picker .color-palette div.selected {
-  border: 0.375rem solid white;
-  outline: 0.063rem solid #0098FF;
-}
-
-.color-picker .color-input input {
-  max-width: 215px;
-}
-
-.color-picker .color-palette {
   width: 100%;
   margin-top: 0.188rem;
-  border: 0.063rem solid #c8ced8;
-  padding-left: 0.219rem;
-  padding-top: 0.188rem;
+  border: 0.0625rem solid #ebebeb;
+  padding: 0.9375rem 0 0.9375rem 0.9375rem;
 }
 
 .color-picker .color-palette div {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  margin-top: 0.375rem;
-  margin-left: 0.375rem;
-  margin-right: 0;
-  margin-bottom: 0;
-  border: 0.063rem solid #a3adbb;
+  margin: 0.1875rem;
   cursor: pointer;
+}
+
+.color-picker .color-palette div:last-child {
+  border: 0.0625rem solid #ebebeb;
 }
 
 .color-picker .color-palette div.selected {
   border: 0.125rem solid #ffffff;
-  outline: 0.063rem solid #0055ff;
+  outline: 0.063rem solid #0098ff;
 }
 
 .color-picker .color-palette-opacity {
   background-color: #ffffff;
   width: 100%;
-  border: 0.063rem solid #c8ced8;
+  border: 0.0625rem solid #ebebeb;
   border-top: none;
   padding-left: 0.219rem;
   display: none;
@@ -3546,9 +3523,6 @@ button .icon-search {
 
 .color-picker .color-palette-opacity span input[type=range] {
   -webkit-appearance: none;
-  /*&::-webkit-slider-runnable-track {
-                    -webkit-appearance: none;
-                }*/
 }
 
 .color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
@@ -3571,7 +3545,7 @@ button .icon-search {
 }
 
 .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
-  background-color: #0055ff;
+  background-color: #0098ff;
   height: 0.0625rem;
 }
 
@@ -3587,17 +3561,16 @@ button .icon-search {
 }
 
 .color-picker .color-palette-opacity span input.slide-input {
-  width: 1.75rem;
-  padding-left: 0;
-  padding-right: 0.25rem;
-  text-align: right;
+  width: 3rem;
+  text-align: center;
 }
 
 .color-picker .color-palette-opacity span label {
-  margin: 0 0 0 0.125rem;
+  margin: 0 0 0 0.25rem;
   width: 0.813rem;
   height: 1.25rem;
   line-height: 1.25rem;
+  vertical-align: middle;
 }
 
 /* _thumbnail.scss 

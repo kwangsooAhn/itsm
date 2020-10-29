@@ -2555,7 +2555,7 @@ button.ghost-line:disabled .icon {
   margin-left: 1.5625rem;
   margin-right: 1.5625rem;
   font-size: 0.688rem;
-  /* _color-picker.scss 
+  /* _color-picker.scss
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -2677,7 +2677,8 @@ button.ghost-line:disabled .icon {
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
   width: 1.75rem;
   height: 1.75rem;
-  margin: auto;
+  margin: 0.3125rem;
+  border: 0.1875rem solid #68717c;
   cursor: pointer;
 }
 
@@ -2686,8 +2687,11 @@ button.ghost-line:disabled .icon {
   height: 2.5rem;
   margin-right: 0.3125rem;
   border: 0.0625rem solid #EBEBEB;
-  cursor: pointer;
   display: flex;
+}
+
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box:hover {
+  border: 0.0625rem solid #0098ff;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
@@ -2695,76 +2699,37 @@ button.ghost-line:disabled .icon {
   flex-wrap: wrap;
   justify-content: flex-start;
   background-color: #ffffff;
-  width: 30rem;
-  margin-top: 0.3125rem;
-  padding: 1.25rem 0 0.625rem 1.25rem;
-  border: 0.0625rem solid #EBEBEB;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
-  display: inline-block;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 0.625rem;
-  margin-bottom: 0.625rem;
-  cursor: pointer;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
-  border: 0.375rem solid white;
-  outline: 0.063rem solid #0098FF;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
-  width: 1.75rem;
-  height: 1.75rem;
-  border: 0.1875rem solid #68717c;
-  margin: 0;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 0.313rem;
-  border: 0.063rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  padding-top: 0.3125rem;
-  padding-left: 0.3125rem;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
-  width: 15.625rem;
+  width: 100%;
   margin-top: 0.188rem;
-  border: 0.063rem solid #c8ced8;
-  padding-left: 0.219rem;
-  padding-top: 0.188rem;
+  border: 0.0625rem solid #EBEBEB;
+  padding: 0.9375rem 0 0.9375rem 0.9375rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  margin-top: 0.375rem;
-  margin-left: 0.4375rem;
-  margin-right: 0;
-  margin-bottom: 0;
-  border: 0.063rem solid #a3adbb;
+  margin: 0.1875rem;
   cursor: pointer;
 }
 
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div:last-child {
+  border: 0.0625rem solid #ebebeb;
+}
+
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
-  border: 0.125rem solid #ffffff;
-  outline: 0.063rem solid #0055ff;
+  border: 0.125rem solid #fff;
+  outline: 0.063rem solid #0098ff;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity {
   background-color: #ffffff;
-  width: 15.625rem;
-  border: 0.063rem solid #c8ced8;
+  width: 100%;
+  border: 0.0625rem solid #ebebeb;
   border-top: none;
   padding-left: 0.219rem;
   display: none;
-  height: 3rem;
+  height: 2.5rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span {
@@ -2775,14 +2740,11 @@ button.ghost-line:disabled .icon {
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input {
   vertical-align: middle;
   width: 1.875rem;
-  height: 2rem;
+  height: 1.25rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range] {
   -webkit-appearance: none;
-  /*&::-webkit-slider-runnable-track {
-                    -webkit-appearance: none;
-                }*/
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
@@ -2805,12 +2767,12 @@ button.ghost-line:disabled .icon {
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
-  background-color: #0055ff;
+  background-color: #0098ff;
   height: 0.0625rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-object {
-  width: 10rem;
+  width: 7.625rem;
   height: 0.0625rem;
   background: #c8ced8;
   border: initial;
@@ -2821,8 +2783,8 @@ button.ghost-line:disabled .icon {
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-input {
-  width: 2.5rem;
-  text-align: right;
+  width: 3rem;
+  text-align: center;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span label {

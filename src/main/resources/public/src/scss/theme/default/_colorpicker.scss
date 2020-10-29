@@ -1,2 +1,8 @@
 // Color Palette for ITSM
 @import "../../template/_color-picker.scss";
+
+.color-picker {
+    .color-palette {
+        @include color-palette();
+    }
+}
