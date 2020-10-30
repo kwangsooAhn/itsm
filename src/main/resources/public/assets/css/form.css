@@ -3457,6 +3457,7 @@ button .icon-search {
   width: 1.75rem;
   height: 1.75rem;
   margin: 0.3125rem;
+  border: transparent;
   cursor: pointer;
 }
 
@@ -3517,12 +3518,6 @@ button .icon-search {
   height: 3rem;
 }
 
-.color-picker .color-palette-opacity span input {
-  vertical-align: middle;
-  width: 1.875rem;
-  height: 2rem;
-}
-
 .color-picker .color-palette-opacity span input[type=range] {
   -webkit-appearance: none;
 }
@@ -3564,7 +3559,9 @@ button .icon-search {
 
 .color-picker .color-palette-opacity span input.slide-input {
   width: 3rem;
+  height: 2rem;
   text-align: center;
+  vertical-align: middle;
 }
 
 .color-picker .color-palette-opacity span label {

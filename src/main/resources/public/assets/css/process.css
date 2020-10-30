@@ -2690,7 +2690,7 @@ button.ghost-line:disabled .icon {
   width: 1.75rem;
   height: 1.75rem;
   margin: 0.3125rem;
-  border: 0.1875rem solid #68717c;
+  border: transparent;
   cursor: pointer;
 }
 
@@ -2755,12 +2755,6 @@ button.ghost-line:disabled .icon {
   height: 3rem;
 }
 
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input {
-  vertical-align: middle;
-  width: 1.875rem;
-  height: 2rem;
-}
-
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range] {
   -webkit-appearance: none;
 }
@@ -2802,7 +2796,9 @@ button.ghost-line:disabled .icon {
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-input {
   width: 3rem;
+  height: 2rem;
   text-align: center;
+  vertical-align: middle;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span label {
