@@ -151,6 +151,10 @@ input, button, select, optgroup, textarea {
   justify-content: center;
 }
 
+.justify-content-between {
+  justify-content: space-between;
+}
+
 .align-items-start {
   align-items: flex-start;
 }
@@ -971,7 +975,7 @@ label {
   outline: none;
 }
 
-.radio span:first-of-type {
+.radio > span:first-of-type {
   padding-right: 0.625rem;
 }
 
@@ -1054,7 +1058,7 @@ label {
   outline: none;
 }
 
-.checkbox span:first-of-type {
+.checkbox > span:first-of-type {
   padding-right: 0.625rem;
 }
 
@@ -1474,6 +1478,7 @@ button.point-fill {
 button.point-fill .icon {
   display: inline-block;
   background: #ffffff;
+  vertical-align: middle;
 }
 
 .btn.point-fill:focus, .btn.point-fill:hover,
@@ -1526,6 +1531,7 @@ button.point-line {
 button.point-line .icon {
   display: inline-block;
   background: #0098FF;
+  vertical-align: middle;
 }
 
 .btn.point-line:focus, .btn.point-line:hover,
@@ -1579,6 +1585,7 @@ button.default-fill {
 button.default-fill .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.default-fill:focus, .btn.default-fill:hover,
@@ -1631,6 +1638,7 @@ button.default-line {
 button.default-line .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.default-line:focus, .btn.default-line:hover,
@@ -1683,6 +1691,7 @@ button.ghost-fill {
 button.ghost-fill .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.ghost-fill:focus, .btn.ghost-fill:hover,
@@ -1735,6 +1744,7 @@ button.ghost-line {
 button.ghost-line .icon {
   display: inline-block;
   background: #CCCED1;
+  vertical-align: middle;
 }
 
 .btn.ghost-line:focus, .btn.ghost-line:hover,
@@ -1798,6 +1808,7 @@ button.ghost-line:disabled .icon {
 .btn-group button .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn-group .btn:focus, .btn-group .btn:hover,
@@ -1902,6 +1913,7 @@ button.ghost-line:disabled .icon {
 .btn-group-toggle button .icon {
   display: inline-block;
   background: #ACB4BF;
+  vertical-align: middle;
 }
 
 .btn-group-toggle .btn:focus, .btn-group-toggle .btn:hover,
@@ -2555,7 +2567,7 @@ button.ghost-line:disabled .icon {
   margin-left: 1.5625rem;
   margin-right: 1.5625rem;
   font-size: 0.688rem;
-  /* _color-picker.scss
+  /* _color-picker.scss 
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -2691,7 +2703,11 @@ button.ghost-line:disabled .icon {
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box:hover {
-  border: 0.0625rem solid #0098ff;
+  border: 0.0625rem solid #0098FF;
+}
+
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
+  border: 0.1875rem solid #68717c;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
@@ -2700,7 +2716,7 @@ button.ghost-line:disabled .icon {
   justify-content: flex-start;
   background-color: #ffffff;
   width: 100%;
-  margin-top: 0.188rem;
+  margin-top: 0.3125rem;
   padding: 0.9375rem 0 0.9375rem 0.9375rem;
   border: 0.0625rem solid #EBEBEB;
 }
@@ -2709,23 +2725,24 @@ button.ghost-line:disabled .icon {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  margin: 0.1875rem;
+  margin-right: 0.1875rem;
+  margin-bottom: 0.1875rem;
   cursor: pointer;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div:last-child {
-  border: 0.0625rem solid #ebebeb;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
   border: 0.125rem solid #ffffff;
-  outline: 0.063rem solid #0098ff;
+  outline: 0.0625rem solid #0098FF;
+}
+
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div:last-child {
+  border: 0.0625rem solid #EBEBEB;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity {
   background-color: #ffffff;
   width: 100%;
-  border: 0.0625rem solid #ebebeb;
+  border: 0.0625rem solid #EBEBEB;
   border-top: none;
   padding-left: 0.219rem;
   display: none;
@@ -2735,12 +2752,13 @@ button.ghost-line:disabled .icon {
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span {
   display: table-cell;
   vertical-align: middle;
+  height: 3rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input {
   vertical-align: middle;
   width: 1.875rem;
-  height: 1.25rem;
+  height: 2rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range] {
@@ -2767,12 +2785,12 @@ button.ghost-line:disabled .icon {
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
-  background-color: #0098ff;
+  background-color: #0098FF;
   height: 0.0625rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-object {
-  width: 7.625rem;
+  width: 9.125rem;
   height: 0.0625rem;
   background: #c8ced8;
   border: initial;

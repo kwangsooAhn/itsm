@@ -342,4 +342,10 @@ $alert-box-shadow:                           0 0 $alert-margin-size $alert-margi
 $color-picker-color-size:                    1.75rem;    // 28px
 $color-picker-box-size:                      2.5rem;     // 40px
 $color-picker-margin:                        0.3125rem;  // 5px
-$color-picker-palette-margin:                0.625rem;   // 10px
+// color-picker palette
+$color-picker-palette-width:                 30rem;      // 480px
+$color-picker-palette-margin:                0.3125rem;  // 5px
+$color-picker-palette-padding:               1.25rem 0 0.625rem 1.25rem; // 20px 0 10px 20px;
+$color-picker-colorchip-size:                2.5rem;     // 40px
+$color-picker-colorchip-margin:              0.625rem;   // 10px
+$color-picker-colorchip-border:              0.375rem solid $white;      // 6px

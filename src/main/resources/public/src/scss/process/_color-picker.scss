@@ -1,11 +1,14 @@
 @import "../template/_color-picker.scss";
 
 .color-picker {
- .color-input .selected-color {
-   border: 0.1875rem solid #68717c;
- }
+  .color-input .selected-color {
+    border: 0.1875rem solid #68717c;
+  }
   .color-palette {
-    @include min-color-palette();
+    @include color-palette();
+    & div {
+      &:last-child { border: 0.0625rem solid $line-gray; }
+    }
   }
   .color-palette-opacity {
     @include opacity();
