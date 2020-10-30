@@ -5824,7 +5824,8 @@ span.vertical-bar {
 .color-picker .color-input .selected-color {
   width: 1.75rem;
   height: 1.75rem;
-  margin: auto;
+  margin: 0.3125rem;
+  border: transparent;
   cursor: pointer;
 }
 
@@ -5833,8 +5834,11 @@ span.vertical-bar {
   height: 2.5rem;
   margin-right: 0.3125rem;
   border: 0.0625rem solid #EBEBEB;
-  cursor: pointer;
   display: flex;
+}
+
+.color-picker .color-input .selected-color-box:hover {
+  border: 0.0625rem solid #0098FF;
 }
 
 .color-picker .color-palette {
@@ -5852,14 +5856,14 @@ span.vertical-bar {
   display: inline-block;
   width: 2.5rem;
   height: 2.5rem;
-  margin-right: 0.625rem;
-  margin-bottom: 0.625rem;
+  margin-right: 0.3125rem;
+  margin-bottom: 0.3125rem;
   cursor: pointer;
 }
 
 .color-picker .color-palette div.selected {
-  border: 0.375rem solid white;
-  outline: 0.063rem solid #0098FF;
+  border: 0.375rem solid #ffffff;
+  outline: 0.0625rem solid #0098FF;
 }
 
 .help-tooltip {

@@ -59,7 +59,7 @@
         }
         .icon-image-download {
           display: inline-block;
-          @include maskImage('#{$icon-folder-path}process/topmenu/icon_image_download.svg', 24px, 20px, no-repeat, center, 20px 20px, $white);
+          @include maskImage('#{$icon-folder-path}process/topmenu/icon_image_download.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
         }
       }
 
@@ -69,6 +69,14 @@
           background-color: #3079ff;
           margin: 0 1.25rem; // 20px
           float: left;
+      }
+
+      .process-name {
+          height: $process-header-real-height;
+          line-height: $process-header-real-height;
+          margin-right: 0.938rem; // 15px
+          font-size: 1rem; // 16px
+          font-weight: 500;
       }
   }
 
@@ -555,7 +563,7 @@
                           }
                       }
                   }
-                  
+
                   .script-action-container {
                       display: flex;
                       flex-wrap: wrap;
