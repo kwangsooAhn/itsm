@@ -44,6 +44,10 @@
             officeNumber: '[[${#authentication.details.officeNumber}]]',
             mobileNumber: '[[${#authentication.details.mobileNumber}]]'
         }));
+
+        window.addEventListener('load', () => {
+            aliceJs.initDesignedSelectTag();
+        });
     </script>
 </th:block>
 </html>

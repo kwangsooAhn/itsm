@@ -969,7 +969,14 @@ aliceJs.filterXSS = function (str) {
  * 3) 그에 따른 이벤트 등록.
  */
 aliceJs.initDesignedSelectTag = function () {
-    document.querySelectorAll('select').forEach(function(originSelectTag){
+    document.querySelectorAll('select').forEach(function(originSelectTag) {
+        // 이미 그려진 경우 초기화.
+        if (originSelectTag.parentElement.classList.contains('select')) {
+            let removeTarget = originSelectTag.parentElement;
+            removeTarget.parentElement.insertBefore(originSelectTag, originSelectTag.parentElement);
+            removeTarget.remove();
+        }
+
         let numOfOptions = originSelectTag.childElementCount;
 
         // select tag 숨기기.
@@ -981,16 +988,16 @@ aliceJs.initDesignedSelectTag = function () {
         originSelectTag.parentElement.insertBefore(selectWrapper, originSelectTag);
         selectWrapper.append(originSelectTag);
 
+        // 옵션 리스트용 박스 만들기
+        let ulElement = document.createElement('ul');
+        ulElement.classList.add('designed-options');
+        selectWrapper.insertBefore(ulElement, originSelectTag.nextSibling);
+
         // 디자인된 SELECT 박스 창 만들기
         let designedSelectBox = document.createElement('div');
         designedSelectBox.classList.add('designed-select');
         selectWrapper.insertBefore(designedSelectBox, originSelectTag.nextSibling);
         designedSelectBox.innerText = originSelectTag.options[0].text;
-
-        // 옵션 리스트용 박스 만들기
-        let ulElement = document.createElement('ul');
-        ulElement.classList.add('designed-options');
-        selectWrapper.insertBefore(ulElement, originSelectTag.nextSibling);
 
         // option 복사
         let options = document.createDocumentFragment();
@@ -1032,6 +1039,7 @@ aliceJs.initDesignedSelectTag = function () {
                 originSelectTag.parentElement.querySelector('ul.designed-options').style.display = 'none';
                 let changeEvent = new Event('change');
                 originSelectTag.dispatchEvent(changeEvent);
+                console.log(originSelectTag.value);
             });
         });
 

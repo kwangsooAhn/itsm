@@ -271,7 +271,7 @@
         }
 
         &-view {
-            @include view-template()
+            @include view-template();
 
             span.vertical-bar {
                 width: 1.875rem; // 30px

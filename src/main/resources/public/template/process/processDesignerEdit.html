@@ -142,5 +142,9 @@
         });
         OverlayScrollbars(document.querySelector('.simulation-report .contents'), { className: 'scrollbar' });
     };
+
+    window.addEventListener('load', () => {
+        aliceJs.initDesignedSelectTag();
+    });
 </script>
 </html>
