@@ -3469,7 +3469,7 @@ button .icon-search {
 }
 
 .color-picker .color-input .selected-color-box:hover {
-  border: 0.0625rem solid #0098ff;
+  border: 0.0625rem solid #0098FF;
 }
 
 .color-picker .color-palette {
@@ -3478,32 +3478,33 @@ button .icon-search {
   justify-content: flex-start;
   background-color: #ffffff;
   width: 100%;
-  margin-top: 0.188rem;
+  margin-top: 0.3125rem;
   padding: 0.9375rem 0 0.9375rem 0.9375rem;
-  border: 0.0625rem solid #ebebeb;
+  border: 0.0625rem solid #EBEBEB;
 }
 
 .color-picker .color-palette div {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  margin: 0.1875rem;
+  margin-right: 0.1875rem;
+  margin-bottom: 0.1875rem;
   cursor: pointer;
-}
-
-.color-picker .color-palette div:last-child {
-  border: 0.0625rem solid #ebebeb;
 }
 
 .color-picker .color-palette div.selected {
   border: 0.125rem solid #ffffff;
-  outline: 0.063rem solid #0098ff;
+  outline: 0.0625rem solid #0098FF;
+}
+
+.color-picker .color-palette div:last-child {
+  border: 0.0625rem solid #EBEBEB;
 }
 
 .color-picker .color-palette-opacity {
   background-color: #ffffff;
   width: 100%;
-  border: 0.0625rem solid #ebebeb;
+  border: 0.0625rem solid #EBEBEB;
   border-top: none;
   padding-left: 0.219rem;
   display: none;
@@ -3513,12 +3514,13 @@ button .icon-search {
 .color-picker .color-palette-opacity span {
   display: table-cell;
   vertical-align: middle;
+  height: 3rem;
 }
 
 .color-picker .color-palette-opacity span input {
   vertical-align: middle;
   width: 1.875rem;
-  height: 1.25rem;
+  height: 2rem;
 }
 
 .color-picker .color-palette-opacity span input[type=range] {
@@ -3545,12 +3547,12 @@ button .icon-search {
 }
 
 .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
-  background-color: #0098ff;
+  background-color: #0098FF;
   height: 0.0625rem;
 }
 
 .color-picker .color-palette-opacity span input.slide-object {
-  width: 7.625rem;
+  width: 9.125rem;
   height: 0.0625rem;
   background: #c8ced8;
   border: initial;
