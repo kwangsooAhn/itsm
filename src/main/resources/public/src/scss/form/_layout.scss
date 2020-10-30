@@ -13,9 +13,6 @@
 
   .form-header {
     @include header;
-    top:0;
-    left:0;
-    right:0;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
@@ -35,12 +32,7 @@
   }
 
   .form-main {
-    position:fixed;
-    top: $layout-header-height;
-    left: 0;
-    right: $layout-properties-width;
-    bottom: 0;
-    overflow-y: auto;
+    @include main;
     background-color: $layout-main-bg-color;
     @include scrollbarHidden;
 
@@ -92,17 +84,13 @@
   }
 
   .form-properties {
-    //@include properties;
-    position:fixed;
+    @include properties;
     top: calc(#{$layout-header-height} + #{$layout-properties-header-height});
-    right: 0;
-    bottom: 0;
     width: $layout-properties-width;
     background-color: $layout-properties-bg-color;
     border-left: $layout-properties-border;
     box-shadow: $layout-properties-box-shadow;
     overflow-x: hidden;
-    overflow-y: auto;
     @include scrollbarHidden;
 
     // 그룹 속성

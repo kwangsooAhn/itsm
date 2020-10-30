@@ -186,6 +186,7 @@ table {
     height: 2.5rem; // 40px
 
     th {
+      font-size: $table-th-font-size;
       font-weight: $table-th-font-weight;
     }
 
