@@ -14,6 +14,23 @@ $drawing-board-margin:                       0 0 7.5rem 0; // 0 0 120px 0
 $drawing-board-padding:                      6.25rem 4.688rem; // 100px 75px;
 
 // properties
-$layout-properties-width:                    37.5rem; // 600px
+$layout-properties-width:                    38.13rem; // 610px
 $layout-properties-bg-color:                 $white;
 $layout-properties-border:                   0.0625rem solid $line-gray; // 1px
+
+// properties > tab
+$tab-font-size:                              1.125rem; // 18px
+$tab-font-color:                             $gray;
+$tab-font-weight:                            $font-weight-medium;
+$tab-border:                                 0.125rem solid $default-gray; // 2px
+$tab-selected-font-color:                    $light-black;
+$tab-selected-border:                        0.25rem solid $point-blue; // 4px
+$tab-content-height:                         43.75rem; // 700px
+
+// tag
+$tag-font-color:                             $point-blue;
+$tag-bg-color:                               rgba(0, 152, 255, 0.1); // $point-blue , 불투명도 10
+$tag-hover-font-color:                       $point-blue;
+$tag-hover-bg-color:                         rgba(0, 152, 255, 0.1); // $point-blue , 불투명도 10
+$tag-invalid-font-color:                     $red;
+$tag-invalid-bg-color:                       rgba(255, 64, 90, 0.1); // $red , 불투명도 10

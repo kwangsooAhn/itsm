@@ -10,13 +10,13 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <div class="print-container">
-        <div class="contents">
-            <div class="print-board">
+    <div class="print">
+        <div class="print-main flex-column align-items-center">
+            <div class="print-main-header">
                 <img src="/assets/media/images/zenius.ico" width="25" height="25">
-                <span id="printInfo"></span>
+                <span class="float-right align-right" id="print-information"></span>
             </div>
-            <div class="print-area">
+            <div class="print-area justify-content-center">
                 <div class="drawing-board" id="document-panel"></div>
             </div>
         </div>
@@ -28,7 +28,7 @@
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
         window.onload = function() {
-            const printInfo = document.getElementById('printInfo');
+            const printInfo = document.getElementById('print-information');
             printInfo.innerHTML = aliceForm.session.userName + ' ['
                 + aliceForm.session.email + ']<br>'
                 + i18n.printFormat(/*[[${time}]]*/'');

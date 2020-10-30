@@ -122,6 +122,18 @@ input, button, select, optgroup, textarea {
   vertical-align: text-top;
 }
 
+.float-clear {
+  clear: both;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
 /* _flex.scss
  *
  * 파일 경로 : template/_flex.scss
@@ -297,8 +309,8 @@ input, button, select, optgroup, textarea {
  * document-container
  *                - document-main : 문서양식 메인
  *                             - document-main-header : 문서 번호, 버튼 등이 그려지는 영역
- *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역
- *                - document-properties : 문서이력, 관련문서, 의견, 태그
+ *                             - drawing-board : 실제 컴포넌트들이 그려지는 영역 (컴포넌트 디자인 수정 > form/_component.scss )
+ *                - token-properties : 문서이력, 관련문서, 의견, 태그
  */
 .document-container {
   max-width: 120rem;
@@ -309,7 +321,7 @@ input, button, select, optgroup, textarea {
   position: fixed;
   top: 0;
   left: 0;
-  right: 37.5rem;
+  right: 38.13rem;
   bottom: 0;
   overflow-y: auto;
   background-color: #F7F8F9;
@@ -332,6 +344,10 @@ input, button, select, optgroup, textarea {
   width: 60rem;
   max-width: 60rem;
   padding: 8.438rem 0 0.9375rem 0;
+}
+
+.document-container .document-main .document-main-header .numbering-content label {
+  color: #ACB4BF;
 }
 
 .document-container .document-main .drawing-board {
@@ -365,242 +381,211 @@ input, button, select, optgroup, textarea {
   display: inherit;
 }
 
-.document-container .document-properties {
+.document-container .token-properties {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
-  width: 37.5rem;
+  width: 38.13rem;
+  overflow-y: auto;
   background-color: #ffffff;
   border-left: 0.0625rem solid #EBEBEB;
   padding: 0 4.0625rem;
 }
 
-.document-container .document-properties .token-info-tab {
+.document-container .token-properties .token-info-tab {
   display: flex;
   margin-top: 7.8125rem;
 }
 
-.document-container .document-properties .token-info-tab h4 {
-  flex: 1;
-  text-align: center;
+.document-container .token-properties .token-info-tab h4 {
+  font-size: 1.125rem;
+  font-weight: 500;
   color: #ACB4BF;
+  flex: 1;
   padding-bottom: 0.625rem;
   border-bottom: 0.125rem solid #E1E3E6;
+  cursor: pointer;
 }
 
-.document-container .document-properties .token-info-tab .active {
-  border-bottom: 0.25rem solid #0098FF;
+.document-container .token-properties .token-info-tab .active {
   color: #3F4B56;
+  border-bottom: 0.25rem solid #0098FF;
 }
 
-.document-container .document-properties .token-info-contents {
+.document-container .token-properties .token-info-contents {
   height: 43.75rem;
   overflow-y: auto;
 }
 
-.document-container .document-properties .token-info-contents .token-tag {
+.document-container .token-properties .token-info-contents .token-tag {
   display: none;
   margin-top: 1.25rem;
 }
 
-.document-container .document-properties .token-info-contents .token-tag .tag-input tags > span {
-  min-width: 26.875rem;
-}
-
-.document-container .document-properties .token-info-contents .token-tag .tag-input tag div {
-  background: #e5e5e5;
-  max-width: 27.6875rem;
-  border-radius: 0.1875rem;
-}
-
-.document-container .document-properties .token-info-contents .token-tag .tag-input tag div:hover {
-  background: #d3e2e2;
-}
-
-.document-container .document-properties .token-info-contents .token-tag .tag-input tag span {
-  max-width: 26.875rem;
-  white-space: pre-line;
-}
-
-.document-container .document-properties .token-info-contents .token-history {
+.document-container .token-properties .token-info-contents .token-history {
   height: 100%;
 }
 
-.document-container .document-properties .token-info-contents .token-history .table {
-  border: none;
-}
-
-.document-container .document-properties .token-info-contents .token-history .table thead {
-  border-bottom: 0.0625rem solid #E1E3E6;
-  display: block;
-}
-
-.document-container .document-properties .token-info-contents .token-history .table thead tr {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .document-properties .token-info-contents .token-history .table th {
-  color: #3F4B56;
-  font-weight: 500;
-}
-
-.document-container .document-properties .token-info-contents .token-history .table td {
-  color: #586872;
-  font-weight: 400;
-  max-width: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.document-container .document-properties .token-info-contents .token-history .table th, .document-container .document-properties .token-info-contents .token-history .table td {
-  border: none;
-  text-align: left;
-}
-
-.document-container .document-properties .token-info-contents .token-history .table tbody {
-  display: block;
-  height: 35.3125rem;
-  overflow-y: auto;
+.document-container .token-properties .token-info-contents .token-history .table {
   width: 100%;
 }
 
-.document-container .document-properties .token-info-contents .token-history .table tbody tr {
+.document-container .token-properties .token-info-contents .token-history .table thead {
+  border-bottom: 0.0625rem solid #E1E3E6;
+}
+
+.document-container .token-properties .token-info-contents .token-history .table thead tr {
+  display: flex;
+  align-items: center;
+  height: 55px;
+}
+
+.document-container .token-properties .token-info-contents .token-history .table th, .document-container .token-properties .token-info-contents .token-history .table td {
+  text-align: left;
+}
+
+.document-container .token-properties .token-info-contents .token-history .table th {
+  color: #3F4B56;
+}
+
+.document-container .token-properties .token-info-contents .token-history .table td {
+  color: #586872;
+}
+
+.document-container .token-properties .token-info-contents .token-history .table th:nth-child(3n + 1),
+.document-container .token-properties .token-info-contents .token-history .table td:nth-child(3n + 1) {
+  padding-left: 0.625rem;
+}
+
+.document-container .token-properties .token-info-contents .token-history .table tbody {
+  display: block;
+  width: 100%;
+  height: 37.5rem;
+  overflow-y: auto;
+}
+
+.document-container .token-properties .token-info-contents .token-history .table tbody tr {
   display: table;
   width: 100%;
 }
 
-.document-container .document-properties .token-info-contents .token-related {
-  padding-top: 0.625rem;
-  display: flex;
-  flex-direction: column;
+.document-container .token-properties .token-info-contents .token-related {
   display: none;
+  padding-top: 0.625rem;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item {
+.document-container .token-properties .token-info-contents .token-related .list-item {
   height: 11.5625rem;
-  margin-top: 0.625rem;
-  margin-right: 0.625rem;
-  display: flex;
+  margin: 0.625rem 0.625rem 0 0;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-color {
+.document-container .token-properties .token-info-contents .token-related .list-item .document-color {
   width: 0.625rem;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row {
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row {
+  flex: 1;
   border: 0.0625rem solid #EBEBEB;
   padding: 1.25rem 2.5rem;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content {
-  display: flex;
-  justify-content: space-between;
-}
-
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a {
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a {
   width: 100%;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a .document-title {
-  display: flex;
-  align-items: center;
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title {
   word-break: break-word;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:first-child {
-  color: #3F4B56;
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:first-child {
   font-weight: 500;
-  width: 50%;
+  color: #3F4B56;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:last-child {
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content a .document-title h5:last-child {
+  font-weight: 400;
   color: #ACB4BF;
   margin-left: 0.3125rem;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-topic {
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content button {
+  padding: 0;
+}
+
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-content button .icon-delete {
+  background: #CCCED1;
+}
+
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-topic {
   height: 100%;
+  color: #586872;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-info {
-  display: flex;
-  align-items: center;
+.document-container .token-properties .token-info-contents .token-related .list-item .document-row-info h5 {
+  color: #586872;
 }
 
-.document-container .document-properties .token-info-contents .token-related .list-item .document-row-info .document-user {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .document-properties .token-info-contents .token-related .related-add {
+.document-container .token-properties .token-info-contents .token-related .related-add {
   height: 11.5625rem;
   border: 0.0625rem solid #EBEBEB;
   background-color: #F7F8F9;
-  align-items: center;
-  justify-content: center;
+  margin: 0.625rem 0.625rem 0 0;
 }
 
-.document-container .document-properties .token-info-contents .token-comment {
+.document-container .token-properties .token-info-contents .token-comment {
   display: none;
   padding-top: 0.625rem;
-  display: flex;
-  flex-direction: column;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .list-item {
+.document-container .token-properties .token-info-contents .token-comment .list-item {
   padding: 1.25rem 1.5625rem;
-  margin-top: 0.625rem;
-  margin-right: 0.625rem;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #EBEBEB;
+  margin: 0.625rem 0.625rem 0 0;
+  border: 0.0625rem solid #EBEBEB;
   background-color: #F7F8F9;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row {
-  margin-top: 0.0625rem;
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row {
+  color: #586872;
+  margin-top: 0.625rem;
   word-break: break-word;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info .comment-user {
-  display: flex;
-  align-items: center;
-}
-
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info div, .document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info h5 {
-  flex: none;
-}
-
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info > h5 {
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info h5 {
   margin-left: 0.9375rem;
+}
+
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-name {
+  color: #586872;
+}
+
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-date-time {
   color: #ACB4BF;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info button {
+  padding: 0;
+}
+
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info button .icon-delete {
+  background: #CCCED1;
+}
+
+.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info div:last-child {
   margin-left: auto;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .comment-input {
+.document-container .token-properties .token-info-contents .token-comment .comment-input {
   margin-top: 0.625rem;
   padding: 0;
-  align-items: start;
 }
 
-.document-container .document-properties .token-info-contents .token-comment .comment-input textarea {
-  resize: none;
+.document-container .token-properties .token-info-contents .token-comment .comment-input textarea {
   height: 4.3750rem;
+  margin-right: 0.3125rem;
   flex: 1;
+  border-radius: 0.1875rem;
+  resize: none;
 }
 
 .document-modal-active {
@@ -831,6 +816,7 @@ table tr {
 }
 
 table tr th {
+  font-size: 1.125rem;
   font-weight: 500;
 }
 
@@ -1119,6 +1105,83 @@ label {
   border-color: #0098FF;
 }
 
+/* 태그 기능 디자인
+ * /document/_tag.scss
+ * 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
+ */
+.tagify {
+  height: 3.375rem;
+  padding-left: 0.3125rem;
+}
+
+.tagify tag {
+  margin: 0.625rem 0 0.625rem 0.3125rem;
+}
+
+.tagify tag div {
+  color: #0098FF;
+  border-radius: 0.0625rem;
+  padding: 0.375rem 0.5rem;
+}
+
+.tagify tag div::before {
+  box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset;
+}
+
+.tagify tag div span {
+  height: 1.25rem;
+}
+
+.tagify tag div:hover::before {
+  color: #0098FF;
+  box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset !important;
+}
+
+.tagify tag:hover div::before {
+  color: #0098FF;
+  box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset !important;
+}
+
+.tagify .tagify__tag__removeBtn {
+  font-weight: 700;
+  color: #33ADFF;
+}
+
+.tagify .tagify__tag__removeBtn:hover {
+  color: #ffffff;
+  background-color: #FF405A;
+}
+
+.tagify .tagify__tag__removeBtn:hover + div {
+  color: #FF405A;
+}
+
+.tagify .tagify__tag__removeBtn:hover + div::before {
+  box-shadow: 0 0 0 1.25rem rgba(255, 64, 90, 0.1) inset !important;
+}
+
+.tagify .tagify--notAllowed:not(.tagify__tag--editable) .tagify__tag__removeBtn {
+  color: #FF405A !important;
+}
+
+.tagify .tagify--notAllowed:not(.tagify__tag--editable) div {
+  color: #FF405A !important;
+}
+
+.tagify .tagify--notAllowed:not(.tagify__tag--editable) div::before {
+  box-shadow: 0 0 0 1.25rem rgba(255, 64, 90, 0.1) inset !important;
+}
+
+.tagify .tagify--notAllowed:not(.tagify__tag--editable) div span {
+  opacity: 1;
+}
+
+.tagify .tagify__input {
+  margin: 0.625rem 0.3125rem;
+  padding: 0.4375rem;
+  white-space: pre-line;
+}
+
 /* _print.scss 
  *
  * 파일 경로 : document/_print.scss
@@ -1126,27 +1189,19 @@ label {
  * @author wdj
  * @version 1.0
  */
-.print-container {
+.print {
   width: 100vw;
   height: 100vh;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
-.print-container *:focus {
-  outline: none !important;
-}
-
-.print-container .contents {
-  display: flex;
-  flex-direction: column;
-  left: 0;
-  float: left;
+.print .print-main {
   min-width: 100vw;
   height: 100vh;
   min-height: 100vh;
-  padding: 0;
   margin: 0;
+  padding: 0;
   overflow: auto;
   -ms-overflow-style: none;
   /* IE and Edge */
@@ -1154,104 +1209,51 @@ label {
   /* Firefox */
 }
 
-.print-container .contents::-webkit-scrollbar {
+.print .print-main::-webkit-scrollbar {
   display: none;
   /* Chrome, Safari, Opera*/
 }
 
-.print-container .contents .print-area {
-  justify-content: center;
-}
-
-.print-container .contents .print-board {
+.print .print-main .print-main-header {
+  width: 100vw;
   margin: 0.9375rem;
-  height: 4.5rem;
 }
 
-.print-container .contents .print-board span {
-  float: right;
-  font-size: 16px;
-  line-height: 24px;
-  font-weight: 400;
-  color: #000000;
-  text-align: right;
+.print .print-main .print-main-header span {
+  line-height: 1.2;
 }
 
-.print-container .contents .drawing-board {
-  margin: 0 auto;
-  display: table;
-  width: 60rem;
-  max-width: 60rem;
+.print .print-main .print-area {
   min-height: 100%;
-  padding: 6.25rem 4.063rem;
+}
+
+.print .print-main .drawing-board {
+  display: table;
+  width: 710px;
+  min-height: 100%;
+  margin: 0.9375rem;
+  padding: 6.25rem 4.688rem;
   background-color: #ffffff;
   border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.9375rem 0 rgba(204, 206, 209, 0.3);
 }
 
-.print-container .contents .drawing-board .component {
-  page-break-inside: avoid;
+.print .print-main .drawing-board *:focus {
+  outline: none !important;
 }
 
-.print-btn {
-  margin: 0.625rem;
-  text-align: right;
+.print .print-main .drawing-board .component {
+  page-break-inside: always;
 }
 
-.print-hr {
-  border-top: 1px solid;
+.print .print-main .drawing-board .component:hover .move-handler {
+  opacity: 0;
 }
 
-.print-header {
-  margin: 0.9375rem 3.75rem;
-  height: 45px;
-}
-
-.print-header span {
-  float: right;
-  text-align: right;
-}
-
-.print-body .component {
-  page-break-inside: avoid;
-}
-
-.print-body .component .group {
-  pointer-events: none;
-}
-
-.print-history {
-  margin: 0.9375rem 3.75rem;
-}
-
-.comment {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 100%;
-  border: none;
-  padding: 0.625rem 1.25rem;
-  background-color: #ffffff;
-}
-
-.comment .field {
-  display: flex;
-  height: 3.563rem;
-}
-
-.comment .field textarea {
-  width: 100%;
-  resize: vertical;
-}
-
-.comment .field button {
-  flex: 1 1 auto;
-  line-height: 1rem;
-  padding: 0 0.625rem;
-  white-space: nowrap;
-}
-
-.table {
-  width: 100%;
-  margin-bottom: 1rem;
+@media print {
+  body {
+    width: 21cm;
+    height: 29.7cm;
+    margin: 30mm 45mm 30mm 45mm;
+  }
 }

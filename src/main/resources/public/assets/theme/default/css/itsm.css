@@ -121,6 +121,18 @@ input, button, select, optgroup, textarea {
   vertical-align: text-top;
 }
 
+.float-clear {
+  clear: both;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss
@@ -2260,6 +2272,7 @@ table tr {
 }
 
 table tr th {
+  font-size: 1.125rem;
   font-weight: 500;
 }
 
@@ -3694,29 +3707,70 @@ span.vertical-bar {
   margin-bottom: 0.3125rem;
 }
 
+.popup {
+  padding: 1.875rem 2.5rem 1.25rem 2.5rem;
+}
+
+.popup .related-instance-header h3.under-bar {
+  border-width: 0.0625rem;
+}
+
+.popup .related-instance-main {
+  margin-top: 0.9375rem;
+}
+
+.popup .related-instance-main .table-set {
+  margin-top: 2.188rem;
+}
+
+.popup .related-instance-main .table-set table {
+  width: 100%;
+}
+
+.popup .related-instance-main .table-set table thead tr {
+  color: #3F4B56;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+
+.popup .related-instance-main .table-set table tbody {
+  display: table;
+  width: 100%;
+  height: 32.5rem;
+  color: #586872;
+  overflow-y: auto;
+}
+
+.popup .related-instance-main .table-set table tbody tr {
+  display: table;
+  width: 100%;
+  height: 3.125rem;
+  line-height: 3.125rem;
+}
+
+.popup .related-instance-main .table-set table tbody tr td {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.popup .view {
+  padding: 0;
+  width: auto;
+}
+
+.popup .view-content {
+  height: 44.625rem;
+}
+
+.popup .view-content div.form-set {
+  margin: 0 0.6875rem 0 0.6875rem;
+}
+
 .container {
   height: 100%;
   min-height: 100vh;
   width: 100%;
   max-width: calc(100% - 13.75rem);
   /* 상세 조회 화면 */
-}
-
-.container-popup {
-  padding: 1.875rem 2.5rem 1.25rem 2.5rem;
-}
-
-.container-popup .view {
-  padding: 0;
-  width: auto;
-}
-
-.container-popup .view-content {
-  height: 44.625rem;
-}
-
-.container-popup .view-content div.form-set {
-  margin: 0 0.6875rem 0 0.6875rem;
 }
 
 .container .contents-token {
