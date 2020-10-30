@@ -151,6 +151,10 @@ input, button, select, optgroup, textarea {
   justify-content: center;
 }
 
+.justify-content-between {
+  justify-content: space-between;
+}
+
 .align-items-start {
   align-items: flex-start;
 }
@@ -971,7 +975,7 @@ label {
   outline: none;
 }
 
-.radio span:first-of-type {
+.radio > span:first-of-type {
   padding-right: 0.625rem;
 }
 
@@ -1054,7 +1058,7 @@ label {
   outline: none;
 }
 
-.checkbox span:first-of-type {
+.checkbox > span:first-of-type {
   padding-right: 0.625rem;
 }
 
@@ -1474,6 +1478,7 @@ button.point-fill {
 button.point-fill .icon {
   display: inline-block;
   background: #ffffff;
+  vertical-align: middle;
 }
 
 .btn.point-fill:focus, .btn.point-fill:hover,
@@ -1526,6 +1531,7 @@ button.point-line {
 button.point-line .icon {
   display: inline-block;
   background: #0098FF;
+  vertical-align: middle;
 }
 
 .btn.point-line:focus, .btn.point-line:hover,
@@ -1579,6 +1585,7 @@ button.default-fill {
 button.default-fill .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.default-fill:focus, .btn.default-fill:hover,
@@ -1631,6 +1638,7 @@ button.default-line {
 button.default-line .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.default-line:focus, .btn.default-line:hover,
@@ -1683,6 +1691,7 @@ button.ghost-fill {
 button.ghost-fill .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn.ghost-fill:focus, .btn.ghost-fill:hover,
@@ -1735,6 +1744,7 @@ button.ghost-line {
 button.ghost-line .icon {
   display: inline-block;
   background: #CCCED1;
+  vertical-align: middle;
 }
 
 .btn.ghost-line:focus, .btn.ghost-line:hover,
@@ -1798,6 +1808,7 @@ button.ghost-line:disabled .icon {
 .btn-group button .icon {
   display: inline-block;
   background: #3F4B56;
+  vertical-align: middle;
 }
 
 .btn-group .btn:focus, .btn-group .btn:hover,
@@ -1902,6 +1913,7 @@ button.ghost-line:disabled .icon {
 .btn-group-toggle button .icon {
   display: inline-block;
   background: #ACB4BF;
+  vertical-align: middle;
 }
 
 .btn-group-toggle .btn:focus, .btn-group-toggle .btn:hover,
@@ -2677,7 +2689,8 @@ button.ghost-line:disabled .icon {
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
   width: 1.75rem;
   height: 1.75rem;
-  margin: auto;
+  margin: 0.3125rem;
+  border: transparent;
   cursor: pointer;
 }
 
@@ -2686,8 +2699,15 @@ button.ghost-line:disabled .icon {
   height: 2.5rem;
   margin-right: 0.3125rem;
   border: 0.0625rem solid #EBEBEB;
-  cursor: pointer;
   display: flex;
+}
+
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box:hover {
+  border: 0.0625rem solid #0098FF;
+}
+
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
+  border: 0.1875rem solid #68717c;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
@@ -2695,94 +2715,48 @@ button.ghost-line:disabled .icon {
   flex-wrap: wrap;
   justify-content: flex-start;
   background-color: #ffffff;
-  width: 30rem;
+  width: 100%;
   margin-top: 0.3125rem;
-  padding: 1.25rem 0 0.625rem 1.25rem;
+  padding: 0.9375rem 0 0.9375rem 0.9375rem;
   border: 0.0625rem solid #EBEBEB;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
-  display: inline-block;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 0.625rem;
-  margin-bottom: 0.625rem;
-  cursor: pointer;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
-  border: 0.375rem solid white;
-  outline: 0.063rem solid #0098FF;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color {
-  width: 1.75rem;
-  height: 1.75rem;
-  border: 0.1875rem solid #68717c;
-  margin: 0;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-input .selected-color-box {
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 0.313rem;
-  border: 0.063rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  padding-top: 0.3125rem;
-  padding-left: 0.3125rem;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette {
-  width: 15.625rem;
-  margin-top: 0.188rem;
-  border: 0.063rem solid #c8ced8;
-  padding-left: 0.219rem;
-  padding-top: 0.188rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  margin-top: 0.375rem;
-  margin-left: 0.4375rem;
-  margin-right: 0;
-  margin-bottom: 0;
-  border: 0.063rem solid #a3adbb;
+  margin-right: 0.1875rem;
+  margin-bottom: 0.1875rem;
   cursor: pointer;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div.selected {
   border: 0.125rem solid #ffffff;
-  outline: 0.063rem solid #0055ff;
+  outline: 0.0625rem solid #0098FF;
+}
+
+.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette div:last-child {
+  border: 0.0625rem solid #EBEBEB;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity {
   background-color: #ffffff;
-  width: 15.625rem;
-  border: 0.063rem solid #c8ced8;
+  width: 100%;
+  border: 0.0625rem solid #EBEBEB;
   border-top: none;
   padding-left: 0.219rem;
   display: none;
-  height: 3rem;
+  height: 2.5rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span {
   display: table-cell;
   vertical-align: middle;
-}
-
-.process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input {
-  vertical-align: middle;
-  width: 1.875rem;
-  height: 2rem;
+  height: 3rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range] {
   -webkit-appearance: none;
-  /*&::-webkit-slider-runnable-track {
-                    -webkit-appearance: none;
-                }*/
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
@@ -2805,12 +2779,12 @@ button.ghost-line:disabled .icon {
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
-  background-color: #0055ff;
+  background-color: #0098FF;
   height: 0.0625rem;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-object {
-  width: 10rem;
+  width: 9.125rem;
   height: 0.0625rem;
   background: #c8ced8;
   border: initial;
@@ -2821,8 +2795,10 @@ button.ghost-line:disabled .icon {
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span input.slide-input {
-  width: 2.5rem;
-  text-align: right;
+  width: 3rem;
+  height: 2rem;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .process-properties-panel div.properties-container div.element-properties div.properties .color-picker .color-palette-opacity span label {
