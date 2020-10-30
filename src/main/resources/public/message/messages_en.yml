@@ -826,6 +826,8 @@ workflowAdmin:
 
 # User
 user:
+  btn:
+    resetPassword: "RESET PASSWORD"
   label:
     all: "All"
     avatar: "Avatar"
@@ -869,6 +871,7 @@ user:
     enterUserPassword: "Please enter your password."
     enterUserRePassword: "Please enter your Reconfirm Password."
     passwordNotEquals: "Passwords do not match."
+    resetPassword: "Your password has been reset."
     sameEmail: "The same Email exists."
     sameUserId: "The same ID exists."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."

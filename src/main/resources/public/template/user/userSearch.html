@@ -49,7 +49,7 @@
                     offsetCount = aliceJs.searchDataCount;
                 }
                 urlParam += '&offset=' + offsetCount;
-                restSearchSubmit('get', '/rest/users/list?' + urlParam, isScroll);
+                restSearchSubmit('get', '/rest/users?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
                 urlParam += '&offset=' + offsetCount;
@@ -112,18 +112,23 @@
             avatarImage.className = 'profile-photo';
             avatarImage.src = data.avatarPath;
             avatarImage.alt = 'profile pic';
-            avatarImage.onclick = function() {
-                location.href = '/users/' + data.userKey + '/edit';
-            }
             tdAvatar.appendChild(avatarImage);
 
             let tdName = document.createElement('td');
             tdName.style.width = '10%';
             tdName.innerText = data.userName;
+            tdName.style.cursor = 'pointer';
+            tdName.onclick = function() {
+                location.href = '/users/' + data.userKey + '/edit';
+            };
 
             let tdId = document.createElement('td');
             tdId.style.width = '10%';
             tdId.innerText = data.userId;
+            tdId.style.cursor = 'pointer';
+            tdId.onclick = function() {
+                location.href = '/users/' + data.userKey + '/edit';
+            };
 
             let tdEmail = document.createElement('td');
             tdEmail.style.width = '20%';

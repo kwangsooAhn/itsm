@@ -32,7 +32,11 @@
                        th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''">
                     </a>
                 </td>
-                <td width="10%" th:text="${user.userId}"></td>
+                <td width="10%">
+                    <a th:text="${user.userId}"
+                       th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''">
+                    </a>
+                </td>
                 <td width="20%" th:text="${user.email}"></td>
                 <td width="10%" th:text="${user.department}"></td>
                 <td width="10%" th:text="${user.position}"></td>

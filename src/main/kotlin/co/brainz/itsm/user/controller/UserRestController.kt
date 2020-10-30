@@ -23,7 +23,6 @@ import java.util.Locale
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
-import kotlin.random.Random
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -32,6 +31,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -62,10 +62,7 @@ class UserRestController(
      */
     @PostMapping("/", "")
     fun createUser(@RequestBody @Valid aliceSignUpDto: AliceSignUpDto): String {
-        val fromNum = 1000000000
-        val toNum = 9999999999
-        val randomNumber = Random.nextLong(toNum - fromNum) + fromNum
-        val password = randomNumber.toString()
+        val password = userService.makePassword()
         val publicKey = aliceCryptoRsa.getPublicKey()
         aliceSignUpDto.password = aliceCryptoRsa.encrypt(publicKey, password)
 
@@ -128,7 +125,7 @@ class UserRestController(
     /**
      * 전체 사용자 목록 조회.
      */
-    @GetMapping("/", "")
+    @GetMapping("/all")
     fun getUsers(): MutableList<UserSelectListDto> {
         return userService.selectUserListOrderByName()
     }
@@ -136,7 +133,7 @@ class UserRestController(
     /**
      * 사용자 목록 조회 (스크롤).
      */
-    @GetMapping("/list")
+    @GetMapping("/", "")
     fun getUserList(
         @RequestParam(value = "search", defaultValue = "") search: String,
         @RequestParam(value = "offset", defaultValue = "0") offset: String,
@@ -156,5 +153,14 @@ class UserRestController(
             UsernamePasswordAuthenticationToken(aliceUser.userId, aliceUser.password, aliceUser.grantedAuthorises)
         usernamePasswordAuthenticationToken.details = AliceUtil().setUserDetails(aliceUser)
         return usernamePasswordAuthenticationToken
+    }
+
+    /**
+     * 사용자의 비밀번호를 초기화한다.
+     */
+    @PutMapping("/{userKey}/resetPassword")
+    private fun resetPassword(@PathVariable userKey: String): String {
+        val password = userService.makePassword()
+        return userService.resetPassword(userKey, password)
     }
 }

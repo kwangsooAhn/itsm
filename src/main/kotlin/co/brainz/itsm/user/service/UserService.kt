@@ -11,6 +11,7 @@ import co.brainz.framework.auth.entity.AliceUserRoleMapPk
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.framework.certification.repository.AliceCertificationRepository
+import co.brainz.framework.certification.service.AliceCertificationMailService
 import co.brainz.framework.constants.AliceConstants
 import co.brainz.framework.constants.AliceUserConstants
 import co.brainz.framework.encryption.AliceCryptoRsa
@@ -26,6 +27,7 @@ import co.brainz.itsm.user.mapper.UserMapper
 import co.brainz.itsm.user.repository.UserRepository
 import java.security.PrivateKey
 import java.util.Optional
+import kotlin.random.Random
 import org.mapstruct.factory.Mappers
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -39,6 +41,7 @@ import org.springframework.web.context.request.ServletRequestAttributes
  */
 @Service
 class UserService(
+    private val aliceCertificationMailService: AliceCertificationMailService,
     private val aliceCertificationRepository: AliceCertificationRepository,
     private val aliceCryptoRsa: AliceCryptoRsa,
     private val aliceFileService: AliceFileService,
@@ -86,8 +89,8 @@ class UserService(
     /**
      * 사용자 KEY로 정보를 수정한다.
      */
-    fun updateUser(update: UserUpdateDto): AliceUserEntity {
-        val targetEntity = updateDataInput(update)
+    fun updateUser(userUpdateDto: UserUpdateDto): AliceUserEntity {
+        val targetEntity = updateDataInput(userUpdateDto)
         return userRepository.save(targetEntity)
     }
 
@@ -113,7 +116,6 @@ class UserService(
                     attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
                 val targetEntity = updateDataInput(userUpdateDto)
 
-                // TODO 남의 정보를 수정할 때 비밀번호를 바꿔주는 건 위험하므로 삭제 필요하다. -> 초기화하는 기능으로 변경필요.
                 when (userUpdateDto.password != null) {
                     targetEntity.password != userUpdateDto.password -> {
                         val password = aliceCryptoRsa.decrypt(privateKey, userUpdateDto.password!!)
@@ -146,7 +148,6 @@ class UserService(
                     }
                 }
 
-                // TODO when 을 어색하게 쓰고 있다. 수정필요.
                 code = when (targetEntity.email == userEntity.email) {
                     true -> {
                         when (userEditType) {
@@ -231,5 +232,45 @@ class UserService(
             )
         }
         return userDtoList
+    }
+
+    /**
+     * 사용자의 비밀번호를 생성한다.
+     */
+    fun makePassword(): String {
+        var password = StringBuffer()
+        for (i in 0..9) {
+            val randomIndex = Random.nextInt(3)
+            when (randomIndex) {
+                0 -> password.append(((Random.nextInt(26)) + 97).toChar())
+                1 -> password.append(((Random.nextInt(26)) + 65).toChar())
+                2 -> password.append((Random.nextInt(10)))
+            }
+        }
+        return password.toString()
+    }
+
+    /**
+     * 사용자의 비밀번호를 초기화한다.
+     */
+    fun resetPassword(userKey: String, password: String): String {
+        val publicKey = aliceCryptoRsa.getPublicKey()
+        val encryptPassword = aliceCryptoRsa.encrypt(publicKey, password)
+        val attr = RequestContextHolder.currentRequestAttributes() as ServletRequestAttributes
+        val privateKey =
+            attr.request.session.getAttribute(AliceConstants.RsaKey.PRIVATE_KEY.value) as PrivateKey
+        val decryptPassword = aliceCryptoRsa.decrypt(privateKey, encryptPassword)
+        val targetEntity = userRepository.findByUserKey(userKey)
+        targetEntity.password = BCryptPasswordEncoder().encode(decryptPassword)
+
+        userRepository.save(targetEntity)
+
+        aliceCertificationMailService.sendMail(
+            targetEntity.userId,
+            targetEntity.email!!,
+            AliceUserConstants.SendMailStatus.UPDATE_USER_PASSWORD.code,
+            password
+        )
+        return AliceUserConstants.UserEditStatus.STATUS_SUCCESS_EDIT_PASSWORD.code
     }
 }
