@@ -3744,6 +3744,7 @@ span.vertical-bar {
   display: table;
   width: 100%;
   height: 3.125rem;
+  line-height: 3.125rem;
 }
 
 .popup .related-instance-main .table-set table tbody tr td {
