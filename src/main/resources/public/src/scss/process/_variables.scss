@@ -1,4 +1,12 @@
-// Variables
+//////////////////////////// layout ////////////////////////////
+// header
+$layout-header-height:                       3.125rem; // 50px
+$layout-header-font-size:                    $font-size-base;
+$layout-header-font-color:                   $white;
+$layout-header-font-weight:                  $font-weight-medium;
+$layout-header-bg-color:                     $point-blue;
+
+// element
 
 $element-readonly-font-color:                 $gray;
 $element-readonly-bg-color:                   $light-gray;

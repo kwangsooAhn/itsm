@@ -1,5 +1,38 @@
 @import '../template/_layout.scss';
 
+/* 프로세스 디자이너 팝업 layout
+ * process-container - process-header : 상단
+ *                   - element-properties : 엘리먼트 영역
+ *                   - process-main : 프로세스 메인
+ *                           - drawing-board : 실제 엘리먼트들이 그려지는 영역
+ *                   - process-properties-header : 세부 속성 상단
+ *                   - process-properties : 세부 속성
+ */
+
+ .process-container {
+  @include container;
+
+  .process-header {
+    @include header;
+    font-size: $layout-header-font-size;
+    font-weight: $layout-header-font-weight;
+    color: $layout-header-font-color;
+    background-color: $layout-header-bg-color;
+    padding: 0 1.25rem; // 0 20px
+    // process designer 문구
+    .name {
+        font-size: 1.125rem; // 18px
+        padding: 0 0.9375rem; // 15px
+    }
+    // 아이콘 구분자  
+    .separator { 
+        width: 0.063rem; // 1px
+        height: 1.25rem; // 20px
+        background-color: #4DB7FF;
+    }
+  }
+ }
+
 .process {
   &-container {
       position: relative;

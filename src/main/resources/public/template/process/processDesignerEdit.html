@@ -33,29 +33,30 @@
             <span class="name" th:text="#{form.label.title}"></span>
             <span class="separator"></span>
             <th:block th:if="${#strings.isEmpty(isView)}">
-                <button type="button" id="btnSave">
+                <button type="button" class="btn-header" id="btnSave">
                     <span class="icon-save"></span>
                 </button>
             </th:block>
-            <button type="button" id="btnSaveAs">
+            <button type="button" class="btn-header" id="btnSaveAs">
                 <span class="icon-save-as"></span>
             </button>
             <th:block th:if="${#strings.isEmpty(isView)}">
-                <button type="button" id="btnSimulation">
+                <button type="button" class="btn-header" id="btnSimulation">
                     <span class="icon-simulation"></span>
                 </button>
-                <button type="button" id="btnUndo">
+                <button type="button" class="btn-header" id="btnUndo">
                     <span class="icon-undo"></span>
                 </button>
-                <button type="button" id="btnRedo">
+                <button type="button" class="btn-header" id="btnRedo">
                     <span class="icon-redo"></span>
                 </button>
             </th:block>
-            <button type="button" id="btnDownload">
+            <button type="button" class="btn-header" id="btnDownload">
                 <span class="icon-image-download"></span>
             </button>
             <span class="ml-auto" id="process-name"></span>
         </div>
+
         <div class="process-element-palette">
             <span class="rectangle-menu shape event">
                 <label th:text="#{process.designer.element.event}"></label>
