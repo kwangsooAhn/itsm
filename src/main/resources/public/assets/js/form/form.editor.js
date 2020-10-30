@@ -1648,6 +1648,7 @@
                     }
             }
         }
+        aliceJs.initDesignedSelectTag();
     }
 
     /**
@@ -1749,6 +1750,7 @@
             });
         });
         propertiesPanel.appendChild(formElem);
+        aliceJs.initDesignedSelectTag();
     }
 
     /**
