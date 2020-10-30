@@ -14,8 +14,8 @@
     <form id="frm" name="frm">
         <div class="form-container">
             <div class="form-header">
-                <img class="load-svg logo"  th:src="@{/assets/media/icons/form/topmenu/logo.svg}"/>
-                <span class="name">Form Designer</span>
+                <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="174.72" height="25" alt="Zenius ITSM" />
+                <span class="name" th:text="#{form.label.title}"></span>
                 <span class="separator"></span>
                 <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
                     <button type="button" id="btnSave" class="btn-header" onclick="editor.save(false);">

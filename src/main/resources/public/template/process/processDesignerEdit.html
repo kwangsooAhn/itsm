@@ -29,8 +29,8 @@
 <div class="alice-wrapper">
     <div class="process-container">
         <div class="process-header">
-            <span class="logo"></span>
-            <span class="process-designer">Process Designer</span>
+            <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="174.72" height="25" alt="Zenius ITSM" />
+            <span class="name" th:text="#{form.label.title}"></span>
             <span class="separator"></span>
             <th:block th:if="${#strings.isEmpty(isView)}">
                 <button type="button" id="btnSave">
@@ -54,7 +54,7 @@
             <button type="button" id="btnDownload">
                 <span class="icon-image-download"></span>
             </button>
-            <span class="process-name ml-auto"></span>
+            <span class="ml-auto" id="process-name"></span>
         </div>
         <div class="process-element-palette">
             <span class="rectangle-menu shape event">

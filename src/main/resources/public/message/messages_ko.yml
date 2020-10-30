@@ -429,6 +429,7 @@ form:
     searchPlaceholder: "양식이름 / 문서양식 설명"
     state: "상태"
     templatesList: "템플릿 목록"
+    title: "Form Designer"
     undo: "작업 취소"
   msg:
     enterFormName: "양식이름을 입력하세요."
@@ -692,6 +693,7 @@ process:
     searchPlaceholder: "프로세스 이름 / 프로세스 설명"
     simulation: "미리보기"
     templatesList: "템플릿 목록"
+    title: "Process Designer"
     undo: "작업취소"
   msg:
     description: "프로세스를 조회 하거나 추가, 변경 할 수 있습니다."

@@ -114,7 +114,7 @@
      * 프로세스명 변경
      */
     function changeProcessName() {
-        document.querySelector('.process-name').textContent = (isEdited ? '*' : '') + aliceProcessEditor.data.process.name;
+        document.getElementById('process-name').textContent = (isEdited ? '*' : '') + aliceProcessEditor.data.process.name;
     }
 
     /**
