@@ -3456,7 +3456,8 @@ button .icon-search {
 .color-picker .color-input .selected-color {
   width: 1.75rem;
   height: 1.75rem;
-  margin: auto;
+  margin: 0.3125rem;
+  border: transparent;
   cursor: pointer;
 }
 
@@ -3465,8 +3466,11 @@ button .icon-search {
   height: 2.5rem;
   margin-right: 0.3125rem;
   border: 0.0625rem solid #EBEBEB;
-  cursor: pointer;
   display: flex;
+}
+
+.color-picker .color-input .selected-color-box:hover {
+  border: 0.0625rem solid #0098FF;
 }
 
 .color-picker .color-palette {
@@ -3474,59 +3478,34 @@ button .icon-search {
   flex-wrap: wrap;
   justify-content: flex-start;
   background-color: #ffffff;
-  width: 30rem;
-  margin-top: 0.3125rem;
-  padding: 1.25rem 0 0.625rem 1.25rem;
-  border: 0.0625rem solid #EBEBEB;
-}
-
-.color-picker .color-palette div {
-  display: inline-block;
-  width: 2.5rem;
-  height: 2.5rem;
-  margin-right: 0.625rem;
-  margin-bottom: 0.625rem;
-  cursor: pointer;
-}
-
-.color-picker .color-palette div.selected {
-  border: 0.375rem solid white;
-  outline: 0.063rem solid #0098FF;
-}
-
-.color-picker .color-input input {
-  max-width: 215px;
-}
-
-.color-picker .color-palette {
   width: 100%;
-  margin-top: 0.188rem;
-  border: 0.063rem solid #c8ced8;
-  padding-left: 0.219rem;
-  padding-top: 0.188rem;
+  margin-top: 0.3125rem;
+  padding: 0.9375rem 0 0.9375rem 0.9375rem;
+  border: 0.0625rem solid #EBEBEB;
 }
 
 .color-picker .color-palette div {
   display: inline-block;
   width: 1rem;
   height: 1rem;
-  margin-top: 0.375rem;
-  margin-left: 0.375rem;
-  margin-right: 0;
-  margin-bottom: 0;
-  border: 0.063rem solid #a3adbb;
+  margin-right: 0.1875rem;
+  margin-bottom: 0.1875rem;
   cursor: pointer;
 }
 
 .color-picker .color-palette div.selected {
   border: 0.125rem solid #ffffff;
-  outline: 0.063rem solid #0055ff;
+  outline: 0.0625rem solid #0098FF;
+}
+
+.color-picker .color-palette div:last-child {
+  border: 0.0625rem solid #EBEBEB;
 }
 
 .color-picker .color-palette-opacity {
   background-color: #ffffff;
   width: 100%;
-  border: 0.063rem solid #c8ced8;
+  border: 0.0625rem solid #EBEBEB;
   border-top: none;
   padding-left: 0.219rem;
   display: none;
@@ -3536,19 +3515,11 @@ button .icon-search {
 .color-picker .color-palette-opacity span {
   display: table-cell;
   vertical-align: middle;
-}
-
-.color-picker .color-palette-opacity span input {
-  vertical-align: middle;
-  width: 1.875rem;
-  height: 1.25rem;
+  height: 3rem;
 }
 
 .color-picker .color-palette-opacity span input[type=range] {
   -webkit-appearance: none;
-  /*&::-webkit-slider-runnable-track {
-                    -webkit-appearance: none;
-                }*/
 }
 
 .color-picker .color-palette-opacity span input[type=range]::-webkit-slider-thumb {
@@ -3571,12 +3542,12 @@ button .icon-search {
 }
 
 .color-picker .color-palette-opacity span input[type=range]::-moz-range-progress {
-  background-color: #0055ff;
+  background-color: #0098FF;
   height: 0.0625rem;
 }
 
 .color-picker .color-palette-opacity span input.slide-object {
-  width: 7.625rem;
+  width: 9.125rem;
   height: 0.0625rem;
   background: #c8ced8;
   border: initial;
@@ -3587,17 +3558,18 @@ button .icon-search {
 }
 
 .color-picker .color-palette-opacity span input.slide-input {
-  width: 1.75rem;
-  padding-left: 0;
-  padding-right: 0.25rem;
-  text-align: right;
+  width: 3rem;
+  height: 2rem;
+  text-align: center;
+  vertical-align: middle;
 }
 
 .color-picker .color-palette-opacity span label {
-  margin: 0 0 0 0.125rem;
+  margin: 0 0 0 0.25rem;
   width: 0.813rem;
   height: 1.25rem;
   line-height: 1.25rem;
+  vertical-align: middle;
 }
 
 /* _thumbnail.scss 
