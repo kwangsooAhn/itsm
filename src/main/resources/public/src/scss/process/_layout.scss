@@ -2,17 +2,19 @@
 
 /* 프로세스 디자이너 팝업 layout
  * process-container - process-header : 상단
- *                   - element-properties : 엘리먼트 영역
+ *                   - process-element-palette : 엘리먼트 영역
  *                   - process-main : 프로세스 메인
  *                           - drawing-board : 실제 엘리먼트들이 그려지는 영역
  *                   - process-properties-header : 세부 속성 상단
  *                   - process-properties : 세부 속성
  */
 
- .process-container {
-  @include container;
-
-  .process-header {
+.process {
+  &-container {
+    @include container;
+  }
+  // header
+  &-header {
     @include header;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
@@ -21,779 +23,244 @@
     padding: 0 1.25rem; // 0 20px
     // process designer 문구
     .name {
-        font-size: 1.125rem; // 18px
-        padding: 0 0.9375rem; // 15px
+      font-size: 1.125rem; // 18px
+      padding: 0 0.9375rem; // 15px
     }
     // 아이콘 구분자  
     .separator { 
-        width: 0.063rem; // 1px
-        height: 1.25rem; // 20px
-        background-color: #4DB7FF;
+      width: 0.063rem; // 1px
+      height: 1.25rem; // 20px
+      background-color: #4DB7FF;
     }
   }
- }
-
-.process {
-  &-container {
-      position: relative;
-      width: 100vw;
-      height: 100vh;
-      min-width: $process-container-min-width;
-      min-height: $process-container-min-height;
-  }
-
-  &-header {
-      min-width: 75rem;
-      background-color: $point-blue;
-      color: $white;
-      font-weight: $font-weight-medium;
-      @include header;
-
-      .logo {
-          float: left;
-      }
-
-      .name {
-          font-size: 1.125rem; // 18px
-          font-weight: 500;
-          color: $white;
-      }
-
-      button {
-        margin-right: 2.5625rem; // 41px
-        padding: 0;
-        height: $process-header-real-height;
-        line-height: $process-header-real-height;
-        vertical-align: middle;
-        float: left;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-
-        .icon-save {
-          display: inline-block;
-          @include maskImage('#{$icon-folder-path}process/topmenu/icon_save.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-        }
-        .icon-save-as {
-          display: inline-block;
-          @include maskImage('#{$icon-folder-path}process/topmenu/icon_save_as.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-        }
-        .icon-simulation {
-          display: inline-block;
-          @include maskImage('#{$icon-folder-path}process/topmenu/icon_simulation.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-        }
-        .icon-undo {
-          display: inline-block;
-          @include maskImage('#{$icon-folder-path}process/topmenu/icon_undo.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-        }
-        .icon-redo {
-          display: inline-block;
-          @include maskImage('#{$icon-folder-path}process/topmenu/icon_redo.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-        }
-        .icon-image-download {
-          display: inline-block;
-          @include maskImage('#{$icon-folder-path}process/topmenu/icon_image_download.svg', 20px, 20px, no-repeat, center, 20px 20px, $white);
-        }
-      }
-
-      span.separator {
-          width: 0.063rem; // 1px
-          height: $process-header-real-height;
-          background-color: #3079ff;
-          margin: 0 1.25rem; // 20px
-          float: left;
-      }
-
-      .process-name {
-          height: $process-header-real-height;
-          line-height: $process-header-real-height;
-          margin-right: 0.938rem; // 15px
-          font-size: 1rem; // 16px
-          font-weight: 500;
-      }
-  }
-
+  // element palette
   &-element-palette {
-      display: inline-block;
-      width: $process-element-palette-width;
-      height: calc(100vh - #{$process-header-height});
-      min-height: #{$process-container-min-height - $process-header-height};
-      background-color: #ffffff;
-      position: absolute;
-      top: $process-header-height;
-      color: #666f7a;
-      box-shadow: 0.063rem 0 0.313rem -0.25rem #182738;
-
-      .rectangle-menu {
-          position: relative;
-          display: inline-block;
-          width: 5.625rem; // 90px
-          height: 4.375rem; // 70px
-          margin: 0.313rem 0.313rem 0 0.313rem; // 5px
-          border: 0.063rem solid $line-gray;
-          border-radius: 0.1875rem; // 3px
-          background: {
-              color: transparent;
-              size: initial;
-              repeat: no-repeat;
-              position: 50% 30%;
-          }
-
-          label {
-              font-size: 0.875rem; // 14px
-              font-weight: 400;
-              color: $light-black;
-              position: absolute;
-              top: 2.8rem; // 46px
-              width: 100%;
-              text-align: center;
-
-          }
-      }
-
-      .connector {
-          position: absolute;
-          bottom: 5rem; // 80px
-          left: 0;
-          label {color: $gray;}
-          background: {
-              color: $light-gray;
-              image: url("../media/icons/process/element/connector.png");
-          }
-      }
-
-      .connector.selected {
-          border-color: $point-blue;
-          label {color: $point-blue;}
-          background: {
-              color: transparent;
-              image: url("../media/icons/process/element/connector-select.png");
-          }
-      }
-
-      .shape.event {
-          background-image: url("../media/icons/process/element/event.png");
-      }
-
-      .shape.task {
-          background-image: url("../media/icons/process/element/task.png");
-      }
-
-      .shape.subprocess {
-          background-image: url("../media/icons/process/element/subprocess.png");
-      }
-
-      .shape.gateway {
-          background-image: url("../media/icons/process/element/gateway.png");
-      }
-
-      .shape.group {
-          background-image: url("../media/icons/process/element/group.png");
-      }
-
-      .shape.annotation {
-          background-image: url("../media/icons/process/element/annotation.png");
-      }
-
-      .move-icon {
-          position: absolute;
-          bottom: 0.313rem; // 5px
-          left: 0;
-          label {color: $gray;}
-          background: {
-              color: $light-gray;
-              image: url("../media/icons/process/editor/icon-background.png");
-          }
-      }
-
-      .move-icon.selected {
-          border-color: $point-blue;
-          label {color: $point-blue;}
-          background: {
-              color: transparent;
-              image: url("../media/icons/process/editor/icon-background-select.png");
-          }
-      }
+    position:fixed;
+    top: $layout-header-height;
+    left: 0;
+    bottom: 0;
+    width: $layout-element-palette-width;
+    background-color: $layout-element-palette-bg-color;
+    border-right: $layout-element-palette-border;
+    box-shadow: $layout-element-palette-box-shadow;
+    overflow: hidden;
   }
+  // main
+  &-main {
+    @include main;
+    left: $layout-element-palette-width;
+    overflow: hidden;
 
-  &-drawing-board {
-      display: inline-block;
+    .drawing-board {
       position: absolute;
-      top: $process-header-height;
-      left: $process-element-palette-width;
-      width: calc(100vw - #{$process-element-palette-width + $process-properties-panel-width});
-      min-width: #{$process-container-min-width - ($process-element-palette-width + $process-properties-panel-width)};
-      height: calc(100vh - #{$process-header-height});
-      min-height: #{$process-container-min-height - $process-header-height};
-      overflow: hidden;
-
-      /*버튼 공통*/
-      button.gray-line {
-          display: inline-block;
-          width: 2.5rem; // 40px
-          height: 2.5rem; // 40px
-          color: $line-gray;
-          background-color: $white;
-          border: 0.0625rem solid $line-gray;
-          border-radius: 0.1875rem; // 3px
-          text-align: center;
-          user-select: none;
-          white-space: nowrap;
-          vertical-align: middle;
-          opacity: 1;
-          cursor: pointer;
-
-          span.icon {
-              display: inline-block;
-              background: $pressed-gray;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      // 모눈 종이 : 내부 디자인 속성은 _elements.scss 참조
+      svg {
+        background-color: $drawing-board-bg-color;
+        // 선
+        g.grid {
+          path { display: none; }
+          line {
+            stroke: $drawing-board-line-color;
+            stroke-width: $drawing-board-line-width;
+            stroke-opacity: 1;
+            shape-rendering: crispEdges;
           }
-          
-          &:focus,
-          &:hover {
-              outline: 0;
-              border-color: $point-blue;
-              span.icon {
-                  background: $point-blue;
-              }
-          }
-
-          &.active {// pressed
-              border-color: $point-blue;
-              span.icon {
-                  background: $point-blue;
-              }
-          }
+        }
       }
-      /*미니맵*/
-      div.minimap {
-          background-color: #ffffff;
-          display: inline-block;
-          width: 12.5rem; // 200px
-          height: 9.375rem; // 150px
-          overflow: hidden;
-          position: absolute;
-          bottom: 0.625rem; // 10px
-          right: 3.438rem; // 55px
-          border: 0.0625rem solid $line-gray; // 1px
-          box-shadow: 0 0 0.3125rem 0 $line-gray;
-
-          svg {
-              position: absolute;
-              top: 1.25rem; // 20px
-              left: 1.25rem; // 20px
-              background-color: #eef2f7;
-              border: 1px solid #c8ced8;
-
-              rect.minimap-guide {
-                  fill: #A3B6CC;
-                  fill-opacity: 0.25;
-                  stroke-width: 0;
-              }
-          }
-
-          &.closed {
-              display: none;
-          }
+      // 미니맵
+      .minimap {
+        display: inline-block;
+        width: $minimap-width;
+        height: $minimap-height;
+        position: absolute;
+        bottom: 0.625rem; // 10px
+        right: 3.438rem; // 55px
+        background-color: $minimap-bg-color;
+        border: $minimap-border;
+        border-radius: $minimap-border-radius;
+        box-shadow: $minimap-box-shadow;
+        overflow: hidden;
+  
+        svg {
+            position: absolute;
+            top: 1.875rem; // 30px
+            left: 1.875rem; // 30px
+            background-color: $minimap-inside-bg-color;
+            border: $minimap-border;
+            border-radius: $minimap-border-radius;
+            // 미니맵 위치 변경시 표시되는 네모박스
+            rect.minimap-guide {
+                fill: $minimap-guide-bg-color;
+                fill-opacity: $minimap-guide-bg-color-opacity;
+                stroke-width: 0;
+            }
+        }
+        // 닫음
+        &.closed { display: none; }
       }
-      button.minimap-button {
-          position: absolute;
-          bottom: 0.625rem; // 10px
-          right: 0.625rem; // 10px
-          line-height: 0;
-          padding: 0;
-          span.icon {
-              width: 1.063rem; // 17px
-              height: 1.25rem; // 20px
-              -webkit-mask-image: url("../media/icons/process/editor/icon-map.svg");
-              mask-image: url("../media/icons/process/editor/icon-map.svg");
-              -webkit-mask-repeat: no-repeat;
-              mask-repeat: no-repeat;
-              -webkit-mask-position: center;
-              mask-position: center;
-          }
-      }
-      /*시뮬레이션*/
+
+      // 시뮬레이션
       .simulation-report {
-          position: absolute;
-          width: 63.75rem; // 1020px
-          height: 22.688rem; // 363px
-          display: block;
-          background-color: #ffffff;
-          overflow: hidden;
-          top: 0;
-          bottom: 0;
-          left: 0;
-          right: 0;
-          margin: auto;
-          border: solid 1px #ebebeb;
+        display: block;
+        width: $simulation-report-width;
+        height: $simulation-report-height;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: $simulation-report-bg-color;
+        border: $simulation-report-border;
+        border-radius: $simulation-report-border-radius;
+        box-shadow: $simulation-report-box-shadow;
+        margin: auto;
+        overflow: hidden;
+        // 제목
+        &-title {
+          height: 3.375rem; // 54px
+          font-size: $simulation-report-title-font-size;
+          font-weight: $simulation-report-title-font-weight;
+          color: $simulation-report-title-font-color;
+          border-bottom: $simulation-report-border;
+          padding: 1.125rem; // 17px
 
-          .title {
-              height: 3.375rem;
-              border-bottom: solid 1px #ebebeb;
-              font-size: 1.125rem;
-              padding: 1.063rem;
-
-              &-text {
-                  display: inline-block;
-              }
-
-              &-close {
-                  display: inline-block;
-                  width: 16px;
-                  height: 18px;
-                  float: right;
-                  background: {
-                      image: url("../media/icons/process/editor/icon-simulation-close.svg");
-                      position-y: center;
-                      repeat: no-repeat;
-                  };
-                  cursor: pointer;
-              }
+          .icon-minus {
+            position: absolute;
+            display: inline-block;
+            right: 1.125rem; // 17px
+            cursor: pointer;
+            @include maskImage('#{$icon-folder-path}icon_minus.svg', 1rem, 1.5rem, no-repeat, center, null, $pressed-gray); // 16px 24px
+            // mouse over
+            &:hover {
+              background: $point-blue;
+            }
           }
+        }
 
-          .contents {
-              position: relative;
-              height: calc(100% - 3.375rem);
-              font-size: 1.125rem;
+        &-contents {
+          padding: 0.3125rem; // 5px
+          // 스크롤 영역
+          &-main {
+            width: 100%;
+            height: 18.44rem; // 295px
+            overflow-y: auto;
+            // 결과
+            .result {
+                font-size: $simulation-report-title-font-size;
+                font-weight: $simulation-report-title-font-weight;
+                margin: 1.25rem 0.938rem; // 20px 15px
 
-              .result {
-                  margin: 0.938rem;
+                &.success { color: $green; }
+                &.failed { color: $red; }
+            }
+            // 내용
+            .details {
+              font-size: $simulation-report-content-font-size;
+              font-weight: $simulation-report-content-font-weight;
+              color: $simulation-report-content-font-color;
+              margin: 0 0.938rem; // 0 15px
 
-                  &.success {
-                      color: #00c462;
-                  }
-
-                  &.failed {
-                      color: #ff405a;
-                  }
+              div {
+                margin: 0.625rem 0; // 10px 0
+                &.failed { color: $red; }
               }
 
-              .details {
-                  font-size: 1rem;
-                  color: #586872;
-
-                  div {
-                      margin: 0.313rem 0 0.313rem 0.75rem;
-
-                      &.failed {
-                          color: #ff405a;
-                      }
-                  }
-
-                  &-number-of, &-result, &-element-info, &-failed-message {
-                      margin-left: 0.313rem;
-                  }
+              &-result, &-element-info, &-failed-message {
+                margin-left: 0.313rem; // 5px
               }
+            }
           }
-
-          &.closed {
-              display: none;
-          }
+        }
+        // 닫음
+        &.closed { display: none; }
       }
-      button.simulation-report-icon {
-          position: absolute;
-          bottom: 3.438rem; // 55px
-          right: 0.625rem; // 10px
-          line-height: 0;
-          padding: 0;
-          span.icon {
-              width: 1.25rem; // 20px
-              height: 1rem; // 16px
-              -webkit-mask-image: url("../media/icons/process/editor/icon-simulation-report.svg");
-              mask-image: url("../media/icons/process/editor/icon-simulation-report.svg");
-              -webkit-mask-repeat: no-repeat;
-              mask-repeat: no-repeat;
-              -webkit-mask-position: center;
-              mask-position: center;
-          }
-      }
+    }
   }
 
-  &-properties-panel {
-      //@include properties;
-      display: flex;
-      flex: 0 0 auto;
-      flex-direction: column;
-      float: right;
-      width: 18.75rem;
-      height: $layout-properties-height;
-      min-height: $layout-properties-height;
-      box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6);  // -1px 15px 7px 0px $pressed-gray, 불투명도 60%;
-      overflow-y: auto;
-      background-color: #fafbfd;
-      top: $process-header-height;
-      position: relative;
-
-      h3 {
-          margin: 1.25rem 0 1rem 1.5625rem; // 20px 0 16px 25px
+  // 세부 속성 상단
+  &-properties-header {
+    position:fixed;
+    top: $layout-header-height;
+    right: 0;
+    width: $layout-properties-width;
+    height: $layout-properties-header-height;
+    font-size: $layout-properties-header-font-size;
+    font-weight: $layout-properties-header-font-weight;
+    color: $layout-properties-header-font-color;
+    background-color: $layout-properties-header-bg-color;
+    padding: 0.625rem 1.563rem; // 10px 25px;
+  }
+  // 세부 속성
+  &-properties {
+    @include properties;
+    top: calc(#{$layout-header-height} + #{$layout-properties-header-height});
+    width: $layout-properties-width;
+    background-color: $layout-properties-bg-color;
+    border-left: $layout-properties-border;
+    box-shadow: $layout-properties-box-shadow;
+    overflow-x: hidden;
+    @include scrollbarHidden;
+    // element 명
+    .properties-group-title {
+      color: $hover-blue;
+      margin: 1.25rem 1.563rem 0.75rem 1.563rem; // 20px 25px 12px 25px
+    }
+    // 세부 속성
+    .properties {
+      //display: flex;
+      //flex-wrap: wrap;
+      //align-items: center;
+      padding:  0.5rem 1.563rem; // 8px 25px
+      // 세부 속성명
+      &-title {
+        display: inline-block;
+        width: 100%;
+        font-size: $properties-title-font-size;
+        font-weight: $properties-title-font-weight;
+        color: $properties-title-font-color;
+        margin-bottom: 10px; // 10px
       }
-      h3 span {
-          padding-right: 0.625rem;
-          @include h5();
-          color: $hover-blue;
-          font-weight: 500;
+      // 마지막 속성은 선 추가
+      &.last {
+        padding-bottom: 30px; // 30px
+        border-bottom: $layout-properties-border;
       }
+      // Id
+      .copy { width: 81% !important; }
 
-      div.properties-container {
-          height: calc(100vh - #{$process-header-height});
-
-          div.element-title {
-              height: 2.5rem; // 40px
-              background-color: $hover-blue;
-
-              h2 {
-                  @include h5();
-                  color: $white;
-                  font-weight: 500;
-                  padding: 0.719rem 0 0.719rem 0.938rem; // 11.5px 0 11.5px 15px
-              }
+      .candidate-table {
+        margin-top: 15px; // 15px
+        tr { 
+          th, td { 
+            text-align: center;
+            vertical-align: middle;
+            border-color: $line-gray;
           }
-
-          div.element-properties {
-              height: calc(100vh - #{$process-header-height} - 2.5rem);
-              overflow: auto;
-
-              fieldset {
-                  border: 0.063rem solid #c8ced8;
-                  padding: 0.5rem; // 8px
-                  margin: {
-                      right: 1.25rem; // 20px
-                      left: 1.25rem; // 20px
-                      bottom: 0.5rem; // 8px
-                  }
-
-                  legend {
-                      width: 6.25rem; // 100px
-                      height: 1.875rem; // 30px
-                      display: flex;
-                      align-items: center;
-
-                      input {
-                          margin: 0 0.3125rem; //5px
-                      }
-
-                      label {
-                          margin-top: 0;
-                      }
-                  }
-
-                  div.properties {
-                      margin: 1rem 0.5rem 0 0.5rem; // 16px 8px 0 8px
-
-                      label {
-                          width: 12.5rem; // 200px
-                      }
-                  }
-              }
-
-              div.properties {
-                  display: flex;
-                  flex-wrap: wrap;
-                  align-items: center;
-                  margin: {
-                      top: 1rem; // 16px
-                      left: 1.5625rem; // 25px
-                      right: 1.5625rem; // 25px
-                  }
-
-                  .flex-row {
-                      width: 100%;
-                  }
-
-                  font: {
-                      size: 0.688rem; // 11px
-                  }
-
-                  label {
-                      display: inline-block;
-                      width: 100%;
-                      vertical-align: top;
-                      margin-bottom: 0.5625rem; // 9px
-                      @include h5();
-                      font-weight: 500;
-                      color: $light-black;
-                  }
-
-                  input:not([type=checkbox]),
-                  textarea,
-                  select {
-                      width: 100%;
-
-                  }
-
-                  textarea {
-                      height: 7.5rem; // 120px
-                  }
-
-                  input.color,
-                  input.copy {
-                      flex: 1;
-                  }
-
-                  select.candidate {
-                      flex: 1;
-                      // width: 8.563rem; // 137px
-                  }
-
-                  input.file {
-                      width: 10rem; // 160px
-                  }
-
-                  button {
-                      border: 0.063rem solid $line-gray;
-                      background-color: #ffffff;
-                      width: 3.125rem; // 50px
-                      height: 2.5rem; // 40px
-                      margin-left: 0.188rem; // 3px
-                      padding: 0;
-                  }
-
-                  table {
-                      margin-top: 0.188rem; // 3px
-
-                      tr {
-                          border: {
-                              top: 0.063rem solid #c8ced8;
-                              bottom: 0.063rem solid #c8ced8;
-                          }
-                      }
-
-                      thead {
-                          th {
-                              background-color: #ffffff;
-                              vertical-align: middle;
-                          }
-                      }
-
-                      tbody {
-                          tr:nth-child(even) {
-                              background-color: #ffffff;
-                          }
-
-                          tr:nth-child(odd) {
-                              background-color: #eff3f8
-                          }
-
-                          td {
-                              vertical-align: middle;
-                              &:first-child {
-                                  padding-left: 0.313rem;
-                              }
-
-                              &:last-child {
-                                  text-align: right;
-                                  padding-right: 0.313rem;
-
-                                  span.remove {
-                                      display: inline-block;
-                                      width: 1rem; // 16px
-                                      height: 1rem; // 16px
-                                      border: 0.063rem solid #c8ced8;
-                                      background-color: #ffffff;
-                                      cursor: pointer;
-                                      position: relative;
-                                      vertical-align: middle;
-                                  }
-
-                                  span.remove:after {
-                                      position: absolute;
-                                      left: 0.0625rem; // 1px
-                                      top: -0.125rem; // -2px
-                                      content: '\2212';
-                                  }
-                              }
-                          }
-                      }
-                  }
-
-                  .script-action-container {
-                      display: flex;
-                      flex-wrap: wrap;
-
-                      .btn-container {
-                          width: 100%;
-                      }
-
-                      .file-tooltip {
-                          position: relative;
-                          display: inline-block;
-                          cursor: pointer;
-                          margin-left: 0.188rem; // 3px
-
-                          .file-tooltip-button {
-                              display: inline-block;
-                              width: 2.5rem; // 40px
-                              height: 2.5rem; // 40px
-                              border: 0.063rem solid $line-gray;
-                              background: {
-                                  size: initial;
-                                  repeat: no-repeat;
-                                  image: url("../media/icons/process/editor/icon-search.png");
-                                  position: center center;
-                              };
-                          }
-                      }
-
-                      table {
-                          tr {
-                              border: {
-                                  top: 0.063rem solid #c8ced8;
-                                  bottom: 0.063rem solid #c8ced8;
-                              }
-                          }
-
-                          tr:nth-child(even) {
-                              background-color: #ffffff;
-                          }
-
-                          tr:nth-child(odd) {
-                              background-color: #eff3f8
-                          }
-
-                          tr > th, td {
-                              vertical-align: middle
-                          }
-
-                          tr > td:first-child {
-                              padding-left: 0.625rem;
-                          }
-
-                          tr > td:last-child {
-                              text-align: right;
-                              padding-right: 0.625rem;
-                          }
-
-                          label {
-                              height: 0.938rem; // 15px
-                              margin: 0;
-                          }
-                      }
-
-                      .condition-txt {
-                          width: 30%;
-                          word-break: break-all;
-                      }
-
-                      .file-txt {
-                          width: 50%;
-                          word-break: break-all;
-                      }
-                  }
-
-                  .clipboard-tooltip {
-                      position: relative;
-                      display: inline-block;
-                      cursor: pointer;
-                      margin-left: 0.3125rem; // 5px
-
-                      .clipboard-tooltip-button {
-                          display: inline-block;
-                          width: 2.5rem; // 40px
-                          height: 2.5rem; // 40px
-                          border: 0.063rem solid $line-gray;
-                          border-radius: 0.1875rem; // 3px
-                          background: {
-                              size: initial;
-                              repeat: no-repeat;
-                              image: url("../media/icons/process/editor/icon-clipboard.png");
-                              position: center center;
-                          }
-                      }
-
-                      .clipboard-tooltip-text {
-                          visibility: hidden;
-                          width: 8.75rem; //140px
-                          background-color: #555;
-                          color: #ffffff;
-                          text-align: center;
-                          border-radius: 0.375rem; //6px
-                          padding: 0.313rem; //5px
-                          position: absolute;
-                          z-index: 1;
-                          bottom: 120%;
-                          left: 50%;
-                          margin-left: -8.125rem; // -130px
-                          opacity: 0;
-                          transition: opacity 0.3s;
-                      }
-
-                      .clipboard-tooltip-text::after {
-                          content: "";
-                          position: absolute;
-                          top: 100%;
-                          left: 50%;
-                          margin-left: -0.313rem; //-5px
-                          border-width: 0.313rem; //5px
-                          border-style: solid;
-                          border-color: #555 transparent transparent transparent;
-                      }
-                  }
-
-                  .clipboard-tooltip:hover {
-                      .clipboard-tooltip-text {
-                          visibility: visible;
-                          opacity: 1;
-                      }
-                  }
-              }
-          }
-
-          div.process-info-container {
-              overflow: hidden;
-
-              border: {
-                  top: 0.063rem solid $line-gray;
-              }
-              margin-top: 1.875rem; // 30px
-              padding-top: 0.25rem; // 4px
-
-              div.info {
-
-                  margin: {
-                      top: 0.5rem; // 8px
-                      left: 1.25rem; // 20px
-                      right: 1.25rem; // 20px
-                  }
-
-                  padding-bottom: 1.3125rem; // 21px
-                  
-                  div.total {
-                      font-size: 1rem;
-                      font-weight: 500;
-                      color: $light-black;
-                      margin-top: 0.5rem; // 8px
-                      text-align: right;
-                  }
-
-                  table {
-                      color: $dark-gray;
-
-                      tr:first-child {
-                          border-top: 0.125rem solid $line-gray;
-                      }
-
-                      tr > td {
-                          vertical-align: middle;
-                          height: 2.4375rem;
-                      }
-
-                      tr > td:first-child {
-                          padding-left: 0.625rem;
-                      }
-
-                      tr > td:last-child {
-                          text-align: right;
-                          padding-right: 0.625rem;
-                      }
-
-                      label {
-                          height: 0.938rem; // 15px
-                          color: $dark-gray;
-                          margin: 0;
-                      }
-                  }
-              }
-          }
+          button { padding: 0; }
+        }
       }
+    }
+    //프로세스 개요
+    .process-info-main {
+      margin: 1.25rem 1.563rem; // 20px 25px
+      .process-info-title { color: $hover-blue; }
+      // 엘리먼트 갯수
+      .process-info-dashboard {
+        margin-top: 1.25rem; // 20px
+        .total {
+          color: $light-black;
+          padding: 0 0 0.625rem 0; // 0 0 10px 0
+          margin: 0;
+          border-bottom: 0.125rem solid $line-gray;
+        }
+        table tr td {
+            padding: 0.625rem; // 10px 들여쓰기
+        }
+      }
+    }
   }
 }

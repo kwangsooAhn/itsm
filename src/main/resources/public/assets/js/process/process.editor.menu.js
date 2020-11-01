@@ -448,7 +448,7 @@
             }
         }
 
-        const tooltipItemContainer = d3.select('.process-drawing-board').select('svg').append('g')
+        const tooltipItemContainer = d3.select('.drawing-board').select('svg').append('g')
             .attr('class', 'alice-tooltip').style('display', 'none');
 
         const containerWidth = actionTooltip.length * (itemSize + itemMargin) + itemMargin,
@@ -928,7 +928,7 @@
      * @param id process ID or element ID
      */
     function changePropertiesDataValue(id) {
-        const container = document.querySelector('.process-properties-panel .properties-container'),
+        const container = document.querySelector('.process-properties'),
               propertyObjects = container.querySelectorAll('input:not([type=radio]), select, textarea');
         if (id === aliceProcessEditor.data.process.id) {
             const originProcessData = JSON.parse(JSON.stringify(aliceProcessEditor.data.process));
@@ -994,10 +994,12 @@
      */
     function changePropertyAssigneeType(assigneeTypeObject, value) {
         let assigneeObject = document.getElementById('assignee');
-        if (assigneeObject.parentNode.querySelector('select') !== null) {
-            assigneeObject.parentNode.querySelector('select').remove();
-            assigneeObject.parentNode.querySelector('button').remove();
-            assigneeObject.parentNode.parentNode.querySelector('table').remove();
+        let propertiesDiv = assigneeObject.parentNode;
+        propertiesDiv.className = 'properties';
+
+        if (propertiesDiv.querySelector('.candidate-select-group') !== null) {
+            propertiesDiv.querySelector('.candidate-select-group').remove();
+            propertiesDiv.querySelector('.candidate-table').remove();
         }
         assigneeObject.value = '';
 
@@ -1281,6 +1283,8 @@
     function setMultipleDatatable(inputObject, dataList, dataKeys, valueArr) {
         inputObject.style.display = 'none';
         inputObject.classList.add('multiple');
+
+        const propertiesDiv = inputObject.parentNode;
         let dataSelect = document.createElement('select');
         dataSelect.className = 'candidate';
         for (let i = 0, optionLength = dataList.length; i < optionLength; i++) {
@@ -1292,10 +1296,12 @@
         }
 
         let btnAdd = document.createElement('button');
-        btnAdd.innerText = i18n.msg('common.btn.add');
+        btnAdd.type = 'button';
+        btnAdd.className = 'ghost-line btn-candidate-add';
+        btnAdd.insertAdjacentHTML('beforeend', `<span class="icon icon-plus"></span>`);
 
         const saveData = function() {
-            let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
+            let dataBody = inputObject.parentNode.querySelector('tbody');
             let rows = dataBody.querySelectorAll('tr');
             let assigneeValue = '';
             let rowLength = rows.length;
@@ -1313,7 +1319,7 @@
         };
 
         const addDataRow = function(dataVal, dataText) {
-            let dataBody = inputObject.parentNode.parentNode.querySelector('tbody');
+            let dataBody = inputObject.parentNode.querySelector('tbody');
             let row = document.createElement('tr');
             let nameColumn = document.createElement('td');
             nameColumn.textContent = dataText;
@@ -1323,8 +1329,15 @@
             nameColumn.appendChild(hiddenInput);
             row.appendChild(nameColumn);
             let btnColumn = document.createElement('td');
-            let btnDel = document.createElement('span');
-            btnDel.className = 'remove';
+
+            // 삭제 버튼
+            let btnDel = document.createElement('button');
+            btnDel.type = 'button';
+
+            let btnIcon = document.createElement('span');
+            btnIcon.className = 'icon icon-delete';
+            btnDel.appendChild(btnIcon);
+
             btnDel.addEventListener('click', function() {
                 this.parentNode.parentNode.remove();
                 saveData();
@@ -1338,7 +1351,7 @@
 
         btnAdd.addEventListener('click', function() {
             let dataSelect = this.parentNode.querySelector('select'),
-                dataBody = inputObject.parentNode.parentNode.querySelector('tbody'),
+                dataBody = inputObject.parentNode.querySelector('tbody'),
                 rows = dataBody.querySelectorAll('tr');
 
             let isDuplicate = false,
@@ -1357,22 +1370,23 @@
             }
         });
 
-        let propertiesDiv = inputObject.parentNode;
-        propertiesDiv.classList.add('flex-column');
         let selectRow = document.createElement('div');
-        selectRow.classList.add('flex-row');
-        selectRow.appendChild(inputObject);
+        selectRow.className = 'candidate-select-group flex flex-row';
         selectRow.appendChild(dataSelect);
         selectRow.appendChild(btnAdd);
         propertiesDiv.appendChild(selectRow);
 
         let dataTable = document.createElement('table');
+        dataTable.className = 'candidate-table';
         let thead = document.createElement('thead');
         let headRow = document.createElement('tr');
         let headNameColumn = document.createElement('th');
         headNameColumn.textContent = i18n.msg('common.label.name');
-        headNameColumn.colSpan = 2;
+        headNameColumn.style.width = '80%';
         headRow.appendChild(headNameColumn);
+        let headRemoveColumn = document.createElement('th');
+        headRemoveColumn.style.width = '20%';
+        headRow.appendChild(headRemoveColumn);
         thead.appendChild(headRow);
         dataTable.appendChild(thead);
         let tbody = document.createElement('tbody');
@@ -1399,19 +1413,19 @@
      * @param elemData 속성데이터
      */
     function makePropertiesItem(id, properties, elemData) {
-        const propertiesContainer = document.querySelector('.process-properties-panel .properties-container');
-        const elementContainer = propertiesContainer.querySelector('.element-properties');
+        const elementContainer = document.querySelector('.process-properties');
         elementContainer.innerHTML = '';
         const propertiesDivision = properties.attribute;
         let propertiesPanelTitle = i18n.msg(i18nMsgPrefix + 'process');
         if (id !== aliceProcessEditor.data.process.id) {
             propertiesPanelTitle = i18n.msg(i18nMsgPrefix + properties.type);
         }
-        propertiesContainer.querySelector('.element-title > h2').textContent = propertiesPanelTitle;
+        document.getElementById('properties-name').innerHTML = propertiesPanelTitle;
 
         for (let idx = 0, len = propertiesDivision.length; idx < len; idx++) {
             // property 구분 타이틀
-            let title = document.createElement('h3');
+            let title = document.createElement('h5');
+            title.className = 'properties-group-title';
             let span = document.createElement('span');
             span.textContent = i18n.msg(i18nMsgPrefix + propertiesDivision[idx].title);
             title.appendChild(span);
@@ -1422,6 +1436,10 @@
                 const property = items[i];
                 let propertyContainer = document.createElement('div');
                 propertyContainer.className = 'properties';
+                // 마지막 속성은 아래 줄 추가
+                if (i === attrLen - 1) {
+                    propertyContainer.classList.add('last');
+                }
                 if (typeof property.fieldset !== 'undefined') {
                     // property fieldset
                     let fieldsetContainer = elementContainer.querySelector('fieldset[name="' + property.fieldset + '"]');
@@ -1435,9 +1453,10 @@
 
                 // property title
                 let labelObject = document.createElement('label');
+                labelObject.className = 'properties-title';
                 labelObject.htmlFor = property.id;
                 if (property.type === 'checkbox') {
-                    labelObject.className = 'checkbox';
+                    labelObject.classList.add('checkbox');
                     labelObject.tabindex = 0;
                 }
                 labelObject.textContent = i18n.msg(i18nMsgPrefix + property.id);
@@ -1446,7 +1465,7 @@
                 }
                 if (property.required === 'Y') {
                     // property required
-                    labelObject.classList.add('required');
+                    labelObject.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
                 }
                 propertyContainer.appendChild(labelObject);
 
@@ -1551,13 +1570,11 @@
      * @param elemData element data
      */
     function addSpecialProperties(id, elemData) {
-        const propertiesContainer = document.querySelector('.process-properties-panel .properties-container');
-        const elementContainer = propertiesContainer.querySelector('.element-properties');
-
+        const elementContainer = document.querySelector('.process-properties');
         const selectedElement = d3.select(document.getElementById(id));
 
         if (selectedElement.classed('userTask')) {
-            let assigneeTypeObject = propertiesContainer.querySelector('#assignee-type');
+            let assigneeTypeObject = elementContainer.querySelector('#assignee-type');
             if (assigneeTypeObject) {
                 changePropertyAssigneeType(assigneeTypeObject, elemData.assignee);
             }
@@ -1661,19 +1678,23 @@
                 break;
             case 'inputbox-readonly':
                 elementObject = document.createElement('input');
+                elementObject.type = 'text';
                 elementObject.readOnly = true;
                 propertyContainer.appendChild(elementObject);
                 break;
             case 'inputbox-copy':
                 elementObject = document.createElement('input');
+                elementObject.type = 'text';
                 elementObject.className = 'copy';
                 elementObject.readOnly = true;
                 propertyContainer.appendChild(elementObject);
 
                 let copyBtnContainer = document.createElement('div');
                 copyBtnContainer.className = 'clipboard-tooltip';
-                let copyBtn = document.createElement('span');
-                copyBtn.className = 'clipboard-tooltip-button';
+
+                let copyBtn = document.createElement('button');
+                copyBtn.className = 'ghost-line btn-clipboard-tooltip';
+                copyBtn.insertAdjacentHTML('beforeend', `<span class="icon icon-clipboard"></span>`);
                 copyBtn.addEventListener('click', function() {
                     elementObject.select();
                     elementObject.setSelectionRange(0, 99999);
@@ -1901,14 +1922,15 @@
             });
             countList.push({category: item, count: count});
         });
-        let infoContainer = document.querySelector('.process-properties-panel .info');
-        infoContainer.querySelectorAll('label').forEach(function(label) {
+        // 프로세스 개요
+        let infoContainer = document.querySelector('.process-info-dashboard');
+        infoContainer.querySelectorAll('.count').forEach(function(label) {
             label.textContent = '0';
         });
         countList.forEach(function(countInfo) {
-            infoContainer.querySelector('#' + countInfo.category + '_count').textContent = countInfo.count;
+            infoContainer.querySelector('#' + countInfo.category + '-count').textContent = countInfo.count;
         });
-        infoContainer.querySelector('#element_count').textContent = elements.length;
+        infoContainer.querySelector('#element-count').textContent = elements.length;
     }
 
     /**

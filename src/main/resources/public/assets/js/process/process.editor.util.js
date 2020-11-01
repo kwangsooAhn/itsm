@@ -394,9 +394,9 @@
             method: 'put',
             url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/simulation',
             callbackFunc: function (xhr) {
-                if (document.querySelectorAll('.simulation-report .contents .details div').length > 0) {
-                    document.querySelectorAll('.simulation-report .contents .details div').forEach((element) => element.parentElement.removeChild(element));
-                    document.querySelector('.simulation-report .contents .result').classList.remove('success', 'failed');
+                if (document.querySelectorAll('.simulation-report-contents-main .details div').length > 0) {
+                    document.querySelectorAll('.simulation-report-contents-main .details div').forEach((element) => element.parentElement.removeChild(element));
+                    document.querySelector('.simulation-report-contents-main .result').classList.remove('success', 'failed');
                 }
                 const response = JSON.parse(xhr.responseText);
 
@@ -410,8 +410,8 @@
                     mainResult = i18n.msg('common.label.fail');
                     mainResultClassName = 'failed';
                 }
-                document.querySelector('.simulation-report .contents .result').classList.add(mainResultClassName);
-                document.querySelector('.simulation-report .contents .result').textContent = mainResult;
+                document.querySelector('.simulation-report-contents-main .result').classList.add(mainResultClassName);
+                document.querySelector('.simulation-report-contents-main .result').textContent = mainResult;
 
                 // 세부 결과
                 for (let i = 0; i < response.simulationReport.length; i++) {
@@ -452,12 +452,14 @@
                     reportDetails.appendChild(elementInfo);
                     reportDetails.appendChild(failedMessage);
 
-                    document.querySelector('.simulation-report .contents .details').appendChild(reportDetails);
+                    document.querySelector('.simulation-report-contents-main .details').appendChild(reportDetails);
                 }
 
                 if (document.querySelector('.simulation-report').classList.contains('closed')) {
-                    document.querySelector('.simulation-report-icon').click();
+                    document.querySelector('.btn-simulation-report').click();
                 }
+                // 스크롤바 생성
+                OverlayScrollbars(document.querySelector('.simulation-report-contents-main'), { className: 'scrollbar' });
             },
             contentType: 'application/json; charset=utf-8',
             params: JSON.stringify(aliceProcessEditor.data)
@@ -583,11 +585,11 @@
      * @return {Promise<unknown[]>}
      */
     function loadProcessImage(viewBox, svgNode) {
-        let svg = d3.select(svgNode).html(d3.select('.process-drawing-board > svg').html());
+        let svg = d3.select(svgNode).html(d3.select('.drawing-board > svg').html());
         svg.attr('width', viewBox[2])
             .attr('height', viewBox[3])
             .attr('viewBox', viewBox.join(' '))
-            .classed('process-drawing-board', true);
+            .classed('drawing-board', true);
 
         svg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector').remove();
         svg.selectAll('.group-artifact-container, .element-container, .connector-container').attr('transform', '');
@@ -694,7 +696,7 @@
      * focus properties panel.
      */
     function focusPropertiesPanel() {
-        let panel = document.querySelector('.process-properties-panel');
+        let panel = document.querySelector('.process-properties');
         let items = panel.querySelectorAll('input:not([readonly]), select');
         if (items.length === 0) {
             return false;
@@ -706,12 +708,12 @@
      * 미니맵을 표시한다.
      */
     function setProcessMinimap() {
-        const drawingboardContainer = document.querySelector('.process-drawing-board');
+        const drawingboardContainer = document.querySelector('.drawing-board');
         let drawingBoard = d3.select(drawingboardContainer).select('svg');
         let content = drawingBoard.html();
         const minimapSvg = d3.select('div.minimap').select('svg');
         minimapSvg.html(content);
-        minimapSvg.attr('width', 160).attr('height', 110);
+        minimapSvg.attr('width', 290).attr('height', 200);
         minimapSvg.selectAll('.guides-container, .alice-tooltip, .grid, .tick, .pointer, .drag-line, .painted-connector, defs').remove();
         minimapSvg.selectAll('text').nodes().forEach(function (node) {
             if (node.textContent === '') {
@@ -750,7 +752,7 @@
         if (isMinimapClosed) {
             d3.select('div.minimap').classed('closed', false);
         }
-        const drawingBoard = d3.select(document.querySelector('.process-drawing-board'));
+        const drawingBoard = d3.select(document.querySelector('.drawing-board'));
         const minimapSvg = d3.select('div.minimap').select('svg');
         const nodeTopArray = [],
             nodeRightArray = [],
@@ -784,7 +786,7 @@
      * 드로잉보드 오른쪽 하단 버튼 기능 추가
      */
     function initializeButtonOnDrawingBoard() {
-        const drawingBoard = document.querySelector('.process-drawing-board');
+        const drawingBoard = document.querySelector('.drawing-board');
 
         // 미니맵 초기화 설정
         const minimapContainer = document.createElement('div');
@@ -794,15 +796,15 @@
         // 미니맵 버튼
         const minimapButton = document.createElement('button');
         minimapButton.type = 'button';
-        minimapButton.classList.add('gray-line', 'minimap-button');
+        minimapButton.classList.add('ghost-line', 'btn-minimap');
         minimapButton.addEventListener('click', function (e) {
-            const elem = aliceJs.clickInsideElement(e, 'minimap-button');
+            const elem = aliceJs.clickInsideElement(e, 'btn-minimap');
             elem.classList.toggle('active');
             document.querySelector('div.minimap').classList.toggle('closed');
         }, false);
 
         const minimapIcon = document.createElement('span');
-        minimapIcon.classList.add('icon');
+        minimapIcon.classList.add('icon', 'icon-minimap');
         minimapButton.appendChild(minimapIcon)
         drawingBoard.appendChild(minimapButton);
 
@@ -811,7 +813,7 @@
         // 시뮬레이션 레포트 버튼 동작 이벤트 설정
         const simulationToggleEvent = function() {
             document.querySelector('.simulation-report').classList.toggle('closed');
-            document.querySelector('.simulation-report-icon').classList.toggle('active');
+            document.querySelector('.btn-simulation-report').classList.toggle('active');
         };
 
         // 시뮬레이션 레포트 초기화 설정
@@ -819,40 +821,41 @@
         simulationContainer.classList.add('simulation-report', 'closed');
 
         const simulationTitle = document.createElement('div');
-        simulationTitle.className = 'title';
+        simulationTitle.className = 'simulation-report-title';
+        simulationTitle.textContent = i18n.msg('process.btn.simulationCheckResult');
 
-        const simulationTitleText = document.createElement('div');
-        simulationTitleText.className = 'title-text';
-        simulationTitleText.textContent = i18n.msg('process.btn.simulationCheckResult');
-        simulationTitle.appendChild(simulationTitleText);
-
-        const simulationClose = document.createElement('div');
-        simulationClose.className = 'title-close';
+        const simulationClose = document.createElement('span');
+        simulationClose.className = 'icon-minus';
         simulationTitle.appendChild(simulationClose);
         simulationClose.addEventListener('click', simulationToggleEvent, false);
         simulationContainer.appendChild(simulationTitle);
 
         const simulationContent = document.createElement('div');
-        simulationContent.className = 'contents';
+        simulationContent.className = 'simulation-report-contents';
+
+        const simulationMain = document.createElement('div');
+        simulationMain.className = 'simulation-report-contents-main';
 
         const simulationResult = document.createElement('div');
         simulationResult.className = 'result';
-        simulationContent.appendChild(simulationResult);
+        simulationMain.appendChild(simulationResult);
 
         const simulationDetail = document.createElement('div');
         simulationDetail.className = 'details';
-        simulationContent.appendChild(simulationDetail);
+        simulationMain.appendChild(simulationDetail);
+
+        simulationContent.appendChild(simulationMain);
         simulationContainer.appendChild(simulationContent);
         drawingBoard.appendChild(simulationContainer);
 
         // 시뮬레이션 동작 버튼
         const simulationButton = document.createElement('button');
         simulationButton.type = 'button';
-        simulationButton.classList.add('gray-line', 'simulation-report-icon');
+        simulationButton.classList.add('ghost-line', 'btn-simulation-report');
         simulationButton.addEventListener('click', simulationToggleEvent, false);
 
         const simulationIcon = document.createElement('span');
-        simulationIcon.classList.add('icon');
+        simulationIcon.classList.add('icon', 'icon-simulation-report');
         simulationButton.appendChild(simulationIcon)
         drawingBoard.appendChild(simulationButton);
 

@@ -1,1 +1,202 @@
 @import "../template/_buttons.scss";
+
+// header button
+.btn-header {
+  width: 3.75rem; // 60px
+  height: 3.125rem; // 50px
+  padding: 0;
+  border-radius: 0;
+
+  // 첫번째 버튼만 구분자를 가리기 위해 구분자 너비만큼 margin을 -1px 로 조정한다.
+  &:first-of-type {
+    margin-left: -0.063rem; // -1px
+  }
+
+  // mouse over and pressed
+  &:focus,
+  &:hover,
+  &:active {
+    background-color: #26A7FF; 
+  }
+
+  .icon-save {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/topmenu/icon_save.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white); // 20px 20px 
+  }
+  .icon-save-as {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/topmenu/icon_save_as.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-undo {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/topmenu/icon_undo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-redo {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/topmenu/icon_redo.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-simulation {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/topmenu/icon_simulation.svg', 1.25rem, 1.25rem, no-repeat, center, null, $white);// 20px 20px 
+  }
+  .icon-image-download {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/topmenu/icon_image_download.svg', 1.5rem, 1.25rem, no-repeat, center, null, $white);// 24px 20px 
+  }
+}
+
+// element palette
+.rectangle-menu {
+  width: 5.625rem; // 90px
+  height: 4.375rem; // 70px
+  padding: 0;
+  margin: 0.313rem 0.313rem 0 0.313rem; // 5px
+  border: 0.063rem solid $line-gray;
+  
+  .icon-text {
+    display: block;
+    font-size: 14px; // 14px
+    font-weight: $font-weight-regular;
+    color: $light-black;
+  }
+
+  .icon-event {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/element-palette/icon_event.svg', 26px, 26px, no-repeat, center, null, $pressed-gray); // 26px 26px 
+  }
+  .icon-task {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/element-palette/icon_task.svg', 24px, 24px, no-repeat, center, null, $pressed-gray); // 24px 24px 
+  }
+  .icon-subprocess {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/element-palette/icon_subprocess.svg', 24px, 24px, no-repeat, center, null, $pressed-gray); // 24px, 24px
+  }
+  .icon-gateway {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/element-palette/icon_gateway.svg', 30px, 30px, no-repeat, center, null, $pressed-gray); // 30px 30px 
+  }
+  .icon-group {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/element-palette/icon_group.svg', 24px, 24px, no-repeat, center, null, $pressed-gray); // 24px 24px 
+  }
+  .icon-annotation {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/element-palette/icon_annotation.svg', 24px, 24px, no-repeat, center, null, $pressed-gray); // 24px 24px 
+  }
+  // Connector 
+  &.connector {
+    position: absolute;
+    bottom: 5rem; // 80px
+    background-color: $light-gray;
+
+    .icon-connector {
+      display: inline-block;
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_connector.svg', 24px, 24px, no-repeat, center, null, $gray); // 24px 24px 
+      // Connector 문구
+      + .icon-text { color: $gray; }
+    }
+    // 선택시
+    &.selected {
+      border-color: $point-blue;
+      background-color: $white;;
+      .icon { background: $point-blue;}
+      .icon-text { color: $point-blue; }
+    }
+  }
+  // Background
+  &.move-icon {
+    position: absolute;
+    bottom: 0.313rem; // 5px
+    background-color: $light-gray;
+
+    .icon-background {
+      display: inline-block;
+      @include maskImage('#{$icon-folder-path}process/element-palette/icon_background.svg', 24px, 24px, no-repeat, center, null, $gray); // 24px 24px 
+      // Background 문구
+      + .icon-text { color: $gray; }
+    }
+    // 선택시
+    &.selected {
+      border-color: $point-blue;
+      background-color: $white;;
+      .icon { background: $point-blue;}
+      .icon-text { color: $point-blue; }
+    }
+  }
+}
+
+// minimap button
+.btn-minimap {
+  position: absolute;
+  width: 2.5rem; // 40px
+  height: 2.5rem; // 40px
+  bottom: 0.625rem; // 10px
+  right: 0.625rem; // 10px
+  padding: 0;
+  // pressed
+  &.active {
+    border-color: $point-blue;
+    .icon-minimap { background: $point-blue; }
+  }
+
+  .icon-minimap {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/editor/icon_map.svg', 1.063rem, 1.25rem, no-repeat, center, null, $pressed-gray); // 17px 20px 
+  }
+}
+
+// simulation report button
+.btn-simulation-report {
+  position: absolute;
+  width: 2.5rem; // 40px
+  height: 2.5rem; // 40px
+  bottom: 3.438rem; // 55px
+  right: 0.625rem; // 10px
+  padding: 0;
+  // pressed
+  &.active {
+    border-color: $point-blue;
+    .icon-simulation-report { background: $point-blue; }
+  }
+
+  .icon-simulation-report {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/editor/icon_simulation_report.svg', 1.25rem, 1rem, no-repeat, center, null, $pressed-gray); // 20px 16px
+    vertical-align: baseline; // TODO: 아이콘 위치가 다른 아이콘과 조금 다름
+  }
+}
+
+// clipboard tooltip button
+.btn-clipboard-tooltip {
+  width: 2.5rem; // 40px
+  height: 2.5rem; // 40px
+  padding: 0;
+
+  .icon-clipboard {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}process/editor/icon_clipboard.svg', 1.25rem, 1.25rem, no-repeat, center, null, $pressed-gray); // 20px 20px 
+  }
+}
+
+// candidate add button
+.btn-candidate-add {
+  width: 2.5rem; // 40px
+  height: 2.5rem; // 40px
+  padding: 0;
+  margin-left: 0.3125rem; // 5px
+
+  .icon-plus {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_plus.svg', 24px, 24px, no-repeat, center, 20px 20px, $pressed-gray);
+  }
+}
+
+// 삭제 버튼
+.btn,
+button {
+  .icon-delete {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}form/tooltip/icon_delete.svg', 1.25rem, 1.25rem, no-repeat, center, null, $pressed-gray); // 20px 20px 
+  }
+}
