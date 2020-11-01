@@ -89,9 +89,12 @@ $context-menu-focus-bg-color:                 rgba(135, 206, 255, 0.1);
 $context-menu-focus-font-color:               $point-blue;
 
 // color-picker palette
-$color-picker-palette-width:                 100%;
-$color-picker-palette-margin:                0.1875rem;  // 3px
-$color-picker-palette-padding:               0.9375rem 0 0.9375rem 0.9375rem; // 15px 0 15px 15px
-$color-picker-colorchip-size:                1rem; // 16px
-$color-picker-colorchip-margin:              0.1875rem; // 3px
-$color-picker-colorchip-border:              0.125rem solid $white; // 2px
+$color-picker-palette-width:                  100%;
+$color-picker-palette-margin:                 0.1875rem;  // 3px
+$color-picker-palette-padding:                0.9375rem 0 0.9375rem 0.9375rem; // 15px 0 15px 15px
+$color-picker-colorchip-size:                 1rem; // 16px
+$color-picker-colorchip-margin:               0.1875rem; // 3px
+$color-picker-colorchip-border:               0.125rem solid $white; // 2px
+
+// thumbnail
+$thumbnail-container-padding:                 1.25rem; // 20px

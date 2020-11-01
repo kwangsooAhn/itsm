@@ -56,4 +56,15 @@ $icon-arrow-left: $icon-folder-path + "icon_arrow_left.svg";
 $icon-arrow-bottom: $icon-folder-path + "icon_arrow_bottom.svg";
 
 // dropzone
-$dropzone-folder-path: "../../../media/icons/dropzone/";
+$dropzone-folder-path:                        "../../../media/icons/dropzone/";
+
+// thumbnail
+$thumbnail-container-height:                  35.31rem; // 565px
+$thumbnail-container-padding:                 0;
+$thumbnail-margin:                            0.125rem; // 2.5px
+$thumbnail-icon-modal-width:                  45rem; // 720px
+$thumbnail-icon-size:                         6.25rem; // 100px
+$thumbnail-icon-margin:                       0.4375rem; // 7px
+$thumbnail-icon-div-size:                     100%;
+$thumbnail-box-shadow:                        0 0 0.3125rem 0.0625rem $thumbnail-border-color; // 5px
+$thumbnail-asset-path:                        "../../../media/icons/thumbnail";

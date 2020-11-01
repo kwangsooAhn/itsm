@@ -274,7 +274,7 @@
                         thumbnailImg.className = 'thumbnail-img';
                     } else if (this.options.type === 'icon') {
                         thumbnailImg.className = 'thumbnail-icon';
-                        thumbnailImg.style.backgroundSize = '50%';
+                        thumbnailImg.style.backgroundSize = '100%';
                     }
                     thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
                     thumbnail.appendChild(thumbnailImg);

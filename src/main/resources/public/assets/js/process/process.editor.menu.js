@@ -1145,7 +1145,7 @@
             let fileBtn = document.createElement('span');
             fileBtn.className = 'file-tooltip-button';
             fileBtn.addEventListener('click', function() {
-                window.open('/processes/attachFile/view?callback=' + fileInput.id, 'fileUploadPop', 'width=1200, height=700');
+                window.open('/processes/attachFile/view?callback=' + fileInput.id, 'fileUploadPop', 'width=1240, height=775');
             });
             fileBtnContainer.appendChild(fileBtn);
 
