@@ -5532,10 +5532,6 @@ span.vertical-bar {
   font-weight: 400;
 }
 
-.gnb-area > ul > li > ul > li:hover {
-  background: #333D47;
-}
-
 .gnb-area > ul > li > ul > li > a {
   display: block;
   cursor: pointer;
@@ -5549,6 +5545,10 @@ span.vertical-bar {
 .gnb-area > ul > li > ul > li > a.snb {
   padding: 8px 20px 8px 20px;
   color: #929AA6;
+}
+
+.gnb-area > ul > li > ul > li > a.active {
+  background-color: #283238;
 }
 
 .gnb-area > ul > li > ul > li > a.active span {
