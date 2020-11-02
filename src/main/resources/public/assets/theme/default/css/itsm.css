@@ -5437,6 +5437,26 @@ span.vertical-bar {
   overflow: auto;
 }
 
+.menu .right {
+  right: 0.375rem;
+}
+
+.menu .os-menu-scrollbar-track {
+  background: rgba(40, 50, 56, 0.6);
+  border-radius: 0.5rem;
+  pointer-events: auto;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.menu .os-menu-scrollbar-handle {
+  background: #3F4B56;
+  border-radius: 0.5rem;
+}
+
 .gnb-area .gnb {
   padding: 15px 20px 15px 20px;
   vertical-align: middle;

@@ -59,6 +59,21 @@
 			evt.initEvent('click', false, true);
 			document.querySelector('.active-parent').dispatchEvent(evt);
 		}
+
+		OverlayScrollbars(document.querySelector('.menu'), {
+			className: 'inner-scrollbar',
+			callbacks: {
+				onInitialized: function() {
+					var verticalScrollbar = document.querySelector('.os-scrollbar-vertical').firstChild;
+					var verticalScrollbarHandle = verticalScrollbar.firstChild;
+					verticalScrollbar.classList.add('right');
+					verticalScrollbar.classList.remove('os-scrollbar-track');
+					verticalScrollbar.classList.add('os-menu-scrollbar-track');
+					verticalScrollbarHandle.classList.remove('os-scrollbar-handle');
+					verticalScrollbarHandle.classList.add('os-menu-scrollbar-handle');
+				}
+			}
+		});
 	});
 /* ]]> */
 </script>
