@@ -5989,8 +5989,8 @@ span.vertical-bar {
   color: #0098FF;
   width: 22.5rem;
   font-size: 1rem;
-  border: 0.0625rem solid #0098FF;
-  border-radius: 0.0625rem;
+  border: 0.125rem solid #0098FF;
+  border-radius: 0.125rem;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
   margin: 0.25rem 0 0 0;
   position: absolute;
