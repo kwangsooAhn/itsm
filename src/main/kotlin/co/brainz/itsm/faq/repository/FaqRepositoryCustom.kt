@@ -22,4 +22,9 @@ interface FaqRepositoryCustom : AliceRepositoryCustom {
      * Portal FAQ 목록 조회 (갯수).
      */
     fun findFaqTopList(limit: Long): List<PortalTopDto>
+
+    /**
+     * FAQ 조회.
+     */
+    fun findFaq(faqId: String): FaqListDto
 }
