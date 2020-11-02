@@ -122,6 +122,18 @@ input, button, select, optgroup, textarea {
   vertical-align: text-top;
 }
 
+.float-clear {
+  clear: both;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
+}
+
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss
@@ -1634,6 +1646,7 @@ table tr {
   height: 2.5rem;
 }
 table tr th {
+  font-size: 1.125rem;
   font-weight: 500;
 }
 table tr td, table tr th {
@@ -2796,10 +2809,12 @@ button.ghost-line:disabled .icon {
   color: #ffffff;
   font-weight: 500;
   padding: 0 1.25rem;
-  display: flex;
   position: fixed;
-  width: 100vw;
+  top: 0;
+  left: 0;
+  right: 0;
   height: 3.125rem;
+  display: flex;
   align-items: center;
 }
 .portal-container .header .title {

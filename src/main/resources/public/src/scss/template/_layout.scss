@@ -17,22 +17,30 @@
 }
 
 @mixin header {
-  display: flex;
   position: fixed;
-  width: 100vw;
+  top:0;
+  left:0;
+  right:0;
   height: $layout-header-height;
+  display: flex;
   align-items: center;
 }
 
+@mixin main {
+  position: fixed;
+  top: $layout-header-height;
+  left: 0;
+  right: $layout-properties-width;
+  bottom: 0;
+  overflow-y: auto;
+}
+
 @mixin properties {
-  display: flex;
-  flex: 0 0 auto;
-  flex-direction: column;
-  float: right;
-  width: 18.75rem;
-  height: $layout-properties-height;
-  min-height: $layout-properties-height;
-  box-shadow: -0.0625rem 0.9375rem 0.4375rem 0 rgba(204, 206, 209, 0.6);  // -1px 15px 7px 0px $pressed-gray, 불투명도 60%;
+  position:fixed;
+  top: $layout-header-height;
+  right: 0;
+  bottom: 0;
+  width: $layout-properties-width;
   overflow-y: auto;
 }
 

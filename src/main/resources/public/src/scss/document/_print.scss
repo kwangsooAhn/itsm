@@ -5,119 +5,62 @@
  * @author wdj
  * @version 1.0
  */
- // TODO: 프린트 디자인 소스 리팩토링
-.print-container {
+.print {
   width: 100vw;
   height: 100vh;
-  padding: 0;
   margin: 0;
+  padding: 0;
 
-  & *:focus {
-    outline: none !important;
-  }
-
-  .contents {
-    display: flex;
-    flex-direction: column;
-    left: 0;
-    float: left;
+  .print-main {
     min-width: 100vw;
     height: 100vh;
     min-height: 100vh;
-    padding: 0;
     margin: 0;
+    padding: 0;
     overflow: auto;
     @include scrollbarHidden;
 
-    .print-area {
-      justify-content: center;
-    }
+    .print-main-header {
+      width: 100vw;
+      margin: 0.9375rem; // 15px
 
-    .print-board {
-      margin: 0.9375rem; // 15px;
-      height: 4.5rem; // 72px
       span {
-        float: right;
-        font-size: 16px;
-        line-height: 24px;
-        font-weight: 400; // regular
-        color: $black;
-        text-align: right;
+        line-height: 1.2;
       }
     }
 
-    .drawing-board {
-      margin: 0 auto;
-      display: table;
-      width: $drawing-board-width;
-      max-width: $drawing-board-width;
+    .print-area {
       min-height: 100%;
-      padding: 6.25rem 4.063rem; // 100px 65px;
+    }
+
+    // 폼이 그려지는 영역
+    .drawing-board {
+      display: table;
+      width: 710px; // 710px
+      min-height: 100%;
+      margin: 0.9375rem; // 15px
+      padding: $drawing-board-padding;
       background-color: $drawing-board-bg-color;
       border: $drawing-board-border;
       box-shadow: $drawing-board-box-shadow;
+      
+      & *:focus {
+        outline: none !important;
+      }
       .component {
-        page-break-inside: avoid;
+        page-break-inside: always;
+        &:hover {
+          .move-handler { opacity: 0; }
+        }
       }
     }
   }
 }
 
-.print-btn {
-    margin: 0.625rem;
-    text-align: right;
-}
-
-.print-hr {
-    border-top: 1px solid;
-}
-
-.print-header {
-    margin: 0.9375rem 3.75rem;
-    height: 45px;
-    span {
-        float: right;
-        text-align: right;
-    }
-}
-
-.print-body {
-    .component {
-        page-break-inside: avoid;
-        .group {
-            pointer-events: none;
-        }
-    }
-}
-
-.print-history {
-    margin: 0.9375rem 3.75rem;
-}
-
-.comment {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    border: none;
-    padding: 0.625rem 1.25rem;
-    background-color: #ffffff;
-    .field {
-        display: flex;
-        height: 3.563rem;
-        textarea {
-            width: 100%;
-            resize: vertical;
-        }
-        button {
-            flex: 1 1 auto;
-            line-height: 1rem;
-            padding: 0 0.625rem;
-            white-space: nowrap;
-        }
-    }
-}
-.table {
-    width: 100%;
-    margin-bottom: 1rem;
+@media print {
+  body {
+    width: 21cm;
+    height: 29.7cm;
+    margin: 30mm 45mm 30mm 45mm; 
+  }
 }

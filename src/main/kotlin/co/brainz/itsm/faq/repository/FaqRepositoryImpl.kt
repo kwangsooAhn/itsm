@@ -81,4 +81,23 @@ class FaqRepositoryImpl(
             .limit(limit)
             .fetch()
     }
+
+    override fun findFaq(faqId: String): FaqListDto {
+        val faq = QFaqEntity.faqEntity
+        return from(faq)
+            .select(
+                Projections.constructor(
+                    FaqListDto::class.java,
+                    faq.faqId,
+                    faq.faqGroup,
+                    faq.faqTitle,
+                    faq.faqContent,
+                    Expressions.numberPath(Long::class.java, "0"),
+                    faq.createDt,
+                    faq.createUser.userName
+                )
+            )
+            .where(faq.faqId.eq(faqId))
+            .fetchOne()
+    }
 }
