@@ -3653,54 +3653,98 @@ button.ghost-line:disabled .icon {
   animation-iteration-count: 1;
 }
 
+/* _tooltip.scss 
+ *
+ * 파일 경로 : template/_tooltip.scss
+ * @description 툴팁 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .help-tooltip {
   display: inline-block;
   margin-left: 0.3125rem;
-  width: 0.9375rem;
-  height: 0.9375rem;
   vertical-align: middle;
 }
 
-.help-tooltip .help-tooltip-icon:before {
-  background: #CCCED1;
-  -webkit-mask: url("../media/icons/icon_tooltip.svg") no-repeat center center;
+.help-tooltip .help-tooltip-icon {
+  display: inline-block;
+  cursor: pointer;
+  width: 1rem;
+  height: 1rem;
+  -webkit-mask-image: url("../media/icons/icon_tooltip.svg");
   mask-image: url("../media/icons/icon_tooltip.svg");
+  -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
+  -webkit-mask-position: center;
   mask-position: center;
+  background: #CCCED1;
 }
 
 .help-tooltip .tooltip-contents {
   visibility: hidden;
   background-color: #ffffff;
-  width: 22.5rem;
-  font-size: 0.8125rem;
   color: #0098FF;
-  border: 0.0625rem solid #0098FF;
-  border-radius: 0.0625rem;
+  width: 100%;
+  font-size: 1rem;
+  border: 0.125rem solid #0098FF;
+  border-radius: 0.125rem;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
+  margin: 0.25rem 0 0 0;
   position: absolute;
+  left: 0;
   z-index: 1;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
-  line-height: 1.25rem;
 }
 
 .help-tooltip .tooltip-contents span {
   color: #0098FF;
-  line-height: 2;
+  word-break: keep-all;
+  line-height: 1.5;
 }
 
 .help-tooltip:hover .tooltip-contents {
   visibility: visible;
-  -webkit-transform-origin: 100% 0%;
-  transform-origin: 100% 0%;
-  -webkit-animation-delay: 0s;
   animation-delay: 0s;
-  -webkit-animation-duration: 0.3s;
   animation-duration: 0.3s;
-  -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
 }
 
 .help-tooltip:hover .help-tooltip-icon {

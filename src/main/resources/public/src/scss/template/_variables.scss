@@ -375,3 +375,16 @@ $thumbnail-btn-red-color:                    #e51c23;
 $thumbnail-btn-blue-color:                   #007aff;
 $thumbnail-btn-green-color:                  #00ca3c;
 $thumbnail-btn-gray-color:                   #969696;
+
+/////////////////////////////// tooltip ///////////////////////////////
+$tooltip-help-size:                          1rem; // 16px
+$tooltip-help-margin:                        0.3125rem; // 5px
+$tooltip-font-size:                          1rem; // 16px
+$tooltip-contents-background:                $white;
+$tooltip-contents-color:                     $point-blue;
+$tooltip-contents-left:                      0;
+$tooltip-contents-width:                     100%;
+$tooltip-contents-border:                    0.125rem; // 2px
+$tooltip-contents-padding:                   1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
+$tooltip-contents-box-shadow:                0 0 0.3125rem 0 rgba(30, 47, 63, 0.2); // 5px
+

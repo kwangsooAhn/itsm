@@ -19,41 +19,41 @@ $element-border-color:                        $line-gray;
 $element-border-width:                        0.0625rem; // 1px
 $element-border-radius:                       0.0625rem; // 1px
 
-$alice-primary:#0050ff !default;
+$alice-primary:                               #0050ff !default;
 
 // 메뉴 로고
-$logo-width: 13.75rem; // 220px
-$logo-height: 3.8125rem; // 60px
+$logo-width:                                  13.75rem; // 220px
+$logo-height:                                 3.8125rem; // 60px
 
 // 네비게이션
-$nav-width: 13.75rem; // 220px
-$nav-height: 9.375rem; // 150px
-$nav-bg-color: $ground-black;
+$nav-width:                                   13.75rem; // 220px
+$nav-height:                                  9.375rem; // 150px
+$nav-bg-color:                                $ground-black;
 
 // 메뉴
-$menu-width: 13.75rem; // 220px
-$menu-height: calc(100vh - #{$nav-height} - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
-$menu-bg-color: $ground-black;
-$menu-bg-selected-color: $focus-black;
-$menu-bg-hover: $focus-black;
-$menu-color: $blue-gray;
-$menu-selected-color: $white;
-$menu-hover: $blue-gray;
-$menu-font: 1rem; // 16px;
+$menu-width:                                  13.75rem; // 220px
+$menu-height:                                 calc(100vh - #{$nav-height} - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
+$menu-bg-color:                               $ground-black;
+$menu-bg-selected-color:                      $focus-black;
+$menu-bg-hover:                               $focus-black;
+$menu-color:                                  $blue-gray;
+$menu-selected-color:                         $white;
+$menu-hover:                                  $blue-gray;
+$menu-font:                                   1rem; // 16px;
 
 // Menu Icons
-$icon-gnb-board: $icon-folder-path + "gnb/icon_gnb_board.svg";
-$icon-gnb-dashboard: $icon-folder-path + "gnb/icon_gnb_dashboard.svg";
-$icon-gnb-document: $icon-folder-path + "gnb/icon_gnb_document.svg";
-$icon-gnb-download: $icon-folder-path + "gnb/icon_gnb_download.svg";
-$icon-gnb-faq: $icon-folder-path + "gnb/icon_gnb_faq.svg";
-$icon-gnb-notice: $icon-folder-path + "gnb/icon_gnb_notice.svg";
-$icon-gnb-config: $icon-folder-path + "gnb/icon_gnb_config.svg";
-$icon-gnb-workflow: $icon-folder-path + "gnb/icon_gnb_workflow.svg";
-$icon-gnb-token: $icon-folder-path + "gnb/icon_gnb_token.svg";
+$icon-gnb-board:                              $icon-folder-path + "gnb/icon_gnb_board.svg";
+$icon-gnb-dashboard:                          $icon-folder-path + "gnb/icon_gnb_dashboard.svg";
+$icon-gnb-document:                           $icon-folder-path + "gnb/icon_gnb_document.svg";
+$icon-gnb-download:                           $icon-folder-path + "gnb/icon_gnb_download.svg";
+$icon-gnb-faq:                                $icon-folder-path + "gnb/icon_gnb_faq.svg";
+$icon-gnb-notice:                             $icon-folder-path + "gnb/icon_gnb_notice.svg";
+$icon-gnb-config:                             $icon-folder-path + "gnb/icon_gnb_config.svg";
+$icon-gnb-workflow:                           $icon-folder-path + "gnb/icon_gnb_workflow.svg";
+$icon-gnb-token:                              $icon-folder-path + "gnb/icon_gnb_token.svg";
 
-$icon-arrow-left: $icon-folder-path + "icon_arrow_left.svg";
-$icon-arrow-bottom: $icon-folder-path + "icon_arrow_bottom.svg";
+$icon-arrow-left:                             $icon-folder-path + "icon_arrow_left.svg";
+$icon-arrow-bottom:                           $icon-folder-path + "icon_arrow_bottom.svg";
 
 // dropzone
 $dropzone-folder-path:                        "../../../media/icons/dropzone/";
@@ -68,3 +68,7 @@ $thumbnail-icon-margin:                       0.4375rem; // 7px
 $thumbnail-icon-div-size:                     100%;
 $thumbnail-box-shadow:                        0 0 0.3125rem 0.0625rem $thumbnail-border-color; // 5px
 $thumbnail-asset-path:                        "../../../media/icons/thumbnail";
+
+// tooltip
+$tooltip-contents-left:                       auto;
+$tooltip-contents-width:                      22.5rem; // 360px
