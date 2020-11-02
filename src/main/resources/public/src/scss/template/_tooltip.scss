@@ -5,6 +5,16 @@
  * @author jy.lim
  * @version 1.0
  */
+
+ @include keyframe(fadeIn) {
+  0% {
+      opacity: 0;
+              }
+  100% {
+      opacity: 1;
+  }
+}
+
 .help-tooltip {
   display: inline-block;
   margin-left: $tooltip-help-margin;
@@ -17,10 +27,10 @@
 
   .tooltip-contents {
     visibility: hidden;
-    background-color: $white;
+    background-color: $tooltip-contents-background;
+    color: $tooltip-contents-color;
     width: $tooltip-contents-width;
     font-size: $tooltip-font-size;
-    color: $point-blue;
     border: $tooltip-contents-border solid $point-blue;
     border-radius: $tooltip-contents-border;
     padding: $tooltip-contents-padding;
@@ -39,16 +49,7 @@
   &:hover {
     .tooltip-contents {
       visibility: visible;
-      -webkit-transform-origin: 100% 0%;
-      transform-origin: 100% 0%;
-      -webkit-animation-delay: 0s;
-      animation-delay: 0s;
-      -webkit-animation-duration: 0.3s;
-      animation-duration: 0.3s;
-      -webkit-animation-name: fadeIn;
-      animation-name: fadeIn;
-      -webkit-animation-timing-function: ease-in-out;
-      animation-timing-function: ease-in-out;
+      @include animation (0s, 0.3s, fadeIn, ease-out);
     }
     .help-tooltip-icon {
       background: $point-blue;

@@ -5927,6 +5927,42 @@ span.vertical-bar {
  * @author jy.lim
  * @version 1.0
  */
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .help-tooltip {
   display: inline-block;
   margin-left: 0.3125rem;
@@ -5949,9 +5985,9 @@ span.vertical-bar {
 .help-tooltip .tooltip-contents {
   visibility: hidden;
   background-color: #ffffff;
+  color: #0098FF;
   width: 22.5rem;
   font-size: 0.75rem;
-  color: #0098FF;
   border: 0.0625rem solid #0098FF;
   border-radius: 0.0625rem;
   padding: 0.8125rem;
@@ -5970,16 +6006,11 @@ span.vertical-bar {
 
 .help-tooltip:hover .tooltip-contents {
   visibility: visible;
-  -webkit-transform-origin: 100% 0%;
-  transform-origin: 100% 0%;
-  -webkit-animation-delay: 0s;
   animation-delay: 0s;
-  -webkit-animation-duration: 0.3s;
   animation-duration: 0.3s;
-  -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
-  -webkit-animation-timing-function: ease-in-out;
-  animation-timing-function: ease-in-out;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
 }
 
 .help-tooltip:hover .help-tooltip-icon {
