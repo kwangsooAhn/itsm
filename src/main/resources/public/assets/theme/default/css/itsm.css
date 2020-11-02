@@ -6076,6 +6076,7 @@ body.thumbnail-modal-active {
 .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons {
   height: 5rem;
   display: flex;
+  float: right;
   padding: 1.25rem 1.25rem 1.25rem 0;
 }
 
@@ -6276,6 +6277,7 @@ body.thumbnail-modal-active {
 .thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog .thumbnail-modal-buttons {
   height: 5rem;
   display: flex;
+  float: right;
   padding: 1.25rem 1.25rem 1.25rem 0;
 }
 
