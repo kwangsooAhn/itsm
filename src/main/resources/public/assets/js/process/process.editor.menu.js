@@ -8,7 +8,7 @@
     const i18nMsgPrefix = 'process.designer.attribute.';
     const data = {};
     const iconDirectory = '/assets/media/icons/process';
-    const itemSize = 20;
+    const itemSize = 22;
     const itemMargin = 10;
     const assigneeTypeData = {
         users: [],

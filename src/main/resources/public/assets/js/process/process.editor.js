@@ -11,7 +11,7 @@
         pointerRadius: 4,
         connectorRadius: 4,
         connectorLabelPos: 20,
-        gatewaySize: 28
+        gatewaySize: 34
     };
 
     let svg,
@@ -1384,7 +1384,7 @@
      */
     function GatewayElement(x, y) {
         const self = this;
-        const size = displayOptions.gatewaySize, typeImageSize = 16;
+        const size = displayOptions.gatewaySize, typeImageSize = 22;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('gateway');
 
@@ -2007,7 +2007,7 @@
         const loadingStatus = sessionStorage.getItem(loadingKeyName);
         if (loadingStatus === 'firstLoading') {
             sessionStorage.removeItem(loadingKeyName);
-            let node = new EventElement(100, 200);
+            let node = new EventElement(120, 200);
             aliceProcessEditor.addElementProperty(node.nodeElement);
             aliceProcessEditor.autoSave();
             aliceProcessEditor.setElementMenu();

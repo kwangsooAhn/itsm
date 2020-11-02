@@ -79,7 +79,6 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
-/* 5px */
 /* _alignments.scss 
  *
  * 파일 경로 : template/_alignments.scss
@@ -3560,7 +3559,7 @@ button .icon-search {
 }
 
 .color-picker .color-palette-opacity span input.slide-input {
-  width: 3rem;
+  width: 3rem !important;
   height: 2rem;
   text-align: center;
   vertical-align: middle;
