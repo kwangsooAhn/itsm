@@ -5,3 +5,53 @@
  * @author jy.lim
  * @version 1.0
  */
+.help-tooltip {
+  display: inline-block;
+  margin-left: $tooltip-help-margin;
+  vertical-align: middle;
+
+  .help-tooltip-icon {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, $pressed-gray);
+  }
+
+  .tooltip-contents {
+    visibility: hidden;
+    background-color: $white;
+    width: $tooltip-contents-width;
+    font-size: $tooltip-font-size;
+    color: $point-blue;
+    border: $tooltip-contents-border solid $point-blue;
+    border-radius: $tooltip-contents-border;
+    padding: $tooltip-contents-padding;
+    margin: 0.25rem 0 0 0;
+    position: absolute;
+    left: $tooltip-contents-left;
+    z-index: 1;
+    box-shadow: $tooltip-contents-box-shadow;
+    span {
+      color: $point-blue;
+      word-break: keep-all;
+      line-height: 1.5;
+    }
+  }
+
+  &:hover {
+    .tooltip-contents {
+      visibility: visible;
+      -webkit-transform-origin: 100% 0%;
+      transform-origin: 100% 0%;
+      -webkit-animation-delay: 0s;
+      animation-delay: 0s;
+      -webkit-animation-duration: 0.3s;
+      animation-duration: 0.3s;
+      -webkit-animation-name: fadeIn;
+      animation-name: fadeIn;
+      -webkit-animation-timing-function: ease-in-out;
+      animation-timing-function: ease-in-out;
+    }
+    .help-tooltip-icon {
+      background: $point-blue;
+    }
+  }
+}

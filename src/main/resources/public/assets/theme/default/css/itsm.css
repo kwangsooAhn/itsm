@@ -5920,26 +5920,29 @@ span.vertical-bar {
   outline: 0.0625rem solid #0098FF;
 }
 
+/* _tooltip.scss 
+ *
+ * 파일 경로 : template/_tooltip.scss
+ * @description 툴팁 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
 .help-tooltip {
   display: inline-block;
   margin-left: 0.3125rem;
-  width: 0.9375rem;
-  height: 0.9375rem;
   vertical-align: middle;
 }
 
 .help-tooltip .help-tooltip-icon {
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  width: 1rem;
+  height: 1rem;
   -webkit-mask-image: url("../media/icons/icon_tooltip.svg");
   mask-image: url("../media/icons/icon_tooltip.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: 16px 16px;
-  mask-size: 16px 16px;
   background: #CCCED1;
 }
 
@@ -5947,15 +5950,22 @@ span.vertical-bar {
   visibility: hidden;
   background-color: #ffffff;
   width: 22.5rem;
-  font-size: 0.8125rem;
-  color: #0050ff;
-  border: 0.0625rem solid #0050ff;
+  font-size: 0.75rem;
+  color: #0098FF;
+  border: 0.0625rem solid #0098FF;
   border-radius: 0.0625rem;
-  padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
+  padding: 0.8125rem;
+  margin: 0.25rem 0 0 0;
   position: absolute;
+  left: auto;
   z-index: 1;
   box-shadow: 0 0 0.3125rem 0 rgba(30, 47, 63, 0.2);
-  line-height: 1.25rem;
+}
+
+.help-tooltip .tooltip-contents span {
+  color: #0098FF;
+  word-break: keep-all;
+  line-height: 1.5;
 }
 
 .help-tooltip:hover .tooltip-contents {
