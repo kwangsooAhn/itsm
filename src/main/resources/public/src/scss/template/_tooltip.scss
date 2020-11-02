@@ -6,7 +6,7 @@
  * @version 1.0
  */
 
- @include keyframe(fadeIn) {
+@include keyframe(fadeIn) {
   0% {
     opacity: 0;
   }
@@ -22,6 +22,7 @@
 
   .help-tooltip-icon {
     display: inline-block;
+    cursor: pointer;
     @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, $pressed-gray);
   }
 

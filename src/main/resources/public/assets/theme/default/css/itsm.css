@@ -5971,6 +5971,7 @@ span.vertical-bar {
 
 .help-tooltip .help-tooltip-icon {
   display: inline-block;
+  cursor: pointer;
   width: 1rem;
   height: 1rem;
   -webkit-mask-image: url("../media/icons/icon_tooltip.svg");
@@ -5987,10 +5988,10 @@ span.vertical-bar {
   background-color: #ffffff;
   color: #0098FF;
   width: 22.5rem;
-  font-size: 0.75rem;
+  font-size: 1rem;
   border: 0.0625rem solid #0098FF;
   border-radius: 0.0625rem;
-  padding: 0.8125rem;
+  padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;
   margin: 0.25rem 0 0 0;
   position: absolute;
   left: auto;
