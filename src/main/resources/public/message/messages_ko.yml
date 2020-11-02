@@ -748,6 +748,7 @@ process:
       action-value: "동작 시 전달 값"
       is-default: "기본 경로 여부"
       condition-value: "조건 값"
+      connection-information: "연결선 정보"
       start-id: "시작 엘리먼트 아이디"
       start-name: "시작 엘리먼트 이름"
       end-id: "연결 엘리먼트 아이디"

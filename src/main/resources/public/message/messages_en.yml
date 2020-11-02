@@ -748,6 +748,7 @@ process:
       action-value: "Action Value"
       is-default: "is Default"
       condition-value: "Condition Value"
+      connection-information: "Connection Information"
       start-id: "Start ID"
       start-name: "Start Name"
       end-id: "End ID"

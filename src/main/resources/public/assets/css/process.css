@@ -555,11 +555,11 @@ input, button, select, optgroup, textarea {
 
 .process-properties .properties-group-title {
   color: #33ADFF;
-  margin: 1.25rem 1.563rem 0.75rem 1.563rem;
+  margin: 1.563rem 1.563rem 0 1.563rem;
 }
 
 .process-properties .properties {
-  padding: 0.5rem 1.563rem;
+  padding: 0.9375rem 1.563rem 0.4375rem 1.563rem;
 }
 
 .process-properties .properties-title {
@@ -568,11 +568,11 @@ input, button, select, optgroup, textarea {
   font-size: 1rem;
   font-weight: 500;
   color: #3F4B56;
-  margin-bottom: 10px;
+  margin-bottom: 0.625rem;
 }
 
 .process-properties .properties.last {
-  padding-bottom: 30px;
+  padding-bottom: 1.875rem;
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 
@@ -597,6 +597,36 @@ input, button, select, optgroup, textarea {
 .process-properties .properties .candidate-table button,
 .process-properties .properties .script-data button {
   padding: 0;
+}
+
+.process-properties .properties .candidate-table tr th, .process-properties .properties .candidate-table tr td,
+.process-properties .properties .script-data tr th,
+.process-properties .properties .script-data tr td {
+  text-align: center;
+  vertical-align: middle;
+  border-color: #EBEBEB;
+  padding: 0 0.625rem;
+}
+
+.process-properties fieldset {
+  padding: 0 1.563rem;
+}
+
+.process-properties fieldset legend, .process-properties fieldset .properties {
+  padding: 0.9375rem 0 0.4375rem 0;
+}
+
+.process-properties fieldset .properties:last-child {
+  padding-bottom: 1.875rem;
+  border-bottom: 0.0625rem solid #EBEBEB;
+}
+
+.process-properties fieldset[name="condition"] {
+  border-bottom: 0.0625rem solid #EBEBEB;
+}
+
+.process-properties fieldset[name="condition"] .properties:last-child {
+  border: none;
 }
 
 .process-properties .process-info-main {
@@ -1115,13 +1145,6 @@ textarea {
 label {
   display: inline-block;
   margin-top: 0.25rem;
-}
-
-table tr th, table tr td {
-  text-align: center;
-  vertical-align: middle;
-  border-color: #EBEBEB;
-  padding: 0 0.625rem;
 }
 
 input:not([type=checkbox]),

@@ -31,60 +31,60 @@
         },
         {
             type: 'copy', parent: 'action',
-            url: iconDirectory + '/tooltip/copy.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_copy.svg',
             action: function(el) {
                 copyElement(el);
             }
         },
         {
             type: 'edit', parent: 'action',
-            url: iconDirectory + '/tooltip/edit.png',
-            focus_url: iconDirectory + '/tooltip/edit_focus.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_edit.svg',
+            focus_url: iconDirectory + '/tooltip/icon_tooltip_edit_focus.svg',
             action: function(el) {
                 setElementCategoryItems(el);
             }
         },
         {
             type: 'suggest', parent: 'action',
-            url: iconDirectory + '/tooltip/suggest.png',
-            focus_url: iconDirectory + '/tooltip/suggest_focus.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_suggest.svg',
+            focus_url: iconDirectory + '/tooltip/icon_tooltip_suggest_focus.svg',
             action: function(el) {
                 setSuggestElementItems(el);
             }
         },
         {
             type: 'userTask', parent: 'suggest',
-            url: iconDirectory + '/tooltip/task-userTask.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_user_task.svg',
             action: function(el) {
                 suggestElement(el, 'userTask');
             }
         }, {
             type: 'manualTask', parent: 'suggest',
-            url: iconDirectory + '/tooltip/task-manualTask.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_manual_task.svg',
             action: function(el) {
                 suggestElement(el, 'manualTask');
             }
         }, {
             type: 'exclusiveGateway', parent: 'suggest',
-            url: iconDirectory + '/tooltip/gateway-exclusiveGateway.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_exclusive_gateway.svg',
             action: function(el) {
                 suggestElement(el, 'exclusiveGateway');
             }
         }, {
             type: 'commonEnd', parent: 'suggest',
-            url: iconDirectory + '/tooltip/event-commonEnd.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_end.svg',
             action: function(el) {
                 suggestElement(el, 'commonEnd');
             }
         }, {
             type: 'commonStart', parent: 'event',
-            url: iconDirectory + '/tooltip/event-commonStart.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_start.svg',
             action: function(el) {
                 editElementType(el,'commonStart');
             }
         }, {
             type: 'timerStart', parent: 'event',
-            url: iconDirectory + '/tooltip/event-timerStart.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_start_timer.svg',
             element_url: iconDirectory + '/element-type/event-start-timer.png',
             element_selected_url: iconDirectory + '/element-type/event-start-timer-selected.png',
             action: function(el) {
@@ -92,7 +92,7 @@
             }
         }, {
             type: 'signalSend', parent: 'event',
-            url: iconDirectory + '/tooltip/event-signalSend.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_signal.svg',
             element_url: iconDirectory + '/element-type/event-signal-send.png',
             element_selected_url: iconDirectory + '/element-type/event-signal-send-selected.png',
             action: function(el) {
@@ -100,13 +100,13 @@
             }
         }, {
             type: 'commonEnd', parent: 'event',
-            url: iconDirectory + '/tooltip/event-commonEnd.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_end.svg',
             action: function(el) {
                 editElementType(el,'commonEnd');
             }
         }, {
             type: 'userTask', parent: 'task',
-            url: iconDirectory + '/tooltip/task-userTask.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_user_task.svg',
             element_url: iconDirectory + '/element-type/task-user.png',
             element_selected_url: iconDirectory + '/element-type/task-user-selected.png',
             action: function(el) {
@@ -114,7 +114,7 @@
             }
         }, {
             type: 'manualTask', parent: 'task',
-            url: iconDirectory + '/tooltip/task-manualTask.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_manual_task.svg',
             element_url: iconDirectory + '/element-type/task-manual.png',
             element_selected_url: iconDirectory + '/element-type/task-manual-selected.png',
             action: function(el) {
@@ -122,7 +122,7 @@
             }
         }, {
             type: 'scriptTask', parent: 'task',
-            url: iconDirectory + '/tooltip/task-scriptTask.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_script_task.svg',
             element_url: iconDirectory + '/element-type/task-script.png',
             element_selected_url: iconDirectory + '/element-type/task-script-selected.png',
             action: function(el) {
@@ -136,7 +136,7 @@
             action: function(el) {}
         }, {
             type: 'exclusiveGateway', parent: 'gateway',
-            url: iconDirectory + '/tooltip/gateway-exclusiveGateway.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_exclusive_gateway.svg',
             element_url: iconDirectory + '/element-type/gateway-exclusive.png',
             element_selected_url: iconDirectory + '/element-type/gateway-exclusive-selected.png',
             action: function(el) {
@@ -144,7 +144,7 @@
             }
         }, {
             type: 'parallelGateway', parent: 'gateway',
-            url: iconDirectory + '/tooltip/gateway-parallelGateway.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_parallel_gateway.svg',
             element_url: iconDirectory + '/element-type/gateway-parallel.png',
             element_selected_url: iconDirectory + '/element-type/gateway-parallel-selected.png',
             action: function(el) {
@@ -152,7 +152,7 @@
             }
         }, {
             type: 'inclusiveGateway', parent: 'gateway',
-            url: iconDirectory + '/tooltip/gateway-inclusiveGateway.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_inclusive_gateway.svg',
             element_url: iconDirectory + '/element-type/gateway-inclusive.png',
             element_selected_url: iconDirectory + '/element-type/gateway-inclusive-selected.png',
             action: function(el) {
@@ -1447,10 +1447,6 @@
                 const property = items[i];
                 let propertyContainer = document.createElement('div');
                 propertyContainer.className = 'properties';
-                // 마지막 속성은 아래 줄 추가
-                if (i === attrLen - 1) {
-                    propertyContainer.classList.add('last');
-                }
                 if (typeof property.fieldset !== 'undefined') {
                     // property fieldset
                     let fieldsetContainer = elementContainer.querySelector('fieldset[name="' + property.fieldset + '"]');
@@ -1459,6 +1455,10 @@
                     }
                     fieldsetContainer.appendChild(propertyContainer);
                 } else {
+                    // 마지막 속성은 아래 줄 추가
+                    if (i === attrLen - 1) {
+                        propertyContainer.classList.add('last');
+                    }
                     elementContainer.appendChild(propertyContainer);
                 }
 
@@ -1605,6 +1605,7 @@
                     disabledFieldset = actionFieldset;
                 }
                 disabledFieldset.querySelector('input[type=radio]').checked = false;
+                disabledFieldset.querySelector('input[type=radio]').disabled = true;
                 disabledFieldset.disabled = true;
                 disabledFieldset.querySelectorAll('input:not([type=radio])').forEach(function(inputObject) {
                     if (inputObject.tagName.toUpperCase() === 'INPUT' && inputObject.type.toUpperCase() === 'CHECKBOX') {
@@ -1619,6 +1620,7 @@
                 });
 
                 enableFieldset.querySelector('input[type=radio]').checked = true;
+                enableFieldset.querySelector('input[type=radio]').disabled = false;
                 enableFieldset.disabled = false;
 
                 let isDefaultObject = enableFieldset.querySelector('input[name=is-default]');
@@ -1651,7 +1653,8 @@
         // radio
         let radio = document.createElement('input');
         radio.type = 'radio';
-        radio.disabled = true;
+        //radio.disabled = true;
+        radio.readOnly = true;
         radio.name = 'fieldset_' + property.id;
         radio.value = property.fieldset;
         radioGroup.appendChild(radio);

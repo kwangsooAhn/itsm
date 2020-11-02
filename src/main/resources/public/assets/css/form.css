@@ -3898,9 +3898,9 @@ body.thumbnail-modal-active {
 .help-tooltip .tooltip-contents {
   visibility: hidden;
   background-color: #ffffff;
+  color: #0098FF;
   width: 18.13rem;
   font-size: 1rem;
-  color: #0098FF;
   border: 0.0625rem solid #0098FF;
   border-radius: 0.0625rem;
   padding: 1.0625rem 0.9375rem 0.9375rem 0.9375rem;

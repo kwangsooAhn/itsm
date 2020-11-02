@@ -193,7 +193,7 @@
     background-color: $layout-properties-header-bg-color;
     padding: 0.625rem 1.563rem; // 10px 25px;
   }
-  // 세부 속성
+  // element 속성
   &-properties {
     @include properties;
     top: calc(#{$layout-header-height} + #{$layout-properties-header-height});
@@ -207,15 +207,12 @@
     // element 명
     .properties-group-title {
       color: $hover-blue;
-      margin: 1.25rem 1.563rem 0.75rem 1.563rem; // 20px 25px 12px 25px
+      margin: 1.563rem 1.563rem 0 1.563rem; // 25px 25px 0 25px
     }
 
     // 세부 속성
     .properties {
-      //display: flex;
-      //flex-wrap: wrap;
-      //align-items: center;
-      padding:  0.5rem 1.563rem; // 8px 25px
+      padding:  0.9375rem 1.563rem 0.4375rem 1.563rem; // 15px 25px 7.5px 25px
       // 세부 속성명
       &-title {
         display: inline-block;
@@ -223,11 +220,11 @@
         font-size: $properties-title-font-size;
         font-weight: $properties-title-font-weight;
         color: $properties-title-font-color;
-        margin-bottom: 10px; // 10px
+        margin-bottom: 0.625rem; // 10px
       }
       // 마지막 속성은 선 추가
       &.last {
-        padding-bottom: 30px; // 30px
+        padding-bottom: 1.875rem; // 30px
         border-bottom: $layout-properties-border;
       }
       // Id
@@ -255,6 +252,20 @@
         }
       }
     }
+    // connector 세부 속성
+    fieldset {
+      padding:  0 1.563rem; // 0 25px
+      legend, .properties { padding:  0.9375rem 0 0.4375rem 0; } // 15px 0 7.5px 0
+      .properties:last-child {
+        padding-bottom: 1.875rem; // 30px
+        border-bottom: $layout-properties-border;
+      }
+      &[name="condition"] {
+        border-bottom: $layout-properties-border; 
+        .properties:last-child { border: none; }
+      }
+    }
+
     //프로세스 개요
     .process-info-main {
       margin: 1.25rem 1.563rem; // 20px 25px
