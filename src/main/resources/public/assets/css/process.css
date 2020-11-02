@@ -580,17 +580,22 @@ input, button, select, optgroup, textarea {
   width: 81% !important;
 }
 
-.process-properties .properties .candidate-table {
+.process-properties .properties .file-select-group .file {
+  width: 81% !important;
+  margin-right: 5px;
+}
+
+.process-properties .properties .file-select-group .btn-add {
   margin-top: 15px;
 }
 
-.process-properties .properties .candidate-table tr th, .process-properties .properties .candidate-table tr td {
-  text-align: center;
-  vertical-align: middle;
-  border-color: #EBEBEB;
+.process-properties .properties .candidate-table,
+.process-properties .properties .script-data {
+  margin-top: 15px;
 }
 
-.process-properties .properties .candidate-table tr button {
+.process-properties .properties .candidate-table button,
+.process-properties .properties .script-data button {
   padding: 0;
 }
 
@@ -1112,6 +1117,13 @@ label {
   margin-top: 0.25rem;
 }
 
+table tr th, table tr td {
+  text-align: center;
+  vertical-align: middle;
+  border-color: #EBEBEB;
+  padding: 0 0.625rem;
+}
+
 input:not([type=checkbox]),
 textarea,
 table,
@@ -1165,12 +1177,12 @@ svg g.element-container g.element .node.event.messageEnd {
 }
 
 svg g.element-container g.element .node.selected {
-  stroke: #0050ff !important;
+  stroke: #0098FF !important;
   stroke-width: 2 !important;
 }
 
 svg g.element-container g.element .node.selected.error {
-  stroke: #ff405a !important;
+  stroke: #FF405A !important;
 }
 
 svg g.element-container g.element .node.reject-element {
@@ -1185,9 +1197,9 @@ svg g.element-container g.element .annotation {
 }
 
 svg g.element-container g.element text {
+  font-size: 1rem;
+  font-weight: 500;
   fill: #3F4B56;
-  font-weight: bold;
-  font-size: 0.813rem;
   text-anchor: middle;
   dominant-baseline: middle;
   user-select: none;
@@ -1201,7 +1213,7 @@ svg g.element-container g.element.selected .element-type.subprocess {
 }
 
 svg g.element-container g.element.selected.error {
-  stroke: #ff405a !important;
+  stroke: #FF405A !important;
 }
 
 svg g.group-artifact-container g.element .group {
@@ -1216,13 +1228,13 @@ svg g.group-artifact-container g.element .node.selected {
 }
 
 svg g.group-artifact-container g.element .node.selected.error {
-  stroke: #ff405a !important;
+  stroke: #FF405A !important;
 }
 
 svg g.group-artifact-container g.element text {
+  font-size: 1rem;
+  font-weight: 500;
   fill: #3F4B56;
-  font-weight: bold;
-  font-size: 0.813rem;
   text-anchor: middle;
   dominant-baseline: middle;
   user-select: none;
@@ -1241,7 +1253,7 @@ svg g.connector-container g.connector path.connector.selected {
 }
 
 svg g.connector-container g.connector path.connector.selected.error {
-  stroke: #0098FF !important;
+  stroke: #FF405A !important;
 }
 
 svg g.connector-container g.connector path.connector.is-default {
@@ -1260,9 +1272,9 @@ svg g.connector-container g.connector path.painted-connector {
 }
 
 svg g.connector-container g.connector text {
+  font-size: 1rem;
+  font-weight: 500;
   fill: #3F4B56;
-  font-weight: bold;
-  font-size: 0.813rem;
   dominant-baseline: text-before-edge;
   user-select: none;
 }
@@ -1286,8 +1298,8 @@ svg defs marker path {
 
 svg g.alice-tooltip rect.tooltip-container {
   fill: #ffffff;
-  stroke: #bec4ce;
-  stroke-width: 0.5;
+  stroke: #87CEFF;
+  stroke-width: 1;
 }
 
 svg g.alice-tooltip rect.action-tooltip-item:hover,
@@ -1302,7 +1314,7 @@ svg g.guides-container line.guides-line {
 
 svg path.connector {
   fill: none;
-  stroke: #596f7a;
+  stroke: #586872;
   stroke-width: 1;
 }
 
@@ -2253,8 +2265,30 @@ button.ghost-line:disabled .icon {
   background: #CCCED1;
 }
 
+.btn-file {
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+}
+
+.btn-file .icon-search {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  -webkit-mask-image: url("../media/icons/icon_search.svg");
+  mask-image: url("../media/icons/icon_search.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 18px 18px;
+  mask-size: 18px 18px;
+  background: #ACB4BF;
+}
+
 .btn .icon-delete,
 button .icon-delete {
+  display: inline-block;
   width: 1.25rem;
   height: 1.25rem;
   -webkit-mask-image: url("../media/icons/form/tooltip/icon_delete.svg");
@@ -2263,7 +2297,7 @@ button .icon-delete {
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  background: #87CEFF;
+  background: #CCCED1;
 }
 
 /* _alerts.scss 

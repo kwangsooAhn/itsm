@@ -102,7 +102,6 @@
         // 닫음
         &.closed { display: none; }
       }
-
       // 시뮬레이션
       .simulation-report {
         display: block;
@@ -204,11 +203,13 @@
     box-shadow: $layout-properties-box-shadow;
     overflow-x: hidden;
     @include scrollbarHidden;
+
     // element 명
     .properties-group-title {
       color: $hover-blue;
       margin: 1.25rem 1.563rem 0.75rem 1.563rem; // 20px 25px 12px 25px
     }
+
     // 세부 속성
     .properties {
       //display: flex;
@@ -231,16 +232,26 @@
       }
       // Id
       .copy { width: 81% !important; }
-
-      .candidate-table {
+      // script task 파일 추가
+      .file-select-group {
+        .file { 
+          width: 81% !important; 
+          margin-right: 5px; // 5px;
+        }
+        .btn-add { margin-top: 15px; }
+      }
+      // assinee 등록
+      .candidate-table,
+      .script-data {
         margin-top: 15px; // 15px
+        button { padding: 0; }
         tr { 
           th, td { 
             text-align: center;
             vertical-align: middle;
-            border-color: $line-gray;
+            border-color: $table-border-color;
+            padding: 0 0.625rem; // 0 10px
           }
-          button { padding: 0; }
         }
       }
     }

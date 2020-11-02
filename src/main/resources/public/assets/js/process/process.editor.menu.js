@@ -8,8 +8,8 @@
     const i18nMsgPrefix = 'process.designer.attribute.';
     const data = {};
     const iconDirectory = '/assets/media/icons/process';
-    const itemSize = 16;
-    const itemMargin = 5.5;
+    const itemSize = 20;
+    const itemMargin = 10;
     const assigneeTypeData = {
         users: [],
         groups: []
@@ -24,7 +24,7 @@
     const tooltipItems = [
         {
             type: 'delete', parent: 'action',
-            url: iconDirectory + '/tooltip/delete.png',
+            url: iconDirectory + '/tooltip/icon_tooltip_delete.svg',
             action: function() {
                 deleteElements();
             }
@@ -1058,8 +1058,9 @@
             targetMappingProperties.className = 'properties';
 
             let targetMappingLabel = document.createElement('label');
+            targetMappingLabel.className = 'properties-title';
             targetMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'targetMappingId');
-            targetMappingLabel.className = 'required';
+            targetMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             let targetMappingInput = document.createElement('input');
             targetMappingInput.id = 'target-mapping-id';
@@ -1073,8 +1074,9 @@
             sourceMappingProperties.className = 'properties';
 
             let sourceMappingLabel = document.createElement('label');
+            sourceMappingLabel.className = 'properties-title';
             sourceMappingLabel.textContent = i18n.msg(i18nMsgPrefix + 'sourceMappingId');
-            sourceMappingLabel.className = 'required';
+            sourceMappingLabel.insertAdjacentHTML('beforeend', `<span class="required"></span>`);
 
             let sourceMappingInput = document.createElement('input');
             sourceMappingInput.id = 'source-mapping-id';
@@ -1126,6 +1128,7 @@
 
             // condition 생성
             let conditionLabel = document.createElement('label');
+            conditionLabel.className = 'properties-title';
             conditionLabel.textContent = i18n.msg(i18nMsgPrefix + 'condition');
             actionContainer.appendChild(conditionLabel);
 
@@ -1134,6 +1137,7 @@
 
             // file 생성
             let fileLabel = document.createElement('label');
+            fileLabel.className = 'properties-title';
             fileLabel.textContent = i18n.msg(i18nMsgPrefix + 'file');
             actionContainer.appendChild(fileLabel);
 
@@ -1142,21 +1146,20 @@
             fileInput.className = 'file';
             fileInput.readOnly = true;
 
-            let fileBtnContainer = document.createElement('div');
-            fileBtnContainer.className = 'file-tooltip';
-            let fileBtn = document.createElement('span');
-            fileBtn.className = 'file-tooltip-button';
+            let fileBtn = document.createElement('button');
+            fileBtn.className = 'ghost-line btn-file';
+            let fileIcon = document.createElement('span');
+            fileIcon.className = 'icon icon-search';
             fileBtn.addEventListener('click', function() {
                 window.open('/processes/attachFile/view?callback=' + fileInput.id, 'fileUploadPop', 'width=1200, height=700');
             });
-            fileBtnContainer.appendChild(fileBtn);
+            fileBtn.appendChild(fileIcon);
 
             // button
-            let btnContainer = document.createElement('div');
-            btnContainer.className = 'btn-container';
             let btnAdd = document.createElement('button');
+            btnAdd.type = 'button';
+            btnAdd.className = 'default-line btn-add';
             btnAdd.textContent = i18n.msg('common.btn.add');
-            btnContainer.appendChild(btnAdd);
 
             const saveData = function() {
                 let dataBody = inputObject.parentNode.querySelector('tbody');
@@ -1216,8 +1219,14 @@
                 fileColumn.textContent = fileValue;
 
                 let btnColumn = document.createElement('td');
-                let btnDel = document.createElement('span');
-                btnDel.className = 'remove';
+                // 삭제 버튼
+                let btnDel = document.createElement('button');
+                btnDel.type = 'button';
+
+                let btnIcon = document.createElement('span');
+                btnIcon.className = 'icon icon-delete';
+                btnDel.appendChild(btnIcon);
+
                 btnDel.addEventListener('click', function() {
                     this.parentNode.parentNode.remove();
                     saveData();
@@ -1234,11 +1243,10 @@
 
             let selectDev = document.createElement('div');
             selectDev.appendChild(fileInput);
-            selectDev.appendChild(fileBtnContainer);
-            selectDev.appendChild(btnContainer);
-            selectDev.classList.add('flex-row');
+            selectDev.appendChild(fileBtn);
+            selectDev.appendChild(btnAdd);
+            selectDev.className = 'file-select-group align-right';
             actionContainer.appendChild(selectDev);
-            actionContainer.classList.add('flex-column');
 
             // table
             let dataTable = document.createElement('table');
@@ -1246,8 +1254,11 @@
             let thead = document.createElement('thead');
             let headRow = document.createElement('tr');
             let headValueColumn = document.createElement('th');
+            headValueColumn.style.width = '40%';
             let headReturnColumn = document.createElement('th');
+            headReturnColumn.style.width = '42%';
             let delColumn = document.createElement('th');
+            delColumn.style.width = '18%';
             headValueColumn.textContent = i18n.msg(i18nMsgPrefix + 'condition');
             headReturnColumn.textContent = i18n.msg(i18nMsgPrefix + 'file');
             headRow.appendChild(headValueColumn);
@@ -1382,10 +1393,10 @@
         let headRow = document.createElement('tr');
         let headNameColumn = document.createElement('th');
         headNameColumn.textContent = i18n.msg('common.label.name');
-        headNameColumn.style.width = '80%';
+        headNameColumn.style.width = '82%';
         headRow.appendChild(headNameColumn);
         let headRemoveColumn = document.createElement('th');
-        headRemoveColumn.style.width = '20%';
+        headRemoveColumn.style.width = '18%';
         headRow.appendChild(headRemoveColumn);
         thead.appendChild(headRow);
         dataTable.appendChild(thead);

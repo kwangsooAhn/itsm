@@ -192,6 +192,18 @@
   }
 }
 
+// 파일 추가 버튼
+.btn-file {
+  width: 2.5rem; // 40px
+  height: 2.5rem; // 40px
+  padding: 0;
+
+  .icon-search {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_search.svg', 18px, 18px, no-repeat, center, 18px 18px, $gray);
+  }
+}
+
 // 삭제 버튼
 .btn,
 button {

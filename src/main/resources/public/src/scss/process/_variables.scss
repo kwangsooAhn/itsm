@@ -73,6 +73,9 @@ $clipboard-tooltip-border:                    $clipboard-tooltip-border-width so
 $clipboard-tooltip-border-radius:             0.0625rem; // 1px
 
 //////////////////////////// element ////////////////////////////
+// table
+$table-border-color:                          $line-gray;
+
 // element
 $node-font-size:                              $font-size-base; // 16px
 $node-font-weight:                            $font-weight-medium;
@@ -110,7 +113,7 @@ $element-readonly-font-color:                 $gray;
 $element-readonly-bg-color:                   $light-gray;
 $element-readonly-border-color:               $line-gray;
 
-// color-picker palette
+//////////////////////////// color-picker palette ////////////////////////////
 $color-picker-palette-width:                  100%;
 $color-picker-palette-margin:                 0.1875rem;  // 3px
 $color-picker-palette-padding:                0.9375rem 0 0.9375rem 0.9375rem; // 15px 0 15px 15px
