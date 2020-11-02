@@ -349,3 +349,16 @@ $color-picker-palette-padding:               1.25rem 0 0.625rem 1.25rem; // 20px
 $color-picker-colorchip-size:                2.5rem;     // 40px
 $color-picker-colorchip-margin:              0.625rem;   // 10px
 $color-picker-colorchip-border:              0.375rem solid $white;      // 6px
+
+/////////////////////////////// tooltip ///////////////////////////////
+$tooltip-help-size:                          1rem; // 16px
+$tooltip-help-margin:                        0.3125rem; // 5px
+$tooltip-font-size:                          1rem; // 16px
+$tooltip-contents-background:                $white;
+$tooltip-contents-color:                     $point-blue;
+$tooltip-contents-left:                      0;
+$tooltip-contents-width:                     100%;
+$tooltip-contents-border:                    0.125rem; // 2px
+$tooltip-contents-padding:                   1.0625rem 0.9375rem 0.9375rem 0.9375rem; // 17px 15px 15px 15px
+$tooltip-contents-box-shadow:                0 0 0.3125rem 0 rgba(30, 47, 63, 0.2); // 5px
+
