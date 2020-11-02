@@ -79,6 +79,7 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
+/* 5px */
 /* _alignments.scss 
  *
  * 파일 경로 : template/_alignments.scss
@@ -1429,15 +1430,6 @@ input, button, select, optgroup, textarea {
 .picker-modal-content-date-months .date-prev {
   display: table-cell;
   cursor: pointer;
-  width: 0.625rem;
-  height: 1.563rem;
-  -webkit-mask-image: url("../media/icons/icon_arrow_left.svg");
-  mask-image: url("../media/icons/icon_arrow_left.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #586872;
 }
 
 .picker-modal-content-date-months .date-text {

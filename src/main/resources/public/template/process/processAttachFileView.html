@@ -19,7 +19,7 @@
     <div class="thumbnail-modal-wrapper">
         <div class="thumbnail-modal-dialog">
             <div class="thumbnail-modal-title" th:text="#{document.label.icon}"></div>
-            <div class="thumbnail-nodata" th:if="${#arrays.isEmpty(imageList)}">
+            <div class="thumbnail-nodata align-center" th:if="${#arrays.isEmpty(imageList)}">
                 <label th:text="#{common.msg.noData}"></label>
             </div>
             <div class="thumbnail-modal-body">
@@ -35,8 +35,10 @@
                 </div>
             </div>
             <div class="thumbnail-modal-buttons">
-                <a class="thumbnail-modal-button thumbnail-modal-button-default" th:text="#{common.btn.check}" onclick="selectedImageSave();"></a>
-                <a class="thumbnail-modal-button thumbnail-modal-button-default" th:text="#{common.btn.close}" onclick="window.close();"></a>
+                <div class="btn-list btn-bar ml-auto">
+                    <button class="default-line" th:text="#{common.btn.check}" onclick="selectedImageSave();"></button>
+                    <button class="default-line" th:text="#{common.btn.close}" onclick="window.close();"></button>
+                </div>
             </div>
         </div>
     </div>

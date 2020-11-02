@@ -6,6 +6,7 @@
  * @version 1.0
  */
 
+ // thumnbnail 화면 default position 정의
 @mixin thumbnail-standard-position() {
   position:fixed;
   top: 0;
@@ -14,6 +15,7 @@
   left: 0;
 }
 
+// thumnbnail > modal 화면 템플릿
 @mixin thumbnail-modal-wrapper() {
   @include thumbnail-standard-position();
   display:none;
@@ -31,6 +33,7 @@
   }
 }
 
+// thumnbnail > modal 내부 구조 템플릿
 @mixin thumbnail-modal-dialog() {
   z-index: 2001;
   position: absolute;
@@ -39,95 +42,26 @@
   right: 0;
   width: $thumbnail-modal-dialog-width;
   margin: 0 auto 2em auto;
-  box-sizing: border-box;
   background-color: $white;
   box-shadow: $thumbnail-modal-dialog-box-shadow;
-
-  .thumbnail-modal-close-in,
-  .thumbnail-modal-close-out {
-    position:absolute;
-    right: 0.5em;
-    top: 0.5em;
-    width: 2rem;
-    height: 2rem;
-    opacity: 0.5;
-  }
-
-  .thumbnail-modal-close-in:hover,
-  .thumbnail-modal-close-out:hover {
-    opacity: 1;
-  }
-
-  .thumbnail-modal-close-in:before,
-  .thumbnail-modal-close-in:after,
-  .thumbnail-modal-close-out:before,
-  .thumbnail-modal-close-out:after {
-    position: absolute;
-    left: 0.9375rem;   // 15px
-    content: ' ';
-    height: 2.0625rem; // 33px
-    width: 0.125rem;   // 2px
-  }
-
-  .thumbnail-modal-close-in:before,
-  .thumbnail-modal-close-in:after {
-    background-color: $thumbnail-modal-close-in-color;
-  }
-
-  .thumbnail-modal-close-out:before,
-  .thumbnail-modal-close-out:after {
-    background-color: $thumbnail-modal-close-out-color;
-  }
-
-  .thumbnail-modal-close-in:before,
-  .thumbnail-modal-close-out:before,
-  .thumbnail-modal-close-in:after,
-  .thumbnail-modal-close-out:after {
-    transform: rotate(45deg);
-  }
 
   .thumbnail-modal-title {
     height: 3.375rem; // 54px
     color: $light-black;
     font-size: $thumbnail-font-size;
     font-weight: 500;
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
     border-bottom: solid 0.0625rem $thumbnail-border-color;
     padding: 1.125rem 0 0 1.25rem; // 18px 0 0 20px
   }
   .thumbnail-modal-body {
     overflow: auto;
     height: 40rem; // 640px
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
     border-bottom: solid 0.0625rem $thumbnail-border-color;
   }
   .thumbnail-modal-buttons {
     height: 5rem; // 80px
-    -webkit-box-sizing: border-box;
-    box-sizing: border-box;
-    text-align: right;
+    display: flex;
     padding: 1.25rem 1.25rem 1.25rem 0; // 20px
-
-    .thumbnail-modal-button {
-      padding: 0.6em 1em;
-      margin-right: 0.3125rem; // 5px
-      color: $light-black;
-      text-transform: uppercase;
-      cursor: pointer;
-      display: inline-block;
-      border: solid 0.0625rem $thumbnail-border-color;
-      border-radius: 0.0625rem; // 1px
-      &:last-child {
-        margin-right: 0;
-      }
-      &-default { background-color: $thumbnail-btn-default-color; }
-      &-red   { background-color: $thumbnail-btn-red-color; }
-      &-blue  { background-color: $thumbnail-btn-blue-color; }
-      &-green   { background-color: $thumbnail-btn-green-color; }
-      &-gray  { background-color: $thumbnail-btn-gray-color; }
-    }
   }
 }
 
@@ -135,6 +69,7 @@ body.thumbnail-modal-active {
   overflow:hidden !important;
 }
 
+// thumnbnail > modal(type: icon) 관련 템플릿
 .thumbnail-modal-wrapper {
   @include thumbnail-modal-wrapper();
   .thumbnail-modal-dialog {
@@ -217,11 +152,11 @@ body.thumbnail-modal-active {
         font-weight: $thumbnail-font-weight;
         margin-left: 0.9375rem; // 15px
       }
-      img {
-        width: 0.9375rem; // 15px
-        height: 0.9375rem; // 15px
-        content: url("#{$icon-folder-path}icon_delete.svg");
+      .icon-delete {
+        @include maskImage('#{$icon-folder-path}icon_delete.svg', 0.9375rem, 0.9375rem, no-repeat, center, null, $pressed-gray);
+        vertical-align: text-top;
         cursor: pointer;
+        margin: 0.625rem; // 10px
       }
     }
   }
@@ -239,23 +174,23 @@ body.thumbnail-modal-active {
     cursor: pointer;
     overflow: hidden;
     &:hover {
-    border-color: transparent;
-    box-shadow: 0 0 0 0.125rem $thumbnail-selected-border-color;
-    background-color: $thumbnail-selected-background-color;
+      border-color: transparent;
+      box-shadow: 0 0 0 0.125rem $thumbnail-selected-border-color;
+      background-color: $thumbnail-selected-background-color;
     }
 
     .fileInput {
-    display: none;
+      display: none;
     }
 
     img {
-    content: url("#{$thumbnail-asset-path}/icon_image.png");
+      content: url("#{$thumbnail-asset-path}/icon_image.png");
     }
     p.thumbnail-upload-text {
-    color: $thumbnail-font-color;
-    font-size: $thumbnail-font-size;
-    font-weight: $thumbnail-font-weight;
-    margin-top: 1.25rem; // 20px
+      color: $thumbnail-font-color;
+      font-size: $thumbnail-font-size;
+      font-weight: $thumbnail-font-weight;
+      margin-top: 1.25rem; // 20px
     }
   }
 
@@ -263,9 +198,8 @@ body.thumbnail-modal-active {
     display: inline-block;
     width: 100%;
     height: 100%;
-    text-align: center;
     color: $thumbnail-font-color;
-    font-weight: 700;
+    font-weight: $font-weight-bold;
     font-size: 1.875rem; // 30px
   }
 }

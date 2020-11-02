@@ -302,7 +302,7 @@
                 }
             } else { // 썸네일이 존재하지 않을 경우 안내 문구 표시
                 let thumbnailNodataTemplate = `
-                    <div class="thumbnail-nodata">
+                    <div class="thumbnail-nodata align-center">
                         <label>${i18n.msg('common.msg.noData')}</label>
                     </div>
                 `;
