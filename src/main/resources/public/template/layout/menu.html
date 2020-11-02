@@ -64,13 +64,13 @@
 			className: 'inner-scrollbar',
 			callbacks: {
 				onInitialized: function() {
-					var verticalScrollbar = document.querySelector('.os-scrollbar-vertical').firstChild;
-					var verticalScrollbarHandle = verticalScrollbar.firstChild;
-					verticalScrollbar.classList.add('right');
-					verticalScrollbar.classList.remove('os-scrollbar-track');
-					verticalScrollbar.classList.add('os-menu-scrollbar-track');
-					verticalScrollbarHandle.classList.remove('os-scrollbar-handle');
-					verticalScrollbarHandle.classList.add('os-menu-scrollbar-handle');
+					const verticalScrollTrack = document.querySelector('.os-scrollbar-vertical').firstChild;
+					const verticalScrollHandle = verticalScrollTrack.firstChild;
+					verticalScrollTrack.classList.add('right');
+					verticalScrollTrack.classList.remove('os-scrollbar-track');
+					verticalScrollTrack.classList.add('os-menu-scrollbar-track');
+					verticalScrollHandle.classList.remove('os-scrollbar-handle');
+					verticalScrollHandle.classList.add('os-menu-scrollbar-handle');
 				}
 			}
 		});
