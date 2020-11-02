@@ -79,6 +79,7 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
+/* 5px */
 /* _alignments.scss 
  *
  * 파일 경로 : template/_alignments.scss
@@ -3043,15 +3044,6 @@ button .icon-search {
 .picker-modal-content-date-months .date-prev {
   display: table-cell;
   cursor: pointer;
-  width: 0.625rem;
-  height: 1.563rem;
-  -webkit-mask-image: url("../media/icons/icon_arrow_left.svg");
-  mask-image: url("../media/icons/icon_arrow_left.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #586872;
 }
 
 .picker-modal-content-date-months .date-text {
@@ -3598,13 +3590,13 @@ body.thumbnail-modal-active {
 }
 
 .thumbnail-modal-wrapper {
-  display: none;
-  overflow: auto;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  display: none;
+  overflow: auto;
   z-index: 1;
 }
 
@@ -3613,12 +3605,12 @@ body.thumbnail-modal-active {
 }
 
 .thumbnail-modal-wrapper .thumbnail-modal-backdrop {
-  z-index: 2001;
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
+  z-index: 2001;
   background: rgba(116, 147, 179, 0.5);
 }
 
@@ -3630,56 +3622,8 @@ body.thumbnail-modal-active {
   right: 0;
   width: 77.5rem;
   margin: 0 auto 2em auto;
-  box-sizing: border-box;
   background-color: #ffffff;
   box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  /* 5px */
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-in,
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-out {
-  position: absolute;
-  right: 0.5em;
-  top: 0.5em;
-  width: 32px;
-  height: 32px;
-  opacity: 0.5;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-in:hover,
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-out:hover {
-  opacity: 1;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-in:before,
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-in:after,
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-out:before,
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-out:after {
-  position: absolute;
-  left: 0.9375rem;
-  content: ' ';
-  height: 33px;
-  width: 2px;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-in:before,
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-in:after {
-  background-color: #333333;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-out:before,
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-out:after {
-  background-color: #CCCCCC;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-in:before,
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-out:before {
-  transform: rotate(-45deg);
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-in:after,
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-close-out:after {
-  transform: rotate(45deg);
 }
 
 .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-title {
@@ -3687,8 +3631,6 @@ body.thumbnail-modal-active {
   color: #3F4B56;
   font-size: 1rem;
   font-weight: 500;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
   border-bottom: solid 0.0625rem #EBEBEB;
   padding: 1.125rem 0 0 1.25rem;
 }
@@ -3696,17 +3638,23 @@ body.thumbnail-modal-active {
 .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body {
   overflow: auto;
   height: 40rem;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
   border-bottom: solid 0.0625rem #EBEBEB;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container {
+.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons {
+  height: 5rem;
+  display: flex;
+  padding: 1.25rem 1.25rem 1.25rem 0;
+}
+
+.thumbnail-container {
   font-family: "Noto Sans KR";
+  overflow-y: auto;
+  height: 100%;
   padding: 1.25rem;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail {
+.thumbnail-container .thumbnail {
   display: inline-block;
   width: 14.06rem;
   height: 18.13rem;
@@ -3718,13 +3666,13 @@ body.thumbnail-modal-active {
   overflow: hidden;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail.selected, .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail:hover {
+.thumbnail-container .thumbnail.selected, .thumbnail-container .thumbnail:hover {
   border-color: transparent;
   box-shadow: 0 0 0 0.125rem #0098FF;
   background-color: rgba(0, 152, 255, 0.05);
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-img {
+.thumbnail-container .thumbnail div.thumbnail-img {
   display: inline-block;
   width: 100%;
   height: 9.063rem;
@@ -3733,17 +3681,17 @@ body.thumbnail-modal-active {
   background-position: center center;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-info {
+.thumbnail-container .thumbnail div.thumbnail-info {
   height: 6.563rem;
   padding: 0.8125rem 0.9375rem;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text {
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text {
   height: 1.375rem;
   line-height: 1.375rem;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text label {
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text label {
   display: block;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -3753,25 +3701,26 @@ body.thumbnail-modal-active {
   font-weight: 400;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child label {
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child label {
   color: #586872;
+  cursor: pointer;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child .fileName {
+.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child .fileName {
   display: none;
   color: #586872;
   width: 12.19rem;
-  height: 1.25rem;
+  height: 1.875rem;
   float: left;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-bottom {
+.thumbnail-container .thumbnail div.thumbnail-bottom {
   height: 2.5rem;
   line-height: 2.5rem;
   border-top: solid 0.0625rem #EBEBEB;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-bottom label {
+.thumbnail-container .thumbnail div.thumbnail-bottom label {
   width: 1.25rem;
   color: #ACB4BF;
   font-size: 1rem;
@@ -3779,13 +3728,21 @@ body.thumbnail-modal-active {
   margin-left: 0.9375rem;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-bottom img {
+.thumbnail-container .thumbnail div.thumbnail-bottom .icon-delete {
   width: 0.9375rem;
-  height: 0.9375rem;
-  content: url("../media/icons/icon_delete.svg");
+  height: 2.5rem;
+  -webkit-mask-image: url("../media/icons/icon_delete.svg");
+  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+  margin: 0 0.625rem;
+  cursor: pointer;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail-upload {
+.thumbnail-container .thumbnail-upload {
   display: inline-block;
   width: 14.06rem;
   height: 18.13rem;
@@ -3799,78 +3756,34 @@ body.thumbnail-modal-active {
   overflow: hidden;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail-upload:hover {
+.thumbnail-container .thumbnail-upload:hover {
   border-color: transparent;
   box-shadow: 0 0 0 0.125rem #0098FF;
   background-color: rgba(0, 152, 255, 0.05);
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail-upload .fileInput {
+.thumbnail-container .thumbnail-upload .fileInput {
   display: none;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail-upload img {
+.thumbnail-container .thumbnail-upload img {
   content: url("../media/icons/thumbnail/icon_image.png");
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail-upload p.thumbnail-upload-text {
+.thumbnail-container .thumbnail-upload p.thumbnail-upload-text {
   color: #ACB4BF;
   font-size: 1rem;
   font-weight: 400;
   margin-top: 1.25rem;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail-nodata {
+.thumbnail-container .thumbnail-nodata {
   display: inline-block;
   width: 100%;
   height: 100%;
-  text-align: center;
   color: #ACB4BF;
   font-weight: 700;
-  font-size: 30px;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons {
-  height: 5rem;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
-  text-align: right;
-  padding: 1.25rem 1.25rem 1.25rem 0;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons .thumbnail-modal-button {
-  padding: 0.6em 1em;
-  margin-right: 0.3125rem;
-  color: #3F4B56;
-  text-transform: uppercase;
-  cursor: pointer;
-  display: inline-block;
-  border: solid 0.0625rem #EBEBEB;
-  border-radius: 0.0625rem;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons .thumbnail-modal-button:last-child {
-  margin-right: 0;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons .thumbnail-modal-button-default {
-  background-color: #ffffff;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons .thumbnail-modal-button-red {
-  background-color: #e51c23;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons .thumbnail-modal-button-blue {
-  background-color: #007aff;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons .thumbnail-modal-button-green {
-  background-color: #00ca3c;
-}
-
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons .thumbnail-modal-button-gray {
-  background-color: #969696;
+  font-size: 1.875rem;
 }
 
 /* _tooltip.scss 

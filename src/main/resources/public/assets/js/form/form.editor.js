@@ -1280,7 +1280,7 @@
                                         fieldGroupElem.querySelector('#imageUploadPop').addEventListener('click', function(e) {
                                             thumbnail.init({
                                                 title: i18n.msg('image.label.popupTitle'),
-                                                targetId: 'path-' + selectedComponentIds[0], 
+                                                targetId: 'path-' + selectedComponentIds[0],
                                                 selectedPath: fieldGroupElem.querySelector('#path-' + selectedComponentIds[0]).value,
                                                 thumbnailDoubleClickUse: true
                                             });
