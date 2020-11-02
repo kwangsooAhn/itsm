@@ -3103,6 +3103,7 @@ body.thumbnail-modal-active {
 .thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons {
   height: 5rem;
   display: flex;
+  float: right;
   padding: 1.25rem 1.25rem 1.25rem 0;
 }
 

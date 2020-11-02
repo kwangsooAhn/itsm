@@ -21,14 +21,14 @@
         thumbnailDoubleClickUse: false, // 더블클릭으로 이미지 선택기능 여부
         buttons: [{
             content: i18n.msg('common.btn.check'),
-            classes: 'thumbnail-modal-button-default',
+            classes: 'default-line',
             bindKey: false,
             callback: function(modal) {
                 modal.save();
             }
         }, {
             content: i18n.msg('common.btn.close'),
-            classes: 'thumbnail-modal-button-default',
+            classes: 'default-line',
             bindKey: false,
             callback: function(modal) {
                 modal.hide();
@@ -314,12 +314,14 @@
             if (this.options.buttons.length > 0) {
                 const buttons = document.createElement('div');
                 buttons.className = 'thumbnail-modal-buttons';
+                const buttonList = document.createElement('div');
+                buttonList.className = 'btn-list';
 
                 for (let i = 0; i < this.options.buttons.length; i++) {
-                    const button = document.createElement('a');
+                    const button = document.createElement('button');
                     button.setAttribute('href', 'javascript:void(0);');
 
-                    button.className = 'thumbnail-modal-button';
+                    button.className = 'default-line';
                     if (typeof this.options.buttons[i].classes !== 'undefined') {
                         button.className += ' ' + this.options.buttons[i].classes;
                     }
@@ -351,8 +353,8 @@
                             this.options.buttons[i].callback
                         );
                     }
-
-                    buttons.appendChild(button);
+                    buttonList.appendChild(button);
+                    buttons.appendChild(buttonList);
                 }
                 dialog.appendChild(buttons);
             }
