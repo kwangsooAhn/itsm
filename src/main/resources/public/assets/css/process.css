@@ -3188,8 +3188,8 @@ body.thumbnail-modal-active {
 }
 
 .thumbnail-container .thumbnail div.thumbnail-bottom .icon-delete {
-  width: 1.125rem;
-  height: 1.25rem;
+  width: 0.9375rem;
+  height: 2.5rem;
   -webkit-mask-image: url("../media/icons/icon_delete.svg");
   mask-image: url("../media/icons/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
@@ -3197,9 +3197,8 @@ body.thumbnail-modal-active {
   -webkit-mask-position: center;
   mask-position: center;
   background: #CCCED1;
-  vertical-align: text-top;
+  margin: 0 0.625rem;
   cursor: pointer;
-  margin: 0.625rem;
 }
 
 .thumbnail-container .thumbnail-upload {

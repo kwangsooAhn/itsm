@@ -153,10 +153,9 @@ body.thumbnail-modal-active {
         margin-left: 0.9375rem; // 15px
       }
       .icon-delete {
-        @include maskImage('#{$icon-folder-path}icon_delete.svg', 0.9375rem, 0.9375rem, no-repeat, center, null, $pressed-gray);
-        vertical-align: text-top;
+        @include maskImage('#{$icon-folder-path}icon_delete.svg', 0.9375rem, 2.5rem, no-repeat, center, null, $pressed-gray);
+        margin: 0 0.625rem; // 0 10px
         cursor: pointer;
-        margin: 0.625rem; // 10px
       }
     }
   }
