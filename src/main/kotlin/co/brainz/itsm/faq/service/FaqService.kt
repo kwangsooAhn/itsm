@@ -51,12 +51,7 @@ class FaqService(private val faqRepository: FaqRepository, private val aliceFile
      * FAQ 데이터 상세 조회
      */
     fun getFaq(faqId: String): FaqListDto? {
-        val selectedFaq = faqRepository.findByIdOrNull(faqId)
-        return if (selectedFaq == null) {
-            null
-        } else {
-            faqMapper.toFaqListDto(selectedFaq)
-        }
+        return faqRepository.findFaq(faqId)
     }
 
     /**

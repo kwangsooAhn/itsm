@@ -1151,7 +1151,7 @@
             let fileIcon = document.createElement('span');
             fileIcon.className = 'icon icon-search';
             fileBtn.addEventListener('click', function() {
-                window.open('/processes/attachFile/view?callback=' + fileInput.id, 'fileUploadPop', 'width=1200, height=700');
+                window.open('/processes/attachFile/view?callback=' + fileInput.id, 'fileUploadPop', 'width=1240, height=775');
             });
             fileBtn.appendChild(fileIcon);
 

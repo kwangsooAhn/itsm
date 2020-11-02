@@ -274,7 +274,7 @@
                         thumbnailImg.className = 'thumbnail-img';
                     } else if (this.options.type === 'icon') {
                         thumbnailImg.className = 'thumbnail-icon';
-                        thumbnailImg.style.backgroundSize = '50%';
+                        thumbnailImg.style.backgroundSize = '100%';
                     }
                     thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
                     thumbnail.appendChild(thumbnailImg);
@@ -302,7 +302,7 @@
                 }
             } else { // 썸네일이 존재하지 않을 경우 안내 문구 표시
                 let thumbnailNodataTemplate = `
-                    <div class="thumbnail-nodata">
+                    <div class="thumbnail-nodata align-center">
                         <label>${i18n.msg('common.msg.noData')}</label>
                     </div>
                 `;

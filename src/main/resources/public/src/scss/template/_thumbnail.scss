@@ -6,268 +6,199 @@
  * @version 1.0
  */
 
-
-$thumbnail-asset-path: "../media/icons/thumbnail";
-$thumbnail-font-family: "Noto Sans KR";
-$thumbnail-font-size: 1rem; // 16px;
-$thumbnail-font-weight: 400; // regulalr
-$thumbnail-font-color: #ACB4BF;
-$thumbnail-border-color: $line-gray;
-$thumbnail-background-color: $white;
-$thumbnail-selected-border-color: $point-blue;
-$thumbnail-selected-background-color: rgba(0, 152, 255, 0.05);
-
-
-body.thumbnail-modal-active {
-    overflow:hidden !important;
+ // thumnbnail 화면 default position 정의
+@mixin thumbnail-standard-position() {
+  position:fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
 }
 
-.thumbnail-modal-wrapper{
-    display:none;
-    overflow:auto;
-    position:fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
+// thumnbnail > modal 화면 템플릿
+@mixin thumbnail-modal-wrapper() {
+  @include thumbnail-standard-position();
+  display:none;
+  overflow:auto;
+  z-index: 1;
 
-    &.thumbnail-modal-active {
-        display:block;
+  &.thumbnail-modal-active {
+    display:block;
+  }
+
+  .thumbnail-modal-backdrop {
+    @include thumbnail-standard-position();
+    z-index: 2001;
+    background: $thumbnail-modal-backdrop-color;
+  }
+}
+
+// thumnbnail > modal 내부 구조 템플릿
+@mixin thumbnail-modal-dialog() {
+  z-index: 2001;
+  position: absolute;
+  top: 4em;
+  left: 0;
+  right: 0;
+  width: $thumbnail-modal-dialog-width;
+  margin: 0 auto 2em auto;
+  background-color: $white;
+  box-shadow: $thumbnail-modal-dialog-box-shadow;
+
+  .thumbnail-modal-title {
+    height: 3.375rem; // 54px
+    color: $light-black;
+    font-size: $thumbnail-font-size;
+    font-weight: 500;
+    border-bottom: solid 0.0625rem $thumbnail-border-color;
+    padding: 1.125rem 0 0 1.25rem; // 18px 0 0 20px
+  }
+  .thumbnail-modal-body {
+    overflow: auto;
+    height: 40rem; // 640px
+    border-bottom: solid 0.0625rem $thumbnail-border-color;
+  }
+  .thumbnail-modal-buttons {
+    height: 5rem; // 80px
+    display: flex;
+    padding: 1.25rem 1.25rem 1.25rem 0; // 20px
+  }
+}
+
+body.thumbnail-modal-active {
+  overflow:hidden !important;
+}
+
+// thumnbnail > modal(type: icon) 관련 템플릿
+.thumbnail-modal-wrapper {
+  @include thumbnail-modal-wrapper();
+  .thumbnail-modal-dialog {
+    @include thumbnail-modal-dialog();
+  }
+}
+
+.thumbnail-container {
+  font-family: $thumbnail-font-family;
+  overflow-y: auto;
+  height: $thumbnail-container-height;
+  padding: $thumbnail-container-padding;
+
+  .thumbnail {
+    display: inline-block;
+    width: 14.06rem; // 225px
+    height: 18.13rem; // 290px
+    margin: $thumbnail-margin;
+    padding: 0;
+    box-shadow:  $thumbnail-box-shadow;
+    background-color: $thumbnail-background-color;
+    cursor: pointer;
+    overflow: hidden;
+
+    &.selected,
+    &:hover {
+      border-color: transparent;
+      box-shadow: 0 0 0 0.125rem $thumbnail-selected-border-color;
+      background-color: $thumbnail-selected-background-color;
     }
 
-    .thumbnail-modal-backdrop { // 배경
-        z-index: 2001;
-        position:fixed;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        background: rgba(116, 147, 179, 0.5);
+    div.thumbnail-img {
+      display: inline-block;
+      width: 100%;
+      height: 9.063rem; // 145px
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center center;
     }
 
-    .thumbnail-modal-dialog {
-        z-index: 2001;
-        position: absolute;
-        top: 4em;
-        left: 0;
-        right: 0;
-        width: 77.5rem; // 1240px
-        margin: 0 auto 2em auto;
-        box-sizing: border-box;
-        background-color: #ffffff;
-        box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25); /* 5px */
-
-        .thumbnail-modal-close-in, 
-        .thumbnail-modal-close-out {
-            position:absolute;
-            right: 0.5em;
-            top: 0.5em;
-            width: 32px;
-            height: 32px;
-            opacity: 0.5;
+    div.thumbnail-info {
+      height: 6.563rem; // 105px
+      padding: 0.8125rem 0.9375rem; // 13px 15px
+      p.thumbnail-info-text {
+        height: 1.375rem; // 22px
+        line-height: 1.375rem; // 22px
+        label {
+          display: block;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+          color:  $thumbnail-font-color;
+          font-size: $thumbnail-font-size;
+          font-weight: $thumbnail-font-weight;
         }
-
-        .thumbnail-modal-close-in:hover, 
-        .thumbnail-modal-close-out:hover {
-            opacity:1;
+      }
+      p.thumbnail-info-text:first-child {
+        label {
+          color:  $dark-gray;
+          cursor: pointer;
         }
-
-        .thumbnail-modal-close-in:before, 
-        .thumbnail-modal-close-in:after, 
-        .thumbnail-modal-close-out:before, 
-        .thumbnail-modal-close-out:after {
-            position: absolute;
-            left: 0.9375rem; // 15px
-            content: ' ';
-            height: 33px;
-            width: 2px;
+        .fileName {
+          display: none;
+          color:  $dark-gray;
+          width: 12.19rem; // 195px
+          height: 1.875rem; // 30px
+          float: left;
         }
-
-        .thumbnail-modal-close-in:before, 
-        .thumbnail-modal-close-in:after {
-            background-color: #333333;
-        }
-
-        .thumbnail-modal-close-out:before, 
-        .thumbnail-modal-close-out:after {
-            background-color: #CCCCCC;
-        }
-
-        .thumbnail-modal-close-in:before, 
-        .thumbnail-modal-close-out:before {
-            transform: rotate(-45deg);
-        }
-        .thumbnail-modal-close-in:after, 
-        .thumbnail-modal-close-out:after {
-            transform: rotate(45deg);
-        }
-
-        .thumbnail-modal-title {
-            height: 3.375rem; // 54px
-            color: #3F4B56;
-            font-size: 1rem; // 16px
-            font-weight: 500;
-            -webkit-box-sizing: border-box;
-            box-sizing:border-box;
-            border-bottom: solid 0.0625rem $thumbnail-border-color;
-            padding: 1.125rem 0 0 1.25rem; // 18px 0 0 20px
-        }
-        .thumbnail-modal-body {
-            overflow: auto;
-            height: 40rem; // 640px
-            -webkit-box-sizing: border-box;
-            box-sizing:border-box;
-            border-bottom: solid 0.0625rem $thumbnail-border-color;
-
-            .thumbnail-container {
-                font-family: $thumbnail-font-family;
-                padding: 1.25rem; // 20px
-            
-                .thumbnail {
-                    display: inline-block;
-                    width: 14.06rem; // 225px
-                    height: 18.13rem; // 290px
-                    margin: 0.4375rem; // 7px
-                    padding: 0;
-                    box-shadow: 0 0 0.0625rem 0.0625rem $thumbnail-border-color; // 1px
-                    background-color: $thumbnail-background-color;
-                    cursor: pointer;
-                    overflow: hidden;
-            
-                    &.selected,
-                    &:hover {
-                        border-color: transparent;
-                        box-shadow: 0 0 0 0.125rem $thumbnail-selected-border-color;
-                        background-color: $thumbnail-selected-background-color;
-                    }
-                    
-                    div.thumbnail-img {
-                        display: inline-block;
-                        width: 100%;
-                        height: 9.063rem; // 145px
-                        background-size: cover;
-                        background-repeat: no-repeat;
-                        background-position: center center;
-                    }
-            
-                    div.thumbnail-info {
-                        height: 6.563rem; // 105px
-                        padding: 0.8125rem 0.9375rem; // 13px 15px
-                        p.thumbnail-info-text {
-                            height: 1.375rem; // 22px
-                            line-height: 1.375rem; // 22px
-                            label {
-                                display: block;
-                                text-overflow: ellipsis;
-                                white-space: nowrap;
-                                overflow: hidden;
-                                color:  $thumbnail-font-color;
-                                font-size: $thumbnail-font-size;
-                                font-weight: $thumbnail-font-weight;
-                            }
-                            
-                        }
-                        p.thumbnail-info-text:first-child {
-                            label { color:  #586872; }
-                            .fileName {
-                                display: none;
-                                color:  #586872; 
-                                width: 12.19rem; // 195px
-                                height: 1.25rem; // 20px
-                                float: left;
-                            }
-                        }
-                    }
-            
-                    div.thumbnail-bottom {
-                        height: 2.5rem; // 40px
-                        line-height: 2.5rem;
-                        border-top: solid 0.0625rem $thumbnail-border-color; // 1px
-                        label {
-                            width: 1.25rem; // 180px
-                            color:$thumbnail-font-color;
-                            font-size: $thumbnail-font-size;
-                            font-weight: $thumbnail-font-weight;
-                            margin-left: 0.9375rem; // 15px
-                        }
-                        img {
-                            width: 0.9375rem; // 15px
-                            height: 0.9375rem; // 15px
-                            content: url("#{$icon-folder-path}icon_delete.svg");
-                        }
-                    }
-                }
-            
-                .thumbnail-upload {
-                    display: inline-block;
-                    width: 14.06rem; // 225px
-                    height: 18.13rem; // 290px
-                    margin: 0.125rem; // 2.5px
-                    padding: 5.625rem 0 0 0; // 90px
-                    border: 0.0625rem dashed $thumbnail-border-color; // 1px
-                    box-shadow: 0 0 0.3125rem 0 $thumbnail-border-color; // 5px
-                    background-color: #F7F8F9;
-                    text-align: center;
-                    cursor: pointer;
-                    overflow: hidden;
-                    &:hover {
-                        border-color: transparent;
-                        box-shadow: 0 0 0 0.125rem $thumbnail-selected-border-color;
-                        background-color: $thumbnail-selected-background-color;
-                    }
-            
-                    .fileInput {
-                        display: none;
-                    }
-            
-                    img {
-                        content: url("#{$thumbnail-asset-path}/icon_image.png");
-                    }
-                    p.thumbnail-upload-text {
-                        color: $thumbnail-font-color;
-                        font-size: $thumbnail-font-size;
-                        font-weight: $thumbnail-font-weight;
-                        margin-top: 1.25rem; // 20px
-                    }
-                }
-            
-                .thumbnail-nodata {
-                    display: inline-block;
-                    width: 100%;
-                    height: 100%;
-                    text-align: center;
-                    color: $thumbnail-font-color;
-                    font-weight: 700;
-                    font-size: 30px;
-                }
-            }
-        }
-        .thumbnail-modal-buttons {
-            height: 5rem; // 80px
-            -webkit-box-sizing: border-box;
-            box-sizing:border-box;
-            text-align:right;
-            padding: 1.25rem 1.25rem 1.25rem 0; // 20px
-
-            .thumbnail-modal-button {
-                padding: 0.6em 1em;
-                margin-right: 0.3125rem; // 5px
-                color: #3F4B56;
-                text-transform:uppercase;
-                cursor:pointer;
-                display: inline-block;
-                border: solid 0.0625rem $thumbnail-border-color;
-                border-radius: 0.0625rem; // 1px
-                &:last-child {
-                    margin-right: 0;
-                }
-            }
-            .thumbnail-modal-button-default { background-color:#ffffff; }
-            .thumbnail-modal-button-red { background-color:#e51c23; }
-            .thumbnail-modal-button-blue { background-color:#007aff; }
-            .thumbnail-modal-button-green { background-color:#00ca3c; }
-            .thumbnail-modal-button-gray { background-color:#969696; }
-        }
+      }
     }
+
+    div.thumbnail-bottom {
+      height: 2.5rem; // 40px
+      line-height: 2.5rem;
+      border-top: solid 0.0625rem $thumbnail-border-color; // 1px
+      label {
+        width: 1.25rem; // 180px
+        color: $thumbnail-font-color;
+        font-size: $thumbnail-font-size;
+        font-weight: $thumbnail-font-weight;
+        margin-left: 0.9375rem; // 15px
+      }
+      .icon-delete {
+        @include maskImage('#{$icon-folder-path}icon_delete.svg', 0.9375rem, 2.5rem, no-repeat, center, null, $pressed-gray);
+        margin: 0 0.625rem; // 0 10px
+        cursor: pointer;
+      }
+    }
+  }
+
+  .thumbnail-upload {
+    display: inline-block;
+    width: 14.06rem; // 225px
+    height: 18.13rem; // 290px
+    margin: 0.125rem; // 2.5px
+    padding: 5.625rem 0 0 0; // 90px
+    border: 0.0625rem dashed $thumbnail-border-color; // 1px
+    box-shadow: 0 0 0.3125rem 0 $thumbnail-border-color; // 5px
+    background-color: $light-gray;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+    &:hover {
+      border-color: transparent;
+      box-shadow: 0 0 0 0.125rem $thumbnail-selected-border-color;
+      background-color: $thumbnail-selected-background-color;
+    }
+
+    .fileInput {
+      display: none;
+    }
+
+    img {
+      content: url("#{$thumbnail-asset-path}/icon_image.png");
+    }
+    p.thumbnail-upload-text {
+      color: $thumbnail-font-color;
+      font-size: $thumbnail-font-size;
+      font-weight: $thumbnail-font-weight;
+      margin-top: 1.25rem; // 20px
+    }
+  }
+
+  .thumbnail-nodata {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    color: $thumbnail-font-color;
+    font-weight: $font-weight-bold;
+    font-size: 1.875rem; // 30px
+  }
 }

@@ -1,0 +1,11 @@
+@import '../template/_thumbnail.scss';
+
+// TODO : 모달 화면 구현 전 임시 scss / 모달 구현 후 제거
+.thumbnail-modal-wrapper {
+  display: block;
+}
+
+.thumbnail-modal-wrapper .thumbnail-modal-dialog {
+  top: 0 !important;
+  margin: 0 !important;
+}
