@@ -429,6 +429,7 @@ form:
     searchPlaceholder: "양식이름 / 문서양식 설명"
     state: "상태"
     templatesList: "템플릿 목록"
+    title: "Form Designer"
     undo: "작업 취소"
   msg:
     enterFormName: "양식이름을 입력하세요."
@@ -692,6 +693,7 @@ process:
     searchPlaceholder: "프로세스 이름 / 프로세스 설명"
     simulation: "미리보기"
     templatesList: "템플릿 목록"
+    title: "Process Designer"
     undo: "작업취소"
   msg:
     description: "프로세스를 조회 하거나 추가, 변경 할 수 있습니다."
@@ -746,6 +748,7 @@ process:
       action-value: "동작 시 전달 값"
       is-default: "기본 경로 여부"
       condition-value: "조건 값"
+      connection-information: "연결선 정보"
       start-id: "시작 엘리먼트 아이디"
       start-name: "시작 엘리먼트 이름"
       end-id: "연결 엘리먼트 아이디"

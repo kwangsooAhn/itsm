@@ -11,7 +11,7 @@
         pointerRadius: 4,
         connectorRadius: 4,
         connectorLabelPos: 20,
-        gatewaySize: 28
+        gatewaySize: 34
     };
 
     let svg,
@@ -1021,7 +1021,7 @@
             }
         });
 
-        const drawingBoard = document.querySelector('.process-drawing-board'),
+        const drawingBoard = document.querySelector('.drawing-board'),
               gTransform = d3.zoomTransform(d3.select('g.guides-container').node());
         if (isDrawCenterX) {
             svg.select('#guides-center-x')
@@ -1384,7 +1384,7 @@
      */
     function GatewayElement(x, y) {
         const self = this;
-        const size = displayOptions.gatewaySize, typeImageSize = 16;
+        const size = displayOptions.gatewaySize, typeImageSize = 22;
         const elementContainer = elementsContainer.append('g').attr('class', 'element');
         self.defaultType = aliceProcessEditor.getElementDefaultType('gateway');
 
@@ -1587,7 +1587,7 @@
      * element 에 이벤트를 추가한다.
      */
     function addElementsEvent() {
-        d3.selectAll('.process-element-palette, .process-drawing-board')
+        d3.selectAll('.process-element-palette, .drawing-board')
             .on('dragover', function() {d3.event.preventDefault();});
 
         d3.select('.process-element-palette').select('.connector')
@@ -1600,14 +1600,14 @@
                 aliceProcessEditor.setElementMenu();
             });
 
-        d3.select('.process-element-palette').selectAll('span.shape')
+        d3.select('.process-element-palette').selectAll('button.shape')
             .attr('draggable', 'true')
             .on('dragend', function() {
                 const svgOffset = svg.node().getBoundingClientRect(),
                       gTransform = d3.zoomTransform(d3.select('g.element-container').node());
                 let x = snapToGrid(d3.event.pageX - svgOffset.left - window.pageXOffset - gTransform.x),
                     y = snapToGrid(d3.event.pageY - svgOffset.top - window.pageYOffset - gTransform.y);
-                const drawingBoard = document.querySelector('.process-drawing-board');
+                const drawingBoard = document.querySelector('.drawing-board');
                 if (d3.event.pageX - svgOffset.left - window.pageXOffset < 0 ||
                     d3.event.pageY - svgOffset.top - window.pageYOffset  < 0 ||
                     d3.event.pageX - svgOffset.left - window.pageXOffset > drawingBoard.offsetWidth ||
@@ -1711,10 +1711,10 @@
             e.preventDefault();
         });
 
-        const drawingBoard = document.querySelector('.process-drawing-board');
+        const drawingBoard = document.querySelector('.drawing-board');
 
         // add svg and svg event
-        svg = d3.select('.process-drawing-board').append('svg')
+        svg = d3.select('.drawing-board').append('svg')
             .attr('width', drawingBoard.offsetWidth)
             .attr('height', drawingBoard.offsetHeight)
             .on('mousedown', function() {
@@ -1861,7 +1861,7 @@
          * disable the movable function of the drawing board.
          */
         function dismovableDrawingboard() {
-            const drawingBoard = document.querySelector('.process-drawing-board'),
+            const drawingBoard = document.querySelector('.drawing-board'),
                   gTransform = d3.zoomTransform(d3.select('g.element-container').node());
             zoom.translateExtent([
                 [-gTransform.x, -gTransform.y],
@@ -2007,7 +2007,7 @@
         const loadingStatus = sessionStorage.getItem(loadingKeyName);
         if (loadingStatus === 'firstLoading') {
             sessionStorage.removeItem(loadingKeyName);
-            let node = new EventElement(100, 200);
+            let node = new EventElement(120, 200);
             aliceProcessEditor.addElementProperty(node.nodeElement);
             aliceProcessEditor.autoSave();
             aliceProcessEditor.setElementMenu();

@@ -9,8 +9,7 @@ input:read-only {
 }
 
 textarea {
-  @include scrollbarHidden;
-  min-height:  5.625rem; // 90px
+  min-height: 7.5rem; // 120px
   resize: vertical;
 }
 
@@ -19,107 +18,88 @@ label {
   margin-top: 0.25rem;
 }
 
-table {
-  width: 100%;
-  margin-top: 0.5rem; // 8px
-}
+input:not([type=checkbox]),
+textarea,
+table,
+select { width: 100%; }
 
 svg {
-  background-color: #f2f5fa;
-
+  // element 들이 그려지는 영역
   g.element-container {
     g.element {
       .node {
-        fill: #ffffff;
+        fill: $white;
         opacity: 1;
-        stroke-width: 1;
+        stroke-width: $node-width;
       }
 
       .element-type.task,
       .element-type.subprocess {
-        stroke-width: 1;
+        stroke-width: $node-width;
         stroke-dasharray: 0, 40, 40, 40;
       }
-
+      // userTask
       .node.task.userTask,
-      .element-type.task.userTask {
-        stroke: #1CC7D0;
-      }
-
+      .element-type.task.userTask { stroke: $userTask-color; }
+      // manualTask
       .node.task.manualTask,
-      .element-type.task.manualTask {
-        stroke: #2ECE7E;
-      }
-
+      .element-type.task.manualTask { stroke: $manualTask-color; }
+      // scriptTask
       .node.task.scriptTask,
-      .element-type.task.scriptTask {
-        stroke: #93C431;
-      }
-
+      .element-type.task.scriptTask { stroke: $scriptTask-color; }
+      // 서브 프로세스
       .node.subprocess,
-      .element-type.subprocess {
-        stroke: #CF87FF;
-      }
-
-      .node.gateway {
-        stroke: #FFC336;
-      }
-
-      .node.event {
-        stroke: #FF5EAF;
-      }
-
+      .element-type.subprocess { stroke: $subprocess-color; }
+      // 게이트웨이
+      .node.gateway { stroke: $gateway-color; }
+      // 이벤트
+      .node.event { stroke: $event-color; }
+      
       .node.event.commonEnd,
-      .node.event.messageEnd {
-        stroke-width: 2;
-      }
+      .node.event.messageEnd { stroke-width: $node-selected-width; }
 
       .node.selected {
-        stroke: #0050ff !important;
-        stroke-width: 2 !important;
+        stroke: $node-selected-color !important;
+        stroke-width: $node-selected-width !important;
 
         &.error {
-          stroke: #ff405a !important;
+          stroke: $red !important;
         }
       }
 
       .node.reject-element {
-        stroke: #ff0000 !important;
-        stroke-width: 2 !important;
+        stroke: $reject-color !important;
+        stroke-width: $node-selected-width !important;
       }
 
       .annotation {
-        stroke: #000000;
+        stroke: $annotation-color;
         fill-opacity: 0;
         stroke-dasharray: 5, 5, 5, 5, 5, 5, 0, 35, 5, 5, 5, 5, 5, 5, 5, 5;
       }
 
       text {
-        fill: $light-black;
-        font: {
-          weight: bold;
-          size: 0.813rem; // 13px
-        }
+        font-size: $node-font-size;
+        font-weight: $node-font-weight;
+        fill: $node-font-color;
         text-anchor: middle;
         dominant-baseline: middle;
         user-select: none;
       }
-    }
+      // 선택시
+      &.selected {
+        .node,
+        .element-type.task,
+        .element-type.subprocess {
+          stroke: $node-selected-color !important;
+          stroke-width: $node-selected-width !important;
+        }
 
-    g.element.selected {
-      .node,
-      .element-type.task,
-      .element-type.subprocess {
-        stroke: $point-blue !important;
-        stroke-width: 2 !important;
-      }
-
-      &.error {
-        stroke: #ff405a !important;
+        &.error { stroke: $red !important; }
       }
     }
   }
-
+  // group
   g.group-artifact-container {
     g.element {
       .group {
@@ -129,42 +109,38 @@ svg {
       }
 
       .node.selected {
-        stroke: $point-blue !important;
-        stroke-width: 2 !important;
+        stroke: $node-selected-color !important;
+        stroke-width: $node-selected-width !important;
 
-        &.error {
-          stroke: #ff405a !important;
-        }
+        &.error { stroke: $red !important; }
       }
 
       text {
-        fill: $light-black;
-        font: {
-          weight: bold;
-          size: 0.813rem; // 13px
-        }
+        font-size: $node-font-size;
+        font-weight: $node-font-weight;
+        fill: $node-font-color;
         text-anchor: middle;
         dominant-baseline: middle;
         user-select: none;
       }
     }
   }
-
+  // 선
   g.connector-container {
     g.connector {
       path.connector {
         fill: none;
-        stroke: $dark-gray;
-        stroke-width: 1;
+        stroke: $connector-color;
+        stroke-width: $connector-width;
         cursor: default;
       }
 
       path.connector.selected {
         stroke-dasharray: 10, 2;
-        stroke-width: 2;
+        stroke-width: $connector-selected-width;
 
         &.error {
-          stroke: $point-blue !important;
+          stroke: $red !important;
         }
       }
 
@@ -184,43 +160,32 @@ svg {
       }
 
       text {
-        fill: $light-black;
-        font: {
-          weight: bold;
-          size: 0.813rem; // 13px
-        }
+        font-size: $node-font-size;
+        font-weight: $node-font-weight;
+        fill: $node-font-color;
         dominant-baseline: text-before-edge;
         user-select: none;
-      }
 
-      text.selected {
-        fill: $point-blue;
+        &.selected {
+          fill: $node-selected-color;
+        }
       }
 
       circle.pointer {
-        fill: $point-blue;
+        fill: $connector-pointer-color;
         cursor: move;
-      }
-
-      circle.pointer.move {
-        fill: $point-blue;
+        &.move { fill: $connector-pointer-color; }
       }
     }
   }
 
-  defs {
-    marker {
-      path {
-        fill: #596f7a;
-      }
-    }
-  }
-
+  defs marker path { fill: #596f7a; }
+  // 툴팁
   g.alice-tooltip {
     rect.tooltip-container {
-      fill: #ffffff;
-      stroke: #bec4ce;
-      stroke-width: 0.5;
+      fill: $tooltip-bg-color;
+      stroke: $tooltip-border-color;
+      stroke-width: $tooltip-border-width;
     }
 
     rect.action-tooltip-item:hover,
@@ -228,38 +193,19 @@ svg {
       cursor: pointer;
     }
   }
-
-  g.grid {
-    path {
-      display: none;
-    }
-
-    line {
-      stroke: #e5ebf5;
-      stroke-width: 1;
-      stroke-opacity: 1;
-      shape-rendering: crispEdges;
-    }
-  }
-
+  // 가이드 라인
   g.guides-container {
     line.guides-line {
-      stroke: darkgray;
+      stroke: $guides-line-color;
       stroke-width: 0;
     }
   }
-
+  // 미연결 선
   path.connector {
     fill: none;
-    stroke: #596f7a;
-    stroke-width: 1;
-  }
-
-  path.connector.drag-line {
-    pointer-events: none;
-  }
-
-  path.connector.hidden {
-    stroke-width: 0;
+    stroke: $connector-color;
+    stroke-width: $connector-width;
+    &.drag-line { pointer-events: none; }
+    &.hidden { stroke-width: 0; }
   }
 }
