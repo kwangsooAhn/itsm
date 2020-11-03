@@ -429,6 +429,7 @@ form:
     searchPlaceholder: "양식이름 / 문서양식 설명"
     state: "상태"
     templatesList: "템플릿 목록"
+    title: "Form Designer"
     undo: "작업 취소"
   msg:
     enterFormName: "양식이름을 입력하세요."
@@ -692,6 +693,7 @@ process:
     searchPlaceholder: "프로세스 이름 / 프로세스 설명"
     simulation: "미리보기"
     templatesList: "템플릿 목록"
+    title: "Process Designer"
     undo: "작업취소"
   msg:
     description: "프로세스를 조회 하거나 추가, 변경 할 수 있습니다."
@@ -746,6 +748,7 @@ process:
       action-value: "동작 시 전달 값"
       is-default: "기본 경로 여부"
       condition-value: "조건 값"
+      connection-information: "연결선 정보"
       start-id: "시작 엘리먼트 아이디"
       start-name: "시작 엘리먼트 이름"
       end-id: "연결 엘리먼트 아이디"
@@ -881,15 +884,19 @@ user:
     idRule: "※ 영문,숫자,특수문자(@, ., -, _) 사용 가능.<br/>
     ※ 허용된 특수문자는 맨 앞에 올 수 없다.<br/>
     ※ 공백을 허용하지 않는다."
-    pwRule: "※ 2가지 이상의 문자 종류(대문자, 소문자, 특수문자, 숫자)인 경우,
-    &nbsp;&nbsp;&nbsp;&nbsp;8자 이상 20자 미만, 1가지 종류의 문자 구성인 경우 10자 이상
-    &nbsp;&nbsp;&nbsp;&nbsp;20자 미만의 비밀번호 입력 제한 범위를 가진다.<br/><br/>
+    pwRule: "※ 2가지 이상의 문자 종류(대문자, 소문자,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;특수문자, 숫자)인 경우, 8자 이상 20자 미만,
+    &nbsp;&nbsp;&nbsp;&nbsp;1가지 종류의 문자 구성인 경우 10자 이상
+    &nbsp;&nbsp;&nbsp;&nbsp;20자 미만의 비밀번호 입력 제한 범위를
+    &nbsp;&nbsp;&nbsp;&nbsp;가진다.<br/><br/>
     ※ 사용자의 ID를 포함하지 않는다.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) ID가 zenius인 경우, zenius는 포함 가능, zenius는 포함 불가.<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) ID가 zenius인 경우, zenius는 포함 가능,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zenius는 포함 불가.<br/><br/>
     ※ 사용자의 이메일 ID를 포함하지 않는다.<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;예) 이메일ID가 zenius인 경우, zenius는 포함 가능,<br/>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zenius는 포함 불가<br/><br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;예) 이메일ID가 zenius인 경우,<br/>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; zenius는 포함 가능, zenius는 포함 불가<br/><br/>
     ※ 공백을 허용하지 않는다.<br/>"
+
   platform:
     alice: "Alice"
     google: "Google"

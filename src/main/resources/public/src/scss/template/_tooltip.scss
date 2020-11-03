@@ -5,3 +5,55 @@
  * @author jy.lim
  * @version 1.0
  */
+
+@include keyframe(fadeIn) {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.help-tooltip {
+  display: inline-block;
+  margin-left: $tooltip-help-margin;
+  vertical-align: middle;
+
+  .help-tooltip-icon {
+    display: inline-block;
+    cursor: pointer;
+    @include maskImage('#{$icon-folder-path}icon_tooltip.svg', $tooltip-help-size, $tooltip-help-size, no-repeat, center, null, $pressed-gray);
+  }
+
+  .tooltip-contents {
+    visibility: hidden;
+    background-color: $tooltip-contents-background;
+    color: $tooltip-contents-color;
+    width: $tooltip-contents-width;
+    font-size: $tooltip-font-size;
+    border: $tooltip-contents-border solid $point-blue;
+    border-radius: $tooltip-contents-border;
+    padding: $tooltip-contents-padding;
+    margin: 0.25rem 0 0 0;
+    position: absolute;
+    left: $tooltip-contents-left;
+    z-index: 1;
+    box-shadow: $tooltip-contents-box-shadow;
+    span {
+      color: $point-blue;
+      word-break: keep-all;
+      line-height: 1.5;
+    }
+  }
+
+  &:hover {
+    .tooltip-contents {
+      visibility: visible;
+      @include animation (0s, 0.3s, fadeIn, ease-out);
+    }
+    .help-tooltip-icon {
+      background: $point-blue;
+    }
+  }
+}

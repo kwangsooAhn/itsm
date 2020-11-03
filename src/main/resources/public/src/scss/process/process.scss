@@ -6,18 +6,20 @@
  */
 @charset 'utf-8';
 
-@import '../template/_reset.scss'; // 상속 불가
-@import '../template/_variables.scss';
-@import '../template/_functions.scss'; // 상속 불가
-@import '../template/_mixins.scss'; // 상속 불가
-@import '../template/_alignments.scss'; // 상속 불가
-@import '../template/_flex.scss';
-@import '../template/_common.scss'; // 상속 불가
+@import '../template/_reset.scss';          // 상속 불가
+@import '../template/_variables.scss';      // 상속 불가
+@import '../template/_functions.scss';      // 상속 불가
+@import '../template/_mixins.scss';         // 상속 불가
+@import '../template/_alignments.scss';     // 상속 불가
+@import '../template/_flex.scss';           // 상속 불가
+@import '../template/_common.scss';         // 상속 불가
 @import '_variables.scss';
-@import '../template/_alerts.scss';
-@import '../template/_scrollbars.scss';
 @import '_fonts.scss';
-@import '_mixins.scss';
+@import '_layout.scss';
 @import '_elements.scss';
 @import '_buttons.scss';
-@import '_layout.scss';
+@import '_alerts.scss';
+@import '_scrollbars.scss';
+@import '_color-picker.scss';
+@import '_tooltip.scss';
+@import '_thumbnail.scss';

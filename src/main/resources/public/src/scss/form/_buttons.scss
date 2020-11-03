@@ -12,14 +12,11 @@
     margin-left: -0.063rem; // -1px
   }
 
-  // mouse over
+  // mouse over and pressed
   &:focus,
-  &:hover {
-    background-color: #26A7FF; 
-  }
-  // mouse pressed
+  &:hover,
   &:active {
-    background-color: #26A7FF; 
+    background-color: #26A7FF;
   }
 
   .icon-save {

@@ -29,110 +29,117 @@
 <div class="alice-wrapper">
     <div class="process-container">
         <div class="process-header">
-            <span class="logo"></span>
-            <span class="process-designer">Process Designer</span>
+            <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="174.72" height="25" alt="Zenius ITSM" />
+            <span class="name" th:text="#{process.label.title}"></span>
             <span class="separator"></span>
             <th:block th:if="${#strings.isEmpty(isView)}">
-                <button type="button" id="btnSave">
-                    <span class="icon-save"></span>
+                <button type="button" class="btn-header" id="btnSave">
+                    <span class="icon icon-save"></span>
                 </button>
             </th:block>
-            <button type="button" id="btnSaveAs">
-                <span class="icon-save-as"></span>
+            <button type="button" class="btn-header" id="btnSaveAs">
+                <span class="icon icon-save-as"></span>
             </button>
             <th:block th:if="${#strings.isEmpty(isView)}">
-                <button type="button" id="btnSimulation">
-                    <span class="icon-simulation"></span>
+                <button type="button" class="btn-header" id="btnSimulation">
+                    <span class="icon icon-simulation"></span>
                 </button>
-                <button type="button" id="btnUndo">
-                    <span class="icon-undo"></span>
+                <button type="button" class="btn-header" id="btnUndo">
+                    <span class="icon icon-undo"></span>
                 </button>
-                <button type="button" id="btnRedo">
-                    <span class="icon-redo"></span>
+                <button type="button" class="btn-header" id="btnRedo">
+                    <span class="icon icon-redo"></span>
                 </button>
             </th:block>
-            <button type="button" id="btnDownload">
-                <span class="icon-image-download"></span>
+            <button type="button" class="btn-header" id="btnDownload">
+                <span class="icon icon-image-download"></span>
             </button>
-            <span class="process-name ml-auto"></span>
+            <span class="ml-auto" id="process-name"></span>
         </div>
         <div class="process-element-palette">
-            <span class="rectangle-menu shape event">
-                <label th:text="#{process.designer.element.event}"></label>
-            </span>
-            <span class="rectangle-menu shape task">
-                <label th:text="#{process.designer.element.task}">Task</label>
-            </span>
-            <span class="rectangle-menu shape subprocess">
-                <label th:text="#{process.designer.element.subprocess}">Subprocess</label>
-            </span>
-            <span class="rectangle-menu shape gateway">
-                <label th:text="#{process.designer.element.gateway}">Gateway</label>
-            </span>
-            <span class="rectangle-menu shape group">
-                <label th:text="#{process.designer.element.group}">Group</label>
-            </span>
-            <span class="rectangle-menu shape annotation">
-                <label th:text="#{process.designer.element.annotation}">Annotation</label>
-            </span>
-
-            <span class="rectangle-menu connector">
-                <label th:text="#{process.designer.element.connector}">Connector</label>
-            </span>
-            <span class="rectangle-menu move-icon" id="icon-move-drawingboard">
-                <label th:text="#{process.designer.element.background}">Background</label>
-            </span>
+            <button type="button" class="rectangle-menu shape event">
+                <span class="icon icon-event"></span>
+                <label class="icon-text" th:text="#{process.designer.element.event}"></label>
+            </button>
+            <button type="button" class="rectangle-menu shape task">
+                <span class="icon icon-task"></span>
+                <label class="icon-text" th:text="#{process.designer.element.task}"></label>
+            </button>
+            <button type="button" class="rectangle-menu shape subprocess">
+                <span class="icon icon-subprocess"></span>
+                <label class="icon-text" th:text="#{process.designer.element.subprocess}"></label>
+            </button>
+            <button type="button" class="rectangle-menu shape gateway">
+                <span class="icon icon-gateway"></span>
+                <label class="icon-text" th:text="#{process.designer.element.gateway}"></label>
+            </button>
+            <button type="button" class="rectangle-menu shape group">
+                <span class="icon icon-group"></span>
+                <label class="icon-text" th:text="#{process.designer.element.group}"></label>
+            </button>
+            <button type="button" class="rectangle-menu shape annotation">
+                <span class="icon icon-annotation"></span>
+                <label class="icon-text" th:text="#{process.designer.element.annotation}"></label>
+            </button>
+            <button type="button" class="rectangle-menu connector">
+                <span class="icon icon-connector"></span>
+                <label class="icon-text" th:text="#{process.designer.element.connector}"></label>
+            </button>
+            <button type="button" class="rectangle-menu move-icon" id="icon-move-drawingboard">
+                <span class="icon icon-background"></span>
+                <label class="icon-text" th:text="#{process.designer.element.background}"></label>
+            </button>
         </div>
-        <div class="process-drawing-board"></div>
-        <div class="process-properties-panel">
-            <div class="properties-container">
-                <div class="element-title"><h2></h2></div>
-                <div class="element-properties"></div>
-            </div>
-            <template id="process-info">
-                <div class="process-info-container">
-                    <h3><span th:text="#{process.designer.attribute.processInformation}">Process Information</span></h3>
-                    <div class="info">
-                        <div class="total">
-                            <span th:text="|#{process.designer.attribute.totalCount} : |">Total Count</span><span id="element_count"></span>
-                        </div>
-                        <table>
-                            <colgroup>
-                                <col width="60%">
-                                <col width="*">
-                            </colgroup>
-                            <tbody>
-                            <tr>
-                                <td th:text="#{process.designer.element.event}">Event</td>
-                                <td><label id="event_count"></label></td>
-                            </tr>
-                            <tr>
-                                <td th:text="#{process.designer.element.task}">Task</td>
-                                <td><label id="task_count"></label></td>
-                            </tr>
-                            <tr>
-                                <td th:text="#{process.designer.element.gateway}">Gateway</td>
-                                <td><label id="gateway_count"></label></td>
-                            </tr>
-                            <tr>
-                                <td th:text="#{process.designer.element.subprocess}">Subprocess</td>
-                                <td><label id="subprocess_count"></label></td>
-                            </tr>
-                            <tr>
-                                <td th:text="#{process.designer.element.connector}">Connector</td>
-                                <td><label id="connector_count"></label></td>
-                            </tr>
-                            <tr>
-                                <td th:text="#{process.designer.element.artifact}">Artifact</td>
-                                <td><label id="artifact_count"></label></td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </template>
+        <div class="process-main">
+            <div class="drawing-board"></div>
         </div>
+        <div class="process-properties-header">
+            <span id="properties-name"></span>
+        </div>
+        <div class="process-properties"></div>
     </div>
+    <template id="process-info">
+        <div class="process-info-main">
+            <h5 class="process-info-title" th:text="#{process.designer.attribute.processInformation}"></h5>
+            <div class="process-info-dashboard">
+                <h5 class="total align-right">
+                    <span th:text="|#{process.designer.attribute.totalCount} : |">Total Count</span><span id="element-count"></span>
+                </h5>
+                <table>
+                    <colgroup>
+                        <col width="80%">
+                        <col width="*">
+                    </colgroup>
+                    <tbody>
+                    <tr>
+                        <td th:text="#{process.designer.element.event}">Event</td>
+                        <td class="align-right"><span class="count" id="event-count"></span></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{process.designer.element.task}">Task</td>
+                        <td class="align-right"><span class="count" id="task-count"></span></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{process.designer.element.gateway}">Gateway</td>
+                        <td class="align-right"><span class="count" id="gateway-count"></span></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{process.designer.element.subprocess}">Subprocess</td>
+                        <td class="align-right"><span class="count" id="subprocess-count"></span></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{process.designer.element.connector}">Connector</td>
+                        <td class="align-right"><span class="count" id="connector-count"></span></td>
+                    </tr>
+                    <tr>
+                        <td th:text="#{process.designer.element.artifact}">Artifact</td>
+                        <td class="align-right"><span class="count" id="artifact-count"></span></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </template>
 </div>
 </body>
 <script type="text/javascript">
@@ -140,7 +147,6 @@
         i18n.initMessages(function() {
             aliceProcessEditor.init('[[${processId}]]', '[[${#strings.isEmpty(isView)}]]');
         });
-        OverlayScrollbars(document.querySelector('.simulation-report .contents'), { className: 'scrollbar' });
     };
 
     window.addEventListener('load', () => {

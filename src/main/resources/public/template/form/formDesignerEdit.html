@@ -14,8 +14,8 @@
     <form id="frm" name="frm">
         <div class="form-container">
             <div class="form-header">
-                <img class="load-svg logo"  th:src="@{/assets/media/icons/form/topmenu/logo.svg}"/>
-                <span class="name">Form Designer</span>
+                <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="174.72" height="25" alt="Zenius ITSM" />
+                <span class="name" th:text="#{form.label.title}"></span>
                 <span class="separator"></span>
                 <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
                     <button type="button" id="btnSave" class="btn-header" onclick="editor.save(false);">
@@ -176,66 +176,62 @@
     </template>
     <!-- 컴포넌트 properties 템플릿 -->
     <template id="component-template">
-        <div class="component-properties">
-            <div class="property-empty">
-                <h5 th:text="#{form.msg.information}"></h5>
-            </div>
-            <div class="property-group" id="dataAttribute">
-                <h5><label class="property-group-name" th:text="#{form.properties.dataAttribute}"></label></h5>
-            </div>
-            <div class="property-group" id="label">
-                <h5><label class="property-group-name" th:text="#{form.properties.label}"></label></h5>
-            </div>
-            <div class="property-group" id="display">
-                <h5><label class="property-group-name" th:text="#{form.properties.display}"></label></h5>
-            </div>
-            <div class="property-group" id="option">
-                <h5>
-                    <label class="property-group-name" th:text="#{form.properties.option}"></label>
-                    <div class="property-group-option">
-                        <button type="button" class="ghost-line btn-option" id="option-minus"><span class="icon icon-minus"></span></button>
-                        <button type="button" class="ghost-line btn-option" id="option-plus"><span class="icon icon-plus"></span></button>
-                    </div>
-                </h5>
-                <table class="property-field-table">
-                    <colgroup>
-                        <col width="20%">
-                        <col width="40%">
-                        <col width="40%">
-                    </colgroup>
-                </table>
-            </div>
-            <div class="property-group" id="validate">
-                <h5><label class="property-group-name" th:text="#{form.properties.validate}"></label></h5>
-            </div>
+        <div class="property-empty">
+            <h5 th:text="#{form.msg.information}"></h5>
+        </div>
+        <div class="property-group" id="dataAttribute">
+            <h5><label class="property-group-name" th:text="#{form.properties.dataAttribute}"></label></h5>
+        </div>
+        <div class="property-group" id="label">
+            <h5><label class="property-group-name" th:text="#{form.properties.label}"></label></h5>
+        </div>
+        <div class="property-group" id="display">
+            <h5><label class="property-group-name" th:text="#{form.properties.display}"></label></h5>
+        </div>
+        <div class="property-group" id="option">
+            <h5>
+                <label class="property-group-name" th:text="#{form.properties.option}"></label>
+                <div class="property-group-option">
+                    <button type="button" class="ghost-line btn-option" id="option-minus"><span class="icon icon-minus"></span></button>
+                    <button type="button" class="ghost-line btn-option" id="option-plus"><span class="icon icon-plus"></span></button>
+                </div>
+            </h5>
+            <table class="property-field-table">
+                <colgroup>
+                    <col width="20%">
+                    <col width="40%">
+                    <col width="40%">
+                </colgroup>
+            </table>
+        </div>
+        <div class="property-group" id="validate">
+            <h5><label class="property-group-name" th:text="#{form.properties.validate}"></label></h5>
         </div>
     </template>
     <!-- 폼 properties 템플릿 -->
     <template id="form-template">
-        <div class="form-properties">
-            <div class="property-group on last">
-                <div class="property-field" id="formId">
-                    <label class="property-field-name" for="formId" th:text="#{form.properties.id}"></label>
-                    <input type="text" class="property-value" disabled>
-                </div>
-                <div class="property-field" id="name">
-                    <label class="property-field-name" for="name" th:text="#{form.properties.name}"></label>
-                    <span class="required"></span>
-                    <input type="text" class="property-value" required="required" maxlength="20">
-                </div>
-                <div class="property-field" id="desc">
-                    <label class="property-field-name" for="desc" th:text="#{form.properties.desc}"></label>
-                    <textarea class="property-value" maxlength="200"></textarea>
-                </div>
-                <div class="property-field" id="status">
-                    <label class="property-field-name" for="status" th:text="#{form.properties.status}"></label>
-                    <select class="property-value">
-                        <option value="form.status.edit" th:text="#{form.status.edit}"></option>
-                        <option value="form.status.publish" th:text="#{form.status.publish}"></option>
-                        <option value="form.status.use" th:text="#{form.status.use}"></option>
-                        <option value="form.status.destroy" th:text="#{form.status.destroy}"></option>
-                    </select>
-                </div>
+        <div class="property-group on last">
+            <div class="property-field" id="formId">
+                <label class="property-field-name" for="formId" th:text="#{form.properties.id}"></label>
+                <input type="text" class="property-value" disabled>
+            </div>
+            <div class="property-field" id="name">
+                <label class="property-field-name" for="name" th:text="#{form.properties.name}"></label>
+                <span class="required"></span>
+                <input type="text" class="property-value" required="required" maxlength="20">
+            </div>
+            <div class="property-field" id="desc">
+                <label class="property-field-name" for="desc" th:text="#{form.properties.desc}"></label>
+                <textarea class="property-value" maxlength="200"></textarea>
+            </div>
+            <div class="property-field" id="status">
+                <label class="property-field-name" for="status" th:text="#{form.properties.status}"></label>
+                <select class="property-value">
+                    <option value="form.status.edit" th:text="#{form.status.edit}"></option>
+                    <option value="form.status.publish" th:text="#{form.status.publish}"></option>
+                    <option value="form.status.use" th:text="#{form.status.use}"></option>
+                    <option value="form.status.destroy" th:text="#{form.status.destroy}"></option>
+                </select>
             </div>
         </div>
     </template>
