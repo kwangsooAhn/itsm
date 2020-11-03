@@ -12,14 +12,17 @@
             <h5 class="reply-user-name" th:text="${boardComment.createUser.userName}"></h5>
             <span class="vertical-bar"></span>
             <h5 class="reply-create-date" th:name="commentDt" th:text="${boardComment.createDt}"></h5>
-            <div class="reply-button">
-                <button class="edit-icon" sec:authorize="hasAuthority('board.update')"
+            <div class="ml-auto align-middle">
+                <button class="reply-edit" sec:authorize="hasAuthority('board.update')"
                         th:if="${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '')"
                         th:attr="onclick=|openCommentEdit('${boardComment.boardCommentId}')|">
+                    <span class="icon-edit"></span>
                 </button>
-                <button class="trash-icon" sec:authorize="hasAuthority('board.delete')"
+                <span class="vertical-bar"></span>
+                <button class="reply-delete" sec:authorize="hasAuthority('board.delete')"
                         th:if="${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '')"
                         th:onclick="restSubmit('delete', [[@{/rest/boards/comments/{id}(id=${boardComment.boardCommentId})}]])">
+                    <span class="icon-delete" ></span>
                 </button>
             </div>
         </div>

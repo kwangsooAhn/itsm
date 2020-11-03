@@ -1,15 +1,9 @@
-// Variables
-// font family
-$font-family:                                 "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif; 
-
-// font size
-$font-size-base:                              1rem;  // 16px
-
-// asset path
+//////////////////////////// Asset path ////////////////////////////
 $icon-folder-path:                            '../media/icons/';
 $image-folder-path:                           '../media/images/';
 $tree-folder-path:                            '../../../media/icons/tree';
 
+////////////////////////////// Layout //////////////////////////////
 // DOM Elements
 $element-font-size:                           1rem; // 16px
 $element-font-color:                          $dark-gray;
@@ -19,18 +13,16 @@ $element-border-color:                        $line-gray;
 $element-border-width:                        0.0625rem; // 1px
 $element-border-radius:                       0.0625rem; // 1px
 
-$alice-primary:                               #0050ff !default;
-
-// 메뉴 로고
+// Logo
 $logo-width:                                  13.75rem; // 220px
 $logo-height:                                 3.8125rem; // 60px
 
-// 네비게이션
+// Navication
 $nav-width:                                   13.75rem; // 220px
 $nav-height:                                  9.375rem; // 150px
 $nav-bg-color:                                $ground-black;
 
-// 메뉴
+// Menu
 $menu-width:                                  13.75rem; // 220px
 $menu-height:                                 calc(100vh - #{$nav-height} - #{$logo-height}); // 메뉴 높이는 상단 로고와 하단 네비게이션 높이를 제외
 $menu-bg-color:                               $ground-black;
@@ -55,10 +47,10 @@ $icon-gnb-token:                              $icon-folder-path + "gnb/icon_gnb_
 $icon-arrow-left:                             $icon-folder-path + "icon_arrow_left.svg";
 $icon-arrow-bottom:                           $icon-folder-path + "icon_arrow_bottom.svg";
 
-// dropzone
+///////////////////////////// Dropzone /////////////////////////////
 $dropzone-folder-path:                        "../../../media/icons/dropzone/";
 
-// thumbnail
+//////////////////////////// Thumbnail /////////////////////////////
 $thumbnail-container-height:                  35.31rem; // 565px
 $thumbnail-container-padding:                 0;
 $thumbnail-margin:                            0.125rem; // 2.5px
@@ -69,6 +61,6 @@ $thumbnail-icon-div-size:                     100%;
 $thumbnail-box-shadow:                        0 0 0.3125rem 0.0625rem $thumbnail-border-color; // 5px
 $thumbnail-asset-path:                        "../../../media/icons/thumbnail";
 
-// tooltip
+///////////////////////////// Tooltip //////////////////////////////
 $tooltip-contents-left:                       auto;
 $tooltip-contents-width:                      22.5rem; // 360px

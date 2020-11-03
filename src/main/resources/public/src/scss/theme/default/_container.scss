@@ -1,24 +1,7 @@
 @import "../../template/_layout.scss";
 
-// 전체 화면
-.trash-icon {
-    width: 18px;
-    height: 20px;
-    background: url("../../../media/icons/icon_delete.svg") no-repeat center center;
-    &:hover { background-color: rgba(0,0,0,0);}
-}
-.edit-icon {
-    width: 20px;
-    height: 20px;
-    background: url("../../../media/icons/icon_edit.svg") no-repeat center center;
-    &:hover { background-color: rgba(0,0,0,0);}
-}
-.required::after {
-    color: #E83828;
-    content: "\002a"; // *
-}
 
-// 리스트 출력용 아바타 이미지
+// 기본 아바타 이미지 (32px)
 .profile-photo {
     height: 2rem; // 32px
     width: 2rem; // 32px
@@ -818,18 +801,5 @@ span.vertical-bar {
         height: 100%;
         padding: 90px 0 0 80px;
         background: rgba(234, 241, 247, 1);
-    }
-
-    // 플롯 정렬
-    .float-left {
-        float: left;
-    }
-
-    .float-right {
-        float: right;
-    }
-
-    .float-clear {
-        clear: both;
     }
 }

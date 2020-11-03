@@ -78,7 +78,7 @@
     background-color: $white;
     display: flex;
     flex-grow: 1;
-    height: calc(100vh - 10.375rem);
+    height: calc(100% - 10.375rem);
     &.flex-column {
       flex-direction: column;
     }
