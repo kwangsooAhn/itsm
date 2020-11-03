@@ -429,6 +429,7 @@ form:
     searchPlaceholder: "Form Name / Form Description"
     state: "State"
     templatesList: "Templates List"
+    title: "Form Designer"
     undo: "Undo"
   msg:
     enterFormName: "Please enter a form name."
@@ -692,6 +693,7 @@ process:
     searchPlaceholder: "Process Name / Process Description"
     simulation: "Simulation"
     templatesList: "Templates List"
+    title: "Process Designer"
     undo: "Undo"
   msg:
     description: "View, add, or edit process's information."
@@ -746,6 +748,7 @@ process:
       action-value: "Action Value"
       is-default: "is Default"
       condition-value: "Condition Value"
+      connection-information: "Connection Information"
       start-id: "Start ID"
       start-name: "Start Name"
       end-id: "End ID"
