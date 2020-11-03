@@ -2789,6 +2789,10 @@ button .icon-delete {
   border: 0.0625rem solid #0098FF;
 }
 
+.color-picker .color-input .selected-color {
+  border: 0.1875rem solid #68717c;
+}
+
 .color-picker .color-palette {
   display: flex;
   flex-wrap: wrap;
