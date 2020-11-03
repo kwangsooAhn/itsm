@@ -980,6 +980,7 @@ aliceJs.initDesignedSelectTag = function () {
         let numOfOptions = originSelectTag.childElementCount;
 
         // select tag 와 추가되는 div, ul 을 감싸는 wrapper 생성.
+        originSelectTag.classList.remove('select-hidden');
         let selectWrapper = document.createElement('div');
         selectWrapper.classList = originSelectTag.classList;
         selectWrapper.classList.add('select');

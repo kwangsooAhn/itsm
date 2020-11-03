@@ -871,6 +871,7 @@
             if (!aliceProcessEditor.data.process) { return; }
             makePropertiesItem(aliceProcessEditor.data.process.id, processProperties, aliceProcessEditor.data.process);
         }
+        aliceJs.initDesignedSelectTag();
     }
 
     /**

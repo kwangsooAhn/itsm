@@ -79,3 +79,10 @@ textarea{
 .switch {
   margin: 1.875rem 0 1.25rem 0; // 30px 0 20px 0
 }
+
+// for designed select
+table[id="documentDisplay"] {
+  td {
+    overflow: initial;
+  }
+}
