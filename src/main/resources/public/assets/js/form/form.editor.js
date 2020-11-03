@@ -955,11 +955,19 @@
                     } else {
                         defaultValue = toggleElem.value;
                     }
+                    // for designed select
+                    if (toggleElem.parentNode.classList.contains('select')) {
+                        toggleElem.parentNode.style.display = 'block';
+                    }
                 } else {
                     if (child.classList.contains('active')) {
                         child.classList.remove('active');
                     }
                     toggleElem.style.display = 'none';
+                    // for designed select
+                    if (toggleElem.parentNode.classList.contains('select')) {
+                        toggleElem.parentNode.style.display = 'none';
+                    }
                 }
             }
             changePropertiesValue(elem.name + '|' + defaultValue, changePropertiesArr[0], changePropertiesArr[1]);
