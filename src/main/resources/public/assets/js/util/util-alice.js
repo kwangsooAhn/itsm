@@ -963,7 +963,7 @@ aliceJs.filterXSS = function (str) {
 };
 
 /**
- * select box 디자인을 위한 초기화 함수.
+ * select tag 디자인을 위한 초기화.
  * 1) select tag 디자인을 적용하기 위해서 기존 select tag 는 숨기고
  * 2) div, ul 로 기존 select tag 를 대신할 객체를 만들고
  * 3) 그에 따른 이벤트 등록.
@@ -1003,7 +1003,7 @@ aliceJs.initDesignedSelectTag = function () {
 
         // option 복사
         let options = document.createDocumentFragment();
-        for (var i = 0; i < numOfOptions; i++) {
+        for (let i = 0; i < numOfOptions; i++) {
             let liElement = document.createElement('li');
             liElement.innerText = originSelectTag.options[i].text;
             liElement.setAttribute('rel', originSelectTag.options[i].value);
@@ -1032,16 +1032,15 @@ aliceJs.initDesignedSelectTag = function () {
         }));
 
         // option 을 선택하는 경우 이벤트
-        ulElement.childNodes.forEach(function(option) {
-            option.addEventListener('click', function (clickedOption) {
+        ulElement.childNodes.forEach(function(liOption) {
+            liOption.addEventListener('click', function (clickedOption) {
                 clickedOption.stopPropagation();
-                designedSelectBox.innerText = option.innerText;
+                designedSelectBox.innerText = liOption.innerText;
                 designedSelectBox.classList.remove('active');
-                originSelectTag.value = option.getAttribute('rel');
+                originSelectTag.value = liOption.getAttribute('rel');
                 originSelectTag.parentElement.querySelector('ul.designed-options').style.display = 'none';
                 let changeEvent = new Event('change');
                 originSelectTag.dispatchEvent(changeEvent);
-                console.log(originSelectTag.value);
             });
         });
 

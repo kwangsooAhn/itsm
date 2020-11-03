@@ -871,6 +871,8 @@
             if (!aliceProcessEditor.data.process) { return; }
             makePropertiesItem(aliceProcessEditor.data.process.id, processProperties, aliceProcessEditor.data.process);
         }
+        // for designed select
+        // 속성창을 그린 후 designed select 초기화.
         aliceJs.initDesignedSelectTag();
     }
 

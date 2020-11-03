@@ -956,6 +956,7 @@
                         defaultValue = toggleElem.value;
                     }
                     // for designed select
+                    // toggle 에 따라 designed select 를 화면에 표시 출력.
                     if (toggleElem.parentNode.classList.contains('select')) {
                         toggleElem.parentNode.style.display = 'block';
                     }
@@ -965,6 +966,7 @@
                     }
                     toggleElem.style.display = 'none';
                     // for designed select
+                    // toggle 에 따라 designed select 를 화면에서 숨김.
                     if (toggleElem.parentNode.classList.contains('select')) {
                         toggleElem.parentNode.style.display = 'none';
                     }
@@ -1656,6 +1658,8 @@
                     }
             }
         }
+        // for designed select
+        // 속성창을 새로 그린 후 designed select 초기화
         aliceJs.initDesignedSelectTag();
     }
 
@@ -1758,6 +1762,8 @@
             });
         });
         propertiesPanel.appendChild(formElem);
+        // for designed select
+        // 폼 속성창을 그린 후 designed select 초기화.
         aliceJs.initDesignedSelectTag();
     }
 
