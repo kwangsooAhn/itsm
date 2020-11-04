@@ -2,16 +2,13 @@
 common:
   btn:
     add: "ADD"
-    before: "BEFORE"
     cancel: "CANCEL"
     check: "CHECK"
     close: "CLOSE"
     delete: "DELETE"
-    fileUpload: "FILE UPLOAD"
     list: "LIST"
     logout: "LOGOUT"
     modify: "MODIFY"
-    next: "NEXT"
     print: "PRINT"
     process: "PROCESS"
     register: "REGISTER"
@@ -23,7 +20,6 @@ common:
     terminate: "TERMINATE"
     update: "UPDATE"
     withdraw: "WITHDRAW"
-    write: "WRITE"
   label:
     attachFile: "Attach file"
     blank: " "
@@ -32,20 +28,16 @@ common:
     count: "total {0}"
     createDate: "Create Date"
     createUser: "Create User"
-    dataSelect: "Please select a data."
     delete: "Delete"
     edit: "Edit"
     fail: "Fail"
     group: "Group"
-    list: "List"
     modify: "Modify"
     name: "Name"
-    save: "Save"
     searchWord: "Please enter your search term"
     success: "Success"
     tag: "Tag"
     title: "Title"
-    totalCount: "Total"
     update: "Update"
     updateDate: "Update Date"
     updateUser: "Update User"
@@ -53,6 +45,7 @@ common:
     writer: "Writer"
   msg:
     confirmDelete: "Are you sure you want to delete?"
+    dataSelect: "Please select data."
     delete: "Deleted."
     enterContents: "Please enter contents"
     enterTitle: "Please enter a title."
@@ -174,7 +167,6 @@ authentication:
     expiredAuthentication: "Authentication mail has expired."
     recallAuthentication: "Please re-request authentication mail after login."
     resentAuthentication: "Authentication mail has been resent."
-    wrongAuthenticationCode: "The authentication code is invalid."
 
 # board
 board:
@@ -193,8 +185,6 @@ board:
     create: "Post Board"
     desc: "Board desc"
     detail: "Post Detail"
-    disable: "Disable"
-    enable: "Enable"
     list: "Board Search"
     manager: "Board Manager"
     modify: "Post Modify"
@@ -204,7 +194,6 @@ board:
     readCount: "Number of Read"
     reply: "Board Reply"
     replyYn: "Reply enable"
-    roleName: "Role name"
     searchBoardPlaceholder: "Category / Title / Writer"
     searchPlaceholder: "Board Title / CreateUser"
     title: "Title"
@@ -215,7 +204,6 @@ board:
     enterAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
     enterBoardTitle: "Please enter the board name."
     enterCategoryName: "Please enter the category name."
-    enterSortSize: "Please enter a sorting order of 100 or less."
     modifyDescription: "Edit board's information."
     replayDescription: "You can add a reply."
     viewDescription: "View board's information."
@@ -249,7 +237,6 @@ customCode:
     code: "Code"
     condition: "Condition"
     customCode: "Custom Code"
-    lastUpdateDate: "Last Update Date"
     list: "Custom Code List"
     name: "Custom Code Name"
     pCode: "Parent Code"
@@ -297,8 +284,6 @@ datepicker:
 
 # Department:
 department:
-  btn:
-    selection: "SELECTION"
   label:
     deptList: "department List"
     deptManagement: "department Management"
@@ -313,7 +298,7 @@ document:
     display: "Service Request Display"
     docNo: "Service Request No"
     form: "Form"
-    icon: "Document Icon"
+    icon: "Service Request Icon"
     list: "Service Request List"
     modify: "Service Request Modify"
     name: "Service Request Name"
@@ -322,22 +307,21 @@ document:
     print: "Service Request Print"
     process: "Process"
     register: "Service Request Registration"
-    searchDocumentStatus: "Document status"
     searchPlaceholder: "Document name / Document description"
     status: "Service Request Status"
     type: "Document Type"
     write: "Service Request Write"
   msg:
     checkDocument: "Please check the document again."
-    checkDuplication: "Duplication document. check form and process"
+    checkDuplication: "Duplication document. check form and process."
     confirmDeleteInstance: "Are you sure you want to delete all documents created in a temporary state?"
-    description: "workflow search"
+    description: "workflow search."
     enterBusinessFlowColor: "Please enter Business Flow Color."
     enterDocumentName: "Please enter document's name."
     launchedInstance: "There is an instance started and cannot be deleted."
     lengthMax: "Please enter less than {0} characters."
     lengthMin: "Please enter at least {0} characters."
-    listDescription: "document edit"
+    listDescription: "document edit."
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
   display:
@@ -386,13 +370,12 @@ error:
 faq:
   label:
     category: "Category"
-    content: "Content"
     description: "Frequently asked questions and answers."
     detail: "FAQ detail"
     edit: "FAQ edit"
     faq: "FAQ"
     list: "FAQ list"
-    searchPlaceholder: "Category/Title"
+    searchPlaceholder: "Category / Title"
     title: "Title"
 
 # FileUpload
@@ -416,7 +399,6 @@ form:
     description: "Description"
     detail: "Detail Form"
     edit: "Edit Form"
-    export: "Export"
     form: "Form"
     import: "Form IMPORT"
     importFile: "IMPORT File"
@@ -428,15 +410,12 @@ form:
     saveExit: "Save and Exit"
     searchPlaceholder: "Form Name / Form Description"
     state: "State"
-    templatesList: "Templates List"
     undo: "Undo"
   msg:
     description: "View, add, or edit Form's information."
     enterFormName: "Please enter a form name."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
-    fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
-    fileNameDuplication: "The same file name exists."
-    fileuploadFailed: "File upload failed."
+    fileSelect: "Please select a file."
     information: "There are no common editable component detail attributes."
     max: "Please enter below {0}."
     maxLength: "Please enter less than {0} characters."
@@ -547,16 +526,12 @@ login:
     gotoLoginPage: "Go to the login page"
     kakaoLogin: "KakaoLogin"
     login: "Login"
-    userSignUp: "Sign Up"
   label:
     findId: "Find ID"
     findPasswd: "Find Password"
     gotoMainPage: "Go to the main page"
-    id: "ID"
-    login: "Login"
     loginNote: "Do you have an account?"
     or: "Or"
-    password: "Password"
     requiredLogin: "Login required"
     signupNote: "Sign up"
     userSignUp: "Sign Up"
@@ -610,29 +585,23 @@ notice:
     endDt: "End Date"
     height: "Height"
     list: "Notice"
-    notSet: "Not Set"
     noticePeriod: "Notice Period"
     popUp:  "PopUp"
     popUpNoticeSettings: "PopUp Notice Settings"
-    popUpNoticeSettingsInfo: "PopUp Notice Settings Info"
     popUpPeriod: "PopUp Period"
     popUpPeriodToday: "Do not open this popup today"
     searchPlaceholder: "Title / User"
-    set: "Set"
     strtDt: "Start Date"
     topNoticeSettings: "Top Notice Settings"
-    topNoticeSettingsInfo: "Top Notice Settings Info"
     view: "Notice"
     width: "Width"
   msg:
     alreadyDeleted: "This post has already been deleted."
     checkPopHeightRange: "The height can only be a value between 500px and 1000px."
     checkPopWidthRange: "The width can only be a value between 500px and 1000px."
-    checkSearchRange: "Search start date is greater than end date."
     compareWithPopUpValue: "Pop-up notification start date is greater than or equal to end date."
     compareWithTopNoticeValue: "Top Notice start date is greater than or equal to the end date."
     description: "View, add, or edit notice's information."
-    enterFromDt: "Please enter a search start date."
     enterPopEndDt: "Please enter popup end date."
     enterPopHeight: "Please enter a height."
     enterPopStrtDt: "Please enter popup start date."
@@ -654,20 +623,15 @@ notification:
 # Portal
 portal:
   label:
-    bottomLeftPhrase: "Contact us"
     bottomPhrase: "Can't find what you're looking for?"
     browserGuidePhrase: "Your web browser is not supported. Please use the browser below."
     chrome: "Chrome"
-    download: "Download"
-    faq: "FAQ"
     firefox: "Firefox"
     login: "Log In"
     main: "Main Page"
     mainPhrase: "Technical Support"
     msEdge: "MS Edge"
-    notice: "Notice"
     safari: "Safari"
-    search: "Search"
     topPhrase: "Welcome to the Brainz Company."
 
 # Process
@@ -681,7 +645,6 @@ process:
     description: "Description"
     detail: "Detail Process"
     edit: "Edit Process"
-    imageDownload: "Image Download"
     import: "Process Import"
     importFile: "Import File"
     list: "Process List"
@@ -691,15 +654,12 @@ process:
     searchPlaceholder: "Process Name / Process Description"
     simulation: "Simulation"
     state: "State"
-    templatesList: "Templates List"
     undo: "Undo"
   msg:
     description: "View, add, or edit process's information."
     duplicateData: "The same data exists."
     enterProcessName: "Please enter a process name."
-    fileExtensionNotAllow: "IMPORT files are only allowed with {0} extensions."
     selectImportFile: "Please select an import file."
-    simulation: "Simulation check is complete."
   status:
     destroy: "Destroy"
     edit: "Edit"
@@ -750,7 +710,7 @@ process:
       processInformation: "Process Information"
       reject-id: "Reject"
       script-action: "Script Action"
-      script-detail: "Script Detal"
+      script-detail: "Script Detail"
       script-type: "Script Type"
       script: "Script"
       scriptTask: "Script Task"
@@ -759,7 +719,7 @@ process:
       start-id: "Start ID"
       start-name: "Start Name"
       status: "Status"
-      sub-document-id: "Subprocess"
+      sub-document-id: "Sub Document ID"
       subprocess: "Subprocess"
       target-document-list: "Target Workflow"
       targetMappingId: "Target Mapping ID"
@@ -781,13 +741,12 @@ role:
     manage: "Role Management"
     name: "Role Name"
     referenceCount: "Reference Count"
-    role: "Role"
   msg:
+    description: "View, add, or edit user's role."
     enterRoleId: "Please enter a role id."
     enterRoleName: "Please enter a role name."
-    selectAuth: "Please select a auth."
-    description: "View, add, or edit user's role."
     searchPlaceholder: "Role Name / Role Desc."
+    selectAuth: "Please select a auth."
 
 # Token
 token:
@@ -803,7 +762,6 @@ token:
     relatedInstance: "Related Documents"
     searchPlaceholder: "Create User / Contents"
     startDt: "Start Date"
-    status: "Status"
     tagPlaceHolder: "#Tags"
     view: "Document View"
     write: "My Document"
@@ -816,6 +774,7 @@ token:
     requested: "Application document"
     todo: "Document to process"
 
+# WorkflowAdmin
 workflowAdmin:
   label:
     description: "Description"
@@ -829,11 +788,9 @@ user:
   btn:
     resetPassword: "RESET PASSWORD"
   label:
-    all: "All"
     avatar: "Avatar"
     createUser: "User Registration"
     customSetting: "Custom Settings"
-    date: "Date Format"
     department: "Department"
     editUserInfo: "Edit User Information"
     email: "Email"
@@ -857,7 +814,6 @@ user:
     timeFormat: "Date/Time Format"
     timezone: "TimeZone"
     usageStatus: "Usage Status"
-    user: "User"
   msg:
     createUser: "User is registered."
     description: "View, add, or edit user's information."
@@ -889,17 +845,6 @@ user:
     &nbsp;&nbsp;&nbsp;&nbsp;예) If the e-mail ID zenius, zenius comprises available<br/>
     ※ Do not allow spaces.<br/>"
 
-  platform:
-    alice: "Alice"
-    google: "Google"
-    kakao: "Kakao"
-  status:
-    certified: "Certified"
-    signup: "SignUp"
-  usageStatusFlag:
-    unused: "Unused"
-    use: "Use"
-
 # Validation
 validation:
   msg:
@@ -910,7 +855,6 @@ validation:
     elementNotExist: "The element does not exist."
     pwContainsEmail: "Password contains an email ID."
     pwContainsId: "Password contains an ID."
-    pwContainsInnerMobileNumber: "The password contains your mobile."
     pwNotContainSpace: "Password cannot contain spaces."
     pwOneBetween10And20: "For one character configurations, you must set a password between 10 and 20 characters."
     pwTwoBetween8And20: "For a two character configuration, you must set a password between 8 and 20 characters."
@@ -926,6 +870,6 @@ file:
   label:
     or: "or"
   msg:
-    browser: "browser."
+    browser: "Find the file yourself."
     noAttachFile: "There are no attachments."
     upload: "Drop files here to upload."
