@@ -7,7 +7,7 @@
 <body>
 <div class="card-area">
     <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
-    <div class="no-data-found" th:if="${#arrays.isEmpty(documentList)}">
+    <div class="no-data-found no-data-found" th:if="${#arrays.isEmpty(documentList)}">
         <img class="no-data-icon" />
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>

@@ -2422,7 +2422,7 @@ button .icon-plus {
   align-items: center;
 }
 
-.itsm-container .contents-edit .btn-bar {
+.itsm-container .contents-edit .btn-list {
   padding: 2.5rem 0 3.125rem 0;
 }
 
@@ -2511,7 +2511,7 @@ button .icon-plus {
   background-color: #ffffff;
   display: flex;
   flex-grow: 1;
-  height: calc(100% - 10.375rem);
+  min-height: calc(100vh - 10.375rem);
 }
 
 .itsm-container .contents-flex .flex.flex-column {
@@ -2926,7 +2926,7 @@ button .icon-plus {
 
 .itsm-container-close {
   height: 100%;
-  padding: 90px 0 0 80px;
+  padding: 5.625rem 0 0 5rem;
   background: #eaf1f7;
 }
 
@@ -2950,7 +2950,7 @@ button .icon-plus {
   height: 2rem;
   width: 2rem;
   border-radius: 50%;
-  background: #f0f0f0;
+  background: #F0F0F0;
   margin-right: 0.625rem;
 }
 
@@ -2975,16 +2975,7 @@ button .icon-plus {
   background-color: #EBEBEB;
 }
 
-tr.no-data-found {
-  pointer-events: none;
-  background: #EBEBEB;
-}
-
-tr.no-data-found td {
-  text-align: center;
-}
-
-div.no-data-found {
+.no-data-found {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -2996,18 +2987,27 @@ div.no-data-found {
   pointer-events: none;
 }
 
-div.no-data-found .no-data-icon {
+.no-data-found .no-data-icon {
   content: url("../media/icons/icon_no_data.svg");
 }
 
-div.no-data-found .no-data-text {
+.no-data-found .no-data-text {
   font-size: 1.125rem;
   font-weight: 500;
   color: #CCCED1;
   margin-left: 1.875rem;
 }
 
-.btn-bar {
+.no-data-found-list {
+  pointer-events: none;
+  background: #EBEBEB;
+}
+
+.no-data-found-list td {
+  text-align: center;
+}
+
+.btn-list {
   padding: 0.625rem 0 0 0;
   display: flex;
   justify-content: flex-end;
@@ -3019,11 +3019,11 @@ div.no-data-found .no-data-text {
   align-items: center;
 }
 
-span.vertical-bar {
+.vertical-bar {
   width: 1.875rem;
-  height: 1.875rem;
   border-right: 0.0625rem solid #EBEBEB;
   margin-right: 1.875rem;
+  min-height: 1.875rem;
 }
 
 .notice-pinned {
@@ -3683,7 +3683,7 @@ span.vertical-bar {
 .file-uploader-edit .dropzone .dz-default.dz-message .icon-no-file {
   display: block;
   height: 2.813rem;
-  background-image: url("../media/icons/../media/icons/icon-no-file.svg");
+  background-image: url("../media/icons/icon-no-file.svg");
   background-size: 2.438rem 2.813rem;
   background-repeat: no-repeat;
   background-position-x: center;
@@ -4195,7 +4195,7 @@ span.vertical-bar {
   position: absolute;
   top: 0;
   right: 0;
-  background-image: url("../media/icons/../media/icons/icon_close.svg");
+  background-image: url("../media/icons/icon_close.svg");
   background-size: 0.875rem;
   background-repeat: no-repeat;
   background-position-x: center;

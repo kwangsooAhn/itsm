@@ -17,7 +17,7 @@ $element-border-radius:                       0.0625rem; // 1px
 $logo-width:                                  13.75rem; // 220px
 $logo-height:                                 3.8125rem; // 60px
 
-// Navication
+// Navigation
 $nav-width:                                   13.75rem; // 220px
 $nav-height:                                  9.375rem; // 150px
 $nav-bg-color:                                $ground-black;
@@ -46,6 +46,10 @@ $icon-gnb-token:                              $icon-folder-path + "gnb/icon_gnb_
 
 $icon-arrow-left:                             $icon-folder-path + "icon_arrow_left.svg";
 $icon-arrow-bottom:                           $icon-folder-path + "icon_arrow_bottom.svg";
+
+// Profile
+$profile-photo-size:                          2rem; // 16px
+$profile-photo-background:                    #F0F0F0;
 
 ///////////////////////////// Dropzone /////////////////////////////
 $dropzone-folder-path:                        "../../../media/icons/dropzone/";

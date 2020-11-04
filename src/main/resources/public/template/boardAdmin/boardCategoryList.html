@@ -14,7 +14,7 @@
         </tr>
         </thead>
         <tbody>
-            <tr class="no-data-found" th:if="${#arrays.isEmpty(boardCategoryList)}">
+            <tr class="no-data-found-list" th:if="${#arrays.isEmpty(boardCategoryList)}">
                 <td colspan="3" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr th:unless="${#arrays.isEmpty(boardCategoryList)}" th:each="boardCategory: ${boardCategoryList}">

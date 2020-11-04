@@ -91,7 +91,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="btn-list btn-bar">
+                <div class="btn-list">
                     <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert"
                             class="point-fill" th:onclick="restSubmit('post',[[@{/rest/notices}]])" th:text="#{common.btn.register}">
                     </button>

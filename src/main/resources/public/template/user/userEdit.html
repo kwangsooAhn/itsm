@@ -146,7 +146,7 @@
                     <span class="label" th:text="#{user.msg.usageStatus}"></span>
                 </label>
             </div>
-            <div class="btn-list btn-bar">
+            <div class="btn-list">
                 <button class="point-fill" type="button" th:if="!${users?.userKey}" th:text="#{auth.user.create}"
                         th:onclick="restSubmit('post', [[@{/rest/users}]], 'true')"></button>
                 <button class="point-fill" type="button" th:if="${users?.userKey}" th:text="#{common.btn.modify}"

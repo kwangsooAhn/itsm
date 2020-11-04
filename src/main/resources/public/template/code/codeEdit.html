@@ -79,7 +79,7 @@
                             <input id="txtUpdateDt" name="txtUpdateDt" class="date-icon" type="text" th:disabled="true" maxlength="100"/>
                         </div>
                     </div>
-                    <div class="btn-list btn-bar">
+                    <div class="btn-list">
                         <button sec:authorize="hasAuthority('code.create')"
                                 class="point-fill" type="button" id="btnRegist" name="btnRegist"
                                 th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>

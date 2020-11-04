@@ -33,7 +33,7 @@
                 <div id="dropZoneFiles"></div>
                 <div id="dropZoneUploadedFiles"></div>
             </div>
-            <div class="btn-list btn-bar">
+            <div class="btn-list">
                 <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
                         class="point-fill" th:text="#{common.btn.modify}"></button>
                 <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"

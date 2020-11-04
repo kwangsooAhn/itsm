@@ -49,7 +49,7 @@
     @include background($path, $size, null, null, null, null)
 }
 
-@mixin background($path, $size, $repeat, $posX, $posY, $color) {
+@mixin backgroundIcon($path, $size, $repeat, $posX, $posY, $color) {
     background-image: url($icon-folder-path + $path);
     background-size: if($size == null, auto, $size);
     background-repeat: if($repeat == null, no-repeat, $repeat);
