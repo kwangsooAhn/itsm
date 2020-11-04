@@ -999,7 +999,7 @@ aliceJs.initDesignedSelectTag = function () {
         let designedSelectBox = document.createElement('div');
         designedSelectBox.classList.add('designed-select');
         selectWrapper.insertBefore(designedSelectBox, originSelectTag.nextSibling);
-        designedSelectBox.innerText = originSelectTag.options[0].text;
+        if (originSelectTag.disabled) designedSelectBox.classList.add('disabled-select');
 
         // option 복사
         let options = document.createDocumentFragment();
@@ -1008,37 +1008,46 @@ aliceJs.initDesignedSelectTag = function () {
             liElement.innerText = originSelectTag.options[i].text;
             liElement.setAttribute('rel', originSelectTag.options[i].value);
             options.appendChild(liElement.cloneNode(true));
+            if (originSelectTag.options[i].selected) {
+                designedSelectBox.innerText = originSelectTag.options[i].text;
+            }
         }
         ulElement.appendChild(options);
 
         // 화면의 select box (실제로는 styledSelect)를 클릭할때 이벤트
-        designedSelectBox.addEventListener('click', (function(e) {
-            e.stopPropagation();
-            let clickedSelect = e.target;
-            document.querySelectorAll('div.designed-select.active').forEach(function(selectTag){
-                if (selectTag !== clickedSelect) {
-                    selectTag.classList.remove('active');
-                    selectTag.parentElement.querySelector('ul.designed-options').style.display = 'none';
+        if (!originSelectTag.disabled) {
+            designedSelectBox.addEventListener('click', (function(e) {
+                e.stopPropagation();
+                let clickedSelect = e.target;
+                document.querySelectorAll('div.designed-select.active').forEach(function(selectTag){
+                    if (selectTag !== clickedSelect) {
+                        selectTag.classList.remove('active');
+                        selectTag.parentElement.querySelector('ul.designed-options').style.display = 'none';
+                    }
+                });
+                // toggle
+                if (clickedSelect.classList.contains('active')) {
+                    this.classList.remove('active');
+                    this.parentElement.querySelector('ul.designed-options').style.display = 'none';
+                } else {
+                    this.classList.add('active');
+                    this.parentElement.querySelector('ul.designed-options').style.display = 'block';
                 }
-            });
-            // toggle
-            if (clickedSelect.classList.contains('active')) {
-                this.classList.remove('active');
-                this.parentElement.querySelector('ul.designed-options').style.display = 'none';
-            } else {
-                this.classList.add('active');
-                this.parentElement.querySelector('ul.designed-options').style.display = 'block';
-            }
-        }));
+            }));
+        }
 
         // option 을 선택하는 경우 이벤트
         ulElement.childNodes.forEach(function(liOption) {
             liOption.addEventListener('click', function (clickedOption) {
                 clickedOption.stopPropagation();
                 designedSelectBox.innerText = liOption.innerText;
-                designedSelectBox.classList.remove('active');
+                // 선택된 값 반영
                 originSelectTag.value = liOption.getAttribute('rel');
+                originSelectTag.querySelector('option[value=\'' + originSelectTag.value + '\']').selected = true;
+                // 숨기기
+                designedSelectBox.classList.remove('active');
                 originSelectTag.parentElement.querySelector('ul.designed-options').style.display = 'none';
+
                 let changeEvent = new Event('change');
                 originSelectTag.dispatchEvent(changeEvent);
             });

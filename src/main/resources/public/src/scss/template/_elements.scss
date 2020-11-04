@@ -292,6 +292,12 @@ select {
       background: url($icon-folder-path + "icon_arrow_up.svg") no-repeat center left;
     }
   }
+  &.disabled-select {
+    color: $element-disabled-font-color;
+    background-color: $element-disabled-bg-color;
+    pointer-events: none;
+    cursor: default;
+  }
 }
 
 .designed-options {

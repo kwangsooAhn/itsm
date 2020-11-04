@@ -1634,7 +1634,7 @@
                     } else {
                         changeElem.addEventListener('change', function (e) {
                             const elem = e.target;
-                            const parentElem = elem.parentNode;
+                            const parentElem = elem.parentElement.classList.contains('select') ? elem.parentNode.parentNode : elem.parentNode;
                             if (elem.classList.contains('session')) {
                                 const changePropertiesArr = parentElem.id.split('-');
                                 changePropertiesValue(elem.id + '|' + elem.value + '|' + elem.options[elem.selectedIndex].text, changePropertiesArr[0], changePropertiesArr[1]);
