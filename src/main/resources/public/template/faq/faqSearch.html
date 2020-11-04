@@ -14,12 +14,12 @@
             <h6 class="title-description" th:text="#{faq.label.description}"></h6>
         </div>
         <div class="search-area">
-            <div class="left">
+            <div class="search-input">
                 <form id="searchFrm">
                     <input class="search col-4" id="search" name="search" type="text" maxlength="100" th:placeholder="#{faq.label.searchPlaceholder}"/>
                 </form>
             </div>
-            <div class="right">
+            <div class="ml-auto">
                 <button class="default-fill" onclick="location.href='/faqs/new'"
                         sec:authorize="hasAuthority('faq.create')" th:text="#{common.btn.add}"/>
             </div>

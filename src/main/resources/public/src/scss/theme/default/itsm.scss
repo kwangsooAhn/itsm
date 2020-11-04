@@ -10,8 +10,17 @@
 @import '../../template/_functions.scss'; // 상속 불가
 @import '../../template/_mixins.scss'; // 상속 불가
 @import '../../template/_alignments.scss'; // 상속 불가
+@import "../../template/_flex.scss";
+@import '../../template/_columns.scss'; // 상속 불가
 @import '../../template/_common.scss'; // 상속 불가
 @import '_variables.scss';
+@import '_fonts.scss';
+@import '_mixin.scss';
+@import '_elements.scss';
+@import '_buttons.scss';
+@import '_flex.scss';
+@import '_gnb.scss';
+@import '_container.scss';
 @import '../../template/_alerts.scss';
 @import '../../template/_scrollbars.scss';
 @import '../../template/_file-uploader.scss';
@@ -19,17 +28,8 @@
 @import "../../template/_date-picker.scss";
 @import "../../template/_text-editor.scss";
 @import '../../template/_tree.scss';
-@import '_fonts.scss';
-@import '_mixin.scss';
-@import '_elements.scss';
-@import '_buttons.scss';
-// TODO 아래 순서 정리
-@import '_column.scss';
-@import '_flex.scss';
-@import '_container.scss';
-@import '_gnb.scss';
-@import '_notification.scss';
 @import '_color-picker.scss';
-@import '_tooltip.scss';
 @import '_thumbnail.scss';
+@import '_tooltip.scss';
+@import '_notification.scss';
 @import '_reply.scss';

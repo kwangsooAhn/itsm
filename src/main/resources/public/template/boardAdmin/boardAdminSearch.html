@@ -14,7 +14,7 @@
             <h6 class="title-description" th:text="#{board.msg.description}"></h6>
         </div>
         <div class="search-area">
-            <div class="left">
+            <div class="search-input">
                 <input type="hidden" sec:authorize="hasAuthority('board.admin.update')" th:name="isRole"
                        th:value="true"/>
                 <input type="hidden" sec:authorize="!hasAuthority('board.admin.update')" th:name="isRole"
@@ -24,7 +24,7 @@
                            th:placeholder="#{board.label.searchPlaceholder}"/>
                 </form>
             </div>
-            <div class="right">
+            <div class="ml-auto">
                 <button class="default-fill" onclick="openBoardAdminAdd()"
                         sec:authorize="hasAuthority('board.admin.create')" th:text="#{common.btn.add}"/>
             </div>

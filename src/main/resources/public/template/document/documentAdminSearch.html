@@ -16,7 +16,7 @@
         <div class="search-area">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''document.admin.update'')')}"/>
             <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''document.admin.delete'')')}"/>
-            <div class="left">
+            <div class="search-input">
                 <form id="searchDocumentsFrm">
                     <select id="searchGroupName" name="searchGroupName">
                         <option value="" th:text="#{document.label.all}" selected/>
@@ -27,7 +27,7 @@
                     <label for="searchFormName"></label><input type="text" maxlength="100" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
                 </form>
             </div>
-            <div class="right">
+            <div class="ml-auto">
                 <button th:class="default-fill" sec:authorize="hasAuthority('document.admin.create')" type="button" onclick="createDocument()" th:text="#{common.btn.add}"></button>
             </div>
         </div>

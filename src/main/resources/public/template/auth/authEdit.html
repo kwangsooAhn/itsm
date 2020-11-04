@@ -15,11 +15,11 @@
                 <h6 class="title-description" th:text="#{auth.msg.description}"></h6>
             </div>
             <div class="search-area">
-                <div class="left">
+                <div class="search-input">
                     <input id="search" class="search col-5" th:placeholder="#{auth.msg.searchPlaceholder}">
                     <span id="totalCount" class="txt-num"></span>
                 </div>
-                <div class="right">
+                <div class="ml-auto">
                     <button class="default-fill" id="btnCreate" name="btnCreate" type="button"
                             sec:authorize="hasAuthority('auth.create')" th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
                 </div>

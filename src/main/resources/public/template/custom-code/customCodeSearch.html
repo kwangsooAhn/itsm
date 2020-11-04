@@ -17,7 +17,7 @@
         <div class="search-area">
             <input type="hidden" sec:authorize="hasAuthority('custom.code.update')" th:name="isRole" th:value="true"/>
             <input type="hidden" sec:authorize="!hasAuthority('custom.code.update')" th:name="isRole" th:value="false"/>
-            <div class="left">
+            <div class="search-input">
                 <form id="searchFrm">
                     <select id="searchType" name="searchType">
                         <option value="" th:text="#{customCode.label.all}" selected/>
@@ -26,7 +26,7 @@
                     <input class="search col-4" id="search" name="search" type="text" maxlength="100" th:placeholder="#{customCode.label.searchPlaceholder}"/>
                 </form>
             </div>
-            <div class="right">
+            <div class="ml-auto">
                 <button class="default-fill" onclick="location.href='/custom-codes/new'"
                         sec:authorize="hasAuthority('custom.code.create')" th:text="#{common.btn.add}"></button>
             </div>

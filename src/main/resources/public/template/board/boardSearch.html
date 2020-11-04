@@ -14,7 +14,7 @@
             <h6 class="title-description" th:text="#{board.msg.description}"></h6>
         </div>
         <div class="search-area">
-            <div class="left">
+            <div class="search-input">
                 <form id="searchFrm">
                     <select class="search-selectBox col-3" id="boardAdminId" name="boardAdminId">
                         <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
@@ -28,7 +28,7 @@
                     <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
                 </form>
             </div>
-            <div class="right">
+            <div class="ml-auto">
                 <button class="default-fill" onclick="openBoardAdd()" sec:authorize="hasAuthority('board.create')"
                         th:text="#{common.btn.add}"/>
             </div>
