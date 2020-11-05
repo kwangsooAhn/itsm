@@ -24,7 +24,7 @@
             <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
             <h3 class="under-bar" th:text="#{user.label.profile}"></h3>
-            <div class="row align-items-start">
+            <div class="flex-row align-items-start user-align-item">
                 <div class="col-6">
                     <div th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
                         <div class="form-set">
@@ -53,7 +53,7 @@
                     </div>
                     <div class="form-set">
                         <label th:text="#{user.label.department}" for="department"></label>
-                        <div class="row">
+                        <div class="flex-row">
                             <input class="col-5" id="department" name="department" th:value="${deptCodeDetail?.codeValue}" disabled>
                             <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
                             <button type="button" class="default-line col-1" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
@@ -82,7 +82,7 @@
                 </div>
             </div>
             <h3 class="under-bar" th:text="#{user.label.customSetting}"></h3>
-            <div class="row">
+            <div class="flex-row">
                 <div class="form-set col-6">
                     <label class="required" th:text="#{user.label.timezone}" for="timezone"></label>
                     <select class="custom-setting-top-select" name="timezone" id="timezone">
@@ -92,7 +92,7 @@
                 </div>
                 <div class="form-set col-6">
                     <label th:text="#{user.label.timeFormat}" for="date"></label>
-                    <div class="row">
+                    <div class="flex-row">
                         <select class="select-date-time col-4" name="date" id="date">
                             <option th:each="date: ${dateList}" th:value="${date.codeValue}"
                                     th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
@@ -104,7 +104,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="flex-row">
                 <div class="form-set col-6">
                     <label class="required" th:text="#{user.label.lang}" for="lang"></label>
                     <select class="language-select" name="lang" id="lang">

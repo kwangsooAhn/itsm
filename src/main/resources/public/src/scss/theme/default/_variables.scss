@@ -51,6 +51,12 @@ $icon-arrow-bottom:                           $icon-folder-path + "icon_arrow_bo
 $profile-photo-size:                          2rem; // 16px
 $profile-photo-background:                    #F0F0F0;
 
+// Document color icon
+$document-color-size:                         1rem; // 16px
+
+// Notice pinned color
+$notice-pinned-color:                         $light-blue;
+
 ///////////////////////////// Dropzone /////////////////////////////
 $dropzone-folder-path:                        "../../../media/icons/dropzone/";
 

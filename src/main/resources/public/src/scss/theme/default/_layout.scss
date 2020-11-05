@@ -1,0 +1,202 @@
+@import "../../template/_layout.scss";
+
+.itsm {
+  // 기본 ITSM 구성
+  &-container {
+    height: 100%;
+    min-height: 100vh;
+    width: 100%;
+    max-width: calc(100% - 13.75rem);
+
+    .page-title {
+      display: flex;
+      align-items: baseline;
+      .title-description {
+        @include h6();
+        padding-left: 0.625rem;
+      }
+    }
+
+    @import "contents/_contents-token.scss";
+    @import "contents/_contents-list.scss";
+    @import "contents/_contents-edit.scss";
+    @import "contents/_contents-flex.scss";
+    @import "contents/_contents-list-edit.scss";
+    @import "contents/_contents-document.scss";
+    @import "contents/_contents-tree-edit.scss";
+
+    &-close {
+      height: 100%;
+      padding: 5.625rem 0 0 5rem; // 90px 0 0 80px
+      background: rgba(234, 241, 247, 1);
+    }
+  }
+  
+  
+  &-popup {
+    padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
+    width: 100%;
+    // 문서함 > 관련 문서
+    .related-instance-header {
+      h3.under-bar {
+      border-width: 0.0625rem; // 1px
+      }
+    }
+    .related-instance-main {
+      margin-top: 0.9375rem; // 15px
+      .table-set {
+      margin-top: 2.188rem; // 35px
+      table {
+        width: 100%;
+        thead {
+        tr {
+          color: $light-black;
+          border-bottom: 0.125rem solid $default-gray;
+        }
+        }
+        tbody {
+        display: table;
+        width: 100%;
+        height: 32.5rem; // 520px
+        color: $dark-gray;
+        overflow-y: auto;
+        tr {
+          display: table;
+          width: 100%;
+          height: 3.125rem; // 50px
+          line-height: 3.125rem; // 50px
+          td {
+          display: inline-block; // 말줄임 적용을 위해 추가
+          vertical-align: middle;
+          }
+        }
+        }
+      }
+      }
+    }
+    .view {
+      padding: 0;
+      &-content {
+        height: 44.625rem; // 714px
+        div.form-set {
+          margin: 0 0.6875rem 0 0.6875rem; // 11px
+        }
+      }
+    }
+  }
+}
+
+
+.search-area {
+  height: 6.875rem; // 110px
+  padding: 3.125rem 0 1.25rem 0; // 50px 0 20px 0
+  display: flex;
+  flex-direction: row;
+  .search-input { flex : none; }
+  .txt-num {
+    color: $warm-gray;
+    margin-left: 0.623rem; // 10px
+  }
+}
+
+.horizontal-bar {
+  height: 0.0625rem; // 1px
+  margin: 0.625rem 0; // 10px
+  background-color: $line-gray;
+}
+
+.vertical-bar {
+  width: 1.875rem; // 30px
+  border-right: 0.0625rem solid $line-gray; // 1px
+  margin-right: 1.875rem; // 30px
+  min-height: 1.875rem; // 30px
+}
+
+.flex-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-list {
+  padding: 0.625rem 0 0 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.profile-photo {
+  height: $profile-photo-size;
+  width: $profile-photo-size;
+  border-radius: 50%;
+  background: $profile-photo-background;
+  margin-right: 0.625rem; // 10px
+}
+
+.user-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 8.75rem; // 140px
+}
+
+.user-align-item {
+    align-items: start;
+}
+
+// 리스트 출력용 컬러 아이콘
+.document-color-circle {
+  height:$document-color-size;
+  width: $document-color-size;
+  border-radius: 50%;
+  margin-right: 0.625rem; // 10px
+  display: inline-block;
+}
+
+// 조회 데이터 없을 때
+.no-data-found {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 13.75rem; // 220px
+  margin: 3.125rem 3.75rem; // 50px 60px
+  background-color: rgba(247, 248, 249, 0.45); // $light-gray
+  border: 0.0625rem solid $line-gray; // 1px
+  border-radius: 0.0625rem; // 1px
+  pointer-events: none;
+  .no-data-icon {
+    content: url("../media/icons/icon_no_data.svg")
+  }
+  .no-data-text {
+    font-size: 1.125rem;; // 18px
+    font-weight: 500;
+    color: $pressed-gray;
+    margin-left: 1.875rem; // 30px
+  }
+  
+  &-list {
+    pointer-events: none;
+    background: $line-gray;
+    td { text-align: center; }
+  }
+}
+
+// 공지사항 상단 공지 (배경색 별도 처리)
+.notice-pinned {
+  background-color: $notice-pinned-color;
+}
+
+.avatar {
+  @include h5();
+  color: $gray;
+  &-text {
+    text-align: center;
+  }
+  &-bottom-text-wrap {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+  }
+  &-bottom-text {
+    margin-bottom: 0.3125rem; // 5px
+  }
+}
