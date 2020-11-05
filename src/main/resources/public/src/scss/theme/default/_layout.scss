@@ -3,10 +3,10 @@
 .itsm {
   // 기본 ITSM 구성
   &-container {
-    height: 100%;
-    min-height: 100vh;
     width: 100%;
     max-width: calc(100% - 13.75rem);
+    height: 100%;
+    min-height: 100vh;
 
     .page-title {
       display: flex;
@@ -32,46 +32,45 @@
     }
   }
   
-  
   &-popup {
     padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
     width: 100%;
     // 문서함 > 관련 문서
     .related-instance-header {
       h3.under-bar {
-      border-width: 0.0625rem; // 1px
+        border-width: 0.0625rem; // 1px
       }
     }
     .related-instance-main {
       margin-top: 0.9375rem; // 15px
       .table-set {
-      margin-top: 2.188rem; // 35px
-      table {
-        width: 100%;
-        thead {
-        tr {
-          color: $light-black;
-          border-bottom: 0.125rem solid $default-gray;
-        }
-        }
-        tbody {
-        display: table;
-        width: 100%;
-        height: 32.5rem; // 520px
-        color: $dark-gray;
-        overflow-y: auto;
-        tr {
-          display: table;
+        margin-top: 2.188rem; // 35px
+        table {
           width: 100%;
-          height: 3.125rem; // 50px
-          line-height: 3.125rem; // 50px
-          td {
-          display: inline-block; // 말줄임 적용을 위해 추가
-          vertical-align: middle;
+          thead {
+            tr {
+              color: $light-black;
+              border-bottom: 0.125rem solid $default-gray;
+            }
+          }
+          tbody {
+            display: table;
+            width: 100%;
+            height: 32.5rem; // 520px
+            color: $dark-gray;
+            overflow-y: auto;
+            tr {
+              display: table;
+              width: 100%;
+              height: 3.125rem; // 50px
+              line-height: 3.125rem; // 50px
+              td {
+                display: inline-block; // 말줄임 적용을 위해 추가
+                vertical-align: middle;
+              }
+            }
           }
         }
-        }
-      }
       }
     }
     .view {
@@ -85,7 +84,6 @@
     }
   }
 }
-
 
 .search-area {
   height: 6.875rem; // 110px
@@ -118,6 +116,18 @@
   align-items: center;
 }
 
+// div 내부에 여러개의 span을 우측으로 붙이는 클래스
+// ex) 공지사항, 게시판 상세조회에서 작성자와 작성일은 오른쪽에 정렬되어 출력
+.row-right {
+  display: inherit;
+  justify-content: flex-end;
+  span {
+    &:last-child {
+      margin: auto 1.25rem auto 0; // 20px
+      }
+    }
+}
+
 .btn-list {
   padding: 0.625rem 0 0 0;
   display: flex;
@@ -125,8 +135,8 @@
 }
 
 .profile-photo {
-  height: $profile-photo-size;
   width: $profile-photo-size;
+  height: $profile-photo-size;
   border-radius: 50%;
   background: $profile-photo-background;
   margin-right: 0.625rem; // 10px
@@ -145,8 +155,8 @@
 
 // 리스트 출력용 컬러 아이콘
 .document-color-circle {
-  height:$document-color-size;
   width: $document-color-size;
+  height:$document-color-size;
   border-radius: 50%;
   margin-right: 0.625rem; // 10px
   display: inline-block;
@@ -183,20 +193,4 @@
 // 공지사항 상단 공지 (배경색 별도 처리)
 .notice-pinned {
   background-color: $notice-pinned-color;
-}
-
-.avatar {
-  @include h5();
-  color: $gray;
-  &-text {
-    text-align: center;
-  }
-  &-bottom-text-wrap {
-    margin-top: 1rem;
-    display: flex;
-    flex-direction: column;
-  }
-  &-bottom-text {
-    margin-bottom: 0.3125rem; // 5px
-  }
 }
