@@ -12,8 +12,8 @@ import co.brainz.workflow.element.entity.QWfElementDataEntity
 import co.brainz.workflow.folder.entity.QWfFolderEntity
 import co.brainz.workflow.instance.dto.WfInstanceListDocumentDto
 import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
-import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.dto.WfInstanceListTokenDto
+import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
