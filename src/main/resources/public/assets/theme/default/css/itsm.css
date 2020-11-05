@@ -78,7 +78,6 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
-/* 5px */
 /* _alignments.scss 
  *
  * 파일 경로 : template/_alignments.scss
@@ -5429,6 +5428,26 @@ span.vertical-bar {
   overflow: auto;
 }
 
+.menu .right {
+  right: 0.375rem;
+}
+
+.menu .os-menu-scrollbar-track {
+  background: rgba(40, 50, 56, 0.6);
+  border-radius: 0.5rem;
+  pointer-events: auto;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  padding: 0 !important;
+  border: none !important;
+}
+
+.menu .os-menu-scrollbar-handle {
+  background: #3F4B56;
+  border-radius: 0.5rem;
+}
+
 .gnb-area .gnb {
   padding: 15px 20px 15px 20px;
   vertical-align: middle;
@@ -5524,10 +5543,6 @@ span.vertical-bar {
   font-weight: 400;
 }
 
-.gnb-area > ul > li > ul > li:hover {
-  background: #333D47;
-}
-
 .gnb-area > ul > li > ul > li > a {
   display: block;
   cursor: pointer;
@@ -5541,6 +5556,10 @@ span.vertical-bar {
 .gnb-area > ul > li > ul > li > a.snb {
   padding: 8px 20px 8px 20px;
   color: #929AA6;
+}
+
+.gnb-area > ul > li > ul > li > a.active {
+  background-color: #283238;
 }
 
 .gnb-area > ul > li > ul > li > a.active span {

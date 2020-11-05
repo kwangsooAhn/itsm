@@ -410,6 +410,8 @@ form:
     saveExit: "저장하고 나가기"
     searchPlaceholder: "양식이름 / 문서양식 설명"
     state: "상태"
+    templatesList: "템플릿 목록"
+    title: "Form Designer"
     undo: "작업 취소"
   msg:
     description: "문서양식을 조회 하거나 추가, 변경 할 수 있습니다."
@@ -654,6 +656,8 @@ process:
     searchPlaceholder: "프로세스 이름 / 프로세스 설명"
     simulation: "미리보기"
     state: "상태"
+    templatesList: "템플릿 목록"
+    title: "Process Designer"
     undo: "작업취소"
   msg:
     description: "프로세스를 조회 하거나 추가, 변경 할 수 있습니다."
@@ -692,6 +696,7 @@ process:
       condition-item: "조건항목"
       condition-value: "조건 값"
       condition: "조건"
+      connection-information: "연결선 정보"
       data: "세부 속성"
       description: "설명"
       end-id: "연결 엘리먼트 아이디"

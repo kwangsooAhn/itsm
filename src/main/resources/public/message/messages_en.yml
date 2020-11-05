@@ -410,6 +410,8 @@ form:
     saveExit: "Save and Exit"
     searchPlaceholder: "Form Name / Form Description"
     state: "State"
+    templatesList: "Templates List"
+    title: "Form Designer"
     undo: "Undo"
   msg:
     description: "View, add, or edit Form's information."
@@ -654,6 +656,8 @@ process:
     searchPlaceholder: "Process Name / Process Description"
     simulation: "Simulation"
     state: "State"
+    templatesList: "Templates List"
+    title: "Process Designer"
     undo: "Undo"
   msg:
     description: "View, add, or edit process's information."
@@ -692,6 +696,7 @@ process:
       condition-item: "Condition Item"
       condition-value: "Condition Value"
       condition: "Condition"
+      connection-information: "Connection Information"
       data: "Data"
       description: "Description"
       end-id: "End ID"
