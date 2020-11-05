@@ -78,7 +78,6 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
-/* 5px */
 /* _alignments.scss 
  *
  * 파일 경로 : template/_alignments.scss
@@ -211,7 +210,7 @@ input, button, select, optgroup, textarea {
   margin-left: auto;
 }
 
-/* _columns.scss 
+/* _columns.scss
  *
  * 파일 경로 : template/_columns.scss
  * @description HTML element 너비 관련 디자인
@@ -314,7 +313,7 @@ input, button, select, optgroup, textarea {
   width: 100%;
 }
 
-/* _common.scss 
+/* _common.scss
  *
  * 파일 경로 : template/_common.scss
  * @description 공통으로 사용되는 디자인
@@ -1886,10 +1885,6 @@ button .icon-plus {
   font-weight: 400;
 }
 
-.gnb-area > ul > li > ul > li:hover {
-  background: #333D47;
-}
-
 .gnb-area > ul > li > ul > li > a {
   display: block;
   cursor: pointer;
@@ -1903,6 +1898,10 @@ button .icon-plus {
 .gnb-area > ul > li > ul > li > a.snb {
   padding: 8px 20px 8px 20px;
   color: #929AA6;
+}
+
+.gnb-area > ul > li > ul > li > a.active {
+  background-color: #283238;
 }
 
 .gnb-area > ul > li > ul > li > a.active span {
@@ -3114,7 +3113,7 @@ button .icon-plus {
   margin-bottom: 0.3125rem;
 }
 
-/* _alerts.scss 
+/* _alerts.scss
  *
  * 파일 경로 : template/_alerts.scss
  * @description 알림 모달
@@ -3302,7 +3301,7 @@ button .icon-plus {
   }
 }
 
-/* _scrollbars.scss 
+/* _scrollbars.scss
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
@@ -3544,7 +3543,7 @@ button .icon-plus {
   background-color: #CCCED1;
 }
 
-/* _file-uploader.scss 
+/* _file-uploader.scss
  *
  * 파일 경로 : template/_file-uploader.scss
  * @description 파일 업로드 관련 디자인
@@ -3996,7 +3995,6 @@ button .icon-plus {
   font-weight: 400;
   color: #586872;
   margin: auto 0;
-}
 
 .file-uploader-view .file-uploader-list {
   display: flex;
@@ -4057,7 +4055,7 @@ button .icon-plus {
   display: none;
 }
 
-/* _avatar.scss 
+/* _avatar.scss
  *
  * 파일 경로 : template/_avatar.scss
  * @description 아바타 관련 디자인
@@ -4274,7 +4272,7 @@ button .icon-plus {
   font-size: 0.8125rem;
 }
 
-/* _date-picker.scss 
+/* _date-picker.scss
  *
  * 파일 경로 : template/_date-picker.scss
  * @description Date/Time picker 관련 디자인
@@ -4539,7 +4537,7 @@ button .icon-plus {
   margin: 1.25rem 1.25rem 1.25rem 0;
 }
 
-/* _text-editor.scss 
+/* _text-editor.scss
  *
  * 파일 경로 : template/_text-editor.scss
  * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
@@ -4776,7 +4774,7 @@ button .icon-plus {
   border-color: transparent;
 }
 
-/* _tree.scss 
+/* _tree.scss
  *
  * 파일 경로 : template/_tree.scss
  * @description 트리 구조 디자인
@@ -5323,7 +5321,7 @@ body.thumbnail-modal-active {
   background-size: 100% !important;
 }
 
-/* _tooltip.scss 
+/* _tooltip.scss
  *
  * 파일 경로 : template/_tooltip.scss
  * @description 툴팁 디자인

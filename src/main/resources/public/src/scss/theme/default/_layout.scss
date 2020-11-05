@@ -168,7 +168,7 @@
   }
   .no-data-text {
     font-size: 1.125rem;; // 18px
-    font-weight: 500;
+    font-weight: $font-weight-medium;
     color: $pressed-gray;
     margin-left: 1.875rem; // 30px
   }

@@ -9,6 +9,7 @@ import co.brainz.framework.auth.dto.AliceUserAuthDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceAuthRepository
 import co.brainz.framework.auth.repository.AliceMenuRepository
+import co.brainz.framework.auth.repository.AliceRoleAuthMapRepository
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.repository.AliceUserRoleMapRepository
 import co.brainz.framework.constants.AliceUserConstants
@@ -25,7 +26,8 @@ class AliceUserDetailsService(
     private var aliceUserRepository: AliceUserRepository,
     private var aliceAuthRepository: AliceAuthRepository,
     private var aliceMenuRepository: AliceMenuRepository,
-    private var aliceUserRoleMapRepository: AliceUserRoleMapRepository
+    private var aliceUserRoleMapRepository: AliceUserRoleMapRepository,
+    private var aliceRoleAuthMapRepository: AliceRoleAuthMapRepository
 ) {
     private val logger = LoggerFactory.getLogger(this::class.java)
 
@@ -43,10 +45,16 @@ class AliceUserDetailsService(
         val rolePrefix = "ROLE_"
 
         aliceUserAuthDto.userKey.let { userKey ->
-            aliceUserRoleMapRepository.findUserRoleByUserKey(userKey).forEach { aliceRoleEntity ->
-                authorities.add(SimpleGrantedAuthority(rolePrefix + aliceRoleEntity.roleId))
-                aliceRoleEntity.roleAuthMapEntities.forEach { roleAuthMap ->
-                    authorities.add(SimpleGrantedAuthority(roleAuthMap.auth.authId))
+            val roleList = aliceUserRoleMapRepository.findUserRoleByUserKey(userKey)
+            if (roleList.isNotEmpty()) {
+                val roleIds = mutableSetOf<String>()
+                for (role in roleList) {
+                    roleIds.add(role.roleId)
+                    authorities.add(SimpleGrantedAuthority(rolePrefix + role.roleId))
+                }
+                val authList = aliceRoleAuthMapRepository.findAuthByRoles(roleIds)
+                for (auth in authList) {
+                    authorities.add(SimpleGrantedAuthority(auth.authId))
                 }
             }
         }
