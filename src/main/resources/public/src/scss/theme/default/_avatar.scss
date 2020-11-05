@@ -1,0 +1,18 @@
+@import '../../template/_avatar.scss';
+
+.avatar {
+    @include h5();
+    color: $gray;
+    &-text {
+      text-align: center;
+    }
+    &-bottom-text-wrap {
+      margin-top: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+    &-bottom-text {
+      margin-bottom: 0.3125rem; // 5px
+    }
+  }
+  
