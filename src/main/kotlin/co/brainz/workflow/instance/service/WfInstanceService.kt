@@ -52,6 +52,7 @@ class WfInstanceService(
     private val aliceUserRepository: AliceUserRepository,
     private val wfFolderService: WfFolderService,
     private val wfTagRepository: WfTagRepository,
+    private val wfTagService: WfTagService,
     private val userDetailsService: AliceUserDetailsService
 ) {
 
@@ -332,6 +333,13 @@ class WfInstanceService(
      */
     fun getInstanceComments(instanceId: String): MutableList<RestTemplateCommentDto> {
         return wfCommentService.getInstanceComments(instanceId)
+    }
+
+    /**
+     * Get Instance Tags.
+     */
+    fun getInstanceTags(instanceId: String): List<RestTemplateTagViewDto> {
+        return wfTagService.getInstanceTags(instanceId)
     }
 
     /**
