@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface WfTokenDataRepository : JpaRepository<WfTokenDataEntity, String> {
+interface WfTokenDataRepository : JpaRepository<WfTokenDataEntity, String>, WfTokenDataRepositoryCustom {
 
     fun findWfTokenDataEntitiesByTokenTokenId(tokenId: String): List<WfTokenDataEntity>
 

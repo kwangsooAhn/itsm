@@ -1,5 +1,6 @@
 package co.brainz.workflow.tag.repository
 
+import co.brainz.workflow.instance.dto.WfInstanceListTagDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
 import co.brainz.workflow.tag.entity.QWfTagEntity
@@ -30,6 +31,23 @@ class WfTagRepositoryImpl : QuerydslRepositorySupport(WfTagMapEntity::class.java
             .fetchJoin()
             .leftJoin(instance).on(tagMap.instance.eq(instance))
             .where(tagMap.instance.instanceId.eq(instanceId))
+            .fetch()
+    }
+
+    override fun findByInstanceIds(instanceIds: Set<String>): List<WfInstanceListTagDto> {
+        return from(tagMap)
+            .select(
+                Projections.constructor(
+                    WfInstanceListTagDto::class.java,
+                    tag.tagId,
+                    tag.tagContent,
+                    tagMap.instance.instanceId
+                )
+            )
+            .innerJoin(tag).on(tagMap.tagId.eq(tag.tagId))
+            .fetchJoin()
+            .leftJoin(instance).on(tagMap.instance.eq(instance))
+            .where(tagMap.instance.instanceId.`in`(instanceIds))
             .fetch()
     }
 }
