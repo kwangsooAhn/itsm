@@ -10,6 +10,9 @@ import co.brainz.workflow.document.entity.QWfDocumentEntity
 import co.brainz.workflow.element.constants.WfElementConstants
 import co.brainz.workflow.element.entity.QWfElementDataEntity
 import co.brainz.workflow.folder.entity.QWfFolderEntity
+import co.brainz.workflow.instance.dto.WfInstanceListDocumentDto
+import co.brainz.workflow.instance.dto.WfInstanceListInstanceDto
+import co.brainz.workflow.instance.dto.WfInstanceListTokenDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
@@ -199,9 +202,38 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
             .select(
                 Projections.constructor(
                     WfInstanceListViewDto::class.java,
-                    token,
-                    document,
-                    instance
+                    Projections.constructor(
+                        WfInstanceListTokenDto::class.java,
+                        token.tokenId,
+                        token.element,
+                        token.assigneeId,
+                        token.tokenStartDt,
+                        token.tokenEndDt
+                    ),
+                    Projections.constructor(
+                        WfInstanceListDocumentDto::class.java,
+                        document.documentId,
+                        document.documentType,
+                        document.documentName,
+                        document.documentStatus,
+                        document.documentDesc,
+                        document.documentColor,
+                        document.process,
+                        document.form,
+                        document.numberingRule,
+                        document.documentIcon
+                    ),
+                    Projections.constructor(
+                        WfInstanceListInstanceDto::class.java,
+                        instance.instanceId,
+                        instance.instanceStatus,
+                        instance.instanceStartDt,
+                        instance.instanceEndDt,
+                        instance.instanceCreateUser,
+                        instance.pTokenId,
+                        instance.document,
+                        instance.documentNo
+                    )
                 )
             )
             .innerJoin(instance).on(token.instance.eq(instance))

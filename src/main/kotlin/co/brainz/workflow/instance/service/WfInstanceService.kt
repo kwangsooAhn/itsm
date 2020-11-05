@@ -9,6 +9,8 @@ import co.brainz.workflow.document.repository.WfDocumentRepository
 import co.brainz.workflow.engine.manager.dto.WfTokenDto
 import co.brainz.workflow.folder.service.WfFolderService
 import co.brainz.workflow.instance.constants.WfInstanceConstants
+import co.brainz.workflow.instance.dto.WfInstanceListTagDto
+import co.brainz.workflow.instance.dto.WfInstanceListTokenDataDto
 import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.instance.repository.WfInstanceRepository
@@ -21,9 +23,11 @@ import co.brainz.workflow.provider.dto.RestTemplateInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTagViewDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDataDto
 import co.brainz.workflow.provider.dto.RestTemplateTokenDto
+import co.brainz.workflow.tag.repository.WfTagRepository
 import co.brainz.workflow.tag.service.WfTagService
 import co.brainz.workflow.token.constants.WfTokenConstants
 import co.brainz.workflow.token.mapper.WfTokenMapper
+import co.brainz.workflow.token.repository.WfTokenDataRepository
 import co.brainz.workflow.token.repository.WfTokenRepository
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -41,11 +45,13 @@ import org.springframework.util.StringUtils
 class WfInstanceService(
     private val wfInstanceRepository: WfInstanceRepository,
     private val wfTokenRepository: WfTokenRepository,
+    private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfCommentService: WfCommentService,
     private val wfDocumentRepository: WfDocumentRepository,
     private val aliceNumberingService: AliceNumberingService,
     private val aliceUserRepository: AliceUserRepository,
     private val wfFolderService: WfFolderService,
+    private val wfTagRepository: WfTagRepository,
     private val wfTagService: WfTagService,
     private val userDetailsService: AliceUserDetailsService
 ) {
@@ -90,32 +96,48 @@ class WfInstanceService(
 
         val componentTypeForTopicDisplay = WfComponentConstants.ComponentType.getComponentTypeForTopicDisplay()
         val tokens = mutableListOf<RestTemplateInstanceViewDto>()
-        for (instance in queryResults.results) {
 
+        // Topic
+        val tokenIds = mutableSetOf<String>()
+        val tokenDataList = mutableListOf<WfInstanceListTokenDataDto>()
+        for (instance in queryResults.results) {
+            tokenIds.add(instance.tokenEntity.tokenId)
+        }
+        if (tokenIds.isNotEmpty()) {
+            tokenDataList.addAll(wfTokenDataRepository.findTokenDataByTokenIds(tokenIds))
+        }
+
+        // Tag
+        val instanceIds = mutableSetOf<String>()
+        val tagDataList = mutableListOf<WfInstanceListTagDto>()
+        queryResults.results.forEach { result -> instanceIds.add(result.instanceEntity.instanceId) }
+        if (instanceIds.isNotEmpty()) {
+            tagDataList.addAll(wfTagRepository.findByInstanceIds(instanceIds))
+        }
+
+        for (instance in queryResults.results) {
+            val topics = mutableListOf<String>()
             val topicComponentIds = mutableListOf<String>()
-            instance.documentEntity.form.components?.forEach {
-                if (it.isTopic && componentTypeForTopicDisplay.indexOf(it.componentType) > -1) {
-                    topicComponentIds.add(it.componentId)
+            tokenDataList.forEach { tokenData ->
+                if (tokenData.component.isTopic &&
+                    componentTypeForTopicDisplay.indexOf(tokenData.component.componentType) > -1
+                ) {
+                    if (instance.tokenEntity.tokenId == tokenData.component.tokenId) {
+                        topicComponentIds.add(tokenData.component.componentId)
+                        topics.add(tokenData.value)
+                    }
                 }
             }
 
-            val topics = mutableListOf<String>()
-
-            if (topicComponentIds.size > 0) {
-                instance.tokenEntity.tokenDataEntities.forEach {
-                    if (topicComponentIds.indexOf(it.component.componentId) > -1) {
-                        topics.add(it.value)
-                    }
+            val tags = mutableListOf<String>()
+            tagDataList.forEach { tagData ->
+                if (tagData.instanceId == instance.instanceEntity.instanceId) {
+                    tags.add(tagData.tagContent)
                 }
             }
 
             val avatarPath = instance.instanceEntity.instanceCreateUser?.let {
                 userDetailsService.makeAvatarPath(it)
-            }
-
-            val tags = mutableListOf<String>()
-            getInstanceTags(instance.instanceEntity.instanceId).forEach {
-                tags.add(it.value)
             }
 
             tokens.add(
