@@ -53,7 +53,7 @@ class RestTemplateProvider(private val restTemplate: RestTemplate) {
         if (restTemplateUrlDto.parameters.isNotEmpty()) {
             uriComponentsBuilder.queryParams(restTemplateUrlDto.parameters)
         }
-        return uriComponentsBuilder.build().toUri()
+        return uriComponentsBuilder.build().encode().toUri()
     }
 
     /**
