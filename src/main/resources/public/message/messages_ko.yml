@@ -411,7 +411,7 @@ form:
     searchPlaceholder: "양식이름 / 문서양식 설명"
     state: "상태"
     templatesList: "템플릿 목록"
-    title: "Form Designer"
+    title: "폼 디자이너"
     undo: "작업 취소"
   msg:
     description: "문서양식을 조회 하거나 추가, 변경 할 수 있습니다."
@@ -657,7 +657,7 @@ process:
     simulation: "미리보기"
     state: "상태"
     templatesList: "템플릿 목록"
-    title: "Process Designer"
+    title: "프로세스 디자이너"
     undo: "작업취소"
   msg:
     description: "프로세스를 조회 하거나 추가, 변경 할 수 있습니다."
