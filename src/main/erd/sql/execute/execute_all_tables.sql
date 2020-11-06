@@ -1754,7 +1754,7 @@ COMMENT ON TABLE awf_user IS '사용자정보';
 COMMENT ON COLUMN awf_user.user_key IS '사용자키';
 COMMENT ON COLUMN awf_user.user_id  IS '사용자아이디';
 COMMENT ON COLUMN awf_user.user_name  IS '사용자명';
-COMMENT ON COLUMN awf_user.password IS '패스워드';
+COMMENT ON COLUMN awf_user.password IS '비밀번호';
 COMMENT ON COLUMN awf_user.email  IS '이메일';
 COMMENT ON COLUMN awf_user.use_yn IS '사용여부';
 COMMENT ON COLUMN awf_user.try_login_count IS '로그인시도회수';
