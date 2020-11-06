@@ -6,31 +6,33 @@
  */
 @charset 'utf-8';
 
-@import '../template/_reset.scss'; // 상속 불가
-@import '../template/_variables.scss';
-@import '../template/_functions.scss'; // 상속 불가
-@import '../template/_mixins.scss'; // 상속 불가
-@import '../template/_alignments.scss'; // 상속 불가
-@import '../template/_common.scss'; // 상속 불가
+
+@import '../template/_reset.scss';          // 상속 불가
+@import '../template/_variables.scss';      // 상속 불가
+@import '../template/_functions.scss';      // 상속 불가
+@import '../template/_mixins.scss';         // 상속 불가
+@import '../template/_alignments.scss';     // 상속 불가
+@import '../template/_flex.scss';           // 상속 불가
+@import '../template/_common.scss';         // 상속 불가
+
 @import '_variables.scss';
-@import '../template/_alerts.scss';
-@import '../template/_scrollbars.scss';
-@import '../template/_file-uploader.scss';
-@import '../template/_avatar.scss';
-@import "../template/_date-picker.scss";
 @import '_fonts.scss';
-@import '_mixin.scss';
+@import '_layout.scss';
 @import '_elements.scss';
 @import '_buttons.scss';
-// TODO 아래 순서 정리
+@import '_alerts.scss';
+@import '_scrollbars.scss';
+@import '_file-uploader.scss';
+@import '_avatar.scss';
+@import '_date-picker.scss';
+@import '_tooltip.scss';
+
+// 아래 정리
 @import '_column.scss';
 @import '_flex.scss';
-@import '_layout.scss';
 @import '_browserGuide.scss';
 @import '_signup.scss';
 @import '_error.scss';
 @import '_sessionInvalid.scss';
 @import '_search.scss';
-@import '_tooltip.scss';
 @import '_login.scss';
-@import '_faq.scss';

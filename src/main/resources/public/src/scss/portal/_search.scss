@@ -23,7 +23,7 @@
 .portal {
     &-search {
         &-main {
-            height: $portal-search-main-height;
+            height: $main-header-height;
             background-color: $light-gray;
             .title {
                 text-align: center;
@@ -43,7 +43,7 @@
             // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨
             &.slide-up {
                 + .portal-search-result .list {
-                    height: calc(#{$portal-search-main-height} + #{$portal-search-result-list-height});
+                    height: calc(#{$main-header-height} + #{$portal-search-result-list-height});
                 }
             }
             &.slide-down {
@@ -296,11 +296,3 @@
     }
 }
 
-.slide-down {
-    display: block;
-    @include animation (0s, 0.3s, slideDown, ease-out);
-}
-
-.slide-up {
-    @include animation (0s, 0.3s, slideUp, ease-out);
-}

@@ -32,7 +32,7 @@ label {
 }
 
 input {
-    &.search {
+    &.icon-search {
         background: url($icon-folder-path + "icon_search.svg") no-repeat 100%-3 50%;
         background-color: $element-bg-color;
     }
@@ -40,4 +40,10 @@ input {
         background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
         background-color: $element-bg-color;
     }
+}
+
+summary {
+  cursor: pointer;
+
+  &:focus { outline: none; }
 }

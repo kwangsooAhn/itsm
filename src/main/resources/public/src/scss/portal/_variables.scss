@@ -1,2 +1,58 @@
-$portal-search-main-height: 6.5rem; // 104px
+//////////////////////////// layout ////////////////////////////
+// header
+$layout-header-height:                       3.125rem; // 50px
+$layout-header-font-size:                    $font-size-base;
+$layout-header-font-color:                   $white;
+$layout-header-font-weight:                  $font-weight-medium;
+$layout-header-bg-color:                     $point-blue;
+
+// properties
+$layout-properties-width:                    0;
+
+// main > main-header
+$main-header-height:                         6.5rem; // 104px
+$main-header-border:                         0.0625rem solid $line-gray; // 1px
+
+// main > main-search
+$main-search-height:                         8.5rem; // 136px
+$main-search-bg-color:                       $light-gray;
+
+// content
+$content-list-height:                        647px; // 647px
+
+// card
+$card-border:                                0.0625rem solid $line-gray; // 1px
+// 검색 결과 목록 
+$list-bottom-border:                         0.0625rem solid $line-gray; // 1px
+// 검색 키워드 색상
+$keyword-font-color:                         $point-blue;
+
+// faq
+$faq-layout-header-height:                   15rem; // 240px
+$faq-layout-header-bg-color:                 $light-gray;
+$faq-layout-header-border:                   $main-header-border;
+// faq > faq group
+$faq-group-font-size:                        1.125rem; // 18px
+$faq-group-font-weight:                      $font-weight-medium;
+$faq-group-font-color:                       $light-black;
+$faq-group-border-width:                     0.0625rem; // 1px
+$faq-group-border-color:                     $line-gray;
+$faq-group-border:                           $faq-group-border-width solid $faq-group-border-color;
+$faq-group-opened-border-width:              0.0625rem; // 1px
+$faq-group-opened-border-color:              $point-blue;
+$faq-group-opened-font-color:                $point-blue;
+$faq-group-opened-border:                    $faq-group-opened-border-width solid $faq-group-opened-border-color; // 1px
+// faq > faq group > faq row
+$faq-row-font-size:                          1rem; // 16px
+$faq-row-font-weight:                        $font-weight-medium;
+$faq-row-font-color:                         $light-black;
+$faq-row-opened-bg-color:                    rgba(0, 152, 255, 0.05);
+$faq-row-border-color:                       $line-gray;
+$faq-row-opened-border-color:                $point-blue;
+// faq > faq group > faq row content
+$faq-row-content-font-size:                  1rem; // 16px
+$faq-row-content-font-weight:                $font-weight-regular;
+$faq-row-content-font-color:                 $dark-gray;
+
+
 $portal-search-result-list-height: 647px; // 647px
