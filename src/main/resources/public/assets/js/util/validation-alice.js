@@ -155,7 +155,7 @@ function isOrOperator(condition1, condition2, messageId) {
     return false;
 }
 
-/** @brief 패스워드 관련 유효성 검사(공백, 문자 구성, 개인정보 포함 여부)
+/** @brief 비밀번호 관련 유효성 검사(공백, 문자 구성, 개인정보 포함 여부)
  *  @date 2020-03-03
  */
 function isValidPassword(elementId) {

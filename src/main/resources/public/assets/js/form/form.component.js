@@ -71,7 +71,7 @@
 
         // 기본값 설정
         const defaultValueArr = property.display['default'].split('|'); // select|userId|아이디
-        let defaultValue = (defaultValueArr[0] === 'none') ? defaultValueArr[1] : aliceForm.session[defaultValueArr[1]];
+        let defaultValue = (defaultValueArr[0] === 'none') ? defaultValueArr[1] : (defaultValueArr[1] === 'department' ? aliceForm.session['departmentName'] : aliceForm.session[defaultValueArr[1]]);
         if (isForm && defaultValueArr[0] !== 'none') { // 폼 양식 화면 세션 값 미출력
             defaultValue = defaultValueArr[2];
         } else {
