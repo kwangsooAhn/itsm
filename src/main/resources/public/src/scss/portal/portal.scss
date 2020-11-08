@@ -14,9 +14,10 @@
 @import '../template/_alignments.scss';     // 상속 불가
 @import '../template/_flex.scss';           // 상속 불가
 @import '../template/_common.scss';         // 상속 불가
-
 @import '_variables.scss';
+@import '_mixins.scss';
 @import '_fonts.scss';
+@import '_column.scss';
 @import '_layout.scss';
 @import '_elements.scss';
 @import '_buttons.scss';
@@ -26,13 +27,8 @@
 @import '_avatar.scss';
 @import '_date-picker.scss';
 @import '_tooltip.scss';
-
-// 아래 정리
-@import '_column.scss';
-@import '_flex.scss';
-@import '_browserGuide.scss';
+@import '_login.scss';
 @import '_signup.scss';
 @import '_error.scss';
-@import '_sessionInvalid.scss';
-@import '_search.scss';
-@import '_login.scss';
+@import '_session-invalid.scss';
+@import '_browser-guide.scss';

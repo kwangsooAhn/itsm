@@ -1,0 +1,12 @@
+// 포탈에서 사용하는 header 디자인
+@mixin mainHeader() {
+  padding: 0 0 0 13.75rem; // 220px
+  background-color: $main-header-bg-color;
+  border-bottom: $main-header-border;
+
+  .header-title { 
+    padding: 3.75rem 0; // 60px 0
+
+    .description { margin-left: 0.625rem; } // 10px
+  }
+}

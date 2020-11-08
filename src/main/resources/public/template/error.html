@@ -6,25 +6,27 @@
     <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
     <title th:text="#{error.label.error}"></title>
 </head>
-<body class="error-body">
-<div class="error-div flex-row">
-    <div class="error-div-left">
-        <img th:src="@{/assets/media/images/error/img_error_caution.png}"/>
-        <img th:src="@{/assets/media/images/error/img_error_logo_alice.png}" class="error-img">
-    </div>
-    <div class="error-div-right">
-        <h1 th:text="#{error.label.topPhrase}"></h1>
-        <h1 th:text="#{error.label.middlePhrase}"></h1>
-        <p th:text="${message}" class="error-code-txt"/>
-        <p th:text="|#{error.label.errorCode} : ${error} (${status})|" class="error-code-txt"/>
-        <p th:text="#{error.label.bottomPhrase}" class="error-bottom-txt"/>
-        <button th:text="#{error.btn.return}" class="error-btn"></button>
+<body>
+<div class="alice-wrapper">
+    <div class="portal-container flex-row">
+        <div class="error-background float-left">
+            <img th:src="@{/assets/media/images/error/img_error_caution.png}"/>
+            <img th:src="@{/assets/media/images/error/img_error_logo_alice.png}" class="error-img">
+        </div>
+        <div class="error-form float-right">
+            <h1 th:text="#{error.label.topPhrase}"></h1>
+            <h1 th:text="#{error.label.middlePhrase}"></h1>
+            <h3 th:text="${message}" class="error-code-txt"></h3>
+            <h3 th:text="|#{error.label.errorCode} : ${error} (${status})|" class="error-code-txt"></h3>
+            <h3 th:text="#{error.label.bottomPhrase}" class="error-bottom-txt"></h3>
+            <button th:text="#{error.btn.return}" class="btn-error"></button>
+        </div>
     </div>
 </div>
 </body>
 <script type="text/javascript">
     window.addEventListener('load', function () {
-        document.querySelector('.error-btn').addEventListener('click', function () {
+        document.querySelector('.btn-error').addEventListener('click', function () {
             if (window.opener) {
                 self.close();
             } else {

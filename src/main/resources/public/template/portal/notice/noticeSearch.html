@@ -8,23 +8,23 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="portal-search-header">
-        <div class="page-title">
+    <div class="notice-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{notice.label.list}"></h1>
             <h6 class="description" th:text="#{notice.msg.portalDescription}"></h6>
         </div>
-        <div>
+        <div class="notice-search">
             <form id="searchFrm">
                 <input type="text" class="search col-5" id="searchValue" name="searchValue" maxlength="100"
                        th:placeholder="#{notice.label.searchPlaceholder}"/>
-                <input type="text" class="search-date col-3" id="fromDt" name="fromDt" readonly="readonly"/>
+                <input type="text" class="search-date icon-date col-3" id="fromDt" name="fromDt" readonly="readonly"/>
                 <span>~</span>
-                <input type="text" class="search-date col-3" id="searchToDt" name="searchToDt" readonly="readonly"/>
-                <input type="hidden" class="search-date" id="toDt" name="toDt" readonly="readonly"/>
+                <input type="text" class="search-date icon-date col-3" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                <input type="hidden" class="search-date icon-date" id="toDt" name="toDt" readonly="readonly"/>
             </form>
         </div>
     </div>
-    <div class="main">
+    <div class="notice-content">
         <div class="list" id="noticeList"></div>
     </div>
 </th:block>

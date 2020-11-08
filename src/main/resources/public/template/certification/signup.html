@@ -19,10 +19,10 @@
             <img class="signup-main-image" th:src="@{/assets/media/images/signup/img_signup_main.png}" width="1310" height="800" alt="Signup Main">
         </div>
         <div class="signup-form">
-            <h1 th:text="#{login.label.userSignUp}"></h1>
+            <h1 class="align-center" th:text="#{login.label.userSignUp}"></h1>
             <div class="signup-base">
                 <form id="signUpForm" method="post" onsubmit="return false">
-                    <div class="signup-base-form">
+                    <div class="signup-base-form flex-column">
                         <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
                         <div>
                             <label class="required" th:text="#{user.label.id}"></label>

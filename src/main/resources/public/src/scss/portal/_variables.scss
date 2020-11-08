@@ -9,9 +9,12 @@ $layout-header-bg-color:                     $point-blue;
 // properties
 $layout-properties-width:                    0;
 
+// main > main-banner
+$main-banner-height:                         6.5rem; // 104px
+
 // main > main-header
-$main-header-height:                         6.5rem; // 104px
 $main-header-border:                         0.0625rem solid $line-gray; // 1px
+$main-header-bg-color:                       $light-gray;
 
 // main > main-search
 $main-search-height:                         8.5rem; // 136px
@@ -27,10 +30,10 @@ $list-bottom-border:                         0.0625rem solid $line-gray; // 1px
 // 검색 키워드 색상
 $keyword-font-color:                         $point-blue;
 
-// faq
-$faq-layout-header-height:                   15rem; // 240px
-$faq-layout-header-bg-color:                 $light-gray;
-$faq-layout-header-border:                   $main-header-border;
+// list
+$layout-list-height:                         35.44rem; // 567px
+
+//////////////////////////// faq ////////////////////////////
 // faq > faq group
 $faq-group-font-size:                        1.125rem; // 18px
 $faq-group-font-weight:                      $font-weight-medium;
@@ -54,5 +57,48 @@ $faq-row-content-font-size:                  1rem; // 16px
 $faq-row-content-font-weight:                $font-weight-regular;
 $faq-row-content-font-color:                 $dark-gray;
 
+//////////////////////////// element /////////////////////////////////
+$table-body-height:                          32.81rem; // 525px
+$table-th-font-color:                        $light-black;
+$table-td-font-size:                         1rem; // 16px
+$table-td-font-weight:                       $font-weight-regular;
+$table-td-font-color:                        $dark-gray;
+$table-row-hover-bg-color:                   rgba(230, 232, 235, 0.6);
 
-$portal-search-result-list-height: 647px; // 647px
+// 데이터 없을때
+$no-data-found-bg-color:                     rgba(230, 232, 235, 0.6);
+
+////////////////////////// 브라우저 가이드 //////////////////////////
+$browser-guide-bg-color:                     $light-gray;
+$browser-box-bg-color:                       $white;
+$browser-box-border:                         0.0625rem solid $line-gray;
+$browser-hover-box-shadow:                   0 0 0.9375rem rgba(204, 206, 209, 0.3); // 15px;
+
+
+////////////////////////// 로그인  //////////////////////////
+$login-bg-color:                             $point-blue;
+$login-logo-position-top:                    5rem; // 80px
+$login-logo-position-left:                   5rem; // 80px
+
+$login-form-width:                           38.13rem; // 610px
+$login-form-font-size:                       1rem; // 16px
+$login-form-font-weight:                     $font-weight-regular;
+$login-form-font-color:                      $dark-gray;
+
+////////////////////////// 회원 가입  //////////////////////////
+$signup-bg-color:                            $point-blue;
+$signup-logo-position-top:                   5rem; // 80px
+$signup-logo-position-left:                  5rem; // 80px
+
+$signup-form-width:                          38.13rem; // 610px
+$signup-form-font-size:                      1rem; // 16px
+$signup-form-font-weight:                    $font-weight-regular;
+$signup-form-font-color:                     $dark-gray;
+
+////////////////////////// 세션 만료  //////////////////////////
+$session-invalid-bg-color:                   #F2F5F9;
+$session-invalid-border:                     0.0625rem solid $line-gray;
+
+////////////////////////// 에러  //////////////////////////
+$error-bg-color:                   #F2F5F9;
+$error-border:                     0.0625rem solid $line-gray;

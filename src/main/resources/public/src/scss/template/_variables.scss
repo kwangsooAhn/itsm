@@ -162,6 +162,19 @@ $btn-group-toggle-bg-color:                  $light-gray;
 $layout-header-height:                       3.125rem; // 50px
 $layout-properties-width:                    18.75rem; // 300px
 
+// view
+$layout-view-title-font-size:                1.125rem; // 18px
+$layout-view-title-font-weight:              $font-weight-medium;
+$layout-view-title-font-color:               $light-black;
+
+$layout-view-sub-title-font-size:            $font-size-base; // 16px
+$layout-view-sub-title-font-weight:          $font-weight-regular;
+$layout-view-sub-title-font-color:           $dark-gray;
+
+$layout-view-content-font-size:              $font-size-base; // 16px
+$layout-view-content-font-weight:            $font-weight-regular;
+$layout-view-content-font-color:             $dark-gray;
+
 //////////////////////////////// scrollbar ////////////////////////////////
 // scrollbar 두께
 $scrollbar-thick:                            0.5rem; // 8px

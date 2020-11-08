@@ -1,0 +1,27 @@
+/*
+ * 세션 만료
+ * 파일 경로 : _session-invalid.scss
+ * URL : /sessionInValid
+ */
+.session-background {
+  width: 50vw;
+  height: 100vh;
+  background-color: $session-invalid-bg-color;
+  overflow: hidden;
+
+  .session-img {
+    position: relative;
+    top: -59.1875rem; // -947px
+    margin: 5rem 0 0 5rem; // 80px 80x
+  }
+}
+
+.session-form {
+  width: 50vw;
+  padding: 21.5625rem 6.25rem; // 345px 100px
+  border-left: $session-invalid-border;
+
+  h1 { line-height: 1.7; }
+
+  .session-count-txt { color: $point-blue; }
+}

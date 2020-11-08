@@ -8,26 +8,26 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="portal-search-header">
-        <div class="page-title">
+    <div class="download-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{download.label.list}"></h1>
             <h6 class="description" th:text="#{download.msg.portalDescription}"></h6>
         </div>
-        <div>
+        <div class="download-search">
             <form id="searchFrm">
-                <select id="category" name="category" class="col-2">
+                <select id="category" name="category" class="col-3">
                     <option value="" th:text="#{download.category.all}"></option>
                     <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
                 </select>
-                <input type="text" id="search" name="search" class="search col-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
-                <input type="text" id="fromDt" name="fromDt" class="search-date col-3" readonly="readonly"/>
+                <input type="text" id="search" name="search" class="search col-5" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
+                <input type="text" id="fromDt" name="fromDt" class="search-date icon-date col-3" readonly="readonly"/>
                 <span>~</span>
-                <input class="search-date col-3" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
-                <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
+                <input class="search-date icon-date col-3" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                <input class="search-date icon-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
             </form>
         </div>
     </div>
-    <div class="main">
+    <div class="download-content">
         <div class="list" id="downloadList"></div>
     </div>
 </th:block>

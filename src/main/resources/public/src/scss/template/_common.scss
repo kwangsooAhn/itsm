@@ -29,3 +29,20 @@
   white-space: nowrap;
   overflow: hidden;
 }
+// 자동 줄바꿈
+.auto-break {
+  word-break: break-all;
+}
+// 가로 선
+.horizontal-bar {
+  height: 0.0625rem; // 1px
+  margin: 0.9375rem 0; // 15px
+  background-color: $element-border-color;
+}
+// 세로 선
+.vertical-bar {
+  width: 1.875rem; // 30px
+  min-height: 1.875rem; // 30px
+  border-right: $element-border;
+  margin-right: 1.875rem; // 30px
+}

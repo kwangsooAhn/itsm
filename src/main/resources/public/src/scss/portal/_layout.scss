@@ -6,7 +6,8 @@
  *
  * portal-container - header : 상단
  *                  - main : 메인 (스크롤바)
- *                         - main-header : 메인 상단 (메뉴 타이틀, 설명 등)
+ *                         - main-banner : 배너, 인사말
+ *                         - main-header : 메인 상단 (FAQ, 자료실, 공지사항 메인 상단)
  *                         - main-search : 검색 영역
  *                         - main-content : 내용, 검색 결과 영역
  */
@@ -59,8 +60,8 @@
   .main {
     @include main;
 
-    &-header {
-      height: $main-header-height;
+    &-banner {
+      height: $main-banner-height;
       background-color: $main-search-bg-color;
       
       .title { padding: 3.625rem 0 0.625rem 0; } // 58px 0px 10px 0px 
@@ -75,7 +76,7 @@
       // 포탈 메인 화면이 슬라이딩 되면, 리스트 영역의 너비가 변경됨
       &.slide-up {
         + .portal-search-result .list {
-          height: calc(#{$main-header-height} + #{$content-list-height});
+          height: calc(#{$main-banner-height} + #{$content-list-height});
         }
       }
       &.slide-down {
@@ -119,7 +120,7 @@
       }
       // 포탈 메인 검색 결과
       .list {
-        height: $portal-search-result-list-height;
+        height: $content-list-height;
         padding: 2.625rem 22.5rem 0 22.5rem; // 42px 360px 0 360px
   
         .row {
@@ -167,23 +168,11 @@
     }
   }
   // FAQ
-  // .main > .faq
   .faq {
     &-header {
-      height: $faq-layout-header-height;
-      padding: 0 0 0 13.75rem; // 220px
-      background-color: $faq-layout-header-bg-color;
-      border-bottom: $faq-layout-header-border;
-
-      &-title {
-        padding: 3.75rem 0; // 60px 0
-        // 설명
-        .description { margin-left: 0.625rem; } // 10px
-      }
+      @include mainHeader;
+      .faq-search { padding-bottom: 2.313rem; } // 37px
     }
-    // 검색 조건
-    //&-search {}
-    // 검색 결과
     &-content {
       margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
       
@@ -269,14 +258,39 @@
       }
     }
   }
-}
+  // 자료실
+  .download {
+    &-header {
+      @include mainHeader;
+      .download-search { padding-bottom: 2.313rem; } // 37px
+    }
+    &-content {
+      margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
+      @include viewTemplate();
 
+      .list { height: $layout-list-height; }
+    }
+  }
+  // 공지사항
+  .notice {
+    &-header {
+      @include mainHeader;
+      .notice-search { padding-bottom: 2.313rem; } // 37px
+    }
+    &-content {
+      margin: 3.375rem 13.75rem 0 13.75rem; // 54px 220px 0 220px
+      @include viewTemplate();
+
+      .list { height: $layout-list-height }
+    }
+  }
+}
 // 슬라이드 효과
 .slide-down {
   display: block;
-  @include animation (0s, 0.3s, slideDown, ease-out);
+  @include animation(0s, 0.3s, slideDown, ease-out);
 }
 
 .slide-up {
-  @include animation (0s, 0.3s, slideUp, ease-out);
+  @include animation(0s, 0.3s, slideUp, ease-out);
 }

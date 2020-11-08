@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div id="main-header" class="main-header">
+    <div id="main-banner" class="main-banner">
         <h1 class="title align-center" th:text="#{portal.label.topPhrase}"></h1>
     </div>
     <div id="main-search" class="main-search align-center">
@@ -183,11 +183,11 @@
                                 if (scrollTop > 20) {
                                     document.getElementById('main-search').classList.remove('slide-down');
                                     document.getElementById('main-search').classList.add('slide-up');
-                                    document.getElementById('main-header').style.display='none';
+                                    document.getElementById('main-banner').style.display='none';
                                 } else {
                                     document.getElementById('main-search').classList.remove('slide-up');
                                     document.getElementById('main-search').classList.add('slide-down');
-                                    document.getElementById('main-header').style.display='block';
+                                    document.getElementById('main-banner').style.display='block';
                                 }
                                 if (scrollHeight - scrollTop === clientHeight) {
                                     if (scrollerEventCheck()) {
