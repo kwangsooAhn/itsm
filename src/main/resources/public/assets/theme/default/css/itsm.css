@@ -1651,14 +1651,7 @@ button .icon-plus {
   display: none;
 }
 
-.navigation-config .notification-menu {
-  height: 3.125rem;
-  width: 100%;
-  cursor: pointer;
-  padding: 0.5rem 0 0.5rem 1.25rem;
-}
-
-.navigation-config .notification-menu .notification-num {
+.navigation-config .notification-count {
   margin: 0.3125rem 1rem;
   padding: 0.125rem 0.625rem;
   border-radius: 1.25rem;
@@ -1670,21 +1663,17 @@ button .icon-plus {
   line-height: inherit;
 }
 
-.navigation-config .notification-menu.active .notification-round {
+.navigation-config .notification.active .notification-round {
   fill: #0098FF;
 }
 
-.navigation-config .notification-menu.active .notification-bell {
+.navigation-config .notification.active .notification-bell {
   fill: #ffffff;
 }
 
-.navigation-config .notification-menu.active .notification-num {
+.navigation-config .notification.active .notification-count {
   color: #ffffff;
   background-color: #0098FF;
-}
-
-.navigation-config .notification-menu:hover {
-  background: #283238;
 }
 
 .navigation-config .user-info-menu {
@@ -1726,10 +1715,6 @@ button .icon-plus {
   margin-right: 1.25rem;
 }
 
-.navigation-config .user-info-menu:hover {
-  background: #283238;
-}
-
 .navigation-config .logout-menu {
   height: 3.125rem;
 }
@@ -1758,7 +1743,7 @@ button .icon-plus {
   margin-right: 1rem;
 }
 
-.navigation-config .logout-menu:hover {
+.navigation-config > div:hover {
   background: #283238;
 }
 
@@ -1767,6 +1752,7 @@ button .icon-plus {
   height: 3.8125rem;
   background-color: #333D47;
   position: fixed;
+  z-index: 1000;
   padding: 15px 20px 15px 20px;
 }
 
@@ -1777,7 +1763,7 @@ button .icon-plus {
   position: relative;
   left: 0;
   top: 3.8125rem;
-  z-index: 999;
+  z-index: 1000;
   overflow: auto;
 }
 
@@ -5440,33 +5426,39 @@ body.thumbnail-modal-active {
   background: #0098FF;
 }
 
-/* 알림 임시 css */
-.notification-menu {
-  height: 4.25rem;
+.notification {
+  width: 100%;
+  height: 3.125rem;
+  padding: 0.6875rem 0 0.6875rem 1.3125rem;
   position: relative;
   display: inline-block;
+  cursor: pointer;
 }
 
-.notification-menu img, .notification-menu button {
+.notification img, .notification button {
   margin: 0;
   border: none;
   background-color: transparent;
   cursor: pointer;
 }
 
-.notification-menu .notification-container {
+.notification-container {
   position: absolute;
-  background-color: #ffffff;
   width: 26.25rem;
   bottom: 0;
   left: calc(13.75rem + 0.3125rem);
   color: #3F4B56;
+  background-color: #ffffff;
   display: none;
   border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
 }
 
-.notification-menu .notification-container .notification-header {
+.notification-container.on {
+  display: block;
+}
+
+.notification-header {
   height: 2.5rem;
   display: flex;
   align-items: baseline;
@@ -5474,155 +5466,91 @@ body.thumbnail-modal-active {
   padding: 0 0.938rem;
 }
 
-.notification-menu .notification-container .notification-header span {
+.notification-header span {
   display: inline-block;
   font-size: 0.875rem;
   font-weight: 400;
   color: #ffffff;
 }
 
-.notification-menu .notification-container .notification-header span.title {
+.notification-header span.title {
   font-size: 1rem;
   font-weight: 500;
 }
 
-.notification-menu .notification-container .notification-header span.total {
+.notification-header span.total {
   margin: auto 0.3125rem;
 }
 
-.notification-menu .notification-container .notification-header span.message {
+.notification-header span.message {
   margin-left: 0.625rem;
 }
 
-.notification-menu .notification-container .notification-header span.close {
+.notification-header span.close {
   width: 0.875rem;
   height: 0.875rem;
-  background: #ffffff;
-  -webkit-mask: url("../media/icons/icon_close.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_close.svg");
-  mask-repeat: no-repeat;
-  mask-position: center;
   float: right;
   margin-left: auto;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_close.svg");
+  mask-image: url("../media/icons/icon_close.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #ffffff;
 }
 
-.notification-menu .notification-container .notification-body {
+.notification-body {
   overflow: auto;
   max-height: 20.63rem;
 }
 
-.notification-menu .notification-container .notification-body button {
+.notification-body button {
   float: right;
 }
 
-.notification-menu .notification-container .notification-body button.remove {
+.notification-body button.remove {
+  padding: 0;
   width: 1.125rem;
   height: 1.25rem;
-  padding: 0;
-  background: url("../media/icons/icon_delete.svg") no-repeat center center;
+  -webkit-mask-image: url("../media/icons/icon_delete.svg");
+  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
 }
 
-.notification-menu .notification-container .notification-body span.title:hover {
+.notification-body span.title:hover {
   text-decoration: underline;
   cursor: pointer;
 }
 
-.notification-menu .notification-container .notification-body .notification {
+.notification-body .notification {
   height: 6.875rem;
   border-bottom: 0.063rem solid #EBEBEB;
   padding: 0.938rem;
 }
 
-.notification-menu .notification-container .notification-body .notification.nodata {
+.notification-body .notification.nodata {
   border: none;
 }
 
-.notification-menu .notification-container.on {
-  display: block;
+.notification-content:hover {
+  background-color: rgba(135, 206, 255, 0.1);
 }
 
-.alice-toastify {
-  height: 6.25rem;
-  padding: 0 !important;
-  background: #ffffff !important;
-  border: 0.0625rem solid #EBEBEB !important;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
-  border-radius: 0.063rem !important;
-}
-
-.alice-toastify.toastify-right {
-  right: 0.625rem;
-}
-
-.alice-toastify .toast-close {
-  position: absolute;
-  width: 0.875rem;
-  height: 0.875rem;
-  padding: 0;
-  opacity: 1;
-  top: 0.688rem;
-  right: 0.688rem;
-  background: #CCCED1;
-  -webkit-mask: url("../media/icons/icon_close.svg") no-repeat center center;
-  mask-image: url("../media/icons/icon_close.svg");
-  mask-repeat: no-repeat;
-  mask-position: center;
-}
-
-.alice-toastify.alice-toastify-content div.icon {
-  float: left;
-  width: 6.25rem;
-  height: 6.25rem;
-  background: url("../images/notification/img_notification_logo.png") no-repeat center center;
-}
-
-.alice-toastify.alice-toastify-content div.content {
-  float: left;
-  width: 23.13rem;
-  height: 100%;
-  padding: 0.938rem;
-}
-
-.alice-toastify.alice-toastify-content div.content div.title {
-  padding-bottom: 0.625rem;
-}
-
-.alice-toastify.alice-toastify-content div.content div.title label, .alice-toastify.alice-toastify-content div.content div.title button {
-  display: none;
-}
-
-.alice-toastify.alice-toastify-content div.content div.message {
-  padding-bottom: 0.625rem;
-}
-
-.alice-toastify.alice-toastify-content div.content div span.title {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #3F4B56;
-  max-width: 18.13rem;
-}
-
-.alice-toastify.alice-toastify-content div.content div span.message {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #586872;
-  max-width: 22.5rem;
-}
-
-.alice-toastify.alice-toastify-content div.content div span.date {
-  font-size: 0.875rem;
-  font-weight: 400;
-  color: #ACB4BF;
-}
-
-.notification-content div label {
+.notification-content div .notification-label {
   display: flex;
   float: left;
   background-color: #ffffff;
   margin: 0;
 }
 
-.notification-content div label input[type="checkbox"] {
+.notification-content div .notification-label input[type="checkbox"] {
   width: 1.125rem;
   height: 1.125rem;
   -webkit-appearance: none;
@@ -5635,13 +5563,13 @@ body.thumbnail-modal-active {
   cursor: pointer;
 }
 
-.notification-content div label input[type="checkbox"]:checked {
+.notification-content div .notification-label input[type="checkbox"]:checked {
   border: 0.063rem solid #EBEBEB;
   color: #CCCED1;
   cursor: unset;
 }
 
-.notification-content div label input[type="checkbox"]:checked::after {
+.notification-content div .notification-label input[type="checkbox"]:checked::after {
   content: '\2714';
   font-size: 1rem;
   position: absolute;
@@ -5650,33 +5578,26 @@ body.thumbnail-modal-active {
   color: #CCCED1;
 }
 
-.notification-content div span {
-  vertical-align: top;
-}
-
 .notification-content div span.title {
-  font-size: 1rem;
   font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.2;
   color: #3F4B56;
   max-width: 18.13rem;
-  padding-left: 0.625rem;
-  height: 1.625rem;
 }
 
 .notification-content div span.message {
-  font-size: 1rem;
   font-weight: 400;
+  font-size: 1rem;
   color: #586872;
   max-width: 22.5rem;
-  padding-left: 1.75rem;
-  height: 2.563rem;
+  min-height: 2.5rem;
 }
 
 .notification-content div span.date {
-  font-size: 0.875rem;
   font-weight: 400;
+  font-size: 0.875rem;
   color: #ACB4BF;
-  padding-left: 1.75rem;
 }
 
 .notification-content.confirm div span.title {
@@ -5687,8 +5608,83 @@ body.thumbnail-modal-active {
   color: #ACB4BF;
 }
 
-.notification-content:hover {
-  background-color: rgba(135, 206, 255, 0.1);
+.alice-toastify {
+  height: 6.25rem;
+  padding: 0 !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB !important;
+  border-radius: 0.063rem !important;
+}
+
+.alice-toastify.toastify-right {
+  right: 0.625rem;
+}
+
+.alice-toastify.toast-content div.icon {
+  float: left;
+  width: 6.25rem;
+  height: 6.25rem;
+  background-image: url("../media/images/notification/img_notification_logo.png");
+  background-size: 6.25rem;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.alice-toastify.toast-content div.content {
+  float: left;
+  width: 23.13rem;
+  height: 100%;
+  padding: 0.938rem;
+  border: 0.0625rem solid #EBEBEB !important;
+}
+
+.alice-toastify.toast-content div.content div.title {
+  padding-bottom: 0.625rem;
+}
+
+.alice-toastify.toast-content div.content div.title label, .alice-toastify.toast-content div.content div.title button {
+  display: none;
+}
+
+.alice-toastify.toast-content div.content div.message {
+  padding-bottom: 0.625rem;
+}
+
+.alice-toastify.toast-content div.content div span.title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3F4B56;
+  max-width: 18.13rem;
+}
+
+.alice-toastify.toast-content div.content div span.message {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+  max-width: 22.5rem;
+}
+
+.alice-toastify.toast-content div.content div span.date {
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: #ACB4BF;
+}
+
+.alice-toastify .toast-close {
+  position: absolute;
+  padding: 0;
+  top: 0.688rem;
+  right: 0.688rem;
+  width: 0.875rem;
+  height: 0.875rem;
+  -webkit-mask-image: url("../media/icons/icon_close.svg");
+  mask-image: url("../media/icons/icon_close.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
 }
 
 .reply-body {

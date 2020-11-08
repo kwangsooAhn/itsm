@@ -9,10 +9,10 @@
     <div class="breadcrumb">
     </div>
     <div class="navigation-config">
-        <div class="notification-menu">
+        <div class="notification">
             <div class="notification-icon" onclick="toggleNotificationContainer();">
                 <img class="load-svg" th:src="@{/assets/theme/{theme}/media/icons/gnb/icon_gnb_notification.svg(theme=${#authentication.details.theme})}" width="25" height="27">
-                <span class="notification-num" id="count"></span>
+                <span class="notification-count" id="count"></span>
             </div>
             <div id="notification-container" class="notification-container"></div>
         </div>
@@ -65,7 +65,7 @@
 
     function notificationContainerOff(e) {
         //알림창 내부를 클릭한 경우 동작하지 않는다.
-        if (aliceJs.clickInsideElement(e, 'notification-container') || aliceJs.clickInsideElement(e, 'notification-menu')) { return false; }
+        if (aliceJs.clickInsideElement(e, 'notification-container') || aliceJs.clickInsideElement(e, 'notification')) { return false; }
 
         if (notificationDiv && notificationDiv.classList.contains('on')) {
             notificationDiv.classList.remove('on');
@@ -113,7 +113,7 @@
             gravity: 'bottom',
             position: 'right',
             stopOnFocus: true,
-            className: 'alice-toastify alice-toastify-content',
+            className: 'alice-toastify toast-content',
             onShow: function() {
                 updateNotification(param.notificationId, 'display');
             },

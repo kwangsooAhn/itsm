@@ -18,7 +18,7 @@
                  th:attrappend="is-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
                  th:classappend="${notification.confirmYn} ? confirm">
                 <div class="title">
-                    <label><input type="checkbox" th:checked="${notification.confirmYn}"
+                    <label class="notification-label"><input type="checkbox" th:checked="${notification.confirmYn}"
                                   th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"
                                   th:disabled="${notification.confirmYn}"/></label>
                     <span class="title text-ellipsis" th:text="${notification.title}" th:classappend="${notification.confirmYn} ? confirm"
