@@ -72,5 +72,12 @@
     margin-top: 6.188rem; // 99px
 
     a { color: $login-form-font-color; }
+
+    &-signUp, 
+    &-findPwd,
+    &-findId {
+      flex: 1 0 auto;
+      text-align: center;
+    }
   }
 }
