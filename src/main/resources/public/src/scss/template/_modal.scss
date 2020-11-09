@@ -1,0 +1,66 @@
+/* _modal.scss 
+ *
+ * 파일 경로 : template/_modal.scss
+ * @description 모달 디자인
+ * @author wdj
+ * @version 1.0
+ */
+
+// 모달 default position 정의
+@mixin setPosition() {
+  position:fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+body.modal-active {
+  overflow: hidden !important;
+}
+
+.modal-wrapper {
+  @include setPosition();
+  display:none;
+  overflow:auto;
+  z-index: 1;
+
+  &.modal-active { display:block; }
+
+  .modal-backdrop {
+    @include setPosition();
+    z-index: 2001;
+    background-color: $modal-backdrop-bg-color;
+  }
+
+  .modal-dialog {
+    position: absolute;
+    top: 4em;
+    left: 0;
+    right: 0;
+    margin: 0 auto 2em auto;
+    background-color: $modal-bg-color;
+    box-shadow: $modal-box-shadow;
+    z-index: 2001;
+
+    .modal-title {
+      height: 3.375rem; // 54px
+      font-size: $modal-title-font-size;
+      font-weight: $modal-title-font-weight;
+      color: $modal-title-font-color;
+      border-bottom: $modal-border;
+      padding: 1.125rem 0 0 1.25rem; // 18px 0 0 20px
+    }
+    
+    .modal-body {
+      height: 40rem; // 640px
+      border-bottom: $modal-border;
+      overflow: auto;
+    }
+
+    .modal-buttons {
+      height: 5rem; // 80px
+      padding: 1.25rem 1.25rem 1.25rem 0; // 20px
+    }
+  }
+}
