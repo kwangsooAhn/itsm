@@ -8,17 +8,17 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div id="portal-search-main" class="portal-search-main">
-            <h1 class="title" th:text="#{portal.label.topPhrase}"></h1>
+    <div id="main-banner" class="main-banner">
+        <h1 class="title align-center" th:text="#{portal.label.topPhrase}"></h1>
     </div>
-    <div id="portal-search-area" class="portal-search-area">
-            <input type="text" class="icon search" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
-                   th:placeholder="#{common.label.searchWord}"/>
+    <div id="main-search" class="main-search align-center">
+        <input type="text" class="col-8 icon-search" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
+               th:placeholder="#{common.label.searchWord}"/>
     </div>
-    <div class="portal-search-content">
-        <ul>
-            <li class="part-box">
-                <div class="part-box-header">
+    <div class="main-content">
+        <ul class="card-group flex-row justify-content-between">
+            <li class="card flex-column">
+                <div class="card-header align-center">
                     <div class="icon">
                         <a href="/portal/notices/search">
                             <img th:src="@{/assets/media/images/portal/img_portal_notice.png}" width="120" height="120" alt="Notice">
@@ -26,12 +26,12 @@
                     </div>
                     <h3 th:text="#{menu.notice.parent}"></h3>
                 </div>
-                <div class="list">
+                <div class="card-list">
                     <table id="notice"></table>
                 </div>
             </li>
-            <li class="part-box">
-                <div class="part-box-header">
+            <li class="card flex-column">
+                <div class="card-header align-center">
                     <div class="icon">
 	                    <a href="/portal/faqs">
                             <img th:src="@{/assets/media/images/portal/img_portal_faq.png}" width="120" height="120" alt="Faq">
@@ -39,12 +39,12 @@
                     </div>
                     <h3 th:text="#{menu.faq.parent}"></h3>
                 </div>
-                <div class="list">
+                <div class="card-list">
                     <table id="faq"></table>
                 </div>
             </li>
-            <li class="part-box">
-                <div class="part-box-header">
+            <li class="card flex-column">
+                <div class="card-header align-center">
                     <div class="icon">
                         <a href="/portal/downloads/search">
                             <img th:src="@{/assets/media/images/portal/img_portal_download.png}" width="120" height="120" alt="Download">
@@ -52,7 +52,7 @@
                     </div>
                     <h3 th:text="#{menu.download.parent}"></h3>
                 </div>
-                <div class="list">
+                <div class="card-list">
                     <table id="download"></table>
                 </div>
             </li>
@@ -158,9 +158,6 @@
                 showProgressbar: false,
                 async: false,
                 callbackFunc: function (response) {
-                    if (document.querySelector('.portal-search-content')) {
-                        document.querySelector('.portal-search-content').className = 'portal-search-result'
-                    }
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
@@ -173,8 +170,9 @@
                             }
                         }
                     } else {
-                        document.querySelector('.portal-search-result').innerHTML = response.responseText;
+                        document.querySelector('.content').innerHTML = response.responseText;
                     }
+                    // 검색 조회 결과 화면 스크롤바
                     OverlayScrollbars(document.querySelector('.list'), {
                         className: 'scrollbar',
                         callbacks: {
@@ -183,13 +181,13 @@
                                 const scrollTop = e.target.scrollTop;
                                 const clientHeight = e.target.clientHeight;
                                 if (scrollTop > 20) {
-                                    document.getElementById('portal-search-area').classList.remove('slide-down');
-                                    document.getElementById('portal-search-area').classList.add('slide-up');
-                                    document.getElementById('portal-search-main').style.display='none';
+                                    document.getElementById('main-search').classList.remove('slide-down');
+                                    document.getElementById('main-search').classList.add('slide-up');
+                                    document.getElementById('main-banner').style.display='none';
                                 } else {
-                                    document.getElementById('portal-search-area').classList.remove('slide-up');
-                                    document.getElementById('portal-search-area').classList.add('slide-down');
-                                    document.getElementById('portal-search-main').style.display='block';
+                                    document.getElementById('main-search').classList.remove('slide-up');
+                                    document.getElementById('main-search').classList.add('slide-down');
+                                    document.getElementById('main-banner').style.display='block';
                                 }
                                 if (scrollHeight - scrollTop === clientHeight) {
                                     if (scrollerEventCheck()) {
@@ -201,7 +199,7 @@
                     });
 
                     if (document.getElementById('searchValue').value !== '') {
-                        document.querySelectorAll('.row > .content-box > .content > .content').forEach(function(data) {
+                        document.querySelectorAll('.row > .item-box > .item-content > .text-ellipsis').forEach(function(data) {
                             let regex = new RegExp(document.getElementById('searchValue').value, 'gi');
                             data.innerHTML = data.textContent.replace(regex, "<span class='keyword'>" + document.getElementById('searchValue').value + "</span>");
                         });
@@ -223,16 +221,17 @@
         function getDataTemplate(data) {
             let div = document.querySelector('.os-content');
             let divRow = document.createElement('div');
-            divRow.className = 'row';
-
-            let divTypeIcon = document.createElement('div');
-            divTypeIcon.className = 'type-icon '+ data.tableName;
-
+            divRow.className = 'row flex-row align-items-center';
+            // 이미지
+            let typeImage = document.createElement('img');
+            typeImage.src = '/assets/media/images/portal/img_portal_' + data.tableName + '.png';
+            divRow.appendChild(typeImage);
+            // 내용
             let divContentBox = document.createElement('div');
-            divContentBox.className = 'content-box';
+            divContentBox.className = 'item-box';
 
-            let divTitle = document.createElement('div');
-            divTitle.className = "title text-ellipsis";
+            let divTitle = document.createElement('h5');
+            divTitle.className = "item-title text-ellipsis";
             let aTitle = document.createElement('a');
             if (data.tableName === 'notice') {
                 aTitle.href = '/portal/notices/' + data.portalId + '/view';
@@ -243,19 +242,17 @@
             }
             aTitle.innerText = data.portalTitle;
             divTitle.appendChild(aTitle);
+            divContentBox.appendChild(divTitle);
 
             let divContent = document.createElement('div');
-            divContent.className = "content text-ellipsis";
+            divContent.className = "item-content text-ellipsis";
             if (data.tableName === 'download') {
                 divContent.innerText = i18n.msg(''+data.portalContent+'');
             } else {
                 divContent.innerText = data.portalContent;
             }
-
-            divContentBox.appendChild(divTitle);
             divContentBox.appendChild(divContent);
 
-            divRow.appendChild(divTypeIcon);
             divRow.appendChild(divContentBox);
             div.appendChild(divRow);
         }

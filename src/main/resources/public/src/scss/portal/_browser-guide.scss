@@ -1,0 +1,34 @@
+/*
+ * 브라우저 가이드
+ * 파일 경로 : portal/_browser-guide.scss
+ * URL : .../portal/browserGuide
+ */
+
+.guide-body {
+  background-color: $browser-guide-bg-color;
+  
+  h1 {
+    margin: 14.81rem 19.6875rem 3.75rem 19.6875rem; // 237px 315px 60px 315px
+  }
+}
+
+.browser-box {
+  display: inline-block;
+  width: 22.5rem; // 360px
+  height: 22.5rem; // 360px
+  background-color: $browser-box-bg-color;
+  border: $browser-box-border;
+  margin-left: 0.8125rem; // 13px
+
+  img {
+    margin-top: 3.875rem; // 62px
+    width: 11.25rem; // 180px
+    height: 11.25rem; // 180px
+  }
+
+  h3 {
+    margin-top: 1.25rem; // 20px
+  }
+
+  &:hover { box-shadow: $browser-hover-box-shadow; }
+}

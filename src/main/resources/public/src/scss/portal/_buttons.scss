@@ -2,9 +2,9 @@
 
 // 되돌아가기
 .login-return {
-  position: absolute;
+  position: relative;
   top: 5rem; // 80px
-  left: 66rem; // 1056px
+  right: 5rem; // 80px
   color: $white;
   border-color: $white;
   padding: 0.75rem 3rem; // 12px 48px
@@ -61,4 +61,10 @@
   background-color: $point-blue;
   color: $white;
   padding: 0.75rem 1.563rem; // 12px 25px
+}
+
+// 에러 발생시 이전 페이지로 돌아가기
+.btn-error {
+  color: $white;
+  background-color: $point-blue;
 }
