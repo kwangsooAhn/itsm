@@ -20,6 +20,8 @@
     background-color: transparent;
     cursor: pointer;
   }
+
+  // .notification hover 시 노출되는 영역 전반
   &-container {
     position: absolute;
     width: 26.25rem; // 420px
@@ -32,6 +34,8 @@
     display: none;
     &.on { display: block; }
   }
+
+  // notification 상단 영역 
   &-header {
     height: 2.5rem; // 40px
     display: flex;
@@ -43,7 +47,9 @@
       font-size: 0.875rem; // 14px
       font-weight: $font-weight-regular;
       color: $white;
-      &.title { // 알림 문구
+
+      // header 내부 컨텐츠
+      &.title {
         font-size: 1rem; // 16px
         font-weight: $font-weight-medium;
       }
@@ -51,9 +57,11 @@
         margin: auto 0.3125rem; //5px
       }
       &.message {
-        margin-left: 0.625rem; // 10px
+        margin-left: 0.625rem;  // 10px
       }
-      &.close { // X 버튼
+
+      // 우측 상단 X 버튼
+      &.close { 
         width: 0.875rem; //14px
         height: 0.875rem;
         float: right;
@@ -62,12 +70,13 @@
       }
     }
   }
+
+  // notification의 contents들이 나열되는 영역
   &-body {
     overflow-y: auto;
-    // min-height: 6.875rem; // 110px
-    height: 20.63rem; // 330px
+    height: 20.63rem;    // 330px
     &.nodata {
-      height: 6.875rem; // 110px
+      height: 6.875rem;  // 110px
       padding: 0.938rem; // 15px
     }
   }
@@ -78,6 +87,7 @@
     &:hover {
       background-color: rgba(135, 206, 255, 0.1);
     }
+    // 체크 박스 영역
     .notification-checked {
       display: flex;
       float: left;
@@ -100,7 +110,7 @@
           cursor: unset;
         }
         &:checked::after {
-          content: '\2714'; // 체크 박스
+          content: '\2714';
           font-size: 1rem; // 16px
           position: absolute;
           top: -0.063rem; // -1px
@@ -109,6 +119,7 @@
         }
       }
     }
+    // 제거 버튼 영역
     .btn-remove {
       float: right;
       padding: 0;
@@ -152,6 +163,8 @@
   }
 }
 
+// 신규 알림 발생 시,
+// 전체 화면 우측 하단에서 지정한 시간동안만 노출되는 notification
 .alice-toastify {
   height: $toastify-height;
   background: $toastify-background;
