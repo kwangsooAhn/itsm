@@ -1021,6 +1021,7 @@
             }
             setMultipleDatatable(assigneeObject, dataList, dataKeys, value);
         }
+        aliceJs.initDesignedSelectTag();
     }
 
     /**

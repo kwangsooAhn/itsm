@@ -162,7 +162,7 @@
         text-indent: 0.625rem; // 10px
         height: 2.5rem; // 40px
         &:hover {
-          background: rgba(0, 152, 255, 0.08); // TODO: 변수로 따로 빼야 하나?
+          background: $select-bg-color;
         }
         &[rel="hide"] {
           display: none;

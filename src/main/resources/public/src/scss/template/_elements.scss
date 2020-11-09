@@ -244,6 +244,7 @@ select {
   position: relative;
   font-size: $element-font-size;
   height: 2.5rem; // 40px
+  width: 100%;
 }
 .designed-select {
   position: absolute;
@@ -291,6 +292,9 @@ select {
       top: 0.5625rem; // 9px
       background: url($icon-folder-path + "icon_arrow_up.svg") no-repeat center left;
     }
+    + .designed-options {
+      display: block;
+    }
   }
   &.disabled-select {
     color: $element-disabled-font-color;
@@ -325,7 +329,7 @@ select {
     text-overflow: ellipsis;
     white-space: nowrap;
     &:hover {
-      background: rgba(0, 152, 255, 0.08); // TODO: 변수로 따로 빼야 하나?
+      background: $select-bg-color;
     }
     &[rel="hide"] {
       display: none;

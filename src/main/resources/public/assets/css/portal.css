@@ -1687,6 +1687,7 @@ select:disabled {
   position: relative;
   font-size: 1rem;
   height: 2.5rem;
+  width: 100%;
 }
 
 .designed-select {
@@ -1736,6 +1737,9 @@ select:disabled {
 .designed-select.active:after {
   top: 0.5625rem;
   background: url("../media/icons/icon_arrow_up.svg") no-repeat center left;
+}
+.designed-select.active + .designed-options {
+  display: block;
 }
 .designed-select.disabled-select {
   color: #ACB4BF;
