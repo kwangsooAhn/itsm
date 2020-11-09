@@ -35,7 +35,7 @@
                     <label class="required" th:text="#{common.label.contents}" for="faqContent"></label>
                     <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}" rows="11"></textarea>
                 </div>
-                <div class="btn-list btn-bar">
+                <div class="btn-list">
                     <button type="button" class="point-fill" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
                             th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
                     <button type="button" class="point-fill" id="btnUpdate" sec:authorize="hasAuthority('faq.update')"

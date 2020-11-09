@@ -17,7 +17,7 @@
         </tr>
         </thead>
         <tbody class="list-body">
-        <tr class="no-data-found" th:if="${#arrays.isEmpty(boardAdminList)}">
+        <tr class="no-data-found-list" th:if="${#arrays.isEmpty(boardAdminList)}">
             <td colspan="5" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr th:each="boardAdmin: ${boardAdminList}">

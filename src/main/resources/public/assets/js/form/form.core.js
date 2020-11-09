@@ -153,7 +153,23 @@
      */
 
     function initSession(userInfo) {
-        Object.assign(sessionInfo, JSON.parse(userInfo));
+        let user = JSON.parse(userInfo);
+        let departmentName = '';
+        if (user['department'] !== '') {
+            aliceJs.sendXhr({
+                method: 'GET',
+                async: false,
+                url: '/rest/codes/' + user['department'],
+                callbackFunc: function(xhr) {
+                    let result = JSON.parse(xhr.responseText);
+                    user['departmentName'] = result.codeName;
+                    departmentName = result.codeName;
+                },
+                contentType: 'application/json; charset=utf-8'
+            });
+        }
+        user['departmentName'] = departmentName
+        Object.assign(sessionInfo, user);
     }
 
     exports.init = init;

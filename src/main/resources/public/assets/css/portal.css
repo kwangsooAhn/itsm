@@ -3289,7 +3289,7 @@ button.ghost-line:disabled .icon {
   background-color: #ffffff;
   display: flex;
   flex-grow: 1;
-  height: calc(100vh - 10.375rem);
+  min-height: calc(100vh - 10.375rem);
 }
 .portal-search-view .flex.flex-column {
   flex-direction: column;

@@ -195,6 +195,7 @@
             border: 0.0625rem solid $line-gray; // 1px
             background-color: $light-gray;
             margin: 0.625rem 0.625rem 0 0; // 10px 10px 0 0
+            display: flex;
           }
         }
         // 댓글

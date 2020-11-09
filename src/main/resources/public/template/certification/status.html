@@ -7,7 +7,7 @@
     <script src="../../assets/js/util/util-alice.js"></script>
 </head>
 <body>
-<div class="container">
+<div>
     <div th:if="${validCode == 0 || validCode == 4}">
         <p th:utext="#{authentication.msg.beforeEmailCheck}"></p>
     </div>

@@ -43,7 +43,7 @@
                 </form>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="btn-list btn-bar">
+            <div class="btn-list">
                 <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
                         class="point-fill" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
                         th:onclick ="'location.href =\'' + @{/boards/{id}/replay/edit(id=${boardInfo?.boardId})}+'\''"
@@ -64,8 +64,8 @@
             <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
                 <div class="reply-input-row flex-row">
                     <img class="profile-photo" alt="profile pic" th:src="${#authentication.details.avatarPath}"/>
-                    <input type="text" id="boardComments" name="boardComments" maxlength="500" th:placeholder="#{comment.msg.enterComments}"/>
-                    <button class="default-line" onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button>
+                    <input type="text" class="reply-input" id="boardComments" name="boardComments" maxlength="500" th:placeholder="#{comment.msg.enterComments}"/>
+                    <button class="default-line reply-button" onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button>
                 </div>
                 <div class="reply-list flex-column" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
             </div>

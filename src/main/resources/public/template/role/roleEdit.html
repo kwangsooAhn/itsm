@@ -15,11 +15,11 @@
                 <h6 class="title-description" th:text="#{role.msg.description}"></h6>
             </div>
             <div class="search-area">
-                <div class="left">
+                <div class="search-input">
                     <input id="search" class="search col-5" th:placeholder="#{role.msg.searchPlaceholder}">
                     <span id="totalCount" class="txt-num"></span>
                 </div>
-                <div class="right">
+                <div class="ml-auto">
                     <button class="default-fill" sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch"
                             th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
                 </div>
@@ -88,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="btn-list btn-bar">
+            <div class="btn-list">
                 <button class="point-fill" sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist"
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 <button class="point-fill" sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate"

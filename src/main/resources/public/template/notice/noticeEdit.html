@@ -46,7 +46,7 @@
                     </label>
                 </div>
                 <div id="popTab" class="form_set">
-                    <div class="row">
+                    <div class="flex-row">
                         <div class="form-set col-6">
                             <label th:text="#{notice.label.height}" for="popHeight"></label>
                             <input type="text" id="popHeight" name="popHeight" class="px"
@@ -60,7 +60,7 @@
                                    oninput="maxLengthCheck(this)" />
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="flex-row">
                         <div class="form-set col-6">
                             <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
                             <input type="text" id="popStrtDt" name="popStrtDt" class="date col-pct-12" />
@@ -80,7 +80,7 @@
                     </label>
                 </div>
                 <div id="topNoticeTab" class="form-set">
-                    <div class="row">
+                    <div class="flex-row">
                         <div class="form-set col-6">
                             <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
                             <input type="text" id="topNoticeStrtDt" class="date col-pct-12" name="topNoticeStrtDt"/>
@@ -91,17 +91,15 @@
                         </div>
                     </div>
                 </div>
-                <div class="btn-list btn-bar">
+                <div class="btn-list">
                     <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert"
-                            class="point-fill" th:onclick="restSubmit('post',[[@{/rest/notices}]])" th:text="#{common.btn.register}">
+                            class="point-fill" onclick="saveNotice('post')" th:text="#{common.btn.register}">
                     </button>
                     <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update"
-                            class="point-fill" th:onclick="restSubmit('put',[[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])"
-                            th:text="#{common.btn.modify}">
+                            class="point-fill" onclick="saveNotice('put')" th:text="#{common.btn.modify}">
                     </button>
                     <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
-                            class="default-fill" th:onclick="aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', [[@{/rest/notices/{noticeNo}(noticeNo=${notice.noticeNo})}]])"
-                            th:text="#{common.btn.delete}">
+                            class="default-fill" onclick="deleteNotice()" th:text="#{common.btn.delete}">
                     </button>
                     <a class="btn default-line" href="/notices/search" th:text="#{common.btn.list}"></a>
                 </div>
@@ -135,7 +133,7 @@
             if (swithElement.checked) {
                 if (viewId === 'popTab') {
                     const popStrtDtVal = /*[[${notice?.popStrtDt}]]*/;
-                    const popEndDtVal = /*[[${notice?.popEndDt}]]*/;;
+                    const popEndDtVal = /*[[${notice?.popEndDt}]]*/;
                     document.getElementById('popWidth').value = /*[[${notice?.popWidth} ? ${notice.popWidth} : 500]]*/;
                     document.getElementById('popHeight').value = /*[[${notice?.popHeight} ? ${notice.popHeight} : 500]]*/;
                     document.getElementById('popStrtDt').value = popStrtDtVal ? i18n.userDateTime(popStrtDtVal) : i18n.getDateTime();
@@ -197,20 +195,19 @@
                 object.value = object.value.slice(0, object.maxLength);
             }
         }
-        /* ]]> */
-    </script>
 
-    <script th:inline="javascript" th:if="!${notice?.noticeNo}">
-        /*<![CDATA[ */
-        function restSubmit(method, url, async) {
+        function saveNotice(method) {
             if (!validation()) {
                 return false;
             }
 
+            const noticeNo = [[${notice?.noticeNo}]];
             const fileSeq = [];
+            const delFileSeq = [];
+            let url = '';
             document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
-
-            const jsonData = JSON.stringify({
+            document.getElementsByName('delFileSeq').forEach(elm => delFileSeq.push(elm.value));
+            const data = {
                 noticeTitle: document.getElementById('noticeTitle').value,
                 noticeContents: document.getElementById('noticeContents').value,
                 popYn: document.getElementById('popYn').checked,
@@ -222,77 +219,44 @@
                 topNoticeStrtDt: i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value),
                 topNoticeEndDt: i18n.systemDateTime(document.getElementById('topNoticeEndDt').value),
                 fileSeq: fileSeq
-            });
-
-            const opt = {
-                method: method,
-                url: url,
-                async: async,
-                params: jsonData,
-                contentType: 'application/json',
-                callbackFunc: function() {
-                    aliceJs.alertSuccess(i18n.msg('common.msg.register'), function() {
-                        window.location.href = '/notices/search';
-                    });
-
-                }
             };
-            aliceJs.sendXhr(opt)
-        }
-        /* ]]> */
-    </script>
 
-    <script th:inline="javascript" th:if="${notice?.noticeNo}">
-        /*<![CDATA[ */
-        window.onload = function() {
-            document.getElementById('noticeTitle').focus();
-            fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
-        };
-
-        function restSubmit(method, url, async) {
-            let jsonData = '';
             if (method === 'put') {
-                const noticeNo = /*[[${notice.noticeNo}]]*/;
-
-                if (!validation()) {
-                    return false;
-                }
-
-                const fileSeq = [];
-                const delFileSeq = [];
-                document.getElementsByName('fileSeq').forEach(elm => fileSeq.push(elm.value));
-                document.getElementsByName('delFileSeq').forEach(elm => delFileSeq.push(elm.value));
-                jsonData = JSON.stringify({
-                    noticeNo: noticeNo,
-                    noticeTitle: document.getElementById('noticeTitle').value,
-                    noticeContents: document.getElementById('noticeContents').value,
-                    popYn: document.getElementById('popYn').checked,
-                    popStrtDt: i18n.systemDateTime(document.getElementById('popStrtDt').value),
-                    popEndDt: i18n.systemDateTime(document.getElementById('popEndDt').value),
-                    popWidth: document.getElementById('popWidth').value,
-                    popHeight: document.getElementById('popHeight').value,
-                    topNoticeYn: document.getElementById('topNoticeYn').checked,
-                    topNoticeStrtDt: i18n.systemDateTime(document.getElementById('topNoticeStrtDt').value),
-                    topNoticeEndDt: i18n.systemDateTime(document.getElementById('topNoticeEndDt').value),
-                    fileSeq: fileSeq,
-                    delFileSeq: delFileSeq
-                });
+                data.noticeNo = noticeNo;
+                data.delFileSeq = delFileSeq;
+                url = '/rest/notices/' + noticeNo;
+            } else {
+                url = '/rest/notices';
             }
+
+            restSubmit(method, url, data);
+        }
+
+        function deleteNotice() {
+            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/notices/' + [[${notice?.noticeNo}]]);
+        }
+
+        function restSubmit(method, url, data) {
             const opt = {
                 method: method,
                 url: url,
-                async: async,
-                params: jsonData,
+                params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function() {
-                    if (method === 'put') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.modify'), function() {
+                    if (method === 'post') {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.register'), function () {
+                            window.location.href = '/notices/search';
+                        });
+                    } else if (method === 'put') {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.modify'), function () {
                             window.location = '/notices/search';
                         });
                     } else if (method === 'delete') {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
                             window.location = '/notices/search';
                         });
+                    } else {
+                        aliceJs.alertWarning(i18n.msg('common.msg.fail'));
                     }
                 }
             };

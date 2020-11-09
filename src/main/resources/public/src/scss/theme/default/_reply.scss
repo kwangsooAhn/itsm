@@ -1,50 +1,56 @@
 .reply {
     &-body {
-        margin-top: 40px;
+        margin-top: 2.5rem; // 40px
     }
     &-input-row {
-        padding: 21px 20px;
+        padding: 1.3125rem 1.25rem; // 21px 20px
         background-color: $light-gray;
-        border-top: 1px solid $line-gray;
-        border-bottom: 1px solid $line-gray;
-        img {
-            flex : none;
-            margin-right: 20px;
-        }
-        button {
-            flex : none;
-            margin-left: 5px;
-        }
-        input {
+        border-top: 0.0625rem solid $line-gray;
+        border-bottom: 0.0625rem solid $line-gray;
+        .reply-input {
             width: 100%;
+            margin: 0 0.3125rem; // 5px
+        }
+        .reply-button {
+            flex : none;
         }
     }
 
     &-list {
-        padding: 0 20px;
-        border-bottom: 1px solid $line-gray;
+        padding: 0 1.25rem; // 0 20px
+        border-bottom: 0.0625rem solid $line-gray;
         .vertical-bar {
-            width: 15px;
-            margin: 1px 15px 1px 0;
+            width: 1.25rem; // 20px
+            height: 1.25rem; // 20px
+            margin: 0.0625rem 0.9375rem 0.0625rem 0; // 1px 5px 1px 0
+            vertical-align: middle;
         }
-        .reply-info {
-            align-items: center;
+        .reply {
+            &-info {
+                align-items: center;
+            }
+            &-create-date {
+                color: $gray;
+            }
+            &-row {
+                margin-top : 1.875rem; // 30px
+                margin-bottom: 1.875rem; // 30px
+            }
+            &-edit,
+            &-delete {
+                padding: 0 1.25rem 0 0; // 0 20px 0 0
+            }
+            &-comment {
+                display: flex;
+                margin-top: 0.9375rem; // 5px
+                margin-left: 3rem; // 48px
+                input { width: 100%; }
+            }
         }
-        .reply-create-date {
-            color: $gray;
-        }
-        .reply-row {
-            margin-top : 30px;
-            margin-bottom: 30px;
-        }
-        .reply-button {
-            margin-left: auto;
-        }
-        .reply-comment {
-            display: flex;
-            margin-top: 5px;
-            margin-left: 47px;
-            input { width: 100%;}
-        }
+    }
+
+    .profile-photo {
+        flex : none;
+        margin: auto 0.9376rem auto 0; // 15px
     }
 }

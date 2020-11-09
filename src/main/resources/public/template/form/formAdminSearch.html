@@ -18,10 +18,10 @@
             <h6 class="title-description" th:text="#{form.msg.description}"></h6>
         </div>
         <div class="search-area">
-            <div class="left">
+            <div class="search-input">
                 <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{form.label.searchPlaceholder}"/>
             </div>
-            <div class="right">
+            <div class="ml-auto">
                 <button class="default-line" type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
                 <button class="default-fill" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
             </div>

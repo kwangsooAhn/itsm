@@ -30,7 +30,7 @@
             <div class="horizontal-bar"></div>
         </div>
     </form>
-    <div align="right" th:if="!${isPopUp}">
+    <div class="float-right" th:if="!${isPopUp}">
         <input type="checkbox" name="close" value="OK" onclick="closePop(1);" /><span th:text="#{notice.label.popUpPeriodToday}"></span>
     </div>
     <script th:inline="javascript">

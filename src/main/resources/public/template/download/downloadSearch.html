@@ -14,7 +14,7 @@
             <h6 class="title-description" th:text="#{download.msg.description}"></h6>
         </div>
         <div class="search-area">
-            <div class="left">
+            <div class="search-input">
                 <input type="hidden" name="isRole" sec:authorize="hasAuthority('download.update')" th:value="true"/>
                 <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
                 <form id="searchFrm">
@@ -29,7 +29,7 @@
                     <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
                 </form>
             </div>
-            <div class="right">
+            <div class="ml-auto">
                 <button class="default-fill" onclick="location.href='/downloads/new'"
                         sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.add}" />
             </div>

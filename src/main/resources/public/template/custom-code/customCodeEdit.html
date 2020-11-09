@@ -23,7 +23,7 @@
             </div>
             <div class="form-set">
                 <label class="required" th:text="#{customCode.label.type}"></label>
-                <div class="radio-row">
+                <div class="flex-row">
                     <label class="radio" for="table" tabindex="0">
                         <input id="table" name="type" type="radio"
                                th:checked="${customCode?.type == null || customCode?.type == 'table'}"
@@ -62,7 +62,7 @@
                     <select id="valueColumn"></select>
                 </div>
                 <div class="form-set">
-                    <div class="row">
+                    <div class="flex-row">
                         <label id="conditionLabel" th:text="#{customCode.label.condition}"></label>
                         <button class="default-line plus" onclick="addCondition()">
                             <span class="icon-plus"></span>
@@ -79,7 +79,7 @@
                     <input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}">
                 </div>
             </div>
-            <div class="btn-list btn-bar">
+            <div class="btn-list">
                 <button class="point-fill" th:if="${customCode == null}" sec:authorize="hasAuthority('custom.code.create')"
                         onclick="actionCustomCode('post')" th:text="#{common.btn.register}"></button>
                 <button class="point-fill" th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.update')"

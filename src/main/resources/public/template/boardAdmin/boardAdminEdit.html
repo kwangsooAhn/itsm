@@ -78,7 +78,7 @@
                            th:value="${boardAdmin?.attachFileSize}" maxlength="4"
                            onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>MB
             </div>
-            <div class="btn-list btn-bar">
+            <div class="btn-list">
                 <button class="point-fill" th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')"
                         th:text="#{common.btn.register}"></button>
                 <button class="point-fill" th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')"
