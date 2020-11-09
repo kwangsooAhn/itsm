@@ -16,15 +16,15 @@
             </div>
             <div id="notification-container" class="notification-container"></div>
         </div>
-        <div class="user-info-menu">
+        <div class="user-info">
             <a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}">
                 <img class="user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
                 <span class="user-name" sec:authentication="details.userName"></span>
             </a>
         </div>
-        <div class="logout-menu">
-            <a href="javascript:logout()">
-                <span class="my-logout"></span>
+        <div class="logout">
+            <a class="btn-logout" href="javascript:logout()">
+                <span class="icon-logout"></span>
                 <span th:text="#{common.btn.logout}"></span>
             </a>
         </div>

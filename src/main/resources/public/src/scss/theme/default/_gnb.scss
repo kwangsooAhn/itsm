@@ -10,6 +10,7 @@
 //
 // * logo
 //   - 로고가 출력되는 부분이며 menu.html 파일에 포함되지만 가장 최상위 요소중에 하나이다.
+//
 // * menu
 //   - 메뉴가 출력되는 부분. default theme 에는 메뉴 부분 전체를 접고 펴는 기능은 없다.
 // *********************************************************************************************************************
@@ -52,62 +53,36 @@
                 }
             }
         }
-        .user-info-menu {
+        .user-info {
             height: 3.125rem; // 50px
-            span {
+            display: flex;
+            align-items: center;
+            padding: 0.6875rem 0 0.6875rem 1.3125rem;
+            .user-name {
                 color: $blue-gray;
-                font-weight: 500;
+                font-weight: $font-weight-medium;
             }
-            a {
-                width: 100%;
-                height: 100%;
-                display: flex;
-                align-items: center;
-                .user-profile {
-                    width: 1.688rem; // 27px
-                    height: 1.688rem;  // 27px
-                    border-radius: 50%;
-                    display: inline-block; 
-                    vertical-align: middle;
-                    margin-right: 1rem; // 16px
-                    margin-left: 1.25rem; //20px
-                }
-                .my-modify {
-                    width: 15px; //15px
-                    height: 15px;
-                    background: $blue-gray;
-                    -webkit-mask: url($icon-folder-path + "icon_setting.svg") no-repeat center center;
-                    mask-image: url($icon-folder-path + "icon_setting.svg");
-                    mask-repeat: no-repeat;
-                    mask-position: center;
-                    float: right;
-                    margin-left: auto;
-                    margin-right: 1.25rem; //20px
-                }
+            .user-profile {
+                width: 1.688rem; // 27px
+                height: 1.688rem;  // 27px
+                border-radius: 50%;
+                display: inline-block; 
+                vertical-align: middle;
+                margin-right: 0.625rem; // 10px
             }
         }
-        .logout-menu {
+        .logout {
             height: 3.125rem; // 50px
-            span {
-                color: $blue-gray;
-                font-weight: 500;
-            }
-            a {
-                width: 100%;
-                height: 100%;
+            align-items: center;
+            padding: 0.6875rem 0 0.6875rem 1.3125rem;
+            .btn-logout {
                 display: flex;
-                align-items: center;
-                .my-logout {
-                    width: 27px;
-                    height: 27px;
-                    background: $blue-gray;
-                    -webkit-mask: url($icon-folder-path + "gnb/icon_gnb_logout.svg") no-repeat center center;
-                    mask-image: url($icon-folder-path + "gnb/icon_gnb_logout.svg");
-                    mask-repeat: no-repeat;
-                    mask-position: center;
-                    margin-left: 1.25rem; // 20px
-                    margin-right: 1rem; // 16px
-                }
+                color: $blue-gray;
+                font-weight: $font-weight-medium;
+            }
+            .icon-logout {
+                margin-right: 0.875rem; // 14px
+                @include maskImage('#{$icon-folder-path}gnb/icon_gnb_logout.svg', 1.6875rem, 1.6875rem, no-repeat, center, null, $blue-gray); // 27px
             }
         }
         & > div:hover {
@@ -181,7 +156,7 @@
     }
     & > ul > li {
         line-height: 1.3;
-        font-weight: 500;
+        font-weight: $font-weight-medium;
 
         svg {
             fill: #929aa6;
@@ -207,7 +182,7 @@
                 padding-left: 19px;
                 display: inline-block;
                 color: $menu-color;
-                font-weight: 500;
+                font-weight: $font-weight-medium;
                 line-height: 1.3rem;
 
                 &.arrow {
