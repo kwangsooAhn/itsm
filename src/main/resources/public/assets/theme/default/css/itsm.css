@@ -5432,7 +5432,6 @@ body.thumbnail-modal-active {
   padding: 0.6875rem 0 0.6875rem 1.3125rem;
   position: relative;
   display: inline-block;
-  cursor: pointer;
 }
 
 .notification img, .notification button {
@@ -5504,53 +5503,32 @@ body.thumbnail-modal-active {
 
 .notification-body {
   overflow: auto;
+  min-height: 6.875rem;
   max-height: 20.63rem;
 }
 
-.notification-body button {
-  float: right;
-}
-
-.notification-body button.remove {
-  padding: 0;
-  width: 1.125rem;
-  height: 1.25rem;
-  -webkit-mask-image: url("../media/icons/icon_delete.svg");
-  mask-image: url("../media/icons/icon_delete.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  background: #CCCED1;
-}
-
-.notification-body span.title:hover {
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.notification-body .notification {
-  height: 6.875rem;
-  border-bottom: 0.063rem solid #EBEBEB;
+.notification-body .nodata {
   padding: 0.938rem;
 }
 
-.notification-body .notification.nodata {
-  border: none;
+.notification-content {
+  height: 6.875rem;
+  padding: 0.938rem;
+  border-bottom: 0.063rem solid #EBEBEB;
 }
 
 .notification-content:hover {
   background-color: rgba(135, 206, 255, 0.1);
 }
 
-.notification-content div .notification-label {
+.notification-content .notification-checked {
   display: flex;
   float: left;
   background-color: #ffffff;
   margin: 0;
 }
 
-.notification-content div .notification-label input[type="checkbox"] {
+.notification-content .notification-checked input[type="checkbox"] {
   width: 1.125rem;
   height: 1.125rem;
   -webkit-appearance: none;
@@ -5563,13 +5541,13 @@ body.thumbnail-modal-active {
   cursor: pointer;
 }
 
-.notification-content div .notification-label input[type="checkbox"]:checked {
+.notification-content .notification-checked input[type="checkbox"]:checked {
   border: 0.063rem solid #EBEBEB;
   color: #CCCED1;
   cursor: unset;
 }
 
-.notification-content div .notification-label input[type="checkbox"]:checked::after {
+.notification-content .notification-checked input[type="checkbox"]:checked::after {
   content: '\2714';
   font-size: 1rem;
   position: absolute;
@@ -5578,34 +5556,56 @@ body.thumbnail-modal-active {
   color: #CCCED1;
 }
 
-.notification-content div span.title {
+.notification-content .btn-remove {
+  float: right;
+  padding: 0;
+  width: 1.125rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/icon_delete.svg");
+  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #CCCED1;
+}
+
+.notification-content span.title {
   font-weight: 500;
   font-size: 1rem;
   line-height: 1.2;
   color: #3F4B56;
   max-width: 18.13rem;
+  margin-left: 0.625rem;
 }
 
-.notification-content div span.message {
-  font-weight: 400;
-  font-size: 1rem;
-  color: #586872;
-  max-width: 22.5rem;
-  min-height: 2.5rem;
-}
-
-.notification-content div span.date {
-  font-weight: 400;
-  font-size: 0.875rem;
-  color: #ACB4BF;
-}
-
-.notification-content.confirm div span.title {
+.notification-content span.title.confirm {
   opacity: 0.75;
 }
 
-.notification-content.confirm div span.message {
+.notification-content span.title:hover {
+  text-decoration: underline;
+}
+
+.notification-content span.message {
+  font-weight: 400;
+  font-size: 1rem;
+  display: block;
+  color: #586872;
+  max-width: 22.5rem;
+  min-height: 2.5rem;
+  margin-left: 1.75rem;
+}
+
+.notification-content span.message.confirm {
   color: #ACB4BF;
+}
+
+.notification-content span.date {
+  font-weight: 400;
+  font-size: 0.875rem;
+  color: #ACB4BF;
+  margin-left: 1.75rem;
 }
 
 .alice-toastify {
