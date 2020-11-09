@@ -12,30 +12,30 @@
 * 5) 현재는 2단계의 메뉴 깊이로 고정한다.
 */-->
 	<div class="menu">
-		<div class="gnb-area">
+		<div class="menu-area">
 			<ul>
-				<li th:each="topMenu : ${#authentication.details.menus}"
+				<li class="gnb-area" th:each="topMenu : ${#authentication.details.menus}"
 						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
 					<!--/* 그룹 메뉴 */-->
-					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb"
+					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb gnb-link"
 					   th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
 						<span th:class="'icon-gnb icon-gnb-' + ${topMenu.menuId}"></span>
-						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+						<span class="menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 						<span class="arrow-right"></span>
 					</a>
-					<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="snb-set">
-						<li th:each="subMenu : ${#authentication.details.menus}"
+					<ul th:if="${#strings.isEmpty(topMenu.url)}" th:id="${topMenu.menuId}" class="snb-group">
+						<li class="snb-area" th:each="subMenu : ${#authentication.details.menus}"
 							th:order-data="${subMenu.sort}" th:if="${subMenu.pMenuId} == ${topMenu.menuId} and ${subMenu.useYn} == true">
-							<a th:href="${subMenu.url}"  th:class="'snb ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()"
+							<a th:href="${subMenu.url}"  th:class="'snb snb-link ' + ${#strings.substringAfter(subMenu.menuId,'.')}" onclick="showProgressBar()"
 							   th:classappend="${subMenu.url} == ${session.active_url} ? active">
-								<span th:text="#{|menu.${subMenu.menuId}|}"></span>
+								<span class="menu-name" th:text="#{|menu.${subMenu.menuId}|}"></span>
 							</a>
 						</li>
 					</ul>
 					<!--/* 연결 메뉴 */-->
-					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb" th:classappend="${topMenu.url} == ${session.active_url} ? active">
+					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb gnb-link" th:classappend="${topMenu.url} == ${session.active_url} ? active">
 						<span th:class="'icon-gnb icon-gnb-' + ${topMenu.menuId}"></span>
-						<span th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
+						<span class="menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 					</a>
 				</li>
 			</ul>

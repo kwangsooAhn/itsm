@@ -46,7 +46,7 @@
         getNotificationList(true);
 
         document.addEventListener('click', notificationContainerOff, false);
-        OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
+
     });
 
     function logout() {
@@ -97,6 +97,8 @@
                     });
                 });
             }
+
+            OverlayScrollbars(document.querySelectorAll('.notification-body'), {className: 'inner-scrollbar'});
         });
     }
 

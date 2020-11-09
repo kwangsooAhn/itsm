@@ -7,7 +7,7 @@
         <span class="message" th:text="#{notification.msg.description}"></span>
         <span class="close" onclick="toggleNotificationContainer();"></span>
     </div>
-    <div class="notification-body scroll-wrap">
+    <div class="notification-body" th:classappend="${#arrays.isEmpty(notificationList)} ? nodata">
         <div class="nodata" th:if="${#arrays.isEmpty(notificationList)}">
             <span th:text="#{notification.msg.noNotificationData}"></span>
         </div>
