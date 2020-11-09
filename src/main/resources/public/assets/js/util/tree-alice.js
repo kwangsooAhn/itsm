@@ -33,6 +33,7 @@
         leafIcon: '',                           // 마지막 node 의 아이콘
         selectedValue: '',                      // 선택된 값
         totalCount: false,                      // 전체 개수 표시여부
+        expandTree: true,                       // 전체 펼치기
         buttons: [{
             content: 'Confirm',
             classes: 'tree-modal-button-default',
@@ -317,7 +318,8 @@
                     collapseNode: function() { v_tree.collapseNode(this); },
                     collapseSubtree: function() { v_tree.collapseSubtree(this); },
                     removeChildNodes: function() { v_tree.removeChildNodes(this); },
-                    createChildNode: function(item, p_expanded, p_depth) { return v_tree.createNode(item, p_expanded, p_depth, this); }
+                    createChildNode: function(item, p_expanded, p_depth) { return v_tree.createNode(item, p_expanded, p_depth, this); },
+                    expandTree: function() { v_tree.expandTree(); }
                 }
 
                 if (this.rendered) {
@@ -519,11 +521,13 @@
                 this.toggleNode(p_node);
             },
             selectNode: function(p_node) {
-                let span = p_node.elementLi.getElementsByTagName('span')[0];
-                span.className = 'node_selected';
-                if (this.selectedNode !== null && this.selectedNode !== p_node)
-                    this.selectedNode.elementLi.getElementsByTagName('span')[0].className = 'node';
-                this.selectedNode = p_node;
+                if (p_node !== null) {
+                    let span = p_node.elementLi.getElementsByTagName('span')[0];
+                    span.className = 'node_selected';
+                    if (this.selectedNode !== null && this.selectedNode !== p_node)
+                        this.selectedNode.elementLi.getElementsByTagName('span')[0].className = 'node';
+                    this.selectedNode = p_node;
+                }
             },
             removeNode: function(p_node) {
                 let index = p_node.parent.childNodes.indexOf(p_node);
@@ -787,6 +791,9 @@
                                 selectedNode(this);
                             });
                         });
+                    }
+                    if (options.expandTree) {
+                        tree.expandTree();
                     }
                 } else {
                     document.querySelector('#' + options.target).innerHTML = '';
