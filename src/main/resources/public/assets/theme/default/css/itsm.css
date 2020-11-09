@@ -5620,7 +5620,7 @@ body.thumbnail-modal-active {
   right: 0.625rem;
 }
 
-.alice-toastify.toast-content div.icon {
+.alice-toastify.toast-content .icon {
   float: left;
   width: 6.25rem;
   height: 6.25rem;
@@ -5631,7 +5631,7 @@ body.thumbnail-modal-active {
   background-position-y: center;
 }
 
-.alice-toastify.toast-content div.content {
+.alice-toastify.toast-content .content {
   float: left;
   width: 23.13rem;
   height: 100%;
@@ -5639,33 +5639,33 @@ body.thumbnail-modal-active {
   border: 0.0625rem solid #EBEBEB !important;
 }
 
-.alice-toastify.toast-content div.content div.title {
+.alice-toastify.toast-content .content div.title {
   padding-bottom: 0.625rem;
 }
 
-.alice-toastify.toast-content div.content div.title label, .alice-toastify.toast-content div.content div.title button {
+.alice-toastify.toast-content .content div.title label, .alice-toastify.toast-content .content div.title button {
   display: none;
 }
 
-.alice-toastify.toast-content div.content div.message {
+.alice-toastify.toast-content .content div.message {
   padding-bottom: 0.625rem;
 }
 
-.alice-toastify.toast-content div.content div span.title {
+.alice-toastify.toast-content .content div span.title {
   font-size: 1rem;
   font-weight: 500;
   color: #3F4B56;
   max-width: 18.13rem;
 }
 
-.alice-toastify.toast-content div.content div span.message {
+.alice-toastify.toast-content .content div span.message {
   font-size: 1rem;
   font-weight: 400;
   color: #586872;
   max-width: 22.5rem;
 }
 
-.alice-toastify.toast-content div.content div span.date {
+.alice-toastify.toast-content .content div span.date {
   font-size: 0.875rem;
   font-weight: 400;
   color: #ACB4BF;
