@@ -38,28 +38,30 @@ body.modal-active {
     top: 4em;
     left: 0;
     right: 0;
+    width: $modal-width;
     margin: 0 auto 2em auto;
     background-color: $modal-bg-color;
     box-shadow: $modal-box-shadow;
+    border-radius: 0.0625rem;
     z-index: 2001;
 
-    .modal-title {
-      height: 3.375rem; // 54px
-      font-size: $modal-title-font-size;
-      font-weight: $modal-title-font-weight;
-      color: $modal-title-font-color;
+    .modal-header {
+      height: $modal-header-height;
+      font-size: $modal-header-font-size;
+      font-weight: $modal-header-font-weight;
+      color: $modal-header-font-color;
       border-bottom: $modal-border;
       padding: 1.125rem 0 0 1.25rem; // 18px 0 0 20px
     }
     
-    .modal-body {
-      height: 40rem; // 640px
+    .modal-content {
+      height: calc(#{$modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
       border-bottom: $modal-border;
       overflow: auto;
     }
 
-    .modal-buttons {
-      height: 5rem; // 80px
+    .modal-bottom {
+      height: $modal-bottom-height;
       padding: 1.25rem 1.25rem 1.25rem 0; // 20px
     }
   }

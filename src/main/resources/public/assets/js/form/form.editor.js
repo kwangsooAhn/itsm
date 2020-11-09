@@ -1278,11 +1278,14 @@
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
 
                                         fieldGroupElem.querySelector('#imageUploadPop').addEventListener('click', function(e) {
-                                            thumbnail.init({
+                                            aliceJs.thumbnail({
                                                 title: i18n.msg('image.label.popupTitle'),
                                                 targetId: 'path-' + selectedComponentIds[0],
-                                                selectedPath: fieldGroupElem.querySelector('#path-' + selectedComponentIds[0]).value,
-                                                thumbnailDoubleClickUse: true
+                                                type: 'image',
+                                                isThumbnailInfo: true,
+                                                isFilePrefix: true,
+                                                thumbnailDoubleClickUse: true,
+                                                selectedPath: fieldGroupElem.querySelector('#path-' + selectedComponentIds[0]).value
                                             });
                                         });
                                         break;

@@ -169,9 +169,9 @@ body.tree-modal-active {
 
         .tree-title {
           height: 2.5rem; // 40px
-          font-size:  $modal-title-font-size;
-          font-weight:  $modal-title-font-weight;
-          color: $modal-title-font-color;
+          font-size:  $modal-header-font-size;
+          font-weight:  $modal-header-font-weight;
+          color: $modal-header-font-color;
           border-bottom: $modal-border;
         }
 

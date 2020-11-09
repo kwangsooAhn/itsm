@@ -4,19 +4,22 @@
  * @author woodajung
  * @version 1.0
  */
-(function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
-        typeof define === 'function' && define.amd ? define(['exports'], factory) :
-            (factory((global.modal = global.modal || {})));
-}(this, (function (exports) {
+(function(root, factory) {
+    if (typeof define === "function" && define.amd) {
+        define([], factory);
+    } else if (typeof exports === "object") {
+        module.exports = factory();
+    } else {
+        root.modal = factory();
+    }
+}(this, function() {
     'use strict';
 
     let defaults = {
         title: '',
         body: '',
-        width: 1000,         // 모달 너비
-        height: 775,         // 모달 높이
-        buttons: [{
+        classes: '', // modal class
+        /*buttons: [{
             content: "Accept",
             classes: "default-line",
             bindKey: 13, //Enter. See https://keycode.info/
@@ -30,9 +33,9 @@
             callback: function(modal) {
                 modal.hide();
             }
-        }],
+        }],*/
         close: {
-            closable: true,
+            closable: false,
             location: 'in',
             bindKey: 27,
             callback: function(modal) {
@@ -92,9 +95,9 @@
      *
      * @param options 옵션
      */
-    function Modal(options) {
+    return function(options) {
+       this.options = Object.assign({}, defaults, options);
         this.id = options.id || Math.random().toString(36).substr(2);
-        this.options = options;
         this.display = false;
         this.bindings = {};
 
@@ -167,9 +170,10 @@
 
             dialog = document.createElement('div');
             dialog.className = 'modal-dialog';
-            // 너비 높이 지정
-            dialog.style.width = this.options.width;
-            dialog.style.height = this.options.height;
+            if (typeof this.options.classes !== 'undefined' && this.options.classes !== '') {
+                dialog.className += ' ' + this.options.classes;
+            }
+
             // 닫기 버튼
             if (typeof this.options.close.closable !== 'undefined' && this.options.close.closable) {
                 let close = document.createElement('a');
@@ -207,7 +211,7 @@
             if (this.options.title instanceof Element ||
                 (typeof this.options.title === "string" && this.options.title != '')) {
                 let title = document.createElement('div');
-                title.className = 'modal-title';
+                title.className = 'modal-header';
                 if (this.options.title instanceof Element) {
                     title.appendChild(this.options.title);
                 } else {
@@ -219,7 +223,7 @@
             if (this.options.body instanceof Element ||
                 (typeof this.options.body === "string" && this.options.body != '')) {
                 let body = document.createElement('div');
-                body.className = 'modal-body';
+                body.className = 'modal-content';
                 if (this.options.body instanceof Element) {
                     body.appendChild(this.options.body);
                 } else {
@@ -230,7 +234,7 @@
             // 버튼
             if (this.options.buttons.length > 0) {
                 let buttons = document.createElement('div');
-                buttons.className = 'modal-buttons flex-row float-right';
+                buttons.className = 'modal-bottom btn-list flex-row float-right';
 
                 for (let i = 0, len = this.options.buttons.length; i < len; i++) {
                     let button = document.createElement('button');
@@ -292,23 +296,4 @@
 
         this.create();
     }
-
-    /**
-     * 모달 초기화.
-     *
-     * @param option 옵션
-     */
-    function init(options) {
-      // 옵션 재할당
-      let defaultOptions = JSON.parse(JSON.stringify(defaults));
-      let mergeOptions = aliceJs.mergeObject(options, defaultOptions);
-      console.log(mergeOptions);
-
-      // 모달 생성
-      let modal = new Modal(mergeOptions);
-      modal.show();
-    }
-
-    exports.init = init;
-    Object.defineProperty(exports, '__esModule', {value: true});
-})));
+}));
