@@ -164,8 +164,12 @@
                 aliceJs.sendXhr(opt);
             }
             OverlayScrollbars(document.querySelector('.list'), { className: 'scrollbar' });
-
-            document.getElementById('search').addEventListener('keyup', function(e) { getCodeList(); });
+            document.getElementById('search').addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    getCodeList();
+                }
+            }, false);
         });
 
         /** create **/

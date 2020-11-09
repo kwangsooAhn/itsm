@@ -8,20 +8,20 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-	<div class="portal-faq-container">
-		<div class="page-title">
+	<div class="faq-header">
+		<div class="header-title flex-row align-items-baseline">
 			<h1 th:text="#{faq.label.list}"></h1>
 			<h6 class="description" th:text="#{faq.label.description}"></h6>
 		</div>
-		<div class="portal-faq-select">
-			<select id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')" class="col-4">
+		<div class="faq-search">
+			<select id="groupCode" name="groupCode" onchange="getFaqList(this.value, '')" class="col-5">
 				<option th:text="#{common.code.faq.category.all}" value="" selected></option>
 				<option th:each="category:${faqs.faqCategory}"
 				        th:text="#{|common.code.${category}|}" th:value="${category}"></option>
 			</select>
 		</div>
 	</div>
-	<div class="portal-faq-result">
+	<div class="faq-content">
 		<div class="list"></div>
 	</div>
 </th:block>
@@ -58,12 +58,13 @@
 	            callbackFunc: function(response) {
 	                document.querySelector('.list').innerHTML = response.responseText;
 					document.getElementsByClassName('faq-group')[0].open = true;
-	                document.getElementsByClassName('faq-title')[0].open = true;
-					let selectedGroup = document.getElementsByClassName('selected-group')[0].id;
-					let selectedId = document.getElementsByClassName('selected-id')[0].id;
+	                document.getElementsByClassName('faq-row')[0].open = true;
+
+					let selectedGroup = document.getElementById('selected-group').value;
+					let selectedId = document.getElementById('selected-id').value;
 					if (selectedId !== '') {
 						let group = document.getElementsByClassName('faq-group');
-	                    let title = document.getElementsByClassName('faq-title');
+	                    let row = document.getElementsByClassName('faq-row');
 	                    for (let i = 0; i < group.length; i++) {
 	                        if (group[i].id === selectedGroup) {
 	                            document.getElementsByClassName('faq-group')[0].open = false;
@@ -71,16 +72,16 @@
 	                            break;
 	                        }
 	                    }
-	                    for (let i = 0; i < title.length; i++) {
-	                        if (title[i].id === selectedId) {
-	                            document.getElementsByClassName('faq-title')[0].open = false;
-	                            title[i].open = true;
-	                            title[i].setAttribute('id', 'highlight')
+	                    for (let i = 0; i < row.length; i++) {
+	                        if (row[i].id === selectedId) {
+	                            document.getElementsByClassName('faq-row')[0].open = false;
+	                            row[i].open = true;
+	                            row[i].setAttribute('id', 'highlight')
 	                            break;
 	                        }
 	                    }
 	                }
-	                OverlayScrollbars(document.querySelectorAll('.portal-faq-result'), { className: 'scrollbar' });
+	                OverlayScrollbars(document.querySelector('.main'), { className: 'scrollbar' });
 	            }
 	        };
 	        aliceJs.sendXhr(opt);
