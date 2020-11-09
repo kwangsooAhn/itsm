@@ -519,11 +519,13 @@
                 this.toggleNode(p_node);
             },
             selectNode: function(p_node) {
-                let span = p_node.elementLi.getElementsByTagName('span')[0];
-                span.className = 'node_selected';
-                if (this.selectedNode !== null && this.selectedNode !== p_node)
-                    this.selectedNode.elementLi.getElementsByTagName('span')[0].className = 'node';
-                this.selectedNode = p_node;
+                if (p_node !== null) {
+                    let span = p_node.elementLi.getElementsByTagName('span')[0];
+                    span.className = 'node_selected';
+                    if (this.selectedNode !== null && this.selectedNode !== p_node)
+                        this.selectedNode.elementLi.getElementsByTagName('span')[0].className = 'node';
+                    this.selectedNode = p_node;
+                }
             },
             removeNode: function(p_node) {
                 let index = p_node.parent.childNodes.indexOf(p_node);

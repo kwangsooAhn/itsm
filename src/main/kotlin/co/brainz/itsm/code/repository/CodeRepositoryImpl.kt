@@ -11,6 +11,30 @@ import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport
 class CodeRepositoryImpl : QuerydslRepositorySupport(CodeEntity::class.java),
     CodeRepositoryCustom {
 
+    override fun findByCodeAll(): QueryResults<CodeEntity> {
+        val code = QCodeEntity.codeEntity
+        return from(code)
+            .orderBy(code.level.asc(), code.code.asc())
+            .fetchResults()
+    }
+
+    override fun countByCodeList(search: String, pCode: String): Long {
+        val code = QCodeEntity.codeEntity
+        return from(code)
+            .select(code)
+            .where(
+                super.likeIgnoreCase(
+                    code.code, search
+                )
+            )
+            .where(
+                super.eq(
+                    code.pCode.code, pCode
+                )
+            )
+            .fetchCount()
+    }
+
     override fun findByCodeList(search: String, pCode: String): QueryResults<CodeEntity> {
         val code = QCodeEntity.codeEntity
         return from(code)
