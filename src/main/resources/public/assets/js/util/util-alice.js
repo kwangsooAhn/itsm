@@ -817,45 +817,6 @@ aliceJs.thumbnail = function(options) {
 };
 
 /**
- * open confirm dialog.
- *
- * @param message message
- * @param okCallbackFunc ok 시 callback function
- * @param cancelCallbackFunc cancel 시 callback function
- */
-aliceJs.confirm = function(message, okCallbackFunc, cancelCallbackFunc) {
-    const myModal = new gModal({
-        message: message,
-        type: 'gmodal-no-icon',
-        buttons: [
-            {
-                content: i18n.msg('common.btn.cancel'),
-                bindKey: false, /* no key! */
-                callback: function(modal) {
-                    if (typeof cancelCallbackFunc === 'function') {
-                        cancelCallbackFunc();
-                    }
-                    modal.hide();
-                }
-            },{
-                content: i18n.msg('common.btn.check'),
-                bindKey: false, /* no key! */
-                callback: function(modal) {
-                    if (typeof okCallbackFunc === 'function') {
-                        okCallbackFunc();
-                    }
-                    modal.hide();
-                }
-            }
-        ],
-        close: {
-            closable: false,
-        }
-    });
-    myModal.show();
-};
-
-/**
  * Object 객체이며 true, 아니면 false를 반환
  * @param item 대상
  * @returns {Boolean} boolean
