@@ -72,7 +72,7 @@
      */
     function saveSelectedNode() {
         const selectedNode = document.querySelector('.node_selected');
-        if(!selectedNode) {
+        if (!selectedNode) {
             aliceJs.alert(i18n.msg('common.msg.dataSelect'));
             return false;
         }
