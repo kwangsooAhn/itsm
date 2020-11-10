@@ -330,7 +330,6 @@ input, button, select, optgroup, textarea {
 }
 
 .required {
-  padding-left: 0.3125rem;
   font-weight: 700;
 }
 
@@ -343,6 +342,23 @@ input, button, select, optgroup, textarea {
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.auto-break {
+  word-break: break-all;
+}
+
+.horizontal-bar {
+  height: 0.0625rem;
+  margin: 0.9375rem 0;
+  background-color: #EBEBEB;
+}
+
+.vertical-bar {
+  width: 1.875rem;
+  min-height: 1.875rem;
+  border-right: 0.0625rem solid #EBEBEB;
+  margin-right: 1.875rem;
 }
 
 /* _fonts.scss 
@@ -5416,7 +5432,7 @@ body.thumbnail-modal-active {
   cursor: pointer;
 }
 
-.notification-container {
+.notification-block {
   position: absolute;
   width: 26.25rem;
   bottom: 0;
@@ -5428,7 +5444,7 @@ body.thumbnail-modal-active {
   display: none;
 }
 
-.notification-container.on {
+.notification-block.on {
   display: block;
 }
 

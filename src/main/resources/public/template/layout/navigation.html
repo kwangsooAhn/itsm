@@ -14,7 +14,7 @@
                 <img class="load-svg" th:src="@{/assets/theme/{theme}/media/icons/gnb/icon_gnb_notification.svg(theme=${#authentication.details.theme})}" width="25" height="27">
                 <span class="notification-count" id="count"></span>
             </div>
-            <div id="notification-container" class="notification-container"></div>
+            <div id="notification-block" class="notification-block"></div>
         </div>
         <div class="user-info">
             <a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}">
@@ -38,7 +38,7 @@
     let notificationDiv = null;
     window.addEventListener('load', function() {
         aliceJs.loadSvg();
-        notificationDiv = document.getElementById('notification-container');
+        notificationDiv = document.getElementById('notification-block');
         hiddenProgressBar();
         setInterval(function () {
             getNotificationList(true);
@@ -65,7 +65,7 @@
 
     function notificationContainerOff(e) {
         //알림창 내부를 클릭한 경우 동작하지 않는다.
-        if (aliceJs.clickInsideElement(e, 'notification-container') || aliceJs.clickInsideElement(e, 'notification')) { return false; }
+        if (aliceJs.clickInsideElement(e, 'notification-block') || aliceJs.clickInsideElement(e, 'notification')) { return false; }
 
         if (notificationDiv && notificationDiv.classList.contains('on')) {
             notificationDiv.classList.remove('on');

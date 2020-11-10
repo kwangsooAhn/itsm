@@ -16,6 +16,7 @@
              th:id="${notification.notificationId}" th:attr="instance-id=${notification.instanceId}"
              th:attrappend="is-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
              th:classappend="${notification.confirmYn} ? confirm">
+
             <div class="title">
                 <label class="notification-checked"><input type="checkbox" th:checked="${notification.confirmYn}"
                               th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"
