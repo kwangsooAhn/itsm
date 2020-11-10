@@ -814,7 +814,7 @@ aliceJs.thumbnail = function(options) {
         },
         contentType: 'application/json; charset=utf-8'
     });
-},
+};
 
 /**
  * open confirm dialog.
