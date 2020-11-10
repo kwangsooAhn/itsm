@@ -80,6 +80,30 @@ $thumbnail-icon-box-shadow:                   0 0 0 0.0625rem $thumbnail-border-
 $tooltip-contents-left:                       auto;
 $tooltip-contents-width:                      22.5rem; // 360px
 
+/////////////////////////// Notification ///////////////////////////
+$notification-icon-width:                     100%;
+$notification-icon-height:                    3.125rem; // 50px
+$notification-icon-padding:                   0.6875rem 0 0.6875rem 1.3125rem; // 11px 0 11px 21px
+
+$notification-container-color:                $light-black;
+$notification-container-background:           $white;
+$notification-container-border:               0.0625rem solid $line-gray; // 1px
+$notification-container-box-shadow:           0 0 0.3125rem 0 $line-gray; // 5px
+
+$notification-header-background:              $point-blue;
+$notification-checkbox-size:                  1.125rem; // 18px
+$notification-checkbox-border:                0.063rem; // 1px
+$notification-checkbox-border-defualt:        $notification-checkbox-border solid $point-blue;
+$notification-checkbox-border-checked:        $notification-checkbox-border solid $line-gray;
+
+$toastify-height:                             6.25rem; // 100px
+$toastify-background:                         $white !important;
+$toastify-border-radius:                      0.0625rem; // 1px
+$toastify-border:                             $toastify-border-radius solid $line-gray !important;
+$toastify-box-shadow:                         0 0 0.3125rem 0 $line-gray !important;
+$toastify-icon-size:                          6.25rem; // 100px
+
+
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                            40rem; // 640px
 $tree-modal-height:                           44.19rem; // 707px
