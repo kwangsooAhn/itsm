@@ -54,8 +54,8 @@
             }
           }
           tbody {
-            display: table;
-            width: 100%;
+            display: block;
+            width: 57.44rem; // 919px
             height: 32.5rem; // 520px
             color: $dark-gray;
             overflow-y: auto;

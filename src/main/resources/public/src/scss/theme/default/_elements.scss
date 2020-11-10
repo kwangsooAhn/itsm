@@ -79,3 +79,11 @@ textarea{
 .switch {
   margin: 1.875rem 0 1.25rem 0; // 30px 0 20px 0
 }
+
+// for designed select
+// 업무흐름 설정 화면용
+table[id="documentDisplay"] {
+  td {
+    overflow: initial;
+  }
+}

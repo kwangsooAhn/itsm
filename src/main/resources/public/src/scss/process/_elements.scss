@@ -23,6 +23,9 @@ textarea,
 table,
 select { width: 100%; }
 
+// for designed select
+.select { width: 100%; }
+
 svg {
   // element 들이 그려지는 영역
   g.element-container {
