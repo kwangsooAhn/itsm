@@ -34,16 +34,19 @@
         selectedValue: '',                      // 선택된 값
         totalCount: false,                      // 전체 개수 표시여부
         expandTree: true,                       // 전체 펼치기
+        classes: 'tree',                        // 모달일 경우 추가되는 class 명
         buttons: [{
             content: 'Confirm',
-            classes: 'tree-modal-button-default',
+            classes: 'default-line',
             bindKey: false,
             callback: function(modal) {
-                modal.save();
+               if (saveSelectedNode()) {
+                   modal.hide();
+               }
             }
         }, {
             content: 'Cancel',
-            classes: 'tree-modal-button-default',
+            classes: 'default-line',
             bindKey: false,
             callback: function(modal) {
                 modal.hide();
@@ -65,211 +68,20 @@
     };
 
     /**
-     * 특정 클래스 목록 조회
-     * @param el 대상객체
+     * 모달에서 선택한 노드 저장
      */
-    function getClasses(el) {
-        return el.className.split(' ').filter(function(c) {
-            return c.length > 0;
-        });
-    }
-
-    /**
-     * 특정 클래스 존재 여부 체크
-     * @param el 대상객체
-     * @param className 클래스명
-     */
-    function hasClass(el, className) {
-        return getClasses(el).indexOf(className) >= 0;
-    }
-
-    /**
-     * 특정 클래스 추가
-     * @param el 대상객체
-     * @param className 클래스명
-     */
-    function addClass(el, className) {
-        if (!hasClass(el, className)) {
-            el.className += ' ' + className;
+    function saveSelectedNode() {
+        const selectedNode = document.querySelector('.node_selected');
+        if (!selectedNode) {
+            aliceJs.alert(i18n.msg('common.msg.dataSelect'));
+            return false;
         }
-    }
-
-    /**
-     * 특정 클래스 삭제
-     * @param el 대상객체
-     * @param className 클래스명
-     */
-    function removeClass(el, className) {
-        if (hasClass(el, className)) {
-            let classes = getClasses(el);
-            classes.splice(classes.indexOf(className), 1);
-            el.className = classes.join(' ');
+        let callbackFunc = options.callbackFunc;
+        if (typeof callbackFunc === 'function') {
+            callbackFunc(selectedNode);
         }
+        return true;
     }
-
-    /**
-     * 모달 생성 (gModal.js 참고)
-     */
-    function Modal() {
-        this.id = Math.random().toString(36).substr(2);
-        this.options = options;
-        this.display = false;
-        this.bindings = {};
-
-        this.bind = function(key, callback) {
-            if (typeof this.bindings[key] !== 'undefined') {
-                console.warn('tree-modal: Tried to bind the key ' + key + ' twice. Overriding...');
-            }
-            this.bindings[key] = callback;
-        };
-
-        this.addKeyListener = function() {
-            window.currentModal = this;
-            window.addEventListener('keydown', this.onKeyPress, false);
-        };
-
-        this.removeKeyListener = function() {
-            window.currentModal = undefined;
-            window.removeEventListener('keydown', this.onKeyPress, false);
-        };
-
-        this.onKeyPress = function(e) { };
-
-        this.show = function() {
-            if (typeof this.wrapper !== 'undefined') {
-                addClass(this.wrapper, 'tree-modal-active');
-                addClass(document.body, 'tree-modal-active');
-                this.display = true;
-                this.options.onShow(this);
-            }
-        };
-
-        this.hide = function() {
-            if (typeof this.wrapper !== 'undefined') {
-                removeClass(this.wrapper, 'tree-modal-active');
-                removeClass(document.body, 'tree-modal-active');
-                this.display = false;
-                this.options.onHide(this);
-            }
-        };
-
-        this.save = function() {
-            const selectedNode = document.querySelector('.node_selected');
-            if(!selectedNode) {
-                aliceJs.alert(i18n.msg('common.msg.dataSelect'));
-                return false;
-            }
-            let callbackFunc = options.callbackFunc;
-            if (typeof callbackFunc === 'function') {
-                callbackFunc(selectedNode);
-            }
-            this.hide();
-        };
-
-        this.select = function(e) { };
-
-        this.create = function() {
-            if (typeof this.wrapper !== 'undefined') { return; }
-            let backdrop, dialog;
-
-            this.wrapper = document.createElement('div');
-            this.wrapper.className = 'tree-modal-wrapper';
-            this.wrapper.id = 'tree-modal-wrapper-' + this.id;
-
-            backdrop = document.createElement('div');
-            backdrop.className = 'tree-modal-backdrop';
-
-            dialog = document.createElement('div');
-            dialog.className = 'tree-modal-dialog';
-
-            const body = document.createElement('div');
-            body.className = 'tree-modal-body';
-
-            const container = document.createElement('div');
-            container.className = 'tree-container';
-
-            if (this.options.title instanceof Element || (typeof this.options.title === 'string' && this.options.title !== '')) {
-                const title = document.createElement('div');
-                title.className = 'tree-title';
-                if (this.options.title instanceof Element) {
-                    title.appendChild(this.options.title);
-                } else {
-                    title.innerHTML = this.options.title;
-                }
-                container.appendChild(title);
-            }
-
-            const list = document.createElement('div');
-            list.className = 'tree-list';
-            list.id = options.target;
-            container.appendChild(list);
-
-            body.appendChild(container);
-            dialog.appendChild(body);
-
-            if (this.options.buttons.length > 0) {
-                const buttons = document.createElement('div');
-                buttons.className = 'tree-modal-buttons btn-list';
-
-                for (let i = 0; i < this.options.buttons.length; i++) {
-                    const button = document.createElement('button');
-                    button.type = 'button';
-                    button.className = 'default-line';
-                    if (typeof this.options.buttons[i].classes !== 'undefined') {
-                        button.className += ' ' + this.options.buttons[i].classes;
-                    }
-
-                    if (typeof this.options.buttons[i].content !== 'undefined') {
-                        button.innerHTML = this.options.buttons[i].content;
-                    }
-
-                    if (typeof this.options.buttons[i].callback === 'undefined') {
-                        this.options.buttons[i].callback = function(modal) {
-                            modal.hide();
-                        };
-                    }
-
-                    // button click
-                    button.modal = this;
-                    button.callback = this.options.buttons[i].callback;
-                    button.onclick = function(e) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        this.callback(this.modal);
-                        return false;
-                    };
-
-                    // button key binding
-                    if (typeof this.options.buttons[i].bindKey === 'number') {
-                        this.bind(
-                            this.options.buttons[i].bindKey,
-                            this.options.buttons[i].callback
-                        );
-                    }
-
-                    buttons.appendChild(button);
-                }
-                dialog.appendChild(buttons);
-            }
-            this.wrapper.appendChild(backdrop);
-            this.wrapper.appendChild(dialog);
-            document.body.appendChild(this.wrapper);
-            this.addKeyListener();
-            this.options.onCreate(this);
-        };
-
-        this.destroy = function() {
-            if (typeof this.wrapper !== 'undefined') {
-                document.body.removeChild(this.wrapper);
-                this.wrapper = undefined;
-                this.removeKeyListener();
-                this.options.onDestroy(this);
-            }
-        };
-
-        this.create();
-    }
-
 
     /**
      * Tree Object.

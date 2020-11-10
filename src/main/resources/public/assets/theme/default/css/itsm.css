@@ -4848,73 +4848,26 @@ span.node_selected label {
   cursor: pointer;
 }
 
-body.tree-modal-active {
-  overflow: hidden !important;
-}
-
-.tree-modal-wrapper {
-  display: none;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: auto;
-}
-
-.tree-modal-wrapper.tree-modal-active {
-  display: block;
-}
-
-.tree-modal-wrapper .tree-modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(116, 147, 179, 0.5);
-  z-index: 2001;
-}
-
-.tree-modal-wrapper .tree-modal-dialog {
-  position: absolute;
-  top: 6em;
-  left: 0;
-  right: 0;
-  width: 40rem;
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  background-color: #ffffff;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  margin: 0 auto 0 auto;
-  z-index: 2001;
-}
-
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-body {
-  overflow: auto;
-  height: auto;
-  box-sizing: border-box;
-  border-bottom: 0.0625rem solid #EBEBEB;
-}
-
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container {
+.tree-container {
   font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   margin: 1.875rem 2.5rem;
   position: relative;
 }
 
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container .tree-title {
+.tree-container .tree-title {
   height: 2.5rem;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 500;
   color: #3F4B56;
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container .tree-list {
+.tree-container .tree-list {
   margin-top: 0.625rem;
   height: 32.5rem;
 }
 
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container .tree-nodata {
+.tree-container .tree-nodata {
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -4922,12 +4875,6 @@ body.tree-modal-active {
   font-size: 1rem;
   font-weight: 500;
   color: #3F4B56;
-}
-
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-buttons {
-  height: 4.5rem;
-  float: right;
-  padding: 1rem;
 }
 
 /* _color-picker.scss 
@@ -4991,18 +4938,18 @@ body.tree-modal-active {
   outline: 0.0625rem solid #0098FF;
 }
 
-/* _thumbnail.scss 
+/* _modal.scss 
  *
- * 파일 경로 : template/_thumbnail.scss
- * @description 썸네일 디자인
- * @author jy.lim
+ * 파일 경로 : template/_modal.scss
+ * @description 모달 디자인
+ * @author wdj
  * @version 1.0
  */
-body.thumbnail-modal-active {
+body.modal-active {
   overflow: hidden !important;
 }
 
-.thumbnail-modal-wrapper {
+.modal-wrapper {
   position: fixed;
   top: 0;
   right: 0;
@@ -5013,54 +4960,78 @@ body.thumbnail-modal-active {
   z-index: 1;
 }
 
-.thumbnail-modal-wrapper.thumbnail-modal-active {
+.modal-wrapper.modal-active {
   display: block;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-backdrop {
+.modal-wrapper .modal-backdrop {
   position: fixed;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
   z-index: 2001;
-  background: rgba(116, 147, 179, 0.5);
+  background-color: rgba(116, 147, 179, 0.5);
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog {
-  z-index: 2001;
+.modal-wrapper .modal-dialog {
   position: absolute;
   top: 4em;
   left: 0;
   right: 0;
-  width: 77.5rem;
+  width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #ffffff;
-  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
+  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border-radius: 0.0625rem;
+  z-index: 2001;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-title {
+.modal-wrapper .modal-dialog .modal-header {
   height: 3.375rem;
-  color: #3F4B56;
-  font-size: 1rem;
+  font-size: 1.125rem;
   font-weight: 500;
-  border-bottom: solid 0.0625rem #EBEBEB;
+  color: #3F4B56;
+  border-bottom: 0.0625rem solid #EBEBEB;
   padding: 1.125rem 0 0 1.25rem;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-body {
+.modal-wrapper .modal-dialog .modal-content {
+  height: calc(22.5rem - 3.375rem - 5rem);
+  border-bottom: 0.0625rem solid #EBEBEB;
   overflow: auto;
-  height: 40rem;
-  border-bottom: solid 0.0625rem #EBEBEB;
 }
 
-.thumbnail-modal-wrapper .thumbnail-modal-dialog .thumbnail-modal-buttons {
+.modal-wrapper .modal-dialog .modal-bottom {
   height: 5rem;
-  display: flex;
-  float: right;
   padding: 1.25rem 1.25rem 1.25rem 0;
 }
 
+.modal-dialog.thumbnail-icon {
+  width: 47.81rem;
+  height: 45rem;
+}
+
+.modal-dialog.thumbnail-icon .modal-content {
+  height: calc(45rem - 3.375rem - 5rem);
+}
+
+.modal-dialog.tree {
+  width: 40rem;
+  height: 44.19rem;
+}
+
+.modal-dialog.tree .modal-content {
+  height: calc(44.19rem - 3.375rem - 5rem);
+}
+
+/* _thumbnail.scss 
+ *
+ * 파일 경로 : template/_thumbnail.scss
+ * @description 썸네일 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
 .thumbnail-container {
   font-family: "Noto Sans KR";
   overflow-y: auto;
@@ -5082,7 +5053,7 @@ body.thumbnail-modal-active {
 
 .thumbnail-container .thumbnail.selected, .thumbnail-container .thumbnail:hover {
   border-color: transparent;
-  box-shadow: 0 0 0 0.125rem #0098FF;
+  box-shadow: 0 0 0 0.125rem #0098FF !important;
   background-color: rgba(0, 152, 255, 0.05);
 }
 
@@ -5200,82 +5171,22 @@ body.thumbnail-modal-active {
   font-size: 1.875rem;
 }
 
-.thumbnail-icon-modal-wrapper {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  display: none;
-  overflow: auto;
-  z-index: 1;
-}
-
-.thumbnail-icon-modal-wrapper.thumbnail-modal-active {
-  display: block;
-}
-
-.thumbnail-icon-modal-wrapper .thumbnail-modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2001;
-  background: rgba(116, 147, 179, 0.5);
-}
-
-.thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog {
-  z-index: 2001;
-  position: absolute;
-  top: 4em;
-  left: 0;
-  right: 0;
-  width: 77.5rem;
-  margin: 0 auto 2em auto;
-  background-color: #ffffff;
-  box-shadow: 0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25);
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  width: 45rem;
-}
-
-.thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog .thumbnail-modal-title {
-  height: 3.375rem;
-  color: #3F4B56;
-  font-size: 1rem;
-  font-weight: 500;
-  border-bottom: solid 0.0625rem #EBEBEB;
-  padding: 1.125rem 0 0 1.25rem;
-}
-
-.thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog .thumbnail-modal-body {
-  overflow: auto;
-  height: 40rem;
-  border-bottom: solid 0.0625rem #EBEBEB;
-}
-
-.thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog .thumbnail-modal-buttons {
-  height: 5rem;
-  display: flex;
-  float: right;
-  padding: 1.25rem 1.25rem 1.25rem 0;
-}
-
-.thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog .thumbnail-modal-body .thumbnail-container {
-  padding: 0;
+.thumbnail-icon .thumbnail-container {
+  padding: 1.375rem;
   height: auto;
 }
 
-.thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail {
-  width: 6.25rem;
-  height: 6.25rem;
+.thumbnail-icon .thumbnail-container .thumbnail {
+  width: 10.31rem;
+  height: 10.31rem;
   margin: 0.4375rem;
+  box-shadow: 0 0 0 0.0625rem #EBEBEB;
 }
 
-.thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-img, .thumbnail-icon-modal-wrapper .thumbnail-icon-modal-dialog .thumbnail-modal-body .thumbnail-container .thumbnail div.thumbnail-icon {
-  height: 100%;
-  background-size: 100% !important;
+.thumbnail-icon .thumbnail-container .thumbnail .thumbnail-icon {
+  width: 6.25rem;
+  height: 6.25rem;
+  margin: 2rem auto;
 }
 
 /* _avatar.scss 

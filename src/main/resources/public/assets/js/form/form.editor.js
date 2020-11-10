@@ -320,7 +320,32 @@
         /**
          * 다른 이름으로 저장하기 모달.
          */
-        const saveAsModal = aliceJs.confirm(createDialogContent(), () => saveAsCallBack(), () => '');
+        const saveAsModal = new modal({
+            title: i18n.msg('common.btn.saveAs'),
+            body: createDialogContent(),
+            classes: 'save-as',
+            buttons: [
+                {
+                    content: i18n.msg('common.btn.check'),
+                    bindKey: false,
+                    callback: function(modal) {
+                        if (saveAsCallBack()) {
+                          modal.hide();
+                        }
+                    }
+                },{
+                    content: i18n.msg('common.btn.cancel'),
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }
+            ],
+            close: {
+                closable: false,
+            }
+        });
+        saveAsModal.show();
     }
 
     /**
@@ -1294,11 +1319,14 @@
                                         fieldGroupElem.insertAdjacentHTML('beforeend', fieldTemplate);
 
                                         fieldGroupElem.querySelector('#imageUploadPop').addEventListener('click', function(e) {
-                                            thumbnail.init({
+                                            aliceJs.thumbnail({
                                                 title: i18n.msg('image.label.popupTitle'),
                                                 targetId: 'path-' + selectedComponentIds[0],
-                                                selectedPath: fieldGroupElem.querySelector('#path-' + selectedComponentIds[0]).value,
-                                                thumbnailDoubleClickUse: true
+                                                type: 'image',
+                                                isThumbnailInfo: true,
+                                                isFilePrefix: true,
+                                                thumbnailDoubleClickUse: true,
+                                                selectedPath: fieldGroupElem.querySelector('#path-' + selectedComponentIds[0]).value
                                             });
                                         });
                                         break;
