@@ -718,6 +718,7 @@
             return a.display.order < b.display.order ? -1 : a.display.order > b.display.order ? 1 : 0;
         });
         component.setLastIndex(components.length);
+        aliceJs.initDesignedSelectTag();
     }
 
     /**
@@ -895,7 +896,9 @@
             callbackFunc: function(xhr) {
                 let customCodeData = JSON.parse(xhr.responseText);
                 customCodeDataSelect.innerHTML = customCodeData.map(d => `<option value='${d.key}'>${d.value}</option>`).join('');
-                let targetRadio = customCodeDataSelect.parentNode.querySelector('input[type=radio]');
+                // for designed select
+                // 디자인된 select를 위해 wrap 위에서 querySelector 사용
+                let targetRadio = customCodeDataSelect.parentNode.parentNode.querySelector('input[type=radio]');
                 if (targetRadio.checked) {
                     if (typeof data !== 'undefined' && data.default !== '') {
                         const propValueArr = data.default.split('|');
@@ -936,33 +939,46 @@
     }
 
     function toggleSessionButtonClickHandler(e) {
-        const elem = e.target; // 선택된 toggle 버튼
-        const parentElem = elem.parentNode; // property-field-toggle
+        const toggleBtnElem = e.target; // 선택된 toggle 버튼
+        const parentElem = toggleBtnElem.parentNode; // property-field-toggle
         const parentGroupElem = parentElem.parentNode; // property-field
         let changePropertiesArr = parentGroupElem.id.split('-'); // property-field
-        const isActive = elem.classList.contains('active');
-        if (!isActive) {
+        if (!toggleBtnElem.classList.contains('active')) {
             let defaultValue = '';
             for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
                 const child = parentElem.childNodes[i];
-                const toggleElem = parentGroupElem.querySelector('#' + child.name);
-                if (child.name === elem.name) {
-                    elem.classList.add('active');
-                    toggleElem.style.display = 'block';
-                    if (toggleElem.tagName === 'SELECT') {
-                        toggleElem.options[0].selected = true;
-                        defaultValue = toggleElem.options[0].value + '|' + toggleElem.options[0].text;
+                const toggleTargetElem = parentGroupElem.querySelector('#' + child.name);
+                if (child.name === toggleBtnElem.name) {
+                    toggleBtnElem.classList.add('active');
+                    toggleTargetElem.style.display = 'block';
+                    if (toggleTargetElem.tagName === 'SELECT') {
+                        toggleTargetElem.options[0].selected = true;
+                        defaultValue = toggleTargetElem.options[0].value + '|' + toggleTargetElem.options[0].text;
+                        // for designed select
+                        if (toggleTargetElem.parentNode.classList.contains('select')) {
+                            toggleTargetElem.parentElement.querySelector('.designed-select').innerText = toggleTargetElem.options[0].text;
+                        }
                     } else {
-                        defaultValue = toggleElem.value;
+                        defaultValue = toggleTargetElem.value;
+                    }
+                    // for designed select
+                    // toggle 에 따라 designed select 를 화면에 표시 출력.
+                    if (toggleTargetElem.parentNode.classList.contains('select')) {
+                        toggleTargetElem.parentNode.style.display = 'block';
                     }
                 } else {
                     if (child.classList.contains('active')) {
                         child.classList.remove('active');
                     }
-                    toggleElem.style.display = 'none';
+                    toggleTargetElem.style.display = 'none';
+                    // for designed select
+                    // toggle 에 따라 designed select 를 화면에서 숨김.
+                    if (toggleTargetElem.parentNode.classList.contains('select')) {
+                        toggleTargetElem.parentNode.style.display = 'none';
+                    }
                 }
             }
-            changePropertiesValue(elem.name + '|' + defaultValue, changePropertiesArr[0], changePropertiesArr[1]);
+            changePropertiesValue(toggleBtnElem.name + '|' + defaultValue, changePropertiesArr[0], changePropertiesArr[1]);
         }
     }
 
@@ -1624,7 +1640,7 @@
                     } else {
                         changeElem.addEventListener('change', function (e) {
                             const elem = e.target;
-                            const parentElem = elem.parentNode;
+                            const parentElem = elem.parentElement.classList.contains('select') ? elem.parentNode.parentNode : elem.parentNode;
                             if (elem.classList.contains('session')) {
                                 const changePropertiesArr = parentElem.id.split('-');
                                 changePropertiesValue(elem.id + '|' + elem.value + '|' + elem.options[elem.selectedIndex].text, changePropertiesArr[0], changePropertiesArr[1]);
@@ -1648,6 +1664,9 @@
                     }
             }
         }
+        // for designed select
+        // 속성창을 새로 그린 후 designed select 초기화
+        aliceJs.initDesignedSelectTag();
     }
 
     /**
@@ -1749,6 +1768,9 @@
             });
         });
         propertiesPanel.appendChild(formElem);
+        // for designed select
+        // 폼 속성창을 그린 후 designed select 초기화.
+        aliceJs.initDesignedSelectTag();
     }
 
     /**

@@ -26,8 +26,8 @@
       font-size: 1.125rem; // 18px
       padding: 0 0.9375rem; // 15px
     }
-    // 아이콘 구분자  
-    .separator { 
+    // 아이콘 구분자
+    .separator {
       width: 0.063rem; // 1px
       height: 1.25rem; // 20px
       background-color: #4DB7FF;
@@ -84,7 +84,7 @@
         border-radius: $minimap-border-radius;
         box-shadow: $minimap-box-shadow;
         overflow: hidden;
-  
+
         svg {
             position: absolute;
             top: 1.875rem; // 30px
@@ -231,8 +231,8 @@
       .copy { width: 81% !important; }
       // script task 파일 추가
       .file-select-group {
-        .file { 
-          width: 81% !important; 
+        .file {
+          width: 81% !important;
           margin-right: 5px; // 5px;
         }
         .btn-add { margin-top: 15px; }
@@ -242,8 +242,8 @@
       .script-data {
         margin-top: 15px; // 15px
         button { padding: 0; }
-        tr { 
-          th, td { 
+        tr {
+          th, td {
             text-align: center;
             vertical-align: middle;
             border-color: $table-border-color;
@@ -261,7 +261,7 @@
         border-bottom: $layout-properties-border;
       }
       &[name="condition"] {
-        border-bottom: $layout-properties-border; 
+        border-bottom: $layout-properties-border;
         .properties:last-child { border: none; }
       }
     }
