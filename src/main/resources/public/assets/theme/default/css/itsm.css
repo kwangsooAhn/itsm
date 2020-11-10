@@ -2114,16 +2114,14 @@ button .icon-plus {
 }
 
 .itsm-container .contents-token .search-area {
+  height: 6.25rem;
   padding: 1.875rem 3.75rem 1.875rem 3.75rem;
   border-bottom: 0.0625rem solid #EBEBEB;
-  height: 6.25rem;
 }
 
 .itsm-container .contents-token .list {
   background-color: #ffffff;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
   flex: auto;
 }
 
@@ -2157,12 +2155,10 @@ button .icon-plus {
 }
 
 .itsm-container .contents-token .list-item .document-row-content .document-title {
-  display: flex;
-  flex-direction: row;
   align-items: center;
 }
 
-.itsm-container .contents-token .list-item .document-row-content .document-title h3 {
+.itsm-container .contents-token .list-item .document-row-content .document-title .text-ellipsis {
   margin-right: 0.625rem;
   max-width: 50rem;
 }
@@ -2187,7 +2183,6 @@ button .icon-plus {
 .itsm-container .contents-token .list-item .document-row-info .document-detail {
   display: flex;
   align-items: center;
-  float: right;
 }
 
 .itsm-container .contents-token .list-item .document-row-info .document-detail .document-user {
@@ -2219,7 +2214,7 @@ button .icon-plus {
   background: #ffffff;
 }
 
-.itsm-container .contents-token.dashboard .header.dashboard {
+.itsm-container .contents-token.dashboard .header {
   padding-bottom: 2.875rem;
   background: #F7F8F9;
   border-bottom: 0.0625rem solid #EBEBEB;
@@ -2230,7 +2225,6 @@ button .icon-plus {
   padding: 0.625rem 3.75rem;
   background-color: #ffffff;
   display: flex;
-  justify-content: space-between;
 }
 
 .itsm-container .contents-token.dashboard .dashboard-statistic .statistic-box {
@@ -2242,33 +2236,33 @@ button .icon-plus {
   padding: 1.5625rem;
 }
 
-.itsm-container .contents-token.dashboard .dashboard-statistic .statistic-box .statistic-info {
+.itsm-container .contents-token.dashboard .dashboard-statistic .statistic-info {
   margin-left: 1.5625rem;
 }
 
-.itsm-container .contents-token.dashboard .dashboard-statistic .statistic-box .statistic-info .statistic-count {
+.itsm-container .contents-token.dashboard .dashboard-statistic .statistic-count {
   color: #3F4B56;
   font-size: 1.5rem;
   font-weight: 500;
+  display: flex;
   margin-bottom: 0.9375rem;
 }
 
-.itsm-container .contents-token.dashboard .dashboard-statistic .statistic-box .statistic-info .statistic-type {
+.itsm-container .contents-token.dashboard .dashboard-statistic .statistic-type {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
   color: #929AA6;
 }
 
-.itsm-container .contents-token.dashboard .title-middle {
-  margin-top: 3.125rem;
-  margin-left: 3.75rem;
+.itsm-container .contents-token.dashboard .subtitle {
+  margin: 3.125rem 0 0 3.75rem;
   color: #3F4B56;
   font-size: 1.5rem;
   font-weight: 500;
 }
 
-.itsm-container .contents-token.dashboard .list .list-item {
+.itsm-container .contents-token.dashboard .list-item {
   margin: 0.625rem 3.75rem;
 }
 

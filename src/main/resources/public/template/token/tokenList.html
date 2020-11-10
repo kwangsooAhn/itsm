@@ -12,7 +12,7 @@
         <div class="document-row">
             <div class="document-row-content">
                 <span sec:authorize="hasAuthority('token.read')" th:onclick="openTokenEdit([[${token.tokenId}]])">
-                    <div class="document-title">
+                    <div class="document-title flex-row">
                         <h3 th:text="${token.documentName}" class="text-ellipsis"></h3>
                         <h5 th:text="${token.documentNo}" class="text-ellipsis"></h5>
                     </div>
@@ -22,7 +22,7 @@
                 </span>
             </div>
             <div class="document-row-info">
-                <div class="document-detail">
+                <div class="document-detail .float-right">
                     <div class="document-user">
                         <img class="profile-photo" alt="profile pic" th:src="${token.avatarPath}">
                         <h5 class="user-name" th:text="${token.createUserName}"></h5>

@@ -14,33 +14,33 @@
                 <h6 class="title-description" th:text="#{dashboard.label.dashboard}"></h6>
             </div>
         </div>
-        <div class="title-middle">업무통계</div>
-        <div id="statistic" class="dashboard-statistic">
+        <div class="subtitle">업무통계</div>
+        <div id="statistic" class="dashboard-statistic justify-content-between">
             <div class="statistic-box">
                 <img th:src="@{/assets/theme/{theme}/media/images/dashboard/img_dashboard_document.png(theme=${#authentication.details.theme})}">
                 <div class="statistic-info">
-                    <div class="statistic-count">1</div>
+                    <span class="statistic-count">1</span>
                     <span class=""statistic-type>처리할 문서</span>
                 </div>
             </div>
             <div class="statistic-box">
                 <img th:src="@{/assets/theme/{theme}/media/images/dashboard/img_dashboard_daily.png(theme=${#authentication.details.theme})}">
                 <div class="statistic-info">
-                    <div class="statistic-count">0(3)</div>
+                    <span class="statistic-count">0(3)</span>
                     <span class=""statistic-type>오늘</span>
                 </div>
             </div>
             <div class="statistic-box">
                 <img th:src="@{/assets/theme/{theme}/media/images/dashboard/img_dashboard_weekly.png(theme=${#authentication.details.theme})}">
                 <div class="statistic-info">
-                    <div class="statistic-count">4(5)</div>
+                    <span class="statistic-count">4(5)</span>
                     <span class=""statistic-type>이번 주</span>
                 </div>
             </div>
             <div class="statistic-box">
                 <img th:src="@{/assets/theme/{theme}/media/images/dashboard/img_dashboard_monthly.png(theme=${#authentication.details.theme})}">
                 <div class="statistic-info">
-                    <div class="statistic-count">11(12)</div>
+                    <span class="statistic-count">11(12)</span>
                     <span class=""statistic-type>이번 달</span>
                 </div>
             </div>
@@ -54,8 +54,8 @@
             <input type="hidden" id="searchToDt" name="searchToDt" class="search-date" />
             <input type="hidden" id="searchTags" name="searchTags" value="" />
         </form>
-        <div class="title-middle">처리할 문서</div>
-        <div class="scroll-wrap list">
+        <div class="subtitle">처리할 문서</div>
+        <div class="scroll-wrap list flex-column">
             <div class="list" id="tokenList"></div>
         </div>
     </div>
