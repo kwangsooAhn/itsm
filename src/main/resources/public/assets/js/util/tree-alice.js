@@ -34,7 +34,7 @@
         selectedValue: '',                      // 선택된 값
         totalCount: false,                      // 전체 개수 표시여부
         expandTree: true,                       // 전체 펼치기
-        classes: 'tree',
+        classes: 'tree',                        // 모달일 경우 추가되는 class 명
         buttons: [{
             content: 'Confirm',
             classes: 'default-line',

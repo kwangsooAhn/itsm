@@ -84,7 +84,7 @@
      */
     function removeClass(el, className) {
         if (hasClass(el, className)) {
-            var classes = getClasses(el);
+            let classes = getClasses(el);
             classes.splice(classes.indexOf(className), 1);
             el.className = classes.join(' ');
         }
@@ -123,11 +123,11 @@
                 typeof window.currentModal !== 'undefined' &&
                 window.currentModal instanceof gModal
             ) {
-                var _that = window.currentModal;
+                let _that = window.currentModal;
                 if (!_that.display) return;
-                var keyCode = e.keyCode || e.which;
-                var keys = Object.keys(_that.bindings);
-                for (var i = 0; i < keys.length; i++) {
+                let keyCode = e.keyCode || e.which;
+                let keys = Object.keys(_that.bindings);
+                for (let i = 0; i < keys.length; i++) {
                     if (parseInt(keys[i]) === keyCode) {
                         e.preventDefault();
                         e.stopPropagation();
@@ -209,7 +209,7 @@
             }
             // 제목
             if (this.options.title instanceof Element ||
-                (typeof this.options.title === "string" && this.options.title != '')) {
+                (typeof this.options.title === "string" && this.options.title !== '')) {
                 let title = document.createElement('div');
                 title.className = 'modal-header';
                 if (this.options.title instanceof Element) {
@@ -221,7 +221,7 @@
             }
 
             if (this.options.body instanceof Element ||
-                (typeof this.options.body === "string" && this.options.body != '')) {
+                (typeof this.options.body === "string" && this.options.body !== '')) {
                 let body = document.createElement('div');
                 body.className = 'modal-content';
                 if (this.options.body instanceof Element) {
