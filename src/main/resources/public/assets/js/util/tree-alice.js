@@ -33,6 +33,7 @@
         leafIcon: '',                           // 마지막 node 의 아이콘
         selectedValue: '',                      // 선택된 값
         totalCount: false,                      // 전체 개수 표시여부
+        expandTree: true,                       // 전체 펼치기
         classes: 'tree',
         buttons: [{
             content: 'Confirm',
@@ -129,7 +130,8 @@
                     collapseNode: function() { v_tree.collapseNode(this); },
                     collapseSubtree: function() { v_tree.collapseSubtree(this); },
                     removeChildNodes: function() { v_tree.removeChildNodes(this); },
-                    createChildNode: function(item, p_expanded, p_depth) { return v_tree.createNode(item, p_expanded, p_depth, this); }
+                    createChildNode: function(item, p_expanded, p_depth) { return v_tree.createNode(item, p_expanded, p_depth, this); },
+                    expandTree: function() { v_tree.expandTree(); }
                 }
 
                 if (this.rendered) {
@@ -331,11 +333,13 @@
                 this.toggleNode(p_node);
             },
             selectNode: function(p_node) {
-                let span = p_node.elementLi.getElementsByTagName('span')[0];
-                span.className = 'node_selected';
-                if (this.selectedNode !== null && this.selectedNode !== p_node)
-                    this.selectedNode.elementLi.getElementsByTagName('span')[0].className = 'node';
-                this.selectedNode = p_node;
+                if (p_node !== null) {
+                    let span = p_node.elementLi.getElementsByTagName('span')[0];
+                    span.className = 'node_selected';
+                    if (this.selectedNode !== null && this.selectedNode !== p_node)
+                        this.selectedNode.elementLi.getElementsByTagName('span')[0].className = 'node';
+                    this.selectedNode = p_node;
+                }
             },
             removeNode: function(p_node) {
                 let index = p_node.parent.childNodes.indexOf(p_node);
@@ -562,6 +566,7 @@
      * @param userOptions 옵션
      */
     function load(userOptions) {
+
         // 버튼 다국어 처리
         defaults.buttons[0].content = i18n.msg('common.btn.check');
         defaults.buttons[1].content = i18n.msg('common.btn.close');
@@ -573,18 +578,7 @@
         // 모달일 경우 선택 모달 생성.
         let treeModal;
         if (options.view === 'modal') {
-            // 트리 body 추가
-            const container = document.createElement('div');
-            container.className = 'tree-container';
-
-            const list = document.createElement('div');
-            list.className = 'tree-list';
-            list.id = options.target;
-            container.appendChild(list);
-
-            options.body = container;
-            treeModal = new modal(options);
-            treeModal.show()
+            treeModal = new Modal();
         }
         aliceJs.sendXhr({
             method: 'get',
@@ -609,6 +603,9 @@
                                 selectedNode(this);
                             });
                         });
+                    }
+                    if (options.expandTree) {
+                        tree.expandTree();
                     }
                 } else {
                     document.querySelector('#' + options.target).innerHTML = '';

@@ -2968,8 +2968,8 @@ button .icon-plus {
 }
 
 .itsm-popup .related-instance-main .table-set table tbody {
-  display: table;
-  width: 100%;
+  display: block;
+  width: 57.44rem;
   height: 32.5rem;
   color: #586872;
   overflow-y: auto;

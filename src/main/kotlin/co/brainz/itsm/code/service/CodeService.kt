@@ -7,6 +7,7 @@ import co.brainz.itsm.code.dto.CodeDto
 import co.brainz.itsm.code.entity.CodeEntity
 import co.brainz.itsm.code.repository.CodeRepository
 import co.brainz.itsm.user.repository.UserRepository
+import com.querydsl.core.QueryResults
 import org.springframework.dao.EmptyResultDataAccessException
 import org.springframework.stereotype.Service
 
@@ -44,30 +45,55 @@ class CodeService(
     }
 
     /**
-     * 코드 데이터 전체 목록 조회
+     * 트리 조회.
      */
     fun getCodeList(search: String, pCode: String): MutableList<CodeDto> {
-        val queryResults = codeRepository.findByCodeList(search, pCode)
-        var codeSearchList = queryResults.results
-        val pCodeList = mutableListOf<CodeEntity>()
-        if (search.isNotEmpty()) {
-            for (code in queryResults.results) {
-                var tempCode = code.pCode
-                do {
-                    if (tempCode != null) {
-                        pCodeList.add(tempCode)
-                        tempCode = tempCode.pCode
+        val treeCodeList = mutableListOf<CodeDto>()
+        val queryResults: QueryResults<CodeEntity>
+        var returnList = emptyList<CodeEntity>()
+        var count = 0L
+        when (search.isEmpty()) {
+            true -> {
+                queryResults = codeRepository.findByCodeAll()
+                val allList = queryResults.results
+                val codeSearchList = mutableListOf<CodeEntity>()
+                if (pCode.isNotEmpty()) {
+                    val codeList = mutableListOf<CodeEntity>()
+                    val pCodeEntity = allList.filter { it.code == pCode }[0]
+                    if (pCodeEntity !== null) {
+                        codeList.add(pCodeEntity)
+                        getChildCode(allList, pCodeEntity, codeList)
                     }
-                } while (tempCode != null)
+                    codeSearchList.addAll(codeList)
+                } else {
+                    codeSearchList.addAll(allList)
+                }
+                count = codeSearchList.size.toLong()
+                returnList = codeSearchList
+            }
+            false -> {
+                queryResults = codeRepository.findByCodeList(search, pCode)
+                var codeSearchList = queryResults.results
+                val pCodeList = mutableListOf<CodeEntity>()
+                for (code in queryResults.results) {
+                    var tempCode = code.pCode
+                    do {
+                        if (tempCode != null) {
+                            pCodeList.add(tempCode)
+                            tempCode = tempCode.pCode
+                        }
+                    } while (tempCode != null)
+                }
+                if (pCodeList.isNotEmpty()) {
+                    codeSearchList.addAll(pCodeList)
+                    codeSearchList = codeSearchList.distinct()
+                }
+                count = queryResults.total
+                returnList = codeSearchList
             }
         }
-        if (pCodeList.isNotEmpty()) {
-            codeSearchList.addAll(pCodeList)
-            codeSearchList = codeSearchList.distinct()
-        }
-        val codeList = mutableListOf<CodeDto>()
-        for (codeEntity in codeSearchList) {
-            codeList.add(
+        for (codeEntity in returnList) {
+            treeCodeList.add(
                 CodeDto(
                     code = codeEntity.code,
                     pCode = codeEntity.pCode?.code,
@@ -79,11 +105,11 @@ class CodeService(
                     level = codeEntity.level,
                     seqNum = codeEntity.seqNum,
                     createUserName = codeEntity.createUser?.userName,
-                    totalCount = queryResults.total
+                    totalCount = count
                 )
             )
         }
-        return codeList
+        return treeCodeList
     }
 
     /**
@@ -183,5 +209,20 @@ class CodeService(
             }
         }
         return status
+    }
+
+    /**
+     * 부모코드로 자식코드를 찾는다.
+     */
+    private fun getChildCode(
+        allList: MutableList<CodeEntity>,
+        pCodeEntity: CodeEntity,
+        codeList: MutableList<CodeEntity>
+    ) {
+        val childList = allList.filter { it.pCode?.code == pCodeEntity.code }
+        for (child in childList) {
+            codeList.add(child)
+            getChildCode(allList, child, codeList)
+        }
     }
 }

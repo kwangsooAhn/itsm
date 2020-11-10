@@ -19,13 +19,16 @@
             <img class="signup-main-image" th:src="@{/assets/media/images/signup/img_signup_main.png}" width="1310" height="800" alt="Signup Main">
         </div>
         <div class="signup-form">
-            <h1 th:text="#{login.label.userSignUp}"></h1>
+            <h1 class="align-center" th:text="#{login.label.userSignUp}"></h1>
             <div class="signup-base">
                 <form id="signUpForm" method="post" onsubmit="return false">
-                    <div class="signup-base-form">
+                    <div class="signup-base-form flex-column">
                         <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
                         <div>
-                            <label class="required" th:text="#{user.label.id}"></label>
+                            <label>
+                                <span th:text="#{user.label.id}"></span>
+                                <span class="required"></span>
+                            </label>
                             <div class="help-tooltip">
                                 <span class="help-tooltip-icon"></span>
                                 <div class="tooltip-contents">
@@ -35,7 +38,10 @@
                         </div>
                         <input type="text" id="userId" name="userId" maxlength="100" required="required">
                         <div>
-                            <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.password}"></label>
+                            <label href="#password-guide" tabindex="-1">
+                                <span th:text="#{user.label.password}"></span>
+                                <span class="required"></span>
+                            </label>
                             <div class="help-tooltip">
                                 <span class="help-tooltip-icon"></span>
                                 <div class="tooltip-contents">
@@ -44,11 +50,20 @@
                             </div>
                         </div>
                         <input type="password" id="password" name="password" maxlength="100" required="required">
-                        <label class="required" href="#password-guide" tabindex="-1" th:text="#{user.label.rePassword}"></label>
+                        <label href="#password-guide" tabindex="-1">
+                            <span th:text="#{user.label.rePassword}"></span>
+                            <span class="required"></span>
+                        </label>
                         <input type="password" id="rePassword" name="rePassword" maxlength="100" required="required">
-                        <label class="required" th:text="#{user.label.name}"></label>
+                        <label>
+                            <span th:text="#{user.label.name}"></span>
+                            <span class="required"></span>
+                        </label>
                         <input type="text" id="userName" name="userName" maxlength="100" required="required">
-                        <label class="required" th:text="#{user.label.email}"></label>
+                        <label>
+                            <span th:text="#{user.label.email}"></span>
+                            <span class="required"></span>
+                        </label>
                         <input type="text" id="email" name="email" maxlength="100" required="required">
                         <label th:text="#{user.label.mobileNumber}"></label>
                         <input type="text" id="mobileNumber" name="mobileNumber" maxlength="100">
