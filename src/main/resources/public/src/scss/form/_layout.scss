@@ -117,6 +117,11 @@
       textarea {
         width: 100%;
       }
+
+      // for designed select
+      .select {
+        width: 100%;
+      }
       // 옵션
       &[id="option"] {
         position: relative;
@@ -164,6 +169,10 @@
         .property-field-toggle {
           ~ input[type=text],
           ~ select {
+            margin-top: 0.4375rem; // 7px
+          }
+          // for designed select
+          ~ .select {
             margin-top: 0.4375rem; // 7px
           }
         }
@@ -219,6 +228,10 @@
             }
             select {
                 margin-top: 0.3125rem; // 5px
+            }
+            // for designed select
+            .select {
+              margin-top: 0.3125rem; // 5px
             }
           }
         }

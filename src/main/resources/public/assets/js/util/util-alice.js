@@ -1131,3 +1131,98 @@ aliceJs.filterXSS = function (str) {
         .replace(/\"/g, '&quot;')
         .replace(/\'/g, '&apos;');
 };
+
+/**
+ * select tag 디자인을 위한 초기화.
+ * 1) select tag 디자인을 적용하기 위해서 기존 select tag 는 숨기고
+ * 2) div, ul 로 기존 select tag 를 대신할 객체를 만들고
+ * 3) 그에 따른 이벤트 등록.
+ */
+aliceJs.initDesignedSelectTag = function () {
+    document.querySelectorAll('select').forEach(function(originSelectTag) {
+        if (originSelectTag.style.display !== 'none') {
+            // 이미 그려진 경우 초기화.
+            if (originSelectTag.parentElement.classList.contains('select')) {
+                let removeTarget = originSelectTag.parentElement;
+                removeTarget.parentElement.insertBefore(originSelectTag, originSelectTag.parentElement);
+                removeTarget.remove();
+            }
+
+            let numOfOptions = originSelectTag.childElementCount;
+
+            // select tag 와 추가되는 div, ul 을 감싸는 wrapper 생성.
+            originSelectTag.classList.remove('select-hidden');
+            let selectWrapper = document.createElement('div');
+            selectWrapper.classList = originSelectTag.classList;
+            selectWrapper.classList.add('select');
+            originSelectTag.parentElement.insertBefore(selectWrapper, originSelectTag);
+            selectWrapper.append(originSelectTag);
+
+            // select tag 숨기기.
+            originSelectTag.classList.add('select-hidden');
+
+            // 옵션 리스트용 박스 만들기
+            let ulElement = document.createElement('ul');
+            ulElement.classList.add('designed-options');
+            selectWrapper.insertBefore(ulElement, originSelectTag.nextSibling);
+
+            // 디자인된 SELECT 박스 창 만들기
+            let designedSelectBox = document.createElement('div');
+            designedSelectBox.classList.add('designed-select');
+            selectWrapper.insertBefore(designedSelectBox, originSelectTag.nextSibling);
+            if (originSelectTag.disabled) designedSelectBox.classList.add('disabled-select');
+
+            // option 복사
+            let options = document.createDocumentFragment();
+            for (let i = 0; i < numOfOptions; i++) {
+                let liElement = document.createElement('li');
+                liElement.innerText = originSelectTag.options[i].text;
+                liElement.setAttribute('rel', originSelectTag.options[i].value);
+                options.appendChild(liElement.cloneNode(true));
+                if (originSelectTag.options[i].selected) {
+                    designedSelectBox.innerText = originSelectTag.options[i].text;
+                }
+            }
+            ulElement.appendChild(options);
+
+            // 화면의 select box (실제로는 styledSelect)를 클릭할때 이벤트
+            if (!originSelectTag.disabled) {
+                designedSelectBox.addEventListener('click', (function (e) {
+                    e.stopPropagation();
+                    let clickedSelect = e.target;
+                    document.querySelectorAll('div.designed-select.active').forEach(function (selectTag) {
+                        if (selectTag !== clickedSelect) {
+                            selectTag.classList.remove('active');
+                        }
+                    });
+                    // toggle
+                    if (clickedSelect.classList.contains('active')) {
+                        this.classList.remove('active');
+                    } else {
+                        this.classList.add('active');
+                    }
+                }));
+            }
+
+            // option 을 선택하는 경우 이벤트
+            ulElement.childNodes.forEach(function (liOption) {
+                liOption.addEventListener('click', function (clickedOption) {
+                    clickedOption.stopPropagation();
+                    designedSelectBox.innerText = liOption.innerText;
+                    // 선택된 값 반영
+                    originSelectTag.value = liOption.getAttribute('rel');
+                    originSelectTag.querySelector('option[value=\'' + originSelectTag.value + '\']').selected = true;
+                    // 숨기기
+                    designedSelectBox.classList.remove('active');
+                    // 종종 select 선택이 변경되면 다른 화면의 변경을 위해서 이벤트가 있는 경우에 이벤트 발생.
+                    let changeEvent = new Event('change');
+                    originSelectTag.dispatchEvent(changeEvent);
+                });
+            });
+
+            document.addEventListener('click', function () {
+                designedSelectBox.classList.remove('active');
+            });
+        }
+    });
+};
