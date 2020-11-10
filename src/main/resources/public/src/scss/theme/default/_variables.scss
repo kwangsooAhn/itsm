@@ -64,12 +64,17 @@ $dropzone-folder-path:                        "../../../media/icons/dropzone/";
 $thumbnail-container-height:                  35.31rem; // 565px
 $thumbnail-container-padding:                 0;
 $thumbnail-margin:                            0.125rem; // 2.5px
-$thumbnail-icon-modal-width:                  45rem; // 720px
-$thumbnail-icon-size:                         6.25rem; // 100px
-$thumbnail-icon-margin:                       0.4375rem; // 7px
-$thumbnail-icon-div-size:                     100%;
+$thumbnail-border:                            0.0625rem solid $line-gray;
 $thumbnail-box-shadow:                        0 0 0.3125rem 0.0625rem $thumbnail-border-color; // 5px
 $thumbnail-asset-path:                        "../../../media/icons/thumbnail";
+
+// 업무흐름 아이콘 선택
+$thumbnail-icon-container-padding:            1.375rem; // 22px
+$thumbnail-icon-modal-width:                  47.81rem; // 765px
+$thumbnail-icon-modal-height:                 45rem; // 720px
+$thumbnail-size:                              10.31rem; // 165px
+$thumbnail-icon-size:                         6.25rem; // 100px
+$thumbnail-icon-box-shadow:                   0 0 0 0.0625rem $thumbnail-border-color;
 
 ///////////////////////////// Tooltip //////////////////////////////
 $tooltip-contents-left:                       auto;
@@ -97,3 +102,8 @@ $toastify-border-radius:                      0.0625rem; // 1px
 $toastify-border:                             $toastify-border-radius solid $line-gray !important;
 $toastify-box-shadow:                         0 0 0.3125rem 0 $line-gray !important;
 $toastify-icon-size:                          6.25rem; // 100px
+
+
+///////////////////////////// Tree ////////////////////////////////
+$tree-modal-width:                            40rem; // 640px
+$tree-modal-height:                           44.19rem; // 707px

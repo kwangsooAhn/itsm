@@ -338,10 +338,18 @@ $modal-bg-color:                             $white;
 $modal-border-width:                         0.0625rem; // 1px
 $modal-border:                               $modal-border-width solid $modal-border-color;
 $modal-box-shadow:                           0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
+
+$modal-width:                                34.38rem; // 550px
+$modal-height:                               22.5rem; // 360px
+
 // 모달 제목
-$modal-title-font-size:                      1.5rem; // 24px
-$modal-title-font-color:                     $light-black;
-$modal-title-font-weight:                    $font-weight-medium;
+$modal-header-height:                        3.375rem; // 54px
+$modal-header-font-size:                     1.125rem; // 18px
+$modal-header-font-color:                    $light-black;
+$modal-header-font-weight:                   $font-weight-medium;
+
+// 모달 버튼 영역
+$modal-bottom-height:                       5rem; // 80px
 
 ///////////////////////////////// alert //////////////////////////////
 $alert-font-size:                            1rem;
@@ -379,10 +387,12 @@ $thumbnail-margin:                           0.4375rem; // 7px
 $thumbnail-box-shadow:                       0 0 0.0625rem 0.0625rem $thumbnail-border-color; // 1px
 
 $thumbnail-modal-backdrop-color:             rgba(116, 147, 179, 0.5);
-$thumbnail-modal-dialog-width:               77.5rem; // 1240px;
+$thumbnail-modal-dialog-width:               62.5rem; // 1000px
+$thumbnail-modal-dialog-height:              48.44rem; // 775px
 $thumbnail-modal-dialog-box-shadow:          0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25); // 5px
 $thumbnail-modal-close-in-color:             #333333;
 $thumbnail-modal-close-out-color:            #CCCCCC;
+
 $thumbnail-btn-default-color:                $white;
 $thumbnail-btn-red-color:                    #e51c23;
 $thumbnail-btn-blue-color:                   #007aff;

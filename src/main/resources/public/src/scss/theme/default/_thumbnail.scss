@@ -1,28 +1,20 @@
 @import "../../template/_thumbnail.scss";
 
 // thumnbnail > modal(type: icon) 관련 템플릿
-.thumbnail-icon-modal-wrapper {
-  @include thumbnail-modal-wrapper();
+.thumbnail-icon {
+  .thumbnail-container {
+    padding: $thumbnail-icon-container-padding;
+    height: auto;
+    .thumbnail {
+      width: $thumbnail-size;
+      height: $thumbnail-size;
+      margin: 0.4375rem; // 7px
+      box-shadow: $thumbnail-icon-box-shadow;
 
-  .thumbnail-icon-modal-dialog {
-    @include thumbnail-modal-dialog();
-    border: 0.0625rem solid $line-gray;
-    border-radius: 0.0625rem;
-    width: $thumbnail-icon-modal-width;
-
-    .thumbnail-modal-body {
-      .thumbnail-container {
-        padding: $thumbnail-container-padding;
-        height: auto;
-        .thumbnail {
-          width: $thumbnail-icon-size;
-          height: $thumbnail-icon-size;
-          margin: $thumbnail-icon-margin;
-          div.thumbnail-img, div.thumbnail-icon {
-            height: $thumbnail-icon-div-size;
-            background-size: 100% !important
-          }
-        }
+      .thumbnail-icon {
+        width: $thumbnail-icon-size;
+        height: $thumbnail-icon-size;
+        margin: 2rem auto; // 32px auto
       }
     }
   }

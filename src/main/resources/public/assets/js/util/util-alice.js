@@ -647,6 +647,176 @@ aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc, para
 };
 
 /**
+ * 썸네일
+ *
+ * @param options 옵션
+ *
+ * title: 'Image',        // 모달 제목
+ * type: 'image',         // 타입 : image, icon
+ * isThumbnailInfo: true, // 하단 정보 출력 여부
+ * isFilePrefix: true,    // 파일 선택시 파일명 앞에 'file:///' 추가 여부
+ * thumbnailDoubleClickUse: false, // 더블클릭으로 이미지 선택기능 여부
+ */
+aliceJs.thumbnail = function(options) {
+    /**
+     * 썸네일 저장
+     * 
+     * @param targetId 대상 input
+     */
+    const saveThumbnail = function(targetId) {
+        // image 미선택 시 알림창 출력
+        let selectedFile = document.querySelector('.thumbnail.selected');
+        if (!selectedFile) {
+            aliceJs.alertWarning(i18n.msg('image.msg.fileSelect'));
+            return false;
+        }
+        const targetElem = document.getElementById(targetId);
+        if (targetElem) {
+            if (options.isFilePrefix) {
+                targetElem.value = 'file:///' + selectedFile.dataset.name;
+            } else {
+                targetElem.value = selectedFile.dataset.name;
+            }
+            targetElem.dispatchEvent(new Event('focusout'));
+        }
+        return true;
+    }
+
+    /**
+     * 썸네일 선택.
+     */
+    const thumbnailSelect = function(e) {
+        const elem = aliceJs.clickInsideElement(e, 'thumbnail');
+        if (elem) {
+            const parentElem = elem.parentNode;
+            const isSelected = elem.classList.contains('selected');
+            if (!isSelected) {
+                for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
+                    let child = parentElem.childNodes[i];
+                    if (child.classList.contains('selected')) {
+                        child.classList.remove('selected');
+                    }
+                }
+                elem.classList.add('selected');
+            }
+        }
+    };
+
+    /**
+     * 썸네일 content.
+     * 
+     * @param files 파일목록
+     * @return content html
+     */
+    const createContent = function(files) {
+        const container = document.createElement('div');
+        container.className = 'thumbnail-container';
+
+        if (files.length > 0) {
+            for (let i = 0, len = files.length; i < len; i++) {
+                let file = files[i];
+
+                const thumbnail = document.createElement('div');
+                thumbnail.className = 'thumbnail';
+                thumbnail.setAttribute('data-name', file.name);
+
+                if (typeof options.selectedPath !== 'undefined' &&  options.selectedPath.indexOf(file.name) > -1) {
+                    thumbnail.classList.add('selected');
+                }
+                // 이벤트 등록
+                thumbnail.addEventListener('click', thumbnailSelect, false);
+                if (options.thumbnailDoubleClickUse) {
+                    thumbnail.addEventListener('dblclick', function(e) {
+                        document.querySelector('.thumbnail-save').click();
+                    }, false);
+                }
+
+                container.appendChild(thumbnail);
+
+                const thumbnailImg = document.createElement('div');
+                if(options.type === 'image') {
+                    thumbnailImg.className = 'thumbnail-img';
+                } else if (options.type === 'icon') {
+                    thumbnailImg.className = 'thumbnail-icon';
+                    thumbnailImg.style.backgroundSize = '100%';
+                }
+                thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
+                thumbnail.appendChild(thumbnailImg);
+
+                if (options.isThumbnailInfo) {
+                    const thumbnailInfo = document.createElement('div');
+                    thumbnailInfo.className = 'thumbnail-info';
+                    thumbnail.appendChild(thumbnailInfo);
+
+                    const thumbnailName = document.createElement('p');
+                    thumbnailName.className = 'thumbnail-info-text';
+                    thumbnailName.innerHTML = `<label>${file.name}</label>`;
+                    thumbnailInfo.appendChild(thumbnailName);
+
+                    const thumbnailSize = document.createElement('p');
+                    thumbnailSize.className = 'thumbnail-info-text';
+                    thumbnailSize.innerHTML = `<label>${file.width} X ${file.height} ${file.size}</label>`;
+                    thumbnailInfo.appendChild(thumbnailSize);
+
+                    const thumbnailBottom = document.createElement('div');
+                    thumbnailBottom.className = 'thumbnail-bottom';
+                    thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
+                    thumbnail.appendChild(thumbnailBottom);
+                }
+            }
+        } else { 
+            // 썸네일이 존재하지 않을 경우 안내 문구 표시
+            const thumbnailNodataTemplate = `
+                <div class="thumbnail-nodata align-center">
+                    <label>${i18n.msg('common.msg.noData')}</label>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', thumbnailNodataTemplate);
+        }
+        return container;
+    };
+
+    // 이미지 파일 로드
+    aliceJs.sendXhr({
+        method: 'GET',
+        url: '/rest/images/list?type=' + options.type,
+        callbackFunc: function(xhr) {
+            const files = JSON.parse(xhr.responseText);
+
+            let modalOptions = {
+                title: options.title,
+                body: createContent(files),
+                classes: 'thumbnail-' + options.type,
+                buttons: [{
+                    content: i18n.msg('common.btn.check'),
+                    classes: 'default-line thumbnail-save',
+                    bindKey: false,
+                    callback: function(modal) {
+                        if (saveThumbnail(options.targetId)) {
+                            modal.hide();
+                        }
+                    }
+                },{
+                    content: i18n.msg('common.btn.close'),
+                    classes: 'default-line',
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }],
+                close: {
+                    closable: false,
+                }
+            };
+
+            let thumbnailModal = new modal(modalOptions);
+            thumbnailModal.show();
+        },
+        contentType: 'application/json; charset=utf-8'
+    });
+};
+
+/**
  * open confirm dialog.
  *
  * @param message message

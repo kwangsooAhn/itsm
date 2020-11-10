@@ -99,7 +99,6 @@
 <th:block layout:fragment="pageScript">
     <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
-    <script th:src="@{/assets/js/util/thumbnail-alice.js}"></script>
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
         // Document status.
@@ -323,14 +322,14 @@
         }
 
         function openIcon() {
-            thumbnail.init({
+            aliceJs.thumbnail({
                 title: i18n.msg('document.label.icon'),
                 targetId: 'document-icon',
-                selectedPath: document.querySelector('#document-icon').value,
                 type: 'icon',
                 isThumbnailInfo: false,
                 isFilePrefix: false,
-                thumbnailDoubleClickUse: true
+                thumbnailDoubleClickUse: true,
+                selectedPath: document.querySelector('#document-icon').value,
             });
         }
         /*]]>*/
