@@ -5,7 +5,7 @@
         <span class="title" th:text="#{notification.label.notification}"></span>
         <span id="total"></span>
         <span class="message" th:text="#{notification.msg.description}"></span>
-        <span class="close" onclick="toggleNotificationContainer();"></span>
+        <span class="close float-right" onclick="toggleNotificationContainer();"></span>
     </div>
     <div class="notification-body" th:classappend="${#arrays.isEmpty(notificationList)} ? nodata">
         <div class="nodata" th:if="${#arrays.isEmpty(notificationList)}">
@@ -14,16 +14,16 @@
         <div class="notification-content" th:unless="${#arrays.isEmpty(notificationList)}"
              th:each="notification: ${notificationList}"
              th:id="${notification.notificationId}" th:attr="instance-id=${notification.instanceId}"
-             th:attrappend="is-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
+             th:attrappend="isnot-confirm=${notification.confirmYn}" th:attrprepend="is-display=${notification.displayYn}"
              th:classappend="${notification.confirmYn} ? confirm">
 
             <div class="title">
-                <label class="notification-checked"><input type="checkbox" th:checked="${notification.confirmYn}"
+                <label class="notification-checked float-left"><input type="checkbox" th:checked="${notification.confirmYn}"
                               th:onclick="updateNotification([[${notification.notificationId}]], 'confirm')"
                               th:disabled="${notification.confirmYn}"/></label>
                 <span class="title text-ellipsis" th:text="${notification.title}" th:classappend="${notification.confirmYn} ? confirm"
                     th:onclick="openTokenPage([[${notification.notificationId}]], [[${notification.instanceId}]])"></span>
-                <button class="btn-remove" th:onclick="deleteNotification([[${notification.notificationId}]])"></button>
+                <button class="icon-remove float-right" th:onclick="deleteNotification([[${notification.notificationId}]])"></button>
             </div>
             <div class="message">
                 <span class="message text-ellipsis" th:text="${notification.message}"></span>

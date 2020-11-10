@@ -5432,7 +5432,7 @@ body.thumbnail-modal-active {
   cursor: pointer;
 }
 
-.notification-block {
+.notification-panel {
   position: absolute;
   width: 26.25rem;
   bottom: 0;
@@ -5444,7 +5444,7 @@ body.thumbnail-modal-active {
   display: none;
 }
 
-.notification-block.on {
+.notification-panel.on {
   display: block;
 }
 
@@ -5479,7 +5479,6 @@ body.thumbnail-modal-active {
 .notification-header span.close {
   width: 0.875rem;
   height: 0.875rem;
-  float: right;
   margin-left: auto;
   width: 0.875rem;
   height: 0.875rem;
@@ -5514,7 +5513,6 @@ body.thumbnail-modal-active {
 
 .notification-content .notification-checked {
   display: flex;
-  float: left;
   background-color: #ffffff;
   margin: 0;
 }
@@ -5547,8 +5545,7 @@ body.thumbnail-modal-active {
   color: #CCCED1;
 }
 
-.notification-content .btn-remove {
-  float: right;
+.notification-content .icon-remove {
   padding: 0;
   width: 1.125rem;
   height: 1.25rem;
@@ -5613,7 +5610,6 @@ body.thumbnail-modal-active {
 }
 
 .alice-toastify.toast-content .icon {
-  float: left;
   width: 6.25rem;
   height: 6.25rem;
   background-image: url("../media/images/notification/img_notification_logo.png");
@@ -5624,7 +5620,6 @@ body.thumbnail-modal-active {
 }
 
 .alice-toastify.toast-content .content {
-  float: left;
   width: 23.13rem;
   height: 100%;
   padding: 0.938rem;

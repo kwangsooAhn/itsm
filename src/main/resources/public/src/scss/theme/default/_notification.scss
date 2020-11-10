@@ -22,7 +22,7 @@
   }
 
   // .notification hover 시 노출되는 영역 전반
-  &-block {
+  &-panel {
     position: absolute;
     width: 26.25rem; // 420px
     bottom: 0;
@@ -64,7 +64,6 @@
       &.close { 
         width: 0.875rem; //14px
         height: 0.875rem;
-        float: right;
         margin-left: auto;
         @include maskImage('#{$icon-folder-path}icon_close.svg', 0.875rem, 0.875rem, no-repeat, center, null, $white); // 14px
       }
@@ -90,7 +89,6 @@
     // 체크 박스 영역
     .notification-checked {
       display: flex;
-      float: left;
       background-color: $white;
       margin: 0;
       input[type="checkbox"] {
@@ -120,8 +118,7 @@
       }
     }
     // 제거 버튼 영역
-    .btn-remove {
-      float: right;
+    .icon-remove {
       padding: 0;
       @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.125rem, 1.25rem, no-repeat, center, null, $pressed-gray); // 18px 20px
     }
@@ -176,13 +173,11 @@
   }
   &.toast-content {
     .icon {
-      float: left;
       width: $toastify-icon-size;
       height: $toastify-icon-size;
       @include backgroundImageAndSize('#{$image-folder-path}notification/img_notification_logo.png', 6.25rem) // 100px
     }
     .content {
-      float: left;
       width: 23.13rem; // 370px
       height: 100%;
       padding: 0.938rem; // 15px
