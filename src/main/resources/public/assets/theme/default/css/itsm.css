@@ -2731,8 +2731,8 @@ button .icon-plus {
   border-bottom: 0.125rem solid #E1E3E6;
 }
 .itsm-popup .related-instance-main .table-set table tbody {
-  display: table;
-  width: 100%;
+  display: block;
+  width: 57.44rem;
   height: 32.5rem;
   color: #586872;
   overflow-y: auto;

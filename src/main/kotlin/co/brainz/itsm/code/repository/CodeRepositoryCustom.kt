@@ -10,4 +10,8 @@ interface CodeRepositoryCustom : AliceRepositoryCustom {
     fun findByCodeList(search: String, pCode: String): QueryResults<CodeEntity>
 
     fun findCodeByPCodeIn(pCodes: Set<String>): List<CodeDto>
+
+    fun findByCodeAll(): QueryResults<CodeEntity>
+
+    fun countByCodeList(search: String, pCode: String): Long
 }
