@@ -2171,12 +2171,12 @@ button .icon-plus {
   width: 23.75rem;
 }
 
-.itsm-container .contents-token .list-item .document-row-content .document-topic h5 {
+.itsm-container .contents-token .list-item .document-row-content .document-topic-item {
   color: #586872;
   margin-top: 0.625rem;
 }
 
-.itsm-container .contents-token .list-item .document-row-content .document-topic h5:first-child {
+.itsm-container .contents-token .list-item .document-row-content .document-topic-item:first-child {
   margin-top: 1.5625rem;
 }
 
@@ -2201,7 +2201,7 @@ button .icon-plus {
   margin-top: 3.5rem;
 }
 
-.itsm-container .contents-token .list-item .document-row-info .document-tag span {
+.itsm-container .contents-token .list-item .document-row-info .document-tag-item {
   background: rgba(0, 152, 255, 0.1);
   color: #0098FF;
   text-align: center;
@@ -2236,21 +2236,21 @@ button .icon-plus {
 .itsm-container .contents-token.dashboard .dashboard-statistic .statistic-box {
   display: flex;
   align-items: center;
-  width: 380px;
-  border: 1px solid #EBEBEB;
-  border-radius: 5px;
-  padding: 25px;
+  width: 23.75rem;
+  border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.3125rem;
+  padding: 1.5625rem;
 }
 
 .itsm-container .contents-token.dashboard .dashboard-statistic .statistic-box .statistic-info {
-  margin-left: 25px;
+  margin-left: 1.5625rem;
 }
 
 .itsm-container .contents-token.dashboard .dashboard-statistic .statistic-box .statistic-info .statistic-count {
   color: #3F4B56;
   font-size: 1.5rem;
   font-weight: 500;
-  margin-bottom: 15px;
+  margin-bottom: 0.9375rem;
 }
 
 .itsm-container .contents-token.dashboard .dashboard-statistic .statistic-box .statistic-info .statistic-type {
@@ -2261,7 +2261,7 @@ button .icon-plus {
 }
 
 .itsm-container .contents-token.dashboard .title-middle {
-  margin-top: 50px;
+  margin-top: 3.125rem;
   margin-left: 3.75rem;
   color: #3F4B56;
   font-size: 1.5rem;
@@ -2278,8 +2278,6 @@ button .icon-plus {
 
 .itsm-container .slide-down {
   display: block;
-  -webkit-animation: slide-down 0.3s ease-out;
-  -moz-animation: slide-down 0.3s ease-out;
   animation-delay: 0s;
   animation-duration: 0.3s;
   animation-name: slide-down;
@@ -2288,8 +2286,11 @@ button .icon-plus {
 }
 
 .itsm-container .slide-up {
-  -webkit-animation: slide-up 0.3s ease-out;
-  -moz-animation: slide-up 0.3s ease-out;
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: slide-up;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
 }
 
 @-webkit-keyframes slide-down {

@@ -47,7 +47,7 @@
                         }
                         .document-topic {
                             width: 23.75rem; // 380px
-                            h5 {
+                            &-item {
                                 color: $dark-gray;
                                 margin-top: 0.625rem; // 10px
                                 &:first-child {
@@ -71,7 +71,7 @@
                         .document-tag {
                             max-width: 23.75rem; // 380px
                             margin-top: 3.5rem; // 56px
-                            span {
+                            &-item {
                                 background: rgba(0, 152, 255, 0.1 );
                                 color: $point-blue;
                                 text-align: center;
@@ -108,15 +108,15 @@
             .statistic-box {
                 display: flex;
                 align-items: center;
-                width: 380px;
-                border: 1px solid $line-gray;
-                border-radius: 5px;
-                padding: 25px;
+                width: 23.75rem; // 380px
+                border: 0.0625rem solid $line-gray;
+                border-radius: 0.3125rem; // 5px
+                padding: 1.5625rem; // 25px
                 .statistic-info {
-                    margin-left: 25px;
+                    margin-left: 1.5625rem; // 25px
                     .statistic-count {
                         @include h3;
-                        margin-bottom: 15px;
+                        margin-bottom: 0.9375rem; // 15px
                     }
                     .statistic-type {
                         @include h5;
@@ -127,7 +127,7 @@
         }
 
         .title-middle {
-            margin-top: 50px;
+            margin-top: 3.125rem; // 50px
             margin-left: 3.75rem;
             @include h3();
         }

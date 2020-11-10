@@ -17,7 +17,7 @@
                         <h5 th:text="${token.documentNo}" class="text-ellipsis"></h5>
                     </div>
                     <div class="document-topic">
-                        <h5 th:each="topic: ${token.topics}" th:text="${topic}"></h5>
+                        <h5 class="document-topic-item" th:each="topic: ${token.topics}" th:text="${topic}"></h5>
                     </div>
                 </span>
             </div>
@@ -33,7 +33,7 @@
                     <h5 th:text="${token.elementName}"></h5>
                 </div>
                 <div class="document-tag">
-                    <span th:each="tag: ${token.tags}" th:text="${tag}"></span>
+                    <span class="document-tag-item" th:each="tag: ${token.tags}" th:text="${tag}"></span>
                 </div>
             </div>
         </div>
