@@ -10,6 +10,7 @@
  *
  * https://github.com/jsanahuja/gModal
  */
+// TODO #9495 알림창 라이브러리 소스 리팩토링
 var gModal = (function() {
     var defaults = {
         title: '',

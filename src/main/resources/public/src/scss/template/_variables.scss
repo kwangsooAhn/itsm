@@ -331,7 +331,7 @@ $modal-height:                               22.5rem; // 360px
 
 // 모달 제목
 $modal-header-height:                        3.375rem; // 54px
-$modal-header-font-size:                     1.5rem; // 24px
+$modal-header-font-size:                     1.125rem; // 18px
 $modal-header-font-color:                    $light-black;
 $modal-header-font-weight:                   $font-weight-medium;
 
@@ -379,6 +379,7 @@ $thumbnail-modal-dialog-height:              48.44rem; // 775px
 $thumbnail-modal-dialog-box-shadow:          0 0 0.3125rem 0.3125rem rgba(116, 147, 179, 0.25); // 5px
 $thumbnail-modal-close-in-color:             #333333;
 $thumbnail-modal-close-out-color:            #CCCCCC;
+
 $thumbnail-btn-default-color:                $white;
 $thumbnail-btn-red-color:                    #e51c23;
 $thumbnail-btn-blue-color:                   #007aff;

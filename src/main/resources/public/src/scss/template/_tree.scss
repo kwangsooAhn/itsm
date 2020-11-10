@@ -118,84 +118,31 @@ span.node_selected {
 }
 
 // 트리 전용 모달
-body.tree-modal-active {
-  overflow:hidden !important;
-}
+.tree-container {
+  font-family: $font-family;
+  margin: 1.875rem 2.5rem; // 30px 40px
+  position: relative;
 
-.tree-modal-wrapper {
-  display:none;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow:auto;
-  // 모달 오픈
-  &.tree-modal-active {
-    display:block;
-  }
-  // 배경
-  .tree-modal-backdrop {
-    position:fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background: $modal-backdrop-bg-color;
-    z-index: 2001;
+  .tree-title {
+    height: 2.5rem; // 40px
+    font-size:  $modal-header-font-size;
+    font-weight:  $modal-header-font-weight;
+    color: $modal-header-font-color;
+    border-bottom: $modal-border;
   }
 
-  .tree-modal-dialog {
-    position: absolute;
-    top: 6em;
-    left: 0;
-    right: 0;
-    width: 40rem; // 640px
-    font-family: $font-family;
-    background-color: $modal-bg-color;
-    box-shadow: $modal-box-shadow;
-    margin: 0 auto 0 auto;
-    z-index: 2001;
+  .tree-list {
+    margin-top: 0.625rem; // 10px
+    height: 32.5rem; // 520px
+  }
 
-    .tree-modal-body {
-      overflow: auto;
-      height: auto;
-      box-sizing:border-box;
-      border-bottom: $modal-border;
-
-      .tree-container {
-        font-family: $font-family;
-        margin: 1.875rem 2.5rem; // 30px 40px
-        position: relative;
-
-        .tree-title {
-          height: 2.5rem; // 40px
-          font-size:  $modal-header-font-size;
-          font-weight:  $modal-header-font-weight;
-          color: $modal-header-font-color;
-          border-bottom: $modal-border;
-        }
-
-        .tree-list {
-          margin-top: 0.625rem; // 10px
-          height: 32.5rem; // 520px
-        }
-
-        .tree-nodata {
-          display: inline-block;
-          width: 100%;
-          height: 100%;
-          text-align: center;
-          font-size: $tree-font-size;
-          font-weight: $tree-font-weight;
-          color: $tree-font-color;
-        }
-      }
-    }
-
-    .tree-modal-buttons {
-      height: 4.5rem; // 72px
-      float: right;
-      padding: 1rem; // 16px
-    }
+  .tree-nodata {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    font-size: $tree-font-size;
+    font-weight: $tree-font-weight;
+    color: $tree-font-color;
   }
 }

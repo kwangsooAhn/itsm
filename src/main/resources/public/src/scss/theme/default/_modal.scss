@@ -1,13 +1,22 @@
 @import '../../template/_modal.scss';
 
-// 썸네일
 .modal-dialog {
-  &.thumbnail-image {
-    width: $thumbnail-modal-dialog-width;
-    height: $thumbnail-modal-dialog-height;
-  }
+  // 썸네일 모달
   &.thumbnail-icon {
     width: $thumbnail-icon-modal-width;
     height: $thumbnail-icon-modal-height;
+
+    .modal-content {
+      height: calc(#{$thumbnail-icon-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+    }
+  }
+  // 트리 모달
+  &.tree {
+    width: $tree-modal-width;
+    height: $tree-modal-height;
+
+    .modal-content {
+      height: calc(#{$tree-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+    }
   }
 }

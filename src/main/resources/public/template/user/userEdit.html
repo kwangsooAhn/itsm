@@ -294,13 +294,13 @@
         }
 
         function deptPopUp() {
-            const rootCode = 'department.group';
+            const rootCode = 'department';
             tree.load({
                 view: 'modal',
                 title: i18n.msg('department.label.deptList'),
                 search: '',
                 root: rootCode,
-                rootLevel: 5,
+                rootLevel: 4,
                 target: 'treeList',
                 text: 'codeName',
                 defaultIcon: '/assets/media/icons/tree/icon_tree_users.svg',

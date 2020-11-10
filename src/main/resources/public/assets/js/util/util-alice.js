@@ -715,7 +715,7 @@ aliceJs.thumbnail = function(options) {
         if (files.length > 0) {
             for (let i = 0, len = files.length; i < len; i++) {
                 let file = files[i];
-                
+
                 const thumbnail = document.createElement('div');
                 thumbnail.className = 'thumbnail';
                 thumbnail.setAttribute('data-name', file.name);
@@ -727,9 +727,7 @@ aliceJs.thumbnail = function(options) {
                 thumbnail.addEventListener('click', thumbnailSelect, false);
                 if (options.thumbnailDoubleClickUse) {
                     thumbnail.addEventListener('dblclick', function(e) {
-                        if (saveThumbnail(options.targetId)) {
-                            modal.hide();
-                        }
+                        document.querySelector('.thumbnail-save').click();
                     }, false);
                 }
 
@@ -788,10 +786,10 @@ aliceJs.thumbnail = function(options) {
             let modalOptions = {
                 title: options.title,
                 body: createContent(files),
-                classes: 'thumbnail' + options.type,
+                classes: 'thumbnail-' + options.type,
                 buttons: [{
                     content: i18n.msg('common.btn.check'),
-                    classes: 'default-line',
+                    classes: 'default-line thumbnail-save',
                     bindKey: false,
                     callback: function(modal) {
                         if (saveThumbnail(options.targetId)) {

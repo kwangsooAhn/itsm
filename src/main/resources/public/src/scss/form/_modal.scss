@@ -5,5 +5,9 @@
   &.thumbnail-image {
     width: $thumbnail-modal-dialog-width;
     height: $thumbnail-modal-dialog-height;
+
+    .modal-content {
+      height: calc(#{$thumbnail-modal-dialog-height} - #{$modal-header-height} - #{$modal-bottom-height});
+    }
   }
 }

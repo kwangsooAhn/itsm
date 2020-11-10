@@ -4674,73 +4674,26 @@ span.node_selected label {
   cursor: pointer;
 }
 
-body.tree-modal-active {
-  overflow: hidden !important;
-}
-
-.tree-modal-wrapper {
-  display: none;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  overflow: auto;
-}
-
-.tree-modal-wrapper.tree-modal-active {
-  display: block;
-}
-
-.tree-modal-wrapper .tree-modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  background: rgba(116, 147, 179, 0.5);
-  z-index: 2001;
-}
-
-.tree-modal-wrapper .tree-modal-dialog {
-  position: absolute;
-  top: 6em;
-  left: 0;
-  right: 0;
-  width: 40rem;
-  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
-  background-color: #ffffff;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
-  margin: 0 auto 0 auto;
-  z-index: 2001;
-}
-
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-body {
-  overflow: auto;
-  height: auto;
-  box-sizing: border-box;
-  border-bottom: 0.0625rem solid #EBEBEB;
-}
-
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container {
+.tree-container {
   font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
   margin: 1.875rem 2.5rem;
   position: relative;
 }
 
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container .tree-title {
+.tree-container .tree-title {
   height: 2.5rem;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 500;
   color: #3F4B56;
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container .tree-list {
+.tree-container .tree-list {
   margin-top: 0.625rem;
   height: 32.5rem;
 }
 
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-body .tree-container .tree-nodata {
+.tree-container .tree-nodata {
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -4748,12 +4701,6 @@ body.tree-modal-active {
   font-size: 1rem;
   font-weight: 500;
   color: #3F4B56;
-}
-
-.tree-modal-wrapper .tree-modal-dialog .tree-modal-buttons {
-  height: 4.5rem;
-  float: right;
-  padding: 1rem;
 }
 
 /* _color-picker.scss 
@@ -4868,7 +4815,7 @@ body.modal-active {
 
 .modal-wrapper .modal-dialog .modal-header {
   height: 3.375rem;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 500;
   color: #3F4B56;
   border-bottom: 0.0625rem solid #EBEBEB;
@@ -4886,14 +4833,22 @@ body.modal-active {
   padding: 1.25rem 1.25rem 1.25rem 0;
 }
 
-.modal-dialog.thumbnail-image {
-  width: 62.5rem;
-  height: 48.44rem;
-}
-
 .modal-dialog.thumbnail-icon {
   width: 47.81rem;
   height: 45rem;
+}
+
+.modal-dialog.thumbnail-icon .modal-content {
+  height: calc(45rem - 3.375rem - 5rem);
+}
+
+.modal-dialog.tree {
+  width: 40rem;
+  height: 44.19rem;
+}
+
+.modal-dialog.tree .modal-content {
+  height: calc(44.19rem - 3.375rem - 5rem);
 }
 
 /* _thumbnail.scss 
@@ -4924,7 +4879,7 @@ body.modal-active {
 
 .thumbnail-container .thumbnail.selected, .thumbnail-container .thumbnail:hover {
   border-color: transparent;
-  box-shadow: 0 0 0 0.125rem #0098FF;
+  box-shadow: 0 0 0 0.125rem #0098FF !important;
   background-color: rgba(0, 152, 255, 0.05);
 }
 
@@ -5043,19 +4998,21 @@ body.modal-active {
 }
 
 .thumbnail-icon .thumbnail-container {
-  padding: 0;
+  padding: 1.375rem;
   height: auto;
 }
 
 .thumbnail-icon .thumbnail-container .thumbnail {
-  width: 6.25rem;
-  height: 6.25rem;
+  width: 10.31rem;
+  height: 10.31rem;
   margin: 0.4375rem;
+  box-shadow: 0 0 0 0.0625rem #EBEBEB;
 }
 
-.thumbnail-icon .thumbnail-container .thumbnail div.thumbnail-img, .thumbnail-icon .thumbnail-container .thumbnail div.thumbnail-icon {
-  height: 100%;
-  background-size: 100% !important;
+.thumbnail-icon .thumbnail-container .thumbnail .thumbnail-icon {
+  width: 6.25rem;
+  height: 6.25rem;
+  margin: 2rem auto;
 }
 
 /* _avatar.scss 

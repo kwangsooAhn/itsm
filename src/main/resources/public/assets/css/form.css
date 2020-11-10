@@ -3624,7 +3624,7 @@ body.modal-active {
 
 .modal-wrapper .modal-dialog .modal-header {
   height: 3.375rem;
-  font-size: 1.5rem;
+  font-size: 1.125rem;
   font-weight: 500;
   color: #3F4B56;
   border-bottom: 0.0625rem solid #EBEBEB;
@@ -3645,6 +3645,10 @@ body.modal-active {
 .modal-dialog.thumbnail-image {
   width: 62.5rem;
   height: 48.44rem;
+}
+
+.modal-dialog.thumbnail-image .modal-content {
+  height: calc(48.44rem - 3.375rem - 5rem);
 }
 
 /* _thumbnail.scss 
@@ -3675,7 +3679,7 @@ body.modal-active {
 
 .thumbnail-container .thumbnail.selected, .thumbnail-container .thumbnail:hover {
   border-color: transparent;
-  box-shadow: 0 0 0 0.125rem #0098FF;
+  box-shadow: 0 0 0 0.125rem #0098FF !important;
   background-color: rgba(0, 152, 255, 0.05);
 }
 

@@ -25,7 +25,7 @@
     &.selected,
     &:hover {
       border-color: transparent;
-      box-shadow: 0 0 0 0.125rem $thumbnail-selected-border-color;
+      box-shadow: 0 0 0 0.125rem $thumbnail-selected-border-color !important;
       background-color: $thumbnail-selected-background-color;
     }
 
