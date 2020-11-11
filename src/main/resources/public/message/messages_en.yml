@@ -84,18 +84,18 @@ common:
 # Auth
 auth:
   label:
+    auth: "Auth"
     authDesc: "Auth Desc"
     authId: "Auth ID"
     authName: "Auth Name"
-    manage: "Role Management"
     menuList: "Usable Menu List"
     referenceCount: "Role Reference Count"
     urlList: "Usable Url"
   msg:
     accessDenied: "You do not have access."
-    description: "Manage available menus and URLs by grouping them with permissions."
     duplicateAuthId: "Duplicate auth id! Please enter other auth id."
     duplicateAuthName: "Duplicate auth name! Please enter other auth name."
+    editDescription: "Add or view and manage auth."
     enterAuthId: "Please enter a auth id."
     enterAuthName: "Please enter a auth name."
     searchPlaceholder: "Auth Name / Auth Desc"
@@ -177,36 +177,42 @@ board:
     attachFileSize: "Attach File Size"
     attachFileYn: "AttachFile enable"
     board: "Board"
+    boardEdit: "Board Edit"
+    boardRegister: "Board Register"
+    boardView: "Board View"
     category: "Category"
     categoryName: "Category Name"
     commentCount: "Number of Comment"
     commentYn: "Comment enable"
     count: "Number of posts"
-    create: "Post Board"
     desc: "Board desc"
-    detail: "Post Detail"
+    edit: "Board Edit"
     list: "Board Search"
-    manager: "Board Manager"
-    modify: "Post Modify"
     name: "Board Name"
     number: "Number"
     order: "Sort Order"
     readCount: "Number of Read"
+    register: "Board Register"
     reply: "Board Reply"
     replyYn: "Reply enable"
     searchBoardPlaceholder: "Category / Title / Writer"
     searchPlaceholder: "Board Title / CreateUser"
     title: "Title"
     useYn: "Use enable"
+    view: "Board View"
   msg:
+    adminEditDescription: "Register or Edit the boards."
+    adminSearchDescription: "View and manage the boards."
+    adminViewDescription: "Inquire detailed information on the board."
     createDescription: "Add board's information."
-    description: "View, add, or edit board's information."
+    editDescription: "Register, edit, or delete posts."
     enterAttachFileSize: "Please put the attached file size below 1024MB and up 0MB."
     enterBoardTitle: "Please enter the board name."
     enterCategoryName: "Please enter the category name."
     modifyDescription: "Edit board's information."
     replayDescription: "You can add a reply."
-    viewDescription: "View board's information."
+    searchDescription: "View and manage posts."
+    viewDescription: "Inquire detailed information about the post."
 
 # Code
 code:
@@ -218,8 +224,8 @@ code:
     pCode: "Parent Code"
     seqNum: "The order of the output"
   msg:
-    description: "View, add, or edit Code's information."
     duplicateCode: "Duplicate code Exists."
+    editDescription: "Add, view and manage code."
     enterCode: "Please enter a code."
     pCodeNotExist: "Parent code does not exist."
     referenceCodeExist: "Code exists that references the code."
@@ -237,21 +243,23 @@ customCode:
     code: "Code"
     condition: "Condition"
     customCode: "Custom Code"
-    list: "Custom Code List"
+    edit: "Custom Code Edit"
     name: "Custom Code Name"
     pCode: "Parent Code"
+    register: "Custom Code Register"
     searchColumn: "Search Column Name"
     searchPlaceholder: "Custom Code Name"
     table: "Table"
     targetTable: "Target Table Name"
     type: "Type"
     valueColumn: "Value Column Name"
+    view: "Custom Code View"
   msg:
     addCondition: "Only {0} or less can be added."
     confirmDeleteCondition: "Are you sure you want to delete the condition?"
     customCodeUsed: "The Custom code is being used."
-    description: "View, add, or edit Custom Code's information."
     duplicateCustomCodeName: "The same custom code name exists."
+    editDescription: "Register, modify, or delete custom codes used in processes and forms."
     enterCondition: "Please enter the condition."
     enterCustomCode: "Please enter a custom code name."
     enterPCode: "Please enter your parental code."
@@ -260,13 +268,17 @@ customCode:
     enterTableTarget: "Please enter a table target name."
     enterValueColumn: "Please enter a value column name."
     pCodeNotExist: "The parent code does not exist."
+    searchDescription: "Add, view and manage custom codes used in processes and forms."
     selectNotDuplicateSearchColumn: "Please select the search criteria in the column without duplication."
+    viewDescription: "Inquires detailed information about the custom code used in the process and document form."
 
 # Dashboard
 dashboard:
   label:
     dashboard: "Dashboard"
     documentStatus: "Requested Documents Status"
+  msg:
+    viewDescription: "Search my business statistics and documents to be processed."
   status:
     finish: "Finish"
     running: "Running"
@@ -291,16 +303,16 @@ department:
 # Document
 document:
   label:
-    adminList: "Workflow List"
     all: "All"
     businessFlowColor: "Business Flow Color"
+    businessFlow: "Business Flow"
     description: "Service Request Description"
     display: "Service Request Display"
     docNo: "Service Request No"
+    document: "Service Request"
+    edit: "Service Request Edit"
     form: "Form"
     icon: "Service Request Icon"
-    list: "Service Request List"
-    modify: "Service Request Modify"
     name: "Service Request Name"
     notSelect: "Not Select"
     numberingRule: "Document Numbering Rule"
@@ -312,18 +324,18 @@ document:
     type: "Document Type"
     write: "Service Request Write"
   msg:
+    adminSearchDescription: "Add, search and manage workflow by combining process and document form."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
     confirmDeleteInstance: "Are you sure you want to delete all documents created in a temporary state?"
-    description: "workflow search."
     enterBusinessFlowColor: "Please enter Business Flow Color."
     enterDocumentName: "Please enter document's name."
     launchedInstance: "There is an instance started and cannot be deleted."
     lengthMax: "Please enter less than {0} characters."
     lengthMin: "Please enter at least {0} characters."
-    listDescription: "document edit."
     process: "It has been processed."
     requiredFileupload: "Please upload a file."
+    searchDescription: "Inquire and apply for a document"
   display:
     editable: "Editable"
     editableRequired: "Editable (required)"
@@ -342,14 +354,18 @@ download:
   label:
     category: "Category"
     download: "Download"
-    list: "Download List"
+    edit: "Download Edit"
+    register: "Download Register"
     searchPlaceholder: "Title / Writer / Attach File Name"
     seq: "Number"
+    view: "Download View"
     views: "Views"
   msg:
-    description: "View, add, or edit download's information."
-    portalDescription: "View download's information."
+    editDescription: "Register, modify, or delete data."
+    portalDescription: "Search the data."
+    searchDescription: "Search and manage data."
     selectCategory: "Please select a category."
+    viewDescription: "Inquire detailed information about the data."
   category:
     all: "All"
     companyPolicy: "Company Policy"
@@ -361,7 +377,6 @@ error:
     return: "RETURN TO PREVIOUS SCREEN"
   label:
     bottomPhrase: "In case of continuous failure, please contact the administrator."
-    error: "Error Page"
     errorCode: "Error Code"
     middlePhrase: "We are sorry for the inconvenience in using the service."
     topPhrase: "An error occurred while processing the requested page."
@@ -370,13 +385,17 @@ error:
 faq:
   label:
     category: "Category"
-    description: "Frequently asked questions and answers."
-    detail: "FAQ detail"
-    edit: "FAQ edit"
+    edit: "FAQ Edit"
     faq: "FAQ"
-    list: "FAQ list"
+    register: "FAQ Register"
     searchPlaceholder: "Category / Title"
     title: "Title"
+    view: "FAQ View"
+  msg:
+    editDescription: "Register, edit or delete FAQ."
+    portalDescription: "Search the FAQ."
+    searchDescription: "View and manage FAQs."
+    viewDescription: "Inquire detailed information about FAQ."
 
 # FileUpload
 fileupload:
@@ -394,7 +413,6 @@ form:
     addAbove: "Add above"
     addBelow: "Add below"
     copy: "Copy-Just below"
-    create: "Create Form"
     customCodeTarget: "Target Select"
     description: "Description"
     detail: "Detail Form"
@@ -403,10 +421,10 @@ form:
     import: "Form IMPORT"
     importFile: "IMPORT File"
     lang: "Language"
-    list: "Form List"
     name: "Form Name"
     preview: "Preview"
     redo: "Redo"
+    register: "Form Register"
     saveExit: "Save and Exit"
     searchPlaceholder: "Form Name / Form Description"
     state: "State"
@@ -414,7 +432,6 @@ form:
     title: "Form Designer"
     undo: "Undo"
   msg:
-    description: "View, add, or edit Form's information."
     enterFormName: "Please enter a form name."
     failedFormDelete: "The document failed to delete the form. Please make sure that the application issued."
     fileSelect: "Please select a file."
@@ -425,6 +442,7 @@ form:
     minLength: "Please enter at least {0} characters."
     number: "Please enter only numbers."
     required: "Please enter the required item."
+    searchDescription: "Add, search and manage forms."
     selectImportFile: "Please select an import file."
   component:
     checkbox: "Checkbox"
@@ -515,10 +533,10 @@ image:
     popupTitle: "Select Image"
     upload: "Upload Your Image"
   msg:
-    description: "View, add, or delete image files."
     existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
     failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
     fileSelect: "Please select a file."
+    listDescription: "Add, view and manage images to be used in forms."
 
 # Login
 login:
@@ -583,19 +601,20 @@ menu:
 # Notice
 notice:
   label:
-    edit: "Edit Notice"
+    edit: "Notice Edit"
     endDt: "End Date"
     height: "Height"
-    list: "Notice"
+    notice: "Notice"
     noticePeriod: "Notice Period"
     popUp:  "PopUp"
     popUpNoticeSettings: "PopUp Notice Settings"
     popUpPeriod: "PopUp Period"
     popUpPeriodToday: "Do not open this popup today"
+    register : "Notice Register"
     searchPlaceholder: "Title / User"
     strtDt: "Start Date"
     topNoticeSettings: "Top Notice Settings"
-    view: "Notice"
+    view: "Notice View"
     width: "Width"
   msg:
     alreadyDeleted: "This post has already been deleted."
@@ -603,7 +622,7 @@ notice:
     checkPopWidthRange: "The width can only be a value between 500px and 1000px."
     compareWithPopUpValue: "Pop-up notification start date is greater than or equal to end date."
     compareWithTopNoticeValue: "Top Notice start date is greater than or equal to the end date."
-    description: "View, add, or edit notice's information."
+    editDescription: "Register, modify, or delete notice's information"
     enterPopEndDt: "Please enter popup end date."
     enterPopHeight: "Please enter a height."
     enterPopStrtDt: "Please enter popup start date."
@@ -612,7 +631,8 @@ notice:
     enterTopNoticeEndDt: "Please enter a top notice end date."
     enterTopNoticeStrtDt: "Please enter a top notice start date."
     portalDescription: "View notice's information."
-    viewDescription: "View, add, or edit notice's information."
+    searchDescrition: "View and manage notice's information."
+    viewDescription: "Inquire detailed information about the notice."
 
 # Notification
 notification:
@@ -634,6 +654,7 @@ portal:
     mainPhrase: "Technical Support"
     msEdge: "MS Edge"
     safari: "Safari"
+    portal: "Portal"
     topPhrase: "Welcome to the Brainz Company."
 
 # Process
@@ -643,16 +664,16 @@ process:
     import: "Import"
     simulationCheckResult: "Simulation check result"
   label:
-    create: "Create Process"
     description: "Description"
     detail: "Detail Process"
     edit: "Edit Process"
     import: "Process Import"
     importFile: "Import File"
-    list: "Process List"
     name: "Process Name"
+    process: "Process"
     processMap: "Process Map"
     redo: "Redo"
+    register: "Process Register"
     searchPlaceholder: "Process Name / Process Description"
     simulation: "Simulation"
     state: "State"
@@ -660,15 +681,19 @@ process:
     title: "Process Designer"
     undo: "Undo"
   msg:
-    description: "View, add, or edit process's information."
     duplicateData: "The same data exists."
     enterProcessName: "Please enter a process name."
+    searchDescription: "Add, view and manage processes."
     selectImportFile: "Please select an import file."
   status:
     destroy: "Destroy"
     edit: "Edit"
     publish: "Publish"
     use: "Use"
+  title:
+    edit: "Zenius ITSM : Process Edit"
+    preview: "Zenius ITSM : Process Preview"
+    processMap: "Zenius ITMS : Process Map"
   designer:
     element:
       annotation: "Annotation"
@@ -743,11 +768,11 @@ role:
     auth: "Role Auth"
     desc: "Role Desc"
     id: "Role Id"
-    manage: "Role Management"
     name: "Role Name"
     referenceCount: "Reference Count"
+    roel: "Role"
   msg:
-    description: "View, add, or edit user's role."
+    editDescription: "Add, view and manage roles."
     enterRoleId: "Please enter a role id."
     enterRoleName: "Please enter a role name."
     searchPlaceholder: "Role Name / Role Desc."
@@ -771,7 +796,7 @@ token:
     view: "Document View"
     write: "My Document"
   msg:
-    description: "View all documents relating to me."
+    searchDescription: "View and search all documents relating to me."
     tag: "Insert tags."
   type:
     completed: "Completed Documents"
@@ -794,16 +819,15 @@ user:
     resetPassword: "RESET PASSWORD"
   label:
     avatar: "Avatar"
-    createUser: "User Registration"
     customSetting: "Custom Settings"
     department: "Department"
     editUserInfo: "Edit User Information"
+    edit: "User Edit"
     email: "Email"
     FileExtensionAllowed: "※ File Extension Allowed : 200KB"
     FileSizeLimit: "※ File Size Limit : 200KB"
     id: "User ID"
     lang: "Language"
-    list: "User List"
     mobileNumber: "mobileNumber"
     name: "Name"
     officeNumber: "officeNumber"
@@ -811,6 +835,7 @@ user:
     position: "Position"
     profile: "Profile"
     rePassword: "rePassword"
+    register: "User Register"
     role: "User Role"
     searchPlaceholder: "ID/Name/Dept/Position/Number"
     signUpDate: "SignUp Date"
@@ -819,11 +844,11 @@ user:
     timeFormat: "Date/Time Format"
     timezone: "TimeZone"
     usageStatus: "Usage Status"
+    user: "User"
   msg:
     createUser: "User is registered."
-    description: "View, add, or edit user's information."
-    descriptionCreate: "Fill out the form to register the user."
-    descriptionUpdate: "Modify user information."
+    editDescription: "Register users or modify user information."
+    editSelfDescription: "Edit your personal information."
     emailAlert: "When you change your email, you need to verify."
     emailWithUpdate: "Member information, including email information, has been modified."
     enterUserEmail: "Please enter your Email."
@@ -835,6 +860,7 @@ user:
     resetPassword: "Your password has been reset."
     sameEmail: "The same Email exists."
     sameUserId: "The same ID exists."
+    searchDescription: "View and manage users."
     signUp: "Sign up success.<br/>Please check your email sent to finish authentication."
     signUpFail: "Sign up failed."
     usageStatus: "※ If not using it, you won't be able to log in and use all systems."
@@ -869,6 +895,12 @@ validation:
 project:
   label:
     name: "Zenius ITSM"
+  title:
+    browserGuide: "Zenius ITSM : Browser Guide"
+    error: "Zenius ITSM : Error"
+    login: "Zenius ITSM : Login"
+    sessionInvalid": "Zenius ITSM : Session"
+    signUp: "Zenius ITSM : Sign Up"
 
 # uploader
 file:
