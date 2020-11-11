@@ -28,7 +28,7 @@ ul.tree {
   // -------------------------
   ul {
     position: relative;
-    margin: 0 0 0 calc(#{$tree-toggle-icon-width} / 2);
+    margin: 0 0 0 calc(#{$tree-toggle-icon-width} * 2.3);
     padding: 0;
     list-style-type: none;
     -webkit-user-select: none;
@@ -68,7 +68,7 @@ ul.tree {
       // Level 3+
       // -------------------------
       ul {
-        margin-left: calc(#{$tree-toggle-icon-width} / 2);
+        margin-left: calc(#{$tree-toggle-icon-width} / 2.3);
       }
     }
   }
@@ -90,7 +90,6 @@ img.icon_tree {
 }
 
 span.node {
-  margin-left: $tree-folder-margin-left;
   padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
   border: $tree-selected-border-width solid transparent;
   &:hover {
@@ -105,13 +104,11 @@ span.node {
 }
 // 노드 선택시
 span.node_selected {
-  margin-left: $tree-folder-margin-left;
   padding: 0.25rem 0.188rem 0.25rem 0; // 4px 3px 4px 0
-  background-color: $tree-selected-bg-color;
-  border: $tree-selected-border;
-  border-radius: 0.125rem; // 2px
+  background-color: $light-blue;
   label {
     padding-left: $tree-folder-margin-left;
+    color: $dark-blue;
     cursor: pointer;
   }
   cursor: pointer;
