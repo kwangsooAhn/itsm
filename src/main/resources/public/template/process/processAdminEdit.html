@@ -4,16 +4,14 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/popupLayout">
 <head>
-    <title th:if="${processInfo?.id}" th:text="#{process.label.edit}"></title>
-    <title th:if="!${processInfo?.id}" th:text="#{process.label.create}"></title>
+    <title th:text="${processInfo != null} ? #{process.label.edit} : #{process.label.register}"></title>
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="content">
     <input type="hidden" id="process_status" th:value="${processInfo?.status}" />
     <div class="edit">
-        <h3 class="under-bar" th:if="${processInfo?.id}" th:text="#{process.label.edit}"></h3>
-        <h3 class="under-bar" th:if="!${processInfo?.id}" th:text="#{process.label.create}"></h3>
+        <h3 th:text="${processInfo != null} ? #{process.label.edit} : #{process.label.register}"></h3>
         <div class="form-set">
             <label class="required" th:text="#{process.label.name}" for="process_name"></label>
             <input type="text" id="process_name" maxlength="50"

@@ -4,7 +4,7 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{menu.workflow.form}"></title>
+    <title th:text="#{form.label.form}"></title>
 </head>
 <th:block layout:fragment="scriptLink">
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
@@ -13,9 +13,10 @@
 <th:block layout:fragment="content">
     <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
     <div class="contents-list">
+    <div class="contents-list">
         <div class="page-title">
-            <h1 th:text="#{form.label.list}"></h1>
-            <h6 class="title-description" th:text="#{form.msg.description}"></h6>
+            <h1 th:text="#{form.label.form}"></h1>
+            <h6 class="title-description" th:text="#{form.msg.searchDescription}"></h6>
         </div>
         <div class="search-area">
             <div class="search-input">
