@@ -1,13 +1,30 @@
 @import '../template/_modal.scss';
 
-// 썸네일
 .modal-dialog {
+  // 썸네일 모달
   &.thumbnail-image {
     width: $thumbnail-modal-dialog-width;
     height: $thumbnail-modal-dialog-height;
-
+    // 내부 디자인은 _thumbnail.scss 확인
     .modal-content {
       height: calc(#{$thumbnail-modal-dialog-height} - #{$modal-header-height} - #{$modal-bottom-height});
+    }
+  }
+
+  // 폼 다른이름으로 저장하기 모달
+  &.save-as {
+    .modal-content {
+      padding: 0.625rem 1.25rem; // 10px 20px
+      @include scrollbarHidden;
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+
+      .textarea-scroll-wrapper {
+        resize: none;
+      }
     }
   }
 }
