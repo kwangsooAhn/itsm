@@ -4,14 +4,14 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{board.label.detail}"></title>
+    <title th:text="#{board.label.view}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents-flex scroll-wrap">
         <div class="header">
             <div class="page-title">
-                <h1 th:text="#{board.label.detail}"></h1>
+                <h1 th:text="#{board.label.board}"></h1>
                 <h6 class="title-description" th:text="#{board.msg.viewDescription}"></h6>
             </div>
         </div>

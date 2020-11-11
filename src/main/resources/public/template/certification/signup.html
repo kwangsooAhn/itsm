@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
-    <title th:text="#{project.label.name}"></title>
+    <title th:text="#{project.title.signUp}"></title>
 </head>
 <body>
 <div class="alice-wrapper">
