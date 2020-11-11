@@ -331,7 +331,7 @@ $tree-selected-bg-color:                     rgba(0, 152, 255, 0.05);
 $tree-hover-bg-color:                        rgba(0, 152, 255, 0.05);
 
 ///////////////////////////////// modal //////////////////////////////
-// 모달 오픈시 바탕 어둡게
+// TODO: 모달 오픈시 바탕색을 넣을 경우 모달 위에 모달을 띄우거나 모달 위에 알림창이 띄워지면 점점 배경이 어두워지는 현상 > 디자인 확인 후 수정 필요
 $modal-backdrop-bg-color:                    rgba(116, 147, 179, 0.5);
 $modal-border-color:                         $line-gray;
 $modal-bg-color:                             $white;
@@ -340,7 +340,7 @@ $modal-border:                               $modal-border-width solid $modal-bo
 $modal-box-shadow:                           0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
 
 $modal-width:                                34.38rem; // 550px
-$modal-height:                               22.5rem; // 360px
+$modal-height:                               25.63rem; // 410px
 
 // 모달 제목
 $modal-header-height:                        3.375rem; // 54px

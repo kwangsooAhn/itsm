@@ -41,6 +41,7 @@ body.modal-active {
     width: $modal-width;
     margin: 0 auto 2em auto;
     background-color: $modal-bg-color;
+    border: $modal-border;
     box-shadow: $modal-box-shadow;
     border-radius: 0.0625rem;
     z-index: 2001;
