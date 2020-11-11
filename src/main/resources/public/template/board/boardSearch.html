@@ -4,14 +4,14 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{board.label.list}"></title>
+    <title th:text="#{board.label.board}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents-list">
         <div class="page-title">
-            <h1 th:text="#{board.label.list}"></h1>
-            <h6 class="title-description" th:text="#{board.msg.description}"></h6>
+            <h1 th:text="#{board.label.board}"></h1>
+            <h6 class="title-description" th:text="#{board.msg.searchDescription}"></h6>
         </div>
         <div class="search-area">
             <div class="search-input">
