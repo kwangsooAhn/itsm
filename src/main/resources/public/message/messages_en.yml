@@ -324,7 +324,7 @@ document:
     type: "Document Type"
     write: "Service Request Write"
   msg:
-    adminSearchDescription: "Add, search and manage workflow by combining process and document form."
+    adminSearchDescription: "View and manage workflow by combining process and document form."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
     confirmDeleteInstance: "Are you sure you want to delete all documents created in a temporary state?"
@@ -442,7 +442,7 @@ form:
     minLength: "Please enter at least {0} characters."
     number: "Please enter only numbers."
     required: "Please enter the required item."
-    searchDescription: "Add, search and manage forms."
+    searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
   component:
     checkbox: "Checkbox"
@@ -683,7 +683,7 @@ process:
   msg:
     duplicateData: "The same data exists."
     enterProcessName: "Please enter a process name."
-    searchDescription: "Add, view and manage processes."
+    searchDescription: "View and manage processes."
     selectImportFile: "Please select an import file."
   status:
     destroy: "Destroy"
