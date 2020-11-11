@@ -3241,14 +3241,14 @@ body.modal-active {
  * @author jy.lim
  * @version 1.0
  */
-.thumbnail-container {
+.thumbnail-main {
   font-family: "Noto Sans KR";
   overflow-y: auto;
   height: 100%;
   padding: 1.25rem;
 }
 
-.thumbnail-container .thumbnail {
+.thumbnail-main .thumbnail {
   display: inline-block;
   width: 14.06rem;
   height: 18.13rem;
@@ -3260,13 +3260,13 @@ body.modal-active {
   overflow: hidden;
 }
 
-.thumbnail-container .thumbnail.selected, .thumbnail-container .thumbnail:hover {
+.thumbnail-main .thumbnail.selected, .thumbnail-main .thumbnail:hover {
   border-color: transparent;
   box-shadow: 0 0 0 0.125rem #0098FF !important;
   background-color: rgba(0, 152, 255, 0.05);
 }
 
-.thumbnail-container .thumbnail div.thumbnail-img {
+.thumbnail-main .thumbnail div.thumbnail-img {
   display: inline-block;
   width: 100%;
   height: 9.063rem;
@@ -3275,17 +3275,17 @@ body.modal-active {
   background-position: center center;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-info {
+.thumbnail-main .thumbnail div.thumbnail-info {
   height: 6.563rem;
   padding: 0.8125rem 0.9375rem;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text {
+.thumbnail-main .thumbnail div.thumbnail-info p.thumbnail-info-text {
   height: 1.375rem;
   line-height: 1.375rem;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text label {
+.thumbnail-main .thumbnail div.thumbnail-info p.thumbnail-info-text label {
   display: block;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -3295,12 +3295,12 @@ body.modal-active {
   font-weight: 400;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child label {
+.thumbnail-main .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child label {
   color: #586872;
   cursor: pointer;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child .fileName {
+.thumbnail-main .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child .fileName {
   display: none;
   color: #586872;
   width: 12.19rem;
@@ -3308,13 +3308,13 @@ body.modal-active {
   float: left;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-bottom {
+.thumbnail-main .thumbnail div.thumbnail-bottom {
   height: 2.5rem;
   line-height: 2.5rem;
   border-top: solid 0.0625rem #EBEBEB;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-bottom label {
+.thumbnail-main .thumbnail div.thumbnail-bottom label {
   width: 1.25rem;
   color: #ACB4BF;
   font-size: 1rem;
@@ -3322,7 +3322,7 @@ body.modal-active {
   margin-left: 0.9375rem;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-bottom .icon-delete {
+.thumbnail-main .thumbnail div.thumbnail-bottom .icon-delete {
   width: 0.9375rem;
   height: 2.5rem;
   -webkit-mask-image: url("../media/icons/icon_delete.svg");
@@ -3336,7 +3336,7 @@ body.modal-active {
   cursor: pointer;
 }
 
-.thumbnail-container .thumbnail-upload {
+.thumbnail-main .thumbnail-upload {
   display: inline-block;
   width: 14.06rem;
   height: 18.13rem;
@@ -3350,28 +3350,28 @@ body.modal-active {
   overflow: hidden;
 }
 
-.thumbnail-container .thumbnail-upload:hover {
+.thumbnail-main .thumbnail-upload:hover {
   border-color: transparent;
   box-shadow: 0 0 0 0.125rem #0098FF;
   background-color: rgba(0, 152, 255, 0.05);
 }
 
-.thumbnail-container .thumbnail-upload .fileInput {
+.thumbnail-main .thumbnail-upload .fileInput {
   display: none;
 }
 
-.thumbnail-container .thumbnail-upload img {
+.thumbnail-main .thumbnail-upload img {
   content: url("../media/icons/thumbnail/icon_image.png");
 }
 
-.thumbnail-container .thumbnail-upload p.thumbnail-upload-text {
+.thumbnail-main .thumbnail-upload p.thumbnail-upload-text {
   color: #ACB4BF;
   font-size: 1rem;
   font-weight: 400;
   margin-top: 1.25rem;
 }
 
-.thumbnail-container .thumbnail-nodata {
+.thumbnail-main .thumbnail-nodata {
   display: inline-block;
   width: 100%;
   height: 100%;

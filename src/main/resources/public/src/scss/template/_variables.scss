@@ -377,14 +377,26 @@ $thumbnail-font-family:                      "Noto Sans KR";
 $thumbnail-font-size:                        1rem; // 16px;
 $thumbnail-font-weight:                      400; // regulalr
 $thumbnail-font-color:                       $gray;
+
+$thumbnail-main-height:                      100%;
+$thumbnail-main-padding:                     0;
+
+// 썸네일
+$thumbnail-width:                            14.06rem; // 225px
+$thumbnail-height:                           18.13rem; // 290px
+$thumbnail-border-width:                     0.0625rem; // 1px
 $thumbnail-border-color:                     $line-gray;
-$thumbnail-background-color:                 $white;
+$thumbnail-border:                           $thumbnail-border-width solid $thumbnail-border-color;
+$thumbnail-bg-color:                         $white;
+$thumbnail-box-shadow:                       0 0 0.3125rem 0 $line-gray; // 흐림 5px, $line-gray
+
+$thumbnail-selected-border-width:            0.125rem; // 2px
 $thumbnail-selected-border-color:            $point-blue;
-$thumbnail-selected-background-color:        rgba(0, 152, 255, 0.05);
-$thumbnail-container-height:                 100%;
-$thumbnail-container-padding:                0;
-$thumbnail-margin:                           0.4375rem; // 7px
-$thumbnail-box-shadow:                       0 0 0.0625rem 0.0625rem $thumbnail-border-color; // 1px
+$thumbnail-selected-border:                  $thumbnail-selected-border-width solid $thumbnail-selected-border-color;
+$thumbnail-selected-bg-color:                rgba(0, 152, 255, 0.05);
+//$thumbnail-selected-box-shadow:              0 0 0 0.125rem $thumbnail-selected-border-color; // 2px
+
+
 
 $thumbnail-modal-backdrop-color:             rgba(116, 147, 179, 0.5);
 $thumbnail-modal-dialog-width:               62.5rem; // 1000px

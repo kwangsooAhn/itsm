@@ -61,9 +61,8 @@ $notice-pinned-color:                         $light-blue;
 $dropzone-folder-path:                        "../../../media/icons/dropzone/";
 
 //////////////////////////// Thumbnail /////////////////////////////
-$thumbnail-container-height:                  35.31rem; // 565px
-$thumbnail-container-padding:                 0;
-$thumbnail-margin:                            0.125rem; // 2.5px
+$thumbnail-main-height:                       35.31rem; // 565px
+$thumbnail-main-padding:                      0;
 $thumbnail-border:                            0.0625rem solid $line-gray;
 $thumbnail-box-shadow:                        0 0 0.3125rem 0.0625rem $thumbnail-border-color; // 5px
 $thumbnail-asset-path:                        "../../../media/icons/thumbnail";
