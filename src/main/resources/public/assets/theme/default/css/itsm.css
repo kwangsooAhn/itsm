@@ -2090,9 +2090,12 @@ button .icon-plus {
   max-width: calc(100% - 13.75rem);
   height: 100%;
   min-height: 100vh;
-  /*
- * [ 적용화면 ]
- *   개인 현황판(dashboardView), 신청서(tokenSearch)
+  /* _contents-token.scss
+ *
+ * 파일 경로 : contents/_contents-token.scss
+ * @description 개인 현황판(dashboardView), 신청서(tokenSearch)
+ * @author jy.lim
+ * @version 1.0
  */
   /* 상세 조회 화면 */
 }
@@ -2204,7 +2207,6 @@ button .icon-plus {
 .itsm-container .contents-token .list-item .document-row-info .document-tag-item {
   background: rgba(0, 152, 255, 0.1);
   color: #0098FF;
-  text-align: center;
   margin: 0.25rem;
   border-radius: 0.0625rem;
   padding: 0.3125rem 0.9375rem;

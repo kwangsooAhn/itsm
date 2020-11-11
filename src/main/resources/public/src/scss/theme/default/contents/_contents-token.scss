@@ -1,6 +1,9 @@
-/*
- * [ 적용화면 ]
- *   개인 현황판(dashboardView), 신청서(tokenSearch)
+/* _contents-token.scss
+ *
+ * 파일 경로 : contents/_contents-token.scss
+ * @description 개인 현황판(dashboardView), 신청서(tokenSearch)
+ * @author jy.lim
+ * @version 1.0
  */
 .contents-token {
   @include contents-template();
