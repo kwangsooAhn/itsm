@@ -3,7 +3,7 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{customCode.label.customCode}"></title>
+    <title th:text="#{customCode.label.view}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -11,7 +11,7 @@
         <div class="header">
             <div class="page-title">
                 <h1 th:text="#{customCode.label.customCode}"></h1>
-                <h6 class="title-description" th:text="#{customCode.label.customCode}"></h6>
+                <h6 class="title-description" th:text="#{customCode.msg.viewDescription}"></h6>
             </div>
         </div>
         <div class="edit">
