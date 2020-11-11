@@ -4,14 +4,12 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/popupLayout">
 <head>
-    <title th:if="${documentId}" th:text="#{document.label.modify}"></title>
-    <title th:unless="${documentId}" th:text="#{document.label.register}"></title>
+    <title th:text="${documentId != null} ? #{document.label.edit} : #{document.label.register}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="edit">
-        <h3 class="under-bar" th:if="${documentId}" th:text="#{document.label.modify}"></h3>
-        <h3 class="under-bar" th:unless="${documentId}" th:text="#{document.label.register}"></h3>
+        <h3 class="under-bar" th:text="${documentId != null} ? #{document.label.edit} : #{document.label.register}"></h3>
         <div class="edit-content">
             <div class="form-set">
                 <label class="required" th:text="#{document.label.type}" for="document-type"></label>

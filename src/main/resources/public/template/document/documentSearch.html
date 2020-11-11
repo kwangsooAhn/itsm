@@ -4,7 +4,7 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{document.label.list}"></title>
+    <title th:text="#{document.label.document}"></title>
 </head>
 <th:block layout:fragment="cssLink">
     <link th:href="@{/assets/css/form.css}" rel="stylesheet"/>
@@ -155,8 +155,8 @@
     <div class="contents-document">
         <div class="header">
             <div class="page-title">
-                <h1 th:text="#{document.label.list}"></h1>
-                <h6 class="title-description" th:text="#{document.msg.listDescription}"></h6>
+                <h1 th:text="#{document.label.document}"></h1>
+                <h6 class="title-description" th:text="#{document.msg.searchDescription}"></h6>
             </div>
             <div class="search-area">
                 <div class="search-input">
