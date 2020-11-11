@@ -239,16 +239,11 @@
          */
         const createDialogContent = function() {
             return `
-                <div class="gmodal-input">
-                    <div>
-                        <label class="gmodal-input-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>
-                        <input class="gmodal-input-text" id="form_name">
-                    </div>
-                    <div>
-                        <label class="gmodal-input-label" for="form_description">${i18n.msg('form.label.description')}</label>
-                        <textarea class="gmodal-input-textarea" rows="3" id="form_description"></textarea>
-                    </div>
-                    <div class="gmodal-required">${i18n.msg('common.msg.requiredEnter')}</div>
+                <div class="save-as-main flex-column">
+                    <label class="field-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>
+                    <input type="text" id="form_name">
+                    <label class="field-label" for="form_description">${i18n.msg('form.label.description')}</label>
+                    <textarea rows="3" class="textarea-scroll-wrapper" id="form_description"></textarea>
                 </div>
                 `
         };
@@ -261,12 +256,13 @@
         const checkRequired = function() {
             let nameLabelElem = document.getElementById('form_name');
             if (nameLabelElem.value.trim() === '') {
-                nameLabelElem.style.borderColor = '#FF405A';
-                document.querySelector('.gmodal-required').style.display = 'block';
+                nameLabelElem.classList.add('error');
+                aliceJs.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
+                    nameLabelElem.focus();
+                });
                 return false;
             }
-            nameLabelElem.style.borderColor = '';
-            document.querySelector('.gmodal-required').style.display = 'none';
+            nameLabelElem.classList.remove('error');
             return true;
         };
 
@@ -327,6 +323,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.check'),
+                    classes: "default-line",
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
@@ -335,6 +332,7 @@
                     }
                 },{
                     content: i18n.msg('common.btn.cancel'),
+                    classes: "default-line",
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -343,6 +341,18 @@
             ],
             close: {
                 closable: false,
+            },
+            onCreate: function(modal) {
+                OverlayScrollbars(document.getElementById('form_description'), {
+                    className: 'scrollbar',
+                    resize: 'none',
+                    sizeAutoCapable: true,
+                    textarea: {
+                        dynHeight: false,
+                        dynWidth: false,
+                        inheritedAttrs: "class"
+                    }
+                });
             }
         });
         saveAsModal.show();

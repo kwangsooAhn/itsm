@@ -308,16 +308,11 @@
      */
     function createDialogContent() {
         return `
-            <div class="gmodal-input">
-                <div>
-                    <label class="gmodal-input-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>
-                    <input class="gmodal-input-text" id="process_name">
-                </div>
-                <div>
-                    <label class="gmodal-input-label" for="process_description">${i18n.msg('process.label.description')}</label>
-                    <textarea class="gmodal-input-textarea" rows="3" id="process_description"></textarea>
-                </div>
-                <div class="gmodal-required">${i18n.msg('common.msg.requiredEnter')}</div>
+            <div class="save-as-main flex-column">
+                <label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>
+                <input type="text" id="process_name">
+                <label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>
+                <textarea rows="3" class="textarea-scroll-wrapper" id="process_description"></textarea>
             </div>
             `
     }
@@ -334,12 +329,13 @@
         const checkRequired = function () {
             let nameTextObject = document.getElementById('process_name');
             if (nameTextObject.value.trim() === '') {
-                nameTextObject.style.borderColor = '#FF405A';
-                document.querySelector('.gmodal-required').style.display = 'block';
+                nameTextObject.classList.add('error');
+                aliceJs.alertWarning(i18n.msg('common.msg.requiredEnter'), function() {
+                    nameTextObject.focus();
+                });
                 return false;
             }
-            nameTextObject.style.borderColor = '';
-            document.querySelector('.gmodal-required').style.display = 'none';
+            nameTextObject.classList.remove('error');
             return true;
         };
         /**
@@ -391,6 +387,7 @@
             buttons: [
                 {
                     content: i18n.msg('common.btn.check'),
+                    classes: "default-line",
                     bindKey: false,
                     callback: function(modal) {
                         if (saveAsCallBack()) {
@@ -399,6 +396,7 @@
                     }
                 },{
                     content: i18n.msg('common.btn.cancel'),
+                    classes: "default-line",
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
@@ -407,6 +405,18 @@
             ],
             close: {
                 closable: false,
+            },
+            onCreate: function(modal) {
+                OverlayScrollbars(document.getElementById('process_description'), {
+                    className: 'scrollbar',
+                    resize: 'none',
+                    sizeAutoCapable: true,
+                    textarea: {
+                        dynHeight: false,
+                        dynWidth: false,
+                        inheritedAttrs: "class"
+                    }
+                });
             }
         });
         saveAsModal.show();

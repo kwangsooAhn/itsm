@@ -2598,37 +2598,6 @@ button .icon-delete {
   background-position-y: 0.3125rem;
 }
 
-.gmodal-no-icon {
-  padding: 0;
-}
-
-.gmodal-input {
-  width: 100%;
-}
-
-.gmodal-input-text {
-  width: 100%;
-  padding-left: 0.438rem;
-}
-
-.gmodal-input-textarea {
-  width: 100%;
-  min-height: 5.625rem;
-  padding-left: 0.438rem;
-}
-
-.gmodal-input-label {
-  display: block;
-  margin: 0.3125rem 0;
-}
-
-.gmodal-required {
-  display: none;
-  text-align: center;
-  font-size: 1rem;
-  color: #FF405A;
-}
-
 @media only screen and (max-width: 53em) {
   .gmodal-dialog {
     width: auto;
@@ -3209,6 +3178,7 @@ body.modal-active {
   width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   border-radius: 0.0625rem;
   z-index: 2001;
@@ -3224,7 +3194,7 @@ body.modal-active {
 }
 
 .modal-wrapper .modal-dialog .modal-content {
-  height: calc(22.5rem - 3.375rem - 5rem);
+  height: calc(25.63rem - 3.375rem - 5rem);
   border-bottom: 0.0625rem solid #EBEBEB;
   overflow: auto;
 }
@@ -3232,6 +3202,28 @@ body.modal-active {
 .modal-wrapper .modal-dialog .modal-bottom {
   height: 5rem;
   padding: 1.25rem 1.25rem 1.25rem 0;
+}
+
+.modal-dialog.save-as .modal-content {
+  padding: 10px 20px;
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.modal-dialog.save-as .modal-content::-webkit-scrollbar {
+  display: none;
+  /* Chrome, Safari, Opera*/
+}
+
+.modal-dialog.save-as .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.modal-dialog.save-as .modal-content .textarea-scroll-wrapper {
+  resize: none;
 }
 
 /* _thumbnail.scss 

@@ -116,34 +116,6 @@
       @include background ('#{$icon-folder-path}alert/icon_alert_confirm.svg', null, no-repeat, 0, $alert-margin-size, null); // 5px
     }
   }
-  &-no-icon { padding: 0; }
-
-  &-input {
-    width: 100%;
-
-    &-text {
-      width: 100%;
-      padding-left: 0.438rem;
-    }
-
-    &-textarea {
-      width: 100%;
-      min-height: 5.625rem;
-      padding-left: 0.438rem;
-    }
-
-    &-label {
-      display: block;
-      margin: $alert-margin-size 0;  // 5px
-    }
-  }
-
-  &-required {
-    display: none;
-    text-align: center;
-    font-size: $alert-font-size;
-    color: #FF405A;
-  }
 }
 
 @media only screen and (max-width:53em){
