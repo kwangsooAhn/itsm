@@ -268,7 +268,7 @@ customCode:
     enterTableTarget: "Please enter a table target name."
     enterValueColumn: "Please enter a value column name."
     pCodeNotExist: "The parent code does not exist."
-    searchDescription: "Add, view and manage custom codes used in processes and forms."
+    searchDescription: "View and manage custom codes used in processes and forms."
     selectNotDuplicateSearchColumn: "Please select the search criteria in the column without duplication."
     viewDescription: "Inquires detailed information about the custom code used in the process and document form."
 
@@ -536,7 +536,7 @@ image:
     existNotAllowedExtension: "There is a file that does not allow extension. Are you sure you want to exclude and proceed with the upload?"
     failedRename: "File name change failed. Please check if the file name is the same or that you have permission to modify."
     fileSelect: "Please select a file."
-    listDescription: "Add, view and manage images to be used in forms."
+    searchDescription: "Add, view and manage images to be used in forms."
 
 # Login
 login:
@@ -796,7 +796,7 @@ token:
     view: "Document View"
     write: "My Document"
   msg:
-    searchDescription: "View and search all documents relating to me."
+    searchDescription: "View and search documents relating to me."
     tag: "Insert tags."
   type:
     completed: "Completed Documents"
