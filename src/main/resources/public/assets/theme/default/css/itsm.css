@@ -1079,13 +1079,17 @@ input.search {
 }
 
 input.search-datetime {
-  background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
+  background: url("../media/icons/icon_date_time.svg") no-repeat 95% 50%;
   background-color: #ffffff;
 }
 
 input.search-date {
   background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
   background-color: #ffffff;
+}
+
+input.search-date:disabled {
+  background-color: #F7F8F9;
 }
 
 input.search-time {
@@ -1101,6 +1105,15 @@ input.date {
 input.px {
   background: url("../media/icons/icon_px.svg") no-repeat calc(100% - 10px) 50%;
   background-color: #ffffff;
+}
+
+input.mb {
+  background: url("../media/icons/icon_mb.svg") no-repeat calc(100% - 10px) 50%;
+  background-color: #ffffff;
+}
+
+input.mb:disabled {
+  background-color: #F7F8F9;
 }
 
 label {
@@ -1711,69 +1724,71 @@ button.list-popup:hover {
 .btn.plus,
 button.plus {
   padding: 0;
+  width: 1.625rem;
+  height: 1.625rem;
 }
 
 .btn .icon-search,
 button .icon-search {
   display: inline-block;
-  width: 18px;
-  height: 18px;
+  width: 1.625rem;
+  height: 1.625rem;
   -webkit-mask-image: url("../media/icons/icon_search.svg");
   mask-image: url("../media/icons/icon_search.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: 18px 18px;
-  mask-size: 18px 18px;
+  -webkit-mask-size: 1.625rem 1.625rem;
+  mask-size: 1.625rem 1.625rem;
   background: #ACB4BF;
 }
 
 .btn .icon-edit,
 button .icon-edit {
   display: inline-block;
-  width: 20px;
-  height: 20px;
+  width: 1.25rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_edit.svg");
   mask-image: url("../media/icons/icon_edit.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: 20px 20px;
-  mask-size: 20px 20px;
+  -webkit-mask-size: 1.25rem 1.25rem;
+  mask-size: 1.25rem 1.25rem;
   background: #586872;
 }
 
 .btn .icon-delete,
 button .icon-delete {
   display: inline-block;
-  width: 18px;
-  height: 20px;
+  width: 1.625rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_delete.svg");
   mask-image: url("../media/icons/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: 18px 20px;
-  mask-size: 18px 20px;
+  -webkit-mask-size: 1.625rem 1.25rem;
+  mask-size: 1.625rem 1.25rem;
   background: #586872;
 }
 
 .btn .icon-plus,
 button .icon-plus {
   display: inline-block;
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   -webkit-mask-image: url("../media/icons/icon_plus.svg");
   mask-image: url("../media/icons/icon_plus.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: 20px 20px;
-  mask-size: 20px 20px;
+  -webkit-mask-size: 0.875rem 0.875rem;
+  mask-size: 0.875rem 0.875rem;
   background: #CCCED1;
 }
 
@@ -2484,6 +2499,10 @@ button .icon-plus {
   display: flex;
   flex-direction: column;
   background-color: white;
+  /* 
+   * #9067 일감 완료 후 다시 확인합니다. 
+   * 해당 클래스가 사용되는 카테고리 관리 화면은 추후 게시판 관리 페이지에 합쳐질 예정입니다.
+   */
 }
 
 .itsm-container .contents-edit .header {
@@ -2605,8 +2624,36 @@ button .icon-plus {
   padding: 2.5rem 0 3.125rem 0;
 }
 
+.itsm-container .contents-edit .image-header {
+  padding-bottom: 0.625rem;
+}
+
 .itsm-container .contents-edit .image-list {
   padding: 3.125rem 3.75rem 2.875rem 3.75rem;
+}
+
+.itsm-container .contents-edit .under-bar {
+  border-bottom: 0.0625rem solid #E1E3E6;
+}
+
+.itsm-container .contents-edit .custom-code-edit .condition {
+  width: 28.3125rem;
+}
+
+.itsm-container .contents-edit .custom-code-edit .equal {
+  padding: 0 0.3125rem;
+}
+
+.itsm-container .contents-edit .custom-code-edit .minus {
+  padding: 0.5625rem 0.8125rem;
+}
+
+.itsm-container .contents-edit .custom-code-edit .icon-delete {
+  background: #CCCED1;
+}
+
+.itsm-container .contents-edit .user-edit .switch {
+  margin-top: 0.9375rem;
 }
 
 .itsm-container .contents-edit .category-list {
@@ -2959,7 +3006,6 @@ button .icon-plus {
   background: #F7F8F9;
   display: flex;
   flex-direction: column;
-  flex-direction: row;
 }
 
 .itsm-container .contents-tree-edit > .tree-area {
@@ -3050,20 +3096,18 @@ button .icon-plus {
 }
 
 .itsm-container .contents-tree-edit > .tree-area .list {
-  height: 600px;
+  height: 37.5rem;
 }
 
 .itsm-container .contents-tree-edit > .edit-area {
   padding: 9.625rem 2.1875rem 3.125rem 0;
-  width: 1050px;
+  width: 65.625rem;
   background: #ffffff;
   font-weight: 500;
 }
 
 .itsm-container .contents-tree-edit > .edit-area .scroll-wrap {
   height: 43.125rem;
-  display: flex;
-  flex-direction: column;
   margin: 0 0 0.625rem 0;
 }
 
@@ -3074,7 +3118,7 @@ button .icon-plus {
 }
 
 .itsm-container .contents-tree-edit > .edit-area .scroll-wrap .form-wrap .margin-top-50 {
-  margin-top: 50px;
+  margin-top: 3.125rem;
 }
 
 .itsm-container .contents-tree-edit > .edit-area .form-row {
@@ -3088,8 +3132,6 @@ button .icon-plus {
 }
 
 .itsm-container .contents-tree-edit > .edit-area .form-set {
-  display: flex;
-  flex-direction: column;
   margin-top: 0.6875rem;
 }
 
@@ -3109,11 +3151,6 @@ button .icon-plus {
   border-radius: 0.0625rem;
   overflow-y: auto;
   padding: 0.5rem 0.625rem;
-}
-
-.itsm-container .contents-tree-edit > .edit-area .form-set .date-icon {
-  background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
-  background-color: #F7F8F9;
 }
 
 .itsm-container-close {
@@ -5787,7 +5824,7 @@ body.modal-active {
 .reply-list .vertical-bar {
   width: 1.25rem;
   height: 1.25rem;
-  margin: 0.0625rem 0.9375rem 0.0625rem 0;
+  margin: 0.0625rem 1.25rem 0.0625rem 0;
   vertical-align: middle;
 }
 

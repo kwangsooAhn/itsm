@@ -15,7 +15,7 @@
                 <h6 class="title-description" th:text="#{user.msg.descriptionUpdate}"></h6>
             </div>
         </div>
-        <div class="edit">
+        <div class="user-edit edit">
             <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
             <h3 class="under-bar" th:text="#{user.label.profile}"></h3>
@@ -188,6 +188,8 @@
                     }
                 }
             });
+
+            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
         };
 
         function onlyNumber(event) {
