@@ -4,20 +4,15 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:unless="${users?.userKey}" th:text="#{user.label.createUser}"></title>
-    <title th:if="${users?.userKey}" th:text="#{user.label.editUserInfo}"></title>
+    <title th:text="${users != null} ? #{user.label.edit} : #{user.label.register}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents-edit scroll-wrap">
         <div class="header">
-            <div class="page-title" th:if="!${users?.userKey}">
-                <h1 th:text="#{user.label.createUser}"></h1>
-                <h6 class="title-description" th:text="#{user.msg.descriptionCreate}"></h6>
-            </div>
-            <div class="page-title" th:if="${users?.userKey}">
-                <h1 th:text="#{user.label.editUserInfo}"></h1>
-                <h6 class="title-description" th:text="#{user.msg.descriptionUpdate}"></h6>
+            <div class="page-title">
+                <h1 th:text="#{user.label.user}"></h1>
+                <h6 class="title-description" th:text="#{user.msg.editDescription}"></h6>
             </div>
         </div>
         <div class="edit">
