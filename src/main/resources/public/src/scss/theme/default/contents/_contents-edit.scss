@@ -1,4 +1,10 @@
-// 공지사항 등록과 같이 입력화면인 경우.
+/* _contents-edit.scss
+ *
+ * 파일 경로 : contents/_contents-edit.scss
+ * @description 입력화면 (ex. 공지사항 등록)
+ * @author jy.lim
+ * @version 1.0
+ */
 .contents-edit {
     @include contents-template();
     @include edit-template();
@@ -8,12 +14,12 @@
     .image-list {
         padding: 3.125rem 3.75rem 2.875rem 3.75rem;
     }
-    .list {
+    .category-list {
         width: 61.25rem;
         margin: auto;
-        table {
+        .edit-table {
             width: 100%;
-            thead {
+            head {
                 display: block;
                 & > tr {
                     height: 2.375rem; // 38px
@@ -21,8 +27,8 @@
                     display: flex;
                     th {
                         @include h4();
-                        vertical-align: middle;
-                        text-align: left;
+                        // vertical-align: middle;
+                        // text-align: left;
                         &:first-child {
                             padding-left: 1.25rem; // 20px
                         }

@@ -2097,6 +2097,13 @@ button .icon-plus {
  * @author jy.lim
  * @version 1.0
  */
+  /* _contents-edit.scss
+ *
+ * 파일 경로 : contents/_contents-edit.scss
+ * @description 입력화면 (ex. 공지사항 등록)
+ * @author jy.lim
+ * @version 1.0
+ */
   /* 상세 조회 화면 */
 }
 
@@ -2602,66 +2609,64 @@ button .icon-plus {
   padding: 3.125rem 3.75rem 2.875rem 3.75rem;
 }
 
-.itsm-container .contents-edit .list {
+.itsm-container .contents-edit .category-list {
   width: 61.25rem;
   margin: auto;
 }
 
-.itsm-container .contents-edit .list table {
+.itsm-container .contents-edit .category-list .edit-table {
   width: 100%;
 }
 
-.itsm-container .contents-edit .list table thead {
+.itsm-container .contents-edit .category-list .edit-table head {
   display: block;
 }
 
-.itsm-container .contents-edit .list table thead > tr {
+.itsm-container .contents-edit .category-list .edit-table head > tr {
   height: 2.375rem;
   border-bottom: 0.125rem solid #E1E3E6;
   display: flex;
 }
 
-.itsm-container .contents-edit .list table thead > tr th {
+.itsm-container .contents-edit .category-list .edit-table head > tr th {
   color: #3F4B56;
   font-size: 1.125rem;
   font-weight: 500;
-  vertical-align: middle;
-  text-align: left;
 }
 
-.itsm-container .contents-edit .list table thead > tr th:first-child {
+.itsm-container .contents-edit .category-list .edit-table head > tr th:first-child {
   padding-left: 1.25rem;
 }
 
-.itsm-container .contents-edit .list table tbody {
+.itsm-container .contents-edit .category-list .edit-table tbody {
   display: block;
   overflow-y: auto;
   width: 100%;
 }
 
-.itsm-container .contents-edit .list table tbody tr {
+.itsm-container .contents-edit .category-list .edit-table tbody tr {
   height: 2.875rem;
   width: 100%;
   display: table;
 }
 
-.itsm-container .contents-edit .list table tbody tr:hover {
+.itsm-container .contents-edit .category-list .edit-table tbody tr:hover {
   background: #EBEBEB;
 }
 
-.itsm-container .contents-edit .list table tbody tr.active td {
+.itsm-container .contents-edit .category-list .edit-table tbody tr.active td {
   color: #0060A5;
   background: #EBEBEB;
 }
 
-.itsm-container .contents-edit .list table tbody tr td {
+.itsm-container .contents-edit .category-list .edit-table tbody tr td {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
   vertical-align: middle;
 }
 
-.itsm-container .contents-edit .list table tbody tr td:first-child {
+.itsm-container .contents-edit .category-list .edit-table tbody tr td:first-child {
   padding-left: 1.25rem;
 }
 
@@ -3426,37 +3431,6 @@ button .icon-plus {
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
-}
-
-.gmodal-no-icon {
-  padding: 0;
-}
-
-.gmodal-input {
-  width: 100%;
-}
-
-.gmodal-input-text {
-  width: 100%;
-  padding-left: 0.438rem;
-}
-
-.gmodal-input-textarea {
-  width: 100%;
-  min-height: 5.625rem;
-  padding-left: 0.438rem;
-}
-
-.gmodal-input-label {
-  display: block;
-  margin: 0.3125rem 0;
-}
-
-.gmodal-required {
-  display: none;
-  text-align: center;
-  font-size: 1rem;
-  color: #FF405A;
 }
 
 @media only screen and (max-width: 53em) {
@@ -4984,6 +4958,7 @@ body.modal-active {
   width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   border-radius: 0.0625rem;
   z-index: 2001;
@@ -4999,7 +4974,7 @@ body.modal-active {
 }
 
 .modal-wrapper .modal-dialog .modal-content {
-  height: calc(22.5rem - 3.375rem - 5rem);
+  height: calc(25.63rem - 3.375rem - 5rem);
   border-bottom: 0.0625rem solid #EBEBEB;
   overflow: auto;
 }
