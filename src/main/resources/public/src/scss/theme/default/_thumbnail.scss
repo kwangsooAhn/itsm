@@ -1,20 +1,30 @@
 @import "../../template/_thumbnail.scss";
 
-// thumnbnail > modal(type: icon) 관련 템플릿
-.thumbnail-icon {
-  .thumbnail-main {
-    padding: $thumbnail-icon-container-padding;
-    height: auto;
-    .thumbnail {
-      width: $thumbnail-size;
-      height: $thumbnail-size;
-      margin: 0.4375rem; // 7px
-      box-shadow: $thumbnail-icon-box-shadow;
+// 썸네일 모달
+.modal-dialog {
+  // thumnbnail > modal(type: icon) 관련 템플릿
+  &.thumbnail-icon {
+    width: $thumbnail-icon-modal-width;
+    height: $thumbnail-icon-modal-height;
 
-      .thumbnail-icon {
-        width: $thumbnail-icon-size;
-        height: $thumbnail-icon-size;
-        margin: 2rem auto; // 32px auto
+    .modal-content {
+      height: calc(#{$thumbnail-icon-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+
+      .thumbnail-main {
+        padding: $thumbnail-icon-container-padding;
+        height: auto;
+        .thumbnail {
+          width: $thumbnail-size;
+          height: $thumbnail-size;
+          margin: 0.4375rem; // 7px
+          box-shadow: $thumbnail-icon-box-shadow;
+    
+          .thumbnail-icon {
+            width: $thumbnail-icon-size;
+            height: $thumbnail-icon-size;
+            margin: 2rem auto; // 32px auto
+          }
+        }
       }
     }
   }

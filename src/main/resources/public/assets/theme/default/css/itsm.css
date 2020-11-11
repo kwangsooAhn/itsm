@@ -3428,37 +3428,6 @@ button .icon-plus {
   background-position-y: 0.3125rem;
 }
 
-.gmodal-no-icon {
-  padding: 0;
-}
-
-.gmodal-input {
-  width: 100%;
-}
-
-.gmodal-input-text {
-  width: 100%;
-  padding-left: 0.438rem;
-}
-
-.gmodal-input-textarea {
-  width: 100%;
-  min-height: 5.625rem;
-  padding-left: 0.438rem;
-}
-
-.gmodal-input-label {
-  display: block;
-  margin: 0.3125rem 0;
-}
-
-.gmodal-required {
-  display: none;
-  text-align: center;
-  font-size: 1rem;
-  color: #FF405A;
-}
-
 @media only screen and (max-width: 53em) {
   .gmodal-dialog {
     width: auto;
@@ -4984,6 +4953,7 @@ body.modal-active {
   width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   border-radius: 0.0625rem;
   z-index: 2001;
@@ -5009,15 +4979,6 @@ body.modal-active {
   padding: 1.25rem 1.25rem 1.25rem 0;
 }
 
-.modal-dialog.thumbnail-icon {
-  width: 47.81rem;
-  height: 45rem;
-}
-
-.modal-dialog.thumbnail-icon .modal-content {
-  height: calc(45rem - 3.375rem - 5rem);
-}
-
 .modal-dialog.tree {
   width: 40rem;
   height: 44.19rem;
@@ -5036,7 +4997,7 @@ body.modal-active {
  */
 .thumbnail-main {
   font-family: "Noto Sans KR";
-  height: 35.31rem;
+  height: 100%;
   padding: 0;
 }
 
@@ -5069,12 +5030,12 @@ body.modal-active {
 
 .thumbnail-main .thumbnail .thumbnail-info {
   height: 6.563rem;
-  padding: 0.8125rem 0.9375rem;
+  padding: 0.75rem 0.9375rem;
 }
 
 .thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text {
-  height: 1.375rem;
-  line-height: 1.375rem;
+  height: 1.5rem;
+  line-height: 1.5rem;
 }
 
 .thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text label {
@@ -5174,19 +5135,28 @@ body.modal-active {
   font-size: 1.875rem;
 }
 
-.thumbnail-icon .thumbnail-main {
+.modal-dialog.thumbnail-icon {
+  width: 47.81rem;
+  height: 45rem;
+}
+
+.modal-dialog.thumbnail-icon .modal-content {
+  height: calc(45rem - 3.375rem - 5rem);
+}
+
+.modal-dialog.thumbnail-icon .modal-content .thumbnail-main {
   padding: 1.375rem;
   height: auto;
 }
 
-.thumbnail-icon .thumbnail-main .thumbnail {
+.modal-dialog.thumbnail-icon .modal-content .thumbnail-main .thumbnail {
   width: 10.31rem;
   height: 10.31rem;
   margin: 0.4375rem;
   box-shadow: 0 0 0 0.0625rem #EBEBEB;
 }
 
-.thumbnail-icon .thumbnail-main .thumbnail .thumbnail-icon {
+.modal-dialog.thumbnail-icon .modal-content .thumbnail-main .thumbnail .thumbnail-icon {
   width: 6.25rem;
   height: 6.25rem;
   margin: 2rem auto;

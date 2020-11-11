@@ -734,12 +734,15 @@ aliceJs.thumbnail = function(options) {
                 container.appendChild(thumbnail);
 
                 const thumbnailImg = document.createElement('div');
-                if(options.type === 'image') {
+                if (options.type === 'image') {
                     thumbnailImg.className = 'thumbnail-img';
                 } else if (options.type === 'icon') {
                     thumbnailImg.className = 'thumbnail-icon';
                     thumbnailImg.style.backgroundSize = '100%';
-                }
+                } else if (options.type === 'file') {
+                  thumbnailImg.className = 'thumbnail-file';
+                  thumbnailImg.style.backgroundSize = '100%';
+              }
                 thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
                 thumbnail.appendChild(thumbnailImg);
 

@@ -97,7 +97,10 @@ $color-picker-colorchip-margin:               0.1875rem; // 3px
 $color-picker-colorchip-border:               0.125rem solid $white; // 2px
 
 //////////////////////////// thumbnail //////////////////////////
-$thumbnail-main-padding:                      1.25rem; // 20px
+// 썸네일 모달
+$thumbnail-modal-width:                       62.63rem; // 1002px
+$thumbnail-modal-height:                      48.44rem; // 775px
+$thumbnail-main-padding:                      0.625rem; // 10px
 
 //////////////////////////// tooltip ////////////////////////////
 $tooltip-font-size:                           1rem; // 16px
