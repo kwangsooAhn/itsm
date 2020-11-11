@@ -8,6 +8,18 @@
 
     .modal-content {
       height: calc(#{$tree-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 1.125rem 0 0 1.25rem;
+      div {
+        height: 100%;
+        label {
+          font-weight: 400;
+        }
+        li {
+          &:last-child:before {
+            background-color: $modal-bg-color;
+          }
+        }
+      }
     }
   }
 }

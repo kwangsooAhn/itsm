@@ -561,6 +561,17 @@
     }
 
     /**
+     * 모달 트리 생성.
+     *
+     * @return {string}
+     */
+    const createDialogContent = function() {
+        return `
+                <div id = "${options.target}"></div>
+                `
+    };
+
+    /**
      * Load.
      *
      * @param userOptions 옵션
@@ -578,7 +589,33 @@
         // 모달일 경우 선택 모달 생성.
         let treeModal;
         if (options.view === 'modal') {
-            treeModal = new Modal();
+            treeModal = new modal({
+                title: options.title,
+                body: createDialogContent(),
+                classes: 'tree',
+                buttons: [
+                    {
+                        content: i18n.msg('common.btn.check'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            if (saveSelectedNode()) {
+                                modal.hide();
+                            }
+                        }
+                    },{
+                        content: i18n.msg('common.btn.cancel'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            modal.hide();
+                        }
+                    }
+                ],
+                close: {
+                    closable: false,
+                }
+            });
         }
         aliceJs.sendXhr({
             method: 'get',
