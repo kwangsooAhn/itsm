@@ -3205,7 +3205,7 @@ body.modal-active {
 }
 
 .modal-dialog.save-as .modal-content {
-  padding: 10px 20px;
+  padding: 0.625rem 1.25rem;
   -ms-overflow-style: none;
   /* IE and Edge */
   scrollbar-width: none;

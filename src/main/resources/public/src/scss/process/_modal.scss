@@ -4,7 +4,7 @@
    // 프로세스 다른이름으로 저장하기 모달
    &.save-as {
     .modal-content {
-      padding: 10px 20px; // 10px 20px
+      padding: 0.625rem 1.25rem; // 10px 20px
       @include scrollbarHidden;
 
       .field-label {
