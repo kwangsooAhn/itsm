@@ -151,6 +151,10 @@ input, button, select, optgroup, textarea {
   flex-direction: column;
 }
 
+.inline-flex {
+  display: inline-flex;
+}
+
 .justify-content-start {
   justify-content: flex-start;
 }

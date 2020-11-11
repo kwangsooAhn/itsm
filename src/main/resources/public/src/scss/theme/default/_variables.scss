@@ -107,3 +107,13 @@ $toastify-icon-size:                          6.25rem; // 100px
 ///////////////////////////// Tree ////////////////////////////////
 $tree-modal-width:                            40rem; // 640px
 $tree-modal-height:                           44.19rem; // 707px
+
+/////////////////////////// contents //////////////////////////////
+$token-list-background-color: $white;
+$token-list-topic-color: $dark-gray;
+$token-list-tag-color: rgba(0, 152, 255, 0.1 );
+$token-list-border: 0.0625rem solid $line-gray;
+
+$token-dashbaord-background-color: $white;
+$token-dashbaord-header-color: $light-gray;
+$token-dashbaord-border: 0.0625rem solid $line-gray;

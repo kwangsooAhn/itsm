@@ -14,6 +14,10 @@ $flex-align-type: (row, column);
   }
 }
 
+.inline-flex {
+  display: inline-flex;
+}
+
 .justify-content-start {
   justify-content: flex-start;
 }
@@ -62,4 +66,3 @@ $flex-align-type: (row, column);
 .ml-auto {
   margin-left: auto;
 }
-
