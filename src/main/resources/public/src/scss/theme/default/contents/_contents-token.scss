@@ -1,3 +1,7 @@
+/*
+ * [ 적용화면 ]
+ *   개인 현황판(dashboardView), 신청서(tokenSearch)
+ */
 .contents-token {
   @include contents-template();
   .header { padding: 2.875rem 3.75rem 0.625rem 3.75rem; } // 46px 60px 10px 60px
@@ -7,13 +11,13 @@
     border-bottom: 0.0625rem solid $line-gray;
   }
   .list {
-    background-color: $token-list-background;
+    background-color: $token-list-background-color;
     overflow-y: auto;
     flex: auto;
     &-item {
       margin: 0.625rem 3.75rem; // 10px 60px
-      background-color: $token-list-background;
-      display: flex;
+      background-color: $token-list-background-color;
+      align-items: inherit;
       &:first-child {
         margin-top:  3.125rem; // 50px
       }
@@ -27,11 +31,9 @@
           display: flex;
           justify-content: space-between;
           padding: 1.875rem 3rem; // 30px 48px
-          border: {
-            top: 0.0625rem solid $line-gray; // 1px
-            right: 0.0625rem solid $line-gray; // 1px
-            bottom: 0.0625rem solid $line-gray; // 1px
-          }
+          border-top: $token-list-border;
+          border-right: $token-list-border;
+          border-bottom: $token-list-border;
           &-content {
             cursor: pointer;
             .document {
@@ -56,7 +58,6 @@
             }
           }
           &-info {
-            flex-direction: column;
             .document {
               &-detail {
                 display: flex;
@@ -73,7 +74,6 @@
                 &-item {
                   background: $token-list-tag-color;
                   color: $point-blue;
-                  text-align: center;
                   margin: 0.25rem; // 4px
                   border-radius: 0.0625rem; // 1px
                   padding: 0.3125rem 0.9375rem; // 5px 15px
@@ -92,7 +92,7 @@
   }
 
   &.dashboard {
-    background: $token-dashbaord-background;
+    background: $token-dashbaord-background-color;
     .header {
       padding-bottom: 2.875rem;
       background: $token-dashbaord-header-color;
@@ -101,11 +101,10 @@
     .dashboard-statistic {
       width: 100%;
       padding: 0.625rem 3.75rem;
-      background-color: $token-dashbaord-background;
+      background-color: $token-dashbaord-background-color;
       display: flex;
       .statistic {
         &-box {
-
           display: flex;
           align-items: center;
           width: 23.75rem; // 380px
@@ -127,7 +126,7 @@
         }
       }
     }
-    .subtitle {
+    .sub-title {
       margin: 3.125rem 0 0 3.75rem; // 50px 0 0 60px
       @include h3();
     }

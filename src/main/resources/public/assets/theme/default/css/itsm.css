@@ -150,6 +150,10 @@ input, button, select, optgroup, textarea {
   flex-direction: column;
 }
 
+.inline-flex {
+  display: inline-flex;
+}
+
 .justify-content-start {
   justify-content: flex-start;
 }
@@ -2086,6 +2090,10 @@ button .icon-plus {
   max-width: calc(100% - 13.75rem);
   height: 100%;
   min-height: 100vh;
+  /*
+ * [ 적용화면 ]
+ *   개인 현황판(dashboardView), 신청서(tokenSearch)
+ */
   /* 상세 조회 화면 */
 }
 
@@ -2128,7 +2136,7 @@ button .icon-plus {
 .itsm-container .contents-token .list-item {
   margin: 0.625rem 3.75rem;
   background-color: #ffffff;
-  display: flex;
+  align-items: inherit;
 }
 
 .itsm-container .contents-token .list-item:first-child {
@@ -2175,10 +2183,6 @@ button .icon-plus {
 
 .itsm-container .contents-token .list-item .document-row-content .document-topic-item:first-child {
   margin-top: 1.5625rem;
-}
-
-.itsm-container .contents-token .list-item .document-row-info {
-  flex-direction: column;
 }
 
 .itsm-container .contents-token .list-item .document-row-info .document-detail {
@@ -2256,7 +2260,7 @@ button .icon-plus {
   color: #929AA6;
 }
 
-.itsm-container .contents-token.dashboard .subtitle {
+.itsm-container .contents-token.dashboard .sub-title {
   margin: 3.125rem 0 0 3.75rem;
   color: #3F4B56;
   font-size: 1.5rem;

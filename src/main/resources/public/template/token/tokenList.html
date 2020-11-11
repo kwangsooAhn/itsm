@@ -7,7 +7,7 @@
         <img class="no-data-icon"/>
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
-    <div class="list-item" th:each="token: ${tokenList}">
+    <div class="list-item flex-row" th:each="token: ${tokenList}">
         <div class="document-color" th:style="|background-color: ${token.documentColor}|"></div>
         <div class="document-row">
             <div class="document-row-content">
@@ -23,7 +23,7 @@
             </div>
             <div class="document-row-info">
                 <div class="document-detail float-right">
-                    <div class="document-user">
+                    <div class="document-user inline-flex">
                         <img class="profile-photo" alt="profile pic" th:src="${token.avatarPath}">
                         <h5 class="user-name" th:text="${token.createUserName}"></h5>
                     </div>
@@ -33,7 +33,7 @@
                     <h5 th:text="${token.elementName}"></h5>
                 </div>
                 <div class="document-tag">
-                    <span class="document-tag-item" th:each="tag: ${token.tags}" th:text="${tag}"></span>
+                    <span class="document-tag-item align-center" th:each="tag: ${token.tags}" th:text="${tag}"></span>
                 </div>
             </div>
         </div>
