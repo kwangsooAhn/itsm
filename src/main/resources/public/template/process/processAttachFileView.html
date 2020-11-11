@@ -23,7 +23,7 @@
                 <label th:text="#{common.msg.noData}"></label>
             </div>
             <div class="thumbnail-modal-body">
-                <div class="thumbnail-container">
+                <div class="thumbnail-main">
                     <div class="thumbnail" th:unless="${#arrays.isEmpty(imageList)}" th:each="image : ${imageList}" th:data-name="${image.name}" onclick="selectImage(this)">
                         <div class="thumbnail-img" th:style="'background-image: url(data:image/' + ${image.extension}  + ';base64,' + ${image.data} + ')'"></div>
                         <div class="thumbnail-info">

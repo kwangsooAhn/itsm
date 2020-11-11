@@ -1,16 +1,6 @@
 @import '../template/_modal.scss';
 
 .modal-dialog {
-  // 썸네일 모달
-  &.thumbnail-image {
-    width: $thumbnail-modal-dialog-width;
-    height: $thumbnail-modal-dialog-height;
-    // 내부 디자인은 _thumbnail.scss 확인
-    .modal-content {
-      height: calc(#{$thumbnail-modal-dialog-height} - #{$modal-header-height} - #{$modal-bottom-height});
-    }
-  }
-
   // 폼 다른이름으로 저장하기 모달
   &.save-as {
     .modal-content {
