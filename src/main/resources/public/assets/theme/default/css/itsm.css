@@ -2156,6 +2156,7 @@ button .icon-plus {
 
 .itsm-container .contents-token .list-item .document-row-content .document-title {
   align-items: center;
+  justify-content: flex-start;
 }
 
 .itsm-container .contents-token .list-item .document-row-content .document-title .text-ellipsis {

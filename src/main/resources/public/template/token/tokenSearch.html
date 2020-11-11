@@ -44,7 +44,7 @@
             </div>
         </div>
         <div class="scroll-wrap list flex-column">
-            <div class="list" id="tokenList"></div>
+            <div class="list flex-column" id="tokenList"></div>
             <input type="hidden" sec:authorize="hasAuthority('token.read')" th:name="isRole" th:value="true"/>
             <input type="hidden" sec:authorize="!hasAuthority('token.read')" th:name="isRole" th:value="false"/>
         </div>

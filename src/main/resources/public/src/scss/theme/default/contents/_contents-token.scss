@@ -37,6 +37,7 @@
             .document {
               &-title {
                 align-items: center;
+                justify-content: flex-start;
                 .text-ellipsis {
                   margin-right: 0.625rem; // 10px
                   max-width: 50rem; // 800px
@@ -104,6 +105,7 @@
       display: flex;
       .statistic {
         &-box {
+
           display: flex;
           align-items: center;
           width: 23.75rem; // 380px
