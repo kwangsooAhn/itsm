@@ -2599,7 +2599,7 @@ button .icon-plus {
 }
 
 .itsm-container .contents-edit .image-list {
-  padding: 3.125rem 3.75rem 2.875rem 3.75rem;
+  padding: 2.5rem 3.125rem 2.5rem 3.125rem;
 }
 
 .itsm-container .contents-edit .list {
@@ -3426,37 +3426,6 @@ button .icon-plus {
   background-repeat: no-repeat;
   background-position-x: 0;
   background-position-y: 0.3125rem;
-}
-
-.gmodal-no-icon {
-  padding: 0;
-}
-
-.gmodal-input {
-  width: 100%;
-}
-
-.gmodal-input-text {
-  width: 100%;
-  padding-left: 0.438rem;
-}
-
-.gmodal-input-textarea {
-  width: 100%;
-  min-height: 5.625rem;
-  padding-left: 0.438rem;
-}
-
-.gmodal-input-label {
-  display: block;
-  margin: 0.3125rem 0;
-}
-
-.gmodal-required {
-  display: none;
-  text-align: center;
-  font-size: 1rem;
-  color: #FF405A;
 }
 
 @media only screen and (max-width: 53em) {
@@ -4984,6 +4953,7 @@ body.modal-active {
   width: 34.38rem;
   margin: 0 auto 2em auto;
   background-color: #ffffff;
+  border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.3125rem 0 #EBEBEB;
   border-radius: 0.0625rem;
   z-index: 2001;
@@ -5009,15 +4979,6 @@ body.modal-active {
   padding: 1.25rem 1.25rem 1.25rem 0;
 }
 
-.modal-dialog.thumbnail-icon {
-  width: 47.81rem;
-  height: 45rem;
-}
-
-.modal-dialog.thumbnail-icon .modal-content {
-  height: calc(45rem - 3.375rem - 5rem);
-}
-
 .modal-dialog.tree {
   width: 40rem;
   height: 44.19rem;
@@ -5034,32 +4995,31 @@ body.modal-active {
  * @author jy.lim
  * @version 1.0
  */
-.thumbnail-container {
+.thumbnail-main {
   font-family: "Noto Sans KR";
-  overflow-y: auto;
-  height: 35.31rem;
+  height: 100%;
   padding: 0;
 }
 
-.thumbnail-container .thumbnail {
+.thumbnail-main .thumbnail {
   display: inline-block;
   width: 14.06rem;
   height: 18.13rem;
-  margin: 0.125rem;
+  margin: 0.625rem;
   padding: 0;
+  border: 0.0625rem solid #EBEBEB;
   box-shadow: 0 0 0.3125rem 0.0625rem #EBEBEB;
   background-color: #ffffff;
   cursor: pointer;
   overflow: hidden;
 }
 
-.thumbnail-container .thumbnail.selected, .thumbnail-container .thumbnail:hover {
-  border-color: transparent;
-  box-shadow: 0 0 0 0.125rem #0098FF !important;
+.thumbnail-main .thumbnail.selected, .thumbnail-main .thumbnail:hover {
+  border: 0.125rem solid #0098FF;
   background-color: rgba(0, 152, 255, 0.05);
 }
 
-.thumbnail-container .thumbnail div.thumbnail-img {
+.thumbnail-main .thumbnail .thumbnail-img {
   display: inline-block;
   width: 100%;
   height: 9.063rem;
@@ -5068,56 +5028,57 @@ body.modal-active {
   background-position: center center;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-info {
+.thumbnail-main .thumbnail .thumbnail-info {
   height: 6.563rem;
-  padding: 0.8125rem 0.9375rem;
+  padding: 0.75rem 0.9375rem;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text {
-  height: 1.375rem;
-  line-height: 1.375rem;
+.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text {
+  height: 1.5rem;
+  line-height: 1.5rem;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text label {
+.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text label {
   display: block;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  color: #ACB4BF;
   font-size: 1rem;
   font-weight: 400;
+  color: #ACB4BF;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child label {
+.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child label {
   color: #586872;
   cursor: pointer;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-info p.thumbnail-info-text:first-child .fileName {
+.thumbnail-main .thumbnail .thumbnail-info .thumbnail-info-text:first-child .fileName {
   display: none;
-  color: #586872;
   width: 12.19rem;
   height: 1.875rem;
+  color: #586872;
   float: left;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-bottom {
+.thumbnail-main .thumbnail .thumbnail-bottom {
   height: 2.5rem;
   line-height: 2.5rem;
-  border-top: solid 0.0625rem #EBEBEB;
+  border-top: 0.0625rem solid #EBEBEB;
+  padding: 0 0.625rem 0 0.9375rem;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-bottom label {
-  width: 1.25rem;
-  color: #ACB4BF;
+.thumbnail-main .thumbnail .thumbnail-bottom label {
   font-size: 1rem;
   font-weight: 400;
-  margin-left: 0.9375rem;
+  color: #ACB4BF;
 }
 
-.thumbnail-container .thumbnail div.thumbnail-bottom .icon-delete {
-  width: 0.9375rem;
+.thumbnail-main .thumbnail .thumbnail-bottom button {
+  padding: 0;
   height: 2.5rem;
+}
+
+.thumbnail-main .thumbnail .thumbnail-bottom button .icon-delete {
+  width: 0.9375rem;
+  height: 1.25rem;
   -webkit-mask-image: url("../media/icons/icon_delete.svg");
   mask-image: url("../media/icons/icon_delete.svg");
   -webkit-mask-repeat: no-repeat;
@@ -5125,46 +5086,47 @@ body.modal-active {
   -webkit-mask-position: center;
   mask-position: center;
   background: #CCCED1;
-  margin: 0 0.625rem;
   cursor: pointer;
 }
 
-.thumbnail-container .thumbnail-upload {
+.thumbnail-main .thumbnail .thumbnail-bottom button:hover .icon-delete {
+  background: #0098FF;
+}
+
+.thumbnail-main .thumbnail-upload {
   display: inline-block;
   width: 14.06rem;
   height: 18.13rem;
-  margin: 0.125rem;
+  margin: 0.625rem;
   padding: 5.625rem 0 0 0;
-  border: 0.0625rem dashed #EBEBEB;
-  box-shadow: 0 0 0.3125rem 0 #EBEBEB;
+  border: 0.0625rem solid #EBEBEB;
+  box-shadow: none;
   background-color: #F7F8F9;
-  text-align: center;
   cursor: pointer;
   overflow: hidden;
 }
 
-.thumbnail-container .thumbnail-upload:hover {
-  border-color: transparent;
-  box-shadow: 0 0 0 0.125rem #0098FF;
+.thumbnail-main .thumbnail-upload:hover {
+  border: 0.125rem solid #0098FF;
   background-color: rgba(0, 152, 255, 0.05);
 }
 
-.thumbnail-container .thumbnail-upload .fileInput {
+.thumbnail-main .thumbnail-upload .fileInput {
   display: none;
 }
 
-.thumbnail-container .thumbnail-upload img {
+.thumbnail-main .thumbnail-upload img {
   content: url("../../../media/icons/thumbnail/icon_image.png");
 }
 
-.thumbnail-container .thumbnail-upload p.thumbnail-upload-text {
-  color: #ACB4BF;
+.thumbnail-main .thumbnail-upload .thumbnail-upload-text {
   font-size: 1rem;
   font-weight: 400;
+  color: #ACB4BF;
   margin-top: 1.25rem;
 }
 
-.thumbnail-container .thumbnail-nodata {
+.thumbnail-main .thumbnail-nodata {
   display: inline-block;
   width: 100%;
   height: 100%;
@@ -5173,19 +5135,28 @@ body.modal-active {
   font-size: 1.875rem;
 }
 
-.thumbnail-icon .thumbnail-container {
+.modal-dialog.thumbnail-icon {
+  width: 47.81rem;
+  height: 45rem;
+}
+
+.modal-dialog.thumbnail-icon .modal-content {
+  height: calc(45rem - 3.375rem - 5rem);
+}
+
+.modal-dialog.thumbnail-icon .modal-content .thumbnail-main {
   padding: 1.375rem;
   height: auto;
 }
 
-.thumbnail-icon .thumbnail-container .thumbnail {
+.modal-dialog.thumbnail-icon .modal-content .thumbnail-main .thumbnail {
   width: 10.31rem;
   height: 10.31rem;
   margin: 0.4375rem;
   box-shadow: 0 0 0 0.0625rem #EBEBEB;
 }
 
-.thumbnail-icon .thumbnail-container .thumbnail .thumbnail-icon {
+.modal-dialog.thumbnail-icon .modal-content .thumbnail-main .thumbnail .thumbnail-icon {
   width: 6.25rem;
   height: 6.25rem;
   margin: 2rem auto;

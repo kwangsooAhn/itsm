@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="image-list">
-            <div class="thumbnail-container"></div>
+            <div class="thumbnail-main"></div>
         </div>
     </div>
 </th:block>
@@ -37,25 +37,25 @@
             /*[/]*/
             addThumbnailUpload();
             document.getElementById('searchValue').focus();
-            OverlayScrollbars(document.querySelector('.thumbnail-container'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
         }
 
         function addThumbnail(image) {
-            const thumbnailContainer = document.querySelector('.thumbnail-container');
+            const thumbnailContainer = document.querySelector('.thumbnail-main');
             const thumbnailUpload = thumbnailContainer.querySelector('.thumbnail-upload');
             let thumbnailTemplate = `
                 <div class="thumbnail">
                     <div class="thumbnail-img" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
                     <div class="thumbnail-info">
                         <p class="thumbnail-info-text">
-                            <label ondblclick="renameImage(this);">${image.name}</label>
-                            <input type="text" class="fileName" />
+                            <label class="text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
+                            <input type="text" class="fileName float-left" />
                         </p>
-                        <p class="thumbnail-info-text"><label>${image.width} X ${image.height} ${image.size}</label></p>
+                        <p class="thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
                     </div>
                     <div class="thumbnail-bottom">
                         <label>${i18n.userDateTime(image.updateDt)}</label>
-                        <span class="icon-delete float-right" data-name="${image.name}" onclick="removeImage(this);"/>
+                        <button type="button" class="float-right" data-name="${image.name}" onclick="removeImage(this);"><span class="icon icon-delete"></span></button>
                     </div>
                 </div>
             `;
@@ -67,16 +67,16 @@
         }
 
         function addThumbnailUpload() {
-            const thumbnailCnt = document.querySelector('.thumbnail-container').querySelectorAll('.thumbnail-upload').length;
+            const thumbnailCnt = document.querySelector('.thumbnail-main').querySelectorAll('.thumbnail-upload').length;
             if (thumbnailCnt === 0) {
                 let thumbnailUploadTemplate = `
-                    <div class="thumbnail-upload" onclick="document.getElementById('image-upload-file').click();">
+                    <div class="thumbnail-upload align-center" onclick="document.getElementById('image-upload-file').click();">
                         <img src="" />
                         <p class="thumbnail-upload-text">${i18n.msg('image.label.upload')}</p>
                         <input type="file" class="fileInput" id="image-upload-file" accept=".png,.gif,.jpeg,.jpg" multiple onchange="uploadImage(this);"/>
                     </div>
                 `;
-                document.querySelector('.thumbnail-container').insertAdjacentHTML('beforeend', thumbnailUploadTemplate);
+                document.querySelector('.thumbnail-main').insertAdjacentHTML('beforeend', thumbnailUploadTemplate);
             }
         }
 
@@ -88,7 +88,7 @@
                     contentType: 'application/json',
                     callbackFunc: xhr => {
                         if (xhr.responseText === 'true') {
-                            document.querySelector('.thumbnail-container').removeChild(imgObj.parentNode.parentNode);
+                            document.querySelector('.thumbnail-main').removeChild(imgObj.parentNode.parentNode);
                         }
                     }
                 });
