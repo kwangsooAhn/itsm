@@ -14,7 +14,7 @@
                 <h6 class="title-description" th:text="#{board.msg.adminEditDescription}"></h6>
             </div>
         </div>
-        <div class="edit">
+        <div class="edit board-admin-edit">
             <div class="form-set">
                 <label class="required" th:text="#{board.label.name}" for="boardAdminTitle"></label>
                 <input type="text" id="boardAdminTitle" maxlength="70" th:value="${boardAdmin?.boardAdminTitle}"
@@ -30,7 +30,7 @@
             </div>
             <div class="form-set">
                 <label th:text="#{board.label.order}" for="boardAdminSort"></label>
-                <input class="col-2" id="boardAdminSort" name="boardAdminSort" type="text"
+                <input class="col-6" id="boardAdminSort" name="boardAdminSort" type="text"
                        th:value="${boardAdmin?.boardAdminSort}" maxlength="2"
                        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
             </div>
@@ -74,9 +74,9 @@
             </div>
             <div class="form-set">
                 <label th:text="#{board.label.attachFileSize}" for="attachFileSize"></label>
-                <input class="col-2" id="attachFileSize" name="attachFileSize" type="text"
+                <input class="col-6 mb" id="attachFileSize" name="attachFileSize" type="text"
                            th:value="${boardAdmin?.attachFileSize}" maxlength="4"
-                           onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>MB
+                           onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
             </div>
             <div class="btn-list">
                 <button class="point-fill" th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')"
@@ -103,6 +103,7 @@
                 document.getElementById('attachFileSize').disabled = 'false';
             }
 
+            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelectorAll('#boardAdminDesc'), {
                 className: 'scrollbar',
                 resize: 'vertical',

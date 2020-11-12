@@ -15,22 +15,6 @@ h6 {
   padding: 0 0 0 0.625rem; // 10px
 }
 
-h3.under-bar {
-  padding-bottom: 0.625rem; // 10px
-  margin-bottom: 0.625rem; //10px
-  border-bottom: 0.125rem solid $default-gray; // 2px
-  margin-top: 3.125rem; // 50px
-  &:first-of-type {
-    margin-top: 0;
-  }
-}
-
-h4.under-bar {
-  padding-bottom: 0.625rem; // 10px
-  margin-bottom: 0.625rem; //10px
-  border-bottom: 0.125rem solid $default-gray; // 2px
-}
-
 .picker-wrapper-date {display: inline;}
 
 input {
@@ -43,12 +27,14 @@ input {
     padding-right: 1.875rem; // 30px
   }
   &.search-datetime {
-    background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
+    background: url($icon-folder-path + "icon_date_time.svg") no-repeat 100%-5 50%;
     background-color: $element-bg-color;
+    &:disabled { background-color: $light-gray; }
   }
   &.search-date {
     background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
     background-color: $element-bg-color;
+    &:disabled { background-color: $light-gray; }
   }
   &.search-time {
     background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
@@ -61,6 +47,11 @@ input {
   &.px {
     background: url($icon-folder-path + "icon_px.svg") no-repeat calc(100% - 10px) 50%;
     background-color: $element-bg-color;
+  }
+  &.mb {
+    background: url($icon-folder-path + "icon_mb.svg") no-repeat calc(100% - 10px) 50%;
+    background-color: $element-bg-color;
+    &:disabled { background-color: $light-gray; }
   }
 }
 

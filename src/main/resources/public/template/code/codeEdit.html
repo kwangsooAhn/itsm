@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-tree-edit">
+    <div class="contents-tree-edit flex-column">
         <div class="tree-area">
             <div class="page-title">
                 <h1 th:text="#{code.label.code}">></h1>
@@ -29,54 +29,55 @@
             </div>
         </div>
         <div class="edit-area">
-            <div class="scroll-wrap">
+            <div class="scroll-wrap flex-column">
                 <div class="form-wrap">
-                    <div class="form-row">
-                        <div class="form-set form-div">
+                    <div class="form-row flex-row">
+                        <div class="form-set flex-column form-div">
                             <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
                             <input id="txtCode" name="txtCode" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
                         </div>
-                        <div class="form-set form-div">
+	                    <div class="form-set flex-column form-div">
                             <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
                             <input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-set form-div">
-                            <label th:text="#{code.label.name}" for="txtCodeName"></label>
+                    <div class="form-row flex-row">
+                        <div class="form-set flex-column form-div">
+                            <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
                             <input id="txtCodeName" name="txtCodeName" type="text" th:value="${codeDetail?.codeName}" maxlength="100"/>
                         </div>
-                        <div class="form-set form-div">
-                            <label th:text="#{code.label.codeValue}" for="txtCodeValue"></label>
+                        <div class="form-set flex-column form-div">
+                            <label class="form-title" th:text="#{code.label.codeValue}" for="txtCodeValue"></label>
                             <input id="txtCodeValue" name="txtCodeValue" type="text" th:value="${codeDetail?.codeValue}" maxlength="100"/>
                         </div>
                     </div>
-                    <div class="form-set">
-                        <label th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
+                    <div class="form-set flex-column">
+                        <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
                         <input id="txtSeqNum" name="txtSeqNum" type="text" th:value="${codeDetail?.seqNum}" maxlength="5"/>
                     </div>
-                    <div class="form-set">
-                        <label th:text="#{code.label.description}" for="txtCodeDesc"></label>
-                        <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7" th:text="${codeDetail?.codeDesc}"></textarea>
+                    <div class="form-set flex-column">
+                        <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
+                        <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
+                                  class="textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
                     </div>
-                    <div class="form-row">
-                        <div class="form-set form-div">
-                            <label th:text="#{common.label.createUser}"></label>
+                    <div class="form-row flex-row">
+                        <div class="form-set flex-column form-div">
+                            <label class="form-title" th:text="#{common.label.createUser}"></label>
                             <input id="txtCreateUserName" name="txtCreateUserName" type="text" th:value="${codeDetail?.createUserName}" th:disabled="true" maxlength="100"/>
                         </div>
-                        <div class="form-set form-div">
-                            <label th:text="#{common.label.updateUser}"></label>
+                        <div class="form-set flex-column form-div">
+                            <label class="form-title" th:text="#{common.label.updateUser}"></label>
                             <input id="txtUpdateUserName" name="txtUpdateUserName" type="text" th:value="${codeDetail?.updateUserName}" th:disabled="true" maxlength="100"/>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="form-set form-div">
-                            <label th:text="#{common.label.createDate}"></label>
-                            <input id="txtCreateDt" name="txtCreateDt" class="date-icon" type="text" th:disabled="true" maxlength="100"/>
+                    <div class="form-row flex-row">
+                        <div class="form-set flex-column form-div">
+                            <label class="form-title" th:text="#{common.label.createDate}"></label>
+                            <input id="txtCreateDt" name="txtCreateDt" class="search-datetime" type="text" th:disabled="true" maxlength="100"/>
                         </div>
-                        <div class="form-set form-div">
-                            <label th:text="#{common.label.updateDate}"></label>
-                            <input id="txtUpdateDt" name="txtUpdateDt" class="date-icon" type="text" th:disabled="true" maxlength="100"/>
+                        <div class="form-set flex-column form-div">
+                            <label class="form-title" th:text="#{common.label.updateDate}"></label>
+                            <input id="txtUpdateDt" name="txtUpdateDt" class="search-datetime" type="text" th:disabled="true" maxlength="100"/>
                         </div>
                     </div>
                     <div class="btn-list">
@@ -170,6 +171,16 @@
                     getCodeList();
                 }
             }, false);
+            OverlayScrollbars(document.querySelectorAll('#txtCodeDesc'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
         });
 
         /** create **/

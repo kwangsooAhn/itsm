@@ -123,6 +123,8 @@
             document.getElementById('boardAdminId').addEventListener('change', function() {
                 restSubmit('get', '/rest/board-admin/'+this.value+'/view', '');
             });
+
+            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
         };
 
         function initTextEditor(flag) {
