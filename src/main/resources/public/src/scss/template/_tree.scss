@@ -68,7 +68,6 @@ ul.tree {
       // Level 3+
       // -------------------------
       ul {
-        margin-left: calc(#{$tree-toggle-icon-width} / 2.3);
       }
     }
   }
@@ -87,6 +86,15 @@ img.icon_tree {
   vertical-align: middle;
   padding-left: 0.188rem; // 3px
   margin-top: -0.188rem; // 3px
+}
+
+// +, - 아이콘 출력 간격
+img.on {
+  display: inline-block;
+}
+
+img.off {
+  display: none;
 }
 
 span.node {

@@ -2686,7 +2686,7 @@ button .icon-plus {
 }
 .itsm-container .contents-tree-edit > .edit-area {
   padding: 9.625rem 2.1875rem 3.125rem 0;
-  width: 1050px;
+  width: 1000px;
   background: #ffffff;
   font-weight: 500;
 }
@@ -4185,10 +4185,6 @@ ul.tree ul li:last-child:before {
   left: -0.0625rem;
   bottom: 0;
 }
-ul.tree ul li ul {
-  margin-left: calc(0.875rem / 2.3);
-}
-
 img.exp_col {
   cursor: pointer;
 }
@@ -4202,6 +4198,14 @@ img.icon_tree {
   vertical-align: middle;
   padding-left: 0.188rem;
   margin-top: -0.188rem;
+}
+
+img.on {
+  display: inline-block;
+}
+
+img.off {
+  display: none;
 }
 
 span.node {
