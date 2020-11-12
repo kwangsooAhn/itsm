@@ -4,15 +4,14 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/popupLayout">
 <head>
-    <title th:text="${formInfo != null} ? #{form.label.edit} : #{form.label.create}"></title>
+    <title th:text="${formInfo != null} ? #{form.label.edit} : #{form.label.register}"></title>
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="content">
     <input type="hidden" id="form_status" th:value="${formInfo?.status}" />
     <div class="edit">
-        <h3 class="under-bar" th:if="${formInfo?.id}" th:text="#{form.label.edit}"></h3>
-        <h3 class="under-bar" th:if="!${formInfo?.id}" th:text="#{form.label.create}"></h3>
+        <h3 th:text="${formInfo != null} ? #{form.label.edit} : #{form.label.register}"></h3>
         <div class="form-set">
             <label class="required" th:text="#{form.label.name}" for="form_name"></label>
             <input type="text" id="form_name" maxlength="50" required="required" tabindex="1"

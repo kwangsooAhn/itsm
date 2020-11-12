@@ -3,15 +3,15 @@
     xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
     layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{board.label.manager}"></title>
+    <title th:text="${boardAdmin?.boardAdminId != null} ? #{board.label.boardEdit} : #{board.label.boardRegister}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents-edit scroll-wrap">
         <div class="header">
             <div class="page-title">
-                <h1 th:text="#{board.label.manager}"></h1>
-                <h6 class="title-description" th:text="#{board.label.manager}"></h6>
+                <h1 th:text="#{board.label.board}"></h1>
+                <h6 class="title-description" th:text="#{board.msg.adminEditDescription}"></h6>
             </div>
         </div>
         <div class="edit">
