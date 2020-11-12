@@ -221,6 +221,7 @@ code:
     description: "View, add, or edit Code's information."
     duplicateCode: "Duplicate code Exists."
     enterCode: "Please enter a code."
+    enterPCode: "Please enter a Parent Code."
     pCodeNotExist: "Parent code does not exist."
     referenceCodeExist: "Code exists that references the code."
 
