@@ -63,7 +63,9 @@
         onHide: function(modal) {
             modal.destroy();
         },
-        onCreate: function(modal) {},
+        onCreate: function(modal) {
+            OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+        },
         onDestroy: function(modal) {}
     };
 
@@ -145,13 +147,13 @@
                             if (p_parentNode.expanded) {
                                 p_parentNode.elementLi.getElementsByTagName('ul')[0].style.display = 'block';
                                 let v_img = p_parentNode.elementLi.getElementsByTagName('img')[0];
-                                v_img.style.visibility = 'visible';
+                                v_img.classList.add('off');
                                 v_img.src = iconPath + '/icon_tree_collapse.svg';
                                 v_img.id = 'toggle_off';
                             } else {
                                 p_parentNode.elementLi.getElementsByTagName('ul')[0].style.display = 'none';
                                 let v_img = p_parentNode.elementLi.getElementsByTagName('img')[0];
-                                v_img.style.visibility = 'visible';
+                                v_img.classList.add('on');
                                 v_img.src = iconPath + '/icon_tree_expand.svg';
                                 v_img.id = 'toggle_on';
                             }
@@ -211,7 +213,7 @@
                 let v_exp_col = null;
                 if (p_node.childNodes.length === 0) {
                     v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/icon_tree_collapse.svg');
-                    v_exp_col.style.visibility = 'hidden';
+                    v_exp_col.classList.add('off');
                 } else {
                     if (p_node.expanded) {
                         v_exp_col = createImgElement('toggle_off', 'exp_col', iconPath + '/icon_tree_collapse.svg');
@@ -352,14 +354,14 @@
 
                 if (p_node.parent.childNodes.length === 0) {
                     let v_img = p_node.parent.elementLi.getElementsByTagName('img')[0];
-                    v_img.style.visibility = 'hidden';
+                    v_img.classList.add('off');
                 }
             },
             removeChildNodes: function(p_node) {
                 if (p_node.childNodes.length>0) {
                     let v_ul = p_node.elementLi.getElementsByTagName('ul')[0];
                     let v_img = p_node.elementLi.getElementsByTagName('img')[0];
-                    v_img.style.visibility = 'hidden';
+                    v_img.classList.add('off');
 
                     p_node.childNodes = [];
                     v_ul.innerHTML = '';
@@ -561,6 +563,17 @@
     }
 
     /**
+     * 모달 트리 생성.
+     *
+     * @return {string}
+     */
+    const createDialogContent = function() {
+        return `
+                <div id = "${options.target}"></div>
+                `
+    };
+
+    /**
      * Load.
      *
      * @param userOptions 옵션
@@ -578,7 +591,33 @@
         // 모달일 경우 선택 모달 생성.
         let treeModal;
         if (options.view === 'modal') {
-            treeModal = new Modal();
+            treeModal = new modal({
+                title: options.title,
+                body: createDialogContent(),
+                classes: 'tree',
+                buttons: [
+                    {
+                        content: i18n.msg('common.btn.check'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            if (saveSelectedNode()) {
+                                modal.hide();
+                            }
+                        }
+                    },{
+                        content: i18n.msg('common.btn.cancel'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            modal.hide();
+                        }
+                    }
+                ],
+                close: {
+                    closable: false,
+                }
+            });
         }
         aliceJs.sendXhr({
             method: 'get',
