@@ -1083,6 +1083,10 @@ input.search-datetime {
   background-color: #ffffff;
 }
 
+input.search-datetime:disabled {
+  background-color: #F7F8F9;
+}
+
 input.search-date {
   background: url("../media/icons/icon_calendar.svg") no-repeat 95% 50%;
   background-color: #ffffff;
@@ -2120,6 +2124,13 @@ button .icon-plus {
  * @version 1.0
  */
   /* 상세 조회 화면 */
+  /* _contents-tree-edit.scss
+ *
+ * 파일 경로 : contents/_contents-tree-edit.scss
+ * @description 코드관리와 같이 트리와 편집화면이 1개의 화면으로 구성되는 경우
+ * @author jy.lim
+ * @version 1.0
+ */
 }
 
 .itsm-container .page-title {
@@ -2500,7 +2511,7 @@ button .icon-plus {
   flex-direction: column;
   background-color: white;
   /* 
-   * #9067 일감 완료 후 다시 확인합니다. 
+   * #9067 일감 완료 후 삭제 또는 수정 여부를 확인합니다.
    * 해당 클래스가 사용되는 카테고리 관리 화면은 추후 게시판 관리 페이지에 합쳐질 예정입니다.
    */
 }
@@ -3006,6 +3017,7 @@ button .icon-plus {
   background: #F7F8F9;
   display: flex;
   flex-direction: column;
+  flex-direction: row;
 }
 
 .itsm-container .contents-tree-edit > .tree-area {
@@ -3122,9 +3134,7 @@ button .icon-plus {
 }
 
 .itsm-container .contents-tree-edit > .edit-area .form-row {
-  display: flex;
   flex-flow: wrap;
-  justify-content: space-between;
 }
 
 .itsm-container .contents-tree-edit > .edit-area .form-row .form-div {
@@ -3135,22 +3145,8 @@ button .icon-plus {
   margin-top: 0.6875rem;
 }
 
-.itsm-container .contents-tree-edit > .edit-area .form-set label {
-  font-weight: bold;
-}
-
-.itsm-container .contents-tree-edit > .edit-area .form-set li {
-  color: #586872;
-  font-weight: 400;
-  height: 1.5rem;
-}
-
-.itsm-container .contents-tree-edit > .edit-area .form-set .checkbox-list {
-  height: 13.5rem;
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  overflow-y: auto;
-  padding: 0.5rem 0.625rem;
+.itsm-container .contents-tree-edit > .edit-area .form-set .title {
+  font-weight: 500;
 }
 
 .itsm-container-close {

@@ -45,6 +45,7 @@ input {
   &.search-datetime {
     background: url($icon-folder-path + "icon_date_time.svg") no-repeat 100%-5 50%;
     background-color: $element-bg-color;
+    &:disabled { background-color: $light-gray; }
   }
   &.search-date {
     background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
