@@ -10,4 +10,20 @@
       height: calc(#{$tree-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
     }
   }
+  // 폼 / 프로세스 IMPORT 모달
+  &.form-import {
+    width: $import-modal-width;
+    height: $import-modal-height;
+
+    .modal-content {
+      height: calc(#{$import-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+
+    }
+  }
 }
