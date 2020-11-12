@@ -84,18 +84,18 @@ common:
 # Auth
 auth:
   label:
+    auth: "권한"
     authDesc: "권한 설명"
     authId: "권한 아이디"
     authName: "권한 명"
-    manage: "권한 관리"
     menuList: "사용 메뉴 목록"
     referenceCount: "역할 참조 개수"
     urlList: "사용 URL"
   msg:
     accessDenied: "접근 권한이 없습니다."
-    description: "사용할 수 있는 메뉴와 URL을 권한으로 묶어서 관리합니다."
     duplicateAuthId: "중복되는 아이디가 있습니다. 다른 권한 아이디를 입력하세요."
     duplicateAuthName: "중복된 권한 명이 있습니다. 다른 권한 명을 입력하세요."
+    editDescription: "권한을 추가하거나 조회 및 관리합니다."
     enterAuthId: "권한 아이디를 입력하세요."
     enterAuthName: "권한 명을 입력하세요."
     searchPlaceholder: "권한 명 / 권한 설명"
@@ -177,36 +177,42 @@ board:
     attachFileSize: "첨부파일 용량"
     attachFileYn: "첨부파일 사용 여부"
     board: "게시판"
+    boardEdit: "게시판 수정"
+    boardRegister: "게시판 등록"
+    boardView: "게시판 조회"
     category: "카테고리"
     categoryName: "카테고리 명"
     commentCount: "댓글 수"
     commentYn: "댓글 사용 여부"
     count: "게시물 수"
-    create: "글 등록"
     desc: "게시판 설명"
-    detail: "글 상세"
+    edit: "게시글 수정"
     list: "게시판 조회"
-    manager: "게시판 관리"
-    modify: "글 수정"
     name: "게시판 명"
     number: "번호"
     order: "정렬 순서"
     readCount: "조회 수"
+    register: "게시글 등록"
     reply: "답글 등록"
     replyYn: "답글 사용 여부"
     searchBoardPlaceholder: "카테고리 / 제목 / 작성자"
     searchPlaceholder: "게시판 명 / 등록자"
     title: "제목"
     useYn: "사용 여부"
+    view: "게시글 조회"
   msg:
+    adminEditDescription: "게시판을 등록하거나 수정, 삭제합니다."
+    adminSearchDescription: "게시판을 조회 및 관리합니다."
+    adminViewDescription: "게시판에 대한 상세 정보를 조회합니다."
     createDescription: "글을 추가 할 수 있습니다."
-    description: "게시판을 조회 하거나 추가, 변경 할 수 있습니다."
+    editDescription: "게시글을 등록하거나 수정, 삭제합니다."
     enterAttachFileSize: "첨부파일 용량을 0MB 이상 1024MB 이하로 입력하세요."
     enterBoardTitle: "게시판 명을 입력하세요."
     enterCategoryName: "카테고리 명을 입력하세요."
     modifyDescription: "글을 변경 할 수 있습니다."
     replayDescription: "답글을 추가 할 수 있습니다."
-    viewDescription: "글을 조회 할 수 있습니다."
+    searchDescription: "게시글을 조회 및 관리합니다."
+    viewDescription: "게시글에 대한 상세 정보를 조회합니다."
 
 # Code
 code:
@@ -218,8 +224,8 @@ code:
     pCode: "부모 코드"
     seqNum: "출력 순서"
   msg:
-    description: "코드를 조회하거나 추가, 변경할 수 있습니다."
     duplicateCode: "중복된 코드가 존재합니다."
+    editDescription: "코드를 추가하거나 조회 및 관리합니다."
     enterCode: "코드를 입력하세요."
     pCodeNotExist: "부모 코드가 존재하지 않습니다."
     referenceCodeExist: "해당 코드를 참조하는 코드가 존재합니다."
@@ -237,21 +243,23 @@ customCode:
     code: "코드"
     condition: "조건"
     customCode: "커스텀 코드"
-    list: "커스텀 코드 목록"
+    edit: "커스텀 코드 수정"
     name: "커스텀 코드 명"
     pCode: "부모 코드"
+    register: "커스텀 코드 등록"
     searchColumn: "검색 컬럼 명"
     searchPlaceholder: "커스텀 코드 명"
     table: "테이블"
     targetTable: "대상 테이블 명"
     type: "타입"
     valueColumn: "값 컬럼 명"
+    view: "커스텀 코드 조회"
   msg:
     addCondition: "{0}개 이하만 추가 가능합니다."
     confirmDeleteCondition : "조건을 삭제하시겠습니까?"
     customCodeUsed: "사용 중인 사용자 정의 코드입니다."
-    description: "커스텀 코드를 조회하거나 추가, 변경할 수 있습니다."
     duplicateCustomCodeName: "동일한 사용자 정의 코드 명이 존재합니다."
+    editDescription: "프로세스와 문서양식에서 사용하는 커스텀 코드를 등록하거나 수정, 삭제합니다."
     enterCondition: "조건을 입력하세요."
     enterCustomCode: "커스텀 코드 명을 입력하세요."
     enterPCode: "부모 코드를 입력하세요."
@@ -260,13 +268,17 @@ customCode:
     enterTableTarget: "대상 테이블 명을 입력하세요."
     enterValueColumn: "값 컬럼 명을 입력하세요."
     pCodeNotExist: "부모 코드가 존재하지 않습니다."
+    searchDescription: "프로세스와 문서양식에서 사용하는 커스텀 코드를 조회 및 관리합니다."
     selectNotDuplicateSearchColumn: "조건 항목에 검색 컬럼을 중복 없이 선택하세요."
+    viewDescription: "프로세스와 문서양식에서 사용하는 커스텀 코드에 대한 상세 정보를 조회합니다."
 
 # Dashboard
 dashboard:
   label:
     dashboard: "개인 현황판"
     documentStatus: "신청한 문서 현황"
+  msg:
+    viewDescription: "나의 업무통계 및 처리할 문서를 조회합니다."
   status:
     finish: "완료"
     running: "진행"
@@ -291,16 +303,16 @@ department:
 # Document
 document:
   label:
-    adminList: "업무흐름 목록"
     all: "전체"
     businessFlowColor: "업무흐름 색상"
+    businessFlow: "업무흐름"
     description: "설명"
     display: "신청서 양식 편집"
     docNo: "문서번호"
+    document: "신청서"
+    edit : "신청서 수정"
     form: "문서양식"
     icon: "신청서 아이콘"
-    list: "신청서 목록"
-    modify: "신청서 수정"
     name: "신청서 이름"
     notSelect: "선택 안 함"
     numberingRule: "문서번호 규칙"
@@ -312,18 +324,18 @@ document:
     type: "업무흐름 구분"
     write: "신청서 작성"
   msg:
+    adminSearchDescription: "프로세스와 문서양식을 조합하여 업무흐름을 조회 및 관리합니다."
     checkDocument: "문서를 다시 확인하세요."
     checkDuplication: "이미 해당 문서와 프로세스로 생성된 업무흐름이 존재합니다."
     confirmDeleteInstance: "임시 상태로 작성된 문서 모두 삭제하시겠습니까?"
-    description: "프로세스와 문서양식을 조합하여 업무흐름을 편집할 수 있습니다."
     enterBusinessFlowColor: "업무흐름 색상을 입력하세요."
     enterDocumentName: "신청서 이름을 입력하세요."
     launchedInstance: "시작된 인스턴스가 있어 삭제할 수 없습니다."
     lengthMax: "{0}글자 이하로 입력하세요."
     lengthMin: "{0}글자 이상 입력하세요."
-    listDescription: "모든 신청서를 조회합니다."
     process: "처리되었습니다."
     requiredFileupload: "파일을 업로드하세요."
+    searchDescription: "신청서를 조회 및 신청합니다."
   display:
     editable: "수정 가능"
     editableRequired: "수정 가능(필수값)"
@@ -342,14 +354,18 @@ download:
   label:
     category: "카테고리"
     download: "자료실"
-    list: "자료실 목록"
+    edit: "자료실 수정"
+    register: "자료실 등록"
     searchPlaceholder: "제목 / 작성자 / 첨부파일 명"
     seq: "번호"
+    view: "자료실 조회"
     views: "조회 수"
   msg:
-    description: "자료를 조회 하거나 추가, 변경 할 수 있습니다."
-    portalDescription: "자료를 조회 할 수 있습니다."
+    editDescription: "자료를 등록하거나 수정, 삭제합니다."
+    portalDescription: "자료를 조회합니다."
+    searchDescription: "자료를 조회 및 관리합니다."
     selectCategory: "카테고리를 선택하세요."
+    viewDescription: "자료에 대한 상세 정보를 조회합니다."
   category:
     all: "전체"
     companyPolicy: "회사 규정"
@@ -361,7 +377,6 @@ error:
     return: "이전 화면으로 돌아가기"
   label:
     bottomPhrase: "지속적인 장애가 발생할 경우 관리자에게 문의해주세요."
-    error: "에러 페이지"
     errorCode: "에러 코드"
     middlePhrase: "서비스 이용에 불편을 드려 죄송합니다."
     topPhrase: "요청하신 페이지를 처리 중에 오류가 발생했습니다."
@@ -370,13 +385,17 @@ error:
 faq:
   label:
     category: "카테고리"
-    description: "자주 묻는 질문과 답변입니다."
-    detail: "FAQ 상세"
-    edit: "FAQ 편집"
+    edit: "FAQ 수정"
     faq: "FAQ"
-    list: "FAQ 목록"
+    register: "FAQ 등록"
     searchPlaceholder: "카테고리 / 제목"
     title: "제목"
+    view: "FAQ 조회"
+  msg:
+    editDescription: "FAQ를 등록하거나 수정, 삭제합니다."
+    portalDescription: "FAQ를 조회합니다."
+    searchDescription: "FAQ를 조회 및 관리합니다."
+    viewDescription: "FAQ에 대한 상세 정보를 조회합니다."
 
 # FileUpload
 fileupload:
@@ -394,7 +413,6 @@ form:
     addAbove: "새로만들기-위"
     addBelow: "새로만들기-아래"
     copy: "복사-바로아래"
-    create: "문서양식 등록"
     customCodeTarget: "대상 선택"
     description: "설명"
     detail: "문서양식 상세"
@@ -403,10 +421,10 @@ form:
     import: "폼 IMPORT"
     importFile: "IMPORT 파일"
     lang: "언어"
-    list: "문서양식 목록"
     name: "양식이름"
     preview: "미리보기"
     redo: "작업 재실행"
+    register: "문서양식 등록"
     saveExit: "저장하고 나가기"
     searchPlaceholder: "양식이름 / 문서양식 설명"
     state: "상태"
@@ -414,7 +432,6 @@ form:
     title: "Form Designer"
     undo: "작업 취소"
   msg:
-    description: "문서양식을 조회 하거나 추가, 변경 할 수 있습니다."
     enterFormName: "양식이름을 입력하세요."
     failedFormDelete: "문서양식을 삭제할 수 없습니다. 발행된 신청서가 있는 지 확인하세요."
     fileSelect: "파일을 선택하세요."
@@ -425,6 +442,7 @@ form:
     minLength: "{0}글자 이상 입력하세요."
     number: "숫자만 입력하세요."
     required: "필수 항목을 입력하세요."
+    searchDescription: "문서양식를 조회 및 관리합니다."
     selectImportFile: "IMPORT 파일을 선택하세요."
   component:
     checkbox: "Checkbox"
@@ -515,10 +533,10 @@ image:
     popupTitle: "이미지 선택"
     upload: "이미지 업로드"
   msg:
-    description: "이미지를 조회하거나 추가, 삭제할 수 있습니다."
     existNotAllowedExtension: "허용하지 않는 확장자의 파일이 있습니다. 제외하고 업로드를 진행하시겠습니까?"
     failedRename: "파일명 변경이 실패하였습니다. 동일한 파일명이 있거나 수정 권한이 있는지 확인하세요."
     fileSelect: "파일을 선택하세요."
+    searchDescription: "문서양식에서 사용할 이미지를 추가하거나 조회 및 관리합니다."
 
 # Login
 login:
@@ -586,12 +604,13 @@ notice:
     edit: "공지사항 수정"
     endDt: "종료일"
     height: "높이"
-    list: "공지사항"
+    notice: "공지사항"
     noticePeriod: "공지 기간"
     popUp: "팝업"
     popUpNoticeSettings: "팝업 알림 설정"
     popUpPeriod: "팝업 기간"
     popUpPeriodToday: "오늘 하루 이창을 열지 않음"
+    register: "공지사항 등록"
     searchPlaceholder: "제목 / 작성자"
     strtDt: "시작일"
     topNoticeSettings: "상단 공지 설정"
@@ -603,7 +622,7 @@ notice:
     checkPopWidthRange: "넓이는 500px부터 1000px 사이의 값만 입력 가능합니다."
     compareWithPopUpValue: "팝업 알림 시작일이 종료일보다 크거나 같습니다."
     compareWithTopNoticeValue: "상단 공지 시작일이 종료일보다 크거나 같습니다."
-    description: "공지사항을 조회하거나 추가, 변경할 수 있습니다."
+    editDescription: "공지사항을 등록하거나 수정, 삭제합니다."
     enterPopEndDt: "팝업 종료일을 입력하세요."
     enterPopHeight: "높이를 입력하세요."
     enterPopStrtDt: "팝업 시작일을 입력하세요."
@@ -611,8 +630,9 @@ notice:
     enterToDt: "검색 종료 날짜를 입력하세요."
     enterTopNoticeEndDt: "상단 공지 종료일을 입력하세요."
     enterTopNoticeStrtDt: "상단 공지 시작일을 입력하세요."
-    portalDescription: "공지사항을 조회할 수 있습니다."
-    viewDescription: "공지사항을 참고하세요."
+    portalDescription: "공지사항을 조회합니다."
+    searchDescription: "공지사항을 조회 및 관리합니다."
+    viewDescription: "공지사항에 대한 상세 정보를 조회합니다."
 
 # Notification
 notification:
@@ -634,6 +654,7 @@ portal:
     mainPhrase: "기술 지원"
     msEdge: "MS Edge"
     safari: "Safari"
+    portal: "포탈"
     topPhrase: "안녕하세요! 브레인즈컴퍼니에 오신 것을 환영합니다."
 
 # Process
@@ -643,16 +664,16 @@ process:
     import: "가져오기"
     simulationCheckResult: "시뮬레이션 점검 결과"
   label:
-    create: "프로세스 등록"
     description: "설명"
     detail: "프로세스 상세"
     edit: "프로세스 편집"
     import: "프로세스 IMPORT"
     importFile: "IMPORT 파일"
-    list: "프로세스 목록"
     name: "프로세스 이름"
+    process: "프로세스"
     processMap: "프로세스맵"
     redo: "작업재실행"
+    register: "프로세스 등록"
     searchPlaceholder: "프로세스 이름 / 프로세스 설명"
     simulation: "미리보기"
     state: "상태"
@@ -660,10 +681,14 @@ process:
     title: "Process Designer"
     undo: "작업취소"
   msg:
-    description: "프로세스를 조회 하거나 추가, 변경 할 수 있습니다."
     duplicateData: "동일한 데이터가 존재합니다."
     enterProcessName: "프로세스 이름을 입력하세요."
+    searchDescription: "프로세스를 조회 및 관리합니다."
     selectImportFile: "IMPORT 파일을 선택하세요."
+  title:
+    edit: "Zenius ITSM : 프로세스 편집"
+    preview: "Zenius ITSM : 프로세스 미리보기"
+    processMap: "Zenius ITMS : 프로세스 맵"
   status:
     destroy: "폐기"
     edit: "편집"
@@ -743,11 +768,11 @@ role:
     auth: "권한"
     desc: "역할 설명"
     id: "역할 아이디"
-    manage: "역할 관리"
     name: "역할 명"
     referenceCount: "사용자 참조 개수"
+    role: "역할"
   msg:
-    description: "역할을 조회하거나 추가, 변경할 수 있습니다."
+    editDescription: "역할을 추가하거나 조회 및 관리합니다."
     enterRoleId: "역할 아이디를 입력하세요."
     enterRoleName: "역할 명을 입력하세요."
     searchPlaceholder: "역할 명 / 역할 설명"
@@ -771,7 +796,7 @@ token:
     view: "문서 조회"
     write: "처리할 문서"
   msg:
-    description: "나와 관련된 모든 문서를 조회합니다."
+    searchDescription: "나와 관련된 문서를 조회 및 처리합니다."
     tag: "태그를 입력하세요."
   type:
     completed: "완료된 문서"
@@ -794,16 +819,15 @@ user:
     resetPassword: "비밀번호 초기화"
   label:
     avatar: "아바타"
-    createUser: "사용자 등록"
     customSetting: "맞춤설정"
     department: "부서"
     editUserInfo: "회원 정보 수정"
+    edit: "사용자 정보 수정"
     email: "이메일"
     FileExtensionAllowed: "※ 허용 확장자 : gif, jpeg, jpg, png"
     FileSizeLimit: "※ 파일 크기 : 200 Kb"
     id: "아이디"
     lang: "언어"
-    list: "사용자 목록"
     mobileNumber: "휴대폰 번호"
     name: "이름"
     officeNumber: "사무실 번호"
@@ -811,6 +835,7 @@ user:
     position: "직책"
     profile: "프로필"
     rePassword: "재확인 비밀번호"
+    register: "사용자 정보 등록"
     role: "사용자 역할"
     searchPlaceholder: "아이디/이름/부서/직책/전화번호"
     signUpDate: "가입일"
@@ -819,11 +844,11 @@ user:
     timeFormat: "날짜/시간 유형"
     timezone: "타임존"
     usageStatus: "사용자 사용 여부"
+    user: "사용자"
   msg:
     createUser: "사용자가 등록되었습니다."
-    description: "사용자를 조회하거나 추가, 변경할 수 있습니다."
-    descriptionCreate: "사용자를 등록할 수 있습니다."
-    descriptionUpdate: "사용자의 정보를 수정합니다."
+    editDescription: "사용자를 등록하거나, 사용자 정보를 수정합니다."
+    editSelfDescription: "개인 정보를 수정합니다."
     emailAlert: "이메일 변경 시, 인증 절차가 필요합니다."
     emailWithUpdate: "이메일 정보를 포함한 회원 정보가 수정되었습니다."
     enterUserEmail: "이메일을 입력하세요."
@@ -835,6 +860,7 @@ user:
     resetPassword: "비밀번호가 초기화되었습니다."
     sameEmail: "이미 사용중인 이메일입니다."
     sameUserId: "동일한 아이디가 존재합니다."
+    searchDescription: "사용자를 조회 및 관리합니다."
     signUp: "가입되었습니다.<br/>가입 시 등록한 메일에서 인증을 진행하세요."
     signUpFail: "가입 실패되었습니다."
     usageStatus: "※ 미사용 시, 로그인 및 모든 시스템 사용이 불가능합니다."
@@ -874,6 +900,12 @@ validation:
 project:
   label:
     name: "Zenius ITSM"
+  title:
+    browserGuide : "Zenius ITSM : 브라우저 가이드"
+    error: "Zenius ITSM : 에러"
+    login: "Zenius ITSM : 로그인"
+    sessionInvalid: "Zenius ITSM : 세션"
+    signUp: "Zenius ITSM : 회원가입"
 
 # uploader
 file:

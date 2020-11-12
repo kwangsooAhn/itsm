@@ -710,7 +710,7 @@ aliceJs.thumbnail = function(options) {
      */
     const createContent = function(files) {
         const container = document.createElement('div');
-        container.className = 'thumbnail-container';
+        container.className = 'thumbnail-main';
 
         if (files.length > 0) {
             for (let i = 0, len = files.length; i < len; i++) {
@@ -734,12 +734,15 @@ aliceJs.thumbnail = function(options) {
                 container.appendChild(thumbnail);
 
                 const thumbnailImg = document.createElement('div');
-                if(options.type === 'image') {
+                if (options.type === 'image') {
                     thumbnailImg.className = 'thumbnail-img';
                 } else if (options.type === 'icon') {
                     thumbnailImg.className = 'thumbnail-icon';
                     thumbnailImg.style.backgroundSize = '100%';
-                }
+                } else if (options.type === 'file') {
+                  thumbnailImg.className = 'thumbnail-file';
+                  thumbnailImg.style.backgroundSize = '100%';
+              }
                 thumbnailImg.style.backgroundImage = 'url("data:image/' + file.extension +';base64,' + file.data + '")';
                 thumbnail.appendChild(thumbnailImg);
 
@@ -750,12 +753,12 @@ aliceJs.thumbnail = function(options) {
 
                     const thumbnailName = document.createElement('p');
                     thumbnailName.className = 'thumbnail-info-text';
-                    thumbnailName.innerHTML = `<label>${file.name}</label>`;
+                    thumbnailName.innerHTML = `<label class="text-ellipsis">${file.name}</label>`;
                     thumbnailInfo.appendChild(thumbnailName);
 
                     const thumbnailSize = document.createElement('p');
                     thumbnailSize.className = 'thumbnail-info-text';
-                    thumbnailSize.innerHTML = `<label>${file.width} X ${file.height} ${file.size}</label>`;
+                    thumbnailSize.innerHTML = `<label class="text-ellipsis">${file.width} X ${file.height} ${file.size}</label>`;
                     thumbnailInfo.appendChild(thumbnailSize);
 
                     const thumbnailBottom = document.createElement('div');

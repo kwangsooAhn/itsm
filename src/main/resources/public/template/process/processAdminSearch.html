@@ -4,15 +4,15 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{menu.workflow.process}"></title>
+    <title th:text="#{process.label.process}"></title>
     <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents-list">
         <div class="page-title">
-            <h1 th:text="#{process.label.list}"></h1>
-            <h6 class="title-description" th:text="#{process.msg.description}"></h6>
+            <h1 th:text="#{process.label.process}"></h1>
+            <h6 class="title-description" th:text="#{process.msg.searchDescription}"></h6>
         </div>
         <div class="search-area">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''process.update'')')}"/>

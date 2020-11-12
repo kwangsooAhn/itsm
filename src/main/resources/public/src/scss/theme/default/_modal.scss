@@ -1,15 +1,6 @@
 @import '../../template/_modal.scss';
 
 .modal-dialog {
-  // 썸네일 모달
-  &.thumbnail-icon {
-    width: $thumbnail-icon-modal-width;
-    height: $thumbnail-icon-modal-height;
-
-    .modal-content {
-      height: calc(#{$thumbnail-icon-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
-    }
-  }
   // 트리 모달
   &.tree {
     width: $tree-modal-width;

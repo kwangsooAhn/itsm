@@ -9,6 +9,7 @@
   @include contents-template();
   @include edit-template();
   .btn-list { padding: 2.5rem 0 3.125rem 0; } // 40px 0 50px 0
+  // 업무흐름 관리 > 이미지 관리
   .image {
     &-header {
       padding-bottom: 0.625rem;
@@ -29,10 +30,10 @@
 
   // 사용자 정보 수정
   .user-edit {
-    .switch { margin-top: 0.9375rem; } // 15px 
+    .switch { margin-top: 0.9375rem; } // 15px
   }
 
-  /* 
+  /*
    * #9067 일감 완료 후 삭제 또는 수정 여부를 확인합니다.
    * 해당 클래스가 사용되는 카테고리 관리 화면은 추후 게시판 관리 페이지에 합쳐질 예정입니다.
    */

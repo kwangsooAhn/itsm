@@ -4,24 +4,15 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></title>
-    <title th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></title>
-    <title th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></title>
+    <title th:text="${boardInfo != null} ? #{board.label.edit} : #{board.label.register}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents-edit scroll-wrap">
         <div class="header">
             <div class="page-title">
-                <h1 th:if="${boardInfo?.boardId} and ${replyYn} == false" th:text="#{board.label.modify}"></h1>
-                <h1 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" th:text="#{board.label.create}"></h1>
-                <h1 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}" th:text="#{board.label.reply}"></h1>
-                <h6 th:if="${boardInfo?.boardId} and ${replyYn} == false" class="title-description"
-                    th:text="#{board.msg.modifyDescription}"></h6>
-                <h6 th:if="(!${boardInfo?.boardId} and ${replyYn} == false)" class="title-description"
-                    th:text="#{board.msg.createDescription}"></h6>
-                <h6 th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn} and ${replyYn}"
-                    class="title-description" th:text="#{board.msg.replayDescription}"></h6>
+                <h1 th:text="#{board.label.board}"></h1>
+                <h6 class="title-description" th:text="#{board.msg.editDescription}"></h6>
             </div>
         </div>
         <div class="edit">

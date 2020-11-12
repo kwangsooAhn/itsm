@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="#{process.label.edit}"></title>
     <meta charset="utf-8">
     <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
+    <title th:text="${isView != null} ? #{process.title.preview} : #{process.title.edit}"></title>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <meta http-equiv="expire" content="-1"/>
@@ -11,10 +11,11 @@
     <meta http-equiv="pragma" content="no-cache"/>
     <link th:href="@{/assets/vendors/overlayScrollbars/OverlayScrollbars.css}" rel="stylesheet"/>
     <link th:href="@{/assets/css/process.css}" rel="stylesheet"/>
+    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
+    <script th:src="@{/assets/vendors/luxon/luxon.js}"></script>
     <script th:src="@{/assets/js/util/modal-alice.js}"></script>
     <script th:src="@{/assets/js/util/alert-alice.js}"></script>
     <script th:src="@{/assets/js/util/util-alice.js}"></script>
-    <script th:src="@{/assets/js/util/i18n-alice.js}"></script>
     <script th:src="@{/assets/vendors/d3/d3.min.js}"></script>
     <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
     <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>

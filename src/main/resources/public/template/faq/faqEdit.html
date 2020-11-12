@@ -4,15 +4,15 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{faq.label.edit}"></title>
+    <title th:text="${faq != null} ? #{faq.label.edit} : #{faq.label.register}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents-edit scroll-wrap">
         <div class="header">
             <div class="page-title">
-                <h1 th:text="#{faq.label.edit}"></h1>
-                <h6 class="title-description" th:text="#{faq.label.description}"></h6>
+                <h1 th:text="#{faq.label.faq}"></h1>
+                <h6 class="title-description" th:text="#{faq.msg.editDescription}"></h6>
             </div>
         </div>
         <div class="edit">

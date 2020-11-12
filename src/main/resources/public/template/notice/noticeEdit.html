@@ -4,15 +4,15 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{notice.label.edit}"></title>
+    <title th:text="${notice != null} ? #{notice.label.edit} : #{notice.label.register}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
     <div class="contents-edit scroll-wrap">
         <div class="header">
             <div class="page-title">
-                <h1 th:text="#{notice.label.list}"></h1>
-                <h6 class="title-description" th:text="#{notice.msg.description}"></h6>
+                <h1 th:text="#{notice.label.notice}"></h1>
+                <h6 class="title-description" th:text="#{notice.msg.editDescription}"></h6>
             </div>
         </div>
         <div class="edit">
