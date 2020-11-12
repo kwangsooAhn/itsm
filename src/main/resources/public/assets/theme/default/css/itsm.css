@@ -4988,6 +4988,21 @@ body.modal-active {
   height: calc(44.19rem - 3.375rem - 5rem);
 }
 
+.modal-dialog.form-import {
+  width: 37.5rem;
+  height: 37.5rem;
+}
+
+.modal-dialog.form-import .modal-content {
+  height: calc(37.5rem - 3.375rem - 5rem);
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+
+.modal-dialog.form-import .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+
 /* _thumbnail.scss 
  *
  * 파일 경로 : template/_thumbnail.scss

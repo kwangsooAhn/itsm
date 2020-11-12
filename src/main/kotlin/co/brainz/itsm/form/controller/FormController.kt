@@ -23,7 +23,6 @@ class FormController(private val fileService: AliceFileService) {
     private val formDesignerEditPage: String = "form/formDesignerEdit"
     private val formEditPreviewPage: String = "form/formEditPreview"
     private val imageUploadPopupPage: String = "form/imagePopup"
-    private val formImportPage: String = "form/formImport"
 
     /**
      * 폼 디자이너 편집 화면.
@@ -51,13 +50,5 @@ class FormController(private val fileService: AliceFileService) {
         model.addAttribute("formId", formId)
         model.addAttribute("isView", true)
         return formDesignerEditPage
-    }
-
-    /**
-     * 폼 Import 화면.
-     */
-    @GetMapping("/import")
-    fun getFormImport(request: HttpServletRequest, model: Model): String {
-        return formImportPage
     }
 }
