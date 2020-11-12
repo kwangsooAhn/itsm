@@ -23,7 +23,7 @@
             </div>
             <div class="ml-auto">
                 <button class="default-line" type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
-                <button class="default-fill" onclick="openFormEdit();" sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
+                <button class="default-fill" onclick="openFormRegister();" sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
         <div class="list" id="formList"></div>
@@ -97,55 +97,54 @@
 
         // 폼 등록 / 수정 모달 내부 Template
         function createModalContent(data) {
-            return `<div class="form-edit flex-column">` +
+            return `<div class="flex-column">` +
                        `<input type="hidden" id="form_status" value="${data !== undefined ? data.status : ''}" />` +
                        `<label class="field-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>` +
-                       `<input type="text" id="form_name" maxlength="50" value="${data !== undefined ? data.name : ''}">` +
+                       `<input type="text" id="form_name" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
                        `<label class="field-label" for="form_description">${i18n.msg('form.label.description')}</label>` +
-                       `<textarea rows="3" class="textarea-scroll-wrapper" id="form_description" maxlength="256">${data !== undefined ? data.desc : ''}</textarea>` +
+                       `<textarea rows="3" class="textarea-scroll-wrapper" id="form_description" maxlength="256" ${data !== undefined && data.isView ? 'readonly' : ''}>${data !== undefined ? data.desc : ''}</textarea>` +
                     `</div>`;
         }
 
-        // 폼 등록 / 수정 모달 오픈
-        function openFormEdit(formId) {
-            let options = {
-                title: '',
-                body: '',
-                classes: 'form-edit',
-                buttons: [],
-                close: {
-                    closable: false,
-                },
-                onCreate: function(modal) {
-                    // 스크롤바 추가
-                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    OverlayScrollbars(document.getElementById('form_description'), {
-                        className: 'inner-scrollbar',
-                        resize: 'vertical',
-                        sizeAutoCapable: true,
-                        textarea: {
-                            dynHeight: false,
-                            dynWidth: false,
-                            inheritedAttrs: "class"
-                        }
-                    });
-                }
-            };
-
+        // 폼 수정 / 보기 모달 오픈
+        function openFormEdit(formId, isView) {
             if (formId !== undefined) { // 수정
-                options.title = i18n.msg('form.label.edit');
                 aliceJs.sendXhr({
                     method: 'GET',
                     url: '/rest/forms-admin/' + formId + '/data',
                     callbackFunc: function(xhr) {
                         let responseObject = JSON.parse(xhr.responseText);
-                        options.body = createModalContent(responseObject);
+                        responseObject.isView = isView;
+
+                        let options = {
+                            title: isView ? i18n.msg('form.label.detail') : i18n.msg('form.label.edit') ,
+                            body: createModalContent(responseObject),
+                            classes: 'form-edit',
+                            buttons: [],
+                            close: {
+                                closable: false,
+                            },
+                            onCreate: function(modal) {
+                                // 스크롤바 추가
+                                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                                OverlayScrollbars(document.getElementById('form_description'), {
+                                    className: 'inner-scrollbar',
+                                    resize: 'vertical',
+                                    sizeAutoCapable: true,
+                                    textarea: {
+                                        dynHeight: false,
+                                        dynWidth: false,
+                                        inheritedAttrs: "class"
+                                    }
+                                });
+                            }
+                        };
 
                         // 버튼 설정
-                        if (responseObject.editable) {
+                        if (responseObject.editable && !isView) {
                             // 내보내기 버튼
                             options.buttons.push({
-                                content: i18n.msg('common.btn.check'),
+                                content: i18n.msg('form.btn.export'),
                                 classes: "point-fill",
                                 bindKey: false,
                                 callback: function(modal) {
@@ -187,35 +186,49 @@
                     },
                     contentType: 'application/json; charset=utf-8'
                 });
-            } else { // 등록
-                options.title = i18n.msg('form.label.register');
-                options.body = createModalContent();
-
-                // 버튼 설정
-                // 등록
-                options.buttons.push({
+            }
+        }
+        
+        // 폼 등록 모달 오픈
+        function openFormRegister() {
+            const formModal = new modal({
+                title: i18n.msg('form.label.register'),
+                body: createModalContent(),
+                classes: 'form-edit',
+                buttons: [{
                     content: i18n.msg('common.btn.register'),
                     classes: "point-fill",
                     bindKey: false,
                     callback: function(modal) {
                         saveForm();
                     }
-                });
-
-                // 닫기
-                options.buttons.push({
+                },{
                     content: i18n.msg('common.btn.close'),
                     classes: "default-line",
                     bindKey: false,
                     callback: function(modal) {
                         modal.hide();
                     }
-                });
-
-                // 모달 호출
-                const formModal = new modal(options);
-                formModal.show();
-            }
+                }],
+                close: {
+                    closable: false,
+                },
+                onCreate: function(modal) {
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.getElementById('form_description'), {
+                        className: 'inner-scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                }
+            });
+            formModal.show();
         }
 
         // REST API
@@ -242,11 +255,6 @@
                 }
             };
             aliceJs.sendXhr(opt);
-        }
-
-        // 폼 상세 화면 오픈
-        function openFormView(formId) {
-            window.open('/forms-admin/' + formId + '/view', 'form_view', 'width=550, height=360');
         }
 
         // 폼 디자이너 편집화면 오픈
@@ -441,9 +449,9 @@
                 formNameObject = document.createElement('a');
                 formNameObject.onclick = function() {
                     if (document.getElementById('updatable').value === 'true') {
-                        openFormEdit(data.id);
+                        openFormEdit(data.id, false);
                     } else {
-                        openFormView(data.id);
+                        openFormEdit(data.id, true);
                     }
                 }
             } else {

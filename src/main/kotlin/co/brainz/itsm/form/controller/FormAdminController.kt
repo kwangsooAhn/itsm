@@ -23,7 +23,6 @@ class FormAdminController(private val formAdminService: FormAdminService) {
 
     private val formSearchPage: String = "form/formAdminSearch"
     private val formListPage: String = "form/formAdminList"
-    private val formViewPage: String = "form/formAdminView"
 
     /**
      * 폼 리스트 검색 호출 화면.
@@ -45,14 +44,5 @@ class FormAdminController(private val formAdminService: FormAdminService) {
         model.addAttribute("formList", result)
         model.addAttribute("formListCount", if (result.isNotEmpty()) result[0].totalCount else 0)
         return formListPage
-    }
-
-    /**
-     * 폼 디자이너 조회 화면.
-     */
-    @GetMapping("/{formId}/view")
-    fun getFormView(@PathVariable formId: String, model: Model): String {
-        model.addAttribute("formInfo", formAdminService.getFormAdmin(formId))
-        return formViewPage
     }
 }
