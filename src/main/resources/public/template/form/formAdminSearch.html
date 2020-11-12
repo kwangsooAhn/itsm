@@ -239,7 +239,6 @@
                 params: JSON.stringify(data),
                 contentType: 'application/json',
                 callbackFunc: function(response) {
-                    location.reload();
                     if (method === 'POST') {
                         const _width = 1500,
                               _height = 980;
@@ -252,6 +251,7 @@
                         specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
                         window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
                     }
+                    location.reload();
                 }
             };
             aliceJs.sendXhr(opt);
@@ -284,7 +284,7 @@
         }
 
         // 폼 IMPORT시 유효성 검증
-        function checkRequired() {
+        function checkImportRequired() {
             // 필수 체크
             if (isEmpty('form_name', 'form.msg.enterFormName')) {
                 return false;
@@ -300,7 +300,7 @@
 
         //폼 IMPORT
         function importForm() {
-            if (checkRequired()) {
+            if (checkImportRequired()) {
                 let fileList = fileUploader.getFile();
                 const formInfo = {
                     formName: document.getElementById('form_name').value,
