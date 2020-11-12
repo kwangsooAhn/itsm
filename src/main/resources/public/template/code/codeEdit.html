@@ -210,12 +210,12 @@
                 seqNum: document.getElementById('txtSeqNum').value
             };
 
-            if (jsonData.code === null || jsonData.code === '') {
+            if (jsonData.code === null || jsonData.code.trim() === '') {
                 aliceJs.alertWarning([[#{code.msg.enterCode}]]);
                 return false;
             }
 
-            if (jsonData.pCode === null || jsonData.pCode === '') {
+            if (jsonData.pCode === null || jsonData.pCode.trim() === '') {
                 aliceJs.alertWarning([[#{code.msg.enterPCode}]]);
                 return false;
             }
