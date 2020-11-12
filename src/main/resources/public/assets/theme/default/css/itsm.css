@@ -1056,23 +1056,6 @@ h6 {
   padding: 0 0 0 0.625rem;
 }
 
-h3.under-bar {
-  padding-bottom: 0.625rem;
-  margin-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
-  margin-top: 3.125rem;
-}
-
-h3.under-bar:first-of-type {
-  margin-top: 0;
-}
-
-h4.under-bar {
-  padding-bottom: 0.625rem;
-  margin-bottom: 0.625rem;
-  border-bottom: 0.125rem solid #E1E3E6;
-}
-
 .picker-wrapper-date {
   display: inline;
 }
@@ -3169,10 +3152,6 @@ button .icon-plus {
 .itsm-popup {
   padding: 1.875rem 2.5rem 1.25rem 2.5rem;
   width: 100%;
-}
-
-.itsm-popup .related-instance-header h3.under-bar {
-  border-width: 0.0625rem;
 }
 
 .itsm-popup .related-instance-main {
@@ -5829,6 +5808,14 @@ body.modal-active {
 .reply-list {
   padding: 0 1.25rem;
   border-bottom: 0.0625rem solid #EBEBEB;
+}
+
+.reply-list .vertical-bar {
+  width: 1.25rem;
+  min-height: 1.25rem;
+  border-right: 0.0625rem solid #EBEBEB;
+  margin: 0.0625rem 0.9375rem 0.0625rem 0;
+  vertical-align: middle;
 }
 
 .reply-list .reply-info {

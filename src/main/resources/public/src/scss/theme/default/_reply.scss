@@ -19,6 +19,7 @@
     &-list {
         padding: 0 1.25rem; // 0 20px
         border-bottom: 0.0625rem solid $line-gray;
+        @include verticalBar(1.25rem, 1.25rem, 0.0625rem solid $line-gray, 0.0625rem 0.9375rem 0.0625rem 0, );
         .reply {
             &-info {
                 align-items: center;

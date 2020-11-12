@@ -92,18 +92,7 @@
   }
 }
 
-.horizontal-bar {
-  height: 0.0625rem; // 1px
-  margin: 0.625rem 0; // 10px
-  background-color: $line-gray;
-}
-
-//.vertical-bar {
-//  width: 1.875rem; // 30px
-//  border-right: 0.0625rem solid $line-gray; // 1px
-//  margin-right: 1.875rem; // 30px
-//  min-height: 1.875rem; // 30px
-//}
+@include horizontalBar(0.0625rem,  0.625rem 0, $line-gray);
 
 .flex-row {
   display: flex;

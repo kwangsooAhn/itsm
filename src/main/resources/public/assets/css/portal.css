@@ -829,12 +829,6 @@ input, button, select, optgroup, textarea {
   color: #3F4B56;
 }
 
-.portal-container .faq-content .faq-row .horizontal-bar {
-  height: 0.0625rem;
-  margin: 0.9375rem 0;
-  background-color: #EBEBEB;
-}
-
 .portal-container .faq-content .faq-row[open] .horizontal-bar {
   background-color: #0098FF;
 }
