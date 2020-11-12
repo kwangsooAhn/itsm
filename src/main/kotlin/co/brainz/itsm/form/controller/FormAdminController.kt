@@ -23,7 +23,6 @@ class FormAdminController(private val formAdminService: FormAdminService) {
 
     private val formSearchPage: String = "form/formAdminSearch"
     private val formListPage: String = "form/formAdminList"
-    private val formEditPage: String = "form/formAdminEdit"
     private val formViewPage: String = "form/formAdminView"
 
     /**
@@ -55,23 +54,5 @@ class FormAdminController(private val formAdminService: FormAdminService) {
     fun getFormView(@PathVariable formId: String, model: Model): String {
         model.addAttribute("formInfo", formAdminService.getFormAdmin(formId))
         return formViewPage
-    }
-
-    /**
-     * 폼 기본 정보 등록 화면.
-     */
-    @GetMapping("/new")
-    fun getFormNew(request: HttpServletRequest, model: Model): String {
-        return formEditPage
-    }
-
-    /**
-     * 폼 디자이너 편집 화면.
-     */
-    @GetMapping("/{formId}/edit")
-    fun getFormEdit(@PathVariable formId: String, model: Model): String {
-        model.addAttribute("formInfo", formAdminService.getFormAdmin(formId))
-        model.addAttribute("formId", formId)
-        return formEditPage
     }
 }

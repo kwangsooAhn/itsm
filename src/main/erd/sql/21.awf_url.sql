@@ -77,9 +77,7 @@ insert into awf_url values ('/forms/{id}/preview', 'get', '폼 디자이너 미�
 insert into awf_url values ('/forms/{id}/preview', 'post', '폼 디자이너 미리보기 화면', 'TRUE');
 insert into awf_url values ('/forms/imageUpload/{id}/view', 'get', '이미지 업로드 화면', 'TRUE');
 insert into awf_url values ('/forms-admin/list', 'get', '폼 리스트 화면', 'TRUE');
-insert into awf_url values ('/forms-admin/new', 'get', '폼 기본 정보 등록 화면', 'TRUE');
 insert into awf_url values ('/forms-admin/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
-insert into awf_url values ('/forms-admin/{formId}/edit', 'get', '폼 디자이너 편집 화면', 'TRUE');
 insert into awf_url values ('/forms-admin/{formId}/view', 'get', '폼 디자이너 상세화면', 'TRUE');
 insert into awf_url values ('/images', 'get', '이미지 관리 화면', 'TRUE');
 insert into awf_url values ('/notices/list', 'get', '공지사항 목록', 'TRUE');

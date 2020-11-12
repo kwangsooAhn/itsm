@@ -139,9 +139,7 @@ insert into awf_url_auth_map values ('/forms/{id}/preview', 'post', 'form.create
 insert into awf_url_auth_map values ('/forms/{id}/preview', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms/{id}/view', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms-admin/list', 'get', 'form.read');
-insert into awf_url_auth_map values ('/forms-admin/new', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms-admin/search', 'get', 'form.read');
-insert into awf_url_auth_map values ('/forms-admin/{formId}/edit', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms-admin/{formId}/view', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms/imageUpload/{id}/view', 'get', 'form.read');
 insert into awf_url_auth_map values ('/forms/import', 'get', 'form.read');

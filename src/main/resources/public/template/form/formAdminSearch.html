@@ -13,7 +13,6 @@
 <th:block layout:fragment="content">
     <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
     <div class="contents-list">
-    <div class="contents-list">
         <div class="page-title">
             <h1 th:text="#{form.label.form}"></h1>
             <h6 class="title-description" th:text="#{form.msg.searchDescription}"></h6>
@@ -57,13 +56,192 @@
             }
         }
 
-        // 폼 신규 추가 화면 오픈
-        function openFormEdit(formId) {
-            if (formId !== undefined) {
-                window.open('/forms-admin/' + formId + '/edit', 'form_edit', 'width=550, height=360');
-            } else {
-                window.open('/forms-admin/new', 'form_new', 'width=550, height=360');
+        // 폼 IMPORT시 유효성 검증
+        function checkRequired() {
+            // 필수 체크
+            if (isEmpty('form_name', 'form.msg.enterFormName')) {
+                return false;
             }
+            return true;
+        }
+
+        // 폼 수정
+        function saveForm(formId) {
+            if (checkRequired()) {
+                const formInfo = {
+                    name: document.getElementById('form_name').value,
+                    desc: document.getElementById('form_description').value
+                };
+                if (formId === undefined) { // 등록
+                    restSubmit('POST', '/rest/forms-admin', formInfo);
+                } else { // 수정
+                    formInfo.id = formId;
+                    formInfo.status = document.getElementById('form_status').value;
+                    restSubmit('PUT', '/rest/forms-admin/' + formId, formInfo);
+                }
+            }
+        }
+
+        // 폼 삭제
+        function deleteForm(formId) {
+            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/forms/' + formId, function(result) {
+                if (result === 'true') {
+                    aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
+                        location.reload();
+                    });
+                } else {
+                    aliceJs.alertDanger('[[#{form.msg.failedFormDelete}]]');
+                }
+            });
+        }
+
+        // 폼 등록 / 수정 모달 내부 Template
+        function createModalContent(data) {
+            return `<div class="form-edit flex-column">` +
+                       `<input type="hidden" id="form_status" value="${data !== undefined ? data.status : ''}" />` +
+                       `<label class="field-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>` +
+                       `<input type="text" id="form_name" maxlength="50" value="${data !== undefined ? data.name : ''}">` +
+                       `<label class="field-label" for="form_description">${i18n.msg('form.label.description')}</label>` +
+                       `<textarea rows="3" class="textarea-scroll-wrapper" id="form_description" maxlength="256">${data !== undefined ? data.desc : ''}</textarea>` +
+                    `</div>`;
+        }
+
+        // 폼 등록 / 수정 모달 오픈
+        function openFormEdit(formId) {
+            let options = {
+                title: '',
+                body: '',
+                classes: 'form-edit',
+                buttons: [],
+                close: {
+                    closable: false,
+                },
+                onCreate: function(modal) {
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.getElementById('form_description'), {
+                        className: 'inner-scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                }
+            };
+
+            if (formId !== undefined) { // 수정
+                options.title = i18n.msg('form.label.edit');
+                aliceJs.sendXhr({
+                    method: 'GET',
+                    url: '/rest/forms-admin/' + formId + '/data',
+                    callbackFunc: function(xhr) {
+                        let responseObject = JSON.parse(xhr.responseText);
+                        options.body = createModalContent(responseObject);
+
+                        // 버튼 설정
+                        if (responseObject.editable) {
+                            // 내보내기 버튼
+                            options.buttons.push({
+                                content: i18n.msg('common.btn.check'),
+                                classes: "point-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    workflowUtil.export(responseObject.id, 'form');
+                                }
+                            });
+                            // 수정
+                            options.buttons.push({
+                                content: i18n.msg('common.btn.modify'),
+                                classes: "point-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    saveForm(responseObject.id);
+                                }
+                            });
+                            // 삭제
+                            options.buttons.push({
+                                content: i18n.msg('common.btn.delete'),
+                                classes: "default-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    deleteForm(responseObject.id);
+                                }
+                            });
+                        }
+                        // 닫기
+                        options.buttons.push({
+                            content: i18n.msg('common.btn.close'),
+                            classes: "default-line",
+                            bindKey: false,
+                            callback: function(modal) {
+                                modal.hide();
+                            }
+                        });
+
+                        // 모달 호출
+                        const formModal = new modal(options);
+                        formModal.show();
+                    },
+                    contentType: 'application/json; charset=utf-8'
+                });
+            } else { // 등록
+                options.title = i18n.msg('form.label.register');
+                options.body = createModalContent();
+
+                // 버튼 설정
+                // 등록
+                options.buttons.push({
+                    content: i18n.msg('common.btn.register'),
+                    classes: "point-fill",
+                    bindKey: false,
+                    callback: function(modal) {
+                        saveForm();
+                    }
+                });
+
+                // 닫기
+                options.buttons.push({
+                    content: i18n.msg('common.btn.close'),
+                    classes: "default-line",
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                });
+
+                // 모달 호출
+                const formModal = new modal(options);
+                formModal.show();
+            }
+        }
+
+        // REST API
+        function restSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    location.reload();
+                    if (method === 'POST') {
+                        const _width = 1500,
+                              _height = 980;
+                        // 중앙 배치
+                        const _left = Math.ceil((window.screen.width - _width) / 2);
+                        const _top = Math.ceil((window.screen.height - _height) / 4);
+
+                        let formId = response.responseText;
+                        let specs = 'left=' + _left + ',top=' + _top;
+                        specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                        window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                    }
+                }
+            };
+            aliceJs.sendXhr(opt);
         }
 
         // 폼 상세 화면 오픈
