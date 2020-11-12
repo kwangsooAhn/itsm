@@ -36,11 +36,6 @@
     padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
     width: 100%;
     // 문서함 > 관련 문서
-    .related-instance-header {
-      h3.under-bar {
-        border-width: 0.0625rem; // 1px
-      }
-    }
     .related-instance-main {
       margin-top: 0.9375rem; // 15px
       .table-set {
@@ -103,12 +98,12 @@
   background-color: $line-gray;
 }
 
-.vertical-bar {
-  width: 1.875rem; // 30px
-  border-right: 0.0625rem solid $line-gray; // 1px
-  margin-right: 1.875rem; // 30px
-  min-height: 1.875rem; // 30px
-}
+//.vertical-bar {
+//  width: 1.875rem; // 30px
+//  border-right: 0.0625rem solid $line-gray; // 1px
+//  margin-right: 1.875rem; // 30px
+//  min-height: 1.875rem; // 30px
+//}
 
 .flex-row {
   display: flex;

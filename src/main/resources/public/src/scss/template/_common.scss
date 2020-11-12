@@ -40,8 +40,18 @@
 }
 // 세로 선
 .vertical-bar {
-  width: 1.875rem; // 30px
-  min-height: 1.875rem; // 30px
+  width: $vertical-bar-width;
+  min-height: $vertical-bar-height;
   border-right: $element-border;
-  margin-right: 1.875rem; // 30px
+  margin: $vertical-bar-margin;
+  vertical-align: middle;
+}
+// 아래 실선
+.under-bar {
+  border-bottom: 0.0625rem solid $default-gray; // 1px
+  padding-bottom: 0.625rem; // 10px
+  margin-bottom: 0.625rem; //10px
+  .bold {
+    border-bottom: 0.125rem solid $default-gray; // 2px
+  }
 }

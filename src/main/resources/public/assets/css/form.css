@@ -260,7 +260,18 @@ input, button, select, optgroup, textarea {
   width: 1.875rem;
   min-height: 1.875rem;
   border-right: 0.0625rem solid #EBEBEB;
-  margin-right: 1.875rem;
+  margin: 0 1.875rem 0 0;
+  vertical-align: middle;
+}
+
+.under-bar {
+  border-bottom: 0.0625rem solid #E1E3E6;
+  padding-bottom: 0.625rem;
+  margin-bottom: 0.625rem;
+}
+
+.under-bar .bold {
+  border-bottom: 0.125rem solid #E1E3E6;
 }
 
 /* _fonts.scss 
@@ -2640,12 +2651,6 @@ button .icon-search {
   20% {
     transform: scale(1);
   }
-}
-
-.vertical-bar {
-  width: 1.875rem;
-  border-right: 0.0625rem solid #EBEBEB;
-  margin-right: 1.875rem;
 }
 
 .horizontal-bar {
