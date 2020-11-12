@@ -36,8 +36,8 @@
                             <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
                             <input id="txtCode" name="txtCode" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
                         </div>
-                        <div class="form-set flex-column form-div">
-                            <label th:text="#{code.label.pCode}" for="txtPCode"></label>
+	                    <div class="form-set flex-column form-div">
+                            <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
                             <input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/>
                         </div>
                     </div>
@@ -223,6 +223,11 @@
 
             if (jsonData.code === null || jsonData.code === '') {
                 aliceJs.alertWarning([[#{code.msg.enterCode}]]);
+                return false;
+            }
+
+            if (jsonData.pCode === null || jsonData.pCode === '') {
+                aliceJs.alertWarning([[#{code.msg.enterPCode}]]);
                 return false;
             }
 
