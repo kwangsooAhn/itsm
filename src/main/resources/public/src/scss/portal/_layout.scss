@@ -236,12 +236,6 @@
             font-weight: $faq-row-font-weight;
             color: $faq-row-font-color;
           }
-          // 가로 줄
-          .horizontal-bar {
-            height: 0.0625rem; // 1px
-            margin: 0.9375rem 0; // 15px
-            background-color: $faq-row-border-color;
-          }
 
           &[open] {
             .horizontal-bar { background-color: $faq-row-opened-border-color; }

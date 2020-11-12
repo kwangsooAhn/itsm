@@ -15,10 +15,10 @@
                 <h6 class="title-description" th:text="#{user.msg.editDescription}"></h6>
             </div>
         </div>
-        <div class="edit">
+        <div class="user-edit edit">
             <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
-            <h3 class="under-bar" th:text="#{user.label.profile}"></h3>
+            <h3 class="under-bar bold" th:text="#{user.label.profile}"></h3>
             <div class="flex-row align-items-start user-align-item">
                 <div class="col-6">
                     <div th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
@@ -76,7 +76,7 @@
                     </div>
                 </div>
             </div>
-            <h3 class="under-bar" th:text="#{user.label.customSetting}"></h3>
+            <h3 class="under-bar bold" th:text="#{user.label.customSetting}"></h3>
             <div class="flex-row">
                 <div class="form-set col-6">
                     <label class="required" th:text="#{user.label.timezone}" for="timezone"></label>
@@ -116,7 +116,7 @@
                     </select>
                 </div>
             </div>
-            <h3 class="under-bar" th:text="#{user.label.role}"></h3>
+            <h3 class="under-bar bold" th:text="#{user.label.role}"></h3>
             <div class="form-set">
                 <div class="checkbox-list scroll-wrap">
                     <ul>
@@ -132,7 +132,7 @@
                     </ul>
                 </div>
             </div>
-            <h3 class="under-bar" th:text="#{user.label.usageStatus}"></h3>
+            <h3 class="under-bar bold" th:text="#{user.label.usageStatus}"></h3>
             <div class="form-set">
                 <label class="switch">
                     <input type="checkbox" id="usageStatus" name="usageStatus"

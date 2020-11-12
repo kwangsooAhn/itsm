@@ -15,7 +15,7 @@
                 <h6 class="title-description" th:text="#{board.msg.adminViewDescription}"></h6>
             </div>
         </div>
-        <div class="edit">
+        <div class="edit board-admin-edit">
             <div class="form-set">
                 <label class="required" th:text="#{board.label.name}" for="boardAdminTitle"></label>
                 <input type="text" id="boardAdminTitle" maxlength="100" th:value="${boardAdmin?.boardAdminTitle}"
@@ -32,7 +32,7 @@
             </div>
             <div class="form-set">
                 <label th:text="#{board.label.order}" for="boardAdminSort"></label>
-                <input class="col-2" id="boardAdminSort" name="boardAdminSort" type="text" th:value="${boardAdmin?.boardAdminSort}"
+                <input class="col-6" id="boardAdminSort" name="boardAdminSort" type="text" th:value="${boardAdmin?.boardAdminSort}"
                        maxlength="2" disabled/>
             </div>
             <div class="form-set">
@@ -75,8 +75,8 @@
             </div>
             <div class="form-set">
                 <label th:text="#{board.label.attachFileSize}" for="attachFileSize"></label>
-                <input class="col-2" id="attachFileSize" name="attachFileSize" type="text"
-                       th:value="${boardAdmin?.attachFileSize}" maxlength="4" disabled/>MB
+                <input class="col-6 mb" id="attachFileSize" name="attachFileSize" type="text"
+                       th:value="${boardAdmin?.attachFileSize}" maxlength="4" disabled/>
             </div>
             <div class="btn-list">
                 <button class="point-fill" sec:authorize="hasAuthority('board.admin.update')" th:if="${boardAdmin?.boardAdminId}" type="button" th:onclick ="'location.href =\'' + @{/board-admin/{id}/edit(id=${boardAdmin.boardAdminId})}+'\''" th:text="#{common.btn.modify}"></button>
@@ -90,12 +90,9 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[ */
-        const boardAdminCreateDt = document.getElementById('spanCreateDt');
-        const boardAdminUpdateDt = document.getElementById('spanUpdateDt');
 
         window.onload = function() {
-            boardAdminCreateDt.textContent = i18n.userDateTime(boardAdminCreateDt.textContent);
-            boardAdminUpdateDt.textContent = i18n.userDateTime(boardAdminUpdateDt.textContent);
+            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
 
             // 게시물 삭제 처리 시
             const boardAdminId = /*[[${boardAdmin.boardAdminId}]]*/;

@@ -9,7 +9,7 @@
 <body>
 <th:block layout:fragment="content">
     <div class="edit">
-        <h3 class="under-bar" th:text="${documentId != null} ? #{document.label.edit} : #{document.label.register}"></h3>
+        <h3 class="under-bar bold" th:text="${documentId != null} ? #{document.label.edit} : #{document.label.register}"></h3>
         <div class="edit-content">
             <div class="form-set">
                 <label class="required" th:text="#{document.label.type}" for="document-type"></label>
