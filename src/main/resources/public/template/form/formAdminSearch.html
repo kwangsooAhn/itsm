@@ -71,11 +71,11 @@
             window.open('/forms-admin/' + formId + '/view', 'form_view', 'width=550, height=360');
         }
 
-        //폼 디자이너 편집화면 오픈
+        // 폼 디자이너 편집화면 오픈
         function openFormDesignerEdit(formId) {
             const _width = 1500,
                   _height = 980;
-            //중앙 배치
+            // 중앙 배치
             const _left = Math.ceil((window.screen.width - _width) / 2);
             const _top = Math.ceil((window.screen.height - _height) / 4);
             
@@ -84,7 +84,7 @@
             window.open('/forms/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
-        //폼 디자이너 미리보기화면 오픈
+        // 폼 디자이너 미리보기화면 오픈
         function openFormDesignerView(formId) {
             const _width = 1500,
                   _height = 920;
@@ -97,9 +97,112 @@
             window.open('/forms/' + formId + '/view', 'form_' + formId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
-        //폼 IMPORT 화면 오픈
+        // 폼 IMPORT시 유효성 검증
+        function checkRequired() {
+            // 필수 체크
+            if (isEmpty('form_name', 'form.msg.enterFormName')) {
+                return false;
+            }
+
+            // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
+            if (document.getElementById('fileTemplate') === null) {
+                aliceJs.alertWarning(i18n.msg('form.msg.selectImportFile'));
+                return false;
+            }
+            return true;
+        }
+
+        //폼 IMPORT
+        function importForm() {
+            if (checkRequired()) {
+                let fileList = fileUploader.getFile();
+                const formInfo = {
+                    formName: document.getElementById('form_name').value,
+                    formDesc: document.getElementById('form_description').value
+                };
+
+                workflowUtil.import(fileList, formInfo, 'form', function (result) {
+                    if (result) {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            location.reload();
+                        });
+                        return true;
+                    } else {
+                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
+                        return false;
+                    }
+                });
+            }
+            return false;
+        }
+
+        // 폼 IMPORT 모달 내부 Template
+        function createImportModalContent() {
+            return `<div class="import-main flex-column">` +
+                       `<label class="field-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>` +
+                       `<input type="text" id="form_name" id="form_name" maxlength="50">` +
+                       `<label class="field-label" for="form_description">${i18n.msg('form.label.description')}</label>` +
+                       `<textarea rows="3" class="textarea-scroll-wrapper" id="form_description" maxlength="256"></textarea>` +
+                       `<div class="file-uploader-edit">` +
+                           `<label class="file-uploader-title field-label">${i18n.msg('form.label.importFile')}<span class="required"></span></label>` +
+                           `<div id="dropZoneFiles"></div>` +
+                           `<div id="dropZoneUploadedFiles"></div>` +
+                       `</div>` +
+                    `</div>`;
+        }
+
+        // 폼 IMPORT 모달 오픈
         function openFormImport() {
-            window.open('/forms/import', 'form_import', 'width=600, height=620');
+            const importModal = new modal({
+                title: i18n.msg('form.label.import'),
+                body: createImportModalContent(),
+                classes: 'form-import',
+                buttons: [
+                    {
+                        content: i18n.msg('common.btn.check'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            importForm();
+                        }
+                    },{
+                        content: i18n.msg('common.btn.cancel'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            modal.hide();
+                        }
+                    }
+                ],
+                close: {
+                    closable: false,
+                },
+                onCreate: function(modal) {
+                    // 파일 업로드 추가
+                    fileUploader.init({
+                        extra: {
+                            formId: 'importForm',
+                            dropZoneMaxFiles: 1,
+                            acceptedFiles: '.xml',
+                            dropZoneUrl: '/fileupload?target=import',
+                            editor: true
+                        }
+                    });
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.getElementById('form_description'), {
+                        className: 'inner-scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                }
+            });
+            importModal.show();
         }
 
         //REST API
