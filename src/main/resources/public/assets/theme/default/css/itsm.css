@@ -5032,6 +5032,21 @@ body.modal-active {
   margin: 1rem 0 0.5rem 0;
 }
 
+.modal-dialog.form-edit {
+  width: 550px;
+  height: 360px;
+}
+
+.modal-dialog.form-edit .modal-content {
+  height: calc(360px - 3.375rem - 5rem);
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+
+.modal-dialog.form-edit .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+
 /* _thumbnail.scss 
  *
  * 파일 경로 : template/_thumbnail.scss

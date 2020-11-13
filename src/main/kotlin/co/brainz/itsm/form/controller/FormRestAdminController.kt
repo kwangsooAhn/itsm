@@ -61,4 +61,12 @@ class FormRestAdminController(private val formAdminService: FormAdminService) {
     ): Boolean {
         return formAdminService.updateFrom(formId, restTemplateFormDto)
     }
+
+    /**
+     * 문서양식 조회
+     */
+    @GetMapping("/{formId}/data")
+    fun getForm(@PathVariable formId: String): RestTemplateFormDto {
+        return formAdminService.getFormAdmin(formId)
+    }
 }
