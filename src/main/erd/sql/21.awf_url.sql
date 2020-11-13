@@ -166,6 +166,7 @@ insert into awf_url values ('/rest/forms/{id}/data', 'put', '폼 디자이너 �
 insert into awf_url values ('/rest/forms-admin', 'post', '폼 디자이너 기본 정보 저장 / 다른 이름 저장 처리', 'TRUE');
 insert into awf_url values ('/rest/forms-admin/{formId}', 'put', '폼 디자이너 기본 정보 수정', 'TRUE');
 insert into awf_url values ('/rest/forms-admin', 'get', '문서양식 데이터조회', 'TRUE');
+insert into awf_url values ('/rest/forms-admin/{id}/data', 'get', '문서양식 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/images', 'post', '이미지 업로드', 'TRUE');
 insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE');
 insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');
