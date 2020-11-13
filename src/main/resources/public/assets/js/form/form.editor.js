@@ -1781,12 +1781,13 @@
                             propElem.setAttribute('value', formProperties[prop]);
                             break;
                         case 'desc':
-                            propElem.value =  formProperties[prop];
+                            propElem.value = formProperties[prop];
                             propElem.addEventListener('change', function(e) {
                                 let formOriginAttr = JSON.parse(JSON.stringify(editor.data));
                                 editor.data.desc = this.value;
                                 history.saveHistory([{0: formOriginAttr, 1: JSON.parse(JSON.stringify(editor.data))}]);
                             }, false);
+                            propElem.className = 'textarea-scroll-wrapper';
                             break;
                         case 'status':
                             for (let i = 0,len = propElem.options.length; i < len; i++) {
@@ -1806,6 +1807,19 @@
             });
         });
         propertiesPanel.appendChild(formElem);
+
+        // textarea 에 스크롤 적용
+        OverlayScrollbars(propertiesPanel.querySelectorAll('textarea'), {
+            className: 'inner-scrollbar',
+            resize: 'vertical',
+            sizeAutoCapable: true,
+            textarea: {
+                dynHeight: false,
+                dynWidth: false,
+                inheritedAttrs: "class"
+            }
+        });
+
         // for designed select
         // 폼 속성창을 그린 후 designed select 초기화.
         aliceJs.initDesignedSelectTag();

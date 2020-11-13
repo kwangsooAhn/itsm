@@ -1748,6 +1748,12 @@
                 elementObject = document.createElement('textarea');
                 elementObject.style.resize = 'none';
                 propertyContainer.appendChild(elementObject);
+
+                // textarea 에 스크롤 적용
+                propertyContainer.querySelectorAll('textarea').forEach(element => {
+                   element.classList.add('textarea-scroll-wrapper');
+                   OverlayScrollbars(element, { className: 'inner-scrollbar' });
+                });
                 break;
             case 'checkbox':
                 const labelElem = propertyContainer.childNodes[propertyContainer.childNodes.length - 1];
