@@ -227,6 +227,7 @@ code:
     duplicateCode: "중복된 코드가 존재합니다."
     editDescription: "코드를 추가하거나 조회 및 관리합니다."
     enterCode: "코드를 입력하세요."
+    enterPCode: "부모 코드를 입력하세요."
     pCodeNotExist: "부모 코드가 존재하지 않습니다."
     referenceCodeExist: "해당 코드를 참조하는 코드가 존재합니다."
 

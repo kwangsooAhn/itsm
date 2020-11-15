@@ -106,16 +106,25 @@ $toastify-icon-size:                          6.25rem; // 100px
 $tree-modal-width:                            40rem; // 640px
 $tree-modal-height:                           44.19rem; // 707px
 
-//////////////////////////// IMPORT / EXPORT //////////////////////
+//////////////////////////// IMPORT  //////////////////////////////
 $import-modal-width:                          37.5rem; // 600px
 $import-modal-height:                         37.5rem; // 600px
 
-/////////////////////////// contents //////////////////////////////
-$token-list-background-color: $white;
-$token-list-topic-color: $dark-gray;
-$token-list-tag-color: rgba(0, 152, 255, 0.1 );
-$token-list-border: 0.0625rem solid $line-gray;
+////////////////////// FORM EDIT / EXPORT /////////////////////////
+$form-edit-modal-width:                          550px;
+$form-edit-modal-height:                         360px;
 
-$token-dashbaord-background-color: $white;
-$token-dashbaord-header-color: $light-gray;
-$token-dashbaord-border: 0.0625rem solid $line-gray;
+/////////////////////////// contents //////////////////////////////
+$token-list-background-color:                 $white;
+$token-list-topic-color:                      $dark-gray;
+$token-list-tag-color:                        rgba(0, 152, 255, 0.1 );
+$token-list-border:                           0.0625rem solid $line-gray;
+
+$token-dashbaord-background-color:            $white;
+$token-dashbaord-header-color:                $light-gray;
+$token-dashbaord-border:                      0.0625rem solid $line-gray;
+
+//////////////////////////// common //////////////////////////////
+$vertical-bar-width:                          1.25rem; // 20px
+$vertical-bar-height:                         1.25rem; // 20px
+$vertical-bar-margin:                         0.0625rem 0.9375rem 0.0625rem 0; // 1px 5px 1px 0

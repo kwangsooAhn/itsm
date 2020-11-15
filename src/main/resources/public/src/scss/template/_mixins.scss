@@ -62,6 +62,23 @@
     scrollbar-width: none; /* Firefox */
     &::-webkit-scrollbar { display: none; /* Chrome, Safari, Opera*/ }
 }
+// 구분선
+@mixin verticalBar($width, $height, $border, $margin) {
+  .vertical-bar {
+    width: $width;
+    min-height: $height;
+    border-right: $border;
+    margin: $margin;
+    vertical-align: middle;
+  }
+}
+@mixin horizontalBar($height, $margin, $color) {
+  .horizontal-bar {
+    height: $height;
+    margin: $margin;
+    background-color: $color;
+  }
+}
 
 // 조회 화면 템플릿
 @mixin viewTemplate() {
@@ -100,11 +117,11 @@
 }
 
 @mixin content-header() {
-    .header {
-        padding: 3.1875rem 3.75rem 3.1875rem 3.75rem; // 51px 60px 51px 60px
-        background: $light-gray;
-        border-bottom: 0.0625rem solid $line-gray;
-    }
+  .header {
+    padding: 3.1875rem 3.75rem 3.1875rem 3.75rem; // 51px 60px 51px 60px
+    background: $light-gray;
+    border-bottom: 0.0625rem solid $line-gray;
+  }
 }
 
 // 조회화면 템플릿

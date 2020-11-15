@@ -33,15 +33,15 @@
   word-break: break-all;
 }
 // 가로 선
-.horizontal-bar {
-  height: 0.0625rem; // 1px
-  margin: 0.9375rem 0; // 15px
-  background-color: $element-border-color;
-}
+@include horizontalBar(0.0625rem, 0.9375rem 0, $element-border-color);
 // 세로 선
-.vertical-bar {
-  width: 1.875rem; // 30px
-  min-height: 1.875rem; // 30px
-  border-right: $element-border;
-  margin-right: 1.875rem; // 30px
+@include verticalBar($vertical-bar-width, $vertical-bar-height, $element-border, $vertical-bar-margin);
+// 아래 실선
+.under-bar {
+  border-bottom: 0.0625rem solid $default-gray; // 1px
+  padding-bottom: 0.625rem; // 10px
+  margin-bottom: 0.625rem; //10px
+  .bold {
+    border-bottom: 0.125rem solid $default-gray; // 2px
+  }
 }

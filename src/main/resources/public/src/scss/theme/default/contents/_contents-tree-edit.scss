@@ -1,69 +1,51 @@
-// 권한관리와 같이 리스트와 편집화면이 1개의 화면으로 구성되는 경우
+/* _contents-tree-edit.scss
+ *
+ * 파일 경로 : contents/_contents-tree-edit.scss
+ * @description 코드관리와 같이 트리와 편집화면이 1개의 화면으로 구성되는 경우
+ * @author jy.lim
+ * @version 1.0
+ */
 .contents-tree-edit {
-    @include contents-template();
-    flex-direction: row;
-
-    & > .tree-area {
-        padding: 2.875rem 3.75rem 6.875rem 3.75rem; // 46px 60px 110px 60px
-        height: 100vh;
+  @include contents-template();
+  // _flex.scss 템플릿에 "!important 추가" 검토 후 수정
+  flex-direction: row;
+  & > .tree-area {
+      height: 100vh;
+      flex: 1;
+      padding: 2.875rem 3.75rem 6.875rem 3.75rem; // 46px 60px 110px 60px
+    @include list-template();
+    .list {
+      height: 37.5rem; // 600px
+    }
+  }
+  & > .edit-area {
+    width: 65.625rem; // 1050px
+    padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
+    background: $white;
+    font-weight: $font-weight-medium;
+    & .scroll-wrap {
+      height: 43.125rem; // 690px
+      margin: 0 0 0.625rem 0; // 10px
+      .form-wrap {
         flex: 1;
-        @include list-template();
-        .list {
-            height: 600px;
+        overflow: auto;
+        padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
+        .margin-top-50 {
+          margin-top: 3.125rem; // 50px
         }
+      }
     }
-    & > .edit-area {
-        padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
-        //width: 38.125rem; // 610px
-        width: 1000px;
-        background: $white;
-        font-weight: 500;
-        & .scroll-wrap {
-            height: 43.125rem; // 690px
-            display: flex;
-            flex-direction: column;
-            margin: 0 0 0.625rem 0; // 10px
-            .form-wrap {
-                flex: 1;
-                overflow: auto;
-                padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
-                .margin-top-50 {
-                    margin-top: 50px;
-                }
-            }
-        }
-        .form-row {
-            display: flex;
-            flex-flow: wrap;
-            justify-content: space-between;
-            .form-div {
-                width: 49%;
-            }
-        }
-        .form-set {
-            display: flex;
-            flex-direction: column;
-            margin-top: 0.6875rem; // 11px
-            label {
-                font-weight: bold;
-            }
-            li {
-                color: $dark-gray;
-                font-weight: 400;
-                height: 1.5rem; // 24px
-            }
-            .checkbox-list {
-                height: 13.5rem; // 216px
-                border: 0.0625rem solid $element-border-color; // 1px
-                border-radius: $element-border-radius;
-                overflow-y: auto;
-                padding: 0.5rem 0.625rem; // 8px 10px
-            }
-            .date-icon {
-                background: url($icon-folder-path + "icon_calendar.svg") no-repeat 100%-5 50%;
-                background-color: #F7F8F9;
-            }
-
-        }
+    .form-row {
+      flex-flow: wrap;
+      .form-div {
+        width: 49%;
+      }
     }
+    .form-set {
+      margin-top: 0.6875rem; // 11px
+      .title {
+        font-weight: $font-weight-medium;
+      }
+    }
+  }
 }
