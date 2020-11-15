@@ -392,7 +392,7 @@
                     item = item.previousSibling;
                     if (item !== null) {
                         if (item.tagName.toLowerCase() === 'li') {
-                            item.className = '';
+                            item.className = 'text-ellipsis';
                             item.style.backgroundColor = 'transparent';
                         }
                     }
