@@ -15,6 +15,7 @@
       padding: 2.875rem 3.75rem 6.875rem 3.75rem; // 46px 60px 110px 60px
     @include list-template();
     .list {
+      width: 35.125rem; // 562px
       height: 37.5rem; // 600px
     }
   }
