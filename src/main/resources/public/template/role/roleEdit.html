@@ -328,33 +328,36 @@
                 showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     document.getElementById('roleList').innerHTML = response.responseText;
-
                     let roleList = document.querySelectorAll('td[name=roleName]');
                     document.getElementById('totalCount').textContent = i18n.msg("common.label.count", roleList.length);
-                    for (let i = 0; i < roleList.length; i++) {
-                        roleList[i].style.cursor = 'pointer';
-                        roleList[i].addEventListener('click', function(){
-                            let activeTr = document.querySelector('tr.active')
-                            if (activeTr !== null) {
-                                activeTr.classList.remove('active');
-                            }
-                            this.parentElement.classList.add('active');
-                            if (ROLE_UPDATE) {
-                                document.getElementById('btnUpdate').style.display = 'inline-block';
-                            }
-                            if (ROLE_CREATE) {
-                                document.getElementById('btnRegist').style.display = 'none';
-                            }
-                            if (ROLE_DELETE) {
-                                document.getElementById('btnDelete').style.display = 'inline-block';
-                            }
-                            onGetDetail(this.id);
-                        });
+                    if (response.responseText.indexOf('no-data-found') === -1) {
+                        for (let i = 0; i < roleList.length; i++) {
+                            roleList[i].style.cursor = 'pointer';
+                            roleList[i].addEventListener('click', function(){
+                                let activeTr = document.querySelector('tr.active')
+                                if (activeTr !== null) {
+                                    activeTr.classList.remove('active');
+                                }
+                                this.parentElement.classList.add('active');
+                                if (ROLE_UPDATE) {
+                                    document.getElementById('btnUpdate').style.display = 'inline-block';
+                                }
+                                if (ROLE_CREATE) {
+                                    document.getElementById('btnRegist').style.display = 'none';
+                                }
+                                if (ROLE_DELETE) {
+                                    document.getElementById('btnDelete').style.display = 'inline-block';
+                                }
+                                onGetDetail(this.id);
+                            });
+                        }
+                        if (roleList.length > 0) {
+                            document.querySelector('td[name=roleName]').click();
+                        }
+                        OverlayScrollbars(document.querySelector('.list-body'), { className: 'inner-scrollbar' });
+                    } else {
+                        onCreate();
                     }
-                    if (roleList.length > 0) {
-                        document.querySelector('td[name=roleName]').click();
-                    }
-                    OverlayScrollbars(document.querySelector('.list-body'), { className: 'inner-scrollbar' });
                 }
             };
             aliceJs.sendXhr(opt);
