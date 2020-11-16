@@ -159,8 +159,8 @@
         parent.insertAdjacentHTML('beforeend', this.template);
 
         // quill editor 초기화
+        const textboxElement = parent.lastChild;
         if (editorUseYn) {
-            const textboxElement = parent.lastChild;
             const editorContainer = textboxElement.querySelector('.editor-container');
             let editorOptions = {
                 modules: {
@@ -178,8 +178,20 @@
             };
             const editor = new Quill(editorContainer, editorOptions);
             editor.setContents(defaultValue);
+        } else {
+            // scrollbar 적용
+            textboxElement.querySelector("textarea").className = 'textarea-scroll-wrapper';
+            OverlayScrollbars(textboxElement.querySelector("textarea"), {
+                className: 'inner-scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
         }
-
     }
 
     /**
