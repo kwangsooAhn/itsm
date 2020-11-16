@@ -2931,9 +2931,6 @@ button .icon-plus {
   height: 1.5rem;
   color: #586872;
   font-weight: 400;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 .itsm-container .contents-document {
