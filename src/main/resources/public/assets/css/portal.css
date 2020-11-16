@@ -1974,15 +1974,15 @@ button.ghost-line .icon {
 .btn.ghost-line:focus, .btn.ghost-line:hover,
 button.ghost-line:focus,
 button.ghost-line:hover {
-  color: #0098FF;
+  color: #3F4B56;
   background-color: #ffffff;
-  border-color: #0098FF;
+  border-color: #EBEBEB;
 }
 
 .btn.ghost-line:focus .icon, .btn.ghost-line:hover .icon,
 button.ghost-line:focus .icon,
 button.ghost-line:hover .icon {
-  background: #0098FF;
+  background: #3F4B56;
 }
 
 .btn.ghost-line:not(:disabled):active,
@@ -1999,15 +1999,15 @@ button.ghost-line:not(:disabled):active .icon {
 
 .btn.ghost-line:disabled,
 button.ghost-line:disabled {
-  color: #CCCED1;
-  background-color: #F7F8F9;
+  color: #3F4B56;
+  background-color: #CCCED1;
   border-color: #EBEBEB;
-  opacity: 1;
+  opacity: 0.3;
 }
 
 .btn.ghost-line:disabled .icon,
 button.ghost-line:disabled .icon {
-  background: #CCCED1;
+  background: #3F4B56;
 }
 
 .btn-group {

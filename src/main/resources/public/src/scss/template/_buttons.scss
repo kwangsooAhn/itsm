@@ -48,7 +48,7 @@ $btn-hover-font-colors: (
   "default-fill":                $light-black,
   "default-line":                $light-black,
   "ghost-fill":                  $light-black,
-  "ghost-line":                  $point-blue
+  "ghost-line":                  $light-black
 );
 // hover background color
 $btn-hover-bg-colors: (
@@ -66,7 +66,7 @@ $btn-hover-border-colors: (
     "default-fill":              transparent,
     "default-line":              $line-gray,
     "ghost-fill":                transparent,
-    "ghost-line":                $point-blue
+    "ghost-line":                $line-gray
 );
 // pressed 시 디자인 요소
 // pressed font color
@@ -104,7 +104,7 @@ $btn-disabled-font-colors: (
   "default-fill":                $light-black,
   "default-line":                $light-black,
   "ghost-fill":                  $light-black,
-  "ghost-line":                  $pressed-gray
+  "ghost-line":                  $light-black
 );
 // disabled background color
 $btn-disabled-bg-colors: (
@@ -113,7 +113,7 @@ $btn-disabled-bg-colors: (
     "default-fill":              $default-gray,
     "default-line":              $white,
     "ghost-fill":                transparent,
-    "ghost-line":                $light-gray
+    "ghost-line":                $pressed-gray
 );
 // disabled border color
 $btn-disabled-border-colors: (
@@ -195,9 +195,7 @@ button {
         color: map-get($btn-disabled-font-colors, #{$theme});
         background-color: map-get($btn-disabled-bg-colors, #{$theme});
         border-color: map-get($btn-disabled-border-colors, #{$theme});
-        @if $theme == 'ghost-line' {
-          opacity: 1;
-        } @else if $theme == 'default-fill' {
+        @if $theme == 'default-fill' {
           opacity: 0.5;
         } @else {
           opacity: 0.3;
