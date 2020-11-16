@@ -252,7 +252,7 @@ input, button, select, optgroup, textarea {
 
 .horizontal-bar {
   height: 0.0625rem;
-  margin: 0.9375rem;
+  margin: 0.9375rem 0;
   background-color: #EBEBEB;
 }
 

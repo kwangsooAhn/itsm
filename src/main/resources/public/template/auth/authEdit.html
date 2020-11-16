@@ -27,23 +27,23 @@
             <div class="list" id="authList"></div>
         </div>
         <div class="edit-area">
-            <div class="scroll-wrap">
+            <div class="scroll-wrap flex-column">
                 <div class="form-wrap">
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{auth.label.authName}" class="required"></label>
                         <input id="txtAuthName" name="txtAuthName" type="text" maxlength="100">
                         <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{auth.label.authId}" class="required"></label>
                         <input id="txtAuthId" name="txtAuthId" type="text" maxlength="100">
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{auth.label.authDesc}"></label>
                         <textarea id="txtAuthDesc" name="txtAuthDesc" class="textarea-scroll-wrapper"
                                   maxlength="200" rows="7" th:text="${authDetail?.authDesc}"></textarea>
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{auth.label.urlList}"></label>
                         <div class="checkbox-list">
                             <ul>
@@ -57,7 +57,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label class="auth-list" th:text="#{auth.label.menuList}"></label>
                         <div class="checkbox-list">
                             <ul id='menuList'>
@@ -72,7 +72,7 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{auth.label.referenceCount}"></label>
                         <input id="roleAuthMapCount" name="roleAuthMapCount" type="text" disabled>
                     </div>

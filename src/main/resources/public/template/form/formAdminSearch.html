@@ -13,7 +13,6 @@
 <th:block layout:fragment="content">
     <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
     <div class="contents-list">
-    <div class="contents-list">
         <div class="page-title">
             <h1 th:text="#{form.label.form}"></h1>
             <h6 class="title-description" th:text="#{form.msg.searchDescription}"></h6>

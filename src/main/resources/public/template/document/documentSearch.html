@@ -175,7 +175,7 @@
                 </div>
             </div>
         </div>
-        <div class="service-request">
+        <div class="document-area flex-column">
             <input type="hidden" sec:authorize="hasAuthority('document.create')" th:name="isRole" th:value="true"/>
             <input type="hidden" sec:authorize="!hasAuthority('document.create')" th:name="isRole" th:value="false"/>
             <div id="documentList"></div>

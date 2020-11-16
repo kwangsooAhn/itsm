@@ -1,31 +1,31 @@
+/* _contents-list-document.scss
+ *
+ * 파일 경로 : contents/_contents-list-document.scss
+ * @description 문서함 리스트 화면
+ * @author jy.lim
+ * @version 1.0
+ */
 // 문서함 리스트 화면
 .contents-document {
     @include contents-template();
     .header {
         padding: 2.875rem 3.75rem 0.625rem 3.75rem; // 46px 60px 10px 60px
-        background: $light-gray;
-        border-bottom: 0.0625rem solid $line-gray;
+        background: $document-header-background-color;
+        border-bottom: $document-header-border;
     }
-    .service-request {
+    .document-area {
         background-color: $white;
         overflow-y: auto;
-        display: flex;
-        flex-direction: column;
-        flex: auto;
         .card-area {
-            margin: 1.875rem auto 0 3.75rem; // 30px 60px
-            display: flex;
             flex-wrap: wrap;
-            justify-content: flex-start;
-            align-content: flex-start ;
-
-            .document-card-dummy {
+            margin: 1.875rem auto 0 3.75rem; // 30px 60px
+            .document-card-box {
                 position: relative;
                 min-width: 32.0625rem; // 513px
                 height: 12.5rem; // 200px
-                margin-right: 1.25rem; // 20px
                 margin-top: 1.25rem; // 20px
-                border: 0.0625rem solid $line-gray; // 1px
+                margin-right: 1.25rem; // 20px
+                border: $document-card-box-border;
                 border-radius: 0.0625rem; // 1px
                 overflow: hidden;
                 cursor: pointer;
@@ -33,31 +33,33 @@
                     margin-left: 0px;
                 }
                .document-card {
-                    padding: 1.975rem; // 30px
+                    position: absolute;
                     width: 100%;
                     height: 100%;
+                    padding: 1.975rem; // 30px
                     border: 0.0625rem solid white;
-                    position: absolute;
-
                     &:hover {
-                        border: 0.0625rem solid $line-gray; // 1px
+                        border: $document-card-hover-border;
                     }
                 }
                 &:hover {
-                    box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15); // 15px
+                    box-shadow: $document-card-box-shadow;
                 }
                 .document-icon {
-                    overflow: hidden;
                     position: absolute;
                     top: 3.75rem; // 60px
                     left: 23.125rem; // 370px
+                    overflow: hidden;
                 }
-                h5 { @include h5(); margin-top: 0.3125rem; } // 5px
+                .card-desc { 
+                    @include h5(); 
+                    margin-top: 0.3125rem; // 5px
+                }
             }
             // 데이터가 없을때
             .no-data-found {
-                margin: 0;
                 min-width: 98.75rem; // 1580px
+                margin: 0;
             }
         }
     }
