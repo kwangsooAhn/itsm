@@ -88,14 +88,14 @@ class DocumentService(
      */
     fun getDocumentAdmin(documentId: String): RestTemplateDocumentDto {
         val url = RestTemplateUrlDto(
-                callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(
-                        restTemplate.getKeyRegex(),
-                        documentId
-                )
+            callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(
+                    restTemplate.getKeyRegex(),
+                    documentId
+            )
         )
         return objMapper.readValue(
-                restTemplate.get(url),
-                objMapper.typeFactory.constructType(RestTemplateDocumentDto::class.java)
+            restTemplate.get(url),
+            objMapper.typeFactory.constructType(RestTemplateDocumentDto::class.java)
         )
     }
 
