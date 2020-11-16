@@ -23,6 +23,7 @@ ul.tree {
   li {
     position: relative;
     line-height: $tree-line-height;
+    padding-right: 0.125rem; // 2px
   }
   // Level 2
   // -------------------------

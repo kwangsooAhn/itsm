@@ -4742,6 +4742,7 @@ ul.tree {
 ul.tree li {
   position: relative;
   line-height: 1.875rem;
+  padding-right: 0.125rem;
 }
 
 ul.tree ul {
