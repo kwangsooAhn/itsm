@@ -387,12 +387,12 @@
                     while (!item.tagName || item.tagName.toLowerCase() !== 'li') {
                         item = item.previousSibling;
                     }
-                    item.className += 'last';
+                    item.className += 'last text-ellipsis';
                     item.style.backgroundColor = this.backcolor;
                     item = item.previousSibling;
                     if (item !== null) {
                         if (item.tagName.toLowerCase() === 'li') {
-                            item.className = '';
+                            item.className = 'text-ellipsis';
                             item.style.backgroundColor = 'transparent';
                         }
                     }

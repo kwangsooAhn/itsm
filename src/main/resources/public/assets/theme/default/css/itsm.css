@@ -3102,6 +3102,7 @@ button .icon-plus {
 }
 
 .itsm-container .contents-tree-edit > .tree-area .list {
+  width: 35.125rem;
   height: 37.5rem;
 }
 
@@ -4741,6 +4742,7 @@ ul.tree {
 ul.tree li {
   position: relative;
   line-height: 1.875rem;
+  padding-right: 0.125rem;
 }
 
 ul.tree ul {
