@@ -111,8 +111,12 @@ $import-modal-width:                          37.5rem; // 600px
 $import-modal-height:                         37.5rem; // 600px
 
 ////////////////////// FORM EDIT / EXPORT /////////////////////////
-$form-edit-modal-width:                          550px;
-$form-edit-modal-height:                         360px;
+$form-edit-modal-width:                       34.38rem; // 550px
+$form-edit-modal-height:                      22.5rem; // 360px
+
+////////////////////// 업무 흐름 등록 / 수정 모달 /////////////////////////
+$document-edit-modal-width:                   40rem; // 640px
+$document-edit-modal-height:                  50.63rem; // 810px
 
 /////////////////////////// contents //////////////////////////////
 $token-list-background-color:                 $white;
@@ -123,6 +127,16 @@ $token-list-border:                           0.0625rem solid $line-gray;
 $token-dashbaord-background-color:            $white;
 $token-dashbaord-header-color:                $light-gray;
 $token-dashbaord-border:                      0.0625rem solid $line-gray;
+
+$document-header-background-color:            $light-gray;
+$document-header-radius:                      0.0625rem;
+$document-header-border:                      $document-header-radius solid $line-gray;
+
+$document-card-radius:                        0.0625rem;
+$document-card-box-border:                    $document-card-radius solid $line-gray;
+$document-card-box-shadow:                    0 0 0.9375rem rgba(204, 206, 209, 0.15);
+$document-card-border:                        $document-card-radius solid $white;
+$document-card-hover-border:                  $document-card-radius solid $line-gray;
 
 //////////////////////////// common //////////////////////////////
 $vertical-bar-width:                          1.25rem; // 20px

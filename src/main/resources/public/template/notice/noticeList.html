@@ -5,12 +5,12 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <table>
-        <thead>
+    <table class="list-table">
+        <thead class="list-head">
             <tr>
                 <th width="30%" th:text="#{common.label.title}"></th>
-                <th width="5%" th:text="#{notice.label.popUp}"></th>
-                <th width="10%" th:text="#{common.label.writer}"></th>
+                <th width="5%" th:text="#{notice.label.popUp}" class="align-center"></th>
+                <th width="10%" th:text="#{common.label.writer}" class="align-center"></th>
                 <th width="20%" th:text="#{notice.label.popUpPeriod}"></th>
                 <th width="20%" th:text="#{notice.label.noticePeriod}"></th>
                 <th width="15%" th:text="#{common.label.writeDate}"></th>
@@ -35,8 +35,8 @@
                         <span class="icon-search"></span>
                     </button>
                 </td>
-                <td width="5%" th:unless="${topNotice.popYn}"></td>
-                <td width="10%" th:text="${topNotice?.createUserName}"></td>
+                <td width="5%" th:unless="${topNotice.popYn}" class="align-center"></td>
+                <td width="10%" th:text="${topNotice?.createUserName}" class="align-center"></td>
                 <td width="20%" th:name="popDt" th:text="${topNotice.popStrtDt} + '~' + ${topNotice.popEndDt}"></td>
                 <td width="20%" th:name="noticeDt" th:text="${topNotice.topNoticeStrtDt} + '~' + ${topNotice.topNoticeEndDt}"/>
                 <td width="15%" th:name="createDt" th:text="${topNotice.createDt}"></td>

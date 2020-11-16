@@ -85,7 +85,7 @@
                         }
                     } else {
                         document.getElementById('documentList').innerHTML = response.responseText;
-                        OverlayScrollbars(document.querySelector('.service-request'), {
+                        OverlayScrollbars(document.querySelector('.document-area'), {
                             className: 'scrollbar',
                             callbacks: {
                                 onScroll: function(e) {
@@ -111,7 +111,7 @@
             let divCardArea = document.querySelector('.card-area');
             let div = document.createElement('div');
             let divCardDummy = document.createElement('div');
-            divCardDummy.className = 'document-card-dummy';
+            divCardDummy.className = 'document-card-box';
 
             let aCard = document.createElement('a');
             if (document.getElementsByName('isRole')[0].value) {
@@ -128,7 +128,7 @@
             h3Card.innerText = data.documentName;
 
             let h5Card = document.createElement('h5');
-            h5Card.className = 'text-ellipsis';
+            h5Card.className = 'card-desc text-ellipsis';
             h5Card.innerText = data.documentDesc;
 
             let divDocumentIcon = document.createElement('div');
@@ -152,7 +152,7 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-document">
+    <div class="contents-document flex-column">
         <div class="header">
             <div class="page-title">
                 <h1 th:text="#{document.label.document}"></h1>
@@ -175,7 +175,7 @@
                 </div>
             </div>
         </div>
-        <div class="service-request">
+        <div class="document-area flex-column">
             <input type="hidden" sec:authorize="hasAuthority('document.create')" th:name="isRole" th:value="true"/>
             <input type="hidden" sec:authorize="!hasAuthority('document.create')" th:name="isRole" th:value="false"/>
             <div id="documentList"></div>

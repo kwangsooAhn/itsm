@@ -19,7 +19,7 @@ button {
   // 돋보기 아이콘
   .icon-search {
     display: inline-block;
-    @include maskImage('#{$icon-folder-path}icon_search.svg', 1.625rem, 1.625rem, no-repeat, center, 1.625rem 1.625rem, $gray); // 18px 18px
+    @include maskImage('#{$icon-folder-path}icon_search.svg', 1.125rem, 1.125rem, no-repeat, center, 1.125rem 1.125rem, $gray); // 18px 18px
   }
   // 편집 아이콘
   .icon-edit {

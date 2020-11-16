@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list-edit">
+    <div class="contents-list-edit flex-row">
         <div class="list-area">
             <div class="page-title">
                 <h1 th:text="#{role.label.role}"></h1>
@@ -27,21 +27,21 @@
             <div class="list" id="roleList"></div>
         </div>
         <div class="edit-area">
-            <div class="scroll-wrap">
+            <div class="scroll-wrap flex-column">
                 <div class="form-wrap">
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{role.label.id}" class="required"></label>
                         <input id="txtRoleId" name="txtRoleId" type="text" maxlength="100"/>
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{role.label.name}" class="required"></label>
                         <input id="txtRoleName" name="txtRoleName" type="text" maxlength="100" />
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{role.label.desc}"></label>
                         <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="textarea-scroll-wrapper"></textarea>
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <div class="flex-row">
                             <div class="flex-row">
                                 <label th:text="#{role.label.auth}" class="required"></label>
@@ -56,7 +56,7 @@
                         </div>
                         <div class="checkbox-list">
                             <ul>
-                                <li th:each="auth : ${authList}">
+                                <li class="text-ellipsis" th:each="auth : ${authList}">
                                     <label class="checkbox" th:for="${auth?.authId}" tabindex="0">
                                         <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
                                         <span></span>
@@ -66,23 +66,23 @@
                             </ul>
                         </div>
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{common.label.createUser}"></label>
                         <input id="spanCreateUserKey" name="spanCreateUserKey" disabled />
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{common.label.createDate}"></label>
                         <input id="spanCreateDt" name="spanCreateDt" disabled />
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{common.label.updateUser}"></label>
                         <input id="spanUpdateUserKey" name="spanUpdateUserKey" disabled />
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{common.label.updateDate}"></label>
                         <input id="spanUpdateDt" name="spanUpdateDt" disabled />
                     </div>
-                    <div class="form-set">
+                    <div class="form-set flex-column">
                         <label th:text="#{role.label.referenceCount}"></label>
                         <input id="userRoleMapCount" name="userRoleMapCount" disabled />
                     </div>

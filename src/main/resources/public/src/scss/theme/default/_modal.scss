@@ -53,4 +53,58 @@
       }
     }
   }
+  // 업무 흐름 등록 / 수정 모달
+  &.document-edit {
+    width: $document-edit-modal-width;
+    height: $document-edit-modal-height;
+
+    .modal-content {
+      height: calc(#{$document-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 1.25rem; // 20px
+      overflow: hidden;
+
+      .document-content {
+        width: calc(#{$document-edit-modal-width} - 2.5rem); // 너비에서 여백만큼 빼준다.
+        height: calc(#{$document-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 2.5rem); // 높이에서 여백만큼 빼준다.
+        padding: 0 1.25rem; // 0 20px
+        overflow-y: auto;
+      }
+
+      .field-label {
+        display: inline-block;
+        margin: 1rem 0 0.5rem 0; // 16px 0 8px 0
+      }
+
+      // 신청서 아이콘
+      .document-icon-content {
+        display: none;
+
+        &.on { display: block; }
+        // TODO: #9371 input + button 디자인 적용시 수정
+        .input-button {
+          input[type="text"] { 
+            margin: 0; 
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+
+            &:focus,
+            &:hover {
+              z-index: 1;
+            }
+          }
+          button { 
+            margin-left: -0.0625rem;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+
+            &:focus,
+            &:hover,
+            &:active {
+              z-index: 1;
+            }
+          }
+        }
+      }
+    }
+  }
 }

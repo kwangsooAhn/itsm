@@ -1,336 +1,103 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      layout:decorator="layout/popupLayout">
-<head>
-    <title th:text="${documentId != null} ? #{document.label.edit} : #{document.label.register}"></title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org">
 <body>
-<th:block layout:fragment="content">
-    <div class="edit">
-        <h3 class="under-bar bold" th:text="${documentId != null} ? #{document.label.edit} : #{document.label.register}"></h3>
-        <div class="edit-content">
-            <div class="form-set">
-                <label class="required" th:text="#{document.label.type}" for="document-type"></label>
-                <select id="document-type">
-                    <option value="application-form" th:text="#{document.type.applicationForm}" selected></option>
-                    <option value="workflow" th:text="#{document.type.workflow}"></option>
-                </select>
-            </div>
-            <div class="form-set">
-                <label class="required" th:text="#{document.label.name}" for="document-name"></label>
-                <input id="document-name" type="text" maxlength="50" required="required"/>
-            </div>
-            <div class="form-set">
-                <label th:text="#{document.label.description}" for="document-desc"></label>
-                <textarea id="document-desc" maxlength="128"></textarea>
-            </div>
-            <div class="form-set">
-                <label th:text="#{common.label.group}" for="document-group"></label>
-                <select id="document-group">
-                    <option value="" th:text="#{document.label.notSelect}" selected></option>
-                    <option th:each="group:${groupList}" th:value="${group.code}"
-                            th:text="${group.codeValue}"></option>
-                </select>
-            </div>
-            <div class="form-set">
-                <label class="required" th:text="#{document.label.form}" for="document-form"></label>
-                <select id="document-form" th:disabled="${documentId}">
-                    <option th:each="form:${formList}"
-                            th:id="${form?.id}"
-                            th:value="${form?.id}"
-                            th:text="${form?.name}"></option>
-                </select>
-            </div>
-            <div class="form-set">
-                <label class="required" th:text="#{document.label.process}" for="document-process"></label>
-                <select id="document-process" th:disabled="${documentId}">
-                    <option th:each="process:${processList}"
-                            th:id="${process?.id}"
-                            th:value="${process?.id}"
-                            th:text="${process?.name}" ></option>
-                </select>
-            </div>
-            <div class="form-set">
-                <label class="required" th:text="#{document.label.numberingRule}" for="document-numbering-rule"></label>
-                <select id="document-numbering-rule" th:disabled="${documentId}">
-                    <option th:each="numberingRule:${numberingRuleList}"
-                            th:id="${numberingRule.numberingId}"
-                            th:value="${numberingRule.numberingId}"
-                            th:text="${numberingRule.numberingName}" ></option>
-                </select>
-            </div>
-            <div class="form-set">
-                <label th:text="#{document.label.status}" for="document-status"></label>
-                <select id="document-status">
-                    <option th:each="status:${statusList}" th:value="${status.code}"
-                            th:text="${status.codeValue}" th:selected="${status.code == 'document.status.temporary'}"></option>
-                </select>
-            </div>
-            <div class="form-set">
-                <label class="required"  th:text="#{document.label.businessFlowColor}" for="document-color"></label>
-                <div class="color-picker">
-                    <div class="color-input">
-                        <div class="selected-color-box">
-                            <div id="selected-color" name="selected-color" class="selected-color"></div>
-                        </div>
-                        <input id="document-color" name="document-color" disabled/>
+    <!-- 업무흐름 모달 -->
+    <div class="document-content">
+        <div class="flex-column">
+            <!-- 업무흐름 구분 -->
+            <label class="field-label" for="document-type">
+                <span th:text="#{document.label.type}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="document-type" onchange="setDocumentType(this.value)">
+                <option value="application-form" th:text="#{document.type.applicationForm}" selected></option>
+                <option value="workflow" th:text="#{document.type.workflow}" th:selected="${documentData?.documentType == 'workflow'}"></option>
+            </select>
+            <!-- 신청서 이름 -->
+            <label class="field-label" for="document-name">
+                <span th:text="#{document.label.name}"></span>
+                <span class="required"></span>
+            </label>
+            <input id="document-name" type="text" maxlength="50" required="required" th:value="${documentData?.documentName}"/>
+            <!-- 설명 -->
+            <label class="field-label" th:text="#{document.label.description}" for="document-desc"></label>
+            <textarea id="document-desc" class="textarea-scroll-wrapper" rows="7" maxlength="128" th:text="${documentData?.documentDesc}"></textarea>
+            <!-- 그룹 -->
+            <label class="field-label" th:text="#{common.label.group}" for="document-group"></label>
+            <select id="document-group" th:disabled="${documentData?.documentType == 'workflow'}">
+                <option value="" th:text="#{document.label.notSelect}" selected></option>
+                <option th:each="group:${groupList}" th:value="${group.code}"
+                        th:text="${group.codeValue}" th:selected="${documentData?.documentGroup} == ${group.code}"></option>
+            </select>
+            <!-- 문서양식 -->
+            <label class="field-label" for="document-form">
+                <span th:text="#{document.label.form}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="document-form" th:disabled="${documentId}">
+                <option th:each="form:${formList}"
+                        th:id="${form?.id}"
+                        th:value="${form?.id}"
+                        th:text="${form?.name}"
+                        th:selected="${documentData?.formId} == ${form?.id}"></option>
+            </select>
+            <!-- 프로세스 -->
+            <label class="field-label" for="document-process">
+                <span th:text="#{document.label.process}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="document-process" th:disabled="${documentId}">
+                <option th:each="process:${processList}"
+                        th:id="${process?.id}"
+                        th:value="${process?.id}"
+                        th:text="${process?.name}"
+                        th:selected="${documentData?.processId} == ${process?.id}"></option>
+            </select>
+            <!-- 문서번호 규칙 -->
+            <label class="field-label" for="document-numbering-rule">
+                <span th:text="#{document.label.numberingRule}"></span>
+                <span class="required"></span>
+            </label>
+            <select id="document-numbering-rule" th:disabled="${documentId}">
+                <option th:each="numberingRule:${numberingRuleList}"
+                        th:id="${numberingRule.numberingId}"
+                        th:value="${numberingRule.numberingId}"
+                        th:text="${numberingRule.numberingName}"
+                        th:selected="${documentData?.documentNumberingRuleId} == ${numberingRule.numberingId}"></option>
+            </select>
+            <!-- 신청서 상태 -->
+            <label class="field-label" th:text="#{document.label.status}" for="document-status"></label>
+            <input type="hidden" id="prev-document-status" name="prev-document-status" th:value="${documentData?.documentStatus}"/>
+            <select id="document-status">
+                <option th:each="status:${statusList}" th:value="${status.code}"
+                        th:text="${status.codeValue}" th:selected="${status.code} == ${documentData?.documentStatus}"></option>
+            </select>
+            <!-- 업무 흐름 색상 -->
+            <label class="field-label" for="document-color">
+                <span th:text="#{document.label.businessFlowColor}"></span>
+                <span class="required"></span>
+            </label>
+            <div class="color-picker">
+                <div class="color-input">
+                    <div class="selected-color-box">
+                        <div id="selected-color" name="selected-color" class="selected-color"></div>
                     </div>
-                    <div id="color-palette-layer">
-                        <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
-                        <div id="document-colorPalette-opacity" name="document-colorPalette-opacity" class="color-palette-opacity"></div>
-                    </div>
+                    <input type="text" id="document-color" name="document-color" th:value="${documentData?.documentColor}" disabled/>
+                </div>
+                <div id="color-palette-layer">
+                    <div id="document-colorPalette" name="document-colorPalette" class="color-palette"></div>
+                    <div id="document-colorPalette-opacity" name="document-colorPalette-opacity" class="color-palette-opacity"></div>
+                </div>
+            </div>
+            <!-- 신청서 아이콘 -->
+            <div id="document-icon-content" class="document-icon-content" th:classappend="${documentData?.documentType != 'workflow'} ? 'on'">
+                <label class="field-label" for="document-icon" th:text="#{document.label.icon}"></label>
+                <div class="flex-row input-button">
+                    <input type="text" id="document-icon" class="col-5" th:value="${documentData?.documentIcon}" readonly />
+                    <button type="button" class="default-line col-1" th:text="#{common.btn.select}" th:onclick="openIcon();"></button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="horizontal-bar"></div>
-    <div class="btn-list">
-        <button class="point-fill" th:if="${documentId}" onclick="saveDocument('put')" th:text="#{common.btn.modify}"></button>
-        <button class="point-fill" th:unless="${documentId}" onclick="saveDocument('post')" th:text="#{common.btn.register}"></button>
-        <button class="point-line" th:if="${documentId}" onclick="openDisplay();" th:text="#{document.label.display}"></button>
-        <button class="default-fill" th:text="#{common.btn.close}" onclick="window.close();"></button>
-    </div>
-</th:block>
 </body>
-<th:block layout:fragment="pageScript">
-    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
-    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
-    <script th:inline="javascript" type="text/javascript">
-        /*<![CDATA[*/
-        // Document status.
-        const STATUS_TEMPORARY = 'document.status.temporary';
-        const STATUS_USE = 'document.status.use';
-        const STATUS_DESTROY = 'document.status.destroy';
-        const documentId = /*[[${documentId}]]*/;
-
-        let beforeDocumentStatus = null;
-
-        window.onload = function() {
-            if (documentId !== null && documentId  !== '') {
-                aliceJs.sendXhr({
-                    method: 'GET',
-                    url: '/rest/documents-admin/' + documentId,
-                    contentType: 'application/json; charset=utf-8',
-                    callbackFunc: function(xhr) {
-                        let documentData = JSON.parse(xhr.responseText);
-                        setData(documentData);
-                        initColorPicker(documentData.documentColor);
-                    }
-                });
-            } else {
-                initColorPicker();
-                initIconSelector();
-            }
-            document.getElementById('document-type').addEventListener('change', function() {
-                const groupElem = document.getElementById('document-group');
-                groupElem.disabled = (this.value === 'workflow');
-                if (this.value === 'workflow') {
-                    groupElem.value = '';
-                }
-                initIconSelector();
-            });
-
-            OverlayScrollbars(document.querySelector('.edit-content'), {className: 'scrollbar'});
-            document.getElementById('document-name').focus();
-        };
-
-        function saveDocument(method) {
-            if (emptyValidation()) {
-                let documentType = document.getElementById('document-type');
-                let documentForm = document.getElementById('document-form');
-                let documentProcess = document.getElementById('document-process');
-                let documentStatus = document.getElementById('document-status');
-                let documentNumberingRule = document.getElementById('document-numbering-rule');
-                let documentInfo = {
-                    documentType: documentType.options[documentType.selectedIndex].value,
-                    documentName: document.getElementById('document-name').value,
-                    documentDesc: document.getElementById('document-desc').value,
-                    formId: documentForm.options[documentForm.selectedIndex].value,
-                    processId: documentProcess.options[documentProcess.selectedIndex].value,
-                    documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
-                    documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
-                    documentColor: document.getElementById('document-color').value
-                };
-                //그룹을 선택한 경우
-                let documentGroup = document.getElementById('document-group');
-                if (documentGroup.options[documentGroup.selectedIndex].value !== '') {
-                    documentInfo.documentGroup = documentGroup.options[documentGroup.selectedIndex].value;
-                }
-                let documentIcon = document.getElementById('document-icon');
-                if (documentIcon !== null) {
-                    documentInfo.documentIcon = documentIcon.value;
-                }
-
-                let url = '/rest/documents-admin';
-                if (method === 'put' && documentId !== null) {
-                    documentInfo.documentId = documentId;
-                    url += '/' + documentId;
-                }
-                if (beforeDocumentStatus === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) {
-                    aliceJs.confirmIcon(
-                        i18n.msg('document.msg.confirmDeleteInstance'),
-                        () => restSubmit(method, url + '?isDeleteData=true', documentInfo),
-                        () => restSubmit(method, url, documentInfo)
-                    );
-                } else {
-                    restSubmit(method, url, documentInfo);
-                }
-            }
-        }
-
-        //빈 값 체크
-        function emptyValidation() {
-            if (isEmpty('document-name', 'document.msg.enterDocumentName')) return false;
-            if (isEmpty('document-color', 'document.msg.enterBusinessFlowColor')) return false;
-            return true;
-        }
-
-        //REST API
-        function restSubmit(method, url, data) {
-            const opt = {
-                method: method,
-                url: url,
-                params: JSON.stringify(data),
-                contentType: 'application/json',
-                callbackFunc: function(response) {
-                    aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
-                        opener.location.reload();
-                        window.close();
-                        if (documentId !== null && documentId === '') {
-                            const specs = 'menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes';
-                            window.open('/documents-admin/' + response.responseText + '/display', '_blank', 'width=1000, height=630, left=500, top=60,' + specs);
-                        }
-                    });
-                }
-            };
-            aliceJs.sendXhr(opt);
-        }
-
-        //ColorPicker 초기화
-        function initColorPicker(selectedColor) {
-            let selectedColorBox = document.getElementById('selected-color');
-            let elementObject = document.getElementById('document-color');
-            if (selectedColor == 'undefined' || selectedColor == null) {
-                selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
-                elementObject.value = '#000000';
-            }
-            elementObject.addEventListener('change', function() {
-                if (this.value.trim() !== '' && !isValidRgb(this.id, function() {elementObject.focus();})) {
-                    this.value = '';
-                }
-                selectedColorBox.style.backgroundColor = this.value;
-            });
-            let colorPaletteLayer = document.getElementById('color-palette-layer');
-            let option = {
-                colors: colorPalette.getPaletteColors('basicPaletteColors'),
-                data : {
-                    isSelected: true,
-                    selectedClass: 'selected',
-                    value: selectedColor
-                }
-            }
-            colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
-        }
-
-        // 신청서 아이콘 추가 (업무흐름: 신청서)
-        function initIconSelector() {
-            const documentType = document.getElementById('document-type');
-            const formObject = document.querySelector('.edit-content');
-            if (documentType.value === 'application-form') {
-                let formSet = document.createElement('div');
-                formSet.className = 'form-set';
-                let formSetLabel = document.createElement('label');
-                formSetLabel.htmlFor = 'document-icon';
-                formSetLabel.innerText = /*[[#{document.label.icon}]]*/;
-
-                let formIcon = document.createElement('div');
-                let formIconInput = document.createElement('input');
-                formIconInput.id = 'document-icon';
-                formIconInput.readOnly = true;
-                formIconInput.disabled = true;
-                let formIconButton = document.createElement('button');
-                formIconButton.innerText = /*[[#{common.btn.select}]]*/;
-                formIconButton.className = 'default-line';
-                formIconButton.onclick = function() {
-                    openIcon();
-                }
-                formIcon.appendChild(formIconInput);
-                formIcon.appendChild(formIconButton);
-
-                formSet.appendChild(formSetLabel);
-                formSet.appendChild(formIcon);
-
-                if (formObject.classList.contains('scrollbar')) {
-                    formObject.querySelector('.os-content').appendChild(formSet);
-                } else {
-                    formObject.appendChild(formSet);
-                }
-            } else {
-                if (document.querySelector('#document-icon') !== null) {
-                    document.querySelector('#document-icon').parentElement.parentElement.remove();
-                }
-            }
-        }
-
-        /**
-         * Set Document Data.
-         *
-         * @param documentData
-         */
-        function setData(documentData) {
-            document.getElementById('document-type').value = documentData.documentType;
-            document.getElementById('document-name').value = documentData.documentName;
-            document.getElementById('document-desc').value = documentData.documentDesc;
-            document.getElementById('document-form').value = documentData.formId;
-            document.getElementById('document-process').value = documentData.processId;
-            document.getElementById('document-numbering-rule').value = documentData.documentNumberingRuleId;
-            document.getElementById('document-color').value = documentData.documentColor;
-            document.getElementById('selected-color').style.backgroundColor = documentData.documentColor;
-            document.getElementById('document-group').value = (documentData.documentGroup !== null ? documentData.documentGroup : '');
-            document.getElementById('document-group').disabled = (documentData.documentType === 'workflow');
-            initIconSelector();
-            if (document.querySelector('#document-icon') !== null) {
-                document.getElementById('document-icon').value = (documentData.documentIcon != null ? documentData.documentIcon : '');
-            }
-
-            const statusElem = document.getElementById('document-status');
-            beforeDocumentStatus = documentData.documentStatus;
-            statusElem.value = beforeDocumentStatus;
-            switch (beforeDocumentStatus) {
-                case STATUS_TEMPORARY:
-                    statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
-                    break;
-                case STATUS_USE:
-                    statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                    break;
-                case STATUS_DESTROY:
-                    statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
-                    statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
-                    break;
-            }
-        }
-
-        //신청서 양식편집 화면 open
-        function openDisplay() {
-            const specs = "menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
-            window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1000, height=630, left=500, top=60,' + specs);
-            window.close();
-        }
-
-        function openIcon() {
-            aliceJs.thumbnail({
-                title: i18n.msg('document.label.icon'),
-                targetId: 'document-icon',
-                type: 'icon',
-                isThumbnailInfo: false,
-                isFilePrefix: false,
-                thumbnailDoubleClickUse: true,
-                selectedPath: document.querySelector('#document-icon').value,
-            });
-        }
-        /*]]>*/
-    </script>
-</th:block>
 </html>

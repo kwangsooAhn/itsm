@@ -613,27 +613,31 @@ aliceJs.alertDanger = function(message, callbackFunc) {
  * @param message message
  * @param okCallbackFunc ok 시 callback function
  * @param cancelCallbackFunc cancel 시 callback function
+ * @param params okCallbackFunc 에 전달하는 param
  */
-aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc, param1, param2, param3, param4) {
+aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc) {
+    let params = Array.prototype.slice.call(arguments, 3);
+
     const myModal = new gModal({
         message: message,
         type: 'gmodal-icon-confirm',
         buttons: [
+            {
+                content: i18n.msg('common.btn.check'),
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    if (typeof okCallbackFunc === 'function') {
+                        okCallbackFunc.apply(null, params);
+                    }
+                    modal.hide();
+                }
+            },
             {
                 content: i18n.msg('common.btn.cancel'),
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof cancelCallbackFunc === 'function') {
                         cancelCallbackFunc();
-                    }
-                    modal.hide();
-                }
-            },{
-                content: i18n.msg('common.btn.check'),
-                bindKey: false, /* no key! */
-                callback: function(modal) {
-                    if (typeof okCallbackFunc === 'function') {
-                        okCallbackFunc(param1, param2, param3, param4);
                     }
                     modal.hide();
                 }
