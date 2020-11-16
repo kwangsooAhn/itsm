@@ -10,9 +10,9 @@
   // _flex.scss 템플릿에 "!important 추가" 검토 후 수정
   flex-direction: row;
   & > .tree-area {
-      height: 100vh;
-      flex: 1;
-      padding: 2.875rem 3.75rem 6.875rem 3.75rem; // 46px 60px 110px 60px
+    height: 100vh;
+    flex: 1;
+    padding: 2.875rem 3.75rem 6.875rem 3.75rem; // 46px 60px 110px 60px
     @include list-template();
     .list {
       width: 37.5rem; // 600px
@@ -33,16 +33,18 @@
         padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
       }
     }
-    .form-row {
-      flex-flow: wrap;
-      .form-div {
-        width: 49%;
+    .form {
+      &-row {
+        flex-flow: wrap;
+        .form-div {
+          width: 49%;
+        }
       }
-    }
-    .form-set {
-      margin-top: 0.6875rem; // 11px
-      .title {
-        font-weight: $font-weight-medium;
+      &-set {
+        margin-top: 0.6875rem; // 11px
+        .title {
+          font-weight: $font-weight-medium;
+        }
       }
     }
   }
