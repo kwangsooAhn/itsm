@@ -56,7 +56,7 @@
                         </div>
                         <div class="checkbox-list">
                             <ul>
-                                <li th:each="auth : ${authList}">
+                                <li class="text-ellipsis" th:each="auth : ${authList}">
                                     <label class="checkbox" th:for="${auth?.authId}" tabindex="0">
                                         <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
                                         <span></span>

@@ -2164,8 +2164,6 @@ button .icon-plus {
 .itsm-container .contents-token {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
 }
 
 .itsm-container .contents-token .header {
@@ -2433,8 +2431,6 @@ button .icon-plus {
 .itsm-container .contents-list {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
 }
 
@@ -2519,8 +2515,6 @@ button .icon-plus {
 .itsm-container .contents-edit {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
   background-color: white;
   /*
    * #9067 일감 완료 후 삭제 또는 수정 여부를 확인합니다.
@@ -2743,8 +2737,6 @@ button .icon-plus {
 .itsm-container .contents-flex {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
 }
 
 .itsm-container .contents-flex .header {
@@ -2788,9 +2780,6 @@ button .icon-plus {
 .itsm-container .contents-list-edit {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
-  flex-direction: row;
 }
 
 .itsm-container .contents-list-edit > .list-area {
@@ -2936,8 +2925,6 @@ button .icon-plus {
 .itsm-container .contents-document {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
 }
 
 .itsm-container .contents-document .header {
@@ -3010,9 +2997,6 @@ button .icon-plus {
 .itsm-container .contents-tree-edit {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
-  flex-direction: row;
 }
 
 .itsm-container .contents-tree-edit > .tree-area {
@@ -4759,11 +4743,7 @@ ul.tree ul:before {
 }
 
 ul.tree ul li {
-  display: block;
   padding-left: calc((0.875rem / 2) + 0.5rem + (1.438rem / 2));
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
 }
 
 ul.tree ul li:before {

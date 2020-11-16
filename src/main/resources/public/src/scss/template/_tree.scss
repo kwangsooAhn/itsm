@@ -46,11 +46,7 @@ ul.tree {
     }
 
     li {
-      display: block;
       padding-left: $tree-indentation;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-      overflow: hidden;
       // horizontal line
       &:before {
         content: '';
