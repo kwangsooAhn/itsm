@@ -26,9 +26,9 @@
                 <td width="20%">
                     <th:block th:if="${form.editable == true}">
                         <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
-                           th:attr="onclick=|openFormView('${form.id}')|"></a>
+                           th:attr="onclick=|openFormEdit('${form.id}', true)|"></a>
                         <a sec:authorize="hasAuthority('form.update')" th:text="${form.name}"
-                           th:attr="onclick=|openFormEdit('${form.id}')|"></a>
+                           th:attr="onclick=|openFormEdit('${form.id}', false)|"></a>
                     </th:block>
                     <div th:unless="${form.editable == true}">
                         <span th:text="${form.name}"></span>

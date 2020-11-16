@@ -3103,7 +3103,6 @@ button .icon-plus {
 }
 
 .itsm-container .contents-tree-edit > .tree-area .list {
-  width: 37.5rem;
   height: 37.5rem;
 }
 
@@ -4739,6 +4738,7 @@ ul.tree {
 ul.tree li {
   position: relative;
   line-height: 1.875rem;
+  padding-right: 0.125rem;
 }
 
 ul.tree ul {
@@ -5030,6 +5030,21 @@ body.modal-active {
 }
 
 .modal-dialog.form-import .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.modal-dialog.form-edit {
+  width: 550px;
+  height: 360px;
+}
+
+.modal-dialog.form-edit .modal-content {
+  height: calc(360px - 3.375rem - 5rem);
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+
+.modal-dialog.form-edit .modal-content .field-label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }

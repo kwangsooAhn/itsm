@@ -113,7 +113,7 @@
 
             function getCodeList() {
                 tree.load({
-                    search: document.querySelector('#search').value,
+                    search: encodeURIComponent(document.querySelector('#search').value.trim()),
                     target: 'treeList',
                     text: 'code',
                     leafIcon: '/assets/media/icons/tree/icon_tree_leaf.svg',
