@@ -13,7 +13,7 @@
     </div>
     <div id="main-search" class="main-search align-center">
         <input type="text" class="col-8 icon-search" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
-               th:placeholder="#{common.label.searchWord}"/>
+               th:placeholder="#{common.label.searchWord}" maxlength="100"/>
     </div>
     <div class="main-content">
         <ul class="card-group flex-row justify-content-between">
