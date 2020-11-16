@@ -52,6 +52,7 @@
         window.onload = function() {
             document.getElementById('downloadTitle').focus();
             fileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download?.downloadId}]]}});
+            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
         };
 
         //Empty Check

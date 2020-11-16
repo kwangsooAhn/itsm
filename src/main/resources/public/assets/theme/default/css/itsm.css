@@ -3204,12 +3204,6 @@ button .icon-plus {
   background-color: #EBEBEB;
 }
 
-.flex-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .row-right {
   display: inherit;
   justify-content: flex-end;
