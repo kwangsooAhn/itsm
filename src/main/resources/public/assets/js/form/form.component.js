@@ -846,7 +846,6 @@
                 componentObject =  new InputBox(componentProperty);
                 break;
             case 'textbox':
-                console.log('fffffffffffff')
                 componentObject =  new TextBox(componentProperty);
                 break;
             case 'dropdown':
