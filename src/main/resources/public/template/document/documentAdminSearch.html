@@ -28,7 +28,7 @@
                 </form>
             </div>
             <div class="ml-auto">
-                <button th:class="default-fill" sec:authorize="hasAuthority('document.admin.create')" type="button" onclick="createDocument()" th:text="#{common.btn.add}"></button>
+                <button th:class="default-fill" sec:authorize="hasAuthority('document.admin.create')" type="button" onclick="openDocumentEdit()" th:text="#{common.btn.add}"></button>
             </div>
         </div>
         <div class="list" id="documentList"></div>
@@ -36,8 +36,15 @@
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
+    <script th:src="@{/assets/js/util/colorPalette-alice.js}"></script>
+    <script th:src="@{/assets/vendors/piklor/piklor.js}"></script>
     <script type="text/javascript">
         /*<![CDATA[*/
+        // Document status.
+        const STATUS_TEMPORARY = 'document.status.temporary';
+        const STATUS_USE = 'document.status.use';
+        const STATUS_DESTROY = 'document.status.destroy';
+
         let offsetCount = 0;
         window.onload = function() {
             document.getElementById('searchDocuments').focus();
@@ -65,16 +72,219 @@
             }
         }
 
-        function openDocumentEdit(documentId) {
-            window.open('/documents-admin/' + documentId + '/edit', '_blank', 'width=760, height=900, left=500, top=60');
+        // 신청서 양식편집 화면
+        // TODO: 모달로 변경
+        function openDisplay(documentId) {
+            const specs = "menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
+            window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1000, height=630, left=500, top=60,' + specs);
         }
 
-        function createDocument() {
-            window.open('/documents-admin/new', '_blank', 'width=760, height=900, left=500, top=60');
+        // 빈 값 체크
+        function emptyValidation() {
+            if (isEmpty('document-name', 'document.msg.enterDocumentName')) { return false };
+            if (isEmpty('document-color', 'document.msg.enterBusinessFlowColor')) { return false };
+            return true;
+        }
+        // 신청서 저장 / 수정
+        function saveDocument(method, documentId) {
+            if (emptyValidation()) {
+                let documentType = document.getElementById('document-type');
+                let documentForm = document.getElementById('document-form');
+                let documentProcess = document.getElementById('document-process');
+                let documentStatus = document.getElementById('document-status');
+                let documentNumberingRule = document.getElementById('document-numbering-rule');
+                let documentGroup = document.getElementById('document-group');
+
+                let documentInfo = {
+                    documentType: documentType.options[documentType.selectedIndex].value,
+                    documentName: document.getElementById('document-name').value,
+                    documentDesc: document.getElementById('document-desc').value,
+                    formId: documentForm.options[documentForm.selectedIndex].value,
+                    processId: documentProcess.options[documentProcess.selectedIndex].value,
+                    documentNumberingRuleId: documentNumberingRule.options[documentNumberingRule.selectedIndex].value,
+                    documentStatus: documentStatus.options[documentStatus.selectedIndex].value,
+                    documentColor: document.getElementById('document-color').value,
+                    documentGroup: documentGroup.options[documentGroup.selectedIndex].value,
+                };
+                let documentIcon = document.getElementById('document-icon');
+                if (documentIcon !== null && documentInfo.documentType !== 'workflow') {
+                    documentInfo.documentIcon = documentIcon.value;
+                }
+
+                let url = '/rest/documents-admin';
+                if (method === 'put' && documentId !== undefined) {
+                    documentInfo.documentId = documentId;
+                    url += '/' + documentId;
+                }
+
+                if (document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 수정
+                    aliceJs.confirmIcon(
+                        i18n.msg('document.msg.confirmDeleteInstance'),
+                        () => restSubmit(method, url + '?isDeleteData=true', documentInfo, function(result) {
+                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
+                                location.reload();
+                            });
+                        }),
+                        () => restSubmit(method, url, documentInfo, function(result) {
+                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
+                                location.reload();
+                            });
+                        })
+                    );
+                } else {
+                    restSubmit(method, url, documentInfo, function(result) {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
+                            if (documentId === undefined) { // 신규 등록일 경우에만 팝업 호출한다.
+                                openDisplay(result);
+                            }
+                            location.reload();
+                        });
+                    });
+                }
+            }
+        }
+
+        // ColorPicker 초기화
+        function initColorPicker() {
+            let selectedColorBox = document.getElementById('selected-color');
+            let elementObject = document.getElementById('document-color');
+            // 색상 초기화
+            if (elementObject.value === '') {
+                selectedColorBox.style.backgroundColor = 'rgb(0,0,0)';
+                elementObject.value = '#000000';
+            } else {
+                selectedColorBox.style.backgroundColor = elementObject.value;
+            }
+            elementObject.addEventListener('change', function() {
+                if (this.value.trim() !== '' && !isValidRgb(this.id, function() { elementObject.focus(); })) {
+                    this.value = '';
+                }
+                selectedColorBox.style.backgroundColor = this.value;
+            });
+            let colorPaletteLayer = document.getElementById('color-palette-layer');
+            let option = {
+                colors: colorPalette.getPaletteColors('basicPaletteColors'),
+                data : {
+                    isSelected: true,
+                    selectedClass: 'selected',
+                    value: elementObject.value
+                }
+            }
+            colorPalette.initColorPalette(colorPaletteLayer, selectedColorBox, elementObject, option);
+        }
+
+        // 신청서 아이콘 선택 팝업
+        function openIcon() {
+            aliceJs.thumbnail({
+                title: i18n.msg('document.label.icon'),
+                targetId: 'document-icon',
+                type: 'icon',
+                isThumbnailInfo: false,
+                isFilePrefix: false,
+                thumbnailDoubleClickUse: true,
+                selectedPath: document.querySelector('#document-icon').value,
+            });
+        }
+
+        // 업무흐름 구분 변경
+        function setDocumentType(type) {
+            const groupElem = document.getElementById('document-group');
+            groupElem.disabled = (type === 'workflow');
+
+            const documentIconElem = document.getElementById('document-icon-content');
+            if (type === 'workflow') {
+                groupElem.selectedIndex = 0;
+                documentIconElem.classList.remove('on');
+            } else {
+                documentIconElem.classList.add('on');
+            }
+        }
+
+        // 업무흐름 등록 , 수정
+        function openDocumentEdit(documentId) {
+            aliceJs.sendXhr({
+                method: 'GET',
+                url: (documentId !== undefined) ? '/documents-admin/' + documentId + '/edit' : '/documents-admin/new',
+                callbackFunc: function(xhr) {
+                    let modalOptions = {
+                        title: (documentId !== undefined) ? i18n.msg('document.label.edit') : i18n.msg('document.label.register'),
+                        body: xhr.responseText,
+                        classes: 'document-edit',
+                        buttons: [{
+                            content: (documentId !== undefined) ? i18n.msg('common.btn.modify') : i18n.msg('common.btn.register'),
+                            classes: "point-fill",
+                            bindKey: false,
+                            callback: function(modal) {
+                                let method = (documentId !== undefined) ? 'put' : 'post';
+                                saveDocument(method, documentId);
+                            }
+                        },{
+                            content: i18n.msg('common.btn.close'),
+                            classes: "default-line",
+                            bindKey: false,
+                            callback: function(modal) {
+                                modal.hide();
+                            }
+                        }],
+                        close: {
+                            closable: false,
+                        },
+                        onCreate: function(modal) {
+                            initColorPicker();
+                            // 신청서 상태 초기화
+                            const statusElem = document.getElementById('document-status');
+                            const prevStatus = document.getElementById('prev-document-status').value;
+                            switch (prevStatus) {
+                                case STATUS_TEMPORARY:
+                                    statusElem.querySelector('option[value="' + STATUS_DESTROY + '"]').remove();
+                                    break;
+                                case STATUS_USE:
+                                    statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                                    break;
+                                case STATUS_DESTROY:
+                                    statusElem.querySelector('option[value="' + STATUS_TEMPORARY + '"]').remove();
+                                    statusElem.querySelector('option[value="' + STATUS_USE + '"]').remove();
+                                    break;
+                                default: // 신규 등록
+                            }
+
+                            // 스크롤바 추가
+                            OverlayScrollbars(document.querySelector('.document-content'), {className: 'scrollbar'});
+                            OverlayScrollbars(document.querySelector('.textarea-scroll-wrapper'), {
+                                className: 'inner-scrollbar',
+                                resize: 'vertical',
+                                sizeAutoCapable: true,
+                                textarea: {
+                                    dynHeight: false,
+                                    dynWidth: false,
+                                    inheritedAttrs: "class"
+                                }
+                            });
+                        }
+                    }
+                    // 수정일 경우 신청서 양식 편집 버튼 추가
+                    if (documentId !== undefined) {
+                        modalOptions.buttons.splice(1, 0, {
+                            content: i18n.msg('document.label.display'),
+                            classes: "point-line",
+                            bindKey: false,
+                            callback: function(modal) {
+                                openDisplay(documentId);
+                                modal.hide();
+                            }
+                        });
+                    }
+                    // 모달 호출
+                    const documentAdminModal = new modal(modalOptions);
+                    documentAdminModal.show();
+
+                },
+                contentType: 'application/json; charset=utf-8'
+            });
         }
 
         function deleteDocument(documentId) {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/documents-admin/' + documentId, function(result) {
+            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/documents-admin/' + documentId, {}, function(result) {
                 if (JSON.parse(result)) {
                     aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
                         location.reload();
@@ -82,17 +292,19 @@
                 } else {
                     aliceJs.alertWarning('[[#{document.msg.launchedInstance}]]');
                 }
-            });
+            }, false);
         }
 
-        function restSubmit(method, url, result, isShowProgressbar) {
+        function restSubmit(method, url, data, result, isShowProgressbar) {
             const opt = {
                 method: method,
                 url: url,
-                showProgressbar: isShowProgressbar,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
                 callbackFunc: function(response) {
                     result(response.responseText);
-                }
+                },
+                showProgressbar: isShowProgressbar
             };
             aliceJs.sendXhr(opt);
         }
@@ -142,7 +354,7 @@
 
         //Tr 동적 데이터 만들기
         function getDataTemplate(data) {
-            let div = document.querySelector('.os-content');
+            let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
 
             let tdDocumentName = document.createElement('td');
