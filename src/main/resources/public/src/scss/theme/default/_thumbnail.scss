@@ -6,6 +6,7 @@
   &.thumbnail-icon {
     width: $thumbnail-icon-modal-width;
     height: $thumbnail-icon-modal-height;
+    top: 7rem; // 112px
 
     .modal-content {
       height: calc(#{$thumbnail-icon-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});

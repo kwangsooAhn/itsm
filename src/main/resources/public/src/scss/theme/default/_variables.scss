@@ -111,8 +111,12 @@ $import-modal-width:                          37.5rem; // 600px
 $import-modal-height:                         37.5rem; // 600px
 
 ////////////////////// FORM EDIT / EXPORT /////////////////////////
-$form-edit-modal-width:                          550px;
-$form-edit-modal-height:                         360px;
+$form-edit-modal-width:                       34.38rem; // 550px
+$form-edit-modal-height:                      22.5rem; // 360px
+
+////////////////////// 업무 흐름 등록 / 수정 모달 /////////////////////////
+$document-edit-modal-width:                   40rem; // 640px
+$document-edit-modal-height:                  50.63rem; // 810px
 
 /////////////////////////// contents //////////////////////////////
 $token-list-background-color:                 $white;

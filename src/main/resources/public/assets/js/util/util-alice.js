@@ -620,20 +620,21 @@ aliceJs.confirmIcon = function(message, okCallbackFunc, cancelCallbackFunc, para
         type: 'gmodal-icon-confirm',
         buttons: [
             {
-                content: i18n.msg('common.btn.cancel'),
-                bindKey: false, /* no key! */
-                callback: function(modal) {
-                    if (typeof cancelCallbackFunc === 'function') {
-                        cancelCallbackFunc();
-                    }
-                    modal.hide();
-                }
-            },{
                 content: i18n.msg('common.btn.check'),
                 bindKey: false, /* no key! */
                 callback: function(modal) {
                     if (typeof okCallbackFunc === 'function') {
                         okCallbackFunc(param1, param2, param3, param4);
+                    }
+                    modal.hide();
+                }
+            },
+            {
+                content: i18n.msg('common.btn.cancel'),
+                bindKey: false, /* no key! */
+                callback: function(modal) {
+                    if (typeof cancelCallbackFunc === 'function') {
+                        cancelCallbackFunc();
                     }
                     modal.hide();
                 }

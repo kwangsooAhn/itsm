@@ -94,12 +94,6 @@
 
 @include horizontalBar(0.0625rem,  0.625rem 0, $line-gray);
 
-.flex-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 // div 내부에 여러개의 span을 우측으로 붙이는 클래스
 // ex) 공지사항, 게시판 상세조회에서 작성자와 작성일은 오른쪽에 정렬되어 출력
 .row-right {

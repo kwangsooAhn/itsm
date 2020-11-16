@@ -3225,12 +3225,6 @@ button .icon-plus {
   background-color: #EBEBEB;
 }
 
-.flex-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .row-right {
   display: inherit;
   justify-content: flex-end;
@@ -5033,18 +5027,69 @@ body.modal-active {
 }
 
 .modal-dialog.form-edit {
-  width: 550px;
-  height: 360px;
+  width: 34.38rem;
+  height: 22.5rem;
 }
 
 .modal-dialog.form-edit .modal-content {
-  height: calc(360px - 3.375rem - 5rem);
+  height: calc(22.5rem - 3.375rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 
 .modal-dialog.form-edit .modal-content .field-label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
+}
+
+.modal-dialog.document-edit {
+  width: 40rem;
+  height: 50.63rem;
+}
+
+.modal-dialog.document-edit .modal-content {
+  height: calc(50.63rem - 3.375rem - 5rem);
+  padding: 1.25rem;
+  overflow: hidden;
+}
+
+.modal-dialog.document-edit .modal-content .document-content {
+  width: calc(40rem - 2.5rem);
+  height: calc(50.63rem - 3.375rem - 5rem - 2.5rem);
+  padding: 0 1.25rem;
+  overflow-y: auto;
+}
+
+.modal-dialog.document-edit .modal-content .field-label {
+  display: inline-block;
+  margin: 1rem 0 0.5rem 0;
+}
+
+.modal-dialog.document-edit .modal-content .document-icon-content {
+  display: none;
+}
+
+.modal-dialog.document-edit .modal-content .document-icon-content.on {
+  display: block;
+}
+
+.modal-dialog.document-edit .modal-content .document-icon-content .input-button input[type="text"] {
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.modal-dialog.document-edit .modal-content .document-icon-content .input-button input[type="text"]:focus, .modal-dialog.document-edit .modal-content .document-icon-content .input-button input[type="text"]:hover {
+  z-index: 1;
+}
+
+.modal-dialog.document-edit .modal-content .document-icon-content .input-button button {
+  margin-left: -0.0625rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.modal-dialog.document-edit .modal-content .document-icon-content .input-button button:focus, .modal-dialog.document-edit .modal-content .document-icon-content .input-button button:hover, .modal-dialog.document-edit .modal-content .document-icon-content .input-button button:active {
+  z-index: 1;
 }
 
 /* _thumbnail.scss 
@@ -5197,6 +5242,7 @@ body.modal-active {
 .modal-dialog.thumbnail-icon {
   width: 47.81rem;
   height: 45rem;
+  top: 7rem;
 }
 
 .modal-dialog.thumbnail-icon .modal-content {
