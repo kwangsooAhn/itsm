@@ -1729,16 +1729,16 @@ button.plus {
 .btn .icon-search,
 button .icon-search {
   display: inline-block;
-  width: 1.625rem;
-  height: 1.625rem;
+  width: 1.125rem;
+  height: 1.125rem;
   -webkit-mask-image: url("../media/icons/icon_search.svg");
   mask-image: url("../media/icons/icon_search.svg");
   -webkit-mask-repeat: no-repeat;
   mask-repeat: no-repeat;
   -webkit-mask-position: center;
   mask-position: center;
-  -webkit-mask-size: 1.625rem 1.625rem;
-  mask-size: 1.625rem 1.625rem;
+  -webkit-mask-size: 1.125rem 1.125rem;
+  mask-size: 1.125rem 1.125rem;
   background: #ACB4BF;
 }
 
@@ -2110,6 +2110,13 @@ button .icon-plus {
  * @author jy.lim
  * @version 1.0
  */
+  /* _contents-list.scss
+ *
+ * 파일 경로 : contents/_contents-list.scss
+ * @description 리스트 화면 (ex. 사용자 목록)
+ * @author jy.lim
+ * @version 1.0
+ */
   /* _contents-edit.scss
  *
  * 파일 경로 : contents/_contents-edit.scss
@@ -2118,6 +2125,20 @@ button .icon-plus {
  * @version 1.0
  */
   /* 상세 조회 화면 */
+  /* _contents-list-edit.scss
+ *
+ * 파일 경로 : contents/_contents-list-edit.scss
+ * @description 리스트와 편집화면이 1개의 화면으로 구성 (ex. 권한 관리)
+ * @author jy.lim
+ * @version 1.0
+ */
+  /* _contents-list-document.scss
+ *
+ * 파일 경로 : contents/_contents-list-document.scss
+ * @description 문서함 리스트 화면
+ * @author jy.lim
+ * @version 1.0
+ */
   /* _contents-tree-edit.scss
  *
  * 파일 경로 : contents/_contents-tree-edit.scss
@@ -2143,8 +2164,6 @@ button .icon-plus {
 .itsm-container .contents-token {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
 }
 
 .itsm-container .contents-token .header {
@@ -2412,8 +2431,6 @@ button .icon-plus {
 .itsm-container .contents-list {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
   padding: 2.875rem 3.75rem 2.875rem 3.75rem;
 }
 
@@ -2425,84 +2442,79 @@ button .icon-plus {
   cursor: pointer;
 }
 
-.itsm-container .contents-list .list table {
+.itsm-container .contents-list .list .list-table {
   width: 100%;
 }
 
-.itsm-container .contents-list .list table thead {
+.itsm-container .contents-list .list .list-table .list-head {
   display: block;
 }
 
-.itsm-container .contents-list .list table thead > tr {
+.itsm-container .contents-list .list .list-table .list-head > tr {
+  display: flex;
   height: 2.375rem;
   border-bottom: 0.125rem solid #E1E3E6;
-  display: flex;
 }
 
-.itsm-container .contents-list .list table thead > tr th {
+.itsm-container .contents-list .list .list-table .list-head > tr th {
   color: #3F4B56;
   font-size: 1.125rem;
   font-weight: 500;
-  vertical-align: middle;
   text-align: left;
 }
 
-.itsm-container .contents-list .list table thead > tr th:first-child {
+.itsm-container .contents-list .list .list-table .list-head > tr th:first-child {
   padding-left: 1.25rem;
 }
 
-.itsm-container .contents-list .list table tbody {
+.itsm-container .contents-list .list .list-table .list-body {
   display: block;
   height: 35.3125rem;
   overflow-y: auto;
   width: 100%;
 }
 
-.itsm-container .contents-list .list table tbody tr {
-  height: 2.875rem;
-  width: 100%;
+.itsm-container .contents-list .list .list-table .list-body tr {
   display: table;
+  width: 100%;
+  height: 2.875rem;
 }
 
-.itsm-container .contents-list .list table tbody tr:hover {
+.itsm-container .contents-list .list .list-table .list-body tr:hover {
   background: #EBEBEB;
 }
 
-.itsm-container .contents-list .list table tbody tr.active td {
+.itsm-container .contents-list .list .list-table .list-body tr.active td {
   color: #0060A5;
   background: #EBEBEB;
 }
 
-.itsm-container .contents-list .list table tbody tr td {
+.itsm-container .contents-list .list .list-table .list-body tr td {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
-  vertical-align: middle;
   max-width: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  vertical-align: middle;
+  padding-right: 0.625rem;
 }
 
-.itsm-container .contents-list .list table tbody tr td:first-child {
+.itsm-container .contents-list .list .list-table .list-body tr td:first-child {
   padding-left: 1.25rem;
 }
 
-.itsm-container .contents-list .list table tbody tr td a {
+.itsm-container .contents-list .list .list-table .list-body tr td a {
   color: #586872;
 }
 
-.itsm-container .contents-list .list table tbody tr td button {
+.itsm-container .contents-list .list .list-table .list-body tr td button {
+  height: 1.875rem;
+  padding: 0 0.3125rem;
   margin: 0;
-  padding: 0 5px;
-  height: 30px;
 }
 
 .itsm-container .contents-edit {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
   background-color: white;
   /*
    * #9067 일감 완료 후 삭제 또는 수정 여부를 확인합니다.
@@ -2725,8 +2737,6 @@ button .icon-plus {
 .itsm-container .contents-flex {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
 }
 
 .itsm-container .contents-flex .header {
@@ -2770,13 +2780,6 @@ button .icon-plus {
 .itsm-container .contents-list-edit {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
-  flex-direction: row;
-  /*    .page-title {
-        padding: 0;
-        height: auto;
-    }*/
 }
 
 .itsm-container .contents-list-edit > .list-area {
@@ -2793,77 +2796,74 @@ button .icon-plus {
   cursor: pointer;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table {
+.itsm-container .contents-list-edit > .list-area .list .list-table {
   width: 100%;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table thead {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-head {
   display: block;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table thead > tr {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-head > tr {
+  display: flex;
   height: 2.375rem;
   border-bottom: 0.125rem solid #E1E3E6;
-  display: flex;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table thead > tr th {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-head > tr th {
   color: #3F4B56;
   font-size: 1.125rem;
   font-weight: 500;
-  vertical-align: middle;
   text-align: left;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table thead > tr th:first-child {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-head > tr th:first-child {
   padding-left: 1.25rem;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table tbody {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-body {
   display: block;
   height: 35.3125rem;
   overflow-y: auto;
   width: 100%;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table tbody tr {
-  height: 2.875rem;
-  width: 100%;
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-body tr {
   display: table;
+  width: 100%;
+  height: 2.875rem;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table tbody tr:hover {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-body tr:hover {
   background: #EBEBEB;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table tbody tr.active td {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-body tr.active td {
   color: #0060A5;
   background: #EBEBEB;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table tbody tr td {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-body tr td {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
-  vertical-align: middle;
   max-width: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  vertical-align: middle;
+  padding-right: 0.625rem;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table tbody tr td:first-child {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-body tr td:first-child {
   padding-left: 1.25rem;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table tbody tr td a {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-body tr td a {
   color: #586872;
 }
 
-.itsm-container .contents-list-edit > .list-area .list table tbody tr td button {
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-body tr td button {
+  height: 1.875rem;
+  padding: 0 0.3125rem;
   margin: 0;
-  padding: 0 5px;
-  height: 30px;
 }
 
 .itsm-container .contents-list-edit > .edit-area {
@@ -2875,8 +2875,6 @@ button .icon-plus {
 
 .itsm-container .contents-list-edit > .edit-area .scroll-wrap {
   height: 43.125rem;
-  display: flex;
-  flex-direction: column;
   margin: 0 0 0.625rem 0;
 }
 
@@ -2887,16 +2885,14 @@ button .icon-plus {
 }
 
 .itsm-container .contents-list-edit > .edit-area .form-set {
-  display: flex;
-  flex-direction: column;
   margin-top: 0.6875rem;
 }
 
 .itsm-container .contents-list-edit > .edit-area .form-set .designed-options li {
+  height: 2.5rem;
   margin: 0;
   padding: 0.75rem 0;
   text-indent: 0.625rem;
-  height: 2.5rem;
 }
 
 .itsm-container .contents-list-edit > .edit-area .form-set .designed-options li:hover {
@@ -2916,21 +2912,19 @@ button .icon-plus {
   height: 13.5rem;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
-  overflow-y: auto;
   padding: 0.5rem 0.625rem;
+  overflow-y: auto;
 }
 
 .itsm-container .contents-list-edit > .edit-area .form-set .checkbox-list li {
+  height: 1.5rem;
   color: #586872;
   font-weight: 400;
-  height: 1.5rem;
 }
 
 .itsm-container .contents-document {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
 }
 
 .itsm-container .contents-document .header {
@@ -2939,79 +2933,70 @@ button .icon-plus {
   border-bottom: 0.0625rem solid #EBEBEB;
 }
 
-.itsm-container .contents-document .service-request {
+.itsm-container .contents-document .document-area {
   background-color: #ffffff;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  flex: auto;
 }
 
-.itsm-container .contents-document .service-request .card-area {
-  margin: 1.875rem auto 0 3.75rem;
-  display: flex;
+.itsm-container .contents-document .document-area .card-area {
   flex-wrap: wrap;
-  justify-content: flex-start;
-  align-content: flex-start;
+  margin: 1.875rem auto 0 3.75rem;
 }
 
-.itsm-container .contents-document .service-request .card-area .document-card-dummy {
+.itsm-container .contents-document .document-area .card-area .document-card-box {
   position: relative;
   min-width: 32.0625rem;
   height: 12.5rem;
-  margin-right: 1.25rem;
   margin-top: 1.25rem;
+  margin-right: 1.25rem;
   border: 0.0625rem solid #EBEBEB;
   border-radius: 0.0625rem;
   overflow: hidden;
   cursor: pointer;
 }
 
-.itsm-container .contents-document .service-request .card-area .document-card-dummy:first-child {
+.itsm-container .contents-document .document-area .card-area .document-card-box:first-child {
   margin-left: 0px;
 }
 
-.itsm-container .contents-document .service-request .card-area .document-card-dummy .document-card {
-  padding: 1.975rem;
+.itsm-container .contents-document .document-area .card-area .document-card-box .document-card {
+  position: absolute;
   width: 100%;
   height: 100%;
+  padding: 1.975rem;
   border: 0.0625rem solid white;
-  position: absolute;
 }
 
-.itsm-container .contents-document .service-request .card-area .document-card-dummy .document-card:hover {
+.itsm-container .contents-document .document-area .card-area .document-card-box .document-card:hover {
   border: 0.0625rem solid #EBEBEB;
 }
 
-.itsm-container .contents-document .service-request .card-area .document-card-dummy:hover {
+.itsm-container .contents-document .document-area .card-area .document-card-box:hover {
   box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.15);
 }
 
-.itsm-container .contents-document .service-request .card-area .document-card-dummy .document-icon {
-  overflow: hidden;
+.itsm-container .contents-document .document-area .card-area .document-card-box .document-icon {
   position: absolute;
   top: 3.75rem;
   left: 23.125rem;
+  overflow: hidden;
 }
 
-.itsm-container .contents-document .service-request .card-area .document-card-dummy h5 {
+.itsm-container .contents-document .document-area .card-area .document-card-box .card-desc {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
   margin-top: 0.3125rem;
 }
 
-.itsm-container .contents-document .service-request .card-area .no-data-found {
-  margin: 0;
+.itsm-container .contents-document .document-area .card-area .no-data-found {
   min-width: 98.75rem;
+  margin: 0;
 }
 
 .itsm-container .contents-tree-edit {
   height: 100vh;
   background: #F7F8F9;
-  display: flex;
-  flex-direction: column;
-  flex-direction: row;
 }
 
 .itsm-container .contents-tree-edit > .tree-area {
@@ -3028,77 +3013,74 @@ button .icon-plus {
   cursor: pointer;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table {
   width: 100%;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table thead {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-head {
   display: block;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table thead > tr {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-head > tr {
+  display: flex;
   height: 2.375rem;
   border-bottom: 0.125rem solid #E1E3E6;
-  display: flex;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table thead > tr th {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-head > tr th {
   color: #3F4B56;
   font-size: 1.125rem;
   font-weight: 500;
-  vertical-align: middle;
   text-align: left;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table thead > tr th:first-child {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-head > tr th:first-child {
   padding-left: 1.25rem;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table tbody {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-body {
   display: block;
   height: 35.3125rem;
   overflow-y: auto;
   width: 100%;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table tbody tr {
-  height: 2.875rem;
-  width: 100%;
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-body tr {
   display: table;
+  width: 100%;
+  height: 2.875rem;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table tbody tr:hover {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-body tr:hover {
   background: #EBEBEB;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table tbody tr.active td {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-body tr.active td {
   color: #0060A5;
   background: #EBEBEB;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table tbody tr td {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-body tr td {
   color: #586872;
   font-size: 1rem;
   font-weight: 400;
-  vertical-align: middle;
   max-width: 0;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
+  vertical-align: middle;
+  padding-right: 0.625rem;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table tbody tr td:first-child {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-body tr td:first-child {
   padding-left: 1.25rem;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table tbody tr td a {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-body tr td a {
   color: #586872;
 }
 
-.itsm-container .contents-tree-edit > .tree-area .list table tbody tr td button {
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-body tr td button {
+  height: 1.875rem;
+  padding: 0 0.3125rem;
   margin: 0;
-  padding: 0 5px;
-  height: 30px;
 }
 
 .itsm-container .contents-tree-edit > .tree-area .list {
@@ -3122,10 +3104,6 @@ button .icon-plus {
   flex: 1;
   overflow: auto;
   padding: 0 1.875rem 0 4.0625rem;
-}
-
-.itsm-container .contents-tree-edit > .edit-area .scroll-wrap .form-wrap .margin-top-50 {
-  margin-top: 3.125rem;
 }
 
 .itsm-container .contents-tree-edit > .edit-area .form-row {

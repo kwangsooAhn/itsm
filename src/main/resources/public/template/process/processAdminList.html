@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <table>
-        <thead>
+    <table class="list-table">
+        <thead class="list-head">
             <tr>
                 <th width="20%" th:text="#{process.label.name}"></th>
-                <th width="10%" th:text="#{process.label.simulation}"></th>
-                <th width="10%" th:text="#{common.label.update}"></th>
-                <th width="10%" th:text="#{process.label.state}"></th>
+                <th width="10%" th:text="#{process.label.simulation}" class="align-center"></th>
+                <th width="10%" th:text="#{common.label.update}" class="align-center"></th>
+                <th width="10%" th:text="#{process.label.state}" class="align-center"></th>
                 <th width="28%" th:text="#{process.label.description}"></th>
                 <th width="10%" th:text="#{common.label.writer}"></th>
                 <th width="12%" th:text="#{common.label.writeDate}"></th>
@@ -23,7 +23,7 @@
                 <td colspan="7" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr th:unless="${#arrays.isEmpty(processList)}" th:each="process: ${processList}">
-                <td width="20%" th:class="align-left">
+                <td width="20%">
                     <th:block th:if="${process.enabled == true}">
                         <a sec:authorize="!hasAuthority('process.update')" th:text="${process.name}"
                            th:attr="onclick=|openProcessView('${process.id}')|"></a>
@@ -34,12 +34,12 @@
                         <span th:text="${process.name}"></span>
                     </div>
                 </td>
-                <td width="10%">
+                <td width="10%" class="align-center">
                     <button type="button" class="default-fill list-popup" th:onclick="openProcessDesignerView([[${process.id}]])">
                         <span class="icon-search"></span>
                     </button>
                 </td>
-                <td width="10%">
+                <td width="10%" class="align-center">
                     <th:block th:if="${process.enabled == true}">
                         <button type="button" sec:authorize="hasAuthority('process.update')"
                                 th:onclick="openProcessDesignerEdit([[${process.id}]])">
@@ -47,7 +47,7 @@
                         </button>
                     </th:block>
                 </td>
-                <td width="10%" th:text="#{${process.status}}"></td>
+                <td width="10%" th:text="#{${process.status}}" class="align-center"></td>
                 <td width="28%" class="align-left" th:text="${process.description}"></td>
                 <td width="10%" th:text="${process.createUserName}"></td>
                 <td width="12%" th:name="createDt" th:text="${process.createDt}"></td>

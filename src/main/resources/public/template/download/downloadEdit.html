@@ -7,7 +7,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-edit scroll-wrap">
+    <div class="contents-edit flex-column scroll-wrap">
         <div class="header">
             <div class="page-title">
                 <h1 th:text="#{download.label.download}"></h1>
@@ -52,6 +52,7 @@
         window.onload = function() {
             document.getElementById('downloadTitle').focus();
             fileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download?.downloadId}]]}});
+            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
         };
 
         //Empty Check
