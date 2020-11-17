@@ -54,9 +54,15 @@
             }
         }
 
-        // 필수 값 체크
-        function emptyValidation() {
+        // 유효성 검증
+        function checkValidation() {
             if (isEmpty('process_name', 'process.msg.enterProcessName')) {
+                return false;
+            }
+
+            // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
+            if (document.getElementById('fileTemplate') === null) {
+                aliceJs.alertWarning(i18n.msg('process.msg.selectImportFile'));
                 return false;
             }
             return true;
@@ -65,7 +71,7 @@
          // 프로세스 등록/수정
         function saveProcess(processId) {
             // 빈 값 체크
-            if (emptyValidation()) {
+            if (checkValidation()) {
                 const processInfo = {
                     processName: document.getElementById('process_name').value,
                     processDesc: document.getElementById('process_description').value
@@ -246,9 +252,97 @@
             window.open('/processes/' + processId + '/view', 'process_' + processId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
+        function importProcess() {
+            if (checkValidation()) {
+                let fileList = fileUploader.getFile();
+                const processInfo = {
+                    processName: document.getElementById('process_name').value,
+                    processDesc: document.getElementById('process_description').value
+                };
+
+                workflowUtil.import(fileList, processInfo, 'process', function (result) {
+                    if (result) {
+                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                            location.reload();
+                        });
+                        return true;
+                    } else {
+                        aliceJs.alertDanger(i18n.msg('common.label.fail'));
+                        return false;
+                    }
+                });
+            }
+            return false;
+        }
+
+        // 프로세스 IMPORT 모달 내부 Template
+        function createImportModalContent() {
+            return `<div class="import-main flex-column">` +
+                       `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
+                       `<input type="text" id="process_name" id="process_name" maxlength="50">` +
+                       `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
+                       `<textarea rows="3" class="textarea-scroll-wrapper" id="process_description" maxlength="256"></textarea>` +
+                       `<div class="file-uploader-edit">` +
+                           `<label class="file-uploader-title field-label">${i18n.msg('process.label.importFile')}<span class="required"></span></label>` +
+                           `<div id="dropZoneFiles"></div>` +
+                           `<div id="dropZoneUploadedFiles"></div>` +
+                       `</div>` +
+                    `</div>`;
+        }
+
         // 프로세스 IMPORT 화면 오픈
         function openProcessImport() {
-            window.open('/processes/import', 'process_import', 'width=600, height=620');
+<!--            window.open('/processes/import', 'process_import', 'width=600, height=620');-->
+            const importModal = new modal({
+                title: i18n.msg('process.label.import'),
+                body: createImportModalContent(),
+                classes: 'form-import',
+                buttons: [
+                    {
+                        content: i18n.msg('common.btn.check'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            importProcess();
+                        }
+                    },{
+                        content: i18n.msg('common.btn.cancel'),
+                        classes: "default-line",
+                        bindKey: false,
+                        callback: function(modal) {
+                            modal.hide();
+                        }
+                    }
+                ],
+                close: {
+                    closable: false,
+                },
+                onCreate: function(modal) {
+                    // 파일 업로드 추가
+                    fileUploader.init({
+                        extra: {
+                            formId: 'importProcess',
+                            dropZoneMaxFiles: 1,
+                            acceptedFiles: '.xml',
+                            dropZoneUrl: '/fileupload?target=import',
+                            editor: true
+                        }
+                    });
+                    // 스크롤바 추가
+                    OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                    OverlayScrollbars(document.getElementById('process_description'), {
+                        className: 'inner-scrollbar',
+                        resize: 'vertical',
+                        sizeAutoCapable: true,
+                        textarea: {
+                            dynHeight: false,
+                            dynWidth: false,
+                            inheritedAttrs: "class"
+                        }
+                    });
+                }
+            });
+            importModal.show();
         }
 
         // REST API
