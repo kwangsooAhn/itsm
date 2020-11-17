@@ -1914,22 +1914,6 @@ button .icon-plus {
   right: 0.375rem;
 }
 
-.menu .os-menu-scrollbar-track {
-  background: rgba(40, 50, 56, 0.6);
-  border-radius: 0.5rem;
-  pointer-events: auto;
-  position: relative;
-  height: 100%;
-  width: 100%;
-  padding: 0 !important;
-  border: none !important;
-}
-
-.menu .os-menu-scrollbar-handle {
-  background: #3F4B56;
-  border-radius: 0.5rem;
-}
-
 .menu-area .gnb {
   padding: 0.9375rem 1.25rem 0.9375rem 1.25rem;
   vertical-align: middle;
@@ -3644,6 +3628,77 @@ button .icon-plus {
 }
 
 .inner-scrollbar > .os-scrollbar.os-scrollbar-unusable {
+  background: transparent;
+}
+
+.inner-scrollbar-dark > .os-scrollbar-horizontal {
+  right: 0.625rem;
+  height: 0.75rem;
+}
+
+.inner-scrollbar-dark > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
+  min-width: 1.875rem;
+}
+
+.inner-scrollbar-dark > .os-scrollbar-horizontal .os-scrollbar-handle:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  display: block;
+  top: -0.375rem;
+  bottom: -0.125rem;
+}
+
+.inner-scrollbar-dark > .os-scrollbar-vertical {
+  bottom: 0.625rem;
+  width: 0.25rem;
+}
+
+.inner-scrollbar-dark > .os-scrollbar-vertical > .os-scrollbar-track > .os-scrollbar-handle {
+  min-height: 1.875rem;
+}
+
+.inner-scrollbar-dark > .os-scrollbar-vertical .os-scrollbar-handle:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  display: block;
+  left: -0.375rem;
+  right: -0.125rem;
+}
+
+.inner-scrollbar-dark > .os-scrollbar-corner {
+  width: 0.625rem;
+  height: 0.625rem;
+  background-color: transparent;
+}
+
+.inner-scrollbar-dark > .os-scrollbar {
+  box-sizing: border-box;
+  background: transparent;
+}
+
+.inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track {
+  background: #283238;
+  border-radius: 0.5rem;
+}
+
+.inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle {
+  border-radius: 0.5rem;
+  background: #3F4B56;
+}
+
+.inner-scrollbar-dark > .os-scrollbar > .os-scrollbar-track > .os-scrollbar-handle.active {
+  background: #586872;
+}
+
+.inner-scrollbar-dark > .os-scrollbar:hover > .os-scrollbar-track > .os-scrollbar-handle {
+  background: #586872;
+}
+
+.inner-scrollbar-dark > .os-scrollbar.os-scrollbar-unusable {
   background: transparent;
 }
 
