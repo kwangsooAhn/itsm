@@ -1261,7 +1261,7 @@ label {
  * 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
  */
 .tagify {
-  height: 3.375rem;
+  min-height: 3.375rem;
   padding-left: 0.3125rem;
 }
 
@@ -1357,6 +1357,15 @@ label {
 
 .tagify .tagify--notAllowed:not(.tagify__tag--editable) .tagify__tag__removeBtn {
   color: rgba(255, 64, 90, 0.7) !important;
+  pointer-events: none;
+}
+
+.tagify .tagify--notAllowed:not(.tagify__tag--editable):hover {
+  border: 0.0625rem solid #FFEBEE;
+}
+
+.tagify .tagify--notAllowed:not(.tagify__tag--editable):hover .tagify__tag__removeBtn {
+  background-color: transparent;
 }
 
 .tagify .tagify__input {

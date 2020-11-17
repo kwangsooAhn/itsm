@@ -42,5 +42,6 @@ $tag-hover-btn-remove-bg-color:              $point-blue;
 // 빨간색 Tag 디자인은 중복된 태그 단어 입력 시 중복 입력은 불가능한 
 // 느낌을 주기 위해 빨간색 Tag 디자인을 하였습니다. 중복된 Tag는 일정
 // 시간만 보여준 후 사라집니다.
+$tag-invalid-border:                         0.0625rem solid #FFEBEE; // 1px
 $tag-invalid-color:                          rgba(255, 64, 90, 0.7); // $red , 불투명도 70
 $tag-invalid-bg-color:                       rgba(255, 64, 90, 0.1); // $red , 불투명도 10

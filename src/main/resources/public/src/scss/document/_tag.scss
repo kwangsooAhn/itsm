@@ -3,7 +3,7 @@
  * 라이브러리인 /vendor/tagify/tagify.css 를 재정의하여 디자인함
  */
 .tagify {
-  height: 3.375rem; // 54px
+  min-height: 3.375rem; // 54px
   padding-left: 0.3125rem; // 5px
   // 태그
   tag {
@@ -86,6 +86,14 @@
     // 삭제 버튼
     .tagify__tag__removeBtn {
       color: $tag-invalid-color !important;
+      pointer-events: none;
+    }
+    &:hover {
+      border: $tag-invalid-border;
+
+      .tagify__tag__removeBtn {
+        background-color: transparent;
+      }
     }
   }
 
