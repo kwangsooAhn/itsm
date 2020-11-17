@@ -1201,15 +1201,17 @@ button.point-fill:hover .icon {
   background: #ffffff;
 }
 
-.btn.point-fill:not(:disabled):active,
-button.point-fill:not(:disabled):active {
+.btn.point-fill:not(:disabled):active, .btn.point-fill:not(:disabled).active,
+button.point-fill:not(:disabled):active,
+button.point-fill:not(:disabled).active {
   color: #ffffff;
   background-color: #0088E6;
   border-color: transparent;
 }
 
-.btn.point-fill:not(:disabled):active .icon,
-button.point-fill:not(:disabled):active .icon {
+.btn.point-fill:not(:disabled):active .icon, .btn.point-fill:not(:disabled).active .icon,
+button.point-fill:not(:disabled):active .icon,
+button.point-fill:not(:disabled).active .icon {
   background: #ffffff;
 }
 
@@ -1254,16 +1256,18 @@ button.point-line:hover .icon {
   background: #0098FF;
 }
 
-.btn.point-line:not(:disabled):active,
-button.point-line:not(:disabled):active {
+.btn.point-line:not(:disabled):active, .btn.point-line:not(:disabled).active,
+button.point-line:not(:disabled):active,
+button.point-line:not(:disabled).active {
   color: #ffffff;
   background-color: #33ADFF;
   border-color: #0098FF;
   opacity: 0.3;
 }
 
-.btn.point-line:not(:disabled):active .icon,
-button.point-line:not(:disabled):active .icon {
+.btn.point-line:not(:disabled):active .icon, .btn.point-line:not(:disabled).active .icon,
+button.point-line:not(:disabled):active .icon,
+button.point-line:not(:disabled).active .icon {
   background: #ffffff;
 }
 
@@ -1308,15 +1312,17 @@ button.default-fill:hover .icon {
   background: #3F4B56;
 }
 
-.btn.default-fill:not(:disabled):active,
-button.default-fill:not(:disabled):active {
+.btn.default-fill:not(:disabled):active, .btn.default-fill:not(:disabled).active,
+button.default-fill:not(:disabled):active,
+button.default-fill:not(:disabled).active {
   color: #3F4B56;
   background-color: #CCCED1;
   border-color: transparent;
 }
 
-.btn.default-fill:not(:disabled):active .icon,
-button.default-fill:not(:disabled):active .icon {
+.btn.default-fill:not(:disabled):active .icon, .btn.default-fill:not(:disabled).active .icon,
+button.default-fill:not(:disabled):active .icon,
+button.default-fill:not(:disabled).active .icon {
   background: #3F4B56;
 }
 
@@ -1361,15 +1367,17 @@ button.default-line:hover .icon {
   background: #3F4B56;
 }
 
-.btn.default-line:not(:disabled):active,
-button.default-line:not(:disabled):active {
+.btn.default-line:not(:disabled):active, .btn.default-line:not(:disabled).active,
+button.default-line:not(:disabled):active,
+button.default-line:not(:disabled).active {
   color: #3F4B56;
   background-color: #EBEBEB;
   border-color: #CCCED1;
 }
 
-.btn.default-line:not(:disabled):active .icon,
-button.default-line:not(:disabled):active .icon {
+.btn.default-line:not(:disabled):active .icon, .btn.default-line:not(:disabled).active .icon,
+button.default-line:not(:disabled):active .icon,
+button.default-line:not(:disabled).active .icon {
   background: #3F4B56;
 }
 
@@ -1414,15 +1422,17 @@ button.ghost-fill:hover .icon {
   background: #3F4B56;
 }
 
-.btn.ghost-fill:not(:disabled):active,
-button.ghost-fill:not(:disabled):active {
+.btn.ghost-fill:not(:disabled):active, .btn.ghost-fill:not(:disabled).active,
+button.ghost-fill:not(:disabled):active,
+button.ghost-fill:not(:disabled).active {
   color: #3F4B56;
   background-color: #EBEBEB;
   border-color: transparent;
 }
 
-.btn.ghost-fill:not(:disabled):active .icon,
-button.ghost-fill:not(:disabled):active .icon {
+.btn.ghost-fill:not(:disabled):active .icon, .btn.ghost-fill:not(:disabled).active .icon,
+button.ghost-fill:not(:disabled):active .icon,
+button.ghost-fill:not(:disabled).active .icon {
   background: #3F4B56;
 }
 
@@ -1467,15 +1477,17 @@ button.ghost-line:hover .icon {
   background: #3F4B56;
 }
 
-.btn.ghost-line:not(:disabled):active,
-button.ghost-line:not(:disabled):active {
+.btn.ghost-line:not(:disabled):active, .btn.ghost-line:not(:disabled).active,
+button.ghost-line:not(:disabled):active,
+button.ghost-line:not(:disabled).active {
   color: #0098FF;
   background-color: #ffffff;
   border-color: #0098FF;
 }
 
-.btn.ghost-line:not(:disabled):active .icon,
-button.ghost-line:not(:disabled):active .icon {
+.btn.ghost-line:not(:disabled):active .icon, .btn.ghost-line:not(:disabled).active .icon,
+button.ghost-line:not(:disabled):active .icon,
+button.ghost-line:not(:disabled).active .icon {
   background: #0098FF;
 }
 

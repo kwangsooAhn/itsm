@@ -177,7 +177,8 @@ button {
       }
 
       &:not(:disabled) {
-        &:active { // pressed
+        &:active,
+        &.active { // pressed
           color: map-get($btn-pressed-font-colors, #{$theme});
           background-color: map-get($btn-pressed-bg-colors, #{$theme});
           border-color: map-get($btn-pressed-border-colors, #{$theme});
