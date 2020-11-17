@@ -1266,65 +1266,97 @@ label {
 }
 
 .tagify tag {
+  border: 0.0625rem solid #E5F5FF;
   margin: 0.625rem 0 0.625rem 0.3125rem;
 }
 
-.tagify tag div {
-  color: #0098FF;
+.tagify tag > div {
+  color: rgba(0, 152, 255, 0.7);
   border-radius: 0.0625rem;
   padding: 0.375rem 0.5rem;
 }
 
-.tagify tag div::before {
+.tagify tag > div::before {
+  animation: none;
   box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset;
 }
 
-.tagify tag div span {
+.tagify tag > div span {
   height: 1.25rem;
 }
 
-.tagify tag div:hover::before {
+.tagify tag > div:hover::before {
   color: #0098FF;
   box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset !important;
 }
 
-.tagify tag:hover div::before {
-  color: #0098FF;
-  box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset !important;
-}
-
-.tagify .tagify__tag__removeBtn {
+.tagify tag .tagify__tag__removeBtn {
+  width: 1.125rem;
+  height: 1.125rem;
+  font-family: "Noto Sans KR", "맑은고딕", "Malgun Gothic", dotum, gulim, sans-serif;
+  font-size: 1rem;
   font-weight: 700;
   color: #33ADFF;
+  margin-left: 0;
 }
 
-.tagify .tagify__tag__removeBtn:hover {
+.tagify tag .tagify__tag__removeBtn:after {
+  height: 1.125rem;
+  line-height: 0.875rem;
+}
+
+.tagify tag .tagify__tag__removeBtn:hover {
   color: #ffffff;
-  background-color: #FF405A;
+  background-color: #0098FF;
 }
 
-.tagify .tagify__tag__removeBtn:hover + div {
-  color: #FF405A;
+.tagify tag .tagify__tag__removeBtn:hover + div {
+  color: #0098FF;
 }
 
-.tagify .tagify__tag__removeBtn:hover + div::before {
+.tagify tag .tagify__tag__removeBtn:hover + div::before {
+  box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset !important;
+}
+
+.tagify tag .tagify__tag__removeBtn:hover + div span {
+  opacity: 1;
+}
+
+.tagify tag:hover {
+  border: 0.0625rem solid #0098FF;
+}
+
+.tagify tag:hover > div {
+  color: #0098FF;
+}
+
+.tagify tag:hover > div::before {
+  box-shadow: 0 0 0 1.25rem rgba(0, 152, 255, 0.1) inset !important;
+}
+
+.tagify tag:hover > div span {
+  opacity: 1;
+}
+
+.tagify tag:hover .tagify__tag__removeBtn {
+  color: #ffffff;
+  background-color: #0098FF;
+}
+
+.tagify .tagify--notAllowed:not(.tagify__tag--editable) > div {
+  color: rgba(255, 64, 90, 0.7) !important;
+}
+
+.tagify .tagify--notAllowed:not(.tagify__tag--editable) > div::before {
   box-shadow: 0 0 0 1.25rem rgba(255, 64, 90, 0.1) inset !important;
+}
+
+.tagify .tagify--notAllowed:not(.tagify__tag--editable) > div span {
+  opacity: 1;
 }
 
 .tagify .tagify--notAllowed:not(.tagify__tag--editable) .tagify__tag__removeBtn {
-  color: #FF405A !important;
-}
-
-.tagify .tagify--notAllowed:not(.tagify__tag--editable) div {
-  color: #FF405A !important;
-}
-
-.tagify .tagify--notAllowed:not(.tagify__tag--editable) div::before {
-  box-shadow: 0 0 0 1.25rem rgba(255, 64, 90, 0.1) inset !important;
-}
-
-.tagify .tagify--notAllowed:not(.tagify__tag--editable) div span {
-  opacity: 1;
+  color: rgba(255, 64, 90, 0.7) !important;
 }
 
 .tagify .tagify__input {
