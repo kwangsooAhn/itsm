@@ -219,6 +219,79 @@
     background: transparent;
   }
 }
+// 내부 scrollbar dark 테마
+.inner-scrollbar-dark {
+  >.os-scrollbar-horizontal {
+    right: 0.625rem; // 10px
+    height: 0.75rem; // 12px
+    >.os-scrollbar-track {
+      >.os-scrollbar-handle {
+        min-width: 1.875rem; // 30px
+      }
+    }
+    .os-scrollbar-handle {
+      &:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        display: block;
+        top: -0.375rem; // -6px
+        bottom: -0.125rem; // -2px
+      }
+    }
+  }
+  >.os-scrollbar-vertical {
+    bottom: 0.625rem; // 10px
+    width: $scrollbar-thick-sm;
+    >.os-scrollbar-track {
+      >.os-scrollbar-handle {
+        min-height: 1.875rem; // 30px
+      }
+    }
+    .os-scrollbar-handle {
+      &:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        display: block;
+        left: -0.375rem; // -6px
+        right: -0.125rem; // -2px
+      }
+    }
+  }
+  >.os-scrollbar-corner {
+    width: 0.625rem; // 10px
+    height: 0.625rem; // 10px
+    background-color: transparent;
+  }
+  >.os-scrollbar {
+    box-sizing: border-box;
+    background: transparent;
+    >.os-scrollbar-track { // scrollbar 배경
+      background: $scrollbar-dark-bg-color;
+      border-radius: $scrollbar-border-radius; // scrollbar 배경 모서리 곡선
+      >.os-scrollbar-handle {
+        border-radius: $scrollbar-border-radius;
+        background: $scrollbar-dark-color;
+      }
+      >.os-scrollbar-handle.active { // scrollbar 클릭 이동 시
+        background: $scrollbar-dark-hover-color;
+      }
+    }
+    &:hover {
+      >.os-scrollbar-track {
+        >.os-scrollbar-handle { // scrollbar 마우스 오버
+          background: $scrollbar-dark-hover-color;
+        }
+      }
+    }
+  }
+  >.os-scrollbar.os-scrollbar-unusable {
+    background: transparent;
+  }
+}
 .scrollbar.os-host-rtl {
   >.os-scrollbar-horizontal {
     left: 0.625rem; // 10px
@@ -289,3 +362,4 @@
     }
   }
 }
+
