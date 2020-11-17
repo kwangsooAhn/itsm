@@ -3928,7 +3928,7 @@ button.ghost-line:disabled .icon {
   overflow: hidden;
 }
 
-.error-background .error-img {
+.error-background .logo {
   position: relative;
   top: -59.1875rem;
   margin: 5rem 0 0 5rem;
@@ -3966,7 +3966,7 @@ button.ghost-line:disabled .icon {
   overflow: hidden;
 }
 
-.session-background .session-img {
+.session-background .logo {
   position: relative;
   top: -59.1875rem;
   margin: 5rem 0 0 5rem;

@@ -14,7 +14,7 @@
     <form id="frm" name="frm">
         <div class="form-container">
             <div class="form-header">
-                <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="152" height="26" alt="Zenius ITSM" />
+                <img class="logo"  th:src="@{/assets/media/icons/icon_logo_white.svg}" width="152" height="26" alt="Zenius ITSM" />
                 <span class="name" th:text="#{form.label.title}"></span>
                 <span class="separator"></span>
                 <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
