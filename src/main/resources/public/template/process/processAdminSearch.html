@@ -54,13 +54,165 @@
             }
         }
 
-        // 프로세스 신규 추가 화면 오픈
-        function openProcessEdit(processId) {
-            if (processId !== undefined) {
-                window.open('/processes-admin/' + processId + '/edit', 'process_edit', 'width=550, height=360');
+        // 필수 값 체크
+        function emptyValidation() {
+            if (isEmpty('process_name', 'process.msg.enterProcessName')) {
+                return false;
+            }
+            return true;
+        }
+
+         // 프로세스 등록/수정
+        function saveProcess(processId) {
+            // 빈 값 체크
+            if (emptyValidation()) {
+                const processInfo = {
+                    processName: document.getElementById('process_name').value,
+                    processDesc: document.getElementById('process_description').value
+                };
+                if (processId === undefined) {
+                    // 등록
+                    restSubmit('POST', '/rest/processes-admin', processInfo);
+                } else {
+                    // 수정
+                    processInfo.processId = processId;
+                    processInfo.processStatus = document.getElementById('process_status').value;
+                    restSubmit('PUT', '/rest/processes-admin/' + processId, processInfo);
+                }
+            }
+        }
+
+        // 프로세스 삭제
+        function deleteProcess(processId) {
+            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/processes/' + processId, function() {
+                aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
+                    window.close();
+                });
+            });
+        }
+
+        // 프로세스 등록 / 수정 모달 내부 Tempalte
+        function createModalContent(data) {
+            return `<div class="flex-column">` +
+                       `<input type="hidden" id="process_status" value="${data !== undefined ? data.status : ''}" />` +
+                       `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
+                       `<input type="text" id="process_name" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
+                       `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
+                       `<textarea rows="3" class="textarea-scroll-wrapper" id="process_description" maxlength="256" ${data !== undefined && data.isView ? 'readonly' : ''}>${data !== undefined ? data.description : ''}</textarea>` +
+                    `</div>`;
+        }
+
+        // 프로세스 수정 / 보기 모달 오픈
+        function openProcessEdit(processId, isView) {
+            if (processId !== undefined) { // 수정
+                aliceJs.sendXhr({
+                    method: 'GET',
+                    url: '/rest/processes-admin/' + processId + '/data',
+                    callbackFunc: function(xhr) {
+                        let responseObject = JSON.parse(xhr.responseText);
+                        responseObject.isView = isView;
+
+                        let options = {
+                            title: isView ? i18n.msg('process.label.detail') : i18n.msg('process.label.edit') ,
+                            body: createModalContent(responseObject),
+                            classes: 'form-edit',
+                            buttons: [],
+                            close: {
+                                closable: false,
+                            },
+                            onCreate: function(modal) {
+                                // 스크롤바 추가
+                                OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
+                                OverlayScrollbars(document.getElementById('process_description'), {
+                                    className: 'inner-scrollbar',
+                                    resize: 'vertical',
+                                    sizeAutoCapable: true,
+                                    textarea: {
+                                        dynHeight: false,
+                                        dynWidth: false,
+                                        inheritedAttrs: "class"
+                                    }
+                                });
+                            }
+                        };
+
+                        // 버튼 설정
+                        if (responseObject.enabled && !isView) {
+                            // 내보내기 버튼
+                            options.buttons.push({
+                                content: i18n.msg('process.btn.export'),
+                                classes: "point-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    workflowUtil.export(responseObject.id, 'process');
+                                }
+                            });
+                            // 수정
+                            options.buttons.push({
+                                content: i18n.msg('common.btn.modify'),
+                                classes: "point-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    saveProcess(responseObject.id);
+                                }
+                            });
+                            // 삭제
+                            options.buttons.push({
+                                content: i18n.msg('common.btn.delete'),
+                                classes: "default-fill",
+                                bindKey: false,
+                                callback: function(modal) {
+                                    deleteProcess(responseObject.id);
+                                }
+                            });
+                        }
+                        // 닫기
+                        options.buttons.push({
+                            content: i18n.msg('common.btn.close'),
+                            classes: "default-line",
+                            bindKey: false,
+                            callback: function(modal) {
+                                modal.hide();
+                            }
+                        });
+
+                        // 모달 호출
+                        const processModal = new modal(options);
+                        processModal.show();
+                    },
+                    contentType: 'application/json; charset=utf-8'
+                });
             } else {
+                //// 프로세스 신규 추가 화면 오픈
                 window.open('/processes-admin/new', 'process_new', 'width=550, height=360');
             }
+        }
+
+        // REST API
+        function restSubmit(method, url, data) {
+            const opt = {
+                method: method,
+                url: url,
+                params: JSON.stringify(data),
+                contentType: 'application/json',
+                callbackFunc: function(response) {
+                    if (method === 'POST') {
+                        const _width = 1800,
+                              _height = 920;
+                        // 중앙 배치
+                        const _left = Math.ceil((window.screen.width - _width) / 2);
+                        const _top = Math.ceil((window.screen.height - _height) / 4);
+
+                        let processId = response.responseText;
+                        sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
+                        let specs = 'left=' + _left + ',top=' + _top;
+                        specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+                        window.open('/processes/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                    }
+                    location.reload();
+                }
+            };
+            aliceJs.sendXhr(opt);
         }
 
         // 프로세스 상세 화면 오픈
