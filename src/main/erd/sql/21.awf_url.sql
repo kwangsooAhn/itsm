@@ -64,7 +64,7 @@ insert into awf_url values ('/downloads/new', 'get', '자료실 신규 등록', 
 insert into awf_url values ('/downloads/search', 'get', '자료실 리스트 호출 화면', 'TRUE');
 insert into awf_url values ('/downloads/{id}/edit', 'get', '자료실 편집', 'TRUE');
 insert into awf_url values ('/downloads/{id}/view', 'get', '자료실 상세 조회 화면', 'TRUE');
-insert into awf_url values ('/faqs/list', 'get', 'FAQ 목록 조회', 'TRUE');
+insert into awf_url values ('/faqs', 'get', 'FAQ 목록 조회', 'TRUE');
 insert into awf_url values ('/faqs/new', 'get', 'FAQ 등록', 'TRUE');
 insert into awf_url values ('/faqs/search', 'get', 'FAQ 검색 화면 호출', 'TRUE');
 insert into awf_url values ('/faqs/{id}/edit', 'get', 'FAQ 수정', 'TRUE');
@@ -77,7 +77,7 @@ insert into awf_url values ('/forms/imageUpload/{id}/view', 'get', '이미지 �
 insert into awf_url values ('/forms-admin/list', 'get', '폼 리스트 화면', 'TRUE');
 insert into awf_url values ('/forms-admin/search', 'get', '폼 리스트 검색 호출 화면', 'TRUE');
 insert into awf_url values ('/images', 'get', '이미지 관리 화면', 'TRUE');
-insert into awf_url values ('/notices/list', 'get', '공지사항 목록', 'TRUE');
+insert into awf_url values ('/notices', 'get', '공지사항 목록', 'TRUE');
 insert into awf_url values ('/notices/new', 'get', '공지사항 신규 등록 화면', 'TRUE');
 insert into awf_url values ('/notices/search', 'get', '공지사항 검색 화면 호출 처리', 'TRUE');
 insert into awf_url values ('/notices/{id}/edit', 'get', '공지사항 편집 화면', 'TRUE');
@@ -222,7 +222,7 @@ insert into awf_url values ('/rest/users/{userkey}/resetPassword', 'put', '사�
 insert into awf_url values ('/rest/wf/instances/{id}/history', 'get', 'test', 'FALSE');
 insert into awf_url values ('/rest/wf/instances/{id}/latest', 'get', '마지막 토큰 정보 조회', 'FALSE');
 insert into awf_url values ('/roles/edit', 'get', '역할 설정 뷰 호출', 'TRUE');
-insert into awf_url values ('/roles/list', 'get', '역할 관리 목록 뷰 호출', 'TRUE');
+insert into awf_url values ('/roles', 'get', '역할 관리 목록 뷰 호출', 'TRUE');
 insert into awf_url values ('/tokens/list', 'get', '처리할 문서 리스트 조회', 'FALSE');
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
 insert into awf_url values ('/tokens/view-pop/list', 'get', '관련문서 리스트', 'TRUE');
