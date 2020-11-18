@@ -176,6 +176,7 @@ $layout-view-content-font-weight:            $font-weight-regular;
 $layout-view-content-font-color:             $dark-gray;
 
 //////////////////////////////// scrollbar ////////////////////////////////
+// 기본 스크롤바
 // scrollbar 두께
 $scrollbar-thick:                            0.5rem; // 8px
 // element 내부 scrollbar 두께
@@ -188,6 +189,10 @@ $scrollbar-border-radius:                     0.5rem; // 8px
 $scrollbar-bg-color:                         rgba(235,235,235, 0.6);
 // scrollbar hover, click 이동시 색상
 $scrollbar-hover-color:                      $pressed-gray;
+// dark 테마 스크롤바 (메뉴 사용)
+$scrollbar-dark-color:                       $light-black;
+$scrollbar-dark-bg-color:                    $focus-black;
+$scrollbar-dark-hover-color:                 $dark-gray;
 
 ///////////////////////////////// columns /////////////////////////////////
 // Column width (fixed)
