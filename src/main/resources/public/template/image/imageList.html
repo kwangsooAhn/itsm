@@ -53,7 +53,13 @@
                     }
                 }],
                 close: { closable: false },
-                onHide: function(modal) {}
+                onHide: function(modal) {
+                    // 기존 선택된 클래스를 제거
+                    const selectedThumbnails = document.querySelectorAll('.thumbnail.selected');
+                    for (let i = 0, len = selectedThumbnails.length; i < len; i++) {
+                        selectedThumbnails[i].classList.remove('selected');
+                    }
+                }
             });
         }
 
@@ -200,7 +206,8 @@
         }
         // 이미지 미리보기
         function imagePreview(thumbnail) {
-            console.log(previewModal);
+            thumbnail.classList.add('selected');
+
             // 이미지 파일명 제목 표시
             const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
             if (previewModalHeader !== null) {
