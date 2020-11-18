@@ -5188,13 +5188,45 @@ body.modal-active {
 }
 
 .modal-dialog.token-list .modal-content {
-  height: calc(46.875rem - 3.375rem - 5rem);
+  height: calc(46.875rem - 3.375rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 
-.modal-dialog.token-list .modal-content .field-label {
+.modal-dialog.token-list .modal-content .related-instance-list {
+  margin-top: 0.9375rem;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set {
+  margin-top: 2.188rem;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table {
+  width: 100%;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-head tr {
+  color: #3F4B56;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body {
+  display: block;
+  width: 60rem;
+  height: 33.125rem;
+  color: #586872;
+  overflow-y: auto;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body .instance-list {
+  display: table;
+  width: 100%;
+  height: 3.125rem;
+  line-height: 3.125rem;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body .instance-list > td {
   display: inline-block;
-  margin: 1rem 0 0.5rem 0;
+  vertical-align: middle;
 }
 
 /* _thumbnail.scss 
