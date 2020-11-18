@@ -61,7 +61,7 @@
             }
 
             // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
-            if (document.getElementById('fileTemplate') === null) {
+            if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
                 aliceJs.alertWarning(i18n.msg('process.msg.selectImportFile'));
                 return false;
             }
