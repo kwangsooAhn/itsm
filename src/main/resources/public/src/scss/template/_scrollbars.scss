@@ -9,7 +9,7 @@
 .scrollbar {
   >.os-scrollbar-horizontal {
     right: 0.625rem; // 10px
-    height: 0.75rem; // 12px
+    height: $scrollbar-thick;
     >.os-scrollbar-track {
       >.os-scrollbar-handle {
         min-width: 1.875rem; // 30px
@@ -150,7 +150,7 @@
 .inner-scrollbar {
   >.os-scrollbar-horizontal {
     right: 0.625rem; // 10px
-    height: 0.75rem; // 12px
+    height: $scrollbar-thick-sm;
     >.os-scrollbar-track {
       >.os-scrollbar-handle {
         min-width: 1.875rem; // 30px
@@ -223,7 +223,7 @@
 .inner-scrollbar-dark {
   >.os-scrollbar-horizontal {
     right: 0.625rem; // 10px
-    height: 0.75rem; // 12px
+    height: $scrollbar-thick-sm;
     >.os-scrollbar-track {
       >.os-scrollbar-handle {
         min-width: 1.875rem; // 30px

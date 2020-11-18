@@ -53,6 +53,7 @@
       }
     }
   }
+
   // 업무 흐름 등록 / 수정 모달
   &.document-edit {
     width: $document-edit-modal-width;
@@ -101,6 +102,43 @@
             &:hover,
             &:active {
               z-index: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // 업무 흐름 신청서 양식 편집 모달
+  &.document-display {
+    width: $document-display-modal-width;
+    height: $document-display-modal-height;
+
+    .modal-content {
+      height: calc(#{$document-display-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 1.25rem; // 20px
+      overflow: hidden;
+
+      .document-display-content {
+        width: calc(#{$document-display-modal-width} - 2.5rem); // 너비에서 여백만큼 빼준다.
+        height: calc(#{$document-display-modal-height} - #{$modal-header-height} - #{$modal-bottom-height} - 2.5rem); // 높이에서 여백만큼 빼준다.
+        padding: 0 1.25rem; // 0 20px
+        overflow-y: auto;
+
+        table {
+          tr {
+            th, td {
+              font-weight: 400;
+              font-size: 1rem; // 16px
+              padding: 0 1.5rem 0.625rem 0; // 0 24px 10px 0
+            }
+            th {
+              &.column-title {
+                vertical-align: bottom;
+                padding-bottom: 0.625rem; // 10px
+              }
+              width: 6.25rem; // 100px
+              min-width: 6.25rem; // 100px
             }
           }
         }

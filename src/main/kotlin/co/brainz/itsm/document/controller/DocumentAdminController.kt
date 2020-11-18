@@ -22,7 +22,6 @@ class DocumentAdminController(
     private val documentAdminSearchPage: String = "document/documentAdminSearch"
     private val documentAdminListPage: String = "document/documentAdminList"
     private val documentEditPage: String = "document/documentEdit"
-    private val documentDisplayPage: String = "document/documentDisplay"
 
     /**
      * 업무흐름 리스트 호출 화면.
@@ -86,18 +85,5 @@ class DocumentAdminController(
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
         return documentEditPage
-    }
-
-    /**
-     * 업무흐름 양식 편집 화면
-     *
-     * @param documentId
-     * @param model
-     * @return String
-     * */
-    @GetMapping("{documentId}/display")
-    fun getDocumentDisplay(@PathVariable documentId: String, model: Model): String {
-        model.addAttribute("documentId", documentId)
-        return documentDisplayPage
     }
 }
