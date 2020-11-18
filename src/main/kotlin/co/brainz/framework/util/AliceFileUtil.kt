@@ -24,7 +24,7 @@ open class AliceFileUtil(
     @Value("\${file.upload.dir}")
     lateinit var basePath: String
 
-    private val thumbnailImageWidth = 300
+    private val thumbnailImageWidth = 700
     private val thumbnailIconWidth = 100
 
     /**

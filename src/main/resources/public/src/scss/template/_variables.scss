@@ -395,6 +395,10 @@ $thumbnail-selected-border-color:            $point-blue;
 $thumbnail-selected-border:                  $thumbnail-selected-border-width solid $thumbnail-selected-border-color;
 $thumbnail-selected-bg-color:                rgba(0, 152, 255, 0.05);
 
+// 썸네일 미리보기
+$thumbnail-preview-modal-width:              760px; // 760px
+$thumbnail-preview-modal-height:             645px; // 645px
+
 /////////////////////////////// tooltip ///////////////////////////////
 $tooltip-help-size:                          1rem; // 16px
 $tooltip-help-margin:                        0.3125rem; // 5px
