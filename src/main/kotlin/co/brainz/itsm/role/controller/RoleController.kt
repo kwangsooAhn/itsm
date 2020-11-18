@@ -17,9 +17,9 @@ class RoleController(private val roleService: RoleService) {
     private val roleListPage: String = "role/roleList"
 
     /**
-     * 역할  설정 뷰를 호출한다.
+     * 역할 설정 뷰를 호출한다.
      */
-    @GetMapping("/edit", "")
+    @GetMapping("/edit")
     fun getRoleList(request: HttpServletRequest, model: Model): String {
 
         val roleAllList = roleService.selectRoleList()
@@ -33,7 +33,7 @@ class RoleController(private val roleService: RoleService) {
     /**
      * 역할 설정 검색 결과 리스트 화면 호출 처리.
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getRoleList(search: String, model: Model): String {
         model.addAttribute("roleList", roleService.getRoleSearchList(search))
 

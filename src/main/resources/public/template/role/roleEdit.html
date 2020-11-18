@@ -324,7 +324,7 @@
             const urlParam = 'search=' + data.search;
             const opt = {
                 method: 'get',
-                url: '/roles/list?' + urlParam,
+                url: '/roles?' + urlParam,
                 showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     document.getElementById('roleList').innerHTML = response.responseText;

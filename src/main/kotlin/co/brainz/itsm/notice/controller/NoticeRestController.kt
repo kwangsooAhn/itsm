@@ -40,14 +40,8 @@ class NoticeRestController(private val noticeService: NoticeService) {
         noticeService.delete(noticeId)
     }
 
-    // 공지사항 세부 조회
-    @GetMapping("/{noticeId}")
-    fun getNotice(@PathVariable noticeId: String): NoticeDto {
-        return noticeService.findNoticeByNoticeNo(noticeId)
-    }
-
     // 공지사항 리스트 데이터 조회
-    @GetMapping("/", "")
+    @GetMapping("")
     fun getNoticeList(noticeSearchDto: NoticeSearchDto): MutableList<NoticeListDto> {
         val searchValue = noticeSearchDto.searchValue
         val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)

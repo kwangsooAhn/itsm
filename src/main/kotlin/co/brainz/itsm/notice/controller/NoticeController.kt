@@ -34,7 +34,7 @@ class NoticeController(private val noticeService: NoticeService) {
     /**
      * 공지사항 검색 결과 리스트 화면 호출 처리
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getNoticeList(noticeSearchDto: NoticeSearchDto, model: Model): String {
         val searchValue = noticeSearchDto.searchValue
         val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
