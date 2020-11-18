@@ -88,6 +88,7 @@
         .date-prev {
           display: table-cell;
           cursor: pointer;
+          @include maskImage('#{$icon-folder-path}icon_arrow_left.svg', 0.625rem, 1.563rem, no-repeat, center, null, $dark-gray); // 너비 10px 높이 25px 아이콘 크기 10px 6px
         }
 
         .date-text {
