@@ -119,7 +119,7 @@
                         let options = {
                             title: isView ? i18n.msg('form.label.detail') : i18n.msg('form.label.edit') ,
                             body: createModalContent(responseObject),
-                            classes: 'modal-edit',
+                            classes: 'form-edit',
                             buttons: [],
                             close: {
                                 closable: false,
@@ -194,7 +194,7 @@
             const formModal = new modal({
                 title: i18n.msg('form.label.register'),
                 body: createModalContent(),
-                classes: 'modal-edit',
+                classes: 'form-edit',
                 buttons: [{
                     content: i18n.msg('common.btn.register'),
                     classes: "point-fill",
@@ -342,7 +342,7 @@
             const importModal = new modal({
                 title: i18n.msg('form.label.import'),
                 body: createImportModalContent(),
-                classes: 'modal-import',
+                classes: 'form-import',
                 buttons: [
                     {
                         content: i18n.msg('common.btn.check'),
