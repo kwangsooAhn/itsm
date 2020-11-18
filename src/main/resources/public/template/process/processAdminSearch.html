@@ -121,7 +121,7 @@
                         let options = {
                             title: isView ? i18n.msg('process.label.detail') : i18n.msg('process.label.edit') ,
                             body: createModalContent(responseObject),
-                            classes: 'form-edit',
+                            classes: 'modal-edit',
                             buttons: [],
                             close: {
                                 closable: false,
@@ -188,9 +188,6 @@
                     },
                     contentType: 'application/json; charset=utf-8'
                 });
-            } else {
-                //// 프로세스 신규 추가 화면 오픈
-                window.open('/processes-admin/new', 'process_new', 'width=550, height=360');
             }
         }
 
@@ -199,7 +196,7 @@
             const processModal = new modal({
                 title: i18n.msg('process.label.register'),
                 body: createModalContent(),
-                classes: 'form-edit',
+                classes: 'modal-edit',
                 buttons: [{
                     content: i18n.msg('common.btn.register'),
                     classes: "point-fill",
@@ -333,7 +330,7 @@
             const importModal = new modal({
                 title: i18n.msg('process.label.import'),
                 body: createImportModalContent(),
-                classes: 'form-import',
+                classes: 'modal-import',
                 buttons: [
                     {
                         content: i18n.msg('common.btn.check'),

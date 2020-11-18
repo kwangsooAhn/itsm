@@ -5067,32 +5067,32 @@ body.modal-active {
   background-color: #ffffff;
 }
 
-.modal-dialog.form-import {
+.modal-dialog.modal-import {
   width: 37.5rem;
   height: 37.5rem;
 }
 
-.modal-dialog.form-import .modal-content {
+.modal-dialog.modal-import .modal-content {
   height: calc(37.5rem - 3.375rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 
-.modal-dialog.form-import .modal-content .field-label {
+.modal-dialog.modal-import .modal-content .field-label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
 
-.modal-dialog.form-edit {
+.modal-dialog.modal-edit {
   width: 34.38rem;
   height: 22.5rem;
 }
 
-.modal-dialog.form-edit .modal-content {
+.modal-dialog.modal-edit .modal-content {
   height: calc(22.5rem - 3.375rem - 5rem);
   padding: 0.625rem 1.25rem 1.25rem 1.25rem;
 }
 
-.modal-dialog.form-edit .modal-content .field-label {
+.modal-dialog.modal-edit .modal-content .field-label {
   display: inline-block;
   margin: 1rem 0 0.5rem 0;
 }
