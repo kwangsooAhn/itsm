@@ -1376,6 +1376,18 @@ label {
   white-space: pre-line;
 }
 
+.tagify .tagify__input:empty::before {
+  opacity: 1;
+}
+
+.tagify .tagify__input::before {
+  color: #ACB4BF;
+}
+
+.tagify .tagify__input::after {
+  color: #586872;
+}
+
 /* _print.scss 
  *
  * 파일 경로 : document/_print.scss
