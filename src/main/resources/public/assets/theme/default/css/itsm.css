@@ -5323,6 +5323,24 @@ body.modal-active {
   margin: 2rem auto;
 }
 
+.modal-dialog.thumbnail-preview {
+  width: 760px;
+  height: 645px;
+}
+
+.modal-dialog.thumbnail-preview .modal-content {
+  height: calc(645px - 3.375rem - 5rem);
+  padding: 30px;
+}
+
+.modal-dialog.thumbnail-preview .modal-content .thumbnail-preview-img {
+  width: 100%;
+  height: 100%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
 /* _avatar.scss 
  *
  * 파일 경로 : template/_avatar.scss
