@@ -1,7 +1,6 @@
 package co.brainz.itsm.form.controller
 
 import co.brainz.framework.fileTransaction.service.AliceFileService
-import javax.servlet.http.HttpServletRequest
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping

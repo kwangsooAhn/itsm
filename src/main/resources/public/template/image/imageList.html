@@ -18,7 +18,7 @@
                 <div class="search-input">
                     <form id="searchFrm">
                         <input class="search col-5" id="searchValue" name="searchValue" type="text" maxlength="100"
-                               th:placeholder="이미지명"/>
+                               th:placeholder="#{image.label.name}"/>
                     </form>
                 </div>
             </div>
@@ -30,6 +30,7 @@
 </th:block>
 <th:block layout:fragment="pageScript">
     <script type="text/javascript" th:inline="javascript">
+        let previewModal;
         window.onload = () => {
             // 썸네일 표시
             /*[# th:each="image : ${imageList}"]*/
@@ -38,17 +39,39 @@
             addThumbnailUpload();
             document.getElementById('searchValue').focus();
             OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
+            // 미리보기 모달 생성
+            previewModal = new modal({
+                title: i18n.msg('image.label.name'),
+                body: `<div class="thumbnail-preview-img"></div>`,
+                classes: 'thumbnail-preview',
+                buttons: [{
+                    content: i18n.msg('common.btn.close'),
+                    classes: "default-line",
+                    bindKey: false,
+                    callback: function(modal) {
+                        modal.hide();
+                    }
+                }],
+                close: { closable: false },
+                onHide: function(modal) {
+                    // 기존 선택된 클래스를 제거
+                    const selectedThumbnails = document.querySelectorAll('.thumbnail.selected');
+                    for (let i = 0, len = selectedThumbnails.length; i < len; i++) {
+                        selectedThumbnails[i].classList.remove('selected');
+                    }
+                }
+            });
         }
 
         function addThumbnail(image) {
             const thumbnailContainer = document.querySelector('.thumbnail-main');
             const thumbnailUpload = thumbnailContainer.querySelector('.thumbnail-upload');
             let thumbnailTemplate = `
-                <div class="thumbnail">
-                    <div class="thumbnail-img" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
+                <div class="thumbnail" >
+                    <div class="thumbnail-img" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
                     <div class="thumbnail-info">
                         <p class="thumbnail-info-text">
-                            <label class="text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
+                            <label class="thumbnail-img-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
                             <input type="text" class="fileName float-left" />
                         </p>
                         <p class="thumbnail-info-text"><label class="text-ellipsis">${image.width} X ${image.height} ${image.size}</label></p>
@@ -138,7 +161,7 @@
             }, false);
             inputObj.focus();
         }
-
+        // 이미지 업로드
         function uploadImage(fileObj) {
             let fileList = fileObj.files;
             if (fileList.length > 0) {
@@ -180,6 +203,24 @@
                 }
 
             }
+        }
+        // 이미지 미리보기
+        function imagePreview(thumbnail) {
+            thumbnail.parentNode.classList.add('selected');
+
+            // 이미지 파일명 제목 표시
+            const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
+            if (previewModalHeader !== null) {
+                previewModalHeader.textContent = thumbnail.parentNode.querySelector('.thumbnail-img-name').textContent;
+            }
+
+            // 내부 이미지 경로 변경
+            const previewModalContent = previewModal.wrapper.querySelector('.thumbnail-preview-img');
+            if (previewModalContent !== null) {
+                previewModalContent.style.backgroundImage = thumbnail.style.backgroundImage;
+            }
+            // 모달 호출
+            previewModal.show();
         }
     </script>
 </th:block>

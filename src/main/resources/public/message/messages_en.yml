@@ -530,7 +530,8 @@ form:
 # Image
 image:
   label:
-    list: "Image management"
+    name: "Image"
+    list: "Image Management"
     popupTitle: "Select Image"
     upload: "Upload Your Image"
   msg:
