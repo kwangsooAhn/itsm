@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
-@RequestMapping("/portal")
+@RequestMapping("/portals")
 class PortalController(
     private val codeService: CodeService,
     private val downloadService: DownloadService,
@@ -51,7 +51,7 @@ class PortalController(
     /**
      * 포탈 검색 화면 호출 처리
      */
-    @GetMapping("/portalMain")
+    @GetMapping("/main")
     fun getPortalSearch(request: HttpServletRequest, model: Model): String {
         return portalMainPage
     }
@@ -59,7 +59,7 @@ class PortalController(
     /**
      * 포탈 검색 리스트 호출 처리
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getPortalList(portalSearchDto: PortalSearchDto, model: Model): String {
         model.addAttribute("portalSearchValue", portalSearchDto.searchValue)
         val portalList = portalService.findPortalListOrSearchList(portalSearchDto)
@@ -68,7 +68,7 @@ class PortalController(
         return portalListPage
     }
 
-    @GetMapping("/browserGuide")
+    @GetMapping("/browserguide")
     fun getPortalBrowserGuide(): String {
         return portalBrowserGuidePage
     }
@@ -84,7 +84,7 @@ class PortalController(
     /**
      * 포탈 공지사항 리스트 호출
      */
-    @GetMapping("/notices/list")
+    @GetMapping("/notices")
     fun getNoticeList(noticeSearchDto: NoticeSearchDto, model: Model): String {
         val searchValue = noticeSearchDto.searchValue
         val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
@@ -106,13 +106,13 @@ class PortalController(
         return portalNoticeViewPage
     }
 
-    @GetMapping("/faqs")
-    fun getPortalSearch(@RequestParam(value = "id") id: String?, model: Model): String {
-        model.addAttribute("faqs", portalService.getFaqCategories(id))
+    @GetMapping("/faqs/{faqId}/view")
+    fun getPortalSearch(@PathVariable faqId: String, model: Model): String {
+        model.addAttribute("faqs", portalService.getFaqCategories(faqId))
         return portalFaqPage
     }
 
-    @GetMapping("/faqs/list")
+    @GetMapping("/faqs")
     fun getPortalFaqList(
         @RequestParam(value = "category", defaultValue = "") category: String,
         @RequestParam(value = "id", defaultValue = "") id: String,
@@ -137,7 +137,7 @@ class PortalController(
     /**
      * [downloadSearchDto], [model]를 받아서 포탈 자료실 리스트 화면 호출.
      */
-    @GetMapping("/downloads/list")
+    @GetMapping("/downloads")
     fun getDownloadList(downloadSearchDto: DownloadSearchDto, model: Model): String {
         val result = downloadService.getDownloadList(downloadSearchDto)
         model.addAttribute("downloadList", result)

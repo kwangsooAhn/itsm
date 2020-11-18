@@ -8,16 +8,17 @@
         <img th:src="@{|/assets/media/images/portal/img_portal_${portalList.tableName}.png|}" width="30" height="30">
         <div class="item-box">
             <h5 class="item-title underline text-ellipsis" th:switch="${portalList.tableName}">
-                <a th:case="#{'notice'}" th:href="@{/portal/notices/{id}/view(id=${portalList.portalId})}"
+                <a th:case="#{'notice'}" th:href="@{/portals/notices/{id}/view(id=${portalList.portalId})}"
                    th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a>
-                <a th:case="#{'faq'}" th:href="@{/portal/faqs?id={id}(id=${portalList.portalId})}"
+                <a th:case="#{'faq'}" th:href="@{/portals/faqs/{id}/view(id=${portalList.portalId})}"
                    th:if="${portalList.portalTitle != null}" th:text="${portalList.portalTitle}"></a>
-                <a th:case="#{'download'}" th:href="@{/portal/downloads/{id}/view(id=${portalList.portalId})}"
+                <a th:case="#{'download'}" th:href="@{/portals/downloads/{id}/view(id=${portalList.portalId})}"
                    th:if="${portalList.portalTitle != null}"
                    th:text="${portalList.portalTitle}"></a>
             </h5>
-            <div class="item-content">
-                <div class="text-ellipsis" th:text="#{${portalList.portalContent}}"></div>
+            <div class="item-content" th:switch="${portalList.tableName}">
+                <div class="text-ellipsis" th:case="#{'download'}" th:text="#{${portalList.portalContent}}"></div>
+                <div class="text-ellipsis" th:case="*" th:text="${portalList.portalContent}"></div>
             </div>
         </div>
     </div>

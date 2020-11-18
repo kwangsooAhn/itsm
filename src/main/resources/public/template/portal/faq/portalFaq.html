@@ -35,7 +35,7 @@
 			if (faqId !== '') {
 				getFaqList('', faqId);
 			} else {
-				restSubmit('get', '/portal/faqs/list');
+				restSubmit('get', '/portals/faqs');
 			}
 	    }
 
@@ -46,7 +46,7 @@
 			} else {
 				urlParam += 'id=' + faqId;
 			}
-			restSubmit('get', '/portal/faqs/list?' + urlParam);
+			restSubmit('get', '/portals/faqs?' + urlParam);
 	    }
 
 		function restSubmit(method, url) {

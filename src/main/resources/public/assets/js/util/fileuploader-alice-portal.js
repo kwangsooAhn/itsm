@@ -224,7 +224,7 @@ const portalFileUploader = (function () {
         }
         const fileDownOpt = {
             method: 'get',
-            url: '/rest/portal/filedownload?seq=' + Number($this.parentElement.querySelector('input[name=loadedFileSeq]').value),
+            url: '/rest/portals/filedownload?seq=' + Number($this.parentElement.querySelector('input[name=loadedFileSeq]').value),
             callbackFunc: function (xhr) {
                 const a = document.createElement('a');
                 const url = window.URL.createObjectURL(xhr.response);
@@ -256,7 +256,7 @@ const portalFileUploader = (function () {
         if (extraParam.acceptedFiles === null) {
             const opt2 = {
                 method: 'GET',
-                url: '/rest/portal/fileNameExtensionList',
+                url: '/rest/portals/filenameextension',
                 async: false,
                 callbackFunc: function (response) {
                     fileNameExtensionList = JSON.parse(response.responseText);
@@ -329,7 +329,7 @@ const portalFileUploader = (function () {
                 // 등록된 파일이 있으면 조회.
                 const opt = {
                     method: 'get',
-                    url: '/rest/portal/filelist?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : '')
+                    url: '/rest/portals/files?ownId=' + ((extraParam.hasOwnProperty('ownId')) ? extraParam.ownId : '')
                                   +'&fileDataId='+((extraParam.hasOwnProperty('fileDataIds')) ? extraParam.fileDataIds : ''),
                     callbackFunc: function (response) {
                         const files = JSON.parse(response.responseText);
@@ -618,7 +618,7 @@ const portalFileUploader = (function () {
                 let fileNameExtensionList;
                 const opt2 = {
                     method: 'GET',
-                    url: '/rest/portal/fileNameExtensionList',
+                    url: '/rest/portals/fileNameExtensions',
                     callbackFunc: function (response) {
                         fileNameExtensionList = JSON.parse(response.responseText);
                     }
