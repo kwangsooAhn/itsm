@@ -5327,7 +5327,7 @@ body.modal-active {
 .modal-dialog.thumbnail-preview .modal-content .thumbnail-preview-img {
   width: 100%;
   height: 100%;
-  background-size: auto;
+  background-size: contain;
   background-repeat: no-repeat;
   background-position: center center;
 }
