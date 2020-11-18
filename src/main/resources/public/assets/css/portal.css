@@ -3953,6 +3953,14 @@ button.ghost-line:disabled .icon {
   margin-top: 6.188rem;
 }
 
+.login-other .vertical-bar {
+  width: 1.25rem;
+  min-height: 2.5rem;
+  border-right: 0.0625rem solid #EBEBEB;
+  margin: 0 1.875rem 0 0;
+  vertical-align: middle;
+}
+
 .login-other a {
   color: #586872;
 }
