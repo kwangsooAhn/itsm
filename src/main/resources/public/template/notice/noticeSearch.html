@@ -101,7 +101,7 @@
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/notices/list?' + urlParam, isScroll);
+                restSubmit('get', '/notices?' + urlParam, isScroll);
             }
         }
 

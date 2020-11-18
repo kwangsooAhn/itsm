@@ -84,11 +84,11 @@
                     offsetCount = offsetSize;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/portal/downloads/list?' + urlParam, isScroll);
+                restSubmit('get', '/rest/portals/downloads?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/portal/downloads/list?' + urlParam, isScroll);
+                restSubmit('get', '/portals/downloads?' + urlParam, isScroll);
             }
         }
 
@@ -167,7 +167,7 @@
             tdDownloadTitle.style.width = '45%';
             tdDownloadTitle.className = 'align-left';
             let aDownloadTitle = document.createElement('a');
-            aDownloadTitle.href = '/portal/downloads/'+ data.downloadId +'/view';
+            aDownloadTitle.href = '/portals/downloads/'+ data.downloadId +'/view';
             aDownloadTitle.innerText = data.downloadTitle;
             tdDownloadTitle.appendChild(aDownloadTitle);
 
