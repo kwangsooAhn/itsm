@@ -1245,6 +1245,8 @@ insert into awf_url values ('/rest/documents-admin', 'post', '신청서 작성',
 insert into awf_url values ('/rest/documents-admin/{id}', 'delete', '신청서 삭제', 'TRUE');
 insert into awf_url values ('/rest/documents-admin/{id}', 'get', '신청서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/documents-admin/{id}', 'put', '신청서 수정', 'TRUE');
+insert into awf_url values ('/rest/documents-admin/{id}/display', 'put', '신청서 디스플레이 데이터 저장', 'TRUE');
+insert into awf_url values ('/rest/documents-admin/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/documents/{id}/data', 'get', '신청서의 문서 데이터 조회', 'TRUE');
 insert into awf_url values ('/rest/documents-admin', 'get', '업무흐름 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/downloads', 'get', '자료실리스트 조회', 'TRUE');
@@ -1291,6 +1293,7 @@ insert into awf_url values ('/rest/processes-admin', 'post', '프로세스 디�
 insert into awf_url values ('/rest/processes-admin', 'put', '프로세스 수정', 'TRUE');
 insert into awf_url values ('/rest/processes-admin', 'get', '프로세스 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/processes-admin/all', 'get', '발행 상태인 프로세스 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/processes-admin/{processId}/data', 'get', '프로세스 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}', 'delete', '프로세스 디자이너 삭제', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}/data', 'put', '프로세스 디자이너 수정', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}/data', 'get', '프로세스 디자이너 불러오기', 'TRUE');
@@ -1436,8 +1439,6 @@ insert into awf_url_auth_map values ('/documents-admin/search', 'get', 'document
 insert into awf_url_auth_map values ('/documents-admin/search', 'get', 'document.admin.read');
 insert into awf_url_auth_map values ('/documents-admin/search', 'get', 'document.admin.create');
 insert into awf_url_auth_map values ('/documents-admin/search', 'get', 'document.admin.delete');
-insert into awf_url_auth_map values ('/documents-admin/{id}/display', 'get', 'document.admin.create');
-insert into awf_url_auth_map values ('/documents-admin/{id}/display', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/documents-admin/{id}/edit', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/documents-admin/{id}/edit', 'get', 'document.admin.create');
 insert into awf_url_auth_map values ('/documents/custom-code/{id}/data', 'get', 'document.admin.update');
@@ -1491,17 +1492,10 @@ insert into awf_url_auth_map values ('/processes-admin/list', 'get', 'process.re
 insert into awf_url_auth_map values ('/processes-admin/list', 'get', 'process.delete');
 insert into awf_url_auth_map values ('/processes-admin/list', 'get', 'process.update');
 insert into awf_url_auth_map values ('/processes-admin/list', 'get', 'process.create');
-insert into awf_url_auth_map values ('/processes-admin/new', 'get', 'process.create');
 insert into awf_url_auth_map values ('/processes-admin/search', 'get', 'process.read');
 insert into awf_url_auth_map values ('/processes-admin/search', 'get', 'process.delete');
 insert into awf_url_auth_map values ('/processes-admin/search', 'get', 'process.create');
 insert into awf_url_auth_map values ('/processes-admin/search', 'get', 'process.update');
-insert into awf_url_auth_map values ('/processes-admin/{id}/edit', 'get', 'process.update');
-insert into awf_url_auth_map values ('/processes-admin/{id}/edit', 'get', 'process.create');
-insert into awf_url_auth_map values ('/processes-admin/{id}/view', 'get', 'process.create');
-insert into awf_url_auth_map values ('/processes-admin/{id}/view', 'get', 'process.update');
-insert into awf_url_auth_map values ('/processes-admin/{id}/view', 'get', 'process.delete');
-insert into awf_url_auth_map values ('/processes-admin/{id}/view', 'get', 'process.read');
 insert into awf_url_auth_map values ('/processes/{id}/view', 'get', 'process.create');
 insert into awf_url_auth_map values ('/processes/{id}/view', 'get', 'process.update');
 insert into awf_url_auth_map values ('/processes/{id}/edit', 'get', 'process.create');
@@ -1634,6 +1628,8 @@ insert into awf_url_auth_map values ('/rest/processes-admin', 'post', 'process.r
 insert into awf_url_auth_map values ('/rest/processes-admin', 'put', 'process.update');
 insert into awf_url_auth_map values ('/rest/processes-admin', 'get', 'process.read');
 insert into awf_url_auth_map values ('/rest/processes-admin/all', 'get', 'process.read');
+insert into awf_url_auth_map values ('/rest/processes-admin/{processId}/data', 'get', 'process.create');
+insert into awf_url_auth_map values ('/rest/processes-admin/{processId}/data', 'get', 'process.update');
 insert into awf_url_auth_map values ('/rest/processes/{id}', 'delete', 'process.delete');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'get', 'process.create');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'put', 'process.update');
@@ -2346,6 +2342,7 @@ CREATE TABLE wf_tag
 COMMENT ON TABLE wf_tag IS '태그';
 COMMENT ON COLUMN wf_tag.tag_id IS '태그아이디';
 COMMENT ON COLUMN wf_tag.tag_content IS '태그내용';
+
 /**
  * 태그매핑테이블
  */
