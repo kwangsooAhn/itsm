@@ -1901,11 +1901,11 @@ button .icon-plus {
 
 .menu {
   width: 13.75rem;
-  height: calc(100vh - 9.375rem - 3.8125rem);
+  height: calc(100vh - 9.375rem - 3.75rem);
   background-color: #333D47;
   position: relative;
   left: 0;
-  top: 3.8125rem;
+  top: 3.75rem;
   z-index: 1000;
   overflow: auto;
 }
@@ -4358,6 +4358,15 @@ button .icon-plus {
 .picker-modal-content-date-months .date-prev {
   display: table-cell;
   cursor: pointer;
+  width: 0.625rem;
+  height: 1.563rem;
+  -webkit-mask-image: url("../media/icons/icon_arrow_left.svg");
+  mask-image: url("../media/icons/icon_arrow_left.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #586872;
 }
 
 .picker-modal-content-date-months .date-text {
