@@ -377,7 +377,9 @@ input, button, select, optgroup, textarea {
   padding: 8.438rem 0 0.9375rem 0;
 }
 
-.document-container .document-main .document-main-header .numbering-content label {
+.document-container .document-main .document-main-header .document-numbering {
+  font-size: 1rem;
+  font-weight: 400;
   color: #ACB4BF;
 }
 

@@ -2195,8 +2195,6 @@ button .icon-plus {
 
 .itsm-container .contents-token .list-item .document-row {
   flex: auto;
-  display: flex;
-  justify-content: space-between;
   padding: 1.875rem 3rem;
   border-top: 0.0625rem solid #EBEBEB;
   border-right: 0.0625rem solid #EBEBEB;
@@ -2207,9 +2205,10 @@ button .icon-plus {
   cursor: pointer;
 }
 
-.itsm-container .contents-token .list-item .document-row-content .document-title {
-  align-items: center;
-  justify-content: flex-start;
+.itsm-container .contents-token .list-item .document-row-content .document-title .document-numbering {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
 }
 
 .itsm-container .contents-token .list-item .document-row-content .document-title .text-ellipsis {
@@ -2228,17 +2227,6 @@ button .icon-plus {
 
 .itsm-container .contents-token .list-item .document-row-content .document-topic-item:first-child {
   margin-top: 1.5625rem;
-}
-
-.itsm-container .contents-token .list-item .document-row-info .document-detail {
-  display: flex;
-  align-items: center;
-}
-
-.itsm-container .contents-token .list-item .document-row-info .document-detail .document-user {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .itsm-container .contents-token .list-item .document-row-info .document-tag {

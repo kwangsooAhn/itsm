@@ -26,8 +26,10 @@
       max-width: $drawing-board-width;
       padding: 8.438rem 0 0.9375rem 0; // 135px 0 15px 0
       // 문서 번호
-      .numbering-content {
-        label { color: $gray; }
+      .document-numbering {
+        font-size: 1rem; // 16px
+        font-weight: $font-weight-regular;
+        color: $gray;
       }
     }
     // 폼이 그려지는 영역
