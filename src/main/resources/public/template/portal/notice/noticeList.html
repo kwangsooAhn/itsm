@@ -19,7 +19,7 @@
         th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
         <td width="75%" class="align-left">
             <a th:text="${topNotice.noticeTitle}"
-               th:href="@{/portal/notices/{id}/view(id=${topNotice.noticeNo})}"></a>
+               th:href="@{/portals/notices/{id}/view(id=${topNotice.noticeNo})}"></a>
         </td>
         <td width="10%" class="align-center" th:text="${topNotice?.createUserName}"></td>
         <td width="15%" class="align-center" th:name="createDt" th:text="${topNotice.createDt}"></td>
@@ -27,7 +27,7 @@
     <tr th:each="notice : ${noticeList}">
         <td width="75%" class="align-left">
             <a th:text="${notice.noticeTitle}"
-               th:href="@{/portal/notices/{id}/view(id=${notice.noticeNo})}"></a>
+               th:href="@{/portals/notices/{id}/view(id=${notice.noticeNo})}"></a>
         </td>
         <td width="10%" class="align-center" id="userName" th:text="${notice?.createUserName}"></td>
         <td width="15%" class="align-center" th:name="createDt" th:text="${notice.createDt}"></td>

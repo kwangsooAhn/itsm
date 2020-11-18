@@ -83,11 +83,11 @@
                     offsetCount = offsetSize;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/portal/notices?' + urlParam, isScroll);
+                restSubmit('get', '/rest/portals/notices?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/portal/notices/list?' + urlParam, isScroll);
+                restSubmit('get', '/portals/notices?' + urlParam, isScroll);
             }
         }
 
@@ -156,7 +156,7 @@
             tdNoticeTitle.style.width = '75%';
             tdNoticeTitle.className = 'align-left';
             let aNoticeTitle = document.createElement('a');
-            aNoticeTitle.href = '/portal/notices/'+ data.noticeNo +'/view';
+            aNoticeTitle.href = '/portals/notices/'+ data.noticeNo +'/view';
             aNoticeTitle.innerText = data.noticeTitle;
             tdNoticeTitle.appendChild(aNoticeTitle);
 

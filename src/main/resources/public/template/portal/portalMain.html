@@ -20,7 +20,7 @@
             <li class="card flex-column">
                 <div class="card-header align-center">
                     <div class="icon">
-                        <a href="/portal/notices/search">
+                        <a href="/portals/notices/search">
                             <img th:src="@{/assets/media/images/portal/img_portal_notice.png}" width="120" height="120" alt="Notice">
                         </a>
                     </div>
@@ -33,7 +33,7 @@
             <li class="card flex-column">
                 <div class="card-header align-center">
                     <div class="icon">
-	                    <a href="/portal/faqs">
+                        <a href="/portals/faqs/ /view">
                             <img th:src="@{/assets/media/images/portal/img_portal_faq.png}" width="120" height="120" alt="Faq">
 	                    </a>
                     </div>
@@ -46,7 +46,7 @@
             <li class="card flex-column">
                 <div class="card-header align-center">
                     <div class="icon">
-                        <a href="/portal/downloads/search">
+                        <a href="/portals/downloads/search">
                             <img th:src="@{/assets/media/images/portal/img_portal_download.png}" width="120" height="120" alt="Download">
                         </a>
                     </div>
@@ -70,7 +70,7 @@
 
         window.onload = function () {
             initEventListener();
-            initPortalTops('get', '/rest/portal/top?limit=' + topSize);
+            initPortalTops('get', '/rest/portals/top?limit=' + topSize);
             document.getElementById('searchValue').focus();
         }
 
@@ -105,13 +105,13 @@
                             let contentAnchor = document.createElement('a');
                             switch (topName) {
 	                            case 'notice':
-                                    contentAnchor.setAttribute('href', '/portal/notices/'+ data['id'] +'/view');
+                                    contentAnchor.setAttribute('href', '/portals/notices/'+ data['id'] +'/view');
 	                                break;
 	                            case 'faq':
-	                                contentAnchor.setAttribute('href', '/portal/faqs?id=' + data['id']);
+                                    contentAnchor.setAttribute('href', '/portals/faqs/' + data['id'] +'/view');
 	                                break;
                                 case 'download':
-                                    contentAnchor.setAttribute('href', '/portal/downloads/'+ data['id'] +'/view');
+                                    contentAnchor.setAttribute('href', '/portals/downloads/'+ data['id'] +'/view');
 	                                break;
 	                        }
                             let contentText = document.createElement('span');
@@ -139,12 +139,12 @@
                 }
                 urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
                     + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/portal/list?' + urlParam, isScroll);
+                restSubmit('get', '/rest/portals?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
                 urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
                     + '&offset=' + offsetCount;
-                restSubmit('get', '/portal/list?' + urlParam, isScroll);
+                restSubmit('get', '/portals?' + urlParam, isScroll);
             }
         }
 
@@ -234,9 +234,9 @@
             divTitle.className = "item-title text-ellipsis";
             let aTitle = document.createElement('a');
             if (data.tableName === 'notice') {
-                aTitle.href = '/portal/notices/' + data.portalId + '/view';
+                aTitle.href = '/portals/notices/' + data.portalId + '/view';
             } else if (data.tableName === 'faq') {
-                aTitle.href = '/portal/faqs?id=' + data.portalId;
+                aTitle.href = '/portals/faqs?id=' + data.portalId+ '/view';
             } else if (data.tableName === 'download') {
                 aTitle.href = '/portal/downloads/'+ data.portalId +'/view';
             }
