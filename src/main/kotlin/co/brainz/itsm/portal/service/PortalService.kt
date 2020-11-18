@@ -68,5 +68,4 @@ class PortalService(
         faqInfo["faqSelected"] = selectedFaq
         return faqInfo
     }
-
 }

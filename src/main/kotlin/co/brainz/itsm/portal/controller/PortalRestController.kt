@@ -71,7 +71,7 @@ class PortalRestController(
     /**
      * 포탈 공지사항 리스트 호출(스크롤 페이징)
      */
-    @GetMapping("/notices", "")
+    @GetMapping("/notices")
     fun getNoticeList(noticeSearchDto: NoticeSearchDto): MutableList<NoticeListDto> {
         val searchValue = noticeSearchDto.searchValue
         val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)

@@ -122,7 +122,6 @@ class PortalController(
         return portalFaqListPage
     }
 
-
     /**
      * [model]를 받아서 포탈 자료실 호출 화면.
      */
