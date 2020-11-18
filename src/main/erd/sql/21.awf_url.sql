@@ -53,7 +53,6 @@ insert into awf_url values ('/dashboard/view', 'get', '대시보드 상세 정�
 insert into awf_url values ('/documents-admin/list', 'get', '업무흐름 리스트 화면', 'TRUE');
 insert into awf_url values ('/documents-admin/new', 'get', '신청서 생성 화면', 'TRUE');
 insert into awf_url values ('/documents-admin/search', 'get', '업무흐름 데이터 + 목록화면', 'TRUE');
-insert into awf_url values ('/documents-admin/{id}/display', 'get', '신청서 디스플레이 데이터 조회', 'TRUE');
 insert into awf_url values ('/documents-admin/{id}/edit', 'get', '신청서 수정 화면', 'TRUE');
 insert into awf_url values ('/documents/custom-code/{id}/data', 'get', '커스텀 코드 데이터 조회 화면', 'TRUE');
 insert into awf_url values ('/documents/custom-code/{id}/data', 'post', '커스텀 코드 데이터 조회 화면 ', 'TRUE');

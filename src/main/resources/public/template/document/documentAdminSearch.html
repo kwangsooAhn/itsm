@@ -72,13 +72,6 @@
             }
         }
 
-        // 신청서 양식편집 화면
-        // TODO: 모달로 변경
-        function openDisplay(documentId) {
-            const specs = "menubar=no, toolbar=no, location=no, status=no, titlebar=no,scrollbars=yes";
-            window.open('/documents-admin/' + documentId + '/display', '_blank', 'width=1000, height=630, left=500, top=60,' + specs);
-        }
-
         // 빈 값 체크
         function emptyValidation() {
             if (isEmpty('document-name', 'document.msg.enterDocumentName')) { return false };
@@ -135,9 +128,8 @@
                     restSubmit(method, url, documentInfo, function(result) {
                         aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
                             if (documentId === undefined) { // 신규 등록일 경우에만 팝업 호출한다.
-                                openDisplay(result);
+                                openDocumentDisplay(result);
                             }
-                            location.reload();
                         });
                     });
                 }
@@ -269,7 +261,7 @@
                             classes: "point-line",
                             bindKey: false,
                             callback: function(modal) {
-                                openDisplay(documentId);
+                                openDocumentDisplay(documentId);
                                 modal.hide();
                             }
                         });
@@ -281,6 +273,148 @@
                 },
                 contentType: 'application/json; charset=utf-8'
             });
+        }
+
+        const createDialogContent = function() {
+            return `
+                <div class="document-display-content">
+                    <table id="documentDisplay">
+                        <thead>
+                            <tr id="documentElementRow"></tr>
+                        </thead>
+                    </table>
+                </div>
+                `
+        };
+
+        // 신청서 양식 편집 화면
+        function openDocumentDisplay(documentId) {
+            aliceJs.sendXhr({
+                method: 'GET',
+                url: '/rest/documents-admin/' + documentId + '/display',
+                callbackFunc: function(xhr) {
+                    let modalOptions = {
+                        title: i18n.msg('document.label.display'),
+                        body: createDialogContent(),
+                        classes: 'document-display',
+                        buttons: [{
+                            content: i18n.msg('common.btn.save'),
+                            classes: "point-fill",
+                            bindKey: false,
+                            callback: function(modal) {
+                                saveDocumentDisplay(documentId);
+                            }
+                        },{
+                            content: i18n.msg('common.btn.close'),
+                            classes: "default-line",
+                            bindKey: false,
+                            callback: function(modal) {
+                                modal.hide();
+                            }
+                        }],
+                        close: {
+                            closable: false,
+                        },
+                        onCreate: function(modal) {
+                            const responseJson = JSON.parse(xhr.responseText);
+                            // set element row
+                            const elements = responseJson.elements;
+                            const displayTable = document.getElementById('documentDisplay');
+                            const elementRow = document.getElementById('documentElementRow');
+                            elementRow.appendChild(document.createElement('th'));
+                            elements.forEach(function(element) {
+                                let elementData = document.createElement('th');
+                                elementData.className = 'column-title';
+                                elementData.id = element.elementId;
+                                elementData.innerHTML = element.elementName;
+                                elementRow.appendChild(elementData);
+                            });
+                            displayTable.appendChild(elementRow);
+
+                            // set component row
+                            const components = responseJson.components;
+                            const componentBody = document.createElement('tbody');
+                            components.forEach(function(component) {
+                                const componentRow = document.createElement('tr');
+                                componentBody.appendChild(componentRow);
+                                const componentData = document.createElement('th');
+                                componentData.id = component.componentId;
+                                componentData.innerHTML = component.attributeValue;
+                                componentRow.appendChild(componentData);
+                                // set display data
+                                const displayValue = component.displayValue;
+                                displayValue.forEach(function(value) {
+                                    const displayData = document.createElement('td');
+                                    setDisplaySelect(displayData, component.componentId, value);
+                                    componentRow.appendChild(displayData);
+                                });
+                                displayTable.appendChild(componentRow);
+                            });
+                            aliceJs.initDesignedSelectTag();
+
+                            OverlayScrollbars(document.querySelector('.document-display-content'), {className: 'scrollbar'});
+                        }
+                    }
+                    const documentDisplayModal = new modal(modalOptions);
+                    documentDisplayModal.show();
+                },
+                contentType: 'application/json; charset=utf-8'
+            });
+        }
+
+        /* Display data setting */
+        function setDisplaySelect(obj, componentId, displayData) {
+            const displaySelect = document.createElement('select');
+            const elementId = displayData.elementId;
+            const displayDetail = displayData.display;
+
+            let values = ['editable', 'editableRequired', 'readonly', 'hidden'];
+
+            for (let i = 0; i < values.length; i++) {
+                const option = document.createElement('option');
+                option.text = i18n.msg('document.display.' + values[i]);
+                option.value = values[i];
+                if (values[i] === displayDetail) {
+                    option.setAttribute('selected', 'true');
+                }
+                displaySelect.add(option);
+            }
+            displaySelect.setAttribute('id',componentId + '_' + elementId);
+            displaySelect.setAttribute('class', 'col-2');
+            displaySelect.setAttribute('name', 'displays');
+            obj.appendChild(displaySelect);
+        }
+
+        /* Display data save */
+        function saveDocumentDisplay(documentId) {
+            const arrDisplay = [];
+            Array.prototype.forEach.call(document.querySelectorAll('select[name=displays]'), function(item) {
+                const objDisplay = {};
+                const strArr = item.id.split('_');
+                objDisplay.componentId = strArr[0];     // componentId
+                objDisplay.elementId = strArr[1];       // elementId
+                objDisplay.display = item.value;        // display
+                arrDisplay.push(objDisplay);
+            });
+
+            const obj = {
+                documentId: documentId,
+                displays: arrDisplay
+            };
+            const displayJson = JSON.stringify(obj);
+
+            const opt = {
+                method: 'put',
+                url: '/rest/documents-admin/' + documentId + '/display',
+                params: displayJson,
+                contentType: 'application/json',
+                callbackFunc: function () {
+                    aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
+                        location.reload();
+                    });
+                }
+            };
+            aliceJs.sendXhr(opt);
         }
 
         function deleteDocument(documentId) {

@@ -101,8 +101,6 @@ insert into awf_url_auth_map values ('/documents-admin/search', 'get', 'document
 insert into awf_url_auth_map values ('/documents-admin/search', 'get', 'document.admin.read');
 insert into awf_url_auth_map values ('/documents-admin/search', 'get', 'document.admin.create');
 insert into awf_url_auth_map values ('/documents-admin/search', 'get', 'document.admin.delete');
-insert into awf_url_auth_map values ('/documents-admin/{id}/display', 'get', 'document.admin.create');
-insert into awf_url_auth_map values ('/documents-admin/{id}/display', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/documents-admin/{id}/edit', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/documents-admin/{id}/edit', 'get', 'document.admin.create');
 insert into awf_url_auth_map values ('/documents/custom-code/{id}/data', 'get', 'document.admin.update');
