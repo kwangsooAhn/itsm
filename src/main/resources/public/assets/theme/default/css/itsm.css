@@ -5149,19 +5149,19 @@ body.modal-active {
 }
 
 .modal-dialog.document-display {
-  width: 66.875rem;
-  height: 26.25rem;
+  width: 68rem;
+  height: 42.188rem;
 }
 
 .modal-dialog.document-display .modal-content {
-  height: calc(26.25rem - 3.375rem - 5rem);
+  height: calc(42.188rem - 3.375rem - 5rem);
   padding: 1.25rem;
   overflow: hidden;
 }
 
 .modal-dialog.document-display .modal-content .document-display-content {
-  width: calc(66.875rem - 2.5rem);
-  height: calc(26.25rem - 3.375rem - 5rem - 2.5rem);
+  width: calc(68rem - 2.5rem);
+  height: calc(42.188rem - 3.375rem - 5rem - 2.5rem);
   padding: 0 1.25rem;
   overflow-y: auto;
 }
