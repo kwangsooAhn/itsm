@@ -23,7 +23,7 @@
     }
   }
   // 폼 / 프로세스 IMPORT 모달
-  &.form-import {
+  &.form-import, &.process-import {
     width: $import-modal-width;
     height: $import-modal-height;
 
@@ -38,13 +38,13 @@
 
     }
   }
-  // 폼 등록 / 수정 모달
-  &.form-edit {
-    width: $form-edit-modal-width;
-    height: $form-edit-modal-height;
+  // 폼 / 프로세스 등록 / 수정 모달
+  &.form-edit, &.process-edit {
+    width: $modal-edit-width;
+    height: $modal-edit-height;
 
     .modal-content {
-      height: calc(#{$form-edit-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      height: calc(#{$modal-edit-height} - #{$modal-header-height} - #{$modal-bottom-height});
       padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
 
       .field-label {

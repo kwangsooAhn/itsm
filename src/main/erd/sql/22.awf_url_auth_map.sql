@@ -156,17 +156,10 @@ insert into awf_url_auth_map values ('/processes-admin/list', 'get', 'process.re
 insert into awf_url_auth_map values ('/processes-admin/list', 'get', 'process.delete');
 insert into awf_url_auth_map values ('/processes-admin/list', 'get', 'process.update');
 insert into awf_url_auth_map values ('/processes-admin/list', 'get', 'process.create');
-insert into awf_url_auth_map values ('/processes-admin/new', 'get', 'process.create');
 insert into awf_url_auth_map values ('/processes-admin/search', 'get', 'process.read');
 insert into awf_url_auth_map values ('/processes-admin/search', 'get', 'process.delete');
 insert into awf_url_auth_map values ('/processes-admin/search', 'get', 'process.create');
 insert into awf_url_auth_map values ('/processes-admin/search', 'get', 'process.update');
-insert into awf_url_auth_map values ('/processes-admin/{id}/edit', 'get', 'process.update');
-insert into awf_url_auth_map values ('/processes-admin/{id}/edit', 'get', 'process.create');
-insert into awf_url_auth_map values ('/processes-admin/{id}/view', 'get', 'process.create');
-insert into awf_url_auth_map values ('/processes-admin/{id}/view', 'get', 'process.update');
-insert into awf_url_auth_map values ('/processes-admin/{id}/view', 'get', 'process.delete');
-insert into awf_url_auth_map values ('/processes-admin/{id}/view', 'get', 'process.read');
 insert into awf_url_auth_map values ('/processes/{id}/view', 'get', 'process.create');
 insert into awf_url_auth_map values ('/processes/{id}/view', 'get', 'process.update');
 insert into awf_url_auth_map values ('/processes/{id}/edit', 'get', 'process.create');
@@ -299,6 +292,8 @@ insert into awf_url_auth_map values ('/rest/processes-admin', 'post', 'process.r
 insert into awf_url_auth_map values ('/rest/processes-admin', 'put', 'process.update');
 insert into awf_url_auth_map values ('/rest/processes-admin', 'get', 'process.read');
 insert into awf_url_auth_map values ('/rest/processes-admin/all', 'get', 'process.read');
+insert into awf_url_auth_map values ('/rest/processes-admin/{processId}/data', 'get', 'process.create');
+insert into awf_url_auth_map values ('/rest/processes-admin/{processId}/data', 'get', 'process.update');
 insert into awf_url_auth_map values ('/rest/processes/{id}', 'delete', 'process.delete');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'get', 'process.create');
 insert into awf_url_auth_map values ('/rest/processes/{id}/data', 'put', 'process.update');
