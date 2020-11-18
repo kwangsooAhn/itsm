@@ -26,9 +26,9 @@
                 <td width="20%">
                     <th:block th:if="${process.enabled == true}">
                         <a sec:authorize="!hasAuthority('process.update')" th:text="${process.name}"
-                           th:attr="onclick=|openProcessView('${process.id}')|"></a>
+                           th:attr="onclick=|openProcessEdit('${process.id}', true)|"></a>
                         <a sec:authorize="hasAuthority('process.update')" th:text="${process.name}"
-                           th:attr="onclick=|openProcessEdit('${process.id}')|"></a>
+                           th:attr="onclick=|openProcessEdit('${process.id}', false)|"></a>
                     </th:block>
                     <div th:unless="${process.enabled == true}">
                         <span th:text="${process.name}"></span>

@@ -187,6 +187,7 @@ insert into awf_url values ('/rest/processes-admin', 'post', '프로세스 디�
 insert into awf_url values ('/rest/processes-admin', 'put', '프로세스 수정', 'TRUE');
 insert into awf_url values ('/rest/processes-admin', 'get', '프로세스 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/processes-admin/all', 'get', '발행 상태인 프로세스 목록 조회', 'TRUE');
+insert into awf_url values ('/rest/processes-admin/{processId}/data', 'get', '프로세스 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}', 'delete', '프로세스 디자이너 삭제', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}/data', 'put', '프로세스 디자이너 수정', 'TRUE');
 insert into awf_url values ('/rest/processes/{id}/data', 'get', '프로세스 디자이너 불러오기', 'TRUE');

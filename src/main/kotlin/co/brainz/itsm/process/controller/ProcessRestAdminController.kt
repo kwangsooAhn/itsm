@@ -76,6 +76,14 @@ class ProcessRestAdminController(
     }
 
     /**
+     * 프로세스 조회
+     */
+    @GetMapping("/{processId}/data")
+    fun getProcess(@PathVariable processId: String): RestTemplateProcessViewDto {
+        return processAdminService.getProcessAdmin(processId)
+    }
+
+    /**
      * 프로세스 목록 조회.
      */
     @GetMapping("/all")
