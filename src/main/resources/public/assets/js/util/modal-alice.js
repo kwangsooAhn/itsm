@@ -96,7 +96,6 @@
      */
     return function(options) {
         this.options = Object.assign({}, defaults, options);
-        console.log(this.options);
         this.id = options.id || Math.random().toString(36).substr(2);
         this.display = false;
         this.bindings = {};

@@ -67,8 +67,8 @@
             const thumbnailContainer = document.querySelector('.thumbnail-main');
             const thumbnailUpload = thumbnailContainer.querySelector('.thumbnail-upload');
             let thumbnailTemplate = `
-                <div class="thumbnail" onclick="imagePreview(this);">
-                    <div class="thumbnail-img" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
+                <div class="thumbnail" >
+                    <div class="thumbnail-img" onclick="imagePreview(this);" style="background-image: url('data:image/${image.extension};base64,${image.data}');"></div>
                     <div class="thumbnail-info">
                         <p class="thumbnail-info-text">
                             <label class="thumbnail-img-name text-ellipsis" ondblclick="renameImage(this);">${image.name}</label>
@@ -206,18 +206,18 @@
         }
         // 이미지 미리보기
         function imagePreview(thumbnail) {
-            thumbnail.classList.add('selected');
+            thumbnail.parentNode.classList.add('selected');
 
             // 이미지 파일명 제목 표시
             const previewModalHeader = previewModal.wrapper.querySelector('.modal-header');
             if (previewModalHeader !== null) {
-                previewModalHeader.textContent = thumbnail.querySelector('.thumbnail-img-name').textContent;
+                previewModalHeader.textContent = thumbnail.parentNode.querySelector('.thumbnail-img-name').textContent;
             }
 
             // 내부 이미지 경로 변경
             const previewModalContent = previewModal.wrapper.querySelector('.thumbnail-preview-img');
             if (previewModalContent !== null) {
-                previewModalContent.style.backgroundImage = thumbnail.querySelector('.thumbnail-img').style.backgroundImage;
+                previewModalContent.style.backgroundImage = thumbnail.style.backgroundImage;
             }
             // 모달 호출
             previewModal.show();
