@@ -217,11 +217,11 @@
                 margin-top: 0.625rem; // 10px
                 word-break: break-word;
                 &-info {
-                  h5 {
-                    margin-left: 0.9375rem; // 15px
-                  }
                   .user-name { color: $dark-gray; }
-                  .user-date-time { color: $gray; }
+                  .user-date-time { 
+                    color: $gray;
+                    margin-left: 0.625rem; // 10px
+                  }
                   button {
                     padding: 0;
                     .icon-delete {

@@ -15,7 +15,7 @@
         </div>
         <div class="search-area">
             <div class="search-input">
-                <input class="search col-4" id="search" type="text" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}"/>
+                <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}"/>
             </div>
             <div class="ml-auto">
                 <button class="default-fill" onclick="location.href='/users/new'" sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>

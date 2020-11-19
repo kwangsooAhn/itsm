@@ -586,16 +586,13 @@ input, button, select, optgroup, textarea {
   word-break: break-word;
 }
 
-.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info h5 {
-  margin-left: 0.9375rem;
-}
-
 .document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-name {
   color: #586872;
 }
 
 .document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-date-time {
   color: #ACB4BF;
+  margin-left: 0.625rem;
 }
 
 .document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info button {
