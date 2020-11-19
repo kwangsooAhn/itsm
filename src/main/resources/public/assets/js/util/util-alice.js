@@ -1122,7 +1122,7 @@ aliceJs.initDesignedSelectTag = function () {
             originSelectTag.classList.remove('select-hidden');
             let selectWrapper = document.createElement('div');
             selectWrapper.classList = originSelectTag.classList;
-            selectWrapper.classList.add('select');
+            selectWrapper.classList.add('select', 'col-3');
             originSelectTag.parentElement.insertBefore(selectWrapper, originSelectTag);
             selectWrapper.append(originSelectTag);
 
