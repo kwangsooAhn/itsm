@@ -765,10 +765,12 @@ aliceJs.thumbnail = function(options) {
                     thumbnailSize.innerHTML = `<label class="text-ellipsis">${file.width} X ${file.height} ${file.size}</label>`;
                     thumbnailInfo.appendChild(thumbnailSize);
 
-                    const thumbnailBottom = document.createElement('div');
-                    thumbnailBottom.className = 'thumbnail-bottom';
-                    thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
-                    thumbnail.appendChild(thumbnailBottom);
+                    if (options.type !== 'file') {
+                        const thumbnailBottom = document.createElement('div');
+                        thumbnailBottom.className = 'thumbnail-bottom';
+                        thumbnailBottom.innerHTML = `<label>${i18n.userDateTime(file.updateDt)}</label>`;
+                        thumbnail.appendChild(thumbnailBottom);
+                    }
                 }
             }
         } else { 
