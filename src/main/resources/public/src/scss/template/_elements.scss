@@ -91,6 +91,13 @@ input {
     cursor: default;
   }
 
+  &:read-only {
+    background-color: $element-disabled-bg-color;
+    border-color: $element-disabled-border-color;
+    pointer-events: none;
+    cursor: default;
+  }
+
   &.icon {
     padding-right: 2.5rem; // 아이콘 크기만큼 들여 쓰기 40px
   }

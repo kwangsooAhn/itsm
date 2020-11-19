@@ -1714,7 +1714,7 @@
                 elementObject = document.createElement('input');
                 elementObject.type = 'text';
                 elementObject.className = 'copy';
-                elementObject.readOnly = true;
+                elementObject.disabled = true;
                 propertyContainer.appendChild(elementObject);
 
                 let copyBtnContainer = document.createElement('div');

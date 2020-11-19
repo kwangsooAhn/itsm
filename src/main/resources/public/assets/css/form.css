@@ -750,6 +750,13 @@ input:disabled {
   cursor: default;
 }
 
+input:read-only {
+  background-color: #F7F8F9;
+  border-color: #EBEBEB;
+  pointer-events: none;
+  cursor: default;
+}
+
 input.icon {
   padding-right: 2.5rem;
 }
@@ -2333,7 +2340,7 @@ button .icon-search {
  */
 .scrollbar > .os-scrollbar-horizontal {
   right: 0.625rem;
-  height: 0.75rem;
+  height: 0.5rem;
 }
 
 .scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
@@ -2451,7 +2458,7 @@ button .icon-search {
 
 .inner-scrollbar > .os-scrollbar-horizontal {
   right: 0.625rem;
-  height: 0.75rem;
+  height: 0.25rem;
 }
 
 .inner-scrollbar > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
@@ -2522,7 +2529,7 @@ button .icon-search {
 
 .inner-scrollbar-dark > .os-scrollbar-horizontal {
   right: 0.625rem;
-  height: 0.75rem;
+  height: 0.25rem;
 }
 
 .inner-scrollbar-dark > .os-scrollbar-horizontal > .os-scrollbar-track > .os-scrollbar-handle {
