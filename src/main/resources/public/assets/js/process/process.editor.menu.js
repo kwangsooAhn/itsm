@@ -1155,17 +1155,15 @@
             let fileIcon = document.createElement('span');
             fileIcon.className = 'icon icon-search';
             fileBtn.addEventListener('click', function() {
-                window.open('/processes/attachFile/view?callback=' + fileInput.id, 'fileUploadPop', 'width=1240, height=775');
-// TODO: #9425 [Modal] 프로세스 - 스크립트 task 에서 처리 예정
-//                aliceJs.thumbnail({
-//                    title: i18n.msg('common.label.attachFile'),
-//                    targetId: fileInput.id,
-//                    type: 'file',
-//                    isThumbnailInfo: false,
-//                    isFilePrefix: false,
-//                    thumbnailDoubleClickUse: true,
-//                    selectedPath: document.getElementById(fileInput.id).value
-//                });
+                aliceJs.thumbnail({
+                    title: i18n.msg('common.label.attachFile'),
+                    targetId: fileInput.id,
+                    type: 'file',
+                    isThumbnailInfo: true,
+                    isFilePrefix: false,
+                    thumbnailDoubleClickUse: true,
+                    selectedPath: document.getElementById(fileInput.id).value
+                });
             });
             fileBtn.appendChild(fileIcon);
 
