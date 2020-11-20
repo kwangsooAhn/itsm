@@ -91,6 +91,13 @@ input {
     cursor: default;
   }
 
+  &:read-only {
+    background-color: $element-disabled-bg-color;
+    border-color: $element-disabled-border-color;
+    pointer-events: none;
+    cursor: default;
+  }
+
   &.icon {
     padding-right: 2.5rem; // 아이콘 크기만큼 들여 쓰기 40px
   }
@@ -631,6 +638,31 @@ label {
           border-color: $element-focus-border-color;
         }
       }
+    }
+  }
+}
+// input box + button
+// TODO: #9371 input + button 디자인 적용시 수정
+.input-button {
+  input[type="text"] { 
+    margin: 0; 
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    &:focus,
+    &:hover {
+      z-index: 1;
+    }
+  }
+  button { 
+    margin-left: -0.0625rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+    &:focus,
+    &:hover,
+    &:active {
+      z-index: 1;
     }
   }
 }

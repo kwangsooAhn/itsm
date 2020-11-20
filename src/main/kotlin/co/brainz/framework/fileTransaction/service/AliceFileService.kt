@@ -68,7 +68,7 @@ class AliceFileService(
     private val allowedImageExtensions = listOf("png", "gif", "jpg", "jpeg")
     private val fileUploadRootDirectory = "uploadRoot"
     private val processAttachFileRootDirectory = this.imagesRootDirectory
-    private val documentIconRootDirector = "public/assets/media/images/document"
+    private val documentIconRootDirectory = "public/assets/media/images/document"
 
     /**
      * 파일 허용 확장자 목록 가져오기
@@ -254,7 +254,7 @@ class AliceFileService(
      */
     fun getImageFileList(type: String): List<AliceImageFileDto> {
         val dir = when (type) {
-            AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(this.documentIconRootDirector).uri)
+            AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(this.documentIconRootDirectory).uri)
             else -> super.getWorkflowDir(this.imagesRootDirectory)
         }
         val fileList = mutableListOf<Path>()

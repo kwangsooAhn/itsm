@@ -81,30 +81,6 @@
         display: none;
 
         &.on { display: block; }
-        // TODO: #9371 input + button 디자인 적용시 수정
-        .input-button {
-          input[type="text"] { 
-            margin: 0; 
-            border-top-right-radius: 0;
-            border-bottom-right-radius: 0;
-
-            &:focus,
-            &:hover {
-              z-index: 1;
-            }
-          }
-          button { 
-            margin-left: -0.0625rem;
-            border-top-left-radius: 0;
-            border-bottom-left-radius: 0;
-
-            &:focus,
-            &:hover,
-            &:active {
-              z-index: 1;
-            }
-          }
-        }
       }
     }
   }
@@ -139,6 +115,50 @@
               }
               width: 6.25rem; // 100px
               min-width: 6.25rem; // 100px
+            }
+          }
+        }
+      }
+    }
+  }
+  // 관련문서 모달
+  &.token-list {
+    width: $token-list-modal-width;
+    height: $token-list-modal-height;
+
+    .modal-content {
+      height: calc(#{$token-list-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
+
+      // 관련문서 목록
+      .related-instance-list {
+        margin-top: 0.9375rem; // 15px
+        .table-set {
+          margin-top: 2.188rem; // 35px
+          table {
+            width: 100%;
+            .list-head {
+              tr {
+                color: $light-black;
+                border-bottom: 0.125rem solid $default-gray;
+              }
+            }
+            .list-body {
+              display: block;
+              width: 60rem; // 960px
+              height: 32.8125rem; // 525px
+              color: $dark-gray;
+              overflow-y: auto;
+              .instance-list {
+                display: table;
+                width: 100%;
+                height: 3.125rem; // 50px
+                line-height: 3.125rem; // 50px
+                & > td {
+                  display: inline-block; // 말줄임 적용을 위해 추가
+                  vertical-align: middle;
+                }
+              }
             }
           }
         }

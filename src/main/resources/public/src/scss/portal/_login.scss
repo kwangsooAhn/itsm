@@ -71,6 +71,8 @@
     color: $login-form-font-color;
     margin-top: 6.188rem; // 99px
 
+    @include verticalBar(1.25rem, 2.5rem, 0.0625rem solid $line-gray, 0 1.875rem 0 0); // 30px,  40px
+
     a { color: $login-form-font-color; }
 
     &-signUp, 
