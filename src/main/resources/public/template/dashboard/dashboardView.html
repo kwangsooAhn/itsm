@@ -153,27 +153,28 @@
             divDocumentColor.style.backgroundColor = data.documentColor;
 
             let divDocumentRow = document.createElement('div');
-            divDocumentRow.className = 'document-row';
+            divDocumentRow.className = 'document-row flex-row justify-content-between';
 
             let divDocumentRowContent = document.createElement('div');
             divDocumentRowContent.className = 'document-row-content';
 
             let aOpenTokenEdit = document.createElement('span');
             aOpenTokenEdit.addEventListener('click', function (e) {
-                console.log(document.getElementsByName('isRole'));
                 if (document.getElementsByName('isRole')[0].value) {
                     openTokenEdit(data.tokenId);
                 }
             }, false);
 
             let divDocumentTitle = document.createElement('div');
-            divDocumentTitle.className = 'document-title';
+            divDocumentTitle.className = 'document-title flex-row align-items-center';
 
             let h3DocumentName = document.createElement('h3');
+            h3DocumentName.className = 'text-ellipsis';
             h3DocumentName.innerText = data.documentName;
 
-            let h5DocumentNo = document.createElement('h5');
-            h5DocumentNo.innerText = data.documentNo;
+            let spanDocumentNo = document.createElement('span');
+            spanDocumentNo.className = 'document-numbering text-ellipsis';
+            spanDocumentNo.innerText = data.documentNo;
 
             let divDocumentTopic = document.createElement('div');
             divDocumentTopic.className = 'document-topic';
@@ -188,10 +189,10 @@
             divDocumentRowInfo.className = 'document-row-info';
 
             let divDocumentDetail = document.createElement('div');
-            divDocumentDetail.className = 'document-detail';
+            divDocumentDetail.className = 'document-detail flex-row align-items-center';
 
             let divDocumentUser = document.createElement('div');
-            divDocumentUser.className = 'document-user';
+            divDocumentUser.className = 'document-user inline-flex align-items-center justify-content-center';
 
             let imgProfilePhoto = document.createElement('img');
             imgProfilePhoto.className = 'profile-photo';
@@ -224,7 +225,7 @@
             }
 
             divDocumentTitle.appendChild(h3DocumentName);
-            divDocumentTitle.appendChild(h5DocumentNo);
+            divDocumentTitle.appendChild(spanDocumentNo);
             aOpenTokenEdit.appendChild(divDocumentTitle);
             aOpenTokenEdit.appendChild(divDocumentTopic);
             divDocumentRowContent.appendChild(aOpenTokenEdit);
