@@ -777,6 +777,13 @@ input:disabled {
   cursor: default;
 }
 
+input:read-only {
+  background-color: #F7F8F9;
+  border-color: #EBEBEB;
+  pointer-events: none;
+  cursor: default;
+}
+
 input.icon {
   padding-right: 2.5rem;
 }
