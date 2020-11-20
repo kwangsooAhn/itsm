@@ -798,6 +798,7 @@ token:
     view: "Document View"
     write: "My Document"
   msg:
+    selectToken: "Check the related documents to be added."
     searchDescription: "View and search documents relating to me."
     tag: "Insert tags."
   type:

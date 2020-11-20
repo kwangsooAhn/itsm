@@ -798,6 +798,7 @@ token:
     view: "문서 조회"
     write: "처리할 문서"
   msg:
+    selectToken: "추가할 관련 문서를 선택해주세요."
     searchDescription: "나와 관련된 문서를 조회 및 처리합니다."
     tag: "태그를 입력하세요."
   type:
