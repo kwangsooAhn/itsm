@@ -54,7 +54,63 @@ class BoardAdminService(
             attachYn = boardAdminDto.attachYn,
             attachFileSize = boardAdminDto.attachFileSize
         )
-        boardAdminRepository.save(portalBoardAdminEntity)
+        val boardAdmin = boardAdminRepository.save(portalBoardAdminEntity)
+
+        if (boardAdminDto.categoryYn) {
+            val categoryList = mutableListOf<PortalBoardCategoryEntity>()
+            if (boardAdminDto.boardAdminId.isNotEmpty()) {
+                val boardCategoryList = boardCategoryRepository.findByCategoryList(boardAdminDto.boardAdminId)
+                val newCategoryList = mutableListOf<BoardCategoryDetailDto>()
+                val existsCategoryList = mutableListOf<BoardCategoryDto>()
+                for (boardCategoryDetailDto in boardAdminDto.categoryList) {
+                    if (boardCategoryDetailDto.boardCategoryId.isEmpty()) { // new
+                        newCategoryList.add(boardCategoryDetailDto)
+                    } else {
+                        for (boardCategoryDto in boardCategoryList) {
+                            if (boardCategoryDto.boardCategoryId == boardCategoryDetailDto.boardCategoryId) {
+                                existsCategoryList.add(boardCategoryDto)
+                            }
+                        }
+                    }
+                }
+
+                val deleteCategoryList = mutableListOf<BoardCategoryDto>()
+                for (boardCategoryDto in boardCategoryList) {
+                    if (!existsCategoryList.contains(boardCategoryDto)) {
+                        deleteCategoryList.add(boardCategoryDto)
+                    }
+                }
+
+                deleteCategoryList.forEach { category ->
+                    this.deleteBoardCategory(category.boardCategoryId);
+                }
+
+                newCategoryList.forEach { category ->
+                    categoryList.add(
+                        PortalBoardCategoryEntity(
+                            boardCategoryId = "",
+                            boardAdmin = boardAdminRepository.getOne(boardAdminDto.boardAdminId),
+                            boardCategoryName = category.boardCategoryName,
+                            boardCategorySort = category.boardCategorySort
+                        )
+                    )
+                }
+            } else {
+                boardAdminDto.categoryList.forEach { category ->
+                    categoryList.add(
+                        PortalBoardCategoryEntity(
+                            boardCategoryId = "",
+                            boardAdmin = boardAdmin,
+                            boardCategoryName = category.boardCategoryName,
+                            boardCategorySort = category.boardCategorySort
+                        )
+                    )
+                }
+            }
+            if (categoryList.isNotEmpty()) {
+                boardCategoryRepository.saveAll(categoryList)
+            }
+        }
     }
 
     /**
@@ -85,7 +141,8 @@ class BoardAdminService(
             createDt = boardAdminEntity.createDt,
             createUser = boardAdminEntity.createUser,
             updateDt = boardAdminEntity.updateDt,
-            updateUser = boardAdminEntity.updateUser
+            updateUser = boardAdminEntity.updateUser,
+            categoryList = getBoardCategoryDetailList(boardAdminEntity.boardAdminId)
         )
     }
 
@@ -130,7 +187,7 @@ class BoardAdminService(
      * @param boardAdminId
      * @return List<BoardCategoryDetailDto>
      */
-    fun getBoardCategoryDetailList(boardAdminId: String): List<BoardCategoryDetailDto>? {
+    fun getBoardCategoryDetailList(boardAdminId: String): List<BoardCategoryDetailDto> {
         val boardCategoryList = boardCategoryRepository.findByCategoryList(boardAdminId)
         val boardAdminEntity = boardAdminRepository.findById(boardAdminId).orElse(null)
         val boardCategoryDetailDtoList = mutableListOf<BoardCategoryDetailDto>()
@@ -146,23 +203,6 @@ class BoardAdminService(
             )
         }
         return boardCategoryDetailDtoList
-    }
-
-    /**
-     * 카테고리 등록
-     *
-     * @param boardCategoryDto
-     */
-    @Transactional
-    fun saveBoardCategory(boardCategoryDto: BoardCategoryDto) {
-        val boardAdminEntity = boardAdminRepository.findById(boardCategoryDto.boardAdminId).orElse(null)
-        val portalBoardCategoryEntity = PortalBoardCategoryEntity(
-            boardCategoryId = boardCategoryDto.boardCategoryId,
-            boardAdmin = boardAdminEntity,
-            boardCategoryName = boardCategoryDto.boardCategoryName,
-            boardCategorySort = boardCategoryDto.boardCategorySort
-        )
-        boardCategoryRepository.save(portalBoardCategoryEntity)
     }
 
     /**

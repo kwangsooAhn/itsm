@@ -1075,7 +1075,7 @@ button {
   white-space: nowrap;
   vertical-align: middle;
   overflow: visible;
-  padding: 0.5625rem 1.563rem 0.5625rem 1.563rem;
+  padding: 0.625rem 1.563rem 0.625rem 1.563rem;
   cursor: pointer;
 }
 .btn:focus, .btn:hover,
@@ -2246,10 +2246,6 @@ button .icon-plus {
   height: 100vh;
   background: #F7F8F9;
   background-color: white;
-  /*
-   * #9067 일감 완료 후 삭제 또는 수정 여부를 확인합니다.
-   * 해당 클래스가 사용되는 카테고리 관리 화면은 추후 게시판 관리 페이지에 합쳐질 예정입니다.
-   */
 }
 .itsm-container .contents-edit .header {
   padding: 3.1875rem 3.75rem 3.1875rem 3.75rem;
@@ -2346,6 +2342,12 @@ button .icon-plus {
   display: flex;
   align-items: center;
 }
+.itsm-container .contents-edit .edit .form-set .margin-bottom-10 {
+  margin-bottom: 0.625rem;
+}
+.itsm-container .contents-edit .edit .form-set .none-margin {
+  margin: 0;
+}
 .itsm-container .contents-edit .btn-list {
   padding: 2.5rem 0 3.125rem 0;
 }
@@ -2380,21 +2382,19 @@ button .icon-plus {
 .itsm-container .contents-edit .category-list .edit-table {
   width: 100%;
 }
-.itsm-container .contents-edit .category-list .edit-table head {
+.itsm-container .contents-edit .category-list .edit-table thead {
   display: block;
 }
-.itsm-container .contents-edit .category-list .edit-table head > tr {
+.itsm-container .contents-edit .category-list .edit-table thead > tr {
   display: flex;
   height: 2.375rem;
-  border-bottom: 0.125rem solid #E1E3E6;
 }
-.itsm-container .contents-edit .category-list .edit-table head > tr th {
-  color: #3F4B56;
-  font-size: 1.125rem;
-  font-weight: 500;
-}
-.itsm-container .contents-edit .category-list .edit-table head > tr th:first-child {
-  padding-left: 1.25rem;
+.itsm-container .contents-edit .category-list .edit-table thead > tr th {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  text-align: left;
+  border-bottom: 0.0625rem solid #E1E3E6;
 }
 .itsm-container .contents-edit .category-list .edit-table tbody {
   display: block;
@@ -2405,6 +2405,9 @@ button .icon-plus {
   display: table;
   width: 100%;
   height: 2.875rem;
+}
+.itsm-container .contents-edit .category-list .edit-table tbody tr:last-child td {
+  border-bottom: 0.0625rem solid #E1E3E6;
 }
 .itsm-container .contents-edit .category-list .edit-table tbody tr:hover {
   background: #EBEBEB;
