@@ -127,8 +127,8 @@
     height: $token-list-modal-height;
 
     .modal-content {
-      height: calc(#{$token-list-modal-height} - #{$modal-header-height});
-      padding: 0.625rem 1.25rem 1.25rem 1.25rem; // 10px 20px 20px 20px
+      height: calc(#{$token-list-modal-height} - #{$modal-header-height} - #{$modal-bottom-height});
+      padding: 0.625rem 1.25rem 2.5rem 1.25rem; // 10px 20px 40px 20px
 
       // 관련문서 목록
       .related-instance-list {
@@ -146,7 +146,7 @@
             .list-body {
               display: block;
               width: 60rem; // 960px
-              height: 33.125rem; // 530px
+              height: 32.8125rem; // 525px
               color: $dark-gray;
               overflow-y: auto;
               .instance-list {
