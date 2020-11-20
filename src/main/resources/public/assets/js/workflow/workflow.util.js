@@ -563,7 +563,6 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                     case 'process':
                         saveData = workflowUtil.loadProcessFromXML(e.target.result);
                         saveData.process = {name: data.processName, description: data.processDesc};
-                        console.log(saveData);
                         workflowUtil.addRequiredProcessAttribute(saveData);
                         break;
                     default: //none

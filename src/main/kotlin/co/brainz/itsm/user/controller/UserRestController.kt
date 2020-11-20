@@ -158,7 +158,7 @@ class UserRestController(
     /**
      * 사용자의 비밀번호를 초기화한다.
      */
-    @PutMapping("/{userKey}/resetPassword")
+    @PutMapping("/{userKey}/resetpassword")
     private fun resetPassword(@PathVariable userKey: String): String {
         val password = userService.makePassword()
         return userService.resetPassword(userKey, password)

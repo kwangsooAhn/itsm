@@ -35,7 +35,7 @@ class AliceCertificationRestController(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-    @PostMapping("/register")
+    @PostMapping("")
     fun setUser(@RequestBody aliceSignUpDto: AliceSignUpDto): String {
         val result = aliceCertificationService.createUser(aliceSignUpDto, AliceUserConstants.USER_ID)
         if (result == AliceUserConstants.SignUpStatus.STATUS_SUCCESS.code) {
@@ -49,7 +49,7 @@ class AliceCertificationRestController(
         return result
     }
 
-    @GetMapping("/certifiedMail")
+    @GetMapping("/certifiedmail")
     fun sendCertifiedMail() {
         val aliceUserDto: AliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
         aliceCertificationMailService.sendMail(
