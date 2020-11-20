@@ -1282,6 +1282,26 @@ label {
   border-color: #0098FF;
 }
 
+.input-button input[type="text"] {
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-button input[type="text"]:focus, .input-button input[type="text"]:hover {
+  z-index: 1;
+}
+
+.input-button button {
+  margin-left: -0.0625rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-button button:focus, .input-button button:hover, .input-button button:active {
+  z-index: 1;
+}
+
 input:read-only {
   color: #ACB4BF;
   background-color: #F7F8F9;

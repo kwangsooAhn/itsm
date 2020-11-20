@@ -641,3 +641,28 @@ label {
     }
   }
 }
+// input box + button
+// TODO: #9371 input + button 디자인 적용시 수정
+.input-button {
+  input[type="text"] { 
+    margin: 0; 
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+
+    &:focus,
+    &:hover {
+      z-index: 1;
+    }
+  }
+  button { 
+    margin-left: -0.0625rem;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+
+    &:focus,
+    &:hover,
+    &:active {
+      z-index: 1;
+    }
+  }
+}

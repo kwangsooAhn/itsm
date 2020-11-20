@@ -1255,6 +1255,26 @@ label {
   border-color: #0098FF;
 }
 
+.input-button input[type="text"] {
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-button input[type="text"]:focus, .input-button input[type="text"]:hover {
+  z-index: 1;
+}
+
+.input-button button {
+  margin-left: -0.0625rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-button button:focus, .input-button button:hover, .input-button button:active {
+  z-index: 1;
+}
+
 textarea {
   min-height: 7.5rem;
   resize: vertical;
@@ -3461,18 +3481,20 @@ button .icon-search {
 }
 
 .ql-toolbar.ql-snow .ql-formats .ql-header {
-  width: 7.5rem;
+  width: 6.25rem;
   height: 2.5rem;
 }
 
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-label,
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-item {
-  padding: 0.4375rem 0.625rem;
+  padding: 0.4375rem 0.75rem;
 }
 
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-label:not(.ql-color-picker):not(.ql-icon-picker) svg,
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-item:not(.ql-color-picker):not(.ql-icon-picker) svg {
   margin: auto;
+  right: 4%;
+  top: 40%;
 }
 
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-label:hover, .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-label:focus,

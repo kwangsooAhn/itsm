@@ -317,7 +317,7 @@ input, button, select, optgroup, textarea {
   width: 100%;
 }
 
-/* _common.scss
+/* _common.scss 
  *
  * 파일 경로 : template/_common.scss
  * @description 공통으로 사용되는 디자인
@@ -376,7 +376,7 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.125rem solid #E1E3E6;
 }
 
-/* _fonts.scss
+/* _fonts.scss 
  *
  * 파일 경로 : template/_fonts.scss
  * @description 폰트 디자인
@@ -425,7 +425,7 @@ input, button, select, optgroup, textarea {
   font-weight: 900;
 }
 
-/* _elements.scss
+/* _elements.scss 
  *
  * 파일 경로 : template/_elements.scss
  * @description HTML element 디자인
@@ -513,13 +513,6 @@ input:not(:disabled):hover {
 
 input:disabled {
   color: #ACB4BF;
-  background-color: #F7F8F9;
-  border-color: #EBEBEB;
-  pointer-events: none;
-  cursor: default;
-}
-
-input:read-only {
   background-color: #F7F8F9;
   border-color: #EBEBEB;
   pointer-events: none;
@@ -1024,6 +1017,26 @@ label {
   border-color: #0098FF;
 }
 
+.input-button input[type="text"] {
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-button input[type="text"]:focus, .input-button input[type="text"]:hover {
+  z-index: 1;
+}
+
+.input-button button {
+  margin-left: -0.0625rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-button button:focus, .input-button button:hover, .input-button button:active {
+  z-index: 1;
+}
+
 h1 {
   color: #3F4B56;
   font-size: 2.25rem;
@@ -1069,7 +1082,6 @@ h6 {
 
 input {
   padding: 0 10px;
-  margin-right: 0.0625rem;
   vertical-align: middle;
 }
 
@@ -1141,7 +1153,7 @@ table[id="documentDisplay"] td {
   overflow: initial;
 }
 
-/* _buttons.scss
+/* _buttons.scss 
  *
  * 파일 경로 : template/_buttons.scss
  * @description 버튼 디자인
@@ -2202,8 +2214,6 @@ button .icon-plus {
 
 .itsm-container .contents-token .list-item .document-row {
   flex: auto;
-  display: flex;
-  justify-content: space-between;
   padding: 1.875rem 3rem;
   border-top: 0.0625rem solid #EBEBEB;
   border-right: 0.0625rem solid #EBEBEB;
@@ -2214,9 +2224,10 @@ button .icon-plus {
   cursor: pointer;
 }
 
-.itsm-container .contents-token .list-item .document-row-content .document-title {
-  align-items: center;
-  justify-content: flex-start;
+.itsm-container .contents-token .list-item .document-row-content .document-title .document-numbering {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
 }
 
 .itsm-container .contents-token .list-item .document-row-content .document-title .text-ellipsis {
@@ -2235,17 +2246,6 @@ button .icon-plus {
 
 .itsm-container .contents-token .list-item .document-row-content .document-topic-item:first-child {
   margin-top: 1.5625rem;
-}
-
-.itsm-container .contents-token .list-item .document-row-info .document-detail {
-  display: flex;
-  align-items: center;
-}
-
-.itsm-container .contents-token .list-item .document-row-info .document-detail .document-user {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .itsm-container .contents-token .list-item .document-row-info .document-tag {
@@ -2513,6 +2513,11 @@ button .icon-plus {
   height: 1.875rem;
   padding: 0 0.3125rem;
   margin: 0;
+}
+
+.itsm-container .contents-list .list .list-table .list-body tr td .profile-photo {
+  width: 1.688rem;
+  height: 1.688rem;
 }
 
 .itsm-container .contents-edit {
@@ -2869,6 +2874,11 @@ button .icon-plus {
   margin: 0;
 }
 
+.itsm-container .contents-list-edit > .list-area .list .list-table .list-body tr td .profile-photo {
+  width: 1.688rem;
+  height: 1.688rem;
+}
+
 .itsm-container .contents-list-edit > .edit-area {
   padding: 9.625rem 2.1875rem 3.125rem 0;
   width: 38.125rem;
@@ -2986,9 +2996,9 @@ button .icon-plus {
 }
 
 .itsm-container .contents-document .document-area .card-area .document-card-box .card-desc {
-  color: #586872;
   font-size: 1rem;
   font-weight: 400;
+  color: #929AA6;
   margin-top: 0.3125rem;
 }
 
@@ -3084,6 +3094,11 @@ button .icon-plus {
   height: 1.875rem;
   padding: 0 0.3125rem;
   margin: 0;
+}
+
+.itsm-container .contents-tree-edit > .tree-area .list .list-table .list-body tr td .profile-photo {
+  width: 1.688rem;
+  height: 1.688rem;
 }
 
 .itsm-container .contents-tree-edit > .tree-area .list {
@@ -3285,7 +3300,7 @@ button .icon-plus {
   background-color: #87CEFF;
 }
 
-/* _alerts.scss
+/* _alerts.scss 
  *
  * 파일 경로 : template/_alerts.scss
  * @description 알림 모달
@@ -3442,7 +3457,7 @@ button .icon-plus {
   }
 }
 
-/* _scrollbars.scss
+/* _scrollbars.scss 
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
@@ -3755,7 +3770,7 @@ button .icon-plus {
   background-color: #CCCED1;
 }
 
-/* _file-uploader.scss
+/* _file-uploader.scss 
  *
  * 파일 경로 : template/_file-uploader.scss
  * @description 파일 업로드 관련 디자인
@@ -4262,7 +4277,7 @@ button .icon-plus {
   display: none;
 }
 
-/* _date-picker.scss
+/* _date-picker.scss 
  *
  * 파일 경로 : template/_date-picker.scss
  * @description Date/Time picker 관련 디자인
@@ -4536,7 +4551,7 @@ button .icon-plus {
   margin: 1.25rem 1.25rem 1.25rem 0;
 }
 
-/* _text-editor.scss
+/* _text-editor.scss 
  *
  * 파일 경로 : template/_text-editor.scss
  * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
@@ -4572,18 +4587,20 @@ button .icon-plus {
 }
 
 .ql-toolbar.ql-snow .ql-formats .ql-header {
-  width: 7.5rem;
+  width: 6.25rem;
   height: 2.5rem;
 }
 
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-label,
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-item {
-  padding: 0.4375rem 0.625rem;
+  padding: 0.4375rem 0.75rem;
 }
 
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-label:not(.ql-color-picker):not(.ql-icon-picker) svg,
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-item:not(.ql-color-picker):not(.ql-icon-picker) svg {
   margin: auto;
+  right: 4%;
+  top: 40%;
 }
 
 .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-label:hover, .ql-toolbar.ql-snow .ql-formats .ql-header .ql-picker-label:focus,
@@ -4773,7 +4790,7 @@ button .icon-plus {
   border-color: transparent;
 }
 
-/* _tree.scss
+/* _tree.scss 
  *
  * 파일 경로 : template/_tree.scss
  * @description 트리 구조 디자인
@@ -4921,7 +4938,7 @@ span.node_selected label {
   color: #3F4B56;
 }
 
-/* _color-picker.scss
+/* _color-picker.scss 
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -4982,7 +4999,7 @@ span.node_selected label {
   outline: 0.0625rem solid #0098FF;
 }
 
-/* _modal.scss
+/* _modal.scss 
  *
  * 파일 경로 : template/_modal.scss
  * @description 모달 디자인
@@ -5135,26 +5152,6 @@ body.modal-active {
   display: block;
 }
 
-.modal-dialog.document-edit .modal-content .document-icon-content .input-button input[type="text"] {
-  margin: 0;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-.modal-dialog.document-edit .modal-content .document-icon-content .input-button input[type="text"]:focus, .modal-dialog.document-edit .modal-content .document-icon-content .input-button input[type="text"]:hover {
-  z-index: 1;
-}
-
-.modal-dialog.document-edit .modal-content .document-icon-content .input-button button {
-  margin-left: -0.0625rem;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.modal-dialog.document-edit .modal-content .document-icon-content .input-button button:focus, .modal-dialog.document-edit .modal-content .document-icon-content .input-button button:hover, .modal-dialog.document-edit .modal-content .document-icon-content .input-button button:active {
-  z-index: 1;
-}
-
 .modal-dialog.document-display {
   width: 68rem;
   height: 42.188rem;
@@ -5189,7 +5186,7 @@ body.modal-active {
   padding-bottom: 0.625rem;
 }
 
-/* _thumbnail.scss
+/* _thumbnail.scss 
  *
  * 파일 경로 : template/_thumbnail.scss
  * @description 썸네일 디자인
@@ -5382,7 +5379,7 @@ body.modal-active {
   background-position: center center;
 }
 
-/* _avatar.scss
+/* _avatar.scss 
  *
  * 파일 경로 : template/_avatar.scss
  * @description 아바타 관련 디자인
@@ -5620,7 +5617,7 @@ body.modal-active {
   margin-bottom: 0.3125rem;
 }
 
-/* _tooltip.scss
+/* _tooltip.scss 
  *
  * 파일 경로 : template/_tooltip.scss
  * @description 툴팁 디자인
