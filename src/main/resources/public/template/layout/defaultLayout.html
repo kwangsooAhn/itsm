@@ -8,12 +8,16 @@
 	</head>
 	<body>
 		<div class="alice-wrapper">
-			<th:block th:replace="layout/navigation">menu</th:block>
-			<th:block th:replace="layout/menu">menu</th:block>
-			<div class="itsm-container">
-				<th:block layout:fragment="content"></th:block>
+			<div class="itsm-container flex-row">
+				<div class="gnb">
+		   		    <th:block th:replace="layout/navigation">menu</th:block>
+				    <th:block th:replace="layout/menu">menu</th:block>
+				</div>
+				<div class="main">
+				    <th:block layout:fragment="content"></th:block>
+				</div>
+				<footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
 			</div>
-			<footer th:replace="layout/fragments/commonFooter :: commonFooter"></footer>
 		</div>
 		<th:block layout:fragment="pageScript"></th:block>
 	</body>

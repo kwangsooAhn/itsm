@@ -12,18 +12,18 @@
         <div class="notification">
             <div class="notification-icon" onclick="toggleNotificationContainer();">
                 <img class="load-svg" th:src="@{/assets/theme/{theme}/media/icons/gnb/icon_gnb_notification.svg(theme=${#authentication.details.theme})}" width="25" height="27">
-                <span class="notification-count" id="count"></span>
+                <span class="notification-count align-center" id="count"></span>
             </div>
             <div id="notification-panel" class="notification-panel"></div>
         </div>
-        <div class="user-info">
+        <div class="user-info flex-row align-items-center">
             <a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}">
                 <img class="user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
                 <span class="user-name" sec:authentication="details.userName"></span>
             </a>
         </div>
         <div class="logout">
-            <a class="btn-logout" href="javascript:logout()">
+            <a class="btn-logout flex-row" href="javascript:logout()">
                 <span class="icon-logout"></span>
                 <span th:text="#{common.btn.logout}"></span>
             </a>

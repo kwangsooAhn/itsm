@@ -8,7 +8,7 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list flex-column">
+    <!--<div class="contents-list flex-column">
         <div class="page-title">
             <h1 th:text="#{notice.label.notice}"></h1>
             <h6 class="title-description" th:text="#{notice.msg.searchDescription}"></h6>
@@ -32,7 +32,36 @@
             </div>
         </div>
         <div class="list" id="noticeList"></div>
+    </div>-->
+
+    <div class="notice-header">
+        <div class="page-title">
+            <h1 th:text="#{notice.label.notice}"></h1>
+            <h6 class="title-description" th:text="#{notice.msg.searchDescription}"></h6>
+        </div>
+        <div class="search-area">
+            <div class="search-input">
+                <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
+                <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
+                <form id="searchFrm">
+                    <input class="search col-5" id="searchValue" name="searchValue" type="text" maxlength="100"
+                           th:placeholder="#{notice.label.searchPlaceholder}"/>
+                    <input class="search-date col-3" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <span>~</span>
+                    <input class="search-date col-3" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                    <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
+                </form>
+            </div>
+            <div class="ml-auto">
+                <button class="default-fill" onclick="location.href='/notices/new'" type="button"
+                        sec:authorize="hasAuthority('notice.create')" th:text="#{common.btn.add}"></button>
+            </div>
+        </div>
     </div>
+    <div class="notice-content">
+        <div class="list" id="noticeList"></div>
+    </div>
+
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
@@ -146,7 +175,7 @@
                                 noticeDtList[i].textContent = '';
                             }
                         }
-                        OverlayScrollbars(document.querySelector('.list-body'), {
+                        /*OverlayScrollbars(document.querySelector('.list-body'), {
                             className: 'scrollbar',
                             callbacks: {
                                 onScroll: function(e) {
@@ -161,7 +190,7 @@
                                     }
                                 }
                             }
-                        });
+                        });*/
                     }
                 }
             };
