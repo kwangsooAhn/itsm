@@ -425,7 +425,7 @@ input, button, select, optgroup, textarea {
   font-weight: 900;
 }
 
-/* _elements.scss
+/* _elements.scss 
  *
  * 파일 경로 : template/_elements.scss
  * @description HTML element 디자인
@@ -3300,7 +3300,7 @@ button .icon-plus {
   background-color: #87CEFF;
 }
 
-/* _alerts.scss
+/* _alerts.scss 
  *
  * 파일 경로 : template/_alerts.scss
  * @description 알림 모달
@@ -3457,7 +3457,7 @@ button .icon-plus {
   }
 }
 
-/* _scrollbars.scss
+/* _scrollbars.scss 
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
@@ -3770,7 +3770,7 @@ button .icon-plus {
   background-color: #CCCED1;
 }
 
-/* _file-uploader.scss
+/* _file-uploader.scss 
  *
  * 파일 경로 : template/_file-uploader.scss
  * @description 파일 업로드 관련 디자인
@@ -4277,7 +4277,7 @@ button .icon-plus {
   display: none;
 }
 
-/* _date-picker.scss
+/* _date-picker.scss 
  *
  * 파일 경로 : template/_date-picker.scss
  * @description Date/Time picker 관련 디자인
@@ -4551,7 +4551,7 @@ button .icon-plus {
   margin: 1.25rem 1.25rem 1.25rem 0;
 }
 
-/* _text-editor.scss
+/* _text-editor.scss 
  *
  * 파일 경로 : template/_text-editor.scss
  * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
@@ -4790,7 +4790,7 @@ button .icon-plus {
   border-color: transparent;
 }
 
-/* _tree.scss
+/* _tree.scss 
  *
  * 파일 경로 : template/_tree.scss
  * @description 트리 구조 디자인
@@ -4938,7 +4938,7 @@ span.node_selected label {
   color: #3F4B56;
 }
 
-/* _color-picker.scss
+/* _color-picker.scss 
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -4999,7 +4999,7 @@ span.node_selected label {
   outline: 0.0625rem solid #0098FF;
 }
 
-/* _modal.scss
+/* _modal.scss 
  *
  * 파일 경로 : template/_modal.scss
  * @description 모달 디자인
@@ -5184,6 +5184,53 @@ body.modal-active {
 .modal-dialog.document-display .modal-content .document-display-content table tr th.column-title {
   vertical-align: bottom;
   padding-bottom: 0.625rem;
+}
+
+.modal-dialog.token-list {
+  width: 62.5rem;
+  height: 46.875rem;
+}
+
+.modal-dialog.token-list .modal-content {
+  height: calc(46.875rem - 3.375rem);
+  padding: 0.625rem 1.25rem 1.25rem 1.25rem;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list {
+  margin-top: 0.9375rem;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set {
+  margin-top: 2.188rem;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table {
+  width: 100%;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-head tr {
+  color: #3F4B56;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body {
+  display: block;
+  width: 60rem;
+  height: 33.125rem;
+  color: #586872;
+  overflow-y: auto;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body .instance-list {
+  display: table;
+  width: 100%;
+  height: 3.125rem;
+  line-height: 3.125rem;
+}
+
+.modal-dialog.token-list .modal-content .related-instance-list .table-set table .list-body .instance-list > td {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* _thumbnail.scss 
