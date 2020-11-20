@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rest/portal")
+@RequestMapping("/rest/portals")
 class PortalRestController(
     private val aliceFileService: AliceFileService,
     private val downloadService: DownloadService,
@@ -43,7 +43,7 @@ class PortalRestController(
     /**
      * 포탈 검색 리스트 호출 처리
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getPortalList(portalSearchDto: PortalSearchDto): MutableList<PortalDto> {
         val portalResult = portalService.findPortalListOrSearchList(portalSearchDto)
         val totalCount = if (portalResult.isNotEmpty()) portalResult[0].totalCount else 0
@@ -71,7 +71,7 @@ class PortalRestController(
     /**
      * 포탈 공지사항 리스트 호출(스크롤 페이징)
      */
-    @GetMapping("/notices", "")
+    @GetMapping("/notices")
     fun getNoticeList(noticeSearchDto: NoticeSearchDto): MutableList<NoticeListDto> {
         val searchValue = noticeSearchDto.searchValue
         val fromDt = LocalDateTime.parse(noticeSearchDto.fromDt, DateTimeFormatter.ISO_DATE_TIME)
@@ -83,7 +83,7 @@ class PortalRestController(
     /**
      * 파일 허용 확장자 목록가져오기
      */
-    @GetMapping("/fileNameExtensionList")
+    @GetMapping("/filenameextensions")
     fun getFileNameExtension(): List<AliceFileNameExtensionDto> {
         val fileNameExtensions = mutableListOf<AliceFileNameExtensionDto>()
         val foundFileNameExtensions = aliceFileService.getFileNameExtension()
@@ -99,7 +99,7 @@ class PortalRestController(
      * @param ownId 파일 목록을 가져오기 위한 값.
      * @param fileDataId 문자열로 파일 목록을 가져오기 위한 값. ex) 111,22,33
      */
-    @GetMapping("/filelist")
+    @GetMapping("/files")
     fun getFileList(@RequestParam ownId: String, @RequestParam fileDataId: String): List<AliceFileOwnMapDto> {
         return aliceFileService.getList(ownId, fileDataId)
     }
@@ -117,7 +117,7 @@ class PortalRestController(
      * [DownloadSearchDto]를 받아서 포탈 자료실 추가할 데이터를 반환 [List<DownloadDto>]
      *
      */
-    @GetMapping("/downloads/list")
+    @GetMapping("/downloads")
     fun getBoardList(downloadSearchDto: DownloadSearchDto): List<DownloadListDto> {
         return downloadService.getDownloadList(downloadSearchDto)
     }

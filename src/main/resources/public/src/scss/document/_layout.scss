@@ -26,8 +26,10 @@
       max-width: $drawing-board-width;
       padding: 8.438rem 0 0.9375rem 0; // 135px 0 15px 0
       // 문서 번호
-      .numbering-content {
-        label { color: $gray; }
+      .document-numbering {
+        font-size: 1rem; // 16px
+        font-weight: $font-weight-regular;
+        color: $gray;
       }
     }
     // 폼이 그려지는 영역
@@ -207,6 +209,7 @@
             padding: 1.25rem 1.5625rem; // 20px 25px
             margin: 0.625rem 0.625rem 0 0; // 10px 10px 0 0
             border: 0.0625rem solid $line-gray; // 1px
+            border-radius: 0.1875rem; // 3px
             background-color: $light-gray;
             .comment {
               &-row {
@@ -214,11 +217,11 @@
                 margin-top: 0.625rem; // 10px
                 word-break: break-word;
                 &-info {
-                  h5 {
-                    margin-left: 0.9375rem; // 15px
-                  }
                   .user-name { color: $dark-gray; }
-                  .user-date-time { color: $gray; }
+                  .user-date-time { 
+                    color: $gray;
+                    margin-left: 0.625rem; // 10px
+                  }
                   button {
                     padding: 0;
                     .icon-delete {
@@ -237,11 +240,11 @@
             padding: 0;
 
             textarea {
-              height: 4.3750rem; // 70px
-              margin-right: 0.3125rem; // 5px
               flex: 1;
+              min-height: 4.063rem; // 65px
+              padding: 0.625rem 1.563rem; // 10px 25px
+              margin-right: 0.3125rem; // 5px
               border-radius: 0.1875rem; // 3px
-              resize: none;
             }
           }
         }

@@ -16,7 +16,7 @@
         <div class="search-area">
             <div class="search-input">
                 <form id="searchFrm">
-                    <input class="search col-4" id="search" name="search" type="text" maxlength="100" th:placeholder="#{faq.label.searchPlaceholder}"/>
+                    <input class="search col-5" id="search" name="search" type="text" maxlength="100" th:placeholder="#{faq.label.searchPlaceholder}"/>
                 </form>
             </div>
             <div class="ml-auto">
@@ -53,7 +53,7 @@
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/faqs/list?' + urlParam, isScroll);
+                restSubmit('get', '/faqs?' + urlParam, isScroll);
             }
         }
 

@@ -59,7 +59,7 @@ class FaqController(private val faqService: FaqService, private val codeService:
     /**
      * FAQ 검색 결과 리스트 화면 호출 처리
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getFaqs(faqSearchRequestDto: FaqSearchRequestDto, model: Model): String {
         val result = faqService.getFaqs(faqSearchRequestDto)
         model.addAttribute("faqs", result)

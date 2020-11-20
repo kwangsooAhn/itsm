@@ -12,7 +12,7 @@
     <div class="portal-container flex-row">
         <div class="login-background">
             <img class="login-logo" th:src="@{/assets/media/icons/icon_logo_white.svg}" width="243" height="41" alt="Zenius ITSM">
-            <a href="/portal/portalMain" class="btn login-return float-right" th:text="#{common.btn.return}"></a>
+            <a href="/portals/main" class="btn login-return float-right" th:text="#{common.btn.return}"></a>
             <img class="login-main-image" th:src="@{/assets/media/images/login/img_login_main.png}" width="1071" height="710" alt="Login Main">
         </div>
         <div class="login-form">
@@ -28,7 +28,7 @@
                     <label tabindex="-1" th:text="#{user.label.password}"></label>
                     <input type="password" id="upasswd" name="upasswd" maxlength="100" required="required">
                 </div>
-                <button class="login-submit" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
+                <button class="point-fill login-submit" id="sendLogin" th:text="#{login.btn.login}" onclick="onLogin()"></button>
             </div>
             <div class="login-divide flex-row align-items-center" th:text="#{login.label.or}"></div>
             <div class="login-platform">

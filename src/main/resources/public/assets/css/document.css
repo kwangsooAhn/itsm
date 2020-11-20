@@ -377,7 +377,9 @@ input, button, select, optgroup, textarea {
   padding: 8.438rem 0 0.9375rem 0;
 }
 
-.document-container .document-main .document-main-header .numbering-content label {
+.document-container .document-main .document-main-header .document-numbering {
+  font-size: 1rem;
+  font-weight: 400;
   color: #ACB4BF;
 }
 
@@ -574,6 +576,7 @@ input, button, select, optgroup, textarea {
   padding: 1.25rem 1.5625rem;
   margin: 0.625rem 0.625rem 0 0;
   border: 0.0625rem solid #EBEBEB;
+  border-radius: 0.1875rem;
   background-color: #F7F8F9;
 }
 
@@ -583,16 +586,13 @@ input, button, select, optgroup, textarea {
   word-break: break-word;
 }
 
-.document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info h5 {
-  margin-left: 0.9375rem;
-}
-
 .document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-name {
   color: #586872;
 }
 
 .document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info .user-date-time {
   color: #ACB4BF;
+  margin-left: 0.625rem;
 }
 
 .document-container .token-properties .token-info-contents .token-comment .list-item .comment-row-info button {
@@ -613,11 +613,11 @@ input, button, select, optgroup, textarea {
 }
 
 .document-container .token-properties .token-info-contents .token-comment .comment-input textarea {
-  height: 4.3750rem;
-  margin-right: 0.3125rem;
   flex: 1;
+  min-height: 4.063rem;
+  padding: 0.625rem 1.563rem;
+  margin-right: 0.3125rem;
   border-radius: 0.1875rem;
-  resize: none;
 }
 
 .document-modal-active {
@@ -1252,6 +1252,26 @@ label {
   border-color: #0098FF;
 }
 
+.input-button input[type="text"] {
+  margin: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.input-button input[type="text"]:focus, .input-button input[type="text"]:hover {
+  z-index: 1;
+}
+
+.input-button button {
+  margin-left: -0.0625rem;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.input-button button:focus, .input-button button:hover, .input-button button:active {
+  z-index: 1;
+}
+
 .select {
   width: 100%;
 }
@@ -1372,6 +1392,18 @@ label {
   margin: 0.625rem 0.3125rem;
   padding: 0.4375rem;
   white-space: pre-line;
+}
+
+.tagify .tagify__input:empty::before {
+  opacity: 1;
+}
+
+.tagify .tagify__input::before {
+  color: #ACB4BF;
+}
+
+.tagify .tagify__input::after {
+  color: #586872;
 }
 
 /* _print.scss 
