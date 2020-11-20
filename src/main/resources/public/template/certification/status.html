@@ -46,7 +46,7 @@
         <div sec:authorize="isAuthenticated()">
             <form id="sendForm" method="get" onsubmit="return false">
                 <button id="btnSend" th:text="#{authentication.label.recallAuthentication}"
-                        th:formaction="@{/certification/certifiedMail}"></button>
+                        th:formaction="@{/certification/certifiedmail}"></button>
             </form>
         </div>
         <div sec:authorize="isAnonymous()">
@@ -61,7 +61,7 @@
     /*<![CDATA[*/
     window.addEventListener('load', function () {
         document.getElementById("btnSend").addEventListener("click", function () {
-            restSubmit("get", "[[@{/certification/certifiedMail}]]");
+            restSubmit("get", "[[@{/certification/certifiedmail}]]");
         });
     });
 

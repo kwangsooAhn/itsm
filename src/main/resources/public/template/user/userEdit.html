@@ -30,7 +30,8 @@
                     </div>
                     <div class="form-set" th:if="${users?.userKey != null && users?.platform.equals('user.platform.alice')}">
                         <label th:text="#{user.label.password}"></label>
-                        <button class="point-fill" type="button" th:text="#{user.btn.resetPassword}" th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/resetPassword(userKey=${users.userKey})}]], 'false')"/>
+                        <button class="point-fill" type="button" th:text="#{user.btn.resetPassword}"
+                                th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/resetpassword(userKey=${users.userKey})}]], 'false')"/>
                     </div>
                     <div class="form-set">
                         <label class="required" th:text="#{user.label.name}" for="userName"></label>

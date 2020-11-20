@@ -17,7 +17,7 @@
             <div id="notification-panel" class="notification-panel"></div>
         </div>
         <div class="user-info">
-            <a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}">
+            <a th:href="@{/users/{userKey}/editself(userKey=${#authentication.details.userKey})}">
                 <img class="user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
                 <span class="user-name" sec:authentication="details.userName"></span>
             </a>

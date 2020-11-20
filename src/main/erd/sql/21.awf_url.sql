@@ -19,7 +19,7 @@ COMMENT ON COLUMN awf_url.url_desc IS '설명';
 COMMENT ON COLUMN awf_url.is_required_auth IS '권한 필수여부';
 
 insert into awf_url values ('/auths/edit', 'get', '역할  설정 뷰를 호출', 'TRUE');
-insert into awf_url values ('/auths/list', 'get', '권한 관리 목록', 'TRUE');
+insert into awf_url values ('/auths', 'get', '권한 관리 목록', 'TRUE');
 insert into awf_url values ('/board-admin/category/list', 'get', '게시판 관리 카테고리 편집', 'TRUE');
 insert into awf_url values ('/board-admin/category/{id}/edit', 'get', '게시판 관리 카테고리 편집', 'TRUE');
 insert into awf_url values ('/board-admin/list', 'get', '게시판 관리 리스트 호출화면', 'TRUE');
@@ -35,8 +35,8 @@ insert into awf_url values ('/boards/{id}/edit', 'get', '게시판 편집', 'TRU
 insert into awf_url values ('/boards/{id}/new', 'get', '게시판 신규 등록', 'TRUE');
 insert into awf_url values ('/boards/{id}/replay/edit', 'get', '게시판 답글 편집', 'TRUE');
 insert into awf_url values ('/boards/{id}/view', 'get', '게시판 상세 조회 화면', 'TRUE');
-insert into awf_url values ('/certification/certifiedMail', 'get', '메일 발송', 'FALSE');
-insert into awf_url values ('/certification/regist', 'post', '회원 가입 요청(인증 메일 발송 포함)', 'FALSE');
+insert into awf_url values ('/certification/certifiedmail', 'get', '메일 발송', 'FALSE');
+insert into awf_url values ('/certification', 'post', '회원 가입 요청(인증 메일 발송 포함)', 'FALSE');
 insert into awf_url values ('/certification/sendCertifiedMail', 'get', '메일 발송', 'FALSE');
 insert into awf_url values ('/certification/signup', 'get', '회원 가입 화면 호출', 'FALSE');
 insert into awf_url values ('/certification/status', 'get', '메일 인증 상태/재발송 요청 화면', 'FALSE');
@@ -218,7 +218,7 @@ insert into awf_url values ('/rest/users', 'get', '사용자 리스트 데이터
 insert into awf_url values ('/rest/users/all', 'get', '전체 사용자 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/all', 'put', '사용자가 자신의 정보를 업데이트', 'TRUE');
 insert into awf_url values ('/rest/users/{userkey}/info', 'put', '사용자가 다른 사용자의 정보를 업데이트', 'FALSE');
-insert into awf_url values ('/rest/users/{userkey}/resetPassword', 'put', '사용자 비밀번호 초기화', 'TRUE');
+insert into awf_url values ('/rest/users/{userkey}/resetpassword', 'put', '사용자 비밀번호 초기화', 'TRUE');
 insert into awf_url values ('/rest/wf/instances/{id}/history', 'get', 'test', 'FALSE');
 insert into awf_url values ('/rest/wf/instances/{id}/latest', 'get', '마지막 토큰 정보 조회', 'FALSE');
 insert into awf_url values ('/roles/edit', 'get', '역할 설정 뷰 호출', 'TRUE');
@@ -227,13 +227,13 @@ insert into awf_url values ('/tokens/list', 'get', '처리할 문서 리스트 �
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
 insert into awf_url values ('/tokens/view-pop/list', 'get', '관련문서 리스트', 'TRUE');
 insert into awf_url values ('/tokens/{id}/edit', 'get', 'NULL', 'TRUE');
-insert into awf_url values ('/tokens/{id}/edit-tab', 'get', '문서 오른쪽 탭 정보', 'true');
+insert into awf_url values ('/tokens/{id}/edit-tab', 'get', '문서 오른쪽 탭 정보', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view', 'get', 'NULL', 'TRUE');
-insert into awf_url values ('/tokens/{id}/view-tab', 'get', '문서 오른쪽 탭 정보', 'true');
+insert into awf_url values ('/tokens/{id}/view-tab', 'get', '문서 오른쪽 탭 정보', 'TRUE');
 insert into awf_url values ('/tokens/{id}/print', 'get', '처리할 문서 프린트 화면', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view-pop', 'get', '관련문서 팝업 화면', 'TRUE');
-insert into awf_url values ('/users/list', 'get', '사용자 조회 목록 화면', 'TRUE');
+insert into awf_url values ('/users', 'get', '사용자 조회 목록 화면', 'TRUE');
 insert into awf_url values ('/users/new', 'get', '사용자 등록 화면', 'TRUE');
 insert into awf_url values ('/users/search', 'get', '사용자 검색, 목록 등 메인이 되는 조회 화면', 'TRUE');
 insert into awf_url values ('/users/{userkey}/edit', 'get', '사용자 정보 수정 화면', 'TRUE');
-insert into awf_url values ('/users/{userkey}/editSelf', 'get', '사용자 자기 정보 수정 화면', 'FALSE');
+insert into awf_url values ('/users/{userkey}/editself', 'get', '사용자 자기 정보 수정 화면', 'FALSE');

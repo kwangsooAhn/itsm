@@ -24,7 +24,7 @@ class AuthController(
     /**
      * 권한 설정 화면 호출처리.
      */
-    @GetMapping("/edit", "")
+    @GetMapping("/edit")
     fun getRolelist(request: HttpServletRequest, model: Model): String {
 
         val defaultUserMenuList = codeService.selectCodeByParent(AliceUserConstants.DefaultMenu.USER_DEFAULT_MENU.code)
@@ -43,7 +43,7 @@ class AuthController(
     /**
      * 권한 설정 검색 결과 리스트 화면 호출 처리.
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getAuthList(search: String, model: Model): String {
         model.addAttribute("authList", authService.getAuthSearchList(search))
 
