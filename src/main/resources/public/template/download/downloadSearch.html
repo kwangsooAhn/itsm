@@ -93,7 +93,7 @@
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/downloads/list?' + urlParam, isScroll);
+                restSubmit('get', '/downloads?' + urlParam, isScroll);
             }
         }
 
@@ -157,7 +157,7 @@
 
         // Tr 동적 데이터 만들기
         function getDataTemplate(data) {
-            let div = document.querySelector('.os-content');
+            let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
 
             let tdDownloadSeq = document.createElement('td');

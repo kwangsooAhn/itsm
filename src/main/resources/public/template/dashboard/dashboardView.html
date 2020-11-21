@@ -93,7 +93,7 @@
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('frmSearch')) + '&offset=' + offsetCount;
-                restSubmit('get', '/tokens/list?' + urlParam, isScroll);
+                restSubmit('get', '/tokens?' + urlParam, isScroll);
             }
         }
 

@@ -74,7 +74,7 @@
 
     // Get notification list.
     function getNotificationList(isShow) {
-        restSubmitNotification('get', '/notifications/list', function (result) {
+        restSubmitNotification('get', '/notifications', function (result) {
             notificationDiv.innerHTML = result;
             const count = document.getElementById('count');
             const noConfirmNotification = notificationDiv.querySelectorAll('div[is-confirm=false]'); // 확인 안된 알림

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.image.controller
 
 import co.brainz.framework.fileTransaction.dto.AliceImageFileDto
@@ -54,7 +59,7 @@ class ImageRestController(private val fileService: AliceFileService) {
     /**
      * 이미지 파일 전체 목록 가져오기.
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getImageFileList(@RequestParam(value = "type", defaultValue = "") type: String): List<AliceImageFileDto> {
         return fileService.getImageFileList(type)
     }

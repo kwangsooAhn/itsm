@@ -45,7 +45,7 @@ class CustomCodeController(
      * [customCodeSearchDto, model: Model]를 받아서 사용자 정의 코드 리스트 화면[String]을 반환한다.
      *
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getCustomCodeList(customCodeSearchDto: CustomCodeSearchDto, model: Model): String {
         val result = customCodeService.getCustomCodeList(customCodeSearchDto)
         model.addAttribute("typeList", codeService.selectCodeByParent(CustomCodeConstants.CUSTOM_CODE_TYPE_P_CODE))
