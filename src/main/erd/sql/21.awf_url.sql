@@ -42,7 +42,7 @@ insert into awf_url values ('/certification/signup', 'get', '회원 가입 화�
 insert into awf_url values ('/certification/status', 'get', '메일 인증 상태/재발송 요청 화면', 'FALSE');
 insert into awf_url values ('/certification/valid', 'get', '메일 인증', 'FALSE');
 insert into awf_url values ('/codes/edit', 'get', '코드 편집 화면', 'TRUE');
-insert into awf_url values ('/custom-codes/list', 'get', '사용자 정의 코드 리스트 화면', 'TRUE');
+insert into awf_url values ('/custom-codes', 'get', '사용자 정의 코드 리스트 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/new', 'get', '사용자 정의 코드 신규 등록 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/search', 'get', '사용자 정의 코드 리스트 호출 화면', 'TRUE');
 insert into awf_url values ('/custom-codes/{id}/edit', 'get', '사용자 정의 코드 수정 화면', 'TRUE');
@@ -59,7 +59,7 @@ insert into awf_url values ('/documents/custom-code/{id}/data', 'post', '커스�
 insert into awf_url values ('/documents/list', 'get', '신청서 리스트 화면', 'FALSE');
 insert into awf_url values ('/documents/search', 'get', '신청서 리스트 호출 화면', 'FALSE');
 insert into awf_url values ('/documents/{id}/print', 'get', '신청서 프린트 화면', 'TRUE');
-insert into awf_url values ('/downloads/list', 'get', '자료실 리스트 화면', 'TRUE');
+insert into awf_url values ('/downloads', 'get', '자료실 리스트 화면', 'TRUE');
 insert into awf_url values ('/downloads/new', 'get', '자료실 신규 등록', 'TRUE');
 insert into awf_url values ('/downloads/search', 'get', '자료실 리스트 호출 화면', 'TRUE');
 insert into awf_url values ('/downloads/{id}/edit', 'get', '자료실 편집', 'TRUE');
@@ -83,7 +83,7 @@ insert into awf_url values ('/notices/search', 'get', '공지사항 검색 화�
 insert into awf_url values ('/notices/{id}/edit', 'get', '공지사항 편집 화면', 'TRUE');
 insert into awf_url values ('/notices/{id}/view', 'get', '공지사항 상세 화면', 'TRUE');
 insert into awf_url values ('/notices/{id}/view-pop', 'get', '공지사항 팝업 화면', 'TRUE');
-insert into awf_url values ('/notifications/list', 'get', '알림 리스트 화면', 'FALSE');
+insert into awf_url values ('/notifications', 'get', '알림 리스트 화면', 'FALSE');
 insert into awf_url values ('/oauth/{service}/callback', 'get', 'OAuth 로그인 응답 콜백', 'TRUE');
 insert into awf_url values ('/oauth/{service}/login', 'get', 'OAuth 로그인 화면 호출', 'TRUE');
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
@@ -157,7 +157,7 @@ insert into awf_url values ('/rest/faqs', 'post', 'FAQ 등록 처리', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'put', 'FAQ 수정 처리', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'get', 'FAQ 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/faqs/{id}', 'delete', 'FAQ 삭제 처리', 'TRUE');
-insert into awf_url values ('/rest/fileNameExtensionList', 'get', '파일 확장자목록', 'FALSE');
+insert into awf_url values ('/rest/filenameextensions', 'get', '파일 확장자목록', 'FALSE');
 insert into awf_url values ('/rest/folders', 'post', '폴더 등록', 'FALSE');
 insert into awf_url values ('/rest/folders/{id}', 'delete', '폴더 삭제', 'FALSE');
 insert into awf_url values ('/rest/forms/data', 'put', '폼 디자이너 세부 정보 저장', 'TRUE');
@@ -175,7 +175,7 @@ insert into awf_url values ('/rest/images', 'post', '이미지 업로드', 'TRUE
 insert into awf_url values ('/rest/images', 'put', '이미지명 수정', 'TRUE');
 insert into awf_url values ('/rest/images/{id}', 'get', '이미지 조회', 'FALSE');
 insert into awf_url values ('/rest/images/{id}', 'delete', '이미지 삭제', 'TRUE');
-insert into awf_url values ('/rest/images/list', 'get', '이미지 전체 조회', 'FALSE');
+insert into awf_url values ('/rest/images', 'get', '이미지 전체 조회', 'FALSE');
 insert into awf_url values ('/rest/notices', 'get', '공지사항 목록 조회', 'TRUE');
 insert into awf_url values ('/rest/notices', 'post', '공지사항 등록', 'TRUE');
 insert into awf_url values ('/rest/notices/{id}', 'get', '공지사항 상세 조회', 'TRUE');
@@ -223,9 +223,9 @@ insert into awf_url values ('/rest/wf/instances/{id}/history', 'get', 'test', 'F
 insert into awf_url values ('/rest/wf/instances/{id}/latest', 'get', '마지막 토큰 정보 조회', 'FALSE');
 insert into awf_url values ('/roles/edit', 'get', '역할 설정 뷰 호출', 'TRUE');
 insert into awf_url values ('/roles', 'get', '역할 관리 목록 뷰 호출', 'TRUE');
-insert into awf_url values ('/tokens/list', 'get', '처리할 문서 리스트 조회', 'FALSE');
+insert into awf_url values ('/tokens', 'get', '처리할 문서 리스트 조회', 'FALSE');
 insert into awf_url values ('/tokens/search', 'get', '로그인시 인증여부 체크 및 처리할 문서 페이지 이동', 'FALSE');
-insert into awf_url values ('/tokens/view-pop/list', 'get', '관련문서 리스트', 'TRUE');
+insert into awf_url values ('/tokens/view-pop/documents', 'get', '관련문서 리스트', 'TRUE');
 insert into awf_url values ('/tokens/{id}/edit', 'get', 'NULL', 'TRUE');
 insert into awf_url values ('/tokens/{id}/edit-tab', 'get', '문서 오른쪽 탭 정보', 'TRUE');
 insert into awf_url values ('/tokens/{id}/view', 'get', 'NULL', 'TRUE');

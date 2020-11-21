@@ -788,7 +788,7 @@ aliceJs.thumbnail = function(options) {
     // 이미지 파일 로드
     aliceJs.sendXhr({
         method: 'GET',
-        url: '/rest/images/list?type=' + options.type,
+        url: '/rest/images?type=' + options.type,
         callbackFunc: function(xhr) {
             const files = JSON.parse(xhr.responseText);
 

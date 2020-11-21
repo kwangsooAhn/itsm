@@ -256,7 +256,7 @@ const fileUploader = (function () {
         if (extraParam.acceptedFiles === null) {
             const opt2 = {
                 method: 'GET',
-                url: '/rest/fileNameExtensionList',
+                url: '/rest/filenameextensions',
                 async: false,
                 callbackFunc: function (response) {
                     fileNameExtensionList = JSON.parse(response.responseText);
