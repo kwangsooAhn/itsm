@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.framework.notification.controller
 
 import co.brainz.framework.notification.service.NotificationService
@@ -12,7 +17,7 @@ class NotificationController(private val notificationService: NotificationServic
 
     private val notificationListPage: String = "notification/notificationList"
 
-    @GetMapping("/list")
+    @GetMapping("")
     fun getNotificationList(model: Model): String {
         model.addAttribute("notificationList", notificationService.getNotificationList())
         return notificationListPage

@@ -31,15 +31,17 @@
       }
       // headings
       .ql-header {
-        width: 7.5rem; // 120px
+        width: 6.25rem; // 100px
         height: 2.5rem; // 40px
 
         .ql-picker-label,
         .ql-picker-item {
-          padding: 0.4375rem 0.625rem; // 7px 10px
+          padding: 0.4375rem 0.75rem; // 7px 12px
           // 화살표 아이콘
           &:not(.ql-color-picker):not(.ql-icon-picker) svg {
             margin: auto;
+            right: 4%;
+            top: 40%;
           }
 
           &:hover,

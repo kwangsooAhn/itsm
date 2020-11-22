@@ -52,7 +52,9 @@
                     overflow: hidden;
                 }
                 .card-desc { 
-                    @include h5(); 
+                    font-size: 1rem; // 16px
+                    font-weight: $font-weight-regular;
+                    color: $blue-gray;
                     margin-top: 0.3125rem; // 5px
                 }
             }

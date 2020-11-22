@@ -1,127 +1,131 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-      layout:decorator="layout/defaultLayout">
+    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+    layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="#{process.label.process}"></title>
-    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
+    <title th:text="#{form.label.form}"></title>
 </head>
+<th:block layout:fragment="scriptLink">
+    <script th:src="@{/assets/js/workflow/workflow.util.js}"></script>
+</th:block>
 <body>
 <th:block layout:fragment="content">
+    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
     <div class="contents-list flex-column">
         <div class="page-title">
-            <h1 th:text="#{process.label.process}"></h1>
-            <h6 class="title-description" th:text="#{process.msg.searchDescription}"></h6>
+            <h1 th:text="#{form.label.form}"></h1>
+            <h6 class="title-description" th:text="#{form.msg.searchDescription}"></h6>
         </div>
         <div class="search-area">
-            <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''process.update'')')}"/>
             <div class="search-input">
-                <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{process.label.searchPlaceholder}">
+                <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{form.label.searchPlaceholder}"/>
             </div>
             <div class="ml-auto">
-                <button th:class="default-line" onclick="openProcessImport();" sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
-                <button th:class="default-fill" onclick="openProcessRegister();" sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.add}"></button>
+                <button class="default-line" type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
+                <button class="default-fill" onclick="openFormRegister();" sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
-        <div class="list" id="processList"></div>
+        <div class="list" id="formList"></div>
     </div>
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
-    <script type="text/javascript">
+    <script type="text/javascript" th:inline="javascript">
         /*<![CDATA[*/
         let offsetCount = 0;
         window.onload = function() {
             document.getElementById('search').focus();
-            getProcessList(document.getElementById('search').value, false);
+            getFormList(document.getElementById('search').value, false);
         }
-
+        
         document.getElementById('search').onkeyup = function() {
-            getProcessList(this.value, false);
+            getFormList(this.value, false);
         };
 
-        // 프로세스 리스트 조회
-        function getProcessList(search, isScroll) {
+        // 폼 리스트 조회
+        function getFormList(search, isScroll) {
             if (isScroll) {
                 if (offsetCount === 0) {
                     offsetCount = aliceJs.searchDataCount;
                 }
-                restSearchSubmit('GET', '/rest/processes-admin?search=' + encodeURIComponent(search.trim()) + '&offset=' + offsetCount, isScroll);
+                restSearchSubmit('GET', '/rest/forms?search=' + search.trim() + '&offset=' + offsetCount, isScroll);
             } else {
                 offsetCount = 0;
-                restSearchSubmit('GET', '/processes-admin/list?search=' + encodeURIComponent(search.trim()) + '&offset=' + offsetCount, isScroll);
+                restSearchSubmit('GET', '/forms?search=' + search.trim() + '&offset=' + offsetCount, isScroll);
             }
         }
 
         // 유효성 검증
         function checkValidation() {
-            if (isEmpty('process_name', 'process.msg.enterProcessName')) {
+            // 필수 체크
+            if (isEmpty('form_name', 'form.msg.enterFormName')) {
                 return false;
             }
 
             // fileTemplate가 동적으로 생기고 존재여부로 파일 업로드를 체크하기 때문에 isEmpty 함수를 사용하기 어려움.
             if (document.getElementById('dropZoneFileUpload') !== null && document.getElementById('fileTemplate') === null) {
-                aliceJs.alertWarning(i18n.msg('process.msg.selectImportFile'));
+                aliceJs.alertWarning(i18n.msg('form.msg.selectImportFile'));
                 return false;
             }
             return true;
         }
 
-         // 프로세스 등록/수정
-        function saveProcess(processId) {
-            // 빈 값 체크
+        // 폼 수정
+        function saveForm(formId) {
             if (checkValidation()) {
-                const processInfo = {
-                    processName: document.getElementById('process_name').value,
-                    processDesc: document.getElementById('process_description').value
+                const formInfo = {
+                    name: document.getElementById('form_name').value,
+                    desc: document.getElementById('form_description').value
                 };
-                if (processId === undefined) {
-                    // 등록
-                    restSubmit('POST', '/rest/processes-admin', processInfo);
-                } else {
-                    // 수정
-                    processInfo.processId = processId;
-                    processInfo.processStatus = document.getElementById('process_status').value;
-                    restSubmit('PUT', '/rest/processes-admin/' + processId, processInfo);
+                if (formId === undefined) { // 등록
+                    restSubmit('POST', '/rest/forms', formInfo);
+                } else { // 수정
+                    formInfo.id = formId;
+                    formInfo.status = document.getElementById('form_status').value;
+                    restSubmit('PUT', '/rest/forms/' + formId, formInfo);
                 }
             }
         }
 
-        // 프로세스 삭제
-        function deleteProcess(processId) {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/processes/' + processId, function() {
-                aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
-                    window.close();
-                });
+        // 폼 삭제
+        function deleteForm(formId) {
+            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/form/' + formId, function(result) {
+                if (result === 'true') {
+                    aliceJs.alertSuccess('[[#{common.msg.delete}]]', function() {
+                        location.reload();
+                    });
+                } else {
+                    aliceJs.alertDanger('[[#{form.msg.failedFormDelete}]]');
+                }
             });
         }
 
-        // 프로세스 등록 / 수정 모달 내부 Template
+        // 폼 등록 / 수정 모달 내부 Template
         function createModalContent(data) {
             return `<div class="flex-column">` +
-                       `<input type="hidden" id="process_status" value="${data !== undefined ? data.status : ''}" />` +
-                       `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
-                       `<input type="text" id="process_name" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
-                       `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
-                       `<textarea rows="3" class="textarea-scroll-wrapper" id="process_description" maxlength="256" ${data !== undefined && data.isView ? 'readonly' : ''}>${data !== undefined ? data.description : ''}</textarea>` +
+                       `<input type="hidden" id="form_status" value="${data !== undefined ? data.status : ''}" />` +
+                       `<label class="field-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>` +
+                       `<input type="text" id="form_name" maxlength="50" value="${data !== undefined ? data.name : ''}" ${data !== undefined && data.isView ? 'readonly' : ''}>` +
+                       `<label class="field-label" for="form_description">${i18n.msg('form.label.description')}</label>` +
+                       `<textarea rows="3" class="textarea-scroll-wrapper" id="form_description" maxlength="256" ${data !== undefined && data.isView ? 'readonly' : ''}>${data !== undefined ? data.desc : ''}</textarea>` +
                     `</div>`;
         }
 
-        // 프로세스 수정 / 보기 모달 오픈
-        function openProcessEdit(processId, isView) {
-            if (processId !== undefined) { // 수정
+        // 폼 수정 / 보기 모달 오픈
+        function openFormEdit(formId, isView) {
+            if (formId !== undefined) { // 수정
                 aliceJs.sendXhr({
                     method: 'GET',
-                    url: '/rest/processes-admin/' + processId + '/data',
+                    url: '/rest/forms/' + formId + '/data',
                     callbackFunc: function(xhr) {
                         let responseObject = JSON.parse(xhr.responseText);
                         responseObject.isView = isView;
 
                         let options = {
-                            title: isView ? i18n.msg('process.label.detail') : i18n.msg('process.label.edit') ,
+                            title: isView ? i18n.msg('form.label.detail') : i18n.msg('form.label.edit') ,
                             body: createModalContent(responseObject),
-                            classes: 'process-edit',
+                            classes: 'form-edit',
                             buttons: [],
                             close: {
                                 closable: false,
@@ -129,7 +133,7 @@
                             onCreate: function(modal) {
                                 // 스크롤바 추가
                                 OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                                OverlayScrollbars(document.getElementById('process_description'), {
+                                OverlayScrollbars(document.getElementById('form_description'), {
                                     className: 'inner-scrollbar',
                                     resize: 'vertical',
                                     sizeAutoCapable: true,
@@ -143,14 +147,14 @@
                         };
 
                         // 버튼 설정
-                        if (responseObject.enabled && !isView) {
+                        if (responseObject.editable && !isView) {
                             // 내보내기 버튼
                             options.buttons.push({
-                                content: i18n.msg('process.btn.export'),
+                                content: i18n.msg('form.btn.export'),
                                 classes: "point-fill",
                                 bindKey: false,
                                 callback: function(modal) {
-                                    workflowUtil.export(responseObject.id, 'process');
+                                    workflowUtil.export(responseObject.id, 'form');
                                 }
                             });
                             // 수정
@@ -159,7 +163,7 @@
                                 classes: "point-fill",
                                 bindKey: false,
                                 callback: function(modal) {
-                                    saveProcess(responseObject.id);
+                                    saveForm(responseObject.id);
                                 }
                             });
                             // 삭제
@@ -168,7 +172,7 @@
                                 classes: "default-fill",
                                 bindKey: false,
                                 callback: function(modal) {
-                                    deleteProcess(responseObject.id);
+                                    deleteForm(responseObject.id);
                                 }
                             });
                         }
@@ -183,26 +187,26 @@
                         });
 
                         // 모달 호출
-                        const processModal = new modal(options);
-                        processModal.show();
+                        const formModal = new modal(options);
+                        formModal.show();
                     },
                     contentType: 'application/json; charset=utf-8'
                 });
             }
         }
-
-        // 프로세스 등록 모달 오픈
-        function openProcessRegister() {
-            const processModal = new modal({
-                title: i18n.msg('process.label.register'),
+        
+        // 폼 등록 모달 오픈
+        function openFormRegister() {
+            const formModal = new modal({
+                title: i18n.msg('form.label.register'),
                 body: createModalContent(),
-                classes: 'process-edit',
+                classes: 'form-edit',
                 buttons: [{
                     content: i18n.msg('common.btn.register'),
                     classes: "point-fill",
                     bindKey: false,
                     callback: function(modal) {
-                        saveProcess();
+                        saveForm();
                     }
                 },{
                     content: i18n.msg('common.btn.close'),
@@ -218,7 +222,7 @@
                 onCreate: function(modal) {
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    OverlayScrollbars(document.getElementById('process_description'), {
+                    OverlayScrollbars(document.getElementById('form_description'), {
                         className: 'inner-scrollbar',
                         resize: 'vertical',
                         sizeAutoCapable: true,
@@ -230,7 +234,7 @@
                     });
                 }
             });
-            processModal.show();
+            formModal.show();
         }
 
         // REST API
@@ -242,17 +246,16 @@
                 contentType: 'application/json',
                 callbackFunc: function(response) {
                     if (method === 'POST') {
-                        const _width = 1800,
-                              _height = 920;
+                        const _width = 1500,
+                              _height = 980;
                         // 중앙 배치
                         const _left = Math.ceil((window.screen.width - _width) / 2);
                         const _top = Math.ceil((window.screen.height - _height) / 4);
 
-                        let processId = response.responseText;
-                        sessionStorage.setItem('alice_processes-edit-' + processId, 'firstLoading');
+                        let formId = response.responseText;
                         let specs = 'left=' + _left + ',top=' + _top;
                         specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-                        window.open('/processes/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
+                        window.open('/form/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ',' + specs);
                     }
                     location.reload();
                 }
@@ -260,9 +263,22 @@
             aliceJs.sendXhr(opt);
         }
 
-        // 프로세스 디자이너 편집화면 오픈
-        function openProcessDesignerEdit(processId) {
-            const _width = 1800,
+        // 폼 디자이너 편집화면 오픈
+        function openFormDesignerEdit(formId) {
+            const _width = 1500,
+                  _height = 980;
+            // 중앙 배치
+            const _left = Math.ceil((window.screen.width - _width) / 2);
+            const _top = Math.ceil((window.screen.height - _height) / 4);
+            
+            let specs = 'left=' + _left + ',top=' + _top;
+            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
+            window.open('/form/' + formId + '/edit', 'form_' + formId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
+        }
+
+        // 폼 디자이너 미리보기화면 오픈
+        function openFormDesignerView(formId) {
+            const _width = 1500,
                   _height = 920;
             //중앙 배치
             const _left = Math.ceil((window.screen.width - _width) / 2);
@@ -270,32 +286,19 @@
 
             let specs = 'left=' + _left + ',top=' + _top;
             specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/processes/' + processId + '/edit', 'process_' + processId + '_edit', 'width=' + _width + ',height=' + _height + ','+ specs);
+            window.open('/form/' + formId + '/view', 'form_' + formId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
         }
 
-        // 프로세스 디자이너 상세화면 오픈
-        function openProcessDesignerView(processId) {
-            const _width = 1800,
-                  _height = 920;
-            //중앙 배치
-            const _left = Math.ceil((window.screen.width - _width) / 2);
-            const _top = Math.ceil((window.screen.height - _height) / 4);
-
-            let specs = 'left=' + _left + ',top=' + _top;
-            specs += ',menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
-            window.open('/processes/' + processId + '/view', 'process_' + processId + '_view', 'width=' + _width + ',height=' + _height + ','+ specs);
-        }
-
-        // 프로세스 IMPORT
-        function importProcess() {
+        //폼 IMPORT
+        function importForm() {
             if (checkValidation()) {
                 let fileList = fileUploader.getFile();
-                const processInfo = {
-                    processName: document.getElementById('process_name').value,
-                    processDesc: document.getElementById('process_description').value
+                const formInfo = {
+                    formName: document.getElementById('form_name').value,
+                    formDesc: document.getElementById('form_description').value
                 };
 
-                workflowUtil.import(fileList, processInfo, 'process', function (result) {
+                workflowUtil.import(fileList, formInfo, 'form', function (result) {
                     if (result) {
                         aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                             location.reload();
@@ -310,34 +313,34 @@
             return false;
         }
 
-        // 프로세스 IMPORT 모달 내부 Template
+        // 폼 IMPORT 모달 내부 Template
         function createImportModalContent() {
             return `<div class="import-main flex-column">` +
-                       `<label class="field-label" for="process_name">${i18n.msg('process.label.name')}<span class="required"></span></label>` +
-                       `<input type="text" id="process_name" id="process_name" maxlength="50">` +
-                       `<label class="field-label" for="process_description">${i18n.msg('process.label.description')}</label>` +
-                       `<textarea rows="3" class="textarea-scroll-wrapper" id="process_description" maxlength="256"></textarea>` +
+                       `<label class="field-label" for="form_name">${i18n.msg('form.label.name')}<span class="required"></span></label>` +
+                       `<input type="text" id="form_name" id="form_name" maxlength="50">` +
+                       `<label class="field-label" for="form_description">${i18n.msg('form.label.description')}</label>` +
+                       `<textarea rows="3" class="textarea-scroll-wrapper" id="form_description" maxlength="256"></textarea>` +
                        `<div class="file-uploader-edit">` +
-                           `<label class="file-uploader-title field-label">${i18n.msg('process.label.importFile')}<span class="required"></span></label>` +
+                           `<label class="file-uploader-title field-label">${i18n.msg('form.label.importFile')}<span class="required"></span></label>` +
                            `<div id="dropZoneFiles"></div>` +
                            `<div id="dropZoneUploadedFiles"></div>` +
                        `</div>` +
                     `</div>`;
         }
 
-        // 프로세스 IMPORT 화면 오픈
-        function openProcessImport() {
+        // 폼 IMPORT 모달 오픈
+        function openFormImport() {
             const importModal = new modal({
-                title: i18n.msg('process.label.import'),
+                title: i18n.msg('form.label.import'),
                 body: createImportModalContent(),
-                classes: 'process-import',
+                classes: 'form-import',
                 buttons: [
                     {
                         content: i18n.msg('common.btn.check'),
                         classes: "default-line",
                         bindKey: false,
                         callback: function(modal) {
-                            importProcess();
+                            importForm();
                         }
                     },{
                         content: i18n.msg('common.btn.cancel'),
@@ -355,7 +358,7 @@
                     // 파일 업로드 추가
                     fileUploader.init({
                         extra: {
-                            formId: 'importProcess',
+                            formId: 'importForm',
                             dropZoneMaxFiles: 1,
                             acceptedFiles: '.xml',
                             dropZoneUrl: '/fileupload?target=import',
@@ -364,7 +367,7 @@
                     });
                     // 스크롤바 추가
                     OverlayScrollbars(document.querySelector('.modal-content'), {className: 'scrollbar'});
-                    OverlayScrollbars(document.getElementById('process_description'), {
+                    OverlayScrollbars(document.getElementById('form_description'), {
                         className: 'inner-scrollbar',
                         resize: 'vertical',
                         sizeAutoCapable: true,
@@ -379,7 +382,7 @@
             importModal.show();
         }
 
-        // REST API
+        //REST API
         function restSearchSubmit(method, url, isScroll) {
             const opt = {
                 method: method,
@@ -398,12 +401,11 @@
                                 });
                             }
                         }
-
                     } else {
-                        document.getElementById('processList').innerHTML = response.responseText;
-                        let processDtEle = document.querySelectorAll('td[name=createDt]');
-                        for (let i = 0; i < processDtEle.length; i++) {
-                            processDtEle[i].textContent = i18n.userDateTime(processDtEle[i].textContent);
+                        document.getElementById('formList').innerHTML = response.responseText;
+                        let formDtEle = document.querySelectorAll('td[name=createDt]');
+                        for (let i = 0; i < formDtEle.length; i++) {
+                            formDtEle[i].textContent = i18n.userDateTime(formDtEle[i].textContent);
                         }
                     }
 
@@ -416,7 +418,7 @@
                                 const clientHeight = e.target.clientHeight;
                                 if (scrollHeight - scrollTop === clientHeight) {
                                     if (aliceJs.isEnableScrollEvent(offsetCount)) {
-                                        getProcessList(document.getElementById('search').value, true);
+                                        getFormList(document.getElementById('search').value, true);
                                     }
                                 }
                             }
@@ -428,61 +430,62 @@
         }
 
         function getDataTemplate(data) {
-            let div = document.querySelector('.os-content');
+            let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
 
-            // TODO: 권한에 따라 view or edit
-            let tdProcessName = document.createElement('td');
-            tdProcessName.style.width = '20%';
-            let processNameObject;
-            if (data.enabled == true) {
-                processNameObject = document.createElement('a');
-                processNameObject.onclick = function() {
+            let tdFormName = document.createElement('td');
+            tdFormName.style.width = '20%';
+            let formNameObject;
+            if (data.editable == true) {
+                formNameObject = document.createElement('a');
+                formNameObject.onclick = function() {
                     if (document.getElementById('updatable').value === 'true') {
-                        openProcessEdit(data.id, false);
+                        openFormEdit(data.id, false);
                     } else {
-                        openProcessView(data.id, true);
+                        openFormEdit(data.id, true);
                     }
                 }
             } else {
-                processNameObject = document.createElement('span');
+                formNameObject = document.createElement('span');
             }
-            processNameObject.innerText = data.name;
-            tdProcessName.appendChild(processNameObject);
+            formNameObject.innerText = data.name;
+            tdFormName.appendChild(formNameObject);
 
-            let tdProcessPreview = document.createElement('td');
-            tdProcessPreview.style.width = '10%';
-            let processPreviewBtn = document.createElement('button');
-            let spanProcessPreview = document.createElement('span');
-            processPreviewBtn.className = 'default-fill btn-popup';
-            spanProcessPreview.className = 'icon-search';
-            processPreviewBtn.onclick = function () {
-                openProcessDesignerView(data.id);
+            // 미리보기
+            let tdFormPreview = document.createElement('td');
+            tdFormPreview.style.width = '10%';
+            let formPreviewBtn = document.createElement('button');
+            let spanFormPreview = document.createElement('span');
+            formPreviewBtn.className = 'default-fill btn-popup';
+            spanFormPreview.className = 'icon-search';
+            formPreviewBtn.onclick = function() {
+                openFormDesignerView(data.id);
             }
-            processPreviewBtn.appendChild(spanProcessPreview);
-            tdProcessPreview.appendChild(processPreviewBtn);
+            formPreviewBtn.appendChild(spanFormPreview);
+            tdFormPreview.appendChild(formPreviewBtn);
 
-
-            let tdProcessUpdate = document.createElement('td');
-            tdProcessUpdate.style.width = '10%';
-            if (document.getElementById('updatable').value === 'true' && data.enabled == true) {
-                let updateBtn = document.createElement('button');
-                let spanUpdate = document.createElement('span');
-                spanUpdate.className='icon-edit';
-                tdProcessUpdate.onclick = function() {
-                    openProcessDesignerEdit(data.id);
+            // 변경
+            let tdFormUpdate = document.createElement('td');
+            tdFormUpdate.style.width = '10%';
+            if (document.getElementById('updatable').value === 'true' && data.editable == true) {
+                let formUpdateBtn = document.createElement('button');
+                let spanFormUpdate = document.createElement('span');
+                spanFormUpdate.className = 'icon-edit';
+                formUpdateBtn.onclick = function() {
+                    openFormDesignerEdit(data.id);
                 }
-                updateBtn.appendChild(spanUpdate);
-                tdProcessUpdate.appendChild(updateBtn);
+                formUpdateBtn.appendChild(spanFormUpdate);
+                tdFormUpdate.appendChild(formUpdateBtn);
             }
 
-            let tdStatus = document.createElement('td');
-            tdStatus.style.width = '10%';
-            tdStatus.innerText = i18n.msg(data.status);
+            let tdState = document.createElement('td');
+            tdState.style.width = '10%';
+            tdState.innerText = i18n.msg(data.status);
 
             let tdDescription = document.createElement('td');
             tdDescription.style.width = '28%';
-            tdDescription.innerText = data.description;
+            tdDescription.className = 'align-left';
+            tdDescription.innerText = data.desc;
 
             let tdWriter = document.createElement('td');
             tdWriter.style.width = '10%';
@@ -492,15 +495,16 @@
             tdWriteDate.style.width = '12%';
             tdWriteDate.innerText = i18n.userDateTime(data.createDt);
 
-            tr.appendChild(tdProcessName);
-            tr.appendChild(tdProcessPreview);
-            tr.appendChild(tdProcessUpdate);
-            tr.appendChild(tdStatus);
+            tr.appendChild(tdFormName);
+            tr.appendChild(tdFormPreview);
+            tr.appendChild(tdFormUpdate);
+            tr.appendChild(tdState);
             tr.appendChild(tdDescription);
             tr.appendChild(tdWriter);
             tr.appendChild(tdWriteDate);
             div.appendChild(tr);
         }
+        /*]]>*/
     </script>
 </th:block>
 </html>

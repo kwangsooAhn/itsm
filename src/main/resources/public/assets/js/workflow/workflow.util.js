@@ -224,9 +224,9 @@ workflowUtil.downloadXML = function(id, suffix,  xmlString) {
  * @param type form/process
  */
 workflowUtil.export = function(id, type) {
-    let exportUrl = '/rest/forms/' + id + '/data';
+    let exportUrl = '/rest/form/' + id + '/data';
     if (type === 'process') {
-        exportUrl = '/rest/processes/' + id + '/data';
+        exportUrl = '/rest/process/' + id + '/data';
     }
     aliceJs.sendXhr({
         method: 'GET',
@@ -521,9 +521,9 @@ workflowUtil.loadProcessFromXML = function(data) {
  */
 workflowUtil.saveImportData = function(type, data) {
     let result = false;
-    let saveUrl = '/rest/forms-admin' + '?saveType=saveas';
+    let saveUrl = '/rest/forms' + '?saveType=saveas';
     if (type === 'process') {
-        saveUrl = '/rest/processes-admin' + '?saveType=saveas';
+        saveUrl = '/rest/processes' + '?saveType=saveas';
     }
     aliceJs.sendXhr({
         method: 'POST',
@@ -563,7 +563,6 @@ workflowUtil.import = function(xmlFile, data, type, callbackFunc) {
                     case 'process':
                         saveData = workflowUtil.loadProcessFromXML(e.target.result);
                         saveData.process = {name: data.processName, description: data.processDesc};
-                        console.log(saveData);
                         workflowUtil.addRequiredProcessAttribute(saveData);
                         break;
                     default: //none

@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.service.ProcessAdminService
@@ -9,11 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/processes-admin")
-class ProcessAdminController(private val processAdminService: ProcessAdminService) {
+@RequestMapping("/processes")
+class ProcessesController(private val processAdminService: ProcessAdminService) {
 
-    private val processSearchPage: String = "process/processAdminSearch"
-    private val processListPage: String = "process/processAdminList"
+    private val processSearchPage: String = "process/processSearch"
+    private val processListPage: String = "process/processList"
 
     /**
      * 프로세스 리스트 검색 호출 화면.
@@ -26,7 +30,7 @@ class ProcessAdminController(private val processAdminService: ProcessAdminServic
     /**
      * 프로세스 리스트 화면.
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getProcessList(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")

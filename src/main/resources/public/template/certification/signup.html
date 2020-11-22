@@ -80,7 +80,7 @@
                         </div>
                     </div>
                 </form>
-                <button class="signup-submit" id="userSignUp" th:text="#{login.btn.doSignUp}"
+                <button class="point-fill signup-submit" id="userSignUp" th:text="#{login.btn.doSignUp}"
                         onclick="userRegister()"></button>
             </div>
         </div>
@@ -150,7 +150,7 @@
                 avatarUUID: document.getElementById('avatarUUID').value
             };
 
-            restSubmit('POST', '/certification/register', true, registerInfo);
+            restSubmit('POST', '/certification', true, registerInfo);
         }
     }
 

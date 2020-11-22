@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.service.ProcessService
@@ -13,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rest/processes")
+@RequestMapping("/rest/process")
 class ProcessRestController(private val processService: ProcessService) {
 
     private val logger = LoggerFactory.getLogger(this::class.java)

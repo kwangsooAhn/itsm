@@ -108,7 +108,7 @@
 
         // Div 동적 데이터 만들기
         function getDataTemplate(data) {
-            let divCardArea = document.querySelector('.card-area');
+            let divCardArea = document.querySelector('.document-area .card-area');
             let div = document.createElement('div');
             let divCardDummy = document.createElement('div');
             divCardDummy.className = 'document-card-box';
@@ -162,7 +162,7 @@
                 <div class="search-input">
                     <form id="searchDocumentsFrm">
                         <input type="text" id="searchDocuments" name="searchDocuments"
-                               th:placeholder="#{document.label.searchPlaceholder}" class="search col-4"/>
+                               th:placeholder="#{document.label.searchPlaceholder}" class="search col-3"/>
                         <input type="text" id="searchProcessName" name="searchProcessName"
                                th:placeholder="#{document.label.process}" class="search col-3"/>
                         <input type="text" id="searchFormName" name="searchFormName"

@@ -16,7 +16,7 @@
         <div class="search-area">
             <div class="search-input">
                 <form id="searchFrm">
-                    <input class="search col-4" id="search" name="search" type="text" maxlength="100" th:placeholder="#{faq.label.searchPlaceholder}"/>
+                    <input class="search col-5" id="search" name="search" type="text" maxlength="100" th:placeholder="#{faq.label.searchPlaceholder}"/>
                 </form>
             </div>
             <div class="ml-auto">
@@ -113,7 +113,7 @@
 
         // Tr 동적 데이터 만들기
         function getDataTemplate(data) {
-            let div = document.querySelector('.os-content');
+            let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
 
             let tdFaqId = document.createElement('td');
