@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.service.FormAdminService
@@ -20,8 +26,8 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rest/forms-admin")
-class FormRestAdminController(private val formAdminService: FormAdminService) {
+@RequestMapping("/rest/forms")
+class FormsRestController(private val formAdminService: FormAdminService) {
 
     /**
      * 문서양식 등록, 새이름으로 저장

@@ -224,7 +224,7 @@ workflowUtil.downloadXML = function(id, suffix,  xmlString) {
  * @param type form/process
  */
 workflowUtil.export = function(id, type) {
-    let exportUrl = '/rest/forms/' + id + '/data';
+    let exportUrl = '/rest/form/' + id + '/data';
     if (type === 'process') {
         exportUrl = '/rest/processes/' + id + '/data';
     }
@@ -521,7 +521,7 @@ workflowUtil.loadProcessFromXML = function(data) {
  */
 workflowUtil.saveImportData = function(type, data) {
     let result = false;
-    let saveUrl = '/rest/forms-admin' + '?saveType=saveas';
+    let saveUrl = '/rest/forms' + '?saveType=saveas';
     if (type === 'process') {
         saveUrl = '/rest/processes-admin' + '?saveType=saveas';
     }

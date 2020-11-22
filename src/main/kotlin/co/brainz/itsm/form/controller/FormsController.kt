@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.form.controller
 
 import co.brainz.itsm.form.service.FormAdminService
@@ -17,11 +23,11 @@ import org.springframework.web.bind.annotation.RequestMapping
  * @author Woo Dajung
  */
 @Controller
-@RequestMapping("/forms-admin")
-class FormAdminController(private val formAdminService: FormAdminService) {
+@RequestMapping("/forms")
+class FormsController(private val formAdminService: FormAdminService) {
 
-    private val formSearchPage: String = "form/formAdminSearch"
-    private val formListPage: String = "form/formAdminList"
+    private val formSearchPage: String = "form/formSearch"
+    private val formListPage: String = "form/formList"
 
     /**
      * 폼 리스트 검색 호출 화면.
@@ -34,7 +40,7 @@ class FormAdminController(private val formAdminService: FormAdminService) {
     /**
      * 폼 리스트 화면.
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getFormList(request: HttpServletRequest, model: Model): String {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search") ?: ""

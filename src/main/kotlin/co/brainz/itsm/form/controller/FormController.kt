@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.form.controller
 
 import co.brainz.framework.fileTransaction.service.AliceFileService
@@ -16,12 +22,11 @@ import org.springframework.web.bind.annotation.RequestMapping
  * @author Woo Dajung
  */
 @Controller
-@RequestMapping("/forms")
+@RequestMapping("/form")
 class FormController(private val fileService: AliceFileService) {
 
     private val formDesignerEditPage: String = "form/formDesignerEdit"
     private val formEditPreviewPage: String = "form/formEditPreview"
-    private val imageUploadPopupPage: String = "form/imagePopup"
 
     /**
      * 폼 디자이너 편집 화면.
