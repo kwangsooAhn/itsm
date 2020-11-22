@@ -20,9 +20,9 @@
                     <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
                 </select>
                 <input type="text" id="search" name="search" class="search col-5" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
-                <input type="text" id="fromDt" name="fromDt" class="search-date icon-date col-3" readonly="readonly"/>
+                <input type="text" id="fromDt" name="fromDt" class="search-date icon-date col-3"/>
                 <span>~</span>
-                <input class="search-date icon-date col-3" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                <input class="search-date icon-date col-3" type="text" id="searchToDt" name="searchToDt"/>
                 <input class="search-date icon-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
             </form>
         </div>
