@@ -54,8 +54,8 @@ $profile-photo-background:                    #F0F0F0;
 // Document color icon
 $document-color-size:                         1rem; // 16px
 
-// Notice pinned color
-$notice-pinned-color:                         $light-blue;
+// 공지사항 상단 공지 (배경색 별도 처리)
+$notice-pinned-color:                         rgba(135, 206, 255, 0.15);
 
 ///////////////////////////// Dropzone /////////////////////////////
 $dropzone-folder-path:                        "../../../media/icons/dropzone/";

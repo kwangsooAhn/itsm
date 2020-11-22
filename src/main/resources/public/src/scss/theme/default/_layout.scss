@@ -12,7 +12,8 @@
     height: 100vh;
     
     // 상단 영역
-    // #9572 [ITSM] 상단 제목을 공통 mixin 생성 일감 작업시 수정 필요
+    @include headerTemplate();
+    // #9572 [ITSM] 상단 제목을 공통 mixin 생성 일감 작업시 삭제 필요
     .page-title {
       display: flex;
       align-items: baseline;
@@ -23,8 +24,23 @@
     }
     
     // 리스트
+    @include listTemplate();
   }
 }
+
+// 공지사항 
+.notice-header {
+  padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
+  background-color: $light-gray;
+}
+.notice-content {
+  padding: 0.9375rem 3.75rem; // 15px 60px
+  background-color: $light-gray;
+  // 공지사항 상단 공지
+  .notice-pinned { background-color: $notice-pinned-color; }
+}
+
+// TODO : 리팩토링
 
 .itsm {
   // 기본 ITSM 구성
@@ -180,9 +196,4 @@
     background: $line-gray;
     td { text-align: center; }
   }
-}
-
-// 공지사항 상단 공지 (배경색 별도 처리)
-.notice-pinned {
-  background-color: $notice-pinned-color;
 }
