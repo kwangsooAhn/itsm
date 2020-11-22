@@ -226,7 +226,7 @@ workflowUtil.downloadXML = function(id, suffix,  xmlString) {
 workflowUtil.export = function(id, type) {
     let exportUrl = '/rest/form/' + id + '/data';
     if (type === 'process') {
-        exportUrl = '/rest/processes/' + id + '/data';
+        exportUrl = '/rest/process/' + id + '/data';
     }
     aliceJs.sendXhr({
         method: 'GET',
@@ -523,7 +523,7 @@ workflowUtil.saveImportData = function(type, data) {
     let result = false;
     let saveUrl = '/rest/forms' + '?saveType=saveas';
     if (type === 'process') {
-        saveUrl = '/rest/processes-admin' + '?saveType=saveas';
+        saveUrl = '/rest/processes' + '?saveType=saveas';
     }
     aliceJs.sendXhr({
         method: 'POST',
