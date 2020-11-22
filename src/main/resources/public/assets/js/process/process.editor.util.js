@@ -294,7 +294,7 @@
     function save(callbackFunc) {
         aliceJs.sendXhr({
             method: 'PUT',
-            url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/data',
+            url: '/rest/process/' + aliceProcessEditor.data.process.id + '/data',
             contentType: 'application/json; charset=utf-8',
             params: JSON.stringify(aliceProcessEditor.data),
             callbackFunc: callbackFunc
@@ -348,13 +348,13 @@
             processData.description = document.getElementById('process_description').value;
             aliceJs.sendXhr({
                 method: 'POST',
-                url: '/rest/processes-admin' + '?saveType=saveas',
+                url: '/rest/processes' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
                         aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
                             opener.location.reload();
                             window.name = 'process_' + xhr.responseText + '_edit';
-                            location.href = '/processes/' + xhr.responseText + '/edit';
+                            location.href = '/process/' + xhr.responseText + '/edit';
                         });
                     } else {
                         aliceJs.alertDanger(i18n.msg('common.label.fail'));
@@ -428,7 +428,7 @@
     function simulationProcess() {
         aliceJs.sendXhr({
             method: 'put',
-            url: '/rest/processes/' + aliceProcessEditor.data.process.id + '/simulation',
+            url: '/rest/process/' + aliceProcessEditor.data.process.id + '/simulation',
             callbackFunc: function (xhr) {
                 if (document.querySelectorAll('.simulation-report-contents-main .details div').length > 0) {
                     document.querySelectorAll('.simulation-report-contents-main .details div').forEach((element) => element.parentElement.removeChild(element));

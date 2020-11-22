@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.itsm.process.controller
 
 import co.brainz.framework.constants.AliceConstants
@@ -12,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 
 @Controller
-@RequestMapping("/processes")
+@RequestMapping("/process")
 class ProcessController(
     private val processService: ProcessService,
     private val fileService: AliceFileService
