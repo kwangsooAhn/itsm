@@ -57,7 +57,7 @@
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('searchDocumentsFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/documents/list?' + urlParam, isScroll);
+                restSubmit('get', '/documents?' + urlParam, isScroll);
             }
         }
 

@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.document.controller
 
 import co.brainz.framework.numbering.service.AliceNumberingService
@@ -12,16 +18,16 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
-@RequestMapping("/documents-admin")
-class DocumentAdminController(
+@RequestMapping("/workflows")
+class WorkFlowController(
     private val documentService: DocumentService,
     private val codeService: CodeService,
     private val numberingService: AliceNumberingService
 ) {
 
-    private val documentAdminSearchPage: String = "document/documentAdminSearch"
-    private val documentAdminListPage: String = "document/documentAdminList"
-    private val documentEditPage: String = "document/documentEdit"
+    private val workFlowSearchPage: String = "workFlow/workFlowSearch"
+    private val workFlowListPage: String = "workFlow/workFlowList"
+    private val workFlowEditPage: String = "workFlow/workFlowEdit"
 
     /**
      * 업무흐름 리스트 호출 화면.
@@ -29,9 +35,9 @@ class DocumentAdminController(
      * @return String
      */
     @GetMapping("/search")
-    fun getDocumentMngSearch(model: Model): String {
+    fun getWorkFlowMngSearch(model: Model): String {
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
-        return documentAdminSearchPage
+        return workFlowSearchPage
     }
 
     /**
@@ -41,13 +47,13 @@ class DocumentAdminController(
      * @param model
      * @return String
      */
-    @GetMapping("/list")
-    fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
+    @GetMapping("")
+    fun getWorkFlowList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
         val result = documentService.getDocumentList(restTemplateDocumentSearchListDto)
         model.addAttribute("documentList", result)
         model.addAttribute("documentCount", if (result.isNotEmpty()) result[0].totalCount else 0)
-        return documentAdminListPage
+        return workFlowListPage
     }
 
     /**
@@ -57,14 +63,14 @@ class DocumentAdminController(
      * @return String
      */
     @GetMapping("/new")
-    fun getDocumentNew(model: Model): String {
+    fun getWorkFlowNew(model: Model): String {
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
         model.addAttribute("formList", documentService.getFormList())
         model.addAttribute("processList", documentService.getProcessList())
         model.addAttribute("numberingRuleList", numberingService.getNumberingRules())
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
-        return documentEditPage
+        return workFlowEditPage
     }
 
     /**
@@ -75,7 +81,7 @@ class DocumentAdminController(
      * @return String
      */
     @GetMapping("{documentId}/edit")
-    fun getDocumentEdit(@PathVariable documentId: String, model: Model): String {
+    fun getWorkFlowEdit(@PathVariable documentId: String, model: Model): String {
         model.addAttribute("documentId", documentId)
         model.addAttribute("documentData", documentService.getDocumentAdmin(documentId))
         model.addAttribute("statusList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_STATUS_P_CODE))
@@ -84,6 +90,6 @@ class DocumentAdminController(
         model.addAttribute("numberingRuleList", numberingService.getNumberingRules())
         model.addAttribute("groupList", codeService.selectCodeByParent(DocumentConstants.DOCUMENT_GROUP_P_CODE))
 
-        return documentEditPage
+        return workFlowEditPage
     }
 }

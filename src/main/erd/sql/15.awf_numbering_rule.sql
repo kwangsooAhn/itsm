@@ -20,4 +20,5 @@ COMMENT ON COLUMN awf_numbering_rule.numbering_desc IS '넘버링설명';
 COMMENT ON COLUMN awf_numbering_rule.latest_value IS '최근값';
 COMMENT ON COLUMN awf_numbering_rule.latest_date IS '최근날짜';
 
-insert into awf_numbering_rule values ('40125c91714df6c325714e053c890125', '문서 번호', '신청서 작성시 발생한 문서번호');
+insert into awf_numbering_rule values ('40125c91714df6c325714e053c890125', 'CSR-yyyyMMdd-000', '신청서 작성시 발생한 문서번호',
+'CSR-20201121-001');
