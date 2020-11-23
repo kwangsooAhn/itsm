@@ -17,7 +17,7 @@
 				<li class="gnb-area" th:each="topMenu : ${#authentication.details.menus}"
 						th:order-data="${topMenu.sort}" th:if="${topMenu.pMenuId} == 'menu' and ${topMenu.useYn} == true">
 					<!--/* 그룹 메뉴 */-->
-					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb gnb-link"
+					<a th:if="${#strings.isEmpty(topMenu.url)}" onclick="accordionMenu(this);" th:data-menugroup="${topMenu.menuId}" class="gnb gnb-link flex-row"
 					   th:classappend="${topMenu.menuId} == ${session.active_url_parent} ? active-parent">
 						<span th:class="'icon-gnb icon-gnb-' + ${topMenu.menuId}"></span>
 						<span class="menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
@@ -33,7 +33,7 @@
 						</li>
 					</ul>
 					<!--/* 연결 메뉴 */-->
-					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb gnb-link" th:classappend="${topMenu.url} == ${session.active_url} ? active">
+					<a th:unless="${#strings.isEmpty(topMenu.url)}" th:href="${topMenu.url}" class="gnb gnb-link flex-row" th:classappend="${topMenu.url} == ${session.active_url} ? active">
 						<span th:class="'icon-gnb icon-gnb-' + ${topMenu.menuId}"></span>
 						<span class="menu-name" th:text="#{|menu.${topMenu.menuId}.parent|}"></span>
 					</a>
