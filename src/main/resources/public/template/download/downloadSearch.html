@@ -8,32 +8,33 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list flex-column">
-        <div class="page-title">
+    <div class="download-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{download.label.download}"></h1>
-            <h6 class="title-description" th:text="#{download.msg.searchDescription}"></h6>
+            <h6 class="description" th:text="#{download.msg.searchDescription}"></h6>
         </div>
-        <div class="search-area">
-            <div class="search-input">
-                <input type="hidden" name="isRole" sec:authorize="hasAuthority('download.update')" th:value="true"/>
-                <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
-                <form id="searchFrm">
-                    <select id="category" name="category" class="col-2">
-                        <option value="" th:text="#{download.category.all}"></option>
-                        <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
-                    </select>
-                    <input type="text" id="search" name="search" class="search col-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
-                    <input type="text" id="fromDt" name="fromDt" class="search-date col-3"/>
-                    <span>~</span>
-                    <input class="search-date col-3" type="text" id="searchToDt" name="searchToDt"/>
-                    <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
-                </form>
-            </div>
+        <div class="header-search flex-row">
+            <input type="hidden" name="isRole" sec:authorize="hasAuthority('download.update')" th:value="true"/>
+            <input type="hidden" name="isRole" sec:authorize="!hasAuthority('download.update')" th:value="false"/>
+            <form id="searchFrm">
+                <select id="category" name="category" class="col-2">
+                    <option value="" th:text="#{download.category.all}"></option>
+                    <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
+                </select>
+                <input type="text" id="search" name="search" class="search col-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
+                <input type="text" id="fromDt" name="fromDt" class="search-date col-3"/>
+                <span>~</span>
+                <input type="text" class="search-date col-3" id="searchToDt" name="searchToDt"/>
+                <input type="hidden" class="search-date" id="toDt" name="toDt"/>
+            </form>
             <div class="ml-auto">
-                <button class="default-fill" onclick="location.href='/downloads/new'"
-                        sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.add}" />
+                <button type="button" class="default-fill" onclick="location.href='/downloads/new'"
+                        sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.add}"/>
+                </button>
             </div>
         </div>
+    </div>
+    <div class="faq-content flex-fill">
         <div class="list" id="downloadList"></div>
     </div>
 </th:block>
@@ -159,18 +160,21 @@
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
 
             let tdDownloadSeq = document.createElement('td');
-            tdDownloadSeq.innerText = data.downloadSeq;
+            tdDownloadSeq.className = 'align-left';
             tdDownloadSeq.style.width = '5%';
+            tdDownloadSeq.innerText = data.downloadSeq;
 
             let tdDownloadCategory = document.createElement('td');
-            tdDownloadCategory.innerText = i18n.msg(data.downloadCategory);
+            tdDownloadCategory.className = 'align-left';
             tdDownloadCategory.style.width = '10%';
+            tdDownloadCategory.innerText = i18n.msg(data.downloadCategory);
 
             let tdDownloadTitle = document.createElement('td');
-            tdDownloadTitle.style.width = '45%';
             tdDownloadTitle.className = 'align-left';
+            tdDownloadTitle.style.width = '45%';
             let aDownloadTitle = document.createElement('a');
             if (document.getElementsByName('isRole')[0].value === 'true') {
                 aDownloadTitle.href = '/downloads/'+ data.downloadId +'/edit';
@@ -181,16 +185,19 @@
             tdDownloadTitle.appendChild(aDownloadTitle);
 
             let tdCreateUserName = document.createElement('td');
-            tdCreateUserName.innerText = data.createUserName;
+            tdCreateUserName.className = 'align-left';
             tdCreateUserName.style.width = '10%';
+            tdCreateUserName.innerText = data.createUserName;
 
             let tdCreateDt = document.createElement('td');
-            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
+            tdCreateDt.className = 'align-left';
             tdCreateDt.style.width = '20%';
+            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
 
             let tdView = document.createElement('td');
-            tdView.innerText = data.views;
+            tdView.className = 'align-left';
             tdView.style.width = '10%';
+            tdView.innerText = data.views;
 
             tr.appendChild(tdDownloadSeq);
             tr.appendChild(tdDownloadCategory);

@@ -47,17 +47,6 @@
     @include background($path, $size, null, null, null, null)
 }
 
-@mixin backgroundIcon($path, $size, $repeat, $posX, $posY, $color) {
-    background-image: url($icon-folder-path + $path);
-    background-size: if($size == null, auto, $size);
-    background-repeat: if($repeat == null, no-repeat, $repeat);
-    background-position-x: if($posX == null, center, $posX);
-    background-position-y: if($posY == null, center, $posY);
-    @if ($color != null) {
-        background-color: $color;
-    }
-}
-
 @mixin content-header() {
     .header {
         padding: 3.1875rem 3.75rem 3.1875rem 3.75rem; // 51px 60px 51px 60px
@@ -145,6 +134,7 @@
 @mixin listTemplate() {
   .list {
     a, button { cursor: pointer; }
+
     &-table {
       position: relative;
       display: inline-table;
@@ -173,18 +163,24 @@
       height: 32.69rem; // 523px
       tr {
         // 마우스 오버시 배경 색상
-        &:hover { background: $line-gray; }
+        &:hover { background: $list-hover-bg-color; }
 
         td {
           font-size: 1rem; // 16px
           font-weight: $font-weight-regular;
           color: $dark-gray;
           padding: 0 0.9375rem; // 0 15px
+          line-height: initial; // 소문자 글자 짤림현상 방지
           
           &:first-child { padding-left: 1.25rem; } // 20px
 
           a { color: $dark-gray; }
         }
+      }
+      // 데이터 없을때
+      .no-data-found-list {
+        background-color: $no-data-found-list-bg;
+        pointer-events: none;
       }
     }
   }

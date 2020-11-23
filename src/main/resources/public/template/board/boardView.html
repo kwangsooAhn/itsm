@@ -63,7 +63,7 @@
             </div>
             <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
                 <div class="reply-input-row flex-row">
-                    <img class="profile-photo" alt="profile pic" th:src="${#authentication.details.avatarPath}"/>
+                    <img class="profile-photo mr-2" alt="profile pic" th:src="${#authentication.details.avatarPath}" width="32" height="32"/>
                     <input type="text" class="reply-input" id="boardComments" name="boardComments" maxlength="500" th:placeholder="#{comment.msg.enterComments}"/>
                     <button class="default-line reply-button" onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button>
                 </div>

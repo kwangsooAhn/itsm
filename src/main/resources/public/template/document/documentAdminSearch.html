@@ -8,29 +8,36 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list flex-column">
-        <div class="page-title">
+    <div class="document-admin-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{document.label.businessFlow}"></h1>
-            <h6 class="title-description" th:text="#{document.msg.adminSearchDescription}"></h6>
+            <h6 class="description" th:text="#{document.msg.adminSearchDescription}"></h6>
         </div>
-        <div class="search-area">
+        <div class="header-search flex-row">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''document.admin.update'')')}"/>
             <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''document.admin.delete'')')}"/>
-            <div class="search-input">
-                <form id="searchDocumentsFrm">
-                    <select id="searchGroupName" name="searchGroupName">
-                        <option value="" th:text="#{document.label.all}" selected/>
-                        <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
-                    </select>
-                    <label for="searchDocuments"></label><input type="text" maxlength="100" id="searchDocuments" name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}" class="search"/>
-                    <label for="searchProcessName"></label><input type="text" maxlength="100" id="searchProcessName" name="searchProcessName" th:placeholder="#{document.label.process}" class="search"/>
-                    <label for="searchFormName"></label><input type="text" maxlength="100" id="searchFormName" name="searchFormName" th:placeholder="#{document.label.form}" class="search"/>
-                </form>
-            </div>
+            <form id="searchDocumentsFrm">
+                <select id="searchGroupName" name="searchGroupName">
+                    <option value="" th:text="#{document.label.all}" selected/>
+                    <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
+                </select>
+                <label for="searchDocuments"></label>
+                <input type="text" class="search" maxlength="100" id="searchDocuments"
+                       name="searchDocuments" th:placeholder="#{document.label.searchPlaceholder}"/>
+                <label for="searchProcessName"></label>
+                <input type="text" class="search" maxlength="100" id="searchProcessName"
+                       name="searchProcessName" th:placeholder="#{document.label.process}"/>
+                <label for="searchFormName"></label>
+                <input type="text" class="search" maxlength="100" id="searchFormName"
+                       name="searchFormName" th:placeholder="#{document.label.form}"/>
+            </form>
             <div class="ml-auto">
-                <button th:class="default-fill" sec:authorize="hasAuthority('document.admin.create')" type="button" onclick="openDocumentEdit()" th:text="#{common.btn.add}"></button>
+                <button type="button" class="default-fill" onclick="openDocumentEdit();"
+                        sec:authorize="hasAuthority('document.admin.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
+    </div>
+    <div class="document-admin-content flex-fill">
         <div class="list" id="documentList"></div>
     </div>
 </th:block>
@@ -490,9 +497,12 @@
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
 
             let tdDocumentName = document.createElement('td');
             tdDocumentName.style.width = '25%';
+            tdDocumentName.className = 'align-left';
+
             let divDocumentColor = document.createElement('div');
             divDocumentColor.className = 'document-color-circle';
             divDocumentColor.style.backgroundColor = data.documentColor;
@@ -503,6 +513,7 @@
 
             let tdDocumentType = document.createElement('td');
             tdDocumentType.style.width = '10%';
+            tdDocumentType.className = 'align-left';
             if (data.documentType === 'application-form') {
                 tdDocumentType.innerText = '[[#{document.type.applicationForm}]]';
             } else {
@@ -511,6 +522,7 @@
 
             let tdDocumentGroup = document.createElement('td');
             tdDocumentGroup.style.width = '10%';
+            tdDocumentGroup.className = 'align-left';
             if (data.documentGroup != null && data.documentGroup !== '') {
                 let groupObject = document.getElementById('searchGroupName');
                 for (let i = 0; i < groupObject.length; i++) {
@@ -527,10 +539,13 @@
 
             let tdDocumentStatus = document.createElement('td');
             tdDocumentStatus.style.width = '15%';
+            tdDocumentStatus.className = 'align-left';
             tdDocumentStatus.innerText = i18n.msg(data.documentStatus);
 
             let tdDocumentEdit = document.createElement('td');
             tdDocumentEdit.style.width = '10%';
+            tdDocumentEdit.className = 'align-left';
+
             if (document.getElementById('updatable').value === 'true') {
                 let documentEditBtn = document.createElement('button');
                 let spanDocumentEdit = document.createElement('span');
@@ -544,6 +559,7 @@
 
             let tdDocumentDelete = document.createElement('td');
             tdDocumentDelete.style.width = '10%';
+            tdDocumentDelete.className = 'align-left';
             if (document.getElementById('deletable').value === 'true') {
                 let documentDeleteBtn = document.createElement('button');
                 let spanDocumentDelete = document.createElement('span');

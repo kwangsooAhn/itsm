@@ -11,21 +11,26 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
-    <div class="contents-list flex-column">
-        <div class="page-title">
+    <div class="form-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{form.label.form}"></h1>
-            <h6 class="title-description" th:text="#{form.msg.searchDescription}"></h6>
+            <h6 class="description" th:text="#{form.msg.searchDescription}"></h6>
         </div>
-        <div class="search-area">
-            <div class="search-input">
-                <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{form.label.searchPlaceholder}"/>
-            </div>
+        <div class="header-search flex-row">
+            <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
+            <form id="searchFrm">
+                <input type="text" id="search" name="search" class="search col-5"  maxlength="100"
+                       th:placeholder="#{form.label.searchPlaceholder}"/>
+            </form>
             <div class="ml-auto">
-                <button class="default-line" type="button" onclick="openFormImport();" sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
-                <button class="default-fill" onclick="openFormRegister();" sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
+                <button type="button" class="default-line" onclick="openFormImport();"
+                        sec:authorize="hasAuthority('form.create')" th:text="#{form.btn.import}"></button>
+                <button type="button" class="default-fill" onclick="openFormRegister();"
+                        sec:authorize="hasAuthority('form.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
+    </div>
+    <div class="form-content flex-fill">
         <div class="list" id="formList"></div>
     </div>
 </th:block>
@@ -432,9 +437,11 @@
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
 
             let tdFormName = document.createElement('td');
             tdFormName.style.width = '20%';
+            tdFormName.className = 'align-left';
             let formNameObject;
             if (data.editable == true) {
                 formNameObject = document.createElement('a');
@@ -454,6 +461,8 @@
             // 미리보기
             let tdFormPreview = document.createElement('td');
             tdFormPreview.style.width = '10%';
+            tdFormPreview.className = 'align-center';
+
             let formPreviewBtn = document.createElement('button');
             let spanFormPreview = document.createElement('span');
             formPreviewBtn.className = 'default-fill btn-popup';
@@ -467,6 +476,8 @@
             // 변경
             let tdFormUpdate = document.createElement('td');
             tdFormUpdate.style.width = '10%';
+            tdFormUpdate.className = 'align-center';
+
             if (document.getElementById('updatable').value === 'true' && data.editable == true) {
                 let formUpdateBtn = document.createElement('button');
                 let spanFormUpdate = document.createElement('span');
@@ -480,6 +491,7 @@
 
             let tdState = document.createElement('td');
             tdState.style.width = '10%';
+            tdState.className = 'align-center';
             tdState.innerText = i18n.msg(data.status);
 
             let tdDescription = document.createElement('td');
@@ -489,10 +501,12 @@
 
             let tdWriter = document.createElement('td');
             tdWriter.style.width = '10%';
+            tdWriter.className = 'align-left';
             tdWriter.innerText = data.createUserName;
 
             let tdWriteDate = document.createElement('td');
             tdWriteDate.style.width = '12%';
+            tdWriteDate.className = 'align-left';
             tdWriteDate.innerText = i18n.userDateTime(data.createDt);
 
             tr.appendChild(tdFormName);

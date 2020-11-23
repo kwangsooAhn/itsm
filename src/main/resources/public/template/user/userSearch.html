@@ -8,19 +8,20 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list flex-column">
-        <div class="page-title">
+    <div class="user-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{user.label.user}"></h1>
-            <h6 class="title-description" th:text="#{user.msg.searchDescription}"></h6>
+            <h6 class="description" th:text="#{user.msg.searchDescription}"></h6>
         </div>
-        <div class="search-area">
-            <div class="search-input">
-                <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}"/>
-            </div>
+        <div class="header-search flex-row">
+            <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}"/>
             <div class="ml-auto">
-                <button class="default-fill" onclick="location.href='/users/new'" sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>
+                <button type="button" class="default-fill" onclick="location.href='/users/new'"
+                        sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
+    </div>
+    <div class="user-content flex-fill">
         <div class="list" id="userList"></div>
     </div>
 </th:block>
@@ -105,17 +106,22 @@
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
 
             let tdAvatar = document.createElement('td');
-            tdAvatar.style.width = '5%';
+            tdAvatar.className = 'align-right p-0';
+            tdAvatar.style.width = '3.2%';
             let avatarImage = document.createElement('img');
             avatarImage.className = 'profile-photo';
             avatarImage.src = data.avatarPath;
+            avatarImage.style.width = '27px';
+            avatarImage.style.height = '27px';
             avatarImage.alt = 'profile pic';
             tdAvatar.appendChild(avatarImage);
 
             let tdName = document.createElement('td');
-            tdName.style.width = '10%';
+            tdName.className = 'align-left';
+            tdName.style.width = '9.8%';
             tdName.innerText = data.userName;
             tdName.style.cursor = 'pointer';
             tdName.onclick = function() {
@@ -123,6 +129,7 @@
             };
 
             let tdId = document.createElement('td');
+            tdId.className = 'align-left';
             tdId.style.width = '10%';
             tdId.innerText = data.userId;
             tdId.style.cursor = 'pointer';
@@ -131,26 +138,32 @@
             };
 
             let tdEmail = document.createElement('td');
-            tdEmail.style.width = '20%';
+            tdEmail.className = 'align-left';
+            tdEmail.style.width = '16%';
             tdEmail.innerText = data.email;
 
             let tdDepartment = document.createElement('td');
-            tdDepartment.style.width = '10%';
+            tdDepartment.className = 'align-left';
+            tdDepartment.style.width = '16%';
             tdDepartment.innerText = data.department;
 
             let tdPosition = document.createElement('td');
+            tdPosition.className = 'align-left';
             tdPosition.style.width = '10%';
             tdPosition.innerText = data.position;
 
             let tdOfficeNumber = document.createElement('td');
+            tdOfficeNumber.className = 'align-left';
             tdOfficeNumber.style.width = '10%';
             tdOfficeNumber.innerText = data.officeNumber;
 
             let tdMobileNumber = document.createElement('td');
+            tdMobileNumber.className = 'align-left';
             tdMobileNumber.style.width = '10%';
             tdMobileNumber.innerText = data.mobileNumber;
 
             let tdSignUpDate = document.createElement('td');
+            tdSignUpDate.className = 'align-left';
             tdSignUpDate.style.width = '15%';
             tdSignUpDate.innerText = i18n.userDateTime(data.createDt);
 

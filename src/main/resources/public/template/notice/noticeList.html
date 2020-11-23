@@ -8,18 +8,18 @@
     <table class="list-table">
         <thead class="list-head">
             <tr class="flex-row align-items-center">
-                <th style="width:30%;" th:text="#{common.label.title}" class="align-left"></th>
-                <th style="width:5%;" th:text="#{notice.label.popUp}" class="align-center"></th>
-                <th style="width:10%;"  th:text="#{common.label.writer}" class="align-center"></th>
-                <th style="width:20%;" th:text="#{notice.label.popUpPeriod}" class="align-left"></th>
-                <th style="width:20%;" th:text="#{notice.label.noticePeriod}" class="align-left"></th>
-                <th style="width:15%;" th:text="#{common.label.writeDate}" class="align-left"></th>
+                <th style="width:30%;" class="align-left" th:text="#{common.label.title}"></th>
+                <th style="width:5%;" class="align-center" th:text="#{notice.label.popUp}"></th>
+                <th style="width:10%;" class="align-center" th:text="#{common.label.writer}"></th>
+                <th style="width:20%;" class="align-left" th:text="#{notice.label.popUpPeriod}"></th>
+                <th style="width:20%;" class="align-left" th:text="#{notice.label.noticePeriod}"></th>
+                <th style="width:15%;" class="align-left" th:text="#{common.label.writeDate}"></th>
             </tr>
         </thead>
         <tbody class="list-body">
             <input th:type="hidden" id="totalCount" name="totalCount" th:value="${noticeCount}"/>
-            <tr class="flex-row align-items-center no-data-found-list " th:if="${#arrays.isEmpty(noticeList)}">
-                <td colspan="6" th:text="#{common.msg.noData}"></td>
+            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(noticeList)}">
+                <td colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr class="flex-row align-items-center notice-pinned " th:each="topNotice, i: ${topNoticeList}"
                 th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
@@ -30,13 +30,13 @@
                     <a sec:authorize="hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
                        th:href="@{/notices/{id}/edit(id=${topNotice.noticeNo})}"></a>
                 </td>
-                <td style="width:5%;" th:if="${topNotice.popYn}" class="align-center" >
+                <td style="width:5%;" th:if="${topNotice.popYn}" class="align-center">
                     <button type="button" class="default-fill btn-popup" th:onclick="openPopUp([[${topNotice.noticeNo}]], [[${topNotice.popWidth}]], [[${topNotice.popHeight}]])">
                         <span class="icon-search"></span>
                     </button>
                 </td>
-                <td style="width:5%;" th:unless="${topNotice.popYn}" class="align-center"></td>
-                <td style="width:10%;" th:text="${topNotice?.createUserName}" class="align-center"></td>
+                <td style="width:5%;" class="align-center" th:unless="${topNotice.popYn}"></td>
+                <td style="width:10%;" class="align-center" th:text="${topNotice?.createUserName}"></td>
                 <td style="width:20%;" th:name="popDt" class="align-left" th:text="${topNotice.popStrtDt} + '~' + ${topNotice.popEndDt}"></td>
                 <td style="width:20%;" th:name="noticeDt" class="align-left" th:text="${topNotice.topNoticeStrtDt} + '~' + ${topNotice.topNoticeEndDt}"/>
                 <td style="width:15%;" th:name="createDt" class="align-left" th:text="${topNotice.createDt}"></td>

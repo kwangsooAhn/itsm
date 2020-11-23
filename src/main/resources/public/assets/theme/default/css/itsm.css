@@ -206,14 +206,6 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-.mr-auto {
-  margin-right: auto;
-}
-
-.ml-auto {
-  margin-left: auto;
-}
-
 /* _columns.scss 
  *
  * 파일 경로 : template/_columns.scss
@@ -315,6 +307,70 @@ input, button, select, optgroup, textarea {
 
 .col-pct-12 {
   width: 100%;
+}
+
+.p-0 {
+  padding: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.ml-0 {
+  margin-left: 0;
+}
+
+.ml-1 {
+  margin-left: 0.3125rem;
+}
+
+.ml-2 {
+  margin-left: 0.625rem;
+}
+
+.ml-3 {
+  margin-left: 0.9375rem;
+}
+
+.ml-4 {
+  margin-left: 1.25rem;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-0 {
+  margin-right: 0;
+}
+
+.mr-1 {
+  margin-right: 0.3125rem;
+}
+
+.mr-2 {
+  margin-right: 0.625rem;
+}
+
+.mr-3 {
+  margin-right: 0.9375rem;
+}
+
+.mr-4 {
+  margin-right: 1.25rem;
+}
+
+.mr-auto {
+  margin-right: auto;
 }
 
 /* _common.scss 
@@ -2227,6 +2283,7 @@ button .icon-plus {
   font-weight: 400;
   color: #586872;
   padding: 0 0.9375rem;
+  line-height: initial;
 }
 
 .itsm-container .main .list-body tr td:first-child {
@@ -2237,17 +2294,40 @@ button .icon-plus {
   color: #586872;
 }
 
-.notice-header {
+.itsm-container .main .list-body .no-data-found-list {
+  background-color: rgba(230, 232, 235, 0.6);
+  pointer-events: none;
+}
+
+.notice-header,
+.faq-header,
+.download-header,
+.board-header,
+.user-header,
+.board-admin-header,
+.process-header,
+.form-header,
+.document-admin-header,
+.custom-code-header {
   padding: 2.188rem 3.75rem 0 3.75rem;
   background-color: #F7F8F9;
 }
 
-.notice-content {
+.notice-content,
+.faq-content,
+.download-content,
+.board-content,
+.user-content,
+.board-admin-content,
+.process-content,
+.form-content,
+.document-admin-content,
+.custom-code-content {
   padding: 0.9375rem 3.75rem;
   background-color: #F7F8F9;
 }
 
-.notice-content .notice-pinned {
+.notice-pinned {
   background-color: rgba(135, 206, 255, 0.15);
 }
 
@@ -3359,11 +3439,8 @@ button .icon-plus {
 }
 
 .profile-photo {
-  width: 2rem;
-  height: 2rem;
   border-radius: 50%;
-  background: #F0F0F0;
-  margin-right: 0.625rem;
+  background-color: #F0F0F0;
 }
 
 .user-name {

@@ -8,34 +8,34 @@
     <input type="hidden" id="totalCount" th:value="${boardAdminCount}"/>
     <table class="list-table">
         <thead class="list-head">
-            <tr>
-                <th style="width: 55%" th:text="#{board.label.name}"></th>
-                <th style="width: 10%" th:text="#{board.label.category}"></th>
-                <th style="width: 10%" th:text="#{board.label.count}"></th>
-                <th style="width: 10%" th:text="#{common.label.createUser}"></th>
-                <th style="width: 15%" th:text="#{common.label.createDate}"></th>
+            <tr class="flex-row align-items-center">
+                <th style="width: 55%" class="align-left" th:text="#{board.label.name}"></th>
+                <th style="width: 10%" class="align-left" th:text="#{board.label.category}"></th>
+                <th style="width: 10%" class="align-left" th:text="#{board.label.count}"></th>
+                <th style="width: 10%" class="align-left" th:text="#{common.label.createUser}"></th>
+                <th style="width: 15%" class="align-left" th:text="#{common.label.createDate}"></th>
             </tr>
         </thead>
         <tbody class="list-body">
-	        <tr class="no-data-found-list" th:if="${#arrays.isEmpty(boardAdminList)}">
-	            <td colspan="5" th:text="#{common.msg.noData}"></td>
+	        <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(boardAdminList)}">
+	            <td colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
 	        </tr>
-	        <tr th:each="boardAdmin: ${boardAdminList}">
+	        <tr class="flex-row align-items-center" th:each="boardAdmin: ${boardAdminList}">
 	            <td style="width: 55%" class="align-left">
 	                <a sec:authorize="!hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
 	                   th:href="@{/board-admin/{id}/view(id=${boardAdmin.boardAdminId})}"></a>
 	                <a sec:authorize="hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
 	                   th:href="@{/board-admin/{id}/edit(id=${boardAdmin.boardAdminId})}"></a>
 	            </td>
-	            <td style="width: 10%" th:if="${boardAdmin.categoryYn} == true">
+	            <td style="width: 10%" class="align-left" th:if="${boardAdmin.categoryYn} == true">
 	                <a sec:authorize="!hasAuthority('board.admin.update')" th:text="#{board.btn.category}"></a>
 	                <a sec:authorize="hasAuthority('board.admin.update')" th:text="#{board.btn.category}"
 	                   th:attr="onclick=|openCategoryEdit('${boardAdmin.boardAdminId}')|"></a>
 	            </td>
-	            <td style="width: 10%" th:if="${boardAdmin.categoryYn} == false"></td>
-	            <td style="width: 10%" th:text="${boardAdmin.boardBoardCount}"></td>
-	            <td style="width: 10%" th:text="${boardAdmin.createUserName}"></td>
-	            <td style="width: 15%" th:name="boardAdminDt" th:text="${boardAdmin.createDt}"></td>
+	            <td style="width: 10%" class="align-left" th:if="${boardAdmin.categoryYn} == false"></td>
+	            <td style="width: 10%" class="align-left" th:text="${boardAdmin.boardBoardCount}"></td>
+	            <td style="width: 10%" class="align-left" th:text="${boardAdmin.createUserName}"></td>
+	            <td style="width: 15%" class="align-left" th:name="boardAdminDt" th:text="${boardAdmin.createDt}"></td>
 	        </tr>
         </tbody>
     </table>
