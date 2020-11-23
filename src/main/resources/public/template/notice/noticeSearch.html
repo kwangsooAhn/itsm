@@ -8,31 +8,32 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list flex-column">
-        <div class="page-title">
+    <div class="notice-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{notice.label.notice}"></h1>
-            <h6 class="title-description" th:text="#{notice.msg.searchDescription}"></h6>
+            <h6 class="description" th:text="#{notice.msg.searchDescription}"></h6>
         </div>
-        <div class="search-area">
-            <div class="search-input">
-                <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
-                <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
-                <form id="searchFrm">
-                    <input class="search col-5" id="searchValue" name="searchValue" type="text" maxlength="100"
-                           th:placeholder="#{notice.label.searchPlaceholder}"/>
-                    <input class="search-date col-3" type="text" id="fromDt" name="fromDt"/>
-                    <span>~</span>
-                    <input class="search-date col-3" type="text" id="searchToDt" name="searchToDt"/>
-                    <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
-                </form>
-            </div>
+        <div class="header-search flex-row">
+            <input type="hidden" name="isRole" sec:authorize="hasAuthority('notice.update')" th:value="true"/>
+            <input type="hidden" name="isRole" sec:authorize="!hasAuthority('notice.update')" th:value="false"/>
+            <form id="searchFrm">
+                <input class="search col-5" id="searchValue" name="searchValue" type="text" maxlength="100"
+                       th:placeholder="#{notice.label.searchPlaceholder}"/>
+                <input class="search-date col-3" type="text" id="fromDt" name="fromDt"/>
+                <span>~</span>
+                <input class="search-date col-3" type="text" id="searchToDt" name="searchToDt"/>
+                <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
+            </form>
             <div class="ml-auto">
                 <button class="default-fill" onclick="location.href='/notices/new'" type="button"
                         sec:authorize="hasAuthority('notice.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
+    </div>
+    <div class="notice-content flex-fill">
         <div class="list" id="noticeList"></div>
     </div>
+
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
@@ -181,6 +182,7 @@
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
 
             let tdNoticeTitle = document.createElement('td');
             tdNoticeTitle.style.width = '30%';
@@ -196,11 +198,12 @@
 
             let tdPopYn = document.createElement('td');
             tdPopYn.style.width = '5%';
+            tdPopYn.className = 'align-center';
             let aPopYn = document.createElement('a');
             if (data.popYn === true) {
                 const popYnBtn = document.createElement('button');
                 popYnBtn.type = 'button';
-                popYnBtn.classList.add('default-fill', 'list-popup');
+                popYnBtn.classList.add('default-fill', 'btn-popup');
                 const icon =  document.createElement('span');
                 icon.className = 'icon-search';
                 popYnBtn.appendChild(icon);
@@ -214,12 +217,14 @@
             let tdUserName = document.createElement('td');
             tdUserName.innerText = data.createUserName;
             tdUserName.style.width = '10%';
+            tdUserName.className = 'align-center';
 
             let tdPopDt = document.createElement('td');
             if (i18n.userDateTime(data.popStrtDt) !== '') {
                 tdPopDt.innerText = i18n.userDateTime(data.popStrtDt) + ' ~ ' + i18n.userDateTime(data.popStrtDt);
             }
             tdPopDt.style.width = '20%';
+            tdPopDt.className = 'align-left';
 
             let tdNoticeDt = document.createElement('td');
             if (i18n.userDateTime(data.topNoticeStrtDt) !== '') {
@@ -227,10 +232,12 @@
                     i18n.userDateTime(data.topNoticeEndDt);
             }
             tdNoticeDt.style.width = '20%';
+            tdNoticeDt.className = 'align-left';
 
             let tdCreateDt = document.createElement('td');
             tdCreateDt.innerText = i18n.userDateTime(data.createDt);
             tdCreateDt.style.width = '15%';
+            tdCreateDt.className = 'align-left';
 
             tr.appendChild(tdNoticeTitle);
             tr.appendChild(tdPopYn);

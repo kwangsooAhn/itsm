@@ -29,8 +29,8 @@
                     <a th:href="@{/boards/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
                 </td>
                 <td style="width:10%;" th:text="${board.replyCount}"></td>
-                <td style="width:10%;" th:text="${board.readCount}"></td>
-                <td style="width:10%;" th:text="${board.createUserName}"></td>
+                <td style="width:20%;" th:text="${board.readCount}"></td>
+                <td style="width:20%;" th:text="${board.createUserName}"></td>
                 <td style="width:15%;" th:text="${board.createDt}" th:name="boardDt"></td>
             </tr>
         </tbody>

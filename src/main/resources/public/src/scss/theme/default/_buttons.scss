@@ -3,11 +3,10 @@
 .btn,
 button {
   // 팝업 버튼 
-  &.list-popup {
-    &:focus,
-    &:hover {
-      background-color: $default-gray;
-    }
+  &.btn-popup {
+    padding: 3.5px 5px; // 3.5px 5px
+    margin: 0;
+    &:focus, &:hover { background-color: $pressed-gray; }
   }
   // 커스텀 코드 + 버튼
   &.plus {
