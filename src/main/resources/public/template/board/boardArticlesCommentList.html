@@ -21,7 +21,7 @@
                 <span class="vertical-bar"></span>
                 <button class="reply-delete" sec:authorize="hasAuthority('board.delete')"
                         th:if="${#authentication.details.userKey} == (${boardComment?.createUser} ? ${boardComment.createUser.userKey} : '')"
-                        th:onclick="restSubmit('delete', [[@{/rest/boards/comments/{id}(id=${boardComment.boardCommentId})}]])">
+                        th:onclick="restSubmit('delete', [[@{/rest/boards/articles/comments/{id}(id=${boardComment.boardCommentId})}]])">
                     <span class="icon-delete" ></span>
                 </button>
             </div>

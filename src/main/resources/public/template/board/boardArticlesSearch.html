@@ -91,17 +91,17 @@
                     offsetCount = offsetSize;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/boards?' + urlParam, isScroll);
+                restSubmit('get', '/rest/boards/articles?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/boards/list?' + urlParam, isScroll);
+                restSubmit('get', '/boards/articles?' + urlParam, isScroll);
             }
         }
 
         //게시판 관리 등록
         function openBoardAdd() {
-            location.href = '/boards/' + document.getElementById('boardAdminId').value + '/new';
+            location.href = '/boards/articles/' + document.getElementById('boardAdminId').value + '/new';
         }
 
         //REST API
@@ -179,7 +179,7 @@
             tdBoardTitle.style.width = '30%';
             tdBoardTitle.className = 'align-left';
             let aBoardTitle = document.createElement('a');
-            aBoardTitle.href = '/boards/'+ data.boardId +'/view';
+            aBoardTitle.href = '/boards/articles/'+ data.boardId +'/view';
             aBoardTitle.innerText = data.boardTitle;
             tdBoardTitle.appendChild(aBoardTitle);
 
