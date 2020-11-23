@@ -522,7 +522,7 @@
             }
 
             let tdDocumentGroup = document.createElement('td');
-            tdDocumentGroup.style.width = '10%';
+            tdDocumentGroup.style.width = '15%';
             tdDocumentGroup.className = 'align-left';
             if (data.documentGroup != null && data.documentGroup !== '') {
                 let groupObject = document.getElementById('searchGroupName');
@@ -539,13 +539,13 @@
             tdDocumentDesc.innerText = data.documentDesc;
 
             let tdDocumentStatus = document.createElement('td');
-            tdDocumentStatus.style.width = '15%';
-            tdDocumentStatus.className = 'align-left';
+            tdDocumentStatus.style.width = '10%';
+            tdDocumentStatus.className = 'align-center';
             tdDocumentStatus.innerText = i18n.msg(data.documentStatus);
 
             let tdDocumentEdit = document.createElement('td');
             tdDocumentEdit.style.width = '10%';
-            tdDocumentEdit.className = 'align-left';
+            tdDocumentEdit.className = 'align-center';
 
             if (document.getElementById('updatable').value === 'true') {
                 let documentEditBtn = document.createElement('button');
@@ -560,7 +560,7 @@
 
             let tdDocumentDelete = document.createElement('td');
             tdDocumentDelete.style.width = '10%';
-            tdDocumentDelete.className = 'align-left';
+            tdDocumentDelete.className = 'align-center';
             if (document.getElementById('deletable').value === 'true') {
                 let documentDeleteBtn = document.createElement('button');
                 let spanDocumentDelete = document.createElement('span');
