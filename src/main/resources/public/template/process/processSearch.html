@@ -9,21 +9,26 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list flex-column">
-        <div class="page-title">
+    <div class="process-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{process.label.process}"></h1>
-            <h6 class="title-description" th:text="#{process.msg.searchDescription}"></h6>
+            <h6 class="description" th:text="#{process.msg.searchDescription}"></h6>
         </div>
-        <div class="search-area">
+        <div class="header-search flex-row">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''process.update'')')}"/>
-            <div class="search-input">
-                <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{process.label.searchPlaceholder}">
-            </div>
+            <form id="searchFrm">
+                <input type="text" id="search" name="search" class="search col-5"  maxlength="100"
+                       th:placeholder="#{process.label.searchPlaceholder}"/>
+            </form>
             <div class="ml-auto">
-                <button th:class="default-line" onclick="openProcessImport();" sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
-                <button th:class="default-fill" onclick="openProcessRegister();" sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.add}"></button>
+                <button type="button" class="default-line" onclick="openProcessImport();"
+                        sec:authorize="hasAuthority('process.create')" th:text="#{process.btn.import}"></button>
+                <button type="button" class="default-fill" onclick="openProcessRegister();"
+                        sec:authorize="hasAuthority('process.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
+    </div>
+    <div class="process-content flex-fill">
         <div class="list" id="processList"></div>
     </div>
 </th:block>
@@ -429,9 +434,11 @@
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
 
             // TODO: 권한에 따라 view or edit
             let tdProcessName = document.createElement('td');
+            tdProcessName.className = 'align-left';
             tdProcessName.style.width = '20%';
             let processNameObject;
             if (data.enabled == true) {
@@ -450,6 +457,7 @@
             tdProcessName.appendChild(processNameObject);
 
             let tdProcessPreview = document.createElement('td');
+            tdProcessPreview.className = 'align-center';
             tdProcessPreview.style.width = '10%';
             let processPreviewBtn = document.createElement('button');
             let spanProcessPreview = document.createElement('span');
@@ -463,6 +471,7 @@
 
 
             let tdProcessUpdate = document.createElement('td');
+            tdProcessUpdate.className = 'align-center';
             tdProcessUpdate.style.width = '10%';
             if (document.getElementById('updatable').value === 'true' && data.enabled == true) {
                 let updateBtn = document.createElement('button');
@@ -476,18 +485,22 @@
             }
 
             let tdStatus = document.createElement('td');
+            tdStatus.className = 'align-center';
             tdStatus.style.width = '10%';
             tdStatus.innerText = i18n.msg(data.status);
 
             let tdDescription = document.createElement('td');
+            tdDescription.className = 'align-left';
             tdDescription.style.width = '28%';
             tdDescription.innerText = data.description;
 
             let tdWriter = document.createElement('td');
+            tdWriter.className = 'align-left';
             tdWriter.style.width = '10%';
             tdWriter.innerText = data.createUserName;
 
             let tdWriteDate = document.createElement('td');
+            tdWriteDate.className = 'align-left';
             tdWriteDate.style.width = '12%';
             tdWriteDate.innerText = i18n.userDateTime(data.createDt);
 

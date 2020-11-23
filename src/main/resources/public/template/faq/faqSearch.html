@@ -8,22 +8,23 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list flex-column">
-        <div class="page-title">
+    <div class="faq-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{faq.label.faq}"></h1>
-            <h6 class="title-description" th:text="#{faq.msg.searchDescription}"></h6>
+            <h6 class="description" th:text="#{faq.msg.searchDescription}"></h6>
         </div>
-        <div class="search-area">
-            <div class="search-input">
-                <form id="searchFrm">
-                    <input class="search col-5" id="search" name="search" type="text" maxlength="100" th:placeholder="#{faq.label.searchPlaceholder}"/>
-                </form>
-            </div>
+        <div class="header-search flex-row">
+            <form id="searchFrm">
+                <input class="search col-5" id="search" name="search" type="text" maxlength="100"
+                       th:placeholder="#{faq.label.searchPlaceholder}"/>
+            </form>
             <div class="ml-auto">
-                <button class="default-fill" onclick="location.href='/faqs/new'"
-                        sec:authorize="hasAuthority('faq.create')" th:text="#{common.btn.add}"/>
+                <button type="button" class="default-fill" onclick="location.href='/faqs/new'"
+                        sec:authorize="hasAuthority('faq.create')" th:text="#{common.btn.add}"/></button>
             </div>
         </div>
+    </div>
+    <div class="faq-content flex-fill">
         <div class="list" id="faqList"></div>
     </div>
 </th:block>
@@ -115,9 +116,12 @@
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
 
             let tdFaqId = document.createElement('td');
             tdFaqId.style.width = '20%';
+            tdFaqId.className = 'align-left';
+
             let aFaqId = document.createElement('a');
             if (document.getElementsByName('isRole').value === 'true') {
                 aFaqId.href = '/faqs/'+ data.faqId +'/view';

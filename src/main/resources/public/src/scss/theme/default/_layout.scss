@@ -28,17 +28,37 @@
   }
 }
 
-// 공지사항 
-.notice-header {
+// 공지사항, FAQ, 자료실, 게시판
+// 시스템관리 > 사용자, 게시판
+// 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
+.notice-header,
+.faq-header,
+.download-header,
+.board-header,
+.user-header,
+.board-admin-header,
+.process-header,
+.form-header,
+.document-admin-header,
+.custom-code-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
   background-color: $light-gray;
 }
-.notice-content {
+.notice-content,
+.faq-content,
+.download-content,
+.board-content,
+.user-content,
+.board-admin-content,
+.process-content,
+.form-content,
+.document-admin-content,
+.custom-code-content {
   padding: 0.9375rem 3.75rem; // 15px 60px
   background-color: $light-gray;
-  // 공지사항 상단 공지
-  .notice-pinned { background-color: $notice-pinned-color; }
 }
+// 공지사항 상단 공지
+.notice-pinned { background-color: $notice-pinned-color; }
 
 // TODO : 리팩토링
 
@@ -142,12 +162,10 @@
   justify-content: flex-end;
 }
 
+// 사용자 아이콘
 .profile-photo {
-  width: $profile-photo-size;
-  height: $profile-photo-size;
   border-radius: 50%;
-  background: $profile-photo-background;
-  margin-right: 0.625rem; // 10px
+  background-color: $profile-photo-background;
 }
 
 .user-name {

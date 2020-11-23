@@ -25,7 +25,7 @@
                 <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
             </form>
             <div class="ml-auto">
-                <button class="default-fill" onclick="location.href='/notices/new'" type="button"
+                <button type="button" class="default-fill" onclick="location.href='/notices/new'"
                         sec:authorize="hasAuthority('notice.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
@@ -33,7 +33,6 @@
     <div class="notice-content flex-fill">
         <div class="list" id="noticeList"></div>
     </div>
-
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
