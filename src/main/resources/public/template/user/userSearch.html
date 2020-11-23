@@ -53,7 +53,7 @@
             } else {
                 offsetCount = 0;
                 urlParam += '&offset=' + offsetCount;
-                restSearchSubmit('get', '/users/list?' + urlParam, isScroll);
+                restSearchSubmit('get', '/users?' + urlParam, isScroll);
             }
         }
 
@@ -103,7 +103,7 @@
         }
 
         function getDataTemplate(data) {
-            let div = document.querySelector('.os-content');
+            let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
 
             let tdAvatar = document.createElement('td');

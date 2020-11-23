@@ -331,7 +331,7 @@
             const urlParam = 'search=' + data.search;
             const opt = {
                 method: 'get',
-                url: '/auths/list?' + urlParam,
+                url: '/auths?' + urlParam,
                 showProgressbar: showProgressbar,
                 callbackFunc: function(response) {
                     let result = response.responseText;

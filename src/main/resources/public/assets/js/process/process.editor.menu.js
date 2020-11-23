@@ -1988,7 +1988,7 @@
         const loadProcessData = function() {
             aliceJs.sendXhr({
                 method: 'GET',
-                url: '/rest/processes/' + processId + '/data',
+                url: '/rest/process/' + processId + '/data',
                 contentType: 'application/json; charset=utf-8',
                 callbackFunc: function(xhr) {
                     aliceProcessEditor.data = JSON.parse(xhr.responseText);

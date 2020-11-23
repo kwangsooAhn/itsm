@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.token.controller
 
 import co.brainz.framework.auth.dto.AliceUserDto
@@ -57,7 +62,7 @@ class TokenController(
         return tokenSearchPage
     }
 
-    @GetMapping("/list")
+    @GetMapping("")
     fun getTokenList(restTemplateTokenSearchListDto: RestTemplateTokenSearchListDto, model: Model): String {
         val result = tokenService.getTokenList(restTemplateTokenSearchListDto)
         model.addAttribute("tokenCount", if (result.isNotEmpty()) result[0].totalCount else 0)
@@ -160,7 +165,7 @@ class TokenController(
     /**
      * 관련문서 팝업 문서 리스트 출력
      */
-    @GetMapping("/view-pop/list")
+    @GetMapping("/view-pop/documents")
     fun getAllInstanceListAndSearch(
         @RequestParam(value = "tokenId", defaultValue = "") tokenId: String,
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,

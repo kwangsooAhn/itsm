@@ -202,7 +202,7 @@
         });
         aliceJs.sendXhr({
             method: 'PUT',
-            url: '/rest/forms/' + data.formId + '/data',
+            url: '/rest/form/' + data.formId + '/data',
             callbackFunc: function(xhr) {
                 if (xhr.responseText) {
                     isEdited = false;
@@ -283,7 +283,7 @@
             data.desc = document.getElementById('form_description').value;
             aliceJs.sendXhr({
                 method: 'POST',
-                url: '/rest/forms-admin' + '?saveType=saveas',
+                url: '/rest/forms' + '?saveType=saveas',
                 callbackFunc: function (xhr) {
                     if (xhr.responseText !== '') {
                         aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
@@ -291,7 +291,7 @@
                                 opener.location.reload();
                             }
                             window.name = 'form_' + xhr.responseText + '_edit';
-                            location.href = '/forms/' + xhr.responseText + '/edit';
+                            location.href = '/form/' + xhr.responseText + '/edit';
                         });
                     } else {
                         aliceJs.alertDanger(i18n.msg('common.label.fail'));
@@ -446,7 +446,7 @@
     function previewForm() {
         const itemName = 'alice_forms-preview-' + editor.data.formId;
         sessionStorage.setItem(itemName, JSON.stringify({'form': editor.data}));
-        let url = '/forms/' + editor.data.formId + '/preview';
+        let url = '/form/' + editor.data.formId + '/preview';
         const specs = 'left=0,top=0,menubar=no,toolbar=no,location=no,status=no,titlebar=no,scrollbars=yes,resizable=no';
         window.open(url, itemName, 'width=1200,height=900,' + specs);
     }
@@ -1909,7 +1909,7 @@
         // load form data.
         aliceJs.sendXhr({
             method: 'GET',
-            url: '/rest/forms/' + formId + '/data',
+            url: '/rest/form/' + formId + '/data',
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.components = aliceForm.reformatCalendarFormat('read', responseObject.components);

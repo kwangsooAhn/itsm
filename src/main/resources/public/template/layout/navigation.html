@@ -17,7 +17,7 @@
             <div id="notification-panel" class="notification-panel"></div>
         </div>
         <div class="user-info">
-            <a th:href="@{/users/{userKey}/editSelf(userKey=${#authentication.details.userKey})}">
+            <a th:href="@{/users/{userKey}/editself(userKey=${#authentication.details.userKey})}">
                 <img class="user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
                 <span class="user-name" sec:authentication="details.userName"></span>
             </a>
@@ -74,7 +74,7 @@
 
     // Get notification list.
     function getNotificationList(isShow) {
-        restSubmitNotification('get', '/notifications/list', function (result) {
+        restSubmitNotification('get', '/notifications', function (result) {
             notificationDiv.innerHTML = result;
             const count = document.getElementById('count');
             const noConfirmNotification = notificationDiv.querySelectorAll('div[is-confirm=false]'); // 확인 안된 알림

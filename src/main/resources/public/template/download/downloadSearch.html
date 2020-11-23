@@ -23,9 +23,9 @@
                         <option th:each="category: ${categoryList}" th:value="${category.code}" th:text="#{${category.code}}"></option>
                     </select>
                     <input type="text" id="search" name="search" class="search col-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
-                    <input type="text" id="fromDt" name="fromDt" class="search-date col-3" readonly="readonly"/>
+                    <input type="text" id="fromDt" name="fromDt" class="search-date col-3"/>
                     <span>~</span>
-                    <input class="search-date col-3" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                    <input class="search-date col-3" type="text" id="searchToDt" name="searchToDt"/>
                     <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
                 </form>
             </div>
@@ -93,7 +93,7 @@
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/downloads/list?' + urlParam, isScroll);
+                restSubmit('get', '/downloads?' + urlParam, isScroll);
             }
         }
 
@@ -157,7 +157,7 @@
 
         // Tr 동적 데이터 만들기
         function getDataTemplate(data) {
-            let div = document.querySelector('.os-content');
+            let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
 
             let tdDownloadSeq = document.createElement('td');

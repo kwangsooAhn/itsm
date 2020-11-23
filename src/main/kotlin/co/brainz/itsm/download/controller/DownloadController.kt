@@ -45,7 +45,7 @@ class DownloadController(
      * [downloadSearchDto], [model]를 받아서 자료실 리스트 화면 호출.
      *
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getDownloadList(downloadSearchDto: DownloadSearchDto, model: Model): String {
         val result = downloadService.getDownloadList(downloadSearchDto)
         model.addAttribute("downloadList", result)

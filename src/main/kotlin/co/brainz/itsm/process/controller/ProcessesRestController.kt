@@ -1,3 +1,7 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
 package co.brainz.itsm.process.controller
 
 import co.brainz.itsm.process.service.ProcessAdminService
@@ -24,8 +28,8 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rest/processes-admin")
-class ProcessRestAdminController(
+@RequestMapping("/rest/processes")
+class ProcessesRestController(
     private val processAdminService: ProcessAdminService,
     private val processService: ProcessService
 ) {
@@ -56,7 +60,7 @@ class ProcessRestAdminController(
     /**
      * 프로세스 리스트 조회 (스크롤).
      */
-    @GetMapping("/", "")
+    @GetMapping("")
     fun getProcessList(request: HttpServletRequest, model: Model): List<RestTemplateProcessViewDto> {
         val params = LinkedMultiValueMap<String, String>()
         params["search"] = request.getParameter("search")

@@ -22,9 +22,9 @@
                     </select>
                     <input class="search col-3" id="search" name="search" type="text" maxlength="100"
                            th:placeholder="#{board.label.searchBoardPlaceholder}"/>
-                    <input class="search-date col-3" type="text" id="fromDt" name="fromDt" readonly="readonly"/>
+                    <input class="search-date col-3" type="text" id="fromDt" name="fromDt"/>
                     <span>~</span>
-                    <input class="search-date col-3" type="text" id="searchToDt" name="searchToDt" readonly="readonly"/>
+                    <input class="search-date col-3" type="text" id="searchToDt" name="searchToDt"/>
                     <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
                 </form>
             </div>
@@ -164,7 +164,7 @@
 
         //Tr 동적 데이터 만들기
         function getDataTemplate(data) {
-            let div = document.querySelector('.os-content');
+            let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
 
             let tdBoardSeq = document.createElement('td');

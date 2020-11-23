@@ -59,7 +59,7 @@ class UserController(
     /**
      * 사용자 조회 목록 화면을 호출한다.
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getUserList(
         @RequestParam(value = "search", defaultValue = "") search: String,
         @RequestParam(value = "offset", defaultValue = "0") offset: String,
@@ -136,7 +136,7 @@ class UserController(
         model.addAttribute("timeList", timeList)
 
         when (target) {
-            "editSelf" -> {
+            "editself" -> {
                 returnUrl = userEditSelfPage
             }
             "edit" -> {

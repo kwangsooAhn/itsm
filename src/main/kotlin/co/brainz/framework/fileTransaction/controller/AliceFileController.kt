@@ -88,7 +88,7 @@ class AliceFileController(private val aliceFileService: AliceFileService) {
     /**
      * 파일 허용 확장자 목록가져오기
      */
-    @GetMapping("/rest/fileNameExtensionList")
+    @GetMapping("/rest/filenameextensions")
     fun getFileNameExtension(): List<AliceFileNameExtensionDto> {
         val fileNameExtensions = mutableListOf<AliceFileNameExtensionDto>()
         val foundFileNameExtensions = aliceFileService.getFileNameExtension()
