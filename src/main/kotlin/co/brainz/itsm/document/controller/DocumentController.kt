@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.document.controller
 
 import co.brainz.itsm.document.service.DocumentService
@@ -37,7 +43,7 @@ class DocumentController(
      * @param model
      * @return String
      */
-    @GetMapping("/list")
+    @GetMapping("")
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto, model: Model): String {
         val result = documentService.getDocumentList(restTemplateDocumentSearchListDto)
         model.addAttribute("documentList", result)
