@@ -75,7 +75,8 @@
                             onclick="saveBoard('post', 'normal')"
                             th:text="#{common.btn.register}">
                     </button>
-                    <a class="btn default-line" th:href="@{/boards/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
+                    <a class="btn default-line"
+                       th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
                 </div>
             </form>
         </div>
@@ -178,15 +179,15 @@
                 data.boardId = boardId;
             }
             if (kind === 'normal') {
-                restSubmit(method, '/rest/boards', data);
+                restSubmit(method, '/rest/boards/articles', data);
             } else if (kind === 'reply') {
-                restSubmit(method, '/rest/boards/reply', data);
+                restSubmit(method, '/rest/boards/articles/reply', data);
             }
         }
 
         //조회 화면 이동
         function searchBoard() {
-            location.href = '/boards/search/param?boardAdminId='+boardAdminId;
+            location.href = '/boards/articles/search/param?boardAdminId='+boardAdminId;
         }
 
         //게시판 변경에 따른 값 초기화

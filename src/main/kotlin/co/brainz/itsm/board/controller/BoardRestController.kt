@@ -27,7 +27,7 @@ class BoardRestController(private val boardService: BoardService) {
     /**
      * [BoardSearchDto]를 받아서 게시판 추가할 데이터를 데이터 반환 [List<BoardRestDto>]
      */
-    @GetMapping("")
+    @GetMapping("/articles")
     fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardListDto> {
         return boardService.getBoardList(boardSearchDto)
     }
@@ -37,7 +37,7 @@ class BoardRestController(private val boardService: BoardService) {
      *
      * @param boardSaveDto
      */
-    @PostMapping("")
+    @PostMapping("/articles")
     fun createBoard(@RequestBody boardSaveDto: BoardSaveDto) {
         boardService.saveBoard(boardSaveDto)
     }
@@ -47,7 +47,7 @@ class BoardRestController(private val boardService: BoardService) {
      *
      * @param boardSaveDto
      */
-    @PutMapping("")
+    @PutMapping("/articles")
     fun updateBoard(@RequestBody boardSaveDto: BoardSaveDto) {
         boardService.saveBoard(boardSaveDto)
     }
@@ -57,7 +57,7 @@ class BoardRestController(private val boardService: BoardService) {
      *
      * @param boardId
      */
-    @DeleteMapping("/{boardId}")
+    @DeleteMapping("/articles/{boardId}")
     fun deleteBoard(@PathVariable boardId: String) {
         boardService.deleteBoard(boardId)
     }
@@ -67,7 +67,7 @@ class BoardRestController(private val boardService: BoardService) {
      *
      * @param boardCommentDto
      */
-    @PostMapping("/comments")
+    @PostMapping("/articles/comments")
     fun createBoardComment(@RequestBody boardCommentDto: BoardCommentDto) {
         boardService.saveBoardComment(boardCommentDto)
     }
@@ -77,7 +77,7 @@ class BoardRestController(private val boardService: BoardService) {
      *
      * @param boardCommentDto
      */
-    @PutMapping("/comments")
+    @PutMapping("/articles/comments")
     fun updateBoard(@RequestBody boardCommentDto: BoardCommentDto) {
         boardService.saveBoardComment(boardCommentDto)
     }
@@ -87,7 +87,7 @@ class BoardRestController(private val boardService: BoardService) {
      *
      * @param commentId
      */
-    @DeleteMapping("/comments/{commentId}")
+    @DeleteMapping("/articles/comments/{commentId}")
     fun deleteBoardComment(@PathVariable commentId: String) {
         boardService.deleteBoardComment(commentId)
     }
@@ -97,7 +97,7 @@ class BoardRestController(private val boardService: BoardService) {
      *
      * @param boardSaveDto
      */
-    @PostMapping("/reply")
+    @PostMapping("/articles/reply")
     fun createBoardReply(@RequestBody boardSaveDto: BoardSaveDto) {
         boardService.saveBoardReply(boardSaveDto)
     }
