@@ -82,7 +82,7 @@ class BoardAdminService(
                 }
 
                 deleteCategoryList.forEach { category ->
-                    this.deleteBoardCategory(category.boardCategoryId);
+                    this.deleteBoardCategory(category.boardCategoryId)
                 }
 
                 newCategoryList.forEach { category ->
