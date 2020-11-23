@@ -26,7 +26,7 @@
                 <td style="width:10%;" class="align-left" th:text="${board.boardSeq}"></td>
                 <td style="width:15%;" class="align-left" th:text="${board.boardCategoryName}"></td>
                 <td style="width:30%;" class="align-left">
-                    <a th:href="@{/boards/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
+                    <a th:href="@{/boards/articles/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
                 </td>
                 <td style="width:10%;" class="align-left" th:text="${board.replyCount}"></td>
                 <td style="width:20%;" class="align-left" th:text="${board.readCount}"></td>

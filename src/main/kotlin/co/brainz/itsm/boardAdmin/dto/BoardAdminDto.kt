@@ -25,5 +25,6 @@ data class BoardAdminDto(
     var createDt: LocalDateTime? = null,
     var createUser: AliceUserEntity? = null,
     var updateDt: LocalDateTime? = null,
-    var updateUser: AliceUserEntity? = null
+    var updateUser: AliceUserEntity? = null,
+    var categoryList: List<BoardCategoryDetailDto> = emptyList()
 )

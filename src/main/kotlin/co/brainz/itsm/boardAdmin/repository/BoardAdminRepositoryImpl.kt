@@ -7,7 +7,6 @@
 package co.brainz.itsm.boardAdmin.repository
 
 import co.brainz.itsm.board.entity.QPortalBoardEntity
-import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminListDto
 import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
 import co.brainz.itsm.boardAdmin.entity.QPortalBoardAdminEntity
@@ -29,36 +28,22 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
     ): List<BoardAdminListDto> {
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
         val board = QPortalBoardEntity("board")
-        val query = from(boardAdmin)
-            .innerJoin(boardAdmin.createUser)
-            .leftJoin(boardAdmin.updateUser)
+        return from(boardAdmin)
             .select(
                 Projections.constructor(
-                    BoardAdminDto::class.java,
+                    BoardAdminListDto::class.java,
                     boardAdmin.boardAdminId,
                     boardAdmin.boardAdminTitle,
-                    boardAdmin.boardAdminDesc,
-                    boardAdmin.boardAdminSort,
-                    boardAdmin.boardUseYn,
-                    boardAdmin.replyYn,
-                    boardAdmin.commentYn,
                     boardAdmin.categoryYn,
-                    boardAdmin.attachYn,
-                    boardAdmin.attachFileSize,
                     ExpressionUtils.`as`(
                         JPAExpressions.select(board.boardId.count()).from(board)
                             .where(board.boardAdmin.boardAdminId.eq(boardAdmin.boardAdminId)), "boardBoardCount"
                     ),
                     ExpressionUtils.`as`(
-                        JPAExpressions.select(
-                            board.boardId.count().`when`(0).then(true).otherwise(false)
-                        ).from(board)
-                            .where(board.boardAdmin.boardAdminId.eq(boardAdmin.boardAdminId)), "enabled"
+                        JPAExpressions.select(board.boardId.count()).from(board), "totalCount"
                     ),
                     boardAdmin.createDt,
-                    boardAdmin.createUser,
-                    boardAdmin.updateDt,
-                    boardAdmin.updateUser
+                    boardAdmin.createUser.userName
                 )
             ).where(
                 super.likeIgnoreCase(
@@ -67,22 +52,7 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             ).orderBy(boardAdmin.createDt.desc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
             .offset(offset)
-            .fetchResults()
-
-        val boardAdminList = mutableListOf<BoardAdminListDto>()
-        for (data in query.results) {
-            val boardAdminListDto = BoardAdminListDto(
-                boardAdminId = data.boardAdminId,
-                boardAdminTitle = data.boardAdminTitle,
-                categoryYn = data.categoryYn,
-                boardBoardCount = data.boardBoardCount,
-                totalCount = query.total,
-                createDt = data.createDt,
-                createUserName = data.createUser?.userName
-            )
-            boardAdminList.add(boardAdminListDto)
-        }
-        return boardAdminList.toList()
+            .fetch()
     }
 
     override fun findPortalBoardAdmin(): List<BoardAdminListDto> {

@@ -65,11 +65,6 @@
             location.href = '/board-admin/new';
         }
 
-        // 게시판 카테고리 등록/수정
-        function openCategoryEdit(boardAdminId) {
-            location.href = '/board-admin/category/'+boardAdminId+'/edit';
-        }
-
         // REST API
         function restSubmit(method, url, isScroll) {
             const opt = {
@@ -135,7 +130,7 @@
             tr.className = 'flex-row align-items-center';
 
             let tdBoardAdminTitle = document.createElement('td');
-            tdBoardAdminTitle.style.width = '55%';
+            tdBoardAdminTitle.style.width = '65%';
             tdBoardAdminTitle.className = 'align-left';
             let aBoardAdminTitle = document.createElement('a');
             if (document.getElementsByName('isRole')[0].value === 'true') {
@@ -145,20 +140,6 @@
             }
             aBoardAdminTitle.innerText = data.boardAdminTitle;
             tdBoardAdminTitle.appendChild(aBoardAdminTitle);
-
-            let tdCategory = document.createElement('td');
-            tdCategory.className = 'align-left';
-            let aCategory = document.createElement('a');
-            if (data.categoryYn === true) {
-                aCategory.innerText = i18n.msg('board.btn.category');
-                if (document.getElementsByName('isRole')[0].value === 'true') {
-                    aCategory.onclick = function () {
-                        openCategoryEdit(data.boardAdminId);
-                    };
-                }
-            }
-            tdCategory.appendChild(aCategory);
-            tdCategory.style.width = '10%';
 
             let tdBoardBoardCount = document.createElement('td');
             tdBoardBoardCount.className = 'align-left';
@@ -176,7 +157,6 @@
             tdCreateDt.style.width = '15%';
 
             tr.appendChild(tdBoardAdminTitle);
-            tr.appendChild(tdCategory);
             tr.appendChild(tdBoardBoardCount);
             tr.appendChild(tdCreateUserName);
             tr.appendChild(tdCreateDt);

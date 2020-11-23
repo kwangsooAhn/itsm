@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("/rest/documents-admin")
-class DocumentAdminRestController(
+@RequestMapping("/rest/workflows")
+class WorkFlowRestController(
     private val documentService: DocumentService
 ) {
 
@@ -34,7 +34,7 @@ class DocumentAdminRestController(
      * @param restTemplateDocumentDto
      * */
     @PostMapping("")
-    fun createDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
+    fun workFlowDocument(@RequestBody restTemplateDocumentDto: RestTemplateDocumentDto): String? {
         return documentService.createDocument(restTemplateDocumentDto)
     }
 
@@ -42,7 +42,7 @@ class DocumentAdminRestController(
      * 업무흐름 조회 (스크롤).
      */
     @GetMapping("")
-    fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
+    fun getWorkFlowList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
             List<RestTemplateDocumentListDto> {
         return documentService.getDocumentList(restTemplateDocumentSearchListDto)
     }
@@ -53,7 +53,7 @@ class DocumentAdminRestController(
      * @param documentId
      * */
     @DeleteMapping("/{documentId}")
-    fun deleteDocument(@PathVariable documentId: String): ResponseEntity<String> {
+    fun deleteWorkFlow(@PathVariable documentId: String): ResponseEntity<String> {
         return documentService.deleteDocument(documentId)
     }
 
@@ -63,7 +63,7 @@ class DocumentAdminRestController(
      * @param documentId
      */
     @GetMapping("/{documentId}")
-    fun getDocument(@PathVariable documentId: String): String {
+    fun getWorkFlow(@PathVariable documentId: String): String {
         return documentService.getDocument(documentId)
     }
 
@@ -74,7 +74,7 @@ class DocumentAdminRestController(
      * @param restTemplateDocumentDto
      * */
     @PutMapping("/{documentId}")
-    fun updateDocument(
+    fun updateWorkFlow(
         @PathVariable documentId: String,
         @RequestBody restTemplateDocumentDto: RestTemplateDocumentDto,
         @RequestParam(value = "isDeleteData", defaultValue = "false") isDeleteData: String
@@ -90,7 +90,7 @@ class DocumentAdminRestController(
      * @param documentId
      */
     @GetMapping("/{documentId}/display")
-    fun getDocumentDisplay(@PathVariable documentId: String): String {
+    fun getWorkFlowDisplay(@PathVariable documentId: String): String {
         return documentService.getDocumentDisplay(documentId)
     }
 
@@ -101,7 +101,7 @@ class DocumentAdminRestController(
      * @param documentDisplay
      */
     @PutMapping("/{documentId}/display")
-    fun updateDocumentDisplay(
+    fun updateWorkFlowDisplay(
         @PathVariable documentId: String,
         @RequestBody documentDisplay: RestTemplateDocumentDisplayDto
     ): Boolean {

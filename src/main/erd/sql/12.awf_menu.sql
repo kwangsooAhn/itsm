@@ -26,7 +26,7 @@ insert into awf_menu values ('document', 'menu', '/documents/search', 3,TRUE);
 insert into awf_menu values ('notice', 'menu', '/notices/search', 4,TRUE);
 insert into awf_menu values ('faq', 'menu', '/faqs/search', 5,TRUE);
 insert into awf_menu values ('download', 'menu', '/downloads/search', 6,TRUE);
-insert into awf_menu values ('board', 'menu', '/boards/search', 7,TRUE);
+insert into awf_menu values ('board', 'menu', '/boards/articles/search', 7,TRUE);
 insert into awf_menu values ('config', 'menu', '', 8,TRUE);
 insert into awf_menu values ('config.user', 'config', '/users/search', 1,TRUE);
 insert into awf_menu values ('config.auth', 'config', '/auths/edit', 2,TRUE);
@@ -36,7 +36,7 @@ insert into awf_menu values ('config.code', 'config', '/codes/edit', 5,TRUE);
 insert into awf_menu values ('workflow', 'menu', '', 9,TRUE);
 insert into awf_menu values ('workflow.process', 'workflow', '/processes/search', 1,TRUE);
 insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRUE);
-insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/documents-admin/search', 3,TRUE);
+insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3,TRUE);
 insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4,TRUE);
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
 

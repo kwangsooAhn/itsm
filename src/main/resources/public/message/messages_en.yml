@@ -886,6 +886,7 @@ validation:
     checkImportFormat: "Please select an IMPORT file that matches the format."
     checkRgbFormat: "Please enter the correct RGB format."
     checkUserIdFormat: "Please enter the correct userId format."
+    dataNotDuplicate: "Duplicate data cannot be included."
     elementNotExist: "The element does not exist."
     pwContainsEmail: "Password contains an email ID."
     pwContainsId: "Password contains an ID."
