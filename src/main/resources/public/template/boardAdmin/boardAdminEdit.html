@@ -59,9 +59,54 @@
                 <label class="switch">
                     <span class="label" th:text="#{board.label.category}"></span>
                     <input type="checkbox" id="categoryYn" name="categoryYn"
-                           th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}">
+                           th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}"
+                           onchange="setDisplay('category-detail', this.checked)">
                     <span></span>
                 </label>
+                <div id="category-detail" class="category">
+                    <div class="flex-row margin-bottom-10">
+                        <div class="form-set col-6">
+                            <label class="required" th:text="#{board.label.categoryName}" for="boardCategoryName"></label>
+                            <input type="text" id="boardCategoryName" maxlength="100" required="required"/>
+                        </div>
+                        <div class="form-set col-5">
+                            <label th:text="#{board.label.order}" for="boardCategorySort"></label>
+                            <input type="text" id="boardCategorySort" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                        </div>
+                        <div class="form-set col-1 justify-content-end">
+                            <button class="point-fill" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
+                        </div>
+                    </div>
+                    <div class="flex-row none-margin">
+                        <div class="category-list">
+                            <table class="edit-table">
+                                <thead>
+                                    <tr>
+                                        <th class="col-6" th:text="#{board.label.category}"></th>
+                                        <th class="col-5" th:text="#{board.label.order}"></th>
+                                        <th class="col-1"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="boardCategoryList">
+                                    <tr class="no-data-found-list" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
+                                        <td colspan="5" th:text="#{common.msg.noData}"></td>
+                                    </tr>
+                                    <tr th:each="category: ${boardAdmin?.categoryList}">
+                                        <td class="col-6" th:text="${category.boardCategoryName}"></td>
+                                        <td class="col-5" th:text="${category.boardCategorySort}"></td>
+                                        <td class="col-1">
+                                            <th:block th:if="${category.boardCount == 0}">
+                                                <button class="minus">
+                                                    <span class="icon-delete" th:onclick="deleteBoardCategory(this.parentNode, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])"></span>
+                                                </button>
+                                            </th:block>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-set">
                 <label class="switch">
@@ -96,12 +141,24 @@
         /*<![CDATA[*/
         let boardAdminId = /*[[${boardAdmin?.boardAdminId}]]*/;
         let attachDisable = /*[[${boardAdmin?.attachYn}]]*/;
-
+        let boardCategoryList = /*[[${boardAdmin?.categoryList}]]*/;
+        let categoryList = [];
         window.onload = function() {
+            if (boardCategoryList != null && boardCategoryList.length > 0) {
+                boardCategoryList.forEach(function(data) {
+                    categoryList.push({
+                        boardCategoryId: data.boardCategoryId,
+                        boardCategoryName: data.boardCategoryName,
+                        boardCategorySort: data.boardCategorySort
+                    })
+                });
+            }
             document.getElementById('boardAdminTitle').focus();
             if (!attachDisable && attachDisable !== null) {
                 document.getElementById('attachFileSize').disabled = 'false';
             }
+
+            setDisplay('category-detail', document.getElementById('categoryYn').checked);
 
             OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelectorAll('#boardAdminDesc'), {
@@ -123,6 +180,12 @@
                 } else {
                     document.getElementById('attachFileSize').disabled = 'true';
                     document.getElementById('attachFileSize').value = 0;
+                }
+            } else if (id === 'category-detail') {
+                if (value) {
+                    document.getElementById(id).style.display = '';
+                } else {
+                    document.getElementById(id).style.display = 'none';
                 }
             }
         }
@@ -150,6 +213,10 @@
                 attachYn: document.getElementById('attachYn').checked,
                 attachFileSize: document.getElementById('attachFileSize').value
             };
+
+            if (document.getElementById('categoryYn').checked) {
+                data.categoryList = categoryList;
+            }
 
             if (method === 'put') {
                 data.boardAdminId = boardAdminId;
@@ -179,6 +246,85 @@
                 showProgressbar: false
             };
             aliceJs.sendXhr(opt);
+        }
+
+        // Category 삭제
+        function deleteBoardCategory(categoryObject, boardCategoryId) {
+            if (boardCategoryId !== undefined) {
+                categoryList.forEach(function(category, index) {
+                    if (category.boardCategoryId === boardCategoryId) {
+                        categoryList.splice(index, 1);
+                    }
+                });
+            } else {
+                categoryList.forEach(function(category, index) {
+                    if (category.boardCategoryName === categoryObject.parentNode.parentNode.childNodes[0].textContent) {
+                        categoryList.splice(index, 1);
+                    }
+                });
+            }
+            categoryObject.parentNode.parentNode.remove();
+            if (document.querySelectorAll('#boardCategoryList > tr').length === 0) {
+                const noDataRow = document.createElement('tr');
+                const noDataColumn = document.createElement('td');
+                noDataRow.className = 'no-data-found-list';
+                noDataColumn.colSpan = 5;
+                noDataColumn.textContent = i18n.msg('common.msg.noData');
+                noDataRow.appendChild(noDataColumn)
+                document.querySelector('#boardCategoryList').appendChild(noDataRow);
+            }
+        }
+
+        // Category 추가
+        function addBoardCategory(method) {
+            if (isEmpty('boardCategoryName', 'board.msg.enterCategoryName')) return;
+
+            if (categoryList.some(function(category) {
+                return category.boardCategoryName === document.getElementById('boardCategoryName').value;
+            })) {
+                aliceJs.alertWarning(i18n.msg('validation.msg.dataNotDuplicate'));
+                return;
+            }
+
+            // no data 제거
+            if (document.querySelectorAll('#boardCategoryList > tr').length > 0) {
+                if (document.querySelector('#boardCategoryList > tr:first-child').classList.contains('no-data-found-list')) {
+                    document.querySelector('#boardCategoryList > tr:first-child').remove();
+                }
+            }
+
+            const categoryNameObject = document.getElementById('boardCategoryName');
+            const categorySortObject = document.getElementById('boardCategorySort');
+            const categoryRow = document.createElement('tr');
+            const categoryNameColumn = document.createElement('td');
+            const categorySortColumn = document.createElement('td');
+            const categoryDeleteColumn = document.createElement('td');
+            categoryNameColumn.className = 'col-6';
+            categorySortColumn.className = 'col-5';
+            categoryDeleteColumn.className = 'col-1';
+            categoryNameColumn.textContent = categoryNameObject.value;
+            categorySortColumn.textContent = categorySortObject.value;
+            categoryList.push({
+                boardCategoryId: '',
+                boardCategoryName: categoryNameObject.value,
+                boardCategorySort: categorySortObject.value
+            })
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList.add('minus');
+            const deleteIcon = document.createElement('span');
+            deleteIcon.classList.add('icon-delete');
+            deleteBtn.appendChild(deleteIcon);
+            deleteBtn.addEventListener('click', function () {
+                deleteBoardCategory(this);
+            });
+            categoryDeleteColumn.appendChild(deleteBtn);
+            categoryRow.appendChild(categoryNameColumn);
+            categoryRow.appendChild(categorySortColumn);
+            categoryRow.appendChild(categoryDeleteColumn);
+            document.querySelector('#boardCategoryList').appendChild(categoryRow);
+
+            categoryNameObject.value = '';
+            categorySortObject.value = '';
         }
         /*]]>*/
     </script>

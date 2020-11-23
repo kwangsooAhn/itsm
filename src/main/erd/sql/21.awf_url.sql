@@ -20,8 +20,6 @@ COMMENT ON COLUMN awf_url.is_required_auth IS '권한 필수여부';
 
 insert into awf_url values ('/auths/edit', 'get', '역할  설정 뷰를 호출', 'TRUE');
 insert into awf_url values ('/auths', 'get', '권한 관리 목록', 'TRUE');
-insert into awf_url values ('/board-admin/category/list', 'get', '게시판 관리 카테고리 편집', 'TRUE');
-insert into awf_url values ('/board-admin/category/{id}/edit', 'get', '게시판 관리 카테고리 편집', 'TRUE');
 insert into awf_url values ('/board-admin/list', 'get', '게시판 관리 리스트 호출화면', 'TRUE');
 insert into awf_url values ('/board-admin/new', 'get', '게시판 관리 신규 등록', 'TRUE');
 insert into awf_url values ('/board-admin/search', 'get', '게시판 관리 리스트 조회 화면', 'TRUE');
@@ -111,8 +109,6 @@ insert into awf_url values ('/rest/board-admin', 'get', '게시판 관리 조회
 insert into awf_url values ('/rest/board-admin', 'post', '게시판 관리 등록', 'TRUE');
 insert into awf_url values ('/rest/board-admin', 'put', '게시판 관리 변경', 'TRUE');
 insert into awf_url values ('/rest/board-admin/{id}/view', 'get', '게시판 관리 상세정보', 'TRUE');
-insert into awf_url values ('/rest/board-admin/category', 'post', '게시판 관리 변경', 'TRUE');
-insert into awf_url values ('/rest/board-admin/category/{id}', 'delete', '카테고리 관리 삭제', 'TRUE');
 insert into awf_url values ('/rest/board-admin/{id}', 'delete', '게시판 관리 삭제', 'TRUE');
 insert into awf_url values ('/rest/boards', 'get', '게시판리스트 데이터조회', 'TRUE');
 insert into awf_url values ('/rest/boards', 'post', '게시판 등록', 'TRUE');
@@ -127,7 +123,7 @@ insert into awf_url values ('/rest/codes', 'get', '코드 전체 조회', 'TRUE'
 insert into awf_url values ('/rest/codes/{id}', 'put', '코드 수정', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'get', '코드 상세 조회', 'TRUE');
 insert into awf_url values ('/rest/codes/{id}', 'delete', '코드 삭제', 'TRUE');
-insert into awf_url values ('/rest/comments', 'post', 'Commnet 저장', 'FALSE');
+insert into awf_url values ('/rest/comments', 'post', 'Comment 저장', 'FALSE');
 insert into awf_url values ('/rest/comments/{id}', 'delete', 'Comment 삭제', 'FALSE');
 insert into awf_url values ('/rest/custom-codes', 'get', '커스텀 코드 조회', 'FALSE');
 insert into awf_url values ('/rest/custom-codes', 'put', '커스텀 코드 수정', 'TRUE');

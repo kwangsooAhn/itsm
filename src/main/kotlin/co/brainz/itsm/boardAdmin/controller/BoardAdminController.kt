@@ -22,8 +22,6 @@ class BoardAdminController(private val boardAdminService: BoardAdminService) {
     private val boardAdminListPage: String = "boardAdmin/boardAdminList"
     private val boardAdminEditPage: String = "boardAdmin/boardAdminEdit"
     private val boardAdminViewPage: String = "boardAdmin/boardAdminView"
-    private val boardCategoryListPage: String = "boardAdmin/boardCategoryList"
-    private val boardCategoryEditPage: String = "boardAdmin/boardCategoryEdit"
 
     /**
      * 게시판 관리 호출 화면.
@@ -83,30 +81,5 @@ class BoardAdminController(private val boardAdminService: BoardAdminService) {
     fun getBoardAdminEdit(@PathVariable boardAdminId: String, model: Model): String {
         model.addAttribute("boardAdmin", boardAdminService.getBoardAdmin(boardAdminId))
         return boardAdminEditPage
-    }
-
-    /**
-     * 게시판 관리  카테고리 호출 화면.
-     *
-     * @param boardAdminId
-     * @return String
-     */
-    @GetMapping("/category/{boardAdminId}/edit")
-    fun getBoardCategoryEdit(@PathVariable boardAdminId: String, model: Model): String {
-        model.addAttribute("boardAdmin", boardAdminService.getBoardAdmin(boardAdminId))
-        return boardCategoryEditPage
-    }
-
-    /**
-     * 게시판 관리 리스트 화면.
-     *
-     * @param boardAdminId
-     * @param model
-     * @return String
-     */
-    @GetMapping("/category/list")
-    fun getBoardCategoryList(boardAdminId: String, model: Model): String {
-        model.addAttribute("boardCategoryList", boardAdminService.getBoardCategoryList(boardAdminId))
-        return boardCategoryListPage
     }
 }

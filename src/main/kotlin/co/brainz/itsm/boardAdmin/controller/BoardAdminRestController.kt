@@ -10,7 +10,6 @@ import co.brainz.itsm.boardAdmin.dto.BoardAdminDetailDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminListDto
 import co.brainz.itsm.boardAdmin.dto.BoardAdminSearchDto
-import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
 import co.brainz.itsm.boardAdmin.service.BoardAdminService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -87,25 +86,5 @@ class BoardAdminRestController(private val boardAdminService: BoardAdminService)
     @DeleteMapping("/{boardAdminId}")
     fun deleteBoardAdmin(@PathVariable boardAdminId: String) {
         boardAdminService.deleteBoardAdmin(boardAdminId)
-    }
-
-    /**
-     * 카테고리 신규 등록.
-     *
-     * @param boardCategoryDto
-     */
-    @PostMapping("/category")
-    fun createBoardCategory(@RequestBody boardCategoryDto: BoardCategoryDto) {
-        boardAdminService.saveBoardCategory(boardCategoryDto)
-    }
-
-    /**
-     * 카테고리 관리 삭제.
-     *
-     * @param boardCategoryId
-     */
-    @DeleteMapping("/category/{boardCategoryId}")
-    fun deleteBoardCategory(@PathVariable boardCategoryId: String) {
-        boardAdminService.deleteBoardCategory(boardCategoryId)
     }
 }
