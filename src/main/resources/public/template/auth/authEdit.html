@@ -1,94 +1,94 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-    layout:decorator="layout/defaultLayout">
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="#{auth.label.auth}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list-edit flex-row">
-        <div class="list-area">
-            <div class="page-title">
-                <h1 th:text="#{auth.label.auth}"></h1>
-                <h6 class="title-description" th:text="#{auth.msg.editDescription}"></h6>
-            </div>
-            <div class="search-area">
-                <div class="search-input">
-                    <input id="search" class="search col-5" th:placeholder="#{auth.msg.searchPlaceholder}">
-                    <span id="totalCount" class="txt-num"></span>
-                </div>
-                <div class="ml-auto">
-                    <button class="default-fill" id="btnCreate" name="btnCreate" type="button"
-                            sec:authorize="hasAuthority('auth.create')" th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
-                </div>
-            </div>
-            <div class="list" id="authList"></div>
+    <div class="auth-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{auth.label.auth}"></h1>
+            <h6 class="description" th:text="#{auth.msg.editDescription}"></h6>
         </div>
-        <div class="edit-area">
-            <div class="scroll-wrap flex-column">
-                <div class="form-wrap">
-                    <div class="form-set flex-column">
-                        <label th:text="#{auth.label.authName}" class="required"></label>
-                        <input id="txtAuthName" name="txtAuthName" type="text" maxlength="100">
-                        <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{auth.label.authId}" class="required"></label>
-                        <input id="txtAuthId" name="txtAuthId" type="text" maxlength="100">
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{auth.label.authDesc}"></label>
-                        <textarea id="txtAuthDesc" name="txtAuthDesc" class="textarea-scroll-wrapper"
-                                  maxlength="200" rows="7" th:text="${authDetail?.authDesc}"></textarea>
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{auth.label.urlList}"></label>
-                        <div class="checkbox-list">
-                            <ul>
-                                <li class="text-ellipsis" th:each="url : ${urlList}">
-                                    <label class="checkbox" th:for="${url?.url}" tabindex="0">
-                                        <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
-                                        <span></span>
-                                        <span class="label" th:text="|[${url?.method}] ${url?.url}|"></span>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="form-set flex-column">
-                        <label class="auth-list" th:text="#{auth.label.menuList}"></label>
-                        <div class="checkbox-list">
-                            <ul id='menuList'>
-                                <li th:each="menu : ${menuList}">
-                                    <label class="checkbox" th:for="${menu?.menuId}" tabindex="0">
-                                        <input class="auth-list-check" type="checkbox" name="authMenu" th:id="${menu?.menuId}"
-                                               th:value="${menu?.menuId}">
-                                        <span></span>
-                                        <span class="label" th:text="#{|menu.${menu?.menuId}|}"></span>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{auth.label.referenceCount}"></label>
-                        <input id="roleAuthMapCount" name="roleAuthMapCount" type="text" disabled>
+        <div class="header-search flex-row">
+            <input type="text" class="search col-5 mr-2" id="search" name="search" th:placeholder="#{auth.msg.searchPlaceholder}"/>
+            <span id="totalCount" class="txt-num"></span>
+            <div class="ml-auto">
+                <button type="button" class="default-fill" id="btnCreate" name="btnCreate" onclick="onCreate();"
+                        sec:authorize="hasAuthority('auth.create')" th:text="#{common.btn.add}"></button>
+            </div>
+        </div>
+    </div>
+    <div class="auth-content flex-fill">
+        <div class="list" id="authList"></div>
+    </div>
+</th:block>
+<th:block layout:fragment="aside">
+    <div class="aside">
+        <div class="auth-edit flex-column">
+            <div class="edit-form">
+                <div class="edit-row flex-column">
+                    <label th:text="#{auth.label.authName}" class="required"></label>
+                    <input id="txtAuthName" name="txtAuthName" type="text" maxlength="100">
+                    <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{auth.label.authId}" class="required"></label>
+                    <input id="txtAuthId" name="txtAuthId" type="text" maxlength="100">
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{auth.label.authDesc}"></label>
+                    <textarea id="txtAuthDesc" name="txtAuthDesc" class="textarea-scroll-wrapper"
+                              maxlength="200" rows="7" th:text="${authDetail?.authDesc}"></textarea>
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{auth.label.urlList}"></label>
+                    <div class="checkbox-list">
+                        <ul>
+                            <li class="text-ellipsis" th:each="url : ${urlList}">
+                                <label class="checkbox" th:for="${url?.url}" tabindex="0">
+                                    <input type="checkbox" name="authUrl" th:id="${url?.url}" th:value="${url?.url}">
+                                    <span></span>
+                                    <span class="label" th:text="|[${url?.method}] ${url?.url}|"></span>
+                                </label>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+                <div class="edit-row flex-column">
+                    <label class="auth-list" th:text="#{auth.label.menuList}"></label>
+                    <div class="checkbox-list">
+                        <ul id='menuList'>
+                            <li th:each="menu : ${menuList}">
+                                <label class="checkbox" th:for="${menu?.menuId}" tabindex="0">
+                                    <input class="auth-list-check" type="checkbox" name="authMenu" th:id="${menu?.menuId}"
+                                           th:value="${menu?.menuId}">
+                                    <span></span>
+                                    <span class="label" th:text="#{|menu.${menu?.menuId}|}"></span>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{auth.label.referenceCount}"></label>
+                    <input id="roleAuthMapCount" name="roleAuthMapCount" type="text" disabled>
+                </div>
             </div>
-            <div class="btn-list">
-                <button sec:authorize="hasAuthority('auth.create')"
-                        class="point-fill" type="button" id="btnRegist" name="btnRegist"
-                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-                <button sec:authorize="hasAuthority('auth.update')"
-                        class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
-                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-                <button sec:authorize="hasAuthority('auth.delete')"
-                        class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
-            </div>
+        </div>
+        <div class="btn-list">
+            <button sec:authorize="hasAuthority('auth.create')"
+                    class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                    th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+            <button sec:authorize="hasAuthority('auth.update')"
+                    class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                    th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+            <button sec:authorize="hasAuthority('auth.delete')"
+                    class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                    th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
         </div>
     </div>
 </th:block>
@@ -142,7 +142,7 @@
             let authList = document.querySelectorAll('td[name=authName]');
             for(let i = 0; i < authList.length; i++) {
                 authList[i].style.cursor = 'pointer';
-                authList[i].addEventListener('click', function(){
+                authList[i].addEventListener('click', function() {
                     let activeTr = document.querySelector('tr.active');
                     if (activeTr !== null) {
                         activeTr.classList.remove('active');
@@ -361,7 +361,7 @@
                             });
                         }
                         document.querySelector('td[name=authName]').click();
-                        OverlayScrollbars(document.querySelector('.list-body'), {className: 'inner-scrollbar'});
+                        OverlayScrollbars(document.querySelector('.list-body'), {className: 'scrollbar'});
                     } else {
                         onCreate();
                     }
@@ -421,7 +421,7 @@
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.roleAuthMapCount);
                     }
-                    OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'inner-scrollbar' });
+                    OverlayScrollbars(document.querySelector('.auth-edit'), { className: 'scrollbar' });
                     OverlayScrollbars(document.querySelectorAll('.checkbox-list'), { className: 'inner-scrollbar' });
                 },
             };

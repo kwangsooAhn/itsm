@@ -128,13 +128,15 @@
   }
   .header-search {
     padding: 0.3125rem 0px 1.875rem 0px; // 5px 0px 30px 0px
+    // 건수
+    .txt-num { color: $warm-gray; }
   }
  }
 // 리스트 공통
 @mixin listTemplate() {
   .list {
     a, button { cursor: pointer; }
-
+    // 테이블
     &-table {
       position: relative;
       display: inline-table;
@@ -163,7 +165,13 @@
       height: 32.69rem; // 523px
       tr {
         // 마우스 오버시 배경 색상
-        &:hover { background: $list-hover-bg-color; }
+        &:hover { background-color: $list-hover-bg-color; }
+        // 선택된 경우
+        &.active {
+          background-color: $list-active-bg-color;
+
+          td { color: $list-active-font-color; }
+        }
 
         td {
           font-size: 1rem; // 16px
@@ -182,6 +190,10 @@
         background-color: $no-data-found-list-bg;
         pointer-events: none;
       }
+    }
+    // tree
+    &-tree {
+      height: 37.88rem; // 606px
     }
   }
 }

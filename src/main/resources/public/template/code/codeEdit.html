@@ -8,91 +8,91 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-tree-edit flex-row">
-        <div class="tree-area">
-            <div class="page-title">
-                <h1 th:text="#{code.label.code}">></h1>
-                <h6 class="title-description" th:text="#{code.msg.editDescription}"></h6>
-            </div>
-            <div class="search-area">
-                <div class="search-input">
-                    <input id="search" class="search col-4">
-                    <span id="totalCount" class="txt-num"></span>
-                </div>
-                <div class="ml-auto">
-                    <button class="default-fill" id="btnCreate" name="btnCreate" type="button"
-                            sec:authorize="hasAuthority('code.create')" th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
-                </div>
-            </div>
-            <div class="list">
-                <div id="treeList"></div>
+    <div class="code-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{code.label.code}"></h1>
+            <h6 class="description" th:text="#{code.msg.editDescription}"></h6>
+        </div>
+        <div class="header-search flex-row">
+            <input type="text" class="search col-5 mr-2" id="search" name="search" th:placeholder="#{code.label.searchPlaceholder}"/>
+            <span id="totalCount" class="txt-num"></span>
+            <div class="ml-auto">
+                <button type="button" class="default-fill" id="btnCreate" name="btnCreate" onclick="onCreate();"
+                        sec:authorize="hasAuthority('code.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
-        <div class="edit-area">
-            <div class="scroll-wrap flex-column">
-                <div class="form-wrap">
-                    <div class="form-row flex-row">
-                        <div class="form-set flex-column form-div">
-                            <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
-                            <input id="txtCode" name="txtCode" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
-                        </div>
-	                    <div class="form-set flex-column form-div">
-                            <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
-                            <input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/>
-                        </div>
+    </div>
+    <div class="code-content flex-fill">
+        <div class="list-tree">
+            <div id="treeList"></div>
+        </div>
+    </div>
+</th:block>
+<th:block layout:fragment="aside">
+    <div class="aside code">
+        <div class="code-edit flex-column">
+            <div class="edit-form">
+                <div class="edit-row flex-row">
+                    <div class="edit-column flex-column flex-fill mr-4">
+                        <label class="required" th:text="#{code.label.code}" for="txtCode"></label>
+                        <input id="txtCode" name="txtCode" type="text" th:value="${codeDetail?.code}" maxlength="100"/>
                     </div>
-                    <div class="form-row flex-row">
-                        <div class="form-set flex-column form-div">
-                            <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
-                            <input id="txtCodeName" name="txtCodeName" type="text" th:value="${codeDetail?.codeName}" maxlength="100"/>
-                        </div>
-                        <div class="form-set flex-column form-div">
-                            <label class="form-title" th:text="#{code.label.codeValue}" for="txtCodeValue"></label>
-                            <input id="txtCodeValue" name="txtCodeValue" type="text" th:value="${codeDetail?.codeValue}" maxlength="100"/>
-                        </div>
+                    <div class="edit-column flex-column flex-fill">
+                        <label class="required" th:text="#{code.label.pCode}" for="txtPCode"></label>
+                        <input id="txtPCode" name="txtPCode" type="text" th:value="${codeDetail?.pCode}" maxlength="100"/>
                     </div>
-                    <div class="form-set flex-column">
-                        <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
-                        <input id="txtSeqNum" name="txtSeqNum" type="text" th:value="${codeDetail?.seqNum}" maxlength="5"/>
+                </div>
+                <div class="edit-row flex-row">
+                    <div class="edit-column flex-column flex-fill mr-4">
+                        <label class="form-title" th:text="#{code.label.name}" for="txtCodeName"></label>
+                        <input id="txtCodeName" name="txtCodeName" type="text" th:value="${codeDetail?.codeName}" maxlength="100"/>
                     </div>
-                    <div class="form-set flex-column">
-                        <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
-                        <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
-                                  class="textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
+                    <div class="edit-column flex-column flex-fill">
+                        <label class="form-title" th:text="#{code.label.codeValue}" for="txtCodeValue"></label>
+                        <input id="txtCodeValue" name="txtCodeValue" type="text" th:value="${codeDetail?.codeValue}" maxlength="100"/>
                     </div>
-                    <div class="form-row flex-row">
-                        <div class="form-set flex-column form-div">
-                            <label class="form-title" th:text="#{common.label.createUser}"></label>
-                            <input id="txtCreateUserName" name="txtCreateUserName" type="text" th:value="${codeDetail?.createUserName}" th:disabled="true" maxlength="100"/>
-                        </div>
-                        <div class="form-set flex-column form-div">
-                            <label class="form-title" th:text="#{common.label.updateUser}"></label>
-                            <input id="txtUpdateUserName" name="txtUpdateUserName" type="text" th:value="${codeDetail?.updateUserName}" th:disabled="true" maxlength="100"/>
-                        </div>
+                </div>
+                <div class="edit-row flex-column">
+                    <label class="form-title" th:text="#{code.label.seqNum}" for="txtSeqNum"></label>
+                    <input id="txtSeqNum" name="txtSeqNum" type="text" th:value="${codeDetail?.seqNum}" maxlength="5"/>
+                </div>
+                <div class="edit-row flex-column">
+                    <label class="form-title" th:text="#{code.label.description}" for="txtCodeDesc"></label>
+                    <textarea id="txtCodeDesc" name="txtCodeDesc" th:maxlength="200" th:rows="7"
+                              class="textarea-scroll-wrapper" th:text="${codeDetail?.codeDesc}"></textarea>
+                </div>
+                <div class="edit-row flex-row">
+                    <div class="edit-column flex-column flex-fill mr-4">
+                        <label class="form-title" th:text="#{common.label.createUser}"></label>
+                        <input id="txtCreateUserName" name="txtCreateUserName" type="text" th:value="${codeDetail?.createUserName}" th:disabled="true" maxlength="100"/>
                     </div>
-                    <div class="form-row flex-row">
-                        <div class="form-set flex-column form-div">
-                            <label class="form-title" th:text="#{common.label.createDate}"></label>
-                            <input id="txtCreateDt" name="txtCreateDt" class="search-datetime" type="text" th:disabled="true" maxlength="100"/>
-                        </div>
-                        <div class="form-set flex-column form-div">
-                            <label class="form-title" th:text="#{common.label.updateDate}"></label>
-                            <input id="txtUpdateDt" name="txtUpdateDt" class="search-datetime" type="text" th:disabled="true" maxlength="100"/>
-                        </div>
+                    <div class="edit-column flex-column flex-fill">
+                        <label class="form-title" th:text="#{common.label.updateUser}"></label>
+                        <input id="txtUpdateUserName" name="txtUpdateUserName" type="text" th:value="${codeDetail?.updateUserName}" th:disabled="true" maxlength="100"/>
                     </div>
-                    <div class="btn-list">
-                        <button sec:authorize="hasAuthority('code.create')"
-                                class="point-fill" type="button" id="btnRegist" name="btnRegist"
-                                th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-                        <button sec:authorize="hasAuthority('code.update')"
-                                class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
-                                th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
-                        <button sec:authorize="hasAuthority('code.delete')"
-                                class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                                th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+                </div>
+                <div class="edit-row flex-row">
+                    <div class="edit-column flex-column flex-fill mr-4">
+                        <label class="form-title" th:text="#{common.label.createDate}"></label>
+                        <input id="txtCreateDt" name="txtCreateDt" class="search-datetime" type="text" th:disabled="true" maxlength="100"/>
+                    </div>
+                    <div class="edit-column flex-column flex-fill">
+                        <label class="form-title" th:text="#{common.label.updateDate}"></label>
+                        <input id="txtUpdateDt" name="txtUpdateDt" class="search-datetime" type="text" th:disabled="true" maxlength="100"/>
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="btn-list">
+            <button sec:authorize="hasAuthority('code.create')"
+                    class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                    th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+            <button sec:authorize="hasAuthority('code.update')"
+                    class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                    th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
+            <button sec:authorize="hasAuthority('code.delete')"
+                    class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                    th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
         </div>
     </div>
 </th:block>
@@ -164,13 +164,14 @@
 
                 aliceJs.sendXhr(opt);
             }
-            OverlayScrollbars(document.querySelector('.list'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.list-tree'), { className: 'scrollbar' });
             document.getElementById('search').addEventListener('keyup', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
                     getCodeList();
                 }
             }, false);
+            OverlayScrollbars(document.querySelector('.code-edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('#txtCodeDesc'), {
                 className: 'scrollbar',
                 resize: 'vertical',

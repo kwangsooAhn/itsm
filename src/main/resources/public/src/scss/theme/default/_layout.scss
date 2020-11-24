@@ -26,11 +26,40 @@
     // 리스트
     @include listTemplate();
   }
+  // 역할, 권한, 코드 화면의 우측 영역
+  .aside {
+    flex-shrink: 0; // 고정
+    width: 38.125rem; // 610px
+    background-color: $white;
+    padding: 9.625rem 2.1875rem 3.125rem 0; // 154px 35px 50px 0
+
+    // 코드 화면은 너비가 다름
+    &.code { width: 62.5rem; } // 1000px
+    
+    // 역할, 권한, 코드
+    .auth-edit,
+    .role-edit,
+    .code-edit {
+      height: 41.25rem; // 660px
+      margin: 0 0 1.875rem 0; // 30px
+
+      .edit-form {
+        padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
+        overflow: auto;
+
+        .edit-row {
+          margin-top: 0.625rem; // 10px
+        }
+      }
+    }
+  }
 }
 
 // 공지사항, FAQ, 자료실, 게시판
 // 시스템관리 > 사용자, 게시판
 // 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
+// 업무흐름 관리 > 역할, 권한
+// 업무흐름 관리 > 코드
 .notice-header,
 .faq-header,
 .download-header,
@@ -40,7 +69,10 @@
 .process-header,
 .form-header,
 .document-admin-header,
-.custom-code-header {
+.custom-code-header,
+.auth-header,
+.role-header,
+.code-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
   background-color: $light-gray;
 }
@@ -53,7 +85,10 @@
 .process-content,
 .form-content,
 .document-admin-content,
-.custom-code-content {
+.custom-code-content,
+.auth-content,
+.role-content,
+.code-content {
   padding: 0.9375rem 3.75rem; // 15px 60px
   background-color: $light-gray;
 }
@@ -61,19 +96,15 @@
 .notice-pinned { background-color: $notice-pinned-color; }
 
 // TODO : 리팩토링
-
 .itsm {
   // 기본 ITSM 구성
   &-container {
-    
 
     @import "contents/_contents-token.scss";
-    @import "contents/_contents-list.scss";
     @import "contents/_contents-edit.scss";
     @import "contents/_contents-flex.scss";
     @import "contents/_contents-list-edit.scss";
     @import "contents/_contents-document.scss";
-    @import "contents/_contents-tree-edit.scss";
 
     &-close {
       height: 100%;

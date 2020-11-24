@@ -8,94 +8,94 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list-edit flex-row">
-        <div class="list-area">
-            <div class="page-title">
-                <h1 th:text="#{role.label.role}"></h1>
-                <h6 class="title-description" th:text="#{role.msg.editDescription}"></h6>
-            </div>
-            <div class="search-area">
-                <div class="search-input">
-                    <input id="search" class="search col-5" th:placeholder="#{role.msg.searchPlaceholder}">
-                    <span id="totalCount" class="txt-num"></span>
-                </div>
-                <div class="ml-auto">
-                    <button class="default-fill" sec:authorize="hasAuthority('role.create')" type="button" id="btnSearch" name="btnSearch"
-                            th:onclick="|javascript:onCreate()|" th:text="#{common.btn.add}"></button>
-                </div>
-            </div>
-            <div class="list" id="roleList"></div>
+    <div class="role-header">
+        <div class="header-title flex-row align-items-baseline">
+            <h1 th:text="#{role.label.role}"></h1>
+            <h6 class="description" th:text="#{role.msg.editDescription}"></h6>
         </div>
-        <div class="edit-area">
-            <div class="scroll-wrap flex-column">
-                <div class="form-wrap">
-                    <div class="form-set flex-column">
-                        <label th:text="#{role.label.id}" class="required"></label>
-                        <input id="txtRoleId" name="txtRoleId" type="text" maxlength="100"/>
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{role.label.name}" class="required"></label>
-                        <input id="txtRoleName" name="txtRoleName" type="text" maxlength="100" />
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{role.label.desc}"></label>
-                        <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="textarea-scroll-wrapper"></textarea>
-                    </div>
-                    <div class="form-set flex-column">
+        <div class="header-search flex-row">
+            <input type="text" class="search col-5 mr-2" id="search" name="search" th:placeholder="#{role.msg.searchPlaceholder}"/>
+            <span id="totalCount" class="txt-num"></span>
+            <div class="ml-auto">
+                <button type="button" class="default-fill" id="btnSearch" name="btnSearch" onclick="onCreate();"
+                        sec:authorize="hasAuthority('role.create')" th:text="#{common.btn.add}"></button>
+            </div>
+        </div>
+    </div>
+    <div class="role-content flex-fill">
+        <div class="list" id="roleList"></div>
+    </div>
+</th:block>
+<th:block layout:fragment="aside">
+    <div class="aside">
+        <div class="role-edit flex-column">
+            <div class="edit-form">
+                <div class="edit-row flex-column">
+                    <label th:text="#{role.label.id}" class="required"></label>
+                    <input id="txtRoleId" name="txtRoleId" type="text" maxlength="100"/>
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{role.label.name}" class="required"></label>
+                    <input id="txtRoleName" name="txtRoleName" type="text" maxlength="100" />
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{role.label.desc}"></label>
+                    <textarea id="txtRoleDesc" name="txtRoleDesc" maxlength="200" rows="7" class="textarea-scroll-wrapper"></textarea>
+                </div>
+                <div class="edit-row flex-column">
+                    <div class="flex-row">
                         <div class="flex-row">
-                            <div class="flex-row">
-                                <label th:text="#{role.label.auth}" class="required"></label>
-                            </div>
-                            <div class="ml-auto">
-                                <label class="checkbox checkbox-all">
-                                    <input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"/>
+                            <label th:text="#{role.label.auth}" class="required"></label>
+                        </div>
+                        <div class="ml-auto">
+                            <label class="checkbox checkbox-all">
+                                <input type="checkbox" id="selectAll" name="selectAll" onclick="selectAll()"/>
+                                <span></span>
+                                <span class="label" th:text="#{role.btn.selectAll}"/>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="checkbox-list">
+                        <ul>
+                            <li class="text-ellipsis" th:each="auth : ${authList}">
+                                <label class="checkbox" th:for="${auth?.authId}" tabindex="0">
+                                    <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
                                     <span></span>
-                                    <span class="label" th:text="#{role.btn.selectAll}"/>
+                                    <span class="label" th:text="${auth?.authName}"></span>
                                 </label>
-                            </div>
-                        </div>
-                        <div class="checkbox-list">
-                            <ul>
-                                <li class="text-ellipsis" th:each="auth : ${authList}">
-                                    <label class="checkbox" th:for="${auth?.authId}" tabindex="0">
-                                        <input type="checkbox" name="roleAuth" th:id="${auth?.authId}" th:value="${auth?.authName}" th:checked="${auth?.authDesc == 'checked'}">
-                                        <span></span>
-                                        <span class="label" th:text="${auth?.authName}"></span>
-                                    </label>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{common.label.createUser}"></label>
-                        <input id="spanCreateUserKey" name="spanCreateUserKey" disabled />
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{common.label.createDate}"></label>
-                        <input id="spanCreateDt" name="spanCreateDt" disabled />
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{common.label.updateUser}"></label>
-                        <input id="spanUpdateUserKey" name="spanUpdateUserKey" disabled />
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{common.label.updateDate}"></label>
-                        <input id="spanUpdateDt" name="spanUpdateDt" disabled />
-                    </div>
-                    <div class="form-set flex-column">
-                        <label th:text="#{role.label.referenceCount}"></label>
-                        <input id="userRoleMapCount" name="userRoleMapCount" disabled />
+                            </li>
+                        </ul>
                     </div>
                 </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{common.label.createUser}"></label>
+                    <input id="spanCreateUserKey" name="spanCreateUserKey" disabled />
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{common.label.createDate}"></label>
+                    <input id="spanCreateDt" name="spanCreateDt" disabled />
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{common.label.updateUser}"></label>
+                    <input id="spanUpdateUserKey" name="spanUpdateUserKey" disabled />
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{common.label.updateDate}"></label>
+                    <input id="spanUpdateDt" name="spanUpdateDt" disabled />
+                </div>
+                <div class="edit-row flex-column">
+                    <label th:text="#{role.label.referenceCount}"></label>
+                    <input id="userRoleMapCount" name="userRoleMapCount" disabled />
+                </div>
             </div>
-            <div class="btn-list">
-                <button class="point-fill" sec:authorize="hasAuthority('role.create')" type="button" id="btnRegist" name="btnRegist"
-                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-                <button class="point-fill" sec:authorize="hasAuthority('role.update')" type="button" id="btnUpdate" name="btnUpdate"
-                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-                <button class="point-fill" sec:authorize="hasAuthority('role.delete')" type="button" id="btnDelete" name="btnDelete"
-                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
-            </div>
+        </div>
+        <div class="btn-list">
+            <button type="button" class="point-fill" sec:authorize="hasAuthority('role.create')" id="btnRegist" name="btnRegist"
+                    th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+            <button type="button" class="point-fill" sec:authorize="hasAuthority('role.update')" id="btnUpdate" name="btnUpdate"
+                    th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+            <button type="button" class="point-fill" sec:authorize="hasAuthority('role.delete')" id="btnDelete" name="btnDelete"
+                    th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
         </div>
     </div>
 </th:block>
@@ -162,7 +162,7 @@
             });
 
             OverlayScrollbars(document.querySelector('.list-body'), { className: 'scrollbar' });
-            OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.role-edit'), { className: 'scrollbar' });
             Array.prototype.forEach.call(document.querySelectorAll('.checkbox-list'), function(target) {
                 OverlayScrollbars(target, { className: 'inner-scrollbar' });
             });
