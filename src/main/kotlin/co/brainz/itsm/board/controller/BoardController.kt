@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 @RequestMapping("/boards")
 class BoardController(private val boardService: BoardService) {
 
-    private val boardArticlesSearchPage : String = "board/boardArticlesSearch"
+    private val boardArticlesSearchPage: String = "board/boardArticlesSearch"
     private val boardArticlesListPage: String = "board/boardArticlesList"
     private val boardArticlesEditPage: String = "board/boardArticlesEdit"
     private val boardArticlesViewPage: String = "board/boardArticlesView"
