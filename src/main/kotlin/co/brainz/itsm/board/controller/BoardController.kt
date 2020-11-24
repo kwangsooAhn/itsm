@@ -10,6 +10,8 @@ import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.dto.BoardViewDto
 import co.brainz.itsm.board.service.BoardService
 import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
+import co.brainz.itsm.boardAdmin.dto.BoardAdminSearchDto
+import co.brainz.itsm.boardAdmin.service.BoardAdminService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,13 +20,77 @@ import org.springframework.web.bind.annotation.RequestMapping
 
 @Controller
 @RequestMapping("/boards")
-class BoardController(private val boardService: BoardService) {
+class BoardController(private val boardService: BoardService, private val boardAdminService: BoardAdminService) {
 
+    private val boardSearchPage: String = "board/boardSearch"
+    private val boardListPage: String = "board/boardList"
+    private val boardEditPage: String = "board/boardEdit"
+    private val boardViewPage: String = "board/boardView"
     private val boardArticlesSearchPage: String = "board/boardArticlesSearch"
     private val boardArticlesListPage: String = "board/boardArticlesList"
     private val boardArticlesEditPage: String = "board/boardArticlesEdit"
     private val boardArticlesViewPage: String = "board/boardArticlesView"
     private val boardArticlesCommentListPage: String = "board/boardArticlesCommentList"
+
+    /**
+     * 게시판 관리 호출 화면.
+     *
+     * @param model
+     * @return String
+     */
+    @GetMapping("/search")
+    fun getBoardSearch(model: Model): String {
+        return boardSearchPage
+    }
+
+    /**
+     *  [BoardAdminSearchDto]를 받아서 게시판 관리 리스트 화면에[String]으로 반환한다.
+     *
+     */
+    @GetMapping("")
+    fun getBoardList(boardAdminSearchDto: BoardAdminSearchDto, model: Model): String {
+        val result = boardAdminService.getBoardAdminList(boardAdminSearchDto)
+        model.addAttribute("boardAdminList", result)
+        model.addAttribute("boardAdminCount", if (result.isNotEmpty()) result[0].totalCount else 0)
+        return boardListPage
+    }
+
+    /**
+     * 게시판 관리 신규 등록 화면.
+     *
+     * @param model
+     * @return String
+     */
+    @GetMapping("/new")
+    fun getBoardNew(model: Model): String {
+        return boardEditPage
+    }
+
+    /**
+     * 게시판 관리 상세 조회 화면.
+     *
+     * @param boardAdminId
+     * @param model
+     * @return String
+     */
+    @GetMapping("/{boardAdminId}/view")
+    fun getBoardView(@PathVariable boardAdminId: String, model: Model): String {
+        model.addAttribute("boardAdmin", boardAdminService.getBoardAdmin(boardAdminId))
+        return boardViewPage
+    }
+
+    /**
+     * 게시판 관리 편집 화면.
+     *
+     * @param boardAdminId
+     * @param model
+     * @return String
+     */
+    @GetMapping("/{boardAdminId}/edit")
+    fun getBoardEdit(@PathVariable boardAdminId: String, model: Model): String {
+        model.addAttribute("boardAdmin", boardAdminService.getBoardAdmin(boardAdminId))
+        return boardEditPage
+    }
 
     /**
      * 게시판 리스트 호출 화면.
@@ -33,7 +99,7 @@ class BoardController(private val boardService: BoardService) {
      * @return String
      */
     @GetMapping("/articles/search")
-    fun getBoardSearch(model: Model): String {
+    fun getBoardArticleSearch(model: Model): String {
         model.addAttribute("boardAdminList", boardService.getBoardAdminList())
         return boardArticlesSearchPage
     }
@@ -45,7 +111,7 @@ class BoardController(private val boardService: BoardService) {
      * @return String
      */
     @GetMapping("/articles/search/param")
-    fun getBoardSearchParam(boardSearchDto: BoardSearchDto, model: Model): String {
+    fun getBoardArticleSearchParam(boardSearchDto: BoardSearchDto, model: Model): String {
         model.addAttribute("boardAdminList", boardService.getBoardAdminList())
         model.addAttribute("boardAdminId", boardSearchDto.boardAdminId)
         return boardArticlesSearchPage
@@ -59,7 +125,7 @@ class BoardController(private val boardService: BoardService) {
      * @return String
      */
     @GetMapping("/articles")
-    fun getBoardList(boardSearchDto: BoardSearchDto, model: Model): String {
+    fun getBoardArticleList(boardSearchDto: BoardSearchDto, model: Model): String {
         val result = boardService.getBoardList(boardSearchDto)
         model.addAttribute("boardList", result)
         model.addAttribute("boardCount", if (result.isNotEmpty()) result[0].totalCount else 0)
@@ -74,7 +140,7 @@ class BoardController(private val boardService: BoardService) {
      * @return String
      */
     @GetMapping("/articles/{boardId}/view")
-    fun getBoardView(@PathVariable boardId: String, model: Model): String {
+    fun getBoardArticleView(@PathVariable boardId: String, model: Model): String {
         val boardDtoInfo: BoardViewDto = boardService.getBoard(boardId, "view")
         model.addAttribute("boardInfo", boardDtoInfo)
         model.addAttribute("boardAdminInfo", boardDtoInfo.boardAdmin)
@@ -89,7 +155,7 @@ class BoardController(private val boardService: BoardService) {
      * @return String
      */
     @GetMapping("/articles/{boardAdminId}/new")
-    fun getBoardNew(@PathVariable boardAdminId: String, model: Model): String {
+    fun getBoardArticleNew(@PathVariable boardAdminId: String, model: Model): String {
         val boardAdminInfo: BoardAdminDto = boardService.getBoardAdmin(boardAdminId)
         if (boardAdminInfo.categoryYn) {
             model.addAttribute("boardCategoryInfo", boardService.getBoardCategoryList(boardAdminInfo.boardAdminId))
@@ -108,7 +174,7 @@ class BoardController(private val boardService: BoardService) {
      * @return String
      */
     @GetMapping("/articles/{boardId}/edit")
-    fun getBoardEdit(@PathVariable boardId: String, model: Model): String {
+    fun getBoardArticleEdit(@PathVariable boardId: String, model: Model): String {
         val boardDtoInfo: BoardViewDto = boardService.getBoard(boardId, "edit")
         if (boardDtoInfo.boardAdmin.categoryYn) {
             model.addAttribute("boardCategoryInfo", boardDtoInfo.boardAdmin.category)
@@ -128,7 +194,7 @@ class BoardController(private val boardService: BoardService) {
      * @return String
      */
     @GetMapping("/articles/{boardId}/comments")
-    fun getBoardCommentList(@PathVariable boardId: String, model: Model): String {
+    fun getBoardArticleCommentList(@PathVariable boardId: String, model: Model): String {
         model.addAttribute("boardCommentList", boardService.getBoardCommentList(boardId))
         return boardArticlesCommentListPage
     }
@@ -141,7 +207,7 @@ class BoardController(private val boardService: BoardService) {
      * @return String
      */
     @GetMapping("/articles/{boardId}/replay/edit")
-    fun getBoardReplayEdit(@PathVariable boardId: String, model: Model): String {
+    fun getBoardArticleReplayEdit(@PathVariable boardId: String, model: Model): String {
         val boardDtoInfo: BoardViewDto = boardService.getBoard(boardId, "reply")
         if (boardDtoInfo.boardAdmin.categoryYn) {
             model.addAttribute(

@@ -52,17 +52,17 @@
                     offsetCount = offsetSize;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/rest/board-admin?' + urlParam, isScroll);
+                restSubmit('get', '/rest/boards?' + urlParam, isScroll);
             } else {
                 offsetCount = 0;
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
-                restSubmit('get', '/board-admin/list?' + urlParam, isScroll);
+                restSubmit('get', '/boards?' + urlParam, isScroll);
             }
         }
 
         // 게시판 관리 등록
         function openBoardAdminAdd() {
-            location.href = '/board-admin/new';
+            location.href = '/boards/new';
         }
 
         // REST API
@@ -134,9 +134,9 @@
             tdBoardAdminTitle.className = 'align-left';
             let aBoardAdminTitle = document.createElement('a');
             if (document.getElementsByName('isRole')[0].value === 'true') {
-                aBoardAdminTitle.href = '/board-admin/'+ data.boardAdminId +'/edit';
+                aBoardAdminTitle.href = '/boards/'+ data.boardAdminId +'/edit';
             } else {
-                aBoardAdminTitle.href = '/board-admin/'+ data.boardAdminId +'/view';
+                aBoardAdminTitle.href = '/boards/'+ data.boardAdminId +'/view';
             }
             aBoardAdminTitle.innerText = data.boardAdminTitle;
             tdBoardAdminTitle.appendChild(aBoardAdminTitle);

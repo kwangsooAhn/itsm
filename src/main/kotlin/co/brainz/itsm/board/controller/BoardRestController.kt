@@ -11,6 +11,11 @@ import co.brainz.itsm.board.dto.BoardListDto
 import co.brainz.itsm.board.dto.BoardSaveDto
 import co.brainz.itsm.board.dto.BoardSearchDto
 import co.brainz.itsm.board.service.BoardService
+import co.brainz.itsm.boardAdmin.dto.BoardAdminDetailDto
+import co.brainz.itsm.boardAdmin.dto.BoardAdminDto
+import co.brainz.itsm.boardAdmin.dto.BoardAdminListDto
+import co.brainz.itsm.boardAdmin.dto.BoardAdminSearchDto
+import co.brainz.itsm.boardAdmin.service.BoardAdminService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -22,13 +27,77 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/rest/boards")
-class BoardRestController(private val boardService: BoardService) {
+class BoardRestController(private val boardService: BoardService, private val boardAdminService: BoardAdminService) {
+
+    /**
+     * [BoardAdminSearchDto]를 받아서 게시판 관리 리스트에 [List<BoardAdminListDto>]로 반환한다.
+     *
+     */
+    @GetMapping("")
+    fun getBoardList(boardAdminSearchDto: BoardAdminSearchDto): List<BoardAdminListDto> {
+        return boardAdminService.getBoardAdminList(boardAdminSearchDto)
+    }
+
+    /**
+     * [boardAdminId]를 받아서 게시판 관리 정보를 [BoardAdminDetailDto]로 반환한다.
+     *
+     */
+    @GetMapping("/{boardAdminId}/view")
+    fun getBoardView(@PathVariable boardAdminId: String): BoardAdminDetailDto {
+        val boardAdminDetail = boardAdminService.getBoardAdmin(boardAdminId)
+        return BoardAdminDetailDto(
+            boardAdminId = boardAdminDetail.boardAdminId,
+            boardAdminTitle = boardAdminDetail.boardAdminTitle,
+            boardAdminDesc = boardAdminDetail.boardAdminDesc,
+            boardAdminSort = boardAdminDetail.boardAdminSort,
+            boardUseYn = boardAdminDetail.boardUseYn,
+            replyYn = boardAdminDetail.replyYn,
+            commentYn = boardAdminDetail.commentYn,
+            categoryYn = boardAdminDetail.categoryYn,
+            attachYn = boardAdminDetail.attachYn,
+            attachFileSize = boardAdminDetail.attachFileSize,
+            boardBoardCount = boardAdminDetail.boardBoardCount,
+            categoryInfo = boardAdminService.getBoardCategoryDetailList(boardAdminId),
+            createDt = boardAdminDetail.createDt,
+            createUserName = boardAdminDetail.createUser?.userName
+        )
+    }
+
+    /**
+     * 게시판 관리 신규 등록.
+     *
+     * @param boardAdminDto
+     */
+    @PostMapping("")
+    fun createBoard(@RequestBody boardAdminDto: BoardAdminDto) {
+        boardAdminService.saveBoardAdmin(boardAdminDto)
+    }
+
+    /**
+     * 게시판 관리 수정.
+     *
+     * @param boardAdminDto
+     */
+    @PutMapping("")
+    fun updateBoard(@RequestBody boardAdminDto: BoardAdminDto) {
+        boardAdminService.saveBoardAdmin(boardAdminDto)
+    }
+
+    /**
+     * 게시판 관리 삭제.
+     *
+     * @param boardAdminId
+     */
+    @DeleteMapping("/{boardAdminId}")
+    fun deleteBoard(@PathVariable boardAdminId: String) {
+        boardAdminService.deleteBoardAdmin(boardAdminId)
+    }
 
     /**
      * [BoardSearchDto]를 받아서 게시판 추가할 데이터를 데이터 반환 [List<BoardRestDto>]
      */
     @GetMapping("/articles")
-    fun getBoardList(boardSearchDto: BoardSearchDto): List<BoardListDto> {
+    fun getBoardArticleList(boardSearchDto: BoardSearchDto): List<BoardListDto> {
         return boardService.getBoardList(boardSearchDto)
     }
 
@@ -38,7 +107,7 @@ class BoardRestController(private val boardService: BoardService) {
      * @param boardSaveDto
      */
     @PostMapping("/articles")
-    fun createBoard(@RequestBody boardSaveDto: BoardSaveDto) {
+    fun createBoardArticle(@RequestBody boardSaveDto: BoardSaveDto) {
         boardService.saveBoard(boardSaveDto)
     }
 
@@ -48,7 +117,7 @@ class BoardRestController(private val boardService: BoardService) {
      * @param boardSaveDto
      */
     @PutMapping("/articles")
-    fun updateBoard(@RequestBody boardSaveDto: BoardSaveDto) {
+    fun updateBoardArticle(@RequestBody boardSaveDto: BoardSaveDto) {
         boardService.saveBoard(boardSaveDto)
     }
 
@@ -58,7 +127,7 @@ class BoardRestController(private val boardService: BoardService) {
      * @param boardId
      */
     @DeleteMapping("/articles/{boardId}")
-    fun deleteBoard(@PathVariable boardId: String) {
+    fun deleteBoardArticle(@PathVariable boardId: String) {
         boardService.deleteBoard(boardId)
     }
 
@@ -68,7 +137,7 @@ class BoardRestController(private val boardService: BoardService) {
      * @param boardCommentDto
      */
     @PostMapping("/articles/comments")
-    fun createBoardComment(@RequestBody boardCommentDto: BoardCommentDto) {
+    fun createBoardArticleComment(@RequestBody boardCommentDto: BoardCommentDto) {
         boardService.saveBoardComment(boardCommentDto)
     }
 
@@ -78,7 +147,7 @@ class BoardRestController(private val boardService: BoardService) {
      * @param boardCommentDto
      */
     @PutMapping("/articles/comments")
-    fun updateBoard(@RequestBody boardCommentDto: BoardCommentDto) {
+    fun updateBoardArticle(@RequestBody boardCommentDto: BoardCommentDto) {
         boardService.saveBoardComment(boardCommentDto)
     }
 
@@ -88,7 +157,7 @@ class BoardRestController(private val boardService: BoardService) {
      * @param commentId
      */
     @DeleteMapping("/articles/comments/{commentId}")
-    fun deleteBoardComment(@PathVariable commentId: String) {
+    fun deleteBoardArticleComment(@PathVariable commentId: String) {
         boardService.deleteBoardComment(commentId)
     }
 
@@ -98,7 +167,7 @@ class BoardRestController(private val boardService: BoardService) {
      * @param boardSaveDto
      */
     @PostMapping("/articles/reply")
-    fun createBoardReply(@RequestBody boardSaveDto: BoardSaveDto) {
+    fun createBoardArticleReply(@RequestBody boardSaveDto: BoardSaveDto) {
         boardService.saveBoardReply(boardSaveDto)
     }
 }
