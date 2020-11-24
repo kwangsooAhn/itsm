@@ -6,7 +6,7 @@
 
 package co.brainz.itsm.customCode.repository
 
-import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
+import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import co.brainz.itsm.constants.ItsmConstants
 import co.brainz.itsm.customCode.dto.CustomCodeListDto
 import co.brainz.itsm.customCode.dto.CustomCodeSearchDto

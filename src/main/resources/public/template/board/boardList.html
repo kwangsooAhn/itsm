@@ -22,9 +22,9 @@
 	        <tr class="flex-row align-items-center" th:each="boardAdmin: ${boardAdminList}">
 	            <td style="width: 65%" class="align-left">
 	                <a sec:authorize="!hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
-	                   th:href="@{/board-admin/{id}/view(id=${boardAdmin.boardAdminId})}"></a>
+	                   th:href="@{/boards/{id}/view(id=${boardAdmin.boardAdminId})}"></a>
 	                <a sec:authorize="hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
-	                   th:href="@{/board-admin/{id}/edit(id=${boardAdmin.boardAdminId})}"></a>
+	                   th:href="@{/boards/{id}/edit(id=${boardAdmin.boardAdminId})}"></a>
 	            </td>
 	            <td style="width: 10%" class="align-left" th:text="${boardAdmin.boardBoardCount}"></td>
 	            <td style="width: 10%" class="align-left" th:text="${boardAdmin.createUserName}"></td>

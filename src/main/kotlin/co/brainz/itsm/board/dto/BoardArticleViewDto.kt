@@ -1,10 +1,10 @@
 package co.brainz.itsm.board.dto
 
 import co.brainz.framework.auth.entity.AliceUserEntity
-import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
+import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import java.time.LocalDateTime
 
-data class BoardViewDto(
+data class BoardArticleViewDto(
     var boardId: String = "",
     var boardAdmin: PortalBoardAdminEntity,
     var boardCategoryId: String? = "",

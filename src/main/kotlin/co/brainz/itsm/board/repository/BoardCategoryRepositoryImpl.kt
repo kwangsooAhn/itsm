@@ -4,12 +4,12 @@
  *
  */
 
-package co.brainz.itsm.boardAdmin.repository
+package co.brainz.itsm.board.repository
 
+import co.brainz.itsm.board.dto.BoardCategoryDto
+import co.brainz.itsm.board.entity.PortalBoardCategoryEntity
+import co.brainz.itsm.board.entity.QPortalBoardCategoryEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
-import co.brainz.itsm.boardAdmin.dto.BoardCategoryDto
-import co.brainz.itsm.boardAdmin.entity.PortalBoardCategoryEntity
-import co.brainz.itsm.boardAdmin.entity.QPortalBoardCategoryEntity
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
 import com.querydsl.jpa.JPAExpressions

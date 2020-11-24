@@ -4,12 +4,12 @@
  *
  */
 
-package co.brainz.itsm.boardAdmin.repository
+package co.brainz.itsm.board.repository
 
+import co.brainz.itsm.board.dto.BoardListDto
+import co.brainz.itsm.board.entity.PortalBoardAdminEntity
+import co.brainz.itsm.board.entity.QPortalBoardAdminEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
-import co.brainz.itsm.boardAdmin.dto.BoardAdminListDto
-import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
-import co.brainz.itsm.boardAdmin.entity.QPortalBoardAdminEntity
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
@@ -25,13 +25,13 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
     override fun findByBoardAdminList(
         search: String,
         offset: Long
-    ): List<BoardAdminListDto> {
+    ): List<BoardListDto> {
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
         val board = QPortalBoardEntity("board")
         return from(boardAdmin)
             .select(
                 Projections.constructor(
-                    BoardAdminListDto::class.java,
+                    BoardListDto::class.java,
                     boardAdmin.boardAdminId,
                     boardAdmin.boardAdminTitle,
                     boardAdmin.categoryYn,
@@ -55,12 +55,12 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             .fetch()
     }
 
-    override fun findPortalBoardAdmin(): List<BoardAdminListDto> {
+    override fun findPortalBoardAdmin(): List<BoardListDto> {
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
         return from(boardAdmin)
             .select(
                 Projections.constructor(
-                    BoardAdminListDto::class.java,
+                    BoardListDto::class.java,
                     boardAdmin.boardAdminId,
                     boardAdmin.boardAdminTitle,
                     boardAdmin.categoryYn,

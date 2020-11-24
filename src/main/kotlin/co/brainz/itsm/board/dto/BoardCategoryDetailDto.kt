@@ -1,11 +1,14 @@
-package co.brainz.itsm.boardAdmin.dto
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
 
-import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
+package co.brainz.itsm.board.dto
 
-data class BoardCategoryDto(
+data class BoardCategoryDetailDto(
     var boardCategoryId: String = "",
     var boardAdminId: String = "",
-    var boardAdmin: PortalBoardAdminEntity?,
     var boardCategoryName: String? = "",
     var boardCategorySort: Int?,
     var boardCount: Long? = 0L

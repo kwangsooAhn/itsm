@@ -1,18 +1,30 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.board.dto
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import java.time.LocalDateTime
 
 data class BoardDto(
-    var boardId: String = "",
     var boardAdminId: String = "",
-    var boardCategoryName: String? = "",
-    var boardSeq: Long? = 0,
-    var boardGroupId: Long? = 0,
-    var boardLevelId: Long? = 0,
-    var boardTitle: String = "",
-    var replyCount: Long = 0,
-    var readCount: Long = 0,
+    var boardAdminTitle: String? = "",
+    var boardAdminDesc: String? = "",
+    var boardAdminSort: Int?,
+    var boardUseYn: Boolean = false,
+    var replyYn: Boolean = false,
+    var commentYn: Boolean = false,
+    var categoryYn: Boolean = false,
+    var attachYn: Boolean = false,
+    var attachFileSize: Long? = 0,
+    var boardBoardCount: Long = 0,
+    var enabled: Boolean? = null,
     var createDt: LocalDateTime? = null,
-    var createUser: AliceUserEntity? = null
+    var createUser: AliceUserEntity? = null,
+    var updateDt: LocalDateTime? = null,
+    var updateUser: AliceUserEntity? = null,
+    var categoryList: List<BoardCategoryDetailDto> = emptyList()
 )
