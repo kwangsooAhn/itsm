@@ -8,31 +8,31 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list flex-column">
-        <div class="page-title">
+    <div class="board-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{board.label.board}"></h1>
-            <h6 class="title-description" th:text="#{board.msg.searchDescription}"></h6>
+            <h6 class="description" th:text="#{board.msg.searchDescription}"></h6>
         </div>
-        <div class="search-area">
-            <div class="search-input">
-                <form id="searchFrm">
-                    <select class="search-selectBox col-3" id="boardAdminId" name="boardAdminId">
-                        <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
+        <div class="header-search flex-row">
+            <form id="searchFrm">
+                <select class="search-selectBox col-3" id="boardAdminId" name="boardAdminId">
+                    <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
                             th:text="#{${boardAdmin.boardAdminTitle}}"></option>
-                    </select>
-                    <input class="search col-3" id="search" name="search" type="text" maxlength="100"
-                           th:placeholder="#{board.label.searchBoardPlaceholder}"/>
-                    <input class="search-date col-3" type="text" id="fromDt" name="fromDt"/>
-                    <span>~</span>
-                    <input class="search-date col-3" type="text" id="searchToDt" name="searchToDt"/>
-                    <input class="search-date" type="hidden" id="toDt" name="toDt" readonly="readonly"/>
-                </form>
-            </div>
+                </select>
+                <input type="text" class="search col-3" id="search" name="search" maxlength="100"
+                       th:placeholder="#{board.label.searchBoardPlaceholder}"/>
+                <input type="text" class="search-date col-3" id="fromDt" name="fromDt"/>
+                <span>~</span>
+                <input type="text" class="search-date col-3" id="searchToDt" name="searchToDt"/>
+                <input type="hidden" class="search-date" id="toDt" name="toDt"/>
+            </form>
             <div class="ml-auto">
-                <button class="default-fill" onclick="openBoardAdd()" sec:authorize="hasAuthority('board.create')"
-                        th:text="#{common.btn.add}"/>
+                <button type="button" class="default-fill" onclick="openBoardAdd()"
+                        sec:authorize="hasAuthority('board.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
+    </div>
+    <div class="board-content flex-fill">
         <div class="list" id="boardList"></div>
     </div>
 </th:block>
@@ -166,38 +166,45 @@
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
 
             let tdBoardSeq = document.createElement('td');
-            tdBoardSeq.innerText = data.boardSeq;
             tdBoardSeq.style.width = '10%';
+            tdBoardSeq.className = 'align-left';
+            tdBoardSeq.innerText = data.boardSeq;
 
             let tdBoardCategoryName = document.createElement('td');
-            tdBoardCategoryName.innerText = data.boardCategoryName;
+            tdBoardCategoryName.className = 'align-left';
             tdBoardCategoryName.style.width = '15%';
+            tdBoardCategoryName.innerText = data.boardCategoryName;
 
             let tdBoardTitle = document.createElement('td');
-            tdBoardTitle.style.width = '30%';
             tdBoardTitle.className = 'align-left';
+            tdBoardTitle.style.width = '30%';
             let aBoardTitle = document.createElement('a');
             aBoardTitle.href = '/boards/articles/'+ data.boardId +'/view';
             aBoardTitle.innerText = data.boardTitle;
             tdBoardTitle.appendChild(aBoardTitle);
 
             let tdReplyCount = document.createElement('td');
-            tdReplyCount.innerText = data.replyCount;
+            tdReplyCount.className = 'align-left';
             tdReplyCount.style.width = '10%';
+            tdReplyCount.innerText = data.replyCount;
 
             let tdReadCount = document.createElement('td');
-            tdReadCount.innerText = data.readCount;
+            tdReadCount.className = 'align-left';
             tdReadCount.style.width = '10%';
+            tdReadCount.innerText = data.readCount;
 
             let tdCreateUserName = document.createElement('td');
-            tdCreateUserName.innerText = data.createUserName;
+            tdCreateUserName.className = 'align-left';
             tdCreateUserName.style.width = '10%';
+            tdCreateUserName.innerText = data.createUserName;
 
             let tdCreateDt = document.createElement('td');
-            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
+            tdCreateDt.className = 'align-left';
             tdCreateDt.style.width = '15%';
+            tdCreateDt.innerText = i18n.userDateTime(data.createDt);
 
             tr.appendChild(tdBoardSeq);
             tr.appendChild(tdBoardCategoryName);

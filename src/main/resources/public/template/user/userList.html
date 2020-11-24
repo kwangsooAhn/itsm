@@ -7,42 +7,43 @@
 <body>
     <table class="list-table">
         <thead class="list-head">
-            <tr>
-                <th width="15%" th:text="#{user.label.name}" colspan="2"></th>
-                <th width="10%" th:text="#{user.label.id}"></th>
-                <th width="20%" th:text="#{user.label.email}"></th>
-                <th width="10%" th:text="#{user.label.department}"></th>
-                <th width="10%" th:text="#{user.label.position}" class="align-center"></th>
-                <th width="10%" th:text="#{user.label.officeNumber}"></th>
-                <th width="10%" th:text="#{user.label.mobileNumber}"></th>
-                <th width="15%" th:text="#{user.label.signUpDate}"></th>
+            <tr class="flex-row align-items-center">
+                <th style="width:3.2%;"></th>
+                <th style="width:9.8%;" class="align-left" th:text="#{user.label.name}"></th>
+                <th style="width:10%;" class="align-left" th:text="#{user.label.id}"></th>
+                <th style="width:16%;" class="align-left" th:text="#{user.label.email}"></th>
+                <th style="width:16%;" class="align-left" th:text="#{user.label.department}"></th>
+                <th style="width:10%;" class="align-left" th:text="#{user.label.position}"></th>
+                <th style="width:10%;" class="align-left" th:text="#{user.label.officeNumber}"></th>
+                <th style="width:10%;" class="align-left" th:text="#{user.label.mobileNumber}"></th>
+                <th style="width:15%;" class="align-left" th:text="#{user.label.signUpDate}"></th>
             </tr>
         </thead>
         <tbody class="list-body">
             <input type="hidden" id="totalCount" th:value="${userListCount}"/>
-            <tr class="no-data-found-list" th:if="${#arrays.isEmpty(userList)}">
-                <td colspan="9" th:text="#{common.msg.noData}"></td>
+            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(userList)}">
+                <td colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
-            <tr th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
-                <td width="5%">
-                    <img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" alt="profile pic"/>
+            <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
+                <td style="width:3.2%;" class="align-right p-0">
+                    <img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
                 </td>
-                <td width="10%">
+                <td style="width:9.8%;" class="align-left">
                     <a th:text="${user.userName}"
                        th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''">
                     </a>
                 </td>
-                <td width="10%">
+                <td style="width:10%;" class="align-left">
                     <a th:text="${user.userId}"
                        th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''">
                     </a>
                 </td>
-                <td width="20%" th:text="${user.email}"></td>
-                <td width="10%" th:text="${user.department}"></td>
-                <td width="10%" th:text="${user.position}" class="align-center"></td>
-                <td width="10%" th:text="${user.officeNumber}"></td>
-                <td width="10%" th:text="${user.mobileNumber}"></td>
-                <td width="15%" th:name="createDt" th:text="${user.createDt}"></td>
+                <td style="width:16%;" class="align-left" th:text="${user.email}"></td>
+                <td style="width:16%;" class="align-left" th:text="${user.department}"></td>
+                <td style="width:10%;" class="align-left" th:text="${user.position}"></td>
+                <td style="width:10%;" class="align-left" th:text="${user.officeNumber}"></td>
+                <td style="width:10%;" class="align-left" th:text="${user.mobileNumber}"></td>
+                <td style="width:15%;" class="align-left" th:name="createDt" th:text="${user.createDt}"></td>
             </tr>
         </tbody>
     </table>

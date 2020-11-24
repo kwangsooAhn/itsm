@@ -57,6 +57,11 @@ $document-color-size:                         1rem; // 16px
 // 공지사항 상단 공지 (배경색 별도 처리)
 $notice-pinned-color:                         rgba(135, 206, 255, 0.15);
 
+// 리스트
+$list-hover-bg-color:                         $line-gray;
+// 데이터 없을때
+$no-data-found-list-bg:                       rgba(230, 232, 235, 0.6);
+
 ///////////////////////////// Dropzone /////////////////////////////
 $dropzone-folder-path:                        "../../../media/icons/dropzone/";
 

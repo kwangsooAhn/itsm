@@ -9,28 +9,28 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-list flex-column">
-        <div class="page-title">
+    <div class="custom-code-header">
+        <div class="header-title flex-row align-items-baseline">
             <h1 th:text="#{customCode.label.customCode}"></h1>
-            <h6 class="title-description" th:text="#{customCode.msg.searchDescription}"></h6>
+            <h6 class="description" th:text="#{customCode.msg.searchDescription}"></h6>
         </div>
-        <div class="search-area">
+        <div class="header-search flex-row">
             <input type="hidden" sec:authorize="hasAuthority('custom.code.update')" th:name="isRole" th:value="true"/>
             <input type="hidden" sec:authorize="!hasAuthority('custom.code.update')" th:name="isRole" th:value="false"/>
-            <div class="search-input">
-                <form id="searchFrm">
-                    <select id="searchType" name="searchType">
-                        <option value="" th:text="#{customCode.label.all}" selected/>
-                        <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
-                    </select>
-                    <input class="search col-4" id="search" name="search" type="text" maxlength="100" th:placeholder="#{customCode.label.searchPlaceholder}"/>
-                </form>
-            </div>
+            <form id="searchFrm">
+                <select id="searchType" name="searchType">
+                    <option value="" th:text="#{customCode.label.all}" selected/>
+                    <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
+                </select>
+                <input type="text" class="search col-4" id="search" name="search" maxlength="100" th:placeholder="#{customCode.label.searchPlaceholder}"/>
+            </form>
             <div class="ml-auto">
-                <button class="default-fill" onclick="location.href='/custom-codes/new'"
+                <button type="button" class="default-fill" onclick="location.href='/custom-codes/new'"
                         sec:authorize="hasAuthority('custom.code.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
+    </div>
+    <div class="custom-code-content flex-fill">
         <div class="list" id="customCodeList"></div>
     </div>
 </th:block>
@@ -123,6 +123,7 @@
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
             let tr = document.createElement('tr');
+            tr.className = 'flex-row align-items-center';
 
             let tdCustomCodeName = document.createElement('td');
             tdCustomCodeName.style.width = '50%';
@@ -137,14 +138,17 @@
             tdCustomCodeName.appendChild(aCustomCodeName);
 
             let tdType = document.createElement('td');
+            tdType.className = 'align-left';
             tdType.innerText = i18n.msg('customCode.label.' + data.type);
             tdType.style.width = '20%';
 
             let tdCreateUserName = document.createElement('td');
+            tdCreateUserName.className = 'align-left';
             tdCreateUserName.innerText = data.createUserName;
             tdCreateUserName.style.width = '15%';
 
             let tdCreateDt = document.createElement('td');
+            tdCreateDt.className = 'align-left';
             tdCreateDt.innerText = i18n.userDateTime(data.createDt);
             tdCreateDt.style.width = '15%';
 

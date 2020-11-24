@@ -75,7 +75,7 @@
                             </div>
                             <div class="document-row-info flex-row align-items-center">
                                 <div class="document-user flex-row align-items-center">
-                                    <img class="profile-photo" th:src="@{${rInstance.avatarPath}}"/>
+                                    <img class="profile-photo mr-2" th:src="@{${rInstance.avatarPath}}" width="32" height="32"/>
                                     <h5 th:text="${rInstance.instanceCreateUserName}"></h5>
                                 </div>
                                 <span class="vertical-bar"></span>
@@ -95,7 +95,7 @@
                     <div class="list-item flex-column" th:each="comment : ${commentList}">
                         <div class="comment-row-info flex-row align-items-center">
                             <div class="comment-user flex-row align-items-center">
-                                <img class="profile-photo" th:src="@{${comment.avatarPath}}"/>
+                                <img class="profile-photo mr-2" th:src="@{${comment.avatarPath}}" width="32" height="32"/>
                                 <h5 class="user-name" th:text="${comment.createUserName}"></h5>
                             </div>
                             <h5 class="should-be-modify-userdate" th:text="${comment.createDt}"></h5>

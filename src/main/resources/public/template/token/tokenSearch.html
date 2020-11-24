@@ -209,7 +209,9 @@
             divDocumentUser.className = 'document-user inline-flex align-items-center justify-content-center';
 
             let imgProfilePhoto = document.createElement('img');
-            imgProfilePhoto.className = 'profile-photo';
+            imgProfilePhoto.className = 'profile-photo mr-2';
+            imgProfilePhoto.style.width = '32px';
+            imgProfilePhoto.style.height = '32px';
             imgProfilePhoto.alt = 'profile pic';
             imgProfilePhoto.src = data.avatarPath;
 
