@@ -252,7 +252,7 @@ class AliceFileService(
     /**
      * 워크플로우 이미지 파일 로드.
      */
-    fun getImageFileList(type: String): List<AliceImageFileDto> {
+    fun getImageFileList(type: String, searchValue: String): List<AliceImageFileDto> {
         val dir = when (type) {
             AliceConstants.FileType.ICON.code -> Paths.get(ClassPathResource(this.documentIconRootDirectory).uri)
             else -> super.getWorkflowDir(this.imagesRootDirectory)
@@ -263,7 +263,14 @@ class AliceFileService(
             fileDirMap[false]?.forEach { filePath ->
                 val file = filePath.toFile()
                 if (allowedImageExtensions.indexOf(file.extension.toLowerCase()) > -1) {
-                    fileList.add(filePath)
+                    when (searchValue) {
+                        "" -> fileList.add(filePath)
+                        else -> {
+                            if (file.name.matches(".*$searchValue.*".toRegex())) {
+                                fileList.add(filePath)
+                            }
+                        }
+                    }
                 }
             }
         }
