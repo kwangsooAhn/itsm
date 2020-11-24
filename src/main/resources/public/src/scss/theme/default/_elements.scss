@@ -44,11 +44,11 @@ input {
 }
 
 label {
-  margin: 0.5625rem 0 0.5625rem 0; // 5px 0 5px 0
+  margin: 0.625rem 0; // 10px 0
   color: $light-black;
 }
 
-textarea{
+textarea {
   display: block;
   padding: 0.5rem 0.625rem; // 8px 10px
   resize: vertical;
@@ -64,5 +64,26 @@ textarea{
 table[id="documentDisplay"] {
   td {
     overflow: initial;
+  }
+}
+
+// 체크박스 목록
+// ex) 권한, 역할 > 체크박스 목록
+.checkbox {
+  &-all {
+    display: table-cell;
+    padding-top: 0.3125rem; // 5px
+  }
+  &-list {
+    height: 13.5rem; // 216px
+    border: $element-border; // 1px
+    border-radius: $element-border-radius;
+    padding: 0.5rem 0.625rem; // 8px 10px
+
+    li {
+      height: 1.5rem; // 24px
+      font-weight: $font-weight-regular;
+      color: $dark-gray;
+    }
   }
 }

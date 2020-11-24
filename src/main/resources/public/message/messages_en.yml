@@ -222,6 +222,7 @@ code:
     description: "Code Description"
     name: "Code Name"
     pCode: "Parent Code"
+    searchPlaceholder: "Code"
     seqNum: "The order of the output"
   msg:
     duplicateCode: "Duplicate code Exists."

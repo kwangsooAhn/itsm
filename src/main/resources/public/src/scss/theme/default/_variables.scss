@@ -11,6 +11,7 @@ $element-font-weight:                         $font-weight-regular;
 $element-bg-color:                            $white;
 $element-border-color:                        $line-gray;
 $element-border-width:                        0.0625rem; // 1px
+$element-border:                              $element-border-width solid $element-border-color;
 $element-border-radius:                       0.0625rem; // 1px
 
 // Logo
@@ -58,9 +59,13 @@ $document-color-size:                         1rem; // 16px
 $notice-pinned-color:                         rgba(135, 206, 255, 0.15);
 
 // 리스트
+// 마우스 오버시
 $list-hover-bg-color:                         $line-gray;
+// 선택시
+$list-active-font-color:                      $dark-blue;
+$list-active-bg-color:                       rgba(230, 232, 235, 0.6);
 // 데이터 없을때
-$no-data-found-list-bg:                       rgba(230, 232, 235, 0.6);
+$no-data-found-list-bg:                      rgba(230, 232, 235, 0.6);
 
 ///////////////////////////// Dropzone /////////////////////////////
 $dropzone-folder-path:                        "../../../media/icons/dropzone/";
