@@ -1,4 +1,4 @@
-package co.brainz.itsm.boardAdmin.entity
+package co.brainz.itsm.board.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
 import java.io.Serializable

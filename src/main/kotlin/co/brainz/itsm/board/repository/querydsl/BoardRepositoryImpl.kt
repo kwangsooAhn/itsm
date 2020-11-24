@@ -6,14 +6,14 @@
 
 package co.brainz.itsm.board.repository.querydsl
 
-import co.brainz.itsm.board.dto.BoardDto
-import co.brainz.itsm.board.dto.BoardListDto
-import co.brainz.itsm.board.dto.BoardViewDto
+import co.brainz.itsm.board.dto.BoardArticleDto
+import co.brainz.itsm.board.dto.BoardArticleListDto
+import co.brainz.itsm.board.dto.BoardArticleViewDto
 import co.brainz.itsm.board.entity.PortalBoardEntity
+import co.brainz.itsm.board.entity.QPortalBoardCategoryEntity
 import co.brainz.itsm.board.entity.QPortalBoardCommentEntity
 import co.brainz.itsm.board.entity.QPortalBoardEntity
 import co.brainz.itsm.board.entity.QPortalBoardReadEntity
-import co.brainz.itsm.boardAdmin.entity.QPortalBoardCategoryEntity
 import co.brainz.itsm.constants.ItsmConstants
 import com.querydsl.core.types.ExpressionUtils
 import com.querydsl.core.types.Projections
@@ -31,7 +31,7 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         fromDt: LocalDateTime,
         toDt: LocalDateTime,
         offset: Long
-    ): List<BoardListDto> {
+    ): List<BoardArticleListDto> {
         val board = QPortalBoardEntity.portalBoardEntity
         val category = QPortalBoardCategoryEntity("category")
         val boardRead = QPortalBoardReadEntity("read")
@@ -39,7 +39,7 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         val query = from(board)
             .select(
                 Projections.constructor(
-                    BoardDto::class.java,
+                    BoardArticleDto::class.java,
                     board.boardId,
                     board.boardAdmin.boardAdminId,
                     category.boardCategoryName,
@@ -72,9 +72,9 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
             .offset(offset)
             .fetchResults()
 
-        val boardList = mutableListOf<BoardListDto>()
+        val boardList = mutableListOf<BoardArticleListDto>()
         for (data in query.results) {
-            val boardListDto = BoardListDto(
+            val boardListDto = BoardArticleListDto(
                 boardId = data.boardId,
                 boardAdminId = data.boardAdminId,
                 boardCategoryName = data.boardCategoryName,
@@ -93,13 +93,13 @@ class BoardRepositoryImpl : QuerydslRepositorySupport(PortalBoardEntity::class.j
         return boardList.toList()
     }
 
-    override fun findByBoardId(boardId: String): BoardViewDto {
+    override fun findByBoardId(boardId: String): BoardArticleViewDto {
         val board = QPortalBoardEntity.portalBoardEntity
 
         return from(board)
             .select(
                 Projections.constructor(
-                    BoardViewDto::class.java,
+                    BoardArticleViewDto::class.java,
                     board.boardId,
                     board.boardAdmin,
                     board.boardCategoryId,
