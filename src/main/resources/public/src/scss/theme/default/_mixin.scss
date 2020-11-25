@@ -185,3 +185,37 @@
     }
   }
 }
+// 카드 공통
+@mixin cardTemplate() {
+  .card-list {
+    flex-wrap: wrap;
+
+    .card {
+      position: relative;
+      min-width: 32.0625rem; // 513px
+      min-height: 12.5rem; // 200px
+      margin: 1.25rem 1.25rem 0 0; // 20px 20px 0 0
+      padding: 0;
+      border: $card-border;
+      border-radius: $card-border-radius;
+      overflow: hidden;
+      cursor: pointer;
+      // 마우스 오버시
+      &:hover { box-shadow: $card-hover-box-shadow; }
+
+      // 데이터 없을 때
+      .no-data-found { 
+        background-color:$no-data-found-bg;
+        pointer-events: none;
+
+        .no-data-icon { content: url("../media/icons/icon_no_data.svg") }
+        .no-data-text {
+          font-size: 1.125rem;; // 18px
+          font-weight: $font-weight-medium;
+          color: $pressed-gray;
+          margin-left: 2.5rem; // 40px
+        }
+      }
+    }
+  }
+}

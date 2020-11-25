@@ -48,7 +48,7 @@ label {
   color: $light-black;
 }
 
-textarea{
+textarea {
   display: block;
   padding: 0.5rem 0.625rem; // 8px 10px
   resize: vertical;
@@ -65,4 +65,15 @@ table[id="documentDisplay"] {
   td {
     overflow: initial;
   }
+}
+
+// 문서함 > 태그
+.tag {
+  display: inline-block;
+  max-width: 13.75rem; // 220px
+  color: $tag-font-color;
+  border-radius: 0.0625rem; // 1px
+  padding: 0.3125rem 0.9375rem; // 5px 15px
+  background-color: $tag-bg-color;
+  margin: 0.3125rem; // 5px
 }

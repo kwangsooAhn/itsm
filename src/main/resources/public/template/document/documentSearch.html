@@ -85,7 +85,7 @@
                         }
                     } else {
                         document.getElementById('documentList').innerHTML = response.responseText;
-                        OverlayScrollbars(document.querySelector('.document-area'), {
+                        OverlayScrollbars(document.querySelector('.document-content'), {
                             className: 'scrollbar',
                             callbacks: {
                                 onScroll: function(e) {
@@ -96,6 +96,15 @@
                                         if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                             documentSearches(true);
                                         }
+                                    }
+                                    if (scrollTop > 20) {
+                                        document.getElementById('header-search').classList.remove('slide-down');
+                                        document.getElementById('header-search').classList.add('slide-up');
+                                        document.getElementById('header-title').style.display = 'none';
+                                    } else {
+                                        document.getElementById('header-search').classList.remove('slide-up');
+                                        document.getElementById('header-search').classList.add('slide-down');
+                                        document.getElementById('header-title').style.display = 'flex';
                                     }
                                 }
                             }
@@ -108,28 +117,25 @@
 
         // Div 동적 데이터 만들기
         function getDataTemplate(data) {
-            let divCardArea = document.querySelector('.document-area .card-area');
+            let divCardArea = document.querySelector('.document-content .card-list');
             let div = document.createElement('div');
-            let divCardDummy = document.createElement('div');
-            divCardDummy.className = 'document-card-box';
+            div.className = 'card';
 
-            let aCard = document.createElement('a');
+            let divColumn = document.createElement('div');
+            divColumn.className = 'document-column';
+
             if (document.getElementsByName('isRole')[0].value) {
-                aCard.onclick = function () {
+                divColumn.onclick = function () {
                     openDocument(data.documentId);
                 }
             }
-
-            let divDocumentCard = document.createElement('div');
-            divDocumentCard.className = 'document-card';
-
             let h3Card = document.createElement('h3');
             h3Card.className = 'text-ellipsis';
             h3Card.innerText = data.documentName;
 
-            let h5Card = document.createElement('h5');
-            h5Card.className = 'card-desc text-ellipsis';
-            h5Card.innerText = data.documentDesc;
+            let labelDesc = document.createElement('label');
+            labelDesc.className = 'document-description text-ellipsis';
+            labelDesc.innerText = data.documentDesc;
 
             let divDocumentIcon = document.createElement('div');
             divDocumentIcon.className = 'document-icon';
@@ -138,12 +144,10 @@
             imgDocumentIcon.src = '/assets/media/images/document/' + data.documentIcon;
             divDocumentIcon.appendChild(imgDocumentIcon);
 
-            divDocumentCard.appendChild(h3Card);
-            divDocumentCard.appendChild(h5Card);
-            divDocumentCard.appendChild(divDocumentIcon);
-            divCardDummy.appendChild(divDocumentCard);
-            aCard.appendChild(divCardDummy);
-            div.appendChild(aCard);
+            divColumn.appendChild(h3Card);
+            divColumn.appendChild(labelDesc);
+            divColumn.appendChild(divDocumentIcon);
+            div.appendChild(divColumn);
             divCardArea.appendChild(div);
         }
 
@@ -152,34 +156,30 @@
 </th:block>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-document flex-column">
-        <div class="header">
-            <div class="page-title">
-                <h1 th:text="#{document.label.document}"></h1>
-                <h6 class="title-description" th:text="#{document.msg.searchDescription}"></h6>
-            </div>
-            <div class="search-area">
-                <div class="search-input">
-                    <form id="searchDocumentsFrm">
-                        <input type="text" id="searchDocuments" name="searchDocuments"
-                               th:placeholder="#{document.label.searchPlaceholder}" class="search col-3"/>
-                        <input type="text" id="searchProcessName" name="searchProcessName"
-                               th:placeholder="#{document.label.process}" class="search col-3"/>
-                        <input type="text" id="searchFormName" name="searchFormName"
-                               th:placeholder="#{document.label.form}" class="search col-3"/>
-                        <input sec:authorize="hasAuthority('document.read.admin')"
-                               type="hidden" id="viewType" name="viewType" value="admin"/>
-                        <input type="hidden" id="searchDocumentType" name="searchDocumentType"
-                               value="application-form"/>
-                    </form>
-                </div>
-            </div>
+    <div class="document-header">
+        <div class="header-title flex-row align-items-baseline" id="header-title">
+            <h1 th:text="#{document.label.document}"></h1>
+            <h6 class="description" th:text="#{document.msg.searchDescription}"></h6>
         </div>
-        <div class="document-area flex-column">
-            <input type="hidden" sec:authorize="hasAuthority('document.create')" th:name="isRole" th:value="true"/>
-            <input type="hidden" sec:authorize="!hasAuthority('document.create')" th:name="isRole" th:value="false"/>
-            <div id="documentList"></div>
+        <div class="header-search flex-row" id="header-search">
+            <form id="searchDocumentsFrm">
+                <input type="text" id="searchDocuments" name="searchDocuments"
+                       th:placeholder="#{document.label.searchPlaceholder}" class="search col-3"/>
+                <input type="text" id="searchProcessName" name="searchProcessName"
+                       th:placeholder="#{document.label.process}" class="search col-3"/>
+                <input type="text" id="searchFormName" name="searchFormName"
+                       th:placeholder="#{document.label.form}" class="search col-3"/>
+                <input sec:authorize="hasAuthority('document.read.admin')"
+                       type="hidden" id="viewType" name="viewType" value="admin"/>
+                <input type="hidden" id="searchDocumentType" name="searchDocumentType"
+                       value="application-form"/>
+            </form>
         </div>
+    </div>
+    <div class="document-content flex-fill">
+        <input type="hidden" sec:authorize="hasAuthority('document.create')" th:name="isRole" th:value="true"/>
+        <input type="hidden" sec:authorize="!hasAuthority('document.create')" th:name="isRole" th:value="false"/>
+        <div id="documentList"></div>
     </div>
 </th:block>
 </body>
