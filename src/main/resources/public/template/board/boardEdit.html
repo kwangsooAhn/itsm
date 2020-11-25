@@ -130,7 +130,7 @@
                         th:text="#{common.btn.modify}"></button>
                 <button class="default-line" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin()"
                         th:disabled="${!boardAdmin.enabled}" th:text="#{common.btn.delete}"></button>
-                <a class="btn default-line" href="/board-admin/search" th:text="#{common.btn.list}"></a>
+                <a class="btn default-line" href="/boards/search" th:text="#{common.btn.list}"></a>
             </div>
         </div>
     </div>
@@ -192,7 +192,8 @@
 
         //게시판 관리 삭제
         function deleteBoardAdmin() {
-            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/board-admin/' + boardAdminId);
+            aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', '/rest/boards/' +
+                boardAdminId);
         }
 
         //게시판 관리 저장
@@ -221,7 +222,7 @@
             if (method === 'put') {
                 data.boardAdminId = boardAdminId;
             }
-            restSubmit(method, '/rest/board-admin', data);
+            restSubmit(method, '/rest/boards', data);
         }
 
         //REST API
@@ -240,7 +241,7 @@
                 contentType: 'application/json',
                 callbackFunc: function() {
                     aliceJs.alertSuccess(resultMsg, function () {
-                        location.href = '/board-admin/search';
+                        location.href = '/boards/search';
                     });
                 },
                 showProgressbar: false

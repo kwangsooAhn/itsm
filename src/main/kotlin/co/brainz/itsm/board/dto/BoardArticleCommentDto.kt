@@ -4,7 +4,7 @@ import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.itsm.board.entity.PortalBoardEntity
 import java.time.LocalDateTime
 
-data class BoardCommentDto(
+data class BoardArticleCommentDto(
     var boardCommentId: String = "",
     var boardId: String = "",
     var commentBoard: PortalBoardEntity?,

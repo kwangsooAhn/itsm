@@ -4,9 +4,9 @@
  *
  */
 
-package co.brainz.itsm.boardAdmin.repository
+package co.brainz.itsm.board.repository
 
-import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
+import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
