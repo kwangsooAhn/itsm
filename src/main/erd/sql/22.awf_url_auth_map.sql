@@ -86,7 +86,6 @@ insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.c
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.read');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.update');
 insert into awf_url_auth_map values ('/custom-codes/{id}/view', 'get', 'custom.code.create');
-insert into awf_url_auth_map values ('/dashboard/list', 'get', 'document.read');
 insert into awf_url_auth_map values ('/dashboard/view', 'get', 'document.read');
 insert into awf_url_auth_map values ('/workflows', 'get', 'document.admin.delete');
 insert into awf_url_auth_map values ('/workflows', 'get', 'document.admin.read');
@@ -99,10 +98,6 @@ insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin
 insert into awf_url_auth_map values ('/workflows/search', 'get', 'document.admin.delete');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.update');
 insert into awf_url_auth_map values ('/workflows/{id}/edit', 'get', 'document.admin.create');
-insert into awf_url_auth_map values ('/documents/custom-code/{id}/data', 'get', 'document.admin.update');
-insert into awf_url_auth_map values ('/documents/custom-code/{id}/data', 'get', 'document.update');
-insert into awf_url_auth_map values ('/documents/custom-code/{id}/data', 'post', 'document.update');
-insert into awf_url_auth_map values ('/documents/custom-code/{id}/data', 'post', 'document.admin.update');
 insert into awf_url_auth_map values ('/documents/search', 'get', 'document.read');
 insert into awf_url_auth_map values ('/documents/{id}/print', 'get', 'document.read');
 insert into awf_url_auth_map values ('/downloads', 'get', 'download.update');
@@ -286,7 +281,6 @@ insert into awf_url_auth_map values ('/rest/roles/{id}', 'get', 'role.delete');
 insert into awf_url_auth_map values ('/rest/roles/{id}', 'put', 'role.update');
 insert into awf_url_auth_map values ('/rest/tokens', 'get', 'token.read');
 insert into awf_url_auth_map values ('/rest/tokens/data', 'post', 'token.create');
-insert into awf_url_auth_map values ('/rest/tokens/data/{id}', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'get', 'token.create');
 insert into awf_url_auth_map values ('/rest/tokens/{id}/data', 'put', 'token.create');
 insert into awf_url_auth_map values ('/rest/users', 'post', 'user.create');
