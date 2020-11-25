@@ -135,6 +135,29 @@
 .document-content {
   padding: 1.875rem 1.875rem 0 3.75rem; // 30px 30px 0 60px
   background-color: $white;
+
+  .document-column {
+    width: 100%;
+    height: 100%;
+    padding: 1.975rem; // 30px
+
+    // 신청서 > 아이콘
+    .document-icon {
+      position: absolute;
+      top: 3.75rem; // 60px
+      left: 23.125rem; // 370px
+      overflow: hidden;
+    }
+    // 신청서 > 설명
+    .document-description {
+      display: block;
+      width: 20rem; // 320px
+      font-size: 1rem; // 16px
+      font-weight: $font-weight-regular;
+      color: $blue-gray;
+      margin-top: 0.625rem; // 10px
+    }
+  }
 }
 
 .token-content,
@@ -196,7 +219,7 @@
   // TODO: 추후 대시보드 디자인 완료시 아래 부분은 삭제 예정
   // 대시보드 > 소제목
   .sub-title {
-    margin: 20px 0; // 20px 0
+    margin: 1.25rem 0; // 20px 0
   }
   // 대시보드 > 업무 통계
   .statistic {
@@ -216,8 +239,8 @@
   }
   // 대시보드 > 처리할 문서
   .scroll-wrap {
-    height: 440px; // 440px
-    margin-right: 20px;
+    height:  27.5rem; // 440px
+    margin-right: 1.25rem; //20px
     .card:first-of-type { margin-top: 0;}
   }
 }
@@ -241,7 +264,6 @@
     @import "contents/_contents-edit.scss";
     @import "contents/_contents-flex.scss";
     @import "contents/_contents-list-edit.scss";
-    @import "contents/_contents-document.scss";
 
     &-close {
       height: 100%;
