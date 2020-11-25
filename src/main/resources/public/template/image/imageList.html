@@ -16,10 +16,8 @@
             </div>
             <div class="search-area">
                 <div class="search-input">
-                    <form id="searchFrm">
-                        <input class="search col-5" id="searchValue" name="searchValue" type="text" maxlength="100"
-                               th:placeholder="#{image.label.name}"/>
-                    </form>
+                    <input class="search col-5" id="searchValue" name="searchValue" type="text" maxlength="100"
+                           th:placeholder="#{image.label.name}"/>
                 </div>
             </div>
         </div>
@@ -32,12 +30,7 @@
     <script type="text/javascript" th:inline="javascript">
         let previewModal;
         window.onload = () => {
-            // 썸네일 표시
-            /*[# th:each="image : ${imageList}"]*/
-            addThumbnail(/*[[${image}]]*/);
-            /*[/]*/
-            addThumbnailUpload();
-            document.getElementById('searchValue').focus();
+            getImages();
             OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
             // 미리보기 모달 생성
             previewModal = new modal({
@@ -59,6 +52,37 @@
                     for (let i = 0, len = selectedThumbnails.length; i < len; i++) {
                         selectedThumbnails[i].classList.remove('selected');
                     }
+                }
+            });
+
+            // 썸네일 표시
+            document.getElementById('searchValue').focus();
+            document.getElementById('searchValue').addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    getImages();
+                }
+            }, false);
+        }
+
+        function getImages() {
+            let urlParam = 'searchValue=' + document.getElementById('searchValue').value;
+            restSubmit('get', '/rest/images?' + urlParam);
+        }
+
+        function restSubmit(method, url) {
+            aliceJs.sendXhr({
+                url: url,
+                method: method,
+                contentType: 'application/json',
+                async: false,
+                callbackFunc: xhr => {
+                    let imageList = JSON.parse(xhr.responseText);
+                    document.querySelector('.thumbnail-main').innerHTML = '';
+                    imageList.forEach(function(image) {
+                        addThumbnail(image);
+                    });
+                    addThumbnailUpload();
                 }
             });
         }
@@ -145,7 +169,7 @@
                         callbackFunc: xhr => {
                             if (xhr.responseText === 'true') {
                                 labelObj.textContent = modifyName;
-                                labelObj.parentNode.parentNode.parentNode.querySelector('img').dataset.name = modifyName;
+                                labelObj.parentNode.parentNode.parentNode.querySelector('button').dataset.name = modifyName;
                             } else {
                                 aliceJs.alertWarning(i18n.msg("image.msg.failedRename"));
                             }

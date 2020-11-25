@@ -122,7 +122,7 @@
             initTextEditor(false);
 
             document.getElementById('boardAdminId').addEventListener('change', function() {
-                restSubmit('get', '/rest/board-admin/'+this.value+'/view', '');
+                restSubmit('get', '/rest/boards/'+this.value+'/view', '');
             });
 
             OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
@@ -249,7 +249,7 @@
                             searchBoard();
                         });
                     } else if (method === 'get') {
-                        if (url.indexOf('/rest/board-admin') !== -1) {
+                        if (url.indexOf('/rest/boards') !== -1) {
                             let data = JSON.parse(response.responseText);
                             getBoardView(data)
                         } else {

@@ -222,6 +222,7 @@ code:
     description: "코드 설명"
     name : "코드 이름"
     pCode: "부모 코드"
+    searchPlaceholder: "코드"
     seqNum: "출력 순서"
   msg:
     duplicateCode: "중복된 코드가 존재합니다."

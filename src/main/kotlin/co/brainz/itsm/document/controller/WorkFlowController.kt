@@ -25,9 +25,9 @@ class WorkFlowController(
     private val numberingService: AliceNumberingService
 ) {
 
-    private val workFlowSearchPage: String = "workFlow/workFlowSearch"
-    private val workFlowListPage: String = "workFlow/workFlowList"
-    private val workFlowEditPage: String = "workFlow/workFlowEdit"
+    private val workFlowSearchPage: String = "workflow/workFlowSearch"
+    private val workFlowListPage: String = "workflow/workFlowList"
+    private val workFlowEditPage: String = "workflow/workFlowEdit"
 
     /**
      * 업무흐름 리스트 호출 화면.

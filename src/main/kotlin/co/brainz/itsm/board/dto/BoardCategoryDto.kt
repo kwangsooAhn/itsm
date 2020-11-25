@@ -1,14 +1,11 @@
-/*
- * Copyright 2020 Brainzcompany Co., Ltd.
- * https://www.brainz.co.kr
- *
- */
+package co.brainz.itsm.board.dto
 
-package co.brainz.itsm.boardAdmin.dto
+import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 
-data class BoardCategoryDetailDto(
+data class BoardCategoryDto(
     var boardCategoryId: String = "",
     var boardAdminId: String = "",
+    var boardAdmin: PortalBoardAdminEntity?,
     var boardCategoryName: String? = "",
     var boardCategorySort: Int?,
     var boardCount: Long? = 0L

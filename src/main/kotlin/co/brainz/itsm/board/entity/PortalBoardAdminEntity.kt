@@ -1,7 +1,6 @@
-package co.brainz.itsm.boardAdmin.entity
+package co.brainz.itsm.board.entity
 
 import co.brainz.framework.auditor.AliceMetaEntity
-import co.brainz.itsm.board.entity.PortalBoardEntity
 import java.io.Serializable
 import javax.persistence.CascadeType
 import javax.persistence.Column

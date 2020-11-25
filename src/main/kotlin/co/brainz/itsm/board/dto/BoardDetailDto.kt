@@ -4,11 +4,11 @@
  *
  */
 
-package co.brainz.itsm.boardAdmin.dto
+package co.brainz.itsm.board.dto
 
 import java.time.LocalDateTime
 
-data class BoardAdminDetailDto(
+data class BoardDetailDto(
     var boardAdminId: String = "",
     var boardAdminTitle: String? = "",
     var boardAdminDesc: String? = "",

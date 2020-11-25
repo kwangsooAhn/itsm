@@ -60,7 +60,10 @@ class ImageRestController(private val fileService: AliceFileService) {
      * 이미지 파일 전체 목록 가져오기.
      */
     @GetMapping("")
-    fun getImageFileList(@RequestParam(value = "type", defaultValue = "") type: String): List<AliceImageFileDto> {
-        return fileService.getImageFileList(type)
+    fun getImageFileList(
+        @RequestParam(value = "type", defaultValue = "") type: String,
+        @RequestParam(value = "searchValue", defaultValue = "") searchValue: String
+    ): List<AliceImageFileDto> {
+        return fileService.getImageFileList(type, searchValue)
     }
 }

@@ -1,8 +1,8 @@
 package co.brainz.itsm.board.dto
 
-import co.brainz.itsm.boardAdmin.entity.PortalBoardAdminEntity
+import co.brainz.itsm.board.entity.PortalBoardAdminEntity
 
-data class BoardSaveDto(
+data class BoardArticleSaveDto(
     var boardId: String = "",
     var boardAdminId: String = "",
     var boardAdmin: PortalBoardAdminEntity?,

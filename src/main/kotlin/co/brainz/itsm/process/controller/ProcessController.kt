@@ -70,10 +70,11 @@ class ProcessController(
     @GetMapping("/attachFile/view")
     fun getProcessAttachFileView(
         @RequestParam(value = "callback", defaultValue = "") callback: String,
+        @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         model: Model
     ): String {
         model.addAttribute("callback", callback)
-        model.addAttribute("imageList", fileService.getImageFileList(AliceConstants.FileType.IMAGE.code))
+        model.addAttribute("imageList", fileService.getImageFileList(AliceConstants.FileType.IMAGE.code, searchValue))
         return processAttachFileViewPage
     }
 }
