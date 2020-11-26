@@ -207,14 +207,6 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-.mr-auto {
-  margin-right: auto;
-}
-
-.ml-auto {
-  margin-left: auto;
-}
-
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss
@@ -1550,7 +1542,7 @@ button {
   white-space: nowrap;
   vertical-align: middle;
   overflow: visible;
-  padding: 0.5625rem 1.563rem 0.5625rem 1.563rem;
+  padding: 0.625rem 1.563rem 0.625rem 1.563rem;
   cursor: pointer;
 }
 

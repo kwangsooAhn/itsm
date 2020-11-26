@@ -207,14 +207,6 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-.mr-auto {
-  margin-right: auto;
-}
-
-.ml-auto {
-  margin-left: auto;
-}
-
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss
@@ -435,6 +427,70 @@ input, button, select, optgroup, textarea {
 
 .col-pct-12 {
   width: 100%;
+}
+
+.p-0 {
+  padding: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.ml-0 {
+  margin-left: 0;
+}
+
+.ml-1 {
+  margin-left: 0.3125rem;
+}
+
+.ml-2 {
+  margin-left: 0.625rem;
+}
+
+.ml-3 {
+  margin-left: 0.9375rem;
+}
+
+.ml-4 {
+  margin-left: 1.25rem;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-0 {
+  margin-right: 0;
+}
+
+.mr-1 {
+  margin-right: 0.3125rem;
+}
+
+.mr-2 {
+  margin-right: 0.625rem;
+}
+
+.mr-3 {
+  margin-right: 0.9375rem;
+}
+
+.mr-4 {
+  margin-right: 1.25rem;
+}
+
+.mr-auto {
+  margin-right: auto;
 }
 
 /* _layout.scss
@@ -1703,7 +1759,7 @@ button {
   white-space: nowrap;
   vertical-align: middle;
   overflow: visible;
-  padding: 0.5625rem 1.563rem 0.5625rem 1.563rem;
+  padding: 0.625rem 1.563rem 0.625rem 1.563rem;
   cursor: pointer;
 }
 
@@ -2922,7 +2978,7 @@ button.ghost-line:disabled .icon {
 
 .file-uploader-edit .file-uploader-title {
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
   color: #586872;
   margin: 0.5625rem 0 0.5625rem 0;
 }
@@ -3253,7 +3309,7 @@ button.ghost-line:disabled .icon {
 
 .file-uploader-view .file-uploader-title {
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
   color: #586872;
   margin: auto 0;
 }
@@ -3292,7 +3348,7 @@ button.ghost-line:disabled .icon {
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details {
   display: inline-flex;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-file-type {
