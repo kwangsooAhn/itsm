@@ -207,12 +207,171 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-.mr-auto {
-  margin-right: auto;
+/* _columns.scss 
+ *
+ * 파일 경로 : template/_columns.scss
+ * @description HTML element 너비 관련 디자인
+ * @author jy.lim
+ * @version 1.0
+ */
+.col-1 {
+  width: 5rem;
+}
+
+.col-2 {
+  width: 10rem;
+}
+
+.col-3 {
+  width: 15rem;
+}
+
+.col-4 {
+  width: 20rem;
+}
+
+.col-5 {
+  width: 25rem;
+}
+
+.col-6 {
+  width: 30rem;
+}
+
+.col-7 {
+  width: 35rem;
+}
+
+.col-8 {
+  width: 40rem;
+}
+
+.col-9 {
+  width: 45rem;
+}
+
+.col-10 {
+  width: 50rem;
+}
+
+.col-11 {
+  width: 55rem;
+}
+
+.col-12 {
+  width: 60rem;
+}
+
+.col-pct-1 {
+  width: 8.33333%;
+}
+
+.col-pct-2 {
+  width: 16.66667%;
+}
+
+.col-pct-3 {
+  width: 25%;
+}
+
+.col-pct-4 {
+  width: 33.33333%;
+}
+
+.col-pct-5 {
+  width: 41.66667%;
+}
+
+.col-pct-6 {
+  width: 50%;
+}
+
+.col-pct-7 {
+  width: 58.33333%;
+}
+
+.col-pct-8 {
+  width: 66.66667%;
+}
+
+.col-pct-9 {
+  width: 75%;
+}
+
+.col-pct-10 {
+  width: 83.33333%;
+}
+
+.col-pct-11 {
+  width: 91.66667%;
+}
+
+.col-pct-12 {
+  width: 100%;
+}
+
+.p-0 {
+  padding: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.ml-0 {
+  margin-left: 0;
+}
+
+.ml-1 {
+  margin-left: 0.3125rem;
+}
+
+.ml-2 {
+  margin-left: 0.625rem;
+}
+
+.ml-3 {
+  margin-left: 0.9375rem;
+}
+
+.ml-4 {
+  margin-left: 1.25rem;
 }
 
 .ml-auto {
   margin-left: auto;
+}
+
+.mr-0 {
+  margin-right: 0;
+}
+
+.mr-1 {
+  margin-right: 0.3125rem;
+}
+
+.mr-2 {
+  margin-right: 0.625rem;
+}
+
+.mr-3 {
+  margin-right: 0.9375rem;
+}
+
+.mr-4 {
+  margin-right: 1.25rem;
+}
+
+.mr-auto {
+  margin-right: auto;
 }
 
 /* _common.scss 
@@ -435,6 +594,70 @@ input, button, select, optgroup, textarea {
 
 .col-pct-12 {
   width: 100%;
+}
+
+.p-0 {
+  padding: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.ml-0 {
+  margin-left: 0;
+}
+
+.ml-1 {
+  margin-left: 0.3125rem;
+}
+
+.ml-2 {
+  margin-left: 0.625rem;
+}
+
+.ml-3 {
+  margin-left: 0.9375rem;
+}
+
+.ml-4 {
+  margin-left: 1.25rem;
+}
+
+.ml-auto {
+  margin-left: auto;
+}
+
+.mr-0 {
+  margin-right: 0;
+}
+
+.mr-1 {
+  margin-right: 0.3125rem;
+}
+
+.mr-2 {
+  margin-right: 0.625rem;
+}
+
+.mr-3 {
+  margin-right: 0.9375rem;
+}
+
+.mr-4 {
+  margin-right: 1.25rem;
+}
+
+.mr-auto {
+  margin-right: auto;
 }
 
 /* _layout.scss
@@ -1703,7 +1926,7 @@ button {
   white-space: nowrap;
   vertical-align: middle;
   overflow: visible;
-  padding: 0.5625rem 1.563rem 0.5625rem 1.563rem;
+  padding: 0.625rem 1.563rem 0.625rem 1.563rem;
   cursor: pointer;
 }
 
@@ -2922,7 +3145,7 @@ button.ghost-line:disabled .icon {
 
 .file-uploader-edit .file-uploader-title {
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
   color: #586872;
   margin: 0.5625rem 0 0.5625rem 0;
 }
@@ -3253,7 +3476,7 @@ button.ghost-line:disabled .icon {
 
 .file-uploader-view .file-uploader-title {
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
   color: #586872;
   margin: auto 0;
 }
@@ -3292,7 +3515,7 @@ button.ghost-line:disabled .icon {
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details {
   display: inline-flex;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-file-type {

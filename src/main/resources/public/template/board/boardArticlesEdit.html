@@ -25,11 +25,12 @@
                                 th:selected="${boardAdmin.boardAdminId} == ${boardAdminInfo?.boardAdminId}"></option>
                     </select>
                 </div>
-                <div class="form-set" id="divCategoryYn" name="divCategoryYn" >
+                <div class="form-set" id="divCategoryYn" name="divCategoryYn">
                     <label class="required" th:text="#{board.label.category}" for="boardCategory" />
                     <select id="boardCategory" name="boardCategory">
                         <option th:each="boardCategory: ${boardCategoryInfo}" th:value="${boardCategory.boardCategoryId}"
-                                th:text="#{${boardCategory.boardCategoryName}}">
+                                th:text="#{${boardCategory.boardCategoryName}}"
+                                th:selected="${boardInfo?.boardCategoryId} == ${boardCategory.boardCategoryId}">
                         </option>
                     </select>
                 </div>
@@ -90,7 +91,7 @@
         //boardAdminId, attachYn, attachFileSize, categoryYn은 게시판 선택 변경이 가능하기 때문에 let으로 변경 함.
         let boardAdminId = /*[[${boardAdminInfo?.boardAdminId}]]*/;
         let attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
-        let attachFileSize  = /*[[${boardAdminInfo?.attachFileSize}]]*/;
+        let attachFileSize = /*[[${boardAdminInfo?.attachFileSize}]]*/;
         let categoryYn = /*[[${boardAdminInfo?.categoryYn}]]*/;
         const commentYn = /*[[${boardAdminInfo?.commentYn}]]*/;
         const replyYn = /*[[${replyYn}]]*/;
@@ -198,9 +199,8 @@
             attachFileSize = data.attachFileSize;
             categoryYn = data.categoryYn;
 
+            // attach file
             let divFile = document.getElementById('divFile');
-            let divCategory = document.getElementById('divCategoryYn');
-
             if (data.attachYn && divFile.style.display === 'none') {
                 document.getElementById('divFile').style.display = '';
                 if (document.getElementById('dropZoneFileUpload') === null) {
@@ -210,21 +210,19 @@
                 document.getElementById('divFile').style.display = 'none';
             }
 
-            if (data.categoryYn && divCategory.style.display === 'none') {
-                document.getElementById('divCategoryYn').style.display = '';
-                let selectBoxCategory = document.getElementById('boardCategory');
-                while (selectBoxCategory.hasChildNodes()) {
-                    selectBoxCategory.removeChild(selectBoxCategory.firstChild);
-                }
-
-                let categoryInfo = data.categoryInfo;
-                for (let i = 0; i < categoryInfo.length; i++) {
+            // category
+            document.getElementById('boardCategory').options.length = 0;
+            if (data.categoryYn) {
+                let categories = data['categoryInfo'] !== null ? data['categoryInfo'] : [];
+                categories.forEach(function(category) {
                     let option = document.createElement('option');
-                    option.value = categoryInfo[i].boardCategoryId;
-                    option.text = categoryInfo[i].boardCategoryName;
-                    selectBoxCategory.appendChild(option)
-                }
-            } else if (!data.categoryYn && divCategory.style.display === '') {
+                    option.value = category.boardCategoryId;
+                    option.text = category.boardCategoryName;
+                    document.getElementById('boardCategory').appendChild(option);
+                });
+                aliceJs.initDesignedSelectTag();
+                document.getElementById('divCategoryYn').style.display = '';
+            } else {
                 document.getElementById('divCategoryYn').style.display = 'none';
             }
         }
