@@ -207,14 +207,6 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-.mr-auto {
-  margin-right: auto;
-}
-
-.ml-auto {
-  margin-left: auto;
-}
-
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss
@@ -1314,7 +1306,7 @@ button {
   white-space: nowrap;
   vertical-align: middle;
   overflow: visible;
-  padding: 0.5625rem 1.563rem 0.5625rem 1.563rem;
+  padding: 0.625rem 1.563rem 0.625rem 1.563rem;
   cursor: pointer;
 }
 
@@ -2776,7 +2768,7 @@ button .icon-search {
 
 .file-uploader-edit .file-uploader-title {
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
   color: #586872;
   margin: 0.5625rem 0 0.5625rem 0;
 }
@@ -3107,7 +3099,7 @@ button .icon-search {
 
 .file-uploader-view .file-uploader-title {
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
   color: #586872;
   margin: auto 0;
 }
@@ -3146,7 +3138,7 @@ button .icon-search {
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details {
   display: inline-flex;
   font-size: 1rem;
-  font-weight: 400;
+  font-weight: 500;
 }
 
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-file-type {

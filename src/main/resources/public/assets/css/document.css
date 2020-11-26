@@ -207,14 +207,6 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-.mr-auto {
-  margin-right: auto;
-}
-
-.ml-auto {
-  margin-left: auto;
-}
-
 /* _common.scss 
  *
  * 파일 경로 : template/_common.scss
