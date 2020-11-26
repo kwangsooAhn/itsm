@@ -8,45 +8,39 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-token flex-column">
-        <div id="search-main" class="header">
-            <div class="page-title">
-                <h1 th:text="#{token.label.list}"></h1>
-                <h6 class="title-description" th:text="#{token.msg.searchDescription}"></h6>
-            </div>
+    <div class="token-header">
+        <div class="header-title flex-row align-items-baseline" id="header-title">
+            <h1 th:text="#{token.label.list}"></h1>
+            <h6 class="description" th:text="#{token.msg.searchDescription}"></h6>
         </div>
-        <div id="search-area" class="search-area">
-            <div>
-                <div class="search-input">
-                    <form id="frmSearch">
-                        <select class="col-3" name="searchTokenType" id="searchTokenType">
-                            <option value="token.type.todo" th:text="#{token.type.todo}" selected/>
-                            <option value="token.type.requested" th:text="#{token.type.requested}"/>
-                            <option value="token.type.progress" th:text="#{token.type.progress}"/>
-                            <option value="token.type.completed" th:text="#{token.type.completed}"/>
-                        </select>
-                        <select class="col-3" name="searchDocumentId" id="searchDocumentId">
-                            <option value="" th:text="#{token.label.all}" selected="selected"/>
-                            <option th:each="document: ${documentList}" th:value="${document.documentId}"
-                                    th:text="${document.documentName}"/>
-                        </select>
-                        <input class="search col-3" type="text" name="searchValue" id="searchValue"
-                               th:placeholder="#{token.label.searchPlaceholder}"/>
-                        <input type="text" id="searchFromDt" name="searchFromDt" class="search-date col-3"/>
-                        <input type="text" id="toDt" name="toDt" class="search-date col-3"/>
-                        <input type="hidden" id="searchToDt" name="searchToDt" class="search-date col-2"
-                               readonly="readonly"/>
-                        <input class="search col-3" type="text" name="searchTags" id="searchTags"
-                               th:placeholder="#{token.label.tagPlaceHolder}"/>
-                    </form>
-                </div>
-            </div>
+        <div class="header-search flex-row" id="header-search">
+            <form id="frmSearch">
+                <select class="col-3" name="searchTokenType" id="searchTokenType">
+                    <option value="token.type.todo" th:text="#{token.type.todo}" selected/>
+                    <option value="token.type.requested" th:text="#{token.type.requested}"/>
+                    <option value="token.type.progress" th:text="#{token.type.progress}"/>
+                    <option value="token.type.completed" th:text="#{token.type.completed}"/>
+                </select>
+                <select class="col-3" name="searchDocumentId" id="searchDocumentId">
+                    <option value="" th:text="#{token.label.all}" selected="selected"/>
+                    <option th:each="document: ${documentList}" th:value="${document.documentId}"
+                            th:text="${document.documentName}"/>
+                </select>
+                <input class="search col-3" type="text" name="searchValue" id="searchValue"
+                       th:placeholder="#{token.label.searchPlaceholder}"/>
+                <input type="text" id="searchFromDt" name="searchFromDt" class="search-date col-3"/>
+                <input type="text" id="toDt" name="toDt" class="search-date col-3"/>
+                <input type="hidden" id="searchToDt" name="searchToDt" class="search-date col-2"
+                       readonly="readonly"/>
+                <input class="search col-3" type="text" name="searchTags" id="searchTags"
+                       th:placeholder="#{token.label.tagPlaceHolder}"/>
+            </form>
         </div>
-        <div class="scroll-wrap list flex-column">
-            <div class="list flex-column" id="tokenList"></div>
-            <input type="hidden" sec:authorize="hasAuthority('token.read')" th:name="isRole" th:value="true"/>
-            <input type="hidden" sec:authorize="!hasAuthority('token.read')" th:name="isRole" th:value="false"/>
-        </div>
+    </div>
+    <div class="token-content flex-fill">
+        <input type="hidden" sec:authorize="hasAuthority('token.read')" th:name="isRole" th:value="true"/>
+        <input type="hidden" sec:authorize="!hasAuthority('token.read')" th:name="isRole" th:value="false"/>
+        <div id="tokenList"></div>
     </div>
 </th:block>
 <th:block layout:fragment="pageScript">
@@ -126,7 +120,7 @@
                             tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
                             tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());
                         });
-                        OverlayScrollbars(document.querySelector('.list'), {
+                        OverlayScrollbars(document.querySelector('.token-content'), {
                             className: 'scrollbar',
                             callbacks: {
                                 onScroll: function (e) {
@@ -139,13 +133,13 @@
                                         }
                                     }
                                     if (scrollTop > 20) {
-                                        document.getElementById('search-area').classList.remove('slide-down');
-                                        document.getElementById('search-area').classList.add('slide-up');
-                                        document.getElementById('search-main').style.display = 'none';
+                                        document.getElementById('header-search').classList.remove('slide-down');
+                                        document.getElementById('header-search').classList.add('slide-up');
+                                        document.getElementById('header-title').style.display = 'none';
                                     } else {
-                                        document.getElementById('search-area').classList.remove('slide-up');
-                                        document.getElementById('search-area').classList.add('slide-down');
-                                        document.getElementById('search-main').style.display = 'block';
+                                        document.getElementById('header-search').classList.remove('slide-up');
+                                        document.getElementById('header-search').classList.add('slide-down');
+                                        document.getElementById('header-title').style.display = 'flex';
                                     }
                                 }
                             }
@@ -157,10 +151,15 @@
         }
 
         function getDataTemplate(data) {
-            let divList = document.getElementById('tokenList');
+            let divList = document.querySelector('.token-content .card-list');
 
-            let divListItem = document.createElement('div');
-            divListItem.className = 'list-item';
+            let divCard = document.createElement('div');
+            divCard.className = 'card flex-row';
+            divCard.addEventListener('click', function (e) {
+                if (document.getElementsByName('isRole')[0].value) {
+                    openTokenEdit(data.tokenId);
+                }
+            }, false);
 
             let divDocumentColor = document.createElement('div');
             divDocumentColor.className = 'document-color';
@@ -172,18 +171,11 @@
             let divDocumentRowContent = document.createElement('div');
             divDocumentRowContent.className = 'document-row-content';
 
-            let aOpenTokenEdit = document.createElement('span');
-            aOpenTokenEdit.addEventListener('click', function (e) {
-                if (document.getElementsByName('isRole')[0].value) {
-                    openTokenEdit(data.tokenId);
-                }
-            }, false);
-
             let divDocumentTitle = document.createElement('div');
             divDocumentTitle.className = 'document-title flex-row align-items-center';
 
             let h3DocumentName = document.createElement('h3');
-            h3DocumentName.className = 'text-ellipsis';
+            h3DocumentName.className = 'mr-2 text-ellipsis';
             h3DocumentName.innerText = data.documentName;
 
             let spanDocumentNo = document.createElement('span');
@@ -194,9 +186,9 @@
             divDocumentTopic.className = 'document-topic';
 
             for (let i = 0; i < data.topics.length; i++) {
-                let h5Topic = document.createElement('h5');
-                h5Topic.innerText = data.topics[i];
-                divDocumentTopic.appendChild(h5Topic);
+                let labelTopic = document.createElement('label');
+                labelTopic.innerText = data.topics[i];
+                divDocumentTopic.appendChild(labelTopic);
             }
 
             let divDocumentRowInfo = document.createElement('div');
@@ -215,8 +207,9 @@
             imgProfilePhoto.alt = 'profile pic';
             imgProfilePhoto.src = data.avatarPath;
 
-            let h5CreateUserName = document.createElement('h5');
-            h5CreateUserName.innerText = data.createUserName;
+            let spanCreateUserName = document.createElement('span');
+            spanCreateUserName.className = 'user-name';
+            spanCreateUserName.innerText = data.createUserName;
 
             let spanUserVerticalBar = document.createElement('span');
             spanUserVerticalBar.className = 'vertical-bar';
@@ -224,36 +217,37 @@
             let spanNameVerticalBar = document.createElement('span');
             spanNameVerticalBar.className = 'vertical-bar';
 
-            let h5CreateDt = document.createElement('h5');
-            h5CreateDt.className = 'create-dt';
-            h5CreateDt.title = i18n.userDateTime(data.createDt);
-            h5CreateDt.innerText = dateFormatFromNow(data.createDt);
+            let spanCreateDt = document.createElement('span');
+            spanCreateDt.className = 'create-dt';
+            spanCreateDt.title = i18n.userDateTime(data.createDt);
+            spanCreateDt.innerText = dateFormatFromNow(data.createDt);
 
-            let h5ElementName = document.createElement('h5');
-            h5ElementName.innerText = data.elementName;
+            let spanElementName = document.createElement('span');
+            spanElementName.className = 'element-name';
+            spanElementName.innerText = data.elementName;
 
             let documentTag = document.createElement('div');
             documentTag.className = 'document-tag';
             for (let i = 0; i < data.tags.length; i++) {
                 let spanTag = document.createElement('span');
+                spanTag.className = 'tag align-center text-ellipsis';
                 spanTag.innerText = data.tags[i];
                 documentTag.appendChild(spanTag);
             }
 
             divDocumentTitle.appendChild(h3DocumentName);
             divDocumentTitle.appendChild(spanDocumentNo);
-            aOpenTokenEdit.appendChild(divDocumentTitle);
-            aOpenTokenEdit.appendChild(divDocumentTopic);
-            divDocumentRowContent.appendChild(aOpenTokenEdit);
+            divDocumentRowContent.appendChild(divDocumentTitle);
+            divDocumentRowContent.appendChild(divDocumentTopic);
+
             divDocumentUser.appendChild(imgProfilePhoto);
-            divDocumentUser.appendChild(h5CreateDt);
-            divDocumentUser.appendChild(h5CreateUserName);
+            divDocumentUser.appendChild(spanCreateUserName);
 
             divDocumentDetail.appendChild(divDocumentUser);
             divDocumentDetail.appendChild(spanUserVerticalBar);
-            divDocumentDetail.appendChild(h5CreateDt);
+            divDocumentDetail.appendChild(spanCreateDt);
             divDocumentDetail.appendChild(spanNameVerticalBar);
-            divDocumentDetail.appendChild(h5ElementName);
+            divDocumentDetail.appendChild(spanElementName);
 
             divDocumentRowInfo.appendChild(divDocumentDetail);
             divDocumentRowInfo.appendChild(documentTag);
@@ -261,10 +255,10 @@
             divDocumentRow.appendChild(divDocumentRowContent);
             divDocumentRow.appendChild(divDocumentRowInfo);
 
-            divListItem.appendChild(divDocumentColor);
-            divListItem.appendChild(divDocumentRow);
+            divCard.appendChild(divDocumentColor);
+            divCard.appendChild(divDocumentRow);
 
-            divList.appendChild(divListItem);
+            divList.appendChild(divCard);
         }
 
         /**

@@ -1,5 +1,28 @@
 @import "../../template/_layout.scss";
 
+// layout 이벤트
+@include keyframe (slideDown) {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@include keyframe (slideUp) {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .itsm-container {
   @include container;
   width: 100vw;
@@ -25,6 +48,9 @@
     
     // 리스트
     @include listTemplate();
+
+    // 카드
+    @include cardTemplate();
   }
   // 역할, 권한, 코드 화면의 우측 영역
   .aside {
@@ -35,7 +61,7 @@
 
     // 코드 화면은 너비가 다름
     &.code { width: 62.5rem; } // 1000px
-    
+
     // 역할, 권한, 코드
     .auth-edit,
     .role-edit,
@@ -95,16 +121,149 @@
 // 공지사항 상단 공지
 .notice-pinned { background-color: $notice-pinned-color; }
 
+// 문서함
+// 신청서
+// 대시보드
+.document-header,
+.token-header,
+.dashboard-header {
+  padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
+  background-color: $light-gray;
+  border-bottom: $layout-header-border;
+}
+
+.document-content {
+  padding: 1.875rem 1.875rem 0 3.75rem; // 30px 30px 0 60px
+  background-color: $white;
+
+  .document-column {
+    width: 100%;
+    height: 100%;
+    padding: 1.975rem; // 30px
+
+    // 신청서 > 아이콘
+    .document-icon {
+      position: absolute;
+      top: 3.75rem; // 60px
+      left: 23.125rem; // 370px
+      overflow: hidden;
+    }
+    // 신청서 > 설명
+    .document-description {
+      display: block;
+      width: 20rem; // 320px
+      font-size: 1rem; // 16px
+      font-weight: $font-weight-regular;
+      color: $blue-gray;
+      margin-top: 0.625rem; // 10px
+    }
+  }
+}
+
+.token-content,
+.dashboard-content {
+  padding: 1.875rem 1.875rem 0 3.75rem; // 30px 30px 0 60px
+  background-color: $white;
+
+  .card { width: 100%; }
+
+  // 문서함 > 업무흐름 색상
+  .document-color {
+    width: 0.75rem; // 12px
+  }
+  // 문서함 > 제목 내용
+  .document-row {
+    padding: 1.875rem 3rem; // 30px 48px
+
+    &-content {
+      // 문서 제목
+      .document {
+        &-title {
+          // 문서 번호
+          .document-numbering {
+            font-size: 1rem; // 16px
+            font-weight: $font-weight-regular;
+            color: $gray;
+          }
+        }
+        &-topic {
+          width: 39.38rem; //630px
+          margin-top: 1.5625rem; // 25px
+
+          .topic {
+            font-size: 1rem; // 16px
+            font-weight: $font-weight-regular;
+            color: $dark-gray;
+          }
+        }
+      }
+    }
+    &-info {
+      .document {
+        &-detail {
+          .user-name,
+          .create-dt,
+          .element-name {
+            font-size: 1rem; // 16px
+            font-weight: $font-weight-regular;
+            color: $dark-gray;
+          }
+        }
+        &-tag {
+          max-width: 23.75rem; // 380px
+          margin-top: 3.5rem; // 56px
+        }
+      }
+    }
+  }
+  // TODO: 추후 대시보드 디자인 완료시 아래 부분은 삭제 예정
+  // 대시보드 > 소제목
+  .sub-title {
+    margin: 1.25rem 0; // 20px 0
+  }
+  // 대시보드 > 업무 통계
+  .statistic {
+    &-box {
+      width: 23.75rem; // 380px
+      border: $token-dashbaord-border;
+      border-radius: 0.3125rem; // 5px
+      padding: 1.5625rem; // 25px
+    }
+    &-info {
+      margin-left: 1.5625rem; // 25px
+    }
+    &-count {
+      margin-bottom: 0.9375rem; // 15px
+    }
+    &-type { color: $blue-gray; }
+  }
+  // 대시보드 > 처리할 문서
+  .scroll-wrap {
+    height:  27.5rem; // 440px
+    margin-right: 1.25rem; //20px
+    .card:first-of-type { margin-top: 0;}
+  }
+}
+
+// 슬라이드 효과
+.slide-down {
+  @include animation(0s, 0.3s, slideDown, ease-out);
+}
+
+.slide-up {
+  @include animation(0s, 0.3s, slideUp, ease-out);
+}
+
+
 // TODO : 리팩토링
+
 .itsm {
   // 기본 ITSM 구성
   &-container {
 
-    @import "contents/_contents-token.scss";
     @import "contents/_contents-edit.scss";
     @import "contents/_contents-flex.scss";
     @import "contents/_contents-list-edit.scss";
-    @import "contents/_contents-document.scss";
 
     &-close {
       height: 100%;
