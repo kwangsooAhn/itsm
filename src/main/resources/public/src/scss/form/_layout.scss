@@ -264,6 +264,15 @@
           text-align: center;
         }
       }
+      // 에러 문구
+      .error-msg {
+        display: none;
+        width: 100%;
+        color: $red;
+        margin: 0.9375rem 0 0.3125rem 0; // 15px 0 5px 0
+
+        &.on { display: block; }
+      }
     }
 
     // 컴포넌트가 여러개 선택될 경우 세부 속성은 존재하지 않는다.

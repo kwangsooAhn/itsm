@@ -121,56 +121,64 @@
                 return !aliceJs.isEmpty(value);
             }
         };
-
+        // 이벤트 등록
         element.addEventListener(eventName, function(e) {
-            if (element.classList.contains('error')) {
-                element.classList.remove('error');
+            const target = e.target;
+            const targetMsg = target.parentNode.parentNode.querySelector('.error-msg');
+            if (target.classList.contains('error')) {
+                target.classList.remove('error');
+                targetMsg.classList.remove('on');
             }
             let result = true;
             let validateArray = validate.split('|');
             for (let i = 0; i < validateArray.length; i++) {
                 let validateValueArray = validateArray[i].split('[');
-                if (validateValueArray[0] !== 'required' && element.value === '') {
-                    break;
-                }
+                // 필수값을 어긴 경우
+                if (validateValueArray[0] !== 'required' && target.value === '') { break; }
+
                 let arg = (typeof validateValueArray[1] !== 'undefined') ? validateValueArray[1].replace(/\]\s*$/gi, '') : '';
                 switch (validateValueArray[0]) {
                     case 'number':
-                        result = validateFunc.number(element.value);
+                        result = validateFunc.number(target.value);
                         break;
                     case 'min':
-                        result = validateFunc.number(element.value);
+                        result = validateFunc.number(target.value);
                         if (result) {
-                            result = validateFunc.min(element.value, arg);
+                            result = validateFunc.min(target.value, arg);
                         } else {
                             validateValueArray[0] = 'number';
                         }
                         break;
                     case 'max':
-                        result = validateFunc.number(element.value);
+                        result = validateFunc.number(target.value);
                         if (result) {
-                            result = validateFunc.max(element.value, arg);
+                            result = validateFunc.max(target.value, arg);
                         } else {
                             validateValueArray[0] = 'number';
                         }
                         break;
                     case 'minLength':
-                        result = validateFunc.minLength(element.value, arg);
+                        result = validateFunc.minLength(target.value, arg);
                         break;
                     case 'maxLength':
-                        result = validateFunc.maxLength(element.value, arg);
+                        result = validateFunc.maxLength(target.value, arg);
                         break;
                     case 'required':
-                        result = validateFunc.required(element.value);
+                        result = validateFunc.required(target.value);
                         break;
                 }
                 if (!result) {
+                    // 유효성 검증 실패시 저장되지 않도록 기존 이벤트를 모두 중지함
                     e.stopImmediatePropagation();
-                    element.classList.add('error');
-                    aliceJs.alertWarning(i18n.msg('form.msg.' + validateValueArray[0], arg), function() {
-                        element.value = '';
-                        element.focus();
-                    });
+                    // 에러 문구 표시
+                    target.classList.add('error');
+                    targetMsg.innerHTML = i18n.msg('form.msg.' + validateValueArray[0], arg);
+                    targetMsg.classList.add('on');
+                    //target.parentNode.insertAdjacentHTML('afterend', `<label class="error-msg">${i18n.msg('form.msg.' + validateValueArray[0], arg)}</label>`);
+                    //aliceJs.alertWarning(i18n.msg('form.msg.' + validateValueArray[0], arg), function() {
+                    //    target.value = '';
+                    //    target.focus();
+                    //});
                     break;
                 }
             }
@@ -1503,7 +1511,8 @@
                             if (typeof fieldProp.validate !== 'undefined' && fieldProp.validate !== '') {
                                 const fieldValueElems = fieldGroupElem.querySelectorAll('.property-value');
                                 for (let i = 0, len = fieldValueElems.length; i < len; i++) {
-                                    validateCheck('focusout', fieldValueElems[i], fieldProp.validate);
+                                    fieldValueElems[i].parentNode.insertAdjacentHTML('afterend', `<label class="error-msg"></label>`);
+                                    validateCheck('keyup', fieldValueElems[i], fieldProp.validate);
                                 }
                             }
                             if (typeof fieldProp.option !== 'undefined') {
@@ -1511,7 +1520,8 @@
                                 for (let i = 0, len = fieldValueElems.length; i < len; i++) {
                                     const fieldValueElem = fieldValueElems[i];
                                      if (fieldValueElem !== null && fieldValueElem.getAttribute('data-validate') !== null) {
-                                        validateCheck('focusout',fieldValueElem, fieldValueElem.getAttribute('data-validate'));
+                                        fieldValueElem.parentNode.insertAdjacentHTML('afterend', `<label class="error-msg"></label>`);
+                                        validateCheck('keyup',fieldValueElem, fieldValueElem.getAttribute('data-validate'));
                                     }
                                 }
                             }

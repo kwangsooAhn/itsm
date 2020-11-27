@@ -590,8 +590,11 @@
      */
     function initPicker(targetId, options) {
         let targetElement = document.getElementById(targetId);
+        // 이벤트 동작 막음
         targetElement.setAttribute('oncontextmenu','return false;');
         targetElement.setAttribute('onkeypress','return false;');
+        targetElement.setAttribute('onkeydown','return false;');
+
         options.value = (targetElement.value !== '' ? targetElement.value : 'now');
         options.inputEl = targetElement;
 
