@@ -784,7 +784,7 @@ input, button, select, optgroup, textarea {
 
 .form-container .form-properties .property-group .property-field .property-field-unit {
   position: absolute;
-  top: 50%;
+  top: 2.188rem;
   right: 0.625rem;
   color: #ACB4BF;
 }

@@ -124,7 +124,8 @@
         // 이벤트 등록
         element.addEventListener(eventName, function(e) {
             const target = e.target;
-            const targetMsg = target.parentNode.parentNode.querySelector('.error-msg');
+            const targetMsg = target.parentNode.querySelector('.error-msg') || target.parentNode.parentNode.querySelector('.error-msg');
+            console.log(targetMsg);
             if (target.classList.contains('error')) {
                 target.classList.remove('error');
                 targetMsg.classList.remove('on');
@@ -174,11 +175,6 @@
                     target.classList.add('error');
                     targetMsg.innerHTML = i18n.msg('form.msg.' + validateValueArray[0], arg);
                     targetMsg.classList.add('on');
-                    //target.parentNode.insertAdjacentHTML('afterend', `<label class="error-msg">${i18n.msg('form.msg.' + validateValueArray[0], arg)}</label>`);
-                    //aliceJs.alertWarning(i18n.msg('form.msg.' + validateValueArray[0], arg), function() {
-                    //    target.value = '';
-                    //    target.focus();
-                    //});
                     break;
                 }
             }
@@ -1511,7 +1507,7 @@
                             if (typeof fieldProp.validate !== 'undefined' && fieldProp.validate !== '') {
                                 const fieldValueElems = fieldGroupElem.querySelectorAll('.property-value');
                                 for (let i = 0, len = fieldValueElems.length; i < len; i++) {
-                                    fieldValueElems[i].parentNode.insertAdjacentHTML('afterend', `<label class="error-msg"></label>`);
+                                    fieldValueElems[i].parentNode.insertAdjacentHTML('beforeend', `<label class="error-msg"></label>`);
                                     validateCheck('keyup', fieldValueElems[i], fieldProp.validate);
                                 }
                             }

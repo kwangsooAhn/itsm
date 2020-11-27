@@ -249,7 +249,7 @@
         // 단위
         .property-field-unit {
           position: absolute;
-          top: 50%;
+          top: 2.188rem; // 35px
           right: $element-indent;
           color: $gray;
         }
