@@ -5,20 +5,19 @@
 <head>
 </head>
 <body>
-<div class="card-area flex-row justify-content-start align-itmes-start">
+<div class="card-list flex-row justify-content-start align-itmes-start">
     <input th:type="hidden" id="totalCount" name="totalCount" th:value="${totalCount}"/>
-    <div class="no-data-found no-data-found" th:if="${#arrays.isEmpty(documentList)}">
+    <div class="card flex-row justify-content-center no-data-found" th:if="${#arrays.isEmpty(documentList)}">
         <img class="no-data-icon" />
         <span class="no-data-text" th:text="#{common.msg.noData}"></span>
     </div>
-    <div th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}">
-        <div class="document-card-box" sec:authorize="hasAuthority('document.create')" th:onclick="openDocument([[${document.documentId}]])">
-            <div class="document-card">
-                <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
-                <h5 th:text="${document.documentDesc}" class="card-desc text-ellipsis"></h5>
-                <div class="document-icon">
-                    <img th:src="@{/assets/media/images/document/{documentIcon}(documentIcon=${document.documentIcon})}"/>
-                </div>
+    <div class="card" th:unless="${#arrays.isEmpty(documentList)}" th:each="document: ${documentList}"
+         sec:authorize="hasAuthority('document.create')" th:onclick="openDocument([[${document.documentId}]])">
+        <div class="document-column">
+            <h3 th:text="${document.documentName}" class="text-ellipsis"></h3>
+            <label th:text="${document.documentDesc}" class="document-description text-ellipsis"></label>
+            <div class="document-icon">
+                <img th:src="@{/assets/media/images/document/{documentIcon}(documentIcon=${document.documentIcon})}"/>
             </div>
         </div>
     </div>

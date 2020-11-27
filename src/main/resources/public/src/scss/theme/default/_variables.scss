@@ -4,16 +4,6 @@ $image-folder-path:                           '../media/images/';
 $tree-folder-path:                            '../../../media/icons/tree';
 
 ////////////////////////////// Layout //////////////////////////////
-// DOM Elements
-$element-font-size:                           1rem; // 16px
-$element-font-color:                          $dark-gray;
-$element-font-weight:                         $font-weight-regular;
-$element-bg-color:                            $white;
-$element-border-color:                        $line-gray;
-$element-border-width:                        0.0625rem; // 1px
-$element-border:                              $element-border-width solid $element-border-color;
-$element-border-radius:                       0.0625rem; // 1px
-
 // Logo
 $logo-width:                                  13.75rem; // 220px
 $logo-height:                                 3.75rem; // 60px
@@ -55,17 +45,41 @@ $profile-photo-background:                    #F0F0F0;
 // Document color icon
 $document-color-size:                         1rem; // 16px
 
+// 헤더
+$layout-header-border:                        0.0625rem solid $line-gray; // 1px
+
+// 리스트
+// 리스트 - 마우스 오버시
+$list-hover-bg-color:                         $line-gray;
+
+// 리스트 - 데이터 없을때
+$no-data-found-list-bg:                       rgba(230, 232, 235, 0.6);
+
+// 리스트 - 선택시
+$list-active-font-color:                      $dark-blue;
+$list-active-bg-color:                       rgba(230, 232, 235, 0.6);
+
 // 공지사항 상단 공지 (배경색 별도 처리)
 $notice-pinned-color:                         rgba(135, 206, 255, 0.15);
 
-// 리스트
-// 마우스 오버시
-$list-hover-bg-color:                         $line-gray;
-// 선택시
-$list-active-font-color:                      $dark-blue;
-$list-active-bg-color:                       rgba(230, 232, 235, 0.6);
-// 데이터 없을때
-$no-data-found-list-bg:                      rgba(230, 232, 235, 0.6);
+// 카드
+$card-border-width:                           0.0625rem; // 1px
+$card-border-color:                           $line-gray;
+$card-border:                                 $card-border-width solid $card-border-color;
+$card-border-radius:                          0.0625rem; // 1px
+$card-hover-box-shadow:                       0 0 0.9375rem rgba(204, 206, 209, 0.15), inset 0 0 0 $card-border-width $card-border-color;
+
+// 카드 - 데이터 없을 때
+$no-data-found-bg:                           rgba(247, 248, 249, 0.45); // $light-gray
+
+///////////////////////////// Elements /////////////////////////////
+$element-font-size:                           1rem; // 16px
+$element-font-color:                          $dark-gray;
+$element-font-weight:                         $font-weight-regular;
+$element-bg-color:                            $white;
+$element-border-color:                        $line-gray;
+$element-border-width:                        0.0625rem; // 1px
+$element-border-radius:                       0.0625rem; // 1px
 
 ///////////////////////////// Dropzone /////////////////////////////
 $dropzone-folder-path:                        "../../../media/icons/dropzone/";
@@ -160,3 +174,7 @@ $document-card-hover-border:                  $document-card-radius solid $line-
 $vertical-bar-width:                          1.25rem; // 20px
 $vertical-bar-height:                         1.25rem; // 20px
 $vertical-bar-margin:                         0.0625rem 0.9375rem 0.0625rem 0; // 1px 5px 1px 0
+
+//////////////////////////// tag //////////////////////////////
+$tag-font-color:                             rgba(0, 152, 255, 0.7); // $point-blue , 불투명도 70
+$tag-bg-color:                               rgba(0, 152, 255, 0.1); // $point-blue , 불투명도 10
