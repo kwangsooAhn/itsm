@@ -148,10 +148,8 @@
           }
         }
         > button {
-          flex: 1 1 auto;
-          width: 6.875rem; // 110px
           height: 2.5rem; // 40px
-          padding: 0;
+          padding: 0 $element-indent; // 10px
           white-space: nowrap;
           color: $custom-code-btn-font-color;
           border-radius: $element-border-radius;
