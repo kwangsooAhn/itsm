@@ -2233,7 +2233,7 @@
                 "type": "inputbox",
                 "code": "",
                 "unit": "",
-                "validate": ""
+                "validate": "maxLength[30]"
             }
         ]
     }
