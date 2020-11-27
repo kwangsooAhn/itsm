@@ -125,7 +125,6 @@
         element.addEventListener(eventName, function(e) {
             const target = e.target;
             const targetMsg = target.parentNode.querySelector('.error-msg') || target.parentNode.parentNode.querySelector('.error-msg');
-            console.log(targetMsg);
             if (target.classList.contains('error')) {
                 target.classList.remove('error');
                 targetMsg.classList.remove('on');
