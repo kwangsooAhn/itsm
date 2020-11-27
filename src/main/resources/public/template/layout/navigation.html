@@ -17,9 +17,9 @@
             <div id="notification-panel" class="notification-panel"></div>
         </div>
         <div class="user-info flex-row align-items-center">
-            <a th:href="@{/users/{userKey}/editself(userKey=${#authentication.details.userKey})}">
+            <a class="flex-row" th:href="@{/users/{userKey}/editself(userKey=${#authentication.details.userKey})}">
                 <img class="user-profile" th:src="@{{avatarPath}(avatarPath=${#authentication.details.avatarPath})}" alt="profile pic"/>
-                <span class="user-name" sec:authentication="details.userName"></span>
+                <span class="user-name text-ellipsis" sec:authentication="details.userName"></span>
             </a>
         </div>
         <div class="logout">

@@ -2986,6 +2986,9 @@ button .icon-plus {
 }
 
 .gnb .navigation-config .user-info .user-name {
+  display: inline-block;
+  height: 1.688rem;
+  line-height: 1.688rem;
   color: #929AA6;
   font-weight: 500;
 }

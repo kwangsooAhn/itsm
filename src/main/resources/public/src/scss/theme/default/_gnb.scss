@@ -54,6 +54,9 @@
         height: 3.125rem; // 50px
         padding: 0.6875rem 0 0.6875rem 1.3125rem;
         .user-name {
+          display: inline-block;
+          height: 1.688rem;  // 27px
+          line-height: 1.688rem;  // 27px
           color: $blue-gray;
           font-weight: $font-weight-medium;
         }
