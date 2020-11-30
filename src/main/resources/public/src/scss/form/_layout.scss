@@ -249,7 +249,7 @@
         // 단위
         .property-field-unit {
           position: absolute;
-          top: 50%;
+          top: 2.188rem; // 35px
           right: $element-indent;
           color: $gray;
         }
@@ -263,6 +263,15 @@
           padding: 0;
           text-align: center;
         }
+      }
+      // 에러 문구
+      .error-msg {
+        display: none;
+        width: 100%;
+        color: $red;
+        margin: 0.9375rem 0 0.3125rem 0; // 15px 0 5px 0
+
+        &.on { display: block; }
       }
     }
 

@@ -784,7 +784,7 @@ input, button, select, optgroup, textarea {
 
 .form-container .form-properties .property-group .property-field .property-field-unit {
   position: absolute;
-  top: 50%;
+  top: 2.188rem;
   right: 0.625rem;
   color: #ACB4BF;
 }
@@ -801,6 +801,17 @@ input, button, select, optgroup, textarea {
   border-color: transparent;
   padding: 0;
   text-align: center;
+}
+
+.form-container .form-properties .property-group .error-msg {
+  display: none;
+  width: 100%;
+  color: #FF405A;
+  margin: 0.9375rem 0 0.3125rem 0;
+}
+
+.form-container .form-properties .property-group .error-msg.on {
+  display: block;
 }
 
 .form-container .form-properties .property-empty {
@@ -1198,7 +1209,6 @@ label {
   font-family: inherit;
   font-size: 1rem;
   font-weight: 400;
-  line-height: 1.2;
   color: #586872;
   outline: none;
 }
@@ -4507,10 +4517,8 @@ body.modal-active {
 }
 
 .component .field-group .field-content.custom-code > button {
-  flex: 1 1 auto;
-  width: 6.875rem;
   height: 2.5rem;
-  padding: 0;
+  padding: 0 0.625rem;
   white-space: nowrap;
   color: #586872;
   border-radius: 0.0625rem;
