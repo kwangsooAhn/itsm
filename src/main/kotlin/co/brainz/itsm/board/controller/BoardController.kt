@@ -208,8 +208,8 @@ class BoardController(private val boardService: BoardService) {
      * @param model
      * @return String
      */
-    @GetMapping("/articles/{boardId}/replay/edit")
-    fun getBoardArticleReplayEdit(@PathVariable boardId: String, model: Model): String {
+    @GetMapping("/articles/{boardId}/reply/edit")
+    fun getBoardArticleReplyEdit(@PathVariable boardId: String, model: Model): String {
         val boardArticleDtoInfo: BoardArticleViewDto = boardService.getBoardArticle(boardId, "reply")
         if (boardArticleDtoInfo.boardAdmin.categoryYn) {
             model.addAttribute(

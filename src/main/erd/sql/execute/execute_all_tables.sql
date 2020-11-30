@@ -1138,7 +1138,7 @@ insert into awf_url values ('/boards/articles/search/param', 'get', '게시판 �
 insert into awf_url values ('/boards/articles/{id}/comments', 'get', '게시판 댓글 조회', 'TRUE');
 insert into awf_url values ('/boards/articles/{id}/edit', 'get', '게시판 편집', 'TRUE');
 insert into awf_url values ('/boards/articles/{id}/new', 'get', '게시판 신규 등록', 'TRUE');
-insert into awf_url values ('/boards/articles/{id}/replay/edit', 'get', '게시판 답글 편집', 'TRUE');
+insert into awf_url values ('/boards/articles/{id}/reply/edit', 'get', '게시판 답글 편집', 'TRUE');
 insert into awf_url values ('/boards/articles/{id}/view', 'get', '게시판 상세 조회 화면', 'TRUE');
 insert into awf_url values ('/certification/certifiedmail', 'get', '메일 발송', 'FALSE');
 insert into awf_url values ('/certification/fileupload', 'post', '회원가입 아바타 이미지 업로드', 'FALSE');
@@ -1382,7 +1382,7 @@ insert into awf_url_auth_map values ('/boards/articles/{id}/comments', 'get', 'b
 insert into awf_url_auth_map values ('/boards/articles/{id}/edit', 'get', 'board.create');
 insert into awf_url_auth_map values ('/boards/articles/{id}/edit', 'get', 'board.update');
 insert into awf_url_auth_map values ('/boards/articles/{id}/new', 'get', 'board.create');
-insert into awf_url_auth_map values ('/boards/articles/{id}/replay/edit', 'get', 'board.create');
+insert into awf_url_auth_map values ('/boards/articles/{id}/reply/edit', 'get', 'board.create');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.update');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.create');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.read');
