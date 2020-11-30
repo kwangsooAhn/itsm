@@ -30,6 +30,11 @@ button {
     display: inline-block;
     @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.625rem, 1.25rem, no-repeat, center, 1.625rem 1.25rem, $dark-gray); // 18px 20px
   }
+  // 삭제 아이콘
+  .icon-delete-gray {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_delete.svg', 1.625rem, 1.25rem, no-repeat, center, 1.625rem 1.25rem, $pressed-gray); // 18px 20px
+  }
   // 추가 아이콘
   .icon-plus {
     display: inline-block;

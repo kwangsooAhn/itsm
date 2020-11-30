@@ -231,3 +231,23 @@
     }
   }
 }
+
+// edit, register 공통
+@mixin editTemplate() {
+  .edit {
+    height: 100vh; // edit 화면에서 스크롤이 생기는 영역
+    
+    .edit-row {
+      margin: 0.625rem 19.38rem 0 19.38rem; // 10px 310px 0 310px
+
+      // 버튼 목록
+      .btn-list { margin-top: 1.875rem; } // 30px
+    }
+
+    .edit-column {
+      .edit-row { margin: 0.625rem 0 0 0; } // 10px 0 0 0
+    }
+  }
+}
+
+// view 공통

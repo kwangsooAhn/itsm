@@ -17,7 +17,7 @@
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''document.admin.update'')')}"/>
             <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''document.admin.delete'')')}"/>
             <form id="searchDocumentsFrm">
-                <select id="searchGroupName" name="searchGroupName">
+                <select id="searchGroupName" name="searchGroupName" class="col-3">
                     <option value="" th:text="#{document.label.all}" selected/>
                     <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
                 </select>

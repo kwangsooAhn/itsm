@@ -1866,6 +1866,22 @@ button .icon-delete {
   background: #586872;
 }
 
+.btn .icon-delete-gray,
+button .icon-delete-gray {
+  display: inline-block;
+  width: 1.625rem;
+  height: 1.25rem;
+  -webkit-mask-image: url("../media/icons/icon_delete.svg");
+  mask-image: url("../media/icons/icon_delete.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 1.625rem 1.25rem;
+  mask-size: 1.625rem 1.25rem;
+  background: #CCCED1;
+}
+
 .btn .icon-plus,
 button .icon-plus {
   display: inline-block;
@@ -2130,6 +2146,22 @@ button .icon-plus {
   margin-left: 2.5rem;
 }
 
+.itsm-container .main .edit {
+  height: 100vh;
+}
+
+.itsm-container .main .edit .edit-row {
+  margin: 0.625rem 19.38rem 0 19.38rem;
+}
+
+.itsm-container .main .edit .edit-row .btn-list {
+  margin-top: 1.875rem;
+}
+
+.itsm-container .main .edit .edit-column .edit-row {
+  margin: 0.625rem 0 0 0;
+}
+
 .itsm-container .aside {
   flex-shrink: 0;
   width: 38.125rem;
@@ -2161,6 +2193,22 @@ button .icon-plus {
   margin-top: 0.625rem;
 }
 
+.slide-down {
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: slideDown;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+}
+
+.slide-up {
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: slideUp;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+}
+
 .notice-header,
 .faq-header,
 .download-header,
@@ -2173,9 +2221,18 @@ button .icon-plus {
 .custom-code-header,
 .auth-header,
 .role-header,
-.code-header {
+.code-header,
+.image-header {
   padding: 2.188rem 3.75rem 0 3.75rem;
   background-color: #F7F8F9;
+}
+
+.document-header,
+.token-header,
+.dashboard-header {
+  padding: 2.188rem 3.75rem 0 3.75rem;
+  background-color: #F7F8F9;
+  border-bottom: 0.0625rem solid #EBEBEB;
 }
 
 .notice-content,
@@ -2197,14 +2254,6 @@ button .icon-plus {
 
 .notice-pinned {
   background-color: rgba(135, 206, 255, 0.15);
-}
-
-.document-header,
-.token-header,
-.dashboard-header {
-  padding: 2.188rem 3.75rem 0 3.75rem;
-  background-color: #F7F8F9;
-  border-bottom: 0.0625rem solid #EBEBEB;
 }
 
 .document-content {
@@ -2331,20 +2380,72 @@ button .icon-plus {
   margin-top: 0;
 }
 
-.slide-down {
-  animation-delay: 0s;
-  animation-duration: 0.3s;
-  animation-name: slideDown;
-  animation-timing-function: ease-out;
-  animation-iteration-count: 1;
+.notice-content-edit,
+.faq-content-edit,
+.download-content-edit,
+.board-content-edit,
+.board-admin-content-edit,
+.custom-code-content-edit {
+  padding: 2.188rem 3.75rem 3.125rem 3.75rem;
+  background-color: #ffffff;
+  border-top: 0.0625rem solid #EBEBEB;
 }
 
-.slide-up {
-  animation-delay: 0s;
-  animation-duration: 0.3s;
-  animation-name: slideUp;
-  animation-timing-function: ease-out;
-  animation-iteration-count: 1;
+.user-content-edit {
+  padding: 0 3.75rem 3.125rem 3.75rem;
+  background-color: #ffffff;
+  border-top: 0.0625rem solid #EBEBEB;
+}
+
+.user-content-edit .sub-title {
+  margin-top: 2.5rem;
+}
+
+.user-content-edit .custom-setting-top-select,
+.user-content-edit .language-select,
+.user-content-edit .theme-color-select {
+  width: 29.38rem;
+}
+
+.user-content-edit .select-date-time {
+  width: 19.38rem;
+}
+
+.user-content-edit .hour-select {
+  width: 9.688rem;
+}
+
+.board-admin-content-edit .edit-table {
+  margin: 1.25rem 0 0 0;
+}
+
+.board-admin-content-edit .edit-table tr {
+  height: 2.5rem;
+  line-height: 2.5rem;
+}
+
+.board-admin-content-edit .edit-table tr th {
+  border-bottom: 0.0625rem solid #EBEBEB;
+}
+
+.board-admin-content-edit .edit-table tr td {
+  padding: 0 0.9375rem;
+  border-bottom: 0.0625rem solid #EBEBEB;
+}
+
+.board-admin-content-edit .edit-table .tbody tr:hover {
+  background-color: #EBEBEB;
+}
+
+.board-admin-content-edit .edit-table .tbody .no-data-found-list {
+  background-color: rgba(230, 232, 235, 0.6);
+  pointer-events: none;
+}
+
+.image-content-edit {
+  padding: 3.125rem 3.75rem;
+  background-color: #ffffff;
+  border-top: 0.0625rem solid #EBEBEB;
 }
 
 .itsm-container {
@@ -2876,12 +2977,6 @@ button .icon-plus {
   margin: auto 1.25rem auto 0;
 }
 
-.btn-list {
-  padding: 0.625rem 0 0 0;
-  display: flex;
-  justify-content: flex-end;
-}
-
 .profile-photo {
   border-radius: 50%;
   background-color: #F0F0F0;
@@ -2904,38 +2999,6 @@ button .icon-plus {
   border-radius: 50%;
   margin-right: 0.625rem;
   display: inline-block;
-}
-
-.no-data-found {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 13.75rem;
-  margin: 3.125rem 3.75rem;
-  background-color: rgba(247, 248, 249, 0.45);
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  pointer-events: none;
-}
-
-.no-data-found .no-data-icon {
-  content: url("../media/icons/icon_no_data.svg");
-}
-
-.no-data-found .no-data-text {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #CCCED1;
-  margin-left: 1.875rem;
-}
-
-.no-data-found-list {
-  pointer-events: none;
-  background: #EBEBEB;
-}
-
-.no-data-found-list td {
-  text-align: center;
 }
 
 .gnb {
@@ -4254,6 +4317,239 @@ button .icon-plus {
   display: none;
 }
 
+/* _avatar.scss 
+ *
+ * 파일 경로 : template/_avatar.scss
+ * @description 아바타 관련 디자인
+ * @author wdj
+ * @version 1.0
+ */
+.avatar-edit .avatar-title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #3F4B56;
+  margin: 0.5625rem 0 0.5625rem 0;
+}
+
+.avatar-edit .avatar {
+  width: 20.63rem;
+  height: 20.63rem;
+  background-color: #F7F8F9;
+  border: 0.0625rem solid #EBEBEB;
+  padding: 0;
+}
+
+.avatar-edit .avatar .dz-default {
+  margin: 1.875rem 0;
+}
+
+.avatar-edit .avatar .dz-default.dz-message {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
+  text-align: center;
+  margin-top: 85px;
+}
+
+.avatar-edit .avatar .dz-default.dz-message .icon-no-img {
+  display: inline-block;
+  width: 100%;
+  height: 5rem;
+  -webkit-mask-image: url("../media/icons/icon_image.svg");
+  mask-image: url("../media/icons/icon_image.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: 5rem;
+  mask-size: 5rem;
+  background: #CCCED1;
+  margin-bottom: 1.25rem;
+}
+
+.avatar-edit .avatar .dz-default.dz-message .add-file-button-wrap {
+  margin-top: 0.5rem;
+}
+
+.avatar-edit .avatar .dz-default.dz-message .add-file-button-wrap .dz-clickable {
+  color: #0098FF;
+  cursor: pointer;
+}
+
+.avatar-edit .avatar .dz-default.dz-drag-hover {
+  border-style: solid;
+}
+
+.avatar-edit .avatar .dz-default.dz-drag-hover .dz-message {
+  opacity: 0.5;
+}
+
+.avatar-edit .avatar .dz-preview {
+  position: relative;
+  height: 100%;
+  padding: 0;
+  border: 0;
+}
+
+.avatar-edit .avatar .dz-preview .dz-image {
+  overflow: hidden;
+  position: relative;
+  display: contents;
+  z-index: 10;
+}
+
+.avatar-edit .avatar .dz-preview .dz-image img {
+  object-fit: cover;
+}
+
+.avatar-edit .avatar .dz-preview .dz-success-mark, .avatar-edit .avatar .dz-preview .dz-error-mark {
+  display: none;
+}
+
+.avatar-edit .avatar .dz-preview:hover {
+  z-index: 1000;
+}
+
+.avatar-edit .avatar .dz-preview:hover .dz-details {
+  opacity: 1;
+}
+
+.avatar-edit .avatar .dz-preview.dz-image-preview {
+  background: #ffffff;
+}
+
+.avatar-edit .avatar .dz-preview.dz-image-preview .dz-details {
+  -webkit-transition: opacity 0.2s linear;
+  -moz-transition: opacity 0.2s linear;
+  -ms-transition: opacity 0.2s linear;
+  -o-transition: opacity 0.2s linear;
+  transition: opacity 0.2s linear;
+}
+
+.avatar-edit .avatar .dz-preview .dz-details {
+  position: absolute;
+  display: block;
+  min-width: 100%;
+  max-width: 100%;
+  align-items: center;
+  line-height: 150%;
+  top: 0;
+  left: 0;
+  text-align: center;
+  color: rgba(0, 0, 0, 0.9);
+  opacity: 0;
+  z-index: 20;
+}
+
+.avatar-edit .avatar .dz-preview .dz-details .dz-file-type,
+.avatar-edit .avatar .dz-preview .dz-details .dz-filename,
+.avatar-edit .avatar .dz-preview .dz-details .dz-size {
+  display: none;
+}
+
+.avatar-edit .avatar .dz-preview .dz-details .dz-remove {
+  display: block;
+  width: 1.125rem;
+  height: 1.125rem;
+  background-color: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-image: url("../media/icons/icon_close.svg");
+  background-size: 0.875rem;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+  cursor: pointer;
+}
+
+.avatar-edit .avatar .dz-preview .dz-details .dz-remove:hover {
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.avatar-edit .avatar .dz-preview .dz-progress {
+  display: none;
+}
+
+.avatar-edit .avatar.dz-started .dz-message {
+  display: none;
+}
+
+.avatar-edit .avatar-description {
+  margin-top: 1rem;
+}
+
+.avatar-edit .avatar-description .avatar-text {
+  display: block;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
+  text-align: left;
+  margin-bottom: 0.3125rem;
+}
+
+.avatar-edit .avatar-sm {
+  margin-bottom: 1.25rem;
+}
+
+.avatar-edit .avatar-sm > div {
+  display: inline-block;
+}
+
+.avatar-edit .avatar-sm > div:first-child {
+  margin-right: 0.625rem;
+}
+
+.avatar-edit .avatar-sm .avatar {
+  width: 9.375rem;
+  height: 9.375rem;
+  padding: 0;
+}
+
+.avatar-edit .avatar-sm .avatar .dz-message {
+  margin-top: 1.25rem;
+}
+
+.avatar-edit .avatar-sm .avatar .dz-message .icon-no-img {
+  height: 2.813rem;
+  -webkit-mask-size: 2.813rem;
+  mask-size: 2.813rem;
+  margin-bottom: 0.9375rem;
+}
+
+.avatar-edit .avatar-sm .avatar .dz-message span {
+  font-size: 0.8125rem;
+}
+
+.avatar-edit .avatar-sm .avatar-description {
+  vertical-align: top;
+}
+
+.avatar-edit .avatar-sm .avatar-description .avatar-text {
+  font-size: 0.8125rem;
+}
+
+.avatar {
+  color: #586872;
+  font-size: 1rem;
+  font-weight: 400;
+  color: #ACB4BF;
+}
+
+.avatar-text {
+  text-align: center;
+}
+
+.avatar-bottom-text-wrap {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.avatar-bottom-text {
+  margin-bottom: 0.3125rem;
+}
+
 /* _date-picker.scss 
  *
  * 파일 경로 : template/_date-picker.scss
@@ -4765,6 +5061,10 @@ button .icon-plus {
 
 .ql-container.ql-border-disabled {
   border-color: transparent;
+}
+
+.ql-container {
+  min-height: 12.5rem;
 }
 
 /* _tree.scss 
@@ -5403,244 +5703,6 @@ body.modal-active {
   background-position: center center;
 }
 
-/* _avatar.scss 
- *
- * 파일 경로 : template/_avatar.scss
- * @description 아바타 관련 디자인
- * @author wdj
- * @version 1.0
- */
-.avatar-edit {
-  display: flex;
-  flex-direction: column;
-}
-
-.avatar-edit .avatar-title {
-  font-size: 1rem;
-  font-weight: 500;
-  color: #3F4B56;
-  margin: 0.5625rem 0 0.5625rem 0;
-}
-
-.avatar-edit .avatar {
-  width: 20.63rem;
-  height: 20.63rem;
-  background-color: #F7F8F9;
-  border: 0.0625rem solid #EBEBEB;
-  padding: 0;
-}
-
-.avatar-edit .avatar .dz-default {
-  margin: 1.875rem 0;
-}
-
-.avatar-edit .avatar .dz-default.dz-message {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #ACB4BF;
-  text-align: center;
-  margin-top: 85px;
-}
-
-.avatar-edit .avatar .dz-default.dz-message .icon-no-img {
-  display: inline-block;
-  width: 100%;
-  height: 5rem;
-  -webkit-mask-image: url("../media/icons/icon_image.svg");
-  mask-image: url("../media/icons/icon_image.svg");
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-size: 5rem;
-  mask-size: 5rem;
-  background: #CCCED1;
-  margin-bottom: 1.25rem;
-}
-
-.avatar-edit .avatar .dz-default.dz-message .add-file-button-wrap {
-  margin-top: 0.5rem;
-}
-
-.avatar-edit .avatar .dz-default.dz-message .add-file-button-wrap .dz-clickable {
-  color: #0098FF;
-  cursor: pointer;
-}
-
-.avatar-edit .avatar .dz-default.dz-drag-hover {
-  border-style: solid;
-}
-
-.avatar-edit .avatar .dz-default.dz-drag-hover .dz-message {
-  opacity: 0.5;
-}
-
-.avatar-edit .avatar .dz-preview {
-  position: relative;
-  height: 100%;
-  padding: 0;
-  border: 0;
-}
-
-.avatar-edit .avatar .dz-preview .dz-image {
-  overflow: hidden;
-  position: relative;
-  display: contents;
-  z-index: 10;
-}
-
-.avatar-edit .avatar .dz-preview .dz-image img {
-  object-fit: cover;
-}
-
-.avatar-edit .avatar .dz-preview .dz-success-mark, .avatar-edit .avatar .dz-preview .dz-error-mark {
-  display: none;
-}
-
-.avatar-edit .avatar .dz-preview:hover {
-  z-index: 1000;
-}
-
-.avatar-edit .avatar .dz-preview:hover .dz-details {
-  opacity: 1;
-}
-
-.avatar-edit .avatar .dz-preview.dz-image-preview {
-  background: #ffffff;
-}
-
-.avatar-edit .avatar .dz-preview.dz-image-preview .dz-details {
-  -webkit-transition: opacity 0.2s linear;
-  -moz-transition: opacity 0.2s linear;
-  -ms-transition: opacity 0.2s linear;
-  -o-transition: opacity 0.2s linear;
-  transition: opacity 0.2s linear;
-}
-
-.avatar-edit .avatar .dz-preview .dz-details {
-  position: absolute;
-  display: block;
-  min-width: 100%;
-  max-width: 100%;
-  align-items: center;
-  line-height: 150%;
-  top: 0;
-  left: 0;
-  text-align: center;
-  color: rgba(0, 0, 0, 0.9);
-  opacity: 0;
-  z-index: 20;
-}
-
-.avatar-edit .avatar .dz-preview .dz-details .dz-file-type,
-.avatar-edit .avatar .dz-preview .dz-details .dz-filename,
-.avatar-edit .avatar .dz-preview .dz-details .dz-size {
-  display: none;
-}
-
-.avatar-edit .avatar .dz-preview .dz-details .dz-remove {
-  display: block;
-  width: 1.125rem;
-  height: 1.125rem;
-  background-color: rgba(255, 255, 255, 0.4);
-  position: absolute;
-  top: 0;
-  right: 0;
-  background-image: url("../media/icons/icon_close.svg");
-  background-size: 0.875rem;
-  background-repeat: no-repeat;
-  background-position-x: center;
-  background-position-y: center;
-  cursor: pointer;
-}
-
-.avatar-edit .avatar .dz-preview .dz-details .dz-remove:hover {
-  background-color: rgba(255, 255, 255, 0.9);
-}
-
-.avatar-edit .avatar .dz-preview .dz-progress {
-  display: none;
-}
-
-.avatar-edit .avatar.dz-started .dz-message {
-  display: none;
-}
-
-.avatar-edit .avatar-description {
-  margin-top: 1rem;
-}
-
-.avatar-edit .avatar-description .avatar-text {
-  display: block;
-  font-size: 1rem;
-  font-weight: 400;
-  color: #ACB4BF;
-  text-align: left;
-  margin-bottom: 0.3125rem;
-}
-
-.avatar-edit .avatar-sm {
-  margin-bottom: 1.25rem;
-}
-
-.avatar-edit .avatar-sm > div {
-  display: inline-block;
-}
-
-.avatar-edit .avatar-sm > div:first-child {
-  margin-right: 0.625rem;
-}
-
-.avatar-edit .avatar-sm .avatar {
-  width: 9.375rem;
-  height: 9.375rem;
-  padding: 0;
-}
-
-.avatar-edit .avatar-sm .avatar .dz-message {
-  margin-top: 1.25rem;
-}
-
-.avatar-edit .avatar-sm .avatar .dz-message .icon-no-img {
-  height: 2.813rem;
-  -webkit-mask-size: 2.813rem;
-  mask-size: 2.813rem;
-  margin-bottom: 0.9375rem;
-}
-
-.avatar-edit .avatar-sm .avatar .dz-message span {
-  font-size: 0.8125rem;
-}
-
-.avatar-edit .avatar-sm .avatar-description {
-  vertical-align: top;
-}
-
-.avatar-edit .avatar-sm .avatar-description .avatar-text {
-  font-size: 0.8125rem;
-}
-
-.avatar {
-  color: #586872;
-  font-size: 1rem;
-  font-weight: 400;
-  color: #ACB4BF;
-}
-
-.avatar-text {
-  text-align: center;
-}
-
-.avatar-bottom-text-wrap {
-  margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.avatar-bottom-text {
-  margin-bottom: 0.3125rem;
-}
-
 /* _tooltip.scss 
  *
  * 파일 경로 : template/_tooltip.scss
@@ -6048,6 +6110,7 @@ body.modal-active {
 
 .reply-list .reply-comment {
   display: flex;
+  word-break: break-all;
   margin-top: 0.9375rem;
   margin-left: 3rem;
 }

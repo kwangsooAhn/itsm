@@ -20,17 +20,16 @@
 @import '_buttons.scss';
 @import '_layout.scss';
 @import '_gnb.scss';
-// TODO: 리팩토링
-@import '../../template/_alerts.scss';
-@import '../../template/_scrollbars.scss';
-@import '../../template/_file-uploader.scss';
-@import "../../template/_date-picker.scss";
-@import "../../template/_text-editor.scss";
-@import '../../template/_tree.scss';
+@import '_alerts.scss';
+@import '_scrollbars.scss';
+@import '_file-uploader.scss';
+@import '_avatar.scss';
+@import "_date-picker.scss";
+@import "_text-editor.scss";
+@import '_tree.scss';
 @import '_color-picker.scss';
 @import '_modal.scss';
 @import '_thumbnail.scss';
-@import '_avatar.scss';
 @import '_tooltip.scss';
 @import '_notification.scss';
 @import '_reply.scss';

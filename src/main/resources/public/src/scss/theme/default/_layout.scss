@@ -22,7 +22,7 @@
     transform: translateY(0);
   }
 }
-
+/////////////////////////////////////////////// 공통 /////////////////////////////////////////////////////
 .itsm-container {
   @include container;
   width: 100vw;
@@ -51,6 +51,12 @@
 
     // 카드
     @include cardTemplate();
+
+    // edit, register
+    @include editTemplate();
+
+    // view
+    
   }
   // 역할, 권한, 코드 화면의 우측 영역
   .aside {
@@ -80,12 +86,21 @@
     }
   }
 }
+// 슬라이드 효과
+.slide-down {
+  @include animation(0s, 0.3s, slideDown, ease-out);
+}
 
+.slide-up {
+  @include animation(0s, 0.3s, slideUp, ease-out);
+}
+/////////////////////////////////////////////// 헤더 ////////////////////////////////////////////////////////
 // 공지사항, FAQ, 자료실, 게시판
 // 시스템관리 > 사용자, 게시판
 // 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
 // 업무흐름 관리 > 역할, 권한
 // 업무흐름 관리 > 코드
+// 업무흐름 관리 > 이미지 관리
 .notice-header,
 .faq-header,
 .download-header,
@@ -98,10 +113,29 @@
 .custom-code-header,
 .auth-header,
 .role-header,
-.code-header {
+.code-header,
+.image-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
   background-color: $light-gray;
 }
+
+// 문서함
+// 신청서
+// 대시보드
+.document-header,
+.token-header,
+.dashboard-header {
+  padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
+  background-color: $light-gray;
+  border-bottom: $layout-header-border;
+}
+
+/////////////////////////////////////////////// 리스트 /////////////////////////////////////////////////////
+// 공지사항, FAQ, 자료실, 게시판
+// 시스템관리 > 사용자, 게시판
+// 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
+// 업무흐름 관리 > 역할, 권한
+// 업무흐름 관리 > 코드
 .notice-content,
 .faq-content,
 .download-content,
@@ -121,17 +155,10 @@
 // 공지사항 상단 공지
 .notice-pinned { background-color: $notice-pinned-color; }
 
+/////////////////////////////////////////////// 카드 /////////////////////////////////////////////////////
 // 문서함
 // 신청서
 // 대시보드
-.document-header,
-.token-header,
-.dashboard-header {
-  padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
-  background-color: $light-gray;
-  border-bottom: $layout-header-border;
-}
-
 .document-content {
   padding: 1.875rem 1.875rem 0 3.75rem; // 30px 30px 0 60px
   background-color: $white;
@@ -245,13 +272,71 @@
   }
 }
 
-// 슬라이드 효과
-.slide-down {
-  @include animation(0s, 0.3s, slideDown, ease-out);
+/////////////////////////////////////////////// EDIT /////////////////////////////////////////////////////
+// 공지사항, FAQ, 자료실, 게시판
+// 업무흐름 관리 > 커스텀 코드
+.notice-content-edit,
+.faq-content-edit,
+.download-content-edit,
+.board-content-edit,
+.board-admin-content-edit,
+.custom-code-content-edit {
+  padding: 2.188rem 3.75rem 3.125rem 3.75rem; // 35px 60px 50px 60px
+  background-color: $white;
+  border-top: $layout-header-border;
+}
+// 시스템관리 > 사용자
+.user-content-edit {
+  padding: 0 3.75rem 3.125rem 3.75rem; // 0 60px 50px 60px
+  background-color: $white;
+  border-top: $layout-header-border;
+
+  .sub-title { margin-top: 2.5rem; } // 40px
+  // select box 크기 고정
+  .custom-setting-top-select,
+  .language-select,
+  .theme-color-select {
+    width: 29.38rem; // 470px
+  }
+  .select-date-time {
+    width: 19.38rem; // 310px
+  }
+  .hour-select {
+    width: 9.688rem; // 155px
+  }
+}
+// 시스템관리 > 게시판
+.board-admin-content-edit {
+  // 카테고리 테이블
+  .edit-table {
+    margin: 1.25rem 0 0 0; // 20px 0 0 0
+    tr {
+      height: 2.5rem; // 40px
+      line-height: 2.5rem; 
+      th {
+        border-bottom: 0.0625rem solid $line-gray; // 1px
+      }
+      td { 
+        padding: 0 0.9375rem; // 0 15px
+        border-bottom: 0.0625rem solid $line-gray; // 1px
+      }
+    }
+    .tbody {
+      tr:hover { background-color: $list-hover-bg-color; }
+      // 데이터 없을때
+      .no-data-found-list {
+        background-color: $no-data-found-list-bg;
+        pointer-events: none;
+      }
+    }
+  }
 }
 
-.slide-up {
-  @include animation(0s, 0.3s, slideUp, ease-out);
+// 업무흐름 관리 > 이미지 관리
+.image-content-edit {
+  padding: 3.125rem 3.75rem; // 50px 60px
+  background-color: $white;
+  border-top: $layout-header-border;
 }
 
 
@@ -345,12 +430,12 @@
       }
     }
 }
-
-.btn-list {
-  padding: 0.625rem 0 0 0;
-  display: flex;
-  justify-content: flex-end;
-}
+// 공통 edit mixin 적용 후 삭제 예정
+//.btn-list {
+//  padding: 0.625rem 0 0 0;
+//  display: flex;
+//  justify-content: flex-end;
+//}
 
 // 사용자 아이콘
 .profile-photo {
@@ -376,32 +461,4 @@
   border-radius: 50%;
   margin-right: 0.625rem; // 10px
   display: inline-block;
-}
-
-// 조회 데이터 없을 때
-.no-data-found {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 13.75rem; // 220px
-  margin: 3.125rem 3.75rem; // 50px 60px
-  background-color: rgba(247, 248, 249, 0.45); // $light-gray
-  border: 0.0625rem solid $line-gray; // 1px
-  border-radius: 0.0625rem; // 1px
-  pointer-events: none;
-  .no-data-icon {
-    content: url("../media/icons/icon_no_data.svg")
-  }
-  .no-data-text {
-    font-size: 1.125rem;; // 18px
-    font-weight: $font-weight-medium;
-    color: $pressed-gray;
-    margin-left: 1.875rem; // 30px
-  }
-  
-  &-list {
-    pointer-events: none;
-    background: $line-gray;
-    td { text-align: center; }
-  }
 }
