@@ -1217,6 +1217,7 @@ table[id="documentDisplay"] td {
  */
 .btn,
 button {
+  height: 2.625rem;
   display: inline-block;
   font-family: inherit;
   font-size: 1rem;
