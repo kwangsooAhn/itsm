@@ -6044,6 +6044,7 @@ body.modal-active {
 
 .reply-list .reply-comment {
   display: flex;
+  word-break: break-all;
   margin-top: 0.9375rem;
   margin-left: 3rem;
 }
