@@ -19,7 +19,10 @@
             <form id="faqForm" method="post" onsubmit="return false">
                 <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
                 <div class="flex-column edit-row">
-                    <label class="required" th:text="#{common.label.group}" for="faqGroup"></label>
+                    <label for="faqGroup">
+                        <span th:text="#{common.label.group}"></span>
+                        <span class="required"></span>
+                    </label>
                     <select id="faqGroup" name="faqGroup" required="required">
                         <option th:each="faqGroup :${faqGroupList}" th:text="#{|common.code.${faqGroup.code}|}"
                                 th:value="${faqGroup.code}" th:selected="${faqGroup.code} == ${faq?.faqGroup}">
@@ -27,12 +30,18 @@
                     </select>
                 </div>
                 <div class="flex-column edit-row">
-                    <label class="required" th:text="#{common.label.title}" for="faqTitle"></label>
+                    <label for="faqTitle">
+                        <span th:text="#{common.label.title}"></span>
+                        <span class="required"></span>
+                    </label>
                     <input id="faqTitle" name="faqTitle" th:value="${faq?.faqTitle}"
                            maxlength="100" required="required"/>
                 </div>
                 <div class="flex-column edit-row">
-                    <label class="required" th:text="#{common.label.contents}" for="faqContent"></label>
+                    <label for="faqContent">
+                        <span th:text="#{common.label.contents}"></span>
+                        <span class="required"></span>
+                    </label>
                     <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"
                               maxlength="2048" rows="7" class="textarea-scroll-wrapper"></textarea>
                 </div>

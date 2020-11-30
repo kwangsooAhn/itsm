@@ -16,7 +16,10 @@
         </div>
         <div class="board-admin-content-edit">
             <div class="flex-column edit-row">
-                <label class="required" th:text="#{board.label.name}" for="boardAdminTitle"></label>
+                <label for="boardAdminTitle">
+                    <span th:text="#{board.label.name}"></span>
+                    <span class="required"></span>
+                </label>
                 <input type="text" id="boardAdminTitle" maxlength="70" th:value="${boardAdmin?.boardAdminTitle}"
                        required="required"/>
             </div>
@@ -65,37 +68,42 @@
                 </label>
                 <div id="category-detail" class="category">
                     <div class="flex-row">
-                        <div class="flex-column col-6 mr-4">
-                            <label class="required" th:text="#{board.label.categoryName}" for="boardCategoryName"></label>
+                        <div class="flex-column col-6 mr-2">
+                            <label for="boardCategoryName">
+                                <span th:text="#{board.label.categoryName}"></span>
+                                <span class="required"></span>
+                            </label>
                             <input type="text" id="boardCategoryName" maxlength="100" required="required"/>
                         </div>
-                        <div class="flex-column col-6">
+                        <div class="flex-column col-5 mr-2">
                             <label th:text="#{board.label.order}" for="boardCategorySort"></label>
                             <input type="text" id="boardCategorySort" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                        </div>
+                        <div class="flex-column justify-content-end col-1">
                             <button class="point-fill" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
                         </div>
                     </div>
                     <div class="flex-row">
                         <div class="category-list">
                             <table class="edit-table">
-                                <thead>
+                                <thead class="edit-table-thead">
                                 <tr>
-                                    <th class="col-6" th:text="#{board.label.category}"></th>
-                                    <th class="col-5" th:text="#{board.label.order}"></th>
-                                    <th class="col-1"></th>
+                                    <th class="col-6 align-left" th:text="#{board.label.category}"></th>
+                                    <th class="col-5 align-left" th:text="#{board.label.order}"></th>
+                                    <th class="col-1 align-center"></th>
                                 </tr>
                                 </thead>
-                                <tbody id="boardCategoryList">
-                                <tr class="no-data-found-list" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
+                                <tbody id="boardCategoryList" class="edit-table-tbody">
+                                <tr class="no-data-found-list align-center" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
                                     <td colspan="5" th:text="#{common.msg.noData}"></td>
                                 </tr>
                                 <tr th:each="category: ${boardAdmin?.categoryList}">
-                                    <td class="col-6" th:text="${category.boardCategoryName}"></td>
-                                    <td class="col-5" th:text="${category.boardCategorySort}"></td>
-                                    <td class="col-1">
+                                    <td class="col-6 align-left" th:text="${category.boardCategoryName}"></td>
+                                    <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
+                                    <td class="col-1 align-center">
                                         <th:block th:if="${category.boardCount == 0}">
                                             <button class="minus">
-                                                <span class="icon-delete" th:onclick="deleteBoardCategory(this.parentNode, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])"></span>
+                                                <span class="icon-delete-gray" th:onclick="deleteBoardCategory(this.parentNode, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])"></span>
                                             </button>
                                         </th:block>
                                     </td>
@@ -268,7 +276,7 @@
             if (document.querySelectorAll('#boardCategoryList > tr').length === 0) {
                 const noDataRow = document.createElement('tr');
                 const noDataColumn = document.createElement('td');
-                noDataRow.className = 'no-data-found-list';
+                noDataRow.className = 'no-data-found-list align-center';
                 noDataColumn.colSpan = 5;
                 noDataColumn.textContent = i18n.msg('common.msg.noData');
                 noDataRow.appendChild(noDataColumn)
@@ -313,7 +321,7 @@
             const deleteBtn = document.createElement('button');
             deleteBtn.classList.add('minus');
             const deleteIcon = document.createElement('span');
-            deleteIcon.classList.add('icon-delete');
+            deleteIcon.classList.add('icon-delete-gray');
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
                 deleteBoardCategory(this);

@@ -18,7 +18,10 @@
         <div class="board-content-edit">
             <form id="boardForm" method="post" onsubmit="return false">
                 <div class="flex-column edit-row">
-                    <label class="required" th:text="#{board.label.board}" for="boardAdminId" />
+                    <label for="boardAdminId">
+                        <span th:text="#{board.label.board}"></span>
+                        <span class="required"></span>
+                    </label>
                     <select id="boardAdminId" name="boardAdminId">
                         <option th:each="boardAdmin: ${boardAdminList}" th:value="${boardAdmin.boardAdminId}"
                                 th:text="#{${boardAdmin.boardAdminTitle}}"
@@ -26,7 +29,10 @@
                     </select>
                 </div>
                 <div class="flex-column edit-row" id="divCategoryYn" name="divCategoryYn">
-                    <label class="required" th:text="#{board.label.category}" for="boardCategory" />
+                    <label for="boardCategory">
+                        <span th:text="#{board.label.category}"></span>
+                        <span class="required"></span>
+                    </label>
                     <select id="boardCategory" name="boardCategory">
                         <option th:each="boardCategory: ${boardCategoryInfo}" th:value="${boardCategory.boardCategoryId}"
                                 th:text="#{${boardCategory.boardCategoryName}}"
@@ -35,7 +41,10 @@
                     </select>
                 </div>
                 <div class="flex-column edit-row">
-                    <label class="required" th:text="#{board.label.title}" for="boardTitle"/>
+                    <label for="boardTitle">
+                        <span th:text="#{board.label.title}"></span>
+                        <span class="required"></span>
+                    </label>
                     <input type="text" id="boardTitle" maxlength="100" th:value="${boardInfo?.boardTitle}">
                 </div>
                 <div class="flex-column edit-row">
