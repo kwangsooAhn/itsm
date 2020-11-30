@@ -6047,13 +6047,14 @@ body.modal-active {
 }
 
 .reply-list .reply-comment {
-  display: flex;
+  word-break: break-all;
   margin-top: 0.9375rem;
   margin-left: 3rem;
 }
 
 .reply-list .reply-comment input {
   width: 100%;
+  margin-right: 0.3125rem;
 }
 
 .reply .profile-photo {
