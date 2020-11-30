@@ -8,20 +8,20 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-edit flex-column scroll-wrap">
-        <div class="header">
-            <div class="page-title">
+    <div class="flex-column edit">
+        <div class="custom-code-header">
+            <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{customCode.label.customCode}"></h1>
-                <h6 class="title-description" th:text="#{customCode.msg.editDescription}"></h6>
+                <h6 class="description" th:text="#{customCode.msg.editDescription}"></h6>
             </div>
         </div>
-        <div class="custom-code-edit edit">
-            <div class="form-set">
+        <div class="custom-code-content-edit">
+            <div class="flex-column edit-row">
                 <label class="required" th:text="#{customCode.label.name}" for="customCodeName"></label>
                 <input type="text" id="customCodeName" required="required" maxlength="110"
                        th:value="${customCode?.customCodeName}">
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="required" th:text="#{customCode.label.type}"></label>
                 <div class="flex-row mr-auto">
                     <label class="radio" for="table" tabindex="0">
@@ -43,7 +43,7 @@
             <!-- 타입: table-->
             <div id="type-table-container"
                  th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
-                <div class="form-set">
+                <div class="flex-column edit-row">
                     <label class="required" th:text="#{customCode.label.targetTable}"></label>
                     <select id="targetTable">
                         <option th:each="customCodeTable: ${customCodeTableList}"
@@ -53,15 +53,15 @@
                         </option>
                     </select>
                 </div>
-                <div class="form-set">
+                <div class="flex-column edit-row">
                     <label class="required" th:text="#{customCode.label.searchColumn}"></label>
                     <select id="searchColumn"></select>
                 </div>
-                <div class="form-set">
+                <div class="flex-column edit-row">
                     <label class="required" th:text="#{customCode.label.valueColumn}"></label>
                     <select id="valueColumn"></select>
                 </div>
-                <div class="form-set">
+                <div class="flex-column edit-row">
                     <div class="flex-row under-bar">
                         <label id="conditionLabel" th:text="#{customCode.label.condition}"></label>
                         <button class="default-line plus" onclick="addCondition()">
@@ -71,24 +71,25 @@
                     <div id="condition"></div>
                 </div>
             </div>
-
             <!-- 타입: 코드 -->
             <div id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
-                <div class="form-set">
+                <div class="flex-column edit-row">
                     <label class="required" th:text="#{customCode.label.pCode}"></label>
                     <input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}">
                 </div>
             </div>
-            <div class="btn-list">
-                <button class="point-fill" th:if="${customCode == null}" sec:authorize="hasAuthority('custom.code.create')"
-                        onclick="actionCustomCode('post')" th:text="#{common.btn.register}"></button>
-                <button class="point-fill" th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.update')"
-                        th:disabled="${!customCode.enabled}" onclick="actionCustomCode('put')" th:text="#{common.btn.modify}">
-                </button>
-                <button class="default-fill" th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.delete')"
-                        th:disabled="${!customCode.enabled}" onclick="actionCustomCode('delete')" th:text="#{common.btn.delete}">
-                </button>
-                <a class="btn default-line" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
+            <div class="flex-row justify-content-end edit-row">
+                <div class="btn-list">
+                    <button class="point-fill" th:if="${customCode == null}" sec:authorize="hasAuthority('custom.code.create')"
+                            onclick="actionCustomCode('post')" th:text="#{common.btn.register}"></button>
+                    <button class="point-fill" th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.update')"
+                            th:disabled="${!customCode.enabled}" onclick="actionCustomCode('put')" th:text="#{common.btn.modify}">
+                    </button>
+                    <button class="default-fill" th:if="${customCode?.customCodeId}" sec:authorize="hasAuthority('custom.code.delete')"
+                            th:disabled="${!customCode.enabled}" onclick="actionCustomCode('delete')" th:text="#{common.btn.delete}">
+                    </button>
+                    <a class="btn default-line" href="/custom-codes/search" th:text="#{common.btn.list}"></a>
+                </div>
             </div>
         </div>
     </div>

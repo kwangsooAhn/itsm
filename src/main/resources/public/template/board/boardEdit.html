@@ -7,20 +7,20 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-edit flex-column scroll-wrap">
-        <div class="header">
-            <div class="page-title">
+    <div class="flex-column edit">
+        <div class="board-admin-header">
+            <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{board.label.board}"></h1>
-                <h6 class="title-description" th:text="#{board.msg.adminEditDescription}"></h6>
+                <h6 class="description" th:text="#{board.msg.adminEditDescription}"></h6>
             </div>
         </div>
-        <div class="edit board-admin-edit">
-            <div class="form-set">
+        <div class="board-admin-content-edit">
+            <div class="flex-column edit-row">
                 <label class="required" th:text="#{board.label.name}" for="boardAdminTitle"></label>
                 <input type="text" id="boardAdminTitle" maxlength="70" th:value="${boardAdmin?.boardAdminTitle}"
                        required="required"/>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="switch">
                     <span class="label" th:text="#{board.label.useYn}"></span>
                     <input type="checkbox" id="boardUseYn" name="boardUseYn"
@@ -28,18 +28,18 @@
                     <span></span>
                 </label>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label th:text="#{board.label.order}" for="boardAdminSort"></label>
                 <input class="col-6" id="boardAdminSort" name="boardAdminSort" type="text"
                        th:value="${boardAdmin?.boardAdminSort}" maxlength="2"
                        onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label th:text="#{board.label.desc}" for="boardAdminDesc"></label>
                 <textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7"
                           class="textarea-scroll-wrapper"  th:text="${boardAdmin?.boardAdminDesc}"></textarea>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="switch">
                     <span class="label" th:text="#{board.label.replyYn}"></span>
                     <input type="checkbox" id="replyYn" name="replyYn"
@@ -47,7 +47,7 @@
                     <span></span>
                 </label>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="switch">
                     <span class="label" th:text="#{board.label.commentYn}"></span>
                     <input type="checkbox" id="commentYn" name="commentYn"
@@ -55,7 +55,7 @@
                     <span></span>
                 </label>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="switch">
                     <span class="label" th:text="#{board.label.category}"></span>
                     <input type="checkbox" id="categoryYn" name="categoryYn"
@@ -64,51 +64,49 @@
                     <span></span>
                 </label>
                 <div id="category-detail" class="category">
-                    <div class="flex-row margin-bottom-10">
-                        <div class="form-set col-6">
+                    <div class="flex-row">
+                        <div class="flex-column col-6 mr-4">
                             <label class="required" th:text="#{board.label.categoryName}" for="boardCategoryName"></label>
                             <input type="text" id="boardCategoryName" maxlength="100" required="required"/>
                         </div>
-                        <div class="form-set col-5">
+                        <div class="flex-column col-6">
                             <label th:text="#{board.label.order}" for="boardCategorySort"></label>
                             <input type="text" id="boardCategorySort" maxlength="2" onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
-                        </div>
-                        <div class="form-set col-1 justify-content-end">
                             <button class="point-fill" onclick="addBoardCategory('post')" th:text="#{common.btn.add}"></button>
                         </div>
                     </div>
-                    <div class="flex-row none-margin">
+                    <div class="flex-row">
                         <div class="category-list">
                             <table class="edit-table">
                                 <thead>
-                                    <tr>
-                                        <th class="col-6" th:text="#{board.label.category}"></th>
-                                        <th class="col-5" th:text="#{board.label.order}"></th>
-                                        <th class="col-1"></th>
-                                    </tr>
+                                <tr>
+                                    <th class="col-6" th:text="#{board.label.category}"></th>
+                                    <th class="col-5" th:text="#{board.label.order}"></th>
+                                    <th class="col-1"></th>
+                                </tr>
                                 </thead>
                                 <tbody id="boardCategoryList">
-                                    <tr class="no-data-found-list" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
-                                        <td colspan="5" th:text="#{common.msg.noData}"></td>
-                                    </tr>
-                                    <tr th:each="category: ${boardAdmin?.categoryList}">
-                                        <td class="col-6" th:text="${category.boardCategoryName}"></td>
-                                        <td class="col-5" th:text="${category.boardCategorySort}"></td>
-                                        <td class="col-1">
-                                            <th:block th:if="${category.boardCount == 0}">
-                                                <button class="minus">
-                                                    <span class="icon-delete" th:onclick="deleteBoardCategory(this.parentNode, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])"></span>
-                                                </button>
-                                            </th:block>
-                                        </td>
-                                    </tr>
+                                <tr class="no-data-found-list" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
+                                    <td colspan="5" th:text="#{common.msg.noData}"></td>
+                                </tr>
+                                <tr th:each="category: ${boardAdmin?.categoryList}">
+                                    <td class="col-6" th:text="${category.boardCategoryName}"></td>
+                                    <td class="col-5" th:text="${category.boardCategorySort}"></td>
+                                    <td class="col-1">
+                                        <th:block th:if="${category.boardCount == 0}">
+                                            <button class="minus">
+                                                <span class="icon-delete" th:onclick="deleteBoardCategory(this.parentNode, [[@{{boardCategoryId}(boardCategoryId=${category.boardCategoryId})}]])"></span>
+                                            </button>
+                                        </th:block>
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="switch">
                     <span class="label" th:text="#{board.label.attachFileYn}"></span>
                     <input type="checkbox" id="attachYn" name="attachYn"
@@ -117,20 +115,22 @@
                     <span></span>
                 </label>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label th:text="#{board.label.attachFileSize}" for="attachFileSize"></label>
                 <input class="col-6 mb" id="attachFileSize" name="attachFileSize" type="text"
-                           th:value="${boardAdmin?.attachFileSize}" maxlength="4"
-                           onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
+                       th:value="${boardAdmin?.attachFileSize}" maxlength="4"
+                       onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"/>
             </div>
-            <div class="btn-list">
-                <button class="point-fill" th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')"
-                        th:text="#{common.btn.register}"></button>
-                <button class="point-fill" th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')"
-                        th:text="#{common.btn.modify}"></button>
-                <button class="default-line" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin()"
-                        th:disabled="${!boardAdmin.enabled}" th:text="#{common.btn.delete}"></button>
-                <a class="btn default-line" href="/boards/search" th:text="#{common.btn.list}"></a>
+            <div class="flex-row justify-content-end edit-row">
+                <div class="btn-list">
+                    <button class="point-fill" th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')"
+                            th:text="#{common.btn.register}"></button>
+                    <button class="point-fill" th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')"
+                            th:text="#{common.btn.modify}"></button>
+                    <button class="default-line" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin()"
+                            th:disabled="${!boardAdmin.enabled}" th:text="#{common.btn.delete}"></button>
+                    <a class="btn default-line" href="/boards/search" th:text="#{common.btn.list}"></a>
+                </div>
             </div>
         </div>
     </div>
@@ -160,7 +160,7 @@
 
             setDisplay('category-detail', document.getElementById('categoryYn').checked);
 
-            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
             OverlayScrollbars(document.querySelectorAll('#boardAdminDesc'), {
                 className: 'scrollbar',
                 resize: 'vertical',
