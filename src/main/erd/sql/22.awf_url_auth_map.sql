@@ -58,7 +58,7 @@ insert into awf_url_auth_map values ('/boards/articles/{id}/comments', 'get', 'b
 insert into awf_url_auth_map values ('/boards/articles/{id}/edit', 'get', 'board.create');
 insert into awf_url_auth_map values ('/boards/articles/{id}/edit', 'get', 'board.update');
 insert into awf_url_auth_map values ('/boards/articles/{id}/new', 'get', 'board.create');
-insert into awf_url_auth_map values ('/boards/articles/{id}/replay/edit', 'get', 'board.create');
+insert into awf_url_auth_map values ('/boards/articles/{id}/reply/edit', 'get', 'board.create');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.update');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.create');
 insert into awf_url_auth_map values ('/boards/articles/{id}/view', 'get', 'board.read');
