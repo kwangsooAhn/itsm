@@ -127,7 +127,6 @@ $btn-disabled-border-colors: (
 // <a class="btn"></a>  or button
 .btn, 
 button {
-  height: 2.625rem; // 42px
   display: inline-block;
   font-family: inherit;
   font-size: $btn-font-size;
@@ -143,7 +142,7 @@ button {
   white-space: nowrap;
   vertical-align: middle;
   overflow:visible;
-  padding: 0.625rem 1.563rem 0.625rem 1.563rem; // 10px 25px 10px 25px
+  padding: 0.625rem 1.563rem 0.5625rem 1.563rem; // 10px 25px 9px 25px
   cursor: pointer;
 
   &:focus,
