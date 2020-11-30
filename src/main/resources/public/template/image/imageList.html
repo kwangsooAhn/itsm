@@ -8,20 +8,18 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-edit flex-column scroll-wrap">
-        <div class="header image-header">
-            <div class="page-title">
+    <div class="edit flex-column">
+        <div class="image-header">
+            <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{image.label.list}"></h1>
-                <h6 class="title-description" th:text="#{image.msg.searchDescription}"></h6>
+                <h6 class="description" th:text="#{image.msg.searchDescription}"></h6>
             </div>
-            <div class="search-area">
-                <div class="search-input">
-                    <input class="search col-5" id="searchValue" name="searchValue" type="text" maxlength="100"
-                           th:placeholder="#{image.label.name}"/>
-                </div>
+            <div class="header-search flex-row">
+                <input type="text" class="search col-5" id="searchValue" name="searchValue" maxlength="100"
+                        th:placeholder="#{image.label.name}"/>
             </div>
         </div>
-        <div class="image-list">
+        <div class="image-content-edit">
             <div class="thumbnail-main"></div>
         </div>
     </div>
@@ -31,7 +29,7 @@
         let previewModal;
         window.onload = () => {
             getImages();
-            OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.edit'), { className: 'scrollbar' });
             // 미리보기 모달 생성
             previewModal = new modal({
                 title: i18n.msg('image.label.name'),
