@@ -7,8 +7,6 @@
  */
 .avatar {
   &-edit {
-    display: flex;
-    flex-direction: column;
     // 아바타 타이틀
     .avatar-title {
       font-size: $avatar-font-size;

@@ -18,7 +18,7 @@
             <input type="hidden" sec:authorize="hasAuthority('custom.code.update')" th:name="isRole" th:value="true"/>
             <input type="hidden" sec:authorize="!hasAuthority('custom.code.update')" th:name="isRole" th:value="false"/>
             <form id="searchFrm">
-                <select id="searchType" name="searchType">
+                <select id="searchType" name="searchType" class="col-3">
                     <option value="" th:text="#{customCode.label.all}" selected/>
                     <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
                 </select>

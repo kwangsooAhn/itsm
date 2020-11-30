@@ -243,6 +243,10 @@
       // 버튼 목록
       .btn-list { margin-top: 1.875rem; } // 30px
     }
+
+    .edit-column {
+      .edit-row { margin: 0.625rem 0 0 0; } // 10px 0 0 0
+    }
   }
 }
 

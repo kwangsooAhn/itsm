@@ -274,32 +274,69 @@
 
 /////////////////////////////////////////////// EDIT /////////////////////////////////////////////////////
 // 공지사항, FAQ, 자료실, 게시판
-// 시스템관리 > 사용자, 게시판
-// 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
-// 업무흐름 관리 > 역할, 권한
-// 업무흐름 관리 > 코드
+// 업무흐름 관리 > 커스텀 코드
 .notice-content-edit,
 .faq-content-edit,
 .download-content-edit,
 .board-content-edit,
-.user-content-edit,
 .board-admin-content-edit,
-//.process-content-edit,
-//.form-content-edit,
-.document-admin-content-edit,
-.custom-code-content-edit,
-.auth-content-edit,
-.role-content-edit,
-.code-content-edit,
-.image-content-edit {
+.custom-code-content-edit {
   padding: 2.188rem 3.75rem 3.125rem 3.75rem; // 35px 60px 50px 60px
   background-color: $white;
+  border-top: $layout-header-border;
+}
+// 시스템관리 > 사용자
+.user-content-edit {
+  padding: 0 3.75rem 3.125rem 3.75rem; // 0 60px 50px 60px
+  background-color: $white;
+  border-top: $layout-header-border;
+
+  .sub-title { margin-top: 2.5rem; } // 40px
+  // select box 크기 고정
+  .custom-setting-top-select,
+  .language-select,
+  .theme-color-select {
+    width: 29.38rem; // 470px
+  }
+  .select-date-time {
+    width: 19.38rem; // 310px
+  }
+  .hour-select {
+    width: 9.688rem; // 155px
+  }
+}
+// 시스템관리 > 게시판
+.board-admin-content-edit {
+  // 카테고리 테이블
+  .edit-table {
+    margin: 1.25rem 0 0 0; // 20px 0 0 0
+    tr {
+      height: 2.5rem; // 40px
+      line-height: 2.5rem; 
+      th {
+        border-bottom: 0.0625rem solid $line-gray; // 1px
+      }
+      td { 
+        padding: 0 0.9375rem; // 0 15px
+        border-bottom: 0.0625rem solid $line-gray; // 1px
+      }
+    }
+    .tbody {
+      tr:hover { background-color: $list-hover-bg-color; }
+      // 데이터 없을때
+      .no-data-found-list {
+        background-color: $no-data-found-list-bg;
+        pointer-events: none;
+      }
+    }
+  }
 }
 
 // 업무흐름 관리 > 이미지 관리
 .image-content-edit {
   padding: 3.125rem 3.75rem; // 50px 60px
   background-color: $white;
+  border-top: $layout-header-border;
 }
 
 

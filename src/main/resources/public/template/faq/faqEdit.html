@@ -8,42 +8,53 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-edit flex-column scroll-wrap">
-        <div class="header">
-            <div class="page-title">
+    <div class="flex-column edit">
+        <div class="faq-header">
+            <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{faq.label.faq}"></h1>
-                <h6 class="title-description" th:text="#{faq.msg.editDescription}"></h6>
+                <h6 class="description" th:text="#{faq.msg.editDescription}"></h6>
             </div>
         </div>
-        <div class="edit">
+        <div class="faq-content-edit">
             <form id="faqForm" method="post" onsubmit="return false">
                 <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
-                <div class="form-set">
-                    <label class="required" th:text="#{common.label.group}" for="faqGroup"></label>
+                <div class="flex-column edit-row">
+                    <label for="faqGroup">
+                        <span th:text="#{common.label.group}"></span>
+                        <span class="required"></span>
+                    </label>
                     <select id="faqGroup" name="faqGroup" required="required">
                         <option th:each="faqGroup :${faqGroupList}" th:text="#{|common.code.${faqGroup.code}|}"
                                 th:value="${faqGroup.code}" th:selected="${faqGroup.code} == ${faq?.faqGroup}">
                         </option>
                     </select>
                 </div>
-                <div class="form-set">
-                    <label class="required" th:text="#{common.label.title}" for="faqTitle"></label>
+                <div class="flex-column edit-row">
+                    <label for="faqTitle">
+                        <span th:text="#{common.label.title}"></span>
+                        <span class="required"></span>
+                    </label>
                     <input id="faqTitle" name="faqTitle" th:value="${faq?.faqTitle}"
                            maxlength="100" required="required"/>
                 </div>
-                <div class="form-set">
-                    <label class="required" th:text="#{common.label.contents}" for="faqContent"></label>
+                <div class="flex-column edit-row">
+                    <label for="faqContent">
+                        <span th:text="#{common.label.contents}"></span>
+                        <span class="required"></span>
+                    </label>
                     <textarea id="faqContent" name="faqContent" th:text="${faq?.faqContent}"
                               maxlength="2048" rows="7" class="textarea-scroll-wrapper"></textarea>
                 </div>
-                <div class="btn-list">
-                    <button type="button" class="point-fill" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
-                            th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
-                    <button type="button" class="point-fill" id="btnUpdate" sec:authorize="hasAuthority('faq.update')"
-                            th:if="${faq?.faqId}" th:text="#{common.btn.modify}"></button>
-                    <button type="button" class="default-fill" id="btnDelete" sec:authorize="hasAuthority('faq.delete')"
-                            th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
-                    <a class="btn default-line" href="/faqs/search" th:text="#{common.btn.list}"></a>
+                <div class="flex-row justify-content-end edit-row">
+                    <div class="btn-list">
+                        <button type="button" class="point-fill" id="btnRegist" sec:authorize="hasAuthority('faq.create')"
+                                th:if="!${faq?.faqId}" th:text="#{common.btn.register}"></button>
+                        <button type="button" class="point-fill" id="btnUpdate" sec:authorize="hasAuthority('faq.update')"
+                                th:if="${faq?.faqId}" th:text="#{common.btn.modify}"></button>
+                        <button type="button" class="default-fill" id="btnDelete" sec:authorize="hasAuthority('faq.delete')"
+                                th:if="${faq?.faqId}" th:text="#{common.btn.delete}"></button>
+                        <a class="btn default-line" href="/faqs/search" th:text="#{common.btn.list}"></a>
+                    </div>
                 </div>
             </form>
         </div>
@@ -107,7 +118,8 @@
                     aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), restSubmit, null, 'delete', [[@{/rest/faqs/{faqId}(faqId=${faq?.faqId})}]]);
                 });
             }
-            OverlayScrollbars(document.querySelectorAll('#faqContent'), {
+            OverlayScrollbars(document.querySelector('.edit'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
                 className: 'scrollbar',
                 resize: 'vertical',
                 sizeAutoCapable: true,

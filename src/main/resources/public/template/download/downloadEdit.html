@@ -7,16 +7,19 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-edit flex-column scroll-wrap">
-        <div class="header">
-            <div class="page-title">
+    <div class="flex-column edit">
+        <div class="download-header">
+            <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{download.label.download}"></h1>
-                <h6 class="title-description" th:text="#{download.msg.editDescription}"></h6>
+                <h6 class="description" th:text="#{download.msg.editDescription}"></h6>
             </div>
         </div>
-        <div class="edit">
-            <div class="form-set">
-                <label class="required" th:text="#{download.label.category}" for="downloadCategory"></label>
+        <div class="download-content-edit">
+            <div class="flex-column edit-row">
+                <label for="downloadCategory">
+                    <span th:text="#{download.label.category}"></span>
+                    <span class="required"></span>
+                </label>
                 <select id="downloadCategory">
                     <option th:each="category: ${categoryList}"
                             th:value="${category.code}"
@@ -24,23 +27,28 @@
                             th:selected="${category.code} == ${download?.downloadCategory}"></option>
                 </select>
             </div>
-            <div class="form-set">
-                <label class="required" th:text="#{common.label.title}" />
+            <div class="flex-column edit-row">
+                <label for="downloadTitle">
+                    <span th:text="#{common.label.title}"></span>
+                    <span class="required"></span>
+                </label>
                 <input type="text" id="downloadTitle" maxlength="100" th:value="${download?.downloadTitle}"></td>
             </div>
-            <div class="form-set file-uploader-edit">
+            <div class="flex-column edit-row file-uploader-edit">
                 <label class="file-uploader-title" th:text="#{common.label.attachFile}"/>
                 <div id="dropZoneFiles"></div>
                 <div id="dropZoneUploadedFiles"></div>
             </div>
-            <div class="btn-list">
-                <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
-                        class="point-fill" th:text="#{common.btn.modify}"></button>
-                <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
-                        class="point-fill" th:text="#{common.btn.register}"></button>
-                <button th:if="${download?.downloadId}" onclick="deleteDownload()"
-                        class="default-fill" th:text="#{common.btn.delete}"></button>
-                <a class="btn default-line" href="/downloads/search" th:text="#{common.btn.list}"></a>
+            <div class="flex-row justify-content-end edit-row">
+                <div class="btn-list">
+                    <button th:if="${download?.downloadId}" onclick="saveDownload('put')"
+                            class="point-fill" th:text="#{common.btn.modify}"></button>
+                    <button th:unless="${download?.downloadId}" onclick="saveDownload('post')"
+                            class="point-fill" th:text="#{common.btn.register}"></button>
+                    <button th:if="${download?.downloadId}" onclick="deleteDownload()"
+                            class="default-fill" th:text="#{common.btn.delete}"></button>
+                    <a class="btn default-line" href="/downloads/search" th:text="#{common.btn.list}"></a>
+                </div>
             </div>
         </div>
     </div>
@@ -52,7 +60,7 @@
         window.onload = function() {
             document.getElementById('downloadTitle').focus();
             fileUploader.init({extra: {formId: 'downloadForm', ownId: [[${download?.downloadId}]]}});
-            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
         };
 
         //Empty Check
