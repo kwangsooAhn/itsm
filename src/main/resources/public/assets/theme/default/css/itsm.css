@@ -1217,6 +1217,7 @@ table[id="documentDisplay"] td {
  */
 .btn,
 button {
+  height: 2.625rem;
   display: inline-block;
   font-family: inherit;
   font-size: 1rem;
@@ -2102,7 +2103,7 @@ button .icon-plus {
 }
 
 .itsm-container .main .list-body .no-data-found-list {
-  background-color: rgba(230, 232, 235, 0.6);
+  background-color: #EBEBEB;
   pointer-events: none;
 }
 
@@ -2438,7 +2439,7 @@ button .icon-plus {
 }
 
 .board-admin-content-edit .edit-table .tbody .no-data-found-list {
-  background-color: rgba(230, 232, 235, 0.6);
+  background-color: #EBEBEB;
   pointer-events: none;
 }
 

@@ -127,6 +127,7 @@ $btn-disabled-border-colors: (
 // <a class="btn"></a>  or button
 .btn, 
 button {
+  height: 2.625rem; // 42px
   display: inline-block;
   font-family: inherit;
   font-size: $btn-font-size;
