@@ -19,7 +19,7 @@
             <form id="faqForm" method="post" onsubmit="return false">
                 <input type="hidden" id="faqId" name="faqId" th:value="${faq?.faqId}"/>
                 <div class="form-set">
-                    <label class="required" th:text="#{common.label.group}" for="faqGroup"></label>
+                    <label class="required" th:text="#{faq.label.category}" for="faqGroup"></label>
                     <select id="faqGroup" name="faqGroup" required="required">
                         <option th:each="faqGroup :${faqGroupList}" th:text="#{|common.code.${faqGroup.code}|}"
                                 th:value="${faqGroup.code}" th:selected="${faqGroup.code} == ${faq?.faqGroup}">
