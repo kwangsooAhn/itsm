@@ -8,7 +8,108 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-edit flex-column scroll-wrap">
+    <div class="flex-column edit">
+        <div class="notice-header">
+            <div class="header-title flex-row align-items-baseline">
+                <h1 th:text="#{notice.label.notice}"></h1>
+                <h6 class="description" th:text="#{notice.msg.editDescription}"></h6>
+            </div>
+        </div>
+        <div class="notice-content-edit">
+            <form id="frm" method="post">
+                <div class="flex-column edit-row">
+                    <label th:text="#{common.label.title}" for="noticeTitle"></label>
+                    <input type="text" id="noticeTitle" name="noticeTitle" th:value="${notice?.noticeTitle}"
+                           maxlength="128"/>
+                </div>
+                <div class="flex-column edit-row">
+                    <label th:text="#{common.label.contents}" for="noticeContents"></label>
+                    <textarea id="noticeContents" name="noticeContents" maxlength="2048" rows="11" class="textarea-scroll-wrapper"
+                              th:text="${notice?.noticeContents}"></textarea>
+                </div>
+                <div class="flex-column edit-row file-uploader-edit">
+                    <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
+                    <div id="dropZoneFiles"></div>
+                    <div id="dropZoneUploadedFiles"></div>
+                </div>
+                <div class="flex-column edit-row">
+                    <label th:text="#{common.label.writer}"></label>
+                    <input type="text" th:value="${notice?.aliceUserEntity?.userName} ? ${notice.aliceUserEntity.userName} : ${#authentication.details.userName}"
+                           disabled/>
+                </div>
+                <div class="flex-column edit-row">
+                    <label class="switch">
+                        <input type="checkbox" id="popYn" name="popYn" onchange="setDisplay('popTab',this)"
+                               th:checked="${notice?.popYn == true}">
+                        <span></span>
+                        <span class="label" th:text="#{notice.label.popUpNoticeSettings}"></span>
+                    </label>
+                </div>
+                <div id="popTab" class="flex-column edit-row">
+                    <div class="flex-row">
+                        <div class="flex-column col-6 mr-4">
+                            <label th:text="#{notice.label.height}" for="popHeight"></label>
+                            <input type="text" id="popHeight" name="popHeight" class="px"
+                                   th:value="${notice?.popHeight} ? ${notice.popHeight} : 500" max="1000" maxlength="4"
+                                   oninput="maxLengthCheck(this)" />
+                        </div>
+                        <div class="flex-column col-6">
+                            <label th:text="#{notice.label.width}" for="popWidth"></label>
+                            <input type="text" id="popWidth" name="popWidth" class="px"
+                                   th:value="${notice?.popWidth} ? ${notice.popWidth} : 500" max="1000" maxlength="4"
+                                   oninput="maxLengthCheck(this)" />
+                        </div>
+                    </div>
+                    <div class="flex-row">
+                        <div class="flex-column col-6 mr-4">
+                            <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
+                            <input type="text" id="popStrtDt" name="popStrtDt" class="date col-pct-12" />
+                        </div>
+                        <div class="flex-column col-6">
+                            <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
+                            <input type="text" id="popEndDt" name="popEndDt" class="date col-pct-12" />
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-column edit-row">
+                    <label class="switch">
+                        <input type="checkbox" id="topNoticeYn" name="topNoticeYn" onchange="setDisplay('topNoticeTab',this)"
+                               th:checked="${notice?.topNoticeYn == true}">
+                        <span></span>
+                        <span class="label" th:text="#{notice.label.topNoticeSettings}"></span>
+                    </label>
+                </div>
+                <div id="topNoticeTab" class="flex-column edit-row">
+                    <div class="flex-row">
+                        <div class="flex-column col-6 mr-4">
+                            <label th:text="#{notice.label.strtDt}" for="popStrtDt"></label>
+                            <input type="text" id="topNoticeStrtDt" class="date col-pct-12" name="topNoticeStrtDt"/>
+                        </div>
+                        <div class="flex-column col-6">
+                            <label th:text="#{notice.label.endDt}" for="popEndDt"></label>
+                            <input type="text" id="topNoticeEndDt" class="date col-pct-12" name="topNoticeEndDt"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-row justify-content-end edit-row">
+                    <div class="btn-list">
+                        <button sec:authorize="hasAuthority('notice.create')" th:if="!${notice?.noticeNo}" type="button" id="insert"
+                                class="point-fill" onclick="saveNotice('post')" th:text="#{common.btn.register}">
+                        </button>
+                        <button sec:authorize="hasAuthority('notice.update')" th:if="${notice?.noticeNo}" type="button" id="update"
+                                class="point-fill" onclick="saveNotice('put')" th:text="#{common.btn.modify}">
+                        </button>
+                        <button sec:authorize="hasAuthority('notice.delete')" th:if="${notice?.noticeNo}" type="button" id="delete"
+                                class="default-fill" onclick="deleteNotice()" th:text="#{common.btn.delete}">
+                        </button>
+                        <a class="btn default-line" href="/notices/search" th:text="#{common.btn.list}"></a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!--<div class="contents-edit flex-column scroll-wrap">
         <div class="header">
             <div class="page-title">
                 <h1 th:text="#{notice.label.notice}"></h1>
@@ -105,7 +206,7 @@
                 </div>
             </form>
         </div>
-    </div>
+    </div>-->
 </th:block>
 </body>
 <th:block layout:fragment="pageScript">
@@ -116,7 +217,7 @@
             setDisplay('popTab',document.getElementById('popYn'));
             setDisplay('topNoticeTab',document.getElementById('topNoticeYn'));
             fileUploader.init({extra: {formId: 'frm', ownId: /*[[${notice?.noticeNo}]]*/''}});
-            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelectorAll('.edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('#noticeContents'), {
                 className: 'scrollbar',
                 resize: 'vertical',

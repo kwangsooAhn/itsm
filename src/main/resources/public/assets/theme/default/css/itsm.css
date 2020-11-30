@@ -2131,6 +2131,18 @@ button .icon-plus {
   margin-left: 2.5rem;
 }
 
+.itsm-container .main .edit {
+  height: 100vh;
+}
+
+.itsm-container .main .edit .edit-row {
+  margin: 0.625rem 19.38rem 0 19.38rem;
+}
+
+.itsm-container .main .edit .edit-row .btn-list {
+  margin-top: 1.875rem;
+}
+
 .itsm-container .aside {
   flex-shrink: 0;
   width: 38.125rem;
@@ -2162,6 +2174,22 @@ button .icon-plus {
   margin-top: 0.625rem;
 }
 
+.slide-down {
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: slideDown;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+}
+
+.slide-up {
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: slideUp;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
+}
+
 .notice-header,
 .faq-header,
 .download-header,
@@ -2174,9 +2202,18 @@ button .icon-plus {
 .custom-code-header,
 .auth-header,
 .role-header,
-.code-header {
+.code-header,
+.image-header {
   padding: 2.188rem 3.75rem 0 3.75rem;
   background-color: #F7F8F9;
+}
+
+.document-header,
+.token-header,
+.dashboard-header {
+  padding: 2.188rem 3.75rem 0 3.75rem;
+  background-color: #F7F8F9;
+  border-bottom: 0.0625rem solid #EBEBEB;
 }
 
 .notice-content,
@@ -2198,14 +2235,6 @@ button .icon-plus {
 
 .notice-pinned {
   background-color: rgba(135, 206, 255, 0.15);
-}
-
-.document-header,
-.token-header,
-.dashboard-header {
-  padding: 2.188rem 3.75rem 0 3.75rem;
-  background-color: #F7F8F9;
-  border-bottom: 0.0625rem solid #EBEBEB;
 }
 
 .document-content {
@@ -2332,20 +2361,25 @@ button .icon-plus {
   margin-top: 0;
 }
 
-.slide-down {
-  animation-delay: 0s;
-  animation-duration: 0.3s;
-  animation-name: slideDown;
-  animation-timing-function: ease-out;
-  animation-iteration-count: 1;
+.notice-content-edit,
+.faq-content-edit,
+.download-content-edit,
+.board-content-edit,
+.user-content-edit,
+.board-admin-content-edit,
+.document-admin-content-edit,
+.custom-code-content-edit,
+.auth-content-edit,
+.role-content-edit,
+.code-content-edit,
+.image-content-edit {
+  padding: 2.188rem 3.75rem 3.125rem 3.75rem;
+  background-color: #ffffff;
 }
 
-.slide-up {
-  animation-delay: 0s;
-  animation-duration: 0.3s;
-  animation-name: slideUp;
-  animation-timing-function: ease-out;
-  animation-iteration-count: 1;
+.image-content-edit {
+  padding: 3.125rem 3.75rem;
+  background-color: #ffffff;
 }
 
 .itsm-container {
@@ -2877,12 +2911,6 @@ button .icon-plus {
   margin: auto 1.25rem auto 0;
 }
 
-.btn-list {
-  padding: 0.625rem 0 0 0;
-  display: flex;
-  justify-content: flex-end;
-}
-
 .profile-photo {
   border-radius: 50%;
   background-color: #F0F0F0;
@@ -2905,38 +2933,6 @@ button .icon-plus {
   border-radius: 50%;
   margin-right: 0.625rem;
   display: inline-block;
-}
-
-.no-data-found {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 13.75rem;
-  margin: 3.125rem 3.75rem;
-  background-color: rgba(247, 248, 249, 0.45);
-  border: 0.0625rem solid #EBEBEB;
-  border-radius: 0.0625rem;
-  pointer-events: none;
-}
-
-.no-data-found .no-data-icon {
-  content: url("../media/icons/icon_no_data.svg");
-}
-
-.no-data-found .no-data-text {
-  font-size: 1.125rem;
-  font-weight: 500;
-  color: #CCCED1;
-  margin-left: 1.875rem;
-}
-
-.no-data-found-list {
-  pointer-events: none;
-  background: #EBEBEB;
-}
-
-.no-data-found-list td {
-  text-align: center;
 }
 
 .gnb {
