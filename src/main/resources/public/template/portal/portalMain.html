@@ -231,21 +231,21 @@
             divContentBox.className = 'item-box';
 
             let divTitle = document.createElement('h5');
-            divTitle.className = "item-title text-ellipsis";
+            divTitle.className = "item-title underline text-ellipsis";
             let aTitle = document.createElement('a');
             if (data.tableName === 'notice') {
                 aTitle.href = '/portals/notices/' + data.portalId + '/view';
             } else if (data.tableName === 'faq') {
-                aTitle.href = '/portals/faqs?id=' + data.portalId+ '/view';
+                aTitle.href = '/portals/faqs/' + data.portalId+ '/view';
             } else if (data.tableName === 'download') {
-                aTitle.href = '/portal/downloads/'+ data.portalId +'/view';
+                aTitle.href = '/portals/downloads/'+ data.portalId +'/view';
             }
             aTitle.innerText = data.portalTitle;
             divTitle.appendChild(aTitle);
             divContentBox.appendChild(divTitle);
 
             let divContent = document.createElement('div');
-            divContent.className = "item-content text-ellipsis";
+            divContent.className = "text-ellipsis";
             if (data.tableName === 'download') {
                 divContent.innerText = i18n.msg(''+data.portalContent+'');
             } else {

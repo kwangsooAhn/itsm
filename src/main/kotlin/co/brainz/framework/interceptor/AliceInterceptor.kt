@@ -46,7 +46,7 @@ class AliceInterceptor(
         val userAgent = request.getHeader("User-Agent")
 
         return if (userAgent != null && (userAgent.indexOf("MISE") != -1 || userAgent.indexOf("Trident") != -1)) {
-            response.sendRedirect("/portal/browserGuide")
+            response.sendRedirect("/portals/browserguide")
             false
         } else {
             true
