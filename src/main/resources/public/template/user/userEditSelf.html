@@ -8,67 +8,80 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-edit flex-column scroll-wrap">
-        <div class="header">
-            <div class="page-title">
+    <div class="flex-column edit">
+        <div class="user-header">
+            <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{user.label.editUserInfo}"></h1>
-                <h6 class="title-description" th:text="#{user.msg.editSelfDescription}"></h6>
+                <h6 class="description" th:text="#{user.msg.editSelfDescription}"></h6>
             </div>
         </div>
-        <div class="user-edit edit">
+        <div class="user-content-edit">
             <input type="hidden" id="userKey" name="userKey" th:value="${users?.userKey}"/>
             <input type="hidden" id="avatarUUID" name="avatarUUID" value=""/>
-            <h3 class="under-bar bold" th:text="#{user.label.profile}"></h3>
-            <div class="flex-row justify-content-between user-align-item">
-                <div class="col-6">
-                    <div  th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
-                        <div class="form-set">
-                            <div class="label-row">
-                                <label class="required" th:text="#{user.label.id}" for="userId"></label>
+            <div class="flex-column edit-row">
+                <h3 class="sub-title under-bar bold" th:text="#{user.label.profile}"></h3>
+            </div>
+            <div class="flex-column edit-row">
+                <div class="flex-row user-align-item">
+                    <div class="edit-column col-6">
+                        <div class="flex-column edit-row" th:style="${users?.userKey != null && !users?.platform.equals('user.platform.alice')} ? 'display: none' : ''">
+                            <label for="userId">
+                                <span th:text="#{user.label.id}"></span>
+                                <span class="required"></span>
                                 <div class="help-tooltip">
                                     <span class="help-tooltip-icon"></span>
                                     <div class="tooltip-contents">
                                         <span th:utext="#{user.tooltip.idRule}"></span>
                                     </div>
                                 </div>
-                            </div>
-                            <input id="userId" name="userId" maxlength="100" th:value="${users?.userId}"
+                            </label>
+                            <input type="text" id="userId" name="userId" maxlength="100" th:value="${users?.userId}"
                                    required="required"/>
                         </div>
-                        <div class="form-set">
-                            <div class="label-row">
-                                <label class="required" th:text="#{user.label.password}" for="password"></label>
+                        <div class="flex-column edit-row">
+                            <label for="password">
+                                <span th:text="#{user.label.password}"></span>
+                                <span class="required"></span>
                                 <div class="help-tooltip">
                                     <span class="help-tooltip-icon"></span>
                                     <div class="tooltip-contents">
                                         <span th:utext="#{user.tooltip.pwRule}"></span>
                                     </div>
                                 </div>
-                            </div>
+                            </label>
                             <input type="password" id="password" name="password" maxlength="100"
                                    autocomplete="new-password" required="required"/>
                         </div>
-                        <div class="form-set">
-                            <label class="required" th:text="#{user.label.rePassword}" for="rePassword"></label>
+                        <div class="flex-column edit-row">
+                            <label for="rePassword">
+                                <span th:text="#{user.label.rePassword}"></span>
+                                <span class="required"></span>
+                            </label>
                             <input type="password" id="rePassword" name="rePassword" maxlength="100"
                                    autocomplete="new-password" required="required"/>
                         </div>
-                        <div class="form-set">
-                            <label class="required" th:text="#{user.label.name}" for="userName"></label>
+                        <div class="flex-column edit-row">
+                            <label for="userName">
+                                <span th:text="#{user.label.name}"></span>
+                                <span class="required"></span>
+                            </label>
                             <input id="userName" name="userName" th:value="${users?.userName}" maxlength="100"
                                    required="required"/>
                         </div>
-                        <div class="form-set">
-                            <label class="required" th:text="#{user.label.email}" for="email"></label>
+                        <div class="flex-column edit-row">
+                            <label for="email">
+                                <span th:text="#{user.label.email}"></span>
+                                <span class="required"></span>
+                            </label>
                             <span th:text="#{user.msg.emailAlert}" hidden></span>
                             <input id="email" name="email" th:value="${users?.email}" maxlength="100"
                                    required="required">
                         </div>
-                        <div class="form-set">
+                        <div class="flex-column edit-row">
                             <label th:text="#{user.label.position}" for="position"></label>
                             <input id="position" name="position" th:value="${users?.position}" maxlength="100">
                         </div>
-                        <div class="form-set">
+                        <div class="flex-column edit-row">
                             <label th:text="#{user.label.department}" for="department"></label>
                             <div class="flex-row input-button">
                                 <input type="hidden" id="departmentCode" name="departmentCode" th:value="${deptCodeDetail?.code}"/>
@@ -76,20 +89,18 @@
                                 <button type="button" class="default-line col-1" onclick="deptPopUp();" th:text="#{common.btn.select}"></button>
                             </div>
                         </div>
-                        <div class="form-set">
+                        <div class="flex-column edit-row">
                             <label th:text="#{user.label.officeNumber}" for="officeNumber"></label>
                             <input id="officeNumber" name="officeNumber" th:value="${users?.officeNumber}"
                                    onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                         </div>
-                        <div class="form-set">
+                        <div class="flex-column edit-row">
                             <label th:text="#{user.label.mobileNumber}" for="mobileNumber"></label>
                             <input id="mobileNumber" name="mobileNumber" th:value="${users?.mobileNumber}"
                                    onkeydown="return onlyNumber(event)" onkeyup="removeChar(event)" maxlength="100">
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="form-set avatar-edit">
+                    <div class="flex-column avatar-edit ml-4">
                         <label class="avatar-title" th:text="#{user.label.avatar}"></label>
                         <div id="avatarDropZone"></div>
                         <div class="avatar-description">
@@ -99,49 +110,66 @@
                     </div>
                 </div>
             </div>
-            <h3 class="under-bar bold" th:text="#{user.label.customSetting}"></h3>
-            <div class="flex-row">
-                <div class="form-set col-6">
-                    <label class="required" th:text="#{user.label.timezone}" for="timezone"></label>
-                    <select class="custom-setting-top-select" name="timezone" id="timezone">
-                        <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
-                                th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone}"></option>
-                    </select>
-                </div>
-                <div class="form-set col-6">
-                    <label th:text="#{user.label.timeFormat}" for="date"></label>
-                    <div class="flex-row">
-                        <select class="select-date-time col-4" name="date" id="date">
-                            <option th:each="date: ${dateList}" th:value="${date.codeValue}"
-                                    th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
+            <div class="flex-column edit-row">
+                <h3 class="sub-title under-bar bold" th:text="#{user.label.customSetting}"></h3>
+            </div>
+            <div class="flex-column edit-row">
+                <div class="flex-row">
+                    <div class="flex-column col-6 mr-4">
+                        <label for="timezone">
+                            <span th:text="#{user.label.timezone}"></span>
+                            <span class="required"></span>
+                        </label>
+                        <select class="custom-setting-top-select" name="timezone" id="timezone">
+                            <option th:each="timezone: ${timezoneList}" th:value="${timezone.timezoneValue}"
+                                    th:text="${timezone.timezoneId}" th:selected="${timezone.timezoneValue} == ${users?.timezone}"></option>
                         </select>
-                        <select class="hour-select col-2" name="time" id="time">
-                            <option th:each="time: ${timeList}" th:value="${time.codeValue}"
-                                    th:text="${time.code}" th:selected="${time.codeValue} == ${usersTime}"></option>
+                    </div>
+                    <div class="flex-column col-6">
+                        <label th:text="#{user.label.timeFormat}" for="date"></label>
+                        <div class="flex-row">
+                            <select class="select-date-time mr-1" name="date" id="date">
+                                <option th:each="date: ${dateList}" th:value="${date.codeValue}"
+                                        th:text="${date.codeValue}" th:selected="${date.codeValue} == ${usersDate}"></option>
+                            </select>
+                            <select class="hour-select" name="time" id="time">
+                                <option th:each="time: ${timeList}" th:value="${time.codeValue}"
+                                        th:text="${time.code}" th:selected="${time.codeValue} == ${usersTime}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex-column edit-row">
+                <div class="flex-row">
+                    <div class="flex-column col-6 mr-4">
+                        <label for="lang">
+                            <span th:text="#{user.label.lang}"></span>
+                            <span class="required"></span>
+                        </label>
+                        <select class="language-select" name="lang" id="lang">
+                            <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
+                                    th:text="${lang.codeValue}" th:selected="${lang.codeValue} == ${users?.lang}"></option>
+                        </select>
+                    </div>
+                    <div class="flex-column col-6">
+                        <label for="theme">
+                            <span th:text="#{user.label.theme}"></span>
+                            <span class="required"></span>
+                        </label>
+                        <select class="theme-color-select" name="theme" id="theme">
+                            <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
+                                    th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"
+                                    th:unless="${theme.codeValue} == 'dark'"></option>
                         </select>
                     </div>
                 </div>
             </div>
-            <div class="flex-row">
-                <div class="form-set col-6">
-                    <label class="required" th:text="#{user.label.lang}" for="lang"></label>
-                    <select class="language-select" name="lang" id="lang">
-                        <option th:each="lang: ${langList}" th:value="${lang.codeValue}"
-                                th:text="${lang.codeValue}" th:selected="${lang.codeValue} == ${users?.lang}"></option>
-                    </select>
-                </div>
-                <div class="form-set col-6">
-                    <label class="required" th:text="#{user.label.theme}" for="theme"></label>
-                    <select class="theme-color-select" name="theme" id="theme">
-                        <option th:each="theme: ${themeList}" th:value="${theme.codeValue}"
-                                th:text="${theme.codeValue}" th:selected="${theme.codeValue} == ${users?.theme}"
-                                th:unless="${theme.codeValue} == 'dark'"></option>
-                    </select>
-                </div>
-            </div>
-            <div class="btn-list">
+            <div class="flex-row justify-content-end edit-row">
+                <div class="btn-list">
                 <button class="point-fill" type="button" th:text="#{common.btn.modify}"
                         th:onclick="restSubmit('put', [[@{/rest/users/{userKey}/info(userKey=${users.userKey})}]])"></button>
+            </div>
             </div>
         </div>
     </div>
@@ -189,7 +217,7 @@
                 }
             });
 
-            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelectorAll('.edit'), {className: 'scrollbar'});
         };
 
         function onlyNumber(event) {
