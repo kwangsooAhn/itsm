@@ -13,7 +13,7 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
         val role = QAliceRoleEntity.aliceRoleEntity
         return from(role)
             .where(
-                super.likeIgnoreCase(role.roleId, search)
+                super.likeIgnoreCase(role.roleName, search)
                     ?.or(super.likeIgnoreCase(role.roleDesc, search))
             ).orderBy(role.roleName.asc())
             .fetchResults()
