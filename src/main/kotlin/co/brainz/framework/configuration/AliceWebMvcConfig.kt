@@ -34,7 +34,7 @@ class AliceWebMvcConfig(
 
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(interceptor).addPathPatterns("/**")
-            .excludePathPatterns("/portals/browserGuide")
+            .excludePathPatterns("/portals/browserguide")
             .excludePathPatterns("/assets/**")
         registry.addInterceptor(localeChangeInterceptor)
     }
