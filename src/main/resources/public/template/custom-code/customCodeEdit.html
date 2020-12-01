@@ -17,14 +17,20 @@
         </div>
         <div class="custom-code-content-edit">
             <div class="flex-column edit-row">
-                <label class="required" th:text="#{customCode.label.name}" for="customCodeName"></label>
+                <label for="customCodeName">
+                    <span th:text="#{customCode.label.name}"></span>
+                    <span class="required"></span>
+                </label>
                 <input type="text" id="customCodeName" required="required" maxlength="110"
                        th:value="${customCode?.customCodeName}">
             </div>
             <div class="flex-column edit-row">
-                <label class="required" th:text="#{customCode.label.type}"></label>
+                <label>
+                    <span th:text="#{customCode.label.type}"></span>
+                    <span class="required"></span>
+                </label>
                 <div class="flex-row mr-auto">
-                    <label class="radio" for="table" tabindex="0">
+                    <label class="radio mr-4" for="table" tabindex="0">
                         <input id="table" name="type" type="radio"
                                th:checked="${customCode?.type == null || customCode?.type == 'table'}"
                                onclick="changeContainer('table')">
@@ -54,17 +60,25 @@
                     </select>
                 </div>
                 <div class="flex-column edit-row">
-                    <label class="required" th:text="#{customCode.label.searchColumn}"></label>
+                    <label for="searchColumn">
+                        <span th:text="#{customCode.label.searchColumn}"></span>
+                        <span class="required"></span>
+                    </label>
                     <select id="searchColumn"></select>
                 </div>
                 <div class="flex-column edit-row">
-                    <label class="required" th:text="#{customCode.label.valueColumn}"></label>
+                    <label for="valueColumn">
+                        <span th:text="#{customCode.label.valueColumn}"></span>
+                        <span class="required"></span>
+                    </label>
                     <select id="valueColumn"></select>
                 </div>
                 <div class="flex-column edit-row">
-                    <div class="flex-row under-bar">
-                        <label id="conditionLabel" th:text="#{customCode.label.condition}"></label>
-                        <button class="default-line plus" onclick="addCondition()">
+                    <div class="under-bar">
+                        <label id="conditionLabel">
+                            <span th:text="#{customCode.label.condition}"></span>
+                        </label>
+                        <button type="button" class="default-line plus float-right" onclick="addCondition()">
                             <span class="icon-plus"></span>
                         </button>
                     </div>
@@ -116,8 +130,10 @@
             initCondition();
             const conditionElem = document.querySelector('input[name=conditionValue]');
             if (conditionElem !== null) {
-                document.getElementById('conditionLabel').classList.add('required');
+                document.getElementById('conditionLabel').insertAdjacentHTML('beforeend', `<span class="required"></span>`);
             }
+            // 스크롤바 추가
+            OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
         };
 
         //column select box 초기화
@@ -169,8 +185,11 @@
         //Add Condition
         function addCondition() {
             const searchColumnLength = document.getElementById('searchColumn').childNodes.length;
-            if (document.getElementById('condition').childNodes.length < searchColumnLength) {
-                document.getElementById('conditionLabel').classList.add('required');
+            const conditionLen = document.getElementById('condition').childNodes.length;
+            if (conditionLen < searchColumnLength) {
+                if (conditionLen === 0) {
+                    document.getElementById('conditionLabel').insertAdjacentHTML('beforeend', `<span class="required"></span>`);
+                }
                 drawCondition();
             } else {
                 aliceJs.alertWarning(i18n.msg('customCode.msg.addCondition', searchColumnLength));
@@ -178,10 +197,8 @@
         }
 
         function drawCondition(param) {
-            const divFormSet = document.createElement('div');
-            divFormSet.classList.add('form-set');
             const divRow = document.createElement('div');
-            divRow.classList.add('row');
+            divRow.classList.add('flex-row');
             const keySelect = document.createElement('select');
             keySelect.classList.add('condition');
             const searchColumn = document.getElementById('searchColumn');
@@ -192,7 +209,7 @@
             }
             const equalSpan = document.createElement('span');
             equalSpan.textContent = '=';
-            equalSpan.classList.add('equal');
+            equalSpan.classList.add('equal', 'ml-1', 'mr-1');
             const valueInput = document.createElement('input');
             valueInput.classList.add('condition');
             valueInput.type = 'text';
@@ -200,17 +217,19 @@
             valueInput.maxLength = 100;
             valueInput.value = (typeof param !== 'undefined') ? param.value : '';
             const deleteBtn = document.createElement('button');
-            deleteBtn.classList.add('minus');
+            deleteBtn.classList.add('btn-minus');
             const deleteIcon = document.createElement('span');
-            deleteIcon.classList.add('icon-delete');
+            deleteIcon.classList.add('icon-delete-gray', 'ml-1');
             deleteBtn.appendChild(deleteIcon);
             deleteBtn.addEventListener('click', function () {
                 aliceJs.confirmIcon(i18n.msg('customCode.msg.confirmDeleteCondition'), function () {
+                    const row = deleteBtn.parentNode;
                     const conditionElems = document.querySelectorAll('input[name=conditionValue]');
-                    if (conditionElems.length === 1) {
-                        document.getElementById('conditionLabel').classList.remove('required');
+                    if (conditionElems.length === 0) {
+                        const conditionLabel = document.getElementById('conditionLabel');
+                        conditionLabel.removeChild(conditionLabel.children[1]);
                     }
-                    deleteBtn.parentNode.parentNode.remove();
+                    row.remove();
 
                 }, null);
             });
@@ -219,8 +238,7 @@
             divRow.appendChild(equalSpan);
             divRow.appendChild(valueInput);
             divRow.appendChild(deleteBtn);
-            divFormSet.appendChild(divRow);
-            document.getElementById('condition').appendChild(divFormSet);
+            document.getElementById('condition').appendChild(divRow);
         }
 
         //Change Container

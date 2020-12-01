@@ -274,13 +274,11 @@
 
 /////////////////////////////////////////////// EDIT /////////////////////////////////////////////////////
 // 공지사항, FAQ, 자료실, 게시판
-// 업무흐름 관리 > 커스텀 코드
 .notice-content-edit,
 .faq-content-edit,
 .download-content-edit,
 .board-content-edit,
-.board-admin-content-edit,
-.custom-code-content-edit {
+.board-admin-content-edit {
   padding: 2.188rem 3.75rem 3.125rem 3.75rem; // 35px 60px 50px 60px
   background-color: $white;
   border-top: $layout-header-border;
@@ -331,14 +329,27 @@
     }
   }
 }
-
 // 업무흐름 관리 > 이미지 관리
 .image-content-edit {
   padding: 3.125rem 3.75rem; // 50px 60px
   background-color: $white;
   border-top: $layout-header-border;
 }
+// 업무흐름 관리 > 커스텀 코드
+.custom-code-content-edit {
+  padding: 2.188rem 3.75rem 3.125rem 3.75rem; // 35px 60px 50px 60px
+  background-color: $white;
+  border-top: $layout-header-border;
 
+  .under-bar {
+    margin-top: 0.625rem; // 10px
+  }
+  // 조건
+  .condition {
+    width: 28.31rem; // 453px
+  }
+  .btn-minus { padding: 0; }
+}
 
 // TODO : 리팩토링
 

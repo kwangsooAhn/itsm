@@ -2385,8 +2385,7 @@ button .icon-plus {
 .faq-content-edit,
 .download-content-edit,
 .board-content-edit,
-.board-admin-content-edit,
-.custom-code-content-edit {
+.board-admin-content-edit {
   padding: 2.188rem 3.75rem 3.125rem 3.75rem;
   background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
@@ -2447,6 +2446,24 @@ button .icon-plus {
   padding: 3.125rem 3.75rem;
   background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
+}
+
+.custom-code-content-edit {
+  padding: 2.188rem 3.75rem 3.125rem 3.75rem;
+  background-color: #ffffff;
+  border-top: 0.0625rem solid #EBEBEB;
+}
+
+.custom-code-content-edit .under-bar {
+  margin-top: 0.625rem;
+}
+
+.custom-code-content-edit .condition {
+  width: 28.31rem;
+}
+
+.custom-code-content-edit .btn-minus {
+  padding: 0;
 }
 
 .itsm-container {
