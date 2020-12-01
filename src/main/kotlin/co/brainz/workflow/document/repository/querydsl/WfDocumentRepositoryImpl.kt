@@ -103,4 +103,46 @@ class WfDocumentRepositoryImpl :
         }
         return documentList
     }
+
+    override fun findAllByDocuments(searchDto: RestTemplateDocumentSearchListDto):
+            MutableList<RestTemplateDocumentDto> {
+        val document = QWfDocumentEntity.wfDocumentEntity
+        val query = from(document)
+            .select(
+                Projections.constructor(
+                    RestTemplateDocumentDto::class.java,
+                    document.documentId,
+                    document.documentType,
+                    document.documentName,
+                    document.documentDesc,
+                    document.documentStatus,
+                    document.process.processId,
+                    document.form.formId,
+                    document.numberingRule.numberingId,
+                    document.documentColor,
+                    document.documentGroup,
+                    document.createUserKey,
+                    document.createDt,
+                    document.updateUserKey,
+                    document.updateDt,
+                    document.documentIcon
+                )
+            )
+            .where(
+                if (searchDto.viewType.equals(DocumentConstants.DocumentViewType.ADMIN.value)) {
+                    document.documentStatus.`in`(
+                        WfDocumentConstants.Status.USE.code,
+                        WfDocumentConstants.Status.TEMPORARY.code,
+                        WfDocumentConstants.Status.DESTROY.code
+                    )
+                } else {
+                    document.documentStatus.`in`(
+                        WfDocumentConstants.Status.USE.code,
+                        WfDocumentConstants.Status.TEMPORARY.code
+                    )
+                }
+            ).orderBy(document.documentName.asc())
+            .fetchResults()
+        return query.results
+    }
 }
