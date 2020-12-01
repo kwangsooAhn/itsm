@@ -19,7 +19,7 @@
         <tbody class="list-body">
             <input th:type="hidden" id="totalCount" name="totalCount" th:value="${noticeCount}"/>
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(noticeList)}">
-                <td colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
+                <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr class="flex-row align-items-center notice-pinned " th:each="topNotice, i: ${topNoticeList}"
                 th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">

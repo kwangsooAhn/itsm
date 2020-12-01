@@ -19,7 +19,7 @@
         <tbody class="list-body">
             <input type="hidden" id="totalCount" name="totalCount" th:value="${downloadCount}"/>
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(downloadList)}">
-                <td colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
+                <td style="width:100%" colspan="6" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr class="flex-row align-items-center" th:each="download : ${downloadList}">
                 <td style="width:5%;" class="align-left" th:text="|${download.downloadSeq}|"></td>

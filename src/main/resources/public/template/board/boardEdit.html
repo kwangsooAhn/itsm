@@ -95,7 +95,7 @@
                                 </thead>
                                 <tbody id="boardCategoryList" class="edit-table-tbody">
                                 <tr class="no-data-found-list align-center" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
-                                    <td colspan="5" th:text="#{common.msg.noData}"></td>
+                                    <td style="width:100%" colspan="5" th:text="#{common.msg.noData}"></td>
                                 </tr>
                                 <tr th:each="category: ${boardAdmin?.categoryList}">
                                     <td class="col-6 align-left" th:text="${category.boardCategoryName}"></td>
@@ -108,6 +108,7 @@
                                         </th:block>
                                     </td>
                                 </tr>
+>>>>>>> src/main/resources/public/template/board/boardEdit.html
                                 </tbody>
                             </table>
                         </div>

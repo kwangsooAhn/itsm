@@ -14,7 +14,7 @@
         </thead>
         <tbody class="list-body">
         <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(roleList)}">
-            <td colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
+            <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
         </tr>
             <tr class="flex-row align-items-center" th:each="role : ${roleList}">
                 <td style="width:25%;" class="align-left" th:id="${role.roleId}" name="roleName" th:text="${role.roleName}"></td>
