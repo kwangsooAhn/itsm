@@ -22,7 +22,7 @@
         <tbody class="list-body">
             <input type="hidden" id="totalCount" th:value="${userListCount}"/>
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(userList)}">
-                <td colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
+                <td style="width:100%" colspan="9" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(userList)}" th:each="user: ${userList}">
                 <td style="width:3.2%;" class="align-right p-0">

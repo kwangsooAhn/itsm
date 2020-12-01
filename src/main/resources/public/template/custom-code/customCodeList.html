@@ -17,10 +17,10 @@
         <tbody class="list-body">
             <input th:type="hidden" id="totalCount" name="totalcount" th:value="${customCodeCount}"/>
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(customCodeList)}">
-                <td colspan="4" class="align-center" th:text="#{common.msg.noData}"></td>
+                <td style="width:100%" colspan="4" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr class="flex-row align-items-center" th:each="customCode : ${customCodeList}">
-                <td  style="width:50%" class="align-left">
+                <td style="width:50%" class="align-left">
                     <a sec:authorize="!hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
                        th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a>
                     <a sec:authorize="hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"

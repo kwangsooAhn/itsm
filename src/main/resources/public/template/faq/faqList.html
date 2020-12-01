@@ -15,7 +15,7 @@
         <tbody class="list-body">
             <input th:type="hidden" id="totalCount" name="totalCount" th:value="${faqCount}"/>
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(faqs)}">
-                <td colspan="2" class="align-center" th:text="#{common.msg.noData}"></td>
+                <td style="width:100%" colspan="2" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr class="flex-row align-items-center" th:each="faq : ${faqs}">
                 <td style="width:20%;" class="align-left" th:text="#{|common.code.${faq.faqGroup}|}"></td>

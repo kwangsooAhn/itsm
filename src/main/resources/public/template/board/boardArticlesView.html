@@ -46,7 +46,7 @@
             <div class="justify-content-end btn-list">
                 <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
                         class="point-fill" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
-                        th:onclick ="'location.href =\'' + @{/boards/articles/{id}/replay/edit(id=${boardInfo?.boardId})}+'\''"
+                        th:onclick ="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''"
                         th:text="#{board.btn.reply}">
                 </button>
                 <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"

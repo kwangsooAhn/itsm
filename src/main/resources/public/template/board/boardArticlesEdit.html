@@ -4,7 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
       layout:decorator="layout/defaultLayout">
 <head>
-    <title th:text="${boardInfo != null} ? #{board.label.edit} : #{board.label.register}"></title>
+    <title th:text="${boardInfo != null} ? (${replyYn} ? #{board.label.reply} : #{board.label.edit}) : #{board.label.register}"></title>
 </head>
 <body>
 <th:block layout:fragment="content">
@@ -103,7 +103,7 @@
     <script th:inline="javascript" type="text/javascript">
         /*<![CDATA[*/
         const boardId = /*[[${boardInfo?.boardId}]]*/;
-        //boardAdminId, attachYn, attachFileSize, categoryYn은 게시판 선택 변경이 가능하기 때문에 let으로 변경 함.
+        // boardAdminId, attachYn, attachFileSize, categoryYn은 게시판 선택 변경이 가능하기 때문에 let으로 변경 함.
         let boardAdminId = /*[[${boardAdminInfo?.boardAdminId}]]*/;
         let attachYn  = /*[[${boardAdminInfo?.attachYn}]]*/;
         let attachFileSize = /*[[${boardAdminInfo?.attachFileSize}]]*/;

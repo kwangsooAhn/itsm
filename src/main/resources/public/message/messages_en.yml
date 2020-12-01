@@ -210,7 +210,7 @@ board:
     enterBoardTitle: "Please enter the board name."
     enterCategoryName: "Please enter the category name."
     modifyDescription: "Edit board's information."
-    replayDescription: "You can add a reply."
+    replyDescription: "You can add a reply."
     searchDescription: "View and manage posts."
     viewDescription: "Inquire detailed information about the post."
 
