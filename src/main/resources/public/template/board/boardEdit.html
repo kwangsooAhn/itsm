@@ -89,7 +89,7 @@
                                 </thead>
                                 <tbody id="boardCategoryList">
                                     <tr class="no-data-found-list" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
-                                        <td colspan="5" th:text="#{common.msg.noData}"></td>
+                                        <td style="width:100%" colspan="5" th:text="#{common.msg.noData}"></td>
                                     </tr>
                                     <tr th:each="category: ${boardAdmin?.categoryList}">
                                         <td class="col-6" th:text="${category.boardCategoryName}"></td>

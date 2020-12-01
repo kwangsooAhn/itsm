@@ -17,7 +17,7 @@
         </thead>
         <tbody class="list-body">
 	        <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(boardAdminList)}">
-	            <td colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
+	            <td style="width:100%" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
 	        </tr>
 	        <tr class="flex-row align-items-center" th:each="boardAdmin: ${boardAdminList}">
 	            <td style="width: 65%" class="align-left">

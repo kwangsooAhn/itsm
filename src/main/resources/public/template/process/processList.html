@@ -20,7 +20,7 @@
         <tbody class="list-body">
         <input type="hidden" id="totalCount" th:value="${processListCount}"/>
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(processList)}">
-                <td colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
+                <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(processList)}" th:each="process: ${processList}">
                 <td style="width: 20%" class="align-left">

@@ -26,7 +26,7 @@
     <tbody id="instanceList" class="list-body">
         <tr class="no-data-found-list flex-row justify-content-center align-items-center"
             th:if="${#arrays.isEmpty(instanceList)}">
-            <td th:text="#{common.msg.noData}"></td>
+            <td style="width:100%" th:text="#{common.msg.noData}"></td>
         </tr>
         <tr class="instance-list"th:each="instance, index : ${instanceList}">
             <td style="width:5%;" class="align-center">
