@@ -43,7 +43,7 @@
                 </form>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="btn-list">
+            <div class="justify-content-end btn-list">
                 <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
                         class="point-fill" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
                         th:onclick ="'location.href =\'' + @{/boards/articles/{id}/replay/edit(id=${boardInfo?.boardId})}+'\''"

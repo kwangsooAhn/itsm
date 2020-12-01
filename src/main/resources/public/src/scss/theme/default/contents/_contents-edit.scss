@@ -9,15 +9,6 @@
   @include contents-template();
   @include edit-template();
   .btn-list { padding: 2.5rem 0 3.125rem 0; } // 40px 0 50px 0
-  // 업무흐름 관리 > 이미지 관리
-  .image {
-    &-header {
-      padding-bottom: 0.625rem;
-    }
-    &-list {
-      padding: 3.125rem 3.75rem 2.875rem 3.75rem;
-    }
-  }
   .flex-row { margin-bottom: 3.125rem; }
 
   // 커스텀 코드
@@ -26,65 +17,5 @@
     .equal { padding: 0 0.3125rem; } // 0 5px
     .minus { padding: 0.5625rem 0.8125rem; } // 9px 13px
     .icon-delete { background: $pressed-gray; }
-  }
-
-  // 사용자 정보 수정
-  .user-edit {
-    .switch { margin-top: 0.9375rem; } // 15px
-  }
-
-  // 게시판 카테고리
-  .category {
-    margin-top: 1.25rem; // 20px
-    &-list {
-      width: 61.25rem;
-      margin: auto;
-      .edit-table {
-        thead {
-          display: block;
-          & > tr {
-            display: flex;
-            height: 2.375rem; // 38px
-            th {
-              @include h5();
-              text-align: left;
-              border-bottom: 0.0625rem solid $default-gray;
-            }
-          }
-        }
-        tbody {
-          display: block;
-          width: 100%;
-          overflow-y: auto;
-          tr {
-            display: table;
-            width: 100%;
-            height: 3.375rem; // 54px
-            &:last-child {
-              td {
-                border-bottom: 0.0625rem solid $default-gray;
-              }
-            }
-            &:hover {
-              background: $line-gray;
-            }
-            &.active {
-              td {
-                color: $dark-blue;
-                background: $line-gray;
-              }
-            }
-            td {
-              @include h5();
-              vertical-align: middle;
-
-              &:first-child {
-                padding-left: 1.25rem; // 20px
-              }
-            }
-          }
-        }
-      }
-    }
   }
 }

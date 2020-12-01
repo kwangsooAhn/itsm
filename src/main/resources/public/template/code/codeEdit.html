@@ -30,7 +30,7 @@
 </th:block>
 <th:block layout:fragment="aside">
     <div class="aside code">
-        <div class="code-edit flex-column">
+        <div class="code-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-row">
                     <div class="edit-column flex-column flex-fill mr-4">
@@ -83,16 +83,18 @@
                 </div>
             </div>
         </div>
-        <div class="btn-list">
-            <button sec:authorize="hasAuthority('code.create')"
-                    class="point-fill" type="button" id="btnRegist" name="btnRegist"
-                    th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-            <button sec:authorize="hasAuthority('code.update')"
-                    class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
-                    th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
-            <button sec:authorize="hasAuthority('code.delete')"
-                    class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                    th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+        <div class="flex-row justify-content-end">
+            <div class="btn-list">
+                <button sec:authorize="hasAuthority('code.create')"
+                        class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                <button sec:authorize="hasAuthority('code.update')"
+                        class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.update}"></button>
+                <button sec:authorize="hasAuthority('code.delete')"
+                        class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+            </div>
         </div>
     </div>
 </th:block>
@@ -171,7 +173,7 @@
                     getCodeList();
                 }
             }, false);
-            OverlayScrollbars(document.querySelector('.code-edit'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.code-content-edit'), { className: 'scrollbar' });
             OverlayScrollbars(document.querySelectorAll('#txtCodeDesc'), {
                 className: 'scrollbar',
                 resize: 'vertical',

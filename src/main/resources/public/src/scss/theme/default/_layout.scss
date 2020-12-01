@@ -67,23 +67,6 @@
 
     // 코드 화면은 너비가 다름
     &.code { width: 62.5rem; } // 1000px
-
-    // 역할, 권한, 코드
-    .auth-edit,
-    .role-edit,
-    .code-edit {
-      height: 41.25rem; // 660px
-      margin: 0 0 1.875rem 0; // 30px
-
-      .edit-form {
-        padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
-        overflow: auto;
-
-        .edit-row {
-          margin-top: 0.625rem; // 10px
-        }
-      }
-    }
   }
 }
 // 슬라이드 효과
@@ -283,6 +266,20 @@
   background-color: $white;
   border-top: $layout-header-border;
 }
+// 역할, 권한, 코드
+.auth-content-edit,
+.role-content-edit,
+.code-content-edit {
+  height: 41.25rem; // 660px
+  margin: 0 0 1.875rem 0; // 30px
+  // 스크롤바 
+  .edit-form {
+    padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
+    overflow: auto;
+
+    .edit-row {  margin-top: 0.625rem; } // 10px
+  }
+}
 // 시스템관리 > 사용자
 .user-content-edit {
   padding: 0 3.75rem 3.125rem 3.75rem; // 0 60px 50px 60px
@@ -352,14 +349,12 @@
 }
 
 // TODO : 리팩토링
-
 .itsm {
   // 기본 ITSM 구성
   &-container {
 
     @import "contents/_contents-edit.scss";
     @import "contents/_contents-flex.scss";
-    @import "contents/_contents-list-edit.scss";
 
     &-close {
       height: 100%;
@@ -430,6 +425,7 @@
 
 @include horizontalBar(0.0625rem,  0.625rem 0, $line-gray);
 
+// TODO: View 공통 mixin 후 삭제 예정 
 // div 내부에 여러개의 span을 우측으로 붙이는 클래스
 // ex) 공지사항, 게시판 상세조회에서 작성자와 작성일은 오른쪽에 정렬되어 출력
 .row-right {
@@ -441,12 +437,6 @@
       }
     }
 }
-// 공통 edit mixin 적용 후 삭제 예정
-//.btn-list {
-//  padding: 0.625rem 0 0 0;
-//  display: flex;
-//  justify-content: flex-end;
-//}
 
 // 사용자 아이콘
 .profile-photo {
@@ -459,10 +449,6 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 8.75rem; // 140px
-}
-
-.user-align-item {
-    align-items: start;
 }
 
 // 리스트 출력용 컬러 아이콘

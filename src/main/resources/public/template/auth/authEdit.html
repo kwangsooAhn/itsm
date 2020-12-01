@@ -28,7 +28,7 @@
 </th:block>
 <th:block layout:fragment="aside">
     <div class="aside">
-        <div class="auth-edit flex-column">
+        <div class="auth-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">
                     <label th:text="#{auth.label.authName}" class="required"></label>
@@ -79,16 +79,18 @@
                 </div>
             </div>
         </div>
-        <div class="btn-list">
-            <button sec:authorize="hasAuthority('auth.create')"
-                    class="point-fill" type="button" id="btnRegist" name="btnRegist"
-                    th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
-            <button sec:authorize="hasAuthority('auth.update')"
-                    class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
-                    th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-            <button sec:authorize="hasAuthority('auth.delete')"
-                    class="point-fill" type="button" id="btnDelete" name="btnDelete"
-                    th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+        <div class="flex-row justify-content-end">
+            <div class="btn-list">
+                <button sec:authorize="hasAuthority('auth.create')"
+                        class="point-fill" type="button" id="btnRegist" name="btnRegist"
+                        th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
+                <button sec:authorize="hasAuthority('auth.update')"
+                        class="point-fill" type="button" id="btnUpdate" name="btnUpdate"
+                        th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
+                <button sec:authorize="hasAuthority('auth.delete')"
+                        class="point-fill" type="button" id="btnDelete" name="btnDelete"
+                        th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
+            </div>
         </div>
     </div>
 </th:block>
@@ -421,7 +423,7 @@
                     if (AUTH_DELETE) {
                         disabledButton(responseJson.roleAuthMapCount);
                     }
-                    OverlayScrollbars(document.querySelector('.auth-edit'), { className: 'scrollbar' });
+                    OverlayScrollbars(document.querySelector('.auth-content-edit'), { className: 'scrollbar' });
                     OverlayScrollbars(document.querySelectorAll('.checkbox-list'), { className: 'inner-scrollbar' });
                 },
             };
