@@ -163,11 +163,11 @@
         </div>
         <div class="header-search flex-row" id="header-search">
             <form id="searchDocumentsFrm">
-                <input type="text" id="searchDocuments" name="searchDocuments"
+                <input type="text" id="searchDocuments" name="searchDocuments" maxlength="100"
                        th:placeholder="#{document.label.searchPlaceholder}" class="search col-3"/>
-                <input type="text" id="searchProcessName" name="searchProcessName"
+                <input type="text" id="searchProcessName" name="searchProcessName" maxlength="100"
                        th:placeholder="#{document.label.process}" class="search col-3"/>
-                <input type="text" id="searchFormName" name="searchFormName"
+                <input type="text" id="searchFormName" name="searchFormName" maxlength="100"
                        th:placeholder="#{document.label.form}" class="search col-3"/>
                 <input sec:authorize="hasAuthority('document.read.admin')"
                        type="hidden" id="viewType" name="viewType" value="admin"/>
