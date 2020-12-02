@@ -10,3 +10,38 @@
     .description { margin-left: 0.625rem; } // 10px
   }
 }
+// 조회 화면 템플릿
+@mixin viewTemplate() {
+  .view {
+    // 제목
+    &-title {
+      font-size: $view-title-font-size;
+      font-weight: $view-title-font-weight;
+      color: $view-title-font-color;
+      padding-bottom: 0.625rem; // 10px
+      margin-bottom: 0.625rem; //10px
+      border-bottom: 0.125rem solid $default-gray; // 2px
+    }
+    // 등록일, 등록자
+    &-sub-title {
+      font-size: $view-sub-title-font-size;
+      font-weight: $view-sub-title-font-weight;
+      color: $view-sub-title-font-color;
+      padding: 0 1.25rem; // 0 20px
+    }
+    // 내용
+    &-content {
+      font-size: $view-content-font-size;
+      font-weight: $view-content-font-weight;
+      color: $view-content-font-color;
+      min-height: 13.4375rem; // 215px
+      padding: 0.3125rem 1.25rem; // 5px 20px
+
+      .view-text { margin: 0; }
+    }
+    // 버튼 영역
+    &-btn-content {
+      padding: 0.625rem 0 0 0; // 10px 0 0 0
+    }
+  }
+}

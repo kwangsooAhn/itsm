@@ -8,26 +8,34 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-flex flex-column scroll-wrap">
-        <div class="header">
-            <div class="page-title">
+    <div class="flex-column view">
+        <div class="notice-header">
+            <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{notice.label.notice}"></h1>
-                <h6 class="title-description" th:text="#{notice.msg.viewDescription}"></h6>
+                <h6 class="description" th:text="#{notice.msg.viewDescription}"></h6>
             </div>
         </div>
-        <div class="flex flex-column">
-            <h4 class="under-bar bold" th:text="${notice?.noticeTitle}"></h4>
-            <div class="row-right">
-                <span id="spanCreateDt" th:text="${notice.createDt}"></span>
-                <span class="vertical-bar"></span>
-                <span class="user-name" id="spanUserName" th:text="${notice?.aliceUserEntity.userName}"></span>
+        <div class="notice-content-view">
+            <div class="flex-column view-row">
+                <div class="view-title text-ellipsis" th:text="${notice?.noticeTitle}"></div>
+            </div>
+            <div class="flex-column view-row">
+                <div class="view-sub-title flex-row justify-content-end">
+                    <span class="user-name" id="spanUserName" th:text="${notice?.aliceUserEntity.userName}"></span>
+                    <span class="vertical-bar"></span>
+                    <span id="spanCreateDt" th:text="${notice.createDt}"></span>
+                </div>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="flex-item item-text">
-                <pre><span th:text="${notice?.noticeContents}"/></pre>
+            <div class="flex-column view-row">
+                <div class="view-content">
+                    <pre class="space-line">
+                        <span class="view-text" th:text="${notice?.noticeContents}"/>
+                    </pre>
+                </div>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="file-uploader-view">
+            <div class="flex-row view-row file-uploader-view">
                 <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
                 <div class="vertical-bar"></div>
                 <form id="frm" method="post">
@@ -38,8 +46,10 @@
                 </form>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="btn-list">
-                <a class="btn default-line" href="/notices/search" th:text="#{common.btn.list}"></a>
+            <div class="flex-row justify-content-end view-row">
+                <div class="btn-list">
+                    <a class="btn default-line" href="/notices/search" th:text="#{common.btn.list}"></a>
+                </div>
             </div>
         </div>
     </div>
@@ -59,6 +69,7 @@
                 return history.go(-1);
             }
             fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false, isView: true}});
+            OverlayScrollbars(document.querySelectorAll('.view'), { className: 'scrollbar' });
         }
         /* ]]> */
     </script>

@@ -409,6 +409,10 @@ input, button, select, optgroup, textarea {
   word-break: break-all;
 }
 
+.space-line {
+  white-space: pre-line;
+}
+
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.9375rem 0;
@@ -1708,7 +1712,7 @@ button {
   white-space: nowrap;
   vertical-align: middle;
   overflow: visible;
-  padding: 0.625rem 1.563rem 0.625rem 1.563rem;
+  padding: 0.625rem 1.563rem 0.5625rem 1.563rem;
   cursor: pointer;
 }
 

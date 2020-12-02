@@ -33,6 +33,19 @@ $keyword-font-color:                         $point-blue;
 // list
 $layout-list-height:                         35.44rem; // 567px
 
+
+// view
+$view-title-font-size:                1.125rem; // 18px
+$view-title-font-weight:              $font-weight-medium;
+$view-title-font-color:               $light-black;
+
+$view-sub-title-font-size:            $font-size-base; // 16px
+$view-sub-title-font-weight:          $font-weight-regular;
+$view-sub-title-font-color:           $dark-gray;
+
+$view-content-font-size:              $font-size-base; // 16px
+$view-content-font-weight:            $font-weight-regular;
+$view-content-font-color:             $dark-gray;
 //////////////////////////// faq ////////////////////////////
 // faq > faq group
 $faq-group-font-size:                        1.125rem; // 18px

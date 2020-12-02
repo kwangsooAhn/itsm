@@ -48,7 +48,20 @@ $document-color-size:                         1rem; // 16px
 // 헤더
 $layout-header-border:                        0.0625rem solid $line-gray; // 1px
 
-// 리스트
+////////////////////////////// View //////////////////////////////
+$view-title-font-size:                        1.125rem; // 18px
+$view-title-font-weight:                      $font-weight-medium;
+$view-title-font-color:                       $light-black;
+
+$view-sub-title-font-size:                    $font-size-base; // 16px
+$view-sub-title-font-weight:                  $font-weight-regular;
+$view-sub-title-font-color:                   $dark-gray;
+
+$view-content-font-size:                      $font-size-base; // 16px
+$view-content-font-weight:                    $font-weight-regular;
+$view-content-font-color:                     $dark-gray;
+
+////////////////////////////// 리스트 //////////////////////////////
 // 리스트 - 마우스 오버시
 $list-hover-bg-color:                         $line-gray;
 
@@ -62,7 +75,7 @@ $list-active-bg-color:                       rgba(230, 232, 235, 0.6);
 // 공지사항 상단 공지 (배경색 별도 처리)
 $notice-pinned-color:                         rgba(135, 206, 255, 0.15);
 
-// 카드
+////////////////////////////// 카드 //////////////////////////////
 $card-border-width:                           0.0625rem; // 1px
 $card-border-color:                           $line-gray;
 $card-border:                                 $card-border-width solid $card-border-color;

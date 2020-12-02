@@ -56,6 +56,7 @@
     @include editTemplate();
 
     // view
+    @include viewTemplate();
     
   }
   // 역할, 권한, 코드 화면의 우측 영역
@@ -260,9 +261,8 @@
 .notice-content-edit,
 .faq-content-edit,
 .download-content-edit,
-.board-content-edit,
-.board-admin-content-edit {
-  padding: 2.188rem 3.75rem 3.125rem 3.75rem; // 35px 60px 50px 60px
+.board-content-edit {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
   background-color: $white;
   border-top: $layout-header-border;
 }
@@ -282,7 +282,7 @@
 }
 // 시스템관리 > 사용자
 .user-content-edit {
-  padding: 0 3.75rem 3.125rem 3.75rem; // 0 60px 50px 60px
+  padding: 0 23.13rem 3.125rem 23.13rem; // 0 370px 50px 370px
   background-color: $white;
   border-top: $layout-header-border;
 
@@ -302,6 +302,9 @@
 }
 // 시스템관리 > 게시판
 .board-admin-content-edit {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+  background-color: $white;
+  border-top: $layout-header-border;
   // 카테고리 테이블
   .edit-table {
     margin: 1.25rem 0 0 0; // 20px 0 0 0
@@ -334,7 +337,7 @@
 }
 // 업무흐름 관리 > 커스텀 코드
 .custom-code-content-edit {
-  padding: 2.188rem 3.75rem 3.125rem 3.75rem; // 35px 60px 50px 60px
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
   background-color: $white;
   border-top: $layout-header-border;
 
@@ -346,6 +349,14 @@
     width: 28.31rem; // 453px
   }
   .btn-minus { padding: 0; }
+}
+
+/////////////////////////////////////////////// VIEW /////////////////////////////////////////////////////
+// 공지사항
+.notice-content-view {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
+  background-color: $white;
+  border-top: $layout-header-border;
 }
 
 // TODO : 리팩토링
@@ -408,18 +419,6 @@
         }
       }
     }
-  }
-}
-
-.search-area {
-  height: 6.875rem; // 110px
-  padding: 3.125rem 0 1.25rem 0; // 50px 0 20px 0
-  display: flex;
-  flex-direction: row;
-  .search-input { flex : none; }
-  .txt-num {
-    color: $warm-gray;
-    margin-left: 0.623rem; // 10px
   }
 }
 
