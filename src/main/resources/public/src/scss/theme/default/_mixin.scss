@@ -166,14 +166,13 @@
     }
   }
 }
-
 // edit, register 공통
 @mixin editTemplate() {
   .edit {
     height: 100vh; // edit 화면에서 스크롤이 생기는 영역
     
     .edit-row {
-      margin: 0.625rem 19.38rem 0 19.38rem; // 10px 310px 0 310px
+      margin: 0.625rem 0 0; // 10px 0 0 0
 
       // 버튼 목록
       .btn-list { margin-top: 1.875rem; } // 30px
@@ -184,5 +183,40 @@
     }
   }
 }
-
 // view 공통
+@mixin viewTemplate() {
+  .view {
+    height: 100vh; // edit 화면에서 스크롤이 생기는 영역
+    // 각 행
+    .view-row {
+      margin: 0.625rem 0 0 0; // 10px 0 0 0
+      // 버튼 목록
+      .btn-list { margin-top: 1.875rem; } // 30px
+    }
+    // 제목
+    &-title {
+      font-size: $view-title-font-size;
+      font-weight: $view-title-font-weight;
+      color: $view-title-font-color;
+      padding-bottom: 0.625rem; // 10px
+      border-bottom: 0.125rem solid $default-gray; // 2px
+    }
+    // 등록일, 등록자
+    &-sub-title {
+      font-size: $view-sub-title-font-size;
+      font-weight: $view-sub-title-font-weight;
+      color: $view-sub-title-font-color;
+      padding: 0 1.25rem; // 0 20px
+    }
+    // 내용
+    &-content {
+      font-size: $view-content-font-size;
+      font-weight: $view-content-font-weight;
+      color: $view-content-font-color;
+      min-height: 13.4375rem; // 215px
+      padding: 0.3125rem 1.25rem; // 5px 20px
+
+      .view-text { margin: 0; }
+    }
+  }
+}

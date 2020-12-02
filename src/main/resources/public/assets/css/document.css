@@ -409,6 +409,10 @@ input, button, select, optgroup, textarea {
   word-break: break-all;
 }
 
+.space-line {
+  white-space: pre-line;
+}
+
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.9375rem 0;

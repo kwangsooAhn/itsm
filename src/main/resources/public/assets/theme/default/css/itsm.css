@@ -408,6 +408,10 @@ input, button, select, optgroup, textarea {
   word-break: break-all;
 }
 
+.space-line {
+  white-space: pre-line;
+}
+
 .horizontal-bar {
   height: 0.0625rem;
   margin: 0.9375rem 0;
@@ -2151,7 +2155,7 @@ button .icon-plus {
 }
 
 .itsm-container .main .edit .edit-row {
-  margin: 0.625rem 19.38rem 0 19.38rem;
+  margin: 0.625rem 0 0;
 }
 
 .itsm-container .main .edit .edit-row .btn-list {
@@ -2160,6 +2164,45 @@ button .icon-plus {
 
 .itsm-container .main .edit .edit-column .edit-row {
   margin: 0.625rem 0 0 0;
+}
+
+.itsm-container .main .view {
+  height: 100vh;
+}
+
+.itsm-container .main .view .view-row {
+  margin: 0.625rem 0 0 0;
+}
+
+.itsm-container .main .view .view-row .btn-list {
+  margin-top: 1.875rem;
+}
+
+.itsm-container .main .view-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #3F4B56;
+  padding-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+
+.itsm-container .main .view-sub-title {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+  padding: 0 1.25rem;
+}
+
+.itsm-container .main .view-content {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+  min-height: 13.4375rem;
+  padding: 0.3125rem 1.25rem;
+}
+
+.itsm-container .main .view-content .view-text {
+  margin: 0;
 }
 
 .itsm-container .aside {
@@ -2363,9 +2406,8 @@ button .icon-plus {
 .notice-content-edit,
 .faq-content-edit,
 .download-content-edit,
-.board-content-edit,
-.board-admin-content-edit {
-  padding: 2.188rem 3.75rem 3.125rem 3.75rem;
+.board-content-edit {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
   background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
 }
@@ -2391,7 +2433,7 @@ button .icon-plus {
 }
 
 .user-content-edit {
-  padding: 0 3.75rem 3.125rem 3.75rem;
+  padding: 0 23.13rem 3.125rem 23.13rem;
   background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
 }
@@ -2412,6 +2454,12 @@ button .icon-plus {
 
 .user-content-edit .hour-select {
   width: 9.688rem;
+}
+
+.board-admin-content-edit {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
+  background-color: #ffffff;
+  border-top: 0.0625rem solid #EBEBEB;
 }
 
 .board-admin-content-edit .edit-table {
@@ -2448,7 +2496,7 @@ button .icon-plus {
 }
 
 .custom-code-content-edit {
-  padding: 2.188rem 3.75rem 3.125rem 3.75rem;
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
   background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
 }
@@ -2463,6 +2511,12 @@ button .icon-plus {
 
 .custom-code-content-edit .btn-minus {
   padding: 0;
+}
+
+.notice-content-view {
+  padding: 2.188rem 23.13rem 3.125rem 23.13rem;
+  background-color: #ffffff;
+  border-top: 0.0625rem solid #EBEBEB;
 }
 
 .itsm-container {
@@ -2730,22 +2784,6 @@ button .icon-plus {
 
 .itsm-popup .view-content div.form-set {
   margin: 0 0.6875rem 0 0.6875rem;
-}
-
-.search-area {
-  height: 6.875rem;
-  padding: 3.125rem 0 1.25rem 0;
-  display: flex;
-  flex-direction: row;
-}
-
-.search-area .search-input {
-  flex: none;
-}
-
-.search-area .txt-num {
-  color: #7E848C;
-  margin-left: 0.623rem;
 }
 
 .horizontal-bar {
@@ -4035,7 +4073,7 @@ button .icon-plus {
 
 .file-uploader-view .file-uploader-title {
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 400;
   color: #586872;
   margin: auto 0;
 }
@@ -4074,7 +4112,7 @@ button .icon-plus {
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details {
   display: inline-flex;
   font-size: 1rem;
-  font-weight: 500;
+  font-weight: 400;
 }
 
 .file-uploader-view .dropzone.dz-uploaded .dz-preview .dz-details .dz-file-type {

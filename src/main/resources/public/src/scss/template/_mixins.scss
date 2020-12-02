@@ -80,42 +80,6 @@
   }
 }
 
-// 조회 화면 템플릿
-@mixin viewTemplate() {
-  .view {
-    // 제목
-    &-title {
-      font-size: $layout-view-title-font-size;
-      font-weight: $layout-view-title-font-weight;
-      color: $layout-view-title-font-color;
-      padding-bottom: 0.625rem; // 10px
-      margin-bottom: 0.625rem; //10px
-      border-bottom: 0.125rem solid $default-gray; // 2px
-    }
-    // 등록일, 등록자
-    &-sub-title {
-      font-size: $layout-view-sub-title-font-size;
-      font-weight: $layout-view-sub-title-font-weight;
-      color: $layout-view-sub-title-font-color;
-      padding: 0 1.25rem; // 0 20px
-    }
-    // 내용
-    &-content {
-      font-size: $layout-view-content-font-size;
-      font-weight: $layout-view-content-font-weight;
-      color: $layout-view-content-font-color;
-      min-height: 13.4375rem; // 215px
-      padding: 0.3125rem 1.25rem; // 5px 20px
-
-      .view-text { margin: 0; }
-    }
-    // 버튼 영역
-    &-btn-content {
-      padding: 0.625rem 0 0 0; // 10px 0 0 0
-    }
-  }
-}
-
 @mixin content-header() {
   .header {
     padding: 3.1875rem 3.75rem 3.1875rem 3.75rem; // 51px 60px 51px 60px

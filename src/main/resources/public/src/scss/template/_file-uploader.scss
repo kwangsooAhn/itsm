@@ -328,9 +328,9 @@
     padding: 0.125rem 1.25rem; // 2px 20px
     // 제목
     .file-uploader-title {
-      font-size: $file-uploader-font-size;
-      font-weight: $file-uploader-font-weight;
-      color: $file-uploader-font-color;
+      font-size: $file-uploader-view-font-size;
+      font-weight: $file-uploader-view-font-weight;
+      color: $file-uploader-view-font-color;
       margin: auto 0;
     }
     // 첨부파일 리스트
@@ -366,8 +366,8 @@
 
           .dz-details {
             display: inline-flex;
-            font-size: $file-uploader-font-size;
-            font-weight: $file-uploader-font-weight;
+            font-size: $file-uploader-view-font-size;
+            font-weight: $file-uploader-view-font-weight;
 
             .dz-file-type {
               width: 1.125rem; // 18px
