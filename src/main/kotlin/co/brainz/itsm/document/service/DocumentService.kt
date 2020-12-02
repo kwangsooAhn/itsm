@@ -71,6 +71,35 @@ class DocumentService(
     }
 
     /**
+     * 신청서 전체 조회.
+     *
+     * @return List<DocumentDto>
+     */
+    fun getDocumentAll(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+        val multiVal: MultiValueMap<String, String> = LinkedMultiValueMap()
+        multiVal.setAll(
+            objMapper.convertValue<Map<String, String>>(
+                restTemplateDocumentSearchListDto,
+                object : TypeReference<Map<String, String>>() {}
+            )
+        )
+
+        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_ALL.url, parameters = multiVal)
+        val responseBody = restTemplate.get(url)
+        val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
+        val documentList: List<RestTemplateDocumentDto> = mapper.readValue(
+            responseBody,
+            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateDocumentDto::class.java)
+        )
+        for (document in documentList) {
+            if (document.documentIcon.isNullOrEmpty()) {
+                document.documentIcon = DocumentConstants.DEFAULT_DOCUMENT_ICON
+            }
+        }
+        return documentList
+    }
+
+    /**
      * 신청서 조회.
      */
     fun getDocument(documentId: String): String {

@@ -112,6 +112,7 @@ object RestTemplateConstants {
      */
     enum class Workflow(val url: String, val method: String) {
         GET_DOCUMENTS("/rest/wf/documents", "GET"),
+        GET_DOCUMENTS_ALL("/rest/wf/documents/all", "GET"),
         GET_DOCUMENT("/rest/wf/documents/{documentId}", "GET"),
         GET_DOCUMENT_DATA("/rest/wf/documents/{documentId}/data", "GET"),
         POST_DOCUMENT("/rest/wf/documents", "POST"),
