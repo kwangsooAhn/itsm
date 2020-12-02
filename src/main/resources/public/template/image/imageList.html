@@ -15,8 +15,9 @@
                 <h6 class="description" th:text="#{image.msg.searchDescription}"></h6>
             </div>
             <div class="header-search flex-row">
-                <input type="text" class="search col-5" id="searchValue" name="searchValue" maxlength="100"
-                        th:placeholder="#{image.label.name}"/>
+                <input type="text" class="search col-5 mr-2" id="searchValue" name="searchValue" maxlength="100"
+                       th:placeholder="#{image.label.name}"/>
+                <span id="totalCount" class="txt-num"></span>
             </div>
         </div>
         <div class="image-content-edit">
@@ -81,6 +82,8 @@
                         addThumbnail(image);
                     });
                     addThumbnailUpload();
+                    document.getElementById('totalCount').textContent =
+                        i18n.msg("image.label.count", document.querySelectorAll('.thumbnail').length);
                 }
             });
         }
@@ -135,6 +138,8 @@
                         if (xhr.responseText === 'true') {
                             document.querySelector('.thumbnail-main').removeChild(imgObj.parentNode.parentNode);
                         }
+                        document.getElementById('totalCount').textContent =
+                            i18n.msg("image.label.count", document.querySelectorAll('.thumbnail').length);
                     }
                 });
             });
@@ -207,6 +212,8 @@
                             for (let i = 0, len = list.length; i < len; i++) {
                                 addThumbnail(list[i]);
                             }
+                            document.getElementById('totalCount').textContent =
+                                i18n.msg("image.label.count", document.querySelectorAll('.thumbnail').length);
                         }
                     }
                     xhr.open('POST', '/rest/images', true);
