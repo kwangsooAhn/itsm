@@ -775,6 +775,8 @@ role:
     referenceCount: "사용자 참조 개수"
     role: "역할"
   msg:
+    duplicateRoleId: "중복되는 아이디가 있습니다. 다른 역할 아이디를 입력하세요."
+    duplicateRoleName: "중복된 역할 명이 있습니다. 다른 역할 명을 입력하세요."
     editDescription: "역할을 추가하거나 조회 및 관리합니다."
     enterRoleId: "역할 아이디를 입력하세요."
     enterRoleName: "역할 명을 입력하세요."
