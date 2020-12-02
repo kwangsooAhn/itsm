@@ -41,6 +41,17 @@ class WfDocumentRestController(
     }
 
     /**
+     * 신청서 전체 조회.
+     *
+     * @return List<RestTemplateDocumentDto>
+     */
+    @GetMapping("/all")
+    fun getAllDocuments(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
+            List<RestTemplateDocumentDto> {
+        return wfDocumentService.allDocuments(restTemplateDocumentSearchListDto)
+    }
+
+    /**
      * 신청서 1건 조회.
      *
      * @param documentId

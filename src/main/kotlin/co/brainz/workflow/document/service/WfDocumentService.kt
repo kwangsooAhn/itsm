@@ -71,6 +71,15 @@ class WfDocumentService(
     }
 
     /**
+     * all Documents.
+     *
+     * @return List<RestTemplateDocumentDto>
+     */
+    fun allDocuments(searchListDto: RestTemplateDocumentSearchListDto): List<RestTemplateDocumentDto> {
+        return wfDocumentRepository.findAllByDocuments(searchListDto)
+    }
+
+    /**
      * Search Document.
      *
      * @param documentId
