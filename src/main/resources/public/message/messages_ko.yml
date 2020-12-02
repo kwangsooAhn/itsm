@@ -531,6 +531,7 @@ form:
 # Image
 image:
   label:
+    count: "이미지 총 {0}건"
     name: "이미지 명"
     list: "이미지 관리"
     popupTitle: "이미지 선택"
