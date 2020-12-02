@@ -289,7 +289,7 @@
         function onDelete() {
             const opt = {
                     method: 'delete',
-                    url: '/rest/roles/' + document.getElementById('txtRoleId').value,
+                    url: '/rest/roles/' + encodeURIComponent(document.getElementById('txtRoleId').value),
                     callbackFunc: function(response) {
                         switch (response.responseText) {
                             case "true":
