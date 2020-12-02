@@ -149,19 +149,18 @@
       cursor: pointer;
       // 마우스 오버시
       &:hover { box-shadow: $card-hover-box-shadow; }
+    }
+    // 데이터 없을 때
+    .no-data-found {
+      background-color:$no-data-found-bg;
+      pointer-events: none;
 
-      // 데이터 없을 때
-      .no-data-found {
-        background-color:$no-data-found-bg;
-        pointer-events: none;
-
-        .no-data-icon { content: url("../media/icons/icon_no_data.svg") }
-        .no-data-text {
-          font-size: 1.125rem;; // 18px
-          font-weight: $font-weight-medium;
-          color: $pressed-gray;
-          margin-left: 2.5rem; // 40px
-        }
+      .no-data-icon { content: url("../media/icons/icon_no_data.svg"); }
+      .no-data-text {
+        font-size: 1.125rem;; // 18px
+        font-weight: $font-weight-medium;
+        color: $pressed-gray;
+        margin-left: 2.5rem; // 40px
       }
     }
   }
