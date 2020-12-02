@@ -27,13 +27,13 @@
                             th:text="${document.documentName}"/>
                 </select>
                 <input class="search col-3" type="text" name="searchValue" id="searchValue"
-                       th:placeholder="#{token.label.searchPlaceholder}"/>
+                       maxlength="100" th:placeholder="#{token.label.searchPlaceholder}"/>
                 <input type="text" id="searchFromDt" name="searchFromDt" class="search-date col-3"/>
                 <input type="text" id="toDt" name="toDt" class="search-date col-3"/>
                 <input type="hidden" id="searchToDt" name="searchToDt" class="search-date col-2"
                        readonly="readonly"/>
                 <input class="search col-3" type="text" name="searchTags" id="searchTags"
-                       th:placeholder="#{token.label.tagPlaceHolder}"/>
+                       maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
             </form>
         </div>
     </div>
