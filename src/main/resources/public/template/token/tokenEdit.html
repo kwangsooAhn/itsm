@@ -80,7 +80,7 @@
         // 관련 문서 모달 내부 Template
         function createModalContent(data) {
             return `<div class="related-instance-list">` +
-                       `<input class="search col-5" type="text" name="search" id="search" placeholder="${i18n.msg('token.label.searchPlaceholder')}"/>` +
+                       `<input class="search col-5" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('token.label.searchPlaceholder')}"/>` +
                        `<div class="table-set" id="instanceList"></div>` +
                     `</div>`;
         }

@@ -19,7 +19,7 @@
             <input type="hidden" sec:authorize="!hasAuthority('board.admin.update')" th:name="isRole"
                    th:value="false"/>
             <form id="searchFrm">
-                <input type="text" id="search" name="search" class="search col-5"  maxlength="100"
+                <input type="text" id="search" name="search" class="search col-5" maxlength="100"
                        th:placeholder="#{board.label.searchPlaceholder}"/>
             </form>
             <div class="ml-auto">

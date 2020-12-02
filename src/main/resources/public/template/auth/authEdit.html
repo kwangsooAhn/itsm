@@ -14,7 +14,8 @@
             <h6 class="description" th:text="#{auth.msg.editDescription}"></h6>
         </div>
         <div class="header-search flex-row">
-            <input type="text" class="search col-5 mr-2" id="search" name="search" th:placeholder="#{auth.msg.searchPlaceholder}"/>
+            <input type="text" class="search col-5 mr-2" id="search" name="search"  maxlength="100"
+                   th:placeholder="#{auth.msg.searchPlaceholder}"/>
             <span id="totalCount" class="txt-num"></span>
             <div class="ml-auto">
                 <button type="button" class="default-fill" id="btnCreate" name="btnCreate" onclick="onCreate();"
