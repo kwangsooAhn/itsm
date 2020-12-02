@@ -647,7 +647,12 @@
                         tree.expandTree();
                     }
                 } else {
-                    document.querySelector('#' + options.target).innerHTML = '';
+                    // 데이터가 없는 경우 nodata 텍스트를 띄운다
+                    document.querySelector('#' + options.target).innerHTML = `
+                        <div class="align-center">
+                            <label>${i18n.msg('common.msg.noData')}</label>
+                        </div>
+                    `;
                     if (options.totalCount) {
                         document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', 0);
                     }
