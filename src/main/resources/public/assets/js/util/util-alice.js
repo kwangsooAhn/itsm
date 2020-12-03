@@ -460,13 +460,13 @@ function dateFormatFromNow(date) {
     } else {
         if (now.getFullYear() > p_date.getFullYear()) {
             diff = now.getFullYear() - p_date.getFullYear();
-            v_date = diff + '년 전';
+            v_date = i18n.msg('date.label.yearsAgo', diff);
         } else if (now.getMonth() > p_date.getMonth()) {
             diff = now.getMonth() - p_date.getMonth();
-            v_date = diff + '달 전';
+            v_date = i18n.msg('date.label.monthsAgo', diff);
         } else if (now.getDate() > p_date.getDate()) {
             diff = now.getDate() - p_date.getDate();
-            v_date = diff + '일 전';
+            v_date = i18n.msg('date.label.daysAgo', diff);
         } else if (now.getDate() === p_date.getDate()) {
             let nowTime = now.getTime();
             let writeTime = p_date.getTime();
@@ -479,11 +479,11 @@ function dateFormatFromNow(date) {
                 min = parseInt(sec / 60);
                 sec = parseInt(sec - (min * 60));
                 if (hour > 0) {
-                    v_date = hour + '시간 전';
+                    v_date = i18n.msg('date.label.hoursAgo', hour);
                 } else if (min > 0) {
-                    v_date = min + '분 전';
+                    v_date = i18n.msg('date.label.minutesAgo', min);
                 } else if (sec > 0) {
-                    v_date = '방금 전';
+                    v_date = i18n.msg('date.label.aMomentAgo');
                 }
             }
         }
@@ -503,7 +503,7 @@ aliceJs.alert = function(message, callbackFunc) {
         type: 'gmodal-icon-info',
         buttons: [
             {
-                content: '닫기',
+                content: i18n.msg('common.btn.close'),
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -532,7 +532,7 @@ aliceJs.alertSuccess = function(message, callbackFunc) {
         type: 'gmodal-icon-success',
         buttons: [
             {
-                content: '닫기',
+                content: i18n.msg('common.btn.close'),
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -561,7 +561,7 @@ aliceJs.alertWarning = function(message, callbackFunc) {
         type: 'gmodal-icon-warning',
         buttons: [
             {
-                content: '닫기',
+                content: i18n.msg('common.btn.close'),
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {
@@ -590,7 +590,7 @@ aliceJs.alertDanger = function(message, callbackFunc) {
         type: 'gmodal-icon-danger',
         buttons: [
             {
-                content: '닫기',
+                content: i18n.msg('common.btn.close'),
                 bindKey: 13, /* Enter */
                 callback: function(modal) {
                     if (typeof callbackFunc === 'function') {

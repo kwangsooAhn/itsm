@@ -286,6 +286,16 @@ dashboard:
     running: "진행"
     wait: "대기"
 
+# Date
+date:
+  label:
+    yearsAgo: "{0}년 전"
+    monthsAgo: "{0}달 전"
+    daysAgo: "{0}일 전"
+    hoursAgo: "{0}시간 전"
+    minutesAgo: "{0}분 전"
+    aMomentAgo: "방금 전"
+
 # DatePicker
 datepicker:
   btn:
