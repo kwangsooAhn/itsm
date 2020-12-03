@@ -120,7 +120,13 @@
             }
             & a {cursor: pointer;}
             // 리스트 출력용 아바타 이미지
-            .profile-photo {height:27px; width:27px; border-radius: 50%; background: rgba(240, 240, 240, 1); cursor: pointer;}
+            .profile-photo {
+              height:27px;
+              width:27px;
+              border-radius: 50%;
+              background: rgba(240, 240, 240, 1);
+              cursor: pointer;
+            }
             .tr-notice {background: rgba(255,255,0, 0.2);}
             .align-center {text-align: center;}
             .align-left {text-align: left;}

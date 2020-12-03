@@ -8,39 +8,42 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-edit flex-column scroll-wrap">
-        <div class="header">
-            <div class="page-title">
+    <div class="flex-column edit">
+        <div class="board-admin-header">
+            <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{board.label.board}"></h1>
-                <h6 class="title-description" th:text="#{board.msg.adminViewDescription}"></h6>
+                <h6 class="description" th:text="#{board.msg.adminViewDescription}"></h6>
             </div>
         </div>
-        <div class="edit board-admin-edit">
-            <div class="form-set">
-                <label class="required" th:text="#{board.label.name}" for="boardAdminTitle"></label>
-                <input type="text" id="boardAdminTitle" maxlength="100" th:value="${boardAdmin?.boardAdminTitle}"
+        <div class="board-admin-content-edit">
+            <div class="flex-column edit-row">
+                <label for="boardAdminTitle">
+                    <span th:text="#{board.label.name}"></span>
+                    <span class="required"></span>
+                </label>
+                <input type="text" id="boardAdminTitle" maxlength="70" th:value="${boardAdmin?.boardAdminTitle}"
                        required="required" disabled/>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="switch">
                     <span class="label" th:text="#{board.label.useYn}"></span>
                     <input type="checkbox" id="boardUseYn" name="boardUseYn"
                            th:checked="${boardAdmin?.boardUseYn == null || boardAdmin?.boardUseYn == true}" disabled>
                     <span></span>
-
                 </label>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label th:text="#{board.label.order}" for="boardAdminSort"></label>
-                <input class="col-6" id="boardAdminSort" name="boardAdminSort" type="text" th:value="${boardAdmin?.boardAdminSort}"
-                       maxlength="2" disabled/>
+                <input class="col-6" id="boardAdminSort" name="boardAdminSort" type="text"
+                       th:value="${boardAdmin?.boardAdminSort}" maxlength="2"
+                       onKeyup="this.value=this.value.replace(/[^0-9]/g,'');" disabled/>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label th:text="#{board.label.desc}" for="boardAdminDesc"></label>
                 <textarea id="boardAdminDesc" name="boardAdminDesc" maxlength="2048" rows="7"
-                          th:text="${boardAdmin?.boardAdminDesc}" disabled></textarea>
+                          class="textarea-scroll-wrapper"  th:text="${boardAdmin?.boardAdminDesc}" disabled></textarea>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="switch">
                     <span class="label" th:text="#{board.label.replyYn}"></span>
                     <input type="checkbox" id="replyYn" name="replyYn"
@@ -48,7 +51,7 @@
                     <span></span>
                 </label>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="switch">
                     <span class="label" th:text="#{board.label.commentYn}"></span>
                     <input type="checkbox" id="commentYn" name="commentYn"
@@ -56,34 +59,56 @@
                     <span></span>
                 </label>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="switch">
                     <span class="label" th:text="#{board.label.category}"></span>
                     <input type="checkbox" id="categoryYn" name="categoryYn"
                            th:checked="${boardAdmin?.categoryYn == null || boardAdmin?.categoryYn == true}" disabled>
                     <span></span>
                 </label>
+                <div id="category-detail" class="category">
+                    <div class="flex-row">
+                        <div class="category-list">
+                            <table class="edit-table">
+                                <thead class="edit-table-thead">
+                                    <tr>
+                                        <th class="col-6 align-left" th:text="#{board.label.category}"></th>
+                                        <th class="col-5 align-left" th:text="#{board.label.order}"></th>
+                                        <th class="col-1 align-center"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="boardCategoryList" class="edit-table-tbody">
+                                    <tr class="no-data-found-list align-center" th:if="${#arrays.isEmpty(boardAdmin?.categoryList)}">
+                                        <td style="width:100%" colspan="5" th:text="#{common.msg.noData}"></td>
+                                    </tr>
+                                    <tr th:each="category: ${boardAdmin?.categoryList}">
+                                        <td class="col-6 align-left" th:text="${category.boardCategoryName}"></td>
+                                        <td class="col-5 align-left" th:text="${category.boardCategorySort}"></td>
+                                        <td class="col-1 align-center"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label class="switch">
                     <span class="label" th:text="#{board.label.attachFileYn}"></span>
-                    <input type="checkbox" id="commentYn" name="commentYn"
-                           th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}"
-                           onchange="setDisplay('attachFileSize', this.checked)" disabled>
+                    <input type="checkbox" id="attachYn" name="attachYn"
+                           th:checked="${boardAdmin?.attachYn == null || boardAdmin?.attachYn == true}" disabled>
                     <span></span>
                 </label>
             </div>
-            <div class="form-set">
+            <div class="flex-column edit-row">
                 <label th:text="#{board.label.attachFileSize}" for="attachFileSize"></label>
                 <input class="col-6 mb" id="attachFileSize" name="attachFileSize" type="text"
                        th:value="${boardAdmin?.attachFileSize}" maxlength="4" disabled/>
             </div>
-            <div class="btn-list">
-                <button class="point-fill" sec:authorize="hasAuthority('board.admin.update')"
-                        th:if="${boardAdmin?.boardAdminId}" type="button" th:onclick ="'location.href =\'' + @{/boards/{id}/edit(id=${boardAdmin.boardAdminId})}+'\''" th:text="#{common.btn.modify}"></button>
-                <button class="default-line" sec:authorize="hasAuthority('board.admin.delete')"
-                        th:if="${boardAdmin?.boardAdminId}" type="button" id="delete" th:disabled="${!boardAdmin.enabled}" th:onclick="restSubmit('DELETE',[[@{/rest/boards/{boardAdminId}(boardAdminId=${boardAdmin.boardAdminId})}]])" th:text="#{common.btn.delete}"></button>
-                <a class="btn default-line" href="/boards/search" th:text="#{common.btn.list}"></a>
+            <div class="flex-row justify-content-end edit-row">
+                <div class="btn-list">
+                    <a class="btn default-line" href="/boards/search" th:text="#{common.btn.list}"></a>
+                </div>
             </div>
         </div>
     </div>
@@ -94,7 +119,17 @@
         /*<![CDATA[ */
 
         window.onload = function() {
-            OverlayScrollbars(document.querySelectorAll('.scroll-wrap'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelector('.edit'), {className: 'scrollbar'});
+            OverlayScrollbars(document.querySelectorAll('.textarea-scroll-wrapper'), {
+                className: 'scrollbar',
+                resize: 'vertical',
+                sizeAutoCapable: true,
+                textarea: {
+                    dynHeight: false,
+                    dynWidth: false,
+                    inheritedAttrs: "class"
+                }
+            });
 
             // 게시물 삭제 처리 시
             const boardAdminId = /*[[${boardAdmin.boardAdminId}]]*/;
@@ -103,22 +138,6 @@
                 return history.go(-1);
             }
         };
-
-        //RESTFUL API
-        function restSubmit(method, url, async) {
-            const opt = {
-                method: method,
-                url: url,
-                async: async,
-                callbackFunc: function() {
-                    aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function() {
-                        window.location.href = '/boards/search';
-                    });
-                },
-                showProgressbar: false
-            };
-            aliceJs.sendXhr(opt);
-        }
         /* ]]> */
     </script>
 </th:block>

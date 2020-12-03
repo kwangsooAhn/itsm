@@ -8,27 +8,37 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-flex flex-column scroll-wrap">
-        <div class="header">
-            <div class="page-title">
+    <div class="flex-column view">
+        <div class="faq-header">
+            <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{faq.label.faq}"></h1>
-                <h6 class="title-description" th:text="#{faq.msg.viewDescription}"></h6>
+                <h6 class="description" th:text="#{faq.msg.viewDescription}"></h6>
             </div>
         </div>
-        <div class="flex flex-column">
-            <h4 class="under-bar bold" th:text="${faq?.faqTitle}"></h4>
-            <div class="row-right">
-                <span id="spanCreateDt" th:text="${faq?.createDt}"></span>
-                <span class="vertical-bar"></span>
-                <span class="user-name" th:text="${faq?.createUserName}"></span>
+        <div class="faq-content-view">
+            <div class="flex-column view-row">
+                <div class="view-title text-ellipsis" th:text="${faq?.faqTitle}"></div>
+            </div>
+            <div class="flex-column view-row">
+                <div class="view-sub-title flex-row justify-content-end">
+                    <span class="user-name" th:text="${faq?.createUserName}"></span>
+                    <span class="vertical-bar"></span>
+                    <span id="spanCreateDt" th:text="${faq?.createDt}"></span>
+                </div>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="flex-item item-text">
-                <pre><span th:text="${faq?.faqContent}"/></pre>
+            <div class="flex-column view-row">
+                <div class="view-content">
+                    <pre class="space-line">
+                        <span class="view-text" th:text="${faq?.faqContent}"/>
+                    </pre>
+                </div>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="btn-list">
-                <a class="btn default-line" href="/faqs/search" th:text="#{common.btn.list}"></a>
+            <div class="flex-row justify-content-end view-row">
+                <div class="btn-list">
+                    <a class="btn default-line" href="/faqs/search" th:text="#{common.btn.list}"></a>
+                </div>
             </div>
         </div>
     </div>
@@ -48,6 +58,7 @@
                 });
                 return;
             }
+            OverlayScrollbars(document.querySelectorAll('.view'), { className: 'scrollbar' });
         }
         /*]]>*/
     </script>

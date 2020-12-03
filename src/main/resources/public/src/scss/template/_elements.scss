@@ -619,6 +619,12 @@ label {
         }
       }
     }
+    // TODO: 디자인 필요
+    //&:disabled {
+    //  + span {
+    //    background-color: $element-disabled-bg-color;
+    //  }
+    //}
 
     &:hover {
       + span {
