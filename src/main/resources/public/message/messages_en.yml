@@ -286,6 +286,16 @@ dashboard:
     running: "Running"
     wait: "Wait"
 
+# Date
+date:
+  label:
+    yearsAgo: "{0} years ago"
+    monthsAgo: "{0} months ago"
+    daysAgo: "{0} days ago"
+    hoursAgo: "{0} hours ago"
+    minutesAgo: "{0} minutes ago"
+    aMomentAgo: "a moment ago"
+
 # DatePicker
 datepicker:
   btn:
