@@ -784,7 +784,7 @@ role:
     id: "Role Id"
     name: "Role Name"
     referenceCount: "Reference Count"
-    roel: "Role"
+    role: "Role"
   msg:
     duplicateRoleId: "Duplicate role id! Please enter other role id."
     duplicateRoleName: "Duplicate role name! Please enter other role name."
