@@ -2038,19 +2038,6 @@ button .icon-plus {
   color: #7E848C;
 }
 
-.itsm-container .main .page-title {
-  display: flex;
-  align-items: baseline;
-}
-
-.itsm-container .main .page-title .title-description {
-  color: #7E848C;
-  font-family: 맑은고딕;
-  font-size: 0.875rem;
-  font-weight: 400;
-  padding-left: 0.625rem;
-}
-
 .itsm-container .main .list a, .itsm-container .main .list button {
   cursor: pointer;
 }
@@ -4077,7 +4064,6 @@ button .icon-plus {
 }
 
 .avatar {
-  color: #586872;
   font-size: 1rem;
   font-weight: 400;
   color: #ACB4BF;
