@@ -1,7 +1,0 @@
-/* 상세 조회 화면 */
-
-.contents-flex {
-    @include contents-template();
-    @include content-header();
-    @include view-template();
-}

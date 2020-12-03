@@ -1,52 +1,65 @@
+/** 
+ * 댓글 디자인
+ * /default/_reply.scss
+ * 화면 : 게시판
+ */
 .reply {
-    &-body {
-        margin-top: 2.5rem; // 40px
+  &-body {
+    margin-top: 2.5rem; // 40px
+  }
+  &-input-row {
+    padding: 1.3125rem 1.25rem; // 21px 20px
+    background-color: $light-gray;
+    border-top: 0.0625rem solid $line-gray;
+    border-bottom: 0.0625rem solid $line-gray;
+    .reply-input {
+      width: 100%;
+      margin: 0 0.3125rem; // 5px
     }
-    &-input-row {
-        padding: 1.3125rem 1.25rem; // 21px 20px
-        background-color: $light-gray;
-        border-top: 0.0625rem solid $line-gray;
-        border-bottom: 0.0625rem solid $line-gray;
-        .reply-input {
-            width: 100%;
-            margin: 0 0.3125rem; // 5px
-        }
-        .reply-button {
-            flex : none;
-        }
+    .reply-button {
+      flex : none;
     }
+  }
 
-    &-list {
-        padding: 0 1.25rem; // 0 20px
-        border-bottom: 0.0625rem solid $line-gray;
-        @include verticalBar(1.25rem, 1.25rem, 0.0625rem solid $line-gray, 0.0625rem 0.9375rem 0.0625rem 0, );
-        .reply {
-            &-info {
-                align-items: center;
-            }
-            &-create-date {
-                color: $gray;
-            }
-            &-row {
-                margin-top : 1.875rem; // 30px
-                margin-bottom: 1.875rem; // 30px
-            }
-            &-edit,
-            &-delete {
-                padding: 0 1.25rem 0 0; // 0 20px 0 0
-            }
-            &-comment {
-                display: flex;
-                word-break: break-all;
-                margin-top: 0.9375rem; // 5px
-                margin-left: 3rem; // 48px
-                input { width: 100%; }
-            }
-        }
+  &-list {
+    padding: 0 1.25rem; // 0 20px
+    border-bottom: 0.0625rem solid $line-gray;
+    @include verticalBar(1.25rem, 1.25rem, 0.0625rem solid $line-gray, 0.0625rem 0.9375rem 0.0625rem 0, );
+    .reply {
+      &-info {
+        align-items: center;
+      }
+      &-create-date {
+        color: $gray;
+      }
+      &-row {
+        margin-top : 1.875rem; // 30px
+        margin-bottom: 1.875rem; // 30px
+      }
+      &-edit,
+      &-delete {
+        padding: 0 1.25rem 0 0; // 0 20px 0 0
+      }
+      &-comment {
+        display: flex;
+        word-break: break-all;
+        margin-top: 0.9375rem; // 5px
+        margin-left: 3rem; // 48px
+        input { width: 100%; }
+      }
     }
+  }
+  // 사용자 아이콘
+  .profile-photo {
+    flex : none;
+    margin: auto 0.9376rem auto 0; // 15px
+    border-radius: 50%;
+    background-color: $profile-photo-background;
+  }
 
-    .profile-photo {
-        flex : none;
-        margin: auto 0.9376rem auto 0; // 15px
-    }
+  // 버튼
+  .icon-edit, 
+  .icon-delete {
+    background: $pressed-gray;
+  }
 }

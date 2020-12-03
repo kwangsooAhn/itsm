@@ -50,7 +50,10 @@
             <div id="type-table-container"
                  th:style="${customCode?.type == null || customCode?.type == 'table' ? '' : 'display: none'}">
                 <div class="flex-column edit-row">
-                    <label class="required" th:text="#{customCode.label.targetTable}"></label>
+                    <label>
+                        <span th:text="#{customCode.label.targetTable}"></span>
+                        <span class="required"></span>
+                    </label>
                     <select id="targetTable">
                         <option th:each="customCodeTable: ${customCodeTableList}"
                                 th:value="${customCodeTable.customCodeTable}"
@@ -88,7 +91,10 @@
             <!-- 타입: 코드 -->
             <div id="type-code-container" th:style="${customCode?.type == 'code' ? '' : 'display: none'}">
                 <div class="flex-column edit-row">
-                    <label class="required" th:text="#{customCode.label.pCode}"></label>
+                    <label>
+                        <span th:text="#{customCode.label.pCode}"></span>
+                        <span class="required"></span>
+                    </label>
                     <input type="text" id="pCode" maxlength="100" th:value="${customCode?.pCode}">
                 </div>
             </div>
@@ -198,7 +204,8 @@
 
         function drawCondition(param) {
             const divRow = document.createElement('div');
-            divRow.classList.add('flex-row');
+            divRow.classList.add('flex-row', 'edit-row');
+
             const keySelect = document.createElement('select');
             keySelect.classList.add('condition');
             const searchColumn = document.getElementById('searchColumn');
@@ -210,12 +217,14 @@
             const equalSpan = document.createElement('span');
             equalSpan.textContent = '=';
             equalSpan.classList.add('equal', 'ml-1', 'mr-1');
+
             const valueInput = document.createElement('input');
             valueInput.classList.add('condition');
             valueInput.type = 'text';
             valueInput.name = 'conditionValue';
             valueInput.maxLength = 100;
             valueInput.value = (typeof param !== 'undefined') ? param.value : '';
+
             const deleteBtn = document.createElement('button');
             deleteBtn.classList.add('btn-minus');
             const deleteIcon = document.createElement('span');

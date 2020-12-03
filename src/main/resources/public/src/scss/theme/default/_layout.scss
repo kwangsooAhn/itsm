@@ -28,6 +28,9 @@
   width: 100vw;
   height: 100vh;
   overflow: auto;
+
+  @include horizontalBar(0.0625rem,  0.625rem 0, $line-gray);
+
   // 메뉴 디자인은 _gnb.scss 참조
   // 메인
   .main {
@@ -57,7 +60,6 @@
 
     // view
     @include viewTemplate();
-    
   }
   // 역할, 권한, 코드 화면의 우측 영역
   .aside {
@@ -352,89 +354,74 @@
 }
 
 /////////////////////////////////////////////// VIEW /////////////////////////////////////////////////////
-// 공지사항
-.notice-content-view {
+// 공지사항, FAQ, 자료실
+.notice-content-view,
+.faq-content-view,
+.download-content-view,
+.board-content-view {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
   background-color: $white;
   border-top: $layout-header-border;
 }
 
-// TODO : 리팩토링
-.itsm {
-  // 기본 ITSM 구성
-  &-container {
-
-    @import "contents/_contents-edit.scss";
-    @import "contents/_contents-flex.scss";
-
-    &-close {
-      height: 100%;
-      padding: 5.625rem 0 0 5rem; // 90px 0 0 80px
-      background: rgba(234, 241, 247, 1);
-    }
-  }
-  
-  &-popup {
-    padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
-    width: 100%;
-    // 문서함 > 관련 문서
-    .related-instance-main {
-      margin-top: 0.9375rem; // 15px
-      .table-set {
-        margin-top: 2.188rem; // 35px
-        table {
-          width: 100%;
-          thead {
-            tr {
-              color: $light-black;
-              border-bottom: 0.125rem solid $default-gray;
-            }
+/////////////////////////////////////////////// 팝업 /////////////////////////////////////////////////////
+.itsm-popup {
+  padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
+  width: 100%;
+  // 문서함 > 관련 문서
+  .related-instance-main {
+    margin-top: 0.9375rem; // 15px
+    .table-set {
+      margin-top: 2.188rem; // 35px
+      table {
+        width: 100%;
+        thead {
+          tr {
+            color: $light-black;
+            border-bottom: 0.125rem solid $default-gray;
           }
-          tbody {
-            display: block;
-            width: 57.44rem; // 919px
-            height: 32.5rem; // 520px
-            color: $dark-gray;
-            overflow-y: auto;
-            tr {
-              display: table;
-              width: 100%;
-              height: 3.125rem; // 50px
-              line-height: 3.125rem; // 50px
-              td {
-                display: inline-block; // 말줄임 적용을 위해 추가
-                vertical-align: middle;
-              }
+        }
+        tbody {
+          display: block;
+          width: 57.44rem; // 919px
+          height: 32.5rem; // 520px
+          color: $dark-gray;
+          overflow-y: auto;
+          tr {
+            display: table;
+            width: 100%;
+            height: 3.125rem; // 50px
+            line-height: 3.125rem; // 50px
+            td {
+              display: inline-block; // 말줄임 적용을 위해 추가
+              vertical-align: middle;
             }
           }
         }
       }
     }
-    .view {
-      padding: 0;
-      &-content {
-        height: 44.625rem; // 714px
-        div.form-set {
-          margin: 0 0.6875rem 0 0.6875rem; // 11px
-        }
+  }
+  .view {
+    padding: 0;
+    &-content {
+      height: 44.625rem; // 714px
+      div.form-set {
+        margin: 0 0.6875rem 0 0.6875rem; // 11px
       }
     }
   }
-}
-
-@include horizontalBar(0.0625rem,  0.625rem 0, $line-gray);
-
-// TODO: View 공통 mixin 후 삭제 예정 
-// div 내부에 여러개의 span을 우측으로 붙이는 클래스
-// ex) 공지사항, 게시판 상세조회에서 작성자와 작성일은 오른쪽에 정렬되어 출력
-.row-right {
-  display: inherit;
-  justify-content: flex-end;
-  span {
-    &:last-child {
-      margin: auto 1.25rem auto 0; // 20px
+  // TODO: 팝업 소스 개선 후 삭제 예정 
+  // div 내부에 여러개의 span을 우측으로 붙이는 클래스
+  // ex) 공지사항, 게시판 상세조회에서 작성자와 작성일은 오른쪽에 정렬되어 출력
+  .row-right {
+    display: inherit;
+    justify-content: flex-end;
+    span {
+      &:last-child {
+        margin: auto 1.25rem auto 0; // 20px
+        }
       }
-    }
+  }
 }
 
 // 사용자 아이콘

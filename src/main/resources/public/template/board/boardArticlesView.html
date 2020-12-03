@@ -8,31 +8,35 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="contents-flex flex-column scroll-wrap">
-        <div class="header">
-            <div class="page-title">
+    <div class="flex-column view">
+        <div class="board-header">
+            <div class="header-title flex-row align-items-baseline">
                 <h1 th:text="#{board.label.board}"></h1>
-                <h6 class="title-description" th:text="#{board.msg.viewDescription}"></h6>
+                <h6 class="description" th:text="#{board.msg.viewDescription}"></h6>
             </div>
         </div>
-        <div class="flex flex-column">
-            <h4 class="under-bar bold">
-                <span th:if="${boardAdminInfo.categoryYn}" th:text="'['+${boardInfo?.boardCategoryName}+']'"></span>
-                <span th:text="${boardInfo?.boardTitle}"></span>
-            </h4>
-            <div class="row-right">
-                <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
-                <span class="vertical-bar"></span>
-                <span class="user-name" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
+        <div class="board-content-view">
+            <div class="flex-column view-row">
+                <div class="view-title text-ellipsis">
+                    <span th:if="${boardAdminInfo.categoryYn}" th:text="'['+${boardInfo?.boardCategoryName}+']'"></span>
+                    <span th:text="${boardInfo?.boardTitle}"></span>
+                </div>
+            </div>
+            <div class="flex-column view-row">
+                <div class="view-sub-title flex-row justify-content-end">
+                    <span id="spanCreateDt" th:text="${boardInfo?.createDt}"></span>
+                    <span class="vertical-bar"></span>
+                    <span class="user-name" th:text="${boardInfo?.createUser} ? ${boardInfo.createUser.userName} : ''"></span>
+                </div>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="flex-item item-text">
-                <div id="boardContents" class="ql-border-disabled">
+            <div class="flex-column view-row">
+                <div id="boardContents" class="view-content ql-border-disabled">
                     <span th:text="#{common.label.contents}"></span>
                 </div>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="file-uploader-view">
+            <div class="flex-row view-row file-uploader-view">
                 <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
                 <div class="vertical-bar"></div>
                 <form id="frm" method="post">
@@ -43,32 +47,34 @@
                 </form>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="justify-content-end btn-list">
-                <button sec:authorize="hasAuthority('board.create')" style="margin-right: 5px;"
-                        class="point-fill" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
-                        th:onclick ="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''"
-                        th:text="#{board.btn.reply}">
-                </button>
-                <button sec:authorize="hasAuthority('board.update')" style="margin-right: 5px;"
-                        class="point-fill" th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
-                        th:onclick ="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
-                        th:text="#{common.btn.modify}">
-                </button>
-                <button sec:authorize="hasAuthority('board.delete')" style="margin-right: 5px;"
-                        class="default-fill" th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
-                        th:onclick="deleteBoard('delete')"
-                        th:text="#{common.btn.delete}">
-                </button>
-                <a class="btn default-line"
-                   th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
+            <div class="flex-row justify-content-end view-row">
+                <div class="btn-list">
+                    <button sec:authorize="hasAuthority('board.create')"
+                            class="point-fill" th:if="${boardInfo?.boardId} and ${boardAdminInfo.replyYn}"
+                            th:onclick ="'location.href =\'' + @{/boards/articles/{id}/reply/edit(id=${boardInfo?.boardId})}+'\''"
+                            th:text="#{board.btn.reply}">
+                    </button>
+                    <button sec:authorize="hasAuthority('board.update')"
+                            class="point-fill" th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
+                            th:onclick ="'location.href =\'' + @{/boards/articles/{id}/edit(id=${boardInfo?.boardId})}+'\''"
+                            th:text="#{common.btn.modify}">
+                    </button>
+                    <button sec:authorize="hasAuthority('board.delete')"
+                            class="default-fill" th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')"
+                            th:onclick="deleteBoard('delete')"
+                            th:text="#{common.btn.delete}">
+                    </button>
+                    <a class="btn default-line"
+                       th:href="@{/boards/articles/search/param?boardAdminId={id}(id=${boardAdminInfo.boardAdminId})}" th:text="#{common.btn.list}"></a>
+                </div>
             </div>
             <div class="reply-body" th:if="${boardAdminInfo.commentYn} and ${boardInfo?.boardId}">
-                <div class="reply-input-row flex-row">
+                <div class="flex-row align-items-center reply-input-row">
                     <img class="profile-photo mr-2" alt="profile pic" th:src="${#authentication.details.avatarPath}" width="32" height="32"/>
                     <input type="text" class="reply-input" id="boardComments" name="boardComments" maxlength="500" th:placeholder="#{comment.msg.enterComments}"/>
                     <button class="default-line reply-button" onclick="saveBoardComment('post')" th:text="#{common.btn.save}"></button>
                 </div>
-                <div class="reply-list flex-column" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
+                <div class="flex-column reply-list" th:if="${boardAdminInfo.commentYn}" id="boardCommentList"></div>
             </div>
         </div>
     </div>
@@ -93,7 +99,7 @@
                 getBoardCommentList();
             }
             initTextEditor(true);
-            OverlayScrollbars(document.querySelector('.scroll-wrap'), { className: 'scrollbar' });
+            OverlayScrollbars(document.querySelector('.view'), { className: 'scrollbar' });
         };
 
         //웹에디터 초기화
