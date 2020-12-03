@@ -1,0 +1,25 @@
+/** 
+ * 팝업 디자인
+ * /default/_popup.scss
+ * 화면 : 공지사항 팝업, custom-code 대상 선택 팝업
+ */
+.itsm-popup {
+  width: 100%;
+  height: 100vh;
+  background-color: $white;
+  padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
+
+  @include viewTemplate();
+  // custom-code 대상 선택 팝업
+  .custom-code-content-popup {
+    &.view { height: auto; }
+    .radio-list { 
+      height: 25rem; // 400px
+      margin-top: 1.25rem; // 20px
+    }
+  }
+  // 공지사항 팝업
+  .notice-content-popup {
+    &.view { height: auto; }
+  }
+}

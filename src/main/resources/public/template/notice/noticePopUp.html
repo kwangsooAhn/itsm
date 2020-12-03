@@ -9,30 +9,44 @@
 <body>
 <th:block layout:fragment="content">
     <form id="frm" method="post">
-        <div class="view">
-            <h4 class="under-bar bold" th:text="${noticePopUp?.noticeTitle}"></h4>
-            <div class="row-right">
-                <span id="spanCreateDt" th:text="${noticePopUp?.createDt}"></span>
-                <span class="vertical-bar"></span>
-                <span id="spanUserName" th:text="${noticePopUp?.aliceUserEntity.userName}"></span>
+        <div class="notice-content-popup view">
+            <div class="flex-column view-row">
+                <div class="view-title text-ellipsis" th:text="${noticePopUp?.noticeTitle}"></div>
+            </div>
+            <div class="flex-column view-row">
+                <div class="flex-row justify-content-end">
+                    <span class="user-name" id="spanUserName"  th:text="${noticePopUp?.aliceUserEntity.userName}"></span>
+                    <span class="vertical-bar"></span>
+                    <span id="spanCreateDt" th:text="${noticePopUp?.createDt}"></span>
+                </div>
             </div>
             <div class="horizontal-bar"></div>
-            <div class="view-text"><pre><span th:text="${noticePopUp?.noticeContents}"></span></pre></div>
+            <div class="flex-column view-row">
+                <div class="view-content">
+                    <pre class="space-line">
+                        <span class="view-text" th:text="${noticePopUp?.noticeContents}"/>
+                    </pre>
+                </div>
+            </div>
             <div class="horizontal-bar"></div>
-            <div class="file-uploader-view">
-                <span class="file-uploader-title" th:text="#{common.label.attachFile}"></span>
-                <span class="vertical-bar"></span>
+            <div class="flex-row view-row file-uploader-view">
+                <label class="file-uploader-title" th:text="#{common.label.attachFile}"></label>
+                <div class="vertical-bar"></div>
                 <div class="file-uploader-list">
                     <div id="dropZoneFiles"></div>
                     <div id="dropZoneUploadedFiles"></div>
                 </div>
             </div>
             <div class="horizontal-bar"></div>
+            <div class="flex-row justify-content-end view-row" th:if="!${isPopUp}">
+                <label class="checkbox" for="close" tabindex="0">
+                    <input type="checkbox" id="close" name="close" value="OK" onclick="closePop(1);">
+                    <span></span>
+                    <span class="label" th:text="#{notice.label.popUpPeriodToday}"></span>
+                </label>
+            </div>
         </div>
     </form>
-    <div class="float-right" th:if="!${isPopUp}">
-        <input type="checkbox" name="close" value="OK" onclick="closePop(1);" /><span th:text="#{notice.label.popUpPeriodToday}"></span>
-    </div>
     <script th:inline="javascript">
         /*<![CDATA[ */
         const noticeCreateDt = document.getElementById('spanCreateDt');
@@ -46,6 +60,8 @@
                 return history.go(-1);
             }
             fileUploader.init({extra: {formId: 'frm', ownId: noticeNo, editor: false, isView: true}});
+
+            OverlayScrollbars(document.querySelectorAll('.itsm-popup'), { className: 'scrollbar' });
         }
 
         function closePop(expiredays) {

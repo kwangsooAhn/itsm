@@ -80,6 +80,28 @@
 .slide-up {
   @include animation(0s, 0.3s, slideUp, ease-out);
 }
+// 사용자 아이콘
+.profile-photo {
+  border-radius: 50%;
+  background-color: $profile-photo-background;
+}
+
+.user-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 8.75rem; // 140px
+}
+
+// 리스트 출력용 컬러 아이콘
+.document-color-circle {
+  width: $document-color-size;
+  height:$document-color-size;
+  border-radius: 50%;
+  margin-right: 0.625rem; // 10px
+  display: inline-block;
+}
+
 /////////////////////////////////////////////// 헤더 ////////////////////////////////////////////////////////
 // 공지사항, FAQ, 자료실, 게시판
 // 시스템관리 > 사용자, 게시판
@@ -362,86 +384,4 @@
   padding: 2.188rem 23.13rem 3.125rem 23.13rem; // 35px 370px 50px 370px
   background-color: $white;
   border-top: $layout-header-border;
-}
-
-/////////////////////////////////////////////// 팝업 /////////////////////////////////////////////////////
-.itsm-popup {
-  padding: 1.875rem 2.5rem 1.25rem 2.5rem; // 30px 40px 20px 40px
-  width: 100%;
-  // 문서함 > 관련 문서
-  .related-instance-main {
-    margin-top: 0.9375rem; // 15px
-    .table-set {
-      margin-top: 2.188rem; // 35px
-      table {
-        width: 100%;
-        thead {
-          tr {
-            color: $light-black;
-            border-bottom: 0.125rem solid $default-gray;
-          }
-        }
-        tbody {
-          display: block;
-          width: 57.44rem; // 919px
-          height: 32.5rem; // 520px
-          color: $dark-gray;
-          overflow-y: auto;
-          tr {
-            display: table;
-            width: 100%;
-            height: 3.125rem; // 50px
-            line-height: 3.125rem; // 50px
-            td {
-              display: inline-block; // 말줄임 적용을 위해 추가
-              vertical-align: middle;
-            }
-          }
-        }
-      }
-    }
-  }
-  .view {
-    padding: 0;
-    &-content {
-      height: 44.625rem; // 714px
-      div.form-set {
-        margin: 0 0.6875rem 0 0.6875rem; // 11px
-      }
-    }
-  }
-  // TODO: 팝업 소스 개선 후 삭제 예정 
-  // div 내부에 여러개의 span을 우측으로 붙이는 클래스
-  // ex) 공지사항, 게시판 상세조회에서 작성자와 작성일은 오른쪽에 정렬되어 출력
-  .row-right {
-    display: inherit;
-    justify-content: flex-end;
-    span {
-      &:last-child {
-        margin: auto 1.25rem auto 0; // 20px
-        }
-      }
-  }
-}
-
-// 사용자 아이콘
-.profile-photo {
-  border-radius: 50%;
-  background-color: $profile-photo-background;
-}
-
-.user-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 8.75rem; // 140px
-}
-
-// 리스트 출력용 컬러 아이콘
-.document-color-circle {
-  width: $document-color-size;
-  height:$document-color-size;
-  border-radius: 50%;
-  margin-right: 0.625rem; // 10px
-  display: inline-block;
 }
