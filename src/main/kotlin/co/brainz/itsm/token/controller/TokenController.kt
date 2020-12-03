@@ -130,6 +130,7 @@ class TokenController(
         model.addAttribute("instanceId", instanceId)
         model.addAttribute("commentList", instanceService.getInstanceComments(instanceId))
         model.addAttribute("tagList", instanceService.getInstanceTags(instanceId))
+        model.addAttribute("documentNo", instanceService.getInstance(instanceId).documentNo)
         return tokenViewPage
     }
 
