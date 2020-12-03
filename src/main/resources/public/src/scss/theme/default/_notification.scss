@@ -175,7 +175,7 @@
     .icon {
       width: $toastify-icon-size;
       height: $toastify-icon-size;
-      @include backgroundImageAndSize('#{$image-folder-path}notification/img_notification_logo.png', 6.25rem) // 100px
+      @include background('#{$image-folder-path}notification/img_notification_logo.png', 6.25rem, null, null, null, null); // 100px
     }
     .content {
       width: 23.13rem; // 370px

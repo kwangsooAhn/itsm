@@ -72,6 +72,7 @@
     vertical-align: middle;
   }
 }
+
 @mixin horizontalBar($height, $margin, $color) {
   .horizontal-bar {
     height: $height;
