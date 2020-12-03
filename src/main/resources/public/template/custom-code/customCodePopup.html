@@ -11,12 +11,16 @@
 </head>
 <body>
 <th:block layout:fragment="content">
-    <div class="edit">
-        <h3 class="under-bar bold" th:text="#{form.label.customCodeTarget}"></h3>
-        <div class="form-set">
-            <input type="text" id="search" th:placeholder="#{customCode.msg.enterSearchTerm}">
+    <div class="custom-code-content-popup view">
+        <div class="flex-column view-row">
+            <div class="view-title text-ellipsis" th:text="#{form.label.customCodeTarget}"></div>
         </div>
-        <div class="form-set">
+        <div class="flex-column view-row">
+            <div class="view-sub-title flex-row justify-content-end">
+                <input type="text" id="search" th:placeholder="#{customCode.msg.enterSearchTerm}">
+            </div>
+        </div>
+        <div class="flex-column view-row">
             <div class="radio-list">
                 <ul>
                     <li th:unless="${#arrays.isEmpty(customCodeDataList)}" th:each="customCode: ${customCodeDataList}">
@@ -32,9 +36,11 @@
                 </ul>
             </div>
         </div>
-        <div class="btn-list">
-            <button class="point-fill" type="button" th:text="#{common.btn.check}" onclick="customCodeDataSave();"></button>
-            <button class="default-line" type="button" th:text="#{common.btn.close}" onclick="window.close();"></button>
+        <div class="view-btn-content flex-row view-row justify-content-end">
+            <div class="btn-list">
+                <button class="point-fill" type="button" th:text="#{common.btn.check}" onclick="customCodeDataSave();"></button>
+                <button class="default-line" type="button" th:text="#{common.btn.close}" onclick="window.close();"></button>
+            </div>
         </div>
     </div>
 </th:block>

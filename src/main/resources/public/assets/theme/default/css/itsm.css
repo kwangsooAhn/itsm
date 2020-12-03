@@ -2238,6 +2238,26 @@ button .icon-plus {
   animation-iteration-count: 1;
 }
 
+.profile-photo {
+  border-radius: 50%;
+  background-color: #F0F0F0;
+}
+
+.user-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 8.75rem;
+}
+
+.document-color-circle {
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  margin-right: 0.625rem;
+  display: inline-block;
+}
+
 .notice-header,
 .faq-header,
 .download-header,
@@ -2526,89 +2546,6 @@ button .icon-plus {
   padding: 2.188rem 23.13rem 3.125rem 23.13rem;
   background-color: #ffffff;
   border-top: 0.0625rem solid #EBEBEB;
-}
-
-.itsm-popup {
-  padding: 1.875rem 2.5rem 1.25rem 2.5rem;
-  width: 100%;
-}
-
-.itsm-popup .related-instance-main {
-  margin-top: 0.9375rem;
-}
-
-.itsm-popup .related-instance-main .table-set {
-  margin-top: 2.188rem;
-}
-
-.itsm-popup .related-instance-main .table-set table {
-  width: 100%;
-}
-
-.itsm-popup .related-instance-main .table-set table thead tr {
-  color: #3F4B56;
-  border-bottom: 0.125rem solid #E1E3E6;
-}
-
-.itsm-popup .related-instance-main .table-set table tbody {
-  display: block;
-  width: 57.44rem;
-  height: 32.5rem;
-  color: #586872;
-  overflow-y: auto;
-}
-
-.itsm-popup .related-instance-main .table-set table tbody tr {
-  display: table;
-  width: 100%;
-  height: 3.125rem;
-  line-height: 3.125rem;
-}
-
-.itsm-popup .related-instance-main .table-set table tbody tr td {
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.itsm-popup .view {
-  padding: 0;
-}
-
-.itsm-popup .view-content {
-  height: 44.625rem;
-}
-
-.itsm-popup .view-content div.form-set {
-  margin: 0 0.6875rem 0 0.6875rem;
-}
-
-.itsm-popup .row-right {
-  display: inherit;
-  justify-content: flex-end;
-}
-
-.itsm-popup .row-right span:last-child {
-  margin: auto 1.25rem auto 0;
-}
-
-.profile-photo {
-  border-radius: 50%;
-  background-color: #F0F0F0;
-}
-
-.user-name {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 8.75rem;
-}
-
-.document-color-circle {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 50%;
-  margin-right: 0.625rem;
-  display: inline-block;
 }
 
 .gnb {
@@ -5744,4 +5681,68 @@ body.modal-active {
 .reply .icon-edit,
 .reply .icon-delete {
   background: #CCCED1;
+}
+
+/** 
+ * 팝업 디자인
+ * /default/_popup.scss
+ * 화면 : 공지사항 팝업, custom-code 대상 선택 팝업
+ */
+.itsm-popup {
+  width: 100%;
+  height: 100vh;
+  background-color: #ffffff;
+  padding: 1.875rem 2.5rem 1.25rem 2.5rem;
+}
+
+.itsm-popup .view {
+  height: 100vh;
+}
+
+.itsm-popup .view .view-row {
+  margin: 0.625rem 0 0 0;
+}
+
+.itsm-popup .view .view-row .btn-list {
+  margin-top: 1.875rem;
+}
+
+.itsm-popup .view-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+  color: #3F4B56;
+  padding-bottom: 0.625rem;
+  border-bottom: 0.125rem solid #E1E3E6;
+}
+
+.itsm-popup .view-sub-title {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+  padding: 0 1.25rem;
+}
+
+.itsm-popup .view-content {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #586872;
+  min-height: 13.4375rem;
+  padding: 0.3125rem 1.25rem;
+}
+
+.itsm-popup .view-content .view-text {
+  margin: 0;
+}
+
+.itsm-popup .custom-code-content-popup.view {
+  height: auto;
+}
+
+.itsm-popup .custom-code-content-popup .radio-list {
+  height: 25rem;
+  margin-top: 1.25rem;
+}
+
+.itsm-popup .notice-content-popup.view {
+  height: auto;
 }
