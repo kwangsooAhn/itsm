@@ -2128,6 +2128,7 @@ button .icon-plus {
 }
 
 .itsm-container .main .card-list .no-data-found {
+  width: 100%;
   background-color: rgba(247, 248, 249, 0.45);
   pointer-events: none;
 }
