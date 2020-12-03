@@ -260,7 +260,7 @@
   .statistic {
     &-box {
       width: 23.75rem; // 380px
-      border: $token-dashbaord-border;
+      border: 0.0625rem solid $line-gray;
       border-radius: 0.3125rem; // 5px
       padding: 1.5625rem; // 25px
     }
