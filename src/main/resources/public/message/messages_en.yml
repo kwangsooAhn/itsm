@@ -776,6 +776,8 @@ role:
     referenceCount: "Reference Count"
     roel: "Role"
   msg:
+    duplicateRoleId: "Duplicate role id! Please enter other role id."
+    duplicateRoleName: "Duplicate role name! Please enter other role name."
     editDescription: "Add, view and manage roles."
     enterRoleId: "Please enter a role id."
     enterRoleName: "Please enter a role name."

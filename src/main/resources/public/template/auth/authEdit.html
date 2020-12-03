@@ -236,7 +236,7 @@
             let validList = document.querySelectorAll('td[name=authName]');
             for(let i = 0; i < validList.length; i++) {
                 authIds.push(validList[i].id);
-                authNames.push(validList[i].text);
+                authNames.push(validList[i].textContent);
             }
             if (flag === 'post') {
                 for(let i = 0; i < authIds.length; i++) {
