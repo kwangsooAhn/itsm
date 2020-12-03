@@ -270,7 +270,7 @@
                 if (isEmpty('targetTable', 'customCode.msg.enterTableTarget')) { return false; }
                 if (isEmpty('searchColumn', 'customCode.msg.enterSearchColumn')) { return false; }
                 for (let i = 0; i < conditionElems.length; i++) {
-                    if (conditionElems[i].value === '') {
+                    if (conditionElems[i].value.trim() === '') {
                         aliceJs.alertWarning(i18n.msg('customCode.msg.enterCondition'));
                         conditionElems[i].focus();
                         return false;
@@ -371,5 +371,4 @@
         }
         /*]]>*/
     </script>
-</th:block>
 </html>
