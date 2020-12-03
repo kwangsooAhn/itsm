@@ -276,20 +276,3 @@ var gModal = (function() {
 
     return gModal;
 })();
-
-
-class Shape {
-    constructor(width, height, color) {
-        this.width = width;
-        this.height = height;
-        this.color = color;
-    }
-
-    draw() {
-        console.log(`drawing ${this.color}`);
-    }
-    
-    getArea() {
-        return this.width * this.height;
-    }
-}
