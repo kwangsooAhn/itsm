@@ -48,6 +48,7 @@ class UserRepositoryImpl : QuerydslRepositorySupport(AliceUserEntity::class.java
                 user.userName.containsIgnoreCase(search).or(user.userId.containsIgnoreCase(search))
                     .or(user.position.containsIgnoreCase(search)).or(user.department.containsIgnoreCase(search))
                     .or(user.officeNumber.containsIgnoreCase(search))
+                    .or(user.mobileNumber.containsIgnoreCase(search))
             )
             .orderBy(user.userName.asc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
