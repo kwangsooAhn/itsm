@@ -121,20 +121,19 @@
             let tdFaqId = document.createElement('td');
             tdFaqId.style.width = '20%';
             tdFaqId.className = 'align-left';
-
-            let aFaqId = document.createElement('a');
-            if (document.getElementsByName('isRole').value === 'true') {
-                aFaqId.href = '/faqs/'+ data.faqId +'/view';
-            } else {
-                aFaqId.href = '/faqs/'+ data.faqId +'/edit';
-            }
-            aFaqId.innerText = i18n.msg('common.code.'+data.faqGroup);
-            tdFaqId.appendChild(aFaqId);
+            tdFaqId.innerText = i18n.msg('common.code.'+data.faqGroup);
 
             let tdFaqTitle = document.createElement('td');
             tdFaqTitle.className = 'align-left';
-            tdFaqTitle.innerText = data.faqTitle;
             tdFaqTitle.style.width = '80%';
+            let aFaqTitle = document.createElement('a');
+            if (document.getElementsByName('isRole').value === 'true') {
+                aFaqTitle.href = '/faqs/'+ data.faqId +'/view';
+            } else {
+                aFaqTitle.href = '/faqs/'+ data.faqId +'/edit';
+            }
+            aFaqTitle.innerText = data.faqTitle;
+            tdFaqTitle.appendChild(aFaqTitle);
 
             tr.appendChild(tdFaqId);
             tr.appendChild(tdFaqTitle);

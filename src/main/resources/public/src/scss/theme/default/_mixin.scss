@@ -60,7 +60,14 @@
           
           &:first-child { padding-left: 1.25rem; } // 20px
 
-          a { color: $dark-gray; }
+          a {
+            color: $dark-gray;
+            text-decoration: underline;
+            text-underline-position: under;
+            &:hover {
+              color: $point-blue;
+            }
+          }
         }
       }
       // 데이터 없을때
