@@ -2096,12 +2096,6 @@ button .icon-plus {
 
 .itsm-container .main .list-body tr td a {
   color: #586872;
-  text-decoration: underline;
-  text-underline-position: under;
-}
-
-.itsm-container .main .list-body tr td a:hover {
-  color: #0098FF;
 }
 
 .itsm-container .main .list-body .no-data-found-list {

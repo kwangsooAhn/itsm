@@ -882,12 +882,6 @@ input, button, select, optgroup, textarea {
 
 .portal-container .main-content .card-group .card-list table th a, .portal-container .main-content .card-group .card-list table td a {
   color: #586872;
-  text-decoration: underline;
-  text-underline-position: under;
-}
-
-.portal-container .main-content .card-group .card-list table th a:hover, .portal-container .main-content .card-group .card-list table td a:hover {
-  color: #0098FF;
 }
 
 .portal-container .main-content .list {
@@ -1900,12 +1894,6 @@ table tbody tr td:first-child {
 
 table tbody tr td a {
   color: #586872;
-  text-decoration: underline !important;
-  text-underline-position: under;
-}
-
-table tbody tr td a:hover {
-  color: #0098FF;
 }
 
 table tbody tr.no-data-found-list {

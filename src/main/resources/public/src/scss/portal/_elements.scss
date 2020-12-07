@@ -61,14 +61,7 @@ table {
           padding-left: 1.25rem; // 20px
         }
 
-        a {
-          color: $table-td-font-color;
-          text-decoration: underline !important;
-          text-underline-position: under;
-          &:hover {
-            color: $table-a-hover-font-color;
-          }
-        }
+        a { color: $table-td-font-color; }
       }
       &.no-data-found-list {
         background-color: $no-data-found-bg-color;

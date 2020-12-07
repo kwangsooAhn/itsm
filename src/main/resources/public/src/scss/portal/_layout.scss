@@ -112,14 +112,7 @@
                 vertical-align: middle;
                 &:hover { background-color: rgba(230, 232, 235, 0.6); }
   
-                a {
-                  color: $dark-gray;
-                  text-decoration: underline;
-                  text-underline-position: under;
-                  &:hover {
-                    color: $point-blue;
-                  }
-                }
+                a { color: $dark-gray; }
               }
             }
           }
