@@ -184,9 +184,15 @@
                 &-topic {
                   height: 100%;
                   color: $dark-gray;
+                  h5 {
+                    font-weight: $font-weight-regular;
+                  }
                 }
                 &-info {
-                  h5 { color: $dark-gray; }
+                  h5 {
+                    color: $dark-gray;
+                    font-weight: $font-weight-regular
+                  }
                 }
               }
             }

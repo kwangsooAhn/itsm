@@ -6,7 +6,7 @@ import co.brainz.framework.auth.service.AliceUserDetailsService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateFolderDto
-import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceDto
+import co.brainz.workflow.provider.dto.RestTemplateRelatedInstanceViewDto
 import co.brainz.workflow.provider.dto.RestTemplateUrlDto
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
@@ -26,17 +26,17 @@ class FolderService(
     /**
      * [tokenId]의 관련 문서 조회
      */
-    fun getRelatedInstance(tokenId: String): List<RestTemplateRelatedInstanceDto>? {
+    fun getRelatedInstance(tokenId: String): List<RestTemplateRelatedInstanceViewDto>? {
         val params = LinkedMultiValueMap<String, String>()
         params["tokenId"] = tokenId
         val urlDto =
             RestTemplateUrlDto(callUrl = RestTemplateConstants.Instance.GET_RELATED_INSTANCE.url, parameters = params)
         val responseBody = restTemplate.get(urlDto)
-        val relatedInstance: MutableList<RestTemplateRelatedInstanceDto> = mapper.readValue(
+        val relatedInstance: MutableList<RestTemplateRelatedInstanceViewDto> = mapper.readValue(
             responseBody,
-            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateRelatedInstanceDto::class.java)
+            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateRelatedInstanceViewDto::class.java)
         )
-        val moreInfoAddRelatedInstance: MutableList<RestTemplateRelatedInstanceDto> = mutableListOf()
+        val moreInfoAddRelatedInstance: MutableList<RestTemplateRelatedInstanceViewDto> = mutableListOf()
         relatedInstance.forEach {
             val user = aliceUserRepository.getOne(it.instanceCreateUserKey!!)
             val avatarPath = userDetailsService.makeAvatarPath(user)
