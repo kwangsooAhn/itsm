@@ -20,7 +20,7 @@
                 <td style="width:100%" colspan="4" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr class="flex-row align-items-center" th:each="customCode : ${customCodeList}">
-                <td style="width:50%" class="align-left">
+                <td style="width:50%" class="align-left underline">
                     <a sec:authorize="!hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"
                        th:href="@{/custom-codes/{id}/view(id=${customCode.customCodeId})}"></a>
                     <a sec:authorize="hasAuthority('custom.code.update')" th:text="${customCode.customCodeName}"

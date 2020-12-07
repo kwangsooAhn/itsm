@@ -23,7 +23,7 @@
                 <td style="width:100%" colspan="7" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>
             <tr class="flex-row align-items-center" th:unless="${#arrays.isEmpty(formList)}" th:each="form: ${formList}">
-                <td width="20%" class="align-left">
+                <td width="20%" class="align-left underline">
                     <th:block th:if="${form.editable == true}">
                         <a sec:authorize="!hasAuthority('form.update')" th:text="${form.name}"
                            th:attr="onclick=|openFormEdit('${form.id}', true)|"></a>

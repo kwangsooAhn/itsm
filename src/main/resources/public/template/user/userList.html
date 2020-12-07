@@ -28,16 +28,12 @@
                 <td style="width:3.2%;" class="align-right p-0">
                     <img class="profile-photo" th:src="@{{avatarPath}(avatarPath=${user.avatarPath})}" width="27" height="27" alt="profile pic"/>
                 </td>
-                <td style="width:9.8%;" class="align-left">
+                <td style="width:9.8%;" class="align-left underline">
                     <a th:text="${user.userName}"
                        th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''">
                     </a>
                 </td>
-                <td style="width:10%;" class="align-left">
-                    <a th:text="${user.userId}"
-                       th:onclick="'location.href=\'' + @{/users/{userKey}/edit(userKey=${user.userKey})} + '\''">
-                    </a>
-                </td>
+                <td style="width:10%;" class="align-left" th:text="${user.userId}"></td>
                 <td style="width:16%;" class="align-left" th:text="${user.email}"></td>
                 <td style="width:16%;" class="align-left" th:text="${user.department}"></td>
                 <td style="width:10%;" class="align-left" th:text="${user.position}"></td>

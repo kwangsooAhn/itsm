@@ -120,22 +120,17 @@
             tdAvatar.appendChild(avatarImage);
 
             let tdName = document.createElement('td');
-            tdName.className = 'align-left';
+            tdName.className = 'align-left underline';
             tdName.style.width = '9.8%';
-            tdName.innerText = data.userName;
-            tdName.style.cursor = 'pointer';
-            tdName.onclick = function() {
-                location.href = '/users/' + data.userKey + '/edit';
-            };
+            let aName = document.createElement('a');
+            aName.href = '/users/' + data.userKey + '/edit';
+            aName.innerText = data.userName;
+            tdName.appendChild(aName);
 
             let tdId = document.createElement('td');
             tdId.className = 'align-left';
             tdId.style.width = '10%';
-            tdId.innerText = data.userId;
-            tdId.style.cursor = 'pointer';
-            tdId.onclick = function() {
-                location.href = '/users/' + data.userKey + '/edit';
-            };
+            tdId.innerText = data.userName;
 
             let tdEmail = document.createElement('td');
             tdEmail.className = 'align-left';

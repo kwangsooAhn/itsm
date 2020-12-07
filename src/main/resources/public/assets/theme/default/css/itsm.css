@@ -78,7 +78,7 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
-/* _alignments.scss 
+/* _alignments.scss
  *
  * 파일 경로 : template/_alignments.scss
  * @description 정렬, 배치 관련 디자인
@@ -206,7 +206,7 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-/* _columns.scss 
+/* _columns.scss
  *
  * 파일 경로 : template/_columns.scss
  * @description HTML element 너비 관련 디자인
@@ -373,7 +373,7 @@ input, button, select, optgroup, textarea {
   margin-right: auto;
 }
 
-/* _common.scss 
+/* _common.scss
  *
  * 파일 경로 : template/_common.scss
  * @description 공통으로 사용되는 디자인
@@ -436,7 +436,7 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.125rem solid #E1E3E6;
 }
 
-/* _fonts.scss 
+/* _fonts.scss
  *
  * 파일 경로 : template/_fonts.scss
  * @description 폰트 디자인
@@ -485,7 +485,7 @@ input, button, select, optgroup, textarea {
   font-weight: 900;
 }
 
-/* _elements.scss 
+/* _elements.scss
  *
  * 파일 경로 : template/_elements.scss
  * @description HTML element 디자인
@@ -1212,7 +1212,7 @@ table[id="documentDisplay"] td {
   margin: 0.3125rem;
 }
 
-/* _buttons.scss 
+/* _buttons.scss
  *
  * 파일 경로 : template/_buttons.scss
  * @description 버튼 디자인
@@ -2875,7 +2875,7 @@ button .icon-plus {
   background: #929AA6;
 }
 
-/* _alerts.scss 
+/* _alerts.scss
  *
  * 파일 경로 : template/_alerts.scss
  * @description 알림 모달
@@ -3032,7 +3032,7 @@ button .icon-plus {
   }
 }
 
-/* _scrollbars.scss 
+/* _scrollbars.scss
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
@@ -3345,7 +3345,7 @@ button .icon-plus {
   background-color: #CCCED1;
 }
 
-/* _file-uploader.scss 
+/* _file-uploader.scss
  *
  * 파일 경로 : template/_file-uploader.scss
  * @description 파일 업로드 관련 디자인
@@ -3852,7 +3852,7 @@ button .icon-plus {
   display: none;
 }
 
-/* _avatar.scss 
+/* _avatar.scss
  *
  * 파일 경로 : template/_avatar.scss
  * @description 아바타 관련 디자인
@@ -4084,7 +4084,7 @@ button .icon-plus {
   margin-bottom: 0.3125rem;
 }
 
-/* _date-picker.scss 
+/* _date-picker.scss
  *
  * 파일 경로 : template/_date-picker.scss
  * @description Date/Time picker 관련 디자인
@@ -4358,7 +4358,7 @@ button .icon-plus {
   margin: 1.25rem 1.25rem 1.25rem 0;
 }
 
-/* _text-editor.scss 
+/* _text-editor.scss
  *
  * 파일 경로 : template/_text-editor.scss
  * @description Customize Quill Editor v1.3.6 (https://quilljs.com/)
@@ -4601,7 +4601,7 @@ button .icon-plus {
   min-height: 12.5rem;
 }
 
-/* _tree.scss 
+/* _tree.scss
  *
  * 파일 경로 : template/_tree.scss
  * @description 트리 구조 디자인
@@ -4749,7 +4749,7 @@ span.node_selected label {
   color: #3F4B56;
 }
 
-/* _color-picker.scss 
+/* _color-picker.scss
  *
  * 파일 경로 : template/_color-picker.scss
  * @description 컬러 피커 디자인
@@ -4810,7 +4810,7 @@ span.node_selected label {
   outline: 0.0625rem solid #0098FF;
 }
 
-/* _modal.scss 
+/* _modal.scss
  *
  * 파일 경로 : template/_modal.scss
  * @description 모달 디자인
@@ -5044,7 +5044,7 @@ body.modal-active {
   vertical-align: middle;
 }
 
-/* _thumbnail.scss 
+/* _thumbnail.scss
  *
  * 파일 경로 : template/_thumbnail.scss
  * @description 썸네일 디자인
@@ -5237,7 +5237,7 @@ body.modal-active {
   background-position: center center;
 }
 
-/* _tooltip.scss 
+/* _tooltip.scss
  *
  * 파일 경로 : template/_tooltip.scss
  * @description 툴팁 디자인
@@ -5592,7 +5592,7 @@ body.modal-active {
   background: #CCCED1;
 }
 
-/** 
+/**
  * 댓글 디자인
  * /default/_reply.scss
  * 화면 : 게시판
@@ -5670,7 +5670,7 @@ body.modal-active {
   background: #CCCED1;
 }
 
-/** 
+/**
  * 팝업 디자인
  * /default/_popup.scss
  * 화면 : 공지사항 팝업, custom-code 대상 선택 팝업

@@ -79,7 +79,7 @@ input, button, select, optgroup, textarea {
   margin: 0;
 }
 
-/* _alignments.scss 
+/* _alignments.scss
  *
  * 파일 경로 : template/_alignments.scss
  * @description 정렬, 배치 관련 디자인
@@ -207,7 +207,7 @@ input, button, select, optgroup, textarea {
   flex: 1 1 auto;
 }
 
-/* _columns.scss 
+/* _columns.scss
  *
  * 파일 경로 : template/_columns.scss
  * @description HTML element 너비 관련 디자인
@@ -374,7 +374,7 @@ input, button, select, optgroup, textarea {
   margin-right: auto;
 }
 
-/* _common.scss 
+/* _common.scss
  *
  * 파일 경로 : template/_common.scss
  * @description 공통으로 사용되는 디자인
@@ -437,7 +437,7 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.125rem solid #E1E3E6;
 }
 
-/* _fonts.scss 
+/* _fonts.scss
  *
  * 파일 경로 : template/_fonts.scss
  * @description 폰트 디자인
@@ -497,7 +497,7 @@ input, button, select, optgroup, textarea {
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 700;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Bold.otf) format('opentype');}
 @font-face {font-family: 'Noto Sans KR';font-style: normal;font-weight: 900;src: url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff2) format('woff2'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.woff) format('woff'),url(//fonts.gstatic.com/ea/notosanskr/v2/NotoSansKR-Black.otf) format('opentype');}
 */
-/* _columns.scss 
+/* _columns.scss
  *
  * 파일 경로 : template/_columns.scss
  * @description HTML element 너비 관련 디자인
@@ -1201,7 +1201,7 @@ input, button, select, optgroup, textarea {
   animation-iteration-count: 1;
 }
 
-/* _elements.scss 
+/* _elements.scss
  *
  * 파일 경로 : template/_elements.scss
  * @description HTML element 디자인
@@ -1905,7 +1905,7 @@ table tbody tr:hover {
   background-color: rgba(230, 232, 235, 0.6);
 }
 
-/* _buttons.scss 
+/* _buttons.scss
  *
  * 파일 경로 : template/_buttons.scss
  * @description 버튼 디자인
@@ -2566,7 +2566,7 @@ button.ghost-line:disabled .icon {
   background-color: #0098FF;
 }
 
-/* _alerts.scss 
+/* _alerts.scss
  *
  * 파일 경로 : template/_alerts.scss
  * @description 알림 모달
@@ -2723,7 +2723,7 @@ button.ghost-line:disabled .icon {
   }
 }
 
-/* _scrollbars.scss 
+/* _scrollbars.scss
  *
  * 파일 경로 : template/_scrollbars.scss
  * @description 스크롤바 디자인
@@ -3036,7 +3036,7 @@ button.ghost-line:disabled .icon {
   background-color: #CCCED1;
 }
 
-/* _file-uploader.scss 
+/* _file-uploader.scss
  *
  * 파일 경로 : template/_file-uploader.scss
  * @description 파일 업로드 관련 디자인
@@ -3543,7 +3543,7 @@ button.ghost-line:disabled .icon {
   display: none;
 }
 
-/* _avatar.scss 
+/* _avatar.scss
  *
  * 파일 경로 : template/_avatar.scss
  * @description 아바타 관련 디자인
@@ -3755,7 +3755,7 @@ button.ghost-line:disabled .icon {
   font-size: 0.8125rem;
 }
 
-/* _date-picker.scss 
+/* _date-picker.scss
  *
  * 파일 경로 : template/_date-picker.scss
  * @description Date/Time picker 관련 디자인
@@ -4029,7 +4029,7 @@ button.ghost-line:disabled .icon {
   margin: 1.25rem 1.25rem 1.25rem 0;
 }
 
-/* _tooltip.scss 
+/* _tooltip.scss
  *
  * 파일 경로 : template/_tooltip.scss
  * @description 툴팁 디자인

@@ -25,7 +25,7 @@
             <tr class="flex-row align-items-center" th:each="board : ${boardList}">
                 <td style="width:10%;" class="align-left" th:text="${board.boardSeq}"></td>
                 <td style="width:15%;" class="align-left" th:text="${board.boardCategoryName}"></td>
-                <td style="width:30%;" class="align-left">
+                <td style="width:30%;" class="align-left underline">
                     <a th:href="@{/boards/articles/{id}/view(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
                 </td>
                 <td style="width:10%;" class="align-left" th:text="${board.replyCount}"></td>
