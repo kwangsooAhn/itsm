@@ -20,7 +20,7 @@
 	            <td style="width:100%" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
 	        </tr>
 	        <tr class="flex-row align-items-center" th:each="boardAdmin: ${boardAdminList}">
-	            <td style="width: 65%" class="align-left">
+	            <td style="width: 65%" class="align-left underline">
 	                <a sec:authorize="!hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
 	                   th:href="@{/boards/{id}/view(id=${boardAdmin.boardAdminId})}"></a>
 	                <a sec:authorize="hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"

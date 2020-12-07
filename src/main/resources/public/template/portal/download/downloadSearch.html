@@ -158,14 +158,16 @@
             let tdDownloadSeq = document.createElement('td');
             tdDownloadSeq.innerText = data.downloadSeq;
             tdDownloadSeq.style.width = '5%';
+            tdDownloadSeq.className ='align-center';
 
             let tdDownloadCategory = document.createElement('td');
             tdDownloadCategory.innerText = i18n.msg(data.downloadCategory);
             tdDownloadCategory.style.width = '10%';
+            tdDownloadCategory.className ='align-center';
 
             let tdDownloadTitle = document.createElement('td');
             tdDownloadTitle.style.width = '45%';
-            tdDownloadTitle.className = 'align-left';
+            tdDownloadTitle.className = 'align-left underline';
             let aDownloadTitle = document.createElement('a');
             aDownloadTitle.href = '/portals/downloads/'+ data.downloadId +'/view';
             aDownloadTitle.innerText = data.downloadTitle;
@@ -174,14 +176,17 @@
             let tdCreateUserName = document.createElement('td');
             tdCreateUserName.innerText = data.createUserName;
             tdCreateUserName.style.width = '10%';
+            tdCreateUserName.className ='align-center';
 
             let tdCreateDt = document.createElement('td');
             tdCreateDt.innerText = i18n.userDateTime(data.createDt);
             tdCreateDt.style.width = '20%';
+            tdCreateDt.className ='align-center';
 
             let tdView = document.createElement('td');
             tdView.innerText = data.views;
             tdView.style.width = '10%';
+            tdView.className ='align-center';
 
             tr.appendChild(tdDownloadSeq);
             tr.appendChild(tdDownloadCategory);

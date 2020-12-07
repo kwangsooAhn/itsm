@@ -23,7 +23,7 @@
             </tr>
             <tr class="flex-row align-items-center notice-pinned " th:each="topNotice, i: ${topNoticeList}"
                 th:if="not ${#arrays.isEmpty(noticeList)} and ${i.count} < 4">
-                <td style="width:30%;" class="align-left">
+                <td style="width:30%;" class="align-left underline">
                     <a sec:authorize="!hasAuthority('notice.update')" th:text="${topNotice.noticeTitle}"
                        th:href="@{/notices/{id}/view(id=${topNotice.noticeNo})}">
                     </a>
@@ -42,7 +42,7 @@
                 <td style="width:15%;" th:name="createDt" class="align-left" th:text="${topNotice.createDt}"></td>
             </tr>
             <tr class="flex-row align-items-center" th:each="notice : ${noticeList}">
-                <td style="width:30%;" class="align-left">
+                <td style="width:30%;" class="align-left underline">
                     <a sec:authorize="!hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
                        th:href="@{/notices/{id}/view(id=${notice.noticeNo})}"></a>
                     <a sec:authorize="hasAuthority('notice.update')" th:text="${notice.noticeTitle}"
