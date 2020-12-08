@@ -119,17 +119,13 @@
 
                 if (document.getElementById('prev-document-status').value === STATUS_TEMPORARY && documentInfo.documentStatus === STATUS_USE) { // 수정
                     aliceJs.confirmIcon(
-                        i18n.msg('document.msg.confirmDeleteInstance'),
+                        i18n.msg('document.msg.changeStatusEnabled'),
                         () => restSubmit(method, url + '?isDeleteData=true', documentInfo, function(result) {
                             aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
                                 location.reload();
                             });
                         }),
-                        () => restSubmit(method, url, documentInfo, function(result) {
-                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function() {
-                                location.reload();
-                            });
-                        })
+                        null
                     );
                 } else {
                     restSubmit(method, url, documentInfo, function(result) {
