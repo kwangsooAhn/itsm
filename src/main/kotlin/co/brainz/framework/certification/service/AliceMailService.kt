@@ -7,6 +7,7 @@ import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
 import org.thymeleaf.context.Context
 import org.thymeleaf.spring5.SpringTemplateEngine
+import java.io.File
 
 @Component
 class AliceMailService(
@@ -38,6 +39,7 @@ class AliceMailService(
         aliceMailDto.fromName?.let { mimeMessageHelper.setFrom(aliceMailDto.from, it) }
         aliceMailDto.subject?.let { mimeMessageHelper.setSubject(it) }
         aliceMailDto.content?.let { mimeMessageHelper.setText(it, true) }
+        mimeMessageHelper.addInline("logo", File("D:/files/images/img_email_certificate.png"))
     }
 
     fun send() {
