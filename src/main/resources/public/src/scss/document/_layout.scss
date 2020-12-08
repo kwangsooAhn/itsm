@@ -110,28 +110,30 @@
               border-bottom: 0.0625rem solid $default-gray; // 1px
               tr {
                 display: flex;
+                flex-direction: row;
                 align-items: center;
-                height: 55px; // 55px
+                height: 3.438rem; // 55px
               }
             }
-            th, td { text-align: left; }
+            th, td {
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space:nowrap;
+            }
             th { 
               color: $light-black;
             }
             td {
               color: $dark-gray;
             }
-            th:nth-child(3n + 1),
-            td:nth-child(3n + 1) {
-              padding-left: 0.625rem; // 10px
-            }
             tbody {
-              display: block;
               width: 100%;
               height: 37.5rem; // 600px;
               overflow-y: auto;
               tr {
-                display: table;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
                 width: 100%;
               }
             }
