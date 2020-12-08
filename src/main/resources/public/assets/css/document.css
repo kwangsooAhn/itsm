@@ -606,11 +606,14 @@ input, button, select, optgroup, textarea {
 }
 .document-container .token-properties .token-info-contents .token-history .table thead tr {
   display: flex;
+  flex-direction: row;
   align-items: center;
-  height: 55px;
+  height: 3.438rem;
 }
 .document-container .token-properties .token-info-contents .token-history .table th, .document-container .token-properties .token-info-contents .token-history .table td {
-  text-align: left;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 }
 .document-container .token-properties .token-info-contents .token-history .table th {
   color: #3F4B56;
@@ -618,18 +621,15 @@ input, button, select, optgroup, textarea {
 .document-container .token-properties .token-info-contents .token-history .table td {
   color: #586872;
 }
-.document-container .token-properties .token-info-contents .token-history .table th:nth-child(3n+1),
-.document-container .token-properties .token-info-contents .token-history .table td:nth-child(3n+1) {
-  padding-left: 0.625rem;
-}
 .document-container .token-properties .token-info-contents .token-history .table tbody {
-  display: block;
   width: 100%;
   height: 37.5rem;
   overflow-y: auto;
 }
 .document-container .token-properties .token-info-contents .token-history .table tbody tr {
-  display: table;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   width: 100%;
 }
 .document-container .token-properties .token-info-contents .token-related {
