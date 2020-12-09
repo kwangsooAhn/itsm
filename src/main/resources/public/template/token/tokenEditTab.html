@@ -25,7 +25,7 @@
             <tr th:each="tokenHistory : ${instanceHistory}">
                 <td width="35%" class="user-date-time align-center" th:name="tokenDt"
                     th:text="${tokenHistory.tokenStartDt}"/>
-                <td width="50%" class="align-left" th:text="${tokenHistory.elementName}"></td>
+                <td width="50%" class="align-center" th:text="${tokenHistory.elementName}"></td>
                 <td width="15%" class="align-center" th:text="${tokenHistory.assigneeName}"></td>
             </tr>
             </tbody>
