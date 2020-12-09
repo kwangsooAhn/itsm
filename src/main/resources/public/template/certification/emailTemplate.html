@@ -2,11 +2,47 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<style>
+		.email-template {
+			width: 120rem;
+			height: 59.1875rem;
+			display: flex;
+			flex-direction: row;
+		}
+		.email-contents {
+			margin: 18.125rem 0 0 6.25rem;
+		}
+		.intro {
+			margin: 1.25rem 0;
+			font-family: inherit;
+			font-size: 2.25rem;
+			font-weight: bold;
+		}
+		.message {
+			font-family: inherit;
+			font-size: 1.5rem;
+		}
+		.certificate-link {
+			display: inline-block;
+			padding: 0.5rem 1.5625rem;
+			margin-top: 5rem;
+			font-size: 1rem;
+			text-decoration: none;
+            color: #ffffff !important;
+			background-color: #0098FF;
+			border-color:transparent;
+			border-radius: 0.1875rem;
+		}
+	</style>
 </head>
 <body>
-<p th:text="${intro}"></p>
-<pre th:text="${message}"></pre>
-<a th:href="${link}" th:text="${text}"></a>
-<p th:text="${regards}"></p>
+	<div class="email-template">
+	    <img src="cid:logo" width="962" height="947" alt="emailCertificate" border="0">
+	    <div class="email-contents">
+	        <pre class="intro" th:text="${intro}"></pre>
+	        <pre class="message" th:text="${message}"></pre>
+	        <a class="certificate-link" th:href="${link}" th:text="${text}"></a>
+	    </div>
+	</div>
 </body>
 </html>

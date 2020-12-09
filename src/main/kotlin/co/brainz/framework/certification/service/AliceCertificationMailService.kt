@@ -108,13 +108,13 @@ class AliceCertificationMailService(
                 params["message"] = "비밀번호 :" + aliceCertificationDto.password
             }
             else -> {
-                params["intro"] = "안녕하세요! Zenius ITSM에 가입해주셔서 감사합니다."
+                params["intro"] = "안녕하세요.\n" +
+                        "Zenius ITSM에 가입해주셔서 감사합니다."
                 params["message"] = "본 메일은 Zenius ITSM 가입을 완료하기 위한 인증메일입니다.\n" +
                         "만약 인증 메일을 요청하신 적이 없다면 본 메일을 삭제해주시기 바랍니다.\n" +
                         "이메일 인증을 위해 아래 버튼을 클릭해주세요."
                 params["link"] = this.makeLinkUrl(aliceCertificationDto)
                 params["text"] = "이메일 인증"
-                params["regards"] = "감사합니다."
             }
         }
         return params
