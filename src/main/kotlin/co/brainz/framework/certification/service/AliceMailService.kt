@@ -2,7 +2,6 @@ package co.brainz.framework.certification.service
 
 import org.springframework.beans.factory.annotation.Value
 import co.brainz.framework.certification.dto.AliceMailDto
-import org.springframework.core.env.Environment
 import org.springframework.core.io.ClassPathResource
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
@@ -14,8 +13,7 @@ import javax.mail.internet.MimeMessage
 @Component
 class AliceMailService(
     private val javaMailSender: JavaMailSender,
-    private val springTemplateEngine: SpringTemplateEngine,
-    private val environment: Environment
+    private val springTemplateEngine: SpringTemplateEngine
 ) {
 
     @Value("\${mail.certificate.image}")
