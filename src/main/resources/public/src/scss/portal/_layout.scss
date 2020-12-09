@@ -42,11 +42,13 @@
 
   .header {
     @include header;
+    max-width: 120rem;
     font-size: $layout-header-font-size;
     font-weight: $layout-header-font-weight;
     color: $layout-header-font-color;
     background-color: $layout-header-bg-color;
     padding: 0 1.25rem; // 0 20px
+    margin: 0 auto;
 
     // Technical Support 문구
     .name {
@@ -59,6 +61,8 @@
   // 포탈 메인
   .main {
     @include main;
+    max-width: 120rem;
+    margin: 0 auto;
 
     &-banner {
       height: $main-banner-height;
