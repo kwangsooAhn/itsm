@@ -81,7 +81,7 @@ server:
 user.default.profile: /public/assets/media/images/avatar/img_avatar_01.png
 
 # email certificate image path
-mail.certificate.image: D:\\files\img_email_certificate.png
+mail.certificate.image: D:\\files\images\img_email_certificate.png
 
 # upload file directory (default: tomcat)
 file.upload.dir: D:\\files
