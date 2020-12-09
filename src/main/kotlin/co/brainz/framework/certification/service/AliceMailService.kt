@@ -1,18 +1,20 @@
 package co.brainz.framework.certification.service
 
 import co.brainz.framework.certification.dto.AliceMailDto
-import javax.mail.internet.MimeMessage
+import org.springframework.core.env.Environment
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
 import org.thymeleaf.context.Context
 import org.thymeleaf.spring5.SpringTemplateEngine
 import java.io.File
+import javax.mail.internet.MimeMessage
 
 @Component
 class AliceMailService(
     private val javaMailSender: JavaMailSender,
-    private val springTemplateEngine: SpringTemplateEngine
+    private val springTemplateEngine: SpringTemplateEngine,
+    private val environment: Environment
 ) {
 
     lateinit var mimeMessageHelper: MimeMessageHelper
@@ -39,7 +41,7 @@ class AliceMailService(
         aliceMailDto.fromName?.let { mimeMessageHelper.setFrom(aliceMailDto.from, it) }
         aliceMailDto.subject?.let { mimeMessageHelper.setSubject(it) }
         aliceMailDto.content?.let { mimeMessageHelper.setText(it, true) }
-        mimeMessageHelper.addInline("logo", File("D:/files/images/img_email_certificate.png"))
+        mimeMessageHelper.addInline("logo", File(environment.getProperty("mail.certificate.image").toString()))
     }
 
     fun send() {

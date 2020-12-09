@@ -4,33 +4,33 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<style>
 		.email-template {
-			width: 1920px;
-			height: 947px;
+			width: 120rem;
+			height: 59.1875rem;
 			display: flex;
 			flex-direction: row;
 		}
 		.email-contents {
-			margin: 290px 0 0 100px;
+			margin: 18.125rem 0 0 6.25rem;
 		}
 		.intro {
-			margin: 20px 0;
+			margin: 1.25rem 0;
 			font-family: inherit;
-			font-size: 36px;
+			font-size: 2.25rem;
 			font-weight: bold;
 		}
 		.message {
 			font-family: inherit;
-			font-size: 24px;
+			font-size: 1.5rem;
 		}
 		.btn-certificate {
 			display: inline-block;
-			padding: 8px 25px;
-			margin-top: 80px;
-			font-size:16px;
+			padding: 0.5rem 1.5625rem;
+			margin-top: 5rem;
+			font-size: 1rem;
 			color: #ffffff;
 			background-color: #33ADFF;
 			border-color:transparent;
-			border-radius: 3px;
+			border-radius: 30.1875rem;
 		}
 	</style>
 </head>
@@ -39,8 +39,8 @@
 	    <img src="cid:logo" width="962" height="947" alt="emailCertificate" border="0">
 	    <div class="email-contents">
 	        <pre class="intro" th:text="${intro}"></pre>
-	        <pre class=""message th:text="${message}"></pre>
-	        <button th:href="${link}" th:text="${text}"></button>
+	        <pre class="message" th:text="${message}"></pre>
+	        <button class="btn-certificate" th:href="${link}" th:text="${text}"></button>
 	    </div>
 	</div>
 </body>
