@@ -1,7 +1,9 @@
 package co.brainz.framework.certification.service
 
+import org.springframework.beans.factory.annotation.Value
 import co.brainz.framework.certification.dto.AliceMailDto
 import org.springframework.core.env.Environment
+import org.springframework.core.io.ClassPathResource
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
@@ -16,6 +18,9 @@ class AliceMailService(
     private val springTemplateEngine: SpringTemplateEngine,
     private val environment: Environment
 ) {
+
+    @Value("\${mail.certificate.image}")
+    private val mailCertificateImage: String = ""
 
     lateinit var mimeMessageHelper: MimeMessageHelper
     lateinit var context: Context
@@ -41,7 +46,8 @@ class AliceMailService(
         aliceMailDto.fromName?.let { mimeMessageHelper.setFrom(aliceMailDto.from, it) }
         aliceMailDto.subject?.let { mimeMessageHelper.setSubject(it) }
         aliceMailDto.content?.let { mimeMessageHelper.setText(it, true) }
-        mimeMessageHelper.addInline("logo", File(environment.getProperty("mail.certificate.image").toString()))
+        val resource = ClassPathResource(mailCertificateImage)
+        mimeMessageHelper.addInline("logo", resource)
     }
 
     fun send() {
