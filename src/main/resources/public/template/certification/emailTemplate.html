@@ -22,12 +22,13 @@
 			font-family: inherit;
 			font-size: 1.5rem;
 		}
-		.btn-certificate {
+		.certificate-link {
 			display: inline-block;
 			padding: 0.5rem 1.5625rem;
 			margin-top: 5rem;
 			font-size: 1rem;
-			color: #ffffff;
+			text-decoration: none;
+            color: #ffffff !important;
 			background-color: #33ADFF;
 			border-color:transparent;
 			border-radius: 30.1875rem;
@@ -40,7 +41,7 @@
 	    <div class="email-contents">
 	        <pre class="intro" th:text="${intro}"></pre>
 	        <pre class="message" th:text="${message}"></pre>
-	        <button class="btn-certificate" th:href="${link}" th:text="${text}"></button>
+	        <a class="certificate-link" th:href="${link}" th:text="${text}"></a>
 	    </div>
 	</div>
 </body>
