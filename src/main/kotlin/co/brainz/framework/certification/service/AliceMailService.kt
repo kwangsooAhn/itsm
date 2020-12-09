@@ -1,14 +1,14 @@
 package co.brainz.framework.certification.service
 
-import org.springframework.beans.factory.annotation.Value
 import co.brainz.framework.certification.dto.AliceMailDto
+import javax.mail.internet.MimeMessage
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.ClassPathResource
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.mail.javamail.MimeMessageHelper
 import org.springframework.stereotype.Component
 import org.thymeleaf.context.Context
 import org.thymeleaf.spring5.SpringTemplateEngine
-import javax.mail.internet.MimeMessage
 
 @Component
 class AliceMailService(
