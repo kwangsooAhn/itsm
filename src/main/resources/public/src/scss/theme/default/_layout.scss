@@ -34,7 +34,7 @@
   // 메뉴 디자인은 _gnb.scss 참조
   // 메인
   .main {
-    width: calc(100vw - #{$nav-width});
+    width: calc(100% - #{$nav-width});
     height: 100vh;
     
     // 상단 영역

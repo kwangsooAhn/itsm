@@ -437,7 +437,7 @@ input, button, select, optgroup, textarea {
   border-bottom: 0.125rem solid #E1E3E6;
 }
 
-/* _fonts.scss
+/* _fonts.scss 
  *
  * 파일 경로 : template/_fonts.scss
  * @description 폰트 디자인
@@ -792,11 +792,13 @@ input, button, select, optgroup, textarea {
   height: 3.125rem;
   display: flex;
   align-items: center;
+  max-width: 120rem;
   font-size: 1rem;
   font-weight: 500;
   color: #ffffff;
   background-color: #0098FF;
   padding: 0 1.25rem;
+  margin: 0 auto;
 }
 
 .portal-container .header .name {
@@ -815,6 +817,8 @@ input, button, select, optgroup, textarea {
   right: 0;
   bottom: 0;
   overflow-y: auto;
+  max-width: 120rem;
+  margin: 0 auto;
 }
 
 .portal-container .main-banner {

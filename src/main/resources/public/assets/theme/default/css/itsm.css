@@ -1833,7 +1833,7 @@ button .icon-plus {
   background-color: #EBEBEB;
 }
 .itsm-container .main {
-  width: calc(100vw - 13.75rem);
+  width: calc(100% - 13.75rem);
   height: 100vh;
 }
 .itsm-container .main .header-title {
