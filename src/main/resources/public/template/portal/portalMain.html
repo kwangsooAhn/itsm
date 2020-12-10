@@ -12,8 +12,10 @@
         <h1 class="title align-center" th:text="#{portal.label.topPhrase}"></h1>
     </div>
     <div id="main-search" class="main-search align-center">
-        <input type="text" class="col-8 icon-search" id="searchValue" name="searchValue" th:value="${portalSearchDto?.searchValue}"
+        <input type="text" class="col-8 icon-search mr-2" id="searchValue" name="searchValue"
+               th:value="${portalSearchDto?.searchValue}"
                th:placeholder="#{common.label.searchWord}" maxlength="100"/>
+        <span id="spanTotalCount" class="txt-num"></span>
     </div>
     <div class="main-content">
         <ul class="card-group flex-row justify-content-between">
@@ -35,7 +37,7 @@
                     <div class="icon">
                         <a href="/portals/faqs/ /view">
                             <img th:src="@{/assets/media/images/portal/img_portal_faq.png}" width="120" height="120" alt="Faq">
-	                    </a>
+                        </a>
                     </div>
                     <h3 th:text="#{menu.faq.parent}"></h3>
                 </div>
@@ -65,8 +67,7 @@
     <script th:inline="javascript">
         /*<![CDATA[ */
         const topSize = 6;
-        var offsetCount = 0;
-        const offsetSize = 15;
+        let offsetCount = 0;
 
         window.onload = function () {
             initEventListener();
@@ -104,16 +105,16 @@
                             let cell = document.createElement('td');
                             let contentAnchor = document.createElement('a');
                             switch (topName) {
-	                            case 'notice':
+                                case 'notice':
                                     contentAnchor.setAttribute('href', '/portals/notices/'+ data['id'] +'/view');
-	                                break;
-	                            case 'faq':
+                                    break;
+                                case 'faq':
                                     contentAnchor.setAttribute('href', '/portals/faqs/' + data['id'] +'/view');
-	                                break;
+                                    break;
                                 case 'download':
                                     contentAnchor.setAttribute('href', '/portals/downloads/'+ data['id'] +'/view');
-	                                break;
-	                        }
+                                    break;
+                            }
                             let contentText = document.createElement('span');
                             contentText.classList.add('text-ellipsis');
                             contentText.textContent = '[' + i18n.userDateTime(data['createDt']) + '] ' + data['title'];
@@ -135,7 +136,7 @@
             let urlParam = '';
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = offsetSize;
+                    offsetCount = aliceJs.searchDataCount;
                 }
                 urlParam = '&searchValue=' + encodeURIComponent(document.getElementById('searchValue').value.trim())
                     + '&offset=' + offsetCount;
@@ -161,9 +162,10 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (scrollerEventCheck()) {
-                                offsetCount = offsetCount + offsetSize;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
@@ -171,6 +173,7 @@
                         }
                     } else {
                         document.querySelector('.main-content').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                     }
                     // 검색 조회 결과 화면 스크롤바
                     OverlayScrollbars(document.querySelector('.list'), {
@@ -190,7 +193,7 @@
                                     document.getElementById('main-banner').style.display='block';
                                 }
                                 if (scrollHeight - scrollTop === clientHeight) {
-                                    if (scrollerEventCheck()) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                         portalSearch(true);
                                     }
                                 }
@@ -207,15 +210,6 @@
                 }
             };
             aliceJs.sendXhr(opt);
-        }
-
-        function scrollerEventCheck() {
-            let scrollerCheck = false;
-            let totalCount = document.getElementById('totalCount').value;
-            if (offsetCount < totalCount) {
-                scrollerCheck = true;
-            }
-            return scrollerCheck;
         }
 
         function getDataTemplate(data) {

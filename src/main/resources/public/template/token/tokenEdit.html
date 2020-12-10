@@ -46,6 +46,7 @@
             restSubmit('get', '/tokens/view-pop/documents?searchValue=' + search.trim() + '&tokenId=' + '[[${tokenId}]]', function(result) {
                 document.getElementById('instanceList').innerHTML = result;
                 let instanceDtEle = document.querySelectorAll('td[name=instanceDt]');
+                aliceJs.showTotalCount(instanceDtEle.length);
                 for (let i = 0; i < instanceDtEle.length; i++) {
                     if (instanceDtEle[i].textContent !== '') {
                         instanceDtEle[i].textContent = i18n.userDateTime(instanceDtEle[i].textContent);
@@ -80,7 +81,7 @@
         // 관련 문서 모달 내부 Template
         function createModalContent(data) {
             return `<div class="related-instance-list">` +
-                       `<input class="search col-5" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('token.label.searchPlaceholder')}"/>` +
+                       `<input class="search col-5 mr-2" type="text" name="search" id="search" maxlength="100" placeholder="${i18n.msg('token.label.searchPlaceholder')}"/><span id="spanTotalCount" class="txt-num"></span>` +
                        `<div class="table-set" id="instanceList"></div>` +
                     `</div>`;
         }

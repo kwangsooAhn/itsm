@@ -18,7 +18,7 @@
             <input type="hidden" id="deletable" th:value="${#authorization.expression('hasAuthority(''document.admin.delete'')')}"/>
             <form id="searchDocumentsFrm">
                 <select id="searchGroupName" name="searchGroupName" class="col-3">
-                    <option value="" th:text="#{document.label.all}" selected/>
+                    <option value="" th:text="#{document.label.all}" selected></option>
                     <option th:each="group:${groupList}" th:value="${group.code}" th:text="${group.codeValue}"></option>
                 </select>
                 <label for="searchDocuments"></label>
@@ -28,8 +28,9 @@
                 <input type="text" class="search" maxlength="100" id="searchProcessName"
                        name="searchProcessName" th:placeholder="#{document.label.process}"/>
                 <label for="searchFormName"></label>
-                <input type="text" class="search" maxlength="100" id="searchFormName"
+                <input type="text" class="search mr-2" maxlength="100" id="searchFormName"
                        name="searchFormName" th:placeholder="#{document.label.form}"/>
+                <span id="spanTotalCount" class="txt-num"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="default-fill" onclick="openDocumentEdit();"
@@ -457,6 +458,7 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;
                             if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                 offsetCount = offsetCount + aliceJs.searchDataCount;
@@ -467,6 +469,7 @@
                         }
                     } else {
                         document.getElementById('documentList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                     }
 
                     OverlayScrollbars(document.querySelector('.list-body'), {

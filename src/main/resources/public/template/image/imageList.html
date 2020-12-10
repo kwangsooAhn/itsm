@@ -83,7 +83,7 @@
                     });
                     addThumbnailUpload();
                     document.getElementById('totalCount').textContent =
-                        i18n.msg("image.label.count", document.querySelectorAll('.thumbnail').length);
+                        i18n.msg("common.label.count", document.querySelectorAll('.thumbnail').length);
                 }
             });
         }
@@ -139,7 +139,7 @@
                             document.querySelector('.thumbnail-main').removeChild(imgObj.parentNode.parentNode);
                         }
                         document.getElementById('totalCount').textContent =
-                            i18n.msg("image.label.count", document.querySelectorAll('.thumbnail').length);
+                            i18n.msg("common.label.count", document.querySelectorAll('.thumbnail').length);
                     }
                 });
             });
@@ -213,7 +213,7 @@
                                 addThumbnail(list[i]);
                             }
                             document.getElementById('totalCount').textContent =
-                                i18n.msg("image.label.count", document.querySelectorAll('.thumbnail').length);
+                                i18n.msg("common.label.count", document.querySelectorAll('.thumbnail').length);
                         }
                     }
                     xhr.open('POST', '/rest/images', true);

@@ -32,13 +32,13 @@
         <div class="auth-content-edit flex-column">
             <div class="edit-form">
                 <div class="edit-row flex-column">
+                    <label th:text="#{auth.label.authId}" class="required"></label>
+                    <input id="txtAuthId" name="txtAuthId" type="text" maxlength="100">
+                </div>
+                <div class="edit-row flex-column">
                     <label th:text="#{auth.label.authName}" class="required"></label>
                     <input id="txtAuthName" name="txtAuthName" type="text" maxlength="100">
                     <input id="txtAuthNameOrg" name="txtAuthNameOrg" type="hidden"/>
-                </div>
-                <div class="edit-row flex-column">
-                    <label th:text="#{auth.label.authId}" class="required"></label>
-                    <input id="txtAuthId" name="txtAuthId" type="text" maxlength="100">
                 </div>
                 <div class="edit-row flex-column">
                     <label th:text="#{auth.label.authDesc}"></label>
@@ -433,8 +433,8 @@
 
         function sortMenuList() {
             let menuList = document.getElementById("menuList");
-            var switching = true;
-            var liTag, switchLiTag;
+            let switching = true;
+            let liTag, switchLiTag;
 
             while (switching) {
                 switching = false;

@@ -28,7 +28,7 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
     ): List<BoardListDto> {
         val boardAdmin = QPortalBoardAdminEntity.portalBoardAdminEntity
         val board = QPortalBoardEntity("board")
-        return from(boardAdmin)
+        val query = from(boardAdmin)
             .select(
                 Projections.constructor(
                     BoardListDto::class.java,
@@ -52,7 +52,22 @@ class BoardAdminRepositoryImpl : QuerydslRepositorySupport(PortalBoardAdminEntit
             ).orderBy(boardAdmin.createDt.desc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
             .offset(offset)
-            .fetch()
+            .fetchResults()
+
+        val boardList = mutableListOf<BoardListDto>()
+        for (data in query.results) {
+            val boardListDto = BoardListDto(
+                boardAdminId = data.boardAdminId,
+                boardAdminTitle = data.boardAdminTitle,
+                categoryYn = data.categoryYn,
+                boardBoardCount = data.boardBoardCount,
+                totalCount = query.total,
+                createDt = data.createDt,
+                createUserName = data.createUserName
+            )
+            boardList.add(boardListDto)
+        }
+        return boardList.toList()
     }
 
     override fun findPortalBoardAdmin(): List<BoardListDto> {
