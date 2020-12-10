@@ -57,3 +57,30 @@
     }
   }
 }
+
+.header-tooltip {
+  .tooltip-contents {
+    min-width: $tooltip-header-contents-width;
+    visibility: hidden;
+    background-color: $hover-blue;
+    color: $white;
+    text-align: center;
+    font-size: $tooltip-header-contents-size;
+    border-radius: $tooltip-header-contents-border;
+    padding: $tooltip-header-contents-padding;
+    margin: $tooltip-header-contents-margin;
+    position: absolute;
+    z-index: 1;
+    span {
+      color: $white;
+      font-weight: $font-weight-medium;
+    }
+  }
+
+  &:hover {
+    .tooltip-contents {
+      visibility: visible;
+      @include animation (0s, 0.3s, fadeIn, ease-out);
+    }
+  }
+}

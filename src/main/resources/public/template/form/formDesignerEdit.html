@@ -18,37 +18,49 @@
                 <span class="name" th:text="#{form.label.title}"></span>
                 <span class="separator"></span>
                 <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAuthority('form.create')">
-                    <button type="button" id="btnSave" class="btn-header" onclick="editor.save(false);">
+                    <button type="button" id="btnSave" class="btn-header header-tooltip" onclick="editor.save(false);">
                         <span class="icon-save"></span>
-                        <!--<label th:text="#{common.btn.save}"></label>-->
+                        <div class="tooltip-contents">
+                            <span th:text="#{common.btn.save}"></span>
+                        </div>
                     </button>
                 </th:block>
                 <th:block sec:authorize="hasAnyAuthority('form.create', 'form.update')">
-                    <button type="button" id="btnSaveAs" class="btn-header" onclick="editor.saveAs();">
+                    <button type="button" id="btnSaveAs" class="btn-header header-tooltip" onclick="editor.saveAs();">
                         <span class="icon-save-as"></span>
-                        <!--<label th:text="#{common.btn.saveAs}"></label>-->
+                        <div class="tooltip-contents">
+                            <span th:text="#{common.btn.saveAs}"></span>
+                        </div>
                     </button>
                 </th:block>
                 <th:block th:if="${#strings.isEmpty(isView)}">
-                    <button type="button" id="btnUndo" class="btn-header" onclick="editor.undo();">
+                    <button type="button" id="btnUndo" class="btn-header header-tooltip" onclick="editor.undo();">
                         <span class="icon-undo"></span>
-                        <!--<label th:text="#{form.label.undo}"></label>-->
+                        <div class="tooltip-contents">
+                            <span th:text="#{form.label.undo}"></span>
+                        </div>
                     </button>
                 </th:block>
                 <th:block th:if="${#strings.isEmpty(isView)}">
-                    <button type="button" id="btnRedo" class="btn-header" onclick="editor.redo();">
+                    <button type="button" id="btnRedo" class="btn-header header-tooltip" onclick="editor.redo();">
                         <span class="icon-redo"></span>
-                        <!--<label th:text="#{form.label.redo}"></label>-->
+                        <div class="tooltip-contents">
+                            <span th:text="#{form.label.redo}"></span>
+                        </div>
                     </button>
                 </th:block>
-                <button type="button" id="btnPreview" class="btn-header" onclick="editor.preview();">
+                <button type="button" id="btnPreview" class="btn-header header-tooltip" onclick="editor.preview();">
                     <span class="icon-preview"></span>
-                    <!--<label th:text="#{form.label.preview}"></label>-->
+                    <div class="tooltip-contents">
+                        <span th:text="#{form.label.preview}"></span>
+                    </div>
                 </button>
                 <th:block th:if="${#strings.isEmpty(isView)}" sec:authorize="hasAnyAuthority('form.create', 'form.update')">
-                    <button type="button" id="btnSaveExit" onclick="editor.save(true);">
+                    <button type="button" id="btnSaveExit" class="btn-header header-tooltip" onclick="editor.save(true);">
                         <span class="icon-save-out"></span>
-                        <!--<label th:text="#{form.label.saveExit}"></label>-->
+                        <div class="tooltip-contents">
+                            <span th:text="#{form.label.saveExit}"></span>
+                        </div>
                     </button>
                 </th:block>
                 <span class="ml-auto" id="form-name"></span>
