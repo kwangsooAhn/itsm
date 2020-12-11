@@ -35,26 +35,44 @@
             <span class="name" th:text="#{process.label.title}"></span>
             <span class="separator"></span>
             <th:block th:if="${#strings.isEmpty(isView)}">
-                <button type="button" class="btn-header" id="btnSave">
+                <button type="button" class="btn-header header-tooltip" id="btnSave">
                     <span class="icon icon-save"></span>
+                    <div class="tooltip-contents">
+                        <span th:text="#{common.btn.save}"></span>
+                    </div>
                 </button>
             </th:block>
-            <button type="button" class="btn-header" id="btnSaveAs">
+            <button type="button" class="btn-header header-tooltip" id="btnSaveAs">
                 <span class="icon icon-save-as"></span>
+                <div class="tooltip-contents">
+                    <span th:text="#{common.btn.saveAs}"></span>
+                </div>
             </button>
             <th:block th:if="${#strings.isEmpty(isView)}">
-                <button type="button" class="btn-header" id="btnSimulation">
+                <button type="button" class="btn-header header-tooltip" id="btnSimulation">
                     <span class="icon icon-simulation"></span>
+                    <div class="tooltip-contents">
+                        <span th:text="#{process.label.simulation}"></span>
+                    </div>
                 </button>
-                <button type="button" class="btn-header" id="btnUndo">
+                <button type="button" class="btn-header header-tooltip" id="btnUndo">
                     <span class="icon icon-undo"></span>
+                    <div class="tooltip-contents">
+                        <span th:text="#{process.label.undo}"></span>
+                    </div>
                 </button>
-                <button type="button" class="btn-header" id="btnRedo">
+                <button type="button" class="btn-header header-tooltip" id="btnRedo">
                     <span class="icon icon-redo"></span>
+                    <div class="tooltip-contents">
+                        <span th:text="#{process.label.redo}"></span>
+                    </div>
                 </button>
             </th:block>
-            <button type="button" class="btn-header" id="btnDownload">
+            <button type="button" class="btn-header header-tooltip" id="btnDownload">
                 <span class="icon icon-image-download"></span>
+                <div class="tooltip-contents">
+                    <span th:text="#{process.label.imageDownload}"></span>
+                </div>
             </button>
             <span class="ml-auto" id="process-name"></span>
         </div>

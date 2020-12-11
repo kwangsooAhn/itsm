@@ -681,6 +681,7 @@ process:
     description: "설명"
     detail: "프로세스 상세"
     edit: "프로세스 편집"
+    imageDownload: "이미지로 다운로드"
     import: "프로세스 IMPORT"
     importFile: "IMPORT 파일"
     name: "프로세스 이름"
