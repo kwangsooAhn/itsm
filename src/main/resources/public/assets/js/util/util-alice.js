@@ -1093,7 +1093,7 @@ aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
  * @param objectId 전체수 저장 object-id (default: spanTotalCount)
  */
 aliceJs.showTotalCount = function(totalCount, objectId = "spanTotalCount") {
-    document.getElementById(objectId).textContent = i18n.msg("common.label.count", totalCount);
+    document.getElementById(objectId).textContent = i18n.msg("common.label.totalCount", totalCount);
 };
 
 /**

@@ -25,7 +25,7 @@ common:
     blank: " "
     comment: "Comment"
     contents: "Contents"
-    count: "total {0}"
+    toalCount: "total {0}"
     createDate: "Create Date"
     createUser: "Create User"
     delete: "Delete"

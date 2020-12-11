@@ -82,8 +82,7 @@
                         addThumbnail(image);
                     });
                     addThumbnailUpload();
-                    document.getElementById('totalCount').textContent =
-                        i18n.msg("common.label.count", document.querySelectorAll('.thumbnail').length);
+                    aliceJs.showTotalCount(document.querySelectorAll('.thumbnail').length, 'totalCount');
                 }
             });
         }
@@ -138,8 +137,7 @@
                         if (xhr.responseText === 'true') {
                             document.querySelector('.thumbnail-main').removeChild(imgObj.parentNode.parentNode);
                         }
-                        document.getElementById('totalCount').textContent =
-                            i18n.msg("common.label.count", document.querySelectorAll('.thumbnail').length);
+                        aliceJs.showTotalCount(document.querySelectorAll('.thumbnail').length, 'totalCount');
                     }
                 });
             });
@@ -212,8 +210,7 @@
                             for (let i = 0, len = list.length; i < len; i++) {
                                 addThumbnail(list[i]);
                             }
-                            document.getElementById('totalCount').textContent =
-                                i18n.msg("common.label.count", document.querySelectorAll('.thumbnail').length);
+                            aliceJs.showTotalCount(document.querySelectorAll('.thumbnail').length, 'totalCount');
                         }
                     }
                     xhr.open('POST', '/rest/images', true);
