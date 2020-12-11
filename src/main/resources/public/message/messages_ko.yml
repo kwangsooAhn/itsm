@@ -25,7 +25,7 @@ common:
     blank: " "
     comment: "댓글"
     contents: "내용"
-    totalCount: "{0} 건"
+    count: "{0} 건"
     createDate: "등록 일시"
     createUser: "등록자"
     delete: "삭제"

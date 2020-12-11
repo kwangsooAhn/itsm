@@ -631,7 +631,7 @@
                     options.data = responseJson;
                     if (options.totalCount) {
                         totalCount = responseJson[0].totalCount;
-                        document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.totalCount', totalCount);
+                        document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', totalCount);
                     }
                     let tree = makeTree();
                     // 트리 Node 클릭시 이벤트 처리
@@ -654,7 +654,7 @@
                         </div>
                     `;
                     if (options.totalCount) {
-                        document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.totalCount', 0);
+                        document.querySelector('#totalCount').innerHTML = i18n.msg('common.label.count', 0);
                     }
                 }
                 if (options.sessionKey !== null && sessionStorage.getItem(options.sessionKey) !== null) {
