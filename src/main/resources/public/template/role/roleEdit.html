@@ -365,7 +365,7 @@
                 callbackFunc: function(response) {
                     document.getElementById('roleList').innerHTML = response.responseText;
                     let roleList = document.querySelectorAll('td[name=roleName]');
-                    document.getElementById('totalCount').textContent = i18n.msg("common.label.count", roleList.length);
+                    aliceJs.showTotalCount(roleList.length, 'totalCount');
                     if (response.responseText.indexOf('no-data-found') === -1) {
                         for (let i = 0; i < roleList.length; i++) {
                             roleList[i].style.cursor = 'pointer';

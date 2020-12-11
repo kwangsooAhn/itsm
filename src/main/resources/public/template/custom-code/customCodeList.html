@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody class="list-body">
-            <input th:type="hidden" id="totalCount" name="totalcount" th:value="${customCodeCount}"/>
+            <input th:type="hidden" id="totalCount" name="totalCount" th:value="${customCodeCount}"/>
             <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(customCodeList)}">
                 <td style="width:100%" colspan="4" class="align-center" th:text="#{common.msg.noData}"></td>
             </tr>

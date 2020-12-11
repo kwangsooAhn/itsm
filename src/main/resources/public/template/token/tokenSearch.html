@@ -16,15 +16,15 @@
         <div class="header-search flex-row" id="header-search">
             <form id="frmSearch">
                 <select class="col-3" name="searchTokenType" id="searchTokenType">
-                    <option value="token.type.todo" th:text="#{token.type.todo}" selected/>
-                    <option value="token.type.requested" th:text="#{token.type.requested}"/>
-                    <option value="token.type.progress" th:text="#{token.type.progress}"/>
-                    <option value="token.type.completed" th:text="#{token.type.completed}"/>
+                    <option value="token.type.todo" th:text="#{token.type.todo}" selected></option>
+                    <option value="token.type.requested" th:text="#{token.type.requested}"></option>
+                    <option value="token.type.progress" th:text="#{token.type.progress}"></option>
+                    <option value="token.type.completed" th:text="#{token.type.completed}"></option>
                 </select>
                 <select class="col-3" name="searchDocumentId" id="searchDocumentId">
-                    <option value="" th:text="#{token.label.all}" selected="selected"/>
+                    <option value="" th:text="#{token.label.all}" selected="selected"></option>
                     <option th:each="document: ${documentList}" th:value="${document.documentId}"
-                            th:text="${document.documentName}"/>
+                            th:text="${document.documentName}"></option>
                 </select>
                 <input class="search col-3" type="text" name="searchValue" id="searchValue"
                        maxlength="100" th:placeholder="#{token.label.searchPlaceholder}"/>
@@ -32,8 +32,9 @@
                 <input type="text" id="toDt" name="toDt" class="search-date col-3"/>
                 <input type="hidden" id="searchToDt" name="searchToDt" class="search-date col-2"
                        readonly="readonly"/>
-                <input class="search col-3" type="text" name="searchTags" id="searchTags"
+                <input class="search col-3 mr-2" type="text" name="searchTags" id="searchTags"
                        maxlength="100" th:placeholder="#{token.label.tagPlaceHolder}"/>
+                <span id="spanTotalCount" class="txt-num"></span>
             </form>
         </div>
     </div>
@@ -106,6 +107,7 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;
                             if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                 offsetCount = offsetCount + aliceJs.searchDataCount;
@@ -116,6 +118,7 @@
                         }
                     } else {
                         document.getElementById('tokenList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                         document.querySelectorAll('.create-dt').forEach(tokenCreateDt => {
                             tokenCreateDt.title = i18n.userDateTime(tokenCreateDt.textContent.trim());
                             tokenCreateDt.textContent = dateFormatFromNow(tokenCreateDt.textContent.trim());

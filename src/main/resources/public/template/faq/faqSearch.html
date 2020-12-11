@@ -15,12 +15,13 @@
         </div>
         <div class="header-search flex-row">
             <form id="searchFrm">
-                <input class="search col-5" id="search" name="search" type="text" maxlength="100"
+                <input class="search col-5 mr-2" id="search" name="search" type="text" maxlength="100"
                        th:placeholder="#{faq.label.searchPlaceholder}"/>
+                <span id="spanTotalCount" class="txt-num"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="default-fill" onclick="location.href='/faqs/new'"
-                        sec:authorize="hasAuthority('faq.create')" th:text="#{common.btn.add}"/></button>
+                        sec:authorize="hasAuthority('faq.create')" th:text="#{common.btn.add}"></button>
             </div>
         </div>
     </div>
@@ -32,8 +33,7 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         /*<![CDATA[*/
-        var offsetCount = 0;
-        const offsetSize = 15;
+        let offsetCount = 0;
         window.onload = function () {
             document.getElementById('search').focus();
             document.getElementById('search').addEventListener('keyup', function() { searchFaqs(false); });
@@ -47,7 +47,7 @@
             let urlParam = '';
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = offsetSize;
+                    offsetCount = aliceJs.searchDataCount;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
                 restSubmit('get', '/rest/faqs?' + urlParam, isScroll);
@@ -69,9 +69,10 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (scrollerEventCheck()) {
-                                offsetCount = offsetCount + offsetSize;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
@@ -79,6 +80,7 @@
                         }
                     } else {
                         document.getElementById('faqList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                     }
 
                     OverlayScrollbars(document.querySelector('.list-body'), {
@@ -90,7 +92,7 @@
                                 const clientHeight = e.target.clientHeight;
                                 // 스크롤이 맨 마지막에 있을 경우
                                 if (scrollHeight - scrollTop === clientHeight) {
-                                    if (scrollerEventCheck()) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                         searchFaqs(true);
                                     }
                                 }
@@ -100,16 +102,6 @@
                 }
             };
             aliceJs.sendXhr(opt);
-        }
-
-        // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
-        function scrollerEventCheck() {
-            let scrollerCheck = false;
-            let totalCount = document.getElementById('totalCount').value;
-            if (offsetCount < totalCount) {
-                scrollerCheck = true;
-            }
-            return scrollerCheck;
         }
 
         // Tr 동적 데이터 만들기

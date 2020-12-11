@@ -19,8 +19,9 @@
         <div class="header-search flex-row">
             <input type="hidden" id="updatable" th:value="${#authorization.expression('hasAuthority(''form.update'')')}"/>
             <form id="searchFrm">
-                <input type="text" id="search" name="search" class="search col-5"  maxlength="100"
+                <input type="text" id="search" name="search" class="search col-5 mr-2" maxlength="100"
                        th:placeholder="#{form.label.searchPlaceholder}"/>
+                <span id="spanTotalCount" class="txt-num"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="default-line" onclick="openFormImport();"
@@ -398,6 +399,7 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;
                             if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                 offsetCount = offsetCount + aliceJs.searchDataCount;
@@ -408,6 +410,7 @@
                         }
                     } else {
                         document.getElementById('formList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                         let formDtEle = document.querySelectorAll('td[name=createDt]');
                         for (let i = 0; i < formDtEle.length; i++) {
                             formDtEle[i].textContent = i18n.userDateTime(formDtEle[i].textContent);
