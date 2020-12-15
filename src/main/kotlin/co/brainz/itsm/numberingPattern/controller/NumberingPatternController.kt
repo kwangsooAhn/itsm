@@ -16,7 +16,7 @@ class NumberingPatternController(
     private val numberingPatternService: NumberingPatternService,
     private val codeService: CodeService
 ) {
-    private val logger = LoggerFactory.getLogger(NumberingPatternService::class.java)
+    private val logger = LoggerFactory.getLogger(NumberingPatternController::class.java)
     private val numberingPatternEditPage: String = "numbering-pattern/numberingPatternEdit"
     private val numberingPatternListPage: String = "numbering-pattern/numberingPatternList"
 
