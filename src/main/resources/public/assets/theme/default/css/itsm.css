@@ -2203,9 +2203,9 @@ button .icon-plus {
 .role-content-edit .edit-form,
 .code-content-edit .edit-form,
 .numbering-pattern-content-edit .edit-form {
+  height: inherit;
   padding: 0 1.875rem 0 4.0625rem;
   overflow: auto;
-  height: inherit;
 }
 .auth-content-edit .edit-form .edit-row,
 .role-content-edit .edit-form .edit-row,
