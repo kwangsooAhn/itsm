@@ -2041,7 +2041,8 @@ button .icon-plus {
 .auth-header,
 .role-header,
 .code-header,
-.image-header {
+.image-header,
+.numbering-pattern-header {
   padding: 2.188rem 3.75rem 0 3.75rem;
   background-color: #F7F8F9;
 }
@@ -2066,7 +2067,8 @@ button .icon-plus {
 .custom-code-content,
 .auth-content,
 .role-content,
-.code-content {
+.code-content,
+.numbering-pattern-content {
   padding: 0.9375rem 3.75rem;
   background-color: #F7F8F9;
 }
@@ -2192,19 +2194,23 @@ button .icon-plus {
 
 .auth-content-edit,
 .role-content-edit,
-.code-content-edit {
+.code-content-edit,
+.numbering-pattern-content-edit {
   height: 41.25rem;
   margin: 0 0 1.875rem 0;
 }
 .auth-content-edit .edit-form,
 .role-content-edit .edit-form,
-.code-content-edit .edit-form {
+.code-content-edit .edit-form,
+.numbering-pattern-content-edit .edit-form {
+  height: inherit;
   padding: 0 1.875rem 0 4.0625rem;
   overflow: auto;
 }
 .auth-content-edit .edit-form .edit-row,
 .role-content-edit .edit-form .edit-row,
-.code-content-edit .edit-form .edit-row {
+.code-content-edit .edit-form .edit-row,
+.numbering-pattern-content-edit .edit-form .edit-row {
   margin-top: 0.625rem;
 }
 

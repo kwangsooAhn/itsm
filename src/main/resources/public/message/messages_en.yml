@@ -617,6 +617,7 @@ menu:
     customCode: "Custom Code"
     form: "Form"
     image: "Image"
+    numberingPattern: "Pattern"
     parent: "Workflow"
     process: "Process"
     workflowAdmin: "Workflow"
@@ -938,3 +939,23 @@ file:
     browser: "Find the file yourself."
     noAttachFile: "There are no attachments."
     upload: "Drop files here to upload."
+
+# Pattern
+pattern:
+  label:
+    desc: "Pattern Desc"
+    name: "Pattern Name"
+    pattern: "Pattern"
+    type: "Pattern Type"
+    value: "Pattern Value"
+  msg:
+    duplicatePatternName: "Duplicate pattern name! Please enter other pattern name."
+    editDescription: "Add, view and manage Patterns."
+    enterPatternName: "Please enter a pattern name."
+    enterPatternValue: "Please enter a pattern value."
+    enterPatternSequenceValue: "Enter a pattern value of 1 or more and 4 or less."
+    searchPlaceholder: "Pattern Name"
+  type:
+    date: "Date"
+    sequence: "Sequence"
+    text: "Text"
