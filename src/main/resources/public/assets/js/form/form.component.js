@@ -819,12 +819,31 @@
     }
 
     /**
+     * Daynamic Row(DR) Table 컴포넌트 타입에 따라 field 별 세부 html 반환
+     * @param {String} type 타입
+     * @param {Object} property 타입별 속성
+     * @param {String} displayType 신청서 양식 타입
+     * @return Template Literal 템플릿 리터럴
+     */
+    function getFieldTemplate(type, property, displayType) {
+        switch(type) {
+            case 'inputbox':
+                return `<input type="text" class="align-${property.display.align}" ` +
+                    `placeholder="${aliceJs.filterXSS(property.display.placeholder)}" value=""` +
+                    `${displayType === 'editableRequired' ? ' required' : ''}` +
+                    ` maxlength="${property.validate.lengthMax}" minlength="${property.validate.lengthMin}"` +
+                    ` regexp='${property.validate.regexp}' regexp-msg='${aliceJs.filterXSS(property.validate.regexpMsg)}' />`;
+                break;
+            default:
+            break;
+        }
+    }
+    /**
      * Daynamic Row(DR) Table 컴포넌트 속성
      * @param {Object} property 컴포넌트 속성
      * @constructor
      */
     function DaynamicRowTable(property) {
-        console.log(property.componentId);
         this.id = property.componentId;
         this.name = 'Dynamic Row Table';
         this.type = 'dynamic-row-table';
@@ -845,25 +864,14 @@
                         `${aliceJs.filterXSS(opt.text)}` +
                     `</th>`;
         }).join('');
-
-        // input bpx
-        const inputCell = function(subProperty) {
-            return `<input type="text" class="align-${subProperty.display.align}" ` +
-                `placeholder="${aliceJs.filterXSS(subProperty.display.placeholder)}" value=""` +
-                `${displayType === 'editableRequired' ? ' required' : ''}` +
-                ` maxlength="${subProperty.validate.lengthMax}" minlength="${subProperty.validate.lengthMin}"` +
-                ` regexp='${subProperty.validate.regexp}' regexp-msg='${aliceJs.filterXSS(subProperty.validate.regexpMsg)}' />`;
-        };
         
         // 테이블 Row 추가
         const tableRowOptions = property.field.map(function(opt, idx) {
             const tdWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
             return `<td style="width: ${tdWidth}%; border-color: ${property.display.border}">` +
-                        `${opt.type === 'inputbox' ? inputCell(opt) : ''}` +
+                          `${getFieldTemplate(opt.type, opt, displayType)}` +
                     `</td>`;
         }).join('');
-
-        console.log(this.id);
 
         this.template = 
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
@@ -882,7 +890,7 @@
                 `<div class="field-content" style="--data-column: ${property.display.column};">` +
                     `<table class="dr-table" id="dr-table-${property.componentId}"` +
                     ` row-max="${property.display.rowMax}" row-min="${property.display.rowMin}">` +
-                        `<thead style="display: ${property.header.visible ? '' : 'none'}">` +
+                        `<thead>` +
                             `<tr>${tableHeaderOptions}</tr>` +
                         `</thead>` +
                         `<tbody>` +
@@ -916,15 +924,17 @@
                 }
             }
         }
-        // 헤더 속성에 이벤트 추가
-        const drTableHeaderRow = drTable.rows[0];
-        for (let i = 0, len = drTableHeaderRow.cells.length; i < len; i++) {
-            drTableHeaderRow.cells[i].addEventListener('click', function(e) {
-                // 상위로 이벤트가 전파되지 않도록 중단한다.
-                e.stopPropagation();
+        if (isForm) {
+            // 헤더 속성에 이벤트 추가
+            const drTableHeaderCells = drTable.rows[0].cells;
+            for (let i = 0, len = drTableHeaderCells.length; i < len; i++) {
+                drTableHeaderCells[i].addEventListener('click', function(e) {
+                    // 상위로 이벤트가 전파되지 않도록 중단한다.
+                    e.stopPropagation();
 
-                editor.showDRTableTypeProperties(property.componentId, e.target.getAttribute('data-field-index'), e.target.getAttribute('data-field-type'));
-            }, false);
+                    editor.showDRTableTypeProperties(property.componentId, e.target.getAttribute('data-field-index'), e.target.getAttribute('data-field-type'));
+                }, false);
+            }
         }
     }
 
@@ -1122,6 +1132,7 @@
     exports.getLastIndex = getLastIndex;
     exports.setLastIndex = setLastIndex;
     exports.getProperty = getPropertiesWithType;
+    exports.getFieldTemplate = getFieldTemplate;
     exports.getName = getName;
 
     Object.defineProperty(exports, '__esModule', { value: true });

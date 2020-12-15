@@ -2411,14 +2411,6 @@
         ],
         "header": [
             {
-                "id": "visible",
-                "name": "Visible",
-                "value": true,
-                "type": "checkbox-boolean",
-                "code": "",
-                "unit": ""
-            },
-            {
                 "id": "size",
                 "name": "Font Size",
                 "value": "16",
@@ -2520,7 +2512,7 @@
                     "id": "align",
                     "name": "Align",
                     "value": "center",
-                    "type": "button-group",
+                    "type": "button-option-icon",
                     "option": [
                         {
                             "id": "left",

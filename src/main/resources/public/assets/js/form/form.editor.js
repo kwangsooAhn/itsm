@@ -819,7 +819,7 @@
                         });
                     });
                 } else { // array
-                    if (propertyGroupId === 'field') { // dynamic row table 컴포넌트만 우선 적용
+                    if (propertyGroupId === 'field') { // dynamic row table 컴포넌트
                         const defaultArrayProperties = JSON.parse(JSON.stringify(initializedProperties[propertyGroupId]));
 
                         Object.keys(componentData[propertyGroupId]).forEach(function(idx) {
@@ -847,22 +847,40 @@
      */
     function redrawComponent(data) {
         const id = data.componentId;
+        // 지우기
+        let removeElement = document.getElementById(id);
+        removeElement.innerHTML = '';
+        removeElement.remove();
+
+        // 신규 추가
         let element = component.draw(data.type, data);
         if (element) {
+            // 데이터 재할당
             let compAttr = element.property;
             compAttr.componentId = id;
             setComponentData(compAttr);
 
-            let targetElement = document.getElementById(id);
             element.domElem.id = id;
-
-            targetElement.parentNode.insertBefore(element.domElem, targetElement);
-            targetElement.innerHTML = '';
-            targetElement.remove();
-
+            formPanel.insertBefore(element.domElem, formPanel.children[Number(data.display.order) - 1]);
             element.domElem.classList.add('selected');
 
             reorderComponent();
+        }
+    }
+
+    /**
+     * DR Table 컴포넌트의 Field를 다시 그린다.
+     *  @param {Number} index 열
+     *  @param {Object} data 변경된 속성
+     */
+    function redrawDrTableField(index, data) {
+        const displayType = data['dataAttribute']['displayType'];
+        const fieldData = data['field'][index];
+
+        const drTable =  formPanel.querySelector('#' + data.componentId + ' .dr-table');
+        for (let i = 1, rowLen = drTable.rows.length; i < rowLen; i ++) {
+            const row = drTable.rows[i];
+            row.cells[index].innerHTML = component.getFieldTemplate(fieldData.type, fieldData, displayType);
         }
     }
 
@@ -872,8 +890,9 @@
      * @param {String} group 변경된 그룹 key
      * @param {String} field 변경된 field key (option일 때만 field가 존재하지 않음)
      * @param {Number} [index] 변경된 index (그룹이 option 일 경우만 해당되므로 생략가능)
+     * @param {String} subField 세부 속성이 존재할때, 변경된 세부 field key (dynamic row table 컴포넌트)
      */
-    function changePropertiesValue(value, group, field, index) {
+    function changePropertiesValue(value, group, field, index, subField) {
         if (typeof group === 'undefined' || group === '') { return false; }
 
         let histories = [];
@@ -892,10 +911,18 @@
                 if (typeof index === 'undefined') {
                     componentData[group][field] = value;
                 } else {
-                    componentData[group][index][field] = value;
+                    if (typeof subField === 'undefined') {
+                        componentData[group][index][field] = value;
+                    } else {
+                        componentData[group][index][field][subField] = value;
+                    }
                 }
             }
-            redrawComponent(componentData);
+            if (typeof subField === 'undefined') {
+                redrawComponent(componentData);
+            } else { // dr table 컴포넌트의 field를 새로 그려준다.
+                redrawDrTableField(index, componentData);
+            }
             histories.push({0: originComponentData, 1: JSON.parse(JSON.stringify(componentData))});
         }
         history.saveHistory(histories);
@@ -981,7 +1008,8 @@
     function toggleOptionButtonClickHandler(e) {
         const elem = aliceJs.clickInsideElement(e, 'btn-field');
         const parentElem = elem.parentNode; // property-field-position, property-field-align
-        let changePropertiesArr = parentElem.parentNode.id.split('-'); // property-field
+        const groupElem = parentElem.parentNode;
+        let changePropertiesArr = groupElem.id.split('-'); // property-field
         const isActive = elem.classList.contains('active');
         if (!isActive) {
             for (let i = 0, len = parentElem.childNodes.length ; i< len; i++) {
@@ -991,7 +1019,11 @@
                 }
             }
             elem.classList.add('active');
-            changePropertiesValue(elem.id, changePropertiesArr[0], changePropertiesArr[1]);
+            if (groupElem.getAttribute('data-field-type')) {
+                changePropertiesValue(elem.id, groupElem.getAttribute('data-field-type'), changePropertiesArr[0], groupElem.getAttribute('data-field-index'), changePropertiesArr[1]);
+            } else {
+                changePropertiesValue(elem.id, changePropertiesArr[0], changePropertiesArr[1]);
+            }
         }
     }
 
@@ -1265,7 +1297,11 @@
                         if (changePropertiesArr.length > 2) {
                             changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
                         } else {
-                            changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1]);
+                            if (parentElem.getAttribute('data-field-type')) {
+                                changePropertiesValue(changeValue, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
+                            } else {
+                                changePropertiesValue(changeValue, changePropertiesArr[0], changePropertiesArr[1]);
+                            }
                         }
                     }
                 }, false);
@@ -1365,7 +1401,11 @@
                                     if (changePropertiesArr.length > 2) {
                                         changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1], changePropertiesArr[2]);
                                     } else {
-                                        changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
+                                        if (parentElem.getAttribute('data-field-type')) {
+                                            changePropertiesValue(elem.value, parentElem.getAttribute('data-field-type'), changePropertiesArr[0], parentElem.getAttribute('data-field-index'), changePropertiesArr[1]);
+                                        } else {
+                                            changePropertiesValue(elem.value, changePropertiesArr[0], changePropertiesArr[1]);
+                                        }
                                     }
                                 }
                             }
@@ -1694,7 +1734,7 @@
             // 5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
             componentTitleElem.innerHTML = i18n.msg('form.component.' + componentData.type);
         }
-        
+
         // 세부 속성을 출력한다.
         Object.keys(properties).forEach(function(group) {
             let buttonGroupExist = false;
@@ -1905,6 +1945,18 @@
             }
             previousComponentIds.length = 0;
         }
+        // DR Table 컴포넌트일 경우 field css 삭제
+        let drTables = formPanel.querySelectorAll('.dr-table');
+        if (drTables.length > 0) {
+            for (let i = 0, len = drTables.length; i < len; i++) {
+                const fields = drTables[i].querySelectorAll('th');
+                for (let j = 0, fieldLen = fields.length; j < fieldLen; j++) {
+                    if (fields[j].classList.contains('on')) {
+                        fields[j].classList.remove('on');
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -1915,11 +1967,13 @@
      * @param {String} type 필드(field) 타입
      */
     function showDRTableTypeProperties(id, index, type) {
-        console.log(id, index, type);
         hideComponentProperties();
 
-        const drTable = document.getElementById('dr-table-' + id);
-        console.log(drTable);
+        selectedComponentIds.length = 0;
+        previousComponentIds.length = 0;
+        selectedComponentIds.push(id);
+
+        const drTable = formPanel.querySelector('#' + id + ' .dr-table');
         const drTableHeaderRow = drTable.rows[0];
         for (let i = 0, len = drTableHeaderRow.cells.length; i < len; i++) {
             if (i === Number(index)) { // 현재 선택된 필드 색상 추가
@@ -1932,11 +1986,11 @@
         let compIdx = getComponentIndex(id);
         let componentData = editor.data.components[compIdx];
         let properties = initProperties(componentData);
-        console.log(properties[type]);
 
         const componentTemplate = document.getElementById('component-template');
         const componentElem = componentTemplate.content.cloneNode(true);
         const componentTitleElem = document.getElementById('properties-name');
+        componentTitleElem.innerHTML = '';
         // 컴포넌트 이름
         const componentName = document.createElement('span');
         componentName.textContent = i18n.msg('form.component.' + componentData.type);
@@ -1951,6 +2005,7 @@
         });
         // 구분자
         const separator = document.createElement('span');
+        separator.className = 'ml-4 mr-4';
         separator.textContent = '>';
         componentTitleElem.appendChild(separator);
         // 열
@@ -1958,19 +2013,36 @@
         typeName.textContent = i18n.msg('form.attribute.field', (Number(index) + 1));
         componentTitleElem.appendChild(typeName);
 
+        // 타입별 세부 속성 값 재할당
+        let fieldData = componentData['field'][index];
+        let typeProperties = Object.assign({}, properties[type]);
+        Object.keys(fieldData).forEach(function(propertyGroupId) {
+            if (typeProperties.hasOwnProperty(propertyGroupId)) {
+                Object.keys(fieldData[propertyGroupId]).forEach(function(propertyId) {
+                    Object.keys(typeProperties[propertyGroupId]).forEach(function(initProperty) {
+                        if (propertyId === typeProperties[propertyGroupId][initProperty].id) {
+                            typeProperties[propertyGroupId][initProperty].value = fieldData[propertyGroupId][propertyId];
+                        }
+                    });
+                });
+            }
+        });
+
         // 타입별 세부 속성 출력
-        Object.keys(properties[type]).forEach(function(group) {
+        Object.keys(typeProperties).forEach(function(group) {
             let buttonGroupExist = false;
             let buttonGroupElem = null;
             let groupElem = componentElem.querySelector('#' + group);
             if (groupElem !== null) {
                 // 표시하고자 하는 property group을 보여준다.
                 if (!groupElem.classList.contains('on')) { groupElem.classList.add('on'); }
-                if (Array.isArray(properties[type][group])) {
-                    Object.keys(properties[type][group]).forEach(function(field) {
-                        const fieldProp = properties[type][group][field];
+                if (Array.isArray(typeProperties[group])) {
+                    Object.keys(typeProperties[group]).forEach(function(field) {
+                        const fieldProp = typeProperties[group][field];
                         const fieldGroupElem = document.createElement('div');
-                        fieldGroupElem.classList.add('property-field');
+                        fieldGroupElem.className = 'property-field';
+                        fieldGroupElem.setAttribute('data-field-index', index);
+                        fieldGroupElem.setAttribute('data-field-type', 'field');
                         // 버튼이 존재할 경우 한 줄에 표시하기 위해 div로 감싼다.
                         if (fieldProp.type === 'button-group') {
                             if (!buttonGroupExist) {
@@ -1991,15 +2063,14 @@
 
                                 const buttonElemList = buttonGroupElem.querySelector('#' + fieldProp.id).children;
                                 for (let i = 0, len = buttonElemList.length; i < len; i++) {
-                                    //buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
-                                    // minuteArrowDown.addEventListener('click', _this.changeTime.bind(_this, { minutes: -1 }), false);
+                                    buttonElemList[i].addEventListener('click', toggleButtonClickHandler, false);
                                 }
                             } else { //bold, italic, underline
                                 const buttonTemplate = `<button type='button' id='${fieldProp.id}' class='btn-field${fieldProp.value === "Y" ? " active" : ""}' data-value='${fieldProp.value}'>` +
                                         `<span class="icon icon-${fieldProp.id}"></span>` +
                                     `</button>`;
                                 buttonGroupElem.insertAdjacentHTML('beforeend', buttonTemplate);
-                                //buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', toggleButtonClickHandler, false);
+                                buttonGroupElem.querySelector('#' + fieldProp.id).addEventListener('click', toggleButtonClickHandler, false);
                             }
                         } else {
                             groupElem.appendChild(fieldGroupElem);
@@ -2026,37 +2097,38 @@
                             }
                         }
                     });
-                    propertiesPanel.appendChild(componentElem);
-
-                    const propertyGroupList = propertiesPanel.querySelectorAll('.property-group.on');
-                    const propertyLastGroup = propertyGroupList[propertyGroupList.length - 1];
-                    if (propertyLastGroup && !propertyLastGroup.classList.contains('last')) {
-                        propertyLastGroup.classList.add('last');
-                    }
-
-                    // date picker 초기화
-                    const datepickerElems = propertiesPanel.querySelectorAll('.datepicker');
-                    let i, len;
-                    for (i = 0, len = datepickerElems.length; i < len; i++) {
-                        dateTimePicker.initDatePicker(datepickerElems[i].id, setDateFormat);
-                    }
-                    const timepickerElems = propertiesPanel.querySelectorAll('.timepicker');
-                    for (i = 0, len = timepickerElems.length; i < len; i++) {
-                        dateTimePicker.initTimePicker(timepickerElems[i].id, setDateFormat);
-                    }
-                    const datetimepickerElems = propertiesPanel.querySelectorAll('.datetimepicker');
-                    for (i = 0, len = datetimepickerElems.length; i < len; i++) {
-                        dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, setDateFormat);
-                    }
-
-                    // 이벤트 추가
-                    // addChangePropertiesEvent(propertiesPanel);
-                    // for designed select
-                    // 속성창을 새로 그린 후 designed select 초기화
-                    aliceJs.initDesignedSelectTag();
                 }
             }
         });
+        propertiesPanel.appendChild(componentElem);
+
+        const propertyGroupList = propertiesPanel.querySelectorAll('.property-group.on');
+        const propertyLastGroup = propertyGroupList[propertyGroupList.length - 1];
+        if (propertyLastGroup && !propertyLastGroup.classList.contains('last')) {
+            propertyLastGroup.classList.add('last');
+        }
+
+        // date picker 초기화
+        const datepickerElems = propertiesPanel.querySelectorAll('.datepicker');
+        let i, len;
+        for (i = 0, len = datepickerElems.length; i < len; i++) {
+            dateTimePicker.initDatePicker(datepickerElems[i].id, setDateFormat);
+        }
+        const timepickerElems = propertiesPanel.querySelectorAll('.timepicker');
+        for (i = 0, len = timepickerElems.length; i < len; i++) {
+            dateTimePicker.initTimePicker(timepickerElems[i].id, setDateFormat);
+        }
+        const datetimepickerElems = propertiesPanel.querySelectorAll('.datetimepicker');
+        for (i = 0, len = datetimepickerElems.length; i < len; i++) {
+            dateTimePicker.initDateTimePicker(datetimepickerElems[i].id, setDateFormat);
+        }
+
+        // 이벤트 추가
+        addChangePropertiesEvent(propertiesPanel);
+
+        // for designed select
+        // 속성창을 새로 그린 후 designed select 초기화
+        aliceJs.initDesignedSelectTag();
     }
     /**
      * 우측 properties panel에 폼 세부 속성 출력한다.

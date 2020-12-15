@@ -4602,7 +4602,7 @@ body.modal-active {
 }
 
 .component .field-group .field-content .dr-table .on {
-  border-color: #0098FF !important;
+  box-shadow: 0 0 0 0.125rem #0098FF inset;
 }
 
 .component .btn-dr-table-row-add {
