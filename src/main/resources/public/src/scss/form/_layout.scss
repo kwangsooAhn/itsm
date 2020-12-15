@@ -130,6 +130,13 @@
           float: right;
         }
       }
+      &[id="field"] {
+        position: relative;
+
+        .property-group-field {
+          float: right;
+        }
+      }
       // 필드 속성
       .property-field {
         position: relative;
@@ -262,6 +269,20 @@
           border-color: transparent;
           padding: 0;
           text-align: center;
+        }
+      }
+      // Dynamic Table 열 속성
+      .property-field-block {
+        margin-bottom: 0.625rem; // 10px
+        &-header {
+          padding: 0.625rem; // 10px
+          background-color: $light-gray;
+          border: 0.0625rem solid $line-gray; // 1px
+          border-bottom: none;
+        }
+        &-content {
+          padding: 0 0.625rem; // 0 10px
+          border: 0.0625rem solid $line-gray; // 1px
         }
       }
       // 에러 문구

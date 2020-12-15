@@ -2236,5 +2236,381 @@
                 "validate": "maxLength[30]"
             }
         ]
+    },
+    "dynamic-row-table": {
+        "dataAttribute": [
+            {
+                "id": "mappingId",
+                "name": "Mapping Id",
+                "value": "",
+                "type": "inputbox",
+                "code": "",
+                "unit": "",
+                "validate": "",
+                "help": "form.help.mapping-id"
+            },
+            {
+                "id": "isTopic",
+                "name": "Topic Use",
+                "value": false,
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": "",
+                "help": "form.help.is-topic"
+            },
+            {
+                "id": "displayType",
+                "name": "Display Type",
+                "value": "editable",
+                "type": "hidden",
+                "code": "",
+                "unit": ""
+            }
+        ],
+        "label": [
+            {
+                "id": "position",
+                "name": "Position",
+                "value": "top",
+                "type": "button-option-icon",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "top",
+                        "name": "Top"
+                    },
+                    {
+                        "id": "hidden",
+                        "name": "Hidden"
+                    }
+                ],
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "column",
+                "name": "Column",
+                "value": "12",
+                "type": "slider",
+                "code": "",
+                "unit": "",
+                "validate": ""
+            },
+            {
+                "id": "size",
+                "name": "Font Size",
+                "value": "16",
+                "type": "inputbox",
+                "code": "",
+                "unit": "px",
+                "validate": "number|min[10]|max[100]"
+            },
+            {
+                "id": "color",
+                "name": "Font Color",
+                "value": "rgb(63, 75, 86)",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "align",
+                "name": "Align",
+                "value": "left",
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "text",
+                "name": "Content",
+                "value": "TEXT",
+                "type": "inputbox",
+                "code": "",
+                "unit": "",
+                "validate": ""
+            }
+        ],
+        "display": [
+            {
+                "id": "column",
+                "name": "Column",
+                "value": "12",
+                "type": "slider",
+                "code": "",
+                "unit": "",
+                "validate": ""
+            },
+            {
+                "id": "rowMin",
+                "name": "Min Row",
+                "value": "1",
+                "type": "inputbox",
+                "code": "",
+                "unit": "",
+                "validate": "number|min[1]|max[100]"
+            },
+            {
+                "id": "rowMax",
+                "name": "Max Row",
+                "value": "15",
+                "type": "inputbox",
+                "code": "",
+                "unit": "",
+                "validate": "number|min[10]|max[100]"
+            },
+            {
+                "id": "border",
+                "name": "Border",
+                "value": "rgba(235, 235, 235, 1)",
+                "type": "rgba",
+                "code": "",
+                "unit": ""
+            }
+        ],
+        "header": [
+            {
+                "id": "visible",
+                "name": "Visible",
+                "value": true,
+                "type": "checkbox-boolean",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "size",
+                "name": "Font Size",
+                "value": "16",
+                "type": "inputbox",
+                "code": "",
+                "unit": "px",
+                "validate": "number|min[10]|max[100]"
+            },
+            {
+                "id": "color",
+                "name": "Font Color",
+                "value": "rgb(63, 75, 86)",
+                "type": "rgb",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "bold",
+                "name": "Bold",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "italic",
+                "name": "Italic",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "underline",
+                "name": "Underline",
+                "value": "N",
+                "type": "button-group",
+                "code": "",
+                "unit": ""
+            },
+            {
+                "id": "align",
+                "name": "Align",
+                "value": "center",
+                "type": "button-group",
+                "option": [
+                    {
+                        "id": "left",
+                        "name": "Left"
+                    },
+                    {
+                        "id": "center",
+                        "name": "Center"
+                    },
+                    {
+                        "id": "right",
+                        "name": "Right"
+                    }
+                ],
+                "code": "",
+                "unit": ""
+            }
+        ],
+        "field": [
+            {
+                "id": "type",
+                "name": "Type",
+                "value": "inputbox",
+                "type": "select",
+                "option": [
+                    {
+                        "id": "inputbox",
+                        "name": "Input box"
+                    }
+                ]
+            },
+            {
+                "id": "column",
+                "name": "Column",
+                "value": "12",
+                "type": "slider",
+                "code": "",
+                "unit": "",
+                "validate": ""
+            },
+            {
+                "id": "text",
+                "name": "Content",
+                "value": "FIELD",
+                "type": "inputbox",
+                "code": "",
+                "unit": "",
+                "validate": ""
+            }
+        ],
+        "inputbox": {
+            "display": [
+                {
+                    "id": "align",
+                    "name": "Align",
+                    "value": "center",
+                    "type": "button-group",
+                    "option": [
+                        {
+                            "id": "left",
+                            "name": "Left"
+                        },
+                        {
+                            "id": "center",
+                            "name": "Center"
+                        },
+                        {
+                            "id": "right",
+                            "name": "Right"
+                        }
+                    ],
+                    "code": "",
+                    "unit": ""
+                },
+                {
+                    "id": "placeholder",
+                    "name": "Placeholder",
+                    "value": "",
+                    "type": "inputbox",
+                    "code": "",
+                    "unit": "",
+                    "validate": ""
+                }
+            ],
+            "validate": [
+                {
+                    "id": "regexp",
+                    "name": "Validate",
+                    "value": "none",
+                    "type": "select",
+                    "option": [
+                        {
+                            "id": "none",
+                            "name": "None"
+                        },
+                        {
+                            "id": "char",
+                            "name": "Char"
+                        },
+                        {
+                            "id": "num",
+                            "name": "Number"
+                        },
+                        {
+                            "id": "numchar",
+                            "name": "Char + Number"
+                        },
+                        {
+                            "id": "phone",
+                            "name": "Phone"
+                        },
+                        {
+                            "id": "email",
+                            "name": "Email"
+                        }
+                    ],
+                    "code": "",
+                    "unit": ""
+                },
+                {
+                    "id": "regexpMsg",
+                    "name": "Error Message",
+                    "value": "",
+                    "type": "inputbox",
+                    "code": "",
+                    "unit": "",
+                    "validate": ""
+                },
+                {
+                    "id": "lengthMin",
+                    "name": "Min Length",
+                    "value": "0",
+                    "type": "inputbox",
+                    "code": "",
+                    "unit": "",
+                    "validate": "number"
+                },
+                {
+                    "id": "lengthMax",
+                    "name": "Max Length",
+                    "value": "30",
+                    "type": "inputbox",
+                    "code": "",
+                    "unit": "",
+                    "validate": "number"
+                }
+            ]
+        }
     }
 }

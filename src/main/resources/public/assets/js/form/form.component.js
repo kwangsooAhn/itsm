@@ -15,20 +15,21 @@
     'use strict';
 
     const componentNameList = [ //컴포넌트 명
-            {'type': 'editbox', 'name': 'Edit Box', 'icon': ''},
-            {'type': 'inputbox', 'name': 'Input Box', 'icon': ''},
-            {'type': 'textbox', 'name': 'Text Box', 'icon': ''},
-            {'type': 'dropdown', 'name': 'Dropdown', 'icon': ''},
-            {'type': 'radio', 'name': 'Radio Button', 'icon': ''},
-            {'type': 'checkbox', 'name': 'Checkbox', 'icon': ''},
-            {'type': 'label', 'name': 'Label', 'icon': ''},
-            {'type': 'image', 'name': 'Image', 'icon': ''},
-            {'type': 'divider', 'name': 'Divider', 'icon': ''},
-            {'type': 'date', 'name': 'Date', 'icon': ''},
-            {'type': 'time', 'name': 'Time', 'icon': ''},
-            {'type': 'datetime', 'name': 'Date Time', 'icon': ''},
-            {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
-            {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
+            {'type': 'editbox', 'name': 'Edit Box'},
+            {'type': 'inputbox', 'name': 'Input Box'},
+            {'type': 'textbox', 'name': 'Text Box'},
+            {'type': 'dropdown', 'name': 'Dropdown'},
+            {'type': 'radio', 'name': 'Radio Button'},
+            {'type': 'checkbox', 'name': 'Checkbox'},
+            {'type': 'label', 'name': 'Label'},
+            {'type': 'image', 'name': 'Image'},
+            {'type': 'divider', 'name': 'Divider'},
+            {'type': 'date', 'name': 'Date'},
+            {'type': 'time', 'name': 'Time'},
+            {'type': 'datetime', 'name': 'Date Time'},
+            {'type': 'fileupload', 'name': 'File Upload'},
+            {'type': 'custom-code', 'name': 'Custom Code'},
+            {'type': 'dynamic-row-table', 'name': 'Dynamic Row Table'}
     ];
     let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
     let parent = null;
@@ -818,6 +819,116 @@
     }
 
     /**
+     * Daynamic Row(DR) Table 컴포넌트 속성
+     * @param {Object} property 컴포넌트 속성
+     * @constructor
+     */
+    function DaynamicRowTable(property) {
+        console.log(property.componentId);
+        this.id = property.componentId;
+        this.name = 'Dynamic Row Table';
+        this.type = 'dynamic-row-table';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const displayType = property['dataAttribute']['displayType'];
+
+        // 테이블 Header 추가
+        const tableHeaderOptions = property.field.map(function(opt, idx) {
+            const thWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
+            return `<th data-field-type="${opt.type}" data-field-index="${idx}" class="align-${property.header.align}" ` +
+                        `style="width: ${thWidth}%; border-color: ${property.display.border} ` +
+                        `color: ${property.header.color}; font-size: ${property.header.size}px;` +
+                        `${property.header.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                        `${property.header.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                        `${property.header.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                        `${aliceJs.filterXSS(opt.text)}` +
+                    `</th>`;
+        }).join('');
+
+        // input bpx
+        const inputCell = function(subProperty) {
+            return `<input type="text" class="align-${subProperty.display.align}" ` +
+                `placeholder="${aliceJs.filterXSS(subProperty.display.placeholder)}" value=""` +
+                `${displayType === 'editableRequired' ? ' required' : ''}` +
+                ` maxlength="${subProperty.validate.lengthMax}" minlength="${subProperty.validate.lengthMin}"` +
+                ` regexp='${subProperty.validate.regexp}' regexp-msg='${aliceJs.filterXSS(subProperty.validate.regexpMsg)}' />`;
+        };
+        
+        // 테이블 Row 추가
+        const tableRowOptions = property.field.map(function(opt, idx) {
+            const tdWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
+            return `<td style="width: ${tdWidth}%; border-color: ${property.display.border}">` +
+                        `${opt.type === 'inputbox' ? inputCell(opt) : ''}` +
+                    `</td>`;
+        }).join('');
+
+        console.log(this.id);
+
+        this.template = 
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-label align-${property.label.align} ${property.label.position}" style="--data-column: ${property.label.column};">` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                        `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                        `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                        `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                            `${aliceJs.filterXSS(property.label.text)}` +
+                        `</label>` +
+                    `<span class="required"></span>` +
+                `</div>` +
+                `<div class="field-empty ${property.label.position}" style="--data-column: ${property.label.column};"></div>` +
+                `<div class="field-content" style="--data-column: ${property.display.column};">` +
+                    `<table class="dr-table" id="dr-table-${property.componentId}"` +
+                    ` row-max="${property.display.rowMax}" row-min="${property.display.rowMin}">` +
+                        `<thead style="display: ${property.header.visible ? '' : 'none'}">` +
+                            `<tr>${tableHeaderOptions}</tr>` +
+                        `</thead>` +
+                        `<tbody>` +
+                            `<tr>${tableRowOptions}</tr>` +
+                        `</tbody>` +
+                    `</table>` +
+                `</div>` +
+            `</div>` +
+            `<button type="button" class="ghost-line btn-option btn-dr-table-row-add" id="row-add"><span class="icon icon-plus"></span></button>` +
+        `</div>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+
+        // 데이터 매핑
+        // "value": ["1행 1열 데이터", "1행 2열 데이터", "2행 1열 데이터", "2행 2열 데이터"]
+        const valueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
+        const drTable =  parent.querySelector('#dr-table-' + property.componentId);
+        const drTableFirstRow = drTable.rows[1]; // 헤더 제외
+        const drTableFirstCellLen = drTableFirstRow.cells.length;
+        for (let i = 0, len = valueArr.length; i < len; i += drTableFirstCellLen) {
+            let row = drTable.rows[i + 1];
+            if (i > 0) {
+                row = document.createElement('tr');
+                row.innerHTML = drTableFirstRow.innerHTML;
+                drTable.appendChild(row);
+            }
+            for (let j = 0, cellLen = drTableFirstCellLen; j < cellLen; j++) {
+                let cell = row.cells[j];
+                if (cell.childNodes[0].type === 'text') {
+                    cell.childNodes[0].value = valueArr[i + j];
+                }
+            }
+        }
+        // 헤더 속성에 이벤트 추가
+        const drTableHeaderRow = drTable.rows[0];
+        for (let i = 0, len = drTableHeaderRow.cells.length; i < len; i++) {
+            drTableHeaderRow.cells[i].addEventListener('click', function(e) {
+                // 상위로 이벤트가 전파되지 않도록 중단한다.
+                e.stopPropagation();
+
+                editor.showDRTableTypeProperties(property.componentId, e.target.getAttribute('data-field-index'), e.target.getAttribute('data-field-type'));
+            }, false);
+        }
+    }
+
+    /**
      * 컴포넌트를 생성하고 출력한다.
      * @param {String} type 컴포넌트 타입
      * @param {Object} data 컴포넌트 데이터
@@ -881,6 +992,9 @@
             case 'custom-code':
                 componentObject =  new CustomCode(componentProperty);
                 break;
+            case 'dynamic-row-table':
+                componentObject =  new DaynamicRowTable(componentProperty);
+                break;
             default:
                 break;
         }
@@ -916,9 +1030,9 @@
         if (typeof aliceForm.componentProperties[type] !== 'undefined') {
             let defaultProperty = JSON.parse(JSON.stringify(aliceForm.componentProperties[type]));
             Object.keys(defaultProperty).forEach(function(group) {
-                if (group === 'option') { //옵션 json 구조 변경
+                if (group === 'option') { // 옵션 json 구조 변경
                     let options = [];
-                    for (let i = 0, len = defaultProperty[group][0].items.length; i < len; i+=3) {
+                    for (let i = 0, len = defaultProperty[group][0].items.length; i < len; i += 3) {
                         let option = {};
                         for (let j = i; j < i + len; j++) {
                             let child = defaultProperty[group][0].items[j];
@@ -927,6 +1041,23 @@
                         options.push(option);
                     }
                     refineProperty[group] = options;
+                } else if (group === 'field') { // dynamic row table
+                    let field = {};
+                    Object.keys(defaultProperty[group]).forEach(function(child) {
+                        const fieldItem = defaultProperty[group][child];
+                        field[fieldItem.id] = fieldItem.value;
+                        if (fieldItem.id === 'type') {
+                            Object.keys(defaultProperty[fieldItem.value]).forEach(function(subGroup) {
+                                field[subGroup] = {};
+                                const subGroupItem = defaultProperty[fieldItem.value][subGroup];
+                                Object.keys(subGroupItem).forEach(function(subChild) {
+                                    const attributeItem = subGroupItem[subChild];
+                                    field[subGroup][attributeItem.id] = attributeItem.value;
+                                });
+                            });
+                        }
+                    });
+                    refineProperty[group] = [field];
                 } else {
                     refineProperty[group] = {};
                     Object.keys(defaultProperty[group]).forEach(function(child) {
@@ -947,6 +1078,10 @@
                     });
                 }
             });
+
+            if (type === 'dynamic-row-table') { 
+                delete refineProperty['inputbox'];
+            }
 
             if (typeof data !== 'undefined') {
                 refineProperty = aliceJs.mergeObject(refineProperty, data) ;
@@ -986,6 +1121,7 @@
     exports.draw = draw;
     exports.getLastIndex = getLastIndex;
     exports.setLastIndex = setLastIndex;
+    exports.getProperty = getPropertiesWithType;
     exports.getName = getName;
 
     Object.defineProperty(exports, '__esModule', { value: true });

@@ -444,6 +444,7 @@
         }
 
         tokenObject.action = v_kind;
+        console.log(tokenObject);
         let method = '';
         let url = '';
         if (tokenObject.tokenId === '') {
@@ -473,7 +474,7 @@
                 }
             }
         };
-        aliceJs.sendXhr(opt);
+        //aliceJs.sendXhr(opt);
     }
 
     /**
@@ -489,7 +490,7 @@
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
         documentPanel = document.getElementById('document-panel');
         component.init(documentPanel);
-
+        console.log(data);
         buttonPanel = document.getElementById('button-panel');
         if (data.form.components.length > 0) {
             if (data.form.components.length > 2) {
