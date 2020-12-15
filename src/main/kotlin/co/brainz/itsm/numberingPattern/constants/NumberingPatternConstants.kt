@@ -11,7 +11,7 @@ object NumberingPatternConstants {
      * 패턴 편집 상태.
      */
     enum class Status(val code: String) {
-        STATUS_SUCCESS("0"),
+        STATUS_SUCCESS("0")
     }
 
     /**
@@ -56,7 +56,7 @@ object NumberingPatternConstants {
      * 패턴 데이터 고정 값
      */
     enum class PatternFixedValue(val key: String) {
-        STARTWITH_KEY ("1"),
+        STARTWITH_KEY("1"),
         FULLFILL_KEY("Y"),
         INITIALINTERVAL_KEY("none")
     }
