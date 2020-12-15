@@ -524,6 +524,7 @@ input, button, select, optgroup, textarea {
   color: #ffffff;
   background-color: #0098FF;
   padding: 0 1.25rem;
+  z-index: 999;
 }
 
 .form-container .form-header .name {
@@ -4360,6 +4361,34 @@ body.modal-active {
 
 .help-tooltip:hover .help-tooltip-icon {
   background: #0098FF;
+}
+
+.header-tooltip .tooltip-contents {
+  min-width: 3.75rem;
+  visibility: hidden;
+  background-color: #33ADFF;
+  color: #ffffff;
+  text-align: center;
+  font-size: 1.125rem;
+  border-radius: 0.1875rem;
+  padding: 0.6875rem 0.875rem;
+  margin: 1.3125rem 0 0 0;
+  position: absolute;
+  z-index: 1;
+}
+
+.header-tooltip .tooltip-contents span {
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.header-tooltip:hover .tooltip-contents {
+  visibility: visible;
+  animation-delay: 0s;
+  animation-duration: 0.3s;
+  animation-name: fadeIn;
+  animation-timing-function: ease-out;
+  animation-iteration-count: 1;
 }
 
 :root {

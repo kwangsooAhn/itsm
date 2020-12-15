@@ -24,12 +24,13 @@
                 <input type="text" id="search" name="search" class="search col-3" maxlength="100" th:placeholder="#{download.label.searchPlaceholder}"/>
                 <input type="text" id="fromDt" name="fromDt" class="search-date col-3"/>
                 <span>~</span>
-                <input type="text" class="search-date col-3" id="searchToDt" name="searchToDt"/>
+                <input type="text" class="search-date col-3 mr-2" id="searchToDt" name="searchToDt"/>
                 <input type="hidden" class="search-date" id="toDt" name="toDt"/>
+                <span id="spanTotalCount" class="txt-num"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="default-fill" onclick="location.href='/downloads/new'"
-                        sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.add}"/>
+                        sec:authorize="hasAuthority('download.create')" th:text="#{common.btn.add}">
                 </button>
             </div>
         </div>
@@ -42,8 +43,7 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var offsetCount = 0;
-        const offsetSize = 15;
+        let offsetCount = 0;
         window.onload = function () {
             document.getElementById('search').focus();
             document.getElementById('fromDt').value = i18n.getDate({'months':-1});
@@ -87,7 +87,7 @@
                 i18n.makeUserDate(document.getElementById('searchToDt').value, {'days': 1});
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = offsetSize;
+                    offsetCount = aliceJs.searchDataCount;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
                 restSubmit('get', '/rest/downloads?' + urlParam, isScroll);
@@ -109,9 +109,10 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (scrollerEventCheck()) {
-                                offsetCount = offsetCount + offsetSize;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;;
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
@@ -119,6 +120,7 @@
                         }
                     } else {
                         document.getElementById('downloadList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                         let downloadList = document.querySelectorAll('td[name=createDt]');
                         for (let i = 0; i < downloadList.length; i++) {
                             downloadList[i].textContent = i18n.userDateTime(downloadList[i].textContent);
@@ -134,7 +136,7 @@
                                 const clientHeight = e.target.clientHeight;
                                 // 스크롤이 맨 마지막에 있을 경우
                                 if (scrollHeight - scrollTop === clientHeight) {
-                                    if (scrollerEventCheck()) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                         getDownloadList(true);
                                     }
                                 }
@@ -144,16 +146,6 @@
                 }
             };
             aliceJs.sendXhr(opt);
-        }
-
-        // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
-        function scrollerEventCheck() {
-            let scrollerCheck = false;
-            let totalCount = document.getElementById('totalCount').value;
-            if (offsetCount < totalCount) {
-                scrollerCheck = true;
-            }
-            return scrollerCheck;
         }
 
         // Tr 동적 데이터 만들기
@@ -173,7 +165,7 @@
             tdDownloadCategory.innerText = i18n.msg(data.downloadCategory);
 
             let tdDownloadTitle = document.createElement('td');
-            tdDownloadTitle.className = 'align-left';
+            tdDownloadTitle.className = 'align-left underline';
             tdDownloadTitle.style.width = '45%';
             let aDownloadTitle = document.createElement('a');
             if (document.getElementsByName('isRole')[0].value === 'true') {

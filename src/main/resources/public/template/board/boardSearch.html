@@ -19,8 +19,9 @@
             <input type="hidden" sec:authorize="!hasAuthority('board.admin.update')" th:name="isRole"
                    th:value="false"/>
             <form id="searchFrm">
-                <input type="text" id="search" name="search" class="search col-5" maxlength="100"
+                <input type="text" id="search" name="search" class="search col-5 mr-2" maxlength="100"
                        th:placeholder="#{board.label.searchPlaceholder}"/>
+                <span id="spanTotalCount" class="txt-num"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="default-fill" onclick="openBoardAdminAdd()"
@@ -36,8 +37,7 @@
 <th:block layout:fragment="pageScript">
     <script th:inline="javascript">
         /*<![CDATA[*/
-        var offsetCount = 0;
-        const offsetSize = 15;
+        let offsetCount = 0;
         window.onload = function() {
             document.getElementById('search').focus();
             document.getElementById('search').addEventListener('keyup', function() { getBoardAdminList(false); });
@@ -49,7 +49,7 @@
             let urlParam = '';
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = offsetSize;
+                    offsetCount = aliceJs.searchDataCount;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
                 restSubmit('get', '/rest/boards?' + urlParam, isScroll);
@@ -75,9 +75,10 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (scrollerEventCheck()) {
-                                offsetCount = offsetCount + offsetSize;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
@@ -85,6 +86,7 @@
                         }
                     } else {
                         document.getElementById('boardAdminList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                         let boardAdminDtEle = document.querySelectorAll('td[name=boardAdminDt]');
                         for (let i = 0; i < boardAdminDtEle.length; i++) {
                             boardAdminDtEle[i].textContent = i18n.userDateTime(boardAdminDtEle[i].textContent);
@@ -100,7 +102,7 @@
                                 const clientHeight = e.target.clientHeight;
                                 //스크롤이 맨 마지막에 있을 경우
                                 if (scrollHeight - scrollTop === clientHeight) {
-                                    if (scrollerEventCheck()) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                         getBoardAdminList(true);
                                     }
                                 }
@@ -112,17 +114,6 @@
             };
             aliceJs.sendXhr(opt);
         }
-
-        // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
-        function scrollerEventCheck() {
-            let scrollerCheck = false;
-            let totalCount = document.getElementById('totalCount').value;
-            if (offsetCount < totalCount) {
-                scrollerCheck = true;
-            }
-            return scrollerCheck;
-        }
-
         // Tr 동적 데이터 만들기
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
@@ -131,7 +122,7 @@
 
             let tdBoardAdminTitle = document.createElement('td');
             tdBoardAdminTitle.style.width = '65%';
-            tdBoardAdminTitle.className = 'align-left';
+            tdBoardAdminTitle.className = 'align-left underline';
             let aBoardAdminTitle = document.createElement('a');
             if (document.getElementsByName('isRole')[0].value === 'true') {
                 aBoardAdminTitle.href = '/boards/'+ data.boardAdminId +'/edit';

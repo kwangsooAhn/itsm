@@ -75,6 +75,7 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;
                             if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                 offsetCount = offsetCount + aliceJs.searchDataCount;
@@ -85,6 +86,7 @@
                         }
                     } else {
                         document.getElementById('documentList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                         OverlayScrollbars(document.querySelector('.document-content'), {
                             className: 'scrollbar',
                             callbacks: {
@@ -168,11 +170,12 @@
                 <input type="text" id="searchProcessName" name="searchProcessName" maxlength="100"
                        th:placeholder="#{document.label.process}" class="search col-3"/>
                 <input type="text" id="searchFormName" name="searchFormName" maxlength="100"
-                       th:placeholder="#{document.label.form}" class="search col-3"/>
+                       th:placeholder="#{document.label.form}" class="search col-3 mr-2"/>
                 <input sec:authorize="hasAuthority('document.read.admin')"
                        type="hidden" id="viewType" name="viewType" value="admin"/>
                 <input type="hidden" id="searchDocumentType" name="searchDocumentType"
                        value="application-form"/>
+                <span id="spanTotalCount" class="txt-num"></span>
             </form>
         </div>
     </div>

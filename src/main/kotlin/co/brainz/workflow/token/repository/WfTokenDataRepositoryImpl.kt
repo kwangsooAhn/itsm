@@ -28,6 +28,7 @@ class WfTokenDataRepositoryImpl : QuerydslRepositorySupport(WfTokenDataEntity::c
                     tokenData.value
                 )
             )
+            .where(tokenData.token.tokenId.`in`(tokenIds))
             .fetch()
     }
 }

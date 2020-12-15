@@ -32,11 +32,7 @@ const portalFileUploader = (function () {
     }
 
     const setFileIcon = function (fileName, isView) {
-        if (getExtension(fileName) === 'xml') {
-            return '/assets/media/icons/dropzone/icon_document_txt.svg';
-        } else {
-            return '/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg';
-        }
+        return '/assets/media/icons/dropzone/icon_document_' + getExtension(fileName) + '.svg';
     };
 
     /**

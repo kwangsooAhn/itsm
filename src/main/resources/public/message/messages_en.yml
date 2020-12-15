@@ -337,9 +337,10 @@ document:
     write: "Service Request Write"
   msg:
     adminSearchDescription: "View and manage workflow by combining process and document form."
+    changeStatusEnabled: "Do you want to change the status to enabled? All documents written in temporary status
+    will be deleted."
     checkDocument: "Please check the document again."
     checkDuplication: "Duplication document. check form and process."
-    confirmDeleteInstance: "Are you sure you want to delete all documents created in a temporary state?"
     enterBusinessFlowColor: "Please enter Business Flow Color."
     enterDocumentName: "Please enter document's name."
     launchedInstance: "There is an instance started and cannot be deleted."
@@ -550,7 +551,6 @@ form:
 # Image
 image:
   label:
-    count: "Image total {0}"
     name: "Image"
     list: "Image Management"
     popupTitle: "Select Image"
@@ -690,6 +690,7 @@ process:
     description: "Description"
     detail: "Detail Process"
     edit: "Edit Process"
+    imageDownload: "Download as Image"
     import: "Process Import"
     importFile: "Import File"
     name: "Process Name"

@@ -5,6 +5,7 @@
 
 package co.brainz.itsm.certification.repository
 
+/*
 import co.brainz.framework.auth.dto.AliceUserDto
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.certification.dto.AliceCertificationDto
@@ -31,9 +32,9 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.model
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.test.web.servlet.setup.MockMvcBuilders
 import org.springframework.web.context.WebApplicationContext
-
-//@RunWith(SpringRunner::class)
-//@SpringBootTest(properties = ["classpath:application.properties"])
+*/
+// @RunWith(SpringRunner::class)
+// @SpringBootTest(properties = ["classpath:application.properties"])
 class CertificationTest {
 /*
     @Autowired

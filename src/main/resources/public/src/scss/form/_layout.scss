@@ -18,6 +18,7 @@
     color: $layout-header-font-color;
     background-color: $layout-header-bg-color;
     padding: 0 1.25rem; // 0 20px
+    z-index: 999;
     // form designer 문구
     .name {
       font-size: 1.125rem; // 18px

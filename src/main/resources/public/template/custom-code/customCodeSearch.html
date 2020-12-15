@@ -19,10 +19,12 @@
             <input type="hidden" sec:authorize="!hasAuthority('custom.code.update')" th:name="isRole" th:value="false"/>
             <form id="searchFrm">
                 <select id="searchType" name="searchType" class="col-3">
-                    <option value="" th:text="#{customCode.label.all}" selected/>
+                    <option value="" th:text="#{customCode.label.all}" selected></option>
                     <option th:each="type:${typeList}" th:value="${type.codeValue}" th:text="${type.codeName}"></option>
                 </select>
-                <input type="text" class="search col-4" id="search" name="search" maxlength="100" th:placeholder="#{customCode.label.searchPlaceholder}"/>
+                <input type="text" class="search col-4 mr-2" id="search" name="search" maxlength="100"
+                       th:placeholder="#{customCode.label.searchPlaceholder}"/>
+                <span id="spanTotalCount" class="txt-num"></span>
             </form>
             <div class="ml-auto">
                 <button type="button" class="default-fill" onclick="location.href='/custom-codes/new'"
@@ -38,7 +40,6 @@
 <th:block layout:fragment="pageScript">
     <script type="text/javascript">
         let offsetCount = 0;
-        const offsetSize = 15;
         window.onload = function() {
             document.getElementById('search').focus();
             document.getElementById('search').addEventListener('keyup', function() { getCustomCodeList(false); });
@@ -50,7 +51,7 @@
             let urlParam = '';
             if (isScroll) {
                 if (offsetCount === 0) {
-                    offsetCount = offsetSize;
+                    offsetCount = aliceJs.searchDataCount;
                 }
                 urlParam = aliceJs.serialize(document.getElementById('searchFrm')) + '&offset=' + offsetCount;
                 restSubmit('get', '/rest/custom-codes?' + urlParam, isScroll);
@@ -71,9 +72,10 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;
-                            if (scrollerEventCheck()) {
-                                offsetCount = offsetCount + offsetSize;
+                            if (aliceJs.isEnableScrollEvent(offsetCount)) {
+                                offsetCount = offsetCount + aliceJs.searchDataCount;
                                 dataList.forEach(function(data) {
                                     getDataTemplate(data);
                                 });
@@ -81,6 +83,7 @@
                         }
                     } else {
                         document.getElementById('customCodeList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                         let customCodeDtEle = document.querySelectorAll('td[name=createDt]');
                         for (let i = 0; i < customCodeDtEle.length; i++) {
                             customCodeDtEle[i].textContent = i18n.userDateTime(customCodeDtEle[i].textContent);
@@ -96,7 +99,7 @@
                                 const clientHeight = e.target.clientHeight;
                                 // 스크롤이 맨 마지막에 있을 경우
                                 if (scrollHeight - scrollTop === clientHeight) {
-                                    if (scrollerEventCheck()) {
+                                    if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                         getCustomCodeList(true);
                                     }
                                 }
@@ -108,17 +111,6 @@
             };
             aliceJs.sendXhr(opt);
         }
-
-        // 현재 리스트 개수가 전체 개수보다 작은지 확인 하는 함수
-        function scrollerEventCheck() {
-            let scrollerCheck = false;
-            let totalCount = document.getElementById('totalCount').value;
-            if (offsetCount < totalCount) {
-                scrollerCheck = true;
-            }
-            return scrollerCheck;
-        }
-
         // Tr 동적 데이터 만들기
         function getDataTemplate(data) {
             let div = document.querySelector('.list-body .os-content');
@@ -127,7 +119,7 @@
 
             let tdCustomCodeName = document.createElement('td');
             tdCustomCodeName.style.width = '50%';
-            tdCustomCodeName.className = 'align-left';
+            tdCustomCodeName.className = 'align-left underline';
             let aCustomCodeName = document.createElement('a');
             if (document.getElementsByName('isRole')[0].value === 'true') {
                 aCustomCodeName.href = '/custom-codes/'+ data.customCodeId +'/edit';

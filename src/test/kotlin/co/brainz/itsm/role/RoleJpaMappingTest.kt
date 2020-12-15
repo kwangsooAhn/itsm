@@ -22,8 +22,8 @@ import java.time.LocalDateTime*/
 // @SpringBootTest
 // @AutoConfigureTestDatabase(replace = Replace.NONE)
 class RoleJpaMappingTest {
-
-   /* @Autowired
+/*
+   @Autowired
     lateinit var roleRepository: RoleRepository
 
     @Autowired
@@ -71,5 +71,6 @@ class RoleJpaMappingTest {
     fun getAuthList() {
         var list = authRepository.findByOrderByAuthIdAsc()
         Assert.assertNotNull(list)
-    }*/
+    }
+*/
 }

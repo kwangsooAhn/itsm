@@ -1087,6 +1087,16 @@ aliceJs.isEnableScrollEvent = function(offset, objectId = "totalCount") {
 };
 
 /**
+ * 목록에 TotalCount 표시한다.
+ *
+ * @param totalCount 목록에 보여주고 싶은 건수
+ * @param objectId 전체수 저장 object-id (default: spanTotalCount)
+ */
+aliceJs.showTotalCount = function(totalCount, objectId = "spanTotalCount") {
+    document.getElementById(objectId).textContent = i18n.msg("common.label.count", totalCount);
+};
+
+/**
  * 문자열 <,>, ', ", & 등 특수문자에 대하여 코드로 변환해준다.
  * 사용법은 아래와 같다.
  * aliceJs.filterXSS('<p><script>alert('test');</script></p>')

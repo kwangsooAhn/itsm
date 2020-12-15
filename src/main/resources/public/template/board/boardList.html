@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
 </head>
 <body>
-    <input type="hidden" id="totalCount" th:value="${boardAdminCount}"/>
     <table class="list-table">
         <thead class="list-head">
             <tr class="flex-row align-items-center">
@@ -16,20 +15,21 @@
             </tr>
         </thead>
         <tbody class="list-body">
-	        <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(boardAdminList)}">
-	            <td style="width:100%" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
-	        </tr>
-	        <tr class="flex-row align-items-center" th:each="boardAdmin: ${boardAdminList}">
-	            <td style="width: 65%" class="align-left">
-	                <a sec:authorize="!hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
-	                   th:href="@{/boards/{id}/view(id=${boardAdmin.boardAdminId})}"></a>
-	                <a sec:authorize="hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
-	                   th:href="@{/boards/{id}/edit(id=${boardAdmin.boardAdminId})}"></a>
-	            </td>
-	            <td style="width: 10%" class="align-left" th:text="${boardAdmin.boardBoardCount}"></td>
-	            <td style="width: 10%" class="align-left" th:text="${boardAdmin.createUserName}"></td>
-	            <td style="width: 15%" class="align-left" th:name="boardAdminDt" th:text="${boardAdmin.createDt}"></td>
-	        </tr>
+            <input type="hidden" id="totalCount" th:value="${boardAdminCount}"/>
+            <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(boardAdminList)}">
+                <td style="width:100%" colspan="5" class="align-center" th:text="#{common.msg.noData}"></td>
+            </tr>
+            <tr class="flex-row align-items-center" th:each="boardAdmin: ${boardAdminList}">
+                <td style="width: 65%" class="align-left underline">
+                    <a sec:authorize="!hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
+                       th:href="@{/boards/{id}/view(id=${boardAdmin.boardAdminId})}"></a>
+                    <a sec:authorize="hasAuthority('board.admin.update')" th:text="${boardAdmin.boardAdminTitle}"
+                       th:href="@{/boards/{id}/edit(id=${boardAdmin.boardAdminId})}"></a>
+                </td>
+                <td style="width: 10%" class="align-left" th:text="${boardAdmin.boardBoardCount}"></td>
+                <td style="width: 10%" class="align-left" th:text="${boardAdmin.createUserName}"></td>
+                <td style="width: 15%" class="align-left" th:name="boardAdminDt" th:text="${boardAdmin.createDt}"></td>
+            </tr>
         </tbody>
     </table>
 </body>

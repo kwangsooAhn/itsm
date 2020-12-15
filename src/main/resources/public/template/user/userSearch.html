@@ -14,7 +14,9 @@
             <h6 class="description" th:text="#{user.msg.searchDescription}"></h6>
         </div>
         <div class="header-search flex-row">
-            <input class="search col-5" id="search" type="text" maxlength="100" th:placeholder="#{user.label.searchPlaceholder}"/>
+            <input class="search col-5 mr-2" id="search" type="text" maxlength="100"
+                   th:placeholder="#{user.label.searchPlaceholder}"/>
+            <span id="spanTotalCount" class="txt-num"></span>
             <div class="ml-auto">
                 <button type="button" class="default-fill" onclick="location.href='/users/new'"
                         sec:authorize="hasAuthority('user.create')" th:text="#{common.btn.add}"></button>
@@ -67,6 +69,7 @@
                     if (isScroll) {
                         let dataList = JSON.parse(response.responseText);
                         if (dataList.length > 0) {
+                            aliceJs.showTotalCount(dataList[0].totalCount);
                             document.getElementById('totalCount').value = dataList[0].totalCount;
                             if (aliceJs.isEnableScrollEvent(offsetCount)) {
                                 offsetCount = offsetCount + aliceJs.searchDataCount;
@@ -77,6 +80,7 @@
                         }
                     } else {
                         document.getElementById('userList').innerHTML = response.responseText;
+                        aliceJs.showTotalCount(document.getElementById('totalCount').value);
                         let createDtList = document.querySelectorAll('td[name=createDt]');
                         for (let i = 0; i < createDtList.length; i++) {
                             createDtList[i].textContent = i18n.userDateTime(createDtList[i].textContent);
@@ -120,22 +124,17 @@
             tdAvatar.appendChild(avatarImage);
 
             let tdName = document.createElement('td');
-            tdName.className = 'align-left';
+            tdName.className = 'align-left underline';
             tdName.style.width = '9.8%';
-            tdName.innerText = data.userName;
-            tdName.style.cursor = 'pointer';
-            tdName.onclick = function() {
-                location.href = '/users/' + data.userKey + '/edit';
-            };
+            let aName = document.createElement('a');
+            aName.href = '/users/' + data.userKey + '/edit';
+            aName.innerText = data.userName;
+            tdName.appendChild(aName);
 
             let tdId = document.createElement('td');
             tdId.className = 'align-left';
             tdId.style.width = '10%';
-            tdId.innerText = data.userId;
-            tdId.style.cursor = 'pointer';
-            tdId.onclick = function() {
-                location.href = '/users/' + data.userKey + '/edit';
-            };
+            tdId.innerText = data.userName;
 
             let tdEmail = document.createElement('td');
             tdEmail.className = 'align-left';
