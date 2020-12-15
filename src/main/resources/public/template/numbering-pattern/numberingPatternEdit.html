@@ -78,7 +78,7 @@
                         th:onclick="|javascript:onSave('post')|" th:text="#{common.btn.register}"></button>
                 <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.update')" id="btnUpdate" name="btnUpdate"
                         th:onclick="|javascript:onSave('put')|" th:text="#{common.btn.modify}"></button>
-                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering,pattern.delete')" id="btnDelete" name="btnDelete"
+                <button type="button" class="point-fill" sec:authorize="hasAuthority('numbering.pattern.delete')" id="btnDelete" name="btnDelete"
                         th:onclick="|javascript:aliceJs.confirmIcon(i18n.msg('common.msg.confirmDelete'), onDelete)|" th:text="#{common.btn.delete}"></button>
             </div>
         </div>
