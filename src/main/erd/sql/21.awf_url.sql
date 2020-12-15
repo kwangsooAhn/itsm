@@ -77,6 +77,8 @@ insert into awf_url values ('/notices/{id}/edit', 'get', '공지사항 편집 �
 insert into awf_url values ('/notices/{id}/view', 'get', '공지사항 상세 화면', 'TRUE');
 insert into awf_url values ('/notices/{id}/view-pop', 'get', '공지사항 팝업 화면', 'TRUE');
 insert into awf_url values ('/notifications', 'get', '알림 리스트 화면', 'FALSE');
+insert into awf_url values ('/numberingPatterns', 'get', '패턴 관리 목록 뷰', 'TRUE');
+insert into awf_url values ('/numberingPatterns/edit', 'get', '패턴 편집 화면', 'TRUE');
 insert into awf_url values ('/oauth/{service}/callback', 'get', 'OAuth 로그인 응답 콜백', 'TRUE');
 insert into awf_url values ('/oauth/{service}/login', 'get', 'OAuth 로그인 화면 호출', 'TRUE');
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
@@ -165,6 +167,11 @@ insert into awf_url values ('/rest/notices/{id}', 'put', '공지사항 수정', 
 insert into awf_url values ('/rest/notifications/{id}', 'delete', '알림 리스트 삭제', 'FALSE');
 insert into awf_url values ('/rest/notifications/{id}/confirm', 'put', '알림 리스트 확인 여부 수정', 'FALSE');
 insert into awf_url values ('/rest/notifications/{id}/display', 'put', '알림 리스트 표시 여부 수정', 'FALSE');
+insert into awf_url values ('/rest/numberingPatterns', 'get', '패턴 리스트', 'TRUE');
+insert into awf_url values ('/rest/numberingPatterns', 'post', '패턴 등록', 'TRUE');
+insert into awf_url values ('/rest/numberingPatterns/{id}', 'get', '패턴 세부 조회', 'TRUE');
+insert into awf_url values ('/rest/numberingPatterns/{id}', 'put', '패턴 정보 변경', 'TRUE');
+insert into awf_url values ('/rest/numberingPatterns/{id}', 'delete', '패턴 삭제', 'TRUE');
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
 insert into awf_url values ('/rest/portals/downloads', 'get', '포탈 자료실 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');

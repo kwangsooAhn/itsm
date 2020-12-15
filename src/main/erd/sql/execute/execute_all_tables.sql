@@ -90,6 +90,10 @@ insert into awf_auth values ('notice.create', '공지사항 등록', '', '0509e0
 insert into awf_auth values ('notice.delete', '공지사항 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('notice.read', '공지사항 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('notice.update', '공지사항 변경', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('numbering.pattern.create', '패턴 등록', '패턴 등록 권한', '0509e09412534a6e98f04ca79abb6424', now(), null , null);
+insert into awf_auth values ('numbering.pattern.delete', '패턴 삭제', '패턴 삭제 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('numbering.pattern.read', '패턴 조회', '패턴 조회 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_auth values ('numbering.pattern.update', '패턴 수정', '패턴 수정 권한', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('process.create', '프로세스 등록', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('process.delete', '프로세스 삭제', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_auth values ('process.read', '프로세스 조회', '', '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -179,6 +183,9 @@ insert into awf_code values ('numbering', 'root', null, '문서번호 규칙 패
 insert into awf_code values ('numbering.pattern', 'numbering', null, '문서규칙 패턴', null, false, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('numbering.pattern.format', 'numbering.pattern', null, '문서규칙 포맷', null, false, 3, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('numbering.pattern.format.yyyyMMdd', 'numbering.pattern.format', 'yyyyMMdd', '날짜형패턴', null, false, 4, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('numbering.pattern.format.yyyyddMM', 'numbering.pattern.format', 'yyyyddMM', '날짜형패턴', null, false, 4, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('numbering.pattern.format.MMddyyyy', 'numbering.pattern.format', 'MMddyyyy', '날짜형패턴', null, false, 4, 3, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
+insert into awf_code values ('numbering.pattern.format.ddMMyyyy', 'numbering.pattern.format', 'ddMMyyyy', '날짜형패턴', null, false, 4, 4, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('reception_type', 'root', '접수유형', null, null, true, 1, 7, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('email', 'reception_type', '이메일', '이메일', null, true, 2, 1, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
 insert into awf_code values ('post', 'reception_type', '우편', '우편', null, true, 2, 2, '0509e09412534a6e98f04ca79abb6424', now(), null, null);
@@ -525,6 +532,7 @@ insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRU
 insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3,TRUE);
 insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4,TRUE);
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
+insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/edit', 6, true);
 
 
 /**
@@ -615,6 +623,10 @@ insert into awf_menu_auth_map values ('workflow.image', 'image.delete');
 insert into awf_menu_auth_map values ('workflow.image', 'image.update');
 insert into awf_menu_auth_map values ('workflow.image', 'image.read');
 insert into awf_menu_auth_map values ('workflow.image', 'image.create');
+insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.delete');
+insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.create');
+insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.read');
+insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.update');
 insert into awf_menu_auth_map values ('workflow.process', 'process.delete');
 insert into awf_menu_auth_map values ('workflow.process', 'process.create');
 insert into awf_menu_auth_map values ('workflow.process', 'process.update');
@@ -1184,6 +1196,8 @@ insert into awf_url values ('/notices/{id}/edit', 'get', '공지사항 편집 �
 insert into awf_url values ('/notices/{id}/view', 'get', '공지사항 상세 화면', 'TRUE');
 insert into awf_url values ('/notices/{id}/view-pop', 'get', '공지사항 팝업 화면', 'TRUE');
 insert into awf_url values ('/notifications', 'get', '알림 리스트 화면', 'FALSE');
+insert into awf_url values ('/numberingPatterns', 'get', '패턴 관리 목록 뷰', 'TRUE');
+insert into awf_url values ('/numberingPatterns/edit', 'get', '패턴 편집 화면', 'TRUE');
 insert into awf_url values ('/oauth/{service}/callback', 'get', 'OAuth 로그인 응답 콜백', 'TRUE');
 insert into awf_url values ('/oauth/{service}/login', 'get', 'OAuth 로그인 화면 호출', 'TRUE');
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
@@ -1272,6 +1286,11 @@ insert into awf_url values ('/rest/notices/{id}', 'put', '공지사항 수정', 
 insert into awf_url values ('/rest/notifications/{id}', 'delete', '알림 리스트 삭제', 'FALSE');
 insert into awf_url values ('/rest/notifications/{id}/confirm', 'put', '알림 리스트 확인 여부 수정', 'FALSE');
 insert into awf_url values ('/rest/notifications/{id}/display', 'put', '알림 리스트 표시 여부 수정', 'FALSE');
+insert into awf_url values ('/rest/numberingPatterns', 'get', '패턴 리스트', 'TRUE');
+insert into awf_url values ('/rest/numberingPatterns', 'post', '패턴 등록', 'TRUE');
+insert into awf_url values ('/rest/numberingPatterns/{id}', 'get', '패턴 세부 조회', 'TRUE');
+insert into awf_url values ('/rest/numberingPatterns/{id}', 'put', '패턴 정보 변경', 'TRUE');
+insert into awf_url values ('/rest/numberingPatterns/{id}', 'delete', '패턴 삭제', 'TRUE');
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
 insert into awf_url values ('/rest/portals/downloads', 'get', '포탈 자료실 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
@@ -1462,6 +1481,11 @@ insert into awf_url_auth_map values ('/notices/{id}/edit', 'get', 'notice.create
 insert into awf_url_auth_map values ('/notices/{id}/edit', 'get', 'notice.update');
 insert into awf_url_auth_map values ('/notices/{id}/view', 'get', 'notice.read');
 insert into awf_url_auth_map values ('/notices/{id}/view-pop', 'get', 'notice.read');
+insert into awf_url_auth_map values ('/numberingPatterns', 'get', 'numbering.pattern.read');
+insert into awf_url_auth_map values ('/numberingPatterns/edit', 'get', 'numbering.pattern.update');
+insert into awf_url_auth_map values ('/numberingPatterns/edit', 'get', 'numbering.pattern.read');
+insert into awf_url_auth_map values ('/numberingPatterns/edit', 'get', 'numbering.pattern.create');
+insert into awf_url_auth_map values ('/numberingPatterns/edit', 'get', 'numbering.pattern.delete');
 insert into awf_url_auth_map values ('/processes', 'get', 'process.read');
 insert into awf_url_auth_map values ('/processes', 'get', 'process.delete');
 insert into awf_url_auth_map values ('/processes', 'get', 'process.update');
@@ -1582,6 +1606,17 @@ insert into awf_url_auth_map values ('/rest/notices', 'get', 'notice.read');
 insert into awf_url_auth_map values ('/rest/notices', 'post', 'notice.create');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'delete', 'notice.delete');
 insert into awf_url_auth_map values ('/rest/notices/{id}', 'put', 'notice.update');
+insert into awf_url_auth_map values ('/rest/numberingPatterns', 'get', 'numbering.pattern.read');
+insert into awf_url_auth_map values ('/rest/numberingPatterns', 'get', 'numbering.pattern.create');
+insert into awf_url_auth_map values ('/rest/numberingPatterns', 'get', 'numbering.pattern.update');
+insert into awf_url_auth_map values ('/rest/numberingPatterns', 'get', 'numbering.pattern.delete');
+insert into awf_url_auth_map values ('/rest/numberingPatterns', 'post', 'numbering.pattern.create');
+insert into awf_url_auth_map values ('/rest/numberingPatterns/{id}', 'get', 'numbering.pattern.read');
+insert into awf_url_auth_map values ('/rest/numberingPatterns/{id}', 'get', 'numbering.pattern.create');
+insert into awf_url_auth_map values ('/rest/numberingPatterns/{id}', 'get', 'numbering.pattern.update');
+insert into awf_url_auth_map values ('/rest/numberingPatterns/{id}', 'get', 'numbering.pattern.delete');
+insert into awf_url_auth_map values ('/rest/numberingPatterns/{id}', 'put', 'numbering.pattern.update');
+insert into awf_url_auth_map values ('/rest/numberingPatterns/{id}', 'delete', 'numbering.pattern.delete');
 insert into awf_url_auth_map values ('/rest/processes', 'post', 'process.read');
 insert into awf_url_auth_map values ('/rest/processes/{id}', 'put', 'process.update');
 insert into awf_url_auth_map values ('/rest/processes', 'get', 'process.read');
