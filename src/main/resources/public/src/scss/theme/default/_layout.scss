@@ -100,6 +100,7 @@
 // 업무흐름 관리 > 역할, 권한
 // 업무흐름 관리 > 코드
 // 업무흐름 관리 > 이미지 관리
+// 업무흐름 관리 > 패턴
 .notice-header,
 .faq-header,
 .download-header,
@@ -113,7 +114,8 @@
 .auth-header,
 .role-header,
 .code-header,
-.image-header {
+.image-header,
+.numbering-pattern-header {
   padding: 2.188rem 3.75rem 0 3.75rem; // 35px 60px 0px 60px
   background-color: $light-gray;
 }
@@ -135,6 +137,7 @@
 // 업무흐름 관리 > 프로세스, 문서양식, 업무흐름, 커스텀 코드
 // 업무흐름 관리 > 역할, 권한
 // 업무흐름 관리 > 코드
+// 업무흐름 관리 > 패턴
 .notice-content,
 .faq-content,
 .download-content,
@@ -147,7 +150,8 @@
 .custom-code-content,
 .auth-content,
 .role-content,
-.code-content {
+.code-content,
+.numbering-pattern-content {
   padding: 0.9375rem 3.75rem; // 15px 60px
   background-color: $light-gray;
 }
@@ -281,16 +285,18 @@
   background-color: $white;
   border-top: $layout-header-border;
 }
-// 역할, 권한, 코드
+// 역할, 권한, 코드, 패턴
 .auth-content-edit,
 .role-content-edit,
-.code-content-edit {
+.code-content-edit,
+.numbering-pattern-content-edit {
   height: 41.25rem; // 660px
   margin: 0 0 1.875rem 0; // 30px
   // 스크롤바 
   .edit-form {
     padding: 0 1.875rem 0 4.0625rem; // 0 30px 0 65px
     overflow: auto;
+    height: inherit;
 
     .edit-row {  margin-top: 0.625rem; } // 10px
   }

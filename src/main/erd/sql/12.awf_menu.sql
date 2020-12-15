@@ -39,4 +39,5 @@ insert into awf_menu values ('workflow.form', 'workflow', '/forms/search', 2,TRU
 insert into awf_menu values ('workflow.workflowAdmin', 'workflow', '/workflows/search', 3,TRUE);
 insert into awf_menu values ('workflow.customCode', 'workflow', '/custom-codes/search', 4,TRUE);
 insert into awf_menu values ('workflow.image', 'workflow', '/images', 5,TRUE);
+insert into awf_menu values ('workflow.numberingPattern', 'workflow', '/numberingPatterns/edit', 6, true);
 
