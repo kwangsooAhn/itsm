@@ -10,5 +10,6 @@ data class RestTemplateInstanceListDto(
     var instanceStartDt: LocalDateTime?,
     var instanceEndDt: LocalDateTime?,
     var instanceCreateUserKey: String?,
-    var instanceCreateUserName: String?
+    var instanceCreateUserName: String?,
+    var related: Boolean = false
 ) : Serializable
