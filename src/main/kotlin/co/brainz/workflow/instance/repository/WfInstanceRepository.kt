@@ -2,7 +2,6 @@ package co.brainz.workflow.instance.repository
 
 import co.brainz.workflow.document.entity.WfDocumentEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
-import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 
@@ -24,17 +23,6 @@ interface WfInstanceRepository : JpaRepository<WfInstanceEntity, String>, WfInst
                 "end"
     )
     fun findInstancesCount(userKey: String): List<Map<String, Any>>
-
-    @Query(
-        "SELECT NEW co.brainz.workflow.provider.dto.RestTemplateInstanceListDto(" +
-                "i.instanceId, i.document.documentName, i.documentNo, i.instanceStartDt , i.instanceEndDt, i.instanceCreateUser.userKey, i.instanceCreateUser.userName) from WfInstanceEntity i left join i.instanceCreateUser inner join i.document " +
-                "WHERE i.instanceId != :instanceId " +
-                "AND (lower(i.document.documentName) like lower(concat('%', :searchValue, '%')) " +
-                "or lower(i.instanceCreateUser.userName) like lower(concat('%', :searchValue, '%')) " +
-                "or :searchValue = '') " +
-                "ORDER BY i.instanceStartDt"
-    )
-    fun findAllInstanceListAndSearch(instanceId: String, searchValue: String): MutableList<RestTemplateInstanceListDto>
 
     /**
      * 부모 토큰아이디[parentTokenId] 를 가지는 인스턴스를 조회

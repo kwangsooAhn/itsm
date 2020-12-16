@@ -46,7 +46,7 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
     @Transactional
     fun saveNumberingPattern(numberingPatternDto: NumberingPatternDto): String {
         var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
-        val patternValueObj = JsonObject();
+        val patternValueObj = JsonObject()
         val patternType = numberingPatternDto.patternType
         val patternValue = numberingPatternDto.patternValue
 
@@ -89,7 +89,7 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
     }
 
     fun getPatternValue(patternType: String, originPatternValue: String): String {
-        val jsonParser = JsonParser();
+        val jsonParser = JsonParser()
         var objProperty = ""
         var patternValue = ""
         when (patternType) {
@@ -115,7 +115,6 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
                         patternValue = NumberingPatternConstants.PatternDateValue.SUMMARIZE_MMDDYYYY.code
                     }
                 }
-
             }
             NumberingPatternConstants.PatternType.SEQUENCE.code -> {
                 objProperty = NumberingPatternConstants.ObjProperty.DIGIT.property

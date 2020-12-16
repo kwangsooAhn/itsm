@@ -59,4 +59,3 @@ class NumberingPatternRepositoryImpl(
         return numberingPatternList
     }
 }
-

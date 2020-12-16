@@ -45,8 +45,8 @@
         function getInstanceList(search, showProgressbar) {
             restSubmit('get', '/tokens/view-pop/documents?searchValue=' + search.trim() + '&tokenId=' + '[[${tokenId}]]', function(result) {
                 document.getElementById('instanceList').innerHTML = result;
+                aliceJs.showTotalCount(document.querySelectorAll('.instance-list').length);
                 let instanceDtEle = document.querySelectorAll('td[name=instanceDt]');
-                aliceJs.showTotalCount(instanceDtEle.length);
                 for (let i = 0; i < instanceDtEle.length; i++) {
                     if (instanceDtEle[i].textContent !== '') {
                         instanceDtEle[i].textContent = i18n.userDateTime(instanceDtEle[i].textContent);
