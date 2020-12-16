@@ -184,9 +184,7 @@ class TokenController(
         @RequestParam(value = "searchValue", defaultValue = "") searchValue: String,
         model: Model
     ): String {
-        val instanceId = instanceService.getInstanceId(tokenId)!!
-
-        model.addAttribute("instanceList", instanceService.getAllInstanceListAndSearch(instanceId, searchValue))
+        model.addAttribute("instanceList", instanceService.getAllInstanceListAndSearch(tokenId, searchValue))
         return tokenInstanceListPage
     }
 }

@@ -17,6 +17,7 @@ import co.brainz.workflow.instance.dto.WfInstanceListViewDto
 import co.brainz.workflow.instance.entity.QWfInstanceEntity
 import co.brainz.workflow.instance.entity.WfInstanceEntity
 import co.brainz.workflow.provider.dto.RestTemplateInstanceHistoryDto
+import co.brainz.workflow.provider.dto.RestTemplateInstanceListDto
 import co.brainz.workflow.tag.entity.QWfTagEntity
 import co.brainz.workflow.tag.entity.QWfTagMapEntity
 import co.brainz.workflow.token.constants.WfTokenConstants
@@ -25,6 +26,7 @@ import co.brainz.workflow.token.entity.QWfTokenEntity
 import com.querydsl.core.BooleanBuilder
 import com.querydsl.core.QueryResults
 import com.querydsl.core.types.Projections
+import com.querydsl.core.types.dsl.Expressions
 import com.querydsl.jpa.JPAExpressions
 import com.querydsl.jpa.JPQLQuery
 import java.time.LocalDateTime
@@ -353,5 +355,37 @@ class WfInstanceRepositoryImpl : QuerydslRepositorySupport(WfInstanceEntity::cla
         delete(folder).where(folder.instance.`in`(instances)).execute()
         delete(comment).where(comment.instance.`in`(instances)).execute()
         delete(instance).where(instance.instanceId.`in`(instanceIds)).execute()
+    }
+
+    override fun findAllInstanceListAndSearch(
+        instanceId: String,
+        searchValue: String
+    ): MutableList<RestTemplateInstanceListDto> {
+        val instance = QWfInstanceEntity.wfInstanceEntity
+
+        val query = from(instance)
+            .select(
+                Projections.constructor(
+                    RestTemplateInstanceListDto::class.java,
+                    instance.instanceId,
+                    instance.document.documentName,
+                    instance.documentNo,
+                    instance.instanceStartDt,
+                    instance.instanceEndDt,
+                    instance.instanceCreateUser.userKey,
+                    instance.instanceCreateUser.userName,
+                    Expressions.asBoolean(false)
+                )
+            )
+            .distinct()
+            .where(instance.instanceId.notEqualsIgnoreCase(instanceId))
+        if (searchValue.isNotEmpty()) {
+            query.where(
+                instance.document.documentName.likeIgnoreCase(searchValue)
+                    .or(instance.instanceCreateUser.userName.likeIgnoreCase(searchValue))
+            )
+        }
+        query.orderBy(instance.instanceStartDt.asc())
+        return query.fetch()
     }
 }
