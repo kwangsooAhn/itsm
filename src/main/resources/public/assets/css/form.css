@@ -2179,6 +2179,7 @@ button.ghost-line:disabled .icon {
 }
 
 .btn-option .icon-minus {
+  display: inline-block;
   width: 0.875rem;
   height: 0.875rem;
   -webkit-mask-image: url("../media/icons/icon_minus.svg");
@@ -2191,6 +2192,7 @@ button.ghost-line:disabled .icon {
 }
 
 .btn-option .icon-plus {
+  display: inline-block;
   width: 0.875rem;
   height: 0.875rem;
   -webkit-mask-image: url("../media/icons/icon_plus.svg");
@@ -2200,6 +2202,19 @@ button.ghost-line:disabled .icon {
   -webkit-mask-position: center;
   mask-position: center;
   background: #CCCED1;
+}
+
+.btn-option .icon-fail {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_fail.svg");
+  mask-image: url("../media/icons/icon_fail.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #FF405A;
 }
 
 .btn-field {
@@ -4606,10 +4621,22 @@ body.modal-active {
 }
 
 .component .btn-dr-table-row-add {
-  padding: 0;
   position: absolute;
   top: 1.25rem;
   right: 0.3125rem;
+  padding: 0;
+}
+
+.component .dr-table-row-delete {
+  display: inline-block;
+  position: absolute;
+  height: 2.5rem;
+  line-height: 2rem;
+  right: 0.3125rem;
+}
+
+.component .dr-table-row-delete .btn-dr-table-row-delete {
+  padding: 0;
 }
 
 .component[data-type="editbox"] {

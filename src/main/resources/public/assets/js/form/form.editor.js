@@ -877,7 +877,10 @@
         const displayType = data['dataAttribute']['displayType'];
         const fieldData = data['field'][index];
 
-        const drTable =  formPanel.querySelector('#' + data.componentId + ' .dr-table');
+        const selectedComponent = document.getElementById(data.componentId);
+        if (selectedComponent === null) { return; }
+
+        const drTable =  selectedComponent.querySelector('.dr-table');
         for (let i = 1, rowLen = drTable.rows.length; i < rowLen; i ++) {
             const row = drTable.rows[i];
             row.cells[index].innerHTML = component.getFieldTemplate(fieldData.type, fieldData, displayType);
@@ -1532,7 +1535,6 @@
                         value: property.value // 기존 값
                     }
                 };
-
                 colorPalette.initColorPalette(elem.querySelector('#' + group + '-' + property.id + '-colorPaletteLayer'),
                     elem.querySelector('.selected-color'),
                     elem.querySelector('#' + group + '-' + property.id + '-value'),
@@ -1973,7 +1975,10 @@
         previousComponentIds.length = 0;
         selectedComponentIds.push(id);
 
-        const drTable = formPanel.querySelector('#' + id + ' .dr-table');
+        const selectedComponent = document.getElementById(id);
+        if (selectedComponent === null) { return; }
+
+        const drTable = selectedComponent.querySelector('.dr-table');
         const drTableHeaderRow = drTable.rows[0];
         for (let i = 0, len = drTableHeaderRow.cells.length; i < len; i++) {
             if (i === Number(index)) { // 현재 선택된 필드 색상 추가

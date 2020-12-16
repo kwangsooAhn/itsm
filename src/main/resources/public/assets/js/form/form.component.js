@@ -819,6 +819,69 @@
     }
 
     /**
+     * Daynamic Row(DR) Table Cell 값 변경 및 유효성 검증 추가
+     * @param {Object} elem 테이블의 cell
+     * @param {String} value 값
+     */
+    function setDRTableCellData(elem, value) {
+        const childElem  = elem.children[0];
+        // TODO: DR Table 컴포넌트 내부는 inputbox, select, checkbox, radio 등으로 이루어진다. (추후 구현 예정)
+        switch(childElem.type) {
+            case 'text':
+                childElem.value = value;
+                // 신청서 및 처리할 문서 유효성 검증 추가
+                if (!isForm && !parent.hasAttribute('data-readonly')) {
+                    childElem.addEventListener('focusout', function(e) {
+                        aliceDocument.checkValidate(e.target);
+                    }, false);
+                }
+            break;
+            default:
+            break
+        }
+    }
+
+    /**
+     * Daynamic Row(DR) Table Row 추가
+     * @param {Object} elem 테이블
+     * @param {Object} data 배열 데이터
+     */
+    function addDRTableRow(elem, data) {
+        const row = document.createElement('tr');
+        row.innerHTML = elem.rows[1].innerHTML; // 첫번째 열을 그대로 복사
+        elem.getElementsByTagName('tbody')[0].appendChild(row);
+
+        // 값 초기화
+        for (let cellIndex = 0, cellLen= row.cells.length; cellIndex < cellLen; cellIndex++) {
+            const cell = row.cells[cellIndex];
+            setDRTableCellData(cell, (typeof data !== 'undefined' ? data[cellIndex] : ''));
+            
+            if (cellIndex === (cellLen - 1)) {
+                // row 삭제 버튼 추가
+                let rowDeleteDiv = document.createElement('div');
+                rowDeleteDiv.className = 'dr-table-row-delete';
+
+                let rowDeleteBtn = document.createElement('button');
+                rowDeleteBtn.type = 'button';
+                rowDeleteBtn.className = 'btn-option btn-dr-table-row-delete';
+
+                let spanRowDelete = document.createElement('span');
+                spanRowDelete.className = 'icon-fail';
+                rowDeleteBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+
+                    const elem = aliceJs.clickInsideElement(e, 'btn-option');
+                    const deleteRow = elem.parentNode.parentNode.parentNode;
+                    deleteRow.parentNode.removeChild(deleteRow);
+                });
+                rowDeleteBtn.appendChild(spanRowDelete);
+                rowDeleteDiv.appendChild(rowDeleteBtn);
+                cell.appendChild(rowDeleteDiv);
+            }
+        }
+    }
+
+    /**
      * Daynamic Row(DR) Table 컴포넌트 타입에 따라 field 별 세부 html 반환
      * @param {String} type 타입
      * @param {Object} property 타입별 속성
@@ -826,6 +889,7 @@
      * @return Template Literal 템플릿 리터럴
      */
     function getFieldTemplate(type, property, displayType) {
+        // inputbox, select, radio, checkbox 등 추후 구현 예정
         switch(type) {
             case 'inputbox':
                 return `<input type="text" class="align-${property.display.align}" ` +
@@ -838,6 +902,7 @@
             break;
         }
     }
+
     /**
      * Daynamic Row(DR) Table 컴포넌트 속성
      * @param {Object} property 컴포넌트 속성
@@ -856,7 +921,7 @@
         const tableHeaderOptions = property.field.map(function(opt, idx) {
             const thWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
             return `<th data-field-type="${opt.type}" data-field-index="${idx}" class="align-${property.header.align}" ` +
-                        `style="width: ${thWidth}%; border-color: ${property.display.border} ` +
+                        `style="width: ${thWidth}%; border-color: ${property.display.border}; ` +
                         `color: ${property.header.color}; font-size: ${property.header.size}px;` +
                         `${property.header.bold === 'Y' ? ' font-weight: bold;' : ''}` +
                         `${property.header.italic === 'Y' ? ' font-style: italic;' : ''}` +
@@ -899,31 +964,29 @@
                     `</table>` +
                 `</div>` +
             `</div>` +
-            `<button type="button" class="ghost-line btn-option btn-dr-table-row-add" id="row-add"><span class="icon icon-plus"></span></button>` +
+            `<button type="button" class="ghost-line btn-option btn-dr-table-row-add" id="btn-add-${property.componentId}"><span class="icon icon-plus"></span></button>` +
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
 
-        // 데이터 매핑
-        // "value": ["1행 1열 데이터", "1행 2열 데이터", "2행 1열 데이터", "2행 2열 데이터"]
+        // 데이터 매핑 : "value": ["1행 1열 데이터", "1행 2열 데이터", "2행 1열 데이터", "2행 2열 데이터"] 형태로 전달됨
         const valueArr = (typeof property.value !== 'undefined' && property.value !== '') ? JSON.parse(property.value) : [];
         const drTable =  parent.querySelector('#dr-table-' + property.componentId);
         const drTableFirstRow = drTable.rows[1]; // 헤더 제외
         const drTableFirstCellLen = drTableFirstRow.cells.length;
         for (let i = 0, len = valueArr.length; i < len; i += drTableFirstCellLen) {
             let row = drTable.rows[i + 1];
-            if (i > 0) {
-                row = document.createElement('tr');
-                row.innerHTML = drTableFirstRow.innerHTML;
-                drTable.appendChild(row);
-            }
-            for (let j = 0, cellLen = drTableFirstCellLen; j < cellLen; j++) {
-                let cell = row.cells[j];
-                if (cell.childNodes[0].type === 'text') {
-                    cell.childNodes[0].value = valueArr[i + j];
+            if (i === 0) {
+                const firstRow = drTable.rows[1];
+                for (let j = 0; j < firstRow.cells.length; j++) {
+                    const cell = firstRow.cells[j];
+                    setDRTableCellData(cell, valueArr.splice(0, 1));
                 }
+            } else {
+                addDRTableRow(drTable, valueArr.splice(0, drTableFirstCellLen));
             }
         }
+        // 폼 디자이너 편집 화면에서면 수정 가능
         if (isForm) {
             // 헤더 속성에 이벤트 추가
             const drTableHeaderCells = drTable.rows[0].cells;
@@ -935,6 +998,16 @@
                     editor.showDRTableTypeProperties(property.componentId, e.target.getAttribute('data-field-index'), e.target.getAttribute('data-field-type'));
                 }, false);
             }
+        } else { // 신청서, 처리할 문서에서 버튼 동작
+            const addBtn = parent.querySelector('#btn-add-' + property.componentId);
+            addBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+
+                // row 추가
+                const elem = aliceJs.clickInsideElement(e, 'btn-option');
+                const tb = elem.parentNode.querySelector('.dr-table');
+                addDRTableRow(drTable);
+            });
         }
     }
 
