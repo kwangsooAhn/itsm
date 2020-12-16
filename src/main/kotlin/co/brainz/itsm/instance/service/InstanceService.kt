@@ -2,6 +2,7 @@ package co.brainz.itsm.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
+import co.brainz.itsm.folder.service.FolderService
 import co.brainz.workflow.provider.RestTemplateProvider
 import co.brainz.workflow.provider.constants.RestTemplateConstants
 import co.brainz.workflow.provider.dto.RestTemplateCommentDto
@@ -25,7 +26,8 @@ import org.springframework.util.LinkedMultiValueMap
 class InstanceService(
     private val restTemplate: RestTemplateProvider,
     private val aliceUserRepository: AliceUserRepository,
-    private val userDetailsService: AliceUserDetailsService
+    private val userDetailsService: AliceUserDetailsService,
+    private val folderService: FolderService
 ) {
     private val mapper: ObjectMapper =
         ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
@@ -130,11 +132,11 @@ class InstanceService(
     }
 
     fun getAllInstanceListAndSearch(
-        instanceId: String,
+        tokenId: String,
         searchValue: String
     ): List<RestTemplateInstanceListDto>? {
         val params = LinkedMultiValueMap<String, String>()
-        params["instanceId"] = instanceId
+        params["instanceId"] = this.getInstanceId(tokenId)!!
         params["searchValue"] = searchValue
 
         val urlDto =
@@ -144,12 +146,25 @@ class InstanceService(
             )
         val responseBody = restTemplate.get(urlDto)
 
-        return mapper.readValue<MutableList<RestTemplateInstanceListDto>?>(
+        val allInstanceList = mapper.readValue<MutableList<RestTemplateInstanceListDto>?>(
             responseBody,
-            mapper.typeFactory.constructCollectionType(
-                List::class.java,
-                RestTemplateInstanceListDto::class.java
-            )
+            mapper.typeFactory.constructCollectionType(List::class.java, RestTemplateInstanceListDto::class.java)
         )
+
+        if (!allInstanceList.isNullOrEmpty()) {
+            val relatedInstanceList = folderService.getRelatedInstance(tokenId)
+            val relatedInstanceIds = mutableListOf<String>()
+            relatedInstanceList?.forEach { relatedInstance ->
+                relatedInstance.instanceId?.let { relatedInstanceIds.add(it) }
+            }
+            if (relatedInstanceIds.isNotEmpty()) {
+                for (instance in allInstanceList) {
+                    if (relatedInstanceIds.contains(instance.instanceId)) {
+                        instance.related = true
+                    }
+                }
+            }
+        }
+        return allInstanceList
     }
 }
