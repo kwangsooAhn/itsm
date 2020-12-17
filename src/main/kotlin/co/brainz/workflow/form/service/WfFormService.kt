@@ -107,7 +107,8 @@ class WfFormService(
                 dataAttribute = dataAttribute,
                 label = null,
                 option = null,
-                validate = null
+                validate = null,
+                field = null
             )
             val componentDataEntityList = wfComponentDataRepository.findByComponentId(componentEntity.componentId)
 
@@ -135,6 +136,12 @@ class WfFormService(
                             MutableList::class.java,
                             LinkedHashMap::class.java
                         )
+                    )
+                    "field" -> component.field = objMapper.convertValue(attributeValue["value"],
+                            TypeFactory.defaultInstance().constructCollectionType(
+                                    MutableList::class.java,
+                                    LinkedHashMap::class.java
+                            )
                     )
                 }
             }
@@ -199,10 +206,22 @@ class WfFormService(
         component.option?.let {
             if (it.size > 0) {
                 componentDataEntity = WfComponentDataEntity(
-                    componentId = resultComponentEntity.componentId,
-                    attributeId = "option",
-                    attributeValue = objMapper.writeValueAsString(it),
-                    attributes = resultComponentEntity
+                        componentId = resultComponentEntity.componentId,
+                        attributeId = "option",
+                        attributeValue = objMapper.writeValueAsString(it),
+                        attributes = resultComponentEntity
+                )
+                wfComponentDataEntities.add(componentDataEntity)
+            }
+        }
+
+        component.field?.let {
+            if (it.size > 0) {
+                componentDataEntity = WfComponentDataEntity(
+                        componentId = resultComponentEntity.componentId,
+                        attributeId = "field",
+                        attributeValue = objMapper.writeValueAsString(it),
+                        attributes = resultComponentEntity
                 )
                 wfComponentDataEntities.add(componentDataEntity)
             }

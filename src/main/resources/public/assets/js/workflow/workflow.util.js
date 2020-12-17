@@ -405,6 +405,10 @@ workflowUtil.loadFormFromXML = function(data) {
             if (typeof componentData['option'] !== 'undefined' && !Array.isArray(componentData['option'])) {
                 componentData['option'] = [componentData['option']];
             }
+            // 필드가 배열이 아닐 경우 필드를 배열에 넣어준다.
+            if (typeof componentData['field'] !== 'undefined' && !Array.isArray(componentData['field'])) {
+                componentData['field'] = [componentData['field']];
+            }
             formData.components.push(componentData);
         }
     }
