@@ -153,6 +153,12 @@
                         <label th:text="#{form.component.custom-code}"></label>
                     </div>
                 </li>
+                <li class="menu-item dynamic-row-table" data-action="dynamic-row-table">
+                    <div>
+                        <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/icon-dynamic-row-table.svg}"/>
+                        <label th:text="#{form.component.dynamic-row-table}"></label>
+                    </div>
+                </li>
                 <li class="menu-item accordion-start" data-action="accordion-start">
                     <div>
                         <img class="load-svg" th:src="@{/assets/media/icons/form/context-menu/icon-accordion.svg}"/>
@@ -206,6 +212,9 @@
         <div class="property-group" id="display">
             <h5><label class="property-group-name" th:text="#{form.properties.display}"></label></h5>
         </div>
+        <div class="property-group" id="header">
+            <h5><label class="property-group-name" th:text="#{form.properties.header}"></label></h5>
+        </div>
         <div class="property-group" id="option">
             <h5>
                 <label class="property-group-name" th:text="#{form.properties.option}"></label>
@@ -224,6 +233,15 @@
         </div>
         <div class="property-group" id="validate">
             <h5><label class="property-group-name" th:text="#{form.properties.validate}"></label></h5>
+        </div>
+        <div class="property-group" id="field">
+            <h5>
+                <label class="property-group-name" th:text="#{form.properties.field}"></label>
+                <div class="property-group-field">
+                    <button type="button" class="ghost-line btn-option" id="field-delete"><span class="icon icon-minus"></span></button>
+                    <button type="button" class="ghost-line btn-option" id="field-add"><span class="icon icon-plus"></span></button>
+                </div>
+            </h5>
         </div>
     </template>
     <!-- 폼 properties 템플릿 -->

@@ -152,6 +152,14 @@ class FormAdminService(private val restTemplate: RestTemplateProvider) {
                 )
             }
 
+            var field: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
+            component["field"]?.let {
+                field = mapper.convertValue(
+                        it, TypeFactory.defaultInstance()
+                        .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
+                )
+            }
+
             componentDetailList.add(
                 ComponentDetail(
                     componentId = component["componentId"] as String,
@@ -161,7 +169,8 @@ class FormAdminService(private val restTemplate: RestTemplateProvider) {
                     display = display,
                     label = label,
                     validate = validate,
-                    option = option
+                    option = option,
+                    field = field
                 )
             )
         }

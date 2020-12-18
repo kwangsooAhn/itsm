@@ -37,5 +37,7 @@ class ComponentDetail(
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var validate: LinkedHashMap<String, Any>? = null,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    var option: MutableList<LinkedHashMap<String, Any>>? = null
+    var option: MutableList<LinkedHashMap<String, Any>>? = null,
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    var field: MutableList<LinkedHashMap<String, Any>>? = null
 ) : Serializable

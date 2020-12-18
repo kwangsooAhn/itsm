@@ -665,6 +665,14 @@ input, button, select, optgroup, textarea {
   float: right;
 }
 
+.form-container .form-properties .property-group[id="field"] {
+  position: relative;
+}
+
+.form-container .form-properties .property-group[id="field"] .property-group-field {
+  float: right;
+}
+
 .form-container .form-properties .property-group .property-field {
   position: relative;
   margin: 1.25rem 0;
@@ -806,6 +814,22 @@ input, button, select, optgroup, textarea {
   border-color: transparent;
   padding: 0;
   text-align: center;
+}
+
+.form-container .form-properties .property-group .property-field-block {
+  margin-bottom: 0.625rem;
+}
+
+.form-container .form-properties .property-group .property-field-block-header {
+  padding: 0.625rem;
+  background-color: #F7F8F9;
+  border: 0.0625rem solid #EBEBEB;
+  border-bottom: none;
+}
+
+.form-container .form-properties .property-group .property-field-block-content {
+  padding: 0 0.625rem;
+  border: 0.0625rem solid #EBEBEB;
 }
 
 .form-container .form-properties .property-group .error-msg {
@@ -2176,6 +2200,19 @@ button.ghost-line:disabled .icon {
   -webkit-mask-position: center;
   mask-position: center;
   background: #CCCED1;
+}
+
+.btn-option .icon-fail {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  -webkit-mask-image: url("../media/icons/icon_fail.svg");
+  mask-image: url("../media/icons/icon_fail.svg");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  background: #FF405A;
 }
 
 .btn-field {
@@ -4562,6 +4599,42 @@ body.modal-active {
 
 .component .field-group .field-content.custom-code > button:focus, .component .field-group .field-content.custom-code > button:hover, .component .field-group .field-content.custom-code > button:active {
   z-index: 1;
+}
+
+.component .field-group .field-content .dr-table {
+  width: 100%;
+  background-color: #ffffff;
+}
+
+.component .field-group .field-content .dr-table th, .component .field-group .field-content .dr-table td {
+  padding: 0.625rem;
+}
+
+.component .field-group .field-content .dr-table input[type=text] {
+  width: 100%;
+}
+
+.component .field-group .field-content .dr-table .on {
+  box-shadow: 0 0 0 0.125rem #0098FF inset;
+}
+
+.component .btn-dr-table-row-add {
+  position: absolute;
+  top: 1.25rem;
+  right: 0.3125rem;
+  padding: 0;
+}
+
+.component .dr-table-row-delete {
+  display: inline-block;
+  position: absolute;
+  height: 2.5rem;
+  line-height: 2rem;
+  right: 0.3125rem;
+}
+
+.component .dr-table-row-delete .btn-dr-table-row-delete {
+  padding: 0;
 }
 
 .component .field-group .field-content.accordion {
