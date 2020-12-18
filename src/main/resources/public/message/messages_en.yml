@@ -458,6 +458,7 @@ form:
     searchDescription: "View and manage forms."
     selectImportFile: "Please select an import file."
   component:
+    accordion-start: "Accordion"
     checkbox: "Checkbox"
     custom-code: "Custom Code"
     date: "Date"

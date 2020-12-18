@@ -359,16 +359,51 @@
             }
             itemInContext = aliceJs.clickInsideElement(e, 'component');
             if (itemInContext) {
+                const componentType = itemInContext.getAttribute('data-type');
                 if (isCtrlPressed) {  //배열에 담음
+                    // accordion 컴포넌트는 다른 컴포넌트와 다중 선택이 불가능합니다.
+                    if (componentType === 'accordion-start' || componentType === 'accordion-end') {
+                        editor.selectedComponentIds.length = 0;
+                    }
                     const removeIdx = editor.selectedComponentIds.indexOf(itemInContext.id);
                     if (removeIdx === -1) {
                         editor.selectedComponentIds.push(itemInContext.id);
+
+                        // accordion-start 컴포넌트이면 accordion-end도 함께 선택해준다.
+                        if (componentType === 'accordion-start') {
+                            let accordionComp = editor.data.components.filter((comp) => comp.componentId === itemInContext.id);
+                            if (typeof accordionComp !== 'undefined') {
+                                editor.selectedComponentIds.push(accordionComp[0].dataAttribute.endId);
+                            }
+                        }
+                        // accordion-end 컴포넌트이면 accordion-start 함께 선택해준다.
+                        if (componentType === 'accordion-end') {
+                            let accordionComp = editor.data.components.filter((comp) => comp.componentId === itemInContext.id);
+                            if (typeof accordionComp !== 'undefined') {
+                                editor.selectedComponentIds.push(accordionComp[0].dataAttribute.startId);
+                            }
+                        }
                     } else {
                         editor.selectedComponentIds.splice(removeIdx, 1);
                     }
                 } else { //배열 초기화 후 현재 선택된 컴포넌트만 표시
                     editor.selectedComponentIds.length = 0;
                     editor.selectedComponentIds.push(itemInContext.id);
+
+                    // accordion-start 컴포넌트이면 accordion-end도 함께 선택해준다.
+                    if (componentType === 'accordion-start') {
+                        let accordionComp = editor.data.components.filter((comp) => comp.componentId === itemInContext.id);
+                        if (typeof accordionComp !== 'undefined') {
+                            editor.selectedComponentIds.push(accordionComp[0].dataAttribute.endId);
+                        }
+                    }
+                    // accordion-end 컴포넌트이면 accordion-start 함께 선택해준다.
+                    if (componentType === 'accordion-end') {
+                        let accordionComp = editor.data.components.filter((comp) => comp.componentId === itemInContext.id);
+                        if (typeof accordionComp !== 'undefined') {
+                            editor.selectedComponentIds.push(accordionComp[0].dataAttribute.startId);
+                        }
+                    }
                 }
                 editor.showComponentProperties();
             }

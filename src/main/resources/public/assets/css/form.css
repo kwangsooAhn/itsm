@@ -4564,6 +4564,40 @@ body.modal-active {
   z-index: 1;
 }
 
+.component .field-group .field-content.accordion {
+  position: relative;
+  padding-bottom: 0.625rem;
+}
+
+.component .field-group .field-content.accordion .icon {
+  position: absolute;
+  width: 0.625rem;
+  height: 0.375rem;
+  top: 30%;
+  right: 0.625rem;
+  opacity: 0;
+}
+
+.component .field-group .field-content.accordion .icon.on {
+  opacity: 1;
+}
+
+.component .field-group .field-content.accordion .icon.icon-arrow-down {
+  background-image: url("../media/icons/icon_arrow_bottom.svg");
+  background-size: 0.625rem 0.375rem;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+
+.component .field-group .field-content.accordion .icon.icon-arrow-up {
+  background-image: url("../media/icons/icon_arrow_up.svg");
+  background-size: 0.625rem 0.375rem;
+  background-repeat: no-repeat;
+  background-position-x: center;
+  background-position-y: center;
+}
+
 .component[data-type="editbox"] {
   padding: 0 2.125rem 0 0.8125rem;
 }

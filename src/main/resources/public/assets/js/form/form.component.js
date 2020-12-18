@@ -28,7 +28,8 @@
             {'type': 'time', 'name': 'Time', 'icon': ''},
             {'type': 'datetime', 'name': 'Date Time', 'icon': ''},
             {'type': 'fileupload', 'name': 'File Upload', 'icon': ''},
-            {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''}
+            {'type': 'custom-code', 'name': 'Custom Code', 'icon': ''},
+            {'type': 'accordion', 'name': 'Accordion'}
     ];
     let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
     let parent = null;
@@ -818,6 +819,70 @@
     }
 
     /**
+     * Accordion 컴포넌트 (Start 영역)
+     *
+     * @param {Object} property 컴포넌트 속성
+     * @constructor
+     */
+    function AccordionStart(property) {
+        this.id = property.componentId;
+        this.name = 'Accordion Start';
+        this.type = 'accordion-start';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const displayType = property['dataAttribute']['displayType'];
+
+        this.template =
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-endId="${property.dataAttribute.endId}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-content accordion align-${property.label.align}" style="--data-column: 12; ` +
+                    `border-bottom: ${property.display.thickness}px solid ${property.display.color};">` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                        `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                        `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                        `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                            `${aliceJs.filterXSS(property.label.text)}` +
+                    `</label>` +
+                    `<span class="icon icon-arrow-down on"></span>` +
+                    `<span class="icon icon-arrow-up"></span>` +
+                `</div>` +
+            `</div>` +
+        `</div>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+    }
+
+        /**
+     * Accordion 컴포넌트 (End) 영역)
+     *
+     * @param {Object} property 컴포넌트 속성
+     * @constructor
+     */
+    function AccordionEnd(property) {
+        this.id = property.componentId;
+        this.name = 'Accordion End';
+        this.type = 'accordion-end';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const displayType = property['dataAttribute']['displayType'];
+
+        this.template =
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-startId="${property.dataAttribute.startId}">` +
+            `<div class="move-handler"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-content" style="--data-column: 12;">` +
+                    `<hr style="border-top: ${property.display.thickness}px solid ${property.display.color};">` +
+                `</div>` +
+            `</div>` +
+        `</div>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+    }
+
+    /**
      * 컴포넌트를 생성하고 출력한다.
      * @param {String} type 컴포넌트 타입
      * @param {Object} data 컴포넌트 데이터
@@ -880,6 +945,12 @@
                 break;
             case 'custom-code':
                 componentObject =  new CustomCode(componentProperty);
+                break;
+            case 'accordion-start':
+                componentObject =  new AccordionStart(componentProperty);
+                break;
+            case 'accordion-end':
+                componentObject =  new AccordionEnd(componentProperty);
                 break;
             default:
                 break;

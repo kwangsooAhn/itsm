@@ -463,9 +463,8 @@
         if (type !== undefined) { //기존 editbox를 지운후, 해당 컴포넌트 추가
             let histories = [];
             let elem = document.getElementById(id);
-            let replaceEditbox = editor.data.components.filter(function (comp) {
-                return comp.componentId === id;
-            });
+
+            let replaceEditbox = editor.data.components.filter((comp) => comp.componentId === id);
             let replaceObj = component.draw(type);
             let compProp = replaceObj.property;
             compProp.componentId = id;
@@ -473,23 +472,47 @@
 
             replaceObj.domElem.id = id;
             elem.parentNode.insertBefore(replaceObj.domElem, elem);
+
+            // accordion-start 컴포넌트이면 accordion-end도 함께 그려준다.
+            let accordionEndCompId = '';
+            if (type === 'accordion-start') {
+                let accordionEndObj = component.draw('accordion-end');
+                let accordionEndProp = accordionEndObj.property;
+                accordionEndProp.dataAttribute.startId = id;
+
+                compProp.dataAttribute.endId = accordionEndProp.componentId;
+                setComponentData(accordionEndProp);
+
+                elem.parentNode.insertBefore(accordionEndObj.domElem, elem);
+                accordionEndCompId = accordionEndProp.componentId;
+            }
+
             elem.innerHTML = '';
             elem.remove();
 
             reorderComponent();
 
-            let addCompAttr = editor.data.components.filter(function (comp) {
-                return comp.componentId === id;
-            });
+            let addCompAttr = editor.data.components.filter((comp) => comp.componentId === id);
             histories.push({
                 0: JSON.parse(JSON.stringify(replaceEditbox[0])),
                 1: JSON.parse(JSON.stringify(addCompAttr[0]))
             });
 
-            addEditboxDown(id, function (attr) {
-                histories.push({0: {}, 1: JSON.parse(JSON.stringify(attr))});
-                history.saveHistory(histories);
-            });
+            if (accordionEndCompId !== '') {
+                let accordionEndAttr = editor.data.components.filter((comp) => comp.componentId === accordionEndCompId);
+                histories.push({0: {}, 1: JSON.parse(JSON.stringify(accordionEndAttr[0]))});
+
+                addEditboxDown(accordionEndCompId, function (attr) {
+                    histories.push({0: {}, 1: JSON.parse(JSON.stringify(attr))});
+                    history.saveHistory(histories);
+                });
+            } else {
+                addEditboxDown(id, function (attr) {
+                    histories.push({0: {}, 1: JSON.parse(JSON.stringify(attr))});
+                    history.saveHistory(histories);
+                });
+            }
+            
         } else { // Enter 키를 누를 경우 editbox를 추가한다.
             let editbox = component.draw(aliceForm.defaultType);
             setComponentData(editbox.property);
@@ -1125,9 +1148,10 @@
     function showComponentProperties() {
         if (previousComponentIds.toString() === selectedComponentIds.toString()) { return false; }
         hideComponentProperties();
+
         if (selectedComponentIds.length === 0) { return false; }
         previousComponentIds = selectedComponentIds.slice();
-        
+
         // 하나만 선택되었고, 현재 선택된 컴포넌트가 editbox라면 form 속성을 출력한다.
         const selectedComponentElem = document.getElementById(selectedComponentIds[0]);
         if (selectedComponentElem === null) { return false; }
@@ -1135,7 +1159,6 @@
             showFormProperties(selectedComponentIds[0]);
             return false;
         }
-
         let selectedComponentTypes = [];
         let isHideComponent = false;
         for (let i = 0, len = selectedComponentIds.length; i < len; i++) {
@@ -1167,9 +1190,16 @@
                 }
             }
         }
+        console.log(selectedComponentIds);
 
         // 선택된 첫번째 컴포넌트의 속성을 출력한다.
         let compIdx = getComponentIndex(selectedComponentIds[0]);
+        // 아코디언 컴포넌트일 경우 accordion 속성을 표시한다.
+        let isAccordion = false;
+        if (selectedComponentIds.length === 2 && selectedComponentTypes.indexOf('accordion-start') !== -1) {
+            compIdx = getComponentIndex(selectedComponentIds[selectedComponentTypes.indexOf('accordion-start')]);
+            isAccordion = true;
+        }
         let componentData = editor.data.components[compIdx];
         let properties = initProperties(componentData);
 
@@ -1179,7 +1209,7 @@
 
         // 1. 컴포넌트가 2개 이상이면 dataAttribute 속성은 보여주지 않는다.
         // 2. 컴포넌트가 2개 이상이면, label과 display의 column 속성만 보여진다.
-        if (selectedComponentIds.length > 1) {
+        if (selectedComponentIds.length > 1 && !isAccordion) {
             componentTitleElem.innerHTML = i18n.msg('form.properties.common');
             // 3. 서로 다른 컴포넌트이고, Divider, Image, Label가 포함되어 있다면 아무 속성도 출력하지 않는다.
             if ((selectedComponentTypes.length > 1 && isHideComponent) || (selectedComponentTypes.length === 1 && selectedComponentTypes[0] === aliceForm.defaultType)) {
@@ -1199,7 +1229,6 @@
             }
             if (properties.hasOwnProperty('option')) { delete properties.option;}
             if (properties.hasOwnProperty('validate')) { delete properties.validate; }
-
         } else {
             // 5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
             componentTitleElem.innerHTML = i18n.msg('form.component.' + componentData.type);
