@@ -608,6 +608,7 @@ menu:
     form: "문서양식"
     image: "이미지 관리"
     numberingPattern: "패턴"
+    numberingRule: "문서번호"
     parent: "업무흐름 관리"
     process: "프로세스"
     workflowAdmin: "업무흐름"
@@ -954,3 +955,18 @@ pattern:
     date: "Date"
     sequence: "Sequence"
     text: "Text"
+
+# Rule
+rule:
+  label:
+    date: "최근 날짜"
+    desc: "문서번호 설명"
+    name: "문서번호 명"
+    pattern: "패턴"
+    rule: "문서번호"
+    value: "최근 값"
+  msg:
+    duplicateRuleName: "중복되는 문서번호 명이 있습니다. 다른 문서번호 명을 입력하세요."
+    editDescription: "문서번호를 추가하거나 조회 및 관리한다."
+    enterRuleName: "문서번호 명을 입력하세요."
+    searchPlaceholder: "문서번호 명"

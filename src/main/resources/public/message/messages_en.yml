@@ -609,6 +609,7 @@ menu:
     form: "Form"
     image: "Image"
     numberingPattern: "Pattern"
+    numberingRule: "Document Number"
     parent: "Workflow"
     process: "Process"
     workflowAdmin: "Workflow"
@@ -950,3 +951,18 @@ pattern:
     date: "Date"
     sequence: "Sequence"
     text: "Text"
+
+# Rule
+rule:
+  label:
+    date: "Latest Date"
+    desc: "Document Number Desc"
+    name: "Document Number Name"
+    pattern: "Pattern"
+    rule: "Document Number"
+    value: "Latest Value"
+  msg:
+    duplicateRuleName: "Duplicate Document Number Name! Please enter other pattern name."
+    editDescription: "Add, view and manage Document Numbers."
+    enterRuleName: "Please enter a rule name."
+    searchPlaceholder: "Document Number"
