@@ -1028,7 +1028,7 @@
         const displayType = property['dataAttribute']['displayType'];
 
         this.template =
-        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-endId="${property.display.endId}">` +
+        `<div id="${this.id}" class="component active" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-endId="${property.display.endId}">` +
             `<div class="move-handler disabled"></div>` +
             `<div class="field-group">` +
                 `<div class="field-content accordion align-${property.label.align}" style="--data-column: 12; ` +
@@ -1046,6 +1046,40 @@
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
+
+        if (!isForm) {
+            const accordionStartComp = parent.querySelector('#' + property.componentId);
+            accordionStartComp.addEventListener('click', function(e) {
+                const elem =  aliceJs.clickInsideElement(e, 'component');
+                const arrowDown = elem.querySelector('.icon-arrow-down');
+                const arrowUp = elem.querySelector('.icon-arrow-up');
+                if (elem.classList.contains('active')) { // 접기
+                    elem.classList.remove('active');
+                    arrowDown.classList.remove('on');
+                    arrowUp.classList.add('on');
+
+                    let curComp = elem;
+                    while (curComp = curComp.nextSibling) {
+                        curComp.style.display = 'none';
+                        if (curComp.nextSibling.id === elem.getAttribute('data-endId')) {
+                            break;
+                        }
+                    }
+                } else { // 펴기
+                    elem.classList.add('active');
+                    arrowDown.classList.add('on');
+                    arrowUp.classList.remove('on');
+
+                    let curComp = elem;
+                    while (curComp = curComp.nextSibling) {
+                        curComp.style.display = 'flex';
+                        if (curComp.nextSibling.id === elem.getAttribute('data-endId')) {
+                            break;
+                        }
+                    }
+                }
+            }, false);
+        }
     }
 
         /**
@@ -1064,7 +1098,8 @@
         const displayType = property['dataAttribute']['displayType'];
 
         this.template =
-        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-startId="${property.display.startId}">` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" ` +
+            `data-startId="${property.display.startId}" style="${isForm ? '' : 'display: none;'}">` +
             `<div class="move-handler disabled"></div>` +
             `<div class="field-group">` +
                 `<div class="field-content" style="--data-column: 12;">` +

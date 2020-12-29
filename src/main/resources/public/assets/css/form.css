@@ -4629,7 +4629,7 @@ body.modal-active {
   padding-bottom: 0.625rem;
 }
 
-.component .field-group .field-content.accordion .label {
+.component .field-group .field-content.accordion label {
   margin-right: 1.875rem;
 }
 
