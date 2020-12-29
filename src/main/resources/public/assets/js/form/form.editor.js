@@ -478,9 +478,9 @@
             if (type === 'accordion-start') {
                 let accordionEndObj = component.draw('accordion-end');
                 let accordionEndProp = accordionEndObj.property;
-                accordionEndProp.dataAttribute.startId = id;
+                accordionEndProp.display.startId = id;
 
-                compProp.dataAttribute.endId = accordionEndProp.componentId;
+                compProp.display.endId = accordionEndProp.componentId;
                 setComponentData(accordionEndProp);
 
                 elem.parentNode.insertBefore(accordionEndObj.domElem, elem);
@@ -727,8 +727,7 @@
      * @param {Function} callbackFunc callback function
      */
     function addEditboxDown(elemId, callbackFunc) {
-        if (typeof elemId === 'undefined' && selectedComponentIds.length > 1) { return false; } //다중 선택일 경우 동작 안함
-        let addElemId = elemId || selectedComponentIds[0];
+        let addElemId = elemId || selectedComponentIds[selectedComponentIds.length - 1];
         let elem = document.getElementById(addElemId);
         if (elem === null) { return; }
 
@@ -885,7 +884,24 @@
 
             element.domElem.id = id;
             formPanel.insertBefore(element.domElem, formPanel.children[Number(data.display.order) - 1]);
+
+            // 선택된 컴포넌트가 여러개면, 상단에 tooptip menu에 delete 항목만 표시
+            if (selectedComponentIds.length > 1) {
+                const menuItems = element.domElem.querySelectorAll('.menu-item');
+                for (let j = 0, menuLen = menuItems.length; j < menuLen; j++) {
+                    if (!menuItems[j].classList.contains('delete')) {
+                        menuItems[j].classList.add('hidden');
+                    }
+                }
+            }
+
             element.domElem.classList.add('selected');
+            // 선택된 컴포넌트가 인접할 경우 border 없애기
+            if (element.domElem.previousSibling !== null &&
+                selectedComponentIds.indexOf(element.domElem.previousSibling.id) !== -1 &&
+                !element.domElem.previousSibling.classList.contains('adjoin')) {
+                element.domElem.previousSibling.classList.add('adjoin');
+            }
 
             reorderComponent();
         }
@@ -1697,12 +1713,23 @@
             let selectedElem = document.getElementById(selectedComponentIds[i]);
             if (selectedElem !== null) {
                 selectedElem.classList.add('selected');
+                const componentType = selectedElem.getAttribute('data-type');
+                if (selectedComponentTypes.indexOf(componentType) === -1) {
+                    selectedComponentTypes.push(componentType);
+                }
+                if (componentType === 'label' || componentType === 'image' || componentType === 'divider' || componentType === aliceForm.defaultType) {
+                    isHideComponent = true;
+                }
                 if (len > 1) {
                     // 선택된 컴포넌트가 여러개면, 상단에 tooptip menu에 delete 항목만 표시
                     const menuItems = selectedElem.querySelectorAll('.menu-item');
                     for (let j = 0, menuLen = menuItems.length; j < menuLen; j++) {
                         if (!menuItems[j].classList.contains('delete')) {
                             menuItems[j].classList.add('hidden');
+                             // 아코디언 컴포넌트일 경우 add 항목 활성화
+                            if (len === 2 && componentType === 'accordion-start' && menuItems[j].classList.contains('add')) {
+                                menuItems[j].classList.remove('hidden');
+                            }
                         }
                     }
 
@@ -1713,16 +1740,8 @@
                         selectedElem.previousSibling.classList.add('adjoin');
                     }
                 }
-                const componentType = selectedElem.getAttribute('data-type');
-                if (selectedComponentTypes.indexOf(componentType) === -1) {
-                    selectedComponentTypes.push(componentType);
-                }
-                if (componentType === 'label' || componentType === 'image' || componentType === 'divider' || componentType === aliceForm.defaultType) {
-                    isHideComponent = true;
-                }
             }
         }
-        console.log(selectedComponentIds);
 
         // 선택된 첫번째 컴포넌트의 속성을 출력한다.
         let compIdx = getComponentIndex(selectedComponentIds[0]);
@@ -1765,7 +1784,6 @@
             // 5. 컴포넌트가 2개 이상이면 제목은 출력되지 않는다.
             componentTitleElem.innerHTML = i18n.msg('form.component.' + componentData.type);
         }
-
         // 세부 속성을 출력한다.
         Object.keys(properties).forEach(function(group) {
             let buttonGroupExist = false;
@@ -2340,6 +2358,7 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.components = aliceForm.reformatCalendarFormat('read', responseObject.components);
+                console.log(responseObject);
                 editor.data = responseObject;
                 drawForm();
             },

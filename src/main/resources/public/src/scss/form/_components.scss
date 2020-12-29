@@ -20,6 +20,10 @@
     @include maskImage('#{$icon-folder-path}form/icon_component_move.svg', 0.625rem, 0.75rem, no-repeat, center, null, $pressed-gray); // 10px 12px
     opacity: 0;
     cursor: move;
+
+    &.disabled {
+      pointer-events: none;
+    }
   }
   // label + display
   .field-group {
@@ -180,6 +184,8 @@
         position: relative;
         padding-bottom: 0.625rem;; // 10px
 
+        .label { margin-right: 1.875rem } // 30px
+
         .icon {
           position: absolute;
           width: 0.625rem; // 10px
@@ -335,7 +341,7 @@
   &:hover {
     [data-type="editbox"] { cursor: text; }
     [data-type]:not([data-type="editbox"]) { cursor: pointer; }
-    .move-handler { opacity: 1; }
+    .move-handler:not(.disabled) { opacity: 1; }
   }
 
 }

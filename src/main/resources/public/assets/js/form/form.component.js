@@ -1028,8 +1028,8 @@
         const displayType = property['dataAttribute']['displayType'];
 
         this.template =
-        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-endId="${property.dataAttribute.endId}">` +
-            `<div class="move-handler"></div>` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-endId="${property.display.endId}">` +
+            `<div class="move-handler disabled"></div>` +
             `<div class="field-group">` +
                 `<div class="field-content accordion align-${property.label.align}" style="--data-column: 12; ` +
                     `border-bottom: ${property.display.thickness}px solid ${property.display.color};">` +
@@ -1064,8 +1064,8 @@
         const displayType = property['dataAttribute']['displayType'];
 
         this.template =
-        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-startId="${property.dataAttribute.startId}">` +
-            `<div class="move-handler"></div>` +
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-startId="${property.display.startId}">` +
+            `<div class="move-handler disabled"></div>` +
             `<div class="field-group">` +
                 `<div class="field-content" style="--data-column: 12;">` +
                     `<hr style="border-top: ${property.display.thickness}px solid ${property.display.color};">` +
