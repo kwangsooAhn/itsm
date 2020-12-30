@@ -4627,6 +4627,7 @@ body.modal-active {
 .component .field-group .field-content.accordion {
   position: relative;
   padding-bottom: 0.625rem;
+  cursor: pointer;
 }
 
 .component .field-group .field-content.accordion label {
