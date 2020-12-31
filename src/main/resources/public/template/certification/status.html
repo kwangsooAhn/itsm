@@ -4,60 +4,77 @@
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <script src="../../assets/js/util/util-alice.js"></script>
+    <link rel="shortcut icon" th:href="@{/assets/media/images/zenius.ico}" type="image/x-icon">
+    <link th:href="@{/assets/css/portal.css}" rel="stylesheet"/>
+    <title th:text="#{project.title.authenticationEmail}"></title>
 </head>
 <body>
-<div>
-    <div th:if="${validCode == 0 || validCode == 4}">
-        <p th:utext="#{authentication.msg.beforeEmailCheck}"></p>
-    </div>
-    <div th:if="${validCode == 1}">
-        <p th:text="#{authentication.msg.authenticationCompleted}"></p>
-        <div sec:authorize="isAnonymous()">
-            <p th:text="#{login.label.requiredLogin}"></p>
-            <form th:action="@{/logout}" method="post">
-                <label>
-                    <input type="submit" th:value="LOGIN"/>
-                </label>
-            </form>
+<div class="alice-wrapper">
+    <div class="portal-container flex-row">
+        <div class="email-certificate-background float-left">
+            <th:block th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
+                <img th:src="@{/assets/media/images/email/img_email_certificate_check.png}"/>
+            </th:block>
+            <th:block th:if="${validCode == 1 || validCode == 2}">
+                <img th:src="@{/assets/media/images/email/img_email_certificate_complete.png}"/>
+            </th:block>
+            <img class="logo"  th:src="@{/assets/media/icons/icon_logo.svg}" width="243" height="41" alt="Zenius ITSM" />
         </div>
-        <div sec:authorize="isAuthenticated()">
-            <a href="/tokens/search" th:text="#{login.label.gotoMainPage}"></a>
-        </div>
-    </div>
-    <div th:if="${validCode == 2}">
-        <p th:text="#{authentication.msg.alreadyAuthenticated}"></p>
-        <div sec:authorize="isAnonymous()">
-            <p th:text="#{login.label.requiredLogin}"></p>
-            <form th:action="@{/logout}" method="post">
-                <label>
-                    <input type="submit" th:value="LOGIN"/>
-                </label>
-            </form>
-        </div>
-        <div sec:authorize="isAuthenticated()">
-            <a href="/tokens/search" th:text="#{login.label.gotoMainPage}"></a>
-        </div>
-    </div>
-    <div th:if="${validCode == 3}">
-        <p th:text="#{authentication.msg.expiredAuthentication}"></p>
-    </div>
-    <div th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
-        <div sec:authorize="isAuthenticated()">
-            <form id="sendForm" method="get" onsubmit="return false">
-                <button id="btnSend" th:text="#{authentication.label.recallAuthentication}"
-                        th:formaction="@{/certification/certifiedmail}"></button>
-            </form>
-        </div>
-        <div sec:authorize="isAnonymous()">
-            <p th:text="#{authentication.msg.recallAuthentication}"></p>
+        <div class="email-certificate-form float-right">
+            <!-- 인증 없이 로그인 시도 -->
+            <th:block th:if="${validCode == 0 || validCode == 4}">
+                <h1 th:text="#{authentication.msg.beforeEmailCheck}"></h1>
+            </th:block>
+            <!-- 인증성공 후 로그인 시도 -->
+            <th:block th:if="${validCode == 1}">
+                <h1 th:text="#{authentication.msg.authenticationCompleted}"></h1>
+                <th:block sec:authorize="isAnonymous()">
+                    <h3 th:utext="#{login.label.requiredLogin}"></h3>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" th:text="#{login.btn.login}"></button>
+                    </form>
+                </th:block>
+                <th:block sec:authorize="isAuthenticated()">
+                    <a class="btn point-fill authentication-email" href="/tokens/search" th:text="#{login.label.gotoMainPage}"></a>
+                </th:block>
+            </th:block>
+            <!-- 이미 인증완료된 후 로그인 시도 -->
+            <th:block th:if="${validCode == 2}">
+                <h1 th:text="#{authentication.msg.alreadyAuthenticated}"></h1>
+                <th:block sec:authorize="isAnonymous()">
+                    <h3 th:utext="#{login.label.requiredLogin}"></h3>
+                    <form th:action="@{/logout}" method="post">
+                        <button type="submit" th:text="#{login.btn.login}"></button>
+                    </form>
+                </th:block>
+                <th:block sec:authorize="isAuthenticated()">
+                    <a class="btn point-fill authentication-email" href="/tokens/search" th:text="#{login.label.gotoMainPage}"></a>
+                </th:block>
+            </th:block>
+            <!-- 인증 만료시 -->
+            <th:block th:if="${validCode == 3}">
+                <h1 th:text="#{authentication.msg.expiredAuthentication}"></h1>
+            </th:block>
+            <!-- 인증 없이 로그인 시도하거나 인증 만료시 -->
+            <th:block th:if="${validCode == 0 || validCode == 3 || validCode == 4}">
+                <th:block sec:authorize="isAuthenticated()">
+                    <h3 th:utext="#{authentication.msg.beforeEmailCheckDescription}"></h3>
+                    <form id="sendForm" method="get" onsubmit="return false">
+                        <button type="submit" id="btnSend" class="point-fill authentication-email" th:text="#{authentication.label.recallAuthentication}"
+                                th:formaction="@{/certification/certifiedmail}"></button>
+                    </form>
+                </th:block>
+                <th:block sec:authorize="isAnonymous()">
+                    <h3 th:utext="#{authentication.msg.recallAuthentication}"></h3>
+                </th:block>
+            </th:block>
         </div>
     </div>
 </div>
-
-</body>
 <script th:src="@{/assets/js/util/alert-alice.js}"></script>
-<script type="text/javascript">
+<script th:src="@{/assets/js/util/i18n-alice.js}"></script>
+<script th:src="@{/assets/js/util/util-alice.js}"></script>
+<script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     window.addEventListener('load', function () {
         document.getElementById("btnSend").addEventListener("click", function () {
@@ -79,4 +96,5 @@
     }
     /*]]>*/
 </script>
+</body>
 </html>

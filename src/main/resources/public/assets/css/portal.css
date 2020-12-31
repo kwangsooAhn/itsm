@@ -4401,3 +4401,36 @@ button.ghost-line:disabled .icon {
 .browser-box:hover {
   box-shadow: 0 0 0.9375rem rgba(204, 206, 209, 0.3);
 }
+
+/*
+ * 인증메일
+ * 파일 경로 : _email-certification.scss
+ * URL : /certification/status
+ */
+.email-certificate-background {
+  width: 50vw;
+  height: 100vh;
+  background-color: #F2F5F9;
+  overflow: hidden;
+}
+
+.email-certificate-background .logo {
+  position: relative;
+  top: -59.1875rem;
+  margin: 5rem 0 0 5rem;
+}
+
+.email-certificate-form {
+  width: 50vw;
+  padding: 21.5625rem 6.25rem;
+  border-left: 0.0625rem solid #EBEBEB;
+}
+
+.email-certificate-form h1 {
+  line-height: 1.7;
+}
+
+.email-certificate-form h3 {
+  color: #586872;
+  margin: 1.25rem 0 5rem 0;
+}
