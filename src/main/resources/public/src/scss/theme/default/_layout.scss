@@ -374,6 +374,16 @@
   }
   .btn-minus { padding: 0; }
 }
+// 업무흐름 관리 > 문서번호
+.numbering-rule-content-edit {
+  .select-pattern-type {
+    width: 20rem; // 320px
+  }
+  .pattern-type {
+    width: 7.5rem // 120px
+  }
+  .btn-minus { padding: 0;}
+}
 
 /////////////////////////////////////////////// VIEW /////////////////////////////////////////////////////
 // 공지사항, FAQ, 자료실

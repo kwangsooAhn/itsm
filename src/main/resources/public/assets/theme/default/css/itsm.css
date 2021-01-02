@@ -2285,6 +2285,16 @@ button .icon-plus {
   padding: 0;
 }
 
+.numbering-rule-content-edit .select-pattern-type {
+  width: 20rem;
+}
+.numbering-rule-content-edit .pattern-type {
+  width: 7.5rem;
+}
+.numbering-rule-content-edit .btn-minus {
+  padding: 0;
+}
+
 .notice-content-view,
 .faq-content-view,
 .download-content-view,
