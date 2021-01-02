@@ -957,11 +957,15 @@ rule:
   label:
     date: "Latest Date"
     desc: "Document Number Desc"
+    firstPattern: "First Pattern"
     name: "Document Number Name"
     pattern: "Pattern"
     rule: "Document Number"
+    secondPattern: "Second Pattern"
+    thirdPattern: "Third Pattern"
     value: "Latest Value"
   msg:
+    addPattern: "Only {0} or less can be added."
     duplicateRuleName: "Duplicate Document Number Name! Please enter other pattern name."
     editDescription: "Add, view and manage Document Numbers."
     enterRuleName: "Please enter a rule name."

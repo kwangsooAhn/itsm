@@ -961,11 +961,15 @@ rule:
   label:
     date: "최근 날짜"
     desc: "문서번호 설명"
+    firstPattern: "패턴 1"
     name: "문서번호 명"
     pattern: "패턴"
     rule: "문서번호"
+    secondPattern: "패턴 2"
+    thirdPattern: "패턴 3"
     value: "최근 값"
   msg:
+    addPattern: "{0}개 이하만 추가 가능합니다."
     duplicateRuleName: "중복되는 문서번호 명이 있습니다. 다른 문서번호 명을 입력하세요."
     editDescription: "문서번호를 추가하거나 조회 및 관리한다."
     enterRuleName: "문서번호 명을 입력하세요."
