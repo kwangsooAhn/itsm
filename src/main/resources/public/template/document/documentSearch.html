@@ -171,8 +171,6 @@
                        th:placeholder="#{document.label.process}" class="search col-3"/>
                 <input type="text" id="searchFormName" name="searchFormName" maxlength="100"
                        th:placeholder="#{document.label.form}" class="search col-3 mr-2"/>
-                <input sec:authorize="hasAuthority('document.read.admin')"
-                       type="hidden" id="viewType" name="viewType" value="admin"/>
                 <input type="hidden" id="searchDocumentType" name="searchDocumentType"
                        value="application-form"/>
                 <span id="spanTotalCount" class="txt-num"></span>
