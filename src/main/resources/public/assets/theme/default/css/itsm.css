@@ -4735,12 +4735,10 @@ body.modal-active {
   position: absolute;
   z-index: 1;
 }
-
 .header-tooltip .tooltip-contents span {
   color: #ffffff;
   font-weight: 500;
 }
-
 .header-tooltip:hover .tooltip-contents {
   visibility: visible;
   animation-delay: 0s;
