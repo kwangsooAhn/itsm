@@ -1981,7 +1981,6 @@ button .icon-plus {
 }
 .itsm-container .main .view-content .view-text {
   margin: 0;
-  word-break: break-all;
 }
 .itsm-container .aside {
   flex-shrink: 0;
@@ -5079,7 +5078,6 @@ body.modal-active {
 }
 .itsm-popup .view-content .view-text {
   margin: 0;
-  word-break: break-all;
 }
 .itsm-popup .custom-code-content-popup.view {
   height: auto;
