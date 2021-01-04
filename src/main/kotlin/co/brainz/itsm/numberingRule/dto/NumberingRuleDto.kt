@@ -13,4 +13,3 @@ data class NumberingRuleDto(
     var latestValue: String? = null,
     var patternList: MutableList<String>
 ) : Serializable
-
