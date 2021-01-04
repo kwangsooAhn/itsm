@@ -9,8 +9,8 @@ CREATE TABLE awf_rule_pattern_map
 	pattern_id varchar(128) NOT NULL,
     pattern_order int NOT NULL,
 	CONSTRAINT awf_rule_pattern_map_pk PRIMARY KEY (numbering_id, pattern_id, pattern_order),
-	CONSTRAINT awf_rule_pattern_map_fk1 FOREIGN KEY (numbering_id) REFERENCES awf_numbering_rule_temp (numbering_id),
-	CONSTRAINT awf_rule_pattern_map_fk2 FOREIGN KEY (pattern_id) REFERENCES awf_numbering_pattern_temp (pattern_id)
+	CONSTRAINT awf_rule_pattern_map_fk1 FOREIGN KEY (numbering_id) REFERENCES awf_numbering_rule (numbering_id),
+	CONSTRAINT awf_rule_pattern_map_fk2 FOREIGN KEY (pattern_id) REFERENCES awf_numbering_pattern (pattern_id)
 );
 
 COMMENT ON TABLE awf_rule_pattern_map IS '문서번호 패턴 맵핑 테이블';
