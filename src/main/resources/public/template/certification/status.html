@@ -90,7 +90,7 @@
             url: url,
             params: new FormData(document.getElementById("sendForm")),
             callbackFunc: function() {
-                aliceJs.alertWarning('[[#{authentication.msg.resentAuthentication}]]<br/>[[#{authentication.msg.emailCheck}]]');
+                aliceJs.alertWarning(i18n.msg('authentication.msg.resentAuthentication') + '\n' + i18n.msg('authentication.msg.emailCheck'));
             }
         };
         aliceJs.sendXhr(opt)
