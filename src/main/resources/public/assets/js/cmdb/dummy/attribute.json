@@ -1,0 +1,98 @@
+[
+  {
+    "attributeId": "ac4f3785cdbcc149a0b92dbf00af80ef",
+    "attributeName": "Classification",
+    "attributeDesc": "",
+    "attributeText": "분류",
+    "attributeType": "inputbox",
+    "attributeValue": "",
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  },
+  {
+    "attributeId": "c1f97be1aea3fdee785ca73b751f79d8",
+    "attributeName": "Quantity",
+    "attributeDesc": "",
+    "attributeText": "수량",
+    "attributeType": "inputbox",
+    "attributeValue": "",
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  },
+  {
+    "attributeId": "602b2c9216825bffc96ae69eeb73bdbc",
+    "attributeName": "introduction date",
+    "attributeDesc": "",
+    "attributeText": "도입일",
+    "attributeType": "",
+    "attributeValue": "",
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  },
+  {
+    "attributeId": "adaeef4046bfcd78e345ad48cbbeefa5",
+    "attributeName": "Model",
+    "attributeDesc": "",
+    "attributeText": "모델명",
+    "attributeType": "",
+    "attributeValue": "",
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  },
+  {
+    "attributeId": "247aa7187b335f9c4d78db5e18a2704c",
+    "attributeName": "Brand",
+    "attributeDesc": "",
+    "attributeText": "브랜드",
+    "attributeType": "",
+    "attributeValue": "",
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  },
+  {
+    "attributeId": "58e0cd57479bbb9d8a6b2bb6012206c2",
+    "attributeName": "Installation location",
+    "attributeDesc": "",
+    "attributeText": "설치장소",
+    "attributeType": "",
+    "attributeValue": "",
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  },
+  {
+    "attributeId": "99a8cf26726e907a95dad34e188cbfc8",
+    "attributeName": "Grade",
+    "attributeDesc": "",
+    "attributeText": "등급",
+    "attributeType": "",
+    "attributeValue": "",
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  },
+  {
+    "attributeId": "d0a35c07fa9bdd919a039f1f127cd54e",
+    "attributeName": "Protection level",
+    "attributeDesc": "",
+    "attributeText": "보호수준",
+    "attributeType": "",
+    "attributeValue": "",
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  }
+]
