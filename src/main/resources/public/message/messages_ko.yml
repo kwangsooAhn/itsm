@@ -976,3 +976,4 @@ rule:
     enterRuleName: "문서번호 명을 입력하세요."
     searchPlaceholder: "문서번호 명"
     selectSequence: "Sequence를 최소 하나 이상 포함해야 합니다."
+    usedRule: "해당 문서번호를 사용 중입니다."

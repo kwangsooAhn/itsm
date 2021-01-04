@@ -10,6 +10,6 @@ data class NumberingRuleDetailDto(
     var numberingDesc: String? = null,
     var latestDate: LocalDateTime? = null,
     var latestValue: String? = null,
-    var patternList: MutableList<NumberingPatternDetailDto>
+    var patternList: MutableList<NumberingPatternDetailDto>,
+    var editable: Boolean? = null
 ) : Serializable
-

@@ -108,6 +108,7 @@
         let PATTERN_CREATE = false;
         let PATTERN_UPDATE = false;
         const STATUS_SUCCESS = '0';
+        const STATUS_ERROR_RULE_USED = '1';
         var count = 2;
 
         window.onload = function () {
@@ -184,6 +185,15 @@
                     document.getElementById('txtRuleName').value = responseJson.numberingName;
                     document.getElementById('txtRuleNameOrg').value = responseJson.numberingName;
                     document.getElementById('txtRuleDesc').value = responseJson.numberingDesc;
+
+                    if (responseJson.editable) {
+                        document.getElementById('btnUpdate').removeAttribute('disabled');
+                        document.getElementById('btnDelete').removeAttribute('disabled');
+                    } else {
+                        document.getElementById('btnUpdate').disabled = true;
+                        document.getElementById('btnDelete').disabled = true;
+                    }
+
                     for (let i = 0; i < patternListLength; i++) {
                         for (let k = 0; k < patternEle[i].length; k++) {
                             if (patternEle[i][k].textContent === responseJson.patternList[i].patternName) {
@@ -284,12 +294,18 @@
                 params: JSON.stringify(obj),
                 contentType: 'application/json',
                 callbackFunc: function (response) {
-                    if (response.responseText === STATUS_SUCCESS) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
-                            window.location.href = '/numberingRules/edit';
-                        });
-                    } else {
-                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.save'), function () {
+                                window.location.href = '/numberingRules/edit';
+                            });
+                            break;
+                        case STATUS_ERROR_PATTERN_USED:
+                            aliceJs.alertWarning(i18n.msg('rule.msg.usedRule'));
+                            break;
+                        default:
+                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            break;
                     }
                 }
             };
@@ -302,12 +318,18 @@
                 method: 'delete',
                 url: '/rest/numberingRules/' + encodeURIComponent(document.getElementById('txtRuleId').value),
                 callbackFunc: function (response) {
-                    if (response.responseText === STATUS_SUCCESS) {
-                        aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
-                            window.location.href = '/numberingRules/edit';
-                        });
-                    } else {
-                        aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                    switch (response.responseText) {
+                        case STATUS_SUCCESS:
+                            aliceJs.alertSuccess(i18n.msg('common.msg.delete'), function () {
+                                window.location.href = '/numberingRules/edit';
+                            });
+                            break;
+                        case STATUS_ERROR_PATTERN_USED:
+                            aliceJs.alertWarning(i18n.msg('rule.msg.usedRule'));
+                            break;
+                        default:
+                            aliceJs.alertDanger(i18n.msg('common.msg.fail'));
+                            break;
                     }
                 }
             };

@@ -163,6 +163,14 @@
                     changePatternValueInput(responseJson.patternType);
                     document.getElementById('txtPatternValue').value = responseJson.patternValue;
 
+                    if (responseJson.editable) {
+                        document.getElementById('btnUpdate').removeAttribute('disabled');
+                        document.getElementById('btnDelete').removeAttribute('disabled');
+                    } else {
+                        document.getElementById('btnUpdate').disabled = true;
+                        document.getElementById('btnDelete').disabled = true;
+                    }
+
                     const selectPatternDateValue = document.getElementById('selectPatternDateValue');
                     for (let i = 0; i < selectPatternDateValue.length; i++) {
                         if (selectPatternDateValue[i].textContent === responseJson.patternValue) {

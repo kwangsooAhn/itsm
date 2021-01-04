@@ -972,3 +972,4 @@ rule:
     enterRuleName: "Please enter a rule name."
     searchPlaceholder: "Document Number"
     selectSequence: "It must contain at least one sequence."
+    usedRule: "This document number is being used."

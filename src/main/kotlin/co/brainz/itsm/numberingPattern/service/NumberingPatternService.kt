@@ -31,12 +31,18 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
      */
     fun getNumberingPatternsDetail(patternId: String): NumberingPatternDetailDto {
         val patternDetail = numberingPatternRepository.getOne(patternId)
+        var editable = true;
+
+        if (patternDetail.numberingRulePatternMapEntities.size > 0) {
+            editable = false;
+        }
 
         return NumberingPatternDetailDto(
             patternDetail.patternId,
             patternDetail.patternName,
             patternDetail.patternType,
-            getPatternValue(patternDetail.patternType, patternDetail.patternValue)
+            getPatternValue(patternDetail.patternType, patternDetail.patternValue),
+            editable
         )
     }
 
@@ -81,7 +87,7 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
             patternValueObj.toString()
         )
 
-        when (numberingPatternRepository.getOne(numberingPatternEntity.patternId).numberingRulePatternMapEntities.size > 0) {
+        when (numberingPatternEntity.patternId != "" && numberingPatternRepository.getOne(numberingPatternEntity.patternId).numberingRulePatternMapEntities.size > 0) {
             true -> {
                 status = NumberingPatternConstants.Status.STATUS_ERROR_PATTERN_USED.code
             }
