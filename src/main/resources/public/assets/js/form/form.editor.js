@@ -2325,6 +2325,7 @@
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
         formPanel = document.getElementById('form-panel');
         formPanel.setAttribute('data-readonly', true);
+        formPanel.setAttribute('data-status', 'form');
         propertiesPanel = document.getElementById('properties-panel');
 
         if (flag === 'true') { isView = false; }
@@ -2358,7 +2359,6 @@
             callbackFunc: function(xhr) {
                 let responseObject = JSON.parse(xhr.responseText);
                 responseObject.components = aliceForm.reformatCalendarFormat('read', responseObject.components);
-                console.log(responseObject);
                 editor.data = responseObject;
                 drawForm();
             },

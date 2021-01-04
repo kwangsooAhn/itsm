@@ -1046,8 +1046,7 @@
         `</div>`;
 
         parent.insertAdjacentHTML('beforeend', this.template);
-
-        if (!isForm) {
+        if (parent.getAttribute('data-status') !== 'form') {
             const accordionStartComp = parent.querySelector('#' + property.componentId);
             accordionStartComp.addEventListener('click', function(e) {
                 const elem =  aliceJs.clickInsideElement(e, 'component');
@@ -1099,7 +1098,7 @@
 
         this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" ` +
-            `data-startId="${property.display.startId}" style="${isForm ? '' : 'display: none;'}">` +
+            `data-startId="${property.display.startId}" style="${parent.getAttribute('data-status') === 'form' ? '' : 'display: none;'}">` +
             `<div class="move-handler disabled"></div>` +
             `<div class="field-group">` +
                 `<div class="field-content" style="--data-column: 12;">` +
