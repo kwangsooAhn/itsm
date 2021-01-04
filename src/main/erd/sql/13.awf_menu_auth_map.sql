@@ -90,6 +90,10 @@ insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pa
 insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.create');
 insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.read');
 insert into awf_menu_auth_map values ('workflow.numberingPattern', 'numbering.pattern.update');
+insert into awf_menu_auth_map values ('workflow.numberingRule', 'numbering.rule.delete');
+insert into awf_menu_auth_map values ('workflow.numberingRule', 'numbering.rule.create');
+insert into awf_menu_auth_map values ('workflow.numberingRule', 'numbering.rule.read');
+insert into awf_menu_auth_map values ('workflow.numberingRule', 'numbering.rule.update');
 insert into awf_menu_auth_map values ('workflow.process', 'process.delete');
 insert into awf_menu_auth_map values ('workflow.process', 'process.create');
 insert into awf_menu_auth_map values ('workflow.process', 'process.update');

@@ -79,6 +79,8 @@ insert into awf_url values ('/notices/{id}/view-pop', 'get', '공지사항 팝�
 insert into awf_url values ('/notifications', 'get', '알림 리스트 화면', 'FALSE');
 insert into awf_url values ('/numberingPatterns', 'get', '패턴 관리 목록 뷰', 'TRUE');
 insert into awf_url values ('/numberingPatterns/edit', 'get', '패턴 편집 화면', 'TRUE');
+insert into awf_url values ('/numberingRules', 'get', '문서번호 관리 목록 뷰', 'TRUE');
+insert into awf_url values ('/numberingRules/edit', 'get', '문서번호 편집 화면', 'TRUE');
 insert into awf_url values ('/oauth/{service}/callback', 'get', 'OAuth 로그인 응답 콜백', 'TRUE');
 insert into awf_url values ('/oauth/{service}/login', 'get', 'OAuth 로그인 화면 호출', 'TRUE');
 insert into awf_url values ('/portals', 'get', '포탈 조회', 'FALSE');
@@ -172,6 +174,11 @@ insert into awf_url values ('/rest/numberingPatterns', 'post', '패턴 등록', 
 insert into awf_url values ('/rest/numberingPatterns/{id}', 'get', '패턴 세부 조회', 'TRUE');
 insert into awf_url values ('/rest/numberingPatterns/{id}', 'put', '패턴 정보 변경', 'TRUE');
 insert into awf_url values ('/rest/numberingPatterns/{id}', 'delete', '패턴 삭제', 'TRUE');
+insert into awf_url values ('/rest/numberingRules', 'get', '문서번호 리스트', 'TRUE');
+insert into awf_url values ('/rest/numberingRules', 'post', '문서번호 등록', 'TRUE');
+insert into awf_url values ('/rest/numberingRules/{id}', 'get', '문서번호 세부 조회', 'TRUE');
+insert into awf_url values ('/rest/numberingRules/{id}', 'put', '문서번호 정보 변경', 'TRUE');
+insert into awf_url values ('/rest/numberingRules/{id}', 'delete', '문서번호 삭제', 'TRUE');
 insert into awf_url values ('/rest/portals', 'get', '포탈 조회 (페이징)', 'FALSE');
 insert into awf_url values ('/rest/portals/downloads', 'get', '포탈 자료실 조회', 'FALSE');
 insert into awf_url values ('/rest/portals/filedownload', 'get', '포탈 상세 파일 리스트 조회', 'FALSE');
