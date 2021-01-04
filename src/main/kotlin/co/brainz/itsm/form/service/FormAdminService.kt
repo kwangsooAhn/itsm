@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
@@ -160,7 +165,7 @@ class FormAdminService(private val restTemplate: RestTemplateProvider) {
             var field: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
             component["field"]?.let {
                 field = mapper.convertValue(
-                        it, TypeFactory.defaultInstance()
+                    it, TypeFactory.defaultInstance()
                         .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
                 )
             }

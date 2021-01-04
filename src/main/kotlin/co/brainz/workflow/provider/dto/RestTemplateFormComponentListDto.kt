@@ -30,8 +30,8 @@ class ComponentDetail(
     val type: String = "",
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var value: String? = "",
-    val dataAttribute: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>(),
-    var display: LinkedHashMap<String, Any> = LinkedHashMap<String, Any>(),
+    val dataAttribute: LinkedHashMap<String, Any> = LinkedHashMap(),
+    var display: LinkedHashMap<String, Any> = LinkedHashMap(),
     @JsonInclude(JsonInclude.Include.NON_NULL)
     var label: LinkedHashMap<String, Any>? = null,
     @JsonInclude(JsonInclude.Include.NON_NULL)

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.form.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
@@ -140,10 +145,10 @@ class WfFormService(
                     )
                     "header" -> component.header = objMapper.convertValue(attributeValue["value"], linkedMapType)
                     "field" -> component.field = objMapper.convertValue(attributeValue["value"],
-                            TypeFactory.defaultInstance().constructCollectionType(
-                                    MutableList::class.java,
-                                    LinkedHashMap::class.java
-                            )
+                        TypeFactory.defaultInstance().constructCollectionType(
+                            MutableList::class.java,
+                            LinkedHashMap::class.java
+                        )
                     )
                 }
             }
@@ -208,10 +213,10 @@ class WfFormService(
         component.option?.let {
             if (it.size > 0) {
                 componentDataEntity = WfComponentDataEntity(
-                   componentId = resultComponentEntity.componentId,
-                   attributeId = "option",
-                   attributeValue = objMapper.writeValueAsString(it),
-                   attributes = resultComponentEntity
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "option",
+                    attributeValue = objMapper.writeValueAsString(it),
+                    attributes = resultComponentEntity
                 )
                 wfComponentDataEntities.add(componentDataEntity)
             }
