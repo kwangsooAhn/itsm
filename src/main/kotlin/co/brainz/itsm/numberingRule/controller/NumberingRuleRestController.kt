@@ -1,7 +1,6 @@
 package co.brainz.itsm.numberingRule.controller
 
-import co.brainz.itsm.numberingPattern.dto.NumberingPatternDto
-import co.brainz.itsm.numberingPattern.service.NumberingPatternService
+import co.brainz.itsm.numberingRule.dto.NumberingRuleDetailDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleDto
 import co.brainz.itsm.numberingRule.dto.NumberingRuleListDto
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
@@ -18,7 +17,7 @@ import javax.validation.Valid
 
 @RequestMapping("/rest/numberingRules")
 @RestController
-class NumberingRuleRestController(/*private val numberingRuleService: NumberingRuleService*/) {
+class NumberingRuleRestController(private val numberingRuleService: NumberingRuleService) {
 
     private val logger = LoggerFactory.getLogger(NumberingRuleRestController::class.java)
 
@@ -26,10 +25,16 @@ class NumberingRuleRestController(/*private val numberingRuleService: NumberingR
      * 문서번호 리스트 조회
      */
     @GetMapping("/", "")
-    fun getNumberingRuleList(search: String) : MutableList<NumberingRuleListDto> {
-/*
+    fun getNumberingRuleList(search: String): MutableList<NumberingRuleListDto> {
         return numberingRuleService.getNumberingRuleList(search)
-*/
+    }
+
+    /**
+     * 문서번호 상세 정보 조회.
+     */
+    @GetMapping("/{numberingId}")
+    fun getNumberingRuleDetail(@PathVariable numberingId: String): NumberingRuleDetailDto {
+        return numberingRuleService.getNumberingRuleDetail(numberingId)
     }
 
     /**
@@ -37,9 +42,7 @@ class NumberingRuleRestController(/*private val numberingRuleService: NumberingR
      */
     @PostMapping("/", "")
     fun saveNumberingPattern(@RequestBody @Valid numberingRuleDto: NumberingRuleDto): String {
-/*
         return numberingRuleService.saveNumberingRule(numberingRuleDto)
-*/
     }
 
     /**
@@ -47,9 +50,7 @@ class NumberingRuleRestController(/*private val numberingRuleService: NumberingR
      */
     @PutMapping("/{numberingId}")
     fun updateNumberingRule(@RequestBody @Valid numberingRuleDto: NumberingRuleDto): String {
-/*
         return numberingRuleService.saveNumberingRule(numberingRuleDto)
-*/
     }
 
     /**
@@ -57,8 +58,6 @@ class NumberingRuleRestController(/*private val numberingRuleService: NumberingR
      */
     @DeleteMapping("/{numberingId}")
     fun deleteNumberingRule(@PathVariable numberingId: String): String {
-/*
         return numberingRuleService.deleteNumberingRule(numberingId)
-*/
     }
 }

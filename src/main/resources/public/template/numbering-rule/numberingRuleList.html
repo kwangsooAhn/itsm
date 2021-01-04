@@ -1,10 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
 </head>
 <body>
-
+<table class="list-table">
+    <thead class="list-head">
+    <tr class="flex-row align-items-center">
+        <th style="width:30%;" class="align-left" th:text="#{rule.label.name}"></th>
+        <th style="width:30%;" class="align-left" th:text="#{rule.label.desc}"></th>
+        <th style="width:20%;" class="align-left" th:text="#{rule.label.value}"></th>
+        <th style="width:20%;" class="align-left" th:text="#{rule.label.date}"></th>
+    </tr>
+    </thead>
+    <tbody class="list-body">
+    <tr class="flex-row align-items-center no-data-found-list" th:if="${#arrays.isEmpty(ruleList)}">
+        <td style="width:100%" colspan="3" class="align-center" th:text="#{common.msg.noData}"></td>
+    </tr>
+    <tr class="flex-row align-items-center" th:each="rule : ${ruleList}">
+        <td style="width:30%;" class="align-left" th:id="${rule.numberingId}" name="ruleName"
+            th:text="${rule.numberingName}"></td>
+        <td style="width:30%;" class="align-left" id="ruleDesc" name="ruleDesc" th:text="${rule.numberingDesc}"></td>
+        <td style="width:20%;" class="align-left" id="ruleLatestValue" name="ruleLatestValue"
+            th:text="${rule.latestValue}"></td>
+        <td style="width:20%;" class="align-left" id="ruleLatestDate" name="ruleLatestDate"
+            th:text="${rule.latestDate}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

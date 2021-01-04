@@ -59,9 +59,18 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
             }
             NumberingPatternConstants.PatternType.SEQUENCE.code -> {
                 patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.DIGIT.property, patternValue.toInt())
-                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.STARTWITH.property, NumberingPatternConstants.PatternFixedValue.STARTWITH_KEY.key.toInt())
-                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.FULLFILL.property, NumberingPatternConstants.PatternFixedValue.FULLFILL_KEY.key)
-                patternValueObj.addProperty(NumberingPatternConstants.ObjProperty.INITIALINTERVAL.property, NumberingPatternConstants.PatternFixedValue.INITIALINTERVAL_KEY.key)
+                patternValueObj.addProperty(
+                    NumberingPatternConstants.ObjProperty.STARTWITH.property,
+                    NumberingPatternConstants.PatternFixedValue.STARTWITH_KEY.key.toInt()
+                )
+                patternValueObj.addProperty(
+                    NumberingPatternConstants.ObjProperty.FULLFILL.property,
+                    NumberingPatternConstants.PatternFixedValue.FULLFILL_KEY.key
+                )
+                patternValueObj.addProperty(
+                    NumberingPatternConstants.ObjProperty.INITIALINTERVAL.property,
+                    NumberingPatternConstants.PatternFixedValue.INITIALINTERVAL_KEY.key
+                )
             }
         }
 
@@ -72,19 +81,31 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
             patternValueObj.toString()
         )
 
-        numberingPatternRepository.save(numberingPatternEntity)
-
+        when (numberingPatternRepository.getOne(numberingPatternEntity.patternId).numberingRulePatternMapEntities.size > 0) {
+            true -> {
+                status = NumberingPatternConstants.Status.STATUS_ERROR_PATTERN_USED.code
+            }
+            false -> {
+                numberingPatternRepository.save(numberingPatternEntity)
+            }
+        }
         return status
     }
 
     /**
      * 패턴 정보 삭제
      */
-    @Transactional
     fun deleteNumberingPattern(patternId: String): String {
         var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
-        numberingPatternRepository.deleteById(patternId)
 
+        when (numberingPatternRepository.getOne(patternId).numberingRulePatternMapEntities.size > 0) {
+            true -> {
+                status = NumberingPatternConstants.Status.STATUS_ERROR_PATTERN_USED.code
+            }
+            false -> {
+                numberingPatternRepository.deleteById(patternId)
+            }
+        }
         return status
     }
 
@@ -122,5 +143,21 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
             }
         }
         return patternValue
+    }
+
+    fun getPatternNameList(): MutableList<NumberingPatternListDto> {
+        val patternEntities = numberingPatternRepository.findAll()
+        var numberingPatternList = mutableListOf<NumberingPatternListDto>()
+
+        for (data in patternEntities) {
+            val numberingPatternListDto = NumberingPatternListDto(
+                data.patternId,
+                data.patternName,
+                data.patternType,
+                data.patternValue
+            )
+            numberingPatternList.add(numberingPatternListDto)
+        }
+        return numberingPatternList
     }
 }

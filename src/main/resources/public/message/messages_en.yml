@@ -947,6 +947,7 @@ pattern:
     enterPatternValue: "Please enter a pattern value."
     enterPatternSequenceValue: "Enter a pattern value of 1 or more and 4 or less."
     searchPlaceholder: "Pattern Name"
+    usedPattern: "This pattern is being used."
   type:
     date: "Date"
     sequence: "Sequence"
@@ -970,3 +971,4 @@ rule:
     editDescription: "Add, view and manage Document Numbers."
     enterRuleName: "Please enter a rule name."
     searchPlaceholder: "Document Number"
+    selectSequence: "It must contain at least one sequence."

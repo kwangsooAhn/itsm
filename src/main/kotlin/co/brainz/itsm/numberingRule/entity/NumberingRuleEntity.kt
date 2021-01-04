@@ -3,10 +3,13 @@ package co.brainz.itsm.numberingRule.entity
 import org.hibernate.annotations.GenericGenerator
 import java.io.Serializable
 import java.time.LocalDateTime
+import javax.persistence.CascadeType
 import javax.persistence.Column
 import javax.persistence.Entity
+import javax.persistence.FetchType
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
+import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
@@ -28,5 +31,7 @@ data class NumberingRuleEntity(
 
     @Column(name = "latest_value")
     var latestValue: String? = null
-) : Serializable
-
+) : Serializable {
+    @OneToMany(mappedBy = "numberingRule", fetch = FetchType.LAZY, cascade = [CascadeType.REMOVE])
+    val numberingRulePatternMapEntities = mutableListOf<NumberingRulePatternMapEntity>()
+}

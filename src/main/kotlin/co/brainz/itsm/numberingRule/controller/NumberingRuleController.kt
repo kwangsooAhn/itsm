@@ -1,5 +1,6 @@
 package co.brainz.itsm.numberingRule.controller
 
+import co.brainz.itsm.numberingPattern.service.NumberingPatternService
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Controller
@@ -10,7 +11,10 @@ import javax.servlet.http.HttpServletRequest
 
 @RequestMapping("/numberingRules")
 @Controller
-class NumberingRuleController(/*private val numberingRuleService: NumberingRuleService*/) {
+class NumberingRuleController(
+    private val numberingRuleService: NumberingRuleService,
+    private val numberingPatternService: NumberingPatternService
+) {
 
     private val logger = LoggerFactory.getLogger(NumberingRuleController::class.java)
     private val numberingRuleEditPage: String = "numbering-rule/numberingRuleEdit"
@@ -21,6 +25,7 @@ class NumberingRuleController(/*private val numberingRuleService: NumberingRuleS
      */
     @GetMapping("/edit")
     fun getNumberingRuleEdit(request: HttpServletRequest, model: Model): String {
+        model.addAttribute("patternList", numberingPatternService.getPatternNameList())
         return numberingRuleEditPage
     }
 
@@ -29,9 +34,8 @@ class NumberingRuleController(/*private val numberingRuleService: NumberingRuleS
      */
     @GetMapping("")
     fun getNumberingRuleList(search: String, model: Model): String {
-        /*model.addAttribute("ruleList", numberingRuleService.getNumberingRuleList(search))*/
+        model.addAttribute("ruleList", numberingRuleService.getNumberingRuleList(search))
 
         return numberingRuleListPage
     }
-
 }
