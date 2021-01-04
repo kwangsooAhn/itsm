@@ -81,6 +81,7 @@
     function menuItemSearch(searchText) {
         const menuItems = contextMenu.querySelectorAll('.menu-item');
         let rslt = false;
+        let isAccordionInside = checkAccordionInside();
         let tempText = searchText.replace('/', '');
         tempText = tempText.replace(/\s/gi, '').toLowerCase();
         searchItems = [];
@@ -88,20 +89,26 @@
             const item = menuItems[i];
 
             if (item.classList.contains('active')) { item.classList.remove('active'); }
-            if (searchText === '/') {
-                item.style.display = 'block';
 
-                if (!rslt) {
-                    selectedItem = item;
-                    selectedItem.classList.add('active');
-                    selectedItemIdx = 0;
+            if (searchText === '/') {
+                // 아코디언 컴포넌트일 경우, 내부에 아코디언 컴포넌트를 포함할 수 없다.
+                if (isAccordionInside && item.classList.contains('accordion-start')) {
+                    item.style.display = 'none';
+                } else {
+                    item.style.display = 'block';
+                    
+                    if (!rslt) {
+                        selectedItem = item;
+                        selectedItem.classList.add('active');
+                        selectedItemIdx = 0;
+                    }
+                    searchItems.push(item);
                 }
-                searchItems.push(item);
                 rslt = true;
             } else {
                 let text = item.querySelector('label').textContent || item.querySelector('label').innerText;
                 text = text.replace(/\s/gi, '').toLowerCase();
-                if (text.indexOf(tempText) === -1) {
+                if (text.indexOf(tempText) === -1 || isAccordionInside && item.classList.contains('accordion-start')) {
                     item.style.display = 'none';
                 } else {
                     item.style.display = 'block';
@@ -359,16 +366,51 @@
             }
             itemInContext = aliceJs.clickInsideElement(e, 'component');
             if (itemInContext) {
+                const componentType = itemInContext.getAttribute('data-type');
                 if (isCtrlPressed) {  //배열에 담음
+                    // accordion 컴포넌트는 다른 컴포넌트와 다중 선택이 불가능합니다.
+                    if (componentType === 'accordion-start' || componentType === 'accordion-end') {
+                        editor.selectedComponentIds.length = 0;
+                    }
                     const removeIdx = editor.selectedComponentIds.indexOf(itemInContext.id);
                     if (removeIdx === -1) {
                         editor.selectedComponentIds.push(itemInContext.id);
+
+                        // accordion-start 컴포넌트이면 accordion-end도 함께 선택해준다.
+                        if (componentType === 'accordion-start') {
+                            let accordionComp = editor.data.components.filter((comp) => comp.componentId === itemInContext.id);
+                            if (typeof accordionComp !== 'undefined') {
+                                editor.selectedComponentIds.push(accordionComp[0].display.endId);
+                            }
+                        }
+                        // accordion-end 컴포넌트이면 accordion-start 함께 선택해준다.
+                        if (componentType === 'accordion-end') {
+                            let accordionComp = editor.data.components.filter((comp) => comp.componentId === itemInContext.id);
+                            if (typeof accordionComp !== 'undefined') {
+                                editor.selectedComponentIds.splice(0, 0, accordionComp[0].display.startId);
+                            }
+                        }
                     } else {
                         editor.selectedComponentIds.splice(removeIdx, 1);
                     }
                 } else { //배열 초기화 후 현재 선택된 컴포넌트만 표시
                     editor.selectedComponentIds.length = 0;
                     editor.selectedComponentIds.push(itemInContext.id);
+
+                    // accordion-start 컴포넌트이면 accordion-end도 함께 선택해준다.
+                    if (componentType === 'accordion-start') {
+                        let accordionComp = editor.data.components.filter((comp) => comp.componentId === itemInContext.id);
+                        if (typeof accordionComp !== 'undefined') {
+                            editor.selectedComponentIds.push(accordionComp[0].display.endId);
+                        }
+                    }
+                    // accordion-end 컴포넌트이면 accordion-start 함께 선택해준다.
+                    if (componentType === 'accordion-end') {
+                        let accordionComp = editor.data.components.filter((comp) => comp.componentId === itemInContext.id);
+                        if (typeof accordionComp !== 'undefined') {
+                            editor.selectedComponentIds.splice(0, 0, accordionComp[0].display.startId);
+                        }
+                    }
                 }
                 editor.showComponentProperties();
             }
@@ -391,7 +433,7 @@
      * @param {Object} e 이벤트객체
      */
     function onMouseDownHandler(e) {
-        if (e.target.classList.contains('move-handler')) {
+        if (e.target.classList.contains('move-handler') && !e.target.classList.contains('disabled')) {
             e.target.parentNode.setAttribute('draggable', 'true');
         }
     }
@@ -508,6 +550,25 @@
         }
         dragComponent = null;
     }
+
+    /**
+     * 선택된 컴포넌트가 아코디언 컴포넌트 사이에 있는지 체크
+     * @return boolean
+     */
+    function checkAccordionInside() {
+       let rtn = false;
+       if (!itemInContext) { return rtn; }
+
+       const componentIndex = Number(itemInContext.getAttribute('data-index'));
+       const accordionEndComp = editor.data.components.find((comp) => comp.type === 'accordion-end' && comp.display.order > componentIndex);
+       if (typeof accordionEndComp !== 'undefined') {
+           const accordionStartComp = editor.data.components.find((comp) => comp.type === 'accordion-start' && comp.componentId === accordionEndComp.display.startId);
+           if (typeof accordionStartComp !== 'undefined' && accordionStartComp.display.order < componentIndex) {
+               rtn = true;
+           }
+       }
+       return rtn;
+    }
     
     /**
      * context menu item 클릭시 이벤트 호출
@@ -518,6 +579,11 @@
         let clickedComponent = itemInContext;
         switch (elem.getAttribute('data-action')) {
             case 'list': // 컴포넌트 전체 목록 출력
+                // 아코디언 컴포넌트일 경우, 내부에 아코디언 컴포넌트를 포함할 수 없다.
+                if (checkAccordionInside()) {
+                    const accordionItem = contextMenu.querySelector('.accordion-start');
+                    accordionItem.style.display = 'none';
+                }
                 contextMenuOn();
                 setPositionTooltipMenu(clickedComponent);
                 break;

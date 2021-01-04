@@ -29,7 +29,8 @@
             {'type': 'datetime', 'name': 'Date Time'},
             {'type': 'fileupload', 'name': 'File Upload'},
             {'type': 'custom-code', 'name': 'Custom Code'},
-            {'type': 'dynamic-row-table', 'name': 'Dynamic Row Table'}
+            {'type': 'dynamic-row-table', 'name': 'Dynamic Row Table'},
+            {'type': 'accordion', 'name': 'Accordion'}
     ];
     let renderOrder = 0;    // 컴포넌트 index = 출력 순서 생성시 사용
     let parent = null;
@@ -855,7 +856,7 @@
         for (let cellIndex = 0, cellLen= row.cells.length; cellIndex < cellLen; cellIndex++) {
             const cell = row.cells[cellIndex];
             setDRTableCellData(cell, (typeof data !== 'undefined' ? data[cellIndex] : ''));
-            
+
             if (cellIndex === (cellLen - 1)) {
                 // row 삭제 버튼 추가
                 let rowDeleteDiv = document.createElement('div');
@@ -929,7 +930,7 @@
                         `${aliceJs.filterXSS(opt.text)}` +
                     `</th>`;
         }).join('');
-        
+
         // 테이블 Row 추가
         const tableRowOptions = property.field.map(function(opt, idx) {
             const tdWidth = (Number(opt.column) / 12) * 100; // table이 100%를 12 등분하였을때 차지하는 너비의 퍼센트 값
@@ -938,7 +939,7 @@
                     `</td>`;
         }).join('');
 
-        this.template = 
+        this.template =
         `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}">` +
             `<div class="move-handler"></div>` +
             `<div class="field-group">` +
@@ -1012,6 +1013,104 @@
     }
 
     /**
+     * Accordion 컴포넌트 (Start 영역)
+     *
+     * @param {Object} property 컴포넌트 속성
+     * @constructor
+     */
+    function AccordionStart(property) {
+        this.id = property.componentId;
+        this.name = 'Accordion Start';
+        this.type = 'accordion-start';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const displayType = property['dataAttribute']['displayType'];
+
+        this.template =
+        `<div id="${this.id}" class="component active" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" data-endId="${property.display.endId}">` +
+            `<div class="move-handler disabled"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-content accordion align-${property.label.align}" style="--data-column: 12; ` +
+                    `border-bottom: ${property.display.thickness}px solid ${property.display.color};">` +
+                    `<label style="color: ${property.label.color}; font-size: ${property.label.size}px;` +
+                        `${property.label.bold === 'Y' ? ' font-weight: bold;' : ''}` +
+                        `${property.label.italic === 'Y' ? ' font-style: italic;' : ''}` +
+                        `${property.label.underline === 'Y' ? ' text-decoration: underline;' : ''}">` +
+                            `${aliceJs.filterXSS(property.label.text)}` +
+                    `</label>` +
+                    `<span class="icon icon-arrow-down on"></span>` +
+                    `<span class="icon icon-arrow-up"></span>` +
+                `</div>` +
+            `</div>` +
+        `</div>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+        if (parent.getAttribute('data-status') !== 'form') {
+            const accordionStartComp = parent.querySelector('#' + property.componentId);
+            accordionStartComp.addEventListener('click', function(e) {
+                const elem =  aliceJs.clickInsideElement(e, 'component');
+                const arrowDown = elem.querySelector('.icon-arrow-down');
+                const arrowUp = elem.querySelector('.icon-arrow-up');
+                if (elem.classList.contains('active')) { // 접기
+                    elem.classList.remove('active');
+                    arrowDown.classList.remove('on');
+                    arrowUp.classList.add('on');
+
+                    let curComp = elem;
+                    while (curComp = curComp.nextSibling) {
+                        curComp.style.display = 'none';
+                        if (curComp.nextSibling.id === elem.getAttribute('data-endId')) {
+                            break;
+                        }
+                    }
+                } else { // 펴기
+                    elem.classList.add('active');
+                    arrowDown.classList.add('on');
+                    arrowUp.classList.remove('on');
+
+                    let curComp = elem;
+                    while (curComp = curComp.nextSibling) {
+                        curComp.style.display = 'flex';
+                        if (curComp.nextSibling.id === elem.getAttribute('data-endId')) {
+                            break;
+                        }
+                    }
+                }
+            }, false);
+        }
+    }
+
+        /**
+     * Accordion 컴포넌트 (End) 영역)
+     *
+     * @param {Object} property 컴포넌트 속성
+     * @constructor
+     */
+    function AccordionEnd(property) {
+        this.id = property.componentId;
+        this.name = 'Accordion End';
+        this.type = 'accordion-end';
+        this.property = property;
+        this.renderOrder = property.display.order;
+
+        const displayType = property['dataAttribute']['displayType'];
+
+        this.template =
+        `<div id="${this.id}" class="component" data-type="${this.type}" data-index="${this.renderOrder}" tabindex="${this.renderOrder}" data-displayType="${displayType}" ` +
+            `data-startId="${property.display.startId}" style="${parent.getAttribute('data-status') === 'form' ? '' : 'display: none;'}">` +
+            `<div class="move-handler disabled"></div>` +
+            `<div class="field-group">` +
+                `<div class="field-content" style="--data-column: 12;">` +
+                    `<hr style="border-top: ${property.display.thickness}px solid ${property.display.color};">` +
+                `</div>` +
+            `</div>` +
+        `</div>`;
+
+        parent.insertAdjacentHTML('beforeend', this.template);
+    }
+
+    /**
      * 컴포넌트를 생성하고 출력한다.
      * @param {String} type 컴포넌트 타입
      * @param {Object} data 컴포넌트 데이터
@@ -1077,6 +1176,12 @@
                 break;
             case 'dynamic-row-table':
                 componentObject =  new DaynamicRowTable(componentProperty);
+                break;
+            case 'accordion-start':
+                componentObject =  new AccordionStart(componentProperty);
+                break;
+            case 'accordion-end':
+                componentObject =  new AccordionEnd(componentProperty);
                 break;
             default:
                 break;
@@ -1162,7 +1267,7 @@
                 }
             });
 
-            if (type === 'dynamic-row-table') { 
+            if (type === 'dynamic-row-table') {
                 delete refineProperty['inputbox'];
             }
 

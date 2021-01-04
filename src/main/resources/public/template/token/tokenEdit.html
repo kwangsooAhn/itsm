@@ -24,7 +24,7 @@
                         <button type="button" class="default-line" th:onclick="aliceDocument.print('/tokens/' + [[${tokenId}]])" th:text="#{common.btn.print}"></button>
                     </div>
                 </div>
-                <div class="drawing-board" id="document-panel"></div>
+                <div class="drawing-board" id="document-panel" data-status="token"></div>
             </div>
         </form>
         <div class="token-properties"></div>

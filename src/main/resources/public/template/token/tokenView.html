@@ -129,7 +129,9 @@
         /*<![CDATA[*/
         window.onload = function () {
             // view 일 경우, 컴포넌트들의 세부 값을 편집 할 수 없음
-            document.getElementById('document-panel').setAttribute('data-readonly', true);
+            const documentPanel = document.getElementById('document-panel');
+            documentPanel.setAttribute('data-readonly', true);
+            documentPanel.setAttribute('data-status', 'complete');
 
             aliceForm.init(aliceDocument.initToken, '[[${tokenId}]]');
             var tokenDtEle = document.querySelectorAll('td[name=tokenDt]');
