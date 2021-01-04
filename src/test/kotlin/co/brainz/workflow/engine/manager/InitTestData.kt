@@ -7,11 +7,10 @@ package co.brainz.workflow.engine.manager
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.framework.numbering.entity.AliceNumberingPatternEntity
-import co.brainz.framework.numbering.entity.AliceNumberingRuleEntity
-import co.brainz.framework.numbering.repository.AliceNumberingPatternRepository
-import co.brainz.framework.numbering.repository.AliceNumberingRuleRepository
-import co.brainz.framework.numbering.service.AliceNumberingService
+import co.brainz.itsm.numberingPattern.repository.NumberingPatternRepository
+import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
+import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
+import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.workflow.component.entity.WfComponentDataEntity
 import co.brainz.workflow.component.entity.WfComponentEntity
 import co.brainz.workflow.component.repository.WfComponentDataRepository
@@ -44,12 +43,6 @@ class InitTestData {
     lateinit var aliceUserRepository: AliceUserRepository
 
     @Autowired
-    lateinit var wfAliceNumberingRuleRepository: AliceNumberingRuleRepository
-
-    @Autowired
-    lateinit var wfAliceNumberingPatternRepository: AliceNumberingPatternRepository
-
-    @Autowired
     lateinit var wfFormRepository: WfFormRepository
 
     @Autowired
@@ -74,7 +67,7 @@ class InitTestData {
     lateinit var wfInstanceRepository: WfInstanceRepository
 
     @Autowired
-    lateinit var aliceNumberingService: AliceNumberingService
+    lateinit var numberingRuleService: NumberingRuleService
 
     private val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
 
@@ -104,20 +97,6 @@ class InitTestData {
      */
     fun setUsers(customDataList: MutableList<AliceUserEntity>?) {
         this.makeUsers(customDataList)
-    }
-
-    /**
-     * 문서 번호 생성 ([numberingJsonFile] 파일의 문서 목록).
-     */
-    fun setNumberings() {
-        this.makeNumberings(null)
-    }
-
-    /**
-     * 커스텀 문서 번호 생성.
-     */
-    fun setNumberings(customDataList: MutableList<AliceNumberingRuleEntity>?) {
-        this.makeNumberings(customDataList)
     }
 
     /**
@@ -162,7 +141,7 @@ class InitTestData {
         customDataList: MutableList<WfDocumentEntity>?,
         process: WfProcessEntity?,
         form: WfFormEntity?,
-        numbering: AliceNumberingRuleEntity?,
+        numbering: NumberingRuleEntity?,
         user: AliceUserEntity?
     ) {
         this.makeDocuments(customDataList, process, form, numbering, user)
@@ -182,7 +161,7 @@ class InitTestData {
         customData: WfInstanceEntity?,
         document: WfDocumentEntity?,
         user: AliceUserEntity?,
-        numbering: AliceNumberingRuleEntity?
+        numbering: NumberingRuleEntity?
     ) {
         this.makeInstance(customData, document, user, numbering)
     }
@@ -220,47 +199,6 @@ class InitTestData {
             else -> users = aliceUserRepository.saveAll(customDataList)
         }
         this.initData.users = users
-    }
-
-    /**
-     * 문서 번호 생성 (Multiple).
-     */
-    private fun makeNumberings(customDataList: MutableList<AliceNumberingRuleEntity>?) {
-        var numberings: MutableList<AliceNumberingRuleEntity> = mutableListOf()
-        when (customDataList) {
-            null -> {
-                val jsonFile = File(jsonFilePath + File.separator + numberingJsonFile)
-                if (jsonFile.exists()) {
-                    val jsonNode = mapper.readTree(jsonFile.readText(Charsets.UTF_8))
-                    jsonNode.forEach { numbering ->
-                        var numberingRuleEntity = AliceNumberingRuleEntity(
-                            numberingId = numbering["id"].asText(),
-                            numberingName = numbering["name"].asText()
-                        )
-                        numberingRuleEntity = wfAliceNumberingRuleRepository.save(numberingRuleEntity)
-                        val numberingPatternEntities: MutableList<AliceNumberingPatternEntity> = mutableListOf()
-                        numbering["patterns"].forEach { pattern ->
-                            numberingPatternEntities.add(
-                                AliceNumberingPatternEntity(
-                                    patternId = pattern["id"].asText(),
-                                    numberingRule = numberingRuleEntity,
-                                    patternName = pattern["name"].asText(),
-                                    patternType = pattern["type"].asText(),
-                                    patternValue = pattern["value"].asText(),
-                                    patternOrder = pattern["order"].asInt()
-                                )
-                            )
-                        }
-                        numberingRuleEntity.patterns =
-                            wfAliceNumberingPatternRepository.saveAll(numberingPatternEntities)
-                        numberings.add(numberingRuleEntity)
-                    }
-                    wfAliceNumberingRuleRepository.saveAll(numberings)
-                }
-            }
-            else -> numberings = wfAliceNumberingRuleRepository.saveAll(customDataList)
-        }
-        this.initData.numberingRule = numberings
     }
 
     /**
@@ -396,7 +334,7 @@ class InitTestData {
         customDataList: MutableList<WfDocumentEntity>?,
         process: WfProcessEntity?,
         form: WfFormEntity?,
-        numbering: AliceNumberingRuleEntity?,
+        numbering: NumberingRuleEntity?,
         user: AliceUserEntity?
     ) {
         var documents: MutableList<WfDocumentEntity> = mutableListOf()
@@ -441,7 +379,7 @@ class InitTestData {
         customData: WfInstanceEntity?,
         document: WfDocumentEntity?,
         user: AliceUserEntity?,
-        numbering: AliceNumberingRuleEntity?
+        numbering: NumberingRuleEntity?
     ) {
         when (customData) {
             null -> {
@@ -457,7 +395,7 @@ class InitTestData {
                         instanceStartDt = LocalDateTime.now(),
                         instanceCreateUser = userEntity,
                         pTokenId = jsonNode["pTokenId"].asText(),
-                        documentNo = aliceNumberingService.getNewNumbering(numberingEntity.numberingId)
+                        documentNo = numberingRuleService.getNewNumbering(numberingEntity.numberingId)
                     )
                     this.initData.instance = wfInstanceRepository.save(instance)
                 }
