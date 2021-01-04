@@ -341,8 +341,25 @@ class WfFormService(
             WfFormConstants.FormStatus.PUBLISH.value, WfFormConstants.FormStatus.DESTROY.value -> wfFormDto.editable =
                 false
         }
-        for (component in restTemplateFormComponentListDto.components) {
-            component.componentId = UUID.randomUUID().toString().replace("-", "")
+
+        for ((idx, component) in restTemplateFormComponentListDto.components.withIndex()) {
+            val prevComponentId = component.componentId
+            val changeComponentId = UUID.randomUUID().toString().replace("-", "")
+            // 아코디언 컴포넌트
+            if (component.type == "accordion-start") {
+                for (i in idx until restTemplateFormComponentListDto.components.size) {
+                    val item = restTemplateFormComponentListDto.components[i]
+                    if (item.type == "accordion-end" && item.display["startId"] == prevComponentId) {
+                        item.display["startId"] = changeComponentId
+
+                        item.componentId = UUID.randomUUID().toString().replace("-", "")
+                        component.display["endId"] = item.componentId
+                    }
+                }
+            }
+            if (component.type != "accordion-end") {
+                component.componentId = changeComponentId
+            }
         }
         saveFormData(restTemplateFormComponentListDto)
 
