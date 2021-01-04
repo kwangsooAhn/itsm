@@ -152,7 +152,7 @@ class NumberingRuleService(
                 status = NumberingRuleConstants.Status.STATUS_ERROR_RULE_USED.code
             }
             false -> {
-                println("test")
+                numberingRuleRepository.deleteById(numberingId)
             }
         }
         return status
@@ -211,23 +211,10 @@ class NumberingRuleService(
         return newNumbering
     }
 
-    /**
-     * Pattern: Text.
-     *
-     * @param valueMap
-     * @return String
-     */
     private fun getPattenText(valueMap: Map<*, *>): String {
         return (valueMap[NumberingPatternConstants.ObjProperty.VALUE.property] ?: "") as String
     }
 
-    /**
-     * Pattern: Date.
-     *
-     * @param valueMap
-     * @param currentDateTime
-     * @return String
-     */
     private fun getPatternDate(valueMap: Map<*, *>, currentDateTime: LocalDateTime): String {
         var pattern = ""
         val patternCode = (valueMap[NumberingPatternConstants.ObjProperty.CODE.property] ?: "") as String
@@ -245,9 +232,6 @@ class NumberingRuleService(
         return currentDateTime.format(formatter)!!
     }
 
-    /**
-     * Pattern: Sequence.
-     */
     private fun getPatternSequence(
         valueMap: Map<*, *>,
         latestPatternValue: String,
@@ -266,9 +250,6 @@ class NumberingRuleService(
         return this.getSequenceValue(valueMap, digit, latestSequenceValue)
     }
 
-    /**
-     * Get latest sequence value.
-     */
     private fun getLatestSequenceValue(
         valueMap: Map<*, *>,
         latestPatternValue: String,
@@ -295,9 +276,6 @@ class NumberingRuleService(
         return latestSequenceValue
     }
 
-    /**
-     * Get sequence value.
-     */
     private fun getSequenceValue(valueMap: Map<*, *>, digit: Int, latestSequenceValue: Int): String {
         val startWith = (valueMap[NumberingPatternConstants.ObjProperty.STARTWITH.property]
             ?: NumberingPatternConstants.PatternFixedValue.STARTWITH_KEY.key) as Int

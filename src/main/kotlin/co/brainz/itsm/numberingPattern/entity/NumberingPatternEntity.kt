@@ -9,11 +9,10 @@ import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.Table
 import javax.persistence.FetchType
-import javax.persistence.ManyToOne
 import javax.persistence.OneToMany
 
 @Entity
-@Table(name = "awf_numbering_pattern_temp")
+@Table(name = "awf_numbering_pattern")
 data class NumberingPatternEntity(
     @Id
     @GeneratedValue(generator = "system-uuid")

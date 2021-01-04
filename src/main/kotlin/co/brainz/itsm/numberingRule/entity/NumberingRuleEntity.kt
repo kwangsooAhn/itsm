@@ -13,7 +13,7 @@ import javax.persistence.OneToMany
 import javax.persistence.Table
 
 @Entity
-@Table(name = "awf_numbering_rule_temp")
+@Table(name = "awf_numbering_rule")
 data class NumberingRuleEntity(
     @Id @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
