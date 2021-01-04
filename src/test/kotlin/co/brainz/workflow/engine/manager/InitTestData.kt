@@ -7,9 +7,7 @@ package co.brainz.workflow.engine.manager
 
 import co.brainz.framework.auth.entity.AliceUserEntity
 import co.brainz.framework.auth.repository.AliceUserRepository
-import co.brainz.itsm.numberingPattern.repository.NumberingPatternRepository
 import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
-import co.brainz.itsm.numberingRule.repository.NumberingRuleRepository
 import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.workflow.component.entity.WfComponentDataEntity
 import co.brainz.workflow.component.entity.WfComponentEntity
@@ -367,7 +365,8 @@ class InitTestData {
                     }
                 }
                 wfDocumentRepository.saveAll(documents)
-            } else -> documents = wfDocumentRepository.saveAll(customDataList)
+            }
+            else -> documents = wfDocumentRepository.saveAll(customDataList)
         }
         this.initData.documents = documents
     }
