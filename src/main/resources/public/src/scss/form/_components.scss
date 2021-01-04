@@ -163,8 +163,39 @@
           }
         }
       }
+      // Dynamic Row Table 컴포넌트
+      .dr-table {
+        width: 100%;
+        background-color: $dr-table-bg-color;
+        th, td { padding: $element-indent; }
+
+        input[type=text] { width: 100%; }
+
+        .on {
+          box-shadow: 0 0 0 0.125rem $point-blue inset; // 2px
+        }
+      }
     }
   }
+
+// Dynamic Row Table 컴포넌트 - Row 추가 버튼
+.btn-dr-table-row-add {
+  position: absolute;
+  top: 1.25rem; // 20px
+  right: 0.3125rem; // 5px
+  padding: 0;
+}
+// Dynamic Row Table 컴포넌트 - Row 삭제 버튼
+.dr-table-row-delete {
+  display: inline-block;
+  position: absolute;
+  height: 2.5rem; // 40px
+  line-height: 2rem; // 32px
+  right: 0.3125rem; // 5px
+
+  .btn-dr-table-row-delete { padding: 0; }
+}
+
   // editbox 컴포넌트
   &[data-type="editbox"] {
     padding: 0 2.125rem 0 0.8125rem; // 0px 34.8px 0px 13px

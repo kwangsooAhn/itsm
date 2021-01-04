@@ -51,10 +51,17 @@
   padding: 0;
 
   .icon-minus {
+    display: inline-block;
     @include maskImage('#{$icon-folder-path}icon_minus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $pressed-gray); // 14px 14px 
   }
   .icon-plus {
+    display: inline-block;
     @include maskImage('#{$icon-folder-path}icon_plus.svg', 0.875rem, 0.875rem, no-repeat, center, null, $pressed-gray); // 14px 14px
+  }
+
+  .icon-fail {
+    display: inline-block;
+    @include maskImage('#{$icon-folder-path}icon_fail.svg', 1.5rem, 1.5rem, no-repeat, center, null, $red); // 24px 24px 
   }
 }
 // properties filed button

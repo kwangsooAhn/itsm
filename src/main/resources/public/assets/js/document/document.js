@@ -9,7 +9,6 @@
     let buttonPanel = null;
     let commentContainer = null;
     let documentModal = null;
-    let isDocument = true; // 신청서 vs 처리할 문서
     const numIncludeRegular = /[0-9]/gi;
     const numRegular = /^[0-9]*$/;
     const phoneRegular = /^([+]?[0-9])([-]?[0-9])*$/;
@@ -305,9 +304,10 @@
 
             if (componentDataType === 'inputbox' || componentDataType === 'date' || componentDataType === 'time' || componentDataType === 'datetime' ||
                 componentDataType === 'textbox' || componentDataType === 'dropdown' || componentDataType === 'radio' || componentDataType === 'checkbox' ||
-                componentDataType === 'fileupload' || componentDataType === 'custom-code') {
+                componentDataType === 'fileupload' || componentDataType === 'custom-code' || componentDataType === 'dynamic-row-table') {
                 let componentId = componentElements[eIndex].getAttribute('id');
                 let componentValue = '';
+                let componentValueArr = [];
                 let componentChildObject = {};
                 let componentChild = '';
 
@@ -364,7 +364,7 @@
                         break;
                     case 'checkbox':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
-                        let componentValueArr = [];
+                        componentValueArr = [];
                         for (let checkBoxIndex = 0; checkBoxIndex < componentChild.length; checkBoxIndex++) {
                             if (componentChild[checkBoxIndex].checked && componentValueArr.indexOf(componentChild[checkBoxIndex].value) === -1) {
                                 componentValueArr.push(componentChild[checkBoxIndex].value);
@@ -387,6 +387,30 @@
                     case 'custom-code':
                         componentChild = componentElements[eIndex].getElementsByTagName('input');
                         componentValue = componentChild.item(0).getAttribute('custom-data');
+                        break;
+                    case 'dynamic-row-table':
+                        // "value": ["1행 1열 데이터", "1행 2열 데이터", "2행 1열 데이터", "2행 2열 데이터"] 형태로 데이터 전달
+                        componentChild = componentElements[eIndex].getElementsByTagName('table')[0];
+                        componentValueArr = [];
+                        for (let rowIndex = 1, rowLen = componentChild.rows.length; rowIndex < rowLen; rowIndex++) {
+                            const row = componentChild.rows[rowIndex];
+                            for (let cellIndex = 0, cellLen = row.cells.length; cellIndex < cellLen; cellIndex++) {
+                                const cell = row.cells[cellIndex];
+                                const childElem  = cell.children[0];
+                                let childValue = '';
+                                // DR Table 컴포넌트 내부는 inputbox, select, checkbox, radio 등으로 이루어진다. (추후 구현 예정)
+                                switch(childElem.type) {
+                                    case 'text':
+                                        childValue = childElem.value;
+                                    break;
+                                    default:
+                                    break
+                                }
+                                componentValueArr.push(childValue);
+                            }
+                        }
+
+                        componentValue = JSON.stringify(componentValueArr);
                         break;
                     default:
                         break;
@@ -489,7 +513,6 @@
         data.form.components = data.form.components.filter(function(comp) { return comp.type !== aliceForm.defaultType; }); //editbox 제외
         documentPanel = document.getElementById('document-panel');
         component.init(documentPanel);
-
         buttonPanel = document.getElementById('button-panel');
         if (data.form.components.length > 0) {
             if (data.form.components.length > 2) {
@@ -503,7 +526,7 @@
                 let componentObj = component.draw(componentProp.type, componentProp);
                 data.form.components[i] = componentObj.property;
             }
-            //유효성 검증 추가
+            // 유효성 검증 추가
             if (!documentPanel.hasAttribute('data-readonly')) {
                 const checkComponents = ['inputbox', 'textbox', 'dropdown', 'radio', 'checkbox'];
                 const componentElements = document.querySelectorAll('.component');
@@ -543,8 +566,7 @@
         if (data.token !== undefined) {
             addIdComponent('tokenId', data.token.tokenId);
             addIdComponent('instanceId', data.instanceId);
-            createTokenInfoTab()
-            isDocument = false;
+            createTokenInfoTab();
         }
         if (data.actions !== undefined) {
             addButton(data.actions);
@@ -756,7 +778,6 @@
                 dataForPrint.documentId = documentId;
                 documentModal = new modal(dataForPrint, documentId);
                 documentModal.show();
-                //drawDocument(dataForPrint);
             },
             contentType: 'application/json; charset=utf-8'
         });
@@ -806,6 +827,11 @@
         window.open(url + '/print', '_blank');
     }
 
+    /**
+     * 태그 추가.
+     *
+     * @param tag 태그 정보
+     */
     function onAddTag(tag) {
         const jsonData = {
             tagContent: tag.detail.data.value,
@@ -823,6 +849,11 @@
         });
     }
 
+    /**
+     * 태그 삭제.
+     *
+     * @param tag 태그 정보
+     */
     function onRemoveTag(tag) {
         aliceJs.sendXhr({
             method: 'DELETE',

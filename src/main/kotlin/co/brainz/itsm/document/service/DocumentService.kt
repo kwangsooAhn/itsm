@@ -48,6 +48,17 @@ class DocumentService(
     fun getDocumentList(restTemplateDocumentSearchListDto: RestTemplateDocumentSearchListDto):
             List<RestTemplateDocumentListDto> {
         val multiVal: MultiValueMap<String, String> = LinkedMultiValueMap()
+        // 업무흐름을 관리하는 사용자라면 신청서 상태가 임시, 사용을 볼 수가 있다.
+        val aliceUserDto = SecurityContextHolder.getContext().authentication.details as AliceUserDto
+        if (aliceUserDto.grantedAuthorises != null) {
+            aliceUserDto.grantedAuthorises.forEachIndexed { _, grantedAuthority ->
+                if (grantedAuthority.authority == "document.read.admin") {
+                    restTemplateDocumentSearchListDto.viewType = "admin"
+                }
+            }
+        }
+
+        // 여기에서 권한 확인
         multiVal.setAll(
             objMapper.convertValue<Map<String, String>>(
                 restTemplateDocumentSearchListDto,
@@ -55,7 +66,8 @@ class DocumentService(
             )
         )
 
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url, parameters = multiVal)
+        val url =
+            RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS.url, parameters = multiVal)
         val responseBody = restTemplate.get(url) // providerDocument.getDocuments()
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val documentList: List<RestTemplateDocumentListDto> = mapper.readValue(
@@ -84,7 +96,10 @@ class DocumentService(
             )
         )
 
-        val url = RestTemplateUrlDto(callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_ALL.url, parameters = multiVal)
+        val url = RestTemplateUrlDto(
+            callUrl = RestTemplateConstants.Workflow.GET_DOCUMENTS_ALL.url,
+            parameters = multiVal
+        )
         val responseBody = restTemplate.get(url)
         val mapper = ObjectMapper().registerModules(KotlinModule(), JavaTimeModule())
         val documentList: List<RestTemplateDocumentDto> = mapper.readValue(
@@ -118,8 +133,8 @@ class DocumentService(
     fun getDocumentAdmin(documentId: String): RestTemplateDocumentDto {
         val url = RestTemplateUrlDto(
             callUrl = RestTemplateConstants.Workflow.GET_DOCUMENT.url.replace(
-                    restTemplate.getKeyRegex(),
-                    documentId
+                restTemplate.getKeyRegex(),
+                documentId
             )
         )
         return objMapper.readValue(
