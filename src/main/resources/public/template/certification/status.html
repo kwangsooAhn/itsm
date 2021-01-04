@@ -31,10 +31,11 @@
                 <th:block sec:authorize="isAnonymous()">
                     <h3 th:utext="#{login.label.requiredLogin}"></h3>
                     <form th:action="@{/logout}" method="post">
-                        <button type="submit" th:text="#{login.btn.login}"></button>
+                        <button type="submit" class="point-fill" th:text="#{login.btn.login}"></button>
                     </form>
                 </th:block>
                 <th:block sec:authorize="isAuthenticated()">
+                    <h3></h3>
                     <a class="btn point-fill authentication-email" href="/tokens/search" th:text="#{login.label.gotoMainPage}"></a>
                 </th:block>
             </th:block>
@@ -44,10 +45,11 @@
                 <th:block sec:authorize="isAnonymous()">
                     <h3 th:utext="#{login.label.requiredLogin}"></h3>
                     <form th:action="@{/logout}" method="post">
-                        <button type="submit" th:text="#{login.btn.login}"></button>
+                        <button type="submit" class="point-fill" th:text="#{login.btn.login}"></button>
                     </form>
                 </th:block>
                 <th:block sec:authorize="isAuthenticated()">
+                    <h3></h3>
                     <a class="btn point-fill authentication-email" href="/tokens/search" th:text="#{login.label.gotoMainPage}"></a>
                 </th:block>
             </th:block>
@@ -60,8 +62,7 @@
                 <th:block sec:authorize="isAuthenticated()">
                     <h3 th:utext="#{authentication.msg.beforeEmailCheckDescription}"></h3>
                     <form id="sendForm" method="get" onsubmit="return false">
-                        <button type="submit" id="btnSend" class="point-fill authentication-email" th:text="#{authentication.label.recallAuthentication}"
-                                th:formaction="@{/certification/certifiedmail}"></button>
+                        <button type="submit" id="btnSend" class="point-fill authentication-email" th:text="#{authentication.label.recallAuthentication}"></button>
                     </form>
                 </th:block>
                 <th:block sec:authorize="isAnonymous()">
@@ -77,8 +78,8 @@
 <script type="text/javascript" th:inline="javascript">
     /*<![CDATA[*/
     window.addEventListener('load', function () {
-        document.getElementById("btnSend").addEventListener("click", function () {
-            restSubmit("get", "[[@{/certification/certifiedmail}]]");
+        document.getElementById('btnSend').addEventListener("click", function () {
+            restSubmit('get', '/certification/certifiedmail');
         });
     });
 
