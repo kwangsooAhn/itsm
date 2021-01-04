@@ -108,6 +108,7 @@ class WfFormService(
                 label = null,
                 option = null,
                 validate = null,
+                header = null,
                 field = null
             )
             val componentDataEntityList = wfComponentDataRepository.findByComponentId(componentEntity.componentId)
@@ -137,6 +138,7 @@ class WfFormService(
                             LinkedHashMap::class.java
                         )
                     )
+                    "header" -> component.header = objMapper.convertValue(attributeValue["value"], linkedMapType)
                     "field" -> component.field = objMapper.convertValue(attributeValue["value"],
                             TypeFactory.defaultInstance().constructCollectionType(
                                     MutableList::class.java,
@@ -206,10 +208,22 @@ class WfFormService(
         component.option?.let {
             if (it.size > 0) {
                 componentDataEntity = WfComponentDataEntity(
-                        componentId = resultComponentEntity.componentId,
-                        attributeId = "option",
-                        attributeValue = objMapper.writeValueAsString(it),
-                        attributes = resultComponentEntity
+                   componentId = resultComponentEntity.componentId,
+                   attributeId = "option",
+                   attributeValue = objMapper.writeValueAsString(it),
+                   attributes = resultComponentEntity
+                )
+                wfComponentDataEntities.add(componentDataEntity)
+            }
+        }
+
+        component.header?.let {
+            if (it.size > 0) {
+                componentDataEntity = WfComponentDataEntity(
+                   componentId = resultComponentEntity.componentId,
+                   attributeId = "header",
+                   attributeValue = objMapper.writeValueAsString(it),
+                   attributes = resultComponentEntity
                 )
                 wfComponentDataEntities.add(componentDataEntity)
             }
@@ -218,10 +232,10 @@ class WfFormService(
         component.field?.let {
             if (it.size > 0) {
                 componentDataEntity = WfComponentDataEntity(
-                        componentId = resultComponentEntity.componentId,
-                        attributeId = "field",
-                        attributeValue = objMapper.writeValueAsString(it),
-                        attributes = resultComponentEntity
+                   componentId = resultComponentEntity.componentId,
+                   attributeId = "field",
+                   attributeValue = objMapper.writeValueAsString(it),
+                   attributes = resultComponentEntity
                 )
                 wfComponentDataEntities.add(componentDataEntity)
             }

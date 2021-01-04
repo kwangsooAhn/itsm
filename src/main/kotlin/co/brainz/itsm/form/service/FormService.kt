@@ -108,6 +108,11 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                 )
             }
 
+            var header: LinkedHashMap<String, Any> = linkedMapOf()
+            component["header"]?.let {
+                header = mapper.convertValue(component["header"], linkedMapType)
+            }
+
             var field: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
             component["field"]?.let {
                 field = mapper.convertValue(
@@ -126,6 +131,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                     label = label,
                     validate = validate,
                     option = option,
+                    header = header,
                     field = field
                 )
             )
