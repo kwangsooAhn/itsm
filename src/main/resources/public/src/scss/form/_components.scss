@@ -374,4 +374,7 @@
     color: $component-disabled-font-color !important;
     pointer-events: none;
   }
+  // DR 테이블 버튼 숨김
+  .btn-dr-table-row-add { opacity: 0; }
+  .dr-table-row-delete { opacity: 0; }
 }

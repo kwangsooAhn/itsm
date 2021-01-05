@@ -2325,7 +2325,7 @@
         console.info('form editor initialization. [FORM ID: ' + formId + ']');
         formPanel = document.getElementById('form-panel');
         formPanel.setAttribute('data-readonly', true);
-        formPanel.setAttribute('data-status', 'form');
+        formPanel.setAttribute('data-display', 'form');
         propertiesPanel = document.getElementById('properties-panel');
 
         if (flag === 'true') { isView = false; }
