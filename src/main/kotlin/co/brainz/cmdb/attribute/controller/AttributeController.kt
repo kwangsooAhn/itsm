@@ -1,8 +1,14 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.cmdb.attribute.controller
 
-import co.brainz.cmdb.provider.dto.CmdbAttributeDto
 import co.brainz.cmdb.attribute.service.AttributeService
 import co.brainz.cmdb.provider.CmdbDummyProvider
+import co.brainz.cmdb.provider.dto.CmdbAttributeDto
 import org.slf4j.LoggerFactory
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping

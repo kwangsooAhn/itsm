@@ -6,8 +6,8 @@
 
 package co.brainz.cmdb.provider
 
-import co.brainz.cmdb.provider.dto.CmdbAttributeDto
 import co.brainz.cmdb.provider.constants.CmdbConstants
+import co.brainz.cmdb.provider.dto.CmdbAttributeDto
 import co.brainz.cmdb.provider.dto.CmdbCiDto
 import co.brainz.cmdb.provider.dto.CmdbClassDto
 import co.brainz.cmdb.provider.dto.CmdbTypeDto
@@ -21,9 +21,7 @@ import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 
 @Component
-class CmdbDummyProvider(
-
-) {
+class CmdbDummyProvider() {
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
