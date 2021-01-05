@@ -162,7 +162,8 @@ authentication:
   msg:
     alreadyAuthenticated: "이미 인증이 완료되었습니다."
     authenticationCompleted: "메일 인증이 완료되었습니다."
-    beforeEmailCheck: "메일 인증 후 사용가능합니다.<br/>가입 시 등록한 메일에서 인증을 진행하세요.<br/>만약 인증 메일이 수신되지 않았다면 아래 버튼을 클릭하세요."
+    beforeEmailCheck: "메일 인증 후 사용가능합니다."
+    beforeEmailCheckDescription: "가입 시 등록한 메일에서 인증을 진행하세요.<br/>만약 인증 메일이 수신되지 않았다면 아래 버튼을 클릭하세요."
     emailCheck: "가입 시 등록한 메일에서 인증을 진행하세요."
     expiredAuthentication: "인증메일이 만료되었습니다."
     recallAuthentication: "로그인 후 인증메일을 재요청하세요."
@@ -930,6 +931,7 @@ project:
   label:
     name: "Zenius ITSM"
   title:
+    authenticationEmail: "인증메일"
     browserGuide : "Zenius ITSM : 브라우저 가이드"
     error: "Zenius ITSM : 에러"
     login: "Zenius ITSM : 로그인"
