@@ -4873,6 +4873,14 @@ body.modal-active {
   pointer-events: none;
 }
 
+.component[data-displayType="readonly"] .btn-dr-table-row-add {
+  opacity: 0;
+}
+
+.component[data-displayType="readonly"] .dr-table-row-delete {
+  opacity: 0;
+}
+
 .context-menu {
   display: none;
   position: absolute;

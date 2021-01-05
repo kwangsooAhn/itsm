@@ -740,7 +740,7 @@
             const documentPanel = document.createElement('div');
             documentPanel.className = 'drawing-board';
             documentPanel.id = 'document-panel';
-            documentPanel.setAttribute('data-status', 'document');
+            documentPanel.setAttribute('data-display', 'document');
             body.appendChild(documentPanel);
 
             dialog.appendChild(body);
