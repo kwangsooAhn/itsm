@@ -9,7 +9,7 @@ CREATE TABLE awf_numbering_pattern
 	pattern_name varchar(255) NOT NULL,
 	pattern_type varchar(100) NOT NULL,
 	pattern_value text,
-	CONSTRAINT awf_numbering_pattern_pk PRIMARY KEY (pattern_id),
+	CONSTRAINT awf_numbering_pattern_pk PRIMARY KEY (pattern_id)
 );
 
 COMMENT ON TABLE awf_numbering_pattern IS '넘버링패턴정보';

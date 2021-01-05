@@ -31,10 +31,10 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
      */
     fun getNumberingPatternsDetail(patternId: String): NumberingPatternDetailDto {
         val patternDetail = numberingPatternRepository.getOne(patternId)
-        var editable = true;
+        var editable = true
 
         if (patternDetail.numberingRulePatternMapEntities.size > 0) {
-            editable = false;
+            editable = false
         }
 
         return NumberingPatternDetailDto(
