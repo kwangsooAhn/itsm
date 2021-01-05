@@ -104,6 +104,7 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
     fun deleteNumberingPattern(patternId: String): String {
         var status = NumberingPatternConstants.Status.STATUS_SUCCESS.code
 
+        // 패턴 삭제 가능 여부 확인
         when (numberingPatternRepository.getOne(patternId).numberingRulePatternMapEntities.size > 0) {
             true -> {
                 status = NumberingPatternConstants.Status.STATUS_ERROR_PATTERN_USED.code
@@ -115,6 +116,9 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
         return status
     }
 
+    /**
+     * 패턴 타입에 따른 값 추출
+     */
     fun getPatternValue(patternType: String, originPatternValue: String): String {
         val jsonParser = JsonParser()
         var objProperty = ""
@@ -151,6 +155,9 @@ class NumberingPatternService(private val numberingPatternRepository: NumberingP
         return patternValue
     }
 
+    /**
+     * 패턴 이름 리스트 출력
+     */
     fun getPatternNameList(): MutableList<NumberingPatternListDto> {
         val patternEntities = numberingPatternRepository.findAll()
         var numberingPatternList = mutableListOf<NumberingPatternListDto>()

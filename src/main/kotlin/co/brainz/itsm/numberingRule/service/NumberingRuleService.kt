@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.numberingRule.service
 
 import co.brainz.itsm.code.service.CodeService
@@ -211,10 +217,16 @@ class NumberingRuleService(
         return newNumbering
     }
 
+    /**
+     * TEXT 패턴 값 추출
+     */
     private fun getPattenText(valueMap: Map<*, *>): String {
         return (valueMap[NumberingPatternConstants.ObjProperty.VALUE.property] ?: "") as String
     }
 
+    /**
+     * DATE 패턴 값 추출
+     */
     private fun getPatternDate(valueMap: Map<*, *>, currentDateTime: LocalDateTime): String {
         var pattern = ""
         val patternCode = (valueMap[NumberingPatternConstants.ObjProperty.CODE.property] ?: "") as String
@@ -232,6 +244,9 @@ class NumberingRuleService(
         return currentDateTime.format(formatter)!!
     }
 
+    /**
+     * SEQUENCE 패턴 값 추출
+     */
     private fun getPatternSequence(
         valueMap: Map<*, *>,
         latestPatternValue: String,
@@ -250,6 +265,9 @@ class NumberingRuleService(
         return this.getSequenceValue(valueMap, digit, latestSequenceValue)
     }
 
+    /**
+     * 최신 SEQUENCE 값 생성
+     */
     private fun getLatestSequenceValue(
         valueMap: Map<*, *>,
         latestPatternValue: String,
@@ -276,6 +294,9 @@ class NumberingRuleService(
         return latestSequenceValue
     }
 
+    /**
+     * SEQUENCE 값 생성
+     */
     private fun getSequenceValue(valueMap: Map<*, *>, digit: Int, latestSequenceValue: Int): String {
         val startWith = (valueMap[NumberingPatternConstants.ObjProperty.STARTWITH.property]
             ?: NumberingPatternConstants.PatternFixedValue.STARTWITH_KEY.key) as Int
