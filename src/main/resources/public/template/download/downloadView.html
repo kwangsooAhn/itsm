@@ -49,8 +49,6 @@
             <div class="horizontal-bar"></div>
             <div class="flex-row justify-content-end view-row">
                 <div class="btn-list">
-                    <button th:text="#{common.btn.modify}" sec:authorize="hasAuthority('download.update')"
-                            class="point-fill" th:onclick="'location.href=\'' + @{/downloads/{id}/edit(id=${download.downloadId})} + '\''"></button>
                     <a class="btn default-line" href="/downloads/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>
