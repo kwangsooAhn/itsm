@@ -1,0 +1,44 @@
+[
+  {
+    "ciId": "88fc78892916dc310b4984858b28120d",
+    "ciNo": "",
+    "ciName": "brainz_146",
+    "typeId": "587b4557275bcce81664db9e12485ae2",
+    "classId": "df562114ab87c066adeaea79b2e4a8a2",
+    "ciIcon": "server.svg",
+    "ciDesc": "Team Server",
+    "automatic": false,
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  },
+  {
+    "ciId": "d2cc70ca65fd2ac35ae6ee8e0c52e2db",
+    "ciNo": "",
+    "ciName": "brainz5F_WIFI",
+    "typeId": "f18c064040304e493f4dc7385595601f",
+    "classId": "0d51e482f1a56e1074f69b5a1bce0138",
+    "ciIcon": "network.svg",
+    "ciDesc": "Brainz 5F Router",
+    "automatic": false,
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  },
+  {
+    "ciId": "c88cbddd6da4af0dd4e3067092a1bf00",
+    "ciNo": "",
+    "ciName": "Dashboard_OS",
+    "typeId": "5c6601285d44385fb6dfcf184261aa04",
+    "classId": "f88ee1c29fdf9d847ba6002abc5bbf1b",
+    "ciIcon": "os_win.svg",
+    "ciDesc": "Dashboard Server OS (win10)",
+    "automatic": false,
+    "createUserKey": "0509e09412534a6e98f04ca79abb6424",
+    "createDt": "",
+    "updateUserKey": "",
+    "updateDt": ""
+  }
+]
