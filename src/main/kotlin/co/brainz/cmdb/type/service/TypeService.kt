@@ -17,5 +17,4 @@ class TypeService(
 
     private val logger = LoggerFactory.getLogger(this::class.java)
 
-
 }
