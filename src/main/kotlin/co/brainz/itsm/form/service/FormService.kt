@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.itsm.form.service
 
 import co.brainz.framework.auth.dto.AliceUserDto
@@ -108,10 +113,15 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                 )
             }
 
+            var header: LinkedHashMap<String, Any> = linkedMapOf()
+            component["header"]?.let {
+                header = mapper.convertValue(component["header"], linkedMapType)
+            }
+
             var field: MutableList<LinkedHashMap<String, Any>> = mutableListOf()
             component["field"]?.let {
                 field = mapper.convertValue(
-                        it, TypeFactory.defaultInstance()
+                    it, TypeFactory.defaultInstance()
                         .constructCollectionType(MutableList::class.java, LinkedHashMap::class.java)
                 )
             }
@@ -126,6 +136,7 @@ class FormService(private val restTemplate: RestTemplateProvider) {
                     label = label,
                     validate = validate,
                     option = option,
+                    header = header,
                     field = field
                 )
             )

@@ -1,3 +1,8 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ */
+
 package co.brainz.workflow.form.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
@@ -108,6 +113,7 @@ class WfFormService(
                 label = null,
                 option = null,
                 validate = null,
+                header = null,
                 field = null
             )
             val componentDataEntityList = wfComponentDataRepository.findByComponentId(componentEntity.componentId)
@@ -131,17 +137,20 @@ class WfFormService(
                     "display" -> component.display = objMapper.convertValue(attributeValue["value"], linkedMapType)
                     "label" -> component.label = objMapper.convertValue(attributeValue["value"], linkedMapType)
                     "validate" -> component.validate = objMapper.convertValue(attributeValue["value"], linkedMapType)
-                    "option" -> component.option = objMapper.convertValue(attributeValue["value"],
+                    "option" -> component.option = objMapper.convertValue(
+                        attributeValue["value"],
                         TypeFactory.defaultInstance().constructCollectionType(
                             MutableList::class.java,
                             LinkedHashMap::class.java
                         )
                     )
-                    "field" -> component.field = objMapper.convertValue(attributeValue["value"],
-                            TypeFactory.defaultInstance().constructCollectionType(
-                                    MutableList::class.java,
-                                    LinkedHashMap::class.java
-                            )
+                    "header" -> component.header = objMapper.convertValue(attributeValue["value"], linkedMapType)
+                    "field" -> component.field = objMapper.convertValue(
+                        attributeValue["value"],
+                        TypeFactory.defaultInstance().constructCollectionType(
+                            MutableList::class.java,
+                            LinkedHashMap::class.java
+                        )
                     )
                 }
             }
@@ -206,10 +215,22 @@ class WfFormService(
         component.option?.let {
             if (it.size > 0) {
                 componentDataEntity = WfComponentDataEntity(
-                        componentId = resultComponentEntity.componentId,
-                        attributeId = "option",
-                        attributeValue = objMapper.writeValueAsString(it),
-                        attributes = resultComponentEntity
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "option",
+                    attributeValue = objMapper.writeValueAsString(it),
+                    attributes = resultComponentEntity
+                )
+                wfComponentDataEntities.add(componentDataEntity)
+            }
+        }
+
+        component.header?.let {
+            if (it.size > 0) {
+                componentDataEntity = WfComponentDataEntity(
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "header",
+                    attributeValue = objMapper.writeValueAsString(it),
+                    attributes = resultComponentEntity
                 )
                 wfComponentDataEntities.add(componentDataEntity)
             }
@@ -218,10 +239,10 @@ class WfFormService(
         component.field?.let {
             if (it.size > 0) {
                 componentDataEntity = WfComponentDataEntity(
-                        componentId = resultComponentEntity.componentId,
-                        attributeId = "field",
-                        attributeValue = objMapper.writeValueAsString(it),
-                        attributes = resultComponentEntity
+                    componentId = resultComponentEntity.componentId,
+                    attributeId = "field",
+                    attributeValue = objMapper.writeValueAsString(it),
+                    attributes = resultComponentEntity
                 )
                 wfComponentDataEntities.add(componentDataEntity)
             }
