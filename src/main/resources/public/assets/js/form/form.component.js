@@ -717,7 +717,8 @@
                     ownId: '',
                     dropZoneFilesId: 'dropZoneFiles-' + this.id,
                     dropZoneUploadedFilesId: 'dropZoneUploadedFiles-' + this.id,
-                    editor: (displayType !== 'readonly')
+                    editor: (displayType !== 'readonly'),
+                    isView: (displayType === 'readonly')
                 }
             };
             if (typeof property.value !== 'undefined') {
