@@ -80,8 +80,7 @@
                                 th:text="#{board.btn.reply}">
                         </button>
                         <button class="point-fill" sec:authorize="hasAuthority('board.update')"
-                                th:if="${#authentication.details.userKey} == (${boardInfo?.createUser} ? ${boardInfo.createUser.userKey} : '')
-                               and ${boardInfo?.boardId} and ${replyYn} == false"
+                                th:if="${boardInfo?.boardId} and ${replyYn} == false"
                                 onclick ="saveBoard('put', 'normal')"
                                 th:text="#{common.btn.modify}">
                         </button>
