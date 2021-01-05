@@ -53,8 +53,11 @@ class CmdbDummyProvider(
                 mapper.typeFactory.constructCollectionType(List::class.java, CmdbAttributeDto::class.java)
             )
             if (attributeDataList.isNotEmpty()) {
-                attributeData = attributeDataList[0]
-                attributeData.createDt = LocalDateTime.now()
+                val searchDataList = attributeDataList.filter { it.attributeId == attributeId }
+                if (!searchDataList.isNullOrEmpty()) {
+                    attributeData = searchDataList[0]
+                    attributeData.createDt = LocalDateTime.now()
+                }
             }
         }
         return attributeData
@@ -81,8 +84,11 @@ class CmdbDummyProvider(
                 mapper.typeFactory.constructCollectionType(List::class.java, CmdbTypeDto::class.java)
             )
             if (typeDataList.isNotEmpty()) {
-                typeData = typeDataList[0]
-                typeData.createDt = LocalDateTime.now()
+                val searchDataList = typeDataList.filter { it.typeId == typeId }
+                if (!searchDataList.isNullOrEmpty()) {
+                    typeData = searchDataList[0]
+                    typeData.createDt = LocalDateTime.now()
+                }
             }
         }
         return typeData
@@ -109,15 +115,14 @@ class CmdbDummyProvider(
                 mapper.typeFactory.constructCollectionType(List::class.java, CmdbClassDto::class.java)
             )
             if (classDataList.isNotEmpty()) {
-                classData = classDataList[0]
-                classData.createDt = LocalDateTime.now()
+                val searchDataList = classDataList.filter { it.classId == classId }
+                if (!searchDataList.isNullOrEmpty()) {
+                    classData = searchDataList[0]
+                    classData.createDt = LocalDateTime.now()
+                }
             }
         }
         return classData
-    }
-
-    fun getDummyClassToAttribute() {
-
     }
 
     fun getDummyCis(searchValue: String): List<CmdbCiDto> {
@@ -141,8 +146,11 @@ class CmdbDummyProvider(
                 mapper.typeFactory.constructCollectionType(List::class.java, CmdbCiDto::class.java)
             )
             if (ciDataList.isNotEmpty()) {
-                ciData = ciDataList[0]
-                ciData.createDt = LocalDateTime.now()
+                val searchDataList = ciDataList.filter { it.ciId == ciId }
+                if (!searchDataList.isNullOrEmpty()) {
+                    ciData = searchDataList[0]
+                    ciData.createDt = LocalDateTime.now()
+                }
             }
         }
         return ciData
