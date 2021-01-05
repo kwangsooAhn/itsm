@@ -2,16 +2,16 @@ package co.brainz.itsm.numberingPattern.constants
 
 object NumberingPatternConstants {
 
-    /**
-     * 날짜 타입 패턴 부모 코드
-     */
-    const val PATTERN_TYPE_DATE_CODE: String = "numbering.pattern.format"
+    const val DEFAULT_DIGIT = 3
+    const val DEFAULT_DATE_FORMAT = "yyyyMMdd"
+    const val DEFAULT_DATE_FORMAT_PARENT_CODE: String = "numbering.pattern.format"
 
     /**
      * 패턴 편집 상태.
      */
     enum class Status(val code: String) {
-        STATUS_SUCCESS("0")
+        STATUS_SUCCESS("0"),
+        STATUS_ERROR_PATTERN_USED("1")
     }
 
     /**
@@ -59,5 +59,15 @@ object NumberingPatternConstants {
         STARTWITH_KEY("1"),
         FULLFILL_KEY("Y"),
         INITIALINTERVAL_KEY("none")
+    }
+
+    /**
+     * 인터벌 타입
+     */
+    enum class INTERVAL(val value: String) {
+        NONE("none"),
+        DAY("day"),
+        MONTH("month"),
+        YEAR("year")
     }
 }

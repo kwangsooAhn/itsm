@@ -1,6 +1,6 @@
 package co.brainz.workflow.instance.dto
 
-import co.brainz.framework.numbering.entity.AliceNumberingRuleEntity
+import co.brainz.itsm.numberingRule.entity.NumberingRuleEntity
 import co.brainz.workflow.form.entity.WfFormEntity
 import co.brainz.workflow.process.entity.WfProcessEntity
 import java.io.Serializable
@@ -14,6 +14,6 @@ data class WfInstanceListDocumentDto(
     var documentColor: String?,
     var process: WfProcessEntity,
     var form: WfFormEntity,
-    var numberingRule: AliceNumberingRuleEntity,
+    var numberingRule: NumberingRuleEntity,
     var documentIcon: String? = null
 ) : Serializable

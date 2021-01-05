@@ -2,7 +2,7 @@ package co.brainz.workflow.instance.service
 
 import co.brainz.framework.auth.repository.AliceUserRepository
 import co.brainz.framework.auth.service.AliceUserDetailsService
-import co.brainz.framework.numbering.service.AliceNumberingService
+import co.brainz.itsm.numberingRule.service.NumberingRuleService
 import co.brainz.workflow.comment.service.WfCommentService
 import co.brainz.workflow.component.constants.WfComponentConstants
 import co.brainz.workflow.document.repository.WfDocumentRepository
@@ -48,7 +48,7 @@ class WfInstanceService(
     private val wfTokenDataRepository: WfTokenDataRepository,
     private val wfCommentService: WfCommentService,
     private val wfDocumentRepository: WfDocumentRepository,
-    private val aliceNumberingService: AliceNumberingService,
+    private val numberingRuleService: NumberingRuleService,
     private val aliceUserRepository: AliceUserRepository,
     private val wfFolderService: WfFolderService,
     private val wfTagRepository: WfTagRepository,
@@ -245,7 +245,7 @@ class WfInstanceService(
      */
     fun createInstance(wfTokenDto: WfTokenDto): WfInstanceEntity {
         val document = wfDocumentRepository.findDocumentEntityByDocumentId(wfTokenDto.documentId!!)
-        val documentNo = aliceNumberingService.getNewNumbering(document.numberingRule.numberingId)
+        val documentNo = numberingRuleService.getNewNumbering(document.numberingRule.numberingId)
         val user = wfTokenDto.assigneeId?.let { aliceUserRepository.findAliceUserEntityByUserKey(it) }
         val instanceEntity = WfInstanceEntity(
             instanceId = "",
