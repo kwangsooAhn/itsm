@@ -263,7 +263,8 @@
                 aliceJs.alertSuccess(i18n.msg('common.msg.save'));
                 isEdited = false;
                 savedData = JSON.parse(JSON.stringify(aliceProcessEditor.data));
-                if (savedData.process.status === 'process.status.publish') {
+                if (savedData.process.status === 'process.status.publish' ||
+                    savedData.process.status === 'process.status.use') {
                     uploadProcessFile();
                 }
                 changeProcessName();
