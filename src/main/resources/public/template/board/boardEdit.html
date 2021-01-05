@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
-    layout:decorator="layout/defaultLayout">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorator="layout/defaultLayout">
 <head>
     <title th:text="${boardAdmin?.boardAdminId != null} ? #{board.label.boardEdit} : #{board.label.boardRegister}"></title>
 </head>
@@ -131,12 +132,12 @@
             </div>
             <div class="flex-row justify-content-end edit-row">
                 <div class="btn-list">
-                    <button class="point-fill" th:unless="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('post')"
-                            th:text="#{common.btn.register}"></button>
-                    <button class="point-fill" th:if="${boardAdmin?.boardAdminId}" onclick="saveBoardAdmin('put')"
-                            th:text="#{common.btn.modify}"></button>
-                    <button class="default-line" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin()"
-                            th:disabled="${!boardAdmin.enabled}" th:text="#{common.btn.delete}"></button>
+                    <button sec:authorize="hasAuthority('board.admin.create')" th:unless="${boardAdmin?.boardAdminId}"
+                            onclick="saveBoardAdmin('post')" class="point-fill" th:text="#{common.btn.register}"></button>
+                    <button sec:authorize="hasAuthority('board.admin.update')" th:if="${boardAdmin?.boardAdminId}"
+                            onclick="saveBoardAdmin('put')" class="point-fill" th:text="#{common.btn.modify}"></button>
+                    <button sec:authorize="hasAuthority('board.admin.delete')" th:if="${boardAdmin?.boardAdminId}" onclick="deleteBoardAdmin()"
+                            th:disabled="${!boardAdmin.enabled}" class="default-line" th:text="#{common.btn.delete}"></button>
                     <a class="btn default-line" href="/boards/search" th:text="#{common.btn.list}"></a>
                 </div>
             </div>
