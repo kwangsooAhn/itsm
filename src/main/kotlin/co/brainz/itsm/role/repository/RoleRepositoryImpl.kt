@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.role.repository
 
 import co.brainz.framework.auth.entity.AliceRoleEntity
@@ -13,8 +19,8 @@ class RoleRepositoryImpl : QuerydslRepositorySupport(
         val role = QAliceRoleEntity.aliceRoleEntity
         return from(role)
             .where(
-                super.likeIgnoreCase(role.roleName, search)
-                    ?.or(super.likeIgnoreCase(role.roleDesc, search))
+                super.like(role.roleName, search)
+                    ?.or(super.like(role.roleDesc, search))
             ).orderBy(role.roleName.asc())
             .fetchResults()
     }

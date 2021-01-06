@@ -27,7 +27,7 @@ class NumberingPatternRepositoryImpl(
                 )
             )
             .where(
-                super.likeIgnoreCase(pattern.patternName, search)
+                super.like(pattern.patternName, search)
             )
             .orderBy(pattern.patternName.desc())
             .fetchResults()

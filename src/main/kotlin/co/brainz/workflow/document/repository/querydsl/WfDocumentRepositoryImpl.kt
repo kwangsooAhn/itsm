@@ -62,18 +62,18 @@ class WfDocumentRepositoryImpl :
                 } else {
                     super.eq(document.documentStatus, searchDto.searchDocumentStatus)
                 },
-                super.likeIgnoreCase(document.documentName, searchDto.searchDocuments?.trim())
+                super.like(document.documentName, searchDto.searchDocuments)
                     ?.or(
-                        super.likeIgnoreCase(
+                        super.like(
                             document.documentDesc,
-                            searchDto.searchDocuments?.trim()
+                            searchDto.searchDocuments
                         )
                     ),
-                super.likeIgnoreCase(
+                super.like(
                     document.process.processName,
-                    searchDto.searchProcessName?.trim()
+                    searchDto.searchProcessName
                 ),
-                super.likeIgnoreCase(document.form.formName, searchDto.searchFormName?.trim())
+                super.like(document.form.formName, searchDto.searchFormName)
             ).orderBy(document.documentName.asc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)
             .offset(searchDto.offset)

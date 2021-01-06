@@ -56,12 +56,10 @@
 
             // 썸네일 표시
             document.getElementById('searchValue').focus();
-            document.getElementById('searchValue').addEventListener('keyup', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    getImages();
-                }
-            }, false);
+            document.getElementById('searchValue').addEventListener('keyup', function () {
+                getImages();
+            });
+
         }
 
         function getImages() {

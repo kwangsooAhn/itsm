@@ -329,7 +329,7 @@
         /** 권한 데이터 검색  **/
         function getAuthList(showProgressbar) {
             const data = {
-                search: encodeURIComponent(document.getElementById('search').value.trim())
+                search: encodeURIComponent(document.getElementById('search').value)
             };
             const urlParam = 'search=' + data.search;
             const opt = {

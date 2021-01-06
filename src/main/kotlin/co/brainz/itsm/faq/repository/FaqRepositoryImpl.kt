@@ -48,7 +48,7 @@ class FaqRepositoryImpl(
                 )
             )
             .where(
-                super.likeIgnoreCase(faq.faqTitle, searchRequestDto.search)
+                super.like(faq.faqTitle, searchRequestDto.search)
                     ?.or(super.inner(faq.faqGroup, searchRequestDto.groupCodes))
             ).orderBy(faq.faqGroup.asc())
             .limit(ItsmConstants.SEARCH_DATA_COUNT)

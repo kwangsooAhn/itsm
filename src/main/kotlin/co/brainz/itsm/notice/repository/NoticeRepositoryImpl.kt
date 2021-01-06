@@ -1,3 +1,9 @@
+/*
+ * Copyright 2020 Brainzcompany Co., Ltd.
+ * https://www.brainz.co.kr
+ *
+ */
+
 package co.brainz.itsm.notice.repository
 
 import co.brainz.itsm.constants.ItsmConstants
@@ -58,8 +64,8 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 )
             )
             .where(
-                super.likeIgnoreCase(notice.noticeTitle, searchValue)?.or(
-                    super.likeIgnoreCase(notice.aliceUserEntity.userName, searchValue)
+                super.like(notice.noticeTitle, searchValue)?.or(
+                    super.like(notice.aliceUserEntity.userName, searchValue)
                 ),
                 notice.createDt.goe(fromDt), notice.createDt.lt(toDt)
             )
@@ -115,8 +121,8 @@ class NoticeRepositoryImpl : QuerydslRepositorySupport(NoticeEntity::class.java)
                 )
             )
             .where(
-                super.likeIgnoreCase(notice.noticeTitle, searchValue)?.or(
-                    super.likeIgnoreCase(notice.aliceUserEntity.userName, searchValue)
+                super.like(notice.noticeTitle, searchValue)?.or(
+                    super.like(notice.aliceUserEntity.userName, searchValue)
                 ),
                 notice.createDt.goe(fromDt), notice.createDt.lt(toDt), notice.topNoticeYn.eq(true)
             )
